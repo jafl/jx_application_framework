@@ -7,15 +7,15 @@
 
  ******************************************************************************/
 
-#include "JXNewDirButton.h"
-#include "JXFontManager.h"
-#include "JXWindowPainter.h"
-#include "JXImage.h"
-#include "JXImageCache.h"
-#include "JXDisplay.h"
-#include <jMath.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXNewDirButton.h"
+#include "jx-af/jx/JXFontManager.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXImageCache.h"
+#include "jx-af/jx/JXDisplay.h"
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 #include <jx_folder_small.xpm>
 

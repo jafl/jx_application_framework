@@ -9,13 +9,13 @@
 
  ******************************************************************************/
 
-#include "JXStringTable.h"
-#include "JXInputField.h"
-#include "JXFontManager.h"
-#include <JStringTableData.h>
-#include <JPainter.h>
-#include <JString.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXStringTable.h"
+#include "jx-af/jx/JXInputField.h"
+#include "jx-af/jx/JXFontManager.h"
+#include <jx-af/jcore/JStringTableData.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kHMarginWidth = 3;
 

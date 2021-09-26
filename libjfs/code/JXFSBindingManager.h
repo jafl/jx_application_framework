@@ -8,9 +8,9 @@
 #ifndef _H_JXFSBindingManager
 #define _H_JXFSBindingManager
 
-#include <JPtrArray-JString.h>
-#include "JFSBinding.h"		// need defn of CommandType
-#include <JError.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include "jx-af/jfs/JFSBinding.h"		// need defn of CommandType
+#include <jx-af/jcore/JError.h>
 
 class JXTimerTask;
 class JFSBindingList;

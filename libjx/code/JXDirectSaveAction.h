@@ -8,7 +8,7 @@
 #ifndef _H_JXDirectSaveAction
 #define _H_JXDirectSaveAction
 
-#include <JString.h>
+#include <jx-af/jcore/JString.h>
 
 class JXDirectSaveAction
 {

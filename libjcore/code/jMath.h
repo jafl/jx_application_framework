@@ -8,8 +8,8 @@
 #ifndef _H_jMath
 #define _H_jMath
 
-#include "jTypes.h"
-#include "JMinMax.h"	// for convenience
+#include "jx-af/jcore/jTypes.h"
+#include "jx-af/jcore/JMinMax.h"	// for convenience
 #include <math.h>
 
 // Constants

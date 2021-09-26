@@ -10,7 +10,7 @@
 #ifndef _H_TestInputFieldsDialog
 #define _H_TestInputFieldsDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXIntegerInput;
 

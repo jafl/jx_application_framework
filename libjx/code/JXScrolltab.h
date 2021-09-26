@@ -8,7 +8,7 @@
 #ifndef _H_JXScrolltab
 #define _H_JXScrolltab
 
-#include "JXWidget.h"
+#include "jx-af/jx/JXWidget.h"
 
 class JXScrollbar;
 class JXTextMenu;

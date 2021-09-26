@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include "JXExpandWindowToFitContentTask.h"
-#include "JXWindow.h"
-#include "JXDialogDirector.h"
-#include "JXWidget.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXExpandWindowToFitContentTask.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXDialogDirector.h"
+#include "jx-af/jx/JXWidget.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

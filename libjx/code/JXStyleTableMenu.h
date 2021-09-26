@@ -10,7 +10,7 @@
 #ifndef _H_JXStyleTableMenu
 #define _H_JXStyleTableMenu
 
-#include "JXStyleMenu.h"
+#include "jx-af/jx/JXStyleMenu.h"
 
 class JXStyleTable;
 

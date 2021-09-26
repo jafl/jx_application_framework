@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include "JXHelpManager.h"
-#include <JWebBrowser.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXHelpManager.h"
+#include <jx-af/jcore/JWebBrowser.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

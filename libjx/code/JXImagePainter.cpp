@@ -11,10 +11,10 @@
 
  ******************************************************************************/
 
-#include "JXImagePainter.h"
-#include "JXImage.h"
-#include "JXGC.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXImagePainter.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXGC.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

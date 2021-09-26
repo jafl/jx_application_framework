@@ -7,17 +7,17 @@
 
  ******************************************************************************/
 
-#include "JXPGMessageDirector.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXTextButton.h"
-#include "JXStaticText.h"
-#include "JXScrollbarSet.h"
-#include "JXFontManager.h"
-#include "JXPTPrinter.h"
-#include "jXGlobals.h"
-#include <jFStreamUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXPGMessageDirector.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXTextButton.h"
+#include "jx-af/jx/JXStaticText.h"
+#include "jx-af/jx/JXScrollbarSet.h"
+#include "jx-af/jx/JXFontManager.h"
+#include "jx-af/jx/JXPTPrinter.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

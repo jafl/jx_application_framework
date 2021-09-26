@@ -7,22 +7,22 @@
 
  ******************************************************************************/
 
-#include "JXFSEditBindingsDialog.h"
-#include "JXFSBindingTable.h"
-#include "JFSBindingList.h"
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXTextButton.h>
-#include <JXTextCheckbox.h>
-#include <JXInputField.h>
-#include <JXScrollbarSet.h>
-#include <JXColHeaderWidget.h>
-#include <JXHelpManager.h>
-#include <JXFontManager.h>
-#include <jXGlobals.h>
-#include <JPrefsFile.h>
+#include "jx-af/jfs/JXFSEditBindingsDialog.h"
+#include "jx-af/jfs/JXFSBindingTable.h"
+#include "jx-af/jfs/JFSBindingList.h"
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXInputField.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXColHeaderWidget.h>
+#include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jx/JXFontManager.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JPrefsFile.h>
 #include <sstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kHeaderHeight = 20;
 

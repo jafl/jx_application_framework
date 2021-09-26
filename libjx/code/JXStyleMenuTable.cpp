@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include "JXStyleMenuTable.h"
-#include "JXStyleMenu.h"
-#include <JPainter.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXStyleMenuTable.h"
+#include "jx-af/jx/JXStyleMenu.h"
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

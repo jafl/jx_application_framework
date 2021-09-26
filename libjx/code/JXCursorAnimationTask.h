@@ -10,7 +10,7 @@
 #ifndef _H_JXCursorAnimationTask
 #define _H_JXCursorAnimationTask
 
-#include "JXIdleTask.h"
+#include "jx-af/jx/JXIdleTask.h"
 
 class JXCursorAnimator;
 

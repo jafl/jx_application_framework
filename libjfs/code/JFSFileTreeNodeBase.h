@@ -8,7 +8,7 @@
 #ifndef _H_JFSFileTreeNodeBase
 #define _H_JFSFileTreeNodeBase
 
-#include <JNamedTreeNode.h>
+#include <jx-af/jcore/JNamedTreeNode.h>
 
 class JDirInfo;
 class JFSFileTree;

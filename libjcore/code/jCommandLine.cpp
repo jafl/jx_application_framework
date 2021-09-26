@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include "jCommandLine.h"
+#include "jx-af/jcore/jCommandLine.h"
 #include <stdlib.h>
 #include <string.h>
-#include "jAssert.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  JWaitForReturn

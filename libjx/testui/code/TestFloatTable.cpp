@@ -9,19 +9,19 @@
 
 #include "TestFloatTable.h"
 
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXFontSizeMenu.h>
-#include <JXStyleTableMenu.h>
-#include <JXTEBase.h>
-#include <jXGlobals.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXFontSizeMenu.h>
+#include <jx-af/jx/JXStyleTableMenu.h>
+#include <jx-af/jx/JXTEBase.h>
+#include <jx-af/jx/jXGlobals.h>
 
-#include <JPagePrinter.h>
-#include <JFloatTableData.h>
-#include <JFontManager.h>
-#include <JKLRand.h>
-#include <jTime.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JPagePrinter.h>
+#include <jx-af/jcore/JFloatTableData.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JKLRand.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kInitRowCount = 10;
 const JSize kInitColCount = 3;

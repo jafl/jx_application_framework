@@ -10,11 +10,11 @@
 #ifndef _H_JFileArray
 #define _H_JFileArray
 
-#include "JCollection.h"
-#include "JFAIndex.h"
-#include "JFAID.h"
-#include "JError.h"
-#include "jFStreamUtil.h"
+#include "jx-af/jcore/JCollection.h"
+#include "jx-af/jcore/JFAIndex.h"
+#include "jx-af/jcore/JFAID.h"
+#include "jx-af/jcore/JError.h"
+#include "jx-af/jcore/jFStreamUtil.h"
 #include <sstream>		// template
 #include <string>		// template
 

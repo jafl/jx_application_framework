@@ -8,7 +8,7 @@
 #ifndef _H_JXSpellList
 #define _H_JXSpellList
 
-#include "JXStringList.h"
+#include "jx-af/jx/JXStringList.h"
 
 class JXSpellList : public JXStringList
 {

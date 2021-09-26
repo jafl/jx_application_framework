@@ -20,30 +20,30 @@
 
  ******************************************************************************/
 
-#include "JXExprEditor.h"
-#include "JFunction.h"
-#include "JExprRectList.h"
-#include "JUserInputFunction.h"
+#include "jx-af/jexpr/JXExprEditor.h"
+#include "jx-af/jexpr/JFunction.h"
+#include "jx-af/jexpr/JExprRectList.h"
+#include "jx-af/jexpr/JUserInputFunction.h"
 
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXWindowPainter.h>
-#include <JXSelectionManager.h>
-#include <JXTextSelection.h>
-#include <JXEPSPrinter.h>
-#include <jXEventUtil.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <jXActionDefs.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXSelectionManager.h>
+#include <jx-af/jx/JXTextSelection.h>
+#include <jx-af/jx/JXEPSPrinter.h>
+#include <jx-af/jx/jXEventUtil.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jx/jXActionDefs.h>
 
-#include <JMinMax.h>
-#include <jASCIIConstants.h>
-#include <JString.h>
-#include <JRect.h>
-#include <jMath.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JRect.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Edit menu
 
@@ -757,7 +757,7 @@ JXExprEditor::HandleEditMenu
 #define MenuVar      itsEditMenu
 #define CmdType      EditMenuItemInfo
 #define CmdIDList    kEditMenuItemInfo
-#include <JXMenuItemIDUtil.th>
+#include <jx-af/jx/JXMenuItemIDUtil.th>
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn

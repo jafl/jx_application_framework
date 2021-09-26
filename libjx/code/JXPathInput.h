@@ -11,7 +11,7 @@
 #ifndef _H_JXPathInput
 #define _H_JXPathInput
 
-#include "JXFSInputBase.h"
+#include "jx-af/jx/JXFSInputBase.h"
 
 class JXPathInput : public JXFSInputBase
 {

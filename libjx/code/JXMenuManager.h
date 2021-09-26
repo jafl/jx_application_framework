@@ -10,7 +10,7 @@
 #ifndef _H_JXMenuManager
 #define _H_JXMenuManager
 
-#include <JPtrArray.h>
+#include <jx-af/jcore/JPtrArray.h>
 
 class JXWindow;
 class JXMenu;

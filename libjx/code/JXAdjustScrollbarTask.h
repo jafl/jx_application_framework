@@ -10,7 +10,7 @@
 #ifndef _H_JXAdjustScrollbarTask
 #define _H_JXAdjustScrollbarTask
 
-#include "JXUrgentTask.h"
+#include "jx-af/jx/JXUrgentTask.h"
 
 class JXScrollableWidget;
 

@@ -19,10 +19,10 @@
 
  ******************************************************************************/
 
-#include "JLatentPG.h"
-#include "JString.h"
-#include "jGlobals.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JLatentPG.h"
+#include "jx-af/jcore/JString.h"
+#include "jx-af/jcore/jGlobals.h"
+#include "jx-af/jcore/jAssert.h"
 
 const time_t kDefMaxSilentTime = 3;		// seconds
 

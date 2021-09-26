@@ -11,10 +11,10 @@
 
  ******************************************************************************/
 
-#include "JXStyledText.h"
-#include <JStringIterator.h>
-#include <JFontManager.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXStyledText.h"
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

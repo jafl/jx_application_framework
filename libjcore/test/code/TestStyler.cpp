@@ -10,9 +10,9 @@
  ******************************************************************************/
 
 #include "TestStyler.h"
-#include <JColorManager.h>
-#include <jStreamUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

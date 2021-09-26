@@ -10,11 +10,11 @@
 #ifndef _H_JXImage
 #define _H_JXImage
 
-#include <JImage.h>
-#include <JConstBitmap.h>
-#include <JBroadcaster.h>
-#include <JArray.h>
-#include "jXConstants.h"
+#include <jx-af/jcore/JImage.h>
+#include <jx-af/jcore/JConstBitmap.h>
+#include <jx-af/jcore/JBroadcaster.h>
+#include <jx-af/jcore/JArray.h>
+#include "jx-af/jx/jXConstants.h"
 #include <X11/Xlib.h>
 #include <X11/xpm.h>
 

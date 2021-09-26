@@ -8,8 +8,8 @@
 #ifndef _H_JX2DPlotWidget
 #define _H_JX2DPlotWidget
 
-#include <JXWidget.h>
-#include "J2DPlotWidget.h"
+#include <jx-af/jx/JXWidget.h>
+#include "jx-af/j2dplot/J2DPlotWidget.h"
 
 class JXPSPrinter;
 class JX2DPlotEPSPrinter;

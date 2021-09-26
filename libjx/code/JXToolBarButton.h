@@ -10,9 +10,9 @@
 #ifndef _H_JXToolBarButton
 #define _H_JXToolBarButton
 
-#include "JXButton.h"
-#include <JString.h>
-#include <JFont.h>
+#include "jx-af/jx/JXButton.h"
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JFont.h>
 
 class JXToolBar;
 class JXTextMenu;

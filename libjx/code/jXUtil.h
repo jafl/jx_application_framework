@@ -8,8 +8,8 @@
 #ifndef _H_jXUtil
 #define _H_jXUtil
 
-#include <JPtrArray-JString.h>
-#include <JRect.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/JRect.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 

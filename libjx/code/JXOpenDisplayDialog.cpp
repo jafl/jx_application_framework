@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "JXOpenDisplayDialog.h"
-#include "jXGlobals.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXOpenDisplayDialog.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

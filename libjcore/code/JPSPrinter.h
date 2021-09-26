@@ -10,8 +10,8 @@
 #ifndef _H_JPSPrinter
 #define _H_JPSPrinter
 
-#include "JPagePrinter.h"
-#include "JPSPrinterBase.h"
+#include "jx-af/jcore/JPagePrinter.h"
+#include "jx-af/jcore/JPSPrinterBase.h"
 
 class JProgressDisplay;
 

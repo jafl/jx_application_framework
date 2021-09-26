@@ -10,18 +10,18 @@
 
  ******************************************************************************/
 
-#include "JXEPSPrintSetupDialog.h"
-#include "JXEPSPrinter.h"
-#include "JXPSPrintSetupDialog.h"
-#include "JXChooseEPSDestFileTask.h"
-#include "JXWindow.h"
-#include "JXTextButton.h"
-#include "JXStaticText.h"
-#include "JXTextCheckbox.h"
-#include "JXFileInput.h"
-#include "jXGlobals.h"
-#include <jFileUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXEPSPrintSetupDialog.h"
+#include "jx-af/jx/JXEPSPrinter.h"
+#include "jx-af/jx/JXPSPrintSetupDialog.h"
+#include "jx-af/jx/JXChooseEPSDestFileTask.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXTextButton.h"
+#include "jx-af/jx/JXStaticText.h"
+#include "jx-af/jx/JXTextCheckbox.h"
+#include "jx-af/jx/JXFileInput.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor function (static)

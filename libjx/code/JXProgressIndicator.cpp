@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include "JXProgressIndicator.h"
-#include "JXWindowPainter.h"
-#include "jXPainterUtil.h"
-#include "JXColorManager.h"
-#include "jXConstants.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXProgressIndicator.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXConstants.h"
+#include <jx-af/jcore/jAssert.h>
 
 // Netscape colors
 

@@ -10,7 +10,7 @@
 #ifndef _H_ResizeWidgetDialog
 #define _H_ResizeWidgetDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXWidget;
 class JXIntegerInput;

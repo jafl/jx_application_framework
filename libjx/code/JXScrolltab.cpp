@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include "JXScrolltab.h"
-#include "JXScrollbar.h"
-#include "JXTextMenu.h"
-#include "JXColorManager.h"
-#include <jMath.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXScrolltab.h"
+#include "jx-af/jx/JXScrollbar.h"
+#include "jx-af/jx/JXTextMenu.h"
+#include "jx-af/jx/JXColorManager.h"
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kAcrossSize = 8;
 const JCoordinate kAlongSize  = 8;

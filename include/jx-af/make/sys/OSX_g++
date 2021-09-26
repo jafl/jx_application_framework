@@ -1,16 +1,14 @@
 # configuration for compiling with clang
 
-include ${JX_ROOT}/include/make/jx_constants
+include ${MAKE_INCLUDE}/jx_constants
 
 #
 # Adjustable parameters
 #
 
-# X11 libraries & headers
+# X11 libraries & headers - XQuartz
 
-# XQuartz
-J_X11_LIB_DIR     := -L/usr/X11/lib
-J_X11_INCLUDE_DIR := -I/usr/X11/include
+J_X11_LIB_DIR := -L/usr/X11/lib
 
 # Optimization level for debugging
 
@@ -60,7 +58,7 @@ J_GCC_LIBS  := ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
                  pkg-config --libs icu-i18n libpcre} \
                -lstdc++ -lm -lc
 J_ACE_LIBS  := -lACE
-J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lXext -lXft -lfontconfig -lXpm -lX11
+J_X11_LIBS  := ${J_X11_LIB_DIR} -lXext -lXft -lfontconfig -lXpm -lX11
 
 # generate coverage part 1: ensure that all uses of J_GCC_LIBS are consistent
 
@@ -76,7 +74,7 @@ J_POST_LINK_LLDB_CMD := install_name_tool -add_rpath /Library/Developer/CommandL
 
 # modify settings based on OS, compiler, etc.
 
-include ${JX_ROOT}/include/make/jx_config_common
+include ${MAKE_INCLUDE}/jx_config_common
 
 # libpng is part of X11
 

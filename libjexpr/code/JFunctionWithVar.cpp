@@ -12,16 +12,16 @@
 
  ******************************************************************************/
 
-#include <JFunctionWithVar.h>
-#include <JVariableList.h>
-#include <JExprRenderer.h>
-#include <JExprRectList.h>
+#include "jx-af/jexpr/JFunctionWithVar.h"
+#include "jx-af/jexpr/JVariableList.h"
+#include "jx-af/jexpr/JExprRenderer.h"
+#include "jx-af/jexpr/JExprRectList.h"
 
-#include <JString.h>
-#include <JListUtil.h>
-#include <jMath.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JListUtil.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

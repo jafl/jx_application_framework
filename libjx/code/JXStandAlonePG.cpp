@@ -15,13 +15,13 @@
 
  ******************************************************************************/
 
-#include "JXStandAlonePG.h"
-#include "JXFixLenPGDirector.h"
-#include "JXVarLenPGDirector.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "jXGlobals.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXStandAlonePG.h"
+#include "jx-af/jx/JXFixLenPGDirector.h"
+#include "jx-af/jx/JXVarLenPGDirector.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jAssert.h>
 
 // Private class data
 

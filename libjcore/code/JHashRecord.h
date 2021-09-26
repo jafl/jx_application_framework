@@ -29,7 +29,7 @@ public:
 };
 
 
-#include "jTypes.h"
+#include "jx-af/jcore/jTypes.h"
 
 
 template <class V>

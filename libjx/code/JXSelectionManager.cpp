@@ -16,19 +16,19 @@
 
  ******************************************************************************/
 
-#include "JXSelectionManager.h"
-#include "JXDNDManager.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXWidget.h"
-#include "jXGlobals.h"
-#include "jXUtil.h"
-#include <jTime.h>
+#include "jx-af/jx/JXSelectionManager.h"
+#include "jx-af/jx/JXDNDManager.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXWidget.h"
+#include "jx-af/jx/jXGlobals.h"
+#include "jx-af/jx/jXUtil.h"
+#include <jx-af/jcore/jTime.h>
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
 #include <X11/Xlib.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 #define XQUARTZ_BUG 0
 
@@ -201,8 +201,8 @@ JXSelectionManager::GetAvailableTypes
 
  ******************************************************************************/
 
-#include <JProcess.h>
-#include <jStreamUtil.h>
+#include <jx-af/jcore/JProcess.h>
+#include <jx-af/jcore/jStreamUtil.h>
 
 bool
 JXSelectionManager::GetData
@@ -1108,7 +1108,7 @@ JXSelectionManager::ReceiveWithFeedback
 
  ******************************************************************************/
 
-#include <JProcess.h>
+#include <jx-af/jcore/JProcess.h>
 #include <unistd.h>
 
 bool

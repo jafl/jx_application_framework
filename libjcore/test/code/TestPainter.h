@@ -8,7 +8,7 @@
 #ifndef _H_TestPainter
 #define _H_TestPainter
 
-#include <JPainter.h>
+#include <jx-af/jcore/JPainter.h>
 
 class TestPainter : public JPainter
 {

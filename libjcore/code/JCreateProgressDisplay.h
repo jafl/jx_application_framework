@@ -10,7 +10,7 @@
 #ifndef _H_JCreateProgressDisplay
 #define _H_JCreateProgressDisplay
 
-#include "JProgressDisplay.h"	// for convenience
+#include "jx-af/jcore/JProgressDisplay.h"	// for convenience
 
 class JCreateProgressDisplay
 {

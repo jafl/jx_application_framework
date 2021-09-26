@@ -2,4 +2,4 @@
 
 @compile_jstrings
 compile_jstrings
-literal: ${LIB_DEPS}
+literal: ${LIBS}

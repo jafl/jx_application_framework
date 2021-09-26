@@ -7,9 +7,9 @@
 
  *****************************************************************************/
 
-#include <JTestManager.h>
-#include <jWebUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jcore/jWebUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

@@ -10,12 +10,12 @@
 #ifndef _H_JXDisplay
 #define _H_JXDisplay
 
-#include "JXCursor.h"
-#include <JArray.h>
-#include "jXEventUtil.h"
-#include "JXKeyModifiers.h"	// need defn of kJXKeyModifierMapCount
-#include <JRect.h>
-#include <JString.h>
+#include "jx-af/jx/JXCursor.h"
+#include "jx-af/jx/jXEventUtil.h"
+#include "jx-af/jx/JXKeyModifiers.h"	// need defn of kJXKeyModifierMapCount
+#include <jx-af/jcore/JArray.h>
+#include <jx-af/jcore/JRect.h>
+#include <jx-af/jcore/JString.h>
 
 class JFontManager;
 class JXGC;

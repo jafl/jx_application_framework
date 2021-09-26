@@ -9,13 +9,13 @@
 
  ******************************************************************************/
 
-#include <JXExprEditorSet.h>
-#include <JXExprEditor.h>
-#include <JXMenuBar.h>
-#include <JXScrollbarSet.h>
-#include <JXDeleteObjectTask.h>
-#include <JVariableList.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JXExprEditorSet.h"
+#include "jx-af/jexpr/JXExprEditor.h"
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXDeleteObjectTask.h>
+#include <jx-af/jexpr/JVariableList.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

@@ -10,10 +10,10 @@
 #ifndef _H_JXImageCheckbox
 #define _H_JXImageCheckbox
 
-#include "JXCheckbox.h"
-#include "jXConstants.h"
-#include <JConstBitmap.h>
-#include "JXPM.h"
+#include "jx-af/jx/JXCheckbox.h"
+#include "jx-af/jx/jXConstants.h"
+#include <jx-af/jcore/JConstBitmap.h>
+#include "jx-af/jcore/JXPM.h"
 
 class JXImage;
 

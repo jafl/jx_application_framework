@@ -11,14 +11,14 @@
 
 #include "TestCompartment.h"
 #include "TestPartitionDirector.h"
-#include <JXHorizPartition.h>
-#include <JXVertPartition.h>
-#include <JXWindowPainter.h>
-#include <jXPainterUtil.h>
-#include <JFontManager.h>
-#include <JColorManager.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXHorizPartition.h>
+#include <jx-af/jx/JXVertPartition.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

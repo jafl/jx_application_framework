@@ -10,9 +10,9 @@
 
  ******************************************************************************/
 
-#include "JXRegexReplaceInput.h"
-#include <JInterpolate.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXRegexReplaceInput.h"
+#include <jx-af/jcore/JInterpolate.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

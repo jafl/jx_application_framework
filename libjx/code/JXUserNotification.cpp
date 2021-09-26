@@ -15,18 +15,18 @@
 
  ******************************************************************************/
 
-#include "JXUserNotification.h"
-#include "JXMessageDialog.h"
-#include "JXErrorDialog.h"
-#include "JXWarningDialog.h"
-#include "JXOKToCloseDialog.h"
-#include "JXAcceptLicenseDialog.h"
-#include "JXWindow.h"
-#include "jXGlobals.h"
-#include <JString.h>
+#include "jx-af/jx/JXUserNotification.h"
+#include "jx-af/jx/JXMessageDialog.h"
+#include "jx-af/jx/JXErrorDialog.h"
+#include "jx-af/jx/JXWarningDialog.h"
+#include "jx-af/jx/JXOKToCloseDialog.h"
+#include "jx-af/jx/JXAcceptLicenseDialog.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JString.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 #undef assert
 

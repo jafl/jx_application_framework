@@ -7,9 +7,9 @@
 
  *****************************************************************************/
 
-#include <JTestManager.h>
-#include <JVariableList.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jexpr/JVariableList.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

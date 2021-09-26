@@ -10,7 +10,7 @@
 #ifndef _H_TestTextEditor
 #define _H_TestTextEditor
 
-#include <JXTextEditor.h>
+#include <jx-af/jx/JXTextEditor.h>
 
 class JXPSPrinter;
 

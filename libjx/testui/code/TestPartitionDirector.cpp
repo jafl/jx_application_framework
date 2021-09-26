@@ -10,13 +10,13 @@
 #include "TestPartitionDirector.h"
 #include "TestCompartment.h"
 #include "SetElasticDialog.h"
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXHorizPartition.h>
-#include <JXVertPartition.h>
-#include <jXGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXHorizPartition.h>
+#include <jx-af/jx/JXVertPartition.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kInitCompartmentCount = 3;
 const JIndex kInitElasticIndex    = 2;

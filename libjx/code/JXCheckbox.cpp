@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "JXCheckbox.h"
-#include "JXWindow.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXCheckbox.h"
+#include "jx-af/jx/JXWindow.h"
+#include <jx-af/jcore/jAssert.h>
 
 // JBroadcaster message types
 

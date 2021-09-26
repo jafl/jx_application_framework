@@ -10,9 +10,9 @@
 
 // we include these for convenience
 
-#include <jGlobals.h>
-#include "jXConstants.h"
-#include "JXApplication.h"
+#include <jx-af/jcore/jGlobals.h>
+#include "jx-af/jx/jXConstants.h"
+#include "jx-af/jx/JXApplication.h"
 
 class JXDocumentManager;
 class JXHelpManager;

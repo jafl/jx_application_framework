@@ -8,8 +8,8 @@
 #ifndef _H_JVersionSocket
 #define _H_JVersionSocket
 
-#include "JPrefObject.h"
-#include "JString.h"
+#include "jx-af/jcore/JPrefObject.h"
+#include "jx-af/jcore/JString.h"
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 

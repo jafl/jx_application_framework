@@ -8,9 +8,9 @@
  ******************************************************************************/
 
 #include "TestTextEditor.h"
-#include <JXTextMenu.h>
-#include <JXPSPrinter.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXPSPrinter.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Edit menu
 

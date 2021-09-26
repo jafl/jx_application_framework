@@ -10,9 +10,9 @@
 #ifndef _H_TestImageDirector
 #define _H_TestImageDirector
 
-#include <JXWindowDirector.h>
-#include <JString.h>
-#include <JImage.h>		// need definition of FileType
+#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JImage.h>		// need definition of FileType
 
 class JXTextMenu;
 class JXImageWidget;

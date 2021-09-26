@@ -8,7 +8,7 @@
 #ifndef _H_JXAcceptLicenseDialog
 #define _H_JXAcceptLicenseDialog
 
-#include "JXDialogDirector.h"
+#include "jx-af/jx/JXDialogDirector.h"
 
 class JXAcceptLicenseDialog : public JXDialogDirector
 {

@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
-#include <jFStreamUtil.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jcore/jFStreamUtil.h>
 #include <stdio.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

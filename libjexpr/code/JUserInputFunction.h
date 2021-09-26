@@ -10,8 +10,8 @@
 #ifndef _H_JUserInputFunction
 #define _H_JUserInputFunction
 
-#include <JFunction.h>
-#include <JTextEditor.h>
+#include "jx-af/jexpr/JFunction.h"
+#include <jx-af/jcore/JTextEditor.h>
 
 class JFontManager;
 class JExprEditor;

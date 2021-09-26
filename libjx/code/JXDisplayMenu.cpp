@@ -15,13 +15,13 @@
 
  ******************************************************************************/
 
-#include "JXDisplayMenu.h"
-#include "JXOpenDisplayDialog.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "jXGlobals.h"
-#include <JString.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXDisplayMenu.h"
+#include "jx-af/jx/JXOpenDisplayDialog.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 // JBroadcaster message types
 

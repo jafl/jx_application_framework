@@ -10,8 +10,8 @@
 #ifndef _H_TestWidget
 #define _H_TestWidget
 
-#include <JXScrollableWidget.h>
-#include <JKLRand.h>
+#include <jx-af/jx/JXScrollableWidget.h>
+#include <jx-af/jcore/JKLRand.h>
 
 class ResizeWidgetDialog;
 

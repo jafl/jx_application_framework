@@ -8,9 +8,9 @@
 #ifndef _H_JPtrArray_JString
 #define _H_JPtrArray_JString
 
-#include "JPtrArray.h"
-#include "JStringPtrMap.h"
-#include "JString.h"
+#include "jx-af/jcore/JPtrArray.h"
+#include "jx-af/jcore/JStringPtrMap.h"
+#include "jx-af/jcore/JString.h"
 
 std::istream& operator>>(std::istream&, JPtrArray<JString>&);
 std::ostream& operator<<(std::ostream&, const JPtrArray<JString>&);

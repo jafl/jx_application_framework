@@ -10,9 +10,9 @@
 #ifndef _H_JBroadcastTester
 #define _H_JBroadcastTester
 
-#include "JBroadcaster.h"
-#include "JQueue.h"
-#include "JArray.h"
+#include "jx-af/jcore/JBroadcaster.h"
+#include "jx-af/jcore/JQueue.h"
+#include "jx-af/jcore/JArray.h"
 #include <functional>
 
 class JBroadcastTester : virtual public JBroadcaster

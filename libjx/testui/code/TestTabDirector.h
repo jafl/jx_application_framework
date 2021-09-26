@@ -8,7 +8,7 @@
 #ifndef _H_TestTabDirector
 #define _H_TestTabDirector
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class JXTabGroup;
 class JXTextButton;

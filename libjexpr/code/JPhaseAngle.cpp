@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JPhaseAngle.h>
-#include <jErrno.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JPhaseAngle.h"
+#include <jx-af/jcore/jErrno.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

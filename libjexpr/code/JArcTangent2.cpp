@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include <JArcTangent2.h>
-#include <jErrno.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JArcTangent2.h"
+#include <jx-af/jcore/jErrno.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

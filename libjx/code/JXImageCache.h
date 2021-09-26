@@ -8,8 +8,8 @@
 #ifndef _H_JXImageCache
 #define _H_JXImageCache
 
-#include <JStringPtrMap.h>
-#include "JXPM.h"
+#include <jx-af/jcore/JStringPtrMap.h>
+#include "jx-af/jcore/JXPM.h"
 
 class JString;
 class JXDisplay;

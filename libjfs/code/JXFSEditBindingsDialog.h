@@ -8,8 +8,8 @@
 #ifndef _H_JXFSEditBindingsDialog
 #define _H_JXFSEditBindingsDialog
 
-#include <JXDialogDirector.h>
-#include "JFSBinding.h"		// need defn of CommandType
+#include <jx-af/jx/JXDialogDirector.h>
+#include "jx-af/jfs/JFSBinding.h"		// need defn of CommandType
 
 class JXTextButton;
 class JXTextCheckbox;

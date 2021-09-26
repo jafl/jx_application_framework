@@ -39,11 +39,11 @@
 
  ******************************************************************************/
 
-#include "JXDialogDirector.h"
-#include "JXWindow.h"
-#include "JXButton.h"
-#include "jXGlobals.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXDialogDirector.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXButton.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jAssert.h>
 
 // JBroadcaster message types
 

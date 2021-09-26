@@ -8,7 +8,7 @@
 #ifndef _H_J2DCurveInfo
 #define _H_J2DCurveInfo
 
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 
 class JString;
 

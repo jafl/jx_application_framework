@@ -8,7 +8,7 @@
 #ifndef _H_Test2DPlotDirector
 #define _H_Test2DPlotDirector
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class JXTextMenu;
 class JX2DPlotWidget;

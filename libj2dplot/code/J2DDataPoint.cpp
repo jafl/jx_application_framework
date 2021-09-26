@@ -5,8 +5,8 @@
 
  ******************************************************************************/
 
-#include "J2DDataPoint.h"
-#include <jAssert.h>
+#include "jx-af/j2dplot/J2DDataPoint.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Stream operators for J2DDataPoint

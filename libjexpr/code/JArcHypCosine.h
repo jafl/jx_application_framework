@@ -10,7 +10,7 @@
 #ifndef _H_JArcHypCosine
 #define _H_JArcHypCosine
 
-#include <JUnaryFunction.h>
+#include "jx-af/jexpr/JUnaryFunction.h"
 
 class JArcHypCosine : public JUnaryFunction
 {

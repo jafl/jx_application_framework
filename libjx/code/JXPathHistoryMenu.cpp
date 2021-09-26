@@ -10,13 +10,13 @@
 
  ******************************************************************************/
 
-#include "JXPathHistoryMenu.h"
-#include "JXImage.h"
-#include "JXImageCache.h"
-#include "JXDisplay.h"
-#include <jDirUtil.h>
-#include <jMountUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXPathHistoryMenu.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXImageCache.h"
+#include "jx-af/jx/JXDisplay.h"
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jMountUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 #include <jx_folder_small.xpm>
 #include <jx_hard_disk_small.xpm>

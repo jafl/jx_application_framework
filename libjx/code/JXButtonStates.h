@@ -9,7 +9,7 @@
 #define _H_JXButtonStates
 
 #include <X11/Xlib.h>
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 
 const JSize kXButtonCount = 7;
 

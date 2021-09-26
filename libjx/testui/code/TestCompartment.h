@@ -10,7 +10,7 @@
 #ifndef _H_TestCompartment
 #define _H_TestCompartment
 
-#include <JXDownRect.h>
+#include <jx-af/jx/JXDownRect.h>
 
 class TestPartitionDirector;
 

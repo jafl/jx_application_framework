@@ -5,17 +5,17 @@
 
  ******************************************************************************/
 
-#include "jXUtil.h"
-#include "JXDisplay.h"
-#include "JXImageMask.h"
+#include "jx-af/jx/jXUtil.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXImageMask.h"
 #include <X11/Xatom.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <JSubstitute.h>
-#include <JRegex.h>
-#include <jFileUtil.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JStringMatch.h>
+#include <jx-af/jcore/JSubstitute.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 // string ID's
 

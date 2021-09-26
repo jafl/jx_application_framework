@@ -10,7 +10,7 @@
 #ifndef _H_JPhaseAngle
 #define _H_JPhaseAngle
 
-#include <JUnaryFunction.h>
+#include "jx-af/jexpr/JUnaryFunction.h"
 
 class JPhaseAngle : public JUnaryFunction
 {

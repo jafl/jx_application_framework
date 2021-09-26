@@ -8,7 +8,7 @@
 #ifndef _H_TestPrefsManager
 #define _H_TestPrefsManager
 
-#include <JPrefsManager.h>
+#include <jx-af/jcore/JPrefsManager.h>
 
 class TestPrefsManager : public JPrefsManager
 {

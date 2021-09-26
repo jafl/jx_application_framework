@@ -11,10 +11,10 @@
 
  ******************************************************************************/
 
-#include "JXStaticText.h"
-#include "JXStyledText.h"
-#include "jXConstants.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXStaticText.h"
+#include "jx-af/jx/JXStyledText.h"
+#include "jx-af/jx/jXConstants.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

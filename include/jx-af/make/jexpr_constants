@@ -11,4 +11,4 @@ JEXPR_LIB_VERSION := 2_0_0
 # String data files -- prepend to allow app to override
 #
 
-J_STRING_FILES := ${JX_ROOT}/include/strings/jexpr/* ${J_STRING_FILES}
+J_STRING_FILES := ${JX_INCLUDE_ROOT}/jx-af/strings/jexpr/* ${J_STRING_FILES}

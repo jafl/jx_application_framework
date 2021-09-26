@@ -1,6 +1,6 @@
 # configuration for compiling with g++
 
-include ${JX_ROOT}/include/make/jx_constants
+include ${MAKE_INCLUDE}/jx_constants
 
 J_CYGWIN := 1
 
@@ -61,4 +61,4 @@ J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lfontconfig -lXext -lXft -lXpm
 
 # modify settings based on OS, compiler, etc.
 
-include ${JX_ROOT}/include/make/jx_config_common
+include ${MAKE_INCLUDE}/jx_config_common

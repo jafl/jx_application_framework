@@ -13,10 +13,10 @@
 
  ******************************************************************************/
 
-#include "JTableSelectionIterator.h"
-#include "JTableSelection.h"
-#include "JMinMax.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JTableSelectionIterator.h"
+#include "jx-af/jcore/JTableSelection.h"
+#include "jx-af/jcore/JMinMax.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Constructor

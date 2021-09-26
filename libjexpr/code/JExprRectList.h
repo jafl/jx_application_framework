@@ -10,9 +10,9 @@
 #ifndef _H_JExprRectList
 #define _H_JExprRectList
 
-#include <JContainer.h>
-#include <JPtrArray.h>
-#include <JRect.h>
+#include <jx-af/jcore/JContainer.h>
+#include <jx-af/jcore/JPtrArray.h>
+#include <jx-af/jcore/JRect.h>
 
 class JFunction;
 

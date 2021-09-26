@@ -44,8 +44,8 @@ TUTORIAL_STRING_FILES := */strings
 
 J_STRING_FILES := ${TUTORIAL_STRING_FILES}
 
-include ${JX_ROOT}/include/make/jx_constants
-include ${JX_ROOT}/include/make/jx_config
+include ${JX_INCLUDE_ROOT}/jx-af/make/jx_constants
+include ${JX_INCLUDE_ROOT}/jx-af/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                -g ${SEARCHDIRS}
@@ -65,7 +65,7 @@ default: libs strings all
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_INCLUDE_ROOT}/jx-af/make/jx_targets
 
 #
 # string data

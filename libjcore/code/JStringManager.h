@@ -8,7 +8,7 @@
 #ifndef _H_JStringManager
 #define _H_JStringManager
 
-#include "JStringPtrMap.h"
+#include "jx-af/jcore/JStringPtrMap.h"
 
 class JError;
 class JString;
@@ -30,10 +30,10 @@ public:
 
 	virtual ~JStringManager();
 
-	void		Register(const JUtf8Byte* signature, const JUtf8Byte** defaultData);
+	void	Register(const JUtf8Byte* signature, const JUtf8Byte** defaultData);
 	bool	MergeFile(const JString& fileName, const bool debug = false);
 	bool	MergeFile(std::istream& input, const bool debug = false);
-	void		WriteFile(std::ostream& output) const;
+	void	WriteFile(std::ostream& output) const;
 
 	const JString&	GetBCP47Locale() const;
 	const JString&	Get(const JUtf8Byte* id) const;
@@ -55,7 +55,7 @@ private:
 
 	JString			itsBCP47Locale;
 	JSubstitute*	itsReplaceEngine;
-	static bool	thePseudotranslationFlag;
+	static bool		thePseudotranslationFlag;
 
 private:
 

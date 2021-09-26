@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include "JXSaveFileInput.h"
-#include <JStringIterator.h>
-#include <jFileUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXSaveFileInput.h"
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 bool JXSaveFileInput::theAllowSpaceFlag = true;
 

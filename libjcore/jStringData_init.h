@@ -1,4 +1,4 @@
-#include "jTypes.h"
+#include "jx-af/jcore/jTypes.h"
 static const JUtf8Byte* kJCoreDefaultStringData[] = {
 "1\nJUnsupportedVCS \"$file is either not managed by a version control system or is managed by an unsupported system.\"\nJPathContainsLoop2 \"At least one of \\\"$name1\\\" or \\\"$name2\\\" contains a loop caused by symbolic links.\"\nOtherError::JPrefsManager \"The preferences cannot be used because:\n\n$msg\"\nJWouldHaveBlocked \"The requested operation would have blocked and the stream is set to non-blocking.\"\nSIGFPE::jSignal \"floating point exception (SIGFPE)\"\nJUnexpectedError \"An unexpected err",
 "or ($err) occured -- please contact the developer so the situation can be accommodated in the future.\"\nJDirectoryBusy \"\\\"$name\\\" cannot be removed because it is being used by another program.\"\nSearching::jDirUtil \"Searching for \\\"$name\\\"...\"\nJAccessDenied \"You are not allowed to create or access \\\"$name\\\".\"\nSIGPIPE::jSignal \"broken pipe (SIGPIPE)\"\nDirectoryDoesNotExist::JTextChooseSaveFile \"That directory doesn't exist.  Try again?\"\nJNonBlockedSignal \"A non-blocked signal was",

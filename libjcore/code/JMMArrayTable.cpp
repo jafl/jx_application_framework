@@ -12,9 +12,9 @@
  *****************************************************************************/
 
 //Class Header
-#include "JMMArrayTable.h"
-#include "JMMRecord.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JMMArrayTable.h"
+#include "jx-af/jcore/JMMRecord.h"
+#include "jx-af/jcore/jAssert.h"
 
 	const JSize blockSize = 5000;
 

@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include "jXActionDefs.h"
+#include "jx-af/jx/jXActionDefs.h"
 
 // File menu
 

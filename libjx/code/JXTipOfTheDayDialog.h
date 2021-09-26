@@ -8,7 +8,7 @@
 #ifndef _H_JXTipOfTheDayDialog
 #define _H_JXTipOfTheDayDialog
 
-#include "JXDialogDirector.h"
+#include "jx-af/jx/JXDialogDirector.h"
 
 class JXStaticText;
 class JXTextButton;

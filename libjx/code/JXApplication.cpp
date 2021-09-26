@@ -15,32 +15,32 @@
 
  ******************************************************************************/
 
-#include "JXApplication.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXIdleTask.h"
-#include "JXQuitIfAllDeactTask.h"
-#include "JXUrgentTask.h"
-#include "JXMenuManager.h"
-#include "JXHelpManager.h"
-#include "JXDocumentManager.h"
-#include "JXSharedPrefsManager.h"
-#include "JXMDIServer.h"
-#include "JXAssert.h"
-#include "jXEventUtil.h"
-#include "jXGlobals.h"
+#include "jx-af/jx/JXApplication.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXIdleTask.h"
+#include "jx-af/jx/JXQuitIfAllDeactTask.h"
+#include "jx-af/jx/JXUrgentTask.h"
+#include "jx-af/jx/JXMenuManager.h"
+#include "jx-af/jx/JXHelpManager.h"
+#include "jx-af/jx/JXDocumentManager.h"
+#include "jx-af/jx/JXSharedPrefsManager.h"
+#include "jx-af/jx/JXMDIServer.h"
+#include "jx-af/jx/JXAssert.h"
+#include "jx-af/jx/jXEventUtil.h"
+#include "jx-af/jx/jXGlobals.h"
 
-#include <JThisProcess.h>
+#include <jx-af/jcore/JThisProcess.h>
 #include <ace/Reactor.h>
 #include <ace/Service_Config.h>
 #include <sys/time.h>
 
-#include <JTaskIterator.h>
-#include <jTime.h>
-#include <jDirUtil.h>
+#include <jx-af/jcore/JTaskIterator.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jDirUtil.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kDisplayOptionName         = "-display";
 static const JUtf8Byte* kXDebugOptionName          = "--xdebug";

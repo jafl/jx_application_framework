@@ -8,7 +8,7 @@
 
  *****************************************************************************/
 
-#include "JExprScanner.h"
+#include "jx-af/jexpr/JExprScanner.h"
 
 class JFunction;
 class JFontManager;

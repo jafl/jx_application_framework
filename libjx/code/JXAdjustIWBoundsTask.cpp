@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "JXAdjustIWBoundsTask.h"
-#include "JXImageWidget.h"
+#include "jx-af/jx/JXAdjustIWBoundsTask.h"
+#include "jx-af/jx/JXImageWidget.h"
 
 /******************************************************************************
  Constructor

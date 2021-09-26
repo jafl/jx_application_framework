@@ -7,19 +7,19 @@
 
  ******************************************************************************/
 
-#include "JXFontManager.h"
-#include "JXDisplay.h"
-#include "jXGlobals.h"
-#include <JPtrArray-JString.h>
-#include <JListUtil.h>
-#include <JStringIterator.h>
-#include <JRegex.h>
-#include <JMinMax.h>
-#include <jStreamUtil.h>
-#include <jMath.h>
+#include "jx-af/jx/JXFontManager.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/JListUtil.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jMath.h>
 #include <sstream>
 #include <string.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 #define INCLUDE_X11_FONTS 0
 

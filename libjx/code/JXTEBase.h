@@ -10,9 +10,9 @@
 #ifndef _H_JXTEBase
 #define _H_JXTEBase
 
-#include "JXScrollableWidget.h"
-#include <JTextEditor.h>
-#include <JError.h>
+#include "jx-af/jx/JXScrollableWidget.h"
+#include <jx-af/jcore/JTextEditor.h>
+#include <jx-af/jcore/JError.h>
 
 class JXMenuBar;
 class JXTextMenu;

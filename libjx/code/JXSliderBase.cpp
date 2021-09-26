@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include "JXSliderBase.h"
-#include "JXWindowPainter.h"
-#include "jXPainterUtil.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXSliderBase.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

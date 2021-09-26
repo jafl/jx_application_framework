@@ -8,7 +8,7 @@
 #ifndef _H_JUtf8ByteBuffer
 #define _H_JUtf8ByteBuffer
 
-#include "JArray.h"
+#include "jx-af/jcore/JArray.h"
 
 class JUtf8ByteBuffer : public JArray<JUtf8Byte>
 {

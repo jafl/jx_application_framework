@@ -11,13 +11,13 @@
 #include "TestApp.h"
 #include "TestDirector.h"
 #include "testjxGlobals.h"
-#include <JXDocumentManager.h>
-#include <JXFileDocument.h>
-#include <JXStandAlonePG.h>
-#include <JString.h>
-#include <jFileUtil.h>
-#include <jFStreamUtil.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXDocumentManager.h>
+#include <jx-af/jx/JXFileDocument.h>
+#include <jx-af/jx/JXStandAlonePG.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

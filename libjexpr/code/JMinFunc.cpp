@@ -11,8 +11,8 @@
 
  ******************************************************************************/
 
-#include <JMinFunc.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JMinFunc.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

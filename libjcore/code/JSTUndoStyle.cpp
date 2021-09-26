@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "JSTUndoStyle.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JSTUndoStyle.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Constructor

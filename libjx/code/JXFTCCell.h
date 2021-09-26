@@ -8,7 +8,7 @@
 #ifndef _H_JXFTCCell
 #define _H_JXFTCCell
 
-#include "JXContainer.h"
+#include "jx-af/jx/JXContainer.h"
 
 class JXFTCCell : public JXContainer
 {

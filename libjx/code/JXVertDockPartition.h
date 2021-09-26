@@ -8,7 +8,7 @@
 #ifndef _H_JXVertDockPartition
 #define _H_JXVertDockPartition
 
-#include "JXVertPartition.h"
+#include "jx-af/jx/JXVertPartition.h"
 
 class JXTextMenu;
 class JXDockDirector;

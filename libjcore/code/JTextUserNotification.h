@@ -10,7 +10,7 @@
 #ifndef _H_JUserTextNotification
 #define _H_JUserTextNotification
 
-#include "JUserNotification.h"
+#include "jx-af/jcore/JUserNotification.h"
 
 class JTextUserNotification : public JUserNotification
 {

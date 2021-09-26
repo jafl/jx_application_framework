@@ -8,21 +8,21 @@
 
  ******************************************************************************/
 
-#include <JRegex.h>
-#include <JPtrArray-JString.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <jFStreamUtil.h>
-#include <jStreamUtil.h>
-#include <jFileUtil.h>
-#include <jVCSUtil.h>
-#include <JProcess.h>
-#include <jCommandLine.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JStringMatch.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jVCSUtil.h>
+#include <jx-af/jcore/JProcess.h>
+#include <jx-af/jcore/jCommandLine.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <JMemoryManager.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JMemoryManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Turn this on to generate a Makefile that allows #include loops.
 // Unfortunately, GNU Make doesn't understand the dependencies generated

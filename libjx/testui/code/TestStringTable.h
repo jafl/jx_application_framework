@@ -10,7 +10,7 @@
 #ifndef _H_TestStringTable
 #define _H_TestStringTable
 
-#include <JXStringTable.h>
+#include <jx-af/jx/JXStringTable.h>
 
 class JXMenuBar;
 class JXTextMenu;

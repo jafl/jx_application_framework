@@ -10,7 +10,7 @@
 #ifndef _H_JXLevelControl
 #define _H_JXLevelControl
 
-#include "JXSliderBase.h"
+#include "jx-af/jx/JXSliderBase.h"
 
 class JXLevelControl : public JXSliderBase
 {

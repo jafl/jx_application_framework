@@ -791,7 +791,7 @@ F
 T "../ACE/ACE_wrappers/ace" T
 T "./code" T
 T "./test/code" T
-T "/usr/local/Cellar/pcre/8.44/include/" T
+T "/usr/local/Cellar/pcre/8.45/include/" T
 T "/usr/local/opt/icu4c/include" T
 F
 # C preprocessor

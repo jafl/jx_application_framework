@@ -15,12 +15,12 @@
 
  ******************************************************************************/
 
-#include <JNamedConstant.h>
-#include <JExprRenderer.h>
-#include <JExprRectList.h>
-#include <jMath.h>
-#include <JString.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JNamedConstant.h"
+#include "jx-af/jexpr/JExprRenderer.h"
+#include "jx-af/jexpr/JExprRectList.h"
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JFloat kNamedConstValues[] =
 {

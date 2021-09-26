@@ -10,9 +10,9 @@
 #ifndef _H_AnimateWindowIconTask
 #define _H_AnimateWindowIconTask
 
-#include <JXIdleTask.h>
-#include <JKLRand.h>
-#include <JConstBitmap.h>
+#include <jx-af/jx/JXIdleTask.h>
+#include <jx-af/jcore/JKLRand.h>
+#include <jx-af/jcore/JConstBitmap.h>
 
 class JXImage;
 class JXWindow;

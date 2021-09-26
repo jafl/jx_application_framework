@@ -1,6 +1,6 @@
 # configuration for compiling with g++
 
-include ${JX_ROOT}/include/make/jx_constants
+include ${MAKE_INCLUDE}/jx_constants
 
 #
 # Adjustable parameters
@@ -29,14 +29,14 @@ J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
 # Comment this out if you don't have Xinerama
 
 J_HAS_XINERAMA  := -D_J_HAS_XINERAMA
-J_XINERAMA_LIBS := ${J_BEGIN_LINK_STATIC} -lXinerama ${J_END_LINK_STATIC}
+J_XINERAMA_LIBS := -lXinerama
 
-# Adjust these until everything compiles
+# Add to this until everything compiles.
+#
+# Check /usr/include/limits.h for sizes.
 
 J_RAW_SYSTEM_STUFF := \
-  -DSIZEOF_LONG=4 -DSIZEOF_INT=4 -DSIZEOF_LONGLONG=8 \
-  -D_J_HAS_PROC \
-  -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED \
+  -DSIZEOF_INT=* -DSIZEOF_LONG=* -DSIZEOF_LONGLONG=* \
   -D_XFT_NO_COMPAT_ -I/usr/include/freetype2 \
   ${shell getconf LFS_CFLAGS}
 
@@ -54,7 +54,7 @@ LINKER := g++
 
 CC       := gcc
 CXX      := g++
-CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL} -Wno-deprecated
+CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL}
 CFLAGS    = 
 CXXFLAGS  = -std=c++17
 
@@ -64,12 +64,13 @@ J_GCC_LIBS  := ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
                  pkg-config --libs icu-i18n libpcre} \
                -lstdc++ -lpthread -lm -lc -ldl
 J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE
-J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} ${J_XINERAMA_LIBS} -lfontconfig -lXext -lXft -lXpm -lX11
+J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lXext -lXft -lXpm -lX11
 
-# gzipped libraries to include in RPM
+# lldb
 
-J_RPM_GZ_LIBS := /usr/lib/libstdc++.so.6
+J_LLDB_LIBS          := -L/usr/lib64/llvm -llldb
+J_POST_LINK_LLDB_CMD := :
 
 # modify settings based on OS, compiler, etc.
 
-include ${JX_ROOT}/include/make/jx_config_common
+include ${MAKE_INCLUDE}/jx_config_common

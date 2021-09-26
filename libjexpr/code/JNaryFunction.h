@@ -10,8 +10,8 @@
 #ifndef _H_JNaryFunction
 #define _H_JNaryFunction
 
-#include <JFunctionWithArgs.h>
-#include <JPtrArray.h>
+#include "jx-af/jexpr/JFunctionWithArgs.h"
+#include <jx-af/jcore/JPtrArray.h>
 
 class JNaryFunction : public JFunctionWithArgs
 {

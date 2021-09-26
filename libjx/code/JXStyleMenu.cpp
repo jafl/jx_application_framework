@@ -26,14 +26,14 @@
 
  ******************************************************************************/
 
-#include "JXStyleMenu.h"
-#include "JXStyleMenuDirector.h"
-#include "JXChooseColorDialog.h"
-#include "JXWindow.h"
-#include "JXColorManager.h"
-#include "jXActionDefs.h"
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXStyleMenu.h"
+#include "jx-af/jx/JXStyleMenuDirector.h"
+#include "jx-af/jx/JXChooseColorDialog.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXActionDefs.h"
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kMacMenuStr =
 	"    Plain            %b %k Meta-T %i" kJXPlainStyleAction

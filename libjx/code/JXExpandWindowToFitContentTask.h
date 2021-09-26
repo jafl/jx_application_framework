@@ -8,8 +8,8 @@
 #ifndef _H_JXExpandWindowToFitContentTask
 #define _H_JXExpandWindowToFitContentTask
 
-#include "JXUrgentTask.h"
-#include <JBroadcaster.h>
+#include "jx-af/jx/JXUrgentTask.h"
+#include <jx-af/jcore/JBroadcaster.h>
 
 class JXWindow;
 class JXWidget;

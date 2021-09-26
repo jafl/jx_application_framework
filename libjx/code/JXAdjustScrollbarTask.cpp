@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "JXAdjustScrollbarTask.h"
-#include "JXScrollableWidget.h"
+#include "jx-af/jx/JXAdjustScrollbarTask.h"
+#include "jx-af/jx/JXScrollableWidget.h"
 
 /******************************************************************************
  Constructor

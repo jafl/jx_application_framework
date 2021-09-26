@@ -34,29 +34,29 @@
 
  ******************************************************************************/
 
-#include "JStyledText.h"
-#include "JSTUndoTyping.h"
-#include "JSTUndoPaste.h"
-#include "JSTUndoMove.h"
-#include "JSTUndoStyle.h"
-#include "JSTUndoTabShift.h"
-#include "JFontManager.h"
-#include "JColorManager.h"
-#include "JListUtil.h"
-#include "JRunArrayIterator.h"
-#include "JRegex.h"
-#include "JStringIterator.h"
-#include "JStringMatch.h"
-#include "JInterpolate.h"
-#include "JLatentPG.h"
-#include "JMinMax.h"
-#include "jTextUtil.h"
-#include "jASCIIConstants.h"
-#include "jFStreamUtil.h"
-#include "jStreamUtil.h"
-#include "jFileUtil.h"
-#include "jGlobals.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JStyledText.h"
+#include "jx-af/jcore/JSTUndoTyping.h"
+#include "jx-af/jcore/JSTUndoPaste.h"
+#include "jx-af/jcore/JSTUndoMove.h"
+#include "jx-af/jcore/JSTUndoStyle.h"
+#include "jx-af/jcore/JSTUndoTabShift.h"
+#include "jx-af/jcore/JFontManager.h"
+#include "jx-af/jcore/JColorManager.h"
+#include "jx-af/jcore/JListUtil.h"
+#include "jx-af/jcore/JRunArrayIterator.h"
+#include "jx-af/jcore/JRegex.h"
+#include "jx-af/jcore/JStringIterator.h"
+#include "jx-af/jcore/JStringMatch.h"
+#include "jx-af/jcore/JInterpolate.h"
+#include "jx-af/jcore/JLatentPG.h"
+#include "jx-af/jcore/JMinMax.h"
+#include "jx-af/jcore/jTextUtil.h"
+#include "jx-af/jcore/jASCIIConstants.h"
+#include "jx-af/jcore/jFStreamUtil.h"
+#include "jx-af/jcore/jStreamUtil.h"
+#include "jx-af/jcore/jFileUtil.h"
+#include "jx-af/jcore/jGlobals.h"
+#include "jx-af/jcore/jAssert.h"
 
 typedef JRunArrayIterator<JFont>	FontIterator;
 
@@ -1396,7 +1396,7 @@ JStyledText::SetFontSize
 	#define LocalVarName   size
 	#define GetElementName GetSize()
 	#define SetElementName SetSize
-	#include "JStyledTextSetFont.th"
+	#include "jx-af/jcore/JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName
@@ -1413,7 +1413,7 @@ JStyledText::SetFontBold
 	#define LocalVarName   bold
 	#define GetElementName GetStyle().bold
 	#define SetElementName SetBold
-	#include "JStyledTextSetFont.th"
+	#include "jx-af/jcore/JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName
@@ -1430,7 +1430,7 @@ JStyledText::SetFontItalic
 	#define LocalVarName   italic
 	#define GetElementName GetStyle().italic
 	#define SetElementName SetItalic
-	#include "JStyledTextSetFont.th"
+	#include "jx-af/jcore/JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName
@@ -1447,7 +1447,7 @@ JStyledText::SetFontUnderline
 	#define LocalVarName   count
 	#define GetElementName GetStyle().underlineCount
 	#define SetElementName SetUnderlineCount
-	#include "JStyledTextSetFont.th"
+	#include "jx-af/jcore/JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName
@@ -1464,7 +1464,7 @@ JStyledText::SetFontStrike
 	#define LocalVarName   strike
 	#define GetElementName GetStyle().strike
 	#define SetElementName SetStrike
-	#include "JStyledTextSetFont.th"
+	#include "jx-af/jcore/JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName
@@ -1481,7 +1481,7 @@ JStyledText::SetFontColor
 	#define LocalVarName   color
 	#define GetElementName GetStyle().color
 	#define SetElementName SetColor
-	#include "JStyledTextSetFont.th"
+	#include "jx-af/jcore/JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName
@@ -1498,7 +1498,7 @@ JStyledText::SetFontStyle
 	#define LocalVarName   style
 	#define GetElementName GetStyle()
 	#define SetElementName SetStyle
-	#include "JStyledTextSetFont.th"
+	#include "jx-af/jcore/JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName

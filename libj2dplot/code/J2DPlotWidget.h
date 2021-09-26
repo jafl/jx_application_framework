@@ -8,12 +8,12 @@
 #ifndef _H_J2DPlotWidget
 #define _H_J2DPlotWidget
 
-#include <JBroadcaster.h>
-#include <jColor.h>
-#include <JRect.h>
-#include <JPtrArray-JString.h>
-#include <JFontStyle.h>
-#include "J2DCurveInfo.h"
+#include <jx-af/jcore/JBroadcaster.h>
+#include <jx-af/jcore/jColor.h>
+#include <jx-af/jcore/JRect.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/JFontStyle.h>
+#include "jx-af/j2dplot/J2DCurveInfo.h"
 
 class JPainter;
 class JPagePrinter;

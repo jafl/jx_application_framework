@@ -10,7 +10,7 @@
 #ifndef _H_JXAdjustToolBarGeometryTask
 #define _H_JXAdjustToolBarGeometryTask
 
-#include "JXUrgentTask.h"
+#include "jx-af/jx/JXUrgentTask.h"
 
 class JXToolBar;
 

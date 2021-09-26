@@ -10,7 +10,7 @@
 #ifndef _H_JVariableValue
 #define _H_JVariableValue
 
-#include <JFunctionWithVar.h>
+#include "jx-af/jexpr/JFunctionWithVar.h"
 
 class JVariableValue : public JFunctionWithVar
 {

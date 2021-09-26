@@ -14,12 +14,12 @@
  ******************************************************************************/
 
 #include "TestLinkedDocument.h"
-#include <JXDocumentManager.h>
-#include <jXGlobals.h>
-#include <JString.h>
-#include <jDirUtil.h>
-#include <jFileUtil.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXDocumentManager.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JString kOurFile     ("about_owner_docs", false);
 static const JString kRequiredFile("about_owned_docs", false);

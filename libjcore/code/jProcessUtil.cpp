@@ -7,27 +7,27 @@
 
  ******************************************************************************/
 
-#include "jProcessUtil.h"
-#include "JThisProcess.h"
-#include "JPtrArray-JString.h"
-#include "JProcessError.h"
-#include "JRegex.h"
-#include "JStringIterator.h"
-#include "JStringMatch.h"
-#include "JStdError.h"
-#include "jStreamUtil.h"
-#include "JMinMax.h"
-#include "jGlobals.h"
+#include "jx-af/jcore/jProcessUtil.h"
+#include "jx-af/jcore/JThisProcess.h"
+#include "jx-af/jcore/JPtrArray-JString.h"
+#include "jx-af/jcore/JProcessError.h"
+#include "jx-af/jcore/JRegex.h"
+#include "jx-af/jcore/JStringIterator.h"
+#include "jx-af/jcore/JStringMatch.h"
+#include "jx-af/jcore/JStdError.h"
+#include "jx-af/jcore/jStreamUtil.h"
+#include "jx-af/jcore/JMinMax.h"
+#include "jx-af/jcore/jGlobals.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "jSignal.h"
-#include "jFileUtil.h"
-#include "jDirUtil.h"
-#include "jSysUtil.h"
+#include "jx-af/jcore/jSignal.h"
+#include "jx-af/jcore/jFileUtil.h"
+#include "jx-af/jcore/jDirUtil.h"
+#include "jx-af/jcore/jSysUtil.h"
 #include <ace/OS_NS_sys_wait.h>
-#include "jErrno.h"
-#include "jAssert.h"
+#include "jx-af/jcore/jErrno.h"
+#include "jx-af/jcore/jAssert.h"
 
 static bool theIncludeCWDOnPathFlag = false;
 

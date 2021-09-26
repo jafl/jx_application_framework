@@ -8,7 +8,7 @@
 #ifndef _H_JXFSInputBase
 #define _H_JXFSInputBase
 
-#include "JXInputField.h"
+#include "jx-af/jx/JXInputField.h"
 
 class JDirInfo;
 class JXStringCompletionMenu;

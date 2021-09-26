@@ -10,7 +10,7 @@
 #ifndef _H_J2DVectorPoint
 #define _H_J2DVectorPoint
 
-#include <jMath.h>
+#include <jx-af/jcore/jMath.h>
 
 struct J2DVectorPoint
 {

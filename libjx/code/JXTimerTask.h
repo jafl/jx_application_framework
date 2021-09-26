@@ -8,8 +8,8 @@
 #ifndef _H_JXTimerTask
 #define _H_JXTimerTask
 
-#include "JXIdleTask.h"
-#include <JBroadcaster.h>
+#include "jx-af/jx/JXIdleTask.h"
+#include <jx-af/jcore/JBroadcaster.h>
 
 class JXTimerTask : public JXIdleTask, virtual public JBroadcaster
 {

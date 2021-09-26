@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "JXCharInput.h"
-#include "JXEditTable.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXCharInput.h"
+#include "jx-af/jx/JXEditTable.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

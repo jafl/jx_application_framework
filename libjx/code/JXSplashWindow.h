@@ -8,8 +8,8 @@
 #ifndef _H_JXSplashWindow
 #define _H_JXSplashWindow
 
-#include "JXWindowDirector.h"
-#include "JXPM.h"
+#include "jx-af/jx/JXWindowDirector.h"
+#include "jx-af/jcore/JXPM.h"
 #include <time.h>
 
 class JXImage;

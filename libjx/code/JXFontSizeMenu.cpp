@@ -13,16 +13,16 @@
 
  ******************************************************************************/
 
-#include "JXFontSizeMenu.h"
-#include "JXFontNameMenu.h"
-#include "JXChooseFontSizeDialog.h"
-#include "JXWindow.h"
-#include "jXConstants.h"
-#include "jXActionDefs.h"
-#include <JFontManager.h>
-#include <jMath.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXFontSizeMenu.h"
+#include "jx-af/jx/JXFontNameMenu.h"
+#include "jx-af/jx/JXChooseFontSizeDialog.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/jXConstants.h"
+#include "jx-af/jx/jXActionDefs.h"
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 // JBroadcaster message types
 

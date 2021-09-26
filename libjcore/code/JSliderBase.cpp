@@ -12,8 +12,8 @@
 
  ******************************************************************************/
 
-#include "JSliderBase.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JSliderBase.h"
+#include "jx-af/jcore/jAssert.h"
 
 // JBroadcaster message types
 

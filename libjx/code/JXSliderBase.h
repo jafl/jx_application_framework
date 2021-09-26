@@ -10,8 +10,8 @@
 #ifndef _H_JXSliderBase
 #define _H_JXSliderBase
 
-#include "JXWidget.h"
-#include <JSliderBase.h>
+#include "jx-af/jx/JXWidget.h"
+#include <jx-af/jcore/JSliderBase.h>
 
 class JXSliderBase : public JXWidget, public JSliderBase
 {

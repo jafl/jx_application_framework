@@ -10,8 +10,8 @@
 #ifndef _H_JXFontManager
 #define _H_JXFontManager
 
-#include <JFontManager.h>
-#include <JArray.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JArray.h>
 #include <X11/Xlib.h>
 #include <X11/Xft/Xft.h>
 

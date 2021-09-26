@@ -10,7 +10,7 @@
 #ifndef _H_JSummation
 #define _H_JSummation
 
-#include <JNaryOperator.h>
+#include "jx-af/jexpr/JNaryOperator.h"
 
 class JSummation : public JNaryOperator
 {

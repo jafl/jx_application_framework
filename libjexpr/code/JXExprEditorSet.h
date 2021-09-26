@@ -10,7 +10,7 @@
 #ifndef _H_JXExprEditorSet
 #define _H_JXExprEditorSet
 
-#include <JXWidgetSet.h>
+#include <jx-af/jx/JXWidgetSet.h>
 
 class JVariableList;
 class JXMenuBar;

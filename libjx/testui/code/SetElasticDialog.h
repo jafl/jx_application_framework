@@ -10,7 +10,7 @@
 #ifndef _H_SetElasticDialog
 #define _H_SetElasticDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXIntegerInput;
 

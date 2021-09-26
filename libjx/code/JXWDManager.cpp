@@ -18,16 +18,16 @@
 
  ******************************************************************************/
 
-#include "JXWDManager.h"
-#include "JXWindowDirector.h"
-#include "JXWDMenu.h"
-#include "JXUpdateWDMenuTask.h"
-#include "JXDisplay.h"
-#include "JXImage.h"
-#include "JXColorManager.h"
-#include "jXGlobals.h"
-#include "jXActionDefs.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXWDManager.h"
+#include "jx-af/jx/JXWindowDirector.h"
+#include "jx-af/jx/JXWDMenu.h"
+#include "jx-af/jx/JXUpdateWDMenuTask.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXGlobals.h"
+#include "jx-af/jx/jXActionDefs.h"
+#include <jx-af/jcore/jAssert.h>
 
 const JInteger kFirstShortcut = 0;
 const JInteger kLastShortcut  = 9;

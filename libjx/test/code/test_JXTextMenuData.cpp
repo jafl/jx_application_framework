@@ -7,12 +7,12 @@
 
  *****************************************************************************/
 
-#include <JTestManager.h>
+#include <jx-af/jcore/JTestManager.h>
 #include <TestFontManager.h>
 #include <JXDisplay_mock.h>
 #include <JXTextMenu_mock.h>
-#include <JXTextMenuData.h>		// after mocks
-#include <jAssert.h>
+#include <jx-af/jx/JXTextMenuData.h>		// after mocks
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

@@ -10,7 +10,7 @@
 #ifndef _H_JXDocumentMenu
 #define _H_JXDocumentMenu
 
-#include "JXTextMenu.h"
+#include "jx-af/jx/JXTextMenu.h"
 
 class JXDocumentManager;
 

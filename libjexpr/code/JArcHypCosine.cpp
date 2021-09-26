@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JArcHypCosine.h>
-#include <jErrno.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JArcHypCosine.h"
+#include <jx-af/jcore/jErrno.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

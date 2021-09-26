@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "JXChooseEPSDestFileTask.h"
-#include "JXEPSPrintSetupDialog.h"
+#include "jx-af/jx/JXChooseEPSDestFileTask.h"
+#include "jx-af/jx/JXEPSPrintSetupDialog.h"
 
 /******************************************************************************
  Constructor

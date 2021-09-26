@@ -10,7 +10,7 @@
 #ifndef _H_JPartition
 #define _H_JPartition
 
-#include "JArray.h"
+#include "jx-af/jcore/JArray.h"
 
 class JPartition
 {

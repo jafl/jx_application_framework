@@ -14,9 +14,9 @@
  ******************************************************************************/
 
 #include "TestPGTask.h"
-#include <jXGlobals.h>
-#include <jTime.h>
-#include <jAssert.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kStepCount       = 100;
 const JSize kQuiescentPeriod = 1000;	// 1 second (milliseconds)

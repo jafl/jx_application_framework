@@ -10,7 +10,7 @@
 #ifndef _H_JXEngravedRect
 #define _H_JXEngravedRect
 
-#include "JXDecorRect.h"
+#include "jx-af/jx/JXDecorRect.h"
 
 class JXEngravedRect : public JXDecorRect
 {

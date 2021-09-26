@@ -10,7 +10,7 @@
 #ifndef _H_JXHistoryMenuBase
 #define _H_JXHistoryMenuBase
 
-#include "JXTextMenu.h"
+#include "jx-af/jx/JXTextMenu.h"
 
 class JXInputField;
 

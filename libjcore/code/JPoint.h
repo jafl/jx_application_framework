@@ -10,7 +10,7 @@
 #ifndef _H_JPoint
 #define _H_JPoint
 
-#include "jMath.h"
+#include "jx-af/jcore/jMath.h"
 
 class JRect;
 

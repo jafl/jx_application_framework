@@ -7,14 +7,14 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
+#include <jx-af/jcore/JTestManager.h>
 #include "TestString.h"
-#include <JMinMax.h>
+#include <jx-af/jcore/JMinMax.h>
 #include <fstream>
 #include <string>
 #include <locale.h>
 #include <stdlib.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

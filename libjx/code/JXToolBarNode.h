@@ -8,7 +8,7 @@
 #ifndef _H_JXToolBarNode
 #define _H_JXToolBarNode
 
-#include "JNamedTreeNode.h"
+#include "jx-af/jcore/JNamedTreeNode.h"
 
 class JXTextMenu;
 

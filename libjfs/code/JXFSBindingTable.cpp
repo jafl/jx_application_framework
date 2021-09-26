@@ -7,21 +7,21 @@
 
  ******************************************************************************/
 
-#include "JXFSBindingTable.h"
-#include "JFSBindingList.h"
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXTextMenu.h>
-#include <JXInputField.h>
-#include <JXColHeaderWidget.h>
-#include <jXConstants.h>
-#include <JTableSelection.h>
-#include <JPainter.h>
-#include <JFontManager.h>
-#include <JRegex.h>
-#include <jASCIIConstants.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jfs/JXFSBindingTable.h"
+#include "jx-af/jfs/JFSBindingList.h"
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXInputField.h>
+#include <jx-af/jx/JXColHeaderWidget.h>
+#include <jx-af/jx/jXConstants.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kHMarginWidth = 3;
 const JCoordinate kVMarginWidth = 1;

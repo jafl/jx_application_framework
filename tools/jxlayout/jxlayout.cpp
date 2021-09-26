@@ -7,25 +7,25 @@
 
  ******************************************************************************/
 
-#include <JStringManager.h>
-#include <JStringIterator.h>
-#include <JRegex.h>
-#include <JPtrArray-JString.h>
-#include <JFontManager.h>
-#include <jTextUtil.h>
-#include <jFStreamUtil.h>
-#include <jStreamUtil.h>
-#include <jFileUtil.h>
-#include <jDirUtil.h>
-#include <jProcessUtil.h>
-#include <jCommandLine.h>
-#include <jVCSUtil.h>
-#include <jGlobals.h>
-#include <JRect.h>
+#include <jx-af/jcore/JStringManager.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jTextUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jCommandLine.h>
+#include <jx-af/jcore/jVCSUtil.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/JRect.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Constants
 

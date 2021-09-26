@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
+#include <jx-af/jcore/JTestManager.h>
 #include "TestPTPrinter.h"
-#include <jFStreamUtil.h>
-#include <jFileUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

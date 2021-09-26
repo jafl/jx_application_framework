@@ -10,7 +10,7 @@
 #ifndef _H_JXExprInput
 #define _H_JXExprInput
 
-#include <JXInputField.h>
+#include <jx-af/jx/JXInputField.h>
 
 class JXTextMenu;
 

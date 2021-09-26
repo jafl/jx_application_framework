@@ -10,10 +10,10 @@
 #ifndef _H_JXStringList
 #define _H_JXStringList
 
-#include "JXTable.h"
-#include <JRunArray.h>
-#include <JAliasArray.h>
-#include <JFont.h>
+#include "jx-af/jx/JXTable.h"
+#include <jx-af/jcore/JRunArray.h>
+#include <jx-af/jcore/JAliasArray.h>
+#include <jx-af/jcore/JFont.h>
 
 class JString;
 class JStyleTableData;

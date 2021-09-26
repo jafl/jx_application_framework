@@ -8,7 +8,7 @@
 #ifndef _H_JXDSSSelection
 #define _H_JXDSSSelection
 
-#include "JXSelectionManager.h"
+#include "jx-af/jx/JXSelectionManager.h"
 
 class JXDirectSaveAction;
 

@@ -10,7 +10,7 @@
 #ifndef _H_JXEditTable
 #define _H_JXEditTable
 
-#include "JXTable.h"
+#include "jx-af/jx/JXTable.h"
 
 class JXTEBase;
 class JXInputField;

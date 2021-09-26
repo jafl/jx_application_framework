@@ -8,7 +8,7 @@
 #ifndef _H_JTEDefaultKeyHandler
 #define _H_JTEDefaultKeyHandler
 
-#include "JTEKeyHandler.h"
+#include "jx-af/jcore/JTEKeyHandler.h"
 
 class JTEDefaultKeyHandler : public JTEKeyHandler
 {

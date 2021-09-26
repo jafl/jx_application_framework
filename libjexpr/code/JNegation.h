@@ -10,7 +10,7 @@
 #ifndef _H_JNegation
 #define _H_JNegation
 
-#include <JUnaryFunction.h>
+#include "jx-af/jexpr/JUnaryFunction.h"
 
 class JNegation : public JUnaryFunction
 {

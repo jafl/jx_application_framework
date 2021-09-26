@@ -8,7 +8,7 @@
 #ifndef _H_J2DPlotJFunction
 #define _H_J2DPlotJFunction
 
-#include "J2DPlotFunctionBase.h"
+#include "jx-af/j2dplot/J2DPlotFunctionBase.h"
 
 class JVariableList;
 class JFunction;

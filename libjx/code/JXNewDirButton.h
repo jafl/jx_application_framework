@@ -8,7 +8,7 @@
 #ifndef _H_JXNewDirButton
 #define _H_JXNewDirButton
 
-#include "JXTextButton.h"
+#include "jx-af/jx/JXTextButton.h"
 
 class JXImage;
 

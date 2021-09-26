@@ -9,21 +9,21 @@
 
 #include "TestStringTable.h"
 
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXFontNameMenu.h>
-#include <JXFontSizeMenu.h>
-#include <JXStyleTableMenu.h>
-#include <JXRowHeaderWidget.h>
-#include <JXTEBase.h>
-#include <jXGlobals.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXFontNameMenu.h>
+#include <jx-af/jx/JXFontSizeMenu.h>
+#include <jx-af/jx/JXStyleTableMenu.h>
+#include <jx-af/jx/JXRowHeaderWidget.h>
+#include <jx-af/jx/JXTEBase.h>
+#include <jx-af/jx/jXGlobals.h>
 
-#include <JPagePrinter.h>
-#include <JStringTableData.h>
-#include <JTableSelection.h>
-#include <JString.h>
-#include <jTime.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JPagePrinter.h>
+#include <jx-af/jcore/JStringTableData.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kInitRowCount = 10;
 const JSize kInitColCount = 3;

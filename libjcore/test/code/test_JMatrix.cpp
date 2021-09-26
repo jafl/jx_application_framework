@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
-#include <JMatrix.h>
-#include <JVector.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jcore/JMatrix.h>
+#include <jx-af/jcore/JVector.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

@@ -10,7 +10,7 @@
 #ifndef _H_TestSliderDirector
 #define _H_TestSliderDirector
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class JXSlider;
 class JXLevelControl;

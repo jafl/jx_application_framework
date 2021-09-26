@@ -8,11 +8,11 @@
 #ifndef _H_jFileUtil
 #define _H_jFileUtil
 
-#include "JError.h"
-#include "jTime.h"
+#include "jx-af/jcore/JError.h"
+#include "jx-af/jcore/jTime.h"
 #include <stdio.h>
-#include "JString.h"	// need Case
-#include "jDirUtil.h"	// for convenience
+#include "jx-af/jcore/JString.h"	// need Case
+#include "jx-af/jcore/jDirUtil.h"	// for convenience
 
 class JString;
 class JProcess;

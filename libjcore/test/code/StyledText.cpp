@@ -10,8 +10,8 @@
  ******************************************************************************/
 
 #include "StyledText.h"
-#include <JFontManager.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

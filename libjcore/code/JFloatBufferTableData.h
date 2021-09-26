@@ -10,7 +10,7 @@
 #ifndef _H_JFloatBufferTableData
 #define _H_JFloatBufferTableData
 
-#include "JStringTableData.h"
+#include "jx-af/jcore/JStringTableData.h"
 
 class JFloatTableData;
 

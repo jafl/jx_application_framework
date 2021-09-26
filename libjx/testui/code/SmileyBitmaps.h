@@ -8,7 +8,7 @@
 #ifndef _H_SmileyBitmaps
 #define _H_SmileyBitmaps
 
-#include <JConstBitmap.h>
+#include <jx-af/jcore/JConstBitmap.h>
 
 enum
 {

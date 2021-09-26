@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include "jTime.h"
-#include "jMath.h"
+#include "jx-af/jcore/jTime.h"
+#include "jx-af/jcore/jMath.h"
 #include <unistd.h>
-#include "jAssert.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  JWait

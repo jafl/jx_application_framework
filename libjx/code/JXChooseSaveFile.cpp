@@ -9,16 +9,16 @@
 
  ******************************************************************************/
 
-#include "JXChooseSaveFile.h"
-#include "JXChooseFileDialog.h"
-#include "JXChoosePathDialog.h"
-#include "JXSaveFileDialog.h"
-#include "JXWindow.h"
-#include "jXGlobals.h"
-#include <JDirInfo.h>
-#include <jDirUtil.h>
+#include "jx-af/jx/JXChooseSaveFile.h"
+#include "jx-af/jx/JXChooseFileDialog.h"
+#include "jx-af/jx/JXChoosePathDialog.h"
+#include "jx-af/jx/JXSaveFileDialog.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/jDirUtil.h>
 #include <sstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JFileVersion kCurrentSetupVersion = 0;
 

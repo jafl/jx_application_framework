@@ -8,8 +8,8 @@
 #ifndef _H_JFSBinding
 #define _H_JFSBinding
 
-#include <JPtrArray-JString.h>
-#include <JRange.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/JRange.h>
 
 class JRegex;
 

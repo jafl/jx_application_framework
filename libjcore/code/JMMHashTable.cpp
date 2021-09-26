@@ -11,11 +11,11 @@
 
  *****************************************************************************/
 
-#include "JMMRecord.h"
+#include "jx-af/jcore/JMMRecord.h"
 
 //Class Header
-#include "JMMHashTable.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JMMHashTable.h"
+#include "jx-af/jcore/jAssert.h"
 
 	const JSize kInitialSize = 5000;
 

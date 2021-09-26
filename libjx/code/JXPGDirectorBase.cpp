@@ -7,12 +7,12 @@
 
  ******************************************************************************/
 
-#include "JXPGDirectorBase.h"
-#include "JXWindow.h"
-#include "JXStaticText.h"
-#include "JXButton.h"
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXPGDirectorBase.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXStaticText.h"
+#include "jx-af/jx/JXButton.h"
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

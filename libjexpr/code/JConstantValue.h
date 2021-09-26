@@ -10,7 +10,7 @@
 #ifndef _H_JConstantValue
 #define _H_JConstantValue
 
-#include <JFunction.h>
+#include "jx-af/jexpr/JFunction.h"
 
 class JConstantValue : public JFunction
 {

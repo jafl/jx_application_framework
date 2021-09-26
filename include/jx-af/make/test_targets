@@ -1,0 +1,16 @@
+# requires TESTS - list of test programs to run
+
+.PHONY : default
+default:
+	@cd ..; ${MAKE}
+
+.PHONY : Makefiles
+Makefiles:
+
+.PHONY : test
+test: ${TESTS}
+	$(call run_tests,${TESTS})
+
+.PHONY : touch
+touch::
+	@cd ..; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch

@@ -11,13 +11,13 @@
 #include "TestDirector.h"
 #include "TestApp.h"
 #include "TestMDIServer.h"
-#include <JXDisplay.h>
-#include <JXColorManager.h>
-#include <JXLibVersion.h>
-#include <JCoreLibVersion.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXLibVersion.h>
+#include <jx-af/jcore/JCoreLibVersion.h>
 #include <string.h>
 #include <stdlib.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Prototypes
 

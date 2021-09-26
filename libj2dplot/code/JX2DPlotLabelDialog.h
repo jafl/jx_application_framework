@@ -8,8 +8,8 @@
 #ifndef _H_JX2DPlotLabelDialog
 #define _H_JX2DPlotLabelDialog
 
-#include <JXDialogDirector.h>
-#include "J2DPlotWidget.h"
+#include <jx-af/jx/JXDialogDirector.h>
+#include "jx-af/j2dplot/J2DPlotWidget.h"
 
 class JString;
 class JXInputField;

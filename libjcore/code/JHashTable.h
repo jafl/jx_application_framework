@@ -12,8 +12,8 @@
 
  *****************************************************************************/
 
-#include "JHashRecord.h"
-#include "JHashCursor.h"
+#include "jx-af/jcore/JHashRecord.h"
+#include "jx-af/jcore/JHashCursor.h"
 
 //#include "JHashTableCursor.h"
 

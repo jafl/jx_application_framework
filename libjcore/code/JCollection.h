@@ -8,7 +8,7 @@
 #ifndef _H_JCollection
 #define _H_JCollection
 
-#include "JBroadcaster.h"
+#include "jx-af/jcore/JBroadcaster.h"
 
 class JCollection : virtual public JBroadcaster
 {

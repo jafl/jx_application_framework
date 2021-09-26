@@ -10,7 +10,7 @@
 #ifndef _H_TestPartitionDirector
 #define _H_TestPartitionDirector
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class SetElasticDialog;
 

@@ -10,9 +10,9 @@
 #ifndef _H_JXCSFSelectPrevDirTask
 #define _H_JXCSFSelectPrevDirTask
 
-#include "JXUrgentTask.h"
-#include <JBroadcaster.h>
-#include <JString.h>
+#include "jx-af/jx/JXUrgentTask.h"
+#include <jx-af/jcore/JBroadcaster.h>
+#include <jx-af/jcore/JString.h>
 
 class JDirInfo;
 class JXDirTable;

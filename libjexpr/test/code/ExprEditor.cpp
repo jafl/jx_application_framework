@@ -8,12 +8,12 @@
  ******************************************************************************/
 
 #include "ExprEditor.h"
-#include <JFunction.h>
-#include <JExprRectList.h>
-#include <JTestManager.h>
-#include <JRect.h>
-#include <jMath.h>
-#include <jAssert.h>
+#include <jx-af/jexpr/JFunction.h>
+#include <jx-af/jexpr/JExprRectList.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jcore/JRect.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

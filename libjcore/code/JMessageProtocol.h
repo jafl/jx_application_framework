@@ -8,10 +8,10 @@
 #ifndef _H_JMessageProtocol
 #define _H_JMessageProtocol
 
-#include "JNetworkProtocolBase.h"
-#include "JPtrArray-JString.h"
-#include "JUtf8ByteBuffer.h"
-#include "JRegex.h"
+#include "jx-af/jcore/JNetworkProtocolBase.h"
+#include "jx-af/jcore/JPtrArray-JString.h"
+#include "jx-af/jcore/JUtf8ByteBuffer.h"
+#include "jx-af/jcore/JRegex.h"
 
 class JMessageProtocolT
 {

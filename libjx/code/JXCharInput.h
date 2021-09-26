@@ -10,7 +10,7 @@
 #ifndef _H_JXCharInput
 #define _H_JXCharInput
 
-#include "JXInputField.h"
+#include "jx-af/jx/JXInputField.h"
 
 class JXCharInput : public JXInputField
 {

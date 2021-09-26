@@ -8,7 +8,7 @@
 #ifndef _H_JXFSBindingTable
 #define _H_JXFSBindingTable
 
-#include <JXEditTable.h>
+#include <jx-af/jx/JXEditTable.h>
 
 class JRegex;
 class JXTextButton;

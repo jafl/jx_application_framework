@@ -10,7 +10,7 @@
 #ifndef _H_TestChooseSaveFile
 #define _H_TestChooseSaveFile
 
-#include <JXChooseSaveFile.h>
+#include <jx-af/jx/JXChooseSaveFile.h>
 
 class TestSaveFileDialog;
 

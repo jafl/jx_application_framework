@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include "JXQuitIfAllDeactTask.h"
-#include "jXGlobals.h"
+#include "jx-af/jx/JXQuitIfAllDeactTask.h"
+#include "jx-af/jx/jXGlobals.h"
 #include <algorithm>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const Time kCheckPeriod = 30001;	// 30 seconds (milliseconds)
 

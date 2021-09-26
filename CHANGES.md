@@ -22,8 +22,7 @@ Changes to the build system
   J_END_LINK_STATIC, RPM_LIB_PATH.  Removed J_SYS_LIBS.  J_STD_LIBS no
   longer includes libjcore and libjx, since these should be in LIB_DEPS.
 * Removed obsolete J_MAN_SECTION_VIA_DASH_S.
-* Renamed jx_targets to app_targets.
-* jx_config automatically includes jx_constants.
+* Completely restructured the build system to support Homebrew releases.
 
 2.6.0
 -----

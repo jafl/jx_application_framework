@@ -11,15 +11,16 @@
  ******************************************************************************/
 
 #include "TestDNDTextDirector.h"
-#include <JXStyledText.h>
-#include <JXWindow.h>
-#include <JXHorizPartition.h>
-#include <JXTextEditorSet.h>
-#include <JXTextEditor.h>
-#include <JXFontManager.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXStyledText.h>
+#include "jx-af/jx/JXDisplay.h"
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXHorizPartition.h>
+#include <jx-af/jx/JXTextEditorSet.h>
+#include <jx-af/jx/JXTextEditor.h>
+#include <jx-af/jx/JXFontManager.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kInitWidth    = 100;
 const JCoordinate kMinWidth     = 20;

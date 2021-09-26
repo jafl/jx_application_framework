@@ -8,7 +8,7 @@
 #ifndef _H_JXSharedPrefObject
 #define _H_JXSharedPrefObject
 
-#include <JPrefsManager.h>	// need definition of JPrefID
+#include <jx-af/jcore/JPrefsManager.h>	// need definition of JPrefID
 
 class JXSharedPrefObject : virtual public JBroadcaster
 {

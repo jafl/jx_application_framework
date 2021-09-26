@@ -10,9 +10,9 @@
 
  ******************************************************************************/
 
-#include "JSTUndoTextBase.h"
-#include "JSTUndoPaste.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JSTUndoTextBase.h"
+#include "jx-af/jcore/JSTUndoPaste.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Constructor

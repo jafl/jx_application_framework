@@ -9,7 +9,7 @@
 #ifndef _H_JSpellChecker
 #define _H_JSpellChecker
 
-#include <JPtrArray-JString.h>
+#include "jx-af/jcore/JPtrArray-JString.h"
 
 class JProcess;
 class JOutPipeStream;

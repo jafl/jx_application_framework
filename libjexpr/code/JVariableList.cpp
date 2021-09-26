@@ -28,12 +28,12 @@
 
  ******************************************************************************/
 
-#include "JVariableList.h"
-#include "JNamedConstant.h"
-#include "JUserInputFunction.h"
-#include <JRegex.h>
-#include <JListUtil.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JVariableList.h"
+#include "jx-af/jexpr/JNamedConstant.h"
+#include "jx-af/jexpr/JUserInputFunction.h"
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JListUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 // JBroadcaster message types
 

@@ -1,6 +1,6 @@
 # configuration for compiling with g++
 
-include ${JX_ROOT}/include/make/jx_constants
+include ${MAKE_INCLUDE}/jx_constants
 
 #
 # Adjustable parameters
@@ -8,7 +8,7 @@ include ${JX_ROOT}/include/make/jx_constants
 
 # This tells us where to find the X libraries.
 
-J_X11_LIB_DIR := -L/usr/X11R6/lib64
+J_X11_LIB_DIR := -L/usr/X11R6/lib
 
 # Comment this out if your system is not ELF.
 
@@ -29,12 +29,12 @@ J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
 # Comment this out if you don't have Xinerama
 
 J_HAS_XINERAMA  := -D_J_HAS_XINERAMA
-J_XINERAMA_LIBS := -lXinerama
+J_XINERAMA_LIBS := ${J_BEGIN_LINK_STATIC} -lXinerama ${J_END_LINK_STATIC}
 
 # Adjust these until everything compiles
 
 J_RAW_SYSTEM_STUFF := \
-  -DSIZEOF_INT=4 -DSIZEOF_LONG=8 -DSIZEOF_LONGLONG=8 \
+  -DSIZEOF_LONG=4 -DSIZEOF_INT=4 -DSIZEOF_LONGLONG=8 \
   -D_J_HAS_PROC \
   -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED \
   -D_XFT_NO_COMPAT_ -I/usr/include/freetype2 \
@@ -50,17 +50,11 @@ SEARCHDIRS += -I/usr/include/freetype2
 
 LINKER := g++
 
-# make variables - allow overriding for Travis CI
+# make variables
 
-ifndef CC
-  CC := gcc
-endif
-
-ifndef CXX
-  CXX := g++
-endif
-
-CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL}
+CC       := gcc
+CXX      := g++
+CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL} -Wno-deprecated
 CFLAGS    = 
 CXXFLAGS  = -std=c++17
 
@@ -72,15 +66,10 @@ J_GCC_LIBS  := ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
 J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE
 J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} ${J_XINERAMA_LIBS} -lfontconfig -lXext -lXft -lXpm -lX11
 
-# lldb
-
-J_LLDB_LIBS          := -L/usr/lib64/llvm -llldb
-J_POST_LINK_LLDB_CMD := :
-
 # gzipped libraries to include in RPM
 
-J_RPM_GZ_LIBS := /usr/lib64/libstdc++.so.6
+J_RPM_GZ_LIBS := /usr/lib/libstdc++.so.6
 
 # modify settings based on OS, compiler, etc.
 
-include ${JX_ROOT}/include/make/jx_config_common
+include ${MAKE_INCLUDE}/jx_config_common

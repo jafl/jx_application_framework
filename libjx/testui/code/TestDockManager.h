@@ -8,7 +8,7 @@
 #ifndef _H_TestDockManager
 #define _H_TestDockManager
 
-#include <JXDockManager.h>
+#include <jx-af/jx/JXDockManager.h>
 
 class TestDockManager : public JXDockManager
 {

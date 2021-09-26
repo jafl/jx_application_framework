@@ -10,19 +10,19 @@
 #include "TestFloatTableDirector.h"
 #include "TestFloatTable.h"
 
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXStaticText.h>
-#include <JXFloatInput.h>
-#include <JXScrollbarSet.h>
-#include <JXRowHeaderWidget.h>
-#include <JXColHeaderWidget.h>
-#include <JXPSPrinter.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXFloatInput.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXRowHeaderWidget.h>
+#include <jx-af/jx/JXColHeaderWidget.h>
+#include <jx-af/jx/JXPSPrinter.h>
 
-#include <JFloatTableData.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JFloatTableData.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 // File menu information
 

@@ -10,7 +10,7 @@
 #ifndef _H_JXTextEditor
 #define _H_JXTextEditor
 
-#include "JXTEBase.h"
+#include "jx-af/jx/JXTEBase.h"
 
 class JString;
 class JXMenuBar;

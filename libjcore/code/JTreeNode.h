@@ -10,7 +10,7 @@
 #ifndef _H_JTreeNode
 #define _H_JTreeNode
 
-#include "JPtrArray.h"
+#include "jx-af/jcore/JPtrArray.h"
 
 class JTree;
 

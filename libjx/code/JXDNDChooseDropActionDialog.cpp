@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include "JXDNDChooseDropActionDialog.h"
-#include "jXGlobals.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXDNDChooseDropActionDialog.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

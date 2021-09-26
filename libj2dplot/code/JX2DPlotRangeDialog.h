@@ -8,7 +8,7 @@
 #ifndef _H_JX2DPlotRangeDialog
 #define _H_JX2DPlotRangeDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXTextButton;
 class JXFloatInput;

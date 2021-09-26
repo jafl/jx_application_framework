@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include "JXFileInput.h"
-#include <JColorManager.h>
-#include <jDirUtil.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXFileInput.h"
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

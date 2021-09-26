@@ -6,16 +6,16 @@
 
  *****************************************************************************/
 
-#include "JSpellChecker.h"
-#include "JProcess.h"
-#include "JOutPipeStream.h"
-#include "JStringIterator.h"
-#include "JStringMatch.h"
-#include "JRegex.h"
-#include "jStreamUtil.h"
-#include "jDirUtil.h"
+#include "jx-af/jcore/JSpellChecker.h"
+#include "jx-af/jcore/JProcess.h"
+#include "jx-af/jcore/JOutPipeStream.h"
+#include "jx-af/jcore/JStringIterator.h"
+#include "jx-af/jcore/JStringMatch.h"
+#include "jx-af/jcore/JRegex.h"
+#include "jx-af/jcore/jStreamUtil.h"
+#include "jx-af/jcore/jDirUtil.h"
 #include "sstream"
-#include "jAssert.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Constructor

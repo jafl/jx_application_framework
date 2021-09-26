@@ -8,8 +8,8 @@
 #ifndef _H_JXAdjustPrintSetupLayoutTask
 #define _H_JXAdjustPrintSetupLayoutTask
 
-#include "JXUrgentTask.h"
-#include <JBroadcaster.h>
+#include "jx-af/jx/JXUrgentTask.h"
+#include <jx-af/jcore/JBroadcaster.h>
 
 class JXDirector;
 class JXWidget;

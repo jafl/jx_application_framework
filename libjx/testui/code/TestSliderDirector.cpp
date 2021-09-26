@@ -8,12 +8,12 @@
  ******************************************************************************/
 
 #include "TestSliderDirector.h"
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXSlider.h>
-#include <JXLevelControl.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXSlider.h>
+#include <jx-af/jx/JXLevelControl.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

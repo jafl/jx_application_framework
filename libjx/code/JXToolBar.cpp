@@ -26,30 +26,30 @@
 
  *****************************************************************************/
 
-#include "JXToolBar.h"
-#include "JXToolBarEditDir.h"
-#include "JXToolBarNode.h"
-#include "JXAdjustToolBarGeometryTask.h"
+#include "jx-af/jx/JXToolBar.h"
+#include "jx-af/jx/JXToolBarEditDir.h"
+#include "jx-af/jx/JXToolBarNode.h"
+#include "jx-af/jx/JXAdjustToolBarGeometryTask.h"
 
-#include <JTree.h>
-#include <JNamedTreeNode.h>
+#include <jx-af/jcore/JTree.h>
+#include <jx-af/jcore/JNamedTreeNode.h>
 
-#include "JXFontManager.h"
-#include "JXTextMenu.h"
-#include "JXTextMenuData.h"
-#include "JXImage.h"
-#include "JXTimerTask.h"
-#include "JXApplication.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXDirector.h"
-#include "JXMenuBar.h"
-#include "jXGlobals.h"
+#include "jx-af/jx/JXFontManager.h"
+#include "jx-af/jx/JXTextMenu.h"
+#include "jx-af/jx/JXTextMenuData.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXTimerTask.h"
+#include "jx-af/jx/JXApplication.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXDirector.h"
+#include "jx-af/jx/JXMenuBar.h"
+#include "jx-af/jx/jXGlobals.h"
 
-#include <JString.h>
+#include <jx-af/jcore/JString.h>
 #include <sstream>
 #include <algorithm>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kButConBuffer = 5;
 

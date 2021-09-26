@@ -26,16 +26,16 @@
 
  ******************************************************************************/
 
-#include "JXDNDManager.h"
-#include "JXDNDChooseDropActionDialog.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXWidget.h"
-#include "jXGlobals.h"
-#include "jXUtil.h"
-#include <JMinMax.h>
-#include <jTime.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXDNDManager.h"
+#include "jx-af/jx/JXDNDChooseDropActionDialog.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXWidget.h"
+#include "jx-af/jx/jXGlobals.h"
+#include "jx-af/jx/jXUtil.h"
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jAssert.h>
 
 #define JXDND_DEBUG_MSGS	0	// boolean
 #define JXDND_SOURCE_DELAY	0	// time in seconds

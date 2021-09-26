@@ -13,7 +13,7 @@
  *****************************************************************************/
 
 // Superclass Header
-#include "JStringMapCursor.h"
+#include "jx-af/jcore/JStringMapCursor.h"
 
 template <class V> class JStringPtrMap;
 

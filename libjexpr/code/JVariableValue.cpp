@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include <JVariableValue.h>
-#include <JVariableList.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JVariableValue.h"
+#include "jx-af/jexpr/JVariableList.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

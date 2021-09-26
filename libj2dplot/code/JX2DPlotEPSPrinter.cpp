@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include "JX2DPlotEPSPrinter.h"
-#include <JPSPrinter.h>
-#include "J2DPlotWidget.h"
-#include <jStreamUtil.h>
-#include <jAssert.h>
+#include "jx-af/j2dplot/JX2DPlotEPSPrinter.h"
+#include <jx-af/jcore/JPSPrinter.h>
+#include "jx-af/j2dplot/J2DPlotWidget.h"
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 // setup information
 

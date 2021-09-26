@@ -7,20 +7,20 @@
 
  ******************************************************************************/
 
-#include <JStringManager.h>
-#include <JPtrArray-JString.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <JMinMax.h>
-#include <jFStreamUtil.h>
-#include <jStreamUtil.h>
-#include <jFileUtil.h>
-#include <jVCSUtil.h>
-#include <jCommandLine.h>
-#include <JMinMax.h>
+#include <jx-af/jcore/JStringManager.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JStringMatch.h>
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jVCSUtil.h>
+#include <jx-af/jcore/jCommandLine.h>
+#include <jx-af/jcore/JMinMax.h>
 #include <sstream>
 #include <stdlib.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Constants
 
@@ -152,7 +152,7 @@ main
 		}
 
 		std::ostringstream data2;
-		data2 << "#include <jTypes.h>" << std::endl;
+		data2 << "#include <jx-af/jcore/jTypes.h>" << std::endl;
 		data2 << "static const JUtf8Byte* ";
 		dataVarName.Print(data2);
 		data2 << "[] = {" << std::endl;

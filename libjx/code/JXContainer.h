@@ -10,12 +10,12 @@
 #ifndef _H_JXContainer
 #define _H_JXContainer
 
-#include <JBroadcaster.h>
-#include "jXEventUtil.h"
-#include "JXCursor.h"
-#include <JPtrArray.h>
-#include <JRect.h>
-#include <jColor.h>
+#include <jx-af/jcore/JBroadcaster.h>
+#include "jx-af/jx/jXEventUtil.h"
+#include "jx-af/jx/JXCursor.h"
+#include <jx-af/jcore/JPtrArray.h>
+#include <jx-af/jcore/JRect.h>
+#include <jx-af/jcore/jColor.h>
 #include <X11/Xlib.h>
 
 class JString;

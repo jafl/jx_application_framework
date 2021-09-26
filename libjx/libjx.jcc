@@ -1104,7 +1104,8 @@ F
 ""
 "make -k all"
 # search paths
-T "../include/jcore/" T
+T "../include/" T
+T "../libjcore/code" T
 T "./code/" T
 T "./test/" T
 T "/usr/X11/include/X11/" T

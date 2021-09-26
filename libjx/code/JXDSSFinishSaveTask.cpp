@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include "JXDSSFinishSaveTask.h"
-#include "JXSaveFileDialog.h"
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXDSSFinishSaveTask.h"
+#include "jx-af/jx/JXSaveFileDialog.h"
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

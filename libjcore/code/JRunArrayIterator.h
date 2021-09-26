@@ -10,7 +10,7 @@
 #ifndef _H_JRunArrayIterator
 #define _H_JRunArrayIterator
 
-#include "JListIterator.h"
+#include "jx-af/jcore/JListIterator.h"
 
 // must forward declare to avoid #include loop
 // (We do it here so JRunArray includes JRunArrayIterator for convenience.)

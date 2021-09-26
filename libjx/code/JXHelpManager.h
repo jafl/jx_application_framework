@@ -8,7 +8,7 @@
 #ifndef _H_JXHelpManager
 #define _H_JXHelpManager
 
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 
 class JXHelpManager
 {

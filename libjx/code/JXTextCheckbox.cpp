@@ -7,14 +7,14 @@
 
  ******************************************************************************/
 
-#include "JXTextCheckbox.h"
-#include "JXWindow.h"
-#include "JXWindowPainter.h"
-#include "JXFontManager.h"
-#include "JXColorManager.h"
-#include "jXPainterUtil.h"
-#include "jXGlobals.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXTextCheckbox.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXFontManager.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kMarginWidth   = 5;
 const JCoordinate kBoxHeight     = 10;
@@ -100,7 +100,7 @@ JXTextCheckbox::SetShortcuts
 	JXCheckbox::SetShortcuts(list);
 
 	#define LabelVarName	itsLabel
-	#include "JXUpdateShortcutIndex.th"
+	#include "jx-af/jx/JXUpdateShortcutIndex.th"
 	#undef LabelVarName
 }
 

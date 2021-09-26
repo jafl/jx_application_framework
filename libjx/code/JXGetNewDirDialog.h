@@ -8,8 +8,8 @@
 #ifndef _H_JXGetNewDirDialog
 #define _H_JXGetNewDirDialog
 
-#include "JXGetStringDialog.h"
-#include <JString.h>
+#include "jx-af/jx/JXGetStringDialog.h"
+#include <jx-af/jcore/JString.h>
 
 class JXGetNewDirDialog : public JXGetStringDialog
 {

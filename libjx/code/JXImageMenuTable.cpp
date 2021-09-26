@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include "JXImageMenuTable.h"
-#include "JXImageMenuData.h"
-#include "JXWindowPainter.h"
-#include "jXPainterUtil.h"
-#include "JXImage.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXImageMenuTable.h"
+#include "jx-af/jx/JXImageMenuData.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include "jx-af/jx/JXImage.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

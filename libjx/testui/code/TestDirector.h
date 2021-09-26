@@ -10,7 +10,7 @@
 #ifndef _H_TestDirector
 #define _H_TestDirector
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class TestWidget;
 class TestChooseSaveFile;

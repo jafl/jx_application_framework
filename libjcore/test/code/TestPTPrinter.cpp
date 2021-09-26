@@ -8,9 +8,9 @@
  ******************************************************************************/
 
 #include "TestPTPrinter.h"
-#include <JTestManager.h>
+#include <jx-af/jcore/JTestManager.h>
 #include <fstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

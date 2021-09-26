@@ -10,14 +10,14 @@
 
  ******************************************************************************/
 
-#include "JXStringCompletionMenu.h"
-#include "JXTEBase.h"
-#include "JXFontManager.h"
-#include "jXConstants.h"
-#include <JStringIterator.h>
-#include <jASCIIConstants.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXStringCompletionMenu.h"
+#include "jx-af/jx/JXTEBase.h"
+#include "jx-af/jx/JXFontManager.h"
+#include "jx-af/jx/jXConstants.h"
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kMaxItemCount = 100;
 

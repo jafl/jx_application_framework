@@ -8,13 +8,13 @@
 
  *****************************************************************************/
 
-#include <JTestManager.h>
-#include <JInterpolate.h>
-#include <JRegex.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jcore/JInterpolate.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JStringMatch.h>
 #include <locale.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

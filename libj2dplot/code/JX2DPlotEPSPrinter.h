@@ -10,8 +10,8 @@
 #ifndef _H_JX2DPlotEPSPrinter
 #define _H_JX2DPlotEPSPrinter
 
-#include <JXEPSPrinter.h>
-#include "JX2DPlotPrintEPSDialog.h"		// need def of Unit
+#include <jx-af/jx/JXEPSPrinter.h>
+#include "jx-af/j2dplot/JX2DPlotPrintEPSDialog.h"		// need def of Unit
 
 class JX2DPlotEPSPrinter : public JXEPSPrinter
 {

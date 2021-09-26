@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include "JXRegexInput.h"
-#include <JRegex.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXRegexInput.h"
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

@@ -10,11 +10,11 @@
 #ifndef _H_JFileArrayIndex
 #define _H_JFileArrayIndex
 
-#include "JContainer.h"
-#include "JFAIndex.h"
-#include "JFAID.h"
-#include "JArray.h"
-#include "jFStreamUtil.h"
+#include "jx-af/jcore/JContainer.h"
+#include "jx-af/jcore/JFAIndex.h"
+#include "jx-af/jcore/JFAID.h"
+#include "jx-af/jcore/JArray.h"
+#include "jx-af/jcore/jFStreamUtil.h"
 
 class JFileArray;
 

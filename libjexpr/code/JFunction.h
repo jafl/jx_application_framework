@@ -10,8 +10,8 @@
 #ifndef _H_JFunction
 #define _H_JFunction
 
-#include <JComplex.h>
-#include <JRect.h>
+#include <jx-af/jcore/JComplex.h>
+#include <jx-af/jcore/JRect.h>
 
 class JString;
 class JFontManager;

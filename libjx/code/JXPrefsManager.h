@@ -8,8 +8,8 @@
 #ifndef _H_JXPrefsManager
 #define _H_JXPrefsManager
 
-#include <JPrefsManager.h>
-#include "JXDocumentManager.h"	// need definition of SafetySaveReason
+#include <jx-af/jcore/JPrefsManager.h>
+#include "jx-af/jx/JXDocumentManager.h"	// need definition of SafetySaveReason
 
 class JXPrefsManager : public JPrefsManager
 {

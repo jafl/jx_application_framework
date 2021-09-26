@@ -1,14 +1,10 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-JX_ROOT := ../..
+JX_ROOT      := ../..
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 
-# Directories to search for header files
-
-SEARCHDIRS := -I${JX_ROOT}/include/jcore
-
-# other constants
-
+APP_NAME   := jxlayout
 SCRIPTS    := jfdesign convert_gravity
 DATA_FILES := class_map option_map need_font_list need_string_list need_create_list
 
@@ -18,17 +14,16 @@ else
   ROOT_DATA_FILE_DIR := ${JXLAYOUTDIR}
 endif
 
+include ${MAKE_INCLUDE}/jx_config
+
 # makemake variables
 
-include ${JX_ROOT}/include/make/jx_config
-
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
-               -DCONFIG_FILE_DIR=\"${ROOT_DATA_FILE_DIR}/\" \
-               ${SEARCHDIRS}
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS} \
+               -DCONFIG_FILE_DIR=\"${ROOT_DATA_FILE_DIR}/\"
 
 # library dependencies
 
-LIB_DEPS := ${JX_ROOT}/lib/libjcore.a
+LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a
 
 # make variables
 
@@ -37,52 +32,19 @@ LDFLAGS :=
 
 #####
 
-.PHONY : default
-default: libs jxlayout
-
-.PHONY : Makefiles
-Makefiles:
-
-include ${JX_ROOT}/include/make/app_targets
-
-#
-# required libraries
-#
-
-.PHONY : libs
-libs::
-	@cd ${JCORELIBDIR}; ${MAKE}
+include ${MAKE_INCLUDE}/app_targets
 
 #
 # install binaries
 #
 
-.PHONY : jxinstall
-jxinstall: jxlayout
-	@strip ${call EXE, jxlayout}
-	@chmod a+x ${SCRIPTS}
-  ifneq (${J_WANT_INSTALL},0)
-	@cp jxlayout ${JX_INSTALL_ROOT}/
-	@cp jfdesign ${JX_INSTALL_ROOT}/
-   ifeq (${shell whoami},root)
-	@mkdir -p ${ROOT_DATA_FILE_DIR}/
-   endif
-	@if [[ -d ${ROOT_DATA_FILE_DIR}/ ]]; then \
-       cp ${DATA_FILES} ${ROOT_DATA_FILE_DIR}/; \
-     fi
-  endif
+.PHONY : install
+install::
+	@cp jxlayout jfdesign ${JX_INSTALL_ROOT}/bin
+	@mkdir -p ${ROOT_DATA_FILE_DIR}
+	@cp ${DATA_FILES} ${ROOT_DATA_FILE_DIR}
 
-.PHONY : jxuninstall
-jxuninstall:
-	@${RM} ${addprefix ${JX_INSTALL_ROOT}/, jxlayout jfdesign}
-  ifeq (${shell whoami},root)
-	@${RM} -r ${ROOT_DATA_FILE_DIR}/
-  endif
-
-#
-# personal install
-#
-
-.PHONY : personal
-personal: jxinstall
-	@cp ${DATA_FILES} ${JXLAYOUTDIR}/
+.PHONY : uninstall
+uninstall::
+	@${RM} ${addprefix ${JX_INSTALL_ROOT}/bin, jxlayout jfdesign}
+	@${RM} -r ${ROOT_DATA_FILE_DIR}

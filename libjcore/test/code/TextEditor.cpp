@@ -12,8 +12,8 @@
 #include "TextEditor.h"
 #include "TestFontManager.h"
 #include "TestPainter.h"
-#include <JTestManager.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

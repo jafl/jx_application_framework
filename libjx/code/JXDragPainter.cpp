@@ -13,13 +13,13 @@
 
  ******************************************************************************/
 
-#include "JXDragPainter.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXGC.h"
+#include "jx-af/jx/JXDragPainter.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXGC.h"
 #include <string.h>
-#include <jMath.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

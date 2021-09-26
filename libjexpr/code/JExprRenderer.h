@@ -10,7 +10,7 @@
 #ifndef _H_JExprRenderer
 #define _H_JExprRenderer
 
-#include <JRect.h>
+#include <jx-af/jcore/JRect.h>
 
 class JString;
 class JUtf8Character;

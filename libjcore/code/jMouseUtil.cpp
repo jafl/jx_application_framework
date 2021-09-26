@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jMouseUtil.h"
-#include "jAssert.h"
+#include "jx-af/jcore/jMouseUtil.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  JMouseMoved

@@ -10,8 +10,8 @@
 #ifndef _H_JTableSelectionIterator
 #define _H_JTableSelectionIterator
 
-#include "JBroadcaster.h"
-#include "JRect.h"
+#include "jx-af/jcore/JBroadcaster.h"
+#include "jx-af/jcore/JRect.h"
 
 class JTableSelection;
 

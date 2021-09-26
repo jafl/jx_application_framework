@@ -8,10 +8,10 @@
 #ifndef _H_jXEventUtil
 #define _H_jXEventUtil
 
-#include <JUtf8Character.h>
-#include <JPoint.h>
-#include "JXButtonStates.h"
-#include "JXKeyModifiers.h"
+#include <jx-af/jcore/JUtf8Character.h>
+#include <jx-af/jcore/JPoint.h>
+#include "jx-af/jx/JXButtonStates.h"
+#include "jx-af/jx/JXKeyModifiers.h"
 
 class JXDisplay;
 

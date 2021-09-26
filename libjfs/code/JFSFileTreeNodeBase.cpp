@@ -9,9 +9,9 @@
 
  *****************************************************************************/
 
-#include "JFSFileTreeNodeBase.h"
-#include "JFSFileTree.h"
-#include <jAssert.h>
+#include "jx-af/jfs/JFSFileTreeNodeBase.h"
+#include "jx-af/jfs/JFSFileTree.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

@@ -8,18 +8,18 @@
  ******************************************************************************/
 
 #include "TestTabDirector.h"
-#include <JXWindow.h>
-#include <JXTabGroup.h>
-#include <JXTextButton.h>
-#include <JXIntegerInput.h>
-#include <JXFontNameMenu.h>
-#include <JXFontSizeMenu.h>
-#include <JXChooseMonoFont.h>
-#include <JXRadioGroup.h>
-#include <JXTextRadioButton.h>
-#include <JXFontManager.h>
-#include <jXGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTabGroup.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXIntegerInput.h>
+#include <jx-af/jx/JXFontNameMenu.h>
+#include <jx-af/jx/JXFontSizeMenu.h>
+#include <jx-af/jx/JXChooseMonoFont.h>
+#include <jx-af/jx/JXRadioGroup.h>
+#include <jx-af/jx/JXTextRadioButton.h>
+#include <jx-af/jx/JXFontManager.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

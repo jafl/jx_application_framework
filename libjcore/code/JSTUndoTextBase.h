@@ -10,7 +10,7 @@
 #ifndef _H_JTEUndoTextBase
 #define _H_JTEUndoTextBase
 
-#include "JSTUndoBase.h"
+#include "jx-af/jcore/JSTUndoBase.h"
 
 class JSTUndoTextBase : public JSTUndoBase
 {

@@ -29,30 +29,30 @@
 
  ******************************************************************************/
 
-#include "JXMenu.h"
-#include "JXMenuData.h"
-#include "JXMenuDirector.h"
-#include "JXMenuTable.h"
-#include "JXMenuBar.h"
-#include "JXMenuManager.h"
+#include "jx-af/jx/JXMenu.h"
+#include "jx-af/jx/JXMenuData.h"
+#include "jx-af/jx/JXMenuDirector.h"
+#include "jx-af/jx/JXMenuTable.h"
+#include "jx-af/jx/JXMenuBar.h"
+#include "jx-af/jx/JXMenuManager.h"
 
-#include "JXDisplay.h"
-#include "JXWindowDirector.h"
-#include "JXWindowPainter.h"
-#include "JXWindow.h"
-#include "JXImage.h"
-#include "JXColorManager.h"
-#include "jXPainterUtil.h"
-#include "jXGlobals.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindowDirector.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include "jx-af/jx/jXGlobals.h"
 
-#include <JFontManager.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <jMath.h>
-#include <jStreamUtil.h>
-#include <jDirUtil.h>
-#include <jFStreamUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JStringMatch.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 JXMenu::Style JXMenu::theDefaultStyle = JXMenu::kMacintoshStyle;
 JXMenu::Style JXMenu::theDisplayStyle = JXMenu::kWindowsStyle;
@@ -392,7 +392,7 @@ JXMenu::SetShortcuts
 	w->InstallShortcuts(this, list);
 
 	#define LabelVarName	itsTitle
-	#include "JXUpdateShortcutIndex.th"
+	#include "jx-af/jx/JXUpdateShortcutIndex.th"
 	#undef LabelVarName
 
 	Refresh();

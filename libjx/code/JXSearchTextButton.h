@@ -8,7 +8,7 @@
 #ifndef _H_JXSearchTextButton
 #define _H_JXSearchTextButton
 
-#include "JXButton.h"
+#include "jx-af/jx/JXButton.h"
 
 class JXSearchTextButton : public JXButton
 {

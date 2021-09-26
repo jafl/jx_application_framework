@@ -33,8 +33,8 @@
 
  *****************************************************************************/
 
-#include "JErrorState.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JErrorState.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Constructor

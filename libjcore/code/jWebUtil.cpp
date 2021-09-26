@@ -7,16 +7,16 @@
 
  ******************************************************************************/
 
-#include "jWebUtil.h"
-#include "JVersionSocket.h"
-#include "JRegex.h"
-#include "JStringMatch.h"
-#include "JWebBrowser.h"
-#include "jGlobals.h"
+#include "jx-af/jcore/jWebUtil.h"
+#include "jx-af/jcore/JVersionSocket.h"
+#include "jx-af/jcore/JRegex.h"
+#include "jx-af/jcore/JStringMatch.h"
+#include "jx-af/jcore/JWebBrowser.h"
+#include "jx-af/jcore/jGlobals.h"
 #include <ace/Connector.h>
 #include <ace/SOCK_Connector.h>
-#include "jErrno.h"
-#include "jAssert.h"
+#include "jx-af/jcore/jErrno.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  JIsURL

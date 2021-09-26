@@ -10,7 +10,7 @@
 #ifndef _H_JXTLWAdjustToTreeTask
 #define _H_JXTLWAdjustToTreeTask
 
-#include "JXUrgentTask.h"
+#include "jx-af/jx/JXUrgentTask.h"
 
 class JXTreeListWidget;
 

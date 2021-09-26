@@ -10,7 +10,7 @@
 #ifndef _H_JXIdleTask
 #define _H_JXIdleTask
 
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 #include <X11/Xlib.h>
 
 class JXIdleTask

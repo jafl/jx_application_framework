@@ -10,7 +10,7 @@
 #ifndef _H_TestMDIServer
 #define _H_TestMDIServer
 
-#include <JXMDIServer.h>
+#include <jx-af/jx/JXMDIServer.h>
 
 class TestMDIServer : public JXMDIServer
 {

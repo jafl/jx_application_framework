@@ -1,19 +1,12 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-JX_ROOT := ..
+JX_ROOT      := ..
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 
-# Directories to search for header files
-
-SEARCHDIRS := -I./code \
-              -I${JX_ROOT}/include/jcore \
-              -I${JX_ROOT}/include/jx \
-              -I${JX_ROOT}/include/jexpr
+include ${MAKE_INCLUDE}/jx_config
 
 # makemake variables
-
-include ${JX_ROOT}/include/make/jx_config
-include ${JX_ROOT}/include/make/j2dplot_constants
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 
@@ -25,7 +18,7 @@ LDFLAGS   :=
 #####
 
 LIB_NAME_ROOT := libj2dplot
-include ${JX_ROOT}/include/make/lib_targets
+include ${MAKE_INCLUDE}/lib_targets
 
 .PHONY : Makefiles
 Makefiles:
@@ -39,10 +32,12 @@ Makefiles:
 .PHONY : tidy
 tidy::
 	@cd test; ${MAKE} tidy
+	@cd testui; ${MAKE} tidy
 
 .PHONY : clean
 clean::
 	@cd test; ${MAKE} clean
+	@cd testui; ${MAKE} clean
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

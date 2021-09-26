@@ -1,7 +1,6 @@
-JX_ROOT  := ..
+JX_ROOT := ..
 
-include ${JX_ROOT}/include/make/jx_constants
-include ${JX_ROOT}/include/make/jx_config
+include ${JX_INCLUDE_ROOT}/jx-af/make/jx_config
 
 ACE_MAKE_FLAGS := exceptions=0 shared_libs=0 static_libs=1
 
@@ -27,8 +26,8 @@ END_ACE_MAKE = \
 # ACE library
 #
 
-.PHONY : jxinstall
-jxinstall:
+.PHONY : default
+default:
 	@if [[ -x ACE_wrappers/bin/mwc.pl && \
            ! -f ${ACE_ROOT}/ace/Makefile && \
            ! -f ${ACE_ROOT}/ace/GNUmakefile ]]; \
@@ -36,8 +35,19 @@ jxinstall:
          cd ACE_wrappers; ./bin/mwc.pl -type gnuace ACE.mwc; \
      fi
 	@${BEGIN_ACE_MAKE} ${ACE_DEBUG} ${ACE_MAKE_FLAGS} ${END_ACE_MAKE}
+
+.PHONY : install
+install: default
   ifeq ($(shell whoami),root)
-	cp ACE_wrappers/ace/libACE.a ${JX_LIB_ROOT}/libACE.a; \
+	@if { ! test -L ACE_wrappers; } \
+     then { cp ACE_wrappers/ace/libACE.a ${JX_INSTALL_ROOT}/lib; } fi
+  endif
+
+.PHONY : uninstall
+uninstall:
+  ifeq ($(shell whoami),root)
+	@if { ! test -L ACE_wrappers; } \
+     then { ${RM} ${JX_INSTALL_ROOT}/lib/libACE.a; } fi
   endif
 
 #
@@ -55,10 +65,3 @@ clean::
 	@if { ! test -L ACE_wrappers; } \
      then { ${BEGIN_ACE_MAKE} realclean shared_libs=1 static_libs=1 ${END_ACE_MAKE}; } fi
 	@cd test; ${MAKE} clean
-
-.PHONY : jxuninstall
-jxuninstall:
-  ifeq ($(shell whoami),root)
-	@if { ! test -L ACE_wrappers; } \
-     then { ${RM} ${JX_LIB_ROOT}/libACE.*; } fi
-  endif

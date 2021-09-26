@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include "JXSlider.h"
-#include "JXWindowPainter.h"
-#include "JXColorManager.h"
-#include "jXPainterUtil.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXSlider.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kThumbHalfSize  = 5;
 const JSize kTrackHalfWidth = 3;

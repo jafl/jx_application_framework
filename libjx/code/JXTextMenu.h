@@ -10,9 +10,9 @@
 #ifndef _H_JXTextMenu
 #define _H_JXTextMenu
 
-#include "JXMenu.h"
-#include <JFont.h>
-#include "JXPM.h"
+#include "jx-af/jx/JXMenu.h"
+#include <jx-af/jcore/JFont.h>
+#include "jx-af/jcore/JXPM.h"
 
 class JXTextMenuData;
 class JXImage;

@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
-#include <JStack.h>
-#include <JArray.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jcore/JStack.h>
+#include <jx-af/jcore/JArray.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

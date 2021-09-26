@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include "JBroadcastTester.h"
-#include "JTestManager.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JBroadcastTester.h"
+#include "jx-af/jcore/JTestManager.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Constructor

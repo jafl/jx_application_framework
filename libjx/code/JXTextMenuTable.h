@@ -10,8 +10,8 @@
 #ifndef _H_JXTextMenuTable
 #define _H_JXTextMenuTable
 
-#include "JXMenuTable.h"
-#include "jXConstants.h"	// need definition of kJXDefaultBorderWidth
+#include "jx-af/jx/JXMenuTable.h"
+#include "jx-af/jx/jXConstants.h"	// need definition of kJXDefaultBorderWidth
 
 class JFont;
 class JXTextMenuData;

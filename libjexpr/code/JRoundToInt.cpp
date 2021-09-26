@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include <JRoundToInt.h>
-#include <jMath.h>
-#include <jErrno.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JRoundToInt.h"
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jErrno.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

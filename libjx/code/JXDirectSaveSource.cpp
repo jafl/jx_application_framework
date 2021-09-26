@@ -10,17 +10,17 @@
 
  ******************************************************************************/
 
-#include "JXDirectSaveSource.h"
-#include "JXDSSSelection.h"
-#include "JXDSSFinishSaveTask.h"
-#include "JXDNDManager.h"
-#include "JXSelectionManager.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXInputField.h"
-#include "JXImageCache.h"
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXDirectSaveSource.h"
+#include "jx-af/jx/JXDSSSelection.h"
+#include "jx-af/jx/JXDSSFinishSaveTask.h"
+#include "jx-af/jx/JXDNDManager.h"
+#include "jx-af/jx/JXSelectionManager.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXInputField.h"
+#include "jx-af/jx/JXImageCache.h"
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 #include <jx_plain_file_small.xpm>
 

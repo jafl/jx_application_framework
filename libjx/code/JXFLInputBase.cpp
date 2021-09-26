@@ -9,15 +9,15 @@
 
  ******************************************************************************/
 
-#include "JXFLInputBase.h"
-#include "JXFileListTable.h"
-#include "JXFileListSet.h"
-#include "JXWindow.h"
-#include "JXStringHistoryMenu.h"
-#include "JXFontManager.h"
-#include <jASCIIConstants.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXFLInputBase.h"
+#include "jx-af/jx/JXFileListTable.h"
+#include "jx-af/jx/JXFileListSet.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXStringHistoryMenu.h"
+#include "jx-af/jx/JXFontManager.h"
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

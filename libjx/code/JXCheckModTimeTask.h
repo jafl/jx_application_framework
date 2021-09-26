@@ -8,9 +8,9 @@
 #ifndef _H_JXCheckModTimeTask
 #define _H_JXCheckModTimeTask
 
-#include "JXIdleTask.h"
-#include <JBroadcaster.h>
-#include <JString.h>
+#include "jx-af/jx/JXIdleTask.h"
+#include <jx-af/jcore/JBroadcaster.h>
+#include <jx-af/jcore/JString.h>
 
 class JXCheckModTimeTask : public JXIdleTask, virtual public JBroadcaster
 {

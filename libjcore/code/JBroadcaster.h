@@ -10,7 +10,7 @@
 #ifndef _H_JBroadcaster
 #define _H_JBroadcaster
 
-#include "JRTTIBase.h"
+#include "jx-af/jcore/JRTTIBase.h"
 
 class JBroadcasterList;
 class JPointerClearList;

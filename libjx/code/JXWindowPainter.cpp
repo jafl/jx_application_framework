@@ -12,16 +12,16 @@
 
  ******************************************************************************/
 
-#include "JXWindowPainter.h"
-#include "JXDisplay.h"
-#include "JXGC.h"
-#include "JXColorManager.h"
-#include "JXImage.h"
-#include "JXImagePainter.h"
-#include "jXUtil.h"
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXGC.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXImagePainter.h"
+#include "jx-af/jx/jXUtil.h"
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JStringMatch.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

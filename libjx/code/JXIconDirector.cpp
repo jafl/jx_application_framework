@@ -10,12 +10,12 @@
 
  ******************************************************************************/
 
-#include "JXIconDirector.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXWindowIcon.h"
-#include "JXImage.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXIconDirector.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXWindowIcon.h"
+#include "jx-af/jx/JXImage.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

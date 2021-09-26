@@ -18,12 +18,12 @@
 
  ******************************************************************************/
 
-#include "JXFileHistoryMenu.h"
-#include "JXImageCache.h"
-#include "JXDisplay.h"
-#include <jFileUtil.h>
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXFileHistoryMenu.h"
+#include "jx-af/jx/JXImageCache.h"
+#include "jx-af/jx/JXDisplay.h"
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 #include <jx_plain_file_small.xpm>
 

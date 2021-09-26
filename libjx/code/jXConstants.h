@@ -10,7 +10,7 @@
 #ifndef _H_jXConstants
 #define _H_jXConstants
 
-#include <JFontStyle.h>
+#include <jx-af/jcore/JFontStyle.h>
 #include <X11/X.h>
 
 const JCoordinate kJXDefaultBorderWidth = 2;

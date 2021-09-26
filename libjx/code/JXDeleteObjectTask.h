@@ -8,8 +8,8 @@
 #ifndef _H_JXDeleteObjectTask
 #define _H_JXDeleteObjectTask
 
-#include "JXIdleTask.h"
-#include <JBroadcaster.h>
+#include "jx-af/jx/JXIdleTask.h"
+#include <jx-af/jcore/JBroadcaster.h>
 
 template <class T>
 class JXDeleteObjectTask : public JXIdleTask, virtual public JBroadcaster

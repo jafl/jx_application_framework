@@ -10,8 +10,8 @@
 #ifndef _H_J2DPlotData
 #define _H_J2DPlotData
 
-#include "J2DPlotDataBase.h"
-#include <JArray.h>
+#include "jx-af/j2dplot/J2DPlotDataBase.h"
+#include <jx-af/jcore/JArray.h>
 
 class J2DPlotData : public J2DPlotDataBase
 {

@@ -8,7 +8,7 @@
 #ifndef _H_JXVIKeyHandler
 #define _H_JXVIKeyHandler
 
-#include <JVIKeyHandler.h>
+#include <jx-af/jcore/JVIKeyHandler.h>
 
 class JXTEBase;
 

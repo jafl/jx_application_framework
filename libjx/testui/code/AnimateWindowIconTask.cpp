@@ -9,12 +9,12 @@
 
 #include "AnimateWindowIconTask.h"
 #include "WindowIconBitmaps.h"
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXImageMask.h>
-#include <JColorManager.h>
-#include <JKLRand.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXImageMask.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/JKLRand.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kSillyIconPeriod = 500;		// 0.5 seconds (milliseconds)
 

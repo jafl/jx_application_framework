@@ -10,7 +10,7 @@
 
  ******************************************************************************/
 
-#include "JUserNotification.h"
+#include "jx-af/jcore/JUserNotification.h"
 
 bool JUserNotification::theBreakCROnlyFlag = false;
 

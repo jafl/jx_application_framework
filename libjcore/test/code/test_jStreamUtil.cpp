@@ -7,13 +7,13 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
-#include <jStreamUtil.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jcore/jStreamUtil.h>
 #include <fstream>
 #include <sstream>
 #include <fcntl.h>
 #include <unistd.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

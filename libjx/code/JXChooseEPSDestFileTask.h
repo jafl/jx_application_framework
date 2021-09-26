@@ -8,8 +8,8 @@
 #ifndef _H_JXChooseEPSDestFileTask
 #define _H_JXChooseEPSDestFileTask
 
-#include "JXUrgentTask.h"
-#include <JBroadcaster.h>
+#include "jx-af/jx/JXUrgentTask.h"
+#include <jx-af/jcore/JBroadcaster.h>
 
 class JXEPSPrintSetupDialog;
 

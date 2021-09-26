@@ -8,7 +8,7 @@
 #ifndef _H_WindowIconBitmaps
 #define _H_WindowIconBitmaps
 
-#include <JConstBitmap.h>
+#include <jx-af/jcore/JConstBitmap.h>
 
 extern JConstBitmap kWindowIcon;
 extern JConstBitmap kWindowIconMask;

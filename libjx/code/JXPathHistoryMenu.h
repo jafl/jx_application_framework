@@ -10,8 +10,8 @@
 #ifndef _H_JXPathHistoryMenu
 #define _H_JXPathHistoryMenu
 
-#include "JXStringHistoryMenu.h"
-#include <JString.h>
+#include "jx-af/jx/JXStringHistoryMenu.h"
+#include <jx-af/jcore/JString.h>
 
 class JXPathHistoryMenu : public JXStringHistoryMenu
 {

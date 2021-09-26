@@ -7,21 +7,21 @@
 
  ******************************************************************************/
 
-#include "JX2DCursorMarkTable.h"
+#include "jx-af/j2dplot/JX2DCursorMarkTable.h"
 
-#include <JXWindowDirector.h>
-#include <JXWindow.h>
+#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jx/JXWindow.h>
 
-#include "J2DPlotWidget.h"
+#include "jx-af/j2dplot/J2DPlotWidget.h"
 
-#include <JPagePrinter.h>
-#include <JFontManager.h>
-#include <JColorManager.h>
+#include <jx-af/jcore/JPagePrinter.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JColorManager.h>
 
-#include <jGlobals.h>
-#include <JMinMax.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/JMinMax.h>
 
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kDefColWidth  = 120;
 const JCoordinate kHMarginWidth = 5;

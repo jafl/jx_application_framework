@@ -10,7 +10,7 @@
 #ifndef _H_JXTextMenuTable
 #define _H_JXTextMenuTable
 
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 
 class JString;
 class JFont;

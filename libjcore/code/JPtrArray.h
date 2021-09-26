@@ -10,8 +10,8 @@
 #ifndef _H_JPtrArray
 #define _H_JPtrArray
 
-#include "JArray.h"
-#include "JArrayIterator.h"
+#include "jx-af/jcore/JArray.h"
+#include "jx-af/jcore/JArrayIterator.h"
 
 struct JPtrArrayT
 {

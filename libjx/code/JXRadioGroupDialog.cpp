@@ -10,15 +10,15 @@
 
  ******************************************************************************/
 
-#include "JXRadioGroupDialog.h"
-#include "JXWindow.h"
-#include "JXTextButton.h"
-#include "JXRadioGroup.h"
-#include "JXTextRadioButton.h"
-#include "JXStaticText.h"
-#include <jGlobals.h>
-#include <JMinMax.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXRadioGroupDialog.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXTextButton.h"
+#include "jx-af/jx/JXRadioGroup.h"
+#include "jx-af/jx/JXTextRadioButton.h"
+#include "jx-af/jx/JXStaticText.h"
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kFirstItemTop     = 20;
 const JCoordinate kItemVDelta       = 10;

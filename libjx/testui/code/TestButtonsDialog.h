@@ -10,7 +10,7 @@
 #ifndef _H_TestButtonsDialog
 #define _H_TestButtonsDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXRadioGroup;
 class JXTextCheckbox;

@@ -8,8 +8,8 @@
 #ifndef _H_jMountUtil
 #define _H_jMountUtil
 
-#include "JPtrArray-JString.h"
-#include "JError.h"
+#include "jx-af/jcore/JPtrArray-JString.h"
+#include "jx-af/jcore/JError.h"
 
 class JProcess;
 

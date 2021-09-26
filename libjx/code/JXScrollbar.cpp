@@ -29,19 +29,19 @@
 
  ******************************************************************************/
 
-#include "JXScrollbar.h"
-#include "JXScrolltab.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXTextMenu.h"
-#include "JXWindowPainter.h"
-#include "JXColorManager.h"
-#include "jXPainterUtil.h"
-#include <jStreamUtil.h>
-#include <JMinMax.h>
-#include <jTime.h>
-#include <jMath.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXScrollbar.h"
+#include "jx-af/jx/JXScrolltab.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXTextMenu.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kMinThumbLength       = 12;
 //const JSize kScaleThumbShrink           = 5;

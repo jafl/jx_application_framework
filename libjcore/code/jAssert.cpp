@@ -5,8 +5,8 @@
 
  ******************************************************************************/
 
-#include "jAssert.h"
-#include "jGlobals.h"
+#include "jx-af/jcore/jAssert.h"
+#include "jx-af/jcore/jGlobals.h"
 
 int
 JAssert

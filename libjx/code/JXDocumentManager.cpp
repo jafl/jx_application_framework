@@ -48,19 +48,19 @@
 
  ******************************************************************************/
 
-#include "JXDocumentManager.h"
-#include "JXFileDocument.h"
-#include "JXDocumentMenu.h"
-#include "JXUpdateDocMenuTask.h"
-#include "JXTimerTask.h"
-#include "JXImage.h"
-#include "JXImageCache.h"
-#include "JXDisplay.h"
-#include "JXColorManager.h"
-#include "jXGlobals.h"
-#include <jFileUtil.h>
+#include "jx-af/jx/JXDocumentManager.h"
+#include "jx-af/jx/JXFileDocument.h"
+#include "jx-af/jx/JXDocumentMenu.h"
+#include "jx-af/jx/JXUpdateDocMenuTask.h"
+#include "jx-af/jx/JXTimerTask.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXImageCache.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jFileUtil.h>
 #include <algorithm>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 #include <jx_plain_file_small.xpm>
 

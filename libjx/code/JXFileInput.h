@@ -8,7 +8,7 @@
 #ifndef _H_JXFileInput
 #define _H_JXFileInput
 
-#include "JXFSInputBase.h"
+#include "jx-af/jx/JXFSInputBase.h"
 
 class JXFileInput : public JXFSInputBase
 {

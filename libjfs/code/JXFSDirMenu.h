@@ -8,7 +8,7 @@
 #ifndef _H_JXFSDirMenu
 #define _H_JXFSDirMenu
 
-#include <JXTextMenu.h>
+#include <jx-af/jx/JXTextMenu.h>
 
 class JDirInfo;
 class JDirEntry;

@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include "JXCloseDirectorTask.h"
-#include "JXDirector.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXCloseDirectorTask.h"
+#include "jx-af/jx/JXDirector.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Close (static)

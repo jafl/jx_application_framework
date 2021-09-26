@@ -11,27 +11,28 @@
 
  ******************************************************************************/
 
-#include "JXDirTable.h"
-#include <JDirInfo.h>
+#include "jx-af/jx/JXDirTable.h"
+#include <jx-af/jcore/JDirInfo.h>
 
-#include "JXWindow.h"
-#include "JXWindowPainter.h"
-#include "JXImage.h"
-#include "JXImageCache.h"
-#include "JXColorManager.h"
-#include "JXSelectionManager.h"
-#include "JXDNDManager.h"
-#include "JXTimerTask.h"
-#include "jXGlobals.h"
-#include "jXUtil.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXImageCache.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/JXSelectionManager.h"
+#include "jx-af/jx/JXDNDManager.h"
+#include "jx-af/jx/JXTimerTask.h"
+#include "jx-af/jx/jXGlobals.h"
+#include "jx-af/jx/jXUtil.h"
 
-#include <JTableSelection.h>
-#include <JString.h>
-#include <JFontManager.h>
-#include <jDirUtil.h>
-#include <jFileUtil.h>
-#include <jASCIIConstants.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jAssert.h>
 
 #include <jx_plain_file_small.xpm>
 #include <jx_folder_small.xpm>

@@ -8,20 +8,20 @@
  ******************************************************************************/
 
 #include "TestInputFieldsDialog.h"
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXFloatInput.h>
-#include <JXIntegerInput.h>
-#include <JXPasswordInput.h>
-#include <JXCharInput.h>
-#include <JXPathInput.h>
-#include <JXFileInput.h>
-#include <JXStaticText.h>
-#include <jXGlobals.h>
-#include <JFontManager.h>
-#include <JColorManager.h>
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXFloatInput.h>
+#include <jx-af/jx/JXIntegerInput.h>
+#include <jx-af/jx/JXPasswordInput.h>
+#include <jx-af/jx/JXCharInput.h>
+#include <jx-af/jx/JXPathInput.h>
+#include <jx-af/jx/JXFileInput.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

@@ -10,7 +10,7 @@
 #ifndef _H_JXCheckbox
 #define _H_JXCheckbox
 
-#include "JXWidget.h"
+#include "jx-af/jx/JXWidget.h"
 
 class JXCheckbox : public JXWidget
 {

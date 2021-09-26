@@ -1,26 +1,53 @@
 # should be included after defining "default" target
 #
-# requires that jx_config_common has already been included
+# requires that jx_config has already been included
 
-SHELL=/bin/bash
+J_DISTR_TAR_DIR := ..
+
+.PHONY : default
+default: libs all
+
+.PHONY : Makefiles
+Makefiles::
+
+#
+# Libraries (const LIB_DEPS)
+#
 
 .PHONY : libs
-libs::
+libs:
 	@for dep in ${LIB_DEPS}; do \
        lib=$${dep##*/}; \
        dir=$${lib%.a}; \
        path=${JX_ROOT}/$$dir; \
-       if ! ( if cd $$path; then ${MAKE}; fi ); then exit 1; fi \
+       if ! ( if test -d $$path && cd $$path; then ${MAKE}; fi ); then exit 1; fi \
      done;
 
 #
-# Strings (const STRINGDIR)
+# Install (const APP_NAME, const JX_INSTALL_ROOT)
+#
+
+.PHONY : install
+install:: ${APP_NAME}
+	@${J_STRIP_DEBUG} ${call EXE, ${APP_NAME}}
+	@cp ${APP_NAME} ${JX_INSTALL_ROOT}/bin
+
+.PHONY : uninstall
+uninstall::
+	@${RM} ${JX_INSTALL_ROOT}/bin/${APP_NAME}
+
+#
+# Strings (const STRINGDIR, const SIGNATURE)
 #
 
 .PHONY : build_version_string
 build_version_string:
 	@rm -f strings/version
 	@echo -e '0\nVERSION "'`cat release/VERSION`'"' > strings/version
+
+.PHONY : stringdb
+stringdb:
+	compile_jstrings ${J_STRING_FILES} --db ${SIGNATURE}_us
 
 #
 # Building packages

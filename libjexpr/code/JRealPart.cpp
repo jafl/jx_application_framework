@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JRealPart.h>
-#include <jMath.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JRealPart.h"
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

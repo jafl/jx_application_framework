@@ -10,9 +10,9 @@
 #ifndef _H_JXMenuData
 #define _H_JXMenuData
 
-#include <JContainer.h>
-#include "JXMenu.h"		// need defn of ItemType, UpdateAction
-#include <JArray.h>
+#include <jx-af/jcore/JContainer.h>
+#include "jx-af/jx/JXMenu.h"		// need defn of ItemType, UpdateAction
+#include <jx-af/jcore/JArray.h>
 
 class JString;
 

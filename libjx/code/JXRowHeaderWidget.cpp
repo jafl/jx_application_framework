@@ -14,17 +14,17 @@
 
  ******************************************************************************/
 
-#include "JXRowHeaderWidget.h"
-#include "JXWindow.h"
-#include "JXScrollbarSet.h"
-#include "JXScrollbar.h"
-#include "JXDragPainter.h"
-#include "JXFontManager.h"
-#include "JXColorManager.h"
-#include "jXPainterUtil.h"
-#include "jXGlobals.h"
-#include <JString.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXRowHeaderWidget.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXScrollbarSet.h"
+#include "jx-af/jx/JXScrollbar.h"
+#include "jx-af/jx/JXDragPainter.h"
+#include "jx-af/jx/JXFontManager.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kCellFrameWidth            = kJXDefaultBorderWidth;
 const JCoordinate kDragRegionHalfWidth = 2;

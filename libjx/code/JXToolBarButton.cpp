@@ -9,17 +9,17 @@
 
  *****************************************************************************/
 
-#include "JXToolBar.h"
-#include "JXToolBarButton.h"
-#include "JXHintDirector.h"
-#include "JXTextMenu.h"
-#include "JXImage.h"
-#include "JXColorManager.h"
-#include "JXWindowPainter.h"
-#include "jXGlobals.h"
-#include "jXPainterUtil.h"
-#include <JFontManager.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXToolBar.h"
+#include "jx-af/jx/JXToolBarButton.h"
+#include "jx-af/jx/JXHintDirector.h"
+#include "jx-af/jx/JXTextMenu.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/jXGlobals.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kLabelBuffer = 10;
 const JCoordinate kDualBuffer  = 5;

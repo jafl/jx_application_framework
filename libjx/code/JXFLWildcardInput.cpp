@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include "JXFLWildcardInput.h"
-#include <JDirInfo.h>
-#include <JString.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXFLWildcardInput.h"
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

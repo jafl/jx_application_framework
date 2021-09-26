@@ -8,7 +8,7 @@
 #ifndef _H_FunctionUtil
 #define _H_FunctionUtil
 
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 
 class JString;
 class JFunction;

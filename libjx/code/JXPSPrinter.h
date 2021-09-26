@@ -10,7 +10,7 @@
 #ifndef _H_JXPSPrinter
 #define _H_JXPSPrinter
 
-#include <JPSPrinter.h>
+#include <jx-af/jcore/JPSPrinter.h>
 
 class JXDisplay;
 class JXPSPrintSetupDialog;

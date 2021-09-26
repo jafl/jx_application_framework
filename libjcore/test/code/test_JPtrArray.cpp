@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
-#include <JPtrArray-JString.h>
-#include <JBroadcastTester.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/JBroadcastTester.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

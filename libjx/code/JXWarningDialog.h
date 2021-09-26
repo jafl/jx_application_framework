@@ -10,7 +10,7 @@
 #ifndef _H_JXWarningDialog
 #define _H_JXWarningDialog
 
-#include "JXUNDialogBase.h"
+#include "jx-af/jx/JXUNDialogBase.h"
 
 class JXWarningDialog : public JXUNDialogBase
 {

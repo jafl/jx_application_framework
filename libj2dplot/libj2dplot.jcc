@@ -119,7 +119,7 @@ F
 ""
 "make -k all"
 # search paths
-T "../include/make/" T
+T "../include/" T
 T "../libjcore/code/" T
 T "../libjexpr/code/" T
 T "../libjx/code/" T

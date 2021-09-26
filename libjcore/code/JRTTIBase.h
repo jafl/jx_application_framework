@@ -10,7 +10,7 @@
 #ifndef _H_JRTTIBase
 #define _H_JRTTIBase
 
-#include "jTypes.h"
+#include "jx-af/jcore/jTypes.h"
 
 class JRTTIBase
 {

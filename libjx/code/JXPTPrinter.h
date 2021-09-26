@@ -8,8 +8,8 @@
 #ifndef _H_JXPTPrinter
 #define _H_JXPTPrinter
 
-#include <JPTPrinter.h>
-#include <JString.h>
+#include <jx-af/jcore/JPTPrinter.h>
+#include <jx-af/jcore/JString.h>
 
 class JXPTPrintSetupDialog;
 class JXPTPageSetupDialog;

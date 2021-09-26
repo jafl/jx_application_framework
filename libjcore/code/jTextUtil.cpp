@@ -7,15 +7,15 @@
 
  ******************************************************************************/
 
-#include "jTextUtil.h"
-#include "JStyledText.h"
-#include "JStringIterator.h"
-#include "JRegex.h"
-#include "jStreamUtil.h"
-#include "JFontManager.h"
-#include "JColorManager.h"
-#include "jGlobals.h"
-#include "jAssert.h"
+#include "jx-af/jcore/jTextUtil.h"
+#include "jx-af/jcore/JStyledText.h"
+#include "jx-af/jcore/JStringIterator.h"
+#include "jx-af/jcore/JRegex.h"
+#include "jx-af/jcore/jStreamUtil.h"
+#include "jx-af/jcore/JFontManager.h"
+#include "jx-af/jcore/JColorManager.h"
+#include "jx-af/jcore/jGlobals.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  JCalcWSFont

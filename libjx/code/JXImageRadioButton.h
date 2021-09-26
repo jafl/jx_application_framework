@@ -10,10 +10,10 @@
 #ifndef _H_JXImageRadioButton
 #define _H_JXImageRadioButton
 
-#include "JXRadioButton.h"
-#include "jXConstants.h"
-#include <JConstBitmap.h>
-#include "JXPM.h"
+#include "jx-af/jx/JXRadioButton.h"
+#include "jx-af/jx/jXConstants.h"
+#include <jx-af/jcore/JConstBitmap.h>
+#include "jx-af/jcore/JXPM.h"
 
 class JXImage;
 

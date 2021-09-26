@@ -8,7 +8,7 @@
 #ifndef _H_JSTStyler
 #define _H_JSTStyler
 
-#include "JStyledText.h"
+#include "jx-af/jcore/JStyledText.h"
 #include <FlexLexer.h>
 
 class JSTStyler

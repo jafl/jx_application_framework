@@ -25,22 +25,22 @@
 
  ******************************************************************************/
 
-#include "JDirInfo.h"
-#include "JStringIterator.h"
-#include "JStringMatch.h"
-#include "JRegex.h"
-#include "JLatentPG.h"
-#include "JStdError.h"
+#include "jx-af/jcore/JDirInfo.h"
+#include "jx-af/jcore/JStringIterator.h"
+#include "jx-af/jcore/JStringMatch.h"
+#include "jx-af/jcore/JRegex.h"
+#include "jx-af/jcore/JLatentPG.h"
+#include "jx-af/jcore/JStdError.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <limits.h>
-#include "jDirUtil.h"
-#include "jVCSUtil.h"
-#include "jTime.h"
-#include "jGlobals.h"
+#include "jx-af/jcore/jDirUtil.h"
+#include "jx-af/jcore/jVCSUtil.h"
+#include "jx-af/jcore/jTime.h"
+#include "jx-af/jcore/jGlobals.h"
 #include <ace/OS_NS_sys_stat.h>
-#include "jAssert.h"
+#include "jx-af/jcore/jAssert.h"
 
 // Broadcaster messages types
 

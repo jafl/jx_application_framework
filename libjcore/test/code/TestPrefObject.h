@@ -8,7 +8,7 @@
 #ifndef _H_TestPrefObject
 #define _H_TestPrefObject
 
-#include <JPrefObject.h>
+#include <jx-af/jcore/JPrefObject.h>
 
 class TestPrefObject : public JPrefObject
 {

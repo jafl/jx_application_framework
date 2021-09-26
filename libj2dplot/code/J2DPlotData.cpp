@@ -7,8 +7,8 @@
 
  ********************************************************************************/
 
-#include "J2DPlotData.h"
-#include <jAssert.h>
+#include "jx-af/j2dplot/J2DPlotData.h"
+#include <jx-af/jcore/jAssert.h>
 
 /*********************************************************************************
  Create

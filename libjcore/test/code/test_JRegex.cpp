@@ -8,10 +8,10 @@
 
  *****************************************************************************/
 
-#include <JTestManager.h>
-#include <JRegex.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jcore/JRegex.h>
 #include <locale.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

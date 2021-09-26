@@ -10,7 +10,7 @@
 #ifndef _H_JXPTPageSetupDialog
 #define _H_JXPTPageSetupDialog
 
-#include "JXDialogDirector.h"
+#include "jx-af/jx/JXDialogDirector.h"
 
 class JXPTPrinter;
 class JXTextButton;

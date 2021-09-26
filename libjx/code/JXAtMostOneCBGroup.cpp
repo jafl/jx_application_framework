@@ -11,11 +11,11 @@
 
  ******************************************************************************/
 
-#include "JXAtMostOneCBGroup.h"
-#include "JXCheckbox.h"
-#include <JMinMax.h>
+#include "jx-af/jx/JXAtMostOneCBGroup.h"
+#include "jx-af/jx/JXCheckbox.h"
+#include <jx-af/jcore/JMinMax.h>
 #include <stdarg.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

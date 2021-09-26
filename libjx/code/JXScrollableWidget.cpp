@@ -19,21 +19,22 @@
 
  ******************************************************************************/
 
-#include "JXScrollableWidget.h"
-#include "JXAdjustScrollbarTask.h"
-#include "JXScrollbarSet.h"
-#include "JXScrollbar.h"
-#include "JXMenu.h"
-#include "JXWindow.h"
-#include "JXWindowPainter.h"
-#include "JXColorManager.h"
-#include "jXPainterUtil.h"
-#include "jXGlobals.h"
-#include <JMinMax.h>
-#include <jMath.h>
-#include <jASCIIConstants.h>
-#include <jStreamUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXScrollableWidget.h"
+#include "jx-af/jx/JXAdjustScrollbarTask.h"
+#include "jx-af/jx/JXScrollbarSet.h"
+#include "jx-af/jx/JXScrollbar.h"
+#include "jx-af/jx/JXMenu.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JFloat kSingleStepFraction    = 0.1;
 const JFloat kOSXSingleStepFraction = 0.02;

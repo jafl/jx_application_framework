@@ -10,7 +10,7 @@
 #ifndef _H_JBroadcastSnooper
 #define _H_JBroadcastSnooper
 
-#include "JBroadcaster.h"
+#include "jx-af/jcore/JBroadcaster.h"
 
 class JBroadcastSnooper : virtual public JBroadcaster
 {

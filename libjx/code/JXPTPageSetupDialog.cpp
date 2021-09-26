@@ -10,21 +10,21 @@
 
  ******************************************************************************/
 
-#include "JXPTPageSetupDialog.h"
-#include "JXPTPrinter.h"
-#include "JXWindow.h"
-#include "JXTextButton.h"
-#include "JXTextCheckbox.h"
-#include "JXIntegerInput.h"
-#include "JXStaticText.h"
-#include "JXChooseSaveFile.h"
-#include "jXGlobals.h"
-#include <JString.h>
-#include <jProcessUtil.h>
-#include <jFileUtil.h>
-#include <jFStreamUtil.h>
+#include "jx-af/jx/JXPTPageSetupDialog.h"
+#include "jx-af/jx/JXPTPrinter.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXTextButton.h"
+#include "jx-af/jx/JXTextCheckbox.h"
+#include "jx-af/jx/JXIntegerInput.h"
+#include "jx-af/jx/JXStaticText.h"
+#include "jx-af/jx/JXChooseSaveFile.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
 #include <stdio.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor function (static)

@@ -10,17 +10,17 @@
 #include "TestStrTableDirector.h"
 #include "TestStringTable.h"
 
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXScrollbarSet.h>
-#include <JXRowHeaderWidget.h>
-#include <JXColHeaderWidget.h>
-#include <JXPSPrinter.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXRowHeaderWidget.h>
+#include <jx-af/jx/JXColHeaderWidget.h>
+#include <jx-af/jx/JXPSPrinter.h>
 
-#include <JStringTableData.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JStringTableData.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 // File menu information
 

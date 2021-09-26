@@ -8,7 +8,7 @@
 #ifndef _H_HelpMenuBitmaps
 #define _H_HelpMenuBitmaps
 
-#include <JConstBitmap.h>
+#include <jx-af/jcore/JConstBitmap.h>
 
 const JSize kHelpIconCount      = 11;
 const JIndex kGreyOutIcon1Index = 9;

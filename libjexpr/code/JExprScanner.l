@@ -3,10 +3,10 @@
 Copyright (C) 2018 by John Lindal.
 */
 
-#include "JFunction.h"
-#include <JPtrArray-JString.h>
+#include "jx-af/jexpr/JFunction.h"
+#include <jx-af/jcore/JPtrArray-JString.h>
 #include "JExprParserY.hpp"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 #define NEW_TOKEN \
 	lvalp->pString = jnew JString(text(), size()); \

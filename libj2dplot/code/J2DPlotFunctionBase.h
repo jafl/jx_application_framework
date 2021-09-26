@@ -10,8 +10,8 @@
 #ifndef _H_JPlotFunctionBase
 #define _H_JPlotFunctionBase
 
-#include "J2DPlotDataBase.h"
-#include <JArray.h>
+#include "jx-af/j2dplot/J2DPlotDataBase.h"
+#include <jx-af/jcore/JArray.h>
 
 class JString;
 class J2DPlotWidget;

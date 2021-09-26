@@ -10,8 +10,8 @@
 #ifndef _H_JXDirector
 #define _H_JXDirector
 
-#include <JBroadcaster.h>
-#include <JPtrArray.h>
+#include <jx-af/jcore/JBroadcaster.h>
+#include <jx-af/jcore/JPtrArray.h>
 
 class JXDirector : virtual public JBroadcaster
 {

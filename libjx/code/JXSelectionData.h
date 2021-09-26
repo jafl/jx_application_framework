@@ -8,7 +8,7 @@
 #ifndef _H_JXSelectionData
 #define _H_JXSelectionData
 
-#include <JPtrArray-JString.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 

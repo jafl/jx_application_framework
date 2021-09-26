@@ -14,11 +14,11 @@
 
  ******************************************************************************/
 
-#include "JXCurrentPathMenu.h"
-#include "JXImageCache.h"
-#include "JXDisplay.h"
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXCurrentPathMenu.h"
+#include "jx-af/jx/JXImageCache.h"
+#include "jx-af/jx/JXDisplay.h"
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 #include <jx_folder_small.xpm>
 #include <jx_folder_read_only_small.xpm>

@@ -10,7 +10,7 @@
 #ifndef _H_JFloatTableData
 #define _H_JFloatTableData
 
-#include "JValueTableData.h"
+#include "jx-af/jcore/JValueTableData.h"
 
 class JFloatTableData : public JValueTableData<JArray<JFloat>,JFloat>
 {

@@ -10,7 +10,7 @@
 #ifndef _H_JXCreatePG
 #define _H_JXCreatePG
 
-#include <JCreateProgressDisplay.h>
+#include <jx-af/jcore/JCreateProgressDisplay.h>
 
 class JXCreatePG : public JCreateProgressDisplay
 {

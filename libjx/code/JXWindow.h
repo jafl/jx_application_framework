@@ -10,11 +10,11 @@
 #ifndef _H_JXWindow
 #define _H_JXWindow
 
-#include "JXContainer.h"
-#include "JXCursor.h"
+#include "jx-af/jx/JXContainer.h"
+#include "jx-af/jx/JXCursor.h"
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <JString.h>
+#include <jx-af/jcore/JString.h>
 
 class JXDisplay;
 class JXGC;

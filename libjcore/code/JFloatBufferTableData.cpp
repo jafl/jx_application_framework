@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include "JFloatBufferTableData.h"
-#include "JFloatTableData.h"
-#include "JString.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JFloatBufferTableData.h"
+#include "jx-af/jcore/JFloatTableData.h"
+#include "jx-af/jcore/JString.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Constructor

@@ -46,11 +46,11 @@
 
  *****************************************************************************/
 
-#include "JRegex.h"
-#include "JStringIterator.h"
-#include "JMinMax.h"
+#include "jx-af/jcore/JRegex.h"
+#include "jx-af/jcore/JStringIterator.h"
+#include "jx-af/jcore/JMinMax.h"
 #include <pcreposix.h>	// for regmatch_t
-#include "jAssert.h"
+#include "jx-af/jcore/jAssert.h"
 
 // Debugging:
 //#define JRE_ALLOC_CHECK

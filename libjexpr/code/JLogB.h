@@ -10,7 +10,7 @@
 #ifndef _H_JLogB
 #define _H_JLogB
 
-#include <JBinaryFunction.h>
+#include "jx-af/jexpr/JBinaryFunction.h"
 
 class JLogB : public JBinaryFunction
 {

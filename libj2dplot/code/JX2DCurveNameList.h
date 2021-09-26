@@ -8,8 +8,8 @@
 #ifndef _H_JX2DCurveNameList
 #define _H_JX2DCurveNameList
 
-#include <JXEditTable.h>
-#include "J2DCurveInfo.h"
+#include <jx-af/jx/JXEditTable.h>
+#include "jx-af/j2dplot/J2DCurveInfo.h"
 
 class JXInputField;
 

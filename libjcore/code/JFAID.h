@@ -10,7 +10,7 @@
 #ifndef _H_JFAID
 #define _H_JFAID
 
-#include "jTypes.h"
+#include "jx-af/jcore/jTypes.h"
 
 // Since ID's are permanent, using only 32 bits guarantees that files can be
 // transferred from 64 to 32 bit machines.  GetUniqueID() will never return

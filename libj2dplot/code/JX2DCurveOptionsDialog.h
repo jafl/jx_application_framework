@@ -8,8 +8,8 @@
 #ifndef _H_JX2DCurveOptionsDialog
 #define _H_JX2DCurveOptionsDialog
 
-#include <JXDialogDirector.h>
-#include "J2DCurveInfo.h"
+#include <jx-af/jx/JXDialogDirector.h>
+#include "jx-af/j2dplot/J2DCurveInfo.h"
 
 class JString;
 class JXTextButton;

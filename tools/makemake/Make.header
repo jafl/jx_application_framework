@@ -1,98 +1,54 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
+JX_ROOT      := ../..
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 
-JX_ROOT := ../..
-
-CODEDIR  := .
-JCOREDIR := ${JX_ROOT}/include/jcore
-PCREDIR  := ${JX_ROOT}/misc/pcre-8.37
-
-JLIBDIR     := ${JX_ROOT}/lib
-JCORELIBDIR := ${JX_ROOT}/libjcore
-
-# Directories to search for header files
-
-SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR} \
-              ${shell xml2-config --cflags}
-
-# other constants
-
+APP_NAME     := makemake
 SCRIPT_FILES := maketouch makecheck
-DISTR_FILES  := README makemake ${SCRIPT_FILES}
+DISTR_FILES  := README.md makemake ${SCRIPT_FILES}
 
-# makemake variables
-
-include ${JX_ROOT}/include/make/jx_constants
-include ${JX_ROOT}/include/make/jx_config
-
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${J_RANLIB_VIA_AR_S} \
-               -DJ_MAKE_BINARY_NAME=\"${firstword ${MAKE}}\" \
-               ${SEARCHDIRS}
+include make_shared
 
 # library dependencies
 
-LIB_DEPS := ${JX_ROOT}/lib/libjcore.a
+LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a
 
 # make variables
 
 LOADLIBES := ${J_ACE_LIBS} ${J_GCC_LIBS}
+LDFLAGS   := 
 
 #####
 
-.PHONY : default
-default: libs makemake
-
-.PHONY : Makefiles
-Makefiles:
-
-include ${JX_ROOT}/include/make/app_targets
-
-#
-# required libraries
-#
-
-.PHONY : libs
-libs::
-	@cd ${JCORELIBDIR}; ${MAKE}
+include ${MAKE_INCLUDE}/app_targets
 
 #
 # install binaries
 #
 
-.PHONY : jxinstall
-jxinstall: makemake
-	@strip ${call EXE, makemake}
-	@cp makemake ${JX_INSTALL_ROOT}/
+.PHONY : install
+install::
 	@chmod a+x ${SCRIPT_FILES}
-	@cp ${SCRIPT_FILES} ${JX_INSTALL_ROOT}/
+	@cp ${SCRIPT_FILES} ${JX_INSTALL_ROOT}/bin
 
-.PHONY : jxuninstall
-jxuninstall:
-	@${RM} ${addprefix ${JX_INSTALL_ROOT}/, makemake ${SCRIPT_FILES}}
+.PHONY : uninstall
+uninstall::
+	@${RM} ${addprefix ${JX_INSTALL_ROOT}/bin, ${SCRIPT_FILES}}
 
 #
-# jcc binary distribution (JCC_TAR_DIR)
+# jcc binary distribution (const JCC_TAR_DIR)
 #
 
 JCC_FILE_DIR := ${JCC_TAR_DIR}/makemake
 
 .PHONY : jcc
-jcc: debug
-	@strip ${call EXE, makemake}
+jcc: ${APP_NAME}
+	@${J_STRIP_DEBUG} ${call EXE, ${APP_NAME}}
 	@mkdir ${JCC_FILE_DIR}
 	@cp ${DISTR_FILES} ${JCC_FILE_DIR}/
 	@cp Make.header ${JCC_FILE_DIR}/Make.header_sample
 	@cp Make.files  ${JCC_FILE_DIR}/Make.files_sample
-
-#
-# personal install
-#
-
-.PHONY : personal
-personal: jxinstall
 
 ### makemake inserts here ###
 

@@ -8,9 +8,9 @@
 #ifndef _H_JUnitTestManager
 #define _H_JUnitTestManager
 
-#include "JString.h"
+#include "jx-af/jcore/JString.h"
 #include <sstream>
-#include <jMath.h>
+#include "jx-af/jcore/jMath.h"
 
 class JTestManager;
 class JError;

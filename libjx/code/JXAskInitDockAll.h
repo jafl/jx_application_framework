@@ -8,8 +8,8 @@
 #ifndef _H_JXAskInitDockAll
 #define _H_JXAskInitDockAll
 
-#include "JXIdleTask.h"
-#include <JBroadcaster.h>
+#include "jx-af/jx/JXIdleTask.h"
+#include <jx-af/jcore/JBroadcaster.h>
 
 class JXDirector;
 

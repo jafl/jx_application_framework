@@ -9,13 +9,13 @@
 
  ******************************************************************************/
 
-#include "JXImageMenu.h"
-#include "JXImageMenuData.h"
-#include "JXImageMenuDirector.h"
-#include "JXImage.h"
-#include "JXImageCache.h"
-#include "JXDisplay.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXImageMenu.h"
+#include "jx-af/jx/JXImageMenuData.h"
+#include "jx-af/jx/JXImageMenuDirector.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXImageCache.h"
+#include "jx-af/jx/JXDisplay.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

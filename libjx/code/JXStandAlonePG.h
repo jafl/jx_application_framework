@@ -11,7 +11,7 @@
 #ifndef _H_JXStandAlonePG
 #define _H_JXStandAlonePG
 
-#include "JXProgressDisplay.h"
+#include "jx-af/jx/JXProgressDisplay.h"
 
 class JXPGDirectorBase;
 

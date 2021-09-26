@@ -10,9 +10,9 @@
 #ifndef _H_JXTextMenuData
 #define _H_JXTextMenuData
 
-#include "JXMenuData.h"
-#include <JFontStyle.h>
-#include <JRunArray.h>
+#include "jx-af/jx/JXMenuData.h"
+#include <jx-af/jcore/JFontStyle.h>
+#include <jx-af/jcore/JRunArray.h>
 
 class JXImage;
 class JXTextMenu;

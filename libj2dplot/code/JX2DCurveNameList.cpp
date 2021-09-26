@@ -7,16 +7,16 @@
 
  *****************************************************************************/
 
-#include "JX2DCurveNameList.h"
-#include <JXInputField.h>
-#include <JFontManager.h>
-#include <JColorManager.h>
-#include <JPainter.h>
-#include <JTableSelection.h>
-#include <jASCIIConstants.h>
-#include <JMinMax.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/j2dplot/JX2DCurveNameList.h"
+#include <jx-af/jx/JXInputField.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kHMarginWidth = 3;
 const JCoordinate kVMarginWidth = 1;

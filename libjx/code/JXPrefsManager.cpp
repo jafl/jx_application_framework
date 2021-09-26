@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include "JXPrefsManager.h"
-#include "JXChooseSaveFile.h"
-#include "JXTimerTask.h"
-#include "jXGlobals.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXPrefsManager.h"
+#include "jx-af/jx/JXChooseSaveFile.h"
+#include "jx-af/jx/JXTimerTask.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jAssert.h>
 
 const Time kSafetySaveInterval = 15 * 60 * 1000;	// 15 minutes (ms)
 

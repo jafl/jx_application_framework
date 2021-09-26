@@ -14,22 +14,22 @@
 
  ******************************************************************************/
 
-#include "JXTipOfTheDayDialog.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXTextButton.h"
-#include "JXTextCheckbox.h"
-#include "JXScrollbarSet.h"
-#include "JXStaticText.h"
-#include "JXImageWidget.h"
-#include "JXFlatRect.h"
-#include "JXImage.h"
-#include "JXColorManager.h"
-#include "JXFontManager.h"
-#include "jXGlobals.h"
-#include <jTextUtil.h>
-#include <JKLRand.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXTipOfTheDayDialog.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXTextButton.h"
+#include "jx-af/jx/JXTextCheckbox.h"
+#include "jx-af/jx/JXScrollbarSet.h"
+#include "jx-af/jx/JXStaticText.h"
+#include "jx-af/jx/JXImageWidget.h"
+#include "jx-af/jx/JXFlatRect.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/JXFontManager.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jTextUtil.h>
+#include <jx-af/jcore/JKLRand.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kDelimiter = "=====";
 

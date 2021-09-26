@@ -1,16 +1,14 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-JX_ROOT := ..
+JX_ROOT      := ..
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 
-# Directories to search for header files
+include ${MAKE_INCLUDE}/jx_config
 
-SEARCHDIRS := -I./code \
-              ${shell xml2-config --cflags}
+SEARCHDIRS += ${shell xml2-config --cflags}
 
 # makemake variables
-
-include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 
@@ -22,7 +20,7 @@ LDFLAGS   :=
 #####
 
 LIB_NAME_ROOT := libjcore
-include ${JX_ROOT}/include/make/lib_targets
+include ${MAKE_INCLUDE}/lib_targets
 
 .PHONY : Makefiles
 Makefiles:

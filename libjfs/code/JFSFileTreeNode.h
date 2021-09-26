@@ -8,7 +8,7 @@
 #ifndef _H_JFSFileTreeNode
 #define _H_JFSFileTreeNode
 
-#include "JFSFileTreeNodeBase.h"
+#include "jx-af/jfs/JFSFileTreeNodeBase.h"
 
 class JError;
 class JDirInfo;

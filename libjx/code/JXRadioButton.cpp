@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include "JXRadioButton.h"
-#include "JXRadioGroup.h"
-#include "JXWindow.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXRadioButton.h"
+#include "jx-af/jx/JXRadioGroup.h"
+#include "jx-af/jx/JXWindow.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor (protected)

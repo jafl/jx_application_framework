@@ -10,10 +10,10 @@
 #ifndef _H_JXFileDocument
 #define _H_JXFileDocument
 
-#include "JXDocument.h"
-#include <JString.h>
-#include <JError.h>
-#include <jTime.h>
+#include "jx-af/jx/JXDocument.h"
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JError.h>
+#include <jx-af/jcore/jTime.h>
 
 class JChooseSaveFile;
 

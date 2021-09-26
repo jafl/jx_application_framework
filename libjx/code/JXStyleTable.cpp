@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include "JXStyleTable.h"
-#include "JXInputField.h"
-#include "JXColorManager.h"
-#include <JStyleTableData.h>
-#include <JFontManager.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXStyleTable.h"
+#include "jx-af/jx/JXInputField.h"
+#include "jx-af/jx/JXColorManager.h"
+#include <jx-af/jcore/JStyleTableData.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kDefColWidth = 100;
 const JSize kMin1DVisCharCount = 5;

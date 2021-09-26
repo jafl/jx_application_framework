@@ -7,17 +7,17 @@
 
  ******************************************************************************/
 
-#include "JX2DCurveOptionsDialog.h"
-#include "JX2DCurveNameList.h"
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXRadioGroup.h>
-#include <JXTextRadioButton.h>
-#include <JXStaticText.h>
-#include <JXTextCheckbox.h>
-#include <JXScrollbarSet.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/j2dplot/JX2DCurveOptionsDialog.h"
+#include "jx-af/j2dplot/JX2DCurveNameList.h"
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXRadioGroup.h>
+#include <jx-af/jx/JXTextRadioButton.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

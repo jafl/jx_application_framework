@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "JXButtonStates.h"
+#include "jx-af/jx/JXButtonStates.h"
 #include <algorithm>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

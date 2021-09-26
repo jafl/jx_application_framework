@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
+#include <jx-af/jcore/JTestManager.h>
 #include "jListTestUtil.h"
-#include <JAliasArray.h>
-#include <JArray.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JAliasArray.h>
+#include <jx-af/jcore/JArray.h>
+#include <jx-af/jcore/jAssert.h>
 
 #define verifyalias(str, list)	JAssertStringsEqual(str, JPrintAliasArray(list));
 

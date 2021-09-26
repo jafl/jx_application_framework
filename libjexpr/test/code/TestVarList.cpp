@@ -10,12 +10,12 @@
  ******************************************************************************/
 
 #include "TestVarList.h"
-#include <JUserInputFunction.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <jStreamUtil.h>
-#include <jMath.h>
-#include <jAssert.h>
+#include <jx-af/jexpr/JUserInputFunction.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JStringMatch.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

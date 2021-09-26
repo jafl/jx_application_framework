@@ -12,7 +12,7 @@
 #ifndef _H_JErrorState
 #define _H_JErrorState
 
-#include "JError.h"
+#include "jx-af/jcore/JError.h"
 
 class JErrorState
 {

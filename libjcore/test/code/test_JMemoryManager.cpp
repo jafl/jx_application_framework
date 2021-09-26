@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
-#include <JKLRand.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jcore/JKLRand.h>
 #include <thread>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kThreadCount = 100;
 const JSize kDataCount   = 1000;

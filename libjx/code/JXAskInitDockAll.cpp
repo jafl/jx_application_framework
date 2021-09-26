@@ -11,11 +11,11 @@
 
  ******************************************************************************/
 
-#include "JXAskInitDockAll.h"
-#include "JXDockManager.h"
-#include "JXDirector.h"
-#include "jXGlobals.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXAskInitDockAll.h"
+#include "jx-af/jx/JXDockManager.h"
+#include "jx-af/jx/JXDirector.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

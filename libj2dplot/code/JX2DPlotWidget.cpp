@@ -5,35 +5,35 @@
 
  ******************************************************************************/
 
-#include "JX2DPlotWidget.h"
-#include "JX2DPlotLabelDialog.h"
-#include "JX2DPlotScaleDialog.h"
-#include "JX2DPlotRangeDialog.h"
-#include "JX2DCurveOptionsDialog.h"
-#include "JX2DCursorMarkTableDir.h"
-#include "JX2DCursorMarkTable.h"
-#include "JX2DPlotEPSPrinter.h"
-#include "J2DPlotDataBase.h"
+#include "jx-af/j2dplot/JX2DPlotWidget.h"
+#include "jx-af/j2dplot/JX2DPlotLabelDialog.h"
+#include "jx-af/j2dplot/JX2DPlotScaleDialog.h"
+#include "jx-af/j2dplot/JX2DPlotRangeDialog.h"
+#include "jx-af/j2dplot/JX2DCurveOptionsDialog.h"
+#include "jx-af/j2dplot/JX2DCursorMarkTableDir.h"
+#include "jx-af/j2dplot/JX2DCursorMarkTable.h"
+#include "jx-af/j2dplot/JX2DPlotEPSPrinter.h"
+#include "jx-af/j2dplot/J2DPlotDataBase.h"
 
-#include <JXWindowPainter.h>
-#include <JXWindowDirector.h>
-#include <JXDragPainter.h>
-#include <JXColorManager.h>
-#include <JXTextMenu.h>
-#include <JXMenuBar.h>
-#include <JXFontSizeMenu.h>
-#include <JXFontNameMenu.h>
-#include <JXWindow.h>
-#include <JXDisplay.h>
-#include <JXPSPrinter.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jx/JXDragPainter.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXFontSizeMenu.h>
+#include <jx-af/jx/JXFontNameMenu.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXPSPrinter.h>
 
-#include <JXCursor.h>
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
-#include <jXGlobals.h>
+#include <jx-af/jx/JXCursor.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/jXConstants.h>
+#include <jx-af/jx/jXGlobals.h>
 
-#include <JString.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 // setup information
 

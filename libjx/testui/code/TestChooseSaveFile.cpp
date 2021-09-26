@@ -11,8 +11,8 @@
 
 #include "TestChooseSaveFile.h"
 #include "TestSaveFileDialog.h"
-#include <JDirInfo.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

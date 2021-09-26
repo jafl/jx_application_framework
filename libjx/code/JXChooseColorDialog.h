@@ -10,8 +10,8 @@
 #ifndef _H_JXChooseColorDialog
 #define _H_JXChooseColorDialog
 
-#include "JXDialogDirector.h"
-#include <jColor.h>
+#include "jx-af/jx/JXDialogDirector.h"
+#include <jx-af/jcore/jColor.h>
 
 class JXSlider;
 class JXIntegerInput;

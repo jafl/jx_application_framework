@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "JXCursor.h"
-#include "JXDisplay.h"
+#include "jx-af/jx/JXCursor.h"
+#include "jx-af/jx/JXDisplay.h"
 
 /******************************************************************************
  Invisible cursor

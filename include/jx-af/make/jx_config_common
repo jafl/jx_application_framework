@@ -27,7 +27,7 @@ J_COMPILER_DEPEND_FLAGS_FOR_BISON := ${J_RAW_SYSTEM_STUFF}
 J_COMPILER_DEPEND_FLAGS := \
   ${J_COMPILER_DEPEND_FLAGS_FOR_BISON} -Wall -Werror
 
-SEARCHDIRS += -I${JX_ROOT}/include/image/jx
+SEARCHDIRS += -I${JX_INCLUDE_ROOT}/jx-af/image/jx
 
 ifdef ACE_ROOT
   SEARCHDIRS += -I${ACE_ROOT}
@@ -38,14 +38,47 @@ J_IMG_LIBS := -lgd -lpng -ljpeg
 J_STD_LIBS := ${J_IMG_LIBS} ${J_X11_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
 
 #
-# strip commands -- no spaces allowed
+# flex
 #
 
-ifdef J_CYGWIN
-  EXE=${1}.exe
-else
-  EXE=${1}
-endif
+LEX    := reflex
+LFLAGS := 
+
+# Change rule from .c to .cpp
+
+%.c : %.l
+
+%.cpp : %.l
+	${LEX} ${LFLAGS} --outfile=$@ --header-file=$(subst .l,.h,$<) $<
+
+#
+# bison
+#
+
+YACC   := bison
+YFLAGS := -d
+
+# Change rule from .c to .cpp
+
+%.c : %.y
+
+%.cpp %.hpp : %.y
+	@if test -e $*.hpp; then mv $*.hpp $*.hpp_old; fi
+	@if ! ${YACC} ${YFLAGS} -o $*.cpp $<; then \
+       if test -e $*.hpp_old; then mv $*.hpp_old $*.hpp; fi; \
+       false; fi
+	@if test -e $*.tab.h; then mv $*.tab.h $*.hpp; \
+     elif test -e $*.cpp.h; then mv $*.cpp.h $*.hpp; fi
+	@if test -e $*.hpp_old -a -z "`diff $*.hpp $*.hpp_old 2> /dev/null`"; \
+     then mv $*.hpp_old $*.hpp; \
+     else rm -f $*.hpp_old; fi
+	@${JX_INCLUDE_ROOT}/jx-af/scripts/fix_bison_output.pl $*.cpp
+
+#
+# tar
+#
+
+TAR := tar --exclude '*/.xvpics*'
 
 #
 # useful functions

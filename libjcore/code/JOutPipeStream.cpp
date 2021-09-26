@@ -9,9 +9,9 @@
 
  *****************************************************************************/
 
-#include "JOutPipeStream.h"
-#include "jStreamUtil.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JOutPipeStream.h"
+#include "jx-af/jcore/jStreamUtil.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Constructor

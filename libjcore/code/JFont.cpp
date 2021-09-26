@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include "JFont.h"
-#include "JFontManager.h"
-#include "JStringIterator.h"
-#include "jGlobals.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JFont.h"
+#include "jx-af/jcore/JFontManager.h"
+#include "jx-af/jcore/JStringIterator.h"
+#include "jx-af/jcore/jGlobals.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Set

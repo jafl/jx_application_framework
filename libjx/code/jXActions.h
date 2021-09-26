@@ -10,7 +10,7 @@
 #ifndef _H_jXActions
 #define _H_jXActions
 
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 
 // File menu
 

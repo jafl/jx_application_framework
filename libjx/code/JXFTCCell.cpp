@@ -10,17 +10,17 @@
 
  ******************************************************************************/
 
-#include "JXFTCCell.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXWidget.h"
-#include "JXDragPainter.h"
-#include "JXDNDManager.h"
-#include <JColorManager.h>
-#include <JListUtil.h>
+#include "jx-af/jx/JXFTCCell.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXWidget.h"
+#include "jx-af/jx/JXDragPainter.h"
+#include "jx-af/jx/JXDNDManager.h"
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/JListUtil.h>
 #include <sstream>
 #include <algorithm>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor (protected)

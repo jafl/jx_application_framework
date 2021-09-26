@@ -1,23 +1,20 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-JX_ROOT := ../..
+JX_ROOT      := ../..
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 
-# Directories to search for header files
+APP_NAME := compile_jstrings
 
-SEARCHDIRS := -I${JX_ROOT}/include/jcore
+include ${MAKE_INCLUDE}/jx_config
 
 # makemake variables
 
-include ${JX_ROOT}/include/make/jx_constants
-include ${JX_ROOT}/include/make/jx_config
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
-               ${SEARCHDIRS}
+# library dependencies - do not invoke default behavior in app_targets
 
-# library dependencies
-
-LIB_DEPS := ${JX_ROOT}/lib/libjcore.a
+LIBS := ${JX_LIB_ROOT}/libjcore.a
 
 # make variables
 
@@ -26,13 +23,7 @@ LDFLAGS   :=
 
 #####
 
-.PHONY : default
-default: libs compile_jstrings
-
-.PHONY : Makefiles
-Makefiles:
-
-include ${JX_ROOT}/include/make/app_targets
+include ${MAKE_INCLUDE}/app_targets
 
 #
 # required libraries
@@ -47,23 +38,3 @@ libs::
      else \
        ${MAKE}; \
      fi
-
-#
-# install binaries
-#
-
-.PHONY : jxinstall
-jxinstall: compile_jstrings
-	@strip ${call EXE, compile_jstrings}
-	@cp compile_jstrings ${JX_INSTALL_ROOT}/
-
-.PHONY : jxuninstall
-jxuninstall:
-	@${RM} ${JX_INSTALL_ROOT}/compile_jstrings
-
-#
-# personal install
-#
-
-.PHONY : personal
-personal: jxinstall

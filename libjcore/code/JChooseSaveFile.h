@@ -10,7 +10,7 @@
 #ifndef _H_JChooseSaveFile
 #define _H_JChooseSaveFile
 
-#include "JPtrArray-JString.h"
+#include "jx-af/jcore/JPtrArray-JString.h"
 
 class JChooseSaveFile
 {

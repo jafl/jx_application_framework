@@ -9,18 +9,19 @@
 
  ******************************************************************************/
 
-#include "JXTextMenuData.h"
-#include "JXTextMenu.h"
-#include "JXTextMenuTable.h"
-#include "JXWindow.h"
-#include "JXImage.h"
-#include "jXGlobals.h"
-#include <JFontManager.h>
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <JMinMax.h>
-#include <jASCIIConstants.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXTextMenuData.h"
+#include "jx-af/jx/JXTextMenu.h"
+#include "jx-af/jx/JXTextMenuTable.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JStringMatch.h>
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jAssert.h>
 
 // JBroadcaster message types
 

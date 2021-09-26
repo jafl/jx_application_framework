@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
-#include <JUtf8Character.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jcore/JUtf8Character.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

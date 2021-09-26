@@ -39,20 +39,20 @@
 
  ******************************************************************************/
 
-#include "JXContainer.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXWindowPainter.h"
-#include "JXCursorAnimator.h"
-#include "JXCursorAnimationTask.h"
-#include "JXDNDManager.h"
-#include "JXHintManager.h"
-#include "JXFTCCell.h"
-#include "jXUtil.h"
-#include "jXGlobals.h"
-#include <JListUtil.h>
+#include "jx-af/jx/JXContainer.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXCursorAnimator.h"
+#include "jx-af/jx/JXCursorAnimationTask.h"
+#include "jx-af/jx/JXDNDManager.h"
+#include "jx-af/jx/JXHintManager.h"
+#include "jx-af/jx/JXFTCCell.h"
+#include "jx-af/jx/jXUtil.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JListUtil.h>
 #include <sstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 bool JXContainer::theDebugFTCFlag                         = false;
 bool JXContainer::theDebugHorizFTCFlag                    = false;
@@ -1927,8 +1927,8 @@ JXContainer::IsMenuTable()
 	return false;
 }
 
-#include "JXFTCCell.h"
-#include <JRange.h>
+#include "jx-af/jx/JXFTCCell.h"
+#include <jx-af/jcore/JRange.h>
 
 /******************************************************************************
  DebugExpandToFitContent (static)

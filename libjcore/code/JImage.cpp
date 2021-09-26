@@ -9,13 +9,13 @@
 
  ******************************************************************************/
 
-#include "JImage.h"
-#include "JImageMask.h"
-#include "JColorManager.h"
-#include "JStdError.h"
-#include "jFileUtil.h"
-#include "jGlobals.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JImage.h"
+#include "jx-af/jcore/JImageMask.h"
+#include "jx-af/jcore/JColorManager.h"
+#include "jx-af/jcore/JStdError.h"
+#include "jx-af/jcore/jFileUtil.h"
+#include "jx-af/jcore/jGlobals.h"
+#include "jx-af/jcore/jAssert.h"
 
 const int kGDNoTransparentColor = -1;
 const int kGDColorScale         = 65535/255;

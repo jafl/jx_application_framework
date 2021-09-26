@@ -10,7 +10,7 @@
 #ifndef _H_JFAIndex
 #define _H_JFAIndex
 
-#include "jTypes.h"
+#include "jx-af/jcore/jTypes.h"
 
 class JFAIndex
 {

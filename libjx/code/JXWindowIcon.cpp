@@ -9,13 +9,13 @@
 
  ******************************************************************************/
 
-#include "JXWindowIcon.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXWindowPainter.h"
-#include "JXImageMask.h"
+#include "jx-af/jx/JXWindowIcon.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXImageMask.h"
 #include <X11/extensions/shape.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 // JBroadcaster message types
 

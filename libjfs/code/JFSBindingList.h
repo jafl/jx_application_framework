@@ -8,10 +8,10 @@
 #ifndef _H_JFSBindingList
 #define _H_JFSBindingList
 
-#include <JContainer.h>
-#include <JPtrArray-JString.h>
-#include "JFSBinding.h"			// need defn of CommandType
-#include <JError.h>
+#include <jx-af/jcore/JContainer.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include "jx-af/jfs/JFSBinding.h"			// need defn of CommandType
+#include <jx-af/jcore/JError.h>
 
 class JFSBindingList : public JContainer
 {

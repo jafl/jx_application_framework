@@ -11,13 +11,13 @@
 
  ******************************************************************************/
 
-#include "JNegation.h"
-#include "JExprRenderer.h"
-#include "JExprRectList.h"
-#include "jFunctionUtil.h"
-#include "JDivision.h"
-#include <JString.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JNegation.h"
+#include "jx-af/jexpr/JExprRenderer.h"
+#include "jx-af/jexpr/JExprRectList.h"
+#include "jx-af/jexpr/jFunctionUtil.h"
+#include "jx-af/jexpr/JDivision.h"
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

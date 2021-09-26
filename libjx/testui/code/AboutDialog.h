@@ -10,7 +10,7 @@
 #ifndef _H_AboutDialog
 #define _H_AboutDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class AboutDialog : public JXDialogDirector
 {

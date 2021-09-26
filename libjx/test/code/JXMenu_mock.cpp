@@ -7,7 +7,7 @@
 
 #include <JXMenu_mock.h>
 #include <JXDisplay_mock.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 JXMenu::Style JXMenu::theDefaultStyle = JXMenu::kMacintoshStyle;
 JXMenu::Style JXMenu::theDisplayStyle = JXMenu::kWindowsStyle;

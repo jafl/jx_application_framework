@@ -10,10 +10,10 @@
 #ifndef _H_JXGC
 #define _H_JXGC
 
-#include <JRect.h>
-#include <jColor.h>
-#include <JFont.h>
-#include <JArray.h>
+#include <jx-af/jcore/JRect.h>
+#include <jx-af/jcore/jColor.h>
+#include <jx-af/jcore/JFont.h>
+#include <jx-af/jcore/JArray.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xft/Xft.h>

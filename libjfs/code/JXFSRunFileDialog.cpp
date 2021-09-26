@@ -7,24 +7,24 @@
 
  ******************************************************************************/
 
-#include "JXFSRunFileDialog.h"
-#include "JXFSCommandHistoryMenu.h"
-#include <JXHelpManager.h>
-#include <JXWindow.h>
-#include <JXInputField.h>
-#include <JXStaticText.h>
-#include <JXTextButton.h>
-#include <JXTextCheckbox.h>
-#include <JXWidgetSet.h>
-#include <JXChooseSaveFile.h>
-#include <JXFontManager.h>
-#include <jXGlobals.h>
-#include <jStreamUtil.h>
-#include <jFileUtil.h>
-#include <jDirUtil.h>
-#include <jTime.h>
+#include "jx-af/jfs/JXFSRunFileDialog.h"
+#include "jx-af/jfs/JXFSCommandHistoryMenu.h"
+#include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXInputField.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXWidgetSet.h>
+#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXFontManager.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jTime.h>
 #include <sstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kHistoryLength = 20;
 

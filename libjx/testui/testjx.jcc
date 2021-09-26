@@ -1,4 +1,4 @@
-jx_browser_data 88
+jx_browser_data 89
 # project tree
 0 "root"
 T
@@ -195,7 +195,7 @@ F
 "${LIB_DEPS}"
 "make -k all"
 # search paths
-T "../../include/make/" T
+T "../../include/" T
 T "../../libjcore/code/" T
 T "../../libjx/code/" T
 T "./" T

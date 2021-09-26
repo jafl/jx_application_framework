@@ -7,9 +7,9 @@
 
  *****************************************************************************/
 
-#include <JTestManager.h>
-#include <J2DPlotWidget.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/j2dplot/J2DPlotWidget.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

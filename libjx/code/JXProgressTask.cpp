@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include "JXProgressTask.h"
-#include <JLatentPG.h>
-#include <JString.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXProgressTask.h"
+#include <jx-af/jcore/JLatentPG.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kUpdateInterval = 1000;		// 1 second (milliseconds)
 

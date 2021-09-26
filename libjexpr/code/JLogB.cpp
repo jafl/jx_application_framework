@@ -9,15 +9,14 @@
 
  ******************************************************************************/
 
-#include <JLogB.h>
-#include <JExprRenderer.h>
-#include <JExprRectList.h>
-#include <JRect.h>
-#include <JString.h>
-#include <jMath.h>
-#include <jErrno.h>
-#include <string.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JLogB.h"
+#include "jx-af/jexpr/JExprRenderer.h"
+#include "jx-af/jexpr/JExprRectList.h"
+#include <jx-af/jcore/JRect.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jErrno.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

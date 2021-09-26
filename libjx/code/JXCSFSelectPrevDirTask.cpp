@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include "JXCSFSelectPrevDirTask.h"
-#include "JXDirTable.h"
-#include <JDirInfo.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXCSFSelectPrevDirTask.h"
+#include "jx-af/jx/JXDirTable.h"
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

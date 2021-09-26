@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
+#include <jx-af/jcore/JTestManager.h>
 #include "TestPainter.h"
 #include "TestFontManagerMissingGlyphs.h"
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

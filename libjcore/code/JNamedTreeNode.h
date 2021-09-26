@@ -8,8 +8,8 @@
 #ifndef _H_JNamedTreeNode
 #define _H_JNamedTreeNode
 
-#include "JTreeNode.h"
-#include "JString.h"
+#include "jx-af/jcore/JTreeNode.h"
+#include "jx-af/jcore/JString.h"
 
 class JNamedTreeList;
 

@@ -7,19 +7,19 @@
 
  ******************************************************************************/
 
-#include "JX2DPlotPrintEPSDialog.h"
-#include "J2DPlotWidget.h"
-#include <JPSPrinter.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXTextCheckbox.h>
-#include <JXStaticText.h>
-#include <JXFloatInput.h>
-#include <JXFileInput.h>
-#include <JXTextMenu.h>
-#include <jMath.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/j2dplot/JX2DPlotPrintEPSDialog.h"
+#include "jx-af/j2dplot/J2DPlotWidget.h"
+#include <jx-af/jcore/JPSPrinter.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXFloatInput.h>
+#include <jx-af/jx/JXFileInput.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Unit menu
 

@@ -8,12 +8,12 @@
  ******************************************************************************/
 
 #include "TestDockManager.h"
-#include <JXDockDirector.h>
-#include <JXHorizDockPartition.h>
-#include <JXVertDockPartition.h>
-#include <JXDockWidget.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXDockDirector.h>
+#include <jx-af/jx/JXHorizDockPartition.h>
+#include <jx-af/jx/JXVertDockPartition.h>
+#include <jx-af/jx/JXDockWidget.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

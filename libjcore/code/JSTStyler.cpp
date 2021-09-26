@@ -49,13 +49,13 @@
 
  ******************************************************************************/
 
-#include "JSTStyler.h"
-#include "JStringIterator.h"
-#include "JListUtil.h"
-#include "JMinMax.h"
-#include "jStreamUtil.h"
-#include "JStopWatch.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JSTStyler.h"
+#include "jx-af/jcore/JStringIterator.h"
+#include "jx-af/jcore/JListUtil.h"
+#include "jx-af/jcore/JMinMax.h"
+#include "jx-af/jcore/jStreamUtil.h"
+#include "jx-af/jcore/JStopWatch.h"
+#include "jx-af/jcore/jAssert.h"
 
 typedef JStyledText::TextIndex TextIndex;
 typedef JStyledText::TextCount TextCount;

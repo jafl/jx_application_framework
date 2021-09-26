@@ -10,7 +10,7 @@
 #ifndef _H_TestPopupChoiceDialog
 #define _H_TestPopupChoiceDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class TestPopupChoiceDialog : public JXDialogDirector
 {

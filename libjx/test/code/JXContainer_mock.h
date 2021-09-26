@@ -10,7 +10,7 @@
 #ifndef _H_JXContainer
 #define _H_JXContainer
 
-#include <JXKeyModifiers.h>
+#include <jx-af/jx/JXKeyModifiers.h>
 
 class JFontManager;
 class JXDisplay;

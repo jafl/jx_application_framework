@@ -7,21 +7,21 @@
 
  *****************************************************************************/
 
-#include "JXFSBindingManager.h"
-#include "JFSBindingList.h"
-#include "JXFSEditBindingsDialog.h"
-#include "JXFSRunCommandDialog.h"
-#include "JXFSRunFileDialog.h"
-#include "JXFSRunScriptDialog.h"
-#include <JXHelpManager.h>
-#include <JXTimerTask.h>
-#include <jXGlobals.h>
-#include <JSimpleProcess.h>
-#include <JListUtil.h>
-#include <jFileUtil.h>
-#include <jDirUtil.h>
-#include <jStreamUtil.h>
-#include <jAssert.h>
+#include "jx-af/jfs/JXFSBindingManager.h"
+#include "jx-af/jfs/JFSBindingList.h"
+#include "jx-af/jfs/JXFSEditBindingsDialog.h"
+#include "jx-af/jfs/JXFSRunCommandDialog.h"
+#include "jx-af/jfs/JXFSRunFileDialog.h"
+#include "jx-af/jfs/JXFSRunScriptDialog.h"
+#include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jx/JXTimerTask.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JSimpleProcess.h>
+#include <jx-af/jcore/JListUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 JXFSBindingManager* JXFSBindingManager::itsSelf = nullptr;
 

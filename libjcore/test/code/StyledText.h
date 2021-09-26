@@ -8,8 +8,8 @@
 #ifndef _H_StyledText
 #define _H_StyledText
 
-#include <JStyledText.h>
-#include <JSTStyler.h>
+#include <jx-af/jcore/JStyledText.h>
+#include <jx-af/jcore/JSTStyler.h>
 
 class StyledText : public JStyledText
 {

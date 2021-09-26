@@ -10,7 +10,7 @@
 #ifndef _H_JXRegexInput
 #define _H_JXRegexInput
 
-#include "JXInputField.h"
+#include "jx-af/jx/JXInputField.h"
 
 class JRegex;
 

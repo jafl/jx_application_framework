@@ -10,24 +10,25 @@
 #include "TestTextEditDocument.h"
 #include "TestTextEditor.h"
 
-#include <JXStyledText.h>
-#include <JXVIKeyHandler.h>
-#include <JXDocumentManager.h>
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXDocumentMenu.h>
-#include <JXHorizPartition.h>
-#include <JXScrollbarSet.h>
-#include <JXStandAlonePG.h>
-#include <JXDeleteObjectTask.h>
-#include <jXGlobals.h>
+#include <jx-af/jx/JXStyledText.h>
+#include <jx-af/jx/JXVIKeyHandler.h>
+#include <jx-af/jx/JXDocumentManager.h>
+#include "jx-af/jx/JXDisplay.h"
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXDocumentMenu.h>
+#include <jx-af/jx/JXHorizPartition.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXStandAlonePG.h>
+#include <jx-af/jx/JXDeleteObjectTask.h>
+#include <jx-af/jx/jXGlobals.h>
 
-#include <jFStreamUtil.h>
-#include <jStreamUtil.h>
-#include <jFileUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
 #include <sstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 // File menu
 

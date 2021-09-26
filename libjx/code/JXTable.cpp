@@ -9,14 +9,14 @@
 
  ******************************************************************************/
 
-#include "JXTable.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXWindowPainter.h"
-#include "JXScrollbar.h"
-#include <JTableSelection.h>
-#include <JColorManager.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXTable.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXScrollbar.h"
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor (protected)

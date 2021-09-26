@@ -10,13 +10,13 @@
 
  ******************************************************************************/
 
-#include "JXFloatTable.h"
-#include "JXFloatInput.h"
-#include <JFloatTableData.h>
-#include <JFloatBufferTableData.h>
-#include <JPainter.h>
-#include <JString.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXFloatTable.h"
+#include "jx-af/jx/JXFloatInput.h"
+#include <jx-af/jcore/JFloatTableData.h>
+#include <jx-af/jcore/JFloatBufferTableData.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kHMarginWidth = 2;
 

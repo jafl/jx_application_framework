@@ -8,8 +8,8 @@
 #ifndef _H_JXUpdateMinSizeTask
 #define _H_JXUpdateMinSizeTask
 
-#include "JXUrgentTask.h"
-#include <JBroadcaster.h>
+#include "jx-af/jx/JXUrgentTask.h"
+#include <jx-af/jcore/JBroadcaster.h>
 
 class JXDockWidget;
 

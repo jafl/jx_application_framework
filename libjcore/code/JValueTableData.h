@@ -10,8 +10,8 @@
 #ifndef _H_JValueTableData
 #define _H_JValueTableData
 
-#include "JTableData.h"
-#include "JPtrArray.h"
+#include "jx-af/jcore/JTableData.h"
+#include "jx-af/jcore/JPtrArray.h"
 
 template <class S, class T>
 class JValueTableData : public JTableData

@@ -8,7 +8,7 @@
 #ifndef _H_jStreamUtil
 #define _H_jStreamUtil
 
-#include "jTypes.h"
+#include "jx-af/jcore/jTypes.h"
 
 class JString;
 

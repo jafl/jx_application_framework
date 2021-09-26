@@ -9,15 +9,15 @@
 
 #include "TestPopupChoiceDialog.h"
 #include "SmileyBitmaps.h"
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXFontNameMenu.h>
-#include <JXFontSizeMenu.h>
-#include <JXImageMenu.h>
-#include <JXImage.h>
-#include <JXColorManager.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXFontNameMenu.h>
+#include <jx-af/jx/JXFontSizeMenu.h>
+#include <jx-af/jx/JXImageMenu.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

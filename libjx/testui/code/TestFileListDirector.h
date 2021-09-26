@@ -8,7 +8,7 @@
 #ifndef _H_TestFileListDirector
 #define _H_TestFileListDirector
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class JXTextMenu;
 class JXFileListSet;

@@ -10,8 +10,8 @@
 #ifndef _H_JXCursorAnimator
 #define _H_JXCursorAnimator
 
-#include "JXCursor.h"
-#include <JArray.h>
+#include "jx-af/jx/JXCursor.h"
+#include <jx-af/jcore/JArray.h>
 #include <X11/Xlib.h>
 
 class JXDisplay;

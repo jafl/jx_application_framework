@@ -16,11 +16,11 @@
 
  ******************************************************************************/
 
-#include "JXSharedPrefObject.h"
-#include "JXSharedPrefsManager.h"
-#include "jXGlobals.h"
+#include "jx-af/jx/JXSharedPrefObject.h"
+#include "jx-af/jx/JXSharedPrefsManager.h"
+#include "jx-af/jx/jXGlobals.h"
 #include <sstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

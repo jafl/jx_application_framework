@@ -10,8 +10,8 @@
 #ifndef _H_JXUserNotification
 #define _H_JXUserNotification
 
-#include <JUserNotification.h>
-#include <JBroadcaster.h>
+#include <jx-af/jcore/JUserNotification.h>
+#include <jx-af/jcore/JBroadcaster.h>
 
 class JXDialogDirector;
 class JXOKToCloseDialog;

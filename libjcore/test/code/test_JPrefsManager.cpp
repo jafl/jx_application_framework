@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
+#include <jx-af/jcore/JTestManager.h>
 #include "TestPrefsManager.h"
 #include "TestPrefObject.h"
-#include <jFileUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kSignature = "test-jprefsmanager";
 

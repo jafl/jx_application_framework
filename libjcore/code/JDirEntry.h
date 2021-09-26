@@ -10,9 +10,9 @@
 #ifndef _H_JDirEntry
 #define _H_JDirEntry
 
-#include "JList.h"
-#include "JError.h"
-#include "JString.h"
+#include "jx-af/jcore/JList.h"
+#include "jx-af/jcore/JError.h"
+#include "jx-af/jcore/JString.h"
 #include <sys/stat.h>
 
 #if defined WIN32 && !defined GetUserName

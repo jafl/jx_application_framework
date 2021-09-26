@@ -10,7 +10,7 @@
 #ifndef _H_JListIterator
 #define _H_JListIterator
 
-#include "JCollection.h"
+#include "jx-af/jcore/JCollection.h"
 #include <functional>
 
 // must forward declare to avoid #include loop

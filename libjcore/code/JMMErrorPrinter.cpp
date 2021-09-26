@@ -16,10 +16,10 @@
  *****************************************************************************/
 
 //Class Header
-#include "JMMErrorPrinter.h"
-#include "JMMRecord.h"
-#include "JString.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JMMErrorPrinter.h"
+#include "jx-af/jcore/JMMRecord.h"
+#include "jx-af/jcore/JString.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Constructor

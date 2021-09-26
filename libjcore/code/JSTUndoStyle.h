@@ -10,7 +10,7 @@
 #ifndef _H_JTEUndoStyle
 #define _H_JTEUndoStyle
 
-#include "JSTUndoBase.h"
+#include "jx-af/jcore/JSTUndoBase.h"
 
 class JSTUndoStyle : public JSTUndoBase
 {

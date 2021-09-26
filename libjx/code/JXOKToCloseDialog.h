@@ -10,8 +10,8 @@
 #ifndef _H_JXOKToCloseDialog
 #define _H_JXOKToCloseDialog
 
-#include "JXUNDialogBase.h"
-#include <JUserNotification.h>	// need definition of CloseAction
+#include "jx-af/jx/JXUNDialogBase.h"
+#include <jx-af/jcore/JUserNotification.h>	// need definition of CloseAction
 
 class JXTextButton;
 

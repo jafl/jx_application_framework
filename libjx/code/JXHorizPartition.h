@@ -10,7 +10,7 @@
 #ifndef _H_JXHorizPartition
 #define _H_JXHorizPartition
 
-#include "JXPartition.h"
+#include "jx-af/jx/JXPartition.h"
 
 class JXHorizPartition : public JXPartition
 {

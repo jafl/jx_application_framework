@@ -9,17 +9,17 @@
 
  ******************************************************************************/
 
-#include "JXPSPrinter.h"
-#include "JXPSPageSetupDialog.h"
-#include "JXPSPrintSetupDialog.h"
-#include "JXDisplay.h"
-#include "jXGlobals.h"
-#include <jFileUtil.h>
-#include <jProcessUtil.h>
-#include <jStreamUtil.h>
-#include <jTime.h>
+#include "jx-af/jx/JXPSPrinter.h"
+#include "jx-af/jx/JXPSPageSetupDialog.h"
+#include "jx-af/jx/JXPSPrintSetupDialog.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jTime.h>
 #include <stdio.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 // setup information
 

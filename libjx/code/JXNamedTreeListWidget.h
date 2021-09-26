@@ -8,7 +8,7 @@
 #ifndef _H_JXNamedTreeListWidget
 #define _H_JXNamedTreeListWidget
 
-#include "JXTreeListWidget.h"
+#include "jx-af/jx/JXTreeListWidget.h"
 
 class JNamedTreeList;
 class JNamedTreeNode;

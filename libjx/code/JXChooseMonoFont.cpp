@@ -9,15 +9,15 @@
 
  ******************************************************************************/
 
-#include "JXChooseMonoFont.h"
-#include "JXXFontMenu.h"
-#include "JXFontSizeMenu.h"
-#include "JXDisplay.h"
-#include "jXConstants.h"
-#include <JRegex.h>
+#include "jx-af/jx/JXChooseMonoFont.h"
+#include "jx-af/jx/JXXFontMenu.h"
+#include "jx-af/jx/JXFontSizeMenu.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/jXConstants.h"
+#include <jx-af/jcore/JRegex.h>
 #include <stdlib.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JRegex fontRegex = "^[1-9][0-9]*x[1-9][0-9]*$";
 

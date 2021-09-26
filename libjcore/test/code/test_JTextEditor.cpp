@@ -7,18 +7,18 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
+#include <jx-af/jcore/JTestManager.h>
 #include "TextEditor.h"
 #include "StyledText.h"
-#include "JVIKeyHandler.h"
-#include <JRegex.h>
-#include <JInterpolate.h>
-#include <JFontManager.h>
-#include <jFStreamUtil.h>
-#include <jFileUtil.h>
-#include <jASCIIConstants.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jcore/JVIKeyHandler.h"
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JInterpolate.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 typedef JStyledText::TextIndex TextIndex;
 typedef JStyledText::TextCount TextCount;

@@ -8,7 +8,7 @@
 #ifndef _H_ExprEditor
 #define _H_ExprEditor
 
-#include <JExprEditor.h>
+#include <jx-af/jexpr/JExprEditor.h>
 
 class ExprEditor : public JExprEditor
 {

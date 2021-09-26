@@ -13,7 +13,7 @@
  *****************************************************************************/
 
 
-#include "JMemoryManager.h"
+#include "jx-af/jcore/JMemoryManager.h"
 
 	class JMMRecord;
 

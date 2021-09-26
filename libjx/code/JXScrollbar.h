@@ -8,8 +8,8 @@
 #ifndef _H_JXScrollbar
 #define _H_JXScrollbar
 
-#include "JXWidget.h"
-#include <jMath.h>
+#include "jx-af/jx/JXWidget.h"
+#include <jx-af/jcore/jMath.h>
 
 class JPainter;
 class JXScrolltab;

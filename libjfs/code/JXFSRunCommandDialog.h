@@ -8,8 +8,8 @@
 #ifndef _H_JXFSRunCommandDialog
 #define _H_JXFSRunCommandDialog
 
-#include <JXWindowDirector.h>
-#include <jTime.h>
+#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jcore/jTime.h>
 
 class JXInputField;
 class JXTextButton;

@@ -9,11 +9,11 @@
 
 #include "AnimateHelpMenuTask.h"
 #include "HelpMenuBitmaps.h"
-#include <JXTextMenu.h>
-#include <JXImage.h>
-#include <jXGlobals.h>
-#include <JColorManager.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kAnimationPeriod = 400;		// 0.4 second (milliseconds)
 

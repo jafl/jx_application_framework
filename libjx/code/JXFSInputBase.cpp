@@ -10,17 +10,17 @@
 
  ******************************************************************************/
 
-#include "JXFSInputBase.h"
-#include "JXStringCompletionMenu.h"
-#include "jXUtil.h"
-#include <JFontManager.h>
-#include <JColorManager.h>
-#include <JStringIterator.h>
-#include <JDirInfo.h>
-#include <jDirUtil.h>
-#include <jFileUtil.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXFSInputBase.h"
+#include "jx-af/jx/JXStringCompletionMenu.h"
+#include "jx-af/jx/jXUtil.h"
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor (protected)

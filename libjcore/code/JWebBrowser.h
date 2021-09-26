@@ -8,7 +8,7 @@
 #ifndef _H_JWebBrowser
 #define _H_JWebBrowser
 
-#include "JPtrArray-JString.h"
+#include "jx-af/jcore/JPtrArray-JString.h"
 
 class JWebBrowser
 {

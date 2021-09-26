@@ -12,7 +12,7 @@
 #ifndef _H_jXActionDefs
 #define _H_jXActionDefs
 
-#include "jXActions.h"	// for convenience
+#include "jx-af/jx/jXActions.h"	// for convenience
 
 // File menu
 

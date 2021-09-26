@@ -10,9 +10,9 @@
 
  *****************************************************************************/
 
-#include "JTreeNode.h"
-#include "JTree.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JTreeNode.h"
+#include "jx-af/jcore/JTree.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Constructor

@@ -9,16 +9,16 @@
 
  ******************************************************************************/
 
-#include "JXColHeaderWidget.h"
-#include "JXWindow.h"
-#include "JXScrollbarSet.h"
-#include "JXScrollbar.h"
-#include "JXDragPainter.h"
-#include "jXPainterUtil.h"
-#include "JXFontManager.h"
-#include "jXGlobals.h"
-#include <JColorManager.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXColHeaderWidget.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXScrollbarSet.h"
+#include "jx-af/jx/JXScrollbar.h"
+#include "jx-af/jx/JXDragPainter.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include "jx-af/jx/JXFontManager.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kCellFrameWidth            = kJXDefaultBorderWidth;
 const JCoordinate kDragRegionHalfWidth = 2;

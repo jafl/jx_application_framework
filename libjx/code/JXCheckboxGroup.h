@@ -10,8 +10,8 @@
 #ifndef _H_JXCheckboxGroup
 #define _H_JXCheckboxGroup
 
-#include <JContainer.h>
-#include <JPtrArray.h>
+#include <jx-af/jcore/JContainer.h>
+#include <jx-af/jcore/JPtrArray.h>
 
 class JXCheckbox;
 

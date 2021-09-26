@@ -1,0 +1,80 @@
+# Constants used in all Makefiles
+
+SHELL := /bin/bash
+
+#
+# version numbers
+#
+
+JX_VERSION     := 4.0.0
+JX_LIB_VERSION := 4_0_0
+JX             := JX-${JX_VERSION}
+
+ACE_VERSION := $(shell perl -e \
+    'if (-f "ACE/ACE_wrappers/ace/Version.h") { \
+         $$data=`cat ACE/ACE_wrappers/ace/Version.h`; \
+         if ($$data =~ /\#define ACE_VERSION "(.+)"/) { \
+              print $$1; exit; \
+         } \
+     } \
+     print "7.0.0";')    # default version downloaded from libjx.sourceforge.net
+
+#
+# useful directories
+#
+
+ifndef JX_INCLUDE_ROOT
+  JX_INCLUDE_ROOT := ${JX_ROOT}/include
+endif
+
+SEARCHDIRS := -I${JX_INCLUDE_ROOT}
+
+ifndef JX_LIB_ROOT
+  JX_LIB_ROOT := ${JX_ROOT}/lib
+endif
+
+ifndef JX_INSTALL_ROOT
+  ifeq ($(shell whoami),root)
+    ifeq ($(shell uname -s),Darwin)
+      JX_INSTALL_ROOT := /usr/local
+    else
+      JX_INSTALL_ROOT := /usr
+    endif
+  else
+    JX_INSTALL_ROOT := \
+      ${shell if [[ -d ${HOME}/bin && -w ${HOME}/bin ]]; \
+              then echo ${HOME}; \
+              else mkdir -p ${JX_ROOT}/bin; cd ${JX_ROOT}; pwd; fi }
+  endif
+endif
+
+#
+# RPM -- root is overridable
+#
+
+RPM_SRC_ROOT := /usr/src/jxrpmbuild
+RPM_BUILD_DIR = ${RPM_SRC_ROOT}/BUILD
+RPM_SRC_DIR   = ${RPM_SRC_ROOT}/SOURCES
+RPM_SPEC_DIR  = ${RPM_SRC_ROOT}/SPECS
+RPM_BIN_DIR   = ${RPM_SRC_ROOT}/RPMS
+RPM_SRPM_DIR  = ${RPM_SRC_ROOT}/SRPMS
+
+RPM := rpmbuild -bb --quiet --clean --rmsource
+
+#
+# string data files -- prepend to allow app to override
+#
+
+J_STRING_FILES := ${JX_INCLUDE_ROOT}/jx-af/strings/jcore/* \
+                  ${JX_INCLUDE_ROOT}/jx-af/strings/jx/* \
+                  ${J_STRING_FILES}
+
+#
+# strip commands -- no spaces allowed
+#
+
+ifdef J_CYGWIN
+  EXE=${1}.exe
+else
+  EXE=${1}
+endif

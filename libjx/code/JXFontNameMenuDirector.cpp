@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include "JXFontNameMenuDirector.h"
-#include "JXFontNameMenu.h"
-#include "JXFontNameMenuTable.h"
-#include "JXWindow.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXFontNameMenuDirector.h"
+#include "jx-af/jx/JXFontNameMenu.h"
+#include "jx-af/jx/JXFontNameMenuTable.h"
+#include "jx-af/jx/JXWindow.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

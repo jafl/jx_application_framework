@@ -20,29 +20,29 @@
 
  ******************************************************************************/
 
-#include "JXSearchTextDialog.h"
-#include "JXSearchTextButton.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXStaticText.h"
-#include "JXInputField.h"
-#include "JXTextButton.h"
-#include "JXTextCheckbox.h"
-#include "JXRadioGroup.h"
-#include "JXTextRadioButton.h"
-#include "JXStringHistoryMenu.h"
-#include "JXTimerTask.h"
-#include "JXMenu.h"
-#include "JXSearchTextDecorTask.h"
-#include "JXFontManager.h"
-#include "JXColorManager.h"
-#include "jXGlobals.h"
-#include <JWebBrowser.h>
-#include <JRegex.h>
-#include <JInterpolate.h>
-#include <jStreamUtil.h>
+#include "jx-af/jx/JXSearchTextDialog.h"
+#include "jx-af/jx/JXSearchTextButton.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXStaticText.h"
+#include "jx-af/jx/JXInputField.h"
+#include "jx-af/jx/JXTextButton.h"
+#include "jx-af/jx/JXTextCheckbox.h"
+#include "jx-af/jx/JXRadioGroup.h"
+#include "jx-af/jx/JXTextRadioButton.h"
+#include "jx-af/jx/JXStringHistoryMenu.h"
+#include "jx-af/jx/JXTimerTask.h"
+#include "jx-af/jx/JXMenu.h"
+#include "jx-af/jx/JXSearchTextDecorTask.h"
+#include "jx-af/jx/JXFontManager.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JWebBrowser.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JInterpolate.h>
+#include <jx-af/jcore/jStreamUtil.h>
 #include <sstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 // JTextEditor doesn't broadcast when selection changes (would require optimization)
 const JSize kUpdatePeriod = 200;	// 0.2 second (milliseconds)

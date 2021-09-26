@@ -13,9 +13,9 @@
 
  ******************************************************************************/
 
-#include "JXStringHistoryMenu.h"
-#include <JString.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXStringHistoryMenu.h"
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

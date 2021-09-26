@@ -10,7 +10,7 @@
 #ifndef _H_J2DDataPoint
 #define _H_J2DDataPoint
 
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 
 struct J2DDataPoint
 {

@@ -1,15 +1,8 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-JX_ROOT := ../..
-
-# Directories to search for header files
-
-SEARCHDIRS := -I./code \
-              -I${JX_ROOT}/include/jcore \
-              -I${JX_ROOT}/include/jx
-
-# other constants
+JX_ROOT      := ../..
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 
 XDND_VERSION := v4
 XDND_DIR     := xdnd-${XDND_VERSION}
@@ -17,19 +10,20 @@ XDND_DIR     := xdnd-${XDND_VERSION}
 XSEARCH_VERSION := v1
 XSEARCH_DIR     := xsearch-${XSEARCH_VERSION}
 
-# makemake variables
-
 J_STRING_FILES := strings/*
 
-include ${JX_ROOT}/include/make/jx_config
+include ${MAKE_INCLUDE}/jx_config
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
-               -g ${SEARCHDIRS}
+SEARCHDIRS := -I./code ${SEARCHDIRS}
+
+# makemake variables
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} -g ${SEARCHDIRS}
 
 # library dependencies
 
-LIB_DEPS := ${JX_ROOT}/lib/libjcore.a \
-            ${JX_ROOT}/lib/libjx.a
+LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a \
+            ${JX_LIB_ROOT}/libjx.a
 
 # make variables
 
@@ -38,13 +32,7 @@ LDFLAGS   :=
 
 #####
 
-.PHONY : default
-default: libs all
-
-.PHONY : Makefiles
-Makefiles:
-
-include ${JX_ROOT}/include/make/app_targets
+include ${MAKE_INCLUDE}/app_targets
 
 #
 # string data
@@ -54,10 +42,6 @@ include ${JX_ROOT}/include/make/app_targets
 strings:
 	compile_jstrings ${J_STRING_FILES} \
       --code kDefaultStringData ./code/testjxStringData.h
-
-.PHONY : stringdb
-stringdb:
-	compile_jstrings ${J_STRING_FILES} --db testjx_us
 
 testjx:: strings
 

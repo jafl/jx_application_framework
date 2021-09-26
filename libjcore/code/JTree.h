@@ -8,7 +8,7 @@
 #ifndef _H_JTree
 #define _H_JTree
 
-#include "JBroadcaster.h"
+#include "jx-af/jcore/JBroadcaster.h"
 
 class JTreeNode;
 

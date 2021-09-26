@@ -10,11 +10,11 @@
 
 // we include these for convenience
 
-#include "JAssertBase.h"
-#include "JUserNotification.h"
-#include "JChooseSaveFile.h"
-#include "JCreateProgressDisplay.h"
-#include "JStringManager.h"
+#include "jx-af/jcore/JAssertBase.h"
+#include "jx-af/jcore/JUserNotification.h"
+#include "jx-af/jcore/JChooseSaveFile.h"
+#include "jx-af/jcore/JCreateProgressDisplay.h"
+#include "jx-af/jcore/JStringManager.h"
 
 class JFontManager;
 class JWebBrowser;
@@ -26,7 +26,7 @@ void JSetWebBrowser(JWebBrowser* webBrowser);
 
 void JDeleteGlobals();
 
-bool				JGetAssertHandler(JAssertBase** ah);
+bool					JGetAssertHandler(JAssertBase** ah);
 JWebBrowser*			JGetWebBrowser();
 
 JUserNotification*		JGetUserNotification();
@@ -38,7 +38,7 @@ const JString&			JGetString(const JUtf8Byte* id);
 JString					JGetString(const JUtf8Byte* id, const JUtf8Byte* map[], const JSize size);
 
 bool	JGetDataDirectories(const JUtf8Byte* signature, const JUtf8Byte* dirName,
-								JString* sysDir, JString* userDir);
+							JString* sysDir, JString* userDir);
 
 /******************************************************************************
  Convenience functions

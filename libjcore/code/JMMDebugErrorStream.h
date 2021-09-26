@@ -8,7 +8,7 @@
 #ifndef _H_JMMDebugErrorStream
 #define _H_JMMDebugErrorStream
 
-#include "JMMMonitor.h"
+#include "jx-af/jcore/JMMMonitor.h"
 
 class JMMDebugErrorStream : public JMMMonitor
 {

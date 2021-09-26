@@ -9,12 +9,12 @@
 
  *****************************************************************************/
 
-#include "JXAssert.h"
-#include "JXApplication.h"
-#include "JXDisplay.h"
+#include "jx-af/jx/JXAssert.h"
+#include "jx-af/jx/JXApplication.h"
+#include "jx-af/jx/JXDisplay.h"
 #include <X11/Xlib.h>
 #include <stdio.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

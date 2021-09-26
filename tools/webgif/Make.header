@@ -1,21 +1,20 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-JX_ROOT := ../..
+JX_ROOT      := ../..
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 
-# Directories to search for header files
+APP_NAME := webgif
 
-SEARCHDIRS := -I${JX_ROOT}/include/jcore
+include ${MAKE_INCLUDE}/jx_config
 
 # makemake variables
-
-include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 
 # library dependencies
 
-LIB_DEPS := ${JX_ROOT}/lib/libjcore.a
+LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a
 
 # make variables
 
@@ -24,38 +23,4 @@ LDFLAGS :=
 
 #####
 
-.PHONY : default
-default: libs all
-
-.PHONY : Makefiles
-Makefiles:
-
-include ${JX_ROOT}/include/make/app_targets
-
-#
-# required libraries
-#
-
-.PHONY : libs
-libs::
-	@cd ${JX_ROOT}/libjcore; ${MAKE}
-
-#
-# install binaries
-#
-
-.PHONY : jxinstall
-jxinstall: webgif
-	@strip ${call EXE, webgif}
-	@cp webgif ${JX_INSTALL_ROOT}/
-
-.PHONY : jxuninstall
-jxuninstall:
-	@${RM} ${JX_INSTALL_ROOT}/webgif
-
-#
-# personal install
-#
-
-.PHONY : personal
-personal: jxinstall
+include ${MAKE_INCLUDE}/app_targets

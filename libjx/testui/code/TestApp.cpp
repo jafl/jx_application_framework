@@ -14,13 +14,13 @@
 #include "TestTextEditDocument.h"
 #include "testjxStringData.h"
 #include "testjxGlobals.h"
-#include <JXWindow.h>
-#include <JThisProcess.h>
-#include <JOutPipeStream.h>
-#include <jFileUtil.h>
-#include <jSysUtil.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jcore/JThisProcess.h>
+#include <jx-af/jcore/JOutPipeStream.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jSysUtil.h>
 #include <fstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Application signature (MDI)
 

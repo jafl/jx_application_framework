@@ -8,7 +8,7 @@
 #ifndef _H_JPTPrinter
 #define _H_JPTPrinter
 
-#include "JPrinter.h"
+#include "jx-af/jcore/JPrinter.h"
 
 class JString;
 

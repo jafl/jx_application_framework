@@ -10,7 +10,7 @@
 #ifndef _H_JThisProcess
 #define _H_JThisProcess
 
-#include "JProcess.h"
+#include "jx-af/jcore/JProcess.h"
 #include <ace/Event_Handler.h>
 #include <ace/Signal.h>
 #include <setjmp.h>

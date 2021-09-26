@@ -7,12 +7,12 @@
 
  ******************************************************************************/
 
-#include <JTestManager.h>
+#include <jx-af/jcore/JTestManager.h>
 #include "StyledText.h"
 #include "TestStyler.h"
-#include <JColorManager.h>
-#include <JRegex.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

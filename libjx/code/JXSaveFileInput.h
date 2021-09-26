@@ -10,7 +10,7 @@
 #ifndef _H_JXSaveFileInput
 #define _H_JXSaveFileInput
 
-#include "JXInputField.h"
+#include "jx-af/jx/JXInputField.h"
 
 class JXSaveFileInput : public JXInputField
 {

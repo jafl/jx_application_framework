@@ -11,11 +11,11 @@
 
  ******************************************************************************/
 
-#include "JXWebBrowser.h"
-#include "JXEditWWWPrefsDialog.h"
-#include "JXSharedPrefsManager.h"
-#include "jXGlobals.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXWebBrowser.h"
+#include "jx-af/jx/JXEditWWWPrefsDialog.h"
+#include "jx-af/jx/JXSharedPrefsManager.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jAssert.h>
 
 static const JXSharedPrefObject::VersionInfo kVersList[] =
 {

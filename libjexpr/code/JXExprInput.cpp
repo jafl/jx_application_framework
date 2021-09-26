@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include "JXExprInput.h"
-#include "JUserInputFunction.h"
-#include <JXTextMenu.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JXExprInput.h"
+#include "jx-af/jexpr/JUserInputFunction.h"
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Font menu
 

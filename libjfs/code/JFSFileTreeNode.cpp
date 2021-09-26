@@ -22,14 +22,14 @@
 
  *****************************************************************************/
 
-#include "JFSFileTreeNode.h"
-#include "JFSFileTree.h"
-#include <JPtrArray-JString.h>
-#include <JStringIterator.h>
-#include <JDirInfo.h>
-#include <jDirUtil.h>
-#include <jVCSUtil.h>
-#include <jAssert.h>
+#include "jx-af/jfs/JFSFileTreeNode.h"
+#include "jx-af/jfs/JFSFileTree.h"
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jVCSUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

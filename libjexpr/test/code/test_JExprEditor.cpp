@@ -7,16 +7,16 @@
 
  *****************************************************************************/
 
-#include <JTestManager.h>
+#include <jx-af/jcore/JTestManager.h>
 #include "ExprEditor.h"
 #include "TestVarList.h"
 #include "TestFontManager.h"
-#include <JExprParser.h>
-#include <JSummation.h>
-#include <JConstantValue.h>
+#include <jx-af/jexpr/JExprParser.h>
+#include <jx-af/jexpr/JSummation.h>
+#include <jx-af/jexpr/JConstantValue.h>
 #include <fstream>
 #include <typeinfo>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

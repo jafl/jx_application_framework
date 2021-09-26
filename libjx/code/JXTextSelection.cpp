@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include "JXTextSelection.h"
-#include "JXDisplay.h"
+#include "jx-af/jx/JXTextSelection.h"
+#include "jx-af/jx/JXDisplay.h"
 #include <sstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kStyledText0XAtomName = "text/x-jxstyled0";
 

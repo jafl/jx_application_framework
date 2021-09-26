@@ -9,23 +9,23 @@ TestButtonsDialog.cpp
 
 #include "TestButtonsDialog.h"
 #include "SmileyBitmaps.h"
-#include <JXWindow.h>
-#include <JXStaticText.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXStaticText.h>
 
-#include <JXTextButton.h>
-#include <JXImageButton.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXImageButton.h>
 
-#include <JXTextCheckbox.h>
-#include <JXImageCheckbox.h>
-#include <JXAtLeastOneCBGroup.h>
+#include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXImageCheckbox.h>
+#include <jx-af/jx/JXAtLeastOneCBGroup.h>
 
-#include <JXRadioGroup.h>
-#include <JXTextRadioButton.h>
-#include <JXImageRadioButton.h>
-#include <jXGlobals.h>
-#include <JFontManager.h>
-#include <JColorManager.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXRadioGroup.h>
+#include <jx-af/jx/JXTextRadioButton.h>
+#include <jx-af/jx/JXImageRadioButton.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 static unsigned char okButtonData[] =
 {

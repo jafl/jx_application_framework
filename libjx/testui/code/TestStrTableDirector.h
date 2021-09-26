@@ -10,7 +10,7 @@
 #ifndef _H_TestStrTableDirector
 #define _H_TestStrTableDirector
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class JStringTableData;
 class TestStringTable;

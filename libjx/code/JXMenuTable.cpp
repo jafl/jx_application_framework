@@ -32,18 +32,18 @@
 
  ******************************************************************************/
 
-#include "JXMenuTable.h"
-#include "JXMenuData.h"
-#include "JXMenuManager.h"
-#include "JXMenuDirector.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXWindowPainter.h"
-#include "JXColorManager.h"
-#include "jXPainterUtil.h"
-#include <jMouseUtil.h>
-#include <jASCIIConstants.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXMenuTable.h"
+#include "jx-af/jx/JXMenuData.h"
+#include "jx-af/jx/JXMenuManager.h"
+#include "jx-af/jx/JXMenuDirector.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include <jx-af/jcore/jMouseUtil.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kFastScrollFactor    = 3;
 const JCoordinate kMoveSlowDelta = 3;

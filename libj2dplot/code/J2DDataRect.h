@@ -8,7 +8,7 @@
 #ifndef _H_J2DDataRect
 #define _H_J2DDataRect
 
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 
 struct J2DDataRect
 {

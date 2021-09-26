@@ -10,7 +10,7 @@
 #ifndef _H_TestFloatTableDirector
 #define _H_TestFloatTableDirector
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class JFloatTableData;
 class TestFloatTable;

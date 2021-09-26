@@ -8,7 +8,7 @@
 #ifndef _H_JXCursor
 #define _H_JXCursor
 
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 #include <X11/Xlib.h>
 
 class JXDisplay;

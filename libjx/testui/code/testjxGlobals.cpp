@@ -9,10 +9,10 @@
 
 #include "testjxGlobals.h"
 #include "TestDockManager.h"
-#include <JXMenu.h>
-#include <jFileUtil.h>
-#include <jFStreamUtil.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXMenu.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 static TestApp*			theApplication = nullptr;		// owns itself
 static TestMDIServer*	theMDIServer   = nullptr;		// owned by JX, can be nullptr

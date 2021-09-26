@@ -5,8 +5,8 @@
 
  ******************************************************************************/
 
-#include "JMessageProtocol.h"
-#include "JAsynchDataReceiver.h"
+#include "jx-af/jcore/JMessageProtocol.h"
+#include "jx-af/jcore/JAsynchDataReceiver.h"
 
 // Protocol definitions
 

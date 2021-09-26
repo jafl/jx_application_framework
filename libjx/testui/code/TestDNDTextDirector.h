@@ -10,7 +10,7 @@
 #ifndef _H_TestDNDTextDirector
 #define _H_TestDNDTextDirector
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class JXHorizPartition;
 

@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "JXImage.h"
-#include "JXColorManager.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXColorManager.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor function (JPEG file) (static)

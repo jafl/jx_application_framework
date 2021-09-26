@@ -10,14 +10,14 @@
 
  ******************************************************************************/
 
-#include "JXEPSPrinter.h"
-#include "JXEPSPrintSetupDialog.h"
-#include "JXDisplay.h"
-#include "JXImage.h"
-#include "JXImagePainter.h"
-#include <JColorManager.h>
-#include <jStreamUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXEPSPrinter.h"
+#include "jx-af/jx/JXEPSPrintSetupDialog.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXImagePainter.h"
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 // setup information
 

@@ -8,9 +8,9 @@
 #ifndef _H_JXHintManager
 #define _H_JXHintManager
 
-#include "JXDirector.h"
-#include <JString.h>
-#include <JPoint.h>
+#include "jx-af/jx/JXDirector.h"
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JPoint.h>
 #include <X11/X.h>
 
 class JXContainer;

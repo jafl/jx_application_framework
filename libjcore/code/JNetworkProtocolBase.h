@@ -10,7 +10,7 @@
 
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
-#include "JLinkedList.h"
+#include "jx-af/jcore/JLinkedList.h"
 
 class JString;
 

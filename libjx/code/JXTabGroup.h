@@ -8,9 +8,9 @@
 #ifndef _H_JXTabGroup
 #define _H_JXTabGroup
 
-#include "JXCardFile.h"
-#include <JPtrArray-JString.h>
-#include <JFont.h>
+#include "jx-af/jx/JXCardFile.h"
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/JFont.h>
 
 class JXTextMenu;
 class JXImage;

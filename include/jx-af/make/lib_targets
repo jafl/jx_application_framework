@@ -2,28 +2,22 @@
 #
 # requires the variables:
 #   LIB_NAME_ROOT -- root of library's name (e.g. "libjcore")
-
-#
-# default target
-#
+#   JX_INSTALL_ROOT -- installation root containing bin, lib, include
 
 .PHONY : default
 default: ${LIB_NAME_ROOT}.a
   ifneq (${jx.test.skip},true)
 	@if [[ -d test ]]; then cd test; makemake; make FROM_LIB=1 test; fi
   endif
-  ifneq (${J_WANT_INSTALL},0)
-  ifeq (${shell whoami},root)
-	@cp ${LIB_NAME_ROOT}.a ${JX_LIB_ROOT}/
-  endif
+
+.PHONY : install
+install:
+  ifeq ($(shell whoami),root)
+	@cp ${LIB_NAME_ROOT}.a ${JX_INSTALL_ROOT}/lib
   endif
 
-#
-# remove binaries
-#
-
-.PHONY : jxuninstall
-jxuninstall:
-  ifeq (${shell whoami},root)
-	@${RM} ${JX_LIB_ROOT}/${LIB_NAME_ROOT}.a
+.PHONY : uninstall
+uninstall:
+  ifeq ($(shell whoami),root)
+	@${RM} ${JX_INSTALL_ROOT}/lib/${LIB_NAME_ROOT}.a
   endif

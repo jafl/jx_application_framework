@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include "JXTextMenuDirector.h"
-#include "JXWindow.h"
-#include "JXTextMenuTable.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXTextMenuDirector.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXTextMenuTable.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

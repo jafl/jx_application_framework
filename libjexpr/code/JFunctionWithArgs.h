@@ -10,8 +10,8 @@
 #ifndef _H_JFunctionWithArgs
 #define _H_JFunctionWithArgs
 
-#include "JFunction.h"
-#include <JString.h>
+#include "jx-af/jexpr/JFunction.h"
+#include <jx-af/jcore/JString.h>
 
 class JFunctionWithArgs : public JFunction
 {

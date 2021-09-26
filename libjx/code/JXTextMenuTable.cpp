@@ -9,14 +9,14 @@
 
  ******************************************************************************/
 
-#include "JXTextMenuTable.h"
-#include "JXTextMenuData.h"
-#include "JXWindowPainter.h"
-#include "jXPainterUtil.h"
-#include "JXImage.h"
-#include "JXColorManager.h"
-#include "JXDisplay.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXTextMenuTable.h"
+#include "jx-af/jx/JXTextMenuData.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/jXPainterUtil.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/JXDisplay.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

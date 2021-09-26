@@ -11,11 +11,11 @@
 #ifndef _H_JDirInfo
 #define _H_JDirInfo
 
-#include "JContainer.h"
-#include "JDirEntry.h"	// for convenience
-#include "JPtrArray-JString.h"
-#include "JError.h"
-#include "jTime.h"
+#include "jx-af/jcore/JContainer.h"
+#include "jx-af/jcore/JDirEntry.h"	// for convenience
+#include "jx-af/jcore/JPtrArray-JString.h"
+#include "jx-af/jcore/JError.h"
+#include "jx-af/jcore/jTime.h"
 
 class JRegex;
 class JProgressDisplay;

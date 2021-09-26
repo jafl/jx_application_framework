@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "JXDirector.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXDirector.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

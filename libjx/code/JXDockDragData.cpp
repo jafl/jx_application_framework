@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include "JXDockDragData.h"
-#include "JXDockManager.h"
-#include "JXWindow.h"
-#include "jXGlobals.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXDockDragData.h"
+#include "jx-af/jx/JXDockManager.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

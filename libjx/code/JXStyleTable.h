@@ -8,8 +8,8 @@
 #ifndef _H_JXStyleTable
 #define _H_JXStyleTable
 
-#include "JXEditTable.h"
-#include <JFont.h>
+#include "jx-af/jx/JXEditTable.h"
+#include <jx-af/jcore/JFont.h>
 
 class JString;
 class JStyleTableData;

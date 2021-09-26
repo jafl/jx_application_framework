@@ -8,7 +8,7 @@
 #ifndef _H_JX2DPlotScaleDialog
 #define _H_JX2DPlotScaleDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXFloatInput;
 class JXRadioGroup;

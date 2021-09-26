@@ -10,9 +10,9 @@
 #ifndef _H_JXProgressDisplay
 #define _H_JXProgressDisplay
 
-#include <JProgressDisplay.h>
-#include <JBroadcaster.h>
-#include <JString.h>
+#include <jx-af/jcore/JProgressDisplay.h>
+#include <jx-af/jcore/JBroadcaster.h>
+#include <jx-af/jcore/JString.h>
 
 class JXTextButton;
 class JXTEBase;

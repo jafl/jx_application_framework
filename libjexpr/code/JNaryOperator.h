@@ -10,7 +10,7 @@
 #ifndef _H_JNaryOperator
 #define _H_JNaryOperator
 
-#include <JNaryFunction.h>
+#include "jx-af/jexpr/JNaryFunction.h"
 
 class JNaryOperator : public JNaryFunction
 {

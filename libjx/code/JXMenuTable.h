@@ -10,7 +10,7 @@
 #ifndef _H_JXMenuTable
 #define _H_JXMenuTable
 
-#include "JXTable.h"
+#include "jx-af/jx/JXTable.h"
 
 class JXMenu;
 class JXMenuData;

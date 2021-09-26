@@ -10,7 +10,7 @@
 #ifndef _H_TestApp
 #define _H_TestApp
 
-#include <JXApplication.h>
+#include <jx-af/jx/JXApplication.h>
 
 class TestDirector;
 

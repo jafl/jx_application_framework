@@ -9,9 +9,9 @@
 #ifndef _H_JXSpellChecker
 #define _H_JXSpellChecker
 
-#include <JSpellChecker.h>
-#include "JXSharedPrefObject.h"
-#include <JRect.h>
+#include <jx-af/jcore/JSpellChecker.h>
+#include "jx-af/jx/JXSharedPrefObject.h"
+#include <jx-af/jcore/JRect.h>
 
 class JXTEBase;
 

@@ -11,7 +11,7 @@
 #define _H_JXKeyModifiers
 
 #include <X11/Xlib.h>
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 
 class JXDisplay;
 

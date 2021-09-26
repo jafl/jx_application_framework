@@ -10,7 +10,7 @@
 #ifndef _H_JXUpdateDocMenuTask
 #define _H_JXUpdateDocMenuTask
 
-#include "JXUrgentTask.h"
+#include "jx-af/jx/JXUrgentTask.h"
 
 class JXDocumentManager;
 

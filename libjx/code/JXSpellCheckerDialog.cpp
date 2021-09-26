@@ -7,19 +7,20 @@
 
  ******************************************************************************/
 
-#include "JXSpellCheckerDialog.h"
-#include "JXSpellChecker.h"
-#include "JXWindow.h"
-#include "JXTextButton.h"
-#include "JXInputField.h"
-#include "JXStaticText.h"
-#include "JXSpellList.h"
-#include "JXScrollbarSet.h"
-#include "JXColorManager.h"
-#include "jXGlobals.h"
-#include <JRegex.h>
-#include <JUserNotification.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXSpellCheckerDialog.h"
+#include "jx-af/jx/JXSpellChecker.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXTextButton.h"
+#include "jx-af/jx/JXInputField.h"
+#include "jx-af/jx/JXStaticText.h"
+#include "jx-af/jx/JXSpellList.h"
+#include "jx-af/jx/JXScrollbarSet.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JUserNotification.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

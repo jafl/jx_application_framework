@@ -10,8 +10,8 @@
 #ifndef _H_JXToolBarEditDir
 #define _H_JXToolBarEditDir
 
-#include "JXDialogDirector.h"
-#include "JXToolBarButton.h"
+#include "jx-af/jx/JXDialogDirector.h"
+#include "jx-af/jx/JXToolBarButton.h"
 
 class JTree;
 class JXTextCheckbox;

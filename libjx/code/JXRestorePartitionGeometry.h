@@ -8,8 +8,8 @@
 #ifndef _H_JXRestorePartitionGeometry
 #define _H_JXRestorePartitionGeometry
 
-#include "JXUrgentTask.h"
-#include <JBroadcaster.h>
+#include "jx-af/jx/JXUrgentTask.h"
+#include <jx-af/jcore/JBroadcaster.h>
 
 class JXPartition;
 

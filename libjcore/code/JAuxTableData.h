@@ -10,7 +10,7 @@
 #ifndef _H_JAuxTableData
 #define _H_JAuxTableData
 
-#include "JPackedTableData.h"
+#include "jx-af/jcore/JPackedTableData.h"
 
 class JTable;
 

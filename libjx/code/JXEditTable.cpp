@@ -19,14 +19,14 @@
 
  ******************************************************************************/
 
-#include "JXEditTable.h"
-#include "JXWindow.h"
-#include "JXInputField.h"
-#include "JXDeleteObjectTask.h"
-#include "jXEventUtil.h"
-#include <JFontManager.h>
-#include <jASCIIConstants.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXEditTable.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXInputField.h"
+#include "jx-af/jx/JXDeleteObjectTask.h"
+#include "jx-af/jx/jXEventUtil.h"
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kMin1DVisCharCount = 5;
 const JSize kDefault1DVisWidth = 10;

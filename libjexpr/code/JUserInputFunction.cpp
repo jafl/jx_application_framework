@@ -12,22 +12,22 @@
 
  ******************************************************************************/
 
-#include "JUserInputFunction.h"
-#include "JExprEditor.h"
-#include "JExprRectList.h"
-#include "JExprParser.h"
+#include "jx-af/jexpr/JUserInputFunction.h"
+#include "jx-af/jexpr/JExprEditor.h"
+#include "jx-af/jexpr/JExprRectList.h"
+#include "jx-af/jexpr/JExprParser.h"
 
-#include "JVariableList.h"
-#include "JFunctionWithVar.h"
-#include "JProduct.h"
-#include "JExponent.h"
-#include "JConstantValue.h"
+#include "jx-af/jexpr/JVariableList.h"
+#include "jx-af/jexpr/JFunctionWithVar.h"
+#include "jx-af/jexpr/JProduct.h"
+#include "jx-af/jexpr/JExponent.h"
+#include "jx-af/jexpr/JConstantValue.h"
 
-#include <JColorManager.h>
-#include <JPainter.h>
-#include <JStringIterator.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JUtf8Character JUserInputFunction::kSwitchFontCharacter('`');
 

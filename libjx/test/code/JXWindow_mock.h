@@ -10,7 +10,7 @@
 #ifndef _H_JXWindow
 #define _H_JXWindow
 
-#include <JXKeyModifiers.h>
+#include <jx-af/jx/JXKeyModifiers.h>
 
 class JString;
 class JXTextMenu;

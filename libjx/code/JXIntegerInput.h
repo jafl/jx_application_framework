@@ -10,7 +10,7 @@
 #ifndef _H_JXIntegerInput
 #define _H_JXIntegerInput
 
-#include "JXInputField.h"
+#include "jx-af/jx/JXInputField.h"
 
 class JString;
 

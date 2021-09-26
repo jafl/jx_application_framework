@@ -8,7 +8,7 @@
 #ifndef _H_JXWDMenu
 #define _H_JXWDMenu
 
-#include "JXTextMenu.h"
+#include "jx-af/jx/JXTextMenu.h"
 
 class JXWDManager;
 

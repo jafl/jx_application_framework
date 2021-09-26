@@ -8,7 +8,7 @@
 #ifndef _H_JX2DCursorMarkTableDir
 #define _H_JX2DCursorMarkTableDir
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class J2DPlotWidget;
 class JXTextButton;

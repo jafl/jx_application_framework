@@ -8,7 +8,7 @@
 #ifndef _H_JXTreeListWidget
 #define _H_JXTreeListWidget
 
-#include "JXStyleTable.h"
+#include "jx-af/jx/JXStyleTable.h"
 
 class JTreeNode;
 class JTreeList;

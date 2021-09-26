@@ -8,7 +8,7 @@
 #ifndef _H_JAliasArray
 #define _H_JAliasArray
 
-#include "JArray.h"
+#include "jx-af/jcore/JArray.h"
 
 template <class T>
 class JAliasArray : public JCollection

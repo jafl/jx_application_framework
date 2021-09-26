@@ -27,15 +27,15 @@
 
  ******************************************************************************/
 
-#include "JXFileDocument.h"
-#include "JXWindow.h"
-#include "jXGlobals.h"
-#include <JString.h>
-#include <jFStreamUtil.h>
-#include <jStreamUtil.h>
-#include <jFileUtil.h>
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXFileDocument.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 bool JXFileDocument::itsAskOKToCloseFlag = true;
 

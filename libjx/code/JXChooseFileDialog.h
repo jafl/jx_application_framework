@@ -10,7 +10,7 @@
 #ifndef _H_JXChooseFileDialog
 #define _H_JXChooseFileDialog
 
-#include "JXCSFDialogBase.h"
+#include "jx-af/jx/JXCSFDialogBase.h"
 
 class JXChooseFileDialog : public JXCSFDialogBase
 {

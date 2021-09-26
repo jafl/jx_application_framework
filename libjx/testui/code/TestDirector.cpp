@@ -30,34 +30,34 @@
 
 #include "SmileyBitmaps.h"
 
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXImageMenu.h>
-#include <JXDisplayMenu.h>
-#include <JXScrollbarSet.h>
-#include <JXPSPrinter.h>
-#include <JXEPSPrinter.h>
-#include <JXImageMask.h>
-#include <JXColorManager.h>
-#include <JXHelpManager.h>
-#include <JXTipOfTheDayDialog.h>
-#include <JXStandAlonePG.h>
-#include <JXWebBrowser.h>
-#include <jXActionDefs.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXImageMenu.h>
+#include <jx-af/jx/JXDisplayMenu.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXPSPrinter.h>
+#include <jx-af/jx/JXEPSPrinter.h>
+#include <jx-af/jx/JXImageMask.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jx/JXTipOfTheDayDialog.h>
+#include <jx-af/jx/JXStandAlonePG.h>
+#include <jx-af/jx/JXWebBrowser.h>
+#include <jx-af/jx/jXActionDefs.h>
 
-#include <JFontManager.h>
-#include <JStopWatch.h>
-#include <JStringIterator.h>
-#include <JConstBitmap.h>
-#include <JBroadcastSnooper.h>
-#include <jProcessUtil.h>
-#include <jFileUtil.h>
-#include <jSysUtil.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JStopWatch.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JConstBitmap.h>
+#include <jx-af/jcore/JBroadcastSnooper.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jSysUtil.h>
 #include <unistd.h>
 #include <stdio.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kWindowGeomFileName = "testjx_window_geom";
 

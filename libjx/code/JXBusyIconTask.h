@@ -8,8 +8,8 @@
 #ifndef _H_JXBusyIconTask
 #define _H_JXBusyIconTask
 
-#include "JXAnimationTask.h"
-#include <JPtrArray.h>
+#include "jx-af/jx/JXAnimationTask.h"
+#include <jx-af/jcore/JPtrArray.h>
 
 class JXBusyIconTask : public JXAnimationTask
 {

@@ -8,7 +8,7 @@
 #ifndef _H_JXSelectionManager
 #define _H_JXSelectionManager
 
-#include "JXSelectionData.h"
+#include "jx-af/jx/JXSelectionData.h"
 
 const Atom kJXClipboardName = XA_PRIMARY;
 

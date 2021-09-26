@@ -8,7 +8,7 @@
 #ifndef _H_TestString
 #define _H_TestString
 
-#include <JString.h>
+#include <jx-af/jcore/JString.h>
 
 class TestString : public JString
 {

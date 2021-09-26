@@ -7,12 +7,12 @@
 
  ******************************************************************************/
 
-#include "JXGetNewDirDialog.h"
-#include "JXInputField.h"
-#include "JXChooseSaveFile.h"
-#include "jXGlobals.h"
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXGetNewDirDialog.h"
+#include "jx-af/jx/JXInputField.h"
+#include "jx-af/jx/JXChooseSaveFile.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

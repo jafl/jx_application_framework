@@ -8,7 +8,7 @@
 #ifndef _H_JTaskIterator
 #define _H_JTaskIterator
 
-#include "JPtrArray.h"
+#include "jx-af/jcore/JPtrArray.h"
 
 template <class T>
 class JTaskIterator : public JPtrArrayIterator<T>

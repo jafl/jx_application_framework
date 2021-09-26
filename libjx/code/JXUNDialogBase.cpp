@@ -7,15 +7,15 @@
 
  ******************************************************************************/
 
-#include "JXUNDialogBase.h"
-#include "JXUserNotification.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXStaticText.h"
-#include "JXImageWidget.h"
-#include "JXImage.h"
-#include "JXImageCache.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXUNDialogBase.h"
+#include "jx-af/jx/JXUserNotification.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXStaticText.h"
+#include "jx-af/jx/JXImageWidget.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXImageCache.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

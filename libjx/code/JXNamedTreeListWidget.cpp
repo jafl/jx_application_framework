@@ -23,18 +23,18 @@
 
  ******************************************************************************/
 
-#include "JXNamedTreeListWidget.h"
-#include "JXInputField.h"
-#include "JXFontManager.h"
-#include "JXImage.h"
-#include <JNamedTreeList.h>
-#include <JNamedTreeNode.h>
-#include <JPainter.h>
-#include <JTableSelection.h>
-#include <JStyleTableData.h>
-#include <JString.h>
-#include <jASCIIConstants.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXNamedTreeListWidget.h"
+#include "jx-af/jx/JXInputField.h"
+#include "jx-af/jx/JXFontManager.h"
+#include "jx-af/jx/JXImage.h"
+#include <jx-af/jcore/JNamedTreeList.h>
+#include <jx-af/jcore/JNamedTreeNode.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/JStyleTableData.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kImageTextSpacing = 5;
 const JCoordinate kRightMarginWidth = 10;	// for min cell width

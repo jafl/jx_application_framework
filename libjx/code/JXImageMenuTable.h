@@ -8,8 +8,8 @@
 #ifndef _H_JXImageMenuTable
 #define _H_JXImageMenuTable
 
-#include "JXMenuTable.h"
-#include "jXConstants.h"	// need definition of kJXDefaultBorderWidth
+#include "jx-af/jx/JXMenuTable.h"
+#include "jx-af/jx/jXConstants.h"	// need definition of kJXDefaultBorderWidth
 
 class JXImageMenuData;
 

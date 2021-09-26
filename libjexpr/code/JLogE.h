@@ -10,7 +10,7 @@
 #ifndef _H_JLogE
 #define _H_JLogE
 
-#include <JUnaryFunction.h>
+#include "jx-af/jexpr/JUnaryFunction.h"
 
 class JLogE : public JUnaryFunction
 {

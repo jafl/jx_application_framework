@@ -10,7 +10,7 @@
 #ifndef _H_JXUrgentTask
 #define _H_JXUrgentTask
 
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 
 class JXUrgentTask
 {

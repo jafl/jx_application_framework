@@ -10,7 +10,7 @@
 #ifndef _H_JXWindowPainter
 #define _H_JXWindowPainter
 
-#include <JPainter.h>
+#include <jx-af/jcore/JPainter.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xft/Xft.h>

@@ -8,7 +8,7 @@
 #ifndef _H_JFSFileTree
 #define _H_JFSFileTree
 
-#include <JTree.h>
+#include <jx-af/jcore/JTree.h>
 
 class JString;
 class JFSFileTreeNodeBase;

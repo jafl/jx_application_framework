@@ -10,9 +10,9 @@
 #ifndef _H_JXTextCheckbox
 #define _H_JXTextCheckbox
 
-#include "JXCheckbox.h"
-#include <JString.h>
-#include <JFont.h>
+#include "jx-af/jx/JXCheckbox.h"
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JFont.h>
 
 class JXTextCheckbox : public JXCheckbox
 {

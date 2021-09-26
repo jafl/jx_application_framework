@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include "JProcessError.h"
+#include "jx-af/jcore/JProcessError.h"
 
 // Types
 

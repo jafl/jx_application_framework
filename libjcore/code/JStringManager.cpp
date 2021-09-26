@@ -47,15 +47,15 @@
 
  *****************************************************************************/
 
-#include "JStringManager.h"
-#include "JStringPtrMapCursor.h"
-#include "JSubstitute.h"
-#include "JStringIterator.h"
-#include "jDirUtil.h"
-#include "jStreamUtil.h"
-#include "jGlobals.h"
+#include "jx-af/jcore/JStringManager.h"
+#include "jx-af/jcore/JStringPtrMapCursor.h"
+#include "jx-af/jcore/JSubstitute.h"
+#include "jx-af/jcore/JStringIterator.h"
+#include "jx-af/jcore/jDirUtil.h"
+#include "jx-af/jcore/jStreamUtil.h"
+#include "jx-af/jcore/jGlobals.h"
 #include <fstream>
-#include "jAssert.h"
+#include "jx-af/jcore/jAssert.h"
 
 static const JUtf8Byte* kDataDirName = "string_data";
 static const JString kDefaultFileName("default", JString::kNoCopy);

@@ -10,9 +10,9 @@
 #ifndef _H_JXAssert
 #define _H_JXAssert
 
-#include <JAssertBase.h>
-#include <JPtrArray.h>
-#include "JXDisplay.h"	// for Windows template compile
+#include <jx-af/jcore/JAssertBase.h>
+#include <jx-af/jcore/JPtrArray.h>
+#include "jx-af/jx/JXDisplay.h"	// for Windows template compile
 
 class JXApplication;
 

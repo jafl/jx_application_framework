@@ -8,7 +8,7 @@
 #ifndef _H_JXWDManager
 #define _H_JXWDManager
 
-#include <JPtrArray-JString.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
 
 class JXDisplay;
 class JXImage;

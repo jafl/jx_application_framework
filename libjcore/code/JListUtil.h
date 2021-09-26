@@ -8,7 +8,7 @@
 #ifndef _H_JListUtil
 #define _H_JListUtil
 
-#include "JList.h"
+#include "jx-af/jcore/JList.h"
 
 JListT::CompareResult JCompareIndices(const JIndex& i, const JIndex& j);
 JListT::CompareResult JCompareSizes(const JSize& s1, const JSize& s2);

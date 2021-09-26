@@ -8,11 +8,11 @@
 #ifndef _H_JXDNDManager
 #define _H_JXDNDManager
 
-#include "JXSelectionManager.h"
-#include "JXButtonStates.h"
-#include "JXKeyModifiers.h"
-#include "JXCursor.h"
-#include <JRect.h>
+#include "jx-af/jx/JXSelectionManager.h"
+#include "jx-af/jx/JXButtonStates.h"
+#include "jx-af/jx/JXKeyModifiers.h"
+#include "jx-af/jx/JXCursor.h"
+#include <jx-af/jcore/JRect.h>
 
 class JXDisplay;
 class JXContainer;

@@ -10,7 +10,7 @@
 #ifndef _H_JParallel
 #define _H_JParallel
 
-#include <JNaryOperator.h>
+#include "jx-af/jexpr/JNaryOperator.h"
 
 class JParallel : public JNaryOperator
 {

@@ -11,7 +11,7 @@
 #define _H_JXMenu
 
 #include <JXContainer_mock.h>
-#include <JXKeyModifiers.h>
+#include <jx-af/jx/JXKeyModifiers.h>
 
 class JXMenu : public JXContainer
 {

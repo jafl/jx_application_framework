@@ -9,14 +9,14 @@
 
  ******************************************************************************/
 
-#include "JXTextMenu.h"
-#include "JXTextMenuData.h"
-#include "JXTextMenuDirector.h"
-#include "JXDisplay.h"
-#include "JXImageCache.h"
-#include "JXImage.h"
-#include <JStringIterator.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXTextMenu.h"
+#include "jx-af/jx/JXTextMenuData.h"
+#include "jx-af/jx/JXTextMenuDirector.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXImageCache.h"
+#include "jx-af/jx/JXImage.h"
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

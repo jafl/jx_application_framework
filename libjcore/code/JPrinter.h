@@ -8,7 +8,7 @@
 #ifndef _H_JPrinter
 #define _H_JPrinter
 
-#include "JBroadcaster.h"
+#include "jx-af/jcore/JBroadcaster.h"
 
 class JPrinter : virtual public JBroadcaster
 {

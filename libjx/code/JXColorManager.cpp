@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include "JXColorManager.h"
-#include "JXDisplay.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/JXDisplay.h"
 #include <stdlib.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kBitsPerColorComp = 16;			// X uses 16 bits for each of r,g,b
 	

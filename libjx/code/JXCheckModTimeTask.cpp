@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include "JXCheckModTimeTask.h"
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXCheckModTimeTask.h"
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JUtf8Byte* JXCheckModTimeTask::kFileChanged = "FileChanged::JXCheckModTimeTask";
 

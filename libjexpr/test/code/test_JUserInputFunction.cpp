@@ -7,9 +7,9 @@
 
  *****************************************************************************/
 
-#include <JTestManager.h>
-#include <JUserInputFunction.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jexpr/JUserInputFunction.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

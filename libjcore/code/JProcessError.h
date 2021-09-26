@@ -10,8 +10,8 @@
 #ifndef _H_JProcessError
 #define _H_JProcessError
 
-#include "JError.h"
-#include "JString.h"
+#include "jx-af/jcore/JError.h"
+#include "jx-af/jcore/JString.h"
 
 // Types
 

@@ -11,8 +11,8 @@
 
  ******************************************************************************/
 
-#include <JBinaryFunction.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JBinaryFunction.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

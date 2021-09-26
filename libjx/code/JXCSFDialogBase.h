@@ -10,8 +10,8 @@
 #ifndef _H_JXCSFDialogBase
 #define _H_JXCSFDialogBase
 
-#include "JXDialogDirector.h"
-#include <JString.h>
+#include "jx-af/jx/JXDialogDirector.h"
+#include <jx-af/jcore/JString.h>
 
 class JDirInfo;
 class JXDirTable;

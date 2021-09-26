@@ -12,11 +12,11 @@
 
  *****************************************************************************/
 
-#include "JHashTable.h"
-#include "JStringMapCursor.h"
-#include "JStrValue.h"
-#include "JString.h"
-#include "JPtrArray.h"	// need definition of CleanUpAction, SetElementAction
+#include "jx-af/jcore/JHashTable.h"
+#include "jx-af/jcore/JStringMapCursor.h"
+#include "jx-af/jcore/JStrValue.h"
+#include "jx-af/jcore/JString.h"
+#include "jx-af/jcore/JPtrArray.h"	// need definition of CleanUpAction, SetElementAction
 
 struct JStringMapT
 {

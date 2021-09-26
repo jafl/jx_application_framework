@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "JXMDIServer.h"
-#include "jXGlobals.h"
+#include "jx-af/jx/JXMDIServer.h"
+#include "jx-af/jx/jXGlobals.h"
 
 /******************************************************************************
  Constructor

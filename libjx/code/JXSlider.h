@@ -10,7 +10,7 @@
 #ifndef _H_JXSlider
 #define _H_JXSlider
 
-#include "JXSliderBase.h"
+#include "jx-af/jx/JXSliderBase.h"
 
 class JXSlider : public JXSliderBase
 {

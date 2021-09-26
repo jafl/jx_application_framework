@@ -11,11 +11,11 @@
 
  ******************************************************************************/
 
-#include "JXDocumentMenu.h"
-#include "JXDocumentManager.h"
-#include "JXDocument.h"
-#include "jXGlobals.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXDocumentMenu.h"
+#include "jx-af/jx/JXDocumentManager.h"
+#include "jx-af/jx/JXDocument.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

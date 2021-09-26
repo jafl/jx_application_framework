@@ -15,10 +15,10 @@ SEARCHDIRS := -I./code \
 
 # other constants
 
-PROG_NAME         := <Binary>
-PROG_VERSION      := ${shell cat VERSION}
+APP_NAME         := <Binary>
+APP_VERSION      := ${shell cat VERSION}
 SIGNATURE         := <Binary>
-MENU_STRINGS_FILE := ./strings/${PROG_NAME}_menu_strings
+MENU_STRINGS_FILE := ./strings/${APP_NAME}_menu_strings
 
 # also defined in .spec
 
@@ -26,10 +26,10 @@ RPM_LIB_PATH := /usr/lib/${SIGNATURE}
 
 # makemake variables
 
-J_STRING_FILES := ${filter-out %/${PROG_NAME}_menu_strings, \
+J_STRING_FILES := ${filter-out %/${APP_NAME}_menu_strings, \
                     ${shell echo strings/*}} strings/version
 
-include ${JX_ROOT}/include/make/jx_config
+include ${JX_INCLUDE_ROOT}/jx-af/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} <MDI_DEF> \
                ${SEARCHDIRS}
@@ -49,12 +49,12 @@ endif
 #####
 
 .PHONY : default
-default: libs ${PROG_NAME}
+default: libs ${APP_NAME}
 
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/app_targets
+include ${JX_INCLUDE_ROOT}/jx-af/make/app_targets
 
 #
 # string data
@@ -68,60 +68,44 @@ strings: build_version_string
 
 .PHONY : stringdb
 stringdb:
-	compile_jstrings ${J_STRING_FILES} --db ${PROG_NAME}_us
+	compile_jstrings ${J_STRING_FILES} --db ${APP_NAME}_us
 
-${PROG_NAME}:: strings
+${APP_NAME}:: strings
 
 .PHONY : menu_strings
 menu_strings:
-	@${JX_ROOT}/bin/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
-     -a ./code/<pre>ActionDefs.h ${JX_ROOT}/include/jx/jXActionDefs.h ${JX_ROOT}/include/jx/JXTEBase.cpp \
-     -m */*.cpp ${JX_ROOT}/include/jx/*.cpp
+	@${JX_INCLUDE_ROOT}/jx-af/scripts/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
+     -a ./code/<pre>ActionDefs.h ${JX_INCLUDE_ROOT}/jx-af/jx/jXActionDefs.h ${JX_INCLUDE_ROOT}/jx-af/jx/JXTEBase.cpp \
+     -m */*.cpp ${JX_INCLUDE_ROOT}/jx-af/jx/*.cpp
 
 #
 # install binaries
 #
 
 .PHONY : jxinstall
-jxinstall: ${PROG_NAME}
-	@strip ${call EXE, ${PROG_NAME}}
+jxinstall: ${APP_NAME}
+	@strip ${call EXE, ${APP_NAME}}
   ifneq (${J_WANT_INSTALL},0)
-	@cp ${PROG_NAME} ${JX_INSTALL_ROOT}/
+	@cp ${APP_NAME} ${JX_INSTALL_ROOT}/
   endif
 
 .PHONY : jxuninstall
 jxuninstall:
-	@${RM} ${JX_INSTALL_ROOT}/${PROG_NAME}
-
-#
-# source distribution (only useful if project is in ${JX_ROOT}/programs)
-#
-
-SRC_TAR_FILE := ${PROG_NAME}_source-${PROG_VERSION}.tar.gz
-SRC_FILE_DIR := ${JX}/programs/<PROJ_DIR>
-
-.PHONY : source
-source:
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cpp %Y.cpp, \
-                                   ${shell cd ${J_DISTR_TAR_DIR}; echo \
-              ${addprefix ${SRC_FILE_DIR}/, \
-                README COPYING Make.* *.jcc *.fd \
-                code/* strings/* release/pkg } }}
+	@${RM} ${JX_INSTALL_ROOT}/${APP_NAME}
 
 #
 # binary distributions
 #
 
-PROG := ${PROG_NAME}-${PROG_VERSION}
+PROG := ${APP_NAME}-${APP_VERSION}
 
-PROG_RELEASE_TAR_NAME := ${PROG_NAME}_${PROG_VERSION}.tar
+PROG_RELEASE_TAR_NAME := ${APP_NAME}_${APP_VERSION}.tar
 
-RPM_TAR_FILE  := ${RPM_SRC_DIR}/${PROG_NAME}_${PROG_VERSION}.tar
-RPM_SPEC_FILE := ./release/pkg/${PROG_NAME}.spec
+RPM_TAR_FILE  := ${RPM_SRC_DIR}/${APP_NAME}_${APP_VERSION}.tar
+RPM_SPEC_FILE := ./release/pkg/${APP_NAME}.spec
 
-DEB_CTRL_FILE := ./release/pkg/${PROG_NAME}.debctrl
-DEB_PKG_FILE  := ${PROG_NAME}_${PROG_VERSION}_i386.deb
+DEB_CTRL_FILE := ./release/pkg/${APP_NAME}.debctrl
+DEB_PKG_FILE  := ${APP_NAME}_${APP_VERSION}_i386.deb
 
 .PHONY : release
 release: pre_build_pkgs static
@@ -132,7 +116,7 @@ release: pre_build_pkgs static
 .PHONY : distr_sub
 distr_sub: menu_strings
 	@${MAKE} PKG_PATH=${PROG} init_tarball
-	@ln -s ../${call EXE,${PROG_NAME}} ${PROG}/${call EXE,${PROG_NAME}}
+	@ln -s ../${call EXE,${APP_NAME}} ${PROG}/${call EXE,${APP_NAME}}
 	@${MAKE} PKG_PATH=${PROG} SOURCE_TAR_NAME=${PROG_DISTR_TAR_FILE} build_pkgs
 
 #
@@ -141,5 +125,5 @@ distr_sub: menu_strings
 
 .PHONY : personal
 personal: default
-	@cp ${PROG_NAME} ${HOME}/bin/
-	@strip ${call EXE, ${HOME}/bin/${PROG_NAME}}
+	@cp ${APP_NAME} ${HOME}/bin/
+	@strip ${call EXE, ${HOME}/bin/${APP_NAME}}

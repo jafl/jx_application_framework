@@ -8,7 +8,7 @@
 #ifndef _H_jTextUtil
 #define _H_jTextUtil
 
-#include "JStyledText.h"
+#include "jx-af/jcore/JStyledText.h"
 
 JFont	CalcWSFont(const JFont& prevFont, const JFont& nextFont);
 

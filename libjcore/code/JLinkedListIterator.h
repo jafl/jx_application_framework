@@ -8,7 +8,7 @@
 #ifndef _H_JLinkedListIterator
 #define _H_JLinkedListIterator
 
-#include "JListIterator.h"
+#include "jx-af/jcore/JListIterator.h"
 
 // must forward declare to avoid #include loop
 // (We do it here so JLinkedList includes JLinkedListIterator for convenience.)

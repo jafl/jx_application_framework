@@ -10,7 +10,7 @@
 #ifndef _H_JAssertBase
 #define _H_JAssertBase
 
-#include "jTypes.h"
+#include "jx-af/jcore/jTypes.h"
 
 class JAssertBase
 {

@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include "JXFileNameDisplay.h"
-#include "JXFontManager.h"
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXFileNameDisplay.h"
+#include "jx-af/jx/JXFontManager.h"
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

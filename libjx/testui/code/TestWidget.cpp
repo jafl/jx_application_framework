@@ -10,34 +10,34 @@
 #include "TestWidget.h"
 #include "ResizeWidgetDialog.h"
 
-#include <JXDisplay.h>
-#include <JXSelectionManager.h>
-#include <JXDNDManager.h>
-#include <JXFileSelection.h>
-#include <JXColorManager.h>
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXTextButton.h>
-#include <JXDragPainter.h>
-#include <JXImagePainter.h>
-#include <JXImageMask.h>
-#include <JXWindowIcon.h>
-#include <JXFontManager.h>
-#include <JXCursor.h>
-#include <jXGlobals.h>
-#include <jXUtil.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXSelectionManager.h>
+#include <jx-af/jx/JXDNDManager.h>
+#include <jx-af/jx/JXFileSelection.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXDragPainter.h>
+#include <jx-af/jx/JXImagePainter.h>
+#include <jx-af/jx/JXImageMask.h>
+#include <jx-af/jx/JXWindowIcon.h>
+#include <jx-af/jx/JXFontManager.h>
+#include <jx-af/jx/JXCursor.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jx/jXUtil.h>
 #include <X11/cursorfont.h>
 
-#include <JPagePrinter.h>
-#include <JEPSPrinter.h>
-#include <JRegex.h>
-#include <JString.h>
-#include <jStreamUtil.h>
-#include <jDirUtil.h>
-#include <jTime.h>
-#include <jMath.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JPagePrinter.h>
+#include <jx-af/jcore/JEPSPrinter.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Actions menu
 

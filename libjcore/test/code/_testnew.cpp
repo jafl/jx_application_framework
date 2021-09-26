@@ -10,8 +10,8 @@
  *****************************************************************************/
 
 // To make JCore shut up
-#include <JUserNotification.h>
-#include <JCreateProgressDisplay.h>
+#include <jx-af/jcore/JUserNotification.h>
+#include <jx-af/jcore/JCreateProgressDisplay.h>
 
 	JUserNotification* gUserNotification = nullptr;
 	JCreateProgressDisplay* gCreatePG = nullptr;
@@ -19,12 +19,12 @@
 	const JCharacter* kJDefaultFontName = nullptr;
 
 
-#include <JMemoryManager.h>
-#include <JMMErrorPrinter.h>
+#include <jx-af/jcore/JMemoryManager.h>
+#include <jx-af/jcore/JMMErrorPrinter.h>
 
-#include <JArray.h>
+#include <jx-af/jcore/JArray.h>
 #include <iomanip>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  main

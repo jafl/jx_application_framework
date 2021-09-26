@@ -10,8 +10,8 @@
 #ifndef _H_AnimateHelpMenuTask
 #define _H_AnimateHelpMenuTask
 
-#include <JXIdleTask.h>
-#include <JPtrArray.h>
+#include <jx-af/jx/JXIdleTask.h>
+#include <jx-af/jcore/JPtrArray.h>
 
 class JXTextMenu;
 class JXImage;

@@ -7,16 +7,16 @@
 
  ******************************************************************************/
 
-#include "jProcessUtil.h"
-#include "JThisProcess.h"
-#include "JProcessError.h"
-#include "JStdError.h"
-#include "JString.h"
-#include "jErrno.h"
-#include "jStreamUtil.h"
-#include "jFileUtil.h"
+#include "jx-af/jcore/jProcessUtil.h"
+#include "jx-af/jcore/JThisProcess.h"
+#include "jx-af/jcore/JProcessError.h"
+#include "jx-af/jcore/JStdError.h"
+#include "jx-af/jcore/JString.h"
+#include "jx-af/jcore/jErrno.h"
+#include "jx-af/jcore/jStreamUtil.h"
+#include "jx-af/jcore/jFileUtil.h"
 #include <sys/resource.h>
-#include "jAssert.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  JRunProgram

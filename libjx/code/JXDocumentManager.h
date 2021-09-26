@@ -8,8 +8,8 @@
 #ifndef _H_JXDocumentManager
 #define _H_JXDocumentManager
 
-#include <JArray.h>
-#include <JString.h>
+#include <jx-af/jcore/JArray.h>
+#include <jx-af/jcore/JString.h>
 
 class JXImage;
 class JXDocument;

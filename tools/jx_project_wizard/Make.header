@@ -11,14 +11,14 @@ SEARCHDIRS := -I./code \
 
 # other constants
 
-PROG_NAME          := jx_project_wizard
+APP_NAME          := jx_project_wizard
 ROOT_DATA_FILE_DIR := /usr/lib/jx/jx_project_wizard
 
 # makemake variables
 
 J_STRING_FILES := strings/*
 
-include ${JX_ROOT}/include/make/jx_config
+include ${JX_INCLUDE_ROOT}/jx-af/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                -DJX_PATH=\"${shell cd ${JX_ROOT}; pwd}/\" \
@@ -26,8 +26,8 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
 
 # library dependencies
 
-LIB_DEPS := ${JX_ROOT}/lib/libjcore.a \
-            ${JX_ROOT}/lib/libjx.a
+LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a \
+            ${JX_LIB_ROOT}/libjx.a
 
 # make variables
 
@@ -37,12 +37,12 @@ LDFLAGS   :=
 #####
 
 .PHONY : default
-default: libs ${PROG_NAME}
+default: libs ${APP_NAME}
 
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/app_targets
+include ${JX_INCLUDE_ROOT}/jx-af/make/app_targets
 
 #
 # string data
@@ -55,19 +55,19 @@ strings:
 
 .PHONY : stringdb
 stringdb:
-	compile_jstrings ${J_STRING_FILES} --db ${PROG_NAME}_us
+	compile_jstrings ${J_STRING_FILES} --db ${APP_NAME}_us
 
-${PROG_NAME}:: strings
+${APP_NAME}:: strings
 
 #
 # install binaries
 #
 
 .PHONY : jxinstall
-jxinstall: ${PROG_NAME}
-	@strip ${call EXE, ${PROG_NAME}}
+jxinstall: ${APP_NAME}
+	@strip ${call EXE, ${APP_NAME}}
   ifneq (${J_WANT_INSTALL},0)
-	@cp ${PROG_NAME} ${JX_INSTALL_ROOT}/
+	@cp ${APP_NAME} ${JX_INSTALL_ROOT}/
    ifeq (${shell whoami},root)
 	@mkdir -p ${ROOT_DATA_FILE_DIR}/
 	@cp -R ./app_template/ ${ROOT_DATA_FILE_DIR}/
@@ -76,7 +76,7 @@ jxinstall: ${PROG_NAME}
 
 .PHONY : jxuninstall
 jxuninstall:
-	@${RM} ${JX_INSTALL_ROOT}/${PROG_NAME}
+	@${RM} ${JX_INSTALL_ROOT}/${APP_NAME}
   ifeq (${shell whoami},root)
 	@${RM} -r ${ROOT_DATA_FILE_DIR}/
   endif
@@ -87,8 +87,8 @@ jxuninstall:
 
 .PHONY : default
 personal: static
-	@cp ${PROG_NAME} ${JX_INSTALL_ROOT}/
-	@strip ${call EXE, ${JX_INSTALL_ROOT}/${PROG_NAME}}
+	@cp ${APP_NAME} ${JX_INSTALL_ROOT}/
+	@strip ${call EXE, ${JX_INSTALL_ROOT}/${APP_NAME}}
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

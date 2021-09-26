@@ -8,8 +8,8 @@
 #ifndef _H_JXRaiseWindowTask
 #define _H_JXRaiseWindowTask
 
-#include "JXUrgentTask.h"
-#include <JBroadcaster.h>
+#include "jx-af/jx/JXUrgentTask.h"
+#include <jx-af/jcore/JBroadcaster.h>
 
 class JXWindow;
 

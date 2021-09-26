@@ -1,8 +1,8 @@
-#include <JTextChooseSaveFile.h>
-#include <JUserNotification.h>
-#include <jCommandLine.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTextChooseSaveFile.h>
+#include <jx-af/jcore/JUserNotification.h>
+#include <jx-af/jcore/jCommandLine.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 int
 main

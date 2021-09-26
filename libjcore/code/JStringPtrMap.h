@@ -12,8 +12,8 @@
 
  *****************************************************************************/
 
-#include "JStringMap.h"
-#include "JStringPtrMapCursor.h"
+#include "jx-af/jcore/JStringMap.h"
+#include "jx-af/jcore/JStringPtrMapCursor.h"
 
 template <class V>
 class JStringPtrMap : public JStringMap<V*>

@@ -11,8 +11,8 @@
 
  ******************************************************************************/
 
-#include <JUnaryFunction.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JUnaryFunction.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

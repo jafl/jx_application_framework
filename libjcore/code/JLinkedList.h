@@ -10,8 +10,8 @@
 #ifndef _H_JLinkedList
 #define _H_JLinkedList
 
-#include "JList.h"
-#include "JLinkedListIterator.h"
+#include "jx-af/jcore/JList.h"
+#include "jx-af/jcore/JLinkedListIterator.h"
 
 template <class T>
 class JLinkedListElement

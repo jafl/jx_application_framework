@@ -7,9 +7,9 @@
 
  *****************************************************************************/
 
-#include <JTestManager.h>
-#include <jXEventUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jx/jXEventUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include "JTableData.h"
-#include "JListUtil.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JTableData.h"
+#include "jx-af/jcore/JListUtil.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Constructor

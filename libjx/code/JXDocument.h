@@ -10,8 +10,8 @@
 #ifndef _H_JXDocument
 #define _H_JXDocument
 
-#include "JXWindowDirector.h"
-#include "JXDocumentManager.h"	// need definition of SafetySaveReason
+#include "jx-af/jx/JXWindowDirector.h"
+#include "jx-af/jx/JXDocumentManager.h"	// need definition of SafetySaveReason
 
 class JXDocument : public JXWindowDirector
 {

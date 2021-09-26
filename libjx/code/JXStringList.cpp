@@ -19,16 +19,16 @@
 
  ******************************************************************************/
 
-#include "JXStringList.h"
-#include "JXWindow.h"
-#include "JXColorManager.h"
-#include "jXGlobals.h"
-#include <JStyleTableData.h>
-#include <JTableSelection.h>
-#include <JPainter.h>
-#include <JFontManager.h>
-#include <jASCIIConstants.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXStringList.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/JStyleTableData.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kHMarginWidth = 3;
 

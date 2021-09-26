@@ -11,8 +11,8 @@
 
  ******************************************************************************/
 
-#include <JMaxFunc.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JMaxFunc.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

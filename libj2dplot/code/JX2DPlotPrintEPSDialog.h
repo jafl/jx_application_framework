@@ -8,7 +8,7 @@
 #ifndef _H_JX2DPlotPrintEPSDialog
 #define _H_JX2DPlotPrintEPSDialog
 
-#include <JXEPSPrintSetupDialog.h>
+#include <jx-af/jx/JXEPSPrintSetupDialog.h>
 
 class JXTextMenu;
 class JXFloatInput;

@@ -7,16 +7,16 @@
 
  ******************************************************************************/
 
-#include "jVCSUtil.h"
-#include "JRegex.h"
-#include "JSimpleProcess.h"
-#include "jFileUtil.h"
-#include "jStreamUtil.h"
-#include "jFStreamUtil.h"
-#include "jXMLUtil.h"
+#include "jx-af/jcore/jVCSUtil.h"
+#include "jx-af/jcore/JRegex.h"
+#include "jx-af/jcore/JSimpleProcess.h"
+#include "jx-af/jcore/jFileUtil.h"
+#include "jx-af/jcore/jStreamUtil.h"
+#include "jx-af/jcore/jFStreamUtil.h"
+#include "jx-af/jcore/jXMLUtil.h"
 #include <libxml/parser.h>
-#include "jGlobals.h"
-#include "jAssert.h"
+#include "jx-af/jcore/jGlobals.h"
+#include "jx-af/jcore/jAssert.h"
 
 static const JString kGitDirName        (".git",    JString::kNoCopy);
 static const JString kSubversionDirName (".svn",    JString::kNoCopy);

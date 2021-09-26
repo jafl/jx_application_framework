@@ -7,13 +7,13 @@
 
  ******************************************************************************/
 
-#include "JFSBinding.h"
-#include <JRegex.h>
-#include <JStringIterator.h>
-#include <JSubstitute.h>
-#include <JDirInfo.h>
-#include <jStreamUtil.h>
-#include <jAssert.h>
+#include "jx-af/jfs/JFSBinding.h"
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JSubstitute.h>
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kOrigDefaultMarker  = "<default>";
 static const JUtf8Byte* kNameRegexMarker    = "*";

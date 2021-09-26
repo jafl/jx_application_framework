@@ -21,11 +21,11 @@
 
  ******************************************************************************/
 
-#include "JXLinkText.h"
-#include "JXStyledText.h"
-#include "JXDisplay.h"
+#include "jx-af/jx/JXLinkText.h"
+#include "jx-af/jx/JXStyledText.h"
+#include "jx-af/jx/JXDisplay.h"
 #include <X11/cursorfont.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

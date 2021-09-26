@@ -10,8 +10,8 @@
 #ifndef _H_JTextProgressDisplay
 #define _H_JTextProgressDisplay
 
-#include "JProgressDisplay.h"
-#include "jSignal.h"
+#include "jx-af/jcore/JProgressDisplay.h"
+#include "jx-af/jcore/jSignal.h"
 
 class JTextProgressDisplay : public JProgressDisplay
 {

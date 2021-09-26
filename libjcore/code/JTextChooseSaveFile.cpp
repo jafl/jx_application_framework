@@ -12,15 +12,15 @@
 
  ******************************************************************************/
 
-#include "JTextChooseSaveFile.h"
-#include "jCommandLine.h"
+#include "jx-af/jcore/JTextChooseSaveFile.h"
+#include "jx-af/jcore/jCommandLine.h"
 
-#include "JString.h"
-#include "jFileUtil.h"
-#include "jDirUtil.h"
+#include "jx-af/jcore/JString.h"
+#include "jx-af/jcore/jFileUtil.h"
+#include "jx-af/jcore/jDirUtil.h"
 #include <stdlib.h>
-#include "jGlobals.h"
-#include "jAssert.h"
+#include "jx-af/jcore/jGlobals.h"
+#include "jx-af/jcore/jAssert.h"
 
 const JUtf8Byte* kDoneStr   = "done";
 const JUtf8Byte* kCancelStr = "cancel";

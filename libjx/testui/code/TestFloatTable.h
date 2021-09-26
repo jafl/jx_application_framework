@@ -10,7 +10,7 @@
 #ifndef _H_TestFloatTable
 #define _H_TestFloatTable
 
-#include <JXFloatTable.h>
+#include <jx-af/jx/JXFloatTable.h>
 
 class JFloatTableData;
 class JXMenuBar;

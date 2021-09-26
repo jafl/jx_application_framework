@@ -7,17 +7,17 @@
 
  ******************************************************************************/
 
-#include "jFileUtil.h"
-#include "jStreamUtil.h"
-#include "jFStreamUtil.h"
-#include "JStringIterator.h"
-#include "JStringMatch.h"
-#include "JRegex.h"
-#include "jMountUtil.h"
-#include "jSysUtil.h"
-#include "jErrno.h"
+#include "jx-af/jcore/jFileUtil.h"
+#include "jx-af/jcore/jStreamUtil.h"
+#include "jx-af/jcore/jFStreamUtil.h"
+#include "jx-af/jcore/JStringIterator.h"
+#include "jx-af/jcore/JStringMatch.h"
+#include "jx-af/jcore/JRegex.h"
+#include "jx-af/jcore/jMountUtil.h"
+#include "jx-af/jcore/jSysUtil.h"
+#include "jx-af/jcore/jErrno.h"
 #include <limits.h>
-#include "jAssert.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  JRenameFile

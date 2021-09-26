@@ -40,9 +40,9 @@
 
  ******************************************************************************/
 
-#include "JKLRand.h"
-#include "jMath.h"
-#include "jAssert.h"
+#include "jx-af/jcore/JKLRand.h"
+#include "jx-af/jcore/jMath.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  Constructor

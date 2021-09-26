@@ -11,8 +11,8 @@
 
  *****************************************************************************/
 
-#include "jRand.h"
-#include "jAssert.h"
+#include "jx-af/jcore/jRand.h"
+#include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
  JKLRandInt32 -- Knuth & Lewis 32-bit linear congruential pseudorandom number generator

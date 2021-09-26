@@ -10,7 +10,7 @@
 #ifndef _H_JXMacWinPrefsDialog
 #define _H_JXMacWinPrefsDialog
 
-#include "JXDialogDirector.h"
+#include "jx-af/jx/JXDialogDirector.h"
 
 class JXTextCheckbox;
 

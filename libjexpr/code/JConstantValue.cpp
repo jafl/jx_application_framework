@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include <JConstantValue.h>
-#include <JString.h>
-#include <jAssert.h>
+#include "jx-af/jexpr/JConstantValue.h"
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

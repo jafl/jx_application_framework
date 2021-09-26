@@ -65,35 +65,35 @@
 
  ******************************************************************************/
 
-#include "JExprEditor.h"
-#include "JExprRectList.h"
-#include "JVariableList.h"
-#include "JUserInputFunction.h"
+#include "jx-af/jexpr/JExprEditor.h"
+#include "jx-af/jexpr/JExprRectList.h"
+#include "jx-af/jexpr/JVariableList.h"
+#include "jx-af/jexpr/JUserInputFunction.h"
 
-#include "JExprParser.h"
-#include "jFunctionUtil.h"
-#include "JFunctionWithVar.h"
-#include "JUnaryFunction.h"
-#include "JBinaryFunction.h"
-#include "JNaryFunction.h"
-#include "JSummation.h"
-#include "JNegation.h"
-#include "JProduct.h"
-#include "JDivision.h"
-#include "JExponent.h"
-#include "JParallel.h"
-#include "JLogB.h"
-#include "JVariableValue.h"
-#include "JConstantValue.h"
+#include "jx-af/jexpr/JExprParser.h"
+#include "jx-af/jexpr/jFunctionUtil.h"
+#include "jx-af/jexpr/JFunctionWithVar.h"
+#include "jx-af/jexpr/JUnaryFunction.h"
+#include "jx-af/jexpr/JBinaryFunction.h"
+#include "jx-af/jexpr/JNaryFunction.h"
+#include "jx-af/jexpr/JSummation.h"
+#include "jx-af/jexpr/JNegation.h"
+#include "jx-af/jexpr/JProduct.h"
+#include "jx-af/jexpr/JDivision.h"
+#include "jx-af/jexpr/JExponent.h"
+#include "jx-af/jexpr/JParallel.h"
+#include "jx-af/jexpr/JLogB.h"
+#include "jx-af/jexpr/JVariableValue.h"
+#include "jx-af/jexpr/JConstantValue.h"
 
-#include <JEPSPrinter.h>
-#include <JFontManager.h>
-#include <JColorManager.h>
-#include <JMinMax.h>
-#include <jASCIIConstants.h>
-#include <jMath.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JEPSPrinter.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 // JBroadcaster message types
 

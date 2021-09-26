@@ -10,8 +10,8 @@
 #ifndef _H_JXChooseSaveFile
 #define _H_JXChooseSaveFile
 
-#include <JChooseSaveFile.h>
-#include <JPrefObject.h>
+#include <jx-af/jcore/JChooseSaveFile.h>
+#include <jx-af/jcore/JPrefObject.h>
 
 class JDirInfo;
 class JXDirector;

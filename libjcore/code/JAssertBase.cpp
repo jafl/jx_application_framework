@@ -24,12 +24,12 @@
 
  *****************************************************************************/
 
-#include "JAssertBase.h"
-#include "jGlobals.h"
+#include "jx-af/jcore/JAssertBase.h"
+#include "jx-af/jcore/jGlobals.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "jAssert.h"
+#include "jx-af/jcore/jAssert.h"
 
 static const JUtf8Byte* kAssertActionEnvName = "J_ASSERT_ACTION";
 static const JUtf8Byte* kAskUserAction       = "ask_user";

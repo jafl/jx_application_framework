@@ -8,7 +8,7 @@
 #ifndef _H_TestSaveFileDialog
 #define _H_TestSaveFileDialog
 
-#include <JXSaveFileDialog.h>
+#include <jx-af/jx/JXSaveFileDialog.h>
 #include "TestChooseSaveFile.h"		// need definition of SaveFormat
 
 class JXRadioGroup;

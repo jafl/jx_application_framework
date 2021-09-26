@@ -7,15 +7,15 @@
 
  ******************************************************************************/
 
-#include "JX2DPlotLabelDialog.h"
-#include <JXFontNameMenu.h>
-#include <JXFontSizeMenu.h>
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXInputField.h>
-#include <JXStaticText.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include "jx-af/j2dplot/JX2DPlotLabelDialog.h"
+#include <jx-af/jx/JXFontNameMenu.h>
+#include <jx-af/jx/JXFontSizeMenu.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXInputField.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

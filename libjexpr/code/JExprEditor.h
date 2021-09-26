@@ -10,9 +10,9 @@
 #ifndef _H_JExprEditor
 #define _H_JExprEditor
 
-#include <JExprRenderer.h>
-#include <JArray.h>
-#include <JFontStyle.h>
+#include "jx-af/jexpr/JExprRenderer.h"
+#include <jx-af/jcore/JArray.h>
+#include <jx-af/jcore/JFontStyle.h>
 
 class JString;
 class JPainter;

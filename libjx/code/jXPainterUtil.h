@@ -8,9 +8,9 @@
 #ifndef _H_jXPainterUtil
 #define _H_jXPainterUtil
 
-#include <JPainter.h>
-#include <JFontStyle.h>		// for convenience
-#include "jXConstants.h"
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JFontStyle.h>		// for convenience
+#include "jx-af/jx/jXConstants.h"
 
 // frame
 

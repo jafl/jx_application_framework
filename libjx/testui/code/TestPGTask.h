@@ -10,7 +10,7 @@
 #ifndef _H_TestPGTask
 #define _H_TestPGTask
 
-#include <JXIdleTask.h>
+#include <jx-af/jx/JXIdleTask.h>
 
 class JProgressDisplay;
 

@@ -23,37 +23,37 @@
 
  ******************************************************************************/
 
-#include "JXTEBase.h"
-#include "JXSearchTextDialog.h"
-#include "JXTEBlinkCaretTask.h"
-#include "JXGoToLineDialog.h"
-#include "JXDisplay.h"
-#include "JXWindow.h"
-#include "JXMenuBar.h"
-#include "JXTextMenu.h"
-#include "JXScrollbar.h"
-#include "JXWindowPainter.h"
-#include "JXPSPrinter.h"
-#include "JXPTPrinter.h"
-#include "JXSpellChecker.h"
-#include "JXSelectionManager.h"
-#include "JXDNDManager.h"
-#include "JXTextSelection.h"
-#include "JXColorManager.h"
-#include "jXGlobals.h"
-#include "jXActionDefs.h"
+#include "jx-af/jx/JXTEBase.h"
+#include "jx-af/jx/JXSearchTextDialog.h"
+#include "jx-af/jx/JXTEBlinkCaretTask.h"
+#include "jx-af/jx/JXGoToLineDialog.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXMenuBar.h"
+#include "jx-af/jx/JXTextMenu.h"
+#include "jx-af/jx/JXScrollbar.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXPSPrinter.h"
+#include "jx-af/jx/JXPTPrinter.h"
+#include "jx-af/jx/JXSpellChecker.h"
+#include "jx-af/jx/JXSelectionManager.h"
+#include "jx-af/jx/JXDNDManager.h"
+#include "jx-af/jx/JXTextSelection.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXGlobals.h"
+#include "jx-af/jx/jXActionDefs.h"
 
-#include <JFontManager.h>
-#include <JRegex.h>
-#include <jASCIIConstants.h>
-#include <jStreamUtil.h>
-#include <jFileUtil.h>
-#include <jProcessUtil.h>
-#include <jTime.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jTime.h>
 #include <sstream>
 #include <stdlib.h>
 #include <stdio.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 JXTEBase::PartialWordModifier JXTEBase::thePWMod = JXTEBase::kCtrlMetaPWMod;
 bool JXTEBase::theWindowsHomeEndFlag         = true;
@@ -2548,7 +2548,7 @@ JXTEBase::HandleEditMenu
 #define MenuVar      itsEditMenu
 #define CmdType      MenuItemInfo
 #define CmdIDList    kEditMenuItemInfo
-#include "JXMenuItemIDUtil.th"
+#include "jx-af/jx/JXMenuItemIDUtil.th"
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn
@@ -2619,7 +2619,7 @@ JXTEBase::HandleSearchMenu
 #define MenuVar      itsSearchMenu
 #define CmdType      MenuItemInfo
 #define CmdIDList    kSearchMenuItemInfo
-#include "JXMenuItemIDUtil.th"
+#include "jx-af/jx/JXMenuItemIDUtil.th"
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn
@@ -2774,7 +2774,7 @@ JXTEBase::HandleSearchReplaceCmd
 #define MenuVar      itsReplaceMenu
 #define CmdType      MenuItemInfo
 #define CmdIDList    kReplaceMenuItemInfo
-#include "JXMenuItemIDUtil.th"
+#include "jx-af/jx/JXMenuItemIDUtil.th"
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn

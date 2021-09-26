@@ -25,10 +25,10 @@
 
  ******************************************************************************/
 
-#include "JXHistoryMenuBase.h"
-#include "JXImage.h"
-#include "JXInputField.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXHistoryMenuBase.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXInputField.h"
+#include <jx-af/jcore/jAssert.h>
 
 // setup information
 

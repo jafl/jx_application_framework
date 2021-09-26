@@ -8,8 +8,8 @@
 #ifndef _H_JTextEditor
 #define _H_JTextEditor
 
-#include "JStyledText.h"
-#include "JRect.h"
+#include "jx-af/jcore/JStyledText.h"
+#include "jx-af/jcore/JRect.h"
 
 class JTEKeyHandler;
 class JInterpolate;

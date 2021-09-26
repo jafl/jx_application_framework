@@ -8,20 +8,20 @@
  ******************************************************************************/
 
 #include "TestImageDirector.h"
-#include <JXImageMask.h>
-#include <JXDisplay.h>
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXScrollbarSet.h>
-#include <JXImageWidget.h>
-#include <JXSelectionManager.h>
-#include <JXImageSelection.h>
-#include <JXPSPrinter.h>
-#include <JXEPSPrinter.h>
-#include <JXColorManager.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXImageMask.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXImageWidget.h>
+#include <jx-af/jx/JXSelectionManager.h>
+#include <jx-af/jx/JXImageSelection.h>
+#include <jx-af/jx/JXPSPrinter.h>
+#include <jx-af/jx/JXEPSPrinter.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 // File menu information
 

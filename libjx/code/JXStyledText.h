@@ -8,7 +8,7 @@
 #ifndef _H_JXStyledText
 #define _H_JXStyledText
 
-#include <JStyledText.h>
+#include <jx-af/jcore/JStyledText.h>
 
 class JFontManager;
 

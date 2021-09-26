@@ -15,16 +15,16 @@
 
  *****************************************************************************/
 
-#include "JXFSDirMenu.h"
-#include <JXApplication.h>
-#include <JXMenuManager.h>
-#include <JXDisplay.h>
-#include <JXImage.h>
-#include <JXImageCache.h>
-#include <jXGlobals.h>
-#include <JDirInfo.h>
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include "jx-af/jfs/JXFSDirMenu.h"
+#include <jx-af/jx/JXApplication.h>
+#include <jx-af/jx/JXMenuManager.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXImageCache.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 #include <jx_plain_file_small.xpm>
 #include <jx_folder_small.xpm>

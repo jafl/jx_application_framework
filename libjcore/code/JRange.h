@@ -8,7 +8,7 @@
 #ifndef _H_JRange
 #define _H_JRange
 
-#include "jTypes.h"
+#include "jx-af/jcore/jTypes.h"
 
 template <class T>
 class JRange

@@ -1,8 +1,8 @@
-#include <JKLRand.h>
-#include <JString.h>
-#include <JArray.h>
-#include <jFStreamUtil.h>
-#include <jCommandLine.h>
+#include <jx-af/jcore/JKLRand.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JArray.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jCommandLine.h>
 #include <stdio.h>
 
 // Prototypes

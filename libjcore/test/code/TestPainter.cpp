@@ -9,7 +9,7 @@
 
 #include "TestPainter.h"
 #include "TestFontManager.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

@@ -5,21 +5,21 @@
 
  ******************************************************************************/
 
-#include "J2DPlotWidget.h"
-#include "J2DPlotDataBase.h"
-#include "J2DPlotData.h"
-#include "J2DDataRect.h"
-#include <JRegex.h>
-#include <JStringIterator.h>
-#include <JPagePrinter.h>
-#include <JEPSPrinter.h>
-#include <JFontManager.h>
-#include <JFontStyle.h>
-#include <JColorManager.h>
-#include <jGlobals.h>
-#include <jMath.h>
-#include <jASCIIConstants.h>
-#include <jAssert.h>
+#include "jx-af/j2dplot/J2DPlotWidget.h"
+#include "jx-af/j2dplot/J2DPlotDataBase.h"
+#include "jx-af/j2dplot/J2DPlotData.h"
+#include "jx-af/j2dplot/J2DDataRect.h"
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JPagePrinter.h>
+#include <jx-af/jcore/JEPSPrinter.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JFontStyle.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kLabelBuffer			= 10;
 const JSize kRightBuffer			= 30;

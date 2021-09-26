@@ -10,11 +10,11 @@
 
  ******************************************************************************/
 
-#include "JXSearchTextDecorTask.h"
-#include "JXWindow.h"
-#include "JXTextCheckbox.h"
-#include "JXDownRect.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXSearchTextDecorTask.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXTextCheckbox.h"
+#include "jx-af/jx/JXDownRect.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

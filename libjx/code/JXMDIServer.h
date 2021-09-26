@@ -10,7 +10,7 @@
 #ifndef _H_JXMDIServer
 #define _H_JXMDIServer
 
-#include <JMDIServer.h>
+#include <jx-af/jcore/JMDIServer.h>
 
 class JXMDIServer : public JMDIServer
 {

@@ -10,21 +10,21 @@
 
  ******************************************************************************/
 
-#include "JXPSPrintSetupDialog.h"
-#include "JXAdjustPrintSetupLayoutTask.h"
-#include "JXWindow.h"
-#include "JXTextButton.h"
-#include "JXStaticText.h"
-#include "JXIntegerInput.h"
-#include "JXFileInput.h"
-#include "JXTextCheckbox.h"
-#include "JXRadioGroup.h"
-#include "JXTextRadioButton.h"
-#include "JXFileNameDisplay.h"
-#include "JXChooseSaveFile.h"
-#include "jXGlobals.h"
-#include <jFileUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXPSPrintSetupDialog.h"
+#include "jx-af/jx/JXAdjustPrintSetupLayoutTask.h"
+#include "jx-af/jx/JXWindow.h"
+#include "jx-af/jx/JXTextButton.h"
+#include "jx-af/jx/JXStaticText.h"
+#include "jx-af/jx/JXIntegerInput.h"
+#include "jx-af/jx/JXFileInput.h"
+#include "jx-af/jx/JXTextCheckbox.h"
+#include "jx-af/jx/JXRadioGroup.h"
+#include "jx-af/jx/JXTextRadioButton.h"
+#include "jx-af/jx/JXFileNameDisplay.h"
+#include "jx-af/jx/JXChooseSaveFile.h"
+#include "jx-af/jx/jXGlobals.h"
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 // mappings from dialog window to JPSPrinter options
 

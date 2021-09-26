@@ -8,8 +8,8 @@
 
  ******************************************************************************/
 
-#include "JFontStyle.h"
-#include "JColorManager.h"
+#include "jx-af/jcore/JFontStyle.h"
+#include "jx-af/jcore/JColorManager.h"
 
 JColorID JFontStyle::itsDefaultColorIndex = JColorManager::GetBlackColor();
 

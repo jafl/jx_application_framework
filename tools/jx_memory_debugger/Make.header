@@ -11,23 +11,23 @@ SEARCHDIRS := -I./code \
 
 # other constants
 
-PROG_NAME         := jx_memory_debugger
+APP_NAME         := jx_memory_debugger
 SIGNATURE         := jx_memory_debugger
-MENU_STRINGS_FILE := strings/${PROG_NAME}_menu_strings
+MENU_STRINGS_FILE := strings/${APP_NAME}_menu_strings
 
 # makemake variables
 
-J_STRING_FILES := ${filter-out %/${PROG_NAME}_menu_strings, \
+J_STRING_FILES := ${filter-out %/${APP_NAME}_menu_strings, \
                     ${shell echo strings/*}}
 
-include ${JX_ROOT}/include/make/jx_config
+include ${JX_INCLUDE_ROOT}/jx-af/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 
 # library dependencies
 
-LIB_DEPS := ${JX_ROOT}/lib/libjcore.a \
-            ${JX_ROOT}/lib/libjx.a
+LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a \
+            ${JX_LIB_ROOT}/libjx.a
 
 # make variables
 
@@ -37,12 +37,12 @@ LDFLAGS   :=
 #####
 
 .PHONY : default
-default: libs ${PROG_NAME}
+default: libs ${APP_NAME}
 
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/app_targets
+include ${JX_INCLUDE_ROOT}/jx-af/make/app_targets
 
 #
 # string data
@@ -56,30 +56,30 @@ strings:
 
 .PHONY : stringdb
 stringdb:
-	compile_jstrings ${J_STRING_FILES} --db ${PROG_NAME}_us
+	compile_jstrings ${J_STRING_FILES} --db ${APP_NAME}_us
 
-${PROG_NAME}:: strings
+${APP_NAME}:: strings
 
 .PHONY : menu_strings
 menu_strings:
-	@${JX_ROOT}/bin/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
-     -a ./code/mdActionDefs.h ${JX_ROOT}/include/jx/jXActionDefs.h ${JX_ROOT}/include/jx/JXTEBase.cpp \
-     -m */*.cpp ${JX_ROOT}/include/jx/*.cpp
+	@${JX_INCLUDE_ROOT}/jx-af/scripts/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
+     -a ./code/mdActionDefs.h ${JX_INCLUDE_ROOT}/jx-af/jx/jXActionDefs.h ${JX_INCLUDE_ROOT}/jx-af/jx/JXTEBase.cpp \
+     -m */*.cpp ${JX_INCLUDE_ROOT}/jx-af/jx/*.cpp
 
 #
 # install binaries
 #
 
 .PHONY : jxinstall
-jxinstall: ${PROG_NAME}
-	@strip ${call EXE, ${PROG_NAME}}
+jxinstall: ${APP_NAME}
+	@strip ${call EXE, ${APP_NAME}}
   ifneq (${J_WANT_INSTALL},0)
-	@cp ${PROG_NAME} ${JX_INSTALL_ROOT}/
+	@cp ${APP_NAME} ${JX_INSTALL_ROOT}/
   endif
 
 .PHONY : jxuninstall
 jxuninstall:
-	@${RM} ${JX_INSTALL_ROOT}/${PROG_NAME}
+	@${RM} ${JX_INSTALL_ROOT}/${APP_NAME}
 
 #
 # personal install

@@ -19,18 +19,18 @@
 
  ******************************************************************************/
 
-#include "JXImage.h"
-#include "JXImageMask.h"
-#include "JXImagePainter.h"
-#include "JXDisplay.h"
-#include "JXGC.h"
-#include "JXColorManager.h"
-#include "jXUtil.h"
-#include <JStdError.h>
-#include <jStreamUtil.h>
-#include <jFileUtil.h>
-#include <JListUtil.h>
-#include <jAssert.h>
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXImageMask.h"
+#include "jx-af/jx/JXImagePainter.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXGC.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/jXUtil.h"
+#include <jx-af/jcore/JStdError.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/JListUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 class JXPMError : public JError
 {

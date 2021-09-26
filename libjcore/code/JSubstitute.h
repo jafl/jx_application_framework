@@ -8,8 +8,8 @@
 #ifndef _H_JSubstitute
 #define _H_JSubstitute
 
-#include "JArray.h"
-#include "JError.h"
+#include "jx-af/jcore/JArray.h"
+#include "jx-af/jcore/JError.h"
 
 class JRegex;
 class JCharacterRange;

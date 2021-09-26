@@ -14,7 +14,7 @@ PROG_LIST := client server evt_client evt_server
 
 # makemake variables
 
-include ${JX_ROOT}/include/make/jx_config
+include ${JX_INCLUDE_ROOT}/jx-af/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                -g ${SEARCHDIRS}
@@ -22,7 +22,7 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
 # library dependencies
 
 LOADLIBES := ${J_ACE_LIBS} ${J_GCC_LIBS}
-LIB_DEPS  := ${JX_ROOT}/lib/libjcore.a
+LIB_DEPS  := ${JX_LIB_ROOT}/libjcore.a
 
 # make variables
 
@@ -30,13 +30,7 @@ LDFLAGS :=
 
 #####
 
-.PHONY : default
-default: libs all
-
-.PHONY : Makefiles
-Makefiles:
-
-include ${JX_ROOT}/include/make/app_targets
+include ${JX_INCLUDE_ROOT}/jx-af/make/app_targets
 
 #
 # required libraries

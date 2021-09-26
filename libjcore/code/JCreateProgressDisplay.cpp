@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include "JCreateProgressDisplay.h"
+#include "jx-af/jcore/JCreateProgressDisplay.h"
 
 /******************************************************************************
  Constructor

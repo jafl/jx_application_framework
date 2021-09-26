@@ -7,9 +7,9 @@
 
  ********************************************************************************/
 
-#include "J2DVectorData.h"
-#include <JMinMax.h>
-#include <jAssert.h>
+#include "jx-af/j2dplot/J2DVectorData.h"
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jAssert.h>
 
 /*********************************************************************************
  Constructor function (static)

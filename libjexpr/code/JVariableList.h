@@ -10,9 +10,9 @@
 #ifndef _H_JVariableList
 #define _H_JVariableList
 
-#include <JContainer.h>
-#include <JPtrArray.h>
-#include <JComplex.h>
+#include <jx-af/jcore/JContainer.h>
+#include <jx-af/jcore/JPtrArray.h>
+#include <jx-af/jcore/JComplex.h>
 
 class JString;
 class JFunction;

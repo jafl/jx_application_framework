@@ -10,7 +10,7 @@
 #ifndef _H_JXWindowDirector
 #define _H_JXWindowDirector
 
-#include "JXDirector.h"
+#include "jx-af/jx/JXDirector.h"
 
 class JString;
 class JXImage;

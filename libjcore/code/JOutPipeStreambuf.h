@@ -8,7 +8,7 @@
 #ifndef _H_JOutPipeStreambuf
 #define _H_JOutPipeStreambuf
 
-#include "jTypes.h"
+#include "jx-af/jcore/jTypes.h"
 
 template<typename _CharT, typename _Traits = std::char_traits<_CharT> >
 class JOutPipeStreambuf : public std::basic_streambuf<_CharT, _Traits>

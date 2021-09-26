@@ -10,9 +10,9 @@
 #ifndef _H_JPlotDataBase
 #define _H_JPlotDataBase
 
-#include <JCollection.h>
-#include "J2DDataPoint.h"
-#include "J2DVectorPoint.h"
+#include <jx-af/jcore/JCollection.h>
+#include "jx-af/j2dplot/J2DDataPoint.h"
+#include "jx-af/j2dplot/J2DVectorPoint.h"
 
 class J2DPlotDataBase : public JCollection
 {

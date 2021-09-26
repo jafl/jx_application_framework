@@ -10,7 +10,7 @@
 #ifndef _H_JX2DCursorMarkTable
 #define _H_JX2DCursorMarkTable
 
-#include <JXTable.h>
+#include <jx-af/jx/JXTable.h>
 
 class J2DPlotWidget;
 class JPagePrinter;

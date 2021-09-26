@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "JXUpdateMinSizeTask.h"
-#include "JXDockWidget.h"
+#include "jx-af/jx/JXUpdateMinSizeTask.h"
+#include "jx-af/jx/JXDockWidget.h"
 
 /******************************************************************************
  Constructor

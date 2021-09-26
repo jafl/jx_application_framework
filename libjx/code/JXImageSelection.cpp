@@ -9,15 +9,15 @@
 
  ******************************************************************************/
 
-#include "JXImageSelection.h"
-#include "JXDisplay.h"
-#include "JXSelectionManager.h"
-#include "JXImage.h"
-#include <jStreamUtil.h>
-#include <jFStreamUtil.h>
-#include <jFileUtil.h>
+#include "jx-af/jx/JXImageSelection.h"
+#include "jx-af/jx/JXDisplay.h"
+#include "jx-af/jx/JXSelectionManager.h"
+#include "jx-af/jx/JXImage.h"
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jFileUtil.h>
 #include <stdio.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kAtomNames[ JXImageSelection::kAtomCount ] =
 {

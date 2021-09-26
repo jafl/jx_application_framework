@@ -8,7 +8,7 @@
 #ifndef _H_TestFontManager
 #define _H_TestFontManager
 
-#include <JFontManager.h>
+#include <jx-af/jcore/JFontManager.h>
 
 class TestFontManager : public JFontManager
 {

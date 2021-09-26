@@ -10,9 +10,9 @@
 #ifndef _H_JXExprEditor
 #define _H_JXExprEditor
 
-#include <JXScrollableWidget.h>
-#include <JExprEditor.h>
-#include <JXStyledText.h>
+#include <jx-af/jx/JXScrollableWidget.h>
+#include "jx-af/jexpr/JExprEditor.h"
+#include <jx-af/jx/JXStyledText.h>
 
 class JXTextMenu;
 class JXMenuBar;

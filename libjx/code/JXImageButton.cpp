@@ -9,13 +9,13 @@
 
  ******************************************************************************/
 
-#include "JXImageButton.h"
-#include "JXWindowPainter.h"
-#include "JXImage.h"
-#include "JXImageCache.h"
-#include "JXColorManager.h"
-#include "JXDisplay.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXImageButton.h"
+#include "jx-af/jx/JXWindowPainter.h"
+#include "jx-af/jx/JXImage.h"
+#include "jx-af/jx/JXImageCache.h"
+#include "jx-af/jx/JXColorManager.h"
+#include "jx-af/jx/JXDisplay.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

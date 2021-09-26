@@ -10,7 +10,7 @@
 #ifndef _H_JStringTableData
 #define _H_JStringTableData
 
-#include "JObjTableData.h"
+#include "jx-af/jcore/JObjTableData.h"
 
 class JString;
 

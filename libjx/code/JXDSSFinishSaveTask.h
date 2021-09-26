@@ -8,8 +8,8 @@
 #ifndef _H_JXDSSFinishSaveTask
 #define _H_JXDSSFinishSaveTask
 
-#include "JXDirectSaveAction.h"
-#include "JXUrgentTask.h"
+#include "jx-af/jx/JXDirectSaveAction.h"
+#include "jx-af/jx/JXUrgentTask.h"
 
 class JXSaveFileDialog;
 

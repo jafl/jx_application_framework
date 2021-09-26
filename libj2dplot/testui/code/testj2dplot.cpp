@@ -10,15 +10,15 @@
 
 #include "Test2DPlotDirector.h"
 #include "testj2dplotStringData.h"
-#include <JXApplication.h>
-#include "JX2DPlotWidget.h"
-#include "J2DPlotData.h"
-#include "J2DVectorData.h"
-#include "J2DPlotLibVersion.h"
-#include <JKLRand.h>
-#include <jMath.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXApplication.h>
+#include "jx-af/j2dplot/JX2DPlotWidget.h"
+#include "jx-af/j2dplot/J2DPlotData.h"
+#include "jx-af/j2dplot/J2DVectorData.h"
+#include "jx-af/j2dplot/J2DPlotLibVersion.h"
+#include <jx-af/jcore/JKLRand.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Prototypes
 

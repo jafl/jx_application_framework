@@ -10,7 +10,7 @@
 #ifndef _H_JXFlatRect
 #define _H_JXFlatRect
 
-#include "JXDecorRect.h"
+#include "jx-af/jx/JXDecorRect.h"
 
 class JXFlatRect : public JXDecorRect
 {

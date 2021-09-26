@@ -7,15 +7,15 @@
 
  *****************************************************************************/
 
-#include <JTestManager.h>
-#include <JExprParser.h>
+#include <jx-af/jcore/JTestManager.h>
+#include <jx-af/jexpr/JExprParser.h>
 #include "TestVarList.h"
 #include "TestFontManager.h"
-#include <JFunction.h>
-#include <JRegex.h>
-#include <jStreamUtil.h>
+#include <jx-af/jexpr/JFunction.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/jStreamUtil.h>
 #include <fstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 int main()
 {

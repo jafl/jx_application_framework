@@ -10,7 +10,7 @@
 #ifndef _H_JXSaveFileDialog
 #define _H_JXSaveFileDialog
 
-#include "JXCSFDialogBase.h"
+#include "jx-af/jx/JXCSFDialogBase.h"
 
 class JXSaveFileInput;
 class JXDirectSaveSource;

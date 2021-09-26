@@ -8,9 +8,9 @@
 #ifndef _H_JXDockWindowTask
 #define _H_JXDockWindowTask
 
-#include "JXIdleTask.h"
-#include <JBroadcaster.h>
-#include <JPoint.h>
+#include "jx-af/jx/JXIdleTask.h"
+#include <jx-af/jcore/JBroadcaster.h>
+#include <jx-af/jcore/JPoint.h>
 
 class JXWindow;
 class JXDockWidget;

@@ -9,13 +9,13 @@
 
  ******************************************************************************/
 
-#include "JXImageMask.h"
-#include "JXDisplay.h"
-#include <JColorManager.h>
-#include <jFileUtil.h>
-#include <JStdError.h>
+#include "jx-af/jx/JXImageMask.h"
+#include "jx-af/jx/JXDisplay.h"
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/JStdError.h>
 #include <X11/Xutil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JColorID JXImageMask::kPixelOff = kJXTransparentColor;
 

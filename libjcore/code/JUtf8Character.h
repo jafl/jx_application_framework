@@ -8,7 +8,7 @@
 #ifndef _H_JUtf8Character
 #define _H_JUtf8Character
 
-#include "jTypes.h"
+#include "jx-af/jcore/jTypes.h"
 #include <string.h>
 
 class JUtf8Character

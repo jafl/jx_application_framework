@@ -20,8 +20,8 @@
 
  ******************************************************************************/
 
-#include "JXPartition.h"
-#include <jAssert.h>
+#include "jx-af/jx/JXPartition.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor (protected)

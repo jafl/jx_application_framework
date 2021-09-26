@@ -10,7 +10,7 @@
 #ifndef _H_JXEPSPrinter
 #define _H_JXEPSPrinter
 
-#include <JEPSPrinter.h>
+#include <jx-af/jcore/JEPSPrinter.h>
 
 class JXDisplay;
 class JXImage;

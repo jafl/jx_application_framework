@@ -10,7 +10,7 @@
 #ifndef _H_TestTextEditDocument
 #define _H_TestTextEditDocument
 
-#include <JXFileDocument.h>
+#include <jx-af/jx/JXFileDocument.h>
 
 class JStyledText;
 class JXTextMenu;
