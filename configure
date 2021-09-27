@@ -71,8 +71,8 @@ function get_reflex
 
 function clean_links
 {
-	rm -f include/make/jx_config
-	rm -f include/jcore/jMissingProto.h
+	rm -f include/jx-af/make/jx_config
+	rm -f include/jx-af/jcore/jMissingProto.h
 
 	if [[ ! -L ACE/ACE_wrappers ]]; then
 		rm -f ACE/ACE_wrappers/ace/config.h;
@@ -86,13 +86,13 @@ function configure_linux
 	get_reflex;
 	clean_links;
 
-	ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
+	ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jx-af/jcore/jMissingProto.h;
 
 	ARCH=`uname -m`;
 	if [[ $ARCH == x86_64 ]]; then
-		ln -sf sys/Linux-Intel-64  include/make/jx_config;
+		ln -sf sys/Linux-Intel-64  include/jx-af/make/jx_config;
 	elif [[ ${ARCH:0:1} == i ]]; then
-		ln -sf sys/Linux-Intel-32  include/make/jx_config;
+		ln -sf sys/Linux-Intel-32  include/jx-af/make/jx_config;
 	else
 		echo "Unknown architecture '$ARCH'.  Please file an issue on github.";
 		exit 1;
@@ -127,8 +127,8 @@ if [[ $SYS == Darwin ]]; then
 	fi
 
 	clean_links;
-	ln -sf sys/OSX_g++ include/make/jx_config;
-	ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jcore/jMissingProto.h;
+	ln -sf sys/OSX_g++ include/jx-af/make/jx_config;
+	ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jx-af/jcore/jMissingProto.h;
 
 elif command -v apt-get; then
 
@@ -233,8 +233,8 @@ elif [[ $SYS == Cygwin ]]; then
 	get_reflex;
 	clean_links;
 
-	ln -sf $SYS_CONFIG include/make/jx_config;	
-	ln -sf ../../misc/missing_proto/jMissingProto_CygWin.h include/jcore/jMissingProto.h;
+	ln -sf $SYS_CONFIG include/jx-af/make/jx_config;	
+	ln -sf ../../misc/missing_proto/jMissingProto_CygWin.h include/jx-af/jcore/jMissingProto.h;
 	configure_ace $ACE_CONFIG $ACE_MAKE_CONFIG;
 
 else
