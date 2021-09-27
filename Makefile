@@ -1,5 +1,7 @@
 JX_ROOT := .
-include ${JX_ROOT}/include/make/jx_config
+
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
+include ${MAKE_INCLUDE}/jx_config
 
 JMAKE = ${MAKE} PATH=${PATH}:${JX_INSTALL_ROOT}
 
@@ -33,7 +35,7 @@ initial_build:
 	@if { test -d misc/reflex; } then \
          echo Please authorize sudo access for building reflex...; \
          ${SUDO} echo sudo access authorized...; \
-         cd misc/reflex; ./clean.sh; ./build.sh; sudo ./allinstall.sh \
+         cd misc/reflex; ./clean.sh; ./build.sh; sudo ./allinstall.sh; \
      fi
 	@if { ! test -e lib/libACE-*.a; } then \
          cd ACE; ${JMAKE} install; \
