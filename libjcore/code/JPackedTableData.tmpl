@@ -151,7 +151,9 @@ JPackedTableData<T>::GetElement
  ******************************************************************************/
 
 #pragma GCC diagnostic push
+#if defined __GNUG__ && ! defined __clang__
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
 
 template <class T>
 void
