@@ -13,14 +13,6 @@ default:
 test:
 	@${JMAKE} run_tests
 
-#
-# print ACE version
-#
-
-.PHONY : print-ace-version
-print-ace-version:
-	@echo ${ACE_VERSION}
-
 # useful macros
 
 BEGIN_DIR = if test -d ${dir}; then ( cd ${dir}

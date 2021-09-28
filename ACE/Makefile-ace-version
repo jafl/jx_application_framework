@@ -1,0 +1,5 @@
+include include/jx-af/make/jx_constants
+
+.PHONY : print-ace-version
+print-ace-version:
+	@echo ${ACE_VERSION}

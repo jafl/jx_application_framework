@@ -28,7 +28,7 @@ function get_ace
 		return;
 	fi
 
-	ACE_VERSION=`make print-ace-version`;
+	ACE_VERSION=`make -f ACE/Makefile-ace-version`;
 
 	pushd ACE;
 
