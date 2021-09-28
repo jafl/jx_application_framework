@@ -18,10 +18,10 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} -g ${SEARCHDIRS}
 
 # library dependencies
 
-LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a \
+LIB_DEPS := ${JX_LIB_ROOT}/libj2dplot.a \
             ${JX_LIB_ROOT}/libjexpr.a \
             ${JX_LIB_ROOT}/libjx.a \
-            ${JX_LIB_ROOT}/libj2dplot.a
+            ${JX_LIB_ROOT}/libjcore.a
 
 # make variables
 
