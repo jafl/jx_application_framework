@@ -1,14 +1,6 @@
 # Configuration used on all platforms
 
 #
-# Configure ACE, if necessary
-#
-
-ifndef ACE_ROOT
-  export ACE_ROOT = ${shell cd ${JX_ROOT}/ACE/ACE_wrappers; pwd}
-endif
-
-#
 # modify configuration based on OS, compiler, etc.
 #
 
@@ -28,10 +20,6 @@ J_COMPILER_DEPEND_FLAGS := \
   ${J_COMPILER_DEPEND_FLAGS_FOR_BISON} -Wall -Werror
 
 SEARCHDIRS += -I${JX_INCLUDE_ROOT}/jx-af/image/jx
-
-ifdef ACE_ROOT
-  SEARCHDIRS += -I${ACE_ROOT}
-endif
 
 J_GCC_LIBS := -lxml2 ${J_GCC_LIBS}
 J_IMG_LIBS := -lgd -lpng -ljpeg

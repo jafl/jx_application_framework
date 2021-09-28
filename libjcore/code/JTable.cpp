@@ -714,7 +714,7 @@ JTable::Paginate
 		while (i < count && totalLength <= stripLength)
 		{
 			i++;
-			JCoordinate length;
+			JCoordinate length = 0;
 			const bool ok = iter.Next(&length);
 			assert( ok );
 			totalLength += length + borderWidth;
