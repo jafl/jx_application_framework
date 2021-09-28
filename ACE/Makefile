@@ -46,13 +46,10 @@ install: default
 	@echo Please authorize sudo access for building reflex...; \
 	@${SUDO} echo sudo access authorized...; \
 	@${SUDO} ${BEGIN_ACE_MAKE} ${ACE_MAKE_FLAGS} INSTALL_PREFIX=/usr/local install ${END_ACE_MAKE}
-  endif
 
 .PHONY : uninstall
 uninstall:
-  ifeq ($(shell whoami),root)
-	@${SUDO} ${BEGIN_ACE_MAKE} uninstall ${END_ACE_MAKE}
-  endif
+	@${SUDO} rm -rf /usr/local/include/ace /usr/local/lib/libACE*
 
 #
 # remove object files
