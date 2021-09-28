@@ -3,6 +3,10 @@ JX_ROOT := ..
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
+ifndef ACE_ROOT
+  export ACE_ROOT = ${shell cd ACE/ACE_wrappers; pwd}
+endif
+
 ACE_MAKE_FLAGS := exceptions=0 shared_libs=0 static_libs=1
 
 ifeq (${J_OPTIMIZE_LEVEL},-O2)
@@ -39,18 +43,15 @@ default:
 
 .PHONY : install
 install: default
-  ifeq ($(shell whoami),root)
-	@${BEGIN_ACE_MAKE} INSTALL_PREFIX=/usr/local install ${END_ACE_MAKE}
-#	@if { ! test -L ACE_wrappers; } \
-#     then { cp ACE_wrappers/ace/libACE.a ${JX_INSTALL_ROOT}/lib; } fi
+	@echo Please authorize sudo access for building reflex...; \
+	@${SUDO} echo sudo access authorized...; \
+	@${SUDO} ${BEGIN_ACE_MAKE} ${ACE_MAKE_FLAGS} INSTALL_PREFIX=/usr/local install ${END_ACE_MAKE}
   endif
 
 .PHONY : uninstall
 uninstall:
   ifeq ($(shell whoami),root)
-	@${BEGIN_ACE_MAKE} uninstall ${END_ACE_MAKE}
-#	@if { ! test -L ACE_wrappers; } \
-#     then { ${RM} ${JX_INSTALL_ROOT}/lib/libACE.a; } fi
+	@${SUDO} ${BEGIN_ACE_MAKE} uninstall ${END_ACE_MAKE}
   endif
 
 #
