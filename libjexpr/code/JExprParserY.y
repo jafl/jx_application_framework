@@ -43,6 +43,9 @@ Copyright (C) 2018 by John Lindal.
 #include "jx-af/jexpr/JVariableList.h"
 #include <jx-af/jcore/JPtrArray-JString.h>
 
+#include "jx-af/jexpr/JExprParser.h"
+#define yyparse JExprParser::yyparse
+
 // also uncomment yydebug=1; below
 //#define YYERROR_VERBOSE
 //#define YYDEBUG 1
@@ -53,13 +56,6 @@ Copyright (C) 2018 by John Lindal.
 	JFunction*				pFunction;
 	JPtrArray<JFunction>*	pList;
 }
-
-%{
-#define NOTAB
-#include "jx-af/jexpr/JExprParser.h"
-
-#define yyparse JExprParser::yyparse
-%}
 
 %define api.pure
 

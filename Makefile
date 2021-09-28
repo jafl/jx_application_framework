@@ -45,7 +45,7 @@ initial_build:
          ${MAKE} -f Makefile.port install; \
      fi
 	@if { ! test -f libjcore/Makefile; } then \
-         ${JMAKE} Makefiles; \
+         ${JMAKE} -w Makefiles; \
      fi
 	@cd libjcore; ${JMAKE} COMPILE_STRINGS=0
 	@cd tools/compile_jstrings; ${JMAKE} install
@@ -53,9 +53,8 @@ initial_build:
 	@for dir in libjx libjfs libjexpr libj2dplot; do \
        if ! ( cd $$dir; ${JMAKE}; ); then exit 1; fi \
      done;
-	@${foreach dir, \
-          ${wildcard tools/*}, \
-       ${BEGIN_DIR}; ${JMAKE} install; ${END_DIR};}
+	@${foreach dir, ${wildcard tools/*}, \
+       ${BEGIN_DIR}; ${JMAKE}; ${END_DIR};}
 
 #
 # build all Makefiles
@@ -63,8 +62,7 @@ initial_build:
 
 .PHONY : Makefiles
 Makefiles:
-	@${foreach dir, \
-          ${wildcard lib?* tools/*} ACE/test tutorial, \
+	@${foreach dir, ${wildcard lib?* tools/*} ACE/test tutorial, \
        ${BEGIN_DIR}; makemake; ${JMAKE} Makefiles; ${END_DIR};}
 
 #
@@ -98,8 +96,7 @@ endif
 
 .PHONY : layouts
 layouts:
-	@${foreach dir, \
-          ${wildcard lib?* tools/*}, \
+	@${foreach dir, ${wildcard lib?* tools/*}, \
        ${BEGIN_DIR}; \
            if compgen -G "*.fd" > /dev/null; then \
                jxlayout --require-obj-names *.fd; \
@@ -122,18 +119,15 @@ sonar:
 
 .PHONY : tidy
 tidy:
-	@${foreach dir, \
-          ${wildcard lib?* tools/*}  ACE tutorial, \
+	@${foreach dir, ${wildcard lib?* tools/*}  ACE tutorial, \
        ${BEGIN_DIR}; ${MAKE} tidy; ${END_DIR};}
 
 .PHONY : clean
 clean:
-	@${foreach dir, \
-          ${wildcard lib?* tools/*} ACE tutorial, \
+	@${foreach dir, ${wildcard lib?* tools/*} ACE tutorial, \
        ${BEGIN_DIR}; ${MAKE} clean; ${END_DIR};}
 
 .PHONY : uninstall
 uninstall:
-	@${foreach dir, \
-          ${wildcard lib?* tools/*}  ACE, \
+	@${foreach dir, ${wildcard lib?* tools/*}  ACE, \
        ${BEGIN_DIR}; ${MAKE} uninstall; ${END_DIR};}

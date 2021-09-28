@@ -17,14 +17,14 @@
  ******************************************************************************/
 
 #include <gd.h>
-#include <JString.h>
-#include <jColor.h>
-#include <jMath.h>
-#include <jFileUtil.h>
-#include <JMinMax.h>
-#include <jCommandLine.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jColor.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jCommandLine.h>
 #include <stdlib.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Constants
 

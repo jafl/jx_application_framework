@@ -1,8 +1,6 @@
 # To use this file, first run "makemake" and then run "make".
 # (makemake is part of the JX distribution)
 
-# Useful directories
-
 JX_ROOT := ..
 
 DIR01 := ./01-HelloWorld
@@ -20,37 +18,25 @@ DIR12 := ./12-Clipboard
 DIR13 := ./13-Undo
 DIR14 := ./14-DragAndDrop
 
-JCOREDIR := ${JX_ROOT}/include/jcore
-JXDIR    := ${JX_ROOT}/include/jx
+J_STRING_FILES := */strings
 
-JLIBDIR     := ${JX_ROOT}/lib
-JCORELIBDIR := ${JX_ROOT}/libjcore
-JXLIBDIR    := ${JX_ROOT}/libjx
-
-# Directories to search for header files
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
+include ${MAKE_INCLUDE}/jx_config
 
 SEARCHDIRS := -I${DIR01} -I${DIR02} -I${DIR03} -I${DIR04} \
               -I${DIR05} -I${DIR06} -I${DIR07} -I${DIR08} \
               -I${DIR09} -I${DIR10} -I${DIR11} -I${DIR12} \
               -I${DIR13} -I${DIR14} \
-              -I${JCOREDIR} \
-              -I${JXDIR}
-
-# other constants
-
-TUTORIAL_STRING_FILES := */strings
+              ${SEARCHDIRS}
 
 # makemake variables
 
-J_STRING_FILES := ${TUTORIAL_STRING_FILES}
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} -g ${SEARCHDIRS}
 
-include ${JX_INCLUDE_ROOT}/jx-af/make/jx_constants
-include ${JX_INCLUDE_ROOT}/jx-af/make/jx_config
+# library dependencies
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
-               -g ${SEARCHDIRS}
-
-TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
+LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a \
+            ${JX_LIB_ROOT}/libjx.a
 
 # make variables
 
@@ -59,13 +45,7 @@ LDFLAGS   :=
 
 #####
 
-.PHONY : default
-default: libs strings all
-
-.PHONY : Makefiles
-Makefiles:
-
-include ${JX_INCLUDE_ROOT}/jx-af/make/jx_targets
+include ${MAKE_INCLUDE}/app_targets
 
 #
 # string data
