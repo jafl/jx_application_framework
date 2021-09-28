@@ -66,7 +66,9 @@ function configure_ace
 
 function get_reflex
 {
-	git clone -b v3.0.11 https://github.com/Genivia/RE-flex misc/reflex;
+	if [[ ! -d misc/reflex ]]; then
+		git clone -b v3.0.11 https://github.com/Genivia/RE-flex misc/reflex;
+	fi
 }
 
 function clean_links
