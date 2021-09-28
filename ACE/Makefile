@@ -4,7 +4,7 @@ MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
 ifndef ACE_ROOT
-  export ACE_ROOT = ${shell cd ACE/ACE_wrappers; pwd}
+  export ACE_ROOT = ${shell cd ACE_wrappers; pwd}
 endif
 
 ACE_MAKE_FLAGS := exceptions=0 shared_libs=0 static_libs=1
