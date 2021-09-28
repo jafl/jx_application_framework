@@ -5,7 +5,10 @@
 J_DISTR_TAR_DIR := ..
 
 .PHONY : default
-default: libs all
+default: libs all post_link
+
+.PHONY : post_link
+post_link::
 
 .PHONY : Makefiles
 Makefiles::

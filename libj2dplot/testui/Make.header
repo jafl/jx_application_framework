@@ -7,6 +7,8 @@ J_STRING_FILES := strings/*
 
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
+include ${MAKE_INCLUDE}/jexpr_constants
+include ${MAKE_INCLUDE}/j2dplot_constants
 
 SEARCHDIRS := -I./code ${SEARCHDIRS}
 

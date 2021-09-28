@@ -39,15 +39,17 @@ default:
 .PHONY : install
 install: default
   ifeq ($(shell whoami),root)
-	@if { ! test -L ACE_wrappers; } \
-     then { cp ACE_wrappers/ace/libACE.a ${JX_INSTALL_ROOT}/lib; } fi
+	@${BEGIN_ACE_MAKE} install ${END_ACE_MAKE}
+#	@if { ! test -L ACE_wrappers; } \
+#     then { cp ACE_wrappers/ace/libACE.a ${JX_INSTALL_ROOT}/lib; } fi
   endif
 
 .PHONY : uninstall
 uninstall:
   ifeq ($(shell whoami),root)
-	@if { ! test -L ACE_wrappers; } \
-     then { ${RM} ${JX_INSTALL_ROOT}/lib/libACE.a; } fi
+	@${BEGIN_ACE_MAKE} uninstall ${END_ACE_MAKE}
+#	@if { ! test -L ACE_wrappers; } \
+#     then { ${RM} ${JX_INSTALL_ROOT}/lib/libACE.a; } fi
   endif
 
 #

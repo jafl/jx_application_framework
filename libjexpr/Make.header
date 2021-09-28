@@ -25,6 +25,12 @@ Makefiles:
 	@cd test; makemake; ${MAKE} Makefiles
 
 #
+# force reflex to run first
+#
+
+libjexpr.a :: ./code/JExprScanner.cpp
+
+#
 # remove binaries
 #
 
