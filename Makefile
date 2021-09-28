@@ -29,7 +29,7 @@ initial_build:
          ${SUDO} echo sudo access authorized...; \
          cd misc/reflex; ./clean.sh; ./build.sh; sudo ./allinstall.sh; \
      fi
-	@if { ! test -e lib/libACE-*.a; } then \
+	@if { test ! -h ACE/ACE_wrappers -a ! -e ACE/ACE_wrappers/ace/libACE.a; } then \
          cd ACE; ${JMAKE} install; \
      fi
 	@if { ! test -x tools/makemake/makemake; } then \

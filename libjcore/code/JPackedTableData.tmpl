@@ -150,6 +150,9 @@ JPackedTableData<T>::GetElement
 
  ******************************************************************************/
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+
 template <class T>
 void
 JPackedTableData<T>::SetElement
@@ -172,6 +175,8 @@ JPackedTableData<T>::SetElement
 		Broadcast(JTableData::RectChanged(row,col));
 	}
 }
+
+#pragma GCC diagnostic pop
 
 template <class T>
 void

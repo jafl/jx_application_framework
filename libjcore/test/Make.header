@@ -18,7 +18,7 @@ LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a
 
 # make variables
 
-CPPFLAGS  += -Wno-sign-compare
+CPPFLAGS  += -Wno-sign-compare -Wno-maybe-uninitialized
 LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
 LDFLAGS   := 
 
