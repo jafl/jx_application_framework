@@ -18,7 +18,7 @@ Makefiles::
 #
 
 .PHONY : libs
-libs:
+libs::
 	@for dep in ${LIB_DEPS}; do \
        lib=$${dep##*/}; \
        dir=$${lib%.a}; \

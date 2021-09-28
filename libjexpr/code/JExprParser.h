@@ -8,11 +8,15 @@
 
  *****************************************************************************/
 
-#include "jx-af/jexpr/JExprScanner.h"
-
-class JFunction;
+class JString;
 class JFontManager;
+class JFunction;
+class JVariableList;
 class JExprEditor;
+
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include "JExprParserY.hpp"
+namespace JExpr { class Scanner; }
 
 class JExprParser
 {

@@ -6,6 +6,7 @@
  *****************************************************************************/
 
 #include "jx-af/jexpr/JExprParser.h"
+#include "jx-af/jexpr/JExprScanner.h"
 #include "jx-af/jexpr/JExprEditor.h"
 #include "jx-af/jexpr/JSummation.h"
 #include "jx-af/jexpr/JProduct.h"

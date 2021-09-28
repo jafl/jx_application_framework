@@ -1,6 +1,7 @@
 JX_ROOT := ..
 
-include ${JX_INCLUDE_ROOT}/jx-af/make/jx_config
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
+include ${MAKE_INCLUDE}/jx_config
 
 ACE_MAKE_FLAGS := exceptions=0 shared_libs=0 static_libs=1
 

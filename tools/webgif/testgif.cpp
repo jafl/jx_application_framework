@@ -11,8 +11,8 @@
 
 #include <gd.h>
 #include <stdlib.h>
-#include <jTypes.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jTypes.h>
+#include <jx-af/jcore/jAssert.h>
 
 void CreateGIF(const bool incr[], const JUtf8Byte* fileName);
 
