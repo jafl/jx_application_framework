@@ -60,7 +60,7 @@ function configure_ace
 		ln -sf $MAKE_CONFIG ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU;
 	fi
 
-	ACE_VERSION=`make print-ace-version`;
+	ACE_VERSION=`make -f ACE/Makefile-ace-version`;
 	ln -sf libACE.so lib/libACE.so.$ACE_VERSION;
 }
 
