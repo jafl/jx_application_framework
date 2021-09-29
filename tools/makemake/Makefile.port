@@ -11,14 +11,16 @@ LDFLAGS   :=
 
 #####
 
-include ${MAKE_INCLUDE}/app_targets
+#
+# Install binary
+#
 
-#
-# verify installed binary
-#
+EXE_NAME := ${call EXE,${APP_NAME}}
 
 .PHONY : install
-install:: makemake
+install: makemake
+	@${J_STRIP_DEBUG} ${EXE_NAME}
+	@cp ${APP_NAME} ${JX_INSTALL_ROOT}/bin
 	@if { command -v makemake > /dev/null; } then \
          { \
          echo "makemake successfully installed"; \
