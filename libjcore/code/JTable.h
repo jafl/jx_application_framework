@@ -944,7 +944,7 @@ JTable::GetColWidth
 	const
 {
 	JRunArrayIterator<JCoordinate> iter(*itsColWidths, kJIteratorStartBefore, index);
-	JCoordinate w;
+	JCoordinate w = 0;
 	iter.Next(&w);
 	return w;
 }

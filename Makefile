@@ -26,7 +26,7 @@ END_DIR   = ) fi
 initial_build:
 	@if { test -d misc/reflex -a ! -f misc/reflex/lib/libreflex.a; } then \
          echo Please authorize sudo access for building reflex...; \
-         ${SUDO} echo sudo access authorized...; \
+         sudo echo sudo access authorized...; \
          cd misc/reflex; ./clean.sh; ./build.sh; sudo ./allinstall.sh; \
      fi
 	@if { ! test -h ACE/ACE_wrappers && ! test -e ACE/ACE_wrappers/ace/libACE.a; } then \
