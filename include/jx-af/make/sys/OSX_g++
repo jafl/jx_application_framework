@@ -69,7 +69,7 @@ endif
 
 # lldb
 
-J_LLDB_LIBS          := -losxlldb
+J_LLDB_LIBS          := -L/usr/local/opt/llvm/lib -llldb
 J_POST_LINK_LLDB_CMD := install_name_tool -add_rpath /Library/Developer/CommandLineTools/Library/PrivateFrameworks
 
 # modify settings based on OS, compiler, etc.

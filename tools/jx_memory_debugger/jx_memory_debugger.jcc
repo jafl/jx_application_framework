@@ -4,9 +4,9 @@ jx_browser_data 89
 T
 1 "main"
 T
-2 "jx_memory_debugger.cpp"
+2 "main.cpp"
 F
-"./code/jx_memory_debugger.cpp"
+"./code/main.cpp"
 T
 2 "MDApp.cpp"
 F

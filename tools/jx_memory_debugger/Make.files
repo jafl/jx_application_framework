@@ -4,7 +4,7 @@
 
 @jx_memory_debugger
 
-.cpp ./code/jx_memory_debugger
+.cpp ./code/main
 .cpp ./code/MDApp
 .cpp ./code/mdGlobals
 .cpp ./code/MDPrefsManager

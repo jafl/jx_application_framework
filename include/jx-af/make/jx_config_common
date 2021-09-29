@@ -9,7 +9,6 @@ J_RAW_SYSTEM_STUFF += \
 
 ifeq ($(shell cat ${JX_ROOT}/0-RELEASE 2>/dev/null),1)
   J_OPTIMIZE_LEVEL := -O2
-  J_WANT_INSTALL   := 0
 else
   J_OPTIMIZE_LEVEL := -O${J_DEBUG_OPTIMIZATION_LEVEL} -g
 endif

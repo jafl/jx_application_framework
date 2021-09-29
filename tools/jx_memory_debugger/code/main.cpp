@@ -1,21 +1,21 @@
 /******************************************************************************
- jx_project_wizard.cpp
+ main.cpp
 
-	Copyright (C) 2000 by John Lindal.
+	Copyright (C) 2010 by John Lindal.
 
  ******************************************************************************/
 
-#include "JXWApp.h"
-#include "JXWMainDialog.h"
-#include "jxwGlobals.h"
+#include "MDApp.h"
+#include "MDStatsDirector.h"
+#include "mdGlobals.h"
 #include <jx-af/jcore/jCommandLine.h>
 #include <jx-af/jcore/jAssert.h>
 
 // Prototypes
 
-void ParseTextOptions(const int argc, char* argv[]);
-void PrintCommandLineHelp();
-void PrintVersion();
+static void ParseTextOptions(const int argc, char* argv[]);
+static void PrintVersion();
+static void PrintCommandLineHelp();
 
 /******************************************************************************
  main
@@ -31,19 +31,25 @@ main
 {
 	ParseTextOptions(argc, argv);
 
-	bool displayLicense;
-	auto* app = jnew JXWApp(&argc, argv, &displayLicense);
+	bool displayAbout;
+	JString prevVersStr;
+	auto* app = jnew MDApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
-	if (displayLicense &&
+	if (displayAbout &&
 		!JGetUserNotification()->AcceptLicense())
 	{
 		return 0;
 	}
 
-	auto* dlog = jnew JXWMainDialog(app, argc, argv);
-	assert( dlog != nullptr );
-	dlog->Activate();
+	auto* dir = jnew MDStatsDirector(app);
+	assert( dir != nullptr );
+	dir->Activate();
+
+	if (displayAbout)
+	{
+		app->DisplayAbout(prevVersStr);
+	}
 
 	app->Run();
 	return 0;
@@ -71,18 +77,31 @@ ParseTextOptions
 	{
 		if (JIsVersionRequest(argv[index]))
 		{
-			JXWApp::InitStrings();
+			MDApp::InitStrings();
 			PrintVersion();
 			exit(0);
 		}
 		else if (JIsHelpRequest(argv[index]))
 		{
-			JXWApp::InitStrings();
+			MDApp::InitStrings();
 			PrintCommandLineHelp();
 			exit(0);
 		}
 		index++;
 	}
+}
+
+/******************************************************************************
+ PrintVersion
+
+ ******************************************************************************/
+
+void
+PrintVersion()
+{
+	std::cout << std::endl;
+	std::cout << MDGetVersionStr() << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -95,21 +114,9 @@ PrintCommandLineHelp()
 {
 	const JUtf8Byte* map[] =
 	{
-		"vers", JXWGetVersionNumberStr()
+		"vers",      MDGetVersionNumberStr(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
 	};
-	const JString s = JGetString("CommandLineHelp::main", map, sizeof(map));
+	const JString s = JGetString("CommandLineHelp::mdGlobals", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
-}
-
-/******************************************************************************
- PrintVersion
-
- ******************************************************************************/
-
-void
-PrintVersion()
-{
-	std::cout << std::endl;
-	std::cout << JXWGetVersionStr() << std::endl;
-	std::cout << std::endl;
 }

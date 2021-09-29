@@ -4,9 +4,9 @@ jx_browser_data 89
 T
 1 "main"
 T
-2 "jxwizard.cpp"
+2 "main.cpp"
 F
-"./code/jxwizard.cpp"
+"./code/main.cpp"
 T
 2 "JXWApp.cpp"
 F

@@ -35,11 +35,7 @@ endif
 
 ifndef JX_INSTALL_ROOT
   ifeq ($(shell whoami),root)
-    ifeq ($(shell uname -s),Darwin)
-      JX_INSTALL_ROOT := /usr/local
-    else
-      JX_INSTALL_ROOT := /usr
-    endif
+    JX_INSTALL_ROOT := /usr/local
   else
     JX_INSTALL_ROOT := \
       ${shell if [[ -d ${HOME}/bin && -w ${HOME}/bin ]]; \
