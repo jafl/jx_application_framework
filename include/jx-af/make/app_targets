@@ -13,8 +13,6 @@ post_link::
 .PHONY : Makefiles
 Makefiles::
 
-${APP_NAME}:: strings
-
 #
 # Libraries (const LIB_DEPS)
 #
