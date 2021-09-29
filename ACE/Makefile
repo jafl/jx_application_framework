@@ -28,7 +28,7 @@ BEGIN_ACE_MAKE = \
 
 .PHONY : default
 default:
-	if { test -x ACE_wrappers/bin/mwc.pl && \
+	@if { test -x ACE_wrappers/bin/mwc.pl && \
            ! test -f ACE_wrappers/ace/Makefile && \
            ! test -f ACE_wrappers/ace/GNUmakefile; } \
      then \
@@ -36,7 +36,7 @@ default:
          export ACE_ROOT=$$(pwd); \
          ./bin/mwc.pl -type gnuace ACE.mwc; \
      fi
-	${BEGIN_ACE_CMD} \
+	@${BEGIN_ACE_CMD} \
        cd ACE_wrappers/ace; \
        ${BEGIN_ACE_MAKE} ${ACE_DEBUG}; \
      ${END_ACE_CMD}
