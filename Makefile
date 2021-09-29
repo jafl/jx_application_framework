@@ -15,7 +15,7 @@ test:
 
 # useful macros
 
-BEGIN_DIR = if test -d ${dir}; then ( cd ${dir}
+BEGIN_DIR = if { test -d ${dir}; } then ( cd ${dir}
 END_DIR   = ) fi
 
 #

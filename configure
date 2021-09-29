@@ -19,12 +19,7 @@ fi
 
 function get_ace
 {
-	if [[ -n $ACE_ROOT && ! -d ACE/ACE_wrappers ]]; then
-		ln -sf $ACE_ROOT ACE/ACE_wrappers;
-		return;
-	fi
-
-	if [[ -e ACE/ACE_wrappers ]]; then
+	if [[ -n $ACE_ROOT || -e ACE/ACE_wrappers ]]; then
 		return;
 	fi
 
@@ -49,6 +44,10 @@ function get_ace
 
 function configure_ace
 {
+	if [[ -n $ACE_ROOT ]]; then
+		return;
+	fi
+
 	ACE_CONFIG=$1;
 	MAKE_CONFIG=$2;
 
@@ -59,9 +58,6 @@ function configure_ace
 	if [[ -d ACE/ACE_wrappers/include/makeinclude && ! -f ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU ]]; then
 		ln -sf $MAKE_CONFIG ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU;
 	fi
-
-	ACE_VERSION=`make -f ACE/Makefile-ace-version`;
-	ln -sf libACE.so lib/libACE.so.$ACE_VERSION;
 }
 
 function get_reflex
@@ -76,7 +72,7 @@ function clean_links
 	rm -f include/jx-af/make/jx_config
 	rm -f include/jx-af/jcore/jMissingProto.h
 
-	if [[ ! -L ACE/ACE_wrappers ]]; then
+	if [[ -d ACE/ACE_wrappers ]]; then
 		rm -f ACE/ACE_wrappers/ace/config.h;
 		rm -f ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU;
 	fi
@@ -127,11 +123,6 @@ if [[ $SYS == Darwin ]]; then
 
 	brew bundle;
 
-	if [[ ! -L ACE/ACE_wrappers ]]; then
-		rm -rf ACE/ACE_wrappers;
-		ln -sf /usr/local/include ACE/ACE_wrappers;
-	fi
-
 	clean_links;
 	ln -sf sys/OSX_g++ include/jx-af/make/jx_config;
 	ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jx-af/jcore/jMissingProto.h;
@@ -139,8 +130,6 @@ if [[ $SYS == Darwin ]]; then
 elif command -v apt-get; then
 
 	# debian
-
-	LLDB_VERS=11
 
 	if [[ -z $LGTM_SRC ]]; then
 		$SUDO apt update;
@@ -155,14 +144,7 @@ elif command -v apt-get; then
 			libforms-bin xterm git-gui;
 	fi
 
-	if [[ ! -L ACE/ACE_wrappers ]]; then
-		rm -rf ACE/ACE_wrappers;
-		ln -s /usr/include ACE/ACE_wrappers;
-	fi
-
 	configure_linux;
-
-	ln -sf /usr/lib/llvm-$LLDB_VERS/lib/liblldb.so.1 lib/liblldb.so;
 
 elif command -v dnf; then
 
@@ -201,7 +183,7 @@ elif command -v zypper; then
 	# openSUSE
 
 	$SUDO zypper -in install curl perl python-libxml2 \
-		gcc-c++ flex bison make lldb rpm-build \
+		gcc-c++ flex bison make rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \

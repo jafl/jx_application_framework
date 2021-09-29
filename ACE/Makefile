@@ -56,12 +56,12 @@ uninstall:
 
 .PHONY : tidy
 tidy::
-	@if { ! test -L ACE_wrappers; } \
-     then { ${BEGIN_ACE_MAKE} clean; ${END_ACE_CMD}; } fi
+	@if { test -d ACE_wrappers; } \
+     then { cd ACE_wrappers/ace; ${BEGIN_ACE_MAKE} clean; } fi
 	@cd test; ${MAKE} tidy
 
 .PHONY : clean
 clean::
-	@if { ! test -L ACE_wrappers; } \
-     then { ${BEGIN_ACE_MAKE} realclean; ${END_ACE_CMD}; } fi
+	@if { test -d ACE_wrappers; } \
+     then { cd ACE_wrappers/ace; ${BEGIN_ACE_MAKE} realclean; } fi
 	@cd test; ${MAKE} clean
