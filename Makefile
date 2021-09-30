@@ -3,10 +3,11 @@ JX_ROOT := .
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
-JMAKE = ${MAKE} PATH=${PATH}:${JX_INSTALL_ROOT}
+JMAKE = ${MAKE} PATH=${PATH}:${JX_INSTALL_ROOT}/bin
 
 .PHONY : default
 default:
+	@mkdir -p ${JX_INSTALL_ROOT}
 	@${JMAKE} initial_build
 
 .PHONY : test
