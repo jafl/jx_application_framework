@@ -115,15 +115,17 @@ fi
 
 if [[ $SYS == Darwin ]]; then
 
-	if ! command -v brew; then
-		echo Installing Homebrew...;
-		sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
-	else
-		echo Updating Homebrew...;
-		brew update;
-	fi
+	if [[ -z $HOMEBREW_VERSION ]]; then
+		if ! command -v brew; then
+			echo Installing Homebrew...;
+			sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
+		else
+			echo Updating Homebrew...;
+			brew update;
+		fi
 
-	brew bundle;
+		brew bundle;
+	fi
 
 	clean_links;
 	ln -sf sys/OSX_g++ include/jx-af/make/jx_config;
