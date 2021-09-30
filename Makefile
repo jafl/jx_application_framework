@@ -7,7 +7,7 @@ JMAKE = ${MAKE} PATH=${PATH}:${JX_INSTALL_ROOT}/bin
 
 .PHONY : default
 default:
-	@mkdir -p ${JX_INSTALL_ROOT}
+	@mkdir -p ${JX_INSTALL_ROOT}/bin
 	@${JMAKE} initial_build
 
 .PHONY : test
