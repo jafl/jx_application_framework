@@ -23,7 +23,7 @@ endif
 
 .PHONY : libs
 libs::
-	@for dep in ${LIB_DEPS}; do \
+	@for dep in $$(for d in ${LIB_DEPS}; do echo $$d; done | tac); do \
        lib=$${dep##*/}; \
        dir=$${lib%.a}; \
        path=${JX_ROOT}/$$dir; \
