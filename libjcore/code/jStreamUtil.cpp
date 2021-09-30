@@ -943,7 +943,7 @@ JIgnoreUntil
 	(
 	const int		input,
 	const JUtf8Byte	delimiter,
-	bool*		foundDelimiter
+	bool*			foundDelimiter
 	)
 {
 	JUtf8Byte c;
@@ -959,7 +959,7 @@ JIgnoreUntil
 	(
 	const int			input, 
 	const JUtf8Byte*	delimiter,
-	bool*			foundDelimiter
+	bool*				foundDelimiter
 	)
 {
 	const JSize delimLength = strlen(delimiter);
@@ -976,8 +976,9 @@ JIgnoreUntil
 		*foundDelimiter = false;
 	}
 
-	char* window = jnew char[ delimLength ];
+	char* window = jnew char[ delimLength+1 ];
 	assert( window != nullptr );
+	window[ delimLength ] = 0;
 
 	size_t dataLength;
 	ssize_t result = jReadN(input, window, delimLength, &dataLength);

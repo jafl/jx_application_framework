@@ -23,7 +23,7 @@
 #include "jx-af/jcore/jAssert.h"
 
 const JUtf8Byte* kLineNumberMarginStr = "  ";
-const JSize kLineNumberMarginWidth     = 2;
+const JSize kLineNumberMarginWidth    = 2;
 
 // setup information
 
