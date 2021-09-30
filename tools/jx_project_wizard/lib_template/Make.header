@@ -3,16 +3,10 @@
 
 JX_ROOT := ..
 
-# Directories to search for header files
-
-SEARCHDIRS = -I./code \
-             -I${JX_ROOT}/include/jcore \
-             -I${JX_ROOT}/include/jx
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
+include ${MAKE_INCLUDE}/jx_config
 
 # makemake variables
-
-include ${JX_INCLUDE_ROOT}/jx-af/make/jx_config
-include ${JX_INCLUDE_ROOT}/jx-af/make/<Binary>_constants
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 

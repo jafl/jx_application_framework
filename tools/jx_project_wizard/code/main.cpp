@@ -5,9 +5,9 @@
 
  ******************************************************************************/
 
-#include "JXWApp.h"
-#include "JXWMainDialog.h"
-#include "jxwGlobals.h"
+#include "App.h"
+#include "MainDialog.h"
+#include "globals.h"
 #include <jx-af/jcore/jCommandLine.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -32,7 +32,7 @@ main
 	ParseTextOptions(argc, argv);
 
 	bool displayLicense;
-	auto* app = jnew JXWApp(&argc, argv, &displayLicense);
+	auto* app = jnew App(&argc, argv, &displayLicense);
 	assert( app != nullptr );
 
 	if (displayLicense &&
@@ -41,7 +41,7 @@ main
 		return 0;
 	}
 
-	auto* dlog = jnew JXWMainDialog(app, argc, argv);
+	auto* dlog = jnew MainDialog(app, argc, argv);
 	assert( dlog != nullptr );
 	dlog->Activate();
 
@@ -71,13 +71,13 @@ ParseTextOptions
 	{
 		if (JIsVersionRequest(argv[index]))
 		{
-			JXWApp::InitStrings();
+			App::InitStrings();
 			PrintVersion();
 			exit(0);
 		}
 		else if (JIsHelpRequest(argv[index]))
 		{
-			JXWApp::InitStrings();
+			App::InitStrings();
 			PrintCommandLineHelp();
 			exit(0);
 		}
@@ -95,7 +95,7 @@ PrintCommandLineHelp()
 {
 	const JUtf8Byte* map[] =
 	{
-		"vers", JXWGetVersionNumberStr()
+		"vers", GetVersionNumberStr()
 	};
 	const JString s = JGetString("CommandLineHelp::main", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
@@ -110,6 +110,6 @@ void
 PrintVersion()
 {
 	std::cout << std::endl;
-	std::cout << JXWGetVersionStr() << std::endl;
+	std::cout << GetVersionStr() << std::endl;
 	std::cout << std::endl;
 }

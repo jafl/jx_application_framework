@@ -1,0 +1,85 @@
+<html>
+<head>
+
+<title>JX Memory Debugger Help</title>
+<link rel="stylesheet" type="text/css" href="http://libjx.sourceforge.net/help/base.css" />
+<link rel="stylesheet" type="text/css" href="../../../doc/html/help/base.css" />	<!-- dev -->
+
+</head>
+<body>
+
+<h1>JX Memory Debugger Help</h1>
+
+<p>Please submit all suggestions and bugs via <a href="https://github.com/jafl/jx_application_framework/issues">github</a>.</p>
+<hr>
+
+<h2>Table of Contents</h2>
+
+<ul>
+	<li><a href="#MainHelp">Main window</a></li>
+
+	<li><a href="ChangeLog.html">Changes from previous versions</a></li>
+
+	<li><a href="http://libjx.sourceforge.net/help/credits.html">Credits</a></li>
+
+	<li><a href="https://www.gnu.org/licenses/gpl-3.0.en.html">License</a></li>
+</ul>
+
+
+<hr>
+<h2><a name="MainHelp">Main Window</a></h2>
+
+<p>JX Project Wizard creates a skeletal program for the JX Application Framework that you can fill in to create a useful program.  Simply enter the requested information and click the Create button.  All the required files will be placed in the project directory that you specify.  If the \"Open command\" is not empty, this will be run to open the project file.  (<code>$f</code> is replaced by the name of the Code Crusader project file.)</p>
+
+<p>Most of the information should be self-explanatory.  The program name and binary name are not the same because the program name may be several words, while the binary name should be easy to type on the command line.</p>
+
+<p>The source prefix will be the prefix of all source files, classes, and functions.  This helps avoid namespace conflicts with classes and functions defined in libraries.
+
+<p>Please refer to the JX documentation for an explanation of MDI.  (It does <em>not</em> mean the same as with Microsoft programs.)</p>
+
+<p>The template directory specifies the location of the files that are used to create the new project.  This is initially set to the directory in which JX Wizard was built.  If you wish to share a single template among several users, the best place to put it is in <code>/usr/lib/jx/jx_project_wizard/</code>.</p>
+
+<p>For your convenience, the program version, author name, email address, company name, web site host name, use of MDI, project directory root, template directory, open command, and window position and size are all saved from one invocation to the next.</p>
+
+<h3>Customizing a template</h3>
+
+<p>Since you can specify the directory containing the template, you can make copies of the default template and modify them or even create your own templates from scratch.  The only requirement is that every template must contain &lt;Binary&gt;.fd in the top level directory because this is used as a sanity check to insure that the directory does in fact contain a template.</p>
+
+<p>The following strings are replaced when they are encountered in a template file:</p>
+
+<dl>
+<dt><code>&lt;Program&gt;</code></dt>
+<dd>Program name</dd>
+
+<dt><code>&lt;Version&gt;</code></dt>
+<dd>Program version</dd>
+
+<dt><code>&lt;Author&gt;</code></dt>
+<dd>Author name</dd>
+
+<dt><code>&lt;EMail&gt;</code></dt>
+<dd>Email address</dd>
+
+<dt><code>&lt;Company&gt;</code></dt>
+<dd>Company name</dd>
+
+<dt><code>&lt;URL&gt;</code></dt>
+<dd>Web site URL</dd>
+
+<dt><code>&lt;Binary&gt;</code></dt>
+<dd>Binary name</dd>
+
+<dt><code>&lt;MDI_DEF&gt;</code></dt>
+<dd>-DUSE_MDI if the checkbox is on.  Otherwise, blank.</dd>
+
+<dt><code>&lt;DIR&gt;</code></dt>
+<dd>Directory (not full path) in which the project is created.</dd>
+
+<dt><code>&lt;Year&gt;</code></dt>
+<dd>The current year</dd>
+</dl>
+
+<p>In addition, <code>_pre_</code> and <code>_Binary_</code> are replaced if they occur at the start of a file name.</p>
+
+</body>
+</html>

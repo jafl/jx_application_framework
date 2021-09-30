@@ -1,0 +1,8 @@
+0
+
+DataTitle::main		"Error bars"
+LogDataTitle::main	"Logarithmic scale"
+VectorTitle::main	"Vectors"
+
+ActionsMenuTitle::PlotDirector	"Actions"
+PlotTitle::PlotDirector			"New plot"

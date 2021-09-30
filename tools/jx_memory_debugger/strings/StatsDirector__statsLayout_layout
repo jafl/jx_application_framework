@@ -1,0 +1,10 @@
+0
+deallocLabel::StatsDirector::statsLayout "Deallocated:"
+itsRunProgramButton::StatsDirector::shortcuts::statsLayout "#R"
+argsLabel::StatsDirector::statsLayout "Args:"
+itsChooseProgramButton::StatsDirector::shortcuts::statsLayout "#O"
+itsChooseProgramButton::StatsDirector::statsLayout "Choose"
+bytesLabel::StatsDirector::statsLayout "Bytes:"
+blocksLabel::StatsDirector::statsLayout "Blocks:"
+binaryLabel::StatsDirector::statsLayout "Binary:"
+itsRunProgramButton::StatsDirector::statsLayout "Run"

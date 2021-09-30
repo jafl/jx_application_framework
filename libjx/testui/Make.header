@@ -34,15 +34,6 @@ LDFLAGS   :=
 
 include ${MAKE_INCLUDE}/app_targets
 
-#
-# string data
-#
-
-.PHONY : strings
-strings:
-	compile_jstrings ${J_STRING_FILES} \
-      --code kDefaultStringData ./code/testjxStringData.h
-
 testjx:: strings
 
 #

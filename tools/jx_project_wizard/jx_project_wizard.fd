@@ -7,15 +7,15 @@ Number of forms: 1
 Unit of measure: FL_COORD_PIXEL
 
 =============== FORM ===============
-Name: JXWMainDialog
+Name: MainDialog
 Width: 500
-Height: 370
-Number of Objects: 30
+Height: 350
+Number of Objects: 28
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 500 370
+box: 0 0 500 350
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -33,7 +33,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_RETURN_BUTTON
-box: 360 340 60 20
+box: 360 320 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -51,7 +51,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 90 340 60 20
+box: 90 320 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -69,7 +69,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 225 340 60 20
+box: 225 320 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -247,27 +247,9 @@ callback:
 argument: 
 
 --------------------
-class: FL_TEXT
-type: FL_NORMAL_TEXT
-box: 10 180 120 20
-boxtype: FL_FLAT_BOX
-colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: Source file prefix:
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
-name: (srcPrefixLabel)
-callback: 
-argument: 
-
---------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 10 210 130 20
+box: 10 190 130 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -285,7 +267,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 10 240 120 20
+box: 10 220 120 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -303,7 +285,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 420 240 60 20
+box: 420 220 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -321,7 +303,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 10 270 120 20
+box: 10 250 120 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -339,7 +321,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 390 270 60 20
+box: 390 250 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -445,27 +427,9 @@ callback:
 argument: 
 
 --------------------
-class: FL_INPUT
-type: FL_NORMAL_INPUT
-box: 130 180 350 20
-boxtype: FL_DOWN_BOX
-colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: 
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_North FL_NoGravity
-name: itsSrcPrefix
-callback: 
-argument: 
-
---------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 130 240 290 20
+box: 130 220 290 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -483,7 +447,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 130 270 260 20
+box: 130 250 260 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -501,7 +465,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 450 270 30 20
+box: 450 250 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -519,7 +483,7 @@ argument: kHistoryLength, JString::empty
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 10 300 120 20
+box: 10 280 120 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -537,7 +501,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 130 300 350 20
+box: 130 280 350 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT

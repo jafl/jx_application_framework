@@ -1,0 +1,53 @@
+0
+
+COPYRIGHT
+"Copyright (C) 2000-18 John Lindal.
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+https://github.com/jafl/jx_application_framework"
+
+# globals
+
+Description::globals
+"JX Project Wizard $version
+
+Generates skeletal program for use with JX $version
+
+$copyright"
+
+# main
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+CommandLineHelp::main
+"jx_project_wizard $vers
+
+https://github.com/jafl/jx_application_framework
+
+This program creates a skeletal program for JX $vers that you can fill in
+to create a useful program.  Simply run jx_project_wizard and enter the
+requested information.
+
+Usage:
+
+--help                          prints this help
+--version                       prints version information
+proj_dir prog_name binary_name  pre-specify configuration"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+# MainDialog
+
+WindowTitle::MainDialog	"JX $vers Project Wizard"
+
+UnableToCreateProjDir::MainDialog
+"Unable to create the specified project directory because:
+
+$err"
+
+InvalidTmplDirError::MainDialog
+"The template directory that you specified does not contain a jx_project_wizard template.  If you are not sure where it is, check the jx_project_wizard source directory or /usr/local/lib/jx/jx_project_wizard/."

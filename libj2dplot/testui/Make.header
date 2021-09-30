@@ -32,15 +32,6 @@ LDFLAGS   :=
 
 include ${MAKE_INCLUDE}/app_targets
 
-#
-# string data
-#
-
-.PHONY : strings
-strings:
-	compile_jstrings ${J_STRING_FILES} \
-      --code kDefaultStringData ./code/testj2dplotStringData.h
-
 testj2dplot:: strings
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.

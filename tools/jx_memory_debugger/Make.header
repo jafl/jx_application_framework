@@ -5,7 +5,6 @@ JX_ROOT := ../..
 
 APP_NAME          := jx_memory_debugger
 SIGNATURE         := ${APP_NAME}
-MENU_STRINGS_FILE := strings/${APP_NAME}_menu_strings
 
 J_STRING_FILES := ${filter-out %/${APP_NAME}_menu_strings, \
                     ${shell echo strings/*}}
@@ -13,7 +12,7 @@ J_STRING_FILES := ${filter-out %/${APP_NAME}_menu_strings, \
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
-SEARCHDIRS := -I./code ${SEARCHDIRS}
+SEARCHDIRS := -I./code -I./image ${SEARCHDIRS}
 
 # makemake variables
 
@@ -33,23 +32,7 @@ LDFLAGS   :=
 
 include ${MAKE_INCLUDE}/app_targets
 
-#
-# string data
-#
-
-.PHONY : strings
-strings:
-	@${RM} ${MENU_STRINGS_FILE}
-	compile_jstrings ${J_STRING_FILES} \
-      --code kMDDefaultStringData ./code/mdStringData.h
-
 ${APP_NAME}:: strings
-
-.PHONY : menu_strings
-menu_strings:
-	@${MENU_STR_CMD} ${MENU_STRINGS_FILE} ${SIGNATURE} \
-     -a ./code/mdActionDefs.h ${JX_ACTION_DEFS} \
-     -m */*.cpp ${JX_INCLUDE_ROOT}/jx-af/jx/*.cpp
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

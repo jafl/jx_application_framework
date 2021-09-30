@@ -5,9 +5,9 @@
 
  ******************************************************************************/
 
-#include "MDApp.h"
-#include "MDStatsDirector.h"
-#include "mdGlobals.h"
+#include "App.h"
+#include "StatsDirector.h"
+#include "globals.h"
 #include <jx-af/jcore/jCommandLine.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -33,7 +33,7 @@ main
 
 	bool displayAbout;
 	JString prevVersStr;
-	auto* app = jnew MDApp(&argc, argv, &displayAbout, &prevVersStr);
+	auto* app = jnew App(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
 	if (displayAbout &&
@@ -42,7 +42,7 @@ main
 		return 0;
 	}
 
-	auto* dir = jnew MDStatsDirector(app);
+	auto* dir = jnew StatsDirector(app);
 	assert( dir != nullptr );
 	dir->Activate();
 
@@ -77,13 +77,13 @@ ParseTextOptions
 	{
 		if (JIsVersionRequest(argv[index]))
 		{
-			MDApp::InitStrings();
+			App::InitStrings();
 			PrintVersion();
 			exit(0);
 		}
 		else if (JIsHelpRequest(argv[index]))
 		{
-			MDApp::InitStrings();
+			App::InitStrings();
 			PrintCommandLineHelp();
 			exit(0);
 		}
@@ -100,7 +100,7 @@ void
 PrintVersion()
 {
 	std::cout << std::endl;
-	std::cout << MDGetVersionStr() << std::endl;
+	std::cout << GetVersionStr() << std::endl;
 	std::cout << std::endl;
 }
 
@@ -114,9 +114,9 @@ PrintCommandLineHelp()
 {
 	const JUtf8Byte* map[] =
 	{
-		"vers",      MDGetVersionNumberStr(),
+		"vers",      GetVersionNumberStr(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
 	};
-	const JString s = JGetString("CommandLineHelp::mdGlobals", map, sizeof(map));
+	const JString s = JGetString("CommandLineHelp::globals", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }

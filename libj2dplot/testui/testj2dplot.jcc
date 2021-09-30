@@ -4,20 +4,20 @@ jx_browser_data 89
 T
 1 "source"
 T
-2 "testj2dplot.cpp"
+2 "main.cpp"
 F
-"./code/testj2dplot.cpp"
+"./code/main.cpp"
 T
-2 "Test2DPlotDirector.cpp"
+2 "PlotDirector.cpp"
 F
-"./code/Test2DPlotDirector.cpp"
+"./code/PlotDirector.cpp"
 F
 T
 1 "strings"
 T
-2 "testj2dplot_strings"
+2 "strings"
 F
-"./strings/testj2dplot_strings"
+"./strings/strings"
 F
 T
 1 "layouts"

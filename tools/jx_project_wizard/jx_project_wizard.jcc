@@ -8,24 +8,24 @@ T
 F
 "./code/main.cpp"
 T
-2 "JXWApp.cpp"
+2 "App.cpp"
 F
-"./code/JXWApp.cpp"
+"./code/App.cpp"
 T
-2 "jxwGlobals.cpp"
+2 "globals.cpp"
 F
-"./code/jxwGlobals.cpp"
+"./code/globals.cpp"
 T
-2 "JXWPrefsManager.cpp"
+2 "PrefsManager.cpp"
 F
-"./code/JXWPrefsManager.cpp"
+"./code/PrefsManager.cpp"
 F
 T
 1 "directors"
 T
-2 "JXWMainDialog.cpp"
+2 "MainDialog.cpp"
 F
-"./code/JXWMainDialog.cpp"
+"./code/MainDialog.cpp"
 F
 T
 1 "help"
@@ -49,9 +49,9 @@ F
 T
 1 "misc"
 T
-2 "jxwizard_strings"
+2 "strings"
 F
-"./strings/jxwizard_strings"
+"./strings/strings"
 T
 2 "jx_project_wizard.fd"
 F

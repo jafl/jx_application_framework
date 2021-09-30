@@ -1,0 +1,8 @@
+0
+itsSizeCB::FilterRecordsDialog::shortcuts::JXLayout "#L"
+cancelButton::FilterRecordsDialog::JXLayout "Cancel"
+okButton::FilterRecordsDialog::JXLayout "OK"
+okButton::FilterRecordsDialog::shortcuts::JXLayout "^M"
+itsSizeCB::FilterRecordsDialog::JXLayout "Only larger than:"
+itsFileCB::FilterRecordsDialog::JXLayout "Only from file:"
+itsFileCB::FilterRecordsDialog::shortcuts::JXLayout "#F"

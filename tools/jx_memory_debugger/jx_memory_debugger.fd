@@ -7,7 +7,7 @@ Number of forms: 6
 Unit of measure: FL_COORD_PIXEL
 
 =============== FORM ===============
-Name: MDPrefsDialog
+Name: PrefsDialog
 Width: 420
 Height: 100
 Number of Objects: 6
@@ -121,7 +121,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: MDAboutDialog
+Name: AboutDialog
 Width: 370
 Height: 120
 Number of Objects: 6
@@ -235,7 +235,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: MDStatsDirector
+Name: StatsDirector
 Width: 500
 Height: 300
 Number of Objects: 3
@@ -292,10 +292,10 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: MDGetPrefsManager(), kMDStatsToolBarID, menuBar,
+argument: GetPrefsManager(), kStatsToolBarID, menuBar,
 
 =============== FORM ===============
-Name: MDStatsDirector__statsLayout__statsEncl
+Name: StatsDirector__statsLayout__statsEncl
 Width: 500
 Height: 90
 Number of Objects: 13
@@ -535,7 +535,7 @@ callback:
 argument: JString::empty, false, true, false, nullptr,
 
 =============== FORM ===============
-Name: MDRecordDirector
+Name: RecordDirector
 Width: 500
 Height: 400
 Number of Objects: 3
@@ -592,10 +592,10 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: MDGetPrefsManager(), kMDRecordToolBarID, menuBar,
+argument: GetPrefsManager(), kRecordToolBarID, menuBar,
 
 =============== FORM ===============
-Name: MDFilterRecordsDialog
+Name: FilterRecordsDialog
 Width: 420
 Height: 120
 Number of Objects: 7

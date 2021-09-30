@@ -4,7 +4,7 @@
 
 @./testj2dplot
 
-.cpp ./code/testj2dplot
-.cpp ./code/Test2DPlotDirector
+.cpp ./code/main
+.cpp ./code/PlotDirector
 
 literal: ${LIB_DEPS}

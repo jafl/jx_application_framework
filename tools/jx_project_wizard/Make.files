@@ -5,9 +5,9 @@
 @jx_project_wizard
 
 .cpp ./code/main
-.cpp ./code/JXWApp
-.cpp ./code/jxwGlobals
-.cpp ./code/JXWPrefsManager
-.cpp ./code/JXWMainDialog
+.cpp ./code/App
+.cpp ./code/globals
+.cpp ./code/PrefsManager
+.cpp ./code/MainDialog
 
 literal: ${LIB_DEPS}

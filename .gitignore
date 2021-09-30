@@ -16,8 +16,9 @@ sonar_output
 0-RELEASE
 Brewfile.lock.json
 misc/reflex
+**/strings/version
 
-tools/*/code/*StringData.h
+tools/*/code/stringData.h
 tools/*/Makefile
 tools/*/strings/*_menu_strings
 tools/*/ChangeLog.html

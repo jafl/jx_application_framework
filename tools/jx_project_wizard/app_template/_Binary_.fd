@@ -1,4 +1,4 @@
-Magic: 13000
+Magic: 15000
 
 Internal Form Definition File
     (do not change)
@@ -7,15 +7,15 @@ Number of forms: 3
 Unit of measure: FL_COORD_PIXEL
 
 =============== FORM ===============
-Name: <PRE>PrefsDialog
+Name: PrefsDialog
 Width: 400
-Height: 290
+Height: 280
 Number of Objects: 3
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
-box: 0 0 400 290
+type: FL_FLAT_BOX
+box: 0 0 400 280
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -32,7 +32,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 90 250 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -50,7 +50,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: RETURN_BUTTON
+type: FL_RETURN_BUTTON
 box: 240 250 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -67,14 +67,14 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: <PRE>AboutDialog
+Name: AboutDialog
 Width: 370
 Height: 120
 Number of Objects: 6
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 370 120
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -92,7 +92,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 70 20 280 50
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -110,7 +110,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: RETURN_BUTTON
+type: FL_RETURN_BUTTON
 box: 260 90 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -128,7 +128,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 155 90 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -146,7 +146,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 20 20 40 40
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -164,7 +164,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 50 90 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -181,14 +181,14 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: <PRE>MainDirector
+Name: MainDirector
 Width: 500
 Height: 300
 Number of Objects: 3
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 500 300
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -206,7 +206,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 0 500 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -224,7 +224,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 30 500 270
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -238,7 +238,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: <PRE>GetPrefsManager(), k<PRE>MainToolBarID, menuBar,
+argument: GetPrefsManager(), kMainToolBarID, menuBar,
 
 ==============================
 create_the_forms

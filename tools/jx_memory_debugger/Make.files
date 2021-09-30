@@ -5,19 +5,19 @@
 @jx_memory_debugger
 
 .cpp ./code/main
-.cpp ./code/MDApp
-.cpp ./code/mdGlobals
-.cpp ./code/MDPrefsManager
-.cpp ./code/MDPrefsDialog
-.cpp ./code/MDAboutDialog
-.cpp ./code/MDStatsDirector
-.cpp ./code/MDSizeHistogram
-.cpp ./code/MDFilterRecordsDialog
-.cpp ./code/MDRecordDirector
-.cpp ./code/MDHeaderWidget
-.cpp ./code/MDRecordTable
-.cpp ./code/MDRecordList
-.cpp ./code/MDRecord
-.cpp ./code/MDRecordDataField
+.cpp ./code/App
+.cpp ./code/globals
+.cpp ./code/PrefsManager
+.cpp ./code/PrefsDialog
+.cpp ./code/AboutDialog
+.cpp ./code/StatsDirector
+.cpp ./code/SizeHistogram
+.cpp ./code/FilterRecordsDialog
+.cpp ./code/RecordDirector
+.cpp ./code/HeaderWidget
+.cpp ./code/RecordTable
+.cpp ./code/RecordList
+.cpp ./code/Record
+.cpp ./code/RecordDataField
 
 literal: ${LIB_DEPS}

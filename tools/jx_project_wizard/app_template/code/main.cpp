@@ -5,10 +5,10 @@
 
  ******************************************************************************/
 
-#include "<PRE>App.h"
-#include "<PRE>MDIServer.h"
-#include "<PRE>MainDirector.h"
-#include "<pre>Globals.h"
+#include "App.h"
+#include "MDIServer.h"
+#include "MainDirector.h"
+#include "globals.h"
 #include <jx-af/jcore/jCommandLine.h>
 #include <jx-af/jcore/jWebUtil.h>
 #include <jx-af/jcore/jAssert.h>
@@ -35,7 +35,7 @@ main
 
 #ifdef USE_MDI
 
-	if (!<PRE>MDIServer::WillBeMDIServer(<PRE>App::GetAppSignature(), argc, argv))
+	if (!MDIServer::WillBeMDIServer(App::GetAppSignature(), argc, argv))
 	{
 		return 0;
 	}
@@ -44,7 +44,7 @@ main
 
 	bool displayAbout;
 	JString prevVersStr;
-	<PRE>App* app = jnew <PRE>App(&argc, argv, &displayAbout, &prevVersStr);
+	App* app = jnew App(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
 	if (displayAbout &&
@@ -53,13 +53,13 @@ main
 		return 0;
 	}
 
-	JCheckForNewerVersion(<PRE>GetPrefsManager(), k<PRE>VersionCheckID);
+	JCheckForNewerVersion(GetPrefsManager(), kVersionCheckID);
 
-	(<PRE>GetMDIServer())->HandleCmdLineOptions(argc, argv);
+	GetMDIServer()->HandleCmdLineOptions(argc, argv);
 
 	// You may want to create all directors inside HandleCmdLineOptions()
 
-	<PRE>MainDirector* dir = jnew <PRE>MainDirector(app);
+	MainDirector* dir = jnew MainDirector(app);
 	assert( dir != nullptr );
 	dir->Activate();
 
@@ -94,13 +94,13 @@ ParseTextOptions
 	{
 		if (JIsVersionRequest(argv[index]))
 		{
-			<PRE>App::InitStrings();
+			App::InitStrings();
 			PrintVersion();
 			exit(0);
 		}
 		else if (JIsHelpRequest(argv[index]))
 		{
-			<PRE>App::InitStrings();
+			App::InitStrings();
 			PrintCommandLineHelp();
 			exit(0);
 		}
@@ -117,7 +117,7 @@ void
 PrintVersion()
 {
 	std::cout << std::endl;
-	std::cout << <PRE>GetVersionStr() << std::endl;
+	std::cout << GetVersionStr() << std::endl;
 	std::cout << std::endl;
 }
 
@@ -131,7 +131,7 @@ PrintCommandLineHelp()
 {
 	const JUtf8Byte* map[] =
 	{
-		"vers", <PRE>GetVersionNumberStr().GetBytes()
+		"vers", GetVersionNumberStr().GetBytes()
 	};
 	const JString s = JGetString("CommandLineHelp", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;

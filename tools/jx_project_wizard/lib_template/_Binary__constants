@@ -8,12 +8,6 @@
 {Binary}_LIB_VERSION := 0_0_1
 
 #
-# library names
-#
-
-l{Binary} := -l{Binary}-${{Binary}_LIB_VERSION}
-
-#
 # String data files
 #
 

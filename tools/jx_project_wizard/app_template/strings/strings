@@ -1,0 +1,63 @@
+0
+
+COPYRIGHT
+"Copyright (C) <Year> by <Company>.
+
+This software is subject to the license agreement set forth in the license (refer to the on-line help).
+
+<URL>
+<EMail>"
+
+HELP_URL		"http://.../help.html"
+CHANGE_LOG_URL	"http://.../ChangeLog.html"
+VERSION_URL		"http://.../VERSION"
+DOWNLOAD_URL	"http://..."
+
+# globals
+
+Description::globals
+"<Program> $version
+
+Program description
+
+$copyright"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+CommandLineHelp
+"<Program> $vers
+
+$copyright
+
+This program requires the X Window System.
+
+Because <Program> fully supports the Multiple Document concept,
+it can be safely invoked from the command line or via a file manager
+as often as you like.
+
+Usage:
+
+--help     prints this help
+--version  prints version information"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+# PrefsDialog
+
+WindowTitle::PrefsDialog "Preferences"
+
+# AboutDialog
+
+WindowTitle::AboutDialog		"About"
+ChangeButtonLabel::AboutDialog	"Changes"
+
+UpgradeNotice::AboutDialog
+"
+
+
+You have just upgraded from version $vers"
+
+# MainDirector
+
+WindowTitle::MainDirector	"Program"
+HelloWorld::MainDirector	"This should be replaced by your widget."

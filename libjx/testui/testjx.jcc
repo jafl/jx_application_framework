@@ -168,9 +168,9 @@ F
 T
 1 "Strings"
 T
-2 "testjx_strings"
+2 "strings"
 F
-"./strings/testjx_strings"
+"./strings/strings"
 F
 T
 1 "layout"

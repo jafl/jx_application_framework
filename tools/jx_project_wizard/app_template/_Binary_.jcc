@@ -1,4 +1,4 @@
-jx_browser_data 86
+jx_browser_data 89
 # project tree
 0 "root"
 T
@@ -8,43 +8,43 @@ T
 F
 "./code/main.cpp"
 T
-2 "<PRE>App.cpp"
+2 "App.cpp"
 F
-"./code/<PRE>App.cpp"
+"./code/App.cpp"
 T
-2 "<pre>Globals.cpp"
+2 "globals.cpp"
 F
-"./code/<pre>Globals.cpp"
+"./code/globals.cpp"
 T
-2 "<PRE>PrefsManager.cpp"
+2 "PrefsManager.cpp"
 F
-"./code/<PRE>PrefsManager.cpp"
+"./code/PrefsManager.cpp"
 T
-2 "<PRE>PrefsDialog.cpp"
+2 "PrefsDialog.cpp"
 F
-"./code/<PRE>PrefsDialog.cpp"
+"./code/PrefsDialog.cpp"
 T
-2 "<PRE>MDIServer.cpp"
+2 "MDIServer.cpp"
 F
-"./code/<PRE>MDIServer.cpp"
+"./code/MDIServer.cpp"
 T
-2 "<PRE>AboutDialog.cpp"
+2 "AboutDialog.cpp"
 F
-"./code/<PRE>AboutDialog.cpp"
+"./code/AboutDialog.cpp"
 F
 T
 1 "directors"
 T
-2 "<PRE>MainDirector.cpp"
+2 "MainDirector.cpp"
 F
-"./code/<PRE>MainDirector.cpp"
+"./code/MainDirector.cpp"
 F
 T
 1 "misc"
 T
-2 "<Binary>_strings"
+2 "strings"
 F
-"./strings/<Binary>_strings"
+"./strings/strings"
 T
 2 "license"
 F
@@ -57,57 +57,31 @@ F
 T
 1 "help"
 T
-2 "<pre>HelpText.h"
+2 "ChangeLog.html"
 F
-"./code/<pre>HelpText.h"
+"./release/ChangeLog.html"
 T
-2 "<pre>TOCHelpText"
+2 "help.html"
 F
-"./strings/<pre>TOCHelpText"
-T
-2 "<pre>OverviewHelpText"
-F
-"./strings/<pre>OverviewHelpText"
-T
-2 "<pre>MainHelpText"
-F
-"./strings/<pre>MainHelpText"
-T
-2 "<pre>ChangeLogText"
-F
-"./strings/<pre>ChangeLogText"
-T
-2 "<pre>CreditsText"
-F
-"./strings/<pre>CreditsText"
-F
-T
-1 "images"
-T
-2 "<pre>_about_icon.xpm"
-F
-"./code/<pre>_about_icon.xpm"
-T
-2 "<pre>_main_window_icon.xpm"
-F
-"./code/<pre>_main_window_icon.xpm"
+"./release/help.html"
 F
 F
 # tasks
 4
 "makemake"
-T "./" "jxlayout --choose --require-obj-names --post-cmd \"jcc --force-reload-open\" -cp code $project_name.fd" "" F F T T T T F "Compile layouts" "Meta-'" "&|3Ss+=IL_ywwy[Pm}cG::CBCommandManager" F
+T "./" "jxlayout --choose --require-obj-names --post-cmd \"jcc --force-reload-open\" -cp code $project_name.fd" "" FFTTTTF "Compile layouts" "Meta-'" "&|3Ss+=IL_ywwy[Pm}cG::CBCommandManager" F
 F
 # build settings
 1
-T
+F
 "<Binary>"
 "${LIB_DEPS}"
 "make -k all"
 # search paths
 T "./code" T
-T "<JX_PATH>/libjcore/code" T
-T "<JX_PATH>/libjx/code" T
+T "<JX_PATH>/include" T
+T "<JX_PATH>/include/jx-af/jcore" T
+T "<JX_PATH>/include/jx-af/jx" T
 F
 # C preprocessor
 F
