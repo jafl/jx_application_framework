@@ -1,8 +1,11 @@
-svn_client
-systemg
 jcc
 medic
 mill
+
+keg for brew
+	https://docs.brew.sh/Formula-Cookbook
+	https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap
+
 
 
 systemg slow to open new window
@@ -55,9 +58,6 @@ medic ubuntu - crash on exit
 medic for go: delve back-end
 	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
 
-keg for brew
-	https://docs.brew.sh/Formula-Cookbook
-	https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap
 
 
 
