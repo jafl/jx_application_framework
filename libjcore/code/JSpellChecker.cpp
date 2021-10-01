@@ -86,7 +86,7 @@ JSpellChecker::CheckWord
 	(
 	const JString&		word,
 	JPtrArray<JString>*	suggestionList,
-	bool*			goodFirstSuggestion
+	bool*				goodFirstSuggestion
 	)
 {
 	suggestionList->DeleteAll();
