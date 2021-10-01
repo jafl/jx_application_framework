@@ -25,7 +25,7 @@ END_DIR   = ) fi
 
 .PHONY : initial_build
 initial_build:
-	@if { test -d misc/reflex -a ! -f misc/reflex/lib/libreflex.a; } then \
+	@if { test -d misc/reflex && test ! -f misc/reflex/lib/libreflex.a; } then \
          echo Please authorize sudo access for building reflex...; \
          sudo echo sudo access authorized...; \
          cd misc/reflex; ./clean.sh; ./build.sh; sudo ./allinstall.sh; \

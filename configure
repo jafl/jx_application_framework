@@ -62,7 +62,8 @@ function configure_ace
 
 function get_reflex
 {
-	if [[ ! -d misc/reflex ]]; then
+	if [[ ! -d misc/reflex || ! -f misc/reflex/lib/libreflex.a ]]; then
+		rm -rf misc/reflex;
 		git clone -b v3.0.11 https://github.com/Genivia/RE-flex misc/reflex;
 	fi
 }
