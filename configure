@@ -80,7 +80,6 @@ function clean_links
 
 function configure_linux
 {
-	get_ace;
 	get_reflex;
 	clean_links;
 
@@ -96,7 +95,9 @@ function configure_linux
 		exit 1;
 	fi
 
-	configure_ace config-linux.h platform_linux.GNU;
+	if [[ -d ACE/ACE_wrappers ]]; then
+		configure_ace config-linux.h platform_linux.GNU;
+	fi
 }
 
 #
@@ -164,6 +165,7 @@ elif command -v dnf; then
 		xorg-x11-server-devel libXdamage-devel expat-devel \
 		xforms-devel;
 
+	get_ace;
 	configure_linux;
 
 elif command -v yum; then
@@ -180,6 +182,7 @@ elif command -v yum; then
 		xorg-x11-server-devel libXdamage-devel expat-devel \
 		xforms-devel;
 
+	get_ace;
 	configure_linux;
 
 elif command -v zypper; then
@@ -196,6 +199,7 @@ elif command -v zypper; then
 		xorg-x11-server-devel libXdamage-devel expat-devel \
 		xforms-devel;
 
+	get_ace;
 	configure_linux;
 
 elif [[ $SYS == Cygwin ]]; then
