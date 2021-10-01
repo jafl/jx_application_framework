@@ -26,3 +26,4 @@ after_success:
 cache:
   directories:
     - '$HOME/.sonar/cache'
+    - 'misc/reflex'

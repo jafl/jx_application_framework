@@ -9,7 +9,6 @@
 #define _H_JSTStyler
 
 #include "jx-af/jcore/JStyledText.h"
-#include <FlexLexer.h>
 
 class JSTStyler
 {

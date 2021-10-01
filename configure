@@ -146,7 +146,7 @@ elif command -v apt-get; then
 			libace-dev libicu-dev libpcre3-dev \
 			xutils-dev libx11-xcb-dev libxcb-dri2-0-dev \
 			libxcb-xfixes0-dev x11proto-gl-dev libdrm-dev \
-			libforms-bin;
+			libforms-bin aspell;
 	fi
 
 	configure_linux;
@@ -163,7 +163,7 @@ elif command -v dnf; then
 		libicu-devel pcre-devel \
 		imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
-		xforms-devel;
+		xforms-devel aspell aspell-en;
 
 	get_ace;
 	configure_linux;
@@ -180,7 +180,7 @@ elif command -v yum; then
 		libicu-devel pcre-devel \
 		imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
-		xforms-devel;
+		xforms-devel aspell aspell-en;
 
 	get_ace;
 	configure_linux;
@@ -197,7 +197,7 @@ elif command -v zypper; then
 		libicu-devel pcre-devel \
 		imake libtool xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
-		xforms-devel;
+		xforms-devel aspell aspell-en;
 
 	get_ace;
 	configure_linux;
@@ -224,6 +224,7 @@ elif [[ $SYS == Cygwin ]]; then
 	$SETUP -q -P libX11-devel,libXinerama-devel,libXpm-devel,libXft-devel,libXmu-devel,libXi-devel;
 	$SETUP -q -P libxml2-devel,libgd-devel,libjpeg-devel,libpng-devel,libicu-devel,libpcre-devel;
 	$SETUP -q -P imake,libtool,xorg-server-devel,libXdamage-devel,libexpat-devel;
+	$SETUP -q -P aspell,aspell-en;
 
 	get_ace;
 	get_reflex;
