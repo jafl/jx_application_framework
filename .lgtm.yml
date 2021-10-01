@@ -5,3 +5,12 @@ path_classifiers:
     - doc
   test:
     - obsolete
+
+extraction:
+  cpp:
+     configure:
+        command:
+        - ./configure release
+     index:
+        build_command:
+        - make

@@ -8,7 +8,7 @@ SCRIPTS    := jfdesign convert_gravity
 DATA_FILES := class_map option_map need_font_list need_string_list need_create_list
 
 ifndef JXLAYOUTDIR
-  ROOT_DATA_FILE_DIR := /usr/lib/jx/jxlayout
+  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}/jx/jxlayout
 else
   ROOT_DATA_FILE_DIR := ${JXLAYOUTDIR}
 endif

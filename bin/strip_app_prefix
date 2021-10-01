@@ -1,0 +1,65 @@
+#!/usr/bin/perl
+
+use strict;
+
+my $prefix;
+if (!($prefix = $ARGV[0]))
+{
+	print "usage: strip_prefix prefix\n";
+	exit 1;
+}
+$prefix = uc($prefix);
+
+sub ReadFile($)
+{
+	local $/ = undef;
+	open(F, "< $_[0]");
+	return <F>;
+}
+
+open(L, "find -E . -regex '.+\\.(cpp|h|tmpl|ll?|y|jcc|fd)' |");
+
+while (my $file = <L>)
+{
+	chomp($file);
+	my $orig_file = $file;
+	my $orig_data = my $data = ReadFile($file);
+
+	if ($file =~ m|^(.+/)($prefix)([^/]+)$|i)
+	{
+		my $path = $1;
+		my $c    = substr($2,0,1);
+		my $name = $3;
+		if ($c eq lc($c))
+		{
+			$name = lcfirst($name);
+		}
+		$file = $path.$name;
+	}
+
+	while ($orig_data =~ m/\b($prefix)([a-z]+\.(?:cpp|h))/ig)
+	{
+		my $orig_name = my $name = $2;
+
+		my $c = substr($1,0,1);
+		if ($c eq lc($c))
+		{
+			$name =  lcfirst($name);
+			$data =~ s/\b$prefix$orig_name/$name/i;
+		}
+	}
+
+	$data =~ s/(\b|k|_H_)$prefix(?=\w)/$1/g;
+
+	if ($file ne $orig_file || $data ne $orig_data)
+	{
+		if ($file ne $orig_file)
+		{
+			system("git mv $orig_file $file");
+		}
+
+		open(F, "> $file");
+		print F $data;
+		close(F);
+	}
+}

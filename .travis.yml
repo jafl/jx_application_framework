@@ -1,25 +1,27 @@
 language: cpp
-script: ./configure && make test
-matrix:
-  include:
-    - os: osx
-      osx_image: xcode12.2
 
-  # libace 6.0.3 on Trusty is broken
+addons:
+  sonarcloud:
+    organization: "jafl-github"
+
+script:
+  - ./configure && make test
+  - sonar-scanner
+
+matrix:
   exclude:
+    - os: osx
+      osx_image: xcode12.5
+  include:
     - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-7
-          packages:
-            - g++-7
-      env:
-        - MATRIX_EVAL="export CC=gcc-7 && export CXX=g++-7"
+      dist: focal
 
 before_install:
   - eval "${MATRIX_EVAL}"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -p libjcore
+
+cache:
+  directories:
+    - '$HOME/.sonar/cache'

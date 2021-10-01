@@ -18,7 +18,7 @@ Makefiles::
 #
 
 ifdef J_SYSTEM_HAS_SHARED_LIBS
-  LDFLAGS += -Xlinker -R/usr/lib/${SIGNATURE}
+  LDFLAGS += -Xlinker -R${JX_INSTALL_ROOT}/${SIGNATURE}
 endif
 
 .PHONY : libs

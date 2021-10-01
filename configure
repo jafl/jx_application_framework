@@ -138,7 +138,7 @@ elif command -v apt-get; then
 	if [[ -z $LGTM_SRC ]]; then
 		$SUDO apt update;
 		$SUDO apt -y install curl \
-			g++ flex bison make automake \
+			g++ bison make automake \
 			libx11-dev libxinerama-dev libxpm-dev libxft-dev \
 				libxmu-dev libxi-dev \
 			libxml2-dev libgd-dev libjpeg-dev libpng-dev \
@@ -155,7 +155,7 @@ elif command -v dnf; then
 	# redhat
 
 	$SUDO dnf -y install findutils perl python-libxml2 \
-		gcc-c++ flex bison make rpm-build \
+		gcc-c++ bison make rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
@@ -171,7 +171,7 @@ elif command -v yum; then
 	# redhat
 
 	$SUDO yum -y install findutils perl python-libxml2 \
-		gcc-c++ flex bison make rpm-build \
+		gcc-c++ bison make rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
@@ -187,7 +187,7 @@ elif command -v zypper; then
 	# openSUSE
 
 	$SUDO zypper -in install curl perl python-libxml2 \
-		gcc-c++ flex bison make rpm-build \
+		gcc-c++ bison make rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \
@@ -216,7 +216,7 @@ elif [[ $SYS == Cygwin ]]; then
 	fi
 
 	$SETUP -q -P curl,perl,python2-libxml2;
-	$SETUP -q -P gcc-g++,flex,bison,make,gdb;
+	$SETUP -q -P gcc-g++,bison,make,gdb;
 	$SETUP -q -P libX11-devel,libXinerama-devel,libXpm-devel,libXft-devel,libXmu-devel,libXi-devel;
 	$SETUP -q -P libxml2-devel,libgd-devel,libjpeg-devel,libpng-devel,libicu-devel,libpcre-devel;
 	$SETUP -q -P imake,libtool,xorg-server-devel,libXdamage-devel,libexpat-devel;
