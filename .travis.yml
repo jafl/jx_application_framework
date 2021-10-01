@@ -5,7 +5,8 @@ addons:
     organization: "jafl-github"
 
 script:
-  - ./configure && make test
+  - ./configure
+  - make default test
   - sonar-scanner
 
 matrix:
