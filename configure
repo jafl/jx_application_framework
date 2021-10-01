@@ -145,7 +145,7 @@ elif command -v apt-get; then
 			libace-dev libicu-dev libpcre3-dev \
 			xutils-dev libx11-xcb-dev libxcb-dri2-0-dev \
 			libxcb-xfixes0-dev x11proto-gl-dev libdrm-dev \
-			libforms-bin xterm git-gui;
+			libforms-bin;
 	fi
 
 	configure_linux;
