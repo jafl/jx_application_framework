@@ -4,20 +4,36 @@
 #   LIB_NAME_ROOT -- root of library's name (e.g. "libjcore")
 #   JX_INSTALL_ROOT -- installation root containing bin, lib, include
 
+INCLUDE_INSTALL_ROOT := ${JX_INSTALL_ROOT}/include/jx-af
+INCLUDE_INSTALL_NAME := $(subst lib,,${LIB_NAME_ROOT})
+
 .PHONY : default
 default: ${LIB_NAME_ROOT}.a
   ifneq (${jx.test.skip},true)
-	@if [[ -d test ]]; then cd test; makemake; make FROM_LIB=1 test; fi
+	@if { test -d test; } then cd test; makemake; make FROM_LIB=1 test; fi
   endif
 
 .PHONY : install
 install:
   ifeq ($(shell whoami),root)
+	@mkdir -p ${JX_INSTALL_ROOT}/lib ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
 	@cp ${LIB_NAME_ROOT}.a ${JX_INSTALL_ROOT}/lib
+	@cp code/*.h ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
+	@if { test -d strings; } then \
+         mkdir -p ${INCLUDE_INSTALL_ROOT}/strings/${INCLUDE_INSTALL_NAME}; \
+         cp strings/* ${INCLUDE_INSTALL_ROOT}/strings/${INCLUDE_INSTALL_NAME}; \
+     fi
+	@if { test -d image; } then \
+         mkdir -p ${INCLUDE_INSTALL_ROOT}/image/${INCLUDE_INSTALL_NAME}; \
+         cp image/* ${INCLUDE_INSTALL_ROOT}/image/${INCLUDE_INSTALL_NAME}; \
+     fi
   endif
 
 .PHONY : uninstall
 uninstall:
   ifeq ($(shell whoami),root)
-	@${RM} ${JX_INSTALL_ROOT}/lib/${LIB_NAME_ROOT}.a
+	@${RM} -r ${JX_INSTALL_ROOT}/lib/${LIB_NAME_ROOT}.a \
+              ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME} \
+              ${INCLUDE_INSTALL_ROOT}/strings/${INCLUDE_INSTALL_NAME} \
+              ${INCLUDE_INSTALL_ROOT}/image/${INCLUDE_INSTALL_NAME}
   endif
