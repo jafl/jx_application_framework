@@ -6,7 +6,9 @@ addons:
 
 script:
   - ./configure
-  - make default test
+  - mkdir sonar_output
+  - chmod 0777 sonar_output
+  - build-wrapper-linux-x86-64 --out-dir sonar_output make default test
   - sonar-scanner
 
 matrix:
