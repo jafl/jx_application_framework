@@ -25,20 +25,24 @@ END_DIR   = ) fi
 
 .PHONY : initial_build
 initial_build:
-	@if { test -d misc/reflex && test ! -f misc/reflex/lib/libreflex.a; } then \
-         echo Please authorize sudo access for building reflex...; \
-         sudo echo sudo access authorized...; \
-         cd misc/reflex; ./clean.sh; ./build.sh; sudo ./allinstall.sh; \
+	@if { test -d misc/reflex } then \
+       echo Please authorize sudo access for installing reflex...; \
+       sudo echo sudo access authorized...; \
+       cd misc/reflex; \
+       if { ! test -f misc/reflex/lib/libreflex.a;  } then \
+          ./clean.sh; ./build.sh; \
+       fi; \
+       sudo ./allinstall.sh; \
      fi
 	@if { ! test -h ACE/ACE_wrappers && ! test -e ACE/ACE_wrappers/ace/libACE.a; } then \
-         cd ACE; ${JMAKE} install; \
+       cd ACE; ${JMAKE} install; \
      fi
 	@if { ! test -x tools/makemake/makemake; } then \
-         cd tools/makemake; \
-         ${MAKE} -f Makefile.port install; \
+       cd tools/makemake; \
+       ${MAKE} -f Makefile.port install; \
      fi
 	@if { ! test -f libjcore/Makefile; } then \
-         ${JMAKE} -w Makefiles; \
+       ${JMAKE} -w Makefiles; \
      fi
 	@cd libjcore; ${JMAKE} COMPILE_STRINGS=0
 	@cd tools/compile_jstrings; ${JMAKE} install

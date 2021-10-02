@@ -15,6 +15,9 @@ jcc
 	select fileVersions.h, press return, then undo
 
 
+search text
+	disable "entire word" checkbox when not purely alnum
+	use regex \b...\b
 
 
 systemg slow to open new window
