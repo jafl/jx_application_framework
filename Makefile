@@ -78,6 +78,8 @@ libs:
 .PHONY : run_tests
 run_tests: libs
 ifeq (${J_RUN_GCOV},1)
+	@mkdir -p .sonar/cache .scannerwork
+	@chmod -R 777 .sonar .scannerwork
 	@find . \( -name '*.gcno' -or -name '*.gcda' \) -and -not -path '*/libjcore/code/*' -exec rm -f '{}' +
 	@cd libjcore; p=`pwd`; \
      for f in `find . -name '*.gcno'`; do \

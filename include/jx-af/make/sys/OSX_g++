@@ -84,5 +84,5 @@ J_STD_LIBS := ${J_X11_LIB_DIR} ${J_STD_LIBS}
 # generate coverage part 2: update compiler flags after the variable is defined
 
 ifdef TRAVIS
-  J_COMPILER_DEPEND_FLAGS += -coverage -O0
+  J_COMPILER_DEPEND_FLAGS += -coverage
 endif
