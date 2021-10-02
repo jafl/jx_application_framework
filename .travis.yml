@@ -1,15 +1,8 @@
 language: cpp
 
-addons:
-  sonarcloud:
-    organization: "jafl-github"
-
 script:
   - ./configure
-  - mkdir sonar_output
-  - chmod 0777 sonar_output
-  - build-wrapper-linux-x86-64 --out-dir sonar_output make default test
-  - sonar-scanner
+  - make default test
 
 matrix:
   exclude:
@@ -27,5 +20,4 @@ after_success:
 
 cache:
   directories:
-    - ".sonar/cache"
     - "misc/reflex"
