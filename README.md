@@ -3,8 +3,8 @@
 
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/jafl/jx_application_framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jafl/jx_application_framework/alerts/)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/jafl/jx_application_framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jafl/jx_application_framework/context:cpp)
-
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?branch=utf8&project=jafl_jx_application_framework&metric=ncloc)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework&branch=utf8)
+
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?branch=utf8&project=jafl_jx_application_framework&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework&branch=utf8)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?branch=utf8&project=jafl_jx_application_framework&metric=security_rating)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework&branch=utf8)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?branch=utf8&project=jafl_jx_application_framework&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework&branch=utf8)

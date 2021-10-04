@@ -45,13 +45,13 @@ initial_build:
        ${JMAKE} -w Makefiles; \
      fi
 	@cd libjcore; ${JMAKE} COMPILE_STRINGS=0
-	@cd tools/compile_jstrings; ${JMAKE} install
-	@cd libjcore; ${JMAKE} jx.test.skip=true
-	@for dir in libjx libjfs libjexpr libj2dplot; do \
-       if ! ( cd $$dir; ${JMAKE}; ); then exit 1; fi \
-     done;
-	@${foreach dir, ${wildcard tools/*}, \
-       ${BEGIN_DIR}; ${JMAKE}; ${END_DIR};}
+#	@cd tools/compile_jstrings; ${JMAKE} install
+#	@cd libjcore; ${JMAKE} jx.test.skip=true
+#	@for dir in libjx libjfs libjexpr libj2dplot; do \
+#       if ! ( cd $$dir; ${JMAKE}; ); then exit 1; fi \
+#     done;
+#	@${foreach dir, ${wildcard tools/*}, \
+#       ${BEGIN_DIR}; ${JMAKE}; ${END_DIR};}
 
 #
 # build all Makefiles
