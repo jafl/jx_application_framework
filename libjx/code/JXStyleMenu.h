@@ -32,7 +32,7 @@ public:
 
 protected:
 
-	virtual JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor) override;
+	JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor) override;
 
 	virtual void		UpdateMenu();		// must call inherited
 	virtual JFontStyle	GetFontStyleForMenuUpdate() const = 0;
@@ -43,7 +43,7 @@ protected:
 	JColorID	IndexToColor(const JIndex menuIndex) const;
 	JIndex		ColorToIndex(const JColorID color) const;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 protected:
 

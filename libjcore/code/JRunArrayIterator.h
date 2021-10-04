@@ -31,26 +31,26 @@ public:
 
 	virtual ~JRunArrayIterator();
 
-	virtual bool	Prev(T* item, const JIteratorAction move = kJIteratorMove) override;
-	virtual bool	Next(T* item, const JIteratorAction move = kJIteratorMove) override;
+	bool	Prev(T* item, const JIteratorAction move = kJIteratorMove) override;
+	bool	Next(T* item, const JIteratorAction move = kJIteratorMove) override;
 
-	virtual void		SkipPrev(const JSize count = 1) override;
-	virtual void		SkipNext(const JSize count = 1) override;
+	void		SkipPrev(const JSize count = 1) override;
+	void		SkipNext(const JSize count = 1) override;
 
-	virtual void		MoveTo(const JIteratorPosition newPosition, const JIndex index) override;
+	void		MoveTo(const JIteratorPosition newPosition, const JIndex index) override;
 
 	// only allowed if constructed from non-const JList<T>*
 
-	virtual bool	SetPrev(const T& data, const JIteratorAction move = kJIteratorMove) override;
-	virtual bool	SetNext(const T& data, const JIteratorAction move = kJIteratorMove) override;
+	bool	SetPrev(const T& data, const JIteratorAction move = kJIteratorMove) override;
+	bool	SetNext(const T& data, const JIteratorAction move = kJIteratorMove) override;
 
 	bool			SetPrev(const T& data, const JSize count, const JIteratorAction move = kJIteratorMove);
 	bool			SetNext(const T& data, const JSize count, const JIteratorAction move = kJIteratorMove);
 
-	virtual bool	RemovePrev(const JSize count = 1) override;
-	virtual bool	RemoveNext(const JSize count = 1) override;
+	bool	RemovePrev(const JSize count = 1) override;
+	bool	RemoveNext(const JSize count = 1) override;
 
-	virtual bool	Insert(const T& data) override;
+	bool	Insert(const T& data) override;
 	bool			Insert(const T& data, const JSize count);
 	bool			InsertSlice(const JRunArray<T>& source, const JIndexRange& range);
 
@@ -68,7 +68,7 @@ public:
 
 protected:
 
-	virtual void	ListChanged(const JBroadcaster::Message& message) override;
+	void	ListChanged(const JBroadcaster::Message& message) override;
 
 private:
 

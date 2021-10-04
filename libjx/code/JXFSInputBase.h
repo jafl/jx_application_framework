@@ -24,7 +24,7 @@ public:
 	void		SetBasePath(const JString& path);
 	void		ClearBasePath();
 
-	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
 
 	static JFont		GetFont();
@@ -48,7 +48,7 @@ protected:
 
 		protected:
 
-		virtual void	AdjustStylesBeforeBroadcast(
+		void	AdjustStylesBeforeBroadcast(
 							const JString& text, JRunArray<JFont>* styles,
 							JStyledText::TextRange* recalcRange,
 							JStyledText::TextRange* redrawRange,
@@ -71,23 +71,23 @@ protected:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	virtual void	HandleUnfocusEvent() override;
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	HandleUnfocusEvent() override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
-	virtual void		HandleDNDEnter() override;
-	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
-	virtual void		HandleDNDLeave() override;
-	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+	void		HandleDNDEnter() override;
+	void		HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
+	void		HandleDNDLeave() override;
+	void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
 									  const JXWidget* source) override;
 

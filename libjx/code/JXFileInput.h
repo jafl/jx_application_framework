@@ -21,7 +21,7 @@ public:
 
 	virtual ~JXFileInput();
 
-	virtual bool	InputValid() override;
+	bool	InputValid() override;
 	virtual bool	GetFile(JString* fullName) const;
 	virtual JString		GetTextForChooseFile() const;
 
@@ -57,7 +57,7 @@ protected:
 
 		protected:
 
-		virtual JSize	ComputeErrorLength(JXFSInputBase* field,
+		JSize	ComputeErrorLength(JXFSInputBase* field,
 										   const JSize totalLength,
 										   const JString& fullName) const override;
 	};

@@ -27,15 +27,15 @@ public:
 
 	virtual ~JXSpellCheckerDialog();
 
-	virtual void		Activate() override;
-	virtual bool	Deactivate() override;
-	virtual bool	Close() override;
+	void		Activate() override;
+	bool	Deactivate() override;
+	bool	Close() override;
 
 	void	Check();
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -55,7 +55,7 @@ protected:
 	virtual bool	ShouldOpenSibling(const JTreeNode* node);
 	virtual bool	ShouldOpenDescendant(const JTreeNode* node);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

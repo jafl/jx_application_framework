@@ -23,9 +23,9 @@ public:
 
 	virtual ~JSTUndoMove();
 
-	virtual void	Undo() override;
+	void	Undo() override;
 
-	virtual void	SetCount(const JStyledText::TextCount& count) override;
+	void	SetCount(const JStyledText::TextCount& count) override;
 
 private:
 

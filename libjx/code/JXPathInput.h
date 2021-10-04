@@ -24,7 +24,7 @@ public:
 
 	virtual ~JXPathInput();
 
-	virtual bool	InputValid() override;
+	bool	InputValid() override;
 	virtual bool	GetPath(JString* path) const;
 	virtual JString		GetTextForChoosePath() const;
 

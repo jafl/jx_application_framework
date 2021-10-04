@@ -35,18 +35,18 @@ public:
 
 protected:
 
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseDrag(const JPoint& pt, 
+	void	HandleMouseDrag(const JPoint& pt, 
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
+	void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

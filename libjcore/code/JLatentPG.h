@@ -33,21 +33,21 @@ public:
 	JSize	GetScaleFactor() const;
 	void	SetScaleFactor(const JSize scaleFactor);
 
-	virtual bool	IncrementProgress(const JString& message = JString::empty) override;
-	virtual bool	IncrementProgress(const JSize delta) override;
-	virtual bool	IncrementProgress(const JString& message,
+	bool	IncrementProgress(const JString& message = JString::empty) override;
+	bool	IncrementProgress(const JSize delta) override;
+	bool	IncrementProgress(const JString& message,
 										  const JSize delta) override;
-	virtual bool	ProcessContinuing() override;
-	virtual void		ProcessFinished() override;
-	virtual void		DisplayBusyCursor() override;
+	bool	ProcessContinuing() override;
+	void		ProcessFinished() override;
+	void		DisplayBusyCursor() override;
 
 protected:
 
-	virtual void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
+	void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
 									 const JString& message, const bool allowCancel,
 									 const bool allowBackground) override;
 
-	virtual bool	CheckForCancel() override;
+	bool	CheckForCancel() override;
 
 private:
 

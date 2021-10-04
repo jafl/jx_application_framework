@@ -30,8 +30,8 @@ public:
 
 	const JVariableList*	GetVariableList() const;
 	const JFunction&		GetFunction() const;
-	virtual JString			GetFunctionString() const override;
-	virtual bool			GetYValue(const JFloat x, JFloat* y) const override;
+	JString			GetFunctionString() const override;
+	bool			GetYValue(const JFloat x, JFloat* y) const override;
 
 	void	SetFunction(JVariableList* varList, JFunction* f,
 						const bool ownsFn, const JIndex xIndex,
@@ -39,7 +39,7 @@ public:
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

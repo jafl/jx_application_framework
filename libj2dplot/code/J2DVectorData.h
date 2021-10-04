@@ -29,11 +29,11 @@ public:
 
 	virtual ~J2DVectorData();
 
-	virtual void	GetElement(const JIndex index, J2DDataPoint* data) const override;
-	virtual void	GetElement(const JIndex index, J2DVectorPoint* data) const override;
+	void	GetElement(const JIndex index, J2DDataPoint* data) const override;
+	void	GetElement(const JIndex index, J2DVectorPoint* data) const override;
 
-	virtual void	GetXRange(JFloat* min, JFloat* max) const override;
-	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
+	void	GetXRange(JFloat* min, JFloat* max) const override;
+	bool	GetYRange(const JFloat xMin, const JFloat xMax,
 							  const bool xLinear,
 							  JFloat* yMin, JFloat* yMax) const override;
 
@@ -60,8 +60,8 @@ protected:
 				  const JArray<JFloat>& vx, const JArray<JFloat>& vy,
 				  const bool listen);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

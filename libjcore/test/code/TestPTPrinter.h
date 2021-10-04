@@ -19,7 +19,7 @@ public:
 
 	virtual ~TestPTPrinter();
 
-	virtual void	Print(const JString& text) override;
+	void	Print(const JString& text) override;
 
 private:
 

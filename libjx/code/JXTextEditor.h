@@ -34,8 +34,8 @@ public:
 
 protected:
 
-	virtual void	HandleFocusEvent() override;		// must call inherited
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	HandleFocusEvent() override;		// must call inherited
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

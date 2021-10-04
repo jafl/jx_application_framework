@@ -47,13 +47,13 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
-	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 								   const JPoint& pt, const Time time,
 								   const JXWidget* source) override;
-	virtual void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+	void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 								  const Atom action, const Time time,
 								  const JXWidget* source) override;
 

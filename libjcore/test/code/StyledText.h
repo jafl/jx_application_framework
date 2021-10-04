@@ -32,7 +32,7 @@ public:
 
 protected:
 
-	virtual void	AdjustStylesBeforeBroadcast(const JString& text,
+	void	AdjustStylesBeforeBroadcast(const JString& text,
 												JRunArray<JFont>* styles,
 												TextRange* recalcRange,
 												TextRange* redrawRange,

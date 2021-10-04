@@ -29,17 +29,17 @@ public:
 
 protected:
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual void	DNDInit(const JPoint& pt, const JXButtonStates& buttonStates,
+	void	DNDInit(const JPoint& pt, const JXButtonStates& buttonStates,
 							const JXKeyModifiers& modifiers) override;
-	virtual Atom	GetDNDAction(const JXContainer* target,
+	Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
 								 const JXKeyModifiers& modifiers) override;
-	virtual void	HandleDNDResponse(const JXContainer* target,
+	void	HandleDNDResponse(const JXContainer* target,
 									  const bool dropAccepted, const Atom action) override;
 
 private:

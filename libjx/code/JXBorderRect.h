@@ -23,7 +23,7 @@ public:
 
 protected:
 
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 };
 
 #endif

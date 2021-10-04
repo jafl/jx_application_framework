@@ -45,11 +45,11 @@ public:
 
 	virtual ~JXWidget();
 
-	virtual void	Deactivate() override;
+	void	Deactivate() override;
 
-	virtual void	Refresh() const override;
+	void	Refresh() const override;
 	void			RefreshRect(const JRect& rect) const;
-	virtual void	Redraw() const override;
+	void	Redraw() const override;
 	void			RedrawRect(const JRect& rect) const;
 
 	bool			Focus();
@@ -67,13 +67,13 @@ public:
 	virtual void	HandleShortcut(const int key,					// must call inherited
 								   const JXKeyModifiers& modifiers);
 
-	virtual JPoint	GlobalToLocal(const JCoordinate x, const JCoordinate y) const override;
-	virtual JPoint	LocalToGlobal(const JCoordinate x, const JCoordinate y) const override;
+	JPoint	GlobalToLocal(const JCoordinate x, const JCoordinate y) const override;
+	JPoint	LocalToGlobal(const JCoordinate x, const JCoordinate y) const override;
 
-	virtual void	Place(const JCoordinate enclX, const JCoordinate enclY) override;
-	virtual void	Move(const JCoordinate dx, const JCoordinate dy) override;
-	virtual void	SetSize(const JCoordinate w, const JCoordinate h) override;
-	virtual void	AdjustSize(const JCoordinate dw, const JCoordinate dh) override;
+	void	Place(const JCoordinate enclX, const JCoordinate enclY) override;
+	void	Move(const JCoordinate dx, const JCoordinate dy) override;
+	void	SetSize(const JCoordinate w, const JCoordinate h) override;
+	void	AdjustSize(const JCoordinate dw, const JCoordinate dh) override;
 	HSizingOption	GetHSizing() const;
 	VSizingOption	GetVSizing() const;
 	void			SetSizing(const HSizingOption hSizing, const VSizingOption vSizing);
@@ -87,9 +87,9 @@ public:
 	bool	ScrollToRect(const JRect& r);
 	bool	ScrollToRectCentered(const JRect& r, const bool forceScroll);
 
-	virtual JRect	GetBoundsGlobal() const override;
-	virtual JRect	GetFrameGlobal() const override;
-	virtual JRect	GetApertureGlobal() const override;
+	JRect	GetBoundsGlobal() const override;
+	JRect	GetFrameGlobal() const override;
+	JRect	GetApertureGlobal() const override;
 	JSize			GetBorderWidth() const;
 	void			SetBorderWidth(const JSize width);
 
@@ -101,7 +101,7 @@ public:
 	JColorID	GetFocusColor() const;
 	void		SetFocusColor(const JColorID color);
 
-	virtual JString	ToString() const override;
+	JString	ToString() const override;
 
 protected:
 
@@ -124,8 +124,8 @@ protected:
 	void	SetBounds(const JCoordinate w, const JCoordinate h);
 	void	AdjustBounds(const JCoordinate dw, const JCoordinate dh);
 
-	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame) override;
-	virtual bool	AcceptDrag(const JPoint& pt, const JXMouseButton button,
+	void	DrawBackground(JXWindowPainter& p, const JRect& frame) override;
+	bool	AcceptDrag(const JPoint& pt, const JXMouseButton button,
 							   const JXKeyModifiers& modifiers) override;
 
 	// drawing during a mouse drag
@@ -138,14 +138,14 @@ protected:
 
 	// position and size adjustments -- must call inherited
 
-	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
-	virtual void	EnclosingBoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
-	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	void	EnclosingBoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 	virtual void	ApertureMoved(const JCoordinate dx, const JCoordinate dy);
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
 
-	virtual void	FTCAdjustSize(const JCoordinate dw, const JCoordinate dh) override;
+	void	FTCAdjustSize(const JCoordinate dw, const JCoordinate dh) override;
 
 	// Drag-And-Drop routines
 

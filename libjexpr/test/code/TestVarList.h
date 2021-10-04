@@ -26,23 +26,23 @@ public:
 
 // implementation of JVariableList
 
-	virtual const JString&	GetVariableName(const JIndex index) const override;
-	virtual void			GetVariableName(const JIndex index, JString* name,
+	const JString&	GetVariableName(const JIndex index) const override;
+	void			GetVariableName(const JIndex index, JString* name,
 											JString* subscript) const override;
 
-	virtual bool	IsArray(const JIndex index) const override;
-	virtual bool	ArrayIndexValid(const JIndex variableIndex,
+	bool	IsArray(const JIndex index) const override;
+	bool	ArrayIndexValid(const JIndex variableIndex,
 										const JIndex elementIndex) const override;
 
-	virtual bool	GetNumericValue(const JIndex variableIndex,
+	bool	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex, JFloat* value) const override;
-	virtual bool	GetNumericValue(const JIndex variableIndex,
+	bool	GetNumericValue(const JIndex variableIndex,
 										const JIndex elementIndex, JComplex* value) const override;
 
-	virtual void	SetNumericValue(const JIndex variableIndex,
+	void	SetNumericValue(const JIndex variableIndex,
 									const JIndex elementIndex,
 									const JFloat value) override;
-	virtual void	SetNumericValue(const JIndex variableIndex,
+	void	SetNumericValue(const JIndex variableIndex,
 									const JIndex elementIndex,
 									const JComplex& value) override;
 

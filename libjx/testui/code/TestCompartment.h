@@ -27,14 +27,14 @@ public:
 
 protected:
 
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
-	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
+	JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
 private:
 

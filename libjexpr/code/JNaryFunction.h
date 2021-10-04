@@ -22,11 +22,11 @@ public:
 
 	virtual ~JNaryFunction();
 
-	virtual JSize				GetArgCount() const override;
+	JSize				GetArgCount() const override;
 	bool						ArgIndexValid(const JIndex index) const;
-	virtual const JFunction*	GetArg(const JIndex index) const override;
-	virtual JFunction*			GetArg(const JIndex index) override;
-	virtual void				SetArg(const JIndex index, JFunction* arg) override;
+	const JFunction*	GetArg(const JIndex index) const override;
+	JFunction*			GetArg(const JIndex index) override;
+	void				SetArg(const JIndex index, JFunction* arg) override;
 	void						InsertArg(const JIndex index, JFunction* arg);
 	void						PrependArg(JFunction* arg);
 	void						AppendArg(JFunction* arg);

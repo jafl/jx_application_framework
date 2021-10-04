@@ -27,7 +27,7 @@ public:
 
 	virtual ~JXFSRunCommandDialog();
 
-	virtual void	Activate() override;
+	void	Activate() override;
 
 	void	SetPath(const JString& path);
 
@@ -36,7 +36,7 @@ public:
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

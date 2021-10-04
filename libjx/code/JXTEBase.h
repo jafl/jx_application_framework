@@ -51,15 +51,15 @@ public:
 
 	virtual ~JXTEBase();
 
-	virtual void	Activate() override;
-	virtual void	Deactivate() override;
+	void	Activate() override;
+	void	Deactivate() override;
 
-	virtual void	Suspend() override;
-	virtual void	Resume() override;
+	void	Suspend() override;
+	void	Resume() override;
 
-	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
-	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
+	void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 	JXTextMenu*		AppendEditMenu(JXMenuBar* menuBar);	// no extras
 	JXTextMenu*		AppendEditMenu(JXMenuBar* menuBar,
@@ -125,7 +125,7 @@ public:
 	bool	ReplaceAndSearchBackward();
 	bool	ReplaceAll(const bool restrictToSelection);
 
-	virtual bool	TEHasSearchText() const override;
+	bool	TEHasSearchText() const override;
 
 	void			SetPSPrinter(JXPSPrinter* p);
 	const JString&	GetPSPrintFileName() const;
@@ -169,46 +169,46 @@ protected:
 			 const JCoordinate x, const JCoordinate y,
 			 const JCoordinate w, const JCoordinate h);
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
-	virtual void	HandleMouseEnter() override;
-	virtual void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseLeave() override;
+	void	HandleMouseEnter() override;
+	void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers) override;
+	void	HandleMouseLeave() override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
+	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
+	bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
-	virtual bool	TEBeginDND() override;
-	virtual void	DNDFinish(const bool isDrop, const JXContainer* target) override;
-	virtual Atom	GetDNDAction(const JXContainer* target,
+	bool	TEBeginDND() override;
+	void	DNDFinish(const bool isDrop, const JXContainer* target) override;
+	Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
 								 const JXKeyModifiers& modifiers) override;
-	virtual void	GetDNDAskActions(const JXButtonStates& buttonStates,
+	void	GetDNDAskActions(const JXButtonStates& buttonStates,
 									 const JXKeyModifiers& modifiers,
 									 JArray<Atom>* askActionList,
 									 JPtrArray<JString>* askDescriptionList) override;
-	virtual void	GetSelectionData(JXSelectionData* data,
+	void	GetSelectionData(JXSelectionData* data,
 									 const JString& id) override;
 
-	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 								   const JPoint& pt, const Time time,
 								   const JXWidget* source) override;
-	virtual void	HandleDNDEnter() override;
-	virtual void	HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
-	virtual void	HandleDNDLeave() override;
-	virtual void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+	void	HandleDNDEnter() override;
+	void	HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
+	void	HandleDNDLeave() override;
+	void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 								  const Atom action, const Time time,
 								  const JXWidget* source) override;
-	virtual void	TEPasteDropData() override;
+	void	TEPasteDropData() override;
 
 	virtual bool	TEXWillAcceptDrop(const JArray<Atom>& typeList,
 										  const Atom action, const Time time,
@@ -217,37 +217,37 @@ protected:
 										   const Atom action, const Time time,
 										   JString* text, JRunArray<JFont>* style);
 
-	virtual void	HandleFocusEvent() override;
-	virtual void	HandleUnfocusEvent() override;
-	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
+	void	HandleFocusEvent() override;
+	void	HandleUnfocusEvent() override;
+	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
-	virtual void	HandleWindowFocusEvent() override;
-	virtual void	HandleWindowUnfocusEvent() override;
+	void	HandleWindowFocusEvent() override;
+	void	HandleWindowUnfocusEvent() override;
 
-	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual void	TERefresh() override;
-	virtual void	TERefreshRect(const JRect& rect) override;
-	virtual void	TERedraw() override;
-	virtual void	TESetGUIBounds(const JCoordinate w, const JCoordinate h,
+	void	TERefresh() override;
+	void	TERefreshRect(const JRect& rect) override;
+	void	TERedraw() override;
+	void	TESetGUIBounds(const JCoordinate w, const JCoordinate h,
 								   const JCoordinate changeY) override;
-	virtual bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
-	virtual bool	TEScrollToRect(const JRect& rect,
+	bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
+	bool	TEScrollToRect(const JRect& rect,
 								   const bool centerInDisplay) override;
-	virtual bool	TEScrollForDrag(const JPoint& pt) override;
-	virtual bool	TEScrollForDND(const JPoint& pt) override;
-	virtual void	TESetVertScrollStep(const JCoordinate vStep) override;
+	bool	TEScrollForDrag(const JPoint& pt) override;
+	bool	TEScrollForDND(const JPoint& pt) override;
+	void	TESetVertScrollStep(const JCoordinate vStep) override;
 
-	virtual void	TECaretShouldBlink(const bool blink) override;
+	void	TECaretShouldBlink(const bool blink) override;
 
-	virtual void	TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
-	virtual bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
+	void	TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
+	bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
 
-	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const override;
-	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight) override;
+	JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const override;
+	void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

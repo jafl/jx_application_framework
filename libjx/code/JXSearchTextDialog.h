@@ -44,8 +44,8 @@ public:
 
 	virtual ~JXSearchTextDialog();
 
-	virtual void	Activate() override;
-	virtual bool	Deactivate() override;
+	void	Activate() override;
+	bool	Deactivate() override;
 
 	bool	HasActiveTE() const;
 	bool	GetActiveTE(JXTEBase** te) const;
@@ -99,8 +99,8 @@ protected:
 	JXTextButton*		GetReplaceAllInSelButton() const;
 
 	virtual void	UpdateDisplay();
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 
 public:		// kAtomCount required at global scope
 

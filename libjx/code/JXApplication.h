@@ -34,8 +34,8 @@ public:
 	const JString&	GetSignature() const;
 
 	void			Run();
-	virtual void	Suspend() override;
-	virtual void	Resume() override;
+	void	Suspend() override;
+	void	Resume() override;
 	virtual void	Quit();
 	bool			IsQuitting() const;
 
@@ -109,9 +109,9 @@ protected:
 	virtual bool	HandleCustomEvent();
 	virtual bool	HandleCustomEventWhileBlocking();
 
-	virtual bool	Close() override;	// use Quit() instead
+	bool	Close() override;	// use Quit() instead
 
-	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
+	void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
 private:

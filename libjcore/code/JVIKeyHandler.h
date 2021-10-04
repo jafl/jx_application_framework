@@ -36,8 +36,8 @@ public:
 
 	virtual ~JVIKeyHandler();
 
-	virtual void	Initialize(JTextEditor* te) override;
-	virtual bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,
+	void	Initialize(JTextEditor* te) override;
+	bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,
 								   const JTextEditor::CaretMotion motion,
 								   const bool deleteToTabStop) override;
 

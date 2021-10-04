@@ -24,14 +24,14 @@ public:
 
 	virtual ~JXDockWindowTask();
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime) override;
+	void	Perform(const Time delta, Time* maxSleepTime) override;
 	bool		IsDone() const;
 
 	static void	PrepareForDockAll();
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

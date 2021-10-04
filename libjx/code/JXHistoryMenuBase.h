@@ -66,7 +66,7 @@ protected:
 	virtual void	UpdateMenu();		// must call inherited
 	virtual void	UpdateItemImage(const JIndex index);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

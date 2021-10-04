@@ -63,7 +63,7 @@ protected:
 
 	void	ClearMenu();
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 	void			BroadcastIfTopLevel(const JString& filename);
 
 private:

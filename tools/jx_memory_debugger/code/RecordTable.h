@@ -28,33 +28,33 @@ public:
 	bool	GetSelectedRecord(const Record** entry) const;
 	void		OpenSelectedFiles() const;
 
-	virtual bool	IsEditable(const JPoint& cell) const override;
+	bool	IsEditable(const JPoint& cell) const override;
 
-	virtual void	HandleKeyPress(const JUtf8Character& c,
+	void	HandleKeyPress(const JUtf8Character& c,
 								   const int keySym, const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
-	virtual void	HandleFocusEvent() override;
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleFocusEvent() override;
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual JXInputField*	CreateXInputField(const JPoint& cell,
+	JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual bool			ExtractInputData(const JPoint& cell) override;
-	virtual void			PrepareDeleteXInputField() override;
+	bool			ExtractInputData(const JPoint& cell) override;
+	void			PrepareDeleteXInputField() override;
 
-	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
-	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const override;
-	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight) override;
-	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight) override;
+	JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
+	JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const override;
+	void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight) override;
+	void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

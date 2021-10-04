@@ -30,17 +30,17 @@ public:
 	void	BeginDialog();
 	void	EndDialog(const bool success);
 
-	virtual void	Activate() override;
-	virtual bool	Deactivate() override;
+	void	Activate() override;
+	bool	Deactivate() override;
 
 protected:
 
 	void	UseModalPlacement(const bool doIt);
 
-	virtual bool	OKToDeactivate() override;
+	bool	OKToDeactivate() override;
 	bool			Cancelled() const;		// for use in OKToDeactivate()
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -38,17 +38,17 @@ public:
 	void	SetNormalColor(const JColorID color);
 	void	SetPushedColor(const JColorID color);
 
-	virtual void	SetShortcuts(const JString& list) override;
+	void	SetShortcuts(const JString& list) override;
 
 	JCoordinate		GetPreferredWidth() const;
 
-	virtual JString	ToString() const override;
+	JString	ToString() const override;
 
 protected:
 
-	virtual void		Draw(JXWindowPainter& p, const JRect& rect) override;
-	virtual void		DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
+	void		Draw(JXWindowPainter& p, const JRect& rect) override;
+	void		DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
 private:
 

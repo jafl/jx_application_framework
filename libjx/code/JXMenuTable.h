@@ -35,9 +35,9 @@ public:
 
 	virtual ~JXMenuTable();
 
-	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
-	virtual bool	IsMenuTable() const override;
+	bool	IsMenuTable() const override;
 
 	// called by JXMenuDirector
 
@@ -45,21 +45,21 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
 	void	DrawCheckbox(JPainter& p, const JIndex itemIndex, const JRect& rect);
 	void	DrawSubmenuIndicator(JPainter& p, const JIndex itemIndex, const JRect& rect,
 								 const bool hilighted);
 	void	DrawScrollRegions(JPainter& p);
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
+	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
@@ -70,9 +70,9 @@ protected:
 	virtual void	GetSubmenuPoints(const JIndex itemIndex,
 									 JPoint* leftPt, JPoint* rightPt) = 0;
 
-	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
-	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 

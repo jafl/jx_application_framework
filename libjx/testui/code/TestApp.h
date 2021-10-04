@@ -23,7 +23,7 @@ public:
 	virtual ~TestApp();
 
 	void			OpenDocuments();
-	virtual bool	Close() override;
+	bool	Close() override;
 
 	void	DisplayAbout(JXDisplay* display);
 
@@ -35,9 +35,9 @@ public:
 
 protected:
 
-	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason) override;
+	void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason) override;
 
-	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
+	void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 
 private:
 

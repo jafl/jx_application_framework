@@ -40,8 +40,8 @@ public:
 
 protected:
 
-	virtual void	AddTypes(const Atom selectionName) override;
-	virtual bool	ConvertData(const Atom requestType, Atom* returnType,
+	void	AddTypes(const Atom selectionName) override;
+	bool	ConvertData(const Atom requestType, Atom* returnType,
 								unsigned char** data, JSize* dataLength,
 								JSize* bitsPerBlock) const override;
 

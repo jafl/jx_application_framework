@@ -68,20 +68,20 @@ public:
 
 protected:
 
-	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
-	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+	void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
 									  const JXWidget* source) override;
-	virtual void		HandleDNDLeave() override;
+	void		HandleDNDLeave() override;
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	virtual void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
-	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

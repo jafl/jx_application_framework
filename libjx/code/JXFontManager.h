@@ -56,9 +56,9 @@ public:
 
 	virtual ~JXFontManager();
 
-	virtual void		GetFontNames(JPtrArray<JString>* fontNames) override;
-	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) override;
-	virtual bool	GetFontSizes(const JString& name, JSize* minSize,
+	void		GetFontNames(JPtrArray<JString>* fontNames) override;
+	void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) override;
+	bool	GetFontSizes(const JString& name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) override;
 
 	// for X Window System only
@@ -73,16 +73,16 @@ public:
 
 protected:
 
-	virtual JSize	GetLineHeight(const JFontID id, const JSize size,
+	JSize	GetLineHeight(const JFontID id, const JSize size,
 								  const JFontStyle& style,
 								  JCoordinate* ascent, JCoordinate* descent) override;
 
-	virtual JSize	GetCharWidth(const JFontID id, const JUtf8Character& c) override;
-	virtual JSize	GetStringWidth(const JFontID id, const JString& str) override;
+	JSize	GetCharWidth(const JFontID id, const JUtf8Character& c) override;
+	JSize	GetStringWidth(const JFontID id, const JString& str) override;
 
-	virtual bool	IsExact(const JFontID id) override;
-	virtual bool	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c) override;
-	virtual bool	GetSubstituteFontName(const JFont& f, const JUtf8Character& c, JString* name) override;
+	bool	IsExact(const JFontID id) override;
+	bool	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c) override;
+	bool	GetSubstituteFontName(const JFont& f, const JUtf8Character& c, JString* name) override;
 
 private:
 

@@ -23,13 +23,13 @@ public:
 
 	void	EditPrefs();
 
-	virtual void	ReadPrefs(std::istream& input) override;
-	virtual void	WritePrefs(std::ostream& output, const JFileVersion vers) const override;
+	void	ReadPrefs(std::istream& input) override;
+	void	WritePrefs(std::ostream& output, const JFileVersion vers) const override;
 
 protected:
 
-	virtual void	SaveCommands() override;
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	SaveCommands() override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

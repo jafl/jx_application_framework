@@ -34,28 +34,28 @@ protected:
 					 const JCoordinate x, const JCoordinate y,
 					 const JCoordinate w, const JCoordinate h);
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
+	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
-	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
+	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
-	virtual JCoordinate		GetTotalSize() const override;
-	virtual JXWidgetSet*	CreateCompartment(const JIndex index,
+	JCoordinate		GetTotalSize() const override;
+	JXWidgetSet*	CreateCompartment(const JIndex index,
 											  const JCoordinate position,
 											  const JCoordinate size) override;
-	virtual void			UpdateCompartmentSizes() override;
-	virtual bool		SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
+	void			UpdateCompartmentSizes() override;
+	bool		SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
 
-	virtual bool	RunInternalFTC(const bool horizontal, JCoordinate* newSize) override;
-	virtual void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh) override;
+	bool	RunInternalFTC(const bool horizontal, JCoordinate* newSize) override;
+	void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 

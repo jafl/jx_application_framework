@@ -26,21 +26,21 @@ public:
 
 protected:
 
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseDrag(const JPoint& pt, 
+	void	HandleMouseDrag(const JPoint& pt, 
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual void		SliderRedraw() const override;
-	virtual JCoordinate	SliderGetWidth() const override;
-	virtual JCoordinate	SliderGetHeight() const override;
+	void		SliderRedraw() const override;
+	JCoordinate	SliderGetWidth() const override;
+	JCoordinate	SliderGetHeight() const override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 };
 
 #endif

@@ -25,7 +25,7 @@ public:
 
 	virtual ~JXFontNameMenuTable();
 
-	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
 
 private:

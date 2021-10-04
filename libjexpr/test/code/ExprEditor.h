@@ -29,16 +29,16 @@ public:
 
 protected:
 
-	virtual void	EIPRefresh() override;
-	virtual void	EIPRedraw() override;
-	virtual void	EIPBoundsChanged() override;
-	virtual bool	EIPScrollToRect(const JRect& r) override;
-	virtual bool	EIPScrollForDrag(const JPoint& pt) override;
-	virtual void	EIPAdjustNeedTab(const bool needTab) override;
+	void	EIPRefresh() override;
+	void	EIPRedraw() override;
+	void	EIPBoundsChanged() override;
+	bool	EIPScrollToRect(const JRect& r) override;
+	bool	EIPScrollForDrag(const JPoint& pt) override;
+	void	EIPAdjustNeedTab(const bool needTab) override;
 
-	virtual void	EIPClipboardChanged() override;
-	virtual bool	EIPOwnsClipboard() override;
-	virtual bool	EIPGetExternalClipboard(JString* text) override;
+	void	EIPClipboardChanged() override;
+	bool	EIPOwnsClipboard() override;
+	bool	EIPGetExternalClipboard(JString* text) override;
 };
 
 #endif

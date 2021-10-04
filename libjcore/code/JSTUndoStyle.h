@@ -20,9 +20,9 @@ public:
 
 	virtual ~JSTUndoStyle();
 
-	virtual void	Undo() override;
+	void	Undo() override;
 
-	virtual void	SetFont(const JString& name, const JSize size) override;
+	void	SetFont(const JString& name, const JSize size) override;
 
 	bool	SameRange(const JStyledText::TextRange& range) const;
 

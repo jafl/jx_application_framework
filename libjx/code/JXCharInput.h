@@ -26,16 +26,16 @@ public:
 	JUtf8Character	GetCharacter() const;
 	void			SetCharacter(const JUtf8Character& c);
 
-	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual void		HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+	void		HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 									  const JXButtonStates& buttonStates,
 									  const JXKeyModifiers& modifiers) override;
 
-	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
 };

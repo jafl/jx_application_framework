@@ -47,45 +47,45 @@ public:
 	bool		EditMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
 	bool		EditMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
 
-	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
 
-	virtual JStyledText*	BuildStyledText() override;
+	JStyledText*	BuildStyledText() override;
 
 protected:
 
-	virtual void		EIPRefresh() override;
-	virtual void		EIPRedraw() override;
-	virtual void		EIPBoundsChanged() override;
-	virtual bool	EIPScrollToRect(const JRect& r) override;
-	virtual bool	EIPScrollForDrag(const JPoint& pt) override;
-	virtual void		EIPAdjustNeedTab(const bool needTab) override;
+	void		EIPRefresh() override;
+	void		EIPRedraw() override;
+	void		EIPBoundsChanged() override;
+	bool	EIPScrollToRect(const JRect& r) override;
+	bool	EIPScrollForDrag(const JPoint& pt) override;
+	void		EIPAdjustNeedTab(const bool needTab) override;
 
-	virtual void		EIPClipboardChanged() override;
-	virtual bool	EIPOwnsClipboard() override;
-	virtual bool	EIPGetExternalClipboard(JString* text) override;
+	void		EIPClipboardChanged() override;
+	bool	EIPOwnsClipboard() override;
+	bool	EIPGetExternalClipboard(JString* text) override;
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
+	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual void	HandleFocusEvent() override;
-	virtual void	HandleUnfocusEvent() override;
+	void	HandleFocusEvent() override;
+	void	HandleUnfocusEvent() override;
 
-	virtual bool	OKToUnfocus() override;
-	virtual void		AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
+	bool	OKToUnfocus() override;
+	void		AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 	JXEPSPrinter&		GetEPSPrinter();
 	const JXEPSPrinter&	GetEPSPrinter() const;
@@ -103,7 +103,7 @@ protected:
 
 		protected:
 
-		virtual void	AdjustStylesBeforeBroadcast(
+		void	AdjustStylesBeforeBroadcast(
 							const JString& text, JRunArray<JFont>* styles,
 							JStyledText::TextRange* recalcRange,
 							JStyledText::TextRange* redrawRange,

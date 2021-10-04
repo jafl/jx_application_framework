@@ -26,24 +26,24 @@ public:
 
 	virtual ~JX2DCurveNameList();
 
-	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual JXInputField*	CreateXInputField(const JPoint& cell,
+	JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual void	PrepareDeleteXInputField() override;
-	virtual bool	ExtractInputData(const JPoint& cell) override;
+	void	PrepareDeleteXInputField() override;
+	bool	ExtractInputData(const JPoint& cell) override;
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 

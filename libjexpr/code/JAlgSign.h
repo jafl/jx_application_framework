@@ -21,9 +21,9 @@ public:
 
 	virtual ~JAlgSign();
 
-	virtual bool		Evaluate(JFloat* result) const override;
-	virtual bool		Evaluate(JComplex* result) const override;
-	virtual JFunction*	Copy() const override;
+	bool		Evaluate(JFloat* result) const override;
+	bool		Evaluate(JComplex* result) const override;
+	JFunction*	Copy() const override;
 };
 
 #endif

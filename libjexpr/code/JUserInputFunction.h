@@ -50,19 +50,19 @@ public:
 	bool	Parse(const JUtf8Character& c, JFunction** f,
 				  JUserInputFunction** newUIF, bool* needRender);
 
-	virtual bool		Evaluate(JFloat* result) const override;
-	virtual bool		Evaluate(JComplex* result) const override;
-	virtual void		Print(std::ostream& output) const override;
-	virtual JFunction*	Copy() const override;
-	virtual JIndex		Layout(const JExprRenderer& renderer,
+	bool		Evaluate(JFloat* result) const override;
+	bool		Evaluate(JComplex* result) const override;
+	void		Print(std::ostream& output) const override;
+	JFunction*	Copy() const override;
+	JIndex		Layout(const JExprRenderer& renderer,
 							   const JPoint& upperLeft, const JSize fontSize,
 							   JExprRectList* rectList) override;
-	virtual void		Render(const JExprRenderer& renderer,
+	void		Render(const JExprRenderer& renderer,
 							   const JExprRectList& rectList) const override;
 
 	static const JString&	GetEmptyString();
 
-	virtual bool	TEHasSearchText() const override;
+	bool	TEHasSearchText() const override;
 
 	static JUtf8Character	ConvertToGreek(const JUtf8Character& c);
 	static JString			ConvertToGreek(const JString& s);
@@ -75,22 +75,22 @@ public:
 
 protected:
 
-	virtual void	TERefresh() override;
-	virtual void	TERefreshRect(const JRect& rect) override;
-	virtual void	TERedraw() override;
-	virtual void	TESetGUIBounds(const JCoordinate w, const JCoordinate h,
+	void	TERefresh() override;
+	void	TERefreshRect(const JRect& rect) override;
+	void	TERedraw() override;
+	void	TESetGUIBounds(const JCoordinate w, const JCoordinate h,
 								   const JCoordinate changeY) override;
-	virtual bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
-	virtual bool	TEScrollToRect(const JRect& rect,
+	bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
+	bool	TEScrollToRect(const JRect& rect,
 								   const bool centerInDisplay) override;
-	virtual bool	TEScrollForDrag(const JPoint& pt) override;
-	virtual bool	TEScrollForDND(const JPoint& pt) override;
-	virtual void	TESetVertScrollStep(const JCoordinate vStep) override;
-	virtual void	TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
-	virtual bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
-	virtual bool	TEBeginDND() override;
-	virtual void	TEPasteDropData() override;
-	virtual void	TECaretShouldBlink(const bool blink) override;
+	bool	TEScrollForDrag(const JPoint& pt) override;
+	bool	TEScrollForDND(const JPoint& pt) override;
+	void	TESetVertScrollStep(const JCoordinate vStep) override;
+	void	TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
+	bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
+	bool	TEBeginDND() override;
+	void	TEPasteDropData() override;
+	void	TECaretShouldBlink(const bool blink) override;
 
 private:
 

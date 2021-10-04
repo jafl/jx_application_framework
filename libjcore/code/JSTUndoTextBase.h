@@ -20,7 +20,7 @@ public:
 
 	virtual ~JSTUndoTextBase();
 
-	virtual void	SetFont(const JString& name, const JSize size) override;
+	void	SetFont(const JString& name, const JSize size) override;
 
 protected:
 

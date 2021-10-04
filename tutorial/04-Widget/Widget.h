@@ -25,8 +25,8 @@ public:
 	
 protected:
 	
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 	
 private:
 

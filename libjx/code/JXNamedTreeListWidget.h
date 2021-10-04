@@ -35,7 +35,7 @@ public:
 	bool	WillHilightTextOnly() const;
 	void		ShouldHilightTextOnly(const bool textOnly);
 
-	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
 	void			ClearIncrementalSearchBuffer();
 
@@ -54,12 +54,12 @@ protected:
 protected:
 
 	bool			GetNode(const JPoint& pt, JPoint* cell, NodePart* part) const;
-	virtual bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
+	bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
-	virtual void	AdjustToTree() override;
-	virtual JSize	GetMinCellWidth(const JPoint& cell) const override;
+	void	AdjustToTree() override;
+	JSize	GetMinCellWidth(const JPoint& cell) const override;
 
-	virtual void	TLWDrawNode(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	void	TLWDrawNode(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual bool	GetImage(const JIndex index, const JXImage** image) const;
 	JSize			GetImageWidth(const JIndex index) const;
 	bool			GetImageRect(const JIndex index, JRect* rect) const;
@@ -68,13 +68,13 @@ protected:
 	JRect	GetTextRect(const JIndex index) const;
 	JRect	GetNodeRect(const JIndex index) const;
 
-	virtual JXInputField*	CreateXInputField(const JPoint& cell,
+	JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
 											  const JCoordinate w, const JCoordinate h) override;
-	virtual bool			ExtractInputData(const JPoint& cell) override;
-	virtual void			PrepareDeleteXInputField() override;
-	virtual void			PlaceInputField(const JCoordinate x, const JCoordinate y) override;
-	virtual void			SetInputFieldSize(const JCoordinate w, const JCoordinate h) override;
+	bool			ExtractInputData(const JPoint& cell) override;
+	void			PrepareDeleteXInputField() override;
+	void			PlaceInputField(const JCoordinate x, const JCoordinate y) override;
+	void			SetInputFieldSize(const JCoordinate w, const JCoordinate h) override;
 	JCoordinate				GetInputFieldIndent(const JIndex index) const;
 
 	virtual JXInputField*
@@ -83,8 +83,8 @@ protected:
 							const JCoordinate x, const JCoordinate y,
 							const JCoordinate w, const JCoordinate h);
 
-	virtual void	HandleFocusEvent() override;
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	HandleFocusEvent() override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

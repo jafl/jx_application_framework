@@ -26,7 +26,7 @@ public:
 	bool	IndexValid(const JIndex index) const;
 	JIndex	GetIndexFromEnd(const JIndex index) const;
 
-	virtual JString	ToString() const override;
+	JString	ToString() const override;
 
 protected:
 

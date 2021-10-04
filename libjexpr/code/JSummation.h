@@ -21,14 +21,14 @@ public:
 
 	virtual ~JSummation();
 
-	virtual bool		Evaluate(JFloat* result) const override;
-	virtual bool		Evaluate(JComplex* result) const override;
-	virtual JFunction*	Copy() const override;
-	virtual void		Print(std::ostream& output) const override;
-	virtual JIndex		Layout(const JExprRenderer& renderer,
+	bool		Evaluate(JFloat* result) const override;
+	bool		Evaluate(JComplex* result) const override;
+	JFunction*	Copy() const override;
+	void		Print(std::ostream& output) const override;
+	JIndex		Layout(const JExprRenderer& renderer,
 							   const JPoint& upperLeft, const JSize fontSize,
 							   JExprRectList* rectList) override;
-	virtual void		Render(const JExprRenderer& renderer,
+	void		Render(const JExprRenderer& renderer,
 							   const JExprRectList& rectList) const override;
 };
 

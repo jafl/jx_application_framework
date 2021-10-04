@@ -18,9 +18,9 @@ public:
 
 	virtual ~JSTUndoPaste();
 
-	virtual void	Undo() override;
+	void	Undo() override;
 
-	virtual void	SetCount(const JStyledText::TextCount& count) override;
+	void	SetCount(const JStyledText::TextCount& count) override;
 
 	bool	SameStartIndex(const JStyledText::TextRange& range) const;
 

@@ -60,12 +60,12 @@ public:
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
-	virtual void	ReadPrefs(std::istream& is) override;
-	virtual void	WritePrefs(std::ostream& os) const override;
+	void	ReadPrefs(std::istream& is) override;
+	void	WritePrefs(std::ostream& os) const override;
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 

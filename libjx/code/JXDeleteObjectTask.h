@@ -20,13 +20,13 @@ public:
 
 	virtual ~JXDeleteObjectTask();
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime) override;
+	void	Perform(const Time delta, Time* maxSleepTime) override;
 
 protected:
 
 	JXDeleteObjectTask(T* obj);
 
-	virtual void	ReceiveGoingAway(JBroadcaster* sender) override;
+	void	ReceiveGoingAway(JBroadcaster* sender) override;
 
 private:
 

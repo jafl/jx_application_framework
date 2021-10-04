@@ -148,11 +148,11 @@ public:
 									 const JIndex initialChoice);
 	void			SetPopupChoice(const JIndex index);
 
-	virtual void	Activate() override;
-	virtual void	Deactivate() override;
+	void	Activate() override;
+	void	Deactivate() override;
 
-	virtual void	Suspend() override;
-	virtual void	Resume() override;
+	void	Suspend() override;
+	void	Resume() override;
 
 	bool	IsHiddenPopupMenu() const;
 	void	SetToHiddenPopupMenu(const bool isHiddenPopup = true);
@@ -169,9 +169,9 @@ public:
 	ArrowDirection	GetPopupArrowDirection() const;
 	void			SetPopupArrowDirection(const ArrowDirection direction);
 
-	virtual bool	IsMenu() const override;
+	bool	IsMenu() const override;
 
-	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
+	void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 	static Style	GetDefaultStyle();
 	static void		SetDefaultStyle(const Style style);
@@ -190,18 +190,18 @@ protected:
 	virtual JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor) = 0;
 	virtual void			AdjustPopupChoiceTitle(const JIndex index) = 0;
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual bool		IncludeInFTC() const override;
-	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
+	bool		IncludeInFTC() const override;
+	JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 	// called by JXMenuTable
 

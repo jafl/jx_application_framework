@@ -35,14 +35,14 @@ public:
 
 protected:
 
-	virtual void	SetChooseFileFilters(JDirInfo* dirInfo) override;
+	void	SetChooseFileFilters(JDirInfo* dirInfo) override;
 
-	virtual JXSaveFileDialog*
+	JXSaveFileDialog*
 	CreateSaveFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
 						 const JString& fileFilter, const JString& origName,
 						 const JString& prompt, const JString& message) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

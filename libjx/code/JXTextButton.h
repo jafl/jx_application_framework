@@ -41,15 +41,15 @@ public:
 	const JPoint&	GetPadding() const;
 	void			SetPaddingBeforeFTC(const JPoint& p);
 
-	virtual void	SetShortcuts(const JString& list) override;
+	void	SetShortcuts(const JString& list) override;
 
-	virtual JString	ToString() const override;
+	JString	ToString() const override;
 
 protected:
 
-	virtual void		Draw(JXWindowPainter& p, const JRect& rect) override;
-	virtual void		DrawBackground(JXWindowPainter& p, const JRect& frame) override;
-	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
+	void		Draw(JXWindowPainter& p, const JRect& rect) override;
+	void		DrawBackground(JXWindowPainter& p, const JRect& frame) override;
+	JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
 private:
 

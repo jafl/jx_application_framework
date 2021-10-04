@@ -28,7 +28,7 @@ public:
 
 protected:
 
-	virtual void	HandleFocusEvent() override;
+	void	HandleFocusEvent() override;
 
 private:
 
@@ -43,8 +43,8 @@ private:
 
 		protected:
 
-		virtual bool	NeedsToFilterText(const JString& text) const override;
-		virtual bool	FilterText(JString* text, JRunArray<JFont>* style) override;
+		bool	NeedsToFilterText(const JString& text) const override;
+		bool	FilterText(JString* text, JRunArray<JFont>* style) override;
 	};
 
 private:

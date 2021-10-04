@@ -28,16 +28,16 @@ public:
 
 protected:
 
-	virtual void		DrawTab(const JIndex index, JXWindowPainter& p,
+	void		DrawTab(const JIndex index, JXWindowPainter& p,
 								const JRect& rect, const Edge edge) override;
-	virtual bool	OKToDeleteTab(const JIndex index) override;
+	bool	OKToDeleteTab(const JIndex index) override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

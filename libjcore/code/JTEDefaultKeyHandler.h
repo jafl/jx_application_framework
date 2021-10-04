@@ -18,7 +18,7 @@ public:
 
 	virtual ~JTEDefaultKeyHandler();
 
-	virtual bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,
+	bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,
 									   const JTextEditor::CaretMotion motion,
 									   const bool deleteToTabStop) override;
 

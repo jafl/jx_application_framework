@@ -27,8 +27,8 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 

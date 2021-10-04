@@ -32,7 +32,7 @@ public:
 
 	// preview
 
-	virtual JPainter&	GetPreviewPainter(const JRect& bounds) override;
+	JPainter&	GetPreviewPainter(const JRect& bounds) override;
 
 	// Print Setup dialog
 
@@ -40,8 +40,8 @@ public:
 
 protected:
 
-	virtual bool	GetPreviewImage(const JImage** image) const override;
-	virtual void		DeletePreviewData() override;
+	bool	GetPreviewImage(const JImage** image) const override;
+	void		DeletePreviewData() override;
 
 	virtual JXEPSPrintSetupDialog*
 		CreatePrintSetupDialog(const JString& fileName,
@@ -50,7 +50,7 @@ protected:
 	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
 										  bool* changed);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

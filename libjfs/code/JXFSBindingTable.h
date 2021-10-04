@@ -34,28 +34,28 @@ public:
 	void	SetColTitles(JXColHeaderWidget* widget) const;
 	void	SyncWithBindingList();
 
-	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
-	virtual bool	IsEditable(const JPoint& cell) const override;
+	bool	IsEditable(const JPoint& cell) const override;
 
 protected:
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell,
+	void	TableDrawCell(JPainter& p, const JPoint& cell,
 								  const JRect& rect) override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual JXInputField*	CreateXInputField(const JPoint& cell,
+	JXInputField*	CreateXInputField(const JPoint& cell,
 									const JCoordinate x, const JCoordinate y,
 									const JCoordinate w, const JCoordinate h) override;
-	virtual bool		ExtractInputData(const JPoint& cell) override;
-	virtual void			PrepareDeleteXInputField() override;
+	bool		ExtractInputData(const JPoint& cell) override;
+	void			PrepareDeleteXInputField() override;
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

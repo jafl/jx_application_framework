@@ -50,17 +50,17 @@ public:
 
 protected:
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual JXWidgetSet*	CreateCompartment(const JIndex index,
+	JXWidgetSet*	CreateCompartment(const JIndex index,
 											  const JCoordinate position,
 											  const JCoordinate size) override;
-	virtual bool		SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
+	bool		SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

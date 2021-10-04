@@ -44,11 +44,11 @@ protected:
 					   JXCurrentPathMenu* currPathMenu,
 					   const JString& origName, const JString& message);
 
-	virtual void	AdjustSizings() override;
-	virtual void	UpdateDisplay() override;
+	void	AdjustSizings() override;
+	void	UpdateDisplay() override;
 
-	virtual bool	OKToDeactivate() override;
-	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
+	bool	OKToDeactivate() override;
+	void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

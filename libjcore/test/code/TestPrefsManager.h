@@ -20,7 +20,7 @@ public:
 
 protected:
 
-	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
+	void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
 
 private:
 

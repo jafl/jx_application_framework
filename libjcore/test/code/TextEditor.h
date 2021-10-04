@@ -21,7 +21,7 @@ public:
 	JCoordinate	GetWidth() const;
 	JCoordinate	GetHeight() const;
 
-	virtual bool	TEHasSearchText() const override;
+	bool	TEHasSearchText() const override;
 	void				SetHasSearchText(const bool has);
 
 	// expose protected functionality
@@ -55,24 +55,24 @@ public:
 
 protected:
 
-	virtual void		TERefresh() override;
-	virtual void		TERefreshRect(const JRect& rect) override;
-	virtual void		TERedraw() override;
-	virtual void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
+	void		TERefresh() override;
+	void		TERefreshRect(const JRect& rect) override;
+	void		TERedraw() override;
+	void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
 									   const JCoordinate changeY) override;
-	virtual bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
-	virtual bool	TEScrollToRect(const JRect& rect,
+	bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
+	bool	TEScrollToRect(const JRect& rect,
 									   const bool centerInDisplay) override;
-	virtual bool	TEScrollForDrag(const JPoint& pt) override;
-	virtual bool	TEScrollForDND(const JPoint& pt) override;
-	virtual void		TESetVertScrollStep(const JCoordinate vStep) override;
-	virtual void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
-	virtual bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
-	virtual bool	TEBeginDND() override;
-	virtual void		TEPasteDropData() override;
-	virtual void		TECaretShouldBlink(const bool blink) override;
+	bool	TEScrollForDrag(const JPoint& pt) override;
+	bool	TEScrollForDND(const JPoint& pt) override;
+	void		TESetVertScrollStep(const JCoordinate vStep) override;
+	void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
+	bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
+	bool	TEBeginDND() override;
+	void		TEPasteDropData() override;
+	void		TECaretShouldBlink(const bool blink) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

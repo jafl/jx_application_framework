@@ -125,35 +125,35 @@ public:
 
 // JExprRenderer routines
 
-	virtual JSize	GetInitialFontSize() const override;
-	virtual JSize	GetSuperSubFontSize(const JSize baseFontSize) const override;
-	virtual JSize	GetSpaceWidth(const JSize fontSize) const override;
-	virtual JSize	GetStringWidth(const JSize fontSize, const JString& str) const override;
-	virtual JSize	GetLineHeight(const JSize fontSize) const override;
-	virtual void	DrawString(const JCoordinate left, const JCoordinate midline,
+	JSize	GetInitialFontSize() const override;
+	JSize	GetSuperSubFontSize(const JSize baseFontSize) const override;
+	JSize	GetSpaceWidth(const JSize fontSize) const override;
+	JSize	GetStringWidth(const JSize fontSize, const JString& str) const override;
+	JSize	GetLineHeight(const JSize fontSize) const override;
+	void	DrawString(const JCoordinate left, const JCoordinate midline,
 							   const JSize fontSize, const JString& str) const override;
 
-	virtual JSize	GetHorizBarHeight() const override;
-	virtual void	DrawHorizBar(const JCoordinate left, const JCoordinate v,
+	JSize	GetHorizBarHeight() const override;
+	void	DrawHorizBar(const JCoordinate left, const JCoordinate v,
 								 const JSize length) const override;
 
-	virtual JSize	GetVertBarWidth() const override;
-	virtual void	DrawVertBar(const JCoordinate h, const JCoordinate top,
+	JSize	GetVertBarWidth() const override;
+	void	DrawVertBar(const JCoordinate h, const JCoordinate top,
 								const JSize length) const override;
 
-	virtual JSize	GetSuperscriptHeight(const JCoordinate baseHeight) const override;
-	virtual JSize	GetSubscriptDepth(const JCoordinate baseHeight) const override;
+	JSize	GetSuperscriptHeight(const JCoordinate baseHeight) const override;
+	JSize	GetSubscriptDepth(const JCoordinate baseHeight) const override;
 
-	virtual JSize	GetParenthesisWidth(const JCoordinate argHeight) const override;
-	virtual void	DrawParentheses(const JRect& argRect) const override;
+	JSize	GetParenthesisWidth(const JCoordinate argHeight) const override;
+	void	DrawParentheses(const JRect& argRect) const override;
 
-	virtual JSize	GetSquareBracketWidth(const JCoordinate argHeight) const override;
-	virtual void	DrawSquareBrackets(const JRect& argRect) const override;
+	JSize	GetSquareBracketWidth(const JCoordinate argHeight) const override;
+	void	DrawSquareBrackets(const JRect& argRect) const override;
 
-	virtual JSize	GetSquareRootLeadingWidth(const JCoordinate argHeight) const override;
-	virtual JSize	GetSquareRootTrailingWidth(const JCoordinate argHeight) const override;
-	virtual JSize	GetSquareRootExtraHeight() const override;
-	virtual void	DrawSquareRoot(const JRect& enclosure) const override;
+	JSize	GetSquareRootLeadingWidth(const JCoordinate argHeight) const override;
+	JSize	GetSquareRootTrailingWidth(const JCoordinate argHeight) const override;
+	JSize	GetSquareRootExtraHeight() const override;
+	void	DrawSquareRoot(const JRect& enclosure) const override;
 
 	// for JUserInputFunction
 
@@ -203,7 +203,7 @@ protected:
 	virtual bool	CanDisplaySelectionValue() const;
 	virtual void	DisplaySelectionValue() const;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

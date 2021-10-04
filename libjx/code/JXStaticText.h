@@ -39,13 +39,13 @@ public:
 
 	void	SetToLabel(const bool centerHorizontally = false);
 
-	virtual JString	ToString() const override;
+	JString	ToString() const override;
 
 protected:
 
-	virtual void		BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
-	virtual void		BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
+	void		BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
+	void		BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
+	JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
 private:
 

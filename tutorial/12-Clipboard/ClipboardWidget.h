@@ -33,9 +33,9 @@ public:
 	
 protected:
 	
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 	
 private:
 

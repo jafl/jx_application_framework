@@ -29,25 +29,25 @@ public:
 
 	virtual ~JArrayIterator();
 
-	virtual bool	Prev(T* data, const JIteratorAction move = kJIteratorMove) override;
-	virtual bool	Next(T* data, const JIteratorAction move = kJIteratorMove) override;
+	bool	Prev(T* data, const JIteratorAction move = kJIteratorMove) override;
+	bool	Next(T* data, const JIteratorAction move = kJIteratorMove) override;
 
-	virtual void		SkipPrev(const JSize count = 1) override;
-	virtual void		SkipNext(const JSize count = 1) override;
+	void		SkipPrev(const JSize count = 1) override;
+	void		SkipNext(const JSize count = 1) override;
 
 	// only allowed if constructed from non-const JArray<T>*
 
-	virtual bool	SetPrev(const T& data, const JIteratorAction move = kJIteratorMove) override;
-	virtual bool	SetNext(const T& data, const JIteratorAction move = kJIteratorMove) override;
+	bool	SetPrev(const T& data, const JIteratorAction move = kJIteratorMove) override;
+	bool	SetNext(const T& data, const JIteratorAction move = kJIteratorMove) override;
 
-	virtual bool	RemovePrev(const JSize count = 1) override;
-	virtual bool	RemoveNext(const JSize count = 1) override;
+	bool	RemovePrev(const JSize count = 1) override;
+	bool	RemoveNext(const JSize count = 1) override;
 
-	virtual bool	Insert(const T& data) override;
+	bool	Insert(const T& data) override;
 
 protected:
 
-	virtual void	ListChanged(const JBroadcaster::Message& message) override;
+	void	ListChanged(const JBroadcaster::Message& message) override;
 
 private:
 

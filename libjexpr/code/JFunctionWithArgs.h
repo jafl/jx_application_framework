@@ -23,11 +23,11 @@ public:
 	virtual ~JFunctionWithArgs();
 
 	const JString&	GetName() const;
-	virtual void	Print(std::ostream& output) const override;
-	virtual JIndex	Layout(const JExprRenderer& renderer,
+	void	Print(std::ostream& output) const override;
+	JIndex	Layout(const JExprRenderer& renderer,
 						   const JPoint& upperLeft, const JSize fontSize,
 						   JExprRectList* rectList) override;
-	virtual void	Render(const JExprRenderer& renderer,
+	void	Render(const JExprRenderer& renderer,
 						   const JExprRectList& rectList) const override;
 
 	virtual JSize				GetArgCount() const = 0;

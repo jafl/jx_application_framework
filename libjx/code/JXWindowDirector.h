@@ -27,11 +27,11 @@ public:
 
 	virtual ~JXWindowDirector();
 
-	virtual void	Activate() override;
-	virtual bool	Deactivate() override;
+	void	Activate() override;
+	bool	Deactivate() override;
 
-	virtual void	Suspend() override;
-	virtual void	Resume() override;
+	void	Suspend() override;
+	void	Resume() override;
 
 	JXWindow*	GetWindow() const;
 	JXDisplay*	GetDisplay() const;
@@ -44,7 +44,7 @@ public:
 
 	// needed by JXDialogDirector until dynamic_cast works
 
-	virtual bool	IsWindowDirector() const override;
+	bool	IsWindowDirector() const override;
 
 protected:
 

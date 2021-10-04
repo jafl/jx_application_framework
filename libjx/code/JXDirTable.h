@@ -51,11 +51,11 @@ public:
 	bool	WillSelectWhenChangePath() const;
 	void		ShouldSelectWhenChangePath(const bool select);
 
-	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
-	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
+	void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
-	virtual bool	IsSelectable(const JPoint& cell,
+	bool	IsSelectable(const JPoint& cell,
 									 const bool forExtend) const override;
 
 protected:
@@ -69,29 +69,29 @@ protected:
 								  JIndex* nextIndex) const;
 	bool	ItemIsSelectable(const JIndex index, const bool forMulti) const;
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
+	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source) override;
-	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+	void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
 									  const JXWidget* source) override;
 
-	virtual void	HandleFocusEvent() override;
+	void	HandleFocusEvent() override;
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

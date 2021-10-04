@@ -62,7 +62,7 @@ public:
 	bool	BackspaceWillRemoveSelectedFiles() const;
 	void	BackspaceShouldRemoveSelectedFiles(const bool remove = true);
 
-	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
 	void			ClearIncrementalSearchBuffer();
 
@@ -73,37 +73,37 @@ protected:
 
 	virtual bool	ResolveFullName(JString* name);
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
+	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual void	HandleFocusEvent() override;
+	void	HandleFocusEvent() override;
 
-	virtual void	GetSelectionData(JXSelectionData* data,
+	void	GetSelectionData(JXSelectionData* data,
 									 const JString& id) override;
-	virtual Atom	GetDNDAction(const JXContainer* target,
+	Atom	GetDNDAction(const JXContainer* target,
 								 const JXButtonStates& buttonStates,
 								 const JXKeyModifiers& modifiers) override;
-	virtual void	HandleDNDResponse(const JXContainer* target,
+	void	HandleDNDResponse(const JXContainer* target,
 									  const bool dropAccepted, const Atom action) override;
 
-	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 								   const JPoint& pt, const Time time,
 								   const JXWidget* source) override;
-	virtual void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+	void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 								  const Atom action, const Time time,
 								  const JXWidget* source) override;
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

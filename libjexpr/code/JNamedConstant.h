@@ -22,10 +22,10 @@ public:
 
 	virtual ~JNamedConstant();
 
-	virtual bool		Evaluate(JFloat* result) const override;
-	virtual bool		Evaluate(JComplex* result) const override;
-	virtual void		Print(std::ostream& output) const override;
-	virtual JFunction*	Copy() const override;
+	bool		Evaluate(JFloat* result) const override;
+	bool		Evaluate(JComplex* result) const override;
+	void		Print(std::ostream& output) const override;
+	JFunction*	Copy() const override;
 
 	static bool	IsNamedConstant(const JString& name);
 

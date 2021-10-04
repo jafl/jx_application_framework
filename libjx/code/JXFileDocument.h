@@ -33,7 +33,7 @@ public:
 
 	virtual ~JXFileDocument();
 
-	virtual bool	NeedsSave() const override;
+	bool	NeedsSave() const override;
 	bool			Save();
 	void			DataModified();
 	void			DataReverted(const bool fromUndo = false);
@@ -47,7 +47,7 @@ public:
 	const JString&			GetFilePath() const;
 	const JString&			GetFileName() const;
 	JString					GetFullName(bool* onDisk) const;
-	virtual const JString&	GetName() const override;
+	const JString&	GetName() const override;
 
 	bool	FileModifiedByOthers(bool* modTimeChanged = nullptr,
 								 bool* permsChanged = nullptr) const;
@@ -69,7 +69,7 @@ public:
 	static bool	WillAskOKToClose();
 	static void	ShouldAskOKToClose(const bool ask);
 
-	virtual void	SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
+	void	SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
 	bool			GetSafetySaveFileName(JString* fileName) const;
 	static bool		CheckForSafetySaveFiles(const JString& fullName,
 											JPtrArray<JString>* filesToOpen);
@@ -95,9 +95,9 @@ protected:
 	void		AdjustWindowTitle();
 	void		FileChanged(const JString& fileName, const bool onDisk);
 
-	virtual bool	OKToClose() override;
-	virtual bool	OKToRevert() override;
-	virtual bool	CanRevert() override;
+	bool	OKToClose() override;
+	bool	OKToRevert() override;
+	bool	CanRevert() override;
 	virtual void	HandleFileModifiedByOthers(const bool modTimeChanged,
 											   const bool permsChanged);
 	virtual JError	WriteFile(const JString& fullName, const bool safetySave) const;

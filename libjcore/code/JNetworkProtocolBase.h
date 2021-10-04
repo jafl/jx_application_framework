@@ -33,7 +33,7 @@ public:
 
 	// ACE_Svc_Handler functions
 
-	virtual int	handle_output(ACE_HANDLE) override;
+	int	handle_output(ACE_HANDLE) override;
 
 protected:
 

@@ -22,8 +22,8 @@ public:
 
 protected:
 
-	virtual bool	CanAcceptMDIRequest() override;
-	virtual void		HandleMDIRequest(const JString& dir,
+	bool	CanAcceptMDIRequest() override;
+	void		HandleMDIRequest(const JString& dir,
 										 const JPtrArray<JString>& argList) override;
 
 private:

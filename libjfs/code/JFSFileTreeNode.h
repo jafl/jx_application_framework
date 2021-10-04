@@ -26,7 +26,7 @@ public:
 	JError				GoTo(const JString& path);
 	JError				Rename(const JString& newName,
 							   const bool sort = true);
-	virtual bool	Update(const bool force = false,
+	bool	Update(const bool force = false,
 							   JFSFileTreeNodeBase** updateNode = nullptr) override;
 	void				UpdatePath(const Message& message);
 	void				UpdatePath(const JString& oldPath, const JString& newPath);
@@ -34,8 +34,8 @@ public:
 	JDirEntry*			GetDirEntry();
 	const JDirEntry*	GetDirEntry() const;
 
-	virtual bool	GetDirInfo(JDirInfo** info) override;
-	virtual bool	GetDirInfo(const JDirInfo** info) const override;
+	bool	GetDirInfo(JDirInfo** info) override;
+	bool	GetDirInfo(const JDirInfo** info) const override;
 
 	bool		CanHaveChildren() const;
 	static bool	CanHaveChildren(const JDirEntry& entry);
@@ -46,10 +46,10 @@ public:
 
 protected:
 
-	virtual bool			OKToOpen() const override;
+	bool			OKToOpen() const override;
 	virtual JFSFileTreeNode*	CreateChild(JDirEntry* entry);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 	static JListT::CompareResult
 		CompareUserName(JTreeNode * const & e1, JTreeNode * const & e2);

@@ -59,12 +59,12 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
+	JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
 private:
 

@@ -60,7 +60,7 @@ public:
 	void			SetEPSMarksFileName(const JString& fileName);
 	void			PrintMarksEPS();
 
-	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
 
 	void	PWXReadSetup(std::istream& input);
@@ -68,44 +68,44 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual JCoordinate	GetMarksHeight() const override;
-	virtual bool	PrintMarks(JPagePrinter& p, const bool putOnSamePage,
+	JCoordinate	GetMarksHeight() const override;
+	bool	PrintMarks(JPagePrinter& p, const bool putOnSamePage,
 									const JRect& partialPageRect) override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
+	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
-	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
+	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
-	virtual JSize	PWGetGUIWidth() const override;
-	virtual JSize	PWGetGUIHeight() const override;
+	JSize	PWGetGUIWidth() const override;
+	JSize	PWGetGUIHeight() const override;
 
-	virtual JPainter*	PWCreateDragInsidePainter() override;
-	virtual bool	PWGetDragPainter(JPainter** p) const override;
-	virtual void		PWDeleteDragPainter() override;
+	JPainter*	PWCreateDragInsidePainter() override;
+	bool	PWGetDragPainter(JPainter** p) const override;
+	void		PWDeleteDragPainter() override;
 
-	virtual void	PWRefreshRect(const JRect& rect) override;
-	virtual void	PWRedraw() override;
-	virtual void	PWRedrawRect(const JRect& rect) override;
-	virtual void	PWForceRefresh() override;
-	virtual void	PWDisplayCursor(const MouseCursor cursor) override;
+	void	PWRefreshRect(const JRect& rect) override;
+	void	PWRedraw() override;
+	void	PWRedrawRect(const JRect& rect) override;
+	void	PWForceRefresh() override;
+	void	PWDisplayCursor(const MouseCursor cursor) override;
 
-	virtual void	ProtectionChanged() override;
-	virtual void	ChangeCurveOptions(const JIndex index) override;
-	virtual void	ChangeLabels(const LabelSelection selection) override;
-	virtual void	ChangeScale(const bool xAxis) override;
+	void	ProtectionChanged() override;
+	void	ChangeCurveOptions(const JIndex index) override;
+	void	ChangeLabels(const LabelSelection selection) override;
+	void	ChangeScale(const bool xAxis) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

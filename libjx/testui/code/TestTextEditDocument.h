@@ -28,9 +28,9 @@ public:
 protected:
 
 	void			ReadFile(const JString& fileName);
-	virtual void	WriteTextFile(std::ostream& output, const bool safetySave) const override;
-	virtual void	DiscardChanges() override;
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	WriteTextFile(std::ostream& output, const bool safetySave) const override;
+	void	DiscardChanges() override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

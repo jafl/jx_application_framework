@@ -54,9 +54,9 @@ public:
 
 protected:
 
-	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
-	virtual void	SaveAllBeforeDestruct() override;
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
+	void	SaveAllBeforeDestruct() override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -25,26 +25,26 @@ public:
 
 protected:
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
-	virtual bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
+	bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
-	virtual void		TableRefresh() override;
-	virtual void		TableRefreshRect(const JRect& rect) override;
-	virtual void		TableSetGUIBounds(const JCoordinate w, const JCoordinate h) override;
-	virtual void		TableSetScrollSteps(const JCoordinate hStep,
+	void		TableRefresh() override;
+	void		TableRefreshRect(const JRect& rect) override;
+	void		TableSetGUIBounds(const JCoordinate w, const JCoordinate h) override;
+	void		TableSetScrollSteps(const JCoordinate hStep,
 											const JCoordinate vStep) override;
-	virtual void		TableHeightChanged(const JCoordinate y, const JCoordinate delta) override;
-	virtual void		TableHeightScaled(const JFloat scaleFactor) override;
-	virtual void		TableRowMoved(const JCoordinate origY, const JSize height,
+	void		TableHeightChanged(const JCoordinate y, const JCoordinate delta) override;
+	void		TableHeightScaled(const JFloat scaleFactor) override;
+	void		TableRowMoved(const JCoordinate origY, const JSize height,
 									  const JCoordinate newY) override;
-	virtual void		TableWidthChanged(const JCoordinate x, const JCoordinate delta) override;
-	virtual void		TableWidthScaled(const JFloat scaleFactor) override;
-	virtual void		TableColMoved(const JCoordinate origX, const JSize width,
+	void		TableWidthChanged(const JCoordinate x, const JCoordinate delta) override;
+	void		TableWidthScaled(const JFloat scaleFactor) override;
+	void		TableColMoved(const JCoordinate origX, const JSize width,
 									  const JCoordinate newX) override;
-	virtual bool	TableScrollToCellRect(const JRect& cellRect,
+	bool	TableScrollToCellRect(const JRect& cellRect,
 											  const bool centerInDisplay = false) override;
-	virtual JCoordinate	TableGetApertureWidth() const override;
+	JCoordinate	TableGetApertureWidth() const override;
 
 	void		BeginSelectionDrag(const JPoint& cell, const JXMouseButton button,
 								   const JXKeyModifiers& modifiers);
@@ -52,7 +52,7 @@ protected:
 	bool	HandleSelectionKeyPress(const JUtf8Character& c,
 										const JXKeyModifiers& modifiers);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 };
 
 #endif

@@ -21,7 +21,7 @@ public:
 
 	virtual ~JSTUndoTyping();
 
-	virtual void	Undo() override;
+	void	Undo() override;
 
 	void	HandleDelete(const JStringMatch& match);
 	void	HandleFwdDelete(const JStringMatch& match);

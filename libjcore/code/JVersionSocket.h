@@ -30,13 +30,13 @@ public:
 	bool		TimeToCheck() const;
 	bool		TimeToRemind();
 
-	virtual int	open(void*) override;
-	virtual int	handle_input(ACE_HANDLE) override;
+	int	open(void*) override;
+	int	handle_input(ACE_HANDLE) override;
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input) override;
-	virtual void	WritePrefs(std::ostream& output) const override;
+	void	ReadPrefs(std::istream& input) override;
+	void	WritePrefs(std::ostream& output) const override;
 
 private:
 

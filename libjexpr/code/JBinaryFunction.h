@@ -22,10 +22,10 @@ public:
 
 	virtual ~JBinaryFunction();
 
-	virtual JSize				GetArgCount() const override;
-	virtual const JFunction*	GetArg(const JIndex index) const override;
-	virtual JFunction*			GetArg(const JIndex index) override;
-	virtual void				SetArg(const JIndex index, JFunction* arg) override;
+	JSize				GetArgCount() const override;
+	const JFunction*	GetArg(const JIndex index) const override;
+	JFunction*			GetArg(const JIndex index) override;
+	void				SetArg(const JIndex index, JFunction* arg) override;
 
 	const JFunction*	GetArg1() const;
 	const JFunction*	GetArg2() const;

@@ -27,23 +27,23 @@ public:
 
 	virtual ~JXEditTable();
 
-	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
 	virtual bool	WantsInputFieldKey(const JUtf8Character& c, const int keySym,
 										   const JXKeyModifiers& modifiers) const;
 
 	JXTEBase*	GetEditMenuHandler() const;
 
-	virtual bool	IsEditable(const JPoint& cell) const override;
+	bool	IsEditable(const JPoint& cell) const override;
 
 protected:
 
-	virtual bool	CreateInputField(const JPoint& cell, const JRect& cellRect) override;
-	virtual void		DeleteInputField() override;
-	virtual void		PlaceInputField(const JCoordinate x, const JCoordinate y) override;
-	virtual void		MoveInputField(const JCoordinate dx, const JCoordinate dy) override;
-	virtual void		SetInputFieldSize(const JCoordinate w, const JCoordinate h) override;
-	virtual void		ResizeInputField(const JCoordinate dw, const JCoordinate dh) override;
+	bool	CreateInputField(const JPoint& cell, const JRect& cellRect) override;
+	void		DeleteInputField() override;
+	void		PlaceInputField(const JCoordinate x, const JCoordinate y) override;
+	void		MoveInputField(const JCoordinate dx, const JCoordinate dy) override;
+	void		SetInputFieldSize(const JCoordinate w, const JCoordinate h) override;
+	void		ResizeInputField(const JCoordinate dw, const JCoordinate dh) override;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
@@ -51,7 +51,7 @@ protected:
 	virtual void			PrepareDeleteXInputField() = 0;
 	bool				GetXInputField(JXInputField** inputField) const;
 
-	virtual JCoordinate	GetMin1DVisibleWidth(const JPoint& cell) const override;
+	JCoordinate	GetMin1DVisibleWidth(const JPoint& cell) const override;
 
 private:
 

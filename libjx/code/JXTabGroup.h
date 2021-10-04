@@ -36,7 +36,7 @@ public:
 
 	virtual ~JXTabGroup();
 
-	virtual void	Activate() override;		// must call inherited
+	void	Activate() override;		// must call inherited
 
 	JSize	GetTabCount() const;
 	bool	GetCurrentTabIndex(JIndex* index) const;
@@ -98,36 +98,36 @@ protected:
 	bool			ScrollForWheel(const JXMouseButton button,
 								   const JXKeyModifiers& modifiers);
 
-	virtual void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 	virtual void	DrawTab(const JIndex index, JXWindowPainter& p,
 							const JRect& rect, const Edge edge);
 
-	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 
-	virtual void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseLeave() override;
+	void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers) override;
+	void	HandleMouseLeave() override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
+	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
-	virtual bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 								   const JPoint& pt, const Time time,
 								   const JXWidget* source) override;
-	virtual void	HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
-	virtual void	HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
+	void	HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
+	void	HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual bool	NeedsInternalFTC() const override;
+	bool	NeedsInternalFTC() const override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

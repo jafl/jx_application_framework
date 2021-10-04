@@ -57,10 +57,10 @@ public:
 	bool	GetTable(JXEditTable** table) const;
 	void	SetTable(JXEditTable* table);
 
-	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
 
-	virtual JString	ToString() const override;
+	JString	ToString() const override;
 
 protected:
 
@@ -76,8 +76,8 @@ protected:
 
 		protected:
 
-		virtual bool	NeedsToFilterText(const JString& text) const override;
-		virtual bool	FilterText(JString* text, JRunArray<JFont>* style) override;
+		bool	NeedsToFilterText(const JString& text) const override;
+		bool	FilterText(JString* text, JRunArray<JFont>* style) override;
 
 		private:
 
@@ -91,23 +91,23 @@ protected:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual void	HandleFocusEvent() override;
-	virtual void	HandleUnfocusEvent() override;
-	virtual bool	OKToUnfocus() override;
+	void	HandleFocusEvent() override;
+	void	HandleUnfocusEvent() override;
+	bool	OKToUnfocus() override;
 
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+	void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 								  const Atom action, const Time time,
 								  const JXWidget* source) override;
 
-	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
-	virtual JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
+	JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

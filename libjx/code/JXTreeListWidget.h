@@ -53,11 +53,11 @@ public:
 	JSize	GetMaxOpenDepth() const;
 	void	SetMaxOpenDepth(const JSize maxDepth);
 
-	virtual void		HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void		HandleKeyPress(const JUtf8Character& c, const int keySym,
 									   const JXKeyModifiers& modifiers) override;
-	virtual bool	IsSelectable(const JPoint& cell,
+	bool	IsSelectable(const JPoint& cell,
 									 const bool forExtend) const override;
-	virtual bool	IsEditable(const JPoint& cell) const override;
+	bool	IsEditable(const JPoint& cell) const override;
 
 	void	ForceAdjustToTree();
 
@@ -74,17 +74,17 @@ protected:
 	virtual JSize	GetMinCellWidth(const JPoint& cell) const = 0;
 
 	bool		WantsToDrawCell(const JPoint& cell) const;
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual void	TLWDrawNode(JPainter& p, const JPoint& cell, const JRect& rect) = 0;
 
 	bool		IsDraggingToggle() const;
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
+	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
-	virtual void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
+	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers) override;
 
@@ -92,8 +92,8 @@ protected:
 	void		SetDNDTargetIndex(const JIndex index);
 	void		ClearDNDTargetIndex();
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

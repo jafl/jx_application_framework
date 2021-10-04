@@ -27,7 +27,7 @@ public:
 
 	virtual ~JXSaveFileDialog();
 
-	virtual void	Activate() override;
+	void	Activate() override;
 
 	void		Save(const JString& path);
 	bool	GetFileName(JString* name) const;
@@ -52,10 +52,10 @@ protected:
 
 	JXInputField*	GetFileNameInput();
 
-	virtual void	UpdateDisplay() override;	// must call inherited
+	void	UpdateDisplay() override;	// must call inherited
 
-	virtual bool	OKToDeactivate() override;
-	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
+	bool	OKToDeactivate() override;
+	void		Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

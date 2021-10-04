@@ -53,16 +53,16 @@ protected:
 	void					CreateInitialCompartments();
 	JPtrArray<JXContainer>*	GetCompartments();
 
-	virtual void	CreateCompartmentObject(const JIndex index,
+	void	CreateCompartmentObject(const JIndex index,
 											const JCoordinate position,
 											const JCoordinate size) override;
-	virtual void	DeleteCompartmentObject(const JIndex index) override;
+	void	DeleteCompartmentObject(const JIndex index) override;
 
 	virtual JXWidgetSet*	CreateCompartment(const JIndex index,
 											  const JCoordinate position,
 											  const JCoordinate size) = 0;
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 	void	RestoreGeometry(const JArray<JCoordinate>& sizes);
 

@@ -33,7 +33,7 @@ public:
 
 	virtual ~JXPTPrinter();
 
-	virtual void	Print(const JString& text) override;
+	void	Print(const JString& text) override;
 
 	// saving setup information
 
@@ -75,7 +75,7 @@ protected:
 	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
 										  bool* changed);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

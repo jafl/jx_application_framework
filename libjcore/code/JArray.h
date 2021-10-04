@@ -37,29 +37,29 @@ public:
 	T			GetElementFromEnd(const JIndex index) const;
 	void		SetElementFromEnd(const JIndex index, const T& data);
 
-	virtual T	GetFirstElement() const override;
-	virtual T	GetLastElement() const override;
+	T	GetFirstElement() const override;
+	T	GetLastElement() const override;
 
 	void			InsertElementAtIndex(const JIndex index, const T& data);
-	virtual void	PrependElement(const T& data) override;
-	virtual void	AppendElement(const T& data) override;
+	void	PrependElement(const T& data) override;
+	void	AppendElement(const T& data) override;
 
 	void			RemoveElement(const JIndex index);
 	void			RemoveNextElements(const JIndex firstIndex, const JSize count);
 	void			RemovePrevElements(const JIndex lastIndex, const JSize count);
 	void			RemoveElements(const JIndexRange& range);
 	void			RemoveElements(const JListT::ElementsRemoved& info);
-	virtual void	RemoveAll() override;
+	void	RemoveAll() override;
 
 	void	MoveElementToIndex(const JIndex currentIndex, const JIndex newIndex);
 	void	MoveElementToIndex(const JListT::ElementMoved& info);
 	void	SwapElements(const JIndex index1, const JIndex index2);
 	void	SwapElements(const JListT::ElementsSwapped& info);
 
-	virtual JListIterator<T>*
+	JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0) override;
-	virtual JListIterator<T>*
+	JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0) const override;
 

@@ -20,21 +20,21 @@ public:
 	JMMArrayTable(JMemoryManager* manager, const bool recordDelete);
 	virtual ~JMMArrayTable();
 
-	virtual JSize GetAllocatedCount() const override;
-	virtual JSize GetAllocatedBytes() const override;
-	virtual JSize GetDeletedCount() const override;
-	virtual JSize GetTotalCount() const override;
+	JSize GetAllocatedCount() const override;
+	JSize GetAllocatedBytes() const override;
+	JSize GetDeletedCount() const override;
+	JSize GetTotalCount() const override;
 
-	virtual void PrintAllocated(const bool printInternal = false) const override;
-	virtual void StreamAllocatedForDebug(std::ostream& output, const JMemoryManager::RecordFilter& filter) const override;
-	virtual void StreamAllocationSizeHistogram(std::ostream& output) const override;
+	void PrintAllocated(const bool printInternal = false) const override;
+	void StreamAllocatedForDebug(std::ostream& output, const JMemoryManager::RecordFilter& filter) const override;
+	void StreamAllocationSizeHistogram(std::ostream& output) const override;
 
 protected:
 
-	virtual void _AddNewRecord(const JMMRecord& record,
+	void _AddNewRecord(const JMMRecord& record,
 									   const bool checkDoubleAllocation) override;
 
-	virtual bool _SetRecordDeleted(JMMRecord* record, const void* block,
+	bool _SetRecordDeleted(JMMRecord* record, const void* block,
 									   const JUtf8Byte* file, const JUInt32 line,
 									   const bool isArray) override;
 

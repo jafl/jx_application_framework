@@ -39,9 +39,9 @@ public:
 
 protected:
 
-	virtual JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor) override;
+	JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

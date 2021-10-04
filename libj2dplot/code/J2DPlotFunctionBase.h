@@ -25,11 +25,11 @@ public:
 
 	virtual ~J2DPlotFunctionBase();
 
-	virtual bool	IsFunction() const override;
-	virtual void	GetElement(const JIndex index, J2DDataPoint* data) const override;
+	bool	IsFunction() const override;
+	void	GetElement(const JIndex index, J2DDataPoint* data) const override;
 
-	virtual void	GetXRange(JFloat* min, JFloat* max) const override;
-	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
+	void	GetXRange(JFloat* min, JFloat* max) const override;
+	bool	GetYRange(const JFloat xMin, const JFloat xMax,
 							  const bool xLinear,
 							  JFloat* yMin, JFloat* yMax) const override;
 
@@ -44,7 +44,7 @@ protected:
 	void	UpdateFunction(const JFloat xmin, const JFloat xmax,
 						   const JSize stepCount);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

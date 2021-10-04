@@ -42,8 +42,8 @@ public:
 
 	// printing control
 
-	virtual bool	OpenDocument() override;
-	virtual void	CloseDocument() override;
+	bool	OpenDocument() override;
+	void	CloseDocument() override;
 
 	// printing parameters
 
@@ -80,7 +80,7 @@ protected:
 	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
 										  bool* changed);
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

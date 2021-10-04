@@ -19,12 +19,12 @@ public:
 
 protected:
 
-	virtual void HandleObjectDeletedAsArray(const JMMRecord& record) override;
-	virtual void HandleArrayDeletedAsObject(const JMMRecord& record) override;
+	void HandleObjectDeletedAsArray(const JMMRecord& record) override;
+	void HandleArrayDeletedAsObject(const JMMRecord& record) override;
 
-	virtual void HandleUnallocatedDeletion(const JUtf8Byte* file, const JUInt32 line,
+	void HandleUnallocatedDeletion(const JUtf8Byte* file, const JUInt32 line,
 										   const bool isArray) override;
-	virtual void HandleMultipleDeletion(const JMMRecord& thisRecord,
+	void HandleMultipleDeletion(const JMMRecord& thisRecord,
 										const JUtf8Byte* file, const JUInt32 line,
 										const bool isArray) override;
 

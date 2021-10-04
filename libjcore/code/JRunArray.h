@@ -53,11 +53,11 @@ public:
 
 	const JRunArray<T>& operator=(const JRunArray<T>& source);
 
-	virtual T	GetFirstElement() const override;
-	virtual T	GetLastElement() const override;
+	T	GetFirstElement() const override;
+	T	GetLastElement() const override;
 
-	virtual void	PrependElement(const T& data) override;
-	virtual void	AppendElement(const T& data) override;
+	void	PrependElement(const T& data) override;
+	void	AppendElement(const T& data) override;
 
 	void	PrependElements(const T& data, const JSize count);
 	void	AppendElements(const T& data, const JSize count);
@@ -65,7 +65,7 @@ public:
 	void	PrependSlice(const JRunArray<T>& source, const JIndexRange& range);
 	void	AppendSlice(const JRunArray<T>& source, const JIndexRange& range);
 
-	virtual void	RemoveAll() override;
+	void	RemoveAll() override;
 
 	bool		AllElementsEqual(T* data = nullptr) const;
 	JInteger	SumElements(const JIndex startIndex, const JIndex endIndex,
@@ -74,10 +74,10 @@ public:
 								JIndex* endIndex, JInteger* trueSum,
 								JInteger (*value)(const T& data)) const;
 
-	virtual JListIterator<T>*
+	JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0) override;
-	virtual JListIterator<T>*
+	JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0) const override;
 

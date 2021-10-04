@@ -35,8 +35,8 @@ public:
 
 	virtual ~JXCSFDialogBase();
 
-	virtual void		Activate() override;
-	virtual bool	Deactivate() override;
+	void		Activate() override;
+	bool	Deactivate() override;
 
 	const JString&	GetPath() const;
 	const JString&	GetFilter() const;
@@ -76,7 +76,7 @@ protected:
 	bool	GoToItsPath();
 	void		AdjustFilter();
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

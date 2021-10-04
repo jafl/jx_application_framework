@@ -30,13 +30,13 @@ public:
 	virtual JString	GetRegexString() const = 0;
 	JError			Apply() const;
 
-	virtual void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
 
 protected:
 
-	virtual bool	OKToUnfocus() override;
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	bool	OKToUnfocus() override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -24,19 +24,19 @@ public:
 
 	virtual ~JXUserNotification();
 
-	virtual void	DisplayMessage(const JString& message) override;
-	virtual void	ReportError(const JString& message) override;
+	void	DisplayMessage(const JString& message) override;
+	void	ReportError(const JString& message) override;
 
-	virtual bool	AskUserYes(const JString& message) override;
-	virtual bool	AskUserNo(const JString& message) override;
+	bool	AskUserYes(const JString& message) override;
+	bool	AskUserNo(const JString& message) override;
 
-	virtual CloseAction	OKToClose(const JString& message) override;
+	CloseAction	OKToClose(const JString& message) override;
 
-	virtual bool	AcceptLicense() override;
+	bool	AcceptLicense() override;
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
