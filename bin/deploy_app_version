@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ ! -d release/proj ]]; then
+	echo "must be run in program directory";
+	continue;
+fi
+
+PROJ=`release/proj`;
+scp release/* jafl,$PROJ@web.sourceforge.net:htdocs/;

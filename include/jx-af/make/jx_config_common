@@ -51,7 +51,7 @@ YFLAGS := -d
 
 %.cpp %.hpp : %.y
 	@if test -e $*.hpp; then mv $*.hpp $*.hpp_old; fi
-	@if ! ${YACC} ${YFLAGS} -o $*.cpp $<; then \
+	if ! ${YACC} ${YFLAGS} -o $*.cpp $<; then \
        if test -e $*.hpp_old; then mv $*.hpp_old $*.hpp; fi; \
        false; fi
 	@if test -e $*.tab.h; then mv $*.tab.h $*.hpp; \

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ ! -d libjcore ]]; then
+	echo "must be run in JX root";
+	exit 1;
+fi
+
+scp -r doc/html/* jafl,libjx@web.sourceforge.net:htdocs/;
