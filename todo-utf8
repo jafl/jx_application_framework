@@ -1,5 +1,7 @@
-jcc
-medic
+build-wrapper-linux-x86-64 --out-dir sonar_output make default test
+sonar-scanner
+
+
 
 keg for brew
 	https://docs.brew.sh/Formula-Cookbook
