@@ -21,3 +21,7 @@ after_success:
 cache:
   directories:
     - "misc/reflex"
+
+notifications:
+  email:
+    - jjlindal@gmail.com
