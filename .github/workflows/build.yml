@@ -1,5 +1,3 @@
-if: ${{ false }}
-
 name: Build
 on:
   push:
@@ -8,6 +6,7 @@ on:
 jobs:
   build:
     name: Build
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

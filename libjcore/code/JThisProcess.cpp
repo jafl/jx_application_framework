@@ -81,6 +81,7 @@
 #include "jx-af/jcore/JMinMax.h"
 #include "jx-af/jcore/JStdError.h"
 #include <stdlib.h>
+#include <atomic>
 #include "jx-af/jcore/jErrno.h"
 #include "jx-af/jcore/jAssert.h"
 
