@@ -1,8 +1,3 @@
-build-wrapper-linux-x86-64 --out-dir sonar_output make default test
-sonar-scanner
-
-
-
 keg for brew
 	https://docs.brew.sh/Formula-Cookbook
 	https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap
@@ -16,10 +11,6 @@ jcc
 
 	select fileVersions.h, press return, then undo
 
-
-search text
-	disable "entire word" checkbox when not purely alnum
-	use regex \b...\b
 
 
 systemg slow to open new window
