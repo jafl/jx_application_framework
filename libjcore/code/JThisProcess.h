@@ -30,15 +30,15 @@ public:
 	static void	Abort();
 
 	static bool	WillQuitAtExit(const JProcess* p);
-	static void		QuitAtExit(JProcess* p, const bool quit = true);
+	static void	QuitAtExit(JProcess* p, const bool quit = true);
 
 	static bool	WillKillAtExit(const JProcess* p);
-	static void		KillAtExit(JProcess* p, const bool kill = true);
+	static void	KillAtExit(JProcess* p, const bool kill = true);
 
-	static void		Ignore(JProcess* p);
+	static void	Ignore(JProcess* p);
 
 	static bool	WillCatchSignal(const int sig);
-	static void		ShouldCatchSignal(const int sig, const bool catchIt);
+	static void	ShouldCatchSignal(const int sig, const bool catchIt);
 
 	// called by event loop
 
@@ -46,11 +46,11 @@ public:
 
 	// called by JExecute() if exec() fails
 
-	static void		ChildExecFailed();
+	static void	ChildExecFailed();
 
 	// for use by networking clean-up code
 
-	static void		CheckACEReactor();
+	static void	CheckACEReactor();
 
 	// for catching Ctrl-C
 
@@ -65,7 +65,7 @@ protected:
 private:
 
 	ACE_Sig_Set	itsSignalSet;
-	bool	itsSigintJumpBufferInitFlag;
+	bool		itsSigintJumpBufferInitFlag;
 	jmp_buf		itsSigintJumpBuffer;
 
 	static JThisProcess* itsSelf;

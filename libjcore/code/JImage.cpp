@@ -343,11 +343,13 @@ JImage::ReadGD
 	{
 		// allocate space for image data
 
-		unsigned short* data;
-		unsigned short** cols;
+		unsigned short* data  = nullptr;
+		unsigned short** cols = nullptr;
 		const JError allocErr = AllocateImageData(itsWidth, itsHeight, &data, &cols);
 		if (!allocErr.OK())
 		{
+			jdelete [] data;
+			jdelete [] cols;
 			gdImageDestroy(image);
 			return allocErr;
 		}

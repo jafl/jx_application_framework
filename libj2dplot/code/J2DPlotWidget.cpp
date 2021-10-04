@@ -511,13 +511,13 @@ J2DPlotWidget::AddCurve
 bool
 J2DPlotWidget::AddCurve
 	(
-	JArray<JFloat>&	x,
-	JArray<JFloat>&	y,
-	const bool	listen,
-	const JString&	label,
-	JIndex*			index,
-	const bool	line,
-	const bool	symbol
+	const JArray<JFloat>&	x,
+	const JArray<JFloat>&	y,
+	const bool				listen,
+	const JString&			label,
+	JIndex*					index,
+	const bool				line,
+	const bool				symbol
 	)
 {
 	J2DPlotData* newData;
@@ -597,12 +597,13 @@ J2DPlotWidget::ArrayIsInCurve
 	(
 	JArray<JFloat>* testArray
 	)
+	const
 {
 	assert_msg( 0, "unimplemented" );
 /*
 	for (JSize i = 1; i <= itsCurves->GetElementCount(); i++)
 	{
-		if ((itsCurves->GetElement(i))->ArrayInData(testArray))
+		if (itsCurves->GetElement(i)->ArrayInData(testArray))
 		{
 			return true;
 		}
@@ -626,7 +627,7 @@ J2DPlotWidget::RemoveCurvesContainingArray
 /*
 	for (JSize i = 1; i<= itsCurves->GetElementCount(); i++)
 	{
-		if ((itsCurves->GetElement(i))->ArrayInData(testArray))
+		if (itsCurves->GetElement(i)->ArrayInData(testArray))
 		{
 			RemoveCurve(i);
 			i--;
@@ -949,8 +950,9 @@ bool
 J2DPlotWidget::GetMinimumPositiveValue
 	(
 	const bool	isX,
-	JFloat*			min
+	JFloat*		min
 	)
+	const
 {
 	*min = 1.0;
 	bool foundPMin = false;
@@ -958,7 +960,7 @@ J2DPlotWidget::GetMinimumPositiveValue
 	const JSize ccount = itsCurves->GetElementCount();
 	for (JIndex i=1; i<=ccount; i++)
 	{
-		J2DPlotDataBase* data = itsCurves->GetElement(i);
+		const J2DPlotDataBase* data = itsCurves->GetElement(i);
 		const JSize dcount = data->GetElementCount();
 		for (JIndex j=1; j<=dcount; j++)
 		{
@@ -1436,6 +1438,7 @@ J2DPlotWidget::GetRealX
 	(
 	const JCoordinate frameX
 	)
+	const
 {
 	JFloat value = (frameX - itsXAxisStart)/itsXTrans + itsXScale[kMin];
 	if (!itsXAxisIsLinear)
@@ -1455,6 +1458,7 @@ J2DPlotWidget::GetRealY
 	(
 	const JCoordinate frameY
 	)
+	const
 {
 	JFloat value = (itsYAxisStart - frameY)/itsYTrans + itsYScale[kMin];
 	if (!itsYAxisIsLinear)

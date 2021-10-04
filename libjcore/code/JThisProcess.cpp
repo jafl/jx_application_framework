@@ -127,7 +127,7 @@ static const int kSignalValue[] =
 
 const JSize kSignalListSize = 32;
 
-volatile sig_atomic_t pendingSignalCount = 0;
+volatile std::atomic_int pendingSignalCount = 0;
 
 volatile sig_atomic_t signalList [ kSignalListSize ];
 

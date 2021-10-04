@@ -19,8 +19,7 @@ class J2DPlotFunction : public J2DPlotFunctionBase
 public:
 
 	static bool Create(	J2DPlotFunction **plotfunction, J2DPlotWidget* plot,
-						JVariableList* varList, JFontManager* fontManager,
-						const JString& function,
+						JVariableList* varList, const JString& function,
 						const JIndex xIndex, const JFloat xMin, const JFloat xMax);
 
 	J2DPlotFunction(J2DPlotWidget* plot, JVariableList* varList, JFunction* f,

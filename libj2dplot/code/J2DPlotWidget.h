@@ -147,7 +147,7 @@ public:
 	JColorID		GetCurveColor(const JIndex index) const;
 	J2DSymbolType	GetSymbolType(const JIndex index) const;
 
-	J2DPlotDataBase&			GetCurve(const JIndex index);
+	J2DPlotDataBase&		GetCurve(const JIndex index);
 	const J2DPlotDataBase&	GetCurve(const JIndex index) const;
 
 	JIndex	AddCurve(J2DPlotDataBase* data, const bool ownsData,
@@ -155,7 +155,7 @@ public:
 	JIndex	AddCurve(J2DPlotDataBase* data, const bool ownsData,
 					 const JString& name,
 					 const bool line, const bool symbol);
-	bool	AddCurve(JArray<JFloat>& x, JArray<JFloat>& y,
+	bool	AddCurve(const JArray<JFloat>& x, const JArray<JFloat>& y,
 					 const bool listen, const JString& name,
 					 JIndex* index,
 					 const bool line = false, const bool symbol = true);
@@ -179,7 +179,7 @@ public:
 	bool	YErrorsAreVisible(const JIndex index);
 	void	ShowYErrors(const JIndex index, const bool show);
 
-	bool	ArrayIsInCurve(JArray<JFloat>* testArray);
+	bool	ArrayIsInCurve(JArray<JFloat>* testArray) const;
 	void	RemoveCurvesContainingArray(JArray<JFloat>* testArray);
 
 	JSize	GetSmoothSteps() const;
@@ -279,9 +279,9 @@ protected:
 									 JCoordinate* ymin, JCoordinate* ymax) const;
 	JRect	GetFrameGeometry() const;
 
-	JFloat	GetRealX(const JCoordinate frameX);
-	JFloat	GetRealY(const JCoordinate frameY);
-	void			GetRealPoint(const JPoint& framePoint, JFloat* x, JFloat* y);
+	JFloat	GetRealX(const JCoordinate frameX) const;
+	JFloat	GetRealY(const JCoordinate frameY) const;
+	void	GetRealPoint(const JPoint& framePoint, JFloat* x, JFloat* y) const;
 
 	bool	GetFrameX(const JFloat x, JCoordinate* frameX) const;
 	bool	GetFrameX(const JFloat x, JFloat* frameX) const;
@@ -491,7 +491,7 @@ private:
 									  JSize* dpCount);
 	static JSize	GetDecPlaces(const JFloat value);
 
-	bool		GetMinimumPositiveValue(const bool isX, JFloat *min);
+	bool			GetMinimumPositiveValue(const bool isX, JFloat *min) const;
 
 	static void		SetExp(const JFloat* scale, JInteger* exp, bool* force);
 	static void		GetExp(const JFloat value, JInteger* exp);
@@ -1424,6 +1424,7 @@ J2DPlotWidget::GetRealPoint
 	JFloat* x,
 	JFloat* y
 	)
+	const
 {
 	*x = GetRealX(framePoint.x);
 	*y = GetRealY(framePoint.y);

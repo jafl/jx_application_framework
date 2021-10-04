@@ -21,7 +21,7 @@ J2DPlotData::Create
 	J2DPlotData**			plotData,
 	const JArray<JFloat>&	x,
 	const JArray<JFloat>&	y,
-	const bool			listen
+	const bool				listen
 	)
 {
 	if (OKToCreate(x,y))

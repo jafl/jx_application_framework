@@ -545,6 +545,7 @@ JDirEntry::MatchesContentFilter
 		close(fd);
 		if (count < 0)
 		{
+			jdelete [] data;
 			return false;
 		}
 		data[ count ] = '\0';
