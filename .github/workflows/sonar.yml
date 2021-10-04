@@ -11,7 +11,6 @@ jobs:
       SONAR_SCANNER_VERSION: 4.4.0.2170
       SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: sonar_output
-      REFLEX_VERSION: ""
     steps:
       - uses: actions/checkout@v2
         with:
@@ -30,7 +29,10 @@ jobs:
           key: ${{ runner.os }}-${{ env.BUILD_WRAPPER_OUT_DIR }}
       - name: Get reflex version
         run: |
-          make -f Makefile-versions reflex >> $REFLEX_VERSION
+          export REFLEX_VERSION=`make -f Makefile-versions reflex`
+          echo $REFLEX_VERSION
+      - name: Check reflex version
+        run: |
           echo $REFLEX_VERSION
       - name: RE/flex cache
         id: cache-reflex
