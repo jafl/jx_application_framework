@@ -16,10 +16,10 @@ jobs:
         with:
           fetch-depth: 0
       - name: Sonar app cache
-        id: cache-sonar-app
+        id: cache-sonar-app-2
         uses: actions/cache@v2
         with:
-          path: .sonar
+          path: $HOME/.sonar
           key: ${{ runner.os }}-sonar-app
       - name: Sonar data cache
         id: cache-sonar
