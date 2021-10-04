@@ -11,6 +11,7 @@ jobs:
       SONAR_SCANNER_VERSION: 4.4.0.2170
       SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: sonar_output
+      REFLEX_VERSION: ""
     steps:
       - uses: actions/checkout@v2
         with:
@@ -27,6 +28,16 @@ jobs:
         with:
           path: ${{ env.BUILD_WRAPPER_OUT_DIR }}
           key: ${{ runner.os }}-${{ env.BUILD_WRAPPER_OUT_DIR }}
+      - name: Get reflex version
+        run: |
+          make -f Makefile-versions reflex >> $REFLEX_VERSION
+          echo $REFLEX_VERSION
+      - name: RE/flex cache
+        id: cache-reflex
+        uses: actions/cache@v2
+        with:
+          path: misc/reflex
+          key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:

@@ -1,5 +1,9 @@
 include include/jx-af/make/jx_constants
 
-.PHONY : print-ace-version
-print-ace-version:
+.PHONY : ace
+ace:
 	@echo ${ACE_VERSION}
+
+.PHONY : reflex
+reflex:
+	@echo v3.0.11

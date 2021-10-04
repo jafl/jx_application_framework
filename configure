@@ -23,7 +23,7 @@ function get_ace
 		return;
 	fi
 
-	ACE_VERSION=`make -f ACE/Makefile-ace-version`;
+	ACE_VERSION=`make -f Makefile-versions ace`;
 
 	pushd ACE;
 
@@ -63,8 +63,9 @@ function configure_ace
 function get_reflex
 {
 	if [[ ! -d misc/reflex || ! -f misc/reflex/lib/libreflex.a ]]; then
+		REFLEX_VERSION=`make -f Makefile-versions reflex`;
 		rm -rf misc/reflex;
-		git clone -b v3.0.11 https://github.com/Genivia/RE-flex misc/reflex;
+		git clone -b $REFLEX_VERSION https://github.com/Genivia/RE-flex misc/reflex;
 	fi
 }
 
