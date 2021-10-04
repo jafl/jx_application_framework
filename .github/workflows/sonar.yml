@@ -29,11 +29,10 @@ jobs:
           key: ${{ runner.os }}-${{ env.BUILD_WRAPPER_OUT_DIR }}
       - name: Get reflex version
         run: |
-          export REFLEX_VERSION=`make -f Makefile-versions reflex`
-          echo $REFLEX_VERSION
+          echo REFLEX_VERSION=`make -f Makefile-versions reflex` >> $GITHUB_ENV
       - name: Check reflex version
         run: |
-          echo $REFLEX_VERSION
+          echo ${{ env.REFLEX_VERSION }}
       - name: RE/flex cache
         id: cache-reflex
         uses: actions/cache@v2
