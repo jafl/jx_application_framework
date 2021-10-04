@@ -52,6 +52,8 @@ jobs:
           echo "$HOME/.sonar/build-wrapper-linux-x86" >> $GITHUB_PATH
       - name: Run build-wrapper
         run: |
+          echo $PATH;
+          ls -lR $HOME/.sonar/
           ./configure
           export LC_ALL=en_US.UTF-8
           export LANG=en_US.UTF-8
