@@ -15,7 +15,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Sonar Cache
+      - name: Sonar App Cache
+        id: cache-sonar-app
+        uses: actions/cache@v2
+        with:
+          path: .sonar
+          key: ${{ runner.os }}-sonar-app
+      - name: Sonar Data Cache
         id: cache-sonar
         uses: actions/cache@v2
         with:
@@ -26,6 +32,7 @@ jobs:
         with:
           java-version: 11
       - name: Download and set up sonar-scanner
+        if: steps.cache-sonar-app.outputs.cache-hit != 'true'
         env:
           SONAR_SCANNER_DOWNLOAD_URL: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ env.SONAR_SCANNER_VERSION }}-linux.zip
         run: |
@@ -34,6 +41,7 @@ jobs:
           unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
           echo "$HOME/.sonar/sonar-scanner-${{ env.SONAR_SCANNER_VERSION }}-linux/bin" >> $GITHUB_PATH
       - name: Download and set up build-wrapper
+        if: steps.cache-sonar-app.outputs.cache-hit != 'true'
         env:
           BUILD_WRAPPER_DOWNLOAD_URL: ${{ env.SONAR_SERVER_URL }}/static/cpp/build-wrapper-linux-x86.zip
         run: |
@@ -45,7 +53,7 @@ jobs:
           ./configure
           export LC_ALL=en_US.UTF-8
           export LANG=en_US.UTF-8
-          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make default test
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make default
       - name: Run sonar-scanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
