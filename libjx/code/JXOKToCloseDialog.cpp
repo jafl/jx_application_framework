@@ -64,10 +64,10 @@ JXOKToCloseDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 330,110, JString::empty);
+	const auto* window = jnew JXWindow(this, 330,110, JString::empty);
 	assert( window != nullptr );
 
-	auto* saveButton =
+	const auto* saveButton =
 		jnew JXTextButton(JGetString("saveButton::JXOKToCloseDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,80, 60,20);
 	assert( saveButton != nullptr );
@@ -79,17 +79,17 @@ JXOKToCloseDialog::BuildWindow
 	assert( itsDiscardButton != nullptr );
 	itsDiscardButton->SetShortcuts(JGetString("itsDiscardButton::JXOKToCloseDialog::shortcuts::JXLayout"));
 
-	auto* text =
+	const auto* text =
 		jnew JXStaticText(JGetString("text::JXOKToCloseDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,20, 250,50);
 	assert( text != nullptr );
 
-	auto* icon =
+	const auto* icon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
 	assert( icon != nullptr );
 
-	auto* cancelButton =
+	const auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXOKToCloseDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 170,80, 60,20);
 	assert( cancelButton != nullptr );

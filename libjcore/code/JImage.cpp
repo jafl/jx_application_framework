@@ -663,7 +663,7 @@ JImage::ReadFromJXPM
 }
 
 /******************************************************************************
- AllocateImageData (protected)
+ AllocateImageData (static protected)
 
 	Allocate space for image data of the given width and height.
 	Delete both arrays with "delete []".  This data can be passed to

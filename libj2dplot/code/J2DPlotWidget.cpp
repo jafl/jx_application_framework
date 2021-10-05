@@ -2667,6 +2667,7 @@ J2DPlotWidget::GetLogAxisString
 	(
 	const JFloat value
 	)
+	const
 {
 	JFloat exponent = log10(value);
 	bool nonint = false;
@@ -2711,10 +2712,11 @@ J2DPlotWidget::GetLogTicks
 	JArray<JFloat>* major,
 	JArray<JFloat>* minor
 	)
+	const
 {
-	JFloat rStart		= pow(10, min);
-	JFloat rEnd			= pow(10, max);
-	JFloat tStart		= floor(min);
+	JFloat rStart	= pow(10, min);
+	JFloat rEnd		= pow(10, max);
+	JFloat tStart	= floor(min);
 	JFloat tEnd		= ceil(max);
 
 	for (JFloat i = tStart; i <= tEnd; i += inc)
@@ -4284,17 +4286,6 @@ J2DPlotWidget::ToggleYCursor()
 }
 
 /******************************************************************************
- DualCursorsVisible
-
- ******************************************************************************/
-
-bool
-J2DPlotWidget::DualCursorsVisible()
-{
-	return itsDualCursors;
-}
-
-/******************************************************************************
  ToggleDualCursors
 
  ******************************************************************************/
@@ -4571,7 +4562,7 @@ J2DPlotWidget::DrawMarks
 
 // x visible, y visible, dual visible, reverse, current cursor
 
-static J2DPlotWidget::CursorIndex kNextCursor[2][2][2][2][5] =
+static const J2DPlotWidget::CursorIndex kNextCursor[2][2][2][2][5] =
 {
 {
 	{

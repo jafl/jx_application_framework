@@ -93,94 +93,94 @@ JXChoosePathDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 310,370, JString::empty);
+	const auto* window = jnew JXWindow(this, 310,370, JString::empty);
 	assert( window != nullptr );
 
-	auto* openButton =
+	const auto* openButton =
 		jnew JXTextButton(JGetString("openButton::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,280, 70,20);
 	assert( openButton != nullptr );
 	openButton->SetShortcuts(JGetString("openButton::JXChoosePathDialog::shortcuts::JXLayout"));
 
-	auto* cancelButton =
+	const auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,310, 70,20);
 	assert( cancelButton != nullptr );
 
-	auto* homeButton =
+	const auto* homeButton =
 		jnew JXTextButton(JGetString("homeButton::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,140, 40,20);
 	assert( homeButton != nullptr );
 
-	auto* pathLabel =
+	const auto* pathLabel =
 		jnew JXStaticText(JGetString("pathLabel::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,20, 40,20);
 	assert( pathLabel != nullptr );
 	pathLabel->SetToLabel();
 
-	auto* scrollbarSet =
+	const auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,140, 180,190);
 	assert( scrollbarSet != nullptr );
 
-	auto* selectButton =
+	const auto* selectButton =
 		jnew JXTextButton(JGetString("selectButton::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,250, 70,20);
 	assert( selectButton != nullptr );
 
-	auto* pathInput =
+	const auto* pathInput =
 		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,20, 200,20);
 	assert( pathInput != nullptr );
 
-	auto* showHiddenCB =
+	const auto* showHiddenCB =
 		jnew JXTextCheckbox(JGetString("showHiddenCB::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,80, 130,20);
 	assert( showHiddenCB != nullptr );
 
-	auto* filterLabel =
+	const auto* filterLabel =
 		jnew JXStaticText(JGetString("filterLabel::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,50, 40,20);
 	assert( filterLabel != nullptr );
 	filterLabel->SetToLabel();
 
-	auto* filterInput =
+	const auto* filterInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,50, 200,20);
 	assert( filterInput != nullptr );
 
-	auto* explanText =
+	const auto* explanText =
 		jnew JXStaticText(JGetString("explanText::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,340, 270,20);
 	assert( explanText != nullptr );
 	explanText->SetToLabel();
 
-	auto* pathHistory =
+	const auto* pathHistory =
 		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != nullptr );
 
-	auto* filterHistory =
+	const auto* filterHistory =
 		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != nullptr );
 
-	auto* upButton =
+	const auto* upButton =
 		jnew JXTextButton(JGetString("upButton::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,140, 30,20);
 	assert( upButton != nullptr );
 
-	auto* newDirButton =
+	const auto* newDirButton =
 		jnew JXNewDirButton(window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,190, 70,20);
 	assert( newDirButton != nullptr );
 
-	auto* currPathMenu =
+	const auto* currPathMenu =
 		jnew JXCurrentPathMenu(JString("/", JString::kNoCopy), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 
-	auto* desktopButton =
+	const auto* desktopButton =
 		jnew JXTextButton(JGetString("desktopButton::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,160, 70,20);
 	assert( desktopButton != nullptr );

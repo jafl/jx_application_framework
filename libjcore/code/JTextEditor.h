@@ -376,7 +376,7 @@ protected:
 	void	TEGetDoubleClickSelection(const JStyledText::TextIndex& charIndex,
 									  const bool partialWord,
 									  const bool dragging,
-									  JStyledText::TextRange* range);
+									  JStyledText::TextRange* range) const;
 
 	void	SetAllFontNameAndSize(const JString& name, const JSize size,
 								  const JCoordinate tabWidth,

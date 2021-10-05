@@ -23,18 +23,18 @@ public:
 	virtual ~JNaryFunction();
 
 	JSize				GetArgCount() const override;
-	bool						ArgIndexValid(const JIndex index) const;
+	bool				ArgIndexValid(const JIndex index) const;
 	const JFunction*	GetArg(const JIndex index) const override;
 	JFunction*			GetArg(const JIndex index) override;
 	void				SetArg(const JIndex index, JFunction* arg) override;
-	void						InsertArg(const JIndex index, JFunction* arg);
-	void						PrependArg(JFunction* arg);
-	void						AppendArg(JFunction* arg);
-	void						DeleteArg(const JIndex index);
-	bool						DeleteArg(const JFunction* arg);
-	bool						FindArg(JFunction* arg, JIndex* index);
-	void						MoveArgToIndex(const JIndex currentIndex,
-											   const JIndex newIndex);
+	void				InsertArg(const JIndex index, JFunction* arg);
+	void				PrependArg(JFunction* arg);
+	void				AppendArg(JFunction* arg);
+	void				DeleteArg(const JIndex index);
+	bool				DeleteArg(const JFunction* arg);
+	bool				FindArg(JFunction* arg, JIndex* index) const;
+	void				MoveArgToIndex(const JIndex currentIndex,
+									   const JIndex newIndex);
 
 protected:
 
@@ -57,6 +57,7 @@ JNaryFunction::FindArg
 	JFunction*	arg,
 	JIndex*		index
 	)
+	const
 {
 	return itsArgList->Find(arg, index);
 }

@@ -186,38 +186,6 @@ JMMRecord::StreamForDebug
 	output << ' ' << JString((JUtf8Byte*) itsAddress, JString::kNoCopy);
 }
 
-#if 0
-/******************************************************************************
- Print
-
- *****************************************************************************/
-
-JString
-JMMRecord::Print()
-	const
-{
-	JString string;
-
-	string += "ID: ";
-	string += itsID;
-	string += "\nAddress: ";
-	string += static_cast(unsigned long, itsAddress);
-	string += "\nSize: ";
-	string += itsSize;
-	string += "\nNew  File: ";
-	string += itsNewFile;
-	string += "\n     Line: ";
-	string += itsNewLine;
-	string += "\nDelete  File: ";
-	string += itsDeleteFile;
-	string += "\n        Line: ";
-	string += itsDeleteLine;
-	string += "\n";
-
-	return string;
-}
-#endif
-
 /******************************************************************************
  PrintLayout
 
@@ -243,6 +211,7 @@ JMMRecord::Print()
 
 void
 JMMRecord::PrintLayout()
+	const
 {
 	std::cout << "Memory layout of JMMRecord:" << std::endl;
 

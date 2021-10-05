@@ -62,16 +62,16 @@ JXMacWinPrefsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 350,230, JString::empty);
+	const auto* window = jnew JXWindow(this, 350,230, JString::empty);
 	assert( window != nullptr );
 
-	auto* okButton =
+	const auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,200, 60,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXMacWinPrefsDialog::shortcuts::JXLayout"));
 
-	auto* cancelButton =
+	const auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,200, 60,20);
 	assert( cancelButton != nullptr );
@@ -86,7 +86,7 @@ JXMacWinPrefsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 320,20);
 	assert( itsHomeEndCB != nullptr );
 
-	auto* restartHint =
+	const auto* restartHint =
 		jnew JXStaticText(JGetString("restartHint::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 300,20);
 	assert( restartHint != nullptr );

@@ -119,7 +119,7 @@ JUtf8Character::IsCompleteCharacter
 	JSize*				characterByteCount
 	)
 {
-	auto* c = (unsigned char*) utf8Character;
+	const auto* c = (unsigned char*) utf8Character;
 	if (c[0] == 0)
 	{
 		*characterByteCount = 0;
@@ -164,8 +164,8 @@ JUtf8Character::GetCharacterByteCount
 	JSize*				byteCount
 	)
 {
-	auto* c = (unsigned char*) utf8Character;
-	bool ok      = false;
+	const auto* c = (unsigned char*) utf8Character;
+	bool ok       = false;
 	if (c[0] <= (unsigned char) '\x7F')
 	{
 		*byteCount = 1;

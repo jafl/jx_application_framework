@@ -119,10 +119,10 @@ JXSpellCheckerDialog::BuildWindow()
 
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 530,270, JString::empty);
+	const auto* window = jnew JXWindow(this, 530,270, JString::empty);
 	assert( window != nullptr );
 
-	auto* notFoundLabel =
+	const auto* notFoundLabel =
 		jnew JXStaticText(JGetString("notFoundLabel::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,15, 110,20);
 	assert( notFoundLabel != nullptr );
@@ -134,13 +134,13 @@ JXSpellCheckerDialog::BuildWindow()
 	assert( itsCheckText != nullptr );
 	itsCheckText->SetToLabel();
 
-	auto* changeToLabel =
+	const auto* changeToLabel =
 		jnew JXStaticText(JGetString("changeToLabel::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,45, 90,20);
 	assert( changeToLabel != nullptr );
 	changeToLabel->SetToLabel();
 
-	auto* suggestionsLabel =
+	const auto* suggestionsLabel =
 		jnew JXStaticText(JGetString("suggestionsLabel::JXSpellCheckerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,75, 90,20);
 	assert( suggestionsLabel != nullptr );
@@ -151,7 +151,7 @@ JXSpellCheckerDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 105,45, 230,20);
 	assert( itsFirstGuess != nullptr );
 
-	auto* set =
+	const auto* set =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 105,75, 230,180);
 	assert( set != nullptr );

@@ -35,7 +35,7 @@ public:
 
 protected:
 
-	void		Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 	bool	OKToDeactivate() override;
 
 private:
@@ -56,14 +56,14 @@ private:
 
 private:
 
-	void		BuildWindow(const JString& fileName, const bool allowSaveCmd);
-	void		UpdateDisplay();
+	void	BuildWindow(const JString& fileName, const bool allowSaveCmd);
+	void	UpdateDisplay();
 
 	bool	ReadSetup();
-	void		WriteSetup();
+	void	WriteSetup() const;
 
-	void		ReadSetup(std::istream& input);
-	void		WriteSetup(std::ostream& output) const;
+	void	ReadSetup(std::istream& input);
+	void	WriteSetup(std::ostream& output) const;
 };
 
 #endif

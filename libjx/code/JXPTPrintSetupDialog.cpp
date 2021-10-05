@@ -96,7 +96,7 @@ JXPTPrintSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 370,220, JString::empty);
+	const auto* window = jnew JXWindow(this, 370,220, JString::empty);
 	assert( window != nullptr );
 
 	itsPrintCmdLabel =
@@ -105,18 +105,18 @@ JXPTPrintSetupDialog::BuildWindow
 	assert( itsPrintCmdLabel != nullptr );
 	itsPrintCmdLabel->SetToLabel();
 
-	auto* okButton =
+	const auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,190, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXPTPrintSetupDialog::shortcuts::JXLayout"));
 
-	auto* cancelButton =
+	const auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 70,190, 70,20);
 	assert( cancelButton != nullptr );
 
-	auto* destinationLabel =
+	const auto* destinationLabel =
 		jnew JXStaticText(JGetString("destinationLabel::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,30, 80,20);
 	assert( destinationLabel != nullptr );
@@ -127,13 +127,13 @@ JXPTPrintSetupDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,20, 139,39);
 	assert( itsDestination != nullptr );
 
-	auto* printerLabel =
+	const auto* printerLabel =
 		jnew JXTextRadioButton(1, JGetString("printerLabel::JXPTPrintSetupDialog::JXLayout"), itsDestination,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,8, 70,20);
 	assert( printerLabel != nullptr );
 	printerLabel->SetShortcuts(JGetString("printerLabel::JXPTPrintSetupDialog::shortcuts::JXLayout"));
 
-	auto* fileLabel =
+	const auto* fileLabel =
 		jnew JXTextRadioButton(2, JGetString("fileLabel::JXPTPrintSetupDialog::JXLayout"), itsDestination,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 75,8, 50,20);
 	assert( fileLabel != nullptr );
@@ -183,7 +183,7 @@ JXPTPrintSetupDialog::BuildWindow
 	assert( itsLastPageIndexLabel != nullptr );
 	itsLastPageIndexLabel->SetToLabel();
 
-	auto* countLabel =
+	const auto* countLabel =
 		jnew JXStaticText(JGetString("countLabel::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,110, 115,20);
 	assert( countLabel != nullptr );

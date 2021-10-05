@@ -541,7 +541,7 @@ JIndex i;
 	{
 		topEnclVarName = kDefTopEnclVarName;
 
-		output << indent << "auto* window = jnew JXWindow(this, ";
+		output << indent << "const auto* window = jnew JXWindow(this, ";
 		output << formWidth << ',' << formHeight;
 		output << ", JString::empty);" << std::endl;
 		output << indent << "assert( window != nullptr );" << std::endl;
@@ -807,7 +807,7 @@ JIndex i;
 		output << indent;
 		if (isLocal)
 		{
-			output << "auto* ";
+			output << "const auto* ";
 		}
 		varName->Print(output);
 		output << " =" << std::endl;

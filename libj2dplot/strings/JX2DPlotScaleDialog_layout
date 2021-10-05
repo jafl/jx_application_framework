@@ -1,4 +1,4 @@
-1
+0
 okButton::JX2DPlotScaleDialog::JXLayout "OK"
 cancelButton::JX2DPlotScaleDialog::shortcuts::JXLayout "^["
 yRangeLabel::JX2DPlotScaleDialog::JXLayout "Y Range:"

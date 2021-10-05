@@ -26,9 +26,9 @@ public:
 	void	StartTimer();
 	void	StopTimer();
 
-	JFloat	GetCPUTimeInterval();
-	JFloat	GetUserTimeInterval();
-	JString	PrintTimeInterval();
+	JFloat	GetCPUTimeInterval() const;
+	JFloat	GetUserTimeInterval() const;
+	JString	PrintTimeInterval() const;
 
 private:
 
@@ -40,7 +40,7 @@ private:
 
 private:
 
-	JString	FormatTimeInterval(const JFloat time);
+	JString	FormatTimeInterval(const JFloat time) const;
 };
 
 #endif

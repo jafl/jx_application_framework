@@ -476,6 +476,7 @@ JFSBindingList::GetBinding
 	const JString&		origFileName,
 	const JFSBinding**	binding
 	)
+	const
 {
 	// ignore # and ~ on end
 

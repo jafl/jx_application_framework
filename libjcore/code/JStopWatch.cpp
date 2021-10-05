@@ -87,6 +87,7 @@ JStopWatch::StopTimer()
 
 JFloat
 JStopWatch::GetCPUTimeInterval()
+	const
 {
 	clock_t stopClock;
 	if (itsOnFlag)
@@ -112,6 +113,7 @@ JStopWatch::GetCPUTimeInterval()
 
 JFloat
 JStopWatch::GetUserTimeInterval()
+	const
 {
 	time_t stopTime;
 	if (itsOnFlag)
@@ -135,6 +137,7 @@ JStopWatch::GetUserTimeInterval()
 
 JString
 JStopWatch::PrintTimeInterval()
+	const
 {
 	const JString timeString =
 		FormatTimeInterval(GetCPUTimeInterval()) +
@@ -155,6 +158,7 @@ JStopWatch::FormatTimeInterval
 	(
 	const JFloat time
 	)
+	const
 {
 	JString timeString;
 	if (time < 60.0)									// less than 1 min

@@ -216,7 +216,7 @@ private:
 	void HandleExit();
 	void HandleACEExit();
 
-	void ReadValue(bool* hasValue, unsigned char* value, const JUtf8Byte* string);
+	static void ReadValue(bool* hasValue, unsigned char* value, const JUtf8Byte* string);
 
 	// not allowed
 

@@ -36,13 +36,13 @@ public:
 protected:
 
 	bool	OKToDeactivate() override;
-	void		Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
 	JXFSBindingTable*	itsTable;
 	JFSBindingList*		itsBindingList;
-	bool			itsNeedsSaveFlag;
+	bool				itsNeedsSaveFlag;
 	JFSBindingList*		itsOrigBindingList;		// not owned
 
 // begin JXLayout
@@ -64,18 +64,18 @@ private:
 
 private:
 
-	void		BuildWindow();
-	void		NeedsSave();
-	void		DataReverted();
+	void	BuildWindow();
+	void	NeedsSave();
+	void	DataReverted();
 	bool	Save(const bool askReplace);
-	void		Revert(const bool updateList);
+	void	Revert(const bool updateList);
 	bool	CheckData();
 
 	bool	ReadSetup();
-	void		WriteSetup();
+	void	WriteSetup() const;
 
-	void		ReadSetup(std::istream& input);
-	void		WriteSetup(std::ostream& output);
+	void	ReadSetup(std::istream& input);
+	void	WriteSetup(std::ostream& output) const;
 };
 
 #pragma GCC diagnostic pop

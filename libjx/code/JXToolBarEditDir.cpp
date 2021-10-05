@@ -91,27 +91,27 @@ JXToolBarEditDir::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 320,430, JString::empty);
+	const auto* window = jnew JXWindow(this, 320,430, JString::empty);
 	assert( window != nullptr );
 
-	auto* scrollbarSet =
+	const auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,100, 290,290);
 	assert( scrollbarSet != nullptr );
 
-	auto* cancelButton =
+	const auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXToolBarEditDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,400, 70,20);
 	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::JXToolBarEditDir::shortcuts::JXLayout"));
 
-	auto* okButton =
+	const auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXToolBarEditDir::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 200,400, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXToolBarEditDir::shortcuts::JXLayout"));
 
-	auto* prompt =
+	const auto* prompt =
 		jnew JXStaticText(JGetString("prompt::JXToolBarEditDir::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,10, 270,30);
 	assert( prompt != nullptr );

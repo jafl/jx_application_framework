@@ -58,39 +58,39 @@ JXChooseColorDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 510,250, JString::empty);
+	const auto* window = jnew JXWindow(this, 510,250, JString::empty);
 	assert( window != nullptr );
 
-	auto* okButton =
+	const auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,220, 60,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXChooseColorDialog::shortcuts::JXLayout"));
 
-	auto* cancelButton =
+	const auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,220, 60,20);
 	assert( cancelButton != nullptr );
 
-	auto* sampleLabel =
+	const auto* sampleLabel =
 		jnew JXStaticText(JGetString("sampleLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,25, 60,20);
 	assert( sampleLabel != nullptr );
 	sampleLabel->SetToLabel();
 
-	auto* hueLabel =
+	const auto* hueLabel =
 		jnew JXStaticText(JGetString("hueLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,70, 50,20);
 	assert( hueLabel != nullptr );
 	hueLabel->SetToLabel();
 
-	auto* saturationLabel =
+	const auto* saturationLabel =
 		jnew JXStaticText(JGetString("saturationLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,90, 50,20);
 	assert( saturationLabel != nullptr );
 	saturationLabel->SetToLabel();
 
-	auto* brightnessLabel =
+	const auto* brightnessLabel =
 		jnew JXStaticText(JGetString("brightnessLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,110, 50,20);
 	assert( brightnessLabel != nullptr );
@@ -116,19 +116,19 @@ JXChooseColorDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,20, 30,30);
 	assert( itsColorSample != nullptr );
 
-	auto* redLabel =
+	const auto* redLabel =
 		jnew JXStaticText(JGetString("redLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,140, 50,20);
 	assert( redLabel != nullptr );
 	redLabel->SetToLabel();
 
-	auto* greenLabel =
+	const auto* greenLabel =
 		jnew JXStaticText(JGetString("greenLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,160, 50,20);
 	assert( greenLabel != nullptr );
 	greenLabel->SetToLabel();
 
-	auto* blueLabel =
+	const auto* blueLabel =
 		jnew JXStaticText(JGetString("blueLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,180, 50,20);
 	assert( blueLabel != nullptr );
@@ -149,19 +149,19 @@ JXChooseColorDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 420,180, 70,20);
 	assert( itsBInput != nullptr );
 
-	auto* redRangeLabel =
+	const auto* redRangeLabel =
 		jnew JXStaticText(JGetString("redRangeLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,140, 80,20);
 	assert( redRangeLabel != nullptr );
 	redRangeLabel->SetToLabel();
 
-	auto* greenRangeLabel =
+	const auto* greenRangeLabel =
 		jnew JXStaticText(JGetString("greenRangeLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,160, 80,20);
 	assert( greenRangeLabel != nullptr );
 	greenRangeLabel->SetToLabel();
 
-	auto* blueRangeLabel =
+	const auto* blueRangeLabel =
 		jnew JXStaticText(JGetString("blueRangeLabel::JXChooseColorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,180, 80,20);
 	assert( blueRangeLabel != nullptr );

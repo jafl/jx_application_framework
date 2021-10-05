@@ -784,6 +784,7 @@ JStyledText::SearchForward
 	const bool			wrapSearch,
 	bool*				wrapped
 	)
+	const
 {
 	TextIndex i = startIndex;
 
@@ -839,10 +840,11 @@ JStyledText::SearchBackward
 	(
 	const TextIndex&	startIndex,
 	const JRegex&		regex,
-	const bool		entireWord,
-	const bool		wrapSearch,
-	bool*			wrapped
+	const bool			entireWord,
+	const bool			wrapSearch,
+	bool*				wrapped
 	)
+	const
 {
 	TextIndex i = startIndex;
 
@@ -936,6 +938,7 @@ JStyledText::PrepareReplaceMatch
 	JInterpolate*		interpolator,
 	const bool			preserveCase
 	)
+	const
 {
 	JString replaceText;
 	if (interpolator != nullptr)
@@ -1146,10 +1149,11 @@ JStyledText::SearchForward
 	const std::function<bool(const JFont&)>	match,
 
 	const TextIndex&	start,
-	const bool		wrapSearch,
-	bool*			wrapped,
+	const bool			wrapSearch,
+	bool*				wrapped,
 	TextRange*			range
 	)
+	const
 {
 	*wrapped = false;
 	range->SetToNothing();
@@ -1219,7 +1223,7 @@ jComputeBackwardFontRange
 	const JStyledText::TextIndex&	start,
 	const JString&					text,
 	const FontIterator&				iter,
-	const bool					wrapped,
+	const bool						wrapped,
 	JStyledText::TextRange*			range
 	)
 {
@@ -1256,10 +1260,11 @@ JStyledText::SearchBackward
 	const std::function<bool(const JFont&)>	match,
 
 	const TextIndex&	start,
-	const bool		wrapSearch,
-	bool*			wrapped,
+	const bool			wrapSearch,
+	bool*				wrapped,
 	TextRange*			range
 	)
+	const
 {
 	*wrapped = false;
 	range->SetToNothing();

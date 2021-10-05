@@ -95,8 +95,7 @@ public:
 	bool    IsManagerMemory() const;
 
 	void	StreamForDebug(std::ostream& output) const;
-//	JString Print() const;
-	void PrintLayout();
+	void	PrintLayout() const;
 };
 
 /******************************************************************************

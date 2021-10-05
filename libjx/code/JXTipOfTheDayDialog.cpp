@@ -85,10 +85,10 @@ JXTipOfTheDayDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 410,260, JString::empty);
+	const auto* window = jnew JXWindow(this, 410,260, JString::empty);
 	assert( window != nullptr );
 
-	auto* sideBar =
+	const auto* sideBar =
 		jnew JXFlatRect(window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 10,10, 50,200);
 	assert( sideBar != nullptr );
@@ -105,17 +105,17 @@ JXTipOfTheDayDialog::BuildWindow
 	assert( itsNextTipButton != nullptr );
 	itsNextTipButton->SetShortcuts(JGetString("itsNextTipButton::JXTipOfTheDayDialog::shortcuts::JXLayout"));
 
-	auto* icon =
+	const auto* icon =
 		jnew JXImageWidget(sideBar,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,15, 30,30);
 	assert( icon != nullptr );
 
-	auto* scrollbarSet =
+	const auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,60, 340,150);
 	assert( scrollbarSet != nullptr );
 
-	auto* title =
+	const auto* title =
 		jnew JXStaticText(JGetString("title::JXTipOfTheDayDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 60,10, 340,50);
 	assert( title != nullptr );

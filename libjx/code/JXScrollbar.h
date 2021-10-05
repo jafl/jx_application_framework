@@ -48,10 +48,10 @@ public:
 	JCoordinate	GetMaxValue() const;
 	void		SetMaxValue(const JCoordinate maxValue);
 
-	bool	IsAtMin();
-	void		ScrollToMin();
-	bool	IsAtMax();
-	void		ScrollToMax();
+	bool	IsAtMin() const;
+	void	ScrollToMin();
+	bool	IsAtMax() const;
+	void	ScrollToMax();
 
 	JFloat	GetScrollDelay() const;
 	void	SetScrollDelay(const JFloat seconds);
@@ -128,7 +128,7 @@ private:
 	JRect	itsIncrementPageRect;
 
 	JPtrArray<JXScrolltab>*	itsScrolltabList;				// can be nullptr
-	bool				itsIgnoreScrolltabDeletedFlag;
+	bool					itsIgnoreScrolltabDeletedFlag;
 
 	JXTextMenu*	itsActionMenu;		// can be nullptr
 
@@ -138,10 +138,10 @@ private:
 
 	DragAction	itsDragAction;
 	JPoint		itsDragThumbOffset;
-	bool	itsDecrPushedFlag;
-	bool	itsIncrPushedFlag;
-	bool	itsDecrPagePushedFlag;
-	bool	itsIncrPagePushedFlag;
+	bool		itsDecrPushedFlag;
+	bool		itsIncrPushedFlag;
+	bool		itsDecrPagePushedFlag;
+	bool		itsIncrPagePushedFlag;
 
 	// used for context menu
 
@@ -258,6 +258,7 @@ JXScrollbar::StepPage
 
 inline bool
 JXScrollbar::IsAtMin()
+	const
 {
 	return itsValue == kMinValue;
 }
@@ -280,6 +281,7 @@ JXScrollbar::ScrollToMin()
 
 inline bool
 JXScrollbar::IsAtMax()
+	const
 {
 	return itsValue == itsMaxValue;
 }

@@ -210,12 +210,12 @@ public:
 	void	RemoveXMark(const JIndex index);
 	void	RemoveYMark(const JIndex index);
 
-	bool	CursorIsSelected();
-	bool	XCursorVisible();
+	bool	CursorIsSelected() const;
+	bool	XCursorVisible() const;
 	void	ToggleXCursor();
-	bool	YCursorVisible();
+	bool	YCursorVisible() const;
 	void	ToggleYCursor();
-	bool	DualCursorsVisible();
+	bool	DualCursorsVisible() const;
 	void	ToggleDualCursors();
 
 	bool	GetXCursorVal1(JFloat* value);
@@ -275,8 +275,8 @@ protected:
 									const JRect& partialPageRect) = 0;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
-	void			GetFrameGeometry(JCoordinate* xmin, JCoordinate* xmax,
-									 JCoordinate* ymin, JCoordinate* ymax) const;
+	void	GetFrameGeometry(JCoordinate* xmin, JCoordinate* xmax,
+							 JCoordinate* ymin, JCoordinate* ymax) const;
 	JRect	GetFrameGeometry() const;
 
 	JFloat	GetRealX(const JCoordinate frameX) const;
@@ -297,7 +297,7 @@ protected:
 								   const JInteger precision,
 								   const bool forceExponent,
 								   const JInteger exponent);
-	JString	GetLogAxisString(const JFloat value);
+	JString	GetLogAxisString(const JFloat value) const;
 
 private:
 
@@ -439,7 +439,7 @@ private:
 						  const bool lightGrid);
 	void	GetLogTicks(const JFloat min, const JFloat max, const JFloat inc,
 						JArray<JFloat>* major,
-						JArray<JFloat>* minor);
+						JArray<JFloat>* minor) const;
 
 	void	DrawLabels(JPainter& p);
 	void	DrawData(JPainter& p) const;
@@ -1018,6 +1018,18 @@ J2DPlotWidget::GridIsVisible()
 	return itsShowGridFlag;
 }
 
+/******************************************************************************
+ DualCursorsVisible
+
+ ******************************************************************************/
+
+inline bool
+J2DPlotWidget::DualCursorsVisible()
+	const
+{
+	return itsDualCursors;
+}
+
 /*******************************************************************************
  GetCurveCount
 
@@ -1495,6 +1507,7 @@ J2DPlotWidget::GetSmoothSteps()
 
 inline bool
 J2DPlotWidget::CursorIsSelected()
+	const
 {
 	return itsSelectedCursor != kNoCursor;
 }
@@ -1506,6 +1519,7 @@ J2DPlotWidget::CursorIsSelected()
 
 inline bool
 J2DPlotWidget::XCursorVisible()
+	const
 {
 	return itsXCursorVisible;
 }
@@ -1517,6 +1531,7 @@ J2DPlotWidget::XCursorVisible()
 
 inline bool
 J2DPlotWidget::YCursorVisible()
+	const
 {
 	return itsYCursorVisible;
 }

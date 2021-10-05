@@ -64,16 +64,16 @@ JX2DPlotLabelDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 540,150, JString::empty);
+	const auto* window = jnew JXWindow(this, 540,150, JString::empty);
 	assert( window != nullptr );
 
-	auto* okButton =
+	const auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DPlotLabelDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,120, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JX2DPlotLabelDialog::shortcuts::JXLayout"));
 
-	auto* cancelButton =
+	const auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JX2DPlotLabelDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,120, 70,20);
 	assert( cancelButton != nullptr );
@@ -84,7 +84,7 @@ JX2DPlotLabelDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,20, 220,20);
 	assert( itsPlotTitle != nullptr );
 
-	auto* titleLabel =
+	const auto* titleLabel =
 		jnew JXStaticText(JGetString("titleLabel::JX2DPlotLabelDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 90,20);
 	assert( titleLabel != nullptr );
@@ -95,7 +95,7 @@ JX2DPlotLabelDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,50, 220,20);
 	assert( itsXAxisLabel != nullptr );
 
-	auto* xAxisLabel =
+	const auto* xAxisLabel =
 		jnew JXStaticText(JGetString("xAxisLabel::JX2DPlotLabelDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 90,20);
 	assert( xAxisLabel != nullptr );
@@ -106,7 +106,7 @@ JX2DPlotLabelDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,80, 220,20);
 	assert( itsYAxisLabel != nullptr );
 
-	auto* yAxisLabel =
+	const auto* yAxisLabel =
 		jnew JXStaticText(JGetString("yAxisLabel::JX2DPlotLabelDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
 	assert( yAxisLabel != nullptr );

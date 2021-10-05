@@ -1,4 +1,4 @@
-1
+0
 okButton::JX2DPlotLabelDialog::JXLayout "OK"
 yAxisLabel::JX2DPlotLabelDialog::JXLayout "Y Axis Label:"
 titleLabel::JX2DPlotLabelDialog::JXLayout "Plot Title:"

@@ -2586,10 +2586,11 @@ void
 JTextEditor::TEGetDoubleClickSelection
 	(
 	const TextIndex&	origIndex,
-	const bool		partialWord,
-	const bool		dragging,
+	const bool			partialWord,
+	const bool			dragging,
 	TextRange*			range
 	)
+	const
 {
 	TextIndex startIndex, endIndex;
 	if (partialWord)

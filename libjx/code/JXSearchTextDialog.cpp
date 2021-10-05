@@ -262,7 +262,7 @@ JXSearchTextDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 450,300, JString::empty);
+	const auto* window = jnew JXWindow(this, 450,300, JString::empty);
 	assert( window != nullptr );
 
 	itsCloseButton =
@@ -271,13 +271,13 @@ JXSearchTextDialog::BuildWindow()
 	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXSearchTextDialog::shortcuts::JXLayout"));
 
-	auto* searchInputLabel =
+	const auto* searchInputLabel =
 		jnew JXStaticText(JGetString("searchInputLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,9, 220,20);
 	assert( searchInputLabel != nullptr );
 	searchInputLabel->SetToLabel();
 
-	auto* replaceInputLabel =
+	const auto* replaceInputLabel =
 		jnew JXStaticText(JGetString("replaceInputLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,85, 220,20);
 	assert( replaceInputLabel != nullptr );
@@ -352,7 +352,7 @@ JXSearchTextDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,270, 80,20);
 	assert( itsQRefButton != nullptr );
 
-	auto* findLabel =
+	const auto* findLabel =
 		jnew JXStaticText(JGetString("findLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,20, 100,20);
 	assert( findLabel != nullptr );
@@ -368,7 +368,7 @@ JXSearchTextDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,20, 20,20);
 	assert( itsFindFwdButton != nullptr );
 
-	auto* replaceFindLabel =
+	const auto* replaceFindLabel =
 		jnew JXStaticText(JGetString("replaceFindLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,80, 100,20);
 	assert( replaceFindLabel != nullptr );

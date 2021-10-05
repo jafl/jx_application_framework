@@ -277,7 +277,7 @@ JMemoryManager::JMemoryManager()
 	if (recordAllocated != nullptr && JString::Compare(recordAllocated, "yes", JString::kIgnoreCase) == 0)
 	{
 		const JUtf8Byte* tableType = getenv("JMM_TABLE_TYPE");
-		JUtf8Byte* recordDeallocated = getenv("JMM_RECORD_DEALLOCATED");
+		const JUtf8Byte* recordDeallocated = getenv("JMM_RECORD_DEALLOCATED");
 		bool recordDeallocatedFlag = false;
 		if (recordDeallocated != nullptr && JString::Compare(recordDeallocated, "yes", JString::kIgnoreCase) == 0)
 		{
@@ -1152,7 +1152,7 @@ JMemoryManager::HandleMultipleAllocation
 }
 
 /******************************************************************************
- ReadValue (private)
+ ReadValue (static private)
 
  *****************************************************************************/
 

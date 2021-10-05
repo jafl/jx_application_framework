@@ -344,11 +344,12 @@ JTableSelectionIterator::MoveTo
 
 bool
 JTableSelectionIterator::AtBeginning()
+	const
 {
 	return (!itsAtEndFlag && itsCursor.x <= 1 && itsCursor.y <= 1) ||
-				 itsTableSelection == nullptr ||
-				 itsTableSelection->GetRowCount() == 0 ||
-				 itsTableSelection->GetColCount() == 0;
+			itsTableSelection == nullptr ||
+			itsTableSelection->GetRowCount() == 0 ||
+			itsTableSelection->GetColCount() == 0;
 }
 
 /******************************************************************************
@@ -361,11 +362,12 @@ JTableSelectionIterator::AtBeginning()
 
 bool
 JTableSelectionIterator::AtEnd()
+	const
 {
-	return itsAtEndFlag ||
-				 itsTableSelection == nullptr ||
-				 itsTableSelection->GetRowCount() == 0 ||
-				 itsTableSelection->GetColCount() == 0;
+	return (itsAtEndFlag ||
+			itsTableSelection == nullptr ||
+			itsTableSelection->GetRowCount() == 0 ||
+			itsTableSelection->GetColCount() == 0);
 }
 
 /******************************************************************************

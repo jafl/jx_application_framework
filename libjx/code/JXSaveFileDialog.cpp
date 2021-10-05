@@ -135,94 +135,94 @@ JXSaveFileDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 310,340, JString::empty);
+	const auto* window = jnew JXWindow(this, 310,340, JString::empty);
 	assert( window != nullptr );
 
-	auto* scrollbarSet =
+	const auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,140, 180,140);
 	assert( scrollbarSet != nullptr );
 
-	auto* saveButton =
+	const auto* saveButton =
 		jnew JXTextButton(JGetString("saveButton::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,280, 70,20);
 	assert( saveButton != nullptr );
 	saveButton->SetShortcuts(JGetString("saveButton::JXSaveFileDialog::shortcuts::JXLayout"));
 
-	auto* cancelButton =
+	const auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,310, 70,20);
 	assert( cancelButton != nullptr );
 
-	auto* homeButton =
+	const auto* homeButton =
 		jnew JXTextButton(JGetString("homeButton::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,140, 40,20);
 	assert( homeButton != nullptr );
 
-	auto* pathLabel =
+	const auto* pathLabel =
 		jnew JXStaticText(JGetString("pathLabel::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,20, 40,20);
 	assert( pathLabel != nullptr );
 	pathLabel->SetToLabel();
 
-	auto* fileNameInput =
+	const auto* fileNameInput =
 		jnew JXSaveFileInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,310, 180,20);
 	assert( fileNameInput != nullptr );
 
-	auto* pathInput =
+	const auto* pathInput =
 		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,20, 200,20);
 	assert( pathInput != nullptr );
 
-	auto* showHiddenCB =
+	const auto* showHiddenCB =
 		jnew JXTextCheckbox(JGetString("showHiddenCB::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,80, 130,20);
 	assert( showHiddenCB != nullptr );
 
-	auto* promptLabel =
+	const auto* promptLabel =
 		jnew JXStaticText(JGetString("promptLabel::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,290, 180,20);
 	assert( promptLabel != nullptr );
 	promptLabel->SetToLabel();
 
-	auto* filterLabel =
+	const auto* filterLabel =
 		jnew JXStaticText(JGetString("filterLabel::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,50, 40,20);
 	assert( filterLabel != nullptr );
 	filterLabel->SetToLabel();
 
-	auto* filterInput =
+	const auto* filterInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,50, 200,20);
 	assert( filterInput != nullptr );
 
-	auto* pathHistory =
+	const auto* pathHistory =
 		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != nullptr );
 
-	auto* filterHistory =
+	const auto* filterHistory =
 		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != nullptr );
 
-	auto* upButton =
+	const auto* upButton =
 		jnew JXTextButton(JGetString("upButton::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,140, 30,20);
 	assert( upButton != nullptr );
 
-	auto* newDirButton =
+	const auto* newDirButton =
 		jnew JXNewDirButton(window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,190, 70,20);
 	assert( newDirButton != nullptr );
 
-	auto* currPathMenu =
+	const auto* currPathMenu =
 		jnew JXCurrentPathMenu(JString("/", JString::kNoCopy), window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 
-	auto* desktopButton =
+	const auto* desktopButton =
 		jnew JXTextButton(JGetString("desktopButton::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,160, 70,20);
 	assert( desktopButton != nullptr );

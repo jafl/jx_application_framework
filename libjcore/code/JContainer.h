@@ -24,7 +24,7 @@ public:
 protected:
 
 	void				InstallCollection(JCollection* list);
-	const JCollection*	GetList();
+	const JCollection*	GetList() const;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -41,6 +41,7 @@ private:
 
 inline const JCollection*
 JContainer::GetList()
+	const
 {
 	return itsList;
 }

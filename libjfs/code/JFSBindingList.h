@@ -22,13 +22,13 @@ public:
 	virtual	~JFSBindingList();
 
 	const JFSBinding*	GetBinding(const JIndex index) const;
-	bool			GetBinding(const JString& fileName,
-								   const JFSBinding** binding);
+	bool				GetBinding(const JString& fileName,
+								   const JFSBinding** binding) const;
 
-	JIndex		AddBinding(const JString& pattern, const JString& cmd,
-						   const JFSBinding::CommandType type,
-						   const bool singleFile,
-						   const bool isSystem = false);
+	JIndex	AddBinding(const JString& pattern, const JString& cmd,
+					   const JFSBinding::CommandType type,
+					   const bool singleFile,
+					   const bool isSystem = false);
 	bool	DeleteBinding(const JIndex index);
 
 	bool	SetPattern(const JIndex index, const JString& pattern,
@@ -36,14 +36,14 @@ public:
 	bool	SetCommand(const JIndex index, const JString& cmd);
 	bool	SetCommandType(const JIndex index, const JFSBinding::CommandType type);
 	bool	SetSingleFile(const JIndex index, const bool singleFile);
-	void		ToggleSingleFile(const JIndex index);
+	void	ToggleSingleFile(const JIndex index);
 
-	void		SetCommand(const JString& pattern, const JString& cmd,
-						   const JFSBinding::CommandType type,
-						   const bool singleFile);
+	void	SetCommand(const JString& pattern, const JString& cmd,
+					   const JFSBinding::CommandType type,
+					   const bool singleFile);
 
 	bool	WillUseDefaultCommand() const;
-	void		ShouldUseDefaultCommand(const bool use);
+	void	ShouldUseDefaultCommand(const bool use);
 
 	const JFSBinding*	GetDefaultCommand() const;
 	void				SetDefaultCommand(const JString& cmd,
@@ -57,12 +57,12 @@ public:
 	void			SetWindowCommand(const JString& cmd);
 
 	bool	WillAutoUseShellCommand() const;
-	void		ShouldAutoUseShellCommand(const bool use);
+	void	ShouldAutoUseShellCommand(const bool use);
 
-	JError		Save();
+	JError	Save();
 	bool	NeedsRevert() const;
-	JString		Revert();
-	void		RevertIfModified();
+	JString	Revert();
+	void	RevertIfModified();
 
 	static void	CleanFileName(JString* s);
 
@@ -75,12 +75,12 @@ private:
 	JPtrArray<JFSBinding>*	itsBindingList;		// current bindings
 	JPtrArray<JFSBinding>*	itsOverriddenList;	// overriden system bindings
 
-	bool	itsUseDefaultFlag;		// true => use in GetCommandForFile()
+	bool		itsUseDefaultFlag;		// true => use in GetCommandForFile()
 	JFSBinding*	itsUserDefault;			// nullptr if none; hides itsSystemDefault
 	JFSBinding*	itsSystemDefault;		// nullptr if none
 
-	JString		itsShellCmd;
-	JString		itsWindowCmd;
+	JString	itsShellCmd;
+	JString	itsWindowCmd;
 	bool	itsAutoShellFlag;
 
 	const JString	itsSignalFileName;	// empty if only loaded system defaults

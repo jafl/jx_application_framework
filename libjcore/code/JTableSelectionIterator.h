@@ -48,8 +48,8 @@ public:
 	void	MoveTo(const JIteratorPosition newPosition,
 				   const JIndex row, const JIndex col);
 
-	bool	AtBeginning();
-	bool	AtEnd();
+	bool	AtBeginning() const;
+	bool	AtEnd() const;
 
 protected:
 

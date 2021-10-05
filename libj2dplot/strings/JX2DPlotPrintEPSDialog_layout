@@ -1,4 +1,4 @@
-1
+0
 widthLabel::JX2DPlotPrintEPSDialog::JXLayout "Width:"
 okButton::JX2DPlotPrintEPSDialog::JXLayout "Print"
 previewCB::JX2DPlotPrintEPSDialog::JXLayout "Include preview"

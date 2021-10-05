@@ -61,16 +61,16 @@ JX2DPlotRangeDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 390,120, JString::empty);
+	const auto* window = jnew JXWindow(this, 390,120, JString::empty);
 	assert( window != nullptr );
 
-	auto* okButton =
+	const auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 280,90, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JX2DPlotRangeDialog::shortcuts::JXLayout"));
 
-	auto* cancelButton =
+	const auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,90, 70,20);
 	assert( cancelButton != nullptr );
@@ -81,13 +81,13 @@ JX2DPlotRangeDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,20, 120,20);
 	assert( itsXMin != nullptr );
 
-	auto* xRangeLabel =
+	const auto* xRangeLabel =
 		jnew JXStaticText(JGetString("xRangeLabel::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 70,20);
 	assert( xRangeLabel != nullptr );
 	xRangeLabel->SetToLabel();
 
-	auto* xToLabel =
+	const auto* xToLabel =
 		jnew JXStaticText(JGetString("xToLabel::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,20, 30,20);
 	assert( xToLabel != nullptr );
@@ -103,13 +103,13 @@ JX2DPlotRangeDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,50, 120,20);
 	assert( itsYMin != nullptr );
 
-	auto* yRangeLabel =
+	const auto* yRangeLabel =
 		jnew JXStaticText(JGetString("yRangeLabel::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 70,20);
 	assert( yRangeLabel != nullptr );
 	yRangeLabel->SetToLabel();
 
-	auto* yToLabel =
+	const auto* yToLabel =
 		jnew JXStaticText(JGetString("yToLabel::JX2DPlotRangeDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,50, 30,20);
 	assert( yToLabel != nullptr );

@@ -254,10 +254,10 @@ public:
 
 	JStringMatch	SearchForward(const TextIndex& startIndex,
 								  const JRegex& regex, const bool entireWord,
-								  const bool wrapSearch, bool* wrapped);
+								  const bool wrapSearch, bool* wrapped) const;
 	JStringMatch	SearchBackward(const TextIndex& startIndex,
 								   const JRegex& regex, const bool entireWord,
-								   const bool wrapSearch, bool* wrapped);
+								   const bool wrapSearch, bool* wrapped) const;
 
 	TextCount	ReplaceMatch(const JStringMatch& match,
 							 const JString& replaceStr, JInterpolate* interpolator,
@@ -272,11 +272,11 @@ public:
 	bool	SearchForward(std::function<bool(const JFont&)> match,
 							  const TextIndex& startIndex,
 							  const bool wrapSearch,
-							  bool* wrapped, TextRange* range);
+							  bool* wrapped, TextRange* range) const;
 	bool	SearchBackward(std::function<bool(const JFont&)> match,
 							   const TextIndex& startIndex,
 							   const bool wrapSearch,
-							   bool* wrapped, TextRange* range);
+							   bool* wrapped, TextRange* range) const;
 
 	JFont	GetFont(const JIndex charIndex) const;
 
@@ -477,7 +477,7 @@ private:
 
 	JString	PrepareReplaceMatch(const JStringMatch& match,
 								const JString& replaceStr, JInterpolate* interpolator,
-								const bool preserveCase);
+								const bool preserveCase) const;
 
 	TextCount	PrivatePaste(const TextRange& range,
 							 const JString& text, const JRunArray<JFont>* style);

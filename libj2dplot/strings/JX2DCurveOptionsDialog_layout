@@ -1,4 +1,4 @@
-1
+0
 okButton::JX2DCurveOptionsDialog::shortcuts::JXLayout "^M"
 itsShowCurveCB::JX2DCurveOptionsDialog::shortcuts::JXLayout "#S"
 itsShowBothRB::JX2DCurveOptionsDialog::JXLayout "Show lines and symbols"

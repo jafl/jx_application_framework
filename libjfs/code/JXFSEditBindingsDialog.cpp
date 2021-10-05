@@ -142,7 +142,7 @@ JXFSEditBindingsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 580,430, JString::empty);
+	const auto* window = jnew JXWindow(this, 580,430, JString::empty);
 	assert( window != nullptr );
 
 	itsSaveButton =
@@ -157,18 +157,18 @@ JXFSEditBindingsDialog::BuildWindow()
 	assert( itsCloseButton != nullptr );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXFSEditBindingsDialog::shortcuts::JXLayout"));
 
-	auto* scrollbarSet =
+	const auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 490,230);
 	assert( scrollbarSet != nullptr );
 
-	auto* addButton =
+	const auto* addButton =
 		jnew JXTextButton(JGetString("addButton::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 500,30, 70,20);
 	assert( addButton != nullptr );
 	addButton->SetShortcuts(JGetString("addButton::JXFSEditBindingsDialog::shortcuts::JXLayout"));
 
-	auto* removeButton =
+	const auto* removeButton =
 		jnew JXTextButton(JGetString("removeButton::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 500,90, 70,20);
 	assert( removeButton != nullptr );
@@ -185,7 +185,7 @@ JXFSEditBindingsDialog::BuildWindow()
 	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::JXFSEditBindingsDialog::shortcuts::JXLayout"));
 
-	auto* cmdHint1 =
+	const auto* cmdHint1 =
 		jnew JXStaticText(JGetString("cmdHint1::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 130,370, 360,20);
 	assert( cmdHint1 != nullptr );
@@ -197,7 +197,7 @@ JXFSEditBindingsDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 200,250, 290,20);
 	assert( itsDefCmd != nullptr );
 
-	auto* shellCmdLabel =
+	const auto* shellCmdLabel =
 		jnew JXStaticText(JGetString("shellCmdLabel::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,330, 120,20);
 	assert( shellCmdLabel != nullptr );
@@ -208,14 +208,14 @@ JXFSEditBindingsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,250, 190,20);
 	assert( itsUseDefaultCB != nullptr );
 
-	auto* cmdHint2 =
+	const auto* cmdHint2 =
 		jnew JXStaticText(JGetString("cmdHint2::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,270, 350,20);
 	assert( cmdHint2 != nullptr );
 	cmdHint2->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 	cmdHint2->SetToLabel();
 
-	auto* windowCmdLabel =
+	const auto* windowCmdLabel =
 		jnew JXStaticText(JGetString("windowCmdLabel::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,350, 120,20);
 	assert( windowCmdLabel != nullptr );
@@ -246,7 +246,7 @@ JXFSEditBindingsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 370,290, 120,20);
 	assert( itsDefSingleCB != nullptr );
 
-	auto* duplicateButton =
+	const auto* duplicateButton =
 		jnew JXTextButton(JGetString("duplicateButton::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 500,60, 70,20);
 	assert( duplicateButton != nullptr );
@@ -555,6 +555,7 @@ JXFSEditBindingsDialog::ReadSetup()
 
 void
 JXFSEditBindingsDialog::WriteSetup()
+	const
 {
 	JPrefsFile* file = nullptr;
 	if ((JPrefsFile::Create(kPrefsFileRoot, &file,
@@ -595,6 +596,7 @@ JXFSEditBindingsDialog::WriteSetup
 	(
 	std::ostream& output
 	)
+	const
 {
 	GetWindow()->WriteGeometry(output);
 }

@@ -1,4 +1,4 @@
-1
+0
 xToLabel::JX2DPlotRangeDialog::JXLayout "to"
 itsClearButton::JX2DPlotRangeDialog::JXLayout "Clear"
 okButton::JX2DPlotRangeDialog::shortcuts::JXLayout "^M"
