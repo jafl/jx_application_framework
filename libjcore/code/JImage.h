@@ -122,56 +122,56 @@ public:
 	static const JUtf8Byte* kTooManyColors;
 
 	class UnknownFileType : public JError
-		{
-		public:
+	{
+	public:
 
-			UnknownFileType(const JString& fileName);
-		};
+		UnknownFileType(const JString& fileName);
+	};
 
 	class FileIsNotGIF : public JError
-		{
-		public:
+	{
+	public:
 
-			FileIsNotGIF(const JString& fileName);
-		};
+		FileIsNotGIF(const JString& fileName);
+	};
 
 	class FileIsNotPNG : public JError
-		{
-		public:
+	{
+	public:
 
-			FileIsNotPNG(const JString& fileName);
-		};
+		FileIsNotPNG(const JString& fileName);
+	};
 
 	class FileIsNotJPEG : public JError
-		{
-		public:
+	{
+	public:
 
-			FileIsNotJPEG(const JString& fileName);
-		};
+		FileIsNotJPEG(const JString& fileName);
+	};
 
 	class FileIsNotXPM : public JError
-		{
-		public:
+	{
+	public:
 
-			FileIsNotXPM(const JString& fileName);
-		};
+		FileIsNotXPM(const JString& fileName);
+	};
 
 	class FileIsNotXBM : public JError
-		{
-		public:
+	{
+	public:
 
-			FileIsNotXBM(const JString& fileName);
-		};
+		FileIsNotXBM(const JString& fileName);
+	};
 
 	class TooManyColors : public JError
-		{
-		public:
+	{
+	public:
 
-			TooManyColors()
-				:
-				JError(kTooManyColors)
-			{ };
-		};
+		TooManyColors()
+			:
+			JError(kTooManyColors)
+		{ };
+	};
 };
 
 

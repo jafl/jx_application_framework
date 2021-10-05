@@ -188,3 +188,7 @@ CRM2SelectionAction::JTextEditor	"Coerce margins for selection"
 # JStyledText
 
 ReplacingText::JStyledText	"Replacing text..."
+
+# JRegex
+
+Error::JRegex	"$msg at character index $i"

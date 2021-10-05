@@ -22,8 +22,8 @@ JXDrawUpFrame
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const bool		fill,
-	const JColorID	origFillColor
+	const bool			fill,
+	const JColorID		origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -38,8 +38,8 @@ JXDrawUpFrame
 	// save the original settings
 
 	const JColorID origColor = p.GetPenColor();
-	const JSize origWidth       = p.GetLineWidth();
-	const bool origFill     = p.IsFilling();
+	const JSize origWidth    = p.GetLineWidth();
+	const bool origFill      = p.IsFilling();
 
 	p.SetLineWidth(1);
 
@@ -110,8 +110,8 @@ JXDrawDownFrame
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const bool		fill,
-	const JColorID	origFillColor
+	const bool			fill,
+	const JColorID		origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -126,8 +126,8 @@ JXDrawDownFrame
 	// save the original settings
 
 	const JColorID origColor = p.GetPenColor();
-	const JSize origWidth       = p.GetLineWidth();
-	const bool origFill     = p.IsFilling();
+	const JSize origWidth    = p.GetLineWidth();
+	const bool origFill      = p.IsFilling();
 
 	p.SetLineWidth(1);
 
@@ -203,8 +203,8 @@ JXDrawEngravedFrame
 	const JCoordinate	downWidth,
 	const JCoordinate	betweenWidth,
 	const JCoordinate	upWidth,
-	const bool		fill,
-	const JColorID	fillColor
+	const bool			fill,
+	const JColorID		fillColor
 	)
 {
 	JRect rect = origRect;
@@ -241,8 +241,8 @@ JXDrawEmbossedFrame
 	const JCoordinate	upWidth,
 	const JCoordinate	betweenWidth,
 	const JCoordinate	downWidth,
-	const bool		fill,
-	const JColorID	fillColor
+	const bool			fill,
+	const JColorID		fillColor
 	)
 {
 	JRect rect = origRect;
@@ -610,8 +610,8 @@ JXDrawUpArrowLeft
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const bool		fill,
-	const JColorID	origFillColor
+	const bool			fill,
+	const JColorID		origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -626,7 +626,7 @@ JXDrawUpArrowLeft
 	// save the original settings
 
 	const JColorID origColor = p.GetPenColor();
-	const JSize origWidth       = p.GetLineWidth();
+	const JSize origWidth    = p.GetLineWidth();
 
 	p.SetLineWidth(1);
 
@@ -705,8 +705,8 @@ JXDrawDownArrowLeft
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const bool		fill,
-	const JColorID	origFillColor
+	const bool			fill,
+	const JColorID		origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -841,7 +841,7 @@ JXDrawUpArrowRight
 	// save the original settings
 
 	const JColorID origColor = p.GetPenColor();
-	const JSize origWidth       = p.GetLineWidth();
+	const JSize origWidth    = p.GetLineWidth();
 
 	p.SetLineWidth(1);
 
@@ -918,8 +918,8 @@ JXDrawDownArrowRight
 	JPainter&			p,
 	const JRect&		rect,
 	const JCoordinate	width,
-	const bool		fill,
-	const JColorID	origFillColor
+	const bool			fill,
+	const JColorID		origFillColor
 	)
 {
 	if (width <= 0 || rect.IsEmpty())
@@ -934,7 +934,7 @@ JXDrawDownArrowRight
 	// save the original settings
 
 	const JColorID origColor = p.GetPenColor();
-	const JSize origWidth       = p.GetLineWidth();
+	const JSize origWidth    = p.GetLineWidth();
 
 	p.SetLineWidth(1);
 

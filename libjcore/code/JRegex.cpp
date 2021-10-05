@@ -518,7 +518,7 @@ JRegex::Compile()
 
 	if (itsPattern.IsEmpty())
 	{
-		return JRegexError(kError, "empty pattern", 0);
+		return Error("empty pattern");
 	}
 
 	assert( itsRegex == nullptr );
@@ -543,7 +543,7 @@ JRegex::Compile()
 	}
 	else
 	{
-		const JRegexError error(kError, errorMessage, errorOffset+1);
+		const Error error(errorMessage, errorOffset+1);
 
 		#ifdef JRE_PRINT_COMPILE_ERRORS
 		std::cout << "Compile error: " << error.GetMessage() << std::endl;
@@ -656,4 +656,36 @@ JRegex::CleanUp()
 	#ifdef JRE_ALLOC_CHECK
 	assert(numRegexAlloc == 0);
 	#endif
+}
+
+/******************************************************************************
+ JRegex::Error
+
+ ******************************************************************************/
+
+JRegex::Error::Error
+	(
+	const JUtf8Byte* message
+	)
+	:
+	JError(kError, message)
+{
+}
+
+JRegex::Error::Error
+	(
+	const JUtf8Byte*	message,
+	const JIndex		index
+	)
+	:
+	JError(kError)
+{
+	const JString i((JUInt64) index);
+
+	const JUtf8Byte* map[] =
+	{
+		"msg", message,
+		"i",   i.GetBytes()
+	};
+	SetMessage(map, sizeof(map));
 }

@@ -634,7 +634,7 @@ JXSearchTextDialog::Receive
 	JXWindowDirector* director = nullptr;
 	if (itsTE != nullptr)
 	{
-		director = (itsTE->GetWindow())->GetDirector();
+		director = itsTE->GetWindow()->GetDirector();
 	}
 
 	if (sender == itsFindFwdButton && message.Is(JXButton::kPushed))
@@ -829,12 +829,12 @@ bool
 JXSearchTextDialog::GetSearchParameters
 	(
 	JRegex**		searchRegex,
-	bool*		entireWord,
-	bool*		wrapSearch,
+	bool*			entireWord,
+	bool*			wrapSearch,
 
 	JString*		replaceStr,
 	JInterpolate**	interpolator,
-	bool*		preserveCase
+	bool*			preserveCase
 	)
 	const
 {

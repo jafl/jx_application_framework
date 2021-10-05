@@ -136,35 +136,14 @@ public:
 
 	static const JUtf8Byte* kError;
 
-	class JRegexError : public JError
+	class Error : public JError
 	{
 		friend class JRegex;
 
 	protected:
 
-		JRegexError(const JUtf8Byte* type, const JUtf8Byte* message,
-					const JIndex index)
-			:
-			JError(type, message),
-			itsIndex(index)
-		{ };
-
-	public:
-
-		bool
-		GetErrorIndex
-			(
-			JIndex* index
-			)
-			const
-		{
-			*index = itsIndex;
-			return itsIndex > 0;
-		};
-
-	private:
-
-		JIndex	itsIndex;
+		Error(const JUtf8Byte* message);
+		Error(const JUtf8Byte* message, const JIndex index);
 	};
 };
 
