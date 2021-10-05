@@ -30,8 +30,6 @@
 #include <X11/Xlib.h>
 #include <jx-af/jcore/jAssert.h>
 
-#define XQUARTZ_BUG 0
-
 #define JXSEL_DEBUG_MSGS		0	// boolean
 #define JXSEL_DEBUG_ONLY_RESULT 0	// boolean
 #define JXSEL_MICRO_TRANSFER	0	// boolean
@@ -216,27 +214,6 @@ JXSelectionManager::GetData
 	DeleteMethod*	delMethod
 	)
 {
-	// until XQuartz fixes https://bugs.freedesktop.org/show_bug.cgi?id=92650
-#if XQUARTZ_BUG
-	if (itsDisplay->IsOSX() && requestType == GetUtf8StringXAtom())
-	{
-		JProcess* p;
-		int fd;
-		if (JProcess::Create(&p, JString("pbpaste", false),
-							 kJIgnoreConnection, nullptr, kJCreatePipe, &fd).OK())
-		{
-			JString clipdata;
-			JReadAll(fd, &clipdata);
-			jdelete p;
-
-			*returnType = GetUtf8StringXAtom();
-			*data       = (unsigned char*) clipdata.AllocateBytes();
-			*dataLength = clipdata.GetByteCount();
-			*delMethod  = kArrayDelete;
-			return true;
-		}
-	}
-#endif
 	// Check if this application owns the selection.
 
 	JXSelectionData* localData = nullptr;
@@ -1152,29 +1129,6 @@ JXSelectionManager::SetData
 		{
 			XSetSelectionOwner(*itsDisplay, itsAtoms[ kGnomeClipboardAtomIndex ], itsDataWindow, lastEventTime);
 		}
-#if XQUARTZ_BUG
-		if (itsDisplay->IsOSX())	// until XQuartz fixes https://bugs.freedesktop.org/show_bug.cgi?id=92650
-		{
-			Atom returnType;
-			unsigned char* clipdata;
-			JSize dataLength, bitsPerBlock;
-			if (data->Convert(GetUtf8StringXAtom(), &returnType, &clipdata, &dataLength, &bitsPerBlock) &&
-				returnType == GetUtf8StringXAtom())
-			{
-				JProcess* p;
-				int fd;
-				if (JProcess::Create(&p, JString("pbcopy", false),
-									 kJCreatePipe, &fd).OK())
-				{
-					write(fd, clipdata, dataLength);
-					close(fd);
-					p->WaitUntilFinished();
-					jdelete p;
-				}
-				jdelete [] clipdata;
-			}
-		}
-#endif
 		data->SetSelectionInfo(selectionName, lastEventTime);
 		itsDataList->Append(data);
 		return true;
