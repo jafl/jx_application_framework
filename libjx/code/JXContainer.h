@@ -199,8 +199,6 @@ protected:
 	bool	GetEnclosedObjects(JPtrArrayIterator<JXContainer>** iter) const;
 	void	DeleteEnclosedObjects();
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 	// static cursor
 
 	void			ShowCursor();

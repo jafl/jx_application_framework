@@ -145,10 +145,10 @@ RecordDirector::BuildWindow
 {
 // begin JXLayout
 
-	const auto* window = jnew JXWindow(this, 500,400, JString::empty);
+	auto* window = jnew JXWindow(this, 500,400, JString::empty);
 	assert( window != nullptr );
 
-	const auto* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != nullptr );

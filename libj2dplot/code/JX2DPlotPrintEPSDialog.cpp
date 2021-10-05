@@ -185,40 +185,40 @@ JX2DPlotPrintEPSDialog::BuildWindow
 {
 // begin JXLayout
 
-	const auto* window = jnew JXWindow(this, 370,190, JString::empty);
+	auto* window = jnew JXWindow(this, 370,190, JString::empty);
 	assert( window != nullptr );
 
-	const auto* chooseFileButton =
+	auto* chooseFileButton =
 		jnew JXTextButton(JGetString("chooseFileButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
 	assert( chooseFileButton != nullptr );
 	chooseFileButton->SetShortcuts(JGetString("chooseFileButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
-	const auto* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,160, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
-	const auto* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,160, 70,20);
 	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
-	const auto* bwCB =
+	auto* bwCB =
 		jnew JXTextCheckbox(JGetString("bwCB::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,120, 150,20);
 	assert( bwCB != nullptr );
 	bwCB->SetShortcuts(JGetString("bwCB::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
-	const auto* previewCB =
+	auto* previewCB =
 		jnew JXTextCheckbox(JGetString("previewCB::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,120, 130,20);
 	assert( previewCB != nullptr );
 	previewCB->SetShortcuts(JGetString("previewCB::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
-	const auto* fileInput =
+	auto* fileInput =
 		jnew JXFileInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 100,20, 250,20);
 	assert( fileInput != nullptr );
@@ -233,13 +233,13 @@ JX2DPlotPrintEPSDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 70,80, 60,20);
 	assert( itsHeightInput != nullptr );
 
-	const auto* widthLabel =
+	auto* widthLabel =
 		jnew JXStaticText(JGetString("widthLabel::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 50,20);
 	assert( widthLabel != nullptr );
 	widthLabel->SetToLabel();
 
-	const auto* heightLabel =
+	auto* heightLabel =
 		jnew JXStaticText(JGetString("heightLabel::JX2DPlotPrintEPSDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 50,20);
 	assert( heightLabel != nullptr );

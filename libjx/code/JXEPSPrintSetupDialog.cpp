@@ -77,7 +77,7 @@ JXEPSPrintSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	const auto* window = jnew JXWindow(this, 370,130, JString::empty);
+	auto* window = jnew JXWindow(this, 370,130, JString::empty);
 	assert( window != nullptr );
 
 	itsChooseFileButton =
@@ -85,13 +85,13 @@ JXEPSPrintSetupDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
 	assert( itsChooseFileButton != nullptr );
 
-	const auto* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXEPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,100, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXEPSPrintSetupDialog::shortcuts::JXLayout"));
 
-	const auto* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXEPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,100, 70,20);
 	assert( cancelButton != nullptr );

@@ -72,16 +72,16 @@ JXGetStringDialog::BuildWindow
 {
 // begin JXLayout
 
-	const auto* window = jnew JXWindow(this, 310,110, JString::empty);
+	auto* window = jnew JXWindow(this, 310,110, JString::empty);
 	assert( window != nullptr );
 
-	const auto* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXGetStringDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 190,80, 60,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXGetStringDialog::shortcuts::JXLayout"));
 
-	const auto* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXGetStringDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,80, 60,20);
 	assert( cancelButton != nullptr );
@@ -92,7 +92,7 @@ JXGetStringDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 270,20);
 	assert( itsInputField != nullptr );
 
-	const auto* promptDisplay =
+	auto* promptDisplay =
 		jnew JXStaticText(JGetString("promptDisplay::JXGetStringDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 270,20);
 	assert( promptDisplay != nullptr );

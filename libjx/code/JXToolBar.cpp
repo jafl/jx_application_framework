@@ -639,8 +639,8 @@ JXToolBar::FindItemAndAdd
 	const JString& id
 	)
 {
-	JSize count = itsMenuBar->GetMenuCount();
-	for (JSize i = 1; i <= count; i++)
+	const JSize count = itsMenuBar->GetMenuCount();
+	for (JIndex i = 1; i <= count; i++)
 	{
 		JXMenu* menu		= itsMenuBar->GetMenu(i);
 		auto* tmenu	= dynamic_cast<JXTextMenu*>(menu);
@@ -656,8 +656,10 @@ JXToolBar::FindItemAndAdd
 	const JString&	id
 	)
 {
-	JSize count = menu->GetItemCount();
-	for (JSize i = 1; i <= count; i++)
+	const JString* testID;
+
+	const JSize count = menu->GetItemCount();
+	for (JIndex i = 1; i <= count; i++)
 	{
 		const JXMenu* sub;
 		if (menu->GetSubmenu(i, &sub))
@@ -666,17 +668,10 @@ JXToolBar::FindItemAndAdd
 			auto* tsub = const_cast<JXTextMenu*>(temp);
 			FindItemAndAdd(tsub, id);
 		}
-		else
+		else if (menu->GetItemID(i, &testID) && *testID == id)
 		{
-			const JString* testID;
-			if (menu->GetItemID(i, &testID))
-			{
-				if (*testID == id)
-				{
-					AppendButton(menu, i);
-					return;
-				}
-			}
+			AppendButton(menu, i);
+			return;
 		}
 	}
 }

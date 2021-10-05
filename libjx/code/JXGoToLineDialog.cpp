@@ -58,16 +58,16 @@ JXGoToLineDialog::BuildWindow
 {
 // begin JXLayout
 
-	const auto* window = jnew JXWindow(this, 190,120, JString::empty);
+	auto* window = jnew JXWindow(this, 190,120, JString::empty);
 	assert( window != nullptr );
 
-	const auto* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXGoToLineDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 110,90, 60,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXGoToLineDialog::shortcuts::JXLayout"));
 
-	const auto* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXGoToLineDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,90, 60,20);
 	assert( cancelButton != nullptr );
@@ -77,7 +77,7 @@ JXGoToLineDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 40,20);
 	assert( itsLineNumber != nullptr );
 
-	const auto* gotoLineLabel =
+	auto* gotoLineLabel =
 		jnew JXStaticText(JGetString("gotoLineLabel::JXGoToLineDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,20, 70,20);
 	assert( gotoLineLabel != nullptr );

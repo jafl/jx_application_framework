@@ -722,12 +722,11 @@ jReadN
 	)
 {
 	size_t temp;
-	size_t &bytes_transferred = (bt == 0 ? temp : *bt);
+	size_t &bytes_transferred = (bt == nullptr ? temp : *bt);
 	ssize_t n;
 
-	for (bytes_transferred = 0;
-		 bytes_transferred < len;
-		 bytes_transferred += n)
+	bytes_transferred = 0;
+	while (bytes_transferred < len)
 	{
 		n = jRead(handle, (char *) buf + bytes_transferred, len - bytes_transferred);
 
@@ -735,6 +734,7 @@ jReadN
 		{
 			return n;
 		}
+		bytes_transferred += n;
 	}
 
 	return bytes_transferred;

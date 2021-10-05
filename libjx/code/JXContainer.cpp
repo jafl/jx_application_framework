@@ -1892,23 +1892,6 @@ JXContainer::RemoveEnclosedObject
 }
 
 /******************************************************************************
- Receive (virtual protected)
-
-	We provide this as a gateway to JBroadcaster::Receive().
-
- ******************************************************************************/
-
-void
-JXContainer::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	JBroadcaster::Receive(sender, message);
-}
-
-/******************************************************************************
  Menu ID routines (virtual)
 
  ******************************************************************************/

@@ -16,19 +16,7 @@ class JCharacterRange : public JRange<JIndex>
 {
 public:
 
-	JCharacterRange()
-		:
-		JIndexRange()
-	{ };
-
-	JCharacterRange
-		(
-		const JIndex firstIndex,
-		const JIndex lastIndex
-		)
-		:
-		JIndexRange(firstIndex, lastIndex)
-	{ };
+	using JRange::JRange;
 
 	explicit JCharacterRange
 		(

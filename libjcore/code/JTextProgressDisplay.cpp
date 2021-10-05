@@ -56,7 +56,7 @@ JTextProgressDisplay::JTextProgressDisplay()
 
 JTextProgressDisplay::~JTextProgressDisplay()
 {
-	if (itsOldSigIntHandler != emptyHandler)
+	if (itsOldSigIntHandler != &emptyHandler)
 	{
 		signal(SIGINT, itsOldSigIntHandler);
 	}
@@ -211,7 +211,7 @@ JTextProgressDisplay::ProcessFinished()
 
 	// put back the original cancel handler
 
-	if (itsOldSigIntHandler != emptyHandler)
+	if (itsOldSigIntHandler != &emptyHandler)
 	{
 		j_sig_func* currentSigIntHandler = signal(SIGINT, itsOldSigIntHandler);
 		assert( currentSigIntHandler == cancelHandler );

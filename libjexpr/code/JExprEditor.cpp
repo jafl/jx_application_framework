@@ -2568,7 +2568,7 @@ JExprEditor::GetStringWidth
 	)
 	const
 {
-	const JFont font = itsFontManager->GetFont(JFontManager::GetDefaultFontName(), fontSize, itsDefaultStyle);
+	const JFont font = JFontManager::GetFont(JFontManager::GetDefaultFontName(), fontSize, itsDefaultStyle);
 	return font.GetStringWidth(itsFontManager, str);
 }
 
@@ -2584,7 +2584,7 @@ JExprEditor::DrawString
 {
 	const JCoordinate h = GetLineHeight(fontSize);
 	JCoordinate y = midline - h/2;
-	itsPainter->SetFont(itsFontManager->GetFont(JFontManager::GetDefaultFontName(), fontSize, itsDefaultStyle));
+	itsPainter->SetFont(JFontManager::GetFont(JFontManager::GetDefaultFontName(), fontSize, itsDefaultStyle));
 	itsPainter->String(left,y, str);
 }
 

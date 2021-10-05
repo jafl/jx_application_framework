@@ -1484,13 +1484,11 @@ JXTabGroup::HandleMouseUp
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsDragAction == kClose)
+	if (itsDragAction == kClose &&
+		button == kJXLeftButton && itsClosePushedFlag &&
+		OKToDeleteTab(itsMouseIndex))
 	{
-		if (button == kJXLeftButton && itsClosePushedFlag &&
-			OKToDeleteTab(itsMouseIndex))
-		{
-			DeleteTab(itsMouseIndex);
-		}
+		DeleteTab(itsMouseIndex);
 	}
 
 	itsScrollUpPushedFlag = itsScrollDownPushedFlag = itsClosePushedFlag = false;

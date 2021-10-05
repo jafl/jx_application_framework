@@ -660,8 +660,7 @@ JFSFileTreeNode::CompareUserName
 
 	JString u1 = n1->itsDirEntry->GetUserName();
 	JString u2 = n2->itsDirEntry->GetUserName();
-	JListT::CompareResult result =
-		JCompareStringsCaseInsensitive(&(u1), &(u2));
+	JListT::CompareResult result = JCompareStringsCaseInsensitive(&u1, &u2);
 
 	if (result == JListT::kFirstEqualSecond)
 	{

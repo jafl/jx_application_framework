@@ -108,16 +108,16 @@ JX2DPlotScaleDialog::BuildWindow()
 {
 // begin JXLayout
 
-	const auto* window = jnew JXWindow(this, 540,190, JString::empty);
+	auto* window = jnew JXWindow(this, 540,190, JString::empty);
 	assert( window != nullptr );
 
-	const auto* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DPlotScaleDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 360,160, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JX2DPlotScaleDialog::shortcuts::JXLayout"));
 
-	const auto* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JX2DPlotScaleDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,160, 70,20);
 	assert( cancelButton != nullptr );
@@ -128,13 +128,13 @@ JX2DPlotScaleDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,20, 120,20);
 	assert( itsXMin != nullptr );
 
-	const auto* xRangeLabel =
+	auto* xRangeLabel =
 		jnew JXStaticText(JGetString("xRangeLabel::JX2DPlotScaleDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 70,20);
 	assert( xRangeLabel != nullptr );
 	xRangeLabel->SetToLabel();
 
-	const auto* xToLabel =
+	auto* xToLabel =
 		jnew JXStaticText(JGetString("xToLabel::JX2DPlotScaleDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,20, 30,20);
 	assert( xToLabel != nullptr );
@@ -161,13 +161,13 @@ JX2DPlotScaleDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,90, 120,20);
 	assert( itsYMin != nullptr );
 
-	const auto* yRangeLabel =
+	auto* yRangeLabel =
 		jnew JXStaticText(JGetString("yRangeLabel::JX2DPlotScaleDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 70,20);
 	assert( yRangeLabel != nullptr );
 	yRangeLabel->SetToLabel();
 
-	const auto* yToLabel =
+	auto* yToLabel =
 		jnew JXStaticText(JGetString("yToLabel::JX2DPlotScaleDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,90, 30,20);
 	assert( yToLabel != nullptr );
@@ -194,12 +194,12 @@ JX2DPlotScaleDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,15, 124,64);
 	assert( itsXAxisTypeRG != nullptr );
 
-	const auto* xLinearRB =
+	auto* xLinearRB =
 		jnew JXTextRadioButton(kLinear, JGetString("xLinearRB::JX2DPlotScaleDialog::JXLayout"), itsXAxisTypeRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 100,20);
 	assert( xLinearRB != nullptr );
 
-	const auto* xLogRB =
+	auto* xLogRB =
 		jnew JXTextRadioButton(kLog, JGetString("xLogRB::JX2DPlotScaleDialog::JXLayout"), itsXAxisTypeRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 100,20);
 	assert( xLogRB != nullptr );
@@ -209,12 +209,12 @@ JX2DPlotScaleDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,85, 124,64);
 	assert( itsYAxisTypeRG != nullptr );
 
-	const auto* yLinearRB =
+	auto* yLinearRB =
 		jnew JXTextRadioButton(kLinear, JGetString("yLinearRB::JX2DPlotScaleDialog::JXLayout"), itsYAxisTypeRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 100,20);
 	assert( yLinearRB != nullptr );
 
-	const auto* yLogRB =
+	auto* yLogRB =
 		jnew JXTextRadioButton(kLog, JGetString("yLogRB::JX2DPlotScaleDialog::JXLayout"), itsYAxisTypeRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 100,20);
 	assert( yLogRB != nullptr );

@@ -16,19 +16,7 @@ class JUtf8ByteRange : public JRange<JIndex>
 {
 public:
 
-	JUtf8ByteRange()
-		:
-		JIndexRange()
-	{ };
-
-	JUtf8ByteRange
-		(
-		const JIndex firstIndex,
-		const JIndex lastIndex
-		)
-		:
-		JIndexRange(firstIndex, lastIndex)
-	{ };
+	using JRange::JRange;
 
 	explicit JUtf8ByteRange
 		(

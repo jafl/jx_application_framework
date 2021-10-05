@@ -26,8 +26,8 @@ public:
 
 	static JError	Fork(pid_t* pid);
 
-	static void	Exit(const int returnValue);
-	static void	Abort();
+	[[noreturn]] static void	Exit(const int returnValue);
+	[[noreturn]] static void	Abort();
 
 	static bool	WillQuitAtExit(const JProcess* p);
 	static void	QuitAtExit(JProcess* p, const bool quit = true);

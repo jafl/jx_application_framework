@@ -176,7 +176,7 @@ JXColorManager::GetColorID
 		rgb[i] = (systemColor & itsMask[i]) >> itsStartIndex[i];
 		if (itsStartIndex[i] > 0)
 		{
-			rgb[i] &= ~(~(0L) << (8*sizeof(unsigned long) - itsStartIndex[i]));
+			rgb[i] &= ~(~0L << (8*sizeof(unsigned long) - itsStartIndex[i]));
 		}
 		const short maxValue = (1 << (itsEndIndex[i]-itsStartIndex[i]+1)) - 1;
 		rgb[i] = JRound(rgb[i] * kJMaxRGBValueF / maxValue);

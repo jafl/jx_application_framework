@@ -207,16 +207,13 @@ JX2DCursorMarkTable::Print
 	SetRowBorderInfo(0, color);
 
 	JIndex currentRow = 1;
-	JSize cols        = 0;
 	JCoordinate width = 0;
 	if (hasXMarks)
 	{
-		cols  = 1;
-		width = GetColWidth(1);
+		width += GetColWidth(1);
 	}
 	if (hasYMarks)
 	{
-		cols  += 1;
 		width += GetColWidth(1);
 	}
 

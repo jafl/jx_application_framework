@@ -299,7 +299,7 @@ JXFontManager::GetXFontNames
 {
 	fontNames->CleanOut();
 	fontNames->SetCompareFunction(
-					compare != nullptr ? compare : JCompareStringsCaseInsensitive);
+					compare != nullptr ? compare : &JCompareStringsCaseInsensitive);
 	fontNames->SetSortOrder(JListT::kSortAscending);
 
 	int nameCount;

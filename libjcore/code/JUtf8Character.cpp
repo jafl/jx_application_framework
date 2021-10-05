@@ -280,14 +280,17 @@ JUtf8Character::Utf32ToUtf8
 		case 4: 
 			c.itsBytes[3] = (unsigned char) ((ch | byteMark) & byteMask);
 			ch >>= 6;
+			[[fallthrough]];
 
 		case 3:
 			c.itsBytes[2] = (unsigned char) ((ch | byteMark) & byteMask);
 			ch >>= 6;
+			[[fallthrough]];
 
 		case 2: 
 			c.itsBytes[1] = (unsigned char) ((ch | byteMark) & byteMask);
 			ch >>= 6;
+			[[fallthrough]];
 
 		case 1: 
 			c.itsBytes[0] = (unsigned char) (ch | firstByteMark[byteCount-1]);
@@ -328,14 +331,17 @@ JUtf8Character::Utf8ToUtf32
 		case 4:
 			ch += (unsigned char) *bytes++;
 			ch <<= 6;
+			[[fallthrough]];
 
 		case 3:
 			ch += (unsigned char) *bytes++;
 			ch <<= 6;
+			[[fallthrough]];
 
 		case 2:
 			ch += (unsigned char) *bytes++;
 			ch <<= 6;
+			[[fallthrough]];
 
 		case 1:
 			ch += (unsigned char) *bytes++;

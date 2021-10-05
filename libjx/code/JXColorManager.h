@@ -32,7 +32,7 @@ public:
 	Visual*		GetVisual() const;
 	int			GetVisualClass() const;
 
-	virtual bool	GetColorID(const JString& name, JColorID* id) const;
+	bool			GetColorID(const JString& name, JColorID* id) const override;
 	JColorID		GetColorID(const unsigned long systemColor) const;
 	unsigned long	GetXColor(const JColorID id) const;
 

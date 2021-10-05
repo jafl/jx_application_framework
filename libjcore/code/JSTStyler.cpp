@@ -414,7 +414,7 @@ JSTStyler::SetStyle
 JArray<JSTStyler::TokenData>*
 JSTStyler::NewTokenStartList()
 {
-	JArray<TokenData>* list = jnew JArray<TokenData>(kListBlockSize);
+	auto* list = jnew JArray<TokenData>(kListBlockSize);
 	assert( list != nullptr );
 	list->SetSortOrder(JListT::kSortAscending);
 	list->SetCompareFunction(CompareTokenStarts);

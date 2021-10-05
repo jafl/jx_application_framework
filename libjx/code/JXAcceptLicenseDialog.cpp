@@ -49,20 +49,20 @@ JXAcceptLicenseDialog::BuildWindow()
 {
 // begin JXLayout
 
-	const auto* window = jnew JXWindow(this, 510,570, JString::empty);
+	auto* window = jnew JXWindow(this, 510,570, JString::empty);
 	assert( window != nullptr );
 
-	const auto* noButton =
+	auto* noButton =
 		jnew JXTextButton(JGetString("noButton::JXAcceptLicenseDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 310,540, 100,20);
 	assert( noButton != nullptr );
 
-	const auto* yesButton =
+	auto* yesButton =
 		jnew JXTextButton(JGetString("yesButton::JXAcceptLicenseDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,540, 100,20);
 	assert( yesButton != nullptr );
 
-	const auto* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 470,500);
 	assert( scrollbarSet != nullptr );

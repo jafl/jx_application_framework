@@ -149,7 +149,7 @@ JXDNDManager::JXDNDManager
 	JXDisplay* display
 	)
 	:
-	itsPrevHandleDNDModifiers(0)
+	itsPrevHandleDNDModifiers(display)
 {
 	itsDisplay            = display;
 	itsIsDraggingFlag     = false;

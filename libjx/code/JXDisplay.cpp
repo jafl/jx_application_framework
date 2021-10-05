@@ -305,8 +305,6 @@ JXDisplay::Close()
 void
 JXDisplay::RaiseAllWindows()
 {
-JIndex i;
-
 	// get list of all top level windows
 
 	Window root, parent, *childList;
@@ -320,7 +318,7 @@ JIndex i;
 	// initialize the mapping of X windows to JXWindows
 
 	JPtrArray<JXWindow> childMapping(JPtrArrayT::kForgetAll, childCount);
-	for (i=1; i<=childCount; i++)
+	for (JIndex i=1; i<=childCount; i++)
 	{
 		childMapping.Append(nullptr);
 	}

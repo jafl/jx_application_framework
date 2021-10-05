@@ -22,15 +22,15 @@ typedef void	(*JUnitTest)();
 // must assign to unused int in order to call at load time
 #define JTEST(f)	void f(); static int unused_##f = JTestManager::Instance()->RegisterTest(f, #f); void f()
 
-#define JAssertNull(ptr)	JTestManager::Instance()->IsNull(ptr, __FILE__, __LINE__)
-#define JAssertNotNull(ptr)	JTestManager::Instance()->IsNotNull(ptr, __FILE__, __LINE__)
-#define JAssertTrue(value)	JTestManager::Instance()->IsTrue(value, __FILE__, __LINE__)
-#define JAssertFalse(value)	JTestManager::Instance()->IsFalse(value, __FILE__, __LINE__)
+#define JAssertNull(ptr)	JTestManager::IsNull(ptr, __FILE__, __LINE__)
+#define JAssertNotNull(ptr)	JTestManager::IsNotNull(ptr, __FILE__, __LINE__)
+#define JAssertTrue(value)	JTestManager::IsTrue(value, __FILE__, __LINE__)
+#define JAssertFalse(value)	JTestManager::IsFalse(value, __FILE__, __LINE__)
 
-#define JAssertNullWithMessage(ptr, msg)	JTestManager::Instance()->IsNull(ptr, __FILE__, __LINE__, msg)
-#define JAssertNotNullWithMessage(ptr, msg)	JTestManager::Instance()->IsNotNull(ptr, __FILE__, __LINE__, msg)
-#define JAssertTrueWithMessage(value, msg)	JTestManager::Instance()->IsTrue(value, __FILE__, __LINE__, msg)
-#define JAssertFalseWithMessage(value, msg)	JTestManager::Instance()->IsFalse(value, __FILE__, __LINE__, msg)
+#define JAssertNullWithMessage(ptr, msg)	JTestManager::IsNull(ptr, __FILE__, __LINE__, msg)
+#define JAssertNotNullWithMessage(ptr, msg)	JTestManager::IsNotNull(ptr, __FILE__, __LINE__, msg)
+#define JAssertTrueWithMessage(value, msg)	JTestManager::IsTrue(value, __FILE__, __LINE__, msg)
+#define JAssertFalseWithMessage(value, msg)	JTestManager::IsFalse(value, __FILE__, __LINE__, msg)
 
 #define JAssertEqual(expected, actual) \
 	JAreEqual(expected, actual, __FILE__, __LINE__)
@@ -39,10 +39,10 @@ typedef void	(*JUnitTest)();
 	JAreEqual(expected, actual, __FILE__, __LINE__, msg)
 
 #define JAssertStringsEqual(expected, actual) \
-	JTestManager::Instance()->StringsAreEqual(expected, actual, __FILE__, __LINE__)
+	JTestManager::StringsAreEqual(expected, actual, __FILE__, __LINE__)
 
 #define JAssertStringsEqualWithMessage(expected, actual, msg) \
-	JTestManager::Instance()->StringsAreEqual(expected, actual, __FILE__, __LINE__, msg)
+	JTestManager::StringsAreEqual(expected, actual, __FILE__, __LINE__, msg)
 
 #define JAssertWithin(epsilon, expected, actual) \
 	JAreWithin(epsilon, expected, actual, __FILE__, __LINE__)
@@ -51,7 +51,7 @@ typedef void	(*JUnitTest)();
 	JAreWithin(epsilon, expected, actual, __FILE__, __LINE__, msg)
 
 #define JAssertOK(err) \
-	JTestManager::Instance()->IsOK(err, __FILE__, __LINE__)
+	JTestManager::IsOK(err, __FILE__, __LINE__)
 
 class JTestManager
 {
@@ -61,23 +61,24 @@ public:
 
 	static int	Execute();
 	static void	ReportFailure(JUtf8Byte const* message, JUtf8Byte const* file, const JIndex line);
-	static void	ReportFatal(JUtf8Byte const* message, JUtf8Byte const* file, const JIndex line);
+
+	[[noreturn]] static void	ReportFatal(JUtf8Byte const* message, JUtf8Byte const* file, const JIndex line);
 
 	int	RegisterTest(JUnitTest test, const JUtf8Byte* name);
 
-	bool	IsNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	bool	IsNotNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	bool	IsTrue(const bool value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	bool	IsFalse(const bool value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	bool	IsOK(const JError& err, JUtf8Byte const* file, const JIndex line);
+	static bool	IsNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	static bool	IsNotNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	static bool	IsTrue(const bool value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	static bool	IsFalse(const bool value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
+	static bool	IsOK(const JError& err, JUtf8Byte const* file, const JIndex line);
 
-	bool	StringsAreEqual(const JString& expectedValue, const JString& actualValue,
+	static bool	StringsAreEqual(const JString& expectedValue, const JString& actualValue,
 								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	bool	StringsAreEqual(const JString& expectedValue, const JUtf8Byte* actualValue,
+	static bool	StringsAreEqual(const JString& expectedValue, const JUtf8Byte* actualValue,
 								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	bool	StringsAreEqual(const JUtf8Byte* expectedValue, const JString& actualValue,
+	static bool	StringsAreEqual(const JUtf8Byte* expectedValue, const JString& actualValue,
 								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
-	bool	StringsAreEqual(const JUtf8Byte* expectedValue, const JUtf8Byte* actualValue,
+	static bool	StringsAreEqual(const JUtf8Byte* expectedValue, const JUtf8Byte* actualValue,
 								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = nullptr);
 
 private:

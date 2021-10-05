@@ -279,10 +279,10 @@ StatsDirector::BuildWindow()
 {
 // begin JXLayout
 
-	const auto* window = jnew JXWindow(this, 500,300, JString::empty);
+	auto* window = jnew JXWindow(this, 500,300, JString::empty);
 	assert( window != nullptr );
 
-	const auto* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != nullptr );
@@ -310,7 +310,7 @@ StatsDirector::BuildWindow()
 	const JRect statsLayout_Aperture = statsEncl->GetAperture();
 	statsEncl->AdjustSize(500 - statsLayout_Aperture.width(), 90 - statsLayout_Aperture.height());
 
-	const auto* binaryLabel =
+	auto* binaryLabel =
 		jnew JXStaticText(JGetString("binaryLabel::StatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 50,20);
 	assert( binaryLabel != nullptr );
@@ -327,7 +327,7 @@ StatsDirector::BuildWindow()
 	assert( itsChooseProgramButton != nullptr );
 	itsChooseProgramButton->SetShortcuts(JGetString("itsChooseProgramButton::StatsDirector::shortcuts::statsLayout"));
 
-	const auto* argsLabel =
+	auto* argsLabel =
 		jnew JXStaticText(JGetString("argsLabel::StatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 50,20);
 	assert( argsLabel != nullptr );
@@ -344,7 +344,7 @@ StatsDirector::BuildWindow()
 	assert( itsRunProgramButton != nullptr );
 	itsRunProgramButton->SetShortcuts(JGetString("itsRunProgramButton::StatsDirector::shortcuts::statsLayout"));
 
-	const auto* blocksLabel =
+	auto* blocksLabel =
 		jnew JXStaticText(JGetString("blocksLabel::StatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 50,20);
 	assert( blocksLabel != nullptr );
@@ -355,7 +355,7 @@ StatsDirector::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,60, 90,20);
 	assert( itsAllocatedBlocksDisplay != nullptr );
 
-	const auto* bytesLabel =
+	auto* bytesLabel =
 		jnew JXStaticText(JGetString("bytesLabel::StatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 50,20);
 	assert( bytesLabel != nullptr );
@@ -366,7 +366,7 @@ StatsDirector::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,60, 90,20);
 	assert( itsAllocatedBytesDisplay != nullptr );
 
-	const auto* deallocLabel =
+	auto* deallocLabel =
 		jnew JXStaticText(JGetString("deallocLabel::StatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,60, 80,20);
 	assert( deallocLabel != nullptr );

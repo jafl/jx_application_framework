@@ -28,10 +28,7 @@ public:
 
 		protected:
 
-			Message(const JUtf8Byte* type)
-				:
-				JRTTIBase(type)
-			{ };
+			using JRTTIBase::JRTTIBase;
 	};
 
 public:

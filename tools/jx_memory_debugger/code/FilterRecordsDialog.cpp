@@ -51,15 +51,15 @@ FilterRecordsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	const auto* window = jnew JXWindow(this, 420,120, JString::empty);
+	auto* window = jnew JXWindow(this, 420,120, JString::empty);
 	assert( window != nullptr );
 
-	const auto* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::FilterRecordsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,90, 70,20);
 	assert( cancelButton != nullptr );
 
-	const auto* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::FilterRecordsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 260,90, 70,20);
 	assert( okButton != nullptr );

@@ -100,7 +100,7 @@ void
 JXKeyModifiers::SetState
 	(
 	const JIndex	i,
-	const bool	pushed
+	const bool		pushed
 	)
 {
 	assert( 1 <= i && i <= kJXKeyModifierMapCount );

@@ -448,7 +448,7 @@ JXFileListTable::FilterFile
 		for (JIndex i=rowIndex; i<=endRowIndex; i++)
 		{
 			info = itsVisibleList->GetElement(i);
-			const JString drawStr = JString(
+			const JString drawStr(
 				(itsFileList->GetElement(info.fileIndex))->GetBytes() + info.drawIndex-1,
 				JString::kNoCopy);
 			const JSize w = JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), drawStr);

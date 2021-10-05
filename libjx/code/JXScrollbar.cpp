@@ -966,8 +966,6 @@ JXScrollbar::StripMoved
 	const JCoordinate	newStart
 	)
 {
-JIndex i;
-
 	if (itsScrolltabList != nullptr && origStart != newStart)
 	{
 		JPtrArray<JXScrolltab> savedTabList(JPtrArrayT::kForgetAll);
@@ -975,7 +973,7 @@ JIndex i;
 		const JCoordinate origEnd = origStart + length-1;
 
 		const JSize tabCount = itsScrolltabList->GetElementCount();
-		for (i=tabCount; i>=1; i--)
+		for (JIndex i=tabCount; i>=1; i--)
 		{
 			JXScrolltab* tab    = itsScrolltabList->GetElement(i);
 			const JCoordinate v = tab->GetValue();

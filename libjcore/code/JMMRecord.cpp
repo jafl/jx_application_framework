@@ -161,7 +161,7 @@ JMMRecord::TypeName
 	const unsigned isArray
 	)
 {
-	return (isArray) ? "array" : "object";
+	return isArray ? "array" : "object";
 }
 
 /******************************************************************************

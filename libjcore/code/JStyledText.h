@@ -391,6 +391,14 @@ public:
 	static JListT::CompareResult
 		CompareByteIndices(const TextIndex& i, const TextIndex& j);
 
+	// JTextEditor
+
+	bool		CRMGetPrefix(TextIndex* startChar, const TextIndex& endChar,
+							 JString* linePrefix, JSize* columnCount,
+							 JIndex* ruleIndex) const;
+	TextRange	CRMMatchPrefix(const TextRange& textRange, JIndex* ruleIndex) const;
+	bool		CRMLineMatchesRest(const TextRange& range) const;
+
 protected:
 
 	bool	IsEntireWord(const JString& text, const TextRange& range) const;
@@ -510,11 +518,6 @@ private:
 							JString* firstLinePrefix, JSize* firstPrefixLength,
 							JString* restLinePrefix, JSize* restPrefixLength,
 							JIndex* returnRuleIndex) const;
-	bool		CRMGetPrefix(TextIndex* startChar, const TextIndex& endChar,
-							 JString* linePrefix, JSize* columnCount,
-							 JIndex* ruleIndex) const;
-	TextRange	CRMMatchPrefix(const TextRange& textRange, JIndex* ruleIndex) const;
-	bool		CRMLineMatchesRest(const TextRange& range) const;
 	JSize		CRMCalcColumnCount(const JString& linePrefix) const;
 	JString		CRMBuildRestPrefix(const JString& firstLinePrefix,
 								   const JIndex ruleIndex, JSize* columnCount) const;
@@ -597,13 +600,13 @@ public:
 			return itsRedrawRange;
 		}
 
-		const JInteger
+		JInteger
 		GetCharDelta() const
 		{
 			return itsCharDelta;
 		}
 
-		const JInteger
+		JInteger
 		GetByteDelta() const
 		{
 			return itsByteDelta;

@@ -707,7 +707,7 @@ JXSelectionManager::SendData1
 	itsDisplay->Synchronize();
 
 	ListenTo(itsDisplay);
-	itsDisplay->CheckForXErrors();
+	JXDisplay::CheckForXErrors();
 	StopListening(itsDisplay);
 
 	itsTargetWindow = None;

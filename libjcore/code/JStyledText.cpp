@@ -2793,7 +2793,7 @@ JStyledText::TextRange
 JStyledText::CleanWhitespace
 	(
 	const TextRange&	origRange,
-	const bool		align
+	const bool			align
 	)
 {
 	const TextIndex i1 = GetParagraphStart(origRange.GetFirst());
@@ -3331,7 +3331,7 @@ JStyledText::CRMGetRange
 }
 
 /*******************************************************************************
- CRMGetPrefix (private)
+ CRMGetPrefix
 
 	Returns the prefix to be used for each line and updates *startChar to point
 	to the first character after the prefix.
@@ -3364,7 +3364,7 @@ JStyledText::CRMGetPrefix
 }
 
 /*******************************************************************************
- CRMMatchPrefix (private)
+ CRMMatchPrefix
 
 	Returns the range of characters that qualifies as a prefix.
 
@@ -3438,7 +3438,7 @@ JStyledText::CRMMatchPrefix
 }
 
 /*******************************************************************************
- CRMLineMatchesRest (private)
+ CRMLineMatchesRest
 
 	Returns true if the given range is matched by any "rest" pattern.
 	Used at beginning of CRMGetRange as part of check if line is empty.

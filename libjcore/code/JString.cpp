@@ -2905,14 +2905,12 @@ int i;
 
 void JInsertSubstring(char s1[],short pos1,const char *s2,short pos2,short pos3)
 {
-short i,len1,len2;
-
-	len1=strlen(s1); len2=strlen(s2);
+	short len1=strlen(s1), len2=strlen(s2);
 	if (pos1==-1 || pos1>len1) pos1=len1;
 	if (pos2<0) pos2=0;
 	if (pos3==-1 || pos3>len2) pos3=len2;
 	JShiftSubstring(s1,pos1,-1,pos3-pos2);
-	for (i=pos2;i<pos3;i++) s1[pos1+i-pos2]=*(s2+i);
+	for (short i=pos2;i<pos3;i++) s1[pos1+i-pos2]=*(s2+i);
 }
 
 /*-----------------------------------------------------------------------------
@@ -2957,11 +2955,9 @@ short i,len;
 
 short JLocateSubstring(const char *s1,const char *s2)
 {
-short i,len1,len2;
+	short len1=strlen(s1), len2=strlen(s2);
 
-	len1=strlen(s1); len2=strlen(s2);
-
-	for (i=0;i<=len1-len2;i++)
+	for (short i=0;i<=len1-len2;i++)
 		if (strncmp(s1+i,s2,len2)==0) return i;
 
 	return -1;

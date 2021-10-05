@@ -26,8 +26,6 @@ public:
 	bool		Evaluate(JComplex* result) const override;
 	void		Print(std::ostream& output) const override;
 	JFunction*	Copy() const override;
-
-	void	SetVariableIndex(const JIndex variableIndex) override;
 };
 
 #endif

@@ -156,8 +156,8 @@ JXFSInputBase::Receive
 	{
 		JIndex i;
 		WantInput(true,
-				  GetCaretLocation(&i) && i == GetText()->GetText().GetCharacterCount()+1),
-				  WantsModifiedTab();
+				  GetCaretLocation(&i) && i == GetText()->GetText().GetCharacterCount()+1,
+				  WantsModifiedTab());
 	}
 }
 

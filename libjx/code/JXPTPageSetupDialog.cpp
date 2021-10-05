@@ -85,22 +85,22 @@ JXPTPageSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	const auto* window = jnew JXWindow(this, 370,190, JString::empty);
+	auto* window = jnew JXWindow(this, 370,190, JString::empty);
 	assert( window != nullptr );
 
-	const auto* printCmdLabel =
+	auto* printCmdLabel =
 		jnew JXStaticText(JGetString("printCmdLabel::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 100,19);
 	assert( printCmdLabel != nullptr );
 	printCmdLabel->SetToLabel();
 
-	const auto* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,160, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXPTPageSetupDialog::shortcuts::JXLayout"));
 
-	const auto* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 70,160, 70,20);
 	assert( cancelButton != nullptr );
@@ -115,13 +115,13 @@ JXPTPageSetupDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,60, 40,20);
 	assert( itsWidth != nullptr );
 
-	const auto* widthLabel =
+	auto* widthLabel =
 		jnew JXStaticText(JGetString("widthLabel::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 80,20);
 	assert( widthLabel != nullptr );
 	widthLabel->SetToLabel();
 
-	const auto* heightLabel =
+	auto* heightLabel =
 		jnew JXStaticText(JGetString("heightLabel::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 80,20);
 	assert( heightLabel != nullptr );
@@ -132,13 +132,13 @@ JXPTPageSetupDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,80, 40,20);
 	assert( itsHeight != nullptr );
 
-	const auto* charsLabel =
+	auto* charsLabel =
 		jnew JXStaticText(JGetString("charsLabel::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,60, 70,20);
 	assert( charsLabel != nullptr );
 	charsLabel->SetToLabel();
 
-	const auto* linesLabel =
+	auto* linesLabel =
 		jnew JXStaticText(JGetString("linesLabel::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,80, 70,20);
 	assert( linesLabel != nullptr );

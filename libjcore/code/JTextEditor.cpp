@@ -3094,14 +3094,15 @@ JTextEditor::GoToBeginningOfLine()
 
 		TextIndex firstTextChar = firstChar;
 		JString linePrefix;
-//		JSize prefixLength;
-//		JIndex ruleIndex = 0;
-		if (lastChar.charIndex < firstChar.charIndex || 0)
-//			!CRMGetPrefix(&firstTextChar, lastChar,
-//						  &linePrefix, &prefixLength, &ruleIndex) ||
-//			CRMLineMatchesRest(JIndexRange(firstChar, lastChar)))
+		JSize prefixLength;
+		JIndex ruleIndex = 0;
+		TextIndex beyondLastChar = itsText->AdjustTextIndex(lastChar, +1);
+		if (lastChar.charIndex < firstChar.charIndex ||
+			!itsText->CRMGetPrefix(&firstTextChar, lastChar,
+								   &linePrefix, &prefixLength, &ruleIndex) ||
+			itsText->CRMLineMatchesRest(TextRange(firstChar, beyondLastChar)))
 		{
-			firstTextChar = itsText->AdjustTextIndex(lastChar, +1);
+			firstTextChar = beyondLastChar;
 		}
 
 		caretLoc.location =

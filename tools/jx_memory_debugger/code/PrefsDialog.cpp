@@ -54,28 +54,28 @@ PrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	const auto* window = jnew JXWindow(this, 420,100, JString::empty);
+	auto* window = jnew JXWindow(this, 420,100, JString::empty);
 	assert( window != nullptr );
 
-	const auto* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::PrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,70, 70,20);
 	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::PrefsDialog::shortcuts::JXLayout"));
 
-	const auto* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::PrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 260,70, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::PrefsDialog::shortcuts::JXLayout"));
 
-	const auto* openFileLabel =
+	auto* openFileLabel =
 		jnew JXStaticText(JGetString("openFileLabel::PrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 110,20);
 	assert( openFileLabel != nullptr );
 	openFileLabel->SetToLabel();
 
-	const auto* openFileHint =
+	auto* openFileHint =
 		jnew JXStaticText(JGetString("openFileHint::PrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,40, 270,20);
 	assert( openFileHint != nullptr );

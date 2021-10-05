@@ -132,17 +132,3 @@ JVariableValue::Print
 {
 	PrintVariable(output);
 }
-
-/******************************************************************************
- SetVariableIndex
-
- ******************************************************************************/
-
-void
-JVariableValue::SetVariableIndex
-	(
-	const JIndex variableIndex
-	)
-{
-	JFunctionWithVar::SetVariableIndex(variableIndex);
-}

@@ -97,10 +97,10 @@ JX2DCurveOptionsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	const auto* window = jnew JXWindow(this, 370,260, JString::empty);
+	auto* window = jnew JXWindow(this, 370,260, JString::empty);
 	assert( window != nullptr );
 
-	const auto* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 140,240);
 	assert( scrollbarSet != nullptr );
@@ -140,7 +140,7 @@ JX2DCurveOptionsDialog::BuildWindow()
 	assert( itsShowPointsRB != nullptr );
 	itsShowPointsRB->SetShortcuts(JGetString("itsShowPointsRB::JX2DCurveOptionsDialog::shortcuts::JXLayout"));
 
-	const auto* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DCurveOptionsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,230, 70,20);
 	assert( okButton != nullptr );
