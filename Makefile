@@ -26,6 +26,7 @@ END_DIR   = ) fi
 .PHONY : initial_build
 initial_build:
 	@if { test -d misc/reflex; } then \
+       ls -lR misc/reflex; \
        echo Please authorize sudo access for installing reflex...; \
        sudo echo sudo access authorized...; \
        cd misc/reflex; \
