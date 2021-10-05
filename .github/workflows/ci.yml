@@ -19,13 +19,16 @@ jobs:
         run: |
           echo SONAR_CACHE_PATH=$HOME/sonar_output >> $GITHUB_ENV
           echo REFLEX_VERSION=`make -f Makefile-versions reflex` >> $GITHUB_ENV
+          echo FORCE_CACHE_UPDATE=${RANDOM}${RANDOM} >> $GITHUB_ENV
 
       - name: Sonar data cache
         id: cache-sonar-data
         uses: actions/cache@v2
         with:
           path: ${{ env.SONAR_CACHE_PATH }}
-          key: ${{ runner.os }}-sonar-cache
+          key: ${{ runner.os }}-sonar-cache-${{ env.FORCE_CACHE_UPDATE }}
+          restore-keys: |
+            ${{ runner.os }}-sonar-cache-
 
       - name: RE/flex cache
         id: cache-reflex
