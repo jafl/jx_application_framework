@@ -45,9 +45,6 @@ initial_build:
        ${JMAKE} -w Makefiles; \
      fi
 	@cd libjcore; ${JMAKE} COMPILE_STRINGS=0
-
-.PHONY : commented
-commented:
 	@cd tools/compile_jstrings; ${JMAKE} install
 	@cd libjcore; ${JMAKE} jx.test.skip=true
 	@for dir in libjx libjfs libjexpr libj2dplot; do \
