@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/jafl/jx_application_framework.svg?branch=utf8)](http://travis-ci.org/jafl/jx_application_framework)
+[![Github CI](https://github.com/jafl/jx_application_framework/actions/workflows/ci.yml/badge.svg?branch=utf8)](https://github.com/jafl/jx_application_framework/actions/workflows/ci.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=utf8&project=jafl_jx_application_framework&metric=alert_status)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework&branch=utf8)
 
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/jafl/jx_application_framework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jafl/jx_application_framework/alerts/)
