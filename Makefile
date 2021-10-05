@@ -31,14 +31,10 @@ initial_build:
        sudo echo sudo access authorized...; \
        cd misc/reflex; \
        if { ! test -f misc/reflex/lib/libreflex.a;  } then \
-          stat misc/reflex/lib/libreflex.a; \
-          #./clean.sh; ./build.sh; \
+          ./clean.sh; ./build.sh; \
        fi; \
        sudo ./allinstall.sh; \
      fi
-
-.PHONY : commented
-commented:
 	@if { ! test -h ACE/ACE_wrappers && ! test -e ACE/ACE_wrappers/ace/libACE.a; } then \
        cd ACE; ${JMAKE} install; \
      fi
@@ -50,6 +46,9 @@ commented:
        ${JMAKE} -w Makefiles; \
      fi
 	@cd libjcore; ${JMAKE} COMPILE_STRINGS=0
+
+.PHONY : commented
+commented:
 	@cd tools/compile_jstrings; ${JMAKE} install
 	@cd libjcore; ${JMAKE} jx.test.skip=true
 	@for dir in libjx libjfs libjexpr libj2dplot; do \
