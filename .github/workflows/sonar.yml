@@ -18,15 +18,15 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo SONAR_CACHE_PATH=$HOME/.sonar >> $GITHUB_ENV
+          echo SONAR_CACHE_PATH=$HOME/sonar_output >> $GITHUB_ENV
           echo REFLEX_VERSION=`make -f Makefile-versions reflex` >> $GITHUB_ENV
 
-      - name: Sonar cache
-        id: cache-sonar
+      - name: Sonar data cache
+        id: cache-sonar-data
         uses: actions/cache@v2
         with:
           path: ${{ env.SONAR_CACHE_PATH }}
-          key: ${{ runner.os }}-sonar
+          key: ${{ runner.os }}-sonar-data
 
       - name: RE/flex cache
         id: cache-reflex
@@ -64,20 +64,15 @@ jobs:
 
       - name: Run build-wrapper
         run: |
-          echo $PATH;
-          ls -lR $HOME/.sonar/
           ./configure
           export LC_ALL=en_US.UTF-8
           export LANG=en_US.UTF-8
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make default
 
       - name: Run sonar-scanner
+        if: ${{ false }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
-
-      - name: Check sonar cache
-        run: |
-          ls -lR /home/runner/sonar_output
