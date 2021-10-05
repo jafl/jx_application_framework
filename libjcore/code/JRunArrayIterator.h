@@ -82,10 +82,6 @@ private:
 	void	PrivateMoveTo(const JCursorPosition origPosition,
 						  const JIteratorPosition newPosition, const JIndex index,
 						  const bool wasAtLimit);
-
-	// not allowed
-
-	const JRunArrayIterator<T>& operator=(const JRunArrayIterator<T>& source);
 };
 
 #endif

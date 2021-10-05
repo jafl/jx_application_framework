@@ -78,6 +78,7 @@ JArray<T>::JArray
 	(
 	JArray<T>&& dyingSource
 	)
+	noexcept
 	:
 	JList<T>(dyingSource),
 	itsElements(dyingSource.itsElements),
@@ -104,7 +105,7 @@ JArray<T>::~JArray()
  ******************************************************************************/
 
 template <class T>
-const JArray<T>&
+JArray<T>&
 JArray<T>::operator=
 	(
 	const JArray<T>& source

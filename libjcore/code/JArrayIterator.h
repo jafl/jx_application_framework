@@ -52,12 +52,6 @@ protected:
 private:
 
 	JArray<T>*	itsArray;
-
-private:
-
-	// not allowed
-
-	const JArrayIterator<T>& operator=(const JArrayIterator<T>& source);
 };
 
 #endif

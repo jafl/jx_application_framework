@@ -74,6 +74,7 @@ JPtrArray<T>::JPtrArray
 	(
 	JPtrArray<T>&& dyingSource
 	)
+	noexcept
 	:
 	JArray<T*>(std::move(dyingSource)),
 	itsCleanUpAction(dyingSource.itsCleanUpAction)

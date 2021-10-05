@@ -20,11 +20,11 @@ public:
 
 	JArray(const JSize blockSize = 10);
 	JArray(const JArray<T>& source);
-	JArray(JArray<T>&& dyingSource);
+	JArray(JArray<T>&& dyingSource) noexcept;
 
 	virtual ~JArray();
 
-	const JArray<T>& operator=(const JArray<T>& source);
+	JArray<T>& operator=(const JArray<T>& source);
 
 	explicit operator const T*() const;
 

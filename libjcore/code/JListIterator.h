@@ -94,7 +94,7 @@ private:
 
 	// not allowed
 
-	const JListIterator<T>& operator=(const JListIterator<T>& source);
+	JListIterator<T>& operator=(const JListIterator<T>&) = delete;
 };
 
 #endif
