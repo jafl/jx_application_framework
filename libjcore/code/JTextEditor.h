@@ -1281,7 +1281,7 @@ JTextEditor::GetLineHeight
 		}
 	else
 		{
-		JRunArrayIterator<LineGeometry> iter(*itsLineGeom, kJIteratorStartBefore, lineIndex);
+		JRunArrayIterator iter(*itsLineGeom, kJIteratorStartBefore, lineIndex);
 		LineGeometry geom;
 		iter.Next(&geom);
 		return geom.height;
@@ -1500,7 +1500,7 @@ JTextEditor::GetCurrentFont()
 {
 	if (!itsSelection.IsEmpty())
 		{
-		JRunArrayIterator<JFont> iter(itsText->GetStyles(), kJIteratorStartBefore, itsSelection.charRange.first);
+		JRunArrayIterator iter(itsText->GetStyles(), kJIteratorStartBefore, itsSelection.charRange.first);
 		JFont f;
 		iter.Next(&f);
 		return f;

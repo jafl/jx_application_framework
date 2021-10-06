@@ -78,7 +78,7 @@ JXStyledText::NeedsToAdjustFontToDisplayGlyphs
 	}
 
 	JStringIterator siter(text);
-	JRunArrayIterator<JFont> fiter(style);
+	JRunArrayIterator fiter(style);
 
 	JUtf8Character c;
 	JFont f;

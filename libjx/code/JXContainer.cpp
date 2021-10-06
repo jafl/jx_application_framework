@@ -2179,7 +2179,7 @@ JXContainer::FTCBuildLayout
 		GetFTCLog() << "FTCBuildLayout failed with " << objList.GetElementCount() << " roots" << std::endl;
 		if (theDebugFTCFlag)
 		{
-			JPtrArrayIterator<JXContainer> iter(objList);
+			JPtrArrayIterator iter(objList);
 			JXContainer* obj;
 			while (iter.Next(&obj))
 			{
@@ -2408,7 +2408,7 @@ JXContainer::FTCWillOverlapNonincludedWidget
 		obj1->GetFrameForFTC(),
 		obj2->GetFrameForFTC());
 
-	JPtrArrayIterator<JXContainer> matchedIter(matchedList);
+	JPtrArrayIterator matchedIter(matchedList);
 	JXContainer* obj;
 	while (matchedIter.Next(&obj))
 	{
@@ -2421,7 +2421,7 @@ JXContainer::FTCWillOverlapNonincludedWidget
 		GetFTCLog() << "covering: " << covering << std::endl;
 	}
 
-	JPtrArrayIterator<JXContainer> iter(fullObjList);
+	JPtrArrayIterator iter(fullObjList);
 	JRect r;
 	while (iter.Next(&obj))
 	{
@@ -2480,7 +2480,7 @@ JXContainer::FTCTrimBlockedMatches
 
 	// find blockers
 
-	JPtrArrayIterator<JXContainer> allObjIter(fullObjList);
+	JPtrArrayIterator allObjIter(fullObjList);
 	JIntRange intersection;
 	while (allObjIter.Next(&obj))
 	{

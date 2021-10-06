@@ -237,7 +237,7 @@ JXStringList::SetStyles
 	const JSize count = GetRowCount();
 	assert( styleList.GetElementCount() == count );
 
-	JRunArrayIterator<JFontStyle> iter(styleList);
+	JRunArrayIterator iter(styleList);
 
 	JFontStyle style;
 	JIndex i = 1;

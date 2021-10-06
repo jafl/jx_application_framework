@@ -1923,7 +1923,7 @@ JTable::GetCellBoundaries
 	)
 	const
 {
-	JRunArrayIterator<JCoordinate> iter(lengths, kJIteratorStartBefore, index);
+	JRunArrayIterator iter(lengths, kJIteratorStartBefore, index);
 	JCoordinate v;
 	iter.Next(&v);
 

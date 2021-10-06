@@ -399,7 +399,7 @@ JXDisplay::CloseAllOtherWindows
 	JXWindow* window
 	)
 {
-	JArrayIterator<WindowInfo> iter(*itsWindowList);
+	JArrayIterator iter(*itsWindowList);
 
 	WindowInfo info;
 	while (iter.Next(&info))
