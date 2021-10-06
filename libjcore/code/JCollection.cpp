@@ -72,7 +72,7 @@ JCollection::JCollection
 
  ******************************************************************************/
 
-const JCollection&
+JCollection&
 JCollection::operator=
 	(
 	const JCollection& source

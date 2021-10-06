@@ -46,13 +46,6 @@ private:
 	JSize					itsAllocatedBytes;
 	JHashTable<JMMRecord>*	itsDeletedTable;
 	JSize					itsDeletedCount;	// used if itsDeletedTable==nullptr
-
-private:
-
-	// not allowed
-
-	JMMHashTable(const JMMHashTable& source);
-	const JMMHashTable& operator=(const JMMHashTable& source);
 };
 
 #endif

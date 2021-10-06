@@ -376,7 +376,7 @@ JPrefsManager::Open
 		}
 	}
 
-	else if (err == JPrefsFile::kFileAlreadyOpen && itsEraseFileIfOpenFlag &&
+	else if (err == JFileArray::kFileAlreadyOpen && itsEraseFileIfOpenFlag &&
 			 DeletePrefsFile(*itsFileName) == kJNoError)
 	{
 		return Open(file, allowPrevVers);		// now it will work

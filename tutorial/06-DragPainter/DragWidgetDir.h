@@ -23,11 +23,6 @@ public:
 private:
 
 	void BuildWindow();
-
-	// not allowed
-
-	DragWidgetDir(const DragWidgetDir& source);
-	const DragWidgetDir& operator=(const DragWidgetDir& source);
 };
 
 #endif

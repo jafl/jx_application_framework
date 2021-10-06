@@ -44,8 +44,8 @@ private:
 	// These are not safe because the CleanUpAction must not be kDeleteAllAs*
 	// for both the original and the copy.
 
-	JPtrStack(const JPtrStack<T,S>& source);
-	const JPtrStack<T,S>& operator=(const JPtrStack<T,S>& source);
+	JPtrStack(const JPtrStack<T,S>&) = delete;
+	JPtrStack<T,S>& operator=(const JPtrStack<T,S>&) = delete;
 };
 
 #include "JPtrStack.tmpl"

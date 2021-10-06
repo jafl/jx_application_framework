@@ -58,18 +58,13 @@ private:
 
 private:
 
-	void		BuildWindow(const JSize argc, char** argv);
+	void	BuildWindow(const JSize argc, char** argv);
 	bool	WriteTemplate();
-	void		CopyAndAdjustTemplateFiles(const JString& sourceDir,
-										   const JString& targetDir,
-										   const JPtrArray<JString>& value);
+	void	CopyAndAdjustTemplateFiles(const JString& sourceDir,
+									   const JString& targetDir,
+									   const JPtrArray<JString>& value);
 
 	void	UpdatePath(JString* s);
-
-	// not allowed
-
-	MainDialog(const MainDialog& source);
-	const MainDialog& operator=(const MainDialog& source);
 };
 
 #endif

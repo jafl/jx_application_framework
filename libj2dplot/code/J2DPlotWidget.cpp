@@ -91,9 +91,9 @@ J2DPlotWidget::J2DPlotWidget
 	itsCurves = jnew JPtrArray<J2DPlotDataBase>(JPtrArrayT::kForgetAll);
 	assert(itsCurves != nullptr);
 
-	for (JUnsignedOffset i=0; i<kSymbolCount; i++)
+	for (auto& v : itsSymbolUsage)
 	{
-		itsSymbolUsage[i] = 0;
+		v = 0;
 	}
 
 	itsFontName					= JFontManager::GetDefaultFontName();
@@ -3704,9 +3704,9 @@ J2DPlotWidget::PWWriteCurveSetup
 		output << ' ' << itsColorUsage->GetElement(i);
 	}
 
-	for (JUnsignedOffset i=0; i<kSymbolCount; i++)
+	for (auto v : itsSymbolUsage)
 	{
-		output << ' ' << itsSymbolUsage[i];
+		output << ' ' << v;
 	}
 
 	output << ' ';

@@ -118,7 +118,7 @@ JXChooseMonoFont::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsFontMenu && message.Is(JXXFontMenu::kNameChanged))
+	if (sender == itsFontMenu && message.Is(JXFontNameMenu::kNameChanged))
 	{
 		StopListening(itsSizeMenu);
 		UpdateMenus(true);

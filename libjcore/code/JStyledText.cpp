@@ -1556,7 +1556,7 @@ JStyledText::SetFont
 	FontIterator fIter(fontList);
 	FontIterator sIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
 
-	while (fIter.Next(&f) && sIter.SetNext(f)) { }
+	while (fIter.Next(&f) && sIter.SetNext(f)) { /* copy to itsStyles */ }
 
 	AdjustFontToDisplayGlyphs(range, itsText, itsStyles);
 

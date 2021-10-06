@@ -10,8 +10,7 @@
 #ifndef _H_GFilterDragData
 #define _H_GFilterDragData
 
-
-#include <JXSelectionManager.h>
+#include <JXSelectionData.h>
 
 class GFilterDragData : public JXSelectionData
 {
@@ -22,18 +21,10 @@ public:
 
 protected:
 
-			virtual void		AddTypes(const Atom selectionName);
-			virtual bool	ConvertData(const Atom requestType, Atom* returnType,
-											unsigned char** data, JSize* dataLength,
-											JSize* bitsPerBlock) const;
-private:
-
-	// not allowed
-
-	GFilterDragData(const GFilterDragData& source);
-	const GFilterDragData& operator=(const GFilterDragData& source);
-
-public:
+	void	AddTypes(const Atom selectionName) override;
+	bool	ConvertData(const Atom requestType, Atom* returnType,
+						unsigned char** data, JSize* dataLength,
+						JSize* bitsPerBlock) const override;
 };
 
 #endif

@@ -132,7 +132,7 @@ JVector::~JVector()
 
  ******************************************************************************/
 
-const JVector&
+JVector&
 JVector::operator=
 	(
 	const JVector& source

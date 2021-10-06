@@ -21,13 +21,6 @@ public:
 	bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,
 									   const JTextEditor::CaretMotion motion,
 									   const bool deleteToTabStop) override;
-
-private:
-
-	// not allowed
-
-	JTEDefaultKeyHandler(const JTEDefaultKeyHandler& source);
-	const JTEDefaultKeyHandler& operator=(const JTEDefaultKeyHandler& source);
 };
 
 #endif

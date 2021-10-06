@@ -27,33 +27,33 @@ public:
 	virtual ~DNDWidget();
 
 	void	HandleKeyPress(const int key,				
-								   const JXKeyModifiers& modifiers) override;
+						   const JXKeyModifiers& modifiers) override;
 	
 protected:
 	
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
-								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers) override;
+						  const JXButtonStates& buttonStates,
+						  const JXKeyModifiers& modifiers) override;
 
 	void	GetSelectionData(JXSelectionData* data,
-									 const JCharacter* id) override;
+							 const JCharacter* id) override;
 
 	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const JPoint& pt, const Time time,
-									   const JXWidget* source) override;
+						   const JPoint& pt, const Time time,
+						   const JXWidget* source) override;
 
-	virtual void 	HandleDNDHere(const JPoint& pt, const JXWidget* source);
+	void 	HandleDNDHere(const JPoint& pt, const JXWidget* source) override;
 	void 	HandleDNDLeave() override;
-	virtual void 	HandleDNDDrop(	const JPoint& pt, const JArray<Atom>& typeList,
-									const Atom 	action, const Time time, 
-									const JXWidget* source);
+	void 	HandleDNDDrop(	const JPoint& pt, const JArray<Atom>& typeList,
+							const Atom 	action, const Time time, 
+							const JXWidget* source) override;
 	
 
 private:
@@ -67,13 +67,6 @@ private:
 	JPoint	itsPrevPt;
 	
 	JArray<JPoint>* itsPoints;
-	
-private:
-
-	// not allowed
-
-	DNDWidget(const DNDWidget& source);
-	const DNDWidget& operator=(const DNDWidget& source);
 };
 
 #endif

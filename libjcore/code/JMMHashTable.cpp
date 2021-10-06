@@ -202,7 +202,7 @@ JMMHashTable::StreamAllocationSizeHistogram
 	const
 {
 	JSize histo[ JMemoryManager::kHistogramSlotCount ];
-	bzero(histo, sizeof(histo));
+	memset(histo, 0, sizeof(histo));
 
 	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
 	while ( cursor.NextFull() )

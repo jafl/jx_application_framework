@@ -2235,7 +2235,7 @@ ftcGetInterval
 #define ftcReparentCell(cell,newParent) \
 	cell->itsEnclosure->RemoveEnclosedObject(cell); \
 	cell->itsEnclosure = newParent; \
-	cell->itsEnclosure->AddEnclosedObject(cell);
+	cell->itsEnclosure->AddEnclosedObject(cell)
 
 JXFTCCell*
 JXContainer::FTCGroupAlignedObjects

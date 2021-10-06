@@ -23,7 +23,7 @@ JWaitForReturn()
 	std::cout << std::endl << "Press return to continue...";
 
 	std::cin.clear();
-	while (std::cin.get() != '\n') { };
+	while (std::cin.get() != '\n') { /* read until return */ };
 
 	std::cout << std::endl;
 }

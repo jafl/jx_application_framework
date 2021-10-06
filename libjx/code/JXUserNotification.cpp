@@ -30,7 +30,7 @@
 
 #undef assert
 
-static int __jXUNassert(const char*, const char*, int);
+[[noreturn]] static int __jXUNassert(const char*, const char*, int);
 
 #ifdef NDEBUG
 	#define assert(x)	((void) 0)
@@ -282,5 +282,4 @@ __jXUNassert
 {
 	fprintf(stderr, "Assertion failed: %s, file %s, line %d\n", expr, file, line);
 	abort();
-	return 0;	// so the compiler doesn't complain
 }

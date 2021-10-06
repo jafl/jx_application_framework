@@ -48,13 +48,6 @@ private:
 	JPoint	itsPrevPt;
 	
 	JArray<JPoint>* itsPoints;
-	
-private:
-
-	// not allowed
-
-	DragWidget(const DragWidget& source);
-	const DragWidget& operator=(const DragWidget& source);
 };
 
 #endif

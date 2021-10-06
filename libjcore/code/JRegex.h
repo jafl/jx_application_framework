@@ -41,7 +41,7 @@ public:
 	virtual ~JRegex();
 
 	JRegex(const JRegex& source);
-	const JRegex& operator=(const JRegex& source);
+	JRegex& operator=(const JRegex& source);
 
 // Setting and examining patterns
 

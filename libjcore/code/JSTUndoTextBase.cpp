@@ -58,7 +58,7 @@ JSTUndoTextBase::~JSTUndoTextBase()
 void
 JSTUndoTextBase::UndoText
 	(
-	const JStyledText::TextRange range
+	const JStyledText::TextRange& range
 	)
 {
 	JStyledText* text = GetText();

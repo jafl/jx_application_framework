@@ -21,13 +21,6 @@ public:
 	virtual ~JCreateTextPG();
 
 	virtual JProgressDisplay* New();
-
-private:
-
-	// not allowed
-
-	JCreateTextPG(const JCreateTextPG& source);
-	const JCreateTextPG& operator=(const JCreateTextPG& source);
 };
 
 #endif

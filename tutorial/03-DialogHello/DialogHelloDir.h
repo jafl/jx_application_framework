@@ -40,11 +40,6 @@ private:
 	void HandleTextMenu(const JIndex index);
 	void SetupInputDialog();
 	void GetNewTextFromDialog();
-
-	// not allowed
-
-	DialogHelloDir(const DialogHelloDir& source);
-	const DialogHelloDir& operator=(const DialogHelloDir& source);
 };
 
 #endif

@@ -40,8 +40,8 @@ private:
 
 	// not allowed
 
-	JStringMapCursor(const JStringMapCursor& source);
-	const JStringMapCursor& operator=(const JStringMapCursor& source);
+	JStringMapCursor(const JStringMapCursor&) = delete;
+	JStringMapCursor& operator=(const JStringMapCursor&) = delete;
 };
 
 /******************************************************************************

@@ -32,7 +32,7 @@ public:
 
 	// Accept default copy constructor and assignment operator
 	// JKLRand(const JKLRand& source);
-	// const JKLRand& operator=(const JKLRand& source);
+	// JKLRand& operator=(const JKLRand& source);
 
 // random ints
 

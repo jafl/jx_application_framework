@@ -21,13 +21,6 @@ public:
 protected:
 
 	void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
-
-private:
-
-	// not allowed
-
-	TestPrefsManager(const TestPrefsManager& source);
-	const TestPrefsManager& operator=(const TestPrefsManager& source);
 };
 
 #endif

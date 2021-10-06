@@ -154,7 +154,7 @@ JDirEntry::~JDirEntry()
 
  ******************************************************************************/
 
-const JDirEntry&
+JDirEntry&
 JDirEntry::operator=
 	(
 	const JDirEntry& source

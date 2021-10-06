@@ -131,7 +131,7 @@ JBroadcaster::~JBroadcaster()
 
  ******************************************************************************/
 
-const JBroadcaster&
+JBroadcaster&
 JBroadcaster::operator=
 	(
 	const JBroadcaster& source

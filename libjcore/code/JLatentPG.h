@@ -38,8 +38,8 @@ public:
 	bool	IncrementProgress(const JString& message,
 										  const JSize delta) override;
 	bool	ProcessContinuing() override;
-	void		ProcessFinished() override;
-	void		DisplayBusyCursor() override;
+	void	ProcessFinished() override;
+	void	DisplayBusyCursor() override;
 
 protected:
 
@@ -52,7 +52,7 @@ protected:
 private:
 
 	JProgressDisplay*	itsPG;
-	bool			itsOwnsPGFlag;
+	bool				itsOwnsPGFlag;
 	JString				itsMessage;
 
 	time_t	itsStartTime;
@@ -65,11 +65,6 @@ private:
 	void	StartInternalProcess();
 	int		TimeToStart() const;
 	int		TimeToUpdate() const;
-
-	// not allowed
-
-	JLatentPG(const JLatentPG& source);
-	const JLatentPG& operator=(const JLatentPG& source);
 };
 
 

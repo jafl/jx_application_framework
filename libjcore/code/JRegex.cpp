@@ -149,7 +149,7 @@ JRegex::~JRegex()
 
  *****************************************************************************/
 
-const JRegex&
+JRegex&
 JRegex::operator=
 	(
 	const JRegex& source

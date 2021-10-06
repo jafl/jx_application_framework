@@ -91,10 +91,10 @@ public:
 	void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line) noexcept;
 	void* operator new(size_t sz, const bool forceShallow) noexcept;
 
-	const JString& operator=(const JString& str);
-	const JString& operator=(const JUtf8Byte* str);
-	const JString& operator=(const std::string& str);
-	const JString& operator=(const JUtf8Character& c);
+	JString& operator=(const JString& str);
+	JString& operator=(const JUtf8Byte* str);
+	JString& operator=(const std::string& str);
+	JString& operator=(const JUtf8Character& c);
 
 	JString& operator+=(const JString& str);
 	JString& operator+=(const JUtf8Byte* str);
@@ -1467,7 +1467,7 @@ JString::Set
 
  ******************************************************************************/
 
-inline const JString&
+inline JString&
 JString::operator=
 	(
 	const JString& source
@@ -1482,7 +1482,7 @@ JString::operator=
 	return *this;
 }
 
-inline const JString&
+inline JString&
 JString::operator=
 	(
 	const JUtf8Byte* str
@@ -1492,7 +1492,7 @@ JString::operator=
 	return *this;
 }
 
-inline const JString&
+inline JString&
 JString::operator=
 	(
 	const std::string& str
@@ -1502,7 +1502,7 @@ JString::operator=
 	return *this;
 }
 
-inline const JString&
+inline JString&
 JString::operator=
 	(
 	const JUtf8Character& c

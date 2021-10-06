@@ -281,7 +281,7 @@ JDirInfo::~JDirInfo()
 
  ******************************************************************************/
 
-const JDirInfo&
+JDirInfo&
 JDirInfo::operator=
 	(
 	const JDirInfo& source

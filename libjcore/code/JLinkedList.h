@@ -42,7 +42,7 @@ public:
 
 	virtual ~JLinkedList();
 
-	const JLinkedList<T>& operator=(const JLinkedList<T>& source);
+	JLinkedList<T>& operator=(const JLinkedList<T>& source);
 
 	virtual T		GetFirstElement() const;
 	virtual T		GetLastElement() const;

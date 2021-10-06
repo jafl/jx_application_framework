@@ -354,7 +354,7 @@ JXVertDockPartition::Receive
 	{
 		UpdateDockMenu();
 	}
-	else if (sender == itsDockMenu && message.Is(JXTextMenu::kItemSelected))
+	else if (sender == itsDockMenu && message.Is(JXMenu::kItemSelected))
 	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);

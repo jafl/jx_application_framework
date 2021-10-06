@@ -132,7 +132,7 @@ JFontManager::GetFont
 	(
 	const JString&		name,
 	const JSize			origSize,
-	const JFontStyle	style
+	const JFontStyle&	style
 	)
 {
 	const JSize size = origSize > 0 ? origSize : theDefaultFontSize;

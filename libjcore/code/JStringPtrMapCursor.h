@@ -24,13 +24,6 @@ public:
 
 	JStringPtrMapCursor(const JStringPtrMap<V>* ptrMap);
 	virtual ~JStringPtrMapCursor();
-
-private:
-
-	// not allowed
-
-	JStringPtrMapCursor(const JStringPtrMapCursor& source);
-	const JStringPtrMapCursor& operator=(const JStringPtrMapCursor& source);
 };
 
 #endif

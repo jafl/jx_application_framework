@@ -45,8 +45,8 @@ private:
 	// These are not safe because the CleanUpAction must not be kDeleteAllAs*
 	// for both the original and the copy.
 
-	JPtrQueue(const JPtrQueue<T,S>& source);
-	const JPtrQueue<T,S>& operator=(const JPtrQueue<T,S>& source);
+	JPtrQueue(const JPtrQueue<T,S>&) = delete;
+	JPtrQueue<T,S>& operator=(const JPtrQueue<T,S>&) = delete;
 };
 
 #include "JPtrQueue.tmpl"

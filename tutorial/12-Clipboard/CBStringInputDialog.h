@@ -27,16 +27,11 @@ public:
 
 private:
 
-    JXInputField* itsText;
+	JXInputField* itsText;
 
 private:
 
 	void	BuildWindow();
-
-	// not allowed
-
-	CBStringInputDialog(const CBStringInputDialog& source);
-	const CBStringInputDialog& operator=(const CBStringInputDialog& source);
 };
 
 #endif

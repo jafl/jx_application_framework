@@ -35,8 +35,8 @@ private:
 
 	// not allowed
 
-	JInterpolate(const JInterpolate& source);
-	const JInterpolate& operator=(const JInterpolate& source);
+	JInterpolate(const JInterpolate&) = delete;
+	JInterpolate& operator=(const JInterpolate&) = delete;
 };
 
 #endif

@@ -52,13 +52,6 @@ public:
 							const JPolygon& poly) override;
 
 	void	Image(const JImage& image, const JRect& srcRect, const JRect& destRect) override;
-
-private:
-
-	// not allowed
-
-	TestPainter(const TestPainter& source);
-	const TestPainter& operator=(const TestPainter& source);
 };
 
 #endif

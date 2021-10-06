@@ -38,11 +38,6 @@ private:
 	void HandleActionsMenu(const JIndex index);
 	
 	void BuildWindow();
-
-	// not allowed
-
-	UndoWidgetDir(const UndoWidgetDir& source);
-	const UndoWidgetDir& operator=(const UndoWidgetDir& source);
 };
 
 #endif

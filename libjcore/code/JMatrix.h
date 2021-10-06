@@ -29,7 +29,7 @@ public:
 
 	~JMatrix();
 
-	const JMatrix& operator=(const JMatrix&);
+	JMatrix& operator=(const JMatrix&);
 
 	JMatrix& operator+=(const JMatrix&);
 	JMatrix& operator-=(const JMatrix&);

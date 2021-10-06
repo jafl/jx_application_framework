@@ -23,11 +23,6 @@ public:
 private:
 
 	void BuildWindow();
-
-	// not allowed
-
-	DNDWidgetDir(const DNDWidgetDir& source);
-	const DNDWidgetDir& operator=(const DNDWidgetDir& source);
 };
 
 #endif

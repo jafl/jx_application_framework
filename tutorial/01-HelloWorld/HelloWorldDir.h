@@ -19,13 +19,6 @@ public:
 	HelloWorldDir(JXDirector* supervisor);
 
 	virtual ~HelloWorldDir();
-
-private:
-
-	// not allowed
-
-	HelloWorldDir(const HelloWorldDir& source);
-	const HelloWorldDir& operator=(const HelloWorldDir& source);
 };
 
 #endif

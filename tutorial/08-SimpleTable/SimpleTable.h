@@ -26,13 +26,6 @@ public:
 protected:
 	
 	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
-	
-private:
-
-	// not allowed
-
-	SimpleTable(const SimpleTable& source);
-	const SimpleTable& operator=(const SimpleTable& source);
 };
 
 #endif

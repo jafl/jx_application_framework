@@ -104,8 +104,8 @@ private:
 
 	// not allowed
 
-	JPartition(const JPartition& source);
-	const JPartition& operator=(const JPartition& source);
+	JPartition(const JPartition&) = delete;
+	JPartition& operator=(const JPartition&) = delete;
 };
 
 /******************************************************************************

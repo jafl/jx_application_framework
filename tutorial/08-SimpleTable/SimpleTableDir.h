@@ -23,11 +23,6 @@ public:
 private:
 
 	void BuildWindow();
-
-	// not allowed
-
-	SimpleTableDir(const SimpleTableDir& source);
-	const SimpleTableDir& operator=(const SimpleTableDir& source);
 };
 
 #endif

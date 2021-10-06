@@ -22,14 +22,14 @@ public:
 
 	virtual ~JTableData();
 
-	const JTableData& operator=(const JTableData& source);
+	JTableData& operator=(const JTableData& source);
 
 	bool	IsEmpty() const;
 
-	JSize		GetRowCount() const;
+	JSize	GetRowCount() const;
 	bool	RowIndexValid(const JIndex index) const;
 
-	JSize		GetColCount() const;
+	JSize	GetColCount() const;
 	bool	ColIndexValid(const JIndex index) const;
 
 	bool	CellValid(const JPoint& cell) const;

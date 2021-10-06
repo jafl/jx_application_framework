@@ -34,9 +34,9 @@ public:
 	explicit JUtf8Character(const JUtf8Byte asciiCharacter);	// avoid sneaky conversion from int or float
 	explicit JUtf8Character(const JUtf8Byte* utf8Character);
 
-	const JUtf8Character& operator=(const JUtf8Character& source);
-	const JUtf8Character& operator=(const JUtf8Byte asciiCharacter);
-	const JUtf8Character& operator=(const JUtf8Byte* utf8Character);
+	JUtf8Character& operator=(const JUtf8Character& source);
+	JUtf8Character& operator=(const JUtf8Byte asciiCharacter);
+	JUtf8Character& operator=(const JUtf8Byte* utf8Character);
 
 	bool				IsBlank() const;
 	bool				IsAscii() const;
@@ -186,7 +186,7 @@ JUtf8Character::SetIgnoreBadUtf8
 
  ******************************************************************************/
 
-inline const JUtf8Character&
+inline JUtf8Character&
 JUtf8Character::operator=
 	(
 	const JUtf8Character& source
@@ -201,7 +201,7 @@ JUtf8Character::operator=
 	return *this;
 }
 
-inline const JUtf8Character&
+inline JUtf8Character&
 JUtf8Character::operator=
 	(
 	const JUtf8Byte asciiCharacter
@@ -211,7 +211,7 @@ JUtf8Character::operator=
 	return *this;
 }
 
-inline const JUtf8Character&
+inline JUtf8Character&
 JUtf8Character::operator=
 	(
 	const JUtf8Byte* utf8Character

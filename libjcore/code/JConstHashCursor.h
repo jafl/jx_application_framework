@@ -32,7 +32,7 @@ public:
 
 	// Accept built-in forms
 	//	JConstHashCursor(const JConstHashCursor& source);
-	//	const JConstHashCursor& operator=(const JConstHashCursor& source);
+	//	JConstHashCursor& operator=(const JConstHashCursor& source);
 
 // Fundamental operations
 	bool Next();

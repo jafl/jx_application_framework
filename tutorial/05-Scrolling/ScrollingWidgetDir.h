@@ -23,11 +23,6 @@ public:
 private:
 
 	void BuildWindow();
-
-	// not allowed
-
-	ScrollingWidgetDir(const ScrollingWidgetDir& source);
-	const ScrollingWidgetDir& operator=(const ScrollingWidgetDir& source);
 };
 
 #endif

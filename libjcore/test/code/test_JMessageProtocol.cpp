@@ -72,9 +72,9 @@ public:
 	Base(TestLink* link)
 		:
 		itsLink(link), itsState(0)
-{
+	{
 		ListenTo(itsLink);
-};
+	};
 
 protected:
 
@@ -84,7 +84,7 @@ protected:
 		JBroadcaster*	sender,
 		const Message&	message
 		)
-{
+	{
 		if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
 		{
 			HandleMessage();
@@ -97,7 +97,7 @@ protected:
 		{
 			JBroadcaster::Receive(sender, message);
 		}
-};
+	};
 
 protected:
 
@@ -110,12 +110,12 @@ private:
 
 	virtual void
 	HandleDisconnect()
-{ };
+	{ };
 
 	// not allowed
 
-	Base(const Base& source);
-	const Base& operator=(const Base& source);
+	Base(const Base&) = delete;
+	Base& operator=(const Base&) = delete;
 };
 
 class Server : public Base
@@ -126,9 +126,9 @@ public:
 		:
 		Base(link),
 		itsSendOffset(0)
-{
+	{
 		link->ShouldSendSynch();
-};
+	};
 
 private:
 
@@ -138,7 +138,7 @@ private:
 
 	virtual void
 	HandleMessage()
-{
+	{
 		JAssertTrue(itsLink->HasMessages());
 		JAssertEqual(1, itsLink->GetMessageCount());
 		JAssertFalse(itsLink->ReceivedDisconnect());
@@ -169,19 +169,14 @@ private:
 		{
 			itsSendOffset++;
 		}
-};
+	};
 
 	virtual void
 	HandleDisconnect()
-{
+	{
 		std::cout << "server disconnect" << std::endl;
 		ACE_Reactor::instance()->end_reactor_event_loop();
-};
-
-	// not allowed
-
-	Server(const Server& source);
-	const Server& operator=(const Server& source);
+	};
 };
 
 TestLink::TestLink()
@@ -219,15 +214,15 @@ public:
 	Client(TestLink* link)
 		:
 		Base(link)
-{
+	{
 		link->SendMessage(JString(message[0], JString::kNoCopy));
-};
+	};
 
 private:
 
 	void
 	HandleMessage()
-{
+	{
 		JAssertTrue(itsLink->HasMessages());
 		JAssertFalse(itsLink->ReceivedDisconnect());
 
@@ -250,12 +245,7 @@ private:
 
 		itsLink->SendMessage(JString(message[ itsState ], JString::kNoCopy));
 		std::cout << "client sent: " << message[ itsState ] << std::endl;
-};
-
-	// not allowed
-
-	Client(const Client& source);
-	const Client& operator=(const Client& source);
+	};
 };
 
 void SendAndRecv()

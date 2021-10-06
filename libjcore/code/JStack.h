@@ -23,7 +23,7 @@ public:
 
 	virtual	~JStack();
 
-	const JStack<T,S>& operator=(const JStack<T,S>& source);
+	JStack<T,S>& operator=(const JStack<T,S>& source);
 
 	void	Push(const T& newElement);
 	T		Pop();

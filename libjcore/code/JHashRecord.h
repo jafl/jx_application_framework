@@ -42,7 +42,7 @@ public:
 
 	// Accept defaults
 //	JHashRecord(const JHashRecord& source);
-//	const JHashRecord& operator=(const JHashRecord& source);
+//	JHashRecord& operator=(const JHashRecord& source);
 
 // Get...
 	JHashRecordT::State GetState() const;

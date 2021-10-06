@@ -31,13 +31,6 @@ private:
 	UndoWidget*	itsWidget;
 	JPoint		itsStartPt;
 	JPoint		itsEndPt;
-
-private:
-
-	// not allowed
-
-	RedoLine(const RedoLine& source);
-	const RedoLine& operator=(const RedoLine& source);
 };
 
 #endif

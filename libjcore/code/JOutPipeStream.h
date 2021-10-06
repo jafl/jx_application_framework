@@ -33,8 +33,8 @@ private:
 
 	// not allowed
 
-	JOutPipeStream(const JOutPipeStream& source);
-	const JOutPipeStream& operator=(const JOutPipeStream& source);
+	JOutPipeStream(const JOutPipeStream&) = delete;
+	JOutPipeStream& operator=(const JOutPipeStream&) = delete;
 };
 
 

@@ -61,7 +61,7 @@ public:
 
 	~JDirEntry();
 
-	const JDirEntry& operator=(const JDirEntry& source);
+	JDirEntry& operator=(const JDirEntry& source);
 
 	const JString&	GetPath() const;
 	const JString&	GetName() const;

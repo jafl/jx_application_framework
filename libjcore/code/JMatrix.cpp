@@ -92,7 +92,7 @@ JMatrix::~JMatrix()
 
  ******************************************************************************/
 
-const JMatrix&
+JMatrix&
 JMatrix::operator=
 	(
 	const JMatrix& source

@@ -23,7 +23,7 @@ public:
 
 	virtual	~JQueue();
 
-	const JQueue<T,S>& operator=(const JQueue<T,S>& source);
+	JQueue<T,S>& operator=(const JQueue<T,S>& source);
 
 	void		Append(const T& newElement);
 	T			GetNext();

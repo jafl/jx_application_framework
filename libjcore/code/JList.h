@@ -326,7 +326,7 @@ private:
 
 	// must be overridden
 
-	const JList<T>& operator=(const JList<T>& source);
+	JList<T>& operator=(const JList<T>& source);
 };
 
 #include "JList.tmpl"

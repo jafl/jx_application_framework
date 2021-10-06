@@ -29,11 +29,6 @@ private:
 private:
 
 	void BuildWindow();
-
-	// not allowed
-
-	DataTableDir(const DataTableDir& source);
-	const DataTableDir& operator=(const DataTableDir& source);
 };
 
 #endif

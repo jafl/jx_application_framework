@@ -84,7 +84,7 @@ JSubstitute::~JSubstitute()
 
  ******************************************************************************/
 
-const JSubstitute&
+JSubstitute&
 JSubstitute::operator=
 	(
 	const JSubstitute& source

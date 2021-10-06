@@ -38,7 +38,7 @@ public:
 
 	virtual	~JBroadcaster();
 
-	const JBroadcaster& operator=(const JBroadcaster& source);
+	JBroadcaster& operator=(const JBroadcaster& source);
 
 	bool	HasSenders() const;
 	JSize	GetSenderCount() const;

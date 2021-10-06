@@ -23,13 +23,6 @@ protected:
 
 	virtual bool	HasGlyphForCharacter(const JFontID id, const JUtf8Character& c);
 	virtual bool	GetSubstituteFontName(const JFont& f, const JUtf8Character& c, JString* name);
-
-private:
-
-	// not allowed
-
-	TestFontManagerMissingGlyphs(const TestFontManagerMissingGlyphs& source);
-	const TestFontManagerMissingGlyphs& operator=(const TestFontManagerMissingGlyphs& source);
 };
 
 #endif

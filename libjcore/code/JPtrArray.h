@@ -100,8 +100,8 @@ private:
 	// These are not safe because the CleanUpAction must not be kDeleteAllAs*
 	// for both the original and the copy.
 
-	JPtrArray(const JPtrArray<T>& source);
-	const JPtrArray<T>& operator=(const JPtrArray<T>& source);
+	JPtrArray(const JPtrArray<T>&) = delete;
+	JPtrArray<T>& operator=(const JPtrArray<T>&) = delete;
 };
 
 // "deep copy constructor" version of JPtrArray
@@ -113,14 +113,6 @@ public:
 
 	JDCCPtrArray(const JPtrArrayT::CleanUpAction action, const JSize aBlockSize = 10);
 	JDCCPtrArray(const JPtrArray<T>& source, const JPtrArrayT::CleanUpAction action);
-
-private:
-
-	// These are not safe because the CleanUpAction must not be kDeleteAllAs*
-	// for both the original and the copy.
-
-	JDCCPtrArray(const JDCCPtrArray<T>& source);
-	const JDCCPtrArray<T>& operator=(const JDCCPtrArray<T>& source);
 };
 
 // JPtrArrayIterator.h can't include JPtrArray.h because that would create

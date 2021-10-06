@@ -189,10 +189,10 @@ JXStandAlonePG::ProcessContinuing()
 	if (!AllowBackground())
 	{
 		while (JXGetApplication()->HandleOneEventForWindow(window, false))
-		{ };
+		{ /* process all events in the queue */ }
 	}
 
-	(itsProgressDirector->GetDisplay())->Flush();
+	itsProgressDirector->GetDisplay()->Flush();
 
 	return JXProgressDisplay::ProcessContinuing();
 }

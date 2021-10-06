@@ -11,7 +11,6 @@
 #define _H_ClipboardWidget
 
 #include <JXWidget.h>
-#include <JString.h>
 
 class JXTextMenu;
 class JXMenuBar;
@@ -46,11 +45,6 @@ private:
 
 	void	HandleEditMenu(const JIndex index);
 	void	Paste();
-
-	// not allowed
-
-	ClipboardWidget(const ClipboardWidget& source);
-	const ClipboardWidget& operator=(const ClipboardWidget& source);
 };
 
 #endif

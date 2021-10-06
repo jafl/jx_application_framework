@@ -21,14 +21,7 @@ public:
 protected:
 
 	void	Scan(const JStyledText::TextIndex& startIndex,
-						 std::istream& input, const TokenExtra& initData) override;
-
-private:
-
-	// not allowed
-
-	TestStyler(const TestStyler& source);
-	const TestStyler& operator=(const TestStyler& source);
+				 std::istream& input, const TokenExtra& initData) override;
 };
 
 #endif

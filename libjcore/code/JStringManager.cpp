@@ -70,8 +70,6 @@ static const JUtf8Byte* kNoOverrideID[] =
 	"LICENSE"
 };
 
-const JSize kNoOverrideIDCount = sizeof(kNoOverrideID) / sizeof(JUtf8Byte*);
-
 /******************************************************************************
  Constructor
 
@@ -435,9 +433,9 @@ JStringManager::CanOverride
 	const JString& id
 	)
 {
-	for (JUnsignedOffset i=0; i<kNoOverrideIDCount; i++)
+	for (auto s : kNoOverrideID)
 	{
-		if (id == kNoOverrideID[i])
+		if (id == s)
 		{
 			return false;
 		}

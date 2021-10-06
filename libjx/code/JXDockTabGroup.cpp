@@ -171,11 +171,11 @@ JXDockTabGroup::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsDockContextMenu && message.Is(JXTextMenu::kNeedsUpdate))
+	if (sender == itsDockContextMenu && message.Is(JXMenu::kNeedsUpdate))
 	{
 		UpdateDockContextMenu();
 	}
-	else if (sender == itsDockContextMenu && message.Is(JXTextMenu::kItemSelected))
+	else if (sender == itsDockContextMenu && message.Is(JXMenu::kItemSelected))
 	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);

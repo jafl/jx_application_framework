@@ -49,11 +49,6 @@ private:
 
 	JSize FindAllocatedBlock(const void* block) const;
 	JSize FindDeletedBlock(const void* block) const;
-
-	// not allowed
-
-	JMMArrayTable(const JMMArrayTable& source);
-	const JMMArrayTable& operator=(const JMMArrayTable& source);
 };
 
 #endif

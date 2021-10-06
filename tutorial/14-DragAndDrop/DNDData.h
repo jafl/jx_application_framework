@@ -10,7 +10,7 @@
 #ifndef _H_DNDData
 #define _H_DNDData
 
-#include <JXSelectionManager.h>
+#include <JXSelectionData.h>
 
 #include <JArray.h>
 #include <JPoint.h>
@@ -28,10 +28,11 @@ public:
 
 protected:
 
-			virtual void		AddTypes(const Atom selectionName);
-			virtual bool	ConvertData(const Atom requestType, Atom* returnType,
-											unsigned char** data, JSize* dataLength,
-											JSize* bitsPerBlock) const;
+	void	AddTypes(const Atom selectionName) override;
+	bool	ConvertData(const Atom requestType, Atom* returnType,
+						unsigned char** data, JSize* dataLength,
+						JSize* bitsPerBlock) const override;
+
 private:
 
 	// Our point array.
@@ -48,13 +49,6 @@ private:
 private:
 
 	void	CreateBuffer() const;
-
-	// not allowed
-
-	DNDData(const DNDData& source);
-	const DNDData& operator=(const DNDData& source);
-
-public:
 };
 
 #endif

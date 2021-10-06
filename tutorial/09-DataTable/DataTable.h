@@ -27,19 +27,12 @@ public:
 	
 protected:
 	
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 	
 private:
 
 	JArray<JIndex>* itsData;	// we don't own this!
-
-private:
-
-	// not allowed
-
-	DataTable(const DataTable& source);
-	const DataTable& operator=(const DataTable& source);
 };
 
 #endif

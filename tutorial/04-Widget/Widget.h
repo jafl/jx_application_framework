@@ -27,13 +27,6 @@ protected:
 	
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	
-private:
-
-	// not allowed
-
-	Widget(const Widget& source);
-	const Widget& operator=(const Widget& source);
 };
 
 #endif

@@ -60,11 +60,6 @@ private:
 private:
 
 	static void	Pseudotranslate(JString* s);
-
-	// not allowed
-
-	JStringManager(const JStringManager& source);
-	const JStringManager& operator=(const JStringManager& source);
 };
 
 

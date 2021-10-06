@@ -51,7 +51,7 @@ public:
 
 	virtual ~JRunArray();
 
-	const JRunArray<T>& operator=(const JRunArray<T>& source);
+	JRunArray<T>& operator=(const JRunArray<T>& source);
 
 	T	GetFirstElement() const override;
 	T	GetLastElement() const override;

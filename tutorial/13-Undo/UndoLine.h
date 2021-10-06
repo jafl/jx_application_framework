@@ -27,13 +27,6 @@ public:
 private:
 
 	UndoWidget*	itsWidget;
-
-private:
-
-	// not allowed
-
-	UndoLine(const UndoLine& source);
-	const UndoLine& operator=(const UndoLine& source);
 };
 
 #endif

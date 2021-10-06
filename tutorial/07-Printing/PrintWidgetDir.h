@@ -37,11 +37,6 @@ private:
 private:
 
 	void BuildWindow();
-
-	// not allowed
-
-	PrintWidgetDir(const PrintWidgetDir& source);
-	const PrintWidgetDir& operator=(const PrintWidgetDir& source);
 };
 
 #endif

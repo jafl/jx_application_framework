@@ -25,7 +25,7 @@ EXP	([eE][0-9]+)
 %{
 /************************************************************************/
 
-	bzero(lvalp, sizeof(YYSTYPE));
+	memset(lvalp, 0, sizeof(YYSTYPE));
 %}
 
 	/* We have to slurp e#, because that is also a valid variable name. */

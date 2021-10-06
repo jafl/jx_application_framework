@@ -55,7 +55,7 @@ JTableData::~JTableData()
 
  ******************************************************************************/
 
-const JTableData&
+JTableData&
 JTableData::operator=
 	(
 	const JTableData& source

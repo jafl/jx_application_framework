@@ -22,7 +22,7 @@ public:
 	JCoordinate	GetHeight() const;
 
 	bool	TEHasSearchText() const override;
-	void				SetHasSearchText(const bool has);
+	void	SetHasSearchText(const bool has);
 
 	// expose protected functionality
 
@@ -33,9 +33,9 @@ public:
 	JIndex	GetLineCharEnd(const JIndex lineIndex) const;
 	JIndex	GetLineCharLength(const JIndex lineIndex) const;
 
-	JIndex		CalcCaretCharLocation(const JPoint& pt) const;
+	JIndex	CalcCaretCharLocation(const JPoint& pt) const;
 	bool	TestPointInSelection(const JPoint& pt) const;
-	void		TestMoveCaretVert(const JInteger deltaLines);
+	void	TestMoveCaretVert(const JInteger deltaLines);
 
 	void	Draw();
 
@@ -51,26 +51,26 @@ public:
 									JStyledText::TextRange* range);
 
 	bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,
-							   const CaretMotion motion, const bool deleteToTabStop);
+						   const CaretMotion motion, const bool deleteToTabStop);
 
 protected:
 
-	void		TERefresh() override;
-	void		TERefreshRect(const JRect& rect) override;
-	void		TERedraw() override;
-	void		TESetGUIBounds(const JCoordinate w, const JCoordinate h,
-									   const JCoordinate changeY) override;
+	void	TERefresh() override;
+	void	TERefreshRect(const JRect& rect) override;
+	void	TERedraw() override;
+	void	TESetGUIBounds(const JCoordinate w, const JCoordinate h,
+						   const JCoordinate changeY) override;
 	bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
 	bool	TEScrollToRect(const JRect& rect,
-									   const bool centerInDisplay) override;
+						   const bool centerInDisplay) override;
 	bool	TEScrollForDrag(const JPoint& pt) override;
 	bool	TEScrollForDND(const JPoint& pt) override;
-	void		TESetVertScrollStep(const JCoordinate vStep) override;
-	void		TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
+	void	TESetVertScrollStep(const JCoordinate vStep) override;
+	void	TEUpdateClipboard(const JString& text, const JRunArray<JFont>& style) const override;
 	bool	TEGetClipboard(JString* text, JRunArray<JFont>* style) const override;
 	bool	TEBeginDND() override;
-	void		TEPasteDropData() override;
-	void		TECaretShouldBlink(const bool blink) override;
+	void	TEPasteDropData() override;
+	void	TECaretShouldBlink(const bool blink) override;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -82,13 +82,6 @@ private:
 	mutable JRunArray<JFont>*	itsClipStyle;
 
 	bool	itsHasSearchTextFlag;
-
-private:
-
-	// not allowed
-
-	TextEditor(const TextEditor& source);
-	const TextEditor& operator=(const TextEditor& source);
 };
 
 

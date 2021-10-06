@@ -32,19 +32,19 @@ public:
 	JXDNDManager*		GetDNDManager() const;
 	Atom				GetDNDSelectionName() const;
 
-	Atom		GetSelectionName() const;
-	Time		GetStartTime() const;
+	Atom	GetSelectionName() const;
+	Time	GetStartTime() const;
 	bool	IsCurrent() const;
 	bool	GetEndTime(Time* t) const;
-	void		SetSelectionInfo(const Atom selectionName, const Time startTime);
-	void		SetEndTime(const Time endTime);
+	void	SetSelectionInfo(const Atom selectionName, const Time startTime);
+	void	SetEndTime(const Time endTime);
 
 	const JArray<Atom>&	GetTypeList() const;
 
-	void		Resolve() const;
+	void	Resolve() const;
 	bool	Convert(const Atom requestType, Atom* returnType,
-						unsigned char** data, JSize* dataLength,
-						JSize* bitsPerBlock) const;
+					unsigned char** data, JSize* dataLength,
+					JSize* bitsPerBlock) const;
 
 protected:
 
@@ -52,10 +52,10 @@ protected:
 	void	AddType(const Atom type);
 	void	RemoveType(const Atom type);
 
-	virtual void		AddTypes(const Atom selectionName) = 0;
+	virtual void	AddTypes(const Atom selectionName) = 0;
 	virtual bool	ConvertData(const Atom requestType, Atom* returnType,
-									unsigned char** data, JSize* dataLength,
-									JSize* bitsPerBlock) const = 0;
+								unsigned char** data, JSize* dataLength,
+								JSize* bitsPerBlock) const = 0;
 
 	void	ReceiveGoingAway(JBroadcaster* sender) override;
 

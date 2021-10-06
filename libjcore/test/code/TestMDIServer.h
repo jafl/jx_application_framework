@@ -23,19 +23,12 @@ public:
 protected:
 
 	bool	CanAcceptMDIRequest() override;
-	void		HandleMDIRequest(const JString& dir,
-										 const JPtrArray<JString>& argList) override;
+	void	HandleMDIRequest(const JString& dir,
+							 const JPtrArray<JString>& argList) override;
 
 private:
 
 	bool itsQuitFlag;
-
-private:
-
-	// not allowed
-
-	TestMDIServer(const TestMDIServer& source);
-	const TestMDIServer& operator=(const TestMDIServer& source);
 };
 
 

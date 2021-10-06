@@ -39,13 +39,6 @@ protected:
 private:
 
 	j_sig_func*	itsOldSigIntHandler;
-
-private:
-
-	// not allowed
-
-	JTextProgressDisplay(const JTextProgressDisplay& source);
-	const JTextProgressDisplay& operator=(const JTextProgressDisplay& source);
 };
 
 #endif

@@ -90,13 +90,6 @@ protected:
 private:
 
 	JPtrArrayT::CleanUpAction itsCleanUpAction;
-
-private:
-
-	// not allowed
-
-	JStringPtrMap(const JStringPtrMap& source);
-	const JStringPtrMap& operator=(const JStringPtrMap& source);
 };
 
 

@@ -82,11 +82,6 @@ private:
 
 	void	J2DVectorDataX();
 	void	ValidateData();
-
-	// not allowed
-
-	J2DVectorData(const J2DVectorData& source);
-	const J2DVectorData& operator=(const J2DVectorData& source);
 };
 
 

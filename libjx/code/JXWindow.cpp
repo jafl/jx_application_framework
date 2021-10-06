@@ -717,7 +717,7 @@ JXWindow::Raise
 			const JUInt32 desktop = *reinterpret_cast<JUInt32*>(xdata);
 
 			XEvent e;
-			bzero(&e, sizeof(e));
+			memset(&e, 0, sizeof(e));
 			e.type                 = ClientMessage;
 			e.xclient.display      = *itsDisplay;
 			e.xclient.window       = itsXWindow;
@@ -741,7 +741,7 @@ JXWindow::Raise
 	if (grabKeyboardFocus)
 	{
 		XEvent e;
-		bzero(&e, sizeof(e));
+		memset(&e, 0, sizeof(e));
 		e.type                 = ClientMessage;
 		e.xclient.display      = *itsDisplay;
 		e.xclient.window       = itsXWindow;
@@ -2873,7 +2873,7 @@ JXWindow::HandleMotionNotify
 {
 	XEvent discardEvent;
 	while (XCheckMaskEvent(*itsDisplay, PointerMotionMask, &discardEvent))
-	{ };
+	{ /* discard events */ }
 
 	// XQueryPointer returns the current mouse state, not the state
 	// when the XMotionEvent was generated.  This can cause HandleMouseDrag()

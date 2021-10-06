@@ -39,7 +39,7 @@ SizeHistogram::SizeHistogram
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
 	itsTotal(0)
 {
-	bzero(itsHisto, sizeof(itsHisto));
+	memset(itsHisto, 0, sizeof(itsHisto));
 }
 
 /******************************************************************************

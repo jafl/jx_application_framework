@@ -19,7 +19,7 @@ public:
 	JContainer();
 	JContainer(const JContainer& source);
 
-	const JContainer& operator=(const JContainer& source);
+	JContainer& operator=(const JContainer& source);
 
 protected:
 

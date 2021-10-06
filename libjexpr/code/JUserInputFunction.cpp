@@ -514,8 +514,6 @@ static const GreekCharacterMapping kGreekData[] =
 { 'Z', "\xCE\xB6", "\xCE\x96" }		// zeta
 };
 
-const JSize kGreekCount = sizeof(kGreekData) / sizeof(GreekCharacterMapping);
-
 static bool theInitGreekMappingFlag = false;
 static GreekCharacterMapping kGreekMapping[1+int('Z')];
 
@@ -527,11 +525,11 @@ JUserInputFunction::ConvertToGreek
 {
 	if (!theInitGreekMappingFlag)
 	{
-		bzero(kGreekMapping, sizeof(kGreekMapping));
+		memset(kGreekMapping, 0, sizeof(kGreekMapping));
 
-		for (int i=0; i<int(kGreekCount); i++)
+		for (const auto& g : kGreekData)
 		{
-			kGreekMapping[ int(kGreekData[i].ascii) ] = kGreekData[i];
+			kGreekMapping[ int(g.ascii) ] = g;
 		}
 
 		theInitGreekMappingFlag = true;

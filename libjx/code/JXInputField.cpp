@@ -556,11 +556,11 @@ JXInputField::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsContextMenu && message.Is(JXTextMenu::kNeedsUpdate))
+	if (sender == itsContextMenu && message.Is(JXMenu::kNeedsUpdate))
 	{
 		UpdateContextMenu();
 	}
-	else if (sender == itsContextMenu && message.Is(JXTextMenu::kItemSelected))
+	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
 	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);

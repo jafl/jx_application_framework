@@ -24,7 +24,7 @@ public:
 
 	virtual ~JSubstitute();
 
-	const JSubstitute& operator=(const JSubstitute& source);
+	JSubstitute& operator=(const JSubstitute& source);
 
 	void	Substitute(JString* s) const;
 	JError	ContainsError(const JString& s, JCharacterRange* errRange) const;

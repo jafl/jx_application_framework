@@ -26,13 +26,6 @@ public:
 protected:
 	
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	
-private:
-
-	// not allowed
-
-	ScrollingWidget(const ScrollingWidget& source);
-	const ScrollingWidget& operator=(const ScrollingWidget& source);
 };
 
 #endif

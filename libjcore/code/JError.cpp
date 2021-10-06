@@ -100,7 +100,7 @@ JError::~JError()
 
  ******************************************************************************/
 
-const JError&
+JError&
 JError::operator=
 	(
 	const JError& source

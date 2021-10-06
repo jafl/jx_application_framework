@@ -39,8 +39,8 @@ public:
 
 	virtual ~JDirInfo();
 
-	const JDirInfo& operator=(const JDirInfo& source);
-	void			CopySettings(const JDirInfo& source);
+	JDirInfo&	operator=(const JDirInfo& source);
+	void		CopySettings(const JDirInfo& source);
 
 	bool			DirectoryExists() const;
 	const JString&	GetDirectory() const;

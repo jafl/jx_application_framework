@@ -27,16 +27,11 @@ public:
 
 private:
 
-    JXInputField* itsText;
+	JXInputField* itsText;
 
 private:
 
 	void	BuildWindow();
-
-	// not allowed
-
-	DHStringInputDialog(const DHStringInputDialog& source);
-	const DHStringInputDialog& operator=(const DHStringInputDialog& source);
 };
 
 #endif

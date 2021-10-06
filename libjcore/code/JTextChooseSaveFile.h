@@ -51,11 +51,6 @@ private:
 						const JString& instructions,
 						JString* newPath);
 	bool	DoSystemCommand(const JString& str) const;
-
-	// not allowed
-
-	JTextChooseSaveFile(const JTextChooseSaveFile& source);
-	const JTextChooseSaveFile& operator=(const JTextChooseSaveFile& source);
 };
 
 #endif

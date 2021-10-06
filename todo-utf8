@@ -17,6 +17,7 @@ systemg slow to open new window
 
 JStyledText
 	CleanRightMargin
+	Clean whitespace
 
 
 u-ctags:

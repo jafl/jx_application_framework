@@ -32,18 +32,18 @@ public:
 	
 protected:
 	
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
-	virtual bool		ExtractInputData(const JPoint& cell);
-	virtual JXInputField*	CreateXInputField(const JPoint& cell,
-												const JCoordinate x, const JCoordinate y,
-												const JCoordinate w, const JCoordinate h);
-	virtual void			PrepareDeleteXInputField();
+	bool			ExtractInputData(const JPoint& cell) override;
+	JXInputField*	CreateXInputField(const JPoint& cell,
+									const JCoordinate x, const JCoordinate y,
+									const JCoordinate w, const JCoordinate h) override;
+	void			PrepareDeleteXInputField() override;
 
 	
 private:
@@ -56,11 +56,6 @@ private:
 
 	void UpdateTableMenu();
 	void HandleTableMenu(const JIndex index);
-
-	// not allowed
-
-	EditTable(const EditTable& source);
-	const EditTable& operator=(const EditTable& source);
 };
 
 #endif

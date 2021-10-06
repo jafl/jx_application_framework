@@ -705,7 +705,7 @@ JXApplication::HandleOneEventForWindow
 			}
 			while (XCheckIfEvent(*display, &xEvent, DiscardNextEvent,
 								 reinterpret_cast<char*>(&discardInfo)))
-			{ };
+			{ /* discard events */ }
 		}
 		else if (display == uiDisplay &&
 				 display->GetMouseContainer(&mouseContainer) &&
@@ -1340,7 +1340,6 @@ JXApplication::JXIOErrorHandler
 	)
 {
 	Abort(JXDocumentManager::kServerDead, false);
-	return 0;	// does not return - just keep compiler happy
 }
 
 /******************************************************************************

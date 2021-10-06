@@ -50,7 +50,7 @@ protected:
 	// for JRegex
 
 	JStringMatch(const JString& target, JStringMatch& dyingSource);
-	const JStringMatch&	operator=(const JStringMatch& source);
+	JStringMatch& operator=(const JStringMatch& source);
 
 private:
 

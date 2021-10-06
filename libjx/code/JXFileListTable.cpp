@@ -1211,7 +1211,7 @@ JXFileListTable::Receive
 		const auto* m =
 			dynamic_cast<const JListT::ElementsInserted*>(&message);
 		assert( m != nullptr );
-		ADJUST_INDEX(m);
+		ADJUST_INDEX(m)
 	}
 	else if (sender == itsFileList && message.Is(JListT::kElementsRemoved))
 	{
@@ -1239,14 +1239,14 @@ JXFileListTable::Receive
 		const auto* m =
 			dynamic_cast<const JListT::ElementMoved*>(&message);
 		assert( m != nullptr );
-		ADJUST_INDEX(m);
+		ADJUST_INDEX(m)
 	}
 	else if (sender == itsFileList && message.Is(JListT::kElementsSwapped))
 	{
 		const auto* m =
 			dynamic_cast<const JListT::ElementsSwapped*>(&message);
 		assert( m != nullptr );
-		ADJUST_INDEX(m);
+		ADJUST_INDEX(m)
 	}
 	else if (sender == itsFileList && message.Is(JListT::kElementsChanged))
 	{

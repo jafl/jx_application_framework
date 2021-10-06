@@ -29,11 +29,6 @@ private:
 private:
 
 	void BuildWindow();
-
-	// not allowed
-
-	EditTableDir(const EditTableDir& source);
-	const EditTableDir& operator=(const EditTableDir& source);
 };
 
 #endif

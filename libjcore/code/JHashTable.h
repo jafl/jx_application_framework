@@ -150,8 +150,8 @@ private:
 
 	// not allowed
 
-	JHashTable(const JHashTable& source);
-	const JHashTable& operator=(const JHashTable& source);
+	JHashTable(const JHashTable&) = delete;
+	JHashTable& operator=(const JHashTable&) = delete;
 };
 
 /******************************************************************************

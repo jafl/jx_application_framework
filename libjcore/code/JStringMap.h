@@ -80,11 +80,6 @@ private:
 	static bool Compare(const JStrValue<V>& lhs, const JStrValue<V>& rhs);
 
 	static JHashValue Hash(const JStrValue<V>& value);
-
-	// not allowed
-
-	JStringMap(const JStringMap& source);
-	const JStringMap& operator=(const JStringMap& source);
 };
 
 

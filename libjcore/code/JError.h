@@ -31,7 +31,7 @@ public:
 
 	virtual	~JError();
 
-	const JError& operator=(const JError& source);
+	JError& operator=(const JError& source);
 
 	const JString&	GetMessage() const;
 	void			ReportIfError() const;

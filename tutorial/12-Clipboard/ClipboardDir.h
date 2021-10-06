@@ -40,11 +40,6 @@ private:
 	void HandleTextMenu(const JIndex index);
 	void SetupInputDialog();
 	void GetNewTextFromDialog();
-
-	// not allowed
-
-	ClipboardDir(const ClipboardDir& source);
-	const ClipboardDir& operator=(const ClipboardDir& source);
 };
 
 #endif

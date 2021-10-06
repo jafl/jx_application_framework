@@ -538,6 +538,7 @@ private:
 
 	// not allowed
 
+	JTextEditor(const JTextEditor&) = delete;
 	JTextEditor& operator=(const JTextEditor&) = delete;
 
 public:

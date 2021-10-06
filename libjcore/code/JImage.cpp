@@ -591,10 +591,7 @@ JImage::ReadFromJXPM
 	// init color table (never more than 255 unique colors)
 
 	unsigned char charToCTIndex[256];	// maps XPM chars to color table indices
-	for (JUnsignedOffset i=0; i<256; i++)
-	{
-		charToCTIndex[i] = 0;
-	}
+	memset(charToCTIndex, 0, 256);
 
 	auto* colorTable = jnew JColorID [ colorCount ];
 	assert( colorTable != nullptr );

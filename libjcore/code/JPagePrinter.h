@@ -70,13 +70,6 @@ private:
 	JIndex		itsPageIndex;
 	JCoordinate	itsPageWidth;
 	JCoordinate	itsPageHeight;
-
-private:
-
-	// not allowed
-
-	JPagePrinter(const JPagePrinter& source);
-	const JPagePrinter& operator=(const JPagePrinter& source);
 };
 
 

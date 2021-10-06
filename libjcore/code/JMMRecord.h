@@ -63,7 +63,7 @@ public:
 	// Accept built-in version!
 	//	JMMRecord(const JMMRecord& source);
 	// Why won't the compiler generate a built-in version for this one?  Bit-fields?
-	// const JMMRecord& operator=(const JMMRecord& source);
+	// JMMRecord& operator=(const JMMRecord& source);
 
 	JUInt32          GetID() const;
 

@@ -687,7 +687,7 @@ JFSFileTreeNode::CompareGroupName
 	JString u1 = n1->itsDirEntry->GetGroupName();
 	JString u2 = n2->itsDirEntry->GetGroupName();
 	JListT::CompareResult result =
-		JCompareStringsCaseInsensitive(&(u1), &(u2));
+		JCompareStringsCaseInsensitive(&u1, &u2);
 
 	if (result == JListT::kFirstEqualSecond)
 	{

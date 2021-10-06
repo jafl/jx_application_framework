@@ -23,7 +23,7 @@ JFont::Set
 	(
 	const JString&		name,
 	const JSize			size,
-	const JFontStyle	style
+	const JFontStyle&	style
 	)
 {
 	itsSize  = size > 0 ? size : JFontManager::GetDefaultFontSize();

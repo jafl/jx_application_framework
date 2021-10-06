@@ -96,7 +96,7 @@ JStringMatch::~JStringMatch()
 
  *****************************************************************************/
 
-const JStringMatch&
+JStringMatch&
 JStringMatch::operator=
 	(
 	const JStringMatch& source

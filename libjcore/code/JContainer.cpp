@@ -64,7 +64,7 @@ JContainer::JContainer
 
  ******************************************************************************/
 
-const JContainer&
+JContainer&
 JContainer::operator=
 	(
 	const JContainer& source

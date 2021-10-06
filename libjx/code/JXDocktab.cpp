@@ -234,7 +234,7 @@ JXDocktab::Receive
 	{
 		UpdateActionMenu();
 	}
-	else if (sender == itsActionMenu && message.Is(JXTextMenu::kItemSelected))
+	else if (sender == itsActionMenu && message.Is(JXMenu::kItemSelected))
 	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);

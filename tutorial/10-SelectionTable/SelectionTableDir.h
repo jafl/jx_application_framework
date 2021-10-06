@@ -29,11 +29,6 @@ private:
 private:
 
 	void BuildWindow();
-
-	// not allowed
-
-	SelectionTableDir(const SelectionTableDir& source);
-	const SelectionTableDir& operator=(const SelectionTableDir& source);
 };
 
 #endif

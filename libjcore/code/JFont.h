@@ -28,7 +28,7 @@ public:
 
 	// default copy ctor and operator=
 
-	void	Set(const JString& name, const JSize size = 0, const JFontStyle style = JFontStyle());
+	void	Set(const JString& name, const JSize size = 0, const JFontStyle& style = JFontStyle());
 	void	Set(const JFont& f);
 
 	JFontID	GetID() const;

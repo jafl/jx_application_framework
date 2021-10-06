@@ -24,13 +24,6 @@ public:
 private:
 
 	JString itsFileName;
-
-private:
-
-	// not allowed
-
-	TestPTPrinter(const TestPTPrinter& source);
-	const TestPTPrinter& operator=(const TestPTPrinter& source);
 };
 
 #endif

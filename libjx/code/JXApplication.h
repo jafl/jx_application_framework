@@ -92,12 +92,12 @@ public:
 
 	// required by JXInitGlobals()
 
-	static int	JXIOErrorHandler(Display* xDisplay);
+	[[noreturn]] static int	JXIOErrorHandler(Display* xDisplay);
 
 	// called by JXAssert
 
-	static void	Abort(const JXDocumentManager::SafetySaveReason reason,
-					  const bool dumpCore);
+	[[noreturn]] static void	Abort(const JXDocumentManager::SafetySaveReason reason,
+									  const bool dumpCore);
 
 	// called by JXMDIServer
 

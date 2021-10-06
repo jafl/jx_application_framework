@@ -420,7 +420,7 @@ JMDIServer::WaitForFinished
 	if (!receivedFinishedFlag)
 	{
 		while (socket.recv(&c, 1) == 0 || c != kEndOfMessage)
-		{ };
+		{ /* read all available data */ }
 	}
 
 	socket.close();

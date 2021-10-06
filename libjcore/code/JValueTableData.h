@@ -68,7 +68,7 @@ private:
 
 	// not allowed
 
-	const JValueTableData<S,T>& operator=(const JValueTableData<S,T>& source);
+	JValueTableData<S,T>& operator=(const JValueTableData<S,T>&) = delete;
 };
 
 #include "JValueTableData.tmpl"

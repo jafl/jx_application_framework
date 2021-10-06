@@ -19,7 +19,7 @@ public:
 
 	virtual ~JCollection();
 
-	const JCollection& operator=(const JCollection& source);
+	JCollection& operator=(const JCollection& source);
 
 	JSize	GetElementCount() const;
 	bool	IsEmpty() const;

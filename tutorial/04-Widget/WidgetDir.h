@@ -23,11 +23,6 @@ public:
 private:
 
 	void BuildWindow();
-
-	// not allowed
-
-	WidgetDir(const WidgetDir& source);
-	const WidgetDir& operator=(const WidgetDir& source);
 };
 
 #endif

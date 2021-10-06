@@ -34,10 +34,10 @@ JPinInRect
 	JPoint newPt = pt;
 
 	newPt.x = JMax(newPt.x, r.left);
-	newPt.x = JMin(newPt.x, (JCoordinate) (r.right-1));
+	newPt.x = JMin(newPt.x, r.right-1);
 
 	newPt.y = JMax(newPt.y, r.top);
-	newPt.y = JMin(newPt.y, (JCoordinate) (r.bottom-1));
+	newPt.y = JMin(newPt.y, r.bottom-1);
 
 	return newPt;
 }
@@ -51,7 +51,7 @@ std::istream&
 operator>>
 	(
 	std::istream&	input,
-	JPoint&		pt
+	JPoint&			pt
 	)
 {
 	input >> pt.x >> pt.y;
@@ -61,7 +61,7 @@ operator>>
 std::ostream&
 operator<<
 	(
-	std::ostream&		output,
+	std::ostream&	output,
 	const JPoint&	pt
 	)
 {

@@ -47,8 +47,7 @@ private:
 
 	// not allowed
 
-	StyledText(const StyledText& source);
-	const StyledText& operator=(const StyledText& source);
+	StyledText(const StyledText&) = delete;
 };
 
 

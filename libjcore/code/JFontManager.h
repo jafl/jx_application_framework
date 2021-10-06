@@ -41,7 +41,7 @@ public:
 	static JFont	GetDefaultMonospaceFont();
 	static JFont	GetFont(const JString& name,
 							const JSize size = 0,
-							const JFontStyle style = JFontStyle());
+							const JFontStyle& style = JFontStyle());
 
 protected:
 

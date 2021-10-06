@@ -25,7 +25,7 @@ public:
 
 	~JVector();
 
-	const JVector& operator=(const JVector&);
+	JVector& operator=(const JVector&);
 
 	JVector& operator+=(const JVector&);
 	JVector& operator-=(const JVector&);

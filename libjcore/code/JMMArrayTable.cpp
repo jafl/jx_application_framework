@@ -193,7 +193,7 @@ JMMArrayTable::StreamAllocationSizeHistogram
 	const
 {
 	JSize histo[ JMemoryManager::kHistogramSlotCount ];
-	bzero(histo, sizeof(histo));
+	memset(histo, 0, sizeof(histo));
 
 	const JSize count = itsAllocatedTable->GetElementCount();
 	for (JIndex i=1;i<=count;i++)

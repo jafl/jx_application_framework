@@ -36,11 +36,6 @@ private:
 
 	void BuildWindow();
 	void HandleTextMenu(const JIndex index);
-
-	// not allowed
-
-	MenuHelloDir(const MenuHelloDir& source);
-	const MenuHelloDir& operator=(const MenuHelloDir& source);
 };
 
 #endif

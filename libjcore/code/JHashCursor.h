@@ -35,7 +35,7 @@ public:
 
 	// Accept built-in forms
 	//	JHashCursor(const JHashCursor& source);
-	//	const JHashCursor& operator=(const JHashCursor& source);
+	//	JHashCursor& operator=(const JHashCursor& source);
 
 // Shorthands for common iterator constructs
 	void ForceNextOpen();
