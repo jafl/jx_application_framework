@@ -1,6 +1,8 @@
 JTreeNode::SetChildCompareFunction
 	use std::function
 
+store JX release pkg somewhere so it can be installed when building apps
+
 
 keg for brew
 	https://docs.brew.sh/Formula-Cookbook
@@ -36,6 +38,29 @@ u-ctags:
 	update CBCtagsUser::DecodeSymbolType & CBSymbolTypeList
 
 
+jcc:
+	CBTree::SelectImplementors
+	CBTreeDirector::ViewFunctionList
+	CBTreeWidget::FindFunction
+	CBTreeWidget::HandleMouseDrag
+
+	CBSymbolList needs to store
+		access: check "access" flag (public, private, protected, java-default)
+		implemented: check "implementation" flag
+		enum FnAccessLevel
+		{
+			kPublicAccess = 0,
+			kProtectedAccess,
+			kPrivateAccess,
+			kJavaDefaultAccess
+		}
+	replace CBFnListDirector with CBSymbolSRDirector
+		color protected, private, java-default
+	inheritance tree:
+		show list of functions returned by CBSymbolList
+			based on file and class name and possibly partially qualified name (java)
+
+
 jcc
 	JXDocumentMenu - show partial paths for repeated file names
 
@@ -69,30 +94,6 @@ medic for go: delve back-end
 	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
 
 
-
-
-
-jcc:
-	CBTree::SelectImplementors
-	CBTreeDirector::ViewFunctionList
-	CBTreeWidget::FindFunction
-	CBTreeWidget::HandleMouseDrag
-
-	CBSymbolList needs to store
-		access: check "access" flag (public, private, protected, java-default)
-		implemented: check "implementation" flag
-		enum FnAccessLevel
-		{
-			kPublicAccess = 0,
-			kProtectedAccess,
-			kPrivateAccess,
-			kJavaDefaultAccess
-		}
-	replace CBFnListDirector with CBSymbolSRDirector
-		color protected, private, java-default
-	inheritance tree:
-		show list of functions returned by CBSymbolList
-			based on file and class name and possibly partially qualified name (java)
 
 D tree
 	must remember all imported packages, to resolve parents after full parse

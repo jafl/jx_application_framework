@@ -55,6 +55,8 @@ JTreeNode::~JTreeNode()
 	{
 		itsTree->BroadcastDelete(this);
 	}
+
+	jdelete itsCompareFn;
 }
 
 /******************************************************************************
@@ -394,30 +396,30 @@ JTreeNode::InsertSorted
 void
 JTreeNode::SetChildCompareFunction
 	(
-	JListT::CompareResult (*compareFn)(JTreeNode * const &,
-											 JTreeNode * const &),
+	const std::function<JListT::CompareResult(JTreeNode * const &, JTreeNode * const &)> compare,
+
 	const JListT::SortOrder	order,
-	const bool					propagate
+	const bool				propagate
 	)
 {
-	if (compareFn != itsCompareFn || order != itsSortOrder)
-	{
-		itsCompareFn = compareFn;
-		itsSortOrder = order;
+	jdelete itsCompareFn;
+	itsCompareFn = jnew std::function(compare);
+	assert( itsCompareFn != nullptr );
 
-		if (itsChildren != nullptr)
-		{
-			itsChildren->SetCompareFunction(compareFn);
-			itsChildren->SetSortOrder(order);
-			SortChildren();
-		}
+	itsSortOrder = order;
+
+	if (itsChildren != nullptr)
+	{
+		itsChildren->SetCompareFunction(compare);
+		itsChildren->SetSortOrder(order);
+		SortChildren();
 	}
 
 	if (propagate && itsChildren != nullptr)
 	{
 		for (auto* n : *itsChildren)
 		{
-			n->SetChildCompareFunction(compareFn, order, true);
+			n->SetChildCompareFunction(compare, order, true);
 		}
 	}
 }
@@ -547,8 +549,12 @@ JTreeNode::CreateChildList()
 	{
 		itsChildren = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
 		assert( itsChildren != nullptr );
-		itsChildren->SetCompareFunction(itsCompareFn);
-		itsChildren->SetSortOrder(itsSortOrder);
+
+		if (itsCompareFn != nullptr)
+		{
+			itsChildren->SetCompareFunction(*itsCompareFn);
+			itsChildren->SetSortOrder(itsSortOrder);
+		}
 
 		ShouldBeOpenable(true);
 	}

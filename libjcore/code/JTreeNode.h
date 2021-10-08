@@ -63,12 +63,10 @@ public:
 
 	void	InsertSorted(JTreeNode* child);
 	bool	GetChildCompareFunction(
-				JListT::CompareResult (**compareFn)(JTreeNode * const &,
-													JTreeNode * const &),
+				std::function<JListT::CompareResult(JTreeNode * const &, JTreeNode * const &)>** compare,
 				JListT::SortOrder* order);
 	void	SetChildCompareFunction(
-				JListT::CompareResult (*compareFn)(JTreeNode * const &,
-												   JTreeNode * const &),
+				const std::function<JListT::CompareResult(JTreeNode * const &, JTreeNode * const &)> compare,
 				const JListT::SortOrder order,
 				const bool propagate);
 	void	SortChildren(const bool propagate = false);
@@ -91,8 +89,8 @@ private:
 	bool					itsIsOpenableFlag;
 	bool					itsIsDestructingFlag;
 
-	JListT::CompareResult (*itsCompareFn)(JTreeNode * const &,
-										  JTreeNode * const &);
+	std::function<JListT::CompareResult(JTreeNode * const &, JTreeNode * const &)>* itsCompareFn;
+
 	JListT::SortOrder	itsSortOrder;
 
 private:
@@ -337,13 +335,13 @@ JTreeNode::IsOpenable()
 inline bool
 JTreeNode::GetChildCompareFunction
 	(
-	JListT::CompareResult (**compareFn)(JTreeNode * const &,
-											  JTreeNode * const &),
+	std::function<JListT::CompareResult(JTreeNode * const &, JTreeNode * const &)>** compare,
+
 	JListT::SortOrder* order
 	)
 {
-	*compareFn = itsCompareFn;
-	*order     = itsSortOrder;
+	*compare = itsCompareFn;
+	*order   = itsSortOrder;
 	return itsCompareFn != nullptr;
 }
 
