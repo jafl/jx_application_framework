@@ -11,7 +11,7 @@ sub ReadFile($)
 	return <F>;
 }
 
-open(L, "find . -regex '.+\\.\\(cc\\|cpp\\|[tp]?h\\|tmpl\\|xpm\\|[ly]\\)' |");
+open(L, "find -E . -regex '.+\.(cpp|[tp]?h|tmpl|[ly])' |");
 
 while ($file = <L>)
 	{
@@ -31,10 +31,8 @@ while ($file = <L>)
 		{
 		print $file,"\n";
 
-		$bak = $file."~";
-		rename($file, $bak) unless -f $bak;
-
 		open(F, "> $file");
 		print F $data;
+		close(F);
 		}
 	}
