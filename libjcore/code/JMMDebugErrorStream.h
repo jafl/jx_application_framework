@@ -15,7 +15,7 @@ class JMMDebugErrorStream : public JMMMonitor
 public:
 
 	JMMDebugErrorStream();
-	~JMMDebugErrorStream();
+	~JMMDebugErrorStream() override;
 
 protected:
 

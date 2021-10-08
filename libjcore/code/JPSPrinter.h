@@ -32,7 +32,7 @@ public:
 
 	JPSPrinter(JFontManager* fontManager);
 
-	~JPSPrinter();
+	~JPSPrinter() override;
 
 	bool	WillPrintBlackWhite() const override;
 

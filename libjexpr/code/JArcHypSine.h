@@ -19,7 +19,7 @@ public:
 	JArcHypSine(JFunction* arg = nullptr);
 	JArcHypSine(const JArcHypSine& source);
 
-	~JArcHypSine();
+	~JArcHypSine() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

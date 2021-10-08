@@ -18,7 +18,7 @@ public:
 
 	static void	Delete(T* obj);
 
-	~JXDeleteObjectTask();
+	~JXDeleteObjectTask() override;
 
 	void	Perform(const Time delta, Time* maxSleepTime) override;
 

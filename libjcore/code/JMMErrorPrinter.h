@@ -22,7 +22,7 @@ class JMMErrorPrinter : public JMMMonitor
 public:
 
 	JMMErrorPrinter();
-	~JMMErrorPrinter();
+	~JMMErrorPrinter() override;
 
 	bool GetPrintErrors() const;
 	void    SetPrintErrors(const bool print);

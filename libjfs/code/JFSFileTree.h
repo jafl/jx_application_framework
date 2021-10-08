@@ -19,7 +19,7 @@ public:
 
 	JFSFileTree(JFSFileTreeNodeBase* root);
 
-	~JFSFileTree();
+	~JFSFileTree() override;
 
 	void	BroadcastDirectoryRenamed(const JString& oldPath, const JString& newPath);
 

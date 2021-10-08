@@ -21,7 +21,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	~JXFloatInput();
+	~JXFloatInput() override;
 
 	bool	GetValue(JFloat* value) const;
 	void	SetValue(const JFloat value);

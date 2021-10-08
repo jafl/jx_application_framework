@@ -19,7 +19,7 @@ public:
 
 	JXScrollTabsTask(JXTabGroup* tabGroup);
 
-	~JXScrollTabsTask();
+	~JXScrollTabsTask() override;
 
 	void	Perform() override;
 

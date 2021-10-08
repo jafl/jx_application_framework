@@ -25,7 +25,7 @@ public:
 	JXFileHistoryMenu(const JSize historyLength,
 					  JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	~JXFileHistoryMenu();
+	~JXFileHistoryMenu() override;
 
 	void	AddFile(const JString& fullName);
 	void	AddFile(const JString& path, const JString& name);

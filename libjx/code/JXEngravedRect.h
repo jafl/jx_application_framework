@@ -21,7 +21,7 @@ public:
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	~JXEngravedRect();
+	~JXEngravedRect() override;
 
 	void	SetDownWidth(const JSize downWidth);
 	void	SetBetweenWidth(const JSize betweenWidth);

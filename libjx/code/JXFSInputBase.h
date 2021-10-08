@@ -17,7 +17,7 @@ class JXFSInputBase : public JXInputField
 {
 public:
 
-	~JXFSInputBase();
+	~JXFSInputBase() override;
 
 	bool	HasBasePath() const;
 	bool	GetBasePath(JString* path) const;

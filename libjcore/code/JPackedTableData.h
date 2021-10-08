@@ -23,7 +23,7 @@ public:
 	JPackedTableData(const T& defValue);
 	JPackedTableData(const JPackedTableData<T>& source);
 
-	~JPackedTableData();
+	~JPackedTableData() override;
 
 	const JRunArray< T >&	GetData() const;
 

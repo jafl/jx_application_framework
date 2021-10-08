@@ -21,7 +21,7 @@ public:
 					 const JIndex variableIndex, JFunction* arrayIndex);
 	JFunctionWithVar(const JFunctionWithVar& source);
 
-	~JFunctionWithVar();
+	~JFunctionWithVar() override;
 
 	JIndex	Layout(const JExprRenderer& renderer,
 				   const JPoint& upperLeft, const JSize fontSize,

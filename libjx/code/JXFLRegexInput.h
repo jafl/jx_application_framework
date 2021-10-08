@@ -22,7 +22,7 @@ public:
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	~JXFLRegexInput();
+	~JXFLRegexInput() override;
 
 	JString	GetRegexString() const override;
 };

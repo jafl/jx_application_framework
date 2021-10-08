@@ -18,7 +18,7 @@ public:
 
 	JTextChooseSaveFile();
 
-	~JTextChooseSaveFile();
+	~JTextChooseSaveFile() override;
 
 	bool ChooseFile(const JString& prompt,
 					const JString& instructions,		// can be nullptr

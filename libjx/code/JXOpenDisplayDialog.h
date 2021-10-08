@@ -16,7 +16,7 @@ public:
 
 	JXOpenDisplayDialog(JXWindowDirector* supervisor);
 
-	~JXOpenDisplayDialog();
+	~JXOpenDisplayDialog() override;
 
 	JIndex	GetDisplayIndex() const;
 

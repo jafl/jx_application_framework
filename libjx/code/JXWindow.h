@@ -58,7 +58,7 @@ public:
 	JXWindow(JXWindowDirector* director, const JCoordinate w, const JCoordinate h,
 			 const JString& title, const bool isOverlay = false);
 
-	~JXWindow();
+	~JXWindow() override;
 
 	JXDisplay*	GetDisplay() const;
 

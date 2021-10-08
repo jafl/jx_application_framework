@@ -28,7 +28,7 @@ public:
 	JUserInputFunction(JExprEditor* editor, const JString& text = JString::empty);
 	JUserInputFunction(const JUserInputFunction& source);
 
-	~JUserInputFunction();
+	~JUserInputFunction() override;
 
 	void	Activate();
 	void	Deactivate();

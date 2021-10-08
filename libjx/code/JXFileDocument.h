@@ -31,7 +31,7 @@ public:
 
 public:
 
-	~JXFileDocument();
+	~JXFileDocument() override;
 
 	bool	NeedsSave() const override;
 	bool	Save();

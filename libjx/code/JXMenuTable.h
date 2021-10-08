@@ -33,7 +33,7 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	~JXMenuTable();
+	~JXMenuTable() override;
 
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 						   const JXKeyModifiers& modifiers) override;

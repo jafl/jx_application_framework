@@ -25,7 +25,7 @@ public:
 	JExprParser(const JVariableList* varList);
 	JExprParser(JExprEditor* editor);
 
-	virtual	~JExprParser();
+	virtual ~JExprParser();
 
 	bool	Parse(const JString& expr, JFunction** f);
 

@@ -16,7 +16,7 @@ public:
 
 	JSTUndoTabShift(JStyledText* text, const JStyledText::TextRange& range);
 
-	~JSTUndoTabShift();
+	~JSTUndoTabShift() override;
 };
 
 #endif

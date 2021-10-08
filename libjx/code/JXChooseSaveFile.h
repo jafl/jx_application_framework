@@ -28,7 +28,7 @@ public:
 	JXChooseSaveFile(JPrefsManager* prefsMgr = nullptr,
 					 const JPrefID& id = JFAID::kInvalidID);
 
-	~JXChooseSaveFile();
+	~JXChooseSaveFile() override;
 
 	bool ChooseFile(const JString& prompt,
 					const JString& instructions,

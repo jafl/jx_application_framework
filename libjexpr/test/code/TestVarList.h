@@ -22,7 +22,7 @@ public:
 	TestVarList();
 	TestVarList(std::istream& input);
 
-	~TestVarList();
+	~TestVarList() override;
 
 // implementation of JVariableList
 

@@ -22,7 +22,7 @@ public:
 
 	JXAnimationTask(JXImageWidget* widget);
 
-	~JXAnimationTask();
+	~JXAnimationTask() override;
 
 	void	Perform(const Time delta, Time* maxSleepTime) override;
 

@@ -23,7 +23,7 @@ public:
 					 const JIndex lineIndex, const JIndex maxLine,
 					 const bool physicalLineIndexFlag = false);
 
-	~JXGoToLineDialog();
+	~JXGoToLineDialog() override;
 
 	JIndex	GetLineIndex(bool* physicalLineIndexFlag) const;
 

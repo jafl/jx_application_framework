@@ -21,7 +21,7 @@ public:
 	JXSearchTextDecorTask(JXWindow* window,
 						  JXTextCheckbox* stayOpenCB, JXTextCheckbox* retainFocusCB);
 
-	~JXSearchTextDecorTask();
+	~JXSearchTextDecorTask() override;
 
 	void	Perform() override;
 

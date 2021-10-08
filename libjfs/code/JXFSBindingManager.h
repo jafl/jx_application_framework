@@ -27,7 +27,7 @@ public:
 	static JXFSBindingManager*	Instance();
 	static void					Destroy();
 
-	~JXFSBindingManager();
+	~JXFSBindingManager() override;
 
 	static void		Exec(const JString& path);
 	static void		Exec(const JString& fullProgramName,

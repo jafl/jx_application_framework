@@ -21,7 +21,7 @@ public:
 				const JStyledText::TextIndex& destIndex,
 				const JStyledText::TextCount& count);
 
-	~JSTUndoMove();
+	~JSTUndoMove() override;
 
 	void	Undo() override;
 

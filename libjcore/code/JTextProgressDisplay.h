@@ -19,7 +19,7 @@ public:
 
 	JTextProgressDisplay();
 
-	~JTextProgressDisplay();
+	~JTextProgressDisplay() override;
 
 	bool	IncrementProgress(const JString& message = JString::empty) override;
 	bool	IncrementProgress(const JSize delta) override;

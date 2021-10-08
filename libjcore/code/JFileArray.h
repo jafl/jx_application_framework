@@ -56,7 +56,7 @@ public:
 	static JError	OKToCreateEmbedded(JFileArray* theEnclosingFile,
 									   const JFAID& enclosureElementID);
 
-	~JFileArray();
+	~JFileArray() override;
 
 	const JString&	GetFileName() const;
 

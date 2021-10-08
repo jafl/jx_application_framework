@@ -26,7 +26,7 @@ public:
 
 	TestStrTableDirector(JXDirector* supervisor);
 
-	~TestStrTableDirector();
+	~TestStrTableDirector() override;
 
 protected:
 

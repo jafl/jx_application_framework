@@ -19,7 +19,7 @@ public:
 
 	JXChooseEPSDestFileTask(JXEPSPrintSetupDialog* director);
 
-	~JXChooseEPSDestFileTask();
+	~JXChooseEPSDestFileTask() override;
 
 	void	Perform() override;
 

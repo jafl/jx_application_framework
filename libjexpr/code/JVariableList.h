@@ -33,7 +33,7 @@ public:
 	JVariableList();
 	JVariableList(const JVariableList& source);
 
-	~JVariableList();
+	~JVariableList() override;
 
 	virtual const JString&	GetVariableName(const JIndex index) const = 0;
 	virtual void			GetVariableName(const JIndex index, JString* name,

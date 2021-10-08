@@ -29,7 +29,7 @@ public:
 	JXApplication(int* argc, char* argv[], const JUtf8Byte* appSignature,
 				  const JUtf8Byte** defaultStringData);
 
-	~JXApplication();
+	~JXApplication() override;
 
 	const JString&	GetSignature() const;
 

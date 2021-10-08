@@ -19,7 +19,7 @@ public:
 	JPhaseAngle(JFunction* arg = nullptr);
 	JPhaseAngle(const JPhaseAngle& source);
 
-	~JPhaseAngle();
+	~JPhaseAngle() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

@@ -18,7 +18,7 @@ public:
 	JXFileSelection(JXDisplay* display, JPtrArray<JString>* list);
 	JXFileSelection(JXWidget* widget, const JUtf8Byte* id);
 
-	~JXFileSelection();
+	~JXFileSelection() override;
 
 	bool	GetData(const JPtrArray<JString>** list) const;
 

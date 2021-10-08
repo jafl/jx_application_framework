@@ -25,7 +25,7 @@ public:
 					 const bool useSmall,
 					 const JXToolBarButton::Type type,
 					 JXDirector* supervisor);
-	~JXToolBarEditDir();
+	~JXToolBarEditDir() override;
 
 	bool	TreeChanged();
 

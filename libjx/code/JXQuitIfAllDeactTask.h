@@ -16,7 +16,7 @@ public:
 
 	JXQuitIfAllDeactTask();
 
-	~JXQuitIfAllDeactTask();
+	~JXQuitIfAllDeactTask() override;
 
 	void	Perform(const Time delta, Time* maxSleepTime) override;
 };

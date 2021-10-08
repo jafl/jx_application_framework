@@ -20,7 +20,7 @@ public:
 	JSliderBase(const JCoordinate thumbHalfSize,
 				const JCoordinate w, const JCoordinate h);
 
-	~JSliderBase();
+	~JSliderBase() override;
 
 	JFloat	GetValue() const;
 	JFloat	GetMinValue() const;

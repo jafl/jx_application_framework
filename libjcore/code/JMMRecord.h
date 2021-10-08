@@ -58,7 +58,7 @@ public:
 			  const JUtf8Byte* file, const JUInt32 lineNumber,
 			  const bool array, const bool managerMemory);
 	// Save 4 bytes (on many architectures) by having no virtuals, even the destructor
-	// ~JMMRecord(); // Warning: not virtual!
+	// ~JMMRecord() override; // Warning: not virtual!
 
 	// Accept built-in version!
 	//	JMMRecord(const JMMRecord& source);

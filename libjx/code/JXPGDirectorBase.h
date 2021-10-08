@@ -22,7 +22,7 @@ public:
 
 	JXPGDirectorBase(JXDirector* supervisor);
 
-	~JXPGDirectorBase();
+	~JXPGDirectorBase() override;
 
 	void	ProcessContinuing(const JString& value);
 	void	ProcessFinished();

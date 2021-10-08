@@ -22,7 +22,7 @@ public:
 	JXFixLenPGDirector(JXDirector* supervisor, JXProgressDisplay* pg,
 					   const JString& message, const bool allowCancel);
 
-	~JXFixLenPGDirector();
+	~JXFixLenPGDirector() override;
 
 private:
 

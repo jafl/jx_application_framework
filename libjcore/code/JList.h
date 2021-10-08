@@ -249,7 +249,7 @@ public:
 	JList();
 	JList(const JList<T>& source);
 
-	~JList();
+	~JList() override;
 
 	virtual T	GetFirstElement() const = 0;
 	virtual T	GetLastElement() const = 0;

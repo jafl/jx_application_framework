@@ -19,7 +19,7 @@ public:
 	JLogB(JFunction* arg1, JFunction* arg2);
 	JLogB(const JLogB& source);
 
-	~JLogB();
+	~JLogB() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

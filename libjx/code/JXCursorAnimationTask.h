@@ -20,7 +20,7 @@ public:
 
 	JXCursorAnimationTask(JXCursorAnimator* cursorAnim);
 
-	~JXCursorAnimationTask();
+	~JXCursorAnimationTask() override;
 
 	void	Perform(const Time delta, Time* maxSleepTime) override;
 

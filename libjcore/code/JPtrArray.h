@@ -42,7 +42,7 @@ public:
 	JPtrArray(const JPtrArray<T>& source, const JPtrArrayT::CleanUpAction action);
 	JPtrArray(JPtrArray<T>&& dyingSource) noexcept;
 
-	~JPtrArray();
+	~JPtrArray() override;
 
 	// we use different names so the insert-copy versions don't shadow the JArray functions
 

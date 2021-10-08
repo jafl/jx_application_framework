@@ -18,7 +18,7 @@ public:
 
 	JSTUndoTextBase(JStyledText* text, const JStyledText::TextRange& range);
 
-	~JSTUndoTextBase();
+	~JSTUndoTextBase() override;
 
 	void	SetFont(const JString& name, const JSize size) override;
 

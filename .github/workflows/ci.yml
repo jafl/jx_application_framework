@@ -64,9 +64,12 @@ jobs:
         with:
           languages: cpp
 
-      - name: Build
+      - name: Configure
         run: |
           ./configure
+
+      - name: Build
+        run: |
           export LC_ALL=en_US.UTF-8
           export LANG=en_US.UTF-8
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make default

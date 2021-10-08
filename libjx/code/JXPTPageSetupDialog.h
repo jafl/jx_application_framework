@@ -28,7 +28,7 @@ public:
 			   const JSize minPageHeight,
 			   const bool printReverseOrder);
 
-	~JXPTPageSetupDialog();
+	~JXPTPageSetupDialog() override;
 
 	bool	SetParameters(JXPTPrinter* p) const;
 

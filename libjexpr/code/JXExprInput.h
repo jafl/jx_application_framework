@@ -23,7 +23,7 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	~JXExprInput();
+	~JXExprInput() override;
 
 	const JString&	GetVarName() const;
 	void			SetVarName(const JString& str);

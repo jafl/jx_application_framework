@@ -25,7 +25,7 @@ public:
 						 const JString& showFileLocationCmd,
 						 const JString& composeMailCmd);
 
-	~JXEditWWWPrefsDialog();
+	~JXEditWWWPrefsDialog() override;
 
 	void	GetPrefs(JString* showURLCmd, JString* showFileContentCmd,
 					 JString* showFileLocationCmd, JString* composeMailCmd) const;

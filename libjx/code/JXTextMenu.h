@@ -34,7 +34,7 @@ public:
 
 	JXTextMenu(JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	~JXTextMenu();
+	~JXTextMenu() override;
 
 	void	SetMenuItems(const JUtf8Byte* menuStr,
 						 const JUtf8Byte* idNamespace = nullptr);

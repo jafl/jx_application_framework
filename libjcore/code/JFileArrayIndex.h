@@ -32,7 +32,7 @@ public:
 
 	JFileArrayIndex();
 
-	~JFileArrayIndex();
+	~JFileArrayIndex() override;
 
 	void	InsertElementAtIndex(const JFAIndex& index, const JUnsignedOffset offset,
 								 const JFAID& id);

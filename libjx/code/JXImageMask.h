@@ -40,7 +40,7 @@ public:
 	JXImageMask(const JXImageMask& source);
 	JXImageMask(const JXImageMask& source, const JRect& rect);
 
-	~JXImageMask();
+	~JXImageMask() override;
 
 	static JError	CreateFromXBM(JXDisplay* display,
 								  const JString& fileName, JXImageMask** mask);

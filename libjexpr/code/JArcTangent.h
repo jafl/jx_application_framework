@@ -19,7 +19,7 @@ public:
 	JArcTangent(JFunction* arg = nullptr);
 	JArcTangent(const JArcTangent& source);
 
-	~JArcTangent();
+	~JArcTangent() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

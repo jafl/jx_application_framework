@@ -20,7 +20,7 @@ public:
 				   JFunction* arrayIndex);
 	JVariableValue(const JVariableValue& source);
 
-	~JVariableValue();
+	~JVariableValue() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

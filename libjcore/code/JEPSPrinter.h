@@ -20,7 +20,7 @@ public:
 
 	JEPSPrinter(JFontManager* fontManager);
 
-	~JEPSPrinter();
+	~JEPSPrinter() override;
 
 	// saving setup information
 

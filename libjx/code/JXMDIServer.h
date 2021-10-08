@@ -18,7 +18,7 @@ public:
 
 	JXMDIServer();
 
-	~JXMDIServer();
+	~JXMDIServer() override;
 
 protected:
 

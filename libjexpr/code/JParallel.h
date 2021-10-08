@@ -19,7 +19,7 @@ public:
 	JParallel(JPtrArray<JFunction>* argList = nullptr);
 	JParallel(const JParallel& source);
 
-	~JParallel();
+	~JParallel() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

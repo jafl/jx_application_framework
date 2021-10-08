@@ -21,7 +21,7 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	~JXSaveFileInput();
+	~JXSaveFileInput() override;
 
 	static bool	WillAllowSpace();
 	static void	ShouldAllowSpace(const bool allow);

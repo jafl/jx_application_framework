@@ -37,7 +37,7 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate h);
 
-	~JXToolBarButton();
+	~JXToolBarButton() override;
 
 	JXTextMenu*		GetMenu() const;
 	const JString&	GetMenuItemID() const;

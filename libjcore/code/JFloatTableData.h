@@ -18,7 +18,7 @@ public:
 
 	JFloatTableData(const JFloat defValue);
 
-	~JFloatTableData();
+	~JFloatTableData() override;
 };
 
 #endif

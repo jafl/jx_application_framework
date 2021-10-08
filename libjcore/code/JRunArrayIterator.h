@@ -29,7 +29,7 @@ public:
 					  const JIndex index = 0);
 	JRunArrayIterator(const JRunArrayIterator<T>& source);
 
-	~JRunArrayIterator();
+	~JRunArrayIterator() override;
 
 	bool	Prev(T* item, const JIteratorAction move = kJIteratorMove) override;
 	bool	Next(T* item, const JIteratorAction move = kJIteratorMove) override;

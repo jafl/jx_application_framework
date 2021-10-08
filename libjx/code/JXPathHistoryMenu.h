@@ -26,7 +26,7 @@ public:
 	JXPathHistoryMenu(const JSize historyLength,
 					  JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	~JXPathHistoryMenu();
+	~JXPathHistoryMenu() override;
 
 	const JString&	GetBasePath() const;
 	void			SetBasePath(const JString& path);

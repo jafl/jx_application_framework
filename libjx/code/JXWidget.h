@@ -43,7 +43,7 @@ public:
 
 public:
 
-	~JXWidget();
+	~JXWidget() override;
 
 	void	Deactivate() override;
 

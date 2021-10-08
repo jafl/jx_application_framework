@@ -17,7 +17,7 @@ public:
 
 	JXBusyIconTask(JXImageWidget* widget);
 
-	~JXBusyIconTask();
+	~JXBusyIconTask() override;
 
 protected:
 

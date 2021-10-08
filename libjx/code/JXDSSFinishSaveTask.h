@@ -19,7 +19,7 @@ public:
 
 	JXDSSFinishSaveTask(JXSaveFileDialog* dialog);
 
-	~JXDSSFinishSaveTask();
+	~JXDSSFinishSaveTask() override;
 
 	void	Save(const JString& fullName) override;
 	void	Perform() override;

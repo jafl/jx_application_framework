@@ -16,7 +16,7 @@ class JXButton : public JXWidget
 {
 public:
 
-	~JXButton();
+	~JXButton() override;
 
 	void	Push();
 

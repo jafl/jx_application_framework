@@ -20,7 +20,7 @@ public:
 
 	JXPGMessageDirector(JXDirector* supervisor);
 
-	~JXPGMessageDirector();
+	~JXPGMessageDirector() override;
 
 	void	AddMessageLine(const JString& text);
 	void	AddMessageString(const JString& text);

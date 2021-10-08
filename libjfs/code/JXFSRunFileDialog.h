@@ -23,7 +23,7 @@ public:
 
 	JXFSRunFileDialog(const JString& fileName, const bool allowSaveCmd);
 
-	~JXFSRunFileDialog();
+	~JXFSRunFileDialog() override;
 
 	const JString&	GetCommand(JFSBinding::CommandType* type,
 							   bool* singleFile, bool* saveBinding) const;

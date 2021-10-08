@@ -24,7 +24,7 @@ public:
 
 	JStringPtrMap(const JPtrArrayT::CleanUpAction action,
 				  const JSize lgSize = kJDefaultLgMinTableSize);
-	~JStringPtrMap();
+	~JStringPtrMap() override;
 
 	bool GetElement(const JString& key, V** ptr);
 	bool GetElement(const JString& key, const V** ptr) const;
@@ -85,7 +85,7 @@ public:
 
 protected:
 
-	virtual void PrepareForSet(const JPtrArrayT::SetElementAction action);
+	void PrepareForSet(const JPtrArrayT::SetElementAction action) override;
 
 private:
 

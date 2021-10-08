@@ -22,7 +22,7 @@ public:
 	JXTextMenuDirector(JXDirector* supervisor,
 					   JXMenu* menu, JXTextMenuData* menuData);
 
-	~JXTextMenuDirector();
+	~JXTextMenuDirector() override;
 
 protected:
 

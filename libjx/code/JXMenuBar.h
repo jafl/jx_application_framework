@@ -30,7 +30,7 @@ public:
 			  const JCoordinate x, const JCoordinate y,
 			  const JCoordinate w, const JCoordinate h);
 
-	~JXMenuBar();
+	~JXMenuBar() override;
 
 	JSize			GetMenuCount() const;
 	JXMenu*			GetMenu(const JIndex index);

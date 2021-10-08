@@ -32,7 +32,7 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	~JXTextEditorSet();
+	~JXTextEditorSet() override;
 };
 
 #endif

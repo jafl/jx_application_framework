@@ -32,7 +32,7 @@ public:
 	JBroadcaster();
 	JBroadcaster(const JBroadcaster& source);
 
-	virtual	~JBroadcaster();
+	virtual ~JBroadcaster();
 
 	JBroadcaster& operator=(const JBroadcaster& source);
 

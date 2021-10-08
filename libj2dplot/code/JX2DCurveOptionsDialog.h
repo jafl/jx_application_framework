@@ -40,7 +40,7 @@ public:
 							const JArray<bool>& isScatter,
 							const JIndex startIndex);
 
-	~JX2DCurveOptionsDialog();
+	~JX2DCurveOptionsDialog() override;
 
 	const JArray<J2DCurveInfo>&	GetCurveInfoArray();
 

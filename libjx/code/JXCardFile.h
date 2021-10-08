@@ -21,7 +21,7 @@ public:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	~JXCardFile();
+	~JXCardFile() override;
 
 	JSize	GetCardCount() const;
 	bool	GetCurrentCardIndex(JIndex* index) const;

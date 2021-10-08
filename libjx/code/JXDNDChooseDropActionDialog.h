@@ -21,7 +21,7 @@ public:
 								const JPtrArray<JString>& descriptionList,
 								const Atom defaultAction);
 
-	~JXDNDChooseDropActionDialog();
+	~JXDNDChooseDropActionDialog() override;
 
 	Atom	GetAction() const;
 

@@ -26,7 +26,7 @@ public:
 					const bool ownsFn, const JIndex xIndex,
 					const JFloat xMin, const JFloat xMax);
 
-	~J2DPlotFunction();
+	~J2DPlotFunction() override;
 
 	const JVariableList*	GetVariableList() const;
 	const JFunction&		GetFunction() const;

@@ -25,7 +25,7 @@ public:
 	JXSpellCheckerDialog(JXSpellChecker* checker,
 						 JXTEBase* editor, const JStyledText::TextRange& range);
 
-	~JXSpellCheckerDialog();
+	~JXSpellCheckerDialog() override;
 
 	void	Activate() override;
 	bool	Deactivate() override;

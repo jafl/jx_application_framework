@@ -37,7 +37,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	~JXDockWidget();
+	~JXDockWidget() override;
 
 	JXDockDirector*	GetDockDirector() const;
 	JXTabGroup*		GetTabGroup() const;

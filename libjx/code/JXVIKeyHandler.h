@@ -18,7 +18,7 @@ public:
 
 	JXVIKeyHandler();
 
-	~JXVIKeyHandler();
+	~JXVIKeyHandler() override;
 
 	bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,
 						   const JTextEditor::CaretMotion motion,

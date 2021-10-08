@@ -87,7 +87,7 @@ public:
 
 	static bool	Create(const JString& displayName, JXDisplay** display);
 
-	~JXDisplay();
+	~JXDisplay() override;
 
 	bool	Close();
 

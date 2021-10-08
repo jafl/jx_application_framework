@@ -34,7 +34,7 @@ public:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	~TestWidget();
+	~TestWidget() override;
 
 	void	Print(JPagePrinter& p);
 	void	Print(JEPSPrinter& p);

@@ -33,7 +33,7 @@ public:
 
 	JXPSPrinter(const JXDisplay* display);
 
-	~JXPSPrinter();
+	~JXPSPrinter() override;
 
 	// saving setup information
 

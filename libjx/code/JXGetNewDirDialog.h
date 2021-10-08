@@ -19,7 +19,7 @@ public:
 					  const JString& prompt, const JString& initialName,
 					  const JString& basePath, const bool modal = true);
 
-	~JXGetNewDirDialog();
+	~JXGetNewDirDialog() override;
 
 	JString	GetNewDirName() const;
 

@@ -24,7 +24,7 @@ public:
 
 	JXTextMenuData(JXTextMenu* menu);
 
-	~JXTextMenuData();
+	~JXTextMenuData() override;
 
 	void	InsertItem(const JIndex index, const JString& str,
 					   const JXMenu::ItemType type = JXMenu::kPlainType,

@@ -21,7 +21,7 @@ public:
 						const JCoordinate x, const JCoordinate y,
 						const JCoordinate w, const JCoordinate h);
 
-	~JXProgressIndicator();
+	~JXProgressIndicator() override;
 
 	JSize	GetValue() const;
 	void	SetValue(const JSize value);

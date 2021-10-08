@@ -28,7 +28,7 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	~JXFileListTable();
+	~JXFileListTable() override;
 
 	bool	AddFile(const JString& fullName, JIndex* fullNameIndex = nullptr);
 	void	RemoveFile(const JString& fullName);

@@ -18,7 +18,7 @@ public:
 
 	TestLinkedDocument(JXDirector* supervisor);
 
-	~TestLinkedDocument();
+	~TestLinkedDocument() override;
 
 	bool	NeedDocument(JXDocument* doc) const override;
 

@@ -34,7 +34,7 @@ public:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	~JXTabGroup();
+	~JXTabGroup() override;
 
 	void	Activate() override;		// must call inherited
 

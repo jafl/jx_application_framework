@@ -91,7 +91,7 @@ public:
 
 	JXMenu(JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	~JXMenu();
+	~JXMenu() override;
 
 	bool	IsOpen() const;
 

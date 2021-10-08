@@ -21,7 +21,7 @@ public:
 
 	JBroadcastTester(const JBroadcaster* obj);
 
-	~JBroadcastTester();
+	~JBroadcastTester() override;
 
 	void	Expect(const JUtf8Byte* type, std::function<void(const Message&)> validator = NOP);
 	void	ExpectGoingAway();

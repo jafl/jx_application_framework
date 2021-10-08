@@ -29,7 +29,7 @@ public:
 					 const JCoordinate x, const JCoordinate y,
 					 const JCoordinate w, const JCoordinate h);
 
-	~JXFSBindingTable();
+	~JXFSBindingTable() override;
 
 	void	SetColTitles(JXColHeaderWidget* widget) const;
 	void	SyncWithBindingList();

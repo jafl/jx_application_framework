@@ -19,7 +19,7 @@ public:
 	JXWarningDialog(JXDirector* supervisor,
 					const JString& title, const JString& message);
 
-	~JXWarningDialog();
+	~JXWarningDialog() override;
 
 private:
 

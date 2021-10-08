@@ -24,7 +24,7 @@ public:
 					   const JPtrArray<JString>& choiceList,
 					   const JPtrArray<JString>* shortcutList = nullptr);
 
-	~JXRadioGroupDialog();
+	~JXRadioGroupDialog() override;
 
 	JIndex	GetSelectedItem() const;
 	void	SelectItem(const JIndex index);

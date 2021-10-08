@@ -56,7 +56,7 @@ public:
 	JSimpleProcess(const pid_t pid, const int fd,
 				   const bool deleteWhenFinished);
 
-	~JSimpleProcess();
+	~JSimpleProcess() override;
 
 	void	ReportError(const bool success);
 

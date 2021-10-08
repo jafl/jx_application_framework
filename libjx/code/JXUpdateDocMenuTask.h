@@ -20,7 +20,7 @@ public:
 
 	JXUpdateDocMenuTask(JXDocumentManager* docMgr);
 
-	~JXUpdateDocMenuTask();
+	~JXUpdateDocMenuTask() override;
 
 	void	Perform() override;
 

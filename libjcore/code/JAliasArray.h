@@ -19,7 +19,7 @@ public:
 				const std::function<JListT::CompareResult(const T&, const T&)> compareFn,
 				const JListT::SortOrder order);
 
-	~JAliasArray();
+	~JAliasArray() override;
 
 	JArray<T>*			GetData();
 	const JArray<T>&	GetData() const;

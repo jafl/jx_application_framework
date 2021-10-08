@@ -23,7 +23,7 @@ public:
 	J2DPlotFunctionBase(const Type type, J2DPlotWidget* plot,
 						const JFloat xMin, const JFloat xMax);
 
-	~J2DPlotFunctionBase();
+	~J2DPlotFunctionBase() override;
 
 	bool	IsFunction() const override;
 	void	GetElement(const JIndex index, J2DDataPoint* data) const override;

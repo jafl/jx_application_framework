@@ -19,7 +19,7 @@ public:
 	JDivision(JFunction* arg1, JFunction* arg2);
 	JDivision(const JDivision& source);
 
-	~JDivision();
+	~JDivision() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

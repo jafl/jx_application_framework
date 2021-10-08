@@ -20,7 +20,7 @@ public:
 
 	TestPGTask(const bool fixedLength);
 
-	~TestPGTask();
+	~TestPGTask() override;
 
 	void	Perform(const Time delta, Time* maxSleepTime) override;
 

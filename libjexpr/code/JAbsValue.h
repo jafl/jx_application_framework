@@ -19,7 +19,7 @@ public:
 	JAbsValue(JFunction* arg = nullptr);
 	JAbsValue(const JAbsValue& source);
 
-	~JAbsValue();
+	~JAbsValue() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

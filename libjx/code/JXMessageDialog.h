@@ -18,7 +18,7 @@ public:
 
 	JXMessageDialog(JXDirector* supervisor, const JString& message);
 
-	~JXMessageDialog();
+	~JXMessageDialog() override;
 
 private:
 

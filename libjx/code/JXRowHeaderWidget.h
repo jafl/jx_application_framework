@@ -24,7 +24,7 @@ public:
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);
 
-	~JXRowHeaderWidget();
+	~JXRowHeaderWidget() override;
 
 	void	TurnOnRowResizing(const JCoordinate minRowHeight = 20);
 	void	TurnOffRowResizing();

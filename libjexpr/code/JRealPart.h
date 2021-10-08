@@ -19,7 +19,7 @@ public:
 	JRealPart(JFunction* arg = nullptr);
 	JRealPart(const JRealPart& source);
 
-	~JRealPart();
+	~JRealPart() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

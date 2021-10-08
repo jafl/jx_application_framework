@@ -38,7 +38,7 @@ public:
 					   const JCoordinate x, const JCoordinate y,
 					   const JCoordinate w, const JCoordinate h);
 
-	~JXScrollableWidget();
+	~JXScrollableWidget() override;
 
 	void		AlwaysShowScrollbars(const bool alwaysShow = true);
 	bool	GetScrollbars(JXScrollbar** hScrollbar, JXScrollbar** vScrollbar) const;

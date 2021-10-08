@@ -20,7 +20,7 @@ public:
 
 	JPtrStack(const JPtrArrayT::CleanUpAction action);
 
-	~JPtrStack();
+	~JPtrStack() override;
 
 	// these insert a *copy* of the object into the array
 

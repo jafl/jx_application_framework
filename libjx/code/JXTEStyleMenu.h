@@ -26,7 +26,7 @@ public:
 	JXTEStyleMenu(JXTextEditor* te,
 				  JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	~JXTEStyleMenu();
+	~JXTEStyleMenu() override;
 
 	void	SetTE(JXTextEditor* te);
 

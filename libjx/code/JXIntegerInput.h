@@ -23,7 +23,7 @@ public:
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	~JXIntegerInput();
+	~JXIntegerInput() override;
 
 	bool	GetValue(JInteger* value) const;
 	void	SetValue(const JInteger value);

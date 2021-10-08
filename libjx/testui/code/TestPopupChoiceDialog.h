@@ -18,7 +18,7 @@ public:
 
 	TestPopupChoiceDialog(JXWindowDirector* supervisor);
 
-	~TestPopupChoiceDialog();
+	~TestPopupChoiceDialog() override;
 
 private:
 

@@ -23,7 +23,7 @@ public:
 
 	JXEPSPrinter(JXDisplay* display);
 
-	~JXEPSPrinter();
+	~JXEPSPrinter() override;
 
 	// saving setup information
 

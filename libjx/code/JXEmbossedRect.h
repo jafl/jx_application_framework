@@ -21,7 +21,7 @@ public:
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	~JXEmbossedRect();
+	~JXEmbossedRect() override;
 
 	void	SetUpWidth(const JSize upWidth);
 	void	SetBetweenWidth(const JSize betweenWidth);

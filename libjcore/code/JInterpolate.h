@@ -19,7 +19,7 @@ public:
 
 	JInterpolate();
 
-	~JInterpolate();
+	~JInterpolate() override;
 
 	JString	Interpolate(const JString& pattern, const JStringMatch& m);
 

@@ -19,7 +19,7 @@ public:
 
 	JXUpdateMinSizeTask(JXDockWidget* dock);
 
-	~JXUpdateMinSizeTask();
+	~JXUpdateMinSizeTask() override;
 
 	void	Perform() override;
 

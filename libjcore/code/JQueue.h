@@ -21,7 +21,7 @@ public:
 	JQueue();
 	JQueue(const JQueue<T,S>& source);
 
-	~JQueue();
+	~JQueue() override;
 
 	JQueue<T,S>& operator=(const JQueue<T,S>& source);
 

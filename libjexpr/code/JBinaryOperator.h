@@ -19,7 +19,7 @@ public:
 	JBinaryOperator(const JUtf8Byte* name, JFunction* arg1, JFunction* arg2);
 	JBinaryOperator(const JBinaryOperator& source);
 
-	~JBinaryOperator();
+	~JBinaryOperator() override;
 
 	void	Print(std::ostream& output) const override;
 

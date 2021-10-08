@@ -19,7 +19,7 @@ public:
 	Record(const JString& fileName);
 	Record(std::istream& input);	// version must already be checked
 
-	~Record();
+	~Record() override;
 
 	bool			IsValid() const;
 	bool			IsArrayNew() const;

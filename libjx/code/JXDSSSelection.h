@@ -18,14 +18,14 @@ public:
 
 	JXDSSSelection(JXWindow* window, JXDirectSaveAction* action);
 
-	~JXDSSSelection();
+	~JXDSSSelection() override;
 
 protected:
 
-	void	AddTypes(const Atom selectionName);
+	void	AddTypes(const Atom selectionName) override;
 	bool	ConvertData(const Atom requestType, Atom* returnType,
 						unsigned char** data, JSize* dataLength,
-						JSize* bitsPerBlock) const;
+						JSize* bitsPerBlock) const override;
 
 private:
 

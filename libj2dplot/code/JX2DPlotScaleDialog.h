@@ -32,7 +32,7 @@ public:
 						const JFloat yMin, const JFloat yMax, const JFloat yInc,
 						const bool yLinear);
 
-	~JX2DPlotScaleDialog();
+	~JX2DPlotScaleDialog() override;
 
 	void GetScaleValues(JFloat* xMin, JFloat* xMax, JFloat* xInc,
 						bool* xLinear,

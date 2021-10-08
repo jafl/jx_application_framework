@@ -18,7 +18,7 @@ public:
 
 	static void	Close(JXDirector* director);
 
-	~JXCloseDirectorTask();
+	~JXCloseDirectorTask() override;
 
 	void	Perform(const Time delta, Time* maxSleepTime) override;
 

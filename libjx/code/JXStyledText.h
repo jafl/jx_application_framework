@@ -20,7 +20,7 @@ public:
 				 JFontManager* fontManager);
 	JXStyledText(const JXStyledText& source);
 
-	~JXStyledText();
+	~JXStyledText() override;
 
 protected:
 

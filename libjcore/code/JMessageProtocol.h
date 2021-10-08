@@ -88,7 +88,7 @@ public:
 	JMessageProtocol(const bool synchSend = false);
 	JMessageProtocol(const ACE_HANDLE fd, const bool synchSend = false);
 
-	~JMessageProtocol();
+	~JMessageProtocol() override;
 
 	void	GetProtocol(JString* separator, JString* disconnect) const;
 	void	SetProtocol(const JUtf8Byte* separatorStr, const JSize separatorByteCount,

@@ -16,7 +16,7 @@ public:
 
 	JPrinter();
 
-	~JPrinter();
+	~JPrinter() override;
 
 private:
 

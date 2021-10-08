@@ -19,7 +19,7 @@ public:
 	JImagPart(JFunction* arg = nullptr);
 	JImagPart(const JImagPart& source);
 
-	~JImagPart();
+	~JImagPart() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

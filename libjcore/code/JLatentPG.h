@@ -22,7 +22,7 @@ public:
 	JLatentPG(JProgressDisplay* pg, const bool ownIt,
 			  const JSize scaleFactor = 1);
 
-	~JLatentPG();
+	~JLatentPG() override;
 
 	void	UseDefaultPG();
 	void	SetPG(JProgressDisplay* pg, const bool ownIt);

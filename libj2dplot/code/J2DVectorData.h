@@ -27,7 +27,7 @@ public:
 
 	J2DVectorData();
 
-	~J2DVectorData();
+	~J2DVectorData() override;
 
 	void	GetElement(const JIndex index, J2DDataPoint* data) const override;
 	void	GetElement(const JIndex index, J2DVectorPoint* data) const override;

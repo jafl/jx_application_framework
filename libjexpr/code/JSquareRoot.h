@@ -19,7 +19,7 @@ public:
 	JSquareRoot(JFunction* arg = nullptr);
 	JSquareRoot(const JSquareRoot& source);
 
-	~JSquareRoot();
+	~JSquareRoot() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

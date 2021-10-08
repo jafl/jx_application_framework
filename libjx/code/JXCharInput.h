@@ -21,7 +21,7 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	~JXCharInput();
+	~JXCharInput() override;
 
 	JUtf8Character	GetCharacter() const;
 	void			SetCharacter(const JUtf8Character& c);

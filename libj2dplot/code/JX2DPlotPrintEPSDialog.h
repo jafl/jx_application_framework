@@ -32,7 +32,7 @@ public:
 			   const bool printPreview, const bool bw,
 			   const JCoordinate w, const JCoordinate h, const Unit unit);
 
-	~JX2DPlotPrintEPSDialog();
+	~JX2DPlotPrintEPSDialog() override;
 
 	void	GetPlotSize(JCoordinate* w, JCoordinate* h, Unit* unit);
 

@@ -23,7 +23,7 @@ public:
 	JXDockDirector(const JString& title, const bool splitHoriz);
 	JXDockDirector(std::istream& input, const JFileVersion vers, const JString& title);
 
-	~JXDockDirector();
+	~JXDockDirector() override;
 
 	bool	Close() override;
 

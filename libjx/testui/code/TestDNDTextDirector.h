@@ -20,7 +20,7 @@ public:
 
 	TestDNDTextDirector(JXDirector* supervisor);
 
-	~TestDNDTextDirector();
+	~TestDNDTextDirector() override;
 
 private:
 

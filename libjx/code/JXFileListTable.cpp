@@ -1145,7 +1145,7 @@ JXFileListTable::InstallCompareWrapper
 	)
 	const
 {
-	itsVisibleList->SetCompareFunction([=](const VisInfo& i1, const VisInfo& i2)
+	itsVisibleList->SetCompareFunction([this, prefix](const VisInfo& i1, const VisInfo& i2)
 	{
 		return CompareWrapper(*itsFileList, prefix, i1, i2);
 	});

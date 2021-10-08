@@ -26,7 +26,7 @@ public:
 		Create(const JString& fileName,
 			   const bool printPreview, const bool bw);
 
-	~JXEPSPrintSetupDialog();
+	~JXEPSPrintSetupDialog() override;
 
 	bool	SetParameters(JXEPSPrinter* p) const;
 

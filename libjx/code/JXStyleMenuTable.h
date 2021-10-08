@@ -23,7 +23,7 @@ public:
 					 const JCoordinate x, const JCoordinate y,
 					 const JCoordinate w, const JCoordinate h);
 
-	~JXStyleMenuTable();
+	~JXStyleMenuTable() override;
 
 protected:
 

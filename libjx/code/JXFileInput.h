@@ -19,7 +19,7 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	~JXFileInput();
+	~JXFileInput() override;
 
 	bool				InputValid() override;
 	virtual bool		GetFile(JString* fullName) const;

@@ -16,7 +16,7 @@ public:
 
 	MDIServer();
 
-	virtual	~MDIServer();
+	virtual ~MDIServer();
 
 protected:
 

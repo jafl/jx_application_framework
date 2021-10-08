@@ -36,7 +36,7 @@ public:
 				 const bool testWidgetIsImage = false,
 				 const bool snoopWindow = false);
 
-	~TestDirector();
+	~TestDirector() override;
 
 	void	OpenTextFile(const JString& fileName);
 

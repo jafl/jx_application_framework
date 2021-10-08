@@ -33,7 +33,7 @@ public:
 	JXImageMenu(const JSize columnCount, JXMenu* owner, const JIndex itemIndex,
 				JXContainer* enclosure);
 
-	~JXImageMenu();
+	~JXImageMenu() override;
 
 	void			InsertItem(const JIndex index, JXImage* image,
 							   const bool menuOwnsImage,

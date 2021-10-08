@@ -21,7 +21,7 @@ public:
 
 	JXStandAlonePG();
 
-	~JXStandAlonePG();
+	~JXStandAlonePG() override;
 
 	bool	ProcessContinuing() override;
 	void	ProcessFinished() override;

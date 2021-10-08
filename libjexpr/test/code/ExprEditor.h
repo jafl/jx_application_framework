@@ -16,7 +16,7 @@ public:
 
 	ExprEditor(const JVariableList* varList, JFontManager* fontManager);
 
-	~ExprEditor();
+	~ExprEditor() override;
 
 	void	Activate();
 	void	CheckCmdStatus(const JArray<bool>& expected) const;

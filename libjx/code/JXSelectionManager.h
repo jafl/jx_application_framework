@@ -29,7 +29,7 @@ public:
 
 	JXSelectionManager(JXDisplay* display);
 
-	~JXSelectionManager();
+	~JXSelectionManager() override;
 
 	bool	GetAvailableTypes(const Atom selectionName, const Time time,
 							  JArray<Atom>* typeList);

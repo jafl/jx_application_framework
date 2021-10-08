@@ -19,7 +19,7 @@ public:
 
 	JX2DPlotEPSPrinter(JXDisplay* display);
 
-	~JX2DPlotEPSPrinter();
+	~JX2DPlotEPSPrinter() override;
 
 	void	UsePlotSetup(const bool use);
 

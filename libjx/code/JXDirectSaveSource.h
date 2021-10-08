@@ -23,7 +23,7 @@ public:
 					   const JCoordinate x, const JCoordinate y,
 					   const JCoordinate w, const JCoordinate h);
 
-	~JXDirectSaveSource();
+	~JXDirectSaveSource() override;
 
 	static void	Init(JXWindow* window, const JString& fileName);
 

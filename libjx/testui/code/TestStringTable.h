@@ -29,7 +29,7 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	~TestStringTable();
+	~TestStringTable() override;
 
 	void	TurnOnRowResizing(JXRowHeaderWidget* rowHeader);
 

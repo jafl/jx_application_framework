@@ -22,7 +22,7 @@ public:
 	JArray(const JArray<T>& source);
 	JArray(JArray<T>&& dyingSource) noexcept;
 
-	~JArray();
+	~JArray() override;
 
 	JArray<T>& operator=(const JArray<T>& source);
 

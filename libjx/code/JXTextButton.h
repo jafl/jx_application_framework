@@ -23,7 +23,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	~JXTextButton();
+	~JXTextButton() override;
 
 	const JString&	GetLabel() const;
 	void			SetLabel(const JString& label);

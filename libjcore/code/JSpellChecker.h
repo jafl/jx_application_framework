@@ -20,7 +20,7 @@ public:
 
 	JSpellChecker();
 
-	virtual	~JSpellChecker();
+	virtual ~JSpellChecker();
 
 	bool	IsAvailable() const;
 

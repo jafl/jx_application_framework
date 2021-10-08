@@ -31,7 +31,7 @@ public:
 
 	StatsDirector(JXDirector* supervisor);
 
-	virtual	~StatsDirector();
+	virtual ~StatsDirector();
 
 	void	SetLink(JMemoryManager::DebugLink* link);
 

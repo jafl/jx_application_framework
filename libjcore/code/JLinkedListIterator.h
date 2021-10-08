@@ -28,7 +28,7 @@ public:
 						const JIndex index = 0);
 	JLinkedListIterator(const JLinkedListIterator<T>& source);
 
-	~JLinkedListIterator();
+	~JLinkedListIterator() override;
 
 	bool	Prev(T* item, const JIteratorAction move = kJIteratorMove) override;
 	bool	Next(T* item, const JIteratorAction move = kJIteratorMove) override;

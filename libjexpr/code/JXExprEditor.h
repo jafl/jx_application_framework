@@ -41,7 +41,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	~JXExprEditor();
+	~JXExprEditor() override;
 
 	JXTextMenu*	GetEditMenu() const;
 	bool		EditMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;

@@ -21,7 +21,7 @@ public:
 
 	JXSpellChecker();
 
-	~JXSpellChecker();
+	~JXSpellChecker() override;
 
 	bool	WillReportNoErrors() const;
 	void	ShouldReportNoErrors(const bool report);

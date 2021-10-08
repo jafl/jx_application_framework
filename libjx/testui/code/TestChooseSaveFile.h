@@ -29,7 +29,7 @@ public:
 
 	TestChooseSaveFile();
 
-	~TestChooseSaveFile();
+	~TestChooseSaveFile() override;
 
 	SaveFormat	GetSaveFormat() const;
 

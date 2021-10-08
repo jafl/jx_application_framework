@@ -189,7 +189,7 @@ public:
 		CRMRuleList();
 		CRMRuleList(const CRMRuleList& source);
 
-		~CRMRuleList();
+		~CRMRuleList() override;
 
 		JInterpolate*
 		GetInterpolator()
@@ -209,7 +209,7 @@ public:
 	JStyledText(const bool useMultipleUndo, const bool pasteStyledText);
 	JStyledText(const JStyledText& source);
 
-	~JStyledText();
+	~JStyledText() override;
 
 	bool			IsEmpty() const;
 	bool			EndsWithNewline() const;

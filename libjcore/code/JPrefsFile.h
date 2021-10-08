@@ -21,7 +21,7 @@ public:
 	static JError	OKToCreate(const JString& fileNameStem, JString* fullName,
 							   const CreateAction action = kFailIfOpen);
 
-	~JPrefsFile();
+	~JPrefsFile() override;
 
 	void	GetData(const JPrefID& id, std::string* data) const;
 

@@ -20,7 +20,7 @@ public:
 
 	TestApp(int* argc, char* argv[], const bool wantMDI);
 
-	~TestApp();
+	~TestApp() override;
 
 	void	OpenDocuments();
 	bool	Close() override;

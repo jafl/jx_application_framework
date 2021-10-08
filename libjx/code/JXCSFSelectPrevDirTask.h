@@ -24,7 +24,7 @@ public:
 	JXCSFSelectPrevDirTask(JDirInfo* dirInfo, JXDirTable* dirTable,
 						   const JString& dirName);
 
-	~JXCSFSelectPrevDirTask();
+	~JXCSFSelectPrevDirTask() override;
 
 	void	Perform() override;
 

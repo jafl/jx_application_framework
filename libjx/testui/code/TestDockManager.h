@@ -16,7 +16,7 @@ public:
 
 	TestDockManager(JXDisplay* display);
 
-	~TestDockManager();
+	~TestDockManager() override;
 
 	bool	CanDockAll() const override;
 	void	DockAll() override;

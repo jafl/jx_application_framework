@@ -40,7 +40,7 @@ public:
 				  JPrefsManager* prefsMgr = nullptr,
 				  const JPrefID& id = JFAID::kInvalidID);
 
-	~JXDockManager();
+	~JXDockManager() override;
 
 	JXDockDirector*	CreateDock(const bool splitHoriz);
 	void			CloseAll();

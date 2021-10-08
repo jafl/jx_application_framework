@@ -1087,7 +1087,7 @@ class JXSearchSelection : public JXSelectionData
 public:
 
 	JXSearchSelection(JXDisplay* display);
-	virtual	~JXSearchSelection();
+	virtual ~JXSearchSelection();
 
 protected:
 

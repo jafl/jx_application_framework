@@ -18,7 +18,7 @@ public:
 
 	AboutDialog(JXDirector* supervisor);
 
-	~AboutDialog();
+	~AboutDialog() override;
 
 private:
 

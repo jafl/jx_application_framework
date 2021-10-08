@@ -44,7 +44,7 @@ public:
 
 	JXDocumentManager(const bool wantShortcuts = true);
 
-	~JXDocumentManager();
+	~JXDocumentManager() override;
 
 	bool	WillSafetySave() const;
 	void	ShouldSafetySave(const bool doIt);

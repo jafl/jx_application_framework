@@ -18,7 +18,7 @@ public:
 
 	JTextUserNotification();
 
-	~JTextUserNotification();
+	~JTextUserNotification() override;
 
 	void	DisplayMessage(const JString& message) override;
 	void	ReportError(const JString& message) override;

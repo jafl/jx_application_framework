@@ -26,7 +26,7 @@ public:
 					 const JCoordinate x, const JCoordinate y,
 					 const JCoordinate w, const JCoordinate h);
 
-	~JXTreeListWidget();
+	~JXTreeListWidget() override;
 
 	JTreeList*			GetTreeList();
 	const JTreeList*	GetTreeList() const;

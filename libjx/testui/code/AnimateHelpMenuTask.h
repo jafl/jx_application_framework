@@ -22,7 +22,7 @@ public:
 
 	AnimateHelpMenuTask(JXTextMenu* menu, const JIndex menuItem);
 
-	~AnimateHelpMenuTask();
+	~AnimateHelpMenuTask() override;
 
 	void	Reset();
 

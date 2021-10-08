@@ -25,7 +25,7 @@ public:
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);
 
-	~JXColHeaderWidget();
+	~JXColHeaderWidget() override;
 
 	void	TurnOnColResizing(const JCoordinate minColWidth = 20);
 	void	TurnOffColResizing();

@@ -23,7 +23,7 @@ public:
 	RecordDirector(JXDirector* supervisor, RecordList* recordList,
 					 const JString& windowTitle);
 
-	virtual	~RecordDirector();
+	virtual ~RecordDirector();
 
 protected:
 

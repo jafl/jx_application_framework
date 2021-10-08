@@ -16,7 +16,7 @@ public:
 
 	JXAcceptLicenseDialog(JXDirector* supervisor);
 
-	~JXAcceptLicenseDialog();
+	~JXAcceptLicenseDialog() override;
 
 private:
 

@@ -20,7 +20,7 @@ class JMMHashTable : public JMMTable
 public:
 
 	JMMHashTable(JMemoryManager* manager, const bool recordDelete);
-	~JMMHashTable();
+	~JMMHashTable() override;
 
 	JSize GetAllocatedCount() const override;
 	JSize GetAllocatedBytes() const override;

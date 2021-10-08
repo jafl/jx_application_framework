@@ -22,7 +22,7 @@ public:
 	JNamedTreeNode(JTree* tree, const JString& name,
 				   const bool isOpenable = true);
 
-	~JNamedTreeNode();
+	~JNamedTreeNode() override;
 
 	const JString&	GetName() const;
 	void			SetName(const JString& name);

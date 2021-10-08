@@ -22,7 +22,7 @@ public:
 
 	JTreeNode(JTree* tree, const bool isOpenable = true);
 
-	~JTreeNode();
+	~JTreeNode() override;
 
 	bool	IsRoot() const;
 	JSize	GetDepth() const;

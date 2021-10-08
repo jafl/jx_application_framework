@@ -24,7 +24,7 @@ public:
 
 	JXMenuData();
 
-	~JXMenuData();
+	~JXMenuData() override;
 
 	bool	HasCheckboxes() const;
 	bool	HasSubmenus() const;

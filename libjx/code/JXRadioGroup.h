@@ -26,7 +26,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	~JXRadioGroup();
+	~JXRadioGroup() override;
 
 	JIndex	GetSelectedItem() const;
 	void	SelectItem(const JIndex id);

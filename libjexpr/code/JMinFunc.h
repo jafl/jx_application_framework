@@ -19,7 +19,7 @@ public:
 	JMinFunc(JPtrArray<JFunction>* argList = nullptr);
 	JMinFunc(const JMinFunc& source);
 
-	~JMinFunc();
+	~JMinFunc() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

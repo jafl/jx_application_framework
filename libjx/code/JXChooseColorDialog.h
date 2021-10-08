@@ -24,7 +24,7 @@ public:
 
 	JXChooseColorDialog(JXWindowDirector* supervisor, const JColorID colorIndex);
 
-	~JXChooseColorDialog();
+	~JXChooseColorDialog() override;
 
 	JColorID	GetColor() const;
 

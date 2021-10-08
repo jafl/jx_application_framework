@@ -20,7 +20,7 @@ class JXRadioButton : public JXWidget
 
 public:
 
-	~JXRadioButton();
+	~JXRadioButton() override;
 
 	JIndex	GetID() const;
 	void	SetID(const JIndex id);

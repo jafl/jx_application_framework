@@ -19,7 +19,7 @@ public:
 
 	JXWebBrowser();
 
-	~JXWebBrowser();
+	~JXWebBrowser() override;
 
 	void	EditPrefs();
 

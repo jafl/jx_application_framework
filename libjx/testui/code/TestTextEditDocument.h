@@ -23,7 +23,7 @@ public:
 	TestTextEditDocument(JXDirector* supervisor);
 	TestTextEditDocument(JXDirector* supervisor, const JString& fileName, const bool privateFmt);
 
-	~TestTextEditDocument();
+	~TestTextEditDocument() override;
 
 protected:
 

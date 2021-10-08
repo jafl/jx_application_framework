@@ -22,13 +22,13 @@ public:
 	JAuxTableData(JTable* table, const T& defValue);
 	JAuxTableData(JTable* table, const JAuxTableData<T>& source);
 
-	~JAuxTableData();
+	~JAuxTableData() override;
 
 	JTable*	GetTable() const;
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const JBroadcaster::Message& message);
+	void	Receive(JBroadcaster* sender, const JBroadcaster::Message& message) override;
 
 private:
 

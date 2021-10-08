@@ -25,7 +25,7 @@ public:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	~JXFLInputBase();
+	~JXFLInputBase() override;
 
 	virtual JString	GetRegexString() const = 0;
 	JError			Apply() const;

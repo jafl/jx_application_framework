@@ -26,7 +26,7 @@ public:
 	JXStyleTableMenu(JXStyleTable* table,
 					 JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	~JXStyleTableMenu();
+	~JXStyleTableMenu() override;
 
 protected:
 

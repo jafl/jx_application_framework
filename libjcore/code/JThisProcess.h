@@ -22,7 +22,7 @@ public:
 	static void				Initialize();
 	static JThisProcess*	Instance();
 
-	~JThisProcess();
+	~JThisProcess() override;
 
 	static JError	Fork(pid_t* pid);
 

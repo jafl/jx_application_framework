@@ -20,7 +20,7 @@ public:
 
 	JPtrQueue(const JPtrArrayT::CleanUpAction action);
 
-	~JPtrQueue();
+	~JPtrQueue() override;
 
 	// these insert a *copy* of the object into the array
 	// (only available if template instantiated with #define JPtrQueueCopy)

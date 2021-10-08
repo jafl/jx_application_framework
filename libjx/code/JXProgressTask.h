@@ -21,7 +21,7 @@ public:
 	JXProgressTask(const JString& message, const bool allowCancel);
 	JXProgressTask(JProgressDisplay* pg);
 
-	~JXProgressTask();
+	~JXProgressTask() override;
 
 	void	Perform(const Time delta, Time* maxSleepTime) override;
 

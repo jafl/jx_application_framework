@@ -18,7 +18,7 @@ public:
 
 	JXCheckModTimeTask(const Time period, const JString& fullName);
 
-	~JXCheckModTimeTask();
+	~JXCheckModTimeTask() override;
 
 	const JString&	GetFileName() const;
 	void			UpdateModTime();

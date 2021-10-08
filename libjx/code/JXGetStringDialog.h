@@ -23,7 +23,7 @@ public:
 					  const bool modal = true,
 					  const bool password = false);
 
-	~JXGetStringDialog();
+	~JXGetStringDialog() override;
 
 	const JString&	GetString() const;
 

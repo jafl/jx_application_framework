@@ -26,7 +26,7 @@ public:
 
 public:
 
-	~JXHistoryMenuBase();
+	~JXHistoryMenuBase() override;
 
 	JSize	GetHistoryLength() const;
 	void	SetHistoryLength(const JSize historyLength);

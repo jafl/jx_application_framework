@@ -24,7 +24,7 @@ public:
 						 const JPtrArray<JString>& choiceList,
 						 const JPtrArray<JString>* shortcutList = nullptr);
 
-	~JXCheckboxListDialog();
+	~JXCheckboxListDialog() override;
 
 	bool	GetSelectedItems(JArray<JIndex>* indexList) const;
 	void	SelectItem(const JIndex index);

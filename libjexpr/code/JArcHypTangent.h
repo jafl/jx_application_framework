@@ -19,7 +19,7 @@ public:
 	JArcHypTangent(JFunction* arg = nullptr);
 	JArcHypTangent(const JArcHypTangent& source);
 
-	~JArcHypTangent();
+	~JArcHypTangent() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

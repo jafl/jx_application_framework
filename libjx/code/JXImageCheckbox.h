@@ -26,7 +26,7 @@ public:
 					 const JCoordinate x, const JCoordinate y,
 					 const JCoordinate w, const JCoordinate h);
 
-	~JXImageCheckbox();
+	~JXImageCheckbox() override;
 
 	void	SetBitmap(const JConstBitmap& bitmap,
 					  const JColorID foreColor = kJXTransparentColor,  // placeholder for GetBlackColor()

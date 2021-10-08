@@ -23,7 +23,7 @@ public:
 
 	AnimateWindowIconTask(JXWindow* window);
 
-	~AnimateWindowIconTask();
+	~AnimateWindowIconTask() override;
 
 	void	Perform(const Time delta, Time* maxSleepTime) override;
 

@@ -19,7 +19,7 @@ public:
 
 	JNamedTreeList(JTree* tree);
 
-	~JNamedTreeList();
+	~JNamedTreeList() override;
 
 	JNamedTreeNode*			GetNamedNode(const JIndex index);
 	const JNamedTreeNode*	GetNamedNode(const JIndex index) const;

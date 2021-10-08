@@ -22,7 +22,7 @@ public:
 			   const bool allowSelectMultiple,
 			   const JString& origName, const JString& message);
 
-	~JXChooseFileDialog();
+	~JXChooseFileDialog() override;
 
 	bool	GetFullName(JString* fullName) const;
 	bool	GetFullNames(JPtrArray<JString>* fullNameList) const;

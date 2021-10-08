@@ -23,7 +23,7 @@ public:
 
 	JXWDMenu(JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	~JXWDMenu();
+	~JXWDMenu() override;
 
 protected:
 

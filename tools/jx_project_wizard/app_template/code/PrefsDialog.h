@@ -16,7 +16,7 @@ public:
 
 	PrefsDialog(JXDirector* supervisor, const JString& data);
 
-	virtual	~PrefsDialog();
+	virtual ~PrefsDialog();
 
 	void	GetValues(JString* data) const;
 

@@ -19,7 +19,7 @@ public:
 	JTangent(JFunction* arg = nullptr);
 	JTangent(const JTangent& source);
 
-	~JTangent();
+	~JTangent() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

@@ -69,7 +69,7 @@ public:
 
 	JMountPointList(const JPtrArrayT::CleanUpAction action);
 
-	~JMountPointList();
+	~JMountPointList() override;
 
 	void	CleanOut();		// safest
 	void	DeleteAll();

@@ -19,7 +19,7 @@ public:
 	JSTUndoTyping(JStyledText* buffer, const JStyledText::TextIndex& start);
 	JSTUndoTyping(JStyledText* buffer, const JStyledText::TextRange& replaceRange);
 
-	~JSTUndoTyping();
+	~JSTUndoTyping() override;
 
 	void	Undo() override;
 

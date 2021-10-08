@@ -40,24 +40,24 @@ public:
 	JLinkedList();
 	JLinkedList(const JLinkedList<T>& source);
 
-	~JLinkedList();
+	~JLinkedList() override;
 
 	JLinkedList<T>& operator=(const JLinkedList<T>& source);
 
-	virtual T		GetFirstElement() const;
-	virtual T		GetLastElement() const;
+	T		GetFirstElement() const override;
+	T		GetLastElement() const override;
 
-	virtual void	PrependElement(const T& data);
-	virtual void	AppendElement(const T& data);
+	void	PrependElement(const T& data) override;
+	void	AppendElement(const T& data) override;
 
-	virtual void	RemoveAll();
+	void	RemoveAll() override;
 
-	virtual JListIterator<T>*
+	JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
-					const JIndex index = 0);
-	virtual JListIterator<T>*
+					const JIndex index = 0) override;
+	JListIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
-					const JIndex index = 0) const;
+					const JIndex index = 0) const override;
 
 private:
 

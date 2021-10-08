@@ -30,7 +30,7 @@ public:
 
 	J2DPlotDataBase(const Type type);
 
-	~J2DPlotDataBase();
+	~J2DPlotDataBase() override;
 
 	Type			GetType() const;
 	virtual void	GetElement(const JIndex index, J2DDataPoint* data) const;

@@ -19,7 +19,7 @@ public:
 	JSummation(JPtrArray<JFunction>* argList = nullptr);
 	JSummation(const JSummation& source);
 
-	~JSummation();
+	~JSummation() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

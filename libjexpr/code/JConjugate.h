@@ -19,7 +19,7 @@ public:
 	JConjugate(JFunction* arg = nullptr);
 	JConjugate(const JConjugate& source);
 
-	~JConjugate();
+	~JConjugate() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

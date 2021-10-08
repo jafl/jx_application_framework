@@ -37,7 +37,7 @@ public:
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	~JX2DPlotWidget();
+	~JX2DPlotWidget() override;
 
 	JXTextMenu*		GetCursorMenu() const;
 	JXTextMenu*		GetOptionsMenu() const;

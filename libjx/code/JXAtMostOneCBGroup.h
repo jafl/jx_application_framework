@@ -22,7 +22,7 @@ public:
 	JXAtMostOneCBGroup(const JPtrArray<JXCheckbox>& cbList);
 	JXAtMostOneCBGroup(const JSize	count, JXCheckbox* cb1, JXCheckbox* cb2, ...);
 
-	~JXAtMostOneCBGroup();
+	~JXAtMostOneCBGroup() override;
 
 protected:
 

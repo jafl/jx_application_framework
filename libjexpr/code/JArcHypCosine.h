@@ -19,7 +19,7 @@ public:
 	JArcHypCosine(JFunction* arg = nullptr);
 	JArcHypCosine(const JArcHypCosine& source);
 
-	~JArcHypCosine();
+	~JArcHypCosine() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

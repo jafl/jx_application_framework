@@ -18,7 +18,7 @@ public:
 
 	JXErrorDialog(JXDirector* supervisor, const JString& message);
 
-	~JXErrorDialog();
+	~JXErrorDialog() override;
 
 private:
 

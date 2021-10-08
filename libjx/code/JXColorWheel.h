@@ -25,7 +25,7 @@ public:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	~JXColorWheel();
+	~JXColorWheel() override;
 
 	JRGB	GetRGB() const;
 	void	SetColor(const JRGB& rgb);

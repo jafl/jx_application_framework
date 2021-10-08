@@ -18,7 +18,7 @@ public:
 
 	AboutDialog(JXDirector* supervisor, const JString& prevVersStr);
 
-	virtual	~AboutDialog();
+	virtual ~AboutDialog();
 
 protected:
 

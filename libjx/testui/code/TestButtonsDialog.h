@@ -21,7 +21,7 @@ public:
 
 	TestButtonsDialog(JXWindowDirector* supervisor);
 
-	~TestButtonsDialog();
+	~TestButtonsDialog() override;
 
 protected:
 

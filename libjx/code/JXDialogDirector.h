@@ -20,7 +20,7 @@ public:
 
 	JXDialogDirector(JXDirector* supervisor, const bool modal);
 
-	~JXDialogDirector();
+	~JXDialogDirector() override;
 
 	bool		IsModal() const;
 	JXButton*	GetOKButton() const;

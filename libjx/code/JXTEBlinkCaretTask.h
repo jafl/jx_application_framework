@@ -18,7 +18,7 @@ public:
 
 	JXTEBlinkCaretTask(JXTEBase* te);
 
-	~JXTEBlinkCaretTask();
+	~JXTEBlinkCaretTask() override;
 
 	void	ShouldBlink(const bool blink);
 	void	Reset();

@@ -24,7 +24,7 @@ public:
 
 	JVersionSocket();	// DO NOT CALL -- required to instantiate ACE_Connector
 
-	~JVersionSocket();
+	~JVersionSocket() override;
 
 	const JString&	GetLatestVersion() const;
 	bool		TimeToCheck() const;

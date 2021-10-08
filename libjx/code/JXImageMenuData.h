@@ -20,7 +20,7 @@ public:
 
 	JXImageMenuData(const JSize columnCount);
 
-	~JXImageMenuData();
+	~JXImageMenuData() override;
 
 	void	InsertItem(const JIndex index, JXImage* image,
 					   const bool menuOwnsImage,

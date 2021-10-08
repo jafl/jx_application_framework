@@ -27,7 +27,7 @@ public:
 				   const JIndex index = 0);
 	JArrayIterator(const JArrayIterator<T>& source);
 
-	~JArrayIterator();
+	~JArrayIterator() override;
 
 	bool	Prev(T* data, const JIteratorAction move = kJIteratorMove) override;
 	bool	Next(T* data, const JIteratorAction move = kJIteratorMove) override;

@@ -78,7 +78,7 @@ public:
 	J2DPlotWidget(const JColorID black, const JColorID white,
 				  const JColorID gray, const JColorID selection);
 
-	~J2DPlotWidget();
+	~J2DPlotWidget() override;
 
 	void	Print(JPagePrinter& p);
 	void	DrawForPrint(JPagePrinter& p, const JRect& rect);

@@ -18,7 +18,7 @@ class JMMArrayTable : public JMMTable
 public:
 
 	JMMArrayTable(JMemoryManager* manager, const bool recordDelete);
-	~JMMArrayTable();
+	~JMMArrayTable() override;
 
 	JSize GetAllocatedCount() const override;
 	JSize GetAllocatedBytes() const override;

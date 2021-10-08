@@ -25,7 +25,7 @@ public:
 
 	JXFSRunCommandDialog();
 
-	~JXFSRunCommandDialog();
+	~JXFSRunCommandDialog() override;
 
 	void	Activate() override;
 

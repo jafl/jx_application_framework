@@ -19,7 +19,7 @@ public:
 
 	JXRestorePartitionGeometry(JXPartition* partition);
 
-	~JXRestorePartitionGeometry();
+	~JXRestorePartitionGeometry() override;
 
 	void	Perform() override;
 

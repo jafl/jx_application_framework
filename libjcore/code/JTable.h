@@ -26,7 +26,7 @@ public:
 	JTable(const JCoordinate defRowHeight, const JCoordinate defColWidth,
 		   const JColorID borderColor, const JColorID selectionColor);
 
-	~JTable();
+	~JTable() override;
 
 	void	SetTableData(const JTableData* data);
 

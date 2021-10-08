@@ -19,7 +19,7 @@ public:
 
 	JXRaiseWindowTask(JXWindow* window);
 
-	~JXRaiseWindowTask();
+	~JXRaiseWindowTask() override;
 
 	void	Perform() override;
 

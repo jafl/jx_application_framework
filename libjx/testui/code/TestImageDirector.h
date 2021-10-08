@@ -25,7 +25,7 @@ public:
 
 	TestImageDirector(JXDirector* supervisor);
 
-	~TestImageDirector();
+	~TestImageDirector() override;
 
 protected:
 

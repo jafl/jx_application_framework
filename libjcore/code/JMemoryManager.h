@@ -79,7 +79,7 @@ public:
 
 public:
 
-	~JMemoryManager();
+	~JMemoryManager() override;
 
 	static JMemoryManager* Instance();
 

@@ -51,7 +51,7 @@ public:
 
 	JXFontManager(JXDisplay* display);
 
-	~JXFontManager();
+	~JXFontManager() override;
 
 	void	GetFontNames(JPtrArray<JString>* fontNames) override;
 	void	GetMonospaceFontNames(JPtrArray<JString>* fontNames) override;

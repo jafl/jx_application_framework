@@ -33,7 +33,7 @@ class JXCSFDialogBase : public JXDialogDirector
 {
 public:
 
-	~JXCSFDialogBase();
+	~JXCSFDialogBase() override;
 
 	void	Activate() override;
 	bool	Deactivate() override;

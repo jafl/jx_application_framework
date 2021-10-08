@@ -37,7 +37,7 @@ public:
 	JXFontSizeMenu(JXFontNameMenu* fontMenu, JXMenu* owner,
 				   const JIndex itemIndex, JXContainer* enclosure);
 
-	~JXFontSizeMenu();
+	~JXFontSizeMenu() override;
 
 	void	SetFontName(const JString& name);
 

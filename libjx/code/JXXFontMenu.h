@@ -30,7 +30,7 @@ public:
 					   JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure,
 					   JXXFontMenu** menu);
 
-	~JXXFontMenu();
+	~JXXFontMenu() override;
 
 protected:
 

@@ -21,7 +21,7 @@ public:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	~JXPasswordInput();
+	~JXPasswordInput() override;
 
 	const JString&	GetPassword() const;
 	void			ClearPassword();

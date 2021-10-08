@@ -19,7 +19,7 @@ public:
 	JExponent(JFunction* arg1, JFunction* arg2);
 	JExponent(const JExponent& source);
 
-	~JExponent();
+	~JExponent() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

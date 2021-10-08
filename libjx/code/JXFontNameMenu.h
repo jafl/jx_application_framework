@@ -23,7 +23,7 @@ public:
 
 	JXFontNameMenu(JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	~JXFontNameMenu();
+	~JXFontNameMenu() override;
 
 	JString	GetFontName() const;
 	bool	SetFontName(const JString& name);

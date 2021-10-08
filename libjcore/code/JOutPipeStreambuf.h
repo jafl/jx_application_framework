@@ -21,7 +21,7 @@ public:
 
 	JOutPipeStreambuf(const int fd, const bool close);
 
-	~JOutPipeStreambuf();
+	~JOutPipeStreambuf() override;
 
 	int		GetDescriptor();
 
@@ -32,8 +32,8 @@ public:
 
 protected:
 
-	virtual std::streamsize	xsputn(const _CharT* s, std::streamsize n);
-	virtual int_type		overflow(int_type c);
+	std::streamsize	xsputn(const _CharT* s, std::streamsize n) override;
+	int_type		overflow(int_type c) override;
 
 private:
 

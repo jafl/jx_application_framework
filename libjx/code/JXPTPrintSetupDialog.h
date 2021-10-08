@@ -30,7 +30,7 @@ public:
 			   const JString& printCmd, const JString& fileName,
 			   const bool printLineNumbers);
 
-	~JXPTPrintSetupDialog();
+	~JXPTPrintSetupDialog() override;
 
 	bool	SetParameters(JXPTPrinter* p) const;
 

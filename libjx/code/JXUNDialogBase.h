@@ -23,7 +23,7 @@ public:
 
 	JXUNDialogBase(JXDirector* supervisor);
 
-	~JXUNDialogBase();
+	~JXUNDialogBase() override;
 
 protected:
 

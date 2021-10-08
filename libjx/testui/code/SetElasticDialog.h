@@ -21,7 +21,7 @@ public:
 	SetElasticDialog(JXWindowDirector* supervisor,
 					 const JIndex index, const JIndex maxIndex);
 
-	~SetElasticDialog();
+	~SetElasticDialog() override;
 
 	JIndex	GetElasticIndex() const;
 

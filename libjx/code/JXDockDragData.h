@@ -18,7 +18,7 @@ public:
 
 	JXDockDragData(JXWindow* window);
 
-	~JXDockDragData();
+	~JXDockDragData() override;
 
 protected:
 

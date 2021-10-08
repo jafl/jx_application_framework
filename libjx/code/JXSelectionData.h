@@ -25,7 +25,7 @@ public:
 	JXSelectionData(JXDisplay* display);
 	JXSelectionData(JXWidget* widget, const JUtf8Byte* id);
 
-	~JXSelectionData();
+	~JXSelectionData() override;
 
 	JXDisplay*			GetDisplay() const;
 	JXSelectionManager*	GetSelectionManager() const;

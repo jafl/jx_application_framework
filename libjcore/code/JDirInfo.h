@@ -32,7 +32,7 @@ public:
 	JDirInfo(const JDirInfo& source);
 	JDirInfo(const JDirInfo& source, const JString& dirName);
 
-	~JDirInfo();
+	~JDirInfo() override;
 
 	JDirInfo&	operator=(const JDirInfo& source);
 	void		CopySettings(const JDirInfo& source);

@@ -31,7 +31,7 @@ public:
 
 	JXDNDManager(JXDisplay* display);
 
-	~JXDNDManager();
+	~JXDNDManager() override;
 
 	Atom			GetDNDSelectionName() const;
 	Atom			GetCurrentDNDVersion() const;
@@ -280,7 +280,7 @@ public:
 
 			TargetFinder(JXDisplay* display);
 
-			virtual	~TargetFinder();
+			virtual ~TargetFinder();
 
 			JXDisplay*			GetDisplay() const;
 			JXSelectionManager*	GetSelectionManager() const;

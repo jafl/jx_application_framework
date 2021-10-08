@@ -19,7 +19,7 @@ public:
 
 	JXAskInitDockAll(JXDirector* dir);
 
-	~JXAskInitDockAll();
+	~JXAskInitDockAll() override;
 
 	void	Perform(const Time delta, Time* maxSleepTime) override;
 

@@ -18,7 +18,7 @@ public:
 
 	JSTUndoStyle(JStyledText* text, const JStyledText::TextRange& range);
 
-	~JSTUndoStyle();
+	~JSTUndoStyle() override;
 
 	void	Undo() override;
 

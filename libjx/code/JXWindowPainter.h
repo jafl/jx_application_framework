@@ -28,7 +28,7 @@ public:
 					const JRect& defaultClipRect,
 					const Region defaultClipRegion);
 
-	~JXWindowPainter();
+	~JXWindowPainter() override;
 
 	JXDisplay*		GetDisplay() const;
 	JXColorManager*	GetXColorManager() const;

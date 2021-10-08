@@ -21,7 +21,7 @@ class JMMMonitor : virtual public JBroadcaster
 {
 public:
 
-	~JMMMonitor();
+	~JMMMonitor() override;
 
 protected:
 

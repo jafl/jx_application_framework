@@ -28,7 +28,7 @@ public:
 
 	JStringManager();
 
-	~JStringManager();
+	~JStringManager() override;
 
 	void	Register(const JUtf8Byte* signature, const JUtf8Byte** defaultData);
 	bool	MergeFile(const JString& fileName, const bool debug = false);

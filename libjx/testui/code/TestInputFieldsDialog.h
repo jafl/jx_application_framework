@@ -20,11 +20,11 @@ public:
 
 	TestInputFieldsDialog(JXWindowDirector* supervisor);
 
-	~TestInputFieldsDialog();
+	~TestInputFieldsDialog() override;
 
 protected:
 
-	virtual bool	OKToDeactivate();
+	bool	OKToDeactivate() override;
 
 private:
 

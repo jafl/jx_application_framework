@@ -30,7 +30,7 @@ public:
 			  const JCoordinate x, const JCoordinate y,
 			  const JCoordinate w, const JCoordinate h);
 
-	~JXDocktab();
+	~JXDocktab() override;
 
 protected:
 
@@ -56,7 +56,7 @@ private:
 
 			DockFinder(JXDisplay* display);
 
-			~DockFinder();
+			~DockFinder() override;
 
 			bool	FindTarget(const JXContainer* coordOwner,
 							   const JPoint& pt,

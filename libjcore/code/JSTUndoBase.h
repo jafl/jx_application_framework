@@ -17,7 +17,7 @@ public:
 
 	JSTUndoBase(JStyledText* text);
 
-	~JSTUndoBase();
+	~JSTUndoBase() override;
 
 	virtual void	SetCount(const JStyledText::TextCount& count);
 

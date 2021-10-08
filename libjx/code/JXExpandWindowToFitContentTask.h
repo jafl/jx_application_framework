@@ -20,7 +20,7 @@ public:
 
 	JXExpandWindowToFitContentTask(JXWindow* window);
 
-	~JXExpandWindowToFitContentTask();
+	~JXExpandWindowToFitContentTask() override;
 
 	void	ShowAfterFTC();
 	void	PlaceAsDialogAfterFTC();

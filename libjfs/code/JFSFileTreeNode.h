@@ -20,7 +20,7 @@ public:
 
 	JFSFileTreeNode(JDirEntry* entry);
 
-	~JFSFileTreeNode();
+	~JFSFileTreeNode() override;
 
 	JError	GoUp();
 	JError	GoTo(const JString& path);

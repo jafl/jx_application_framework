@@ -20,7 +20,7 @@ public:
 	JUnaryFunction(const JUtf8Byte* name, JFunction* arg = nullptr);
 	JUnaryFunction(const JUnaryFunction& source);
 
-	~JUnaryFunction();
+	~JUnaryFunction() override;
 
 	JSize				GetArgCount() const override;
 	const JFunction*	GetArg(const JIndex index) const override;

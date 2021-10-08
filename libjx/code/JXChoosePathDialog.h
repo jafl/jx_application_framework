@@ -22,7 +22,7 @@ public:
 			   const bool selectOnlyWritable,
 			   const JString& message = JString::empty);
 
-	~JXChoosePathDialog();
+	~JXChoosePathDialog() override;
 
 protected:
 

@@ -36,7 +36,7 @@ public:
 	JXFSDirMenu(const JPtrArray<JString>& fileNameList,
 				JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	~JXFSDirMenu();
+	~JXFSDirMenu() override;
 
 	bool	GetDirInfo(JDirInfo** info);
 	void	SetFileList(const JPtrArray<JString>& fullNameList);

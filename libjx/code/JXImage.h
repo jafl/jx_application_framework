@@ -57,7 +57,7 @@ public:
 	JXImage(const JXImage& source);
 	JXImage(const JXImage& source, const JRect& rect);
 
-	~JXImage();
+	~JXImage() override;
 
 	static JError	CreateFromFile(JXDisplay* display,
 								   const JString& fileName, JXImage** image);

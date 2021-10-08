@@ -16,7 +16,7 @@ class JRTTIBase
 {
 public:
 
-	virtual	~JRTTIBase();
+	virtual ~JRTTIBase();
 
 	bool	Is(const JUtf8Byte* type) const;
 

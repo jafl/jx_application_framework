@@ -16,7 +16,7 @@ class JXCheckbox : public JXWidget
 {
 public:
 
-	~JXCheckbox();
+	~JXCheckbox() override;
 
 	bool	IsChecked() const;
 	void	SetState(const bool on);

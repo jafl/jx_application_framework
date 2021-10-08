@@ -21,7 +21,7 @@ public:
 
 	JNetworkProtocolBase(const bool synch);
 
-	~JNetworkProtocolBase();
+	~JNetworkProtocolBase() override;
 
 	bool	DataPending() const;
 	void	Flush();

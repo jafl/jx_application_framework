@@ -1,3 +1,7 @@
+JTreeNode::SetChildCompareFunction
+	use std::function
+
+
 keg for brew
 	https://docs.brew.sh/Formula-Cookbook
 	https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap

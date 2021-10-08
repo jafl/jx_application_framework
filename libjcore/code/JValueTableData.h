@@ -21,7 +21,7 @@ public:
 	JValueTableData(const T& defValue);
 	JValueTableData(const JValueTableData<S,T>& source);
 
-	~JValueTableData();
+	~JValueTableData() override;
 
 	T		GetElement(const JIndex row, const JIndex col) const;
 	T		GetElement(const JPoint& cell) const;

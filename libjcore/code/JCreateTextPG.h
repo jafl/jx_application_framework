@@ -18,7 +18,7 @@ public:
 
 	JCreateTextPG();
 
-	~JCreateTextPG();
+	~JCreateTextPG() override;
 
 	JProgressDisplay* New() override;
 };

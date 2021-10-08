@@ -18,7 +18,7 @@ public:
 	JXPrefsManager(const JFileVersion currentVersion,
 				   const bool eraseFileIfOpen);
 
-	~JXPrefsManager();
+	~JXPrefsManager() override;
 
 	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 

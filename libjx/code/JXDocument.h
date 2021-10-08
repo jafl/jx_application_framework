@@ -19,7 +19,7 @@ public:
 
 	JXDocument(JXDirector* supervisor);
 
-	~JXDocument();
+	~JXDocument() override;
 
 	bool	Close() override;
 	bool	Deactivate() override;

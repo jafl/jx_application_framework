@@ -20,7 +20,7 @@ public:
 
 	JXAdjustScrollbarTask(JXScrollableWidget* widget);
 
-	~JXAdjustScrollbarTask();
+	~JXAdjustScrollbarTask() override;
 
 	void	Perform() override;
 

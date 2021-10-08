@@ -20,7 +20,7 @@ public:
 	JTableData();
 	JTableData(const JTableData& source);
 
-	~JTableData();
+	~JTableData() override;
 
 	JTableData& operator=(const JTableData& source);
 

@@ -22,7 +22,7 @@ public:
 	JXTextSelection(JXDisplay* display, const JPtrArray<JString>& list);
 	JXTextSelection(JXWidget* widget, const JUtf8Byte* id);
 
-	~JXTextSelection();
+	~JXTextSelection() override;
 
 	bool	GetText(const JString** text) const;
 	bool	GetStyle(const JRunArray<JFont>** style) const;

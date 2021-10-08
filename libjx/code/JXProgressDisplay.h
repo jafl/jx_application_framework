@@ -26,7 +26,7 @@ public:
 
 	JXProgressDisplay();
 
-	~JXProgressDisplay();
+	~JXProgressDisplay() override;
 
 	void	SetItems(JXTextButton* cancelButton, JXStaticText* counter,
 					 JXProgressIndicator* indicator,

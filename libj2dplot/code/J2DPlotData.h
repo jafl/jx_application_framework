@@ -23,7 +23,7 @@ public:
 
 	static bool OKToCreate(const JArray<JFloat>& x, const JArray<JFloat>& y);
 
-	~J2DPlotData();
+	~J2DPlotData() override;
 
 	void GetElement(const JIndex index, J2DDataPoint* data) const override;
 

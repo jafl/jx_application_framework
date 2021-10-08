@@ -17,7 +17,7 @@ public:
 	JCollection();
 	JCollection(const JCollection& source);
 
-	~JCollection();
+	~JCollection() override;
 
 	JCollection& operator=(const JCollection& source);
 

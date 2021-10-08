@@ -20,7 +20,7 @@ public:
 	JTableSelection(JTable* table);
 	JTableSelection(JTable* table, const JTableSelection& source);
 
-	~JTableSelection();
+	~JTableSelection() override;
 
 	void	SelectCell(const JPoint& cell, const bool on = true);
 	void	SelectCell(const JIndex row, const JIndex col, 

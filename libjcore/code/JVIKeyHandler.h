@@ -34,7 +34,7 @@ public:
 
 	JVIKeyHandler();
 
-	~JVIKeyHandler();
+	~JVIKeyHandler() override;
 
 	void	Initialize(JTextEditor* te) override;
 	bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,

@@ -18,7 +18,7 @@ public:
 
 	TestMDIServer();
 
-	~TestMDIServer();
+	~TestMDIServer() override;
 
 	static void	PrintCommandLineHelp();
 

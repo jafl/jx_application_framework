@@ -20,7 +20,7 @@ public:
 	JFunctionWithArgs(const JUtf8Byte* name);
 	JFunctionWithArgs(const JFunctionWithArgs& source);
 
-	~JFunctionWithArgs();
+	~JFunctionWithArgs() override;
 
 	const JString&	GetName() const;
 	void	Print(std::ostream& output) const override;

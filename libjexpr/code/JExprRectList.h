@@ -22,7 +22,7 @@ public:
 
 	JExprRectList();
 
-	~JExprRectList();
+	~JExprRectList() override;
 
 	JIndex		AddRect(const JRect& rect, const JCoordinate midline,
 						const JSize fontSize, JFunction* f);

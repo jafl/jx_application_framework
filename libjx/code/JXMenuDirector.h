@@ -22,7 +22,7 @@ public:
 
 	JXMenuDirector(JXDirector* supervisor, JXMenu* menu);
 
-	~JXMenuDirector();
+	~JXMenuDirector() override;
 
 	JXMenuTable*	GetMenuTable() const;
 

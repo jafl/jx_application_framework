@@ -21,7 +21,7 @@ public:
 	JXFontNameMenuDirector(JXDirector* supervisor,
 						   JXFontNameMenu* menu, JXTextMenuData* menuData);
 
-	~JXFontNameMenuDirector();
+	~JXFontNameMenuDirector() override;
 
 protected:
 

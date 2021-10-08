@@ -18,7 +18,7 @@ public:
 
 	JPTPrinter();
 
-	~JPTPrinter();
+	~JPTPrinter() override;
 
 	virtual void	Print(const JString& text) = 0;
 

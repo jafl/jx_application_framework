@@ -17,7 +17,7 @@ class JXPartition : public JXWidgetSet, public JPartition
 {
 public:
 
-	~JXPartition();
+	~JXPartition() override;
 
 	JXContainer*	GetCompartment(const JIndex index) const;
 	bool			GetCompartmentIndex(JXContainer* compartment,

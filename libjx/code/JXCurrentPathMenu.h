@@ -22,7 +22,7 @@ public:
 	JXCurrentPathMenu(const JString& path,
 					  JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	~JXCurrentPathMenu();
+	~JXCurrentPathMenu() override;
 
 	JString	GetPath(const Message& message) const;
 	JString	GetPath(const JIndex itemIndex) const;

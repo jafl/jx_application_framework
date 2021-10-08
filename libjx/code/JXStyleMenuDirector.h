@@ -21,7 +21,7 @@ public:
 	JXStyleMenuDirector(JXDirector* supervisor,
 						JXStyleMenu* menu, JXTextMenuData* menuData);
 
-	~JXStyleMenuDirector();
+	~JXStyleMenuDirector() override;
 
 protected:
 

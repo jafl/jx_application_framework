@@ -20,7 +20,7 @@ public:
 
 	MainDirector(JXDirector* supervisor);
 
-	virtual	~MainDirector();
+	virtual ~MainDirector();
 
 protected:
 

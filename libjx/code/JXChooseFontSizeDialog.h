@@ -20,7 +20,7 @@ public:
 
 	JXChooseFontSizeDialog(JXWindowDirector* supervisor, const JSize fontSize);
 
-	~JXChooseFontSizeDialog();
+	~JXChooseFontSizeDialog() override;
 
 	JSize	GetFontSize() const;
 

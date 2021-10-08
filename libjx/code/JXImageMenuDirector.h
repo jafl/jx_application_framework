@@ -20,7 +20,7 @@ public:
 	JXImageMenuDirector(JXDirector* supervisor,
 						JXMenu* menu, JXImageMenuData* menuData);
 
-	~JXImageMenuDirector();
+	~JXImageMenuDirector() override;
 
 protected:
 

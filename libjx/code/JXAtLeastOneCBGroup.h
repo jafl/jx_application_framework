@@ -22,7 +22,7 @@ public:
 	JXAtLeastOneCBGroup(const JPtrArray<JXCheckbox>& cbList);
 	JXAtLeastOneCBGroup(const JSize	count, JXCheckbox* cb1, JXCheckbox* cb2, ...);
 
-	~JXAtLeastOneCBGroup();
+	~JXAtLeastOneCBGroup() override;
 
 protected:
 

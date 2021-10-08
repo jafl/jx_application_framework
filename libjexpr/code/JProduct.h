@@ -19,7 +19,7 @@ public:
 	JProduct(JPtrArray<JFunction>* argList = nullptr);
 	JProduct(const JProduct& source);
 
-	~JProduct();
+	~JProduct() override;
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

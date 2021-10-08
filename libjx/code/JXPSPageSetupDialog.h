@@ -27,7 +27,7 @@ public:
 		Create(const JPSPrinter::PaperType paper,
 			   const JPSPrinter::ImageOrientation orient);
 
-	~JXPSPageSetupDialog();
+	~JXPSPageSetupDialog() override;
 
 	bool	SetParameters(JXPSPrinter* p) const;
 

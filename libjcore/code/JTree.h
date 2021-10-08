@@ -20,7 +20,7 @@ public:
 
 	JTree(JTreeNode* root);
 
-	~JTree();
+	~JTree() override;
 
 	JTreeNode*			GetRoot();
 	const JTreeNode*	GetRoot() const;

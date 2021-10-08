@@ -24,7 +24,7 @@ public:
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);
 
-	~JXTextRadioButton();
+	~JXTextRadioButton() override;
 
 	const JString&	GetLabel() const;
 	void			SetLabel(const JString& label);
