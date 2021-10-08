@@ -19,7 +19,7 @@ public:
 	JHypTangent(JFunction* arg = nullptr);
 	JHypTangent(const JHypTangent& source);
 
-	virtual ~JHypTangent();
+	~JHypTangent();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

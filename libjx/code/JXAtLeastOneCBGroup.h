@@ -22,11 +22,11 @@ public:
 	JXAtLeastOneCBGroup(const JPtrArray<JXCheckbox>& cbList);
 	JXAtLeastOneCBGroup(const JSize	count, JXCheckbox* cb1, JXCheckbox* cb2, ...);
 
-	virtual ~JXAtLeastOneCBGroup();
+	~JXAtLeastOneCBGroup();
 
 protected:
 
-	virtual void	EnforceConstraints(const JIndex cbIndex);
+	void	EnforceConstraints(const JIndex cbIndex) override;
 
 private:
 
@@ -39,7 +39,7 @@ private:
 private:
 
 	Direction	itsDirection;
-	bool	itsIgnoreChangeFlag;
+	bool		itsIgnoreChangeFlag;
 
 private:
 

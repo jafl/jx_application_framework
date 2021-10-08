@@ -28,7 +28,7 @@ public:
 	JUserInputFunction(JExprEditor* editor, const JString& text = JString::empty);
 	JUserInputFunction(const JUserInputFunction& source);
 
-	virtual ~JUserInputFunction();
+	~JUserInputFunction();
 
 	void	Activate();
 	void	Deactivate();
@@ -55,10 +55,10 @@ public:
 	void		Print(std::ostream& output) const override;
 	JFunction*	Copy() const override;
 	JIndex		Layout(const JExprRenderer& renderer,
-							   const JPoint& upperLeft, const JSize fontSize,
-							   JExprRectList* rectList) override;
+					   const JPoint& upperLeft, const JSize fontSize,
+					   JExprRectList* rectList) override;
 	void		Render(const JExprRenderer& renderer,
-							   const JExprRectList& rectList) const override;
+					   const JExprRectList& rectList) const override;
 
 	static const JString&	GetEmptyString();
 
@@ -79,10 +79,10 @@ protected:
 	void	TERefreshRect(const JRect& rect) override;
 	void	TERedraw() override;
 	void	TESetGUIBounds(const JCoordinate w, const JCoordinate h,
-								   const JCoordinate changeY) override;
+						   const JCoordinate changeY) override;
 	bool	TEWidthIsBeyondDisplayCapacity(const JSize width) const override;
 	bool	TEScrollToRect(const JRect& rect,
-								   const bool centerInDisplay) override;
+						   const bool centerInDisplay) override;
 	bool	TEScrollForDrag(const JPoint& pt) override;
 	bool	TEScrollForDND(const JPoint& pt) override;
 	void	TESetVertScrollStep(const JCoordinate vStep) override;

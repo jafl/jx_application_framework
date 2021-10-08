@@ -19,7 +19,7 @@ public:
 
 	JXScrolltab(JXScrollbar* enclosure, const JCoordinate value);
 
-	virtual ~JXScrolltab();
+	~JXScrolltab();
 
 	void	ScrollToTab() const;
 

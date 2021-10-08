@@ -24,14 +24,14 @@ public:
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXRowHeaderWidget();
+	~JXRowHeaderWidget();
 
 	void	TurnOnRowResizing(const JCoordinate minRowHeight = 20);
 	void	TurnOffRowResizing();
 
 	bool	GetRowTitle(const JIndex index, JString* title) const;
-	void		SetRowTitle(const JIndex index, const JString& title);
-	void		ClearRowTitle(const JIndex index);
+	void	SetRowTitle(const JIndex index, const JString& title);
+	void	ClearRowTitle(const JIndex index);
 
 	JCoordinate	GetMinMarginWidth() const;
 	void		SetMinMarginWidth(const JCoordinate w);
@@ -48,26 +48,26 @@ protected:
 protected:
 
 	void	TablePrepareToDrawCol(const JIndex colIndex,
-										  const JIndex firstRow, const JIndex lastRow) override;
+								  const JIndex firstRow, const JIndex lastRow) override;
 	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
-								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers) override;
+						  const JXButtonStates& buttonStates,
+						  const JXKeyModifiers& modifiers) override;
 
-	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
+	void		AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 	bool		InDragRegion(const JPoint& pt, JPoint* cell) const;
-	DragType		GetDragType() const;
+	DragType	GetDragType() const;
 
 	JXInputField*	CreateXInputField(const JPoint& cell,
-											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h) override;
+									  const JCoordinate x, const JCoordinate y,
+									  const JCoordinate w, const JCoordinate h) override;
 	void			PrepareDeleteXInputField() override;
 
 	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
@@ -79,7 +79,7 @@ private:
 	const JXScrollbar*	itsVScrollbar;	// we don't own this
 	JPtrArray<JString>*	itsTitles;		// can be nullptr; elements can be nullptr
 
-	bool	itsAllowRowResizingFlag;
+	bool		itsAllowRowResizingFlag;
 	JCoordinate	itsMinRowHeight;
 	JCoordinate	itsHMarginWidth;		// minimum margin on either side of number
 	JCoordinate	itsMaxBcastWidth;		// largest min width that has broadcast

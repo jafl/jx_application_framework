@@ -21,7 +21,7 @@ public:
 	JObjTableData();
 	JObjTableData(const JObjTableData<T>& source);
 
-	virtual ~JObjTableData();
+	~JObjTableData();
 
 	const T&	GetElement(const JIndex row, const JIndex col) const;
 	const T&	GetElement(const JPoint& cell) const;

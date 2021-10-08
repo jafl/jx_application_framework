@@ -425,7 +425,7 @@ JXFileListTable::FilterFile
 	if (itsRegex == nullptr || itsRegex->Match(JString(fullName->GetBytes() + info.nameIndex-1, JString::kNoCopy)))
 	{
 		const JString fileName(*fullName, JCharacterRange(info.nameIndex, fullName->GetCharacterCount()));
-		itsVisibleList->SetCompareObject(PrefixMatch(fileName, *itsFileList));
+		InstallCompareWrapper(fileName);
 
 		info.fileIndex = 0;
 		bool found;
@@ -457,6 +457,8 @@ JXFileListTable::FilterFile
 				itsMaxStringWidth = w;
 			}
 		}
+
+		itsVisibleList->ClearCompareFunction();
 	}
 }
 
@@ -1085,54 +1087,41 @@ JXFileListTable::ClosestMatch
 	VisInfo target;
 	target.fileIndex = 0;
 
-	itsVisibleList->SetCompareObject(PrefixMatch(prefixStr, *itsFileList));
+	InstallCompareWrapper(prefixStr);
 	*index = itsVisibleList->SearchSorted1(target, JListT::kFirstMatch, &found);
 	if (*index > itsVisibleList->GetElementCount())		// insert beyond end of list
 	{
 		*index = itsVisibleList->GetElementCount();
 	}
+	itsVisibleList->ClearCompareFunction();
 	return *index > 0;
 }
 
 /******************************************************************************
- ClosestMatch class (private)
+ Closest match (private)
 
  ******************************************************************************/
 
-JXFileListTable::PrefixMatch::PrefixMatch
-	(
-	const JString&				prefix,
-	const JPtrArray<JString>&	fileList
-	)
-	:
-	itsPrefix(prefix),
-	itsFileList(fileList)
-{
-}
-
-JXFileListTable::PrefixMatch::~PrefixMatch()
-{
-}
-
 JListT::CompareResult
-JXFileListTable::PrefixMatch::Compare
+JXFileListTable::CompareWrapper
 	(
-	const VisInfo& i1,
-	const VisInfo& i2
+	const JPtrArray<JString>&	fileList,
+	const JString&				prefix,
+	const VisInfo&				i1,
+	const VisInfo&				i2
 	)
-	const
 {
 	assert( i1.fileIndex == 0 || i2.fileIndex == 0 );
 
 	const JUtf8Byte* s1 =
 		(i1.fileIndex == 0 ?
-		 itsPrefix.GetBytes() :
-		 (itsFileList.GetElement(i1.fileIndex))->GetBytes() + i1.nameIndex-1);
+		 prefix.GetBytes() :
+		 fileList.GetElement(i1.fileIndex)->GetBytes() + i1.nameIndex-1);
 
 	const JUtf8Byte* s2 =
 		(i2.fileIndex == 0 ?
-		 itsPrefix.GetBytes() :
-		 (itsFileList.GetElement(i2.fileIndex))->GetBytes() + i2.nameIndex-1);
+		 prefix.GetBytes() :
+		 fileList.GetElement(i2.fileIndex)->GetBytes() + i2.nameIndex-1);
 
 	const int r = JString::Compare(s1, s2, JString::kIgnoreCase);
 	if (r > 0)
@@ -1149,13 +1138,17 @@ JXFileListTable::PrefixMatch::Compare
 	}
 }
 
-JElementComparison<JXFileListTable::VisInfo>*
-JXFileListTable::PrefixMatch::Copy()
+void
+JXFileListTable::InstallCompareWrapper
+	(
+	const JString& prefix
+	)
 	const
 {
-	auto* copy = jnew PrefixMatch(itsPrefix, itsFileList);
-	assert( copy != nullptr );
-	return copy;
+	itsVisibleList->SetCompareFunction([=](const VisInfo& i1, const VisInfo& i2)
+	{
+		return CompareWrapper(*itsFileList, prefix, i1, i2);
+	});
 }
 
 /******************************************************************************
@@ -1223,7 +1216,7 @@ JXFileListTable::Receive
 		for (JIndex i=count; i>=1; i--)
 		{
 			VisInfo info = itsVisibleList->GetElement(i);
-			if (m->AdjustIndex(&(info.fileIndex)))
+			if (m->AdjustIndex(&info.fileIndex))
 			{
 				itsVisibleList->SetElement(i, info);
 			}

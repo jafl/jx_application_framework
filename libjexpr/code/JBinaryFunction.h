@@ -20,7 +20,7 @@ public:
 	JBinaryFunction(const JUtf8Byte* name, JFunction* arg1, JFunction* arg2);
 	JBinaryFunction(const JBinaryFunction& source);
 
-	virtual ~JBinaryFunction();
+	~JBinaryFunction();
 
 	JSize				GetArgCount() const override;
 	const JFunction*	GetArg(const JIndex index) const override;

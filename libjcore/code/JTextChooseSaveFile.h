@@ -18,38 +18,38 @@ public:
 
 	JTextChooseSaveFile();
 
-	virtual ~JTextChooseSaveFile();
+	~JTextChooseSaveFile();
 
-	virtual bool ChooseFile(const JString& prompt,
-								const JString& instructions,		// can be nullptr
-								JString* fullName);
-	virtual bool ChooseFile(const JString& prompt,
-								const JString& instructions,		// can be nullptr
-								const JString& origName,			// can be nullptr
-								JString* fullName);
-	virtual bool ChooseFiles(const JString& prompt,
-								 const JString& instructions,	// can be nullptr
-								 JPtrArray<JString>* fullNameList);
+	bool ChooseFile(const JString& prompt,
+					const JString& instructions,		// can be nullptr
+					JString* fullName) override;
+	bool ChooseFile(const JString& prompt,
+					const JString& instructions,		// can be nullptr
+					const JString& origName,			// can be nullptr
+					JString* fullName) override;
+	bool ChooseFiles(const JString& prompt,
+					 const JString& instructions,	// can be nullptr
+					 JPtrArray<JString>* fullNameList) override;
 
-	virtual bool ChooseRPath(const JString& prompt,
-								 const JString& instructions,	// can be nullptr
-								 const JString& origPath,		// can be nullptr
-								 JString* newPath);
-	virtual bool ChooseRWPath(const JString& prompt,
-								  const JString& instructions,	// can be nullptr
-								  const JString& origPath,		// can be nullptr
-								  JString* newPath);
+	bool ChooseRPath(const JString& prompt,
+					 const JString& instructions,	// can be nullptr
+					 const JString& origPath,		// can be nullptr
+					 JString* newPath) override;
+	bool ChooseRWPath(const JString& prompt,
+					  const JString& instructions,	// can be nullptr
+					  const JString& origPath,		// can be nullptr
+					  JString* newPath) override;
 
-	virtual bool SaveFile(const JString& prompt,
-							  const JString& instructions,		// can be nullptr
-							  const JString& originalName,
-							  JString* newFullName);
+	bool SaveFile(const JString& prompt,
+				  const JString& instructions,		// can be nullptr
+				  const JString& originalName,
+				  JString* newFullName) override;
 
 private:
 
 	bool	GetPath(const JString& prompt,
-						const JString& instructions,
-						JString* newPath);
+					const JString& instructions,
+					JString* newPath);
 	bool	DoSystemCommand(const JString& str) const;
 };
 

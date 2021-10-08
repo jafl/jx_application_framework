@@ -28,7 +28,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXTextEditor();
+	~JXTextEditor();
 
 	void	ShareMenus(JXTextEditor* te);
 

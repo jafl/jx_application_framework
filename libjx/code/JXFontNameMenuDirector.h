@@ -21,11 +21,11 @@ public:
 	JXFontNameMenuDirector(JXDirector* supervisor,
 						   JXFontNameMenu* menu, JXTextMenuData* menuData);
 
-	virtual ~JXFontNameMenuDirector();
+	~JXFontNameMenuDirector();
 
 protected:
 
-	virtual JXMenuTable*	CreateMenuTable();
+	JXMenuTable*	CreateMenuTable() override;
 
 private:
 

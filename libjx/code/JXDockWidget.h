@@ -37,7 +37,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXDockWidget();
+	~JXDockWidget();
 
 	JXDockDirector*	GetDockDirector() const;
 	JXTabGroup*		GetTabGroup() const;
@@ -47,21 +47,21 @@ public:
 	bool	HasWindows() const;
 	bool	CloseAllWindows();		// recursive
 
-	JSize		GetWindowCount() const;
+	JSize	GetWindowCount() const;
 	bool	GetWindow(const JIndex index, JXWindow** window);
-	void		ShowPreviousWindow();
-	void		ShowNextWindow();
+	void	ShowPreviousWindow();
+	void	ShowNextWindow();
 
 	bool	WindowWillFit(JXWindow* w) const;
 	bool	Dock(JXWindowDirector* d, const bool reportError = false);
 	bool	Dock(JXWindow* w, const bool reportError = false);
 	bool	TransferAll(JXDockWidget* target);
-	void		UndockAll();
+	void	UndockAll();
 	bool	CloseAll();				// not recursive
 
 	bool	GetHorizChildPartition(JXHorizDockPartition** p) const;
 	bool	GetVertChildPartition(JXVertDockPartition** p) const;
-	void		SetChildPartition(JXPartition* p);
+	void	SetChildPartition(JXPartition* p);
 
 	JIndex	GetID() const;
 	void	SetID(const JIndex id);
@@ -69,12 +69,12 @@ public:
 protected:
 
 	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const JPoint& pt, const Time time,
-									   const JXWidget* source) override;
-	void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
-									  const Atom action, const Time time,
-									  const JXWidget* source) override;
-	void		HandleDNDLeave() override;
+					   const JPoint& pt, const Time time,
+						   const JXWidget* source) override;
+	void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+						  const Atom action, const Time time,
+						  const JXWidget* source) override;
+	void	HandleDNDLeave() override;
 
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
@@ -87,7 +87,7 @@ private:
 
 	JXDockDirector*			itsDirector;
 	JXPartition*			itsPartition;
-	const bool			itsIsHorizFlag;
+	const bool				itsIsHorizFlag;
 	JXTabGroup*				itsTabGroup;
 	JIndex					itsID;
 	JPtrArray<JXWindow>*	itsWindowList;		// nullptr if contains partition

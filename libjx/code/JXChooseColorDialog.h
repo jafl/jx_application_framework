@@ -24,14 +24,14 @@ public:
 
 	JXChooseColorDialog(JXWindowDirector* supervisor, const JColorID colorIndex);
 
-	virtual ~JXChooseColorDialog();
+	~JXChooseColorDialog();
 
 	JColorID	GetColor() const;
 
 protected:
 
 	bool	OKToDeactivate() override;
-	void		Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

@@ -21,7 +21,7 @@ public:
 	JQueue();
 	JQueue(const JQueue<T,S>& source);
 
-	virtual	~JQueue();
+	~JQueue();
 
 	JQueue<T,S>& operator=(const JQueue<T,S>& source);
 

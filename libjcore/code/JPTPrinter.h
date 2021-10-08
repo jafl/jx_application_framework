@@ -18,7 +18,7 @@ public:
 
 	JPTPrinter();
 
-	virtual ~JPTPrinter();
+	~JPTPrinter();
 
 	virtual void	Print(const JString& text) = 0;
 
@@ -39,13 +39,13 @@ public:
 	void	SetLastPageToPrint(const JIndex index);
 
 	bool	WillPrintAllPages() const;
-	void		PrintAllPages();
+	void	PrintAllPages();
 
 	bool	WillPrintReverseOrder() const;
-	void		ShouldPrintReverseOrder(const bool reverse);
+	void	ShouldPrintReverseOrder(const bool reverse);
 
 	bool	WillPrintLineNumbers() const;
-	void		ShouldPrintLineNumbers(const bool print);
+	void	ShouldPrintLineNumbers(const bool print);
 
 	// page info
 

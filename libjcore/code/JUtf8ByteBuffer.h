@@ -16,7 +16,7 @@ public:
 
 	JUtf8ByteBuffer(const JSize blockSize);
 
-	virtual ~JUtf8ByteBuffer();
+	~JUtf8ByteBuffer();
 
 	void	Append(const JUtf8Byte* data, const JSize count);
 	JString	ExtractCharacters();

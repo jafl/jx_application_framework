@@ -91,7 +91,7 @@ public:
 
 	JXMenu(JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual ~JXMenu();
+	~JXMenu();
 
 	bool	IsOpen() const;
 

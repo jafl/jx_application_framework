@@ -22,10 +22,10 @@ class JMMErrorPrinter : public JMMMonitor
 public:
 
 	JMMErrorPrinter();
-	virtual ~JMMErrorPrinter();
+	~JMMErrorPrinter();
 
 	bool GetPrintErrors() const;
-	void     SetPrintErrors(const bool print);
+	void    SetPrintErrors(const bool print);
 
 protected:
 
@@ -33,10 +33,10 @@ protected:
 	void HandleArrayDeletedAsObject(const JMMRecord& record) override;
 
 	void HandleUnallocatedDeletion(const JUtf8Byte* file, const JUInt32 line,
-										   const bool isArray) override;
+								   const bool isArray) override;
 	void HandleMultipleDeletion(const JMMRecord& thisRecord,
-										const JUtf8Byte* file, const JUInt32 line,
-										const bool isArray) override;
+								const JUtf8Byte* file, const JUInt32 line,
+								const bool isArray) override;
 
 	void HandleMultipleAllocation(const JMMRecord& thisRecord,
 								  const JMMRecord& firstRecord) override;

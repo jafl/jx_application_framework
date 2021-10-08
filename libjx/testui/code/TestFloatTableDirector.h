@@ -27,7 +27,7 @@ public:
 
 	TestFloatTableDirector(JXDirector* supervisor);
 
-	virtual ~TestFloatTableDirector();
+	~TestFloatTableDirector();
 
 protected:
 

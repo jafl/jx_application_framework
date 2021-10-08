@@ -10,7 +10,7 @@
 
 #include "jx-af/jcore/JFileArray.h"
 
-typedef JFAID	JPrefID;
+using JPrefID = JFAID;
 
 class JPrefsFile : public JFileArray
 {
@@ -21,7 +21,7 @@ public:
 	static JError	OKToCreate(const JString& fileNameStem, JString* fullName,
 							   const CreateAction action = kFailIfOpen);
 
-	virtual ~JPrefsFile();
+	~JPrefsFile();
 
 	void	GetData(const JPrefID& id, std::string* data) const;
 

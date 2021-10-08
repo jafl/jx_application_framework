@@ -16,17 +16,17 @@
 
 	// general types
 
-typedef long								JInteger;
+using JInteger = long;
 
 const JInteger kJIntegerMin					= LONG_MIN;
 const JInteger kJIntegerMax					= LONG_MAX;
 
-typedef unsigned long						JUInt;
+using JUInt = unsigned long;
 
 const JUInt kJUIntMin						= 0;
 const JUInt kJUIntMax						= ULONG_MAX;
 
-typedef double								JFloat;
+using JFloat = double;
 
 const JFloat kJFloatMin						= DBL_MIN;
 const JFloat kJFloatMax						= DBL_MAX;
@@ -36,51 +36,51 @@ const long kJFloatExponentMax				= DBL_MAX_10_EXP;
 
 	// specialized types
 
-typedef unsigned long						JSize;
+using JSize = unsigned long;
 
 const JSize kJSizeMin						= 0;
 const JSize kJSizeMax						= ULONG_MAX;
 
-typedef unsigned long						JIndex;
+using JIndex = unsigned long;
 
 const JIndex kJIndexMin						= 0;
 const JIndex kJIndexMax						= ULONG_MAX;
 
-typedef long								JSignedIndex;
+using JSignedIndex = long;
 
 const JSignedIndex kJSignedIndexMin			= LONG_MIN;
 const JSignedIndex kJSignedIndexMax			= LONG_MAX;
 
-typedef unsigned long						JUnsignedOffset;
+using JUnsignedOffset = unsigned long;
 
 const JUnsignedOffset kJUnsignedOffsetMin	= 0;
 const JUnsignedOffset kJUnsignedOffsetMax	= ULONG_MAX;
 
-typedef long								JSignedOffset;
+using JSignedOffset = long;
 
 const JSignedOffset kJSignedOffsetMin		= LONG_MIN;
 const JSignedOffset kJSignedOffsetMax		= LONG_MAX;
 
-typedef long								JCoordinate;
+using JCoordinate = long;
 
 const JCoordinate kJCoordinateMin			= LONG_MIN;
 const JCoordinate kJCoordinateMax			= LONG_MAX;
 
-typedef unsigned long						JFileVersion;
+using JFileVersion = unsigned long;
 
 const JFileVersion kJFileVersionMin			= 0;
 const JFileVersion kJFileVersionMax			= ULONG_MAX;
 
 	// utf-8 characters
 
-typedef char								JUtf8Byte;
+using JUtf8Byte = char;
 
 const JUtf8Byte kJUtf8ByteMin				= CHAR_MIN;
 const JUtf8Byte kJUtf8ByteMax				= CHAR_MAX;
 
 	// iterators
 
-typedef unsigned long						JCursorPosition;
+using JCursorPosition = unsigned long;
 
 enum JIteratorPosition
 {
@@ -198,8 +198,8 @@ JBoolFromString
 
 #if SIZEOF_LONG == 4
 
-	typedef unsigned long JUInt32;
-	typedef   signed long JInt32;
+	using JUInt32 = unsigned long;
+	using JInt32  = signed long;
 
 	const JUInt32 kJUInt32Min = 0;
 	const JUInt32 kJUInt32Max = ULONG_MAX;
@@ -209,8 +209,8 @@ JBoolFromString
 
 #elif SIZEOF_INT == 4
 
-	typedef unsigned int  JUInt32;
-	typedef   signed int  JInt32;
+	using JUInt32 = unsigned int;
+	using JInt32  = signed int;
 
 	const JUInt32 kJUInt32Min = 0;
 	const JUInt32 kJUInt32Max = UINT_MAX;
@@ -230,8 +230,8 @@ JBoolFromString
 	#define JUInt64_EXISTS
 	#define  JInt64_EXISTS
 
-	typedef unsigned long long JUInt64;
-	typedef   signed long long JInt64;
+	using JUInt64 = unsigned long long;
+	using JInt64  = signed long long;
 
 	const JUInt64 kJUInt64Min = 0;
 	const JUInt64 kJUInt64Max = ULLONG_MAX;
@@ -245,8 +245,8 @@ JBoolFromString
 	#define JUInt64_EXISTS
 	#define  JInt64_EXISTS
 
-	typedef unsigned long JUInt64;
-	typedef   signed long JInt64;
+	using JUInt64 = unsigned long;
+	using JInt64  = signed long;
 
 	const JUInt64 kJUInt64Min = 0;
 	const JUInt64 kJUInt64Max = ULONG_MAX;
@@ -262,8 +262,8 @@ JBoolFromString
 	#define JUInt64_EXISTS
 	#define  JInt64_EXISTS
 
-	typedef unsigned int JUInt64;
-	typedef   signed int JInt64;
+	using JUInt64 = unsigned int;
+	using JInt64  = signed int;
 
 	const JUInt64 kJUInt64Min = 0;
 	const JUInt64 kJUInt64Max = UINT_MAX;
@@ -275,8 +275,8 @@ JBoolFromString
 
 	// So far, all machines have word-sized longs
 	#define JWORDSIZE SIZEOF_LONG
-	typedef unsigned long JUWord;
-	typedef   signed long JWord;
+	using JUWord = unsigned long;
+	using JWord  = signed long;
 
 /******************************************************************************
 
@@ -286,11 +286,11 @@ JBoolFromString
 
 // JHashValue must be unsigned to guarantee that >> shifts in zero bits
 
-typedef JUWord JHashValue;
+using JHashValue = JUWord;
 
 // JDualHashValue must be signed so the step can go either way
 
-typedef  JWord JDualHashValue;
+using JDualHashValue = JWord;
 
 /******************************************************************************
 
@@ -300,8 +300,8 @@ typedef  JWord JDualHashValue;
 
 #if defined __GNUG__
 
-	typedef std::ios_base::openmode JFStreamOpenMode;
-	typedef std::ios_base::seekdir  JIOStreamSeekDir;
+	using JFStreamOpenMode = std::ios_base::openmode;
+	using JIOStreamSeekDir = std::ios_base::seekdir;
 
 	const JFStreamOpenMode kJBinaryModifier = std::ios_base::binary;
 

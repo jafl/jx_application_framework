@@ -23,7 +23,7 @@ public:
 
 	static bool OKToCreate(const JArray<JFloat>& x, const JArray<JFloat>& y);
 
-	virtual ~J2DPlotData();
+	~J2DPlotData();
 
 	void GetElement(const JIndex index, J2DDataPoint* data) const override;
 
@@ -35,8 +35,8 @@ public:
 
 	void	GetXRange(JFloat* min, JFloat* max) const override;
 	bool	GetYRange(const JFloat xMin, const JFloat xMax,
-							  const bool xLinear,
-							  JFloat* yMin, JFloat* yMax) const override;
+					  const bool xLinear,
+					  JFloat* yMin, JFloat* yMax) const override;
 
 	bool HasXErrors() const override;
 	bool HasYErrors() const override;

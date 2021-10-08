@@ -25,7 +25,7 @@ public:
 	JXStringHistoryMenu(const JSize historyLength,
 						JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual ~JXStringHistoryMenu();
+	~JXStringHistoryMenu();
 
 	void	AddString(const JString& str);
 };

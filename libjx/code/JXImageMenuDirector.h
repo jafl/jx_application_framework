@@ -20,11 +20,11 @@ public:
 	JXImageMenuDirector(JXDirector* supervisor,
 						JXMenu* menu, JXImageMenuData* menuData);
 
-	virtual ~JXImageMenuDirector();
+	~JXImageMenuDirector();
 
 protected:
 
-	virtual JXMenuTable*	CreateMenuTable();
+	JXMenuTable*	CreateMenuTable() override;
 
 	JXMenu*				GetMenu();
 	JXImageMenuData*	GetMenuData();

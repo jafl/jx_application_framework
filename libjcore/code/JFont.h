@@ -17,7 +17,7 @@
 class JString;
 class JFontManager;
 
-typedef unsigned long JFontID;
+using JFontID                = unsigned long;
 const JFontID kInvalidFontID = 0;
 
 class JFont

@@ -26,12 +26,12 @@ public:
 					const bool ownsFn, const JIndex xIndex,
 					const JFloat xMin, const JFloat xMax);
 
-	virtual ~J2DPlotFunction();
+	~J2DPlotFunction();
 
 	const JVariableList*	GetVariableList() const;
 	const JFunction&		GetFunction() const;
-	JString			GetFunctionString() const override;
-	bool			GetYValue(const JFloat x, JFloat* y) const override;
+	JString					GetFunctionString() const override;
+	bool					GetYValue(const JFloat x, JFloat* y) const override;
 
 	void	SetFunction(JVariableList* varList, JFunction* f,
 						const bool ownsFn, const JIndex xIndex,

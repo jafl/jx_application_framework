@@ -146,7 +146,7 @@ JGetUserMountPointList
 	}
 
 	if (state != nullptr && state->mountCmdOutput != nullptr &&
-		mountData == *(state->mountCmdOutput))
+		mountData == *state->mountCmdOutput)
 	{
 		return false;
 	}
@@ -159,7 +159,7 @@ JGetUserMountPointList
 	}
 	else if (state != nullptr)
 	{
-		*(state->mountCmdOutput) = mountData;
+		*state->mountCmdOutput = mountData;
 	}
 
 	JString options;
@@ -214,7 +214,7 @@ JGetUserMountPointList
 {
 	time_t t;
 	if (state != nullptr &&
-		(!(JGetModificationTime(_PATH_FSTAB, &t)).OK() ||
+		(!JGetModificationTime(_PATH_FSTAB, &t).OK() ||
 		 t == state->modTime))
 	{
 		return false;
@@ -287,7 +287,7 @@ JGetUserMountPointList
 {
 	time_t t;
 	if (state != nullptr &&
-		(!(JGetModificationTime(kAvailInfoName, &t)).OK() ||
+		(!JGetModificationTime(kAvailInfoName, &t).OK() ||
 		 t == state->modTime))
 	{
 		return false;
@@ -382,7 +382,7 @@ JGetUserMountPointList
 {
 	time_t t;
 	if (state != nullptr &&
-		(!(JGetModificationTime(kAvailInfoName, &t)).OK() ||
+		(!JGetModificationTime(kAvailInfoName, &t).OK() ||
 		 t == state->modTime))
 	{
 		return false;

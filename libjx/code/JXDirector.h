@@ -19,7 +19,7 @@ public:
 
 	JXDirector(JXDirector* supervisor);
 
-	virtual ~JXDirector();
+	~JXDirector();
 
 	bool			IsClosing() const;
 	virtual bool	Close();

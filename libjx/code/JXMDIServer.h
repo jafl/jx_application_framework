@@ -18,12 +18,12 @@ public:
 
 	JXMDIServer();
 
-	virtual ~JXMDIServer();
+	~JXMDIServer();
 
 protected:
 
-	virtual bool	CanAcceptMDIRequest();
-	virtual void	PreprocessArgList(JPtrArray<JString>* argList);
+	bool	CanAcceptMDIRequest() override;
+	void	PreprocessArgList(JPtrArray<JString>* argList) override;
 };
 
 #endif

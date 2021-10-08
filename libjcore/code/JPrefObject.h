@@ -20,7 +20,7 @@ public:
 
 	bool	PrefInfoValid() const;
 	bool	GetPrefInfo(JPrefsManager** mgr, JIndex* id) const;
-	void		SetPrefInfo(JPrefsManager* prefsMgr, const JPrefID& id);
+	void	SetPrefInfo(JPrefsManager* prefsMgr, const JPrefID& id);
 
 	void	ReadPrefs();
 	void	WritePrefs() const;

@@ -23,7 +23,7 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	virtual ~TestCompartment();
+	~TestCompartment();
 
 protected:
 
@@ -31,8 +31,8 @@ protected:
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
 	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
-								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers) override;
+						  const JXButtonStates& buttonStates,
+						  const JXKeyModifiers& modifiers) override;
 
 	JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 

@@ -23,7 +23,7 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXExprInput();
+	~JXExprInput();
 
 	const JString&	GetVarName() const;
 	void			SetVarName(const JString& str);
@@ -32,7 +32,7 @@ public:
 	void				SetFontMenu(JXTextMenu* menu);
 
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
-								   const JXKeyModifiers& modifiers) override;
+						   const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -41,7 +41,7 @@ protected:
 private:
 
 	JXTextMenu*	itsFontMenu;	// can be nullptr
-	bool	itsGreekFlag;
+	bool		itsGreekFlag;
 
 private:
 

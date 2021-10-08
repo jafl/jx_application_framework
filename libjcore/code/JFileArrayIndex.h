@@ -32,7 +32,7 @@ public:
 
 	JFileArrayIndex();
 
-	virtual	~JFileArrayIndex();
+	~JFileArrayIndex();
 
 	void	InsertElementAtIndex(const JFAIndex& index, const JUnsignedOffset offset,
 								 const JFAID& id);
@@ -49,22 +49,22 @@ public:
 	void	SetElementID(const JFAIndex& index, const JFAID& id);
 
 	bool	GetElementIndexFromID(const JFAID& id, JFAIndex* index) const;
-	JFAID		GetUniqueID() const;
+	JFAID	GetUniqueID() const;
 
-	void		SetToEmbeddedFile(const JFAIndex& index);
+	void	SetToEmbeddedFile(const JFAIndex& index);
 	bool	IsEmbeddedFile(const JFAIndex& index) const;
 
-	void		EmbeddedFileOpened(const JFAIndex& index, JFileArray* theEmbeddedFile);
-	void		EmbeddedFileClosed(const JFAIndex& index);
+	void	EmbeddedFileOpened(const JFAIndex& index, JFileArray* theEmbeddedFile);
+	void	EmbeddedFileClosed(const JFAIndex& index);
 
 	bool	EmbeddedFileIsClosed(const JFAIndex& index) const;
 	bool	AllEmbeddedFilesAreClosed() const;
 
-	void		ReplaceEmbeddedFileStreams(std::fstream* newStream);
+	void	ReplaceEmbeddedFileStreams(std::fstream* newStream);
 
-	void		ReadIndex(const JSize elementCount, std::istream& input);
-	void		WriteIndex(std::ostream& output);
-	JSize		GetIndexLength() const;
+	void	ReadIndex(const JSize elementCount, std::istream& input);
+	void	WriteIndex(std::ostream& output);
+	JSize	GetIndexLength() const;
 
 private:
 

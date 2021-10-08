@@ -19,7 +19,7 @@ public:
 	JNaryOperator(const JUtf8Byte* name, JPtrArray<JFunction>* argList = nullptr);
 	JNaryOperator(const JNaryOperator& source);
 
-	virtual ~JNaryOperator();
+	~JNaryOperator();
 };
 
 #endif

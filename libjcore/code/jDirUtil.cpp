@@ -293,7 +293,7 @@ JGetClosestDirectory
 
  ******************************************************************************/
 
-static bool JSearchSubdirs_private(
+static bool jSearchSubdirs_private(
 	const JString& startPath, const JString& name,
 	const bool isFile, const JString::Case caseSensitive,
 	JString* path, JString* newName,
@@ -329,7 +329,7 @@ JSearchSubdirs
 
 	bool cancelled = false;
 	const bool found =
-		JSearchSubdirs_private(startPath, name, isFile, caseSensitive,
+		jSearchSubdirs_private(startPath, name, isFile, caseSensitive,
 							   path, newName, pg, &cancelled);
 	if (!found)
 	{
@@ -349,8 +349,8 @@ JSearchSubdirs
 	return found;
 }
 
-bool
-JSearchSubdirs_private
+static bool
+jSearchSubdirs_private
 	(
 	const JString&		startPath,
 	const JString&		name,
@@ -422,7 +422,7 @@ JSearchSubdirs_private
 			if (entry->IsDirectory() && !entry->IsLink())
 			{
 				const JString& newPath = entry->GetFullName();
-				if (JSearchSubdirs_private(newPath, name, isFile,
+				if (jSearchSubdirs_private(newPath, name, isFile,
 										   caseSensitive, path, newName,
 										   pg, cancelled))
 				{

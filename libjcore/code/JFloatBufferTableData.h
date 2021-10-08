@@ -21,7 +21,7 @@ public:
 	JFloatBufferTableData(const JFloatTableData* floatData,
 						  const int precision);
 
-	virtual ~JFloatBufferTableData();
+	~JFloatBufferTableData();
 
 protected:
 

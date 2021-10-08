@@ -69,7 +69,7 @@ public:
 
 	JMountPointList(const JPtrArrayT::CleanUpAction action);
 
-	virtual ~JMountPointList();
+	~JMountPointList();
 
 	void	CleanOut();		// safest
 	void	DeleteAll();
@@ -82,27 +82,27 @@ private:
 	JPtrArrayT::CleanUpAction	itsCleanUpAction;
 };
 
-bool	JGetUserMountPointList(JMountPointList* list, JMountState* state);
+bool		JGetUserMountPointList(JMountPointList* list, JMountState* state);
 JMountType	JGetUserMountPointType(const JString& path,
 								   const JString& device, const JString& fsType);
 bool	JIsMounted(const JString& path,
-					   bool* writable = nullptr, bool* isTop = nullptr,
-					   JString* device = nullptr,
-					   JFileSystemType* fsType = nullptr, JString* fsTypeString = nullptr);
+				   bool* writable = nullptr, bool* isTop = nullptr,
+				   JString* device = nullptr,
+				   JFileSystemType* fsType = nullptr, JString* fsTypeString = nullptr);
 bool	JFindUserMountPoint(const JString& path, const JMountPointList& list,
-								JIndex* index);
+							JIndex* index);
 
-void		JMount(const JString& path, const bool mount = true,
-				   const bool block = false);
+void	JMount(const JString& path, const bool mount = true,
+			   const bool block = false);
 
 bool	JTranslateLocalToRemote(const JString& localPathStr,
-									JString* host, JString* remotePath);
+								JString* host, JString* remotePath);
 bool	JTranslateRemoteToLocal(const JString& hostStr,
-									const JString& remotePathStr,
-									JString* localPath);
+								const JString& remotePathStr,
+								JString* localPath);
 
-JError		JFormatPartition(const JString& path, const JString& type,
-							 JProcess** process);
+JError	JFormatPartition(const JString& path, const JString& type,
+						 JProcess** process);
 bool	JIsSamePartition(const JString& path1, const JString& path2);
 
 inline bool

@@ -16,7 +16,7 @@ public:
 
 	JSTUndoPaste(JStyledText* text, const JStyledText::TextRange& range);
 
-	virtual ~JSTUndoPaste();
+	~JSTUndoPaste();
 
 	void	Undo() override;
 

@@ -20,9 +20,9 @@ public:
 
 	JXAdjustToolBarGeometryTask(JXToolBar* toolBar);
 
-	virtual ~JXAdjustToolBarGeometryTask();
+	~JXAdjustToolBarGeometryTask();
 
-	virtual void	Perform();
+	void	Perform() override;
 
 private:
 

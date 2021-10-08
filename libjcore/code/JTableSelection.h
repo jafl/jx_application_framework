@@ -20,7 +20,7 @@ public:
 	JTableSelection(JTable* table);
 	JTableSelection(JTable* table, const JTableSelection& source);
 
-	virtual ~JTableSelection();
+	~JTableSelection();
 
 	void	SelectCell(const JPoint& cell, const bool on = true);
 	void	SelectCell(const JIndex row, const JIndex col, 

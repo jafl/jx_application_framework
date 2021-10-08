@@ -25,14 +25,14 @@ public:
 
 	JXFSRunCommandDialog();
 
-	virtual ~JXFSRunCommandDialog();
+	~JXFSRunCommandDialog();
 
 	void	Activate() override;
 
 	void	SetPath(const JString& path);
 
 	bool	ReadSetup(const bool update);
-	void		WriteSetup();
+	void	WriteSetup();
 
 protected:
 

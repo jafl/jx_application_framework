@@ -18,17 +18,17 @@ public:
 
 	JTextUserNotification();
 
-	virtual ~JTextUserNotification();
+	~JTextUserNotification();
 
-	virtual void		DisplayMessage(const JString& message);
-	virtual void		ReportError(const JString& message);
+	void	DisplayMessage(const JString& message) override;
+	void	ReportError(const JString& message) override;
 
-	virtual bool	AskUserYes(const JString& message);
-	virtual bool	AskUserNo(const JString& message);
+	bool	AskUserYes(const JString& message) override;
+	bool	AskUserNo(const JString& message) override;
 
-	virtual CloseAction	OKToClose(const JString& message);
+	CloseAction	OKToClose(const JString& message) override;
 
-	virtual bool	AcceptLicense();
+	bool	AcceptLicense() override;
 };
 
 #endif

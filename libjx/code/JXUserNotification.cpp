@@ -30,7 +30,17 @@
 
 #undef assert
 
-[[noreturn]] static int __jXUNassert(const char*, const char*, int);
+[[noreturn]] static int
+__jXUNassert
+	(
+	const char*	expr,
+	const char*	file,
+	int			line
+	)
+{
+	fprintf(stderr, "Assertion failed: %s, file %s, line %d\n", expr, file, line);
+	abort();
+}
 
 #ifdef NDEBUG
 	#define assert(x)	((void) 0)
@@ -265,21 +275,4 @@ JXUserNotification::WaitForResponse()
 	}
 
 	app->BlockingWindowFinished();
-}
-
-/******************************************************************************
- Private assert function
-
- ******************************************************************************/
-
-int
-__jXUNassert
-	(
-	const char*	expr,
-	const char*	file,
-	int			line
-	)
-{
-	fprintf(stderr, "Assertion failed: %s, file %s, line %d\n", expr, file, line);
-	abort();
 }

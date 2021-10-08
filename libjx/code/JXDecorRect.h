@@ -21,13 +21,13 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXDecorRect();
+	~JXDecorRect();
 
 	void	SetColor(const JColorID color);
 
 protected:
 
-	void		Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	bool	NeedsInternalFTC() const override;
 };
 

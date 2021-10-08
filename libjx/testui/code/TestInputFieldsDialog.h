@@ -20,7 +20,7 @@ public:
 
 	TestInputFieldsDialog(JXWindowDirector* supervisor);
 
-	virtual ~TestInputFieldsDialog();
+	~TestInputFieldsDialog();
 
 protected:
 

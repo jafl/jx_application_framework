@@ -22,7 +22,7 @@ public:
 	static void				Initialize();
 	static JThisProcess*	Instance();
 
-	virtual ~JThisProcess();
+	~JThisProcess();
 
 	static JError	Fork(pid_t* pid);
 
@@ -60,7 +60,7 @@ protected:
 
 	JThisProcess();
 
-	virtual int	handle_signal(int signum, siginfo_t*, ucontext_t*);
+	int	handle_signal(int signum, siginfo_t*, ucontext_t*) override;
 
 private:
 

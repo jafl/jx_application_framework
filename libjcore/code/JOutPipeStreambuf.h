@@ -15,20 +15,20 @@ class JOutPipeStreambuf : public std::basic_streambuf<_CharT, _Traits>
 {
 public:
 
-	typedef typename std::basic_streambuf<_CharT, _Traits>::int_type int_type;
+	using int_type = typename std::basic_streambuf<_CharT, _Traits>::int_type;
 
 public:
 
 	JOutPipeStreambuf(const int fd, const bool close);
 
-	virtual	~JOutPipeStreambuf();
+	~JOutPipeStreambuf();
 
-	int			GetDescriptor();
+	int		GetDescriptor();
 
 	bool	WillClosePipe() const;
-	void		ShouldClosePipe(const bool close = true);
+	void	ShouldClosePipe(const bool close = true);
 
-	void		close();
+	void	close();
 
 protected:
 
@@ -38,7 +38,7 @@ protected:
 private:
 
 	const int	itsDescriptor;
-	bool	itsCloseFlag;	// true => close when we are destructed
+	bool		itsCloseFlag;	// true => close when we are destructed
 };
 
 #include "JOutPipeStreambuf.tmpl"

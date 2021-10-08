@@ -23,7 +23,7 @@ public:
 					  const bool modal = true,
 					  const bool password = false);
 
-	virtual ~JXGetStringDialog();
+	~JXGetStringDialog();
 
 	const JString&	GetString() const;
 

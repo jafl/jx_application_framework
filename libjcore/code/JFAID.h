@@ -16,7 +16,7 @@
 // transferred from 64 to 32 bit machines.  GetUniqueID() will never return
 // a value that can't be used on a 32 bit machine.
 
-typedef JUInt32 JFAID_t;
+using JFAID_t = JUInt32;
 
 class JFAID
 {

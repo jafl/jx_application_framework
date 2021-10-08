@@ -36,8 +36,9 @@ public:
 	void	SendBytes(const JUtf8Byte* data);	// allow broken up UTF-8 characters
 };
 
-typedef ACE_Acceptor<TestLink, ACE_LSOCK_ACCEPTOR>		TestAcceptor;
-typedef ACE_Connector<TestLink, ACE_LSOCK_CONNECTOR>	TestConnector;
+using TestAcceptor  = ACE_Acceptor<TestLink, ACE_LSOCK_ACCEPTOR>;
+using TestConnector = ACE_Connector<TestLink, ACE_LSOCK_CONNECTOR>;
+
 static const char* socketName = "/tmp/test_JMessageProtocol";
 
 static const JUtf8Byte* serverSend[] =

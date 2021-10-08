@@ -29,18 +29,18 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXFloatTable();
+	~JXFloatTable();
 
 protected:
 
 	JFloatTableData*	GetFloatData() const;
 
-	virtual void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
-	virtual JXInputField*	CreateXInputField(const JPoint& cell,
-											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h);
-	virtual bool		ExtractInputData(const JPoint& cell);
-	virtual void			PrepareDeleteXInputField();
+	void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	JXInputField*	CreateXInputField(const JPoint& cell,
+									  const JCoordinate x, const JCoordinate y,
+									  const JCoordinate w, const JCoordinate h) override;
+	bool			ExtractInputData(const JPoint& cell) override;
+	void			PrepareDeleteXInputField() override;
 
 	virtual JXFloatInput*
 		CreateFloatTableInput(const JPoint& cell, JXContainer* enclosure,

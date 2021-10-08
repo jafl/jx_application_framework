@@ -22,7 +22,7 @@ class JXColorManager : public JColorManager, public virtual JBroadcaster
 
 public:
 
-	virtual ~JXColorManager();
+	~JXColorManager();
 
 	operator Colormap() const;
 

@@ -28,15 +28,15 @@ public:
 						const JIndex index = 0);
 	JLinkedListIterator(const JLinkedListIterator<T>& source);
 
-	virtual ~JLinkedListIterator();
+	~JLinkedListIterator();
 
 	bool	Prev(T* item, const JIteratorAction move = kJIteratorMove) override;
 	bool	Next(T* item, const JIteratorAction move = kJIteratorMove) override;
 
-	void		SkipPrev(const JSize count = 1) override;
-	void		SkipNext(const JSize count = 1) override;
+	void	SkipPrev(const JSize count = 1) override;
+	void	SkipNext(const JSize count = 1) override;
 
-	void		MoveTo(const JIteratorPosition newPosition, const JIndex index) override;
+	void	MoveTo(const JIteratorPosition newPosition, const JIndex index) override;
 
 	// only allowed if constructed from non-const JList<T>*
 
@@ -56,7 +56,7 @@ private:
 
 	JLinkedList<T>*			itsLinkedList;
 	JLinkedListElement<T>*	itsCurrElement;		// if cursor > 0, it is after this element
-	bool				itsIgnoreListChangedFlag;
+	bool					itsIgnoreListChangedFlag;
 
 private:
 

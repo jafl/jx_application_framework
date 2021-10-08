@@ -45,6 +45,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			JArray & JRunArray can be modified via an iterator.
 //	*** Removed FirstElement(), GetElement(), LastElement() from JPtrArray
 //			Use GetFirstElement(), GetElement(), GetLastElement() instead
+//	*** Removed JList::GetCompareFunction() because it is useless for lambdas.
+//	*** Removed JElementComparison & JCompareFnWrapper from JList in favor of lambdas.
 //	Added support for range-based for loops to JList, etc.
 //	Added move constructor for JArray.
 //	JContainer:
@@ -94,6 +96,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //				the versions that use JCharacterRange.
 //			Removed CaretLineChanged message.  Always broadcasts CaretLocationChanged.
 //			Replaced FontMatch with std::function<bool(const JFont&)>.
+//			Removed GetCharacterInWordFunction() in favor of lambdas.
 //	*** Removed HTML parsing from JTextEditor.  HTML belongs on the web.
 //			Removed JHTMLScanner, JTEHTMLScanner, JExtractHTMLTitle.
 //	*** Changed all /usr/lib paths to /usr/local/lib on OSX because of SIP
@@ -111,6 +114,10 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Created JString::Case enum to support function overloading.
 //	JRegex:
 //		Rewrote interface to use JStringMatch.
+//	JAliasArray:
+//		*** Removed GetCompareFunction() because it is useless for lambdas.
+//		*** Removed Get/SetCompareObject() in favor of lambdas.
+//	*** Removed unused class JErrorState.
 
 // version 3.2.0:
 //	jMountUtil:

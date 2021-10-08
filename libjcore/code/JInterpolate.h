@@ -19,13 +19,13 @@ public:
 
 	JInterpolate();
 
-	virtual ~JInterpolate();
+	~JInterpolate();
 
 	JString	Interpolate(const JString& pattern, const JStringMatch& m);
 
 protected:
 
-	virtual bool GetValue(const JString& name, JString* value) const;
+	bool GetValue(const JString& name, JString* value) const override;
 
 private:
 

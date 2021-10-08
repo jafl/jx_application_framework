@@ -34,13 +34,13 @@ public:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	virtual ~TestWidget();
+	~TestWidget();
 
 	void	Print(JPagePrinter& p);
 	void	Print(JEPSPrinter& p);
 
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
-								   const JXKeyModifiers& modifiers) override;
+						   const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -48,27 +48,27 @@ protected:
 
 	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
-								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers) override;
+						  const JXButtonStates& buttonStates,
+						  const JXKeyModifiers& modifiers) override;
 
 	bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	Atom	GetDNDAction(const JXContainer* target,
-								 const JXButtonStates& buttonStates,
-								 const JXKeyModifiers& modifiers) override;
+						 const JXButtonStates& buttonStates,
+						 const JXKeyModifiers& modifiers) override;
 
 	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const JPoint& pt, const Time time,
-									   const JXWidget* source) override;
+						   const JPoint& pt, const Time time,
+						   const JXWidget* source) override;
 	void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
-								  const Atom action, const Time time,
-								  const JXWidget* source) override;
+						  const Atom action, const Time time,
+						  const JXWidget* source) override;
 
 	bool	HandleClientMessage(const XClientMessageEvent& clientMessage) override;
 

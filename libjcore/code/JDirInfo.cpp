@@ -272,6 +272,7 @@ JDirInfo::~JDirInfo()
 		jdelete itsNameRegex;
 	}
 
+	jdelete itsPermFilter;
 	jdelete itsContentRegex;
 	jdelete itsPG;
 }
@@ -302,6 +303,8 @@ JDirInfo::operator=
 	itsModTime             = source.itsModTime;
 	itsStatusTime          = source.itsStatusTime;
 
+	itsPermFilter = nullptr;
+
 	PrivateCopySettings(source);
 	CopyDirEntries(source);
 	Broadcast(SettingsChanged());
@@ -322,7 +325,7 @@ JDirInfo::CopySettings
 {
 	const bool rebuild =
 		itsContentRegex == nullptr || source.itsContentRegex == nullptr ||
-		itsContentRegex->GetPattern() != (source.itsContentRegex)->GetPattern();
+		itsContentRegex->GetPattern() != source.itsContentRegex->GetPattern();
 
 	PrivateCopySettings(source);
 
@@ -356,7 +359,13 @@ JDirInfo::PrivateCopySettings
 	itsShowVCSDirsFlag = source.itsShowVCSDirsFlag;
 	itsShowOthersFlag  = source.itsShowOthersFlag;
 
-	itsPermFilter = source.itsPermFilter;
+	jdelete itsPermFilter;
+	itsPermFilter = nullptr;
+	if (source.itsPermFilter != nullptr)
+	{
+		itsPermFilter = jnew std::function(*source.itsPermFilter);
+		assert( itsPermFilter != nullptr );
+	}
 
 	// copy name filter
 
@@ -373,7 +382,7 @@ JDirInfo::PrivateCopySettings
 	}
 	else if (source.itsNameRegex != nullptr)
 	{
-		itsNameRegex = jnew JRegex(*(source.itsNameRegex));
+		itsNameRegex = jnew JRegex(*source.itsNameRegex);
 		assert( itsNameRegex != nullptr );
 		itsOwnsNameRegexFlag = true;
 	}
@@ -388,18 +397,14 @@ JDirInfo::PrivateCopySettings
 
 	if (source.itsContentRegex != nullptr)
 	{
-		itsContentRegex = jnew JRegex(*(source.itsContentRegex));
+		itsContentRegex = jnew JRegex(*source.itsContentRegex);
 		assert( itsContentRegex != nullptr );
 	}
 
 	// copy sort method
 
-	const JElementComparison<JDirEntry*>* compareObj = nullptr;
-	const bool hasCompare = (source.itsDirEntries)->GetCompareObject(&compareObj);
-	assert( hasCompare );
-
-	itsDirEntries->SetCompareObject(*compareObj);
-	itsDirEntries->SetSortOrder((source.itsDirEntries)->GetSortOrder());
+	itsDirEntries->CopyCompareFunction(*source.itsDirEntries);
+	itsDirEntries->SetSortOrder(source.itsDirEntries->GetSortOrder());
 }
 
 /*****************************************************************************
@@ -552,8 +557,9 @@ JDirInfo::ShouldApplyWildcardFilterToDirs
 void
 JDirInfo::ChangeSort
 	(
-	JCompareDirEntries*				f,
-	const JListT::SortOrder	order
+	std::function<JListT::CompareResult(JDirEntry * const &, JDirEntry * const &)> f,
+
+	const JListT::SortOrder order
 	)
 {
 	Broadcast(ContentsWillBeUpdated());
@@ -1191,15 +1197,15 @@ JDirInfo::MatchesNameFilter
 void
 JDirInfo::SetDirEntryFilter
 	(
-	JCheckPermissions* f
+	const std::function<bool(const JDirEntry&)> f
 	)
 {
-	if (f != itsPermFilter)
-	{
-		itsPermFilter = f;
-		ApplyFilters(true);
-		Broadcast(SettingsChanged());
-	}
+	jdelete itsPermFilter;
+	itsPermFilter = jnew std::function(f);
+	assert( itsPermFilter != nullptr );
+
+	ApplyFilters(true);
+	Broadcast(SettingsChanged());
 }
 
 /******************************************************************************
@@ -1212,6 +1218,7 @@ JDirInfo::ClearDirEntryFilter()
 {
 	if (itsPermFilter != nullptr)
 	{
+		jdelete itsPermFilter;
 		itsPermFilter = nullptr;
 		ApplyFilters(true);
 		Broadcast(SettingsChanged());
@@ -1230,14 +1237,7 @@ JDirInfo::MatchesDirEntryFilter
 	)
 	const
 {
-	if (itsPermFilter != nullptr)
-	{
-		return itsPermFilter(entry);
-	}
-	else
-	{
-		return true;
-	}
+	return itsPermFilter != nullptr ? (*itsPermFilter)(entry) : true;
 }
 
 /******************************************************************************
@@ -1369,6 +1369,7 @@ JDirInfo::ResetCSFFilters()
 
 	if (itsPermFilter != nullptr)
 	{
+		jdelete itsPermFilter;
 		itsPermFilter = nullptr;
 		apply         = true;
 	}

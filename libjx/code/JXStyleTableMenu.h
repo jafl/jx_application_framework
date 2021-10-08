@@ -26,13 +26,13 @@ public:
 	JXStyleTableMenu(JXStyleTable* table,
 					 JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual ~JXStyleTableMenu();
+	~JXStyleTableMenu();
 
 protected:
 
-	virtual void		UpdateMenu();
-	virtual JFontStyle	GetFontStyleForMenuUpdate() const;
-	virtual void		HandleMenuItem(const JIndex menuItem);
+	void		UpdateMenu() override;
+	JFontStyle	GetFontStyleForMenuUpdate() const override;
+	void		HandleMenuItem(const JIndex menuItem) override;
 
 private:
 

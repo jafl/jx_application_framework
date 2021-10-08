@@ -21,9 +21,9 @@ public:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXCardFile();
+	~JXCardFile();
 
-	JSize		GetCardCount() const;
+	JSize	GetCardCount() const;
 	bool	GetCurrentCardIndex(JIndex* index) const;
 	bool	GetCardIndex(JXContainer* card, JIndex* index) const;
 
@@ -31,16 +31,16 @@ public:
 	JXContainer*	PrependCard();
 	JXContainer*	AppendCard();
 
-	void			InsertCard(const JIndex index, JXWidgetSet* card);
-	void			PrependCard(JXWidgetSet* card);
-	void			AppendCard(JXWidgetSet* card);
+	void	InsertCard(const JIndex index, JXWidgetSet* card);
+	void	PrependCard(JXWidgetSet* card);
+	void	AppendCard(JXWidgetSet* card);
 
 	JXContainer*	RemoveCard(const JIndex index);
 	void			DeleteCard(const JIndex index);
 	void			KillFocusOnCurrentCard();
 
-	bool		ShowCard(const JIndex index);
-	bool		ShowCard(JXContainer* card);
+	bool	ShowCard(const JIndex index);
+	bool	ShowCard(JXContainer* card);
 
 protected:
 

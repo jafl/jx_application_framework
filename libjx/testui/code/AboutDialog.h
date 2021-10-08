@@ -18,7 +18,7 @@ public:
 
 	AboutDialog(JXDirector* supervisor);
 
-	virtual ~AboutDialog();
+	~AboutDialog();
 
 private:
 

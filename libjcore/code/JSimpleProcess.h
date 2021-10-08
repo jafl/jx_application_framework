@@ -56,7 +56,7 @@ public:
 	JSimpleProcess(const pid_t pid, const int fd,
 				   const bool deleteWhenFinished);
 
-	virtual ~JSimpleProcess();
+	~JSimpleProcess();
 
 	void	ReportError(const bool success);
 
@@ -66,7 +66,7 @@ protected:
 
 private:
 
-	typedef JMessageProtocol<ACE_LSOCK_STREAM>	ProcessLink;
+	using ProcessLink = JMessageProtocol<ACE_LSOCK_STREAM>;
 
 private:
 

@@ -57,7 +57,7 @@ public:
 	JXImage(const JXImage& source);
 	JXImage(const JXImage& source, const JRect& rect);
 
-	virtual ~JXImage();
+	~JXImage();
 
 	static JError	CreateFromFile(JXDisplay* display,
 								   const JString& fileName, JXImage** image);
@@ -79,20 +79,20 @@ public:
 	JXDisplay*	GetDisplay() const;
 	JSize		GetDepth() const;
 
-	bool			HasMask() const;
-	virtual bool	GetMask(JImageMask** mask) const;
-	bool			GetMask(JXImageMask** mask) const;
-	void			SetMask(JXImageMask* mask);
-	void			ClearMask();
+	bool	HasMask() const;
+	bool	GetMask(JImageMask** mask) const override;
+	bool	GetMask(JXImageMask** mask) const;
+	void	SetMask(JXImageMask* mask);
+	void	ClearMask();
 
 	void	Draw(const Drawable drawable, JXGC* gc,
 				 const JRect& srcRect, const JRect& destRect) const;
 
 	JXImagePainter*	CreatePainter();
 
-	virtual JColorID	GetColor(const JCoordinate x, const JCoordinate y) const;
-	virtual void		SetColor(const JCoordinate x, const JCoordinate y,
-								 const JColorID color);
+	JColorID	GetColor(const JCoordinate x, const JCoordinate y) const override;
+	void		SetColor(const JCoordinate x, const JCoordinate y,
+						 const JColorID color) override;
 
 	State	GetDefaultState() const;
 	void	SetDefaultState(const State state);
@@ -107,8 +107,8 @@ public:
 
 	// called by JImageMask
 
-	virtual unsigned long	GetSystemColor(const JColorID color) const;
-	virtual unsigned long	GetSystemColor(const JCoordinate x, const JCoordinate y) const;
+	unsigned long	GetSystemColor(const JColorID color) const override;
+	unsigned long	GetSystemColor(const JCoordinate x, const JCoordinate y) const override;
 
 protected:
 
@@ -121,11 +121,11 @@ protected:
 	const JXGC*	GetGC() const;
 	void		ForcePrivateGC();
 
-	virtual void	SetImageData(const JSize colorCount, const JColorID* colorTable,
-								 unsigned short** imageData,
-								 const bool hasMask, const unsigned long maskColor);
-	virtual void	PrepareForImageData();
-	virtual void	ImageDataFinished();
+	void	SetImageData(const JSize colorCount, const JColorID* colorTable,
+						 unsigned short** imageData,
+						 const bool hasMask, const unsigned long maskColor) override;
+	void	PrepareForImageData() override;
+	void	ImageDataFinished() override;
 
 	// used by JXImageMask
 

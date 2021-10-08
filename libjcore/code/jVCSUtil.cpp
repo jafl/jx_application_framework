@@ -41,7 +41,7 @@ const JUtf8Byte* kJUnsupportedVCS = "JUnsupportedVCS";
 // local
 
 static bool	jSearchVCSRoot(const JString& path, const JString& vcsDirName,
-							   JString* vcsRoot);
+						   JString* vcsRoot);
 
 /******************************************************************************
  JIsVCSDirectory
@@ -615,7 +615,7 @@ JUnsupportedVCS::JUnsupportedVCS
 
  ******************************************************************************/
 
-bool
+static bool
 jSearchVCSRoot
 	(
 	const JString&	path,

@@ -88,7 +88,7 @@ public:
 	JMessageProtocol(const bool synchSend = false);
 	JMessageProtocol(const ACE_HANDLE fd, const bool synchSend = false);
 
-	virtual ~JMessageProtocol();
+	~JMessageProtocol();
 
 	void	GetProtocol(JString* separator, JString* disconnect) const;
 	void	SetProtocol(const JUtf8Byte* separatorStr, const JSize separatorByteCount,
@@ -98,10 +98,10 @@ public:
 	void	UseDOSProtocol();
 
 	bool	ReceivedDisconnect() const;
-	void		SendDisconnect();
+	void	SendDisconnect();
 
 	bool	HasMessages() const;
-	JSize		GetMessageCount() const;
+	JSize	GetMessageCount() const;
 	bool	GetNextMessage(JString* message);
 	bool	PeekNextMessage(JString* message);
 	bool	PeekPartialMessage(JString* message);
@@ -110,7 +110,7 @@ public:
 	void	SendData(const JString& data);
 
 	bool	WantsBlankMessages() const;
-	void		SetWantsBlankMessages(const bool wantsBlanks = true);
+	void	SetWantsBlankMessages(const bool wantsBlanks = true);
 
 	// how much is read from the connection at one time
 

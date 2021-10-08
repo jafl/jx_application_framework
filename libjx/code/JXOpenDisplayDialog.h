@@ -16,13 +16,13 @@ public:
 
 	JXOpenDisplayDialog(JXWindowDirector* supervisor);
 
-	virtual ~JXOpenDisplayDialog();
+	~JXOpenDisplayDialog();
 
 	JIndex	GetDisplayIndex() const;
 
 protected:
 
-	virtual bool	OKToDeactivate();
+	bool	OKToDeactivate() override;
 
 private:
 

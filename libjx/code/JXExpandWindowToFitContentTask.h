@@ -20,18 +20,18 @@ public:
 
 	JXExpandWindowToFitContentTask(JXWindow* window);
 
-	virtual ~JXExpandWindowToFitContentTask();
+	~JXExpandWindowToFitContentTask();
 
 	void	ShowAfterFTC();
 	void	PlaceAsDialogAfterFTC();
 	void	FocusAfterFTC(JXWidget* widget);
 
-	virtual void	Perform();
+	void	Perform() override;
 
 private:
 
 	JXWindow*	itsWindow;	// not owned
-	bool	itShowWindowAfterFTCFlag;
+	bool		itShowWindowAfterFTCFlag;
 	JXWidget*	itsFocusWidget;
 };
 

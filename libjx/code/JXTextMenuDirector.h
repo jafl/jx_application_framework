@@ -22,11 +22,11 @@ public:
 	JXTextMenuDirector(JXDirector* supervisor,
 					   JXMenu* menu, JXTextMenuData* menuData);
 
-	virtual ~JXTextMenuDirector();
+	~JXTextMenuDirector();
 
 protected:
 
-	virtual JXMenuTable*	CreateMenuTable();
+	JXMenuTable*	CreateMenuTable() override;
 
 	JXMenu*			GetMenu();
 	JXTextMenuData*	GetMenuData();

@@ -21,7 +21,7 @@ public:
 	JXTipOfTheDayDialog(const bool showStartupCB = false,
 						const bool showAtStartup = false);
 
-	virtual ~JXTipOfTheDayDialog();
+	~JXTipOfTheDayDialog();
 
 protected:
 

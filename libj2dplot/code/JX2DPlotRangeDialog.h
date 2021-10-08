@@ -23,7 +23,7 @@ public:
 						const JFloat xMin, const JFloat yMax,
 						const JFloat yMin);
 
-	virtual ~JX2DPlotRangeDialog();
+	~JX2DPlotRangeDialog();
 
 	bool GetRangeValues(JFloat* xMax, JFloat* xMin,
 						JFloat* yMax, JFloat* yMin);

@@ -31,22 +31,22 @@ public:
 
 public:
 
-	virtual ~JXFileDocument();
+	~JXFileDocument();
 
 	bool	NeedsSave() const override;
-	bool			Save();
-	void			DataModified();
-	void			DataReverted(const bool fromUndo = false);
+	bool	Save();
+	void	DataModified();
+	void	DataReverted(const bool fromUndo = false);
 
 	bool	SaveInCurrentFile();
 	bool	SaveInNewFile(const JString& fullName = JString::empty);
 	bool	SaveCopyInNewFile(const JString& origName = JString::empty,
 							  JString* fullName = nullptr);
 
-	bool					ExistsOnDisk() const;
-	const JString&			GetFilePath() const;
-	const JString&			GetFileName() const;
-	JString					GetFullName(bool* onDisk) const;
+	bool			ExistsOnDisk() const;
+	const JString&	GetFilePath() const;
+	const JString&	GetFileName() const;
+	JString			GetFullName(bool* onDisk) const;
 	const JString&	GetName() const override;
 
 	bool	FileModifiedByOthers(bool* modTimeChanged = nullptr,
@@ -69,7 +69,7 @@ public:
 	static bool	WillAskOKToClose();
 	static void	ShouldAskOKToClose(const bool ask);
 
-	void	SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
+	void			SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
 	bool			GetSafetySaveFileName(JString* fileName) const;
 	static bool		CheckForSafetySaveFiles(const JString& fullName,
 											JPtrArray<JString>* filesToOpen);

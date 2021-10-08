@@ -20,7 +20,7 @@ public:
 
 	JTreeList(JTree* tree);
 
-	virtual	~JTreeList();
+	~JTreeList();
 
 	JTree*			GetTree();
 	const JTree*	GetTree() const;

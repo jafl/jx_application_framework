@@ -20,9 +20,9 @@ public:
 
 	TestApp(int* argc, char* argv[], const bool wantMDI);
 
-	virtual ~TestApp();
+	~TestApp();
 
-	void			OpenDocuments();
+	void	OpenDocuments();
 	bool	Close() override;
 
 	void	DisplayAbout(JXDisplay* display);

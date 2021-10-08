@@ -19,7 +19,7 @@ public:
 	JNegation(JFunction* arg = nullptr);
 	JNegation(const JNegation& source);
 
-	virtual ~JNegation();
+	~JNegation();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

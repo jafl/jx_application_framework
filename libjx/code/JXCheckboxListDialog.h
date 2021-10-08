@@ -24,11 +24,11 @@ public:
 						 const JPtrArray<JString>& choiceList,
 						 const JPtrArray<JString>* shortcutList = nullptr);
 
-	virtual ~JXCheckboxListDialog();
+	~JXCheckboxListDialog();
 
 	bool	GetSelectedItems(JArray<JIndex>* indexList) const;
-	void		SelectItem(const JIndex index);
-	void		SelectAllItems();
+	void	SelectItem(const JIndex index);
+	void	SelectAllItems();
 
 private:
 

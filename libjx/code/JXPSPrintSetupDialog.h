@@ -30,7 +30,7 @@ public:
 			   const JString& printCmd, const JString& fileName,
 			   const bool collate, const bool bw);
 
-	virtual ~JXPSPrintSetupDialog();
+	~JXPSPrintSetupDialog();
 
 	bool	SetParameters(JXPSPrinter* p) const;
 

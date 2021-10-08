@@ -42,7 +42,7 @@ public:
 
 	static JXSearchTextDialog*	Create();
 
-	virtual ~JXSearchTextDialog();
+	~JXSearchTextDialog();
 
 	void	Activate() override;
 	bool	Deactivate() override;

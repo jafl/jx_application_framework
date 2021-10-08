@@ -21,7 +21,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXFloatInput();
+	~JXFloatInput();
 
 	bool	GetValue(JFloat* value) const;
 	void	SetValue(const JFloat value);
@@ -37,7 +37,7 @@ public:
 	void	SetUpperLimit(const JFloat maxValue);
 	void	ClearUpperLimit();
 
-	virtual bool	InputValid();
+	bool	InputValid() override;
 
 private:
 

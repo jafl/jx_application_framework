@@ -24,9 +24,9 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXRegexInput();
+	~JXRegexInput();
 
-	virtual bool	InputValid();
+	bool	InputValid() override;
 
 private:
 

@@ -20,7 +20,7 @@ public:
 
 	JTree(JTreeNode* root);
 
-	virtual	~JTree();
+	~JTree();
 
 	JTreeNode*			GetRoot();
 	const JTreeNode*	GetRoot() const;

@@ -19,13 +19,13 @@ public:
 
 	JXDocument(JXDirector* supervisor);
 
-	virtual ~JXDocument();
+	~JXDocument();
 
-	virtual bool	Close();
-	virtual bool	Deactivate();
+	bool	Close() override;
+	bool	Deactivate() override;
 
-	virtual bool	GetMenuIcon(const JXImage** icon) const;
-	virtual bool	NeedsSave() const;
+	bool			GetMenuIcon(const JXImage** icon) const override;
+	bool			NeedsSave() const override;
 	virtual bool	NeedDocument(JXDocument* doc) const;
 
 	void	RevertToSaved();
@@ -38,7 +38,7 @@ protected:
 	virtual bool	OKToRevert()     = 0;
 	virtual bool	CanRevert()      = 0;
 	virtual void	DiscardChanges() = 0;
-	virtual bool	OKToDeactivate();
+	bool			OKToDeactivate() override;
 };
 
 #endif

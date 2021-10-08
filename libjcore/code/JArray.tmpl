@@ -786,13 +786,11 @@ JArray<T>::SearchSorted1
 	(
 	const T&					target,
 	const JListT::SearchReturn	which,
-	bool*					found
+	bool*						found
 	)
 	const
 {
-	const JElementComparison<T>* compareObj = nullptr;
-	const bool hasCompare = JList<T>::GetCompareObject(&compareObj);
-	assert( hasCompare );
+	std::function<JListT::CompareResult(const T&, const T&)>& compare = *JList<T>::GetCompareFunction();
 
 	const JListT::SortOrder sortOrder = JList<T>::GetSortOrder();
 	*found = false;
@@ -810,7 +808,7 @@ JArray<T>::SearchSorted1
 	JIndex firstIndex = 1;
 {
 	const T& element = ProtectedGetElement(firstIndex);
-	r1 = compareObj->Compare(target, element);
+	r1 = compare(target, element);
 	if (r1 == JListT::kFirstEqualSecond &&
 		(count == 1 || which != JListT::kLastMatch))
 	{
@@ -837,7 +835,7 @@ JArray<T>::SearchSorted1
 	JIndex lastIndex = count;
 {
 	const T& element = ProtectedGetElement(lastIndex);
-	r2 = compareObj->Compare(target, element);
+	r2 = compare(target, element);
 	if (r2 == JListT::kFirstEqualSecond &&
 		(count == 2 || which != JListT::kFirstMatch))
 	{
@@ -867,7 +865,7 @@ JArray<T>::SearchSorted1
 						   ((firstIndex & (JIndex) 1) + (lastIndex & (JIndex) 1))/2;
 		const T& element = ProtectedGetElement(i);
 
-		const JListT::CompareResult r = compareObj->Compare(target, element);
+		const JListT::CompareResult r = compare(target, element);
 		if (r == JListT::kFirstEqualSecond)
 		{
 			if (which == JListT::kAnyMatch)

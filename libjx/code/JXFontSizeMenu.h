@@ -37,7 +37,7 @@ public:
 	JXFontSizeMenu(JXFontNameMenu* fontMenu, JXMenu* owner,
 				   const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual ~JXFontSizeMenu();
+	~JXFontSizeMenu();
 
 	void	SetFontName(const JString& name);
 
@@ -61,7 +61,7 @@ private:
 	JSize			itsFontSize;
 	JIndex			itsCurrIndex;
 	JIndex			itsVarSizeIndex;	// 0 if font not rescalable
-	bool		itsBroadcastChangeFlag;
+	bool			itsBroadcastChangeFlag;
 
 	// used when selecting arbitrary font size
 

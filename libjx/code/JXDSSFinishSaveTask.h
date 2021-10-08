@@ -19,10 +19,10 @@ public:
 
 	JXDSSFinishSaveTask(JXSaveFileDialog* dialog);
 
-	virtual ~JXDSSFinishSaveTask();
+	~JXDSSFinishSaveTask();
 
-	virtual void	Save(const JString& fullName);
-	virtual void	Perform();
+	void	Save(const JString& fullName) override;
+	void	Perform() override;
 
 private:
 

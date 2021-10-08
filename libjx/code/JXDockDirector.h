@@ -23,9 +23,9 @@ public:
 	JXDockDirector(const JString& title, const bool splitHoriz);
 	JXDockDirector(std::istream& input, const JFileVersion vers, const JString& title);
 
-	virtual ~JXDockDirector();
+	~JXDockDirector();
 
-	virtual bool	Close();
+	bool	Close() override;
 
 	bool	FindDock(const JIndex id, JXDockWidget** dock);
 
@@ -42,8 +42,8 @@ public:
 	// for use by JXWindow and JXDocktab
 
 	bool	GetFocusWindow(JXWindow** window);
-	void		SetFocusWindow(JXWindow* window);
-	void		ClearFocusWindow(JXWindow* window);
+	void	SetFocusWindow(JXWindow* window);
+	void	ClearFocusWindow(JXWindow* window);
 
 private:
 

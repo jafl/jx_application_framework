@@ -40,7 +40,7 @@ public:
 	JXImageMask(const JXImageMask& source);
 	JXImageMask(const JXImageMask& source, const JRect& rect);
 
-	virtual ~JXImageMask();
+	~JXImageMask();
 
 	static JError	CreateFromXBM(JXDisplay* display,
 								  const JString& fileName, JXImageMask** mask);
@@ -48,11 +48,11 @@ public:
 	JError	WriteXBM(const JString& fileName,
 					 const JPoint& hotSpot = JPoint(-1,-1)) const;
 
-	virtual JXImage*	Copy() const;
+	JXImage*	Copy() const override;
 
-	virtual bool	ContainsPixel(const JCoordinate x, const JCoordinate y) const;
-	virtual void		AddPixel(const JCoordinate x, const JCoordinate y);
-	virtual void		RemovePixel(const JCoordinate x, const JCoordinate y);
+	bool	ContainsPixel(const JCoordinate x, const JCoordinate y) const override;
+	void	AddPixel(const JCoordinate x, const JCoordinate y) override;
+	void	RemovePixel(const JCoordinate x, const JCoordinate y) override;
 
 	static unsigned long	ColorToBit(const JColorID color);
 	static JColorID			BitToColor(const unsigned long bit);

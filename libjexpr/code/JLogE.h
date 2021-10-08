@@ -19,7 +19,7 @@ public:
 	JLogE(JFunction* arg = nullptr);
 	JLogE(const JLogE& source);
 
-	virtual ~JLogE();
+	~JLogE();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

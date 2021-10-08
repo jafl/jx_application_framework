@@ -21,7 +21,7 @@ public:
 	JStringTableData();
 	JStringTableData(const JStringTableData& source);
 
-	virtual ~JStringTableData();
+	~JStringTableData();
 
 	const JString&	GetString(const JIndex row, const JIndex col) const;
 	const JString&	GetString(const JPoint& cell) const;

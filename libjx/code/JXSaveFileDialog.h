@@ -25,11 +25,11 @@ public:
 			   const JString& origName, const JString& prompt,
 			   const JString& message = JString::empty);
 
-	virtual ~JXSaveFileDialog();
+	~JXSaveFileDialog();
 
 	void	Activate() override;
 
-	void		Save(const JString& path);
+	void	Save(const JString& path);
 	bool	GetFileName(JString* name) const;
 
 protected:
@@ -55,7 +55,7 @@ protected:
 	void	UpdateDisplay() override;	// must call inherited
 
 	bool	OKToDeactivate() override;
-	void		Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

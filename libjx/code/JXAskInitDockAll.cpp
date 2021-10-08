@@ -59,7 +59,7 @@ JXAskInitDockAll::Perform
 		if (JGetUserNotification()->AskUserYes(
 					JGetString("StartupTips::JXAskInitDockAll")))
 		{
-			(JXGetDockManager())->DockAll();
+			JXGetDockManager()->DockAll();
 		}
 
 		jdelete this;

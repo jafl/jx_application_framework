@@ -29,13 +29,13 @@ public:
 	JXApplication(int* argc, char* argv[], const JUtf8Byte* appSignature,
 				  const JUtf8Byte** defaultStringData);
 
-	virtual ~JXApplication();
+	~JXApplication();
 
 	const JString&	GetSignature() const;
 
 	void			Run();
-	void	Suspend() override;
-	void	Resume() override;
+	void			Suspend() override;
+	void			Resume() override;
 	virtual void	Quit();
 	bool			IsQuitting() const;
 
@@ -116,7 +116,7 @@ protected:
 
 private:
 
-	typedef JPtrArray< JPtrArray<JXIdleTask> >	IdleTaskStack;
+	using IdleTaskStack = JPtrArray< JPtrArray<JXIdleTask> >;
 
 private:
 

@@ -40,7 +40,7 @@ public:
 				  JPrefsManager* prefsMgr = nullptr,
 				  const JPrefID& id = JFAID::kInvalidID);
 
-	virtual ~JXDockManager();
+	~JXDockManager();
 
 	JXDockDirector*	CreateDock(const bool splitHoriz);
 	void			CloseAll();
@@ -50,7 +50,7 @@ public:
 	bool						FindDock(const JIndex id, JXDockWidget** dock);
 	bool						IsLastDock(JXDockDirector* dock) const;
 
-	virtual	bool	CanDockAll() const;
+	virtual bool	CanDockAll() const;
 	virtual void	DockAll();
 
 	bool	GetDefaultDock(const JUtf8Byte* windowType, JXDockWidget** dock);
@@ -76,10 +76,10 @@ public:
 
 protected:
 
-	virtual void	DirectorClosed(JXDirector* theDirector);
+	void	DirectorClosed(JXDirector* theDirector) override;
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	void	ReadPrefs(std::istream& input) override;
+	void	WritePrefs(std::ostream& output) const override;
 
 public:		// kAtomCount required at global scope
 

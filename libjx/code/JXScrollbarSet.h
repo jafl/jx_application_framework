@@ -23,7 +23,7 @@ public:
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXScrollbarSet();
+	~JXScrollbarSet();
 
 	JXWidgetSet*	GetScrollEnclosure();
 	JXScrollbar*	GetHScrollbar();

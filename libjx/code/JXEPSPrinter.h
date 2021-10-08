@@ -23,7 +23,7 @@ public:
 
 	JXEPSPrinter(JXDisplay* display);
 
-	virtual ~JXEPSPrinter();
+	~JXEPSPrinter();
 
 	// saving setup information
 
@@ -41,14 +41,14 @@ public:
 protected:
 
 	bool	GetPreviewImage(const JImage** image) const override;
-	void		DeletePreviewData() override;
+	void	DeletePreviewData() override;
 
 	virtual JXEPSPrintSetupDialog*
 		CreatePrintSetupDialog(const JString& fileName,
 							   const bool preview, const bool bw);
 
 	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
-										  bool* changed);
+									  bool* changed);
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 

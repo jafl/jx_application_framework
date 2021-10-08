@@ -73,7 +73,7 @@ JTEST(Construct)
 	a.SetCompareFunction(CompareLongs);
 	a.SetSortOrder(JListT::kSortAscending);
 
-	JAliasArray aa(&a, CompareLongs, JListT::kSortDescending);
+	JAliasArray<long> aa(&a, CompareLongs, JListT::kSortDescending);
 
 	JAssertTrue(aa.IsEmpty());
 	JAssertEqual(0, aa.GetElementCount());
@@ -91,7 +91,7 @@ JTEST(Construct)
 JTEST(Prepend)
 {
 	JArray<long> a;
-	JAliasArray aa(&a, CompareLongs, JListT::kSortDescending);
+	JAliasArray<long> aa(&a, CompareLongs, JListT::kSortDescending);
 
 	for (long j : { 5,4,3,2,1 })
 	{
@@ -110,7 +110,7 @@ JTEST(Prepend)
 JTEST(Append)
 {
 	JArray<long> a;
-	JAliasArray aa(&a, CompareLongs, JListT::kSortDescending);
+	JAliasArray<long> aa(&a, CompareLongs, JListT::kSortDescending);
 
 	for (long j : { 1,2,3,4,5 })
 	{
@@ -129,7 +129,7 @@ JTEST(Append)
 JTEST(Insert)
 {
 	JArray<long> a;
-	JAliasArray aa(&a, CompareLongs, JListT::kSortAscending);
+	JAliasArray<long> aa(&a, CompareLongs, JListT::kSortAscending);
 
 	JSetList("5 4 3 2 1", &a);
 
@@ -153,7 +153,7 @@ JTEST(Insert)
 JTEST(Remove)
 {
 	JArray<long> a;
-	JAliasArray aa(&a, CompareLongs, JListT::kSortDescending);
+	JAliasArray<long> aa(&a, CompareLongs, JListT::kSortDescending);
 
 	JSetList("1 2 3 4 5 6 7 8 9 10 11 12 13 14 15", &a);
 
@@ -187,7 +187,7 @@ JTEST(Move)
 	JArray<long> a(1);		// ridiculous block size to really exercise resizer
 	JSetList("1 2 3 4 5", &a);
 
-	JAliasArray aa(&a, CompareLongs, JListT::kSortDescending);
+	JAliasArray<long> aa(&a, CompareLongs, JListT::kSortDescending);
 	verifyalias("5 4 3 2 1", aa);
 
 	a.MoveElementToIndex(3, a.GetIndexFromEnd(1));
@@ -208,7 +208,7 @@ JTEST(Swap)
 	JArray<long> a(1);		// ridiculous block size to really exercise resizer
 	JSetList("1 2 3 4 5", &a);
 
-	JAliasArray aa(&a, CompareLongs, JListT::kSortDescending);
+	JAliasArray<long> aa(&a, CompareLongs, JListT::kSortDescending);
 	verifyalias("5 4 3 2 1", aa);
 
 	a.SwapElements(2,5);
@@ -221,7 +221,7 @@ JTEST(Sort)
 	JArray<long> a(1);		// ridiculous block size to really exercise resizer
 	JSetList("3 1 5 1 1", &a);
 
-	JAliasArray aa(&a, CompareLongs, JListT::kSortDescending);
+	JAliasArray<long> aa(&a, CompareLongs, JListT::kSortDescending);
 	verifyalias("5 3 1 1 1", aa);
 
 // test sort ascending

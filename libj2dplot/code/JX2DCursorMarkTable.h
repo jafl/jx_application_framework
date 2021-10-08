@@ -25,7 +25,7 @@ public:
 						const JCoordinate x, const JCoordinate y,
 						const JCoordinate w, const JCoordinate h);
 
-	virtual ~JX2DCursorMarkTable();
+	~JX2DCursorMarkTable();
 
 	bool	Print(JPagePrinter&	p, const bool putOnSamePage,
 				  const JRect& partialPageRect);

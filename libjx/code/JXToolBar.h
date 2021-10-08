@@ -36,24 +36,24 @@ public:
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	virtual ~JXToolBar();
+	~JXToolBar();
 
 	JXWidgetSet*	GetWidgetEnclosure() const;
 
-	void			LoadPrefs();
+	void	LoadPrefs();
 
-	bool		IsEmpty() const;
-	void			AppendButton(JXTextMenu* menu, const JIndex index);
-	void			AppendButton(JXTextMenu* menu, const JString& id);
-	void			NewGroup();
+	bool	IsEmpty() const;
+	void	AppendButton(JXTextMenu* menu, const JIndex index);
+	void	AppendButton(JXTextMenu* menu, const JString& id);
+	void	NewGroup();
 
-	void			Edit();
+	void	Edit();
 
-	bool		IsUsingSmallButtons() const;
-	void			UseSmallButtons(const bool useSmall);
+	bool	IsUsingSmallButtons() const;
+	void	UseSmallButtons(const bool useSmall);
 
-	bool		ToolBarVisible() const;
-	void			ShowToolBar(const bool show);
+	bool	ToolBarVisible() const;
+	void	ShowToolBar(const bool show);
 
 	JXToolBarButton::Type	GetButtonType() const;
 	void					SetButtonType(const JXToolBarButton::Type type);

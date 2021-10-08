@@ -28,14 +28,14 @@ public:
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	virtual ~TestFloatTable();
+	~TestFloatTable();
 
 protected:
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
 	JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
 	JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const override;

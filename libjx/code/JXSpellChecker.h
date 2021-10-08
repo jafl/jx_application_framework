@@ -21,16 +21,16 @@ public:
 
 	JXSpellChecker();
 
-	virtual	~JXSpellChecker();
+	~JXSpellChecker();
 
 	bool	WillReportNoErrors() const;
-	void		ShouldReportNoErrors(const bool report);
+	void	ShouldReportNoErrors(const bool report);
 
-	void		Check(JXTEBase* te);
-	void		CheckSelection(JXTEBase* te);
+	void	Check(JXTEBase* te);
+	void	CheckSelection(JXTEBase* te);
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output, const JFileVersion vers) const;
+	void	ReadPrefs(std::istream& input) override;
+	void	WritePrefs(std::ostream& output, const JFileVersion vers) const override;
 
 	// called by JXSpellCheckerDialog
 

@@ -32,7 +32,6 @@ JList<T>::JList()
 	JCollection()
 {
 	itsCompareFn     = nullptr;
-	itsCompareObj    = nullptr;
 	itsSortOrder     = JListT::kSortAscending;
 	itsFirstIterator = nullptr;
 }
@@ -48,15 +47,16 @@ JList<T>::JList
 	const JList<T>& source
 	)
 	:
-	JCollection(source)
+	JCollection(source),
+	itsSortOrder(source.itsSortOrder),
+	itsCompareFn(nullptr),
+	itsFirstIterator(nullptr)	// we don't copy the iterators
 {
-	itsSortOrder  = source.itsSortOrder;
-	itsCompareFn  = source.itsCompareFn;
-	itsCompareObj = (source.itsCompareObj == nullptr ?
-						(JElementComparison<T>*) nullptr :
-						(source.itsCompareObj)->Copy());
-
-	itsFirstIterator = nullptr;	// we don't copy the iterators
+	if (source.itsCompareFn != nullptr)
+	{
+		itsCompareFn = jnew std::function(*source.itsCompareFn);
+		assert( itsCompareFn != nullptr );
+	}
 }
 
 /******************************************************************************
@@ -68,7 +68,7 @@ template <class T>
 JList<T>::~JList()
 {
 	NotifyIterators(JListT::GoingAway());
-	jdelete itsCompareObj;
+	jdelete itsCompareFn;
 }
 
 /******************************************************************************
@@ -103,10 +103,16 @@ JList<T>::ListAssigned
 	const JList<T>& source
 	)
 {
-	itsCompareFn  = source.itsCompareFn;
-	itsCompareObj = (source.itsCompareObj == nullptr ? (JElementComparison<T>*) nullptr :
-													(source.itsCompareObj)->Copy());
-	itsSortOrder  = source.itsSortOrder;
+	itsSortOrder = source.itsSortOrder;
+
+	jdelete itsCompareFn;
+	itsCompareFn = nullptr;
+
+	if (source.itsCompareFn != nullptr)
+	{
+		itsCompareFn = jnew std::function(*source.itsCompareFn);
+		assert( itsCompareFn != nullptr );
+	}
 
 	NotifyIterators(JListT::Copied());
 }
@@ -135,74 +141,48 @@ JList<T>::NotifyIterators
  ******************************************************************************/
 
 template <class T>
-bool
-JList<T>::GetCompareFunction
-	(
-	JListT::CompareResult (**compareFn)(const T&, const T&)
-	)
+std::function<JListT::CompareResult(const T&, const T&)>*
+JList<T>::GetCompareFunction()
 	const
 {
-	*compareFn = itsCompareFn;
-	return itsCompareFn != nullptr;
+	assert( itsCompareFn != nullptr );
+	return itsCompareFn;
 }
 
 template <class T>
 void
 JList<T>::SetCompareFunction
 	(
-	JListT::CompareResult (*compareFn)(const T&, const T&)
+	const std::function<JListT::CompareResult(const T&, const T&)> compareFn
 	)
 {
-	itsCompareFn = compareFn;
+	jdelete itsCompareFn;
+	itsCompareFn = jnew std::function(compareFn);
+	assert( itsCompareFn != nullptr );
+}
 
-	jdelete itsCompareObj;
-	itsCompareObj = nullptr;
+template <class T>
+void
+JList<T>::CopyCompareFunction
+	(
+	const JList<T>& source
+	)
+{
+	ClearCompareFunction();
 
-	if (itsCompareFn != nullptr)
+	if (source.itsCompareFn != nullptr)
 	{
-		itsCompareObj = jnew JCompareFnWrapper<T>(itsCompareFn);
-		assert( itsCompareObj != nullptr );
+		itsCompareFn = jnew std::function(*source.itsCompareFn);
+		assert( itsCompareFn != nullptr );
 	}
 }
 
-/******************************************************************************
- Compare object
-
- ******************************************************************************/
-
-template <class T>
-bool
-JList<T>::GetCompareObject
-	(
-	const JElementComparison<T>** compareObj
-	)
-	const
-{
-	*compareObj = itsCompareObj;
-	return itsCompareObj != nullptr;
-}
-
 template <class T>
 void
-JList<T>::SetCompareObject
-	(
-	const JElementComparison<T>& compareObj
-	)
+JList<T>::ClearCompareFunction()
 {
+	jdelete itsCompareFn;
 	itsCompareFn = nullptr;
-
-	jdelete itsCompareObj;
-	itsCompareObj = compareObj.Copy();
-}
-
-template <class T>
-void
-JList<T>::ClearCompareObject()
-{
-	itsCompareFn = nullptr;
-
-	jdelete itsCompareObj;
-	itsCompareObj = nullptr;
 }
 
 /******************************************************************************
@@ -241,7 +221,7 @@ bool
 JList<T>::IsSorted()
 	const
 {
-	assert( itsCompareObj != nullptr );
+	assert( itsCompareFn != nullptr );
 
 	const JSize count = GetElementCount();
 	if (count < 2)
@@ -261,7 +241,7 @@ JList<T>::IsSorted()
 
 	while (iter->Next(&obj2))
 	{
-		const JListT::CompareResult r = itsCompareObj->Compare(obj1, obj2);
+		const JListT::CompareResult r = (*itsCompareFn)(obj1, obj2);
 		if ((itsSortOrder == JListT::kSortAscending &&
 			 r == JListT::kFirstGreaterSecond) ||
 			(itsSortOrder == JListT::kSortDescending &&
@@ -275,58 +255,6 @@ JList<T>::IsSorted()
 
 	jdelete iter;
 	return sorted;
-}
-
-/******************************************************************************
- JElementComparison class
-
- ******************************************************************************/
-
-template <class T>
-JElementComparison<T>::~JElementComparison()
-{
-}
-
-/******************************************************************************
- JCompareFnWrapper class
-
- ******************************************************************************/
-
-template <class T>
-JCompareFnWrapper<T>::JCompareFnWrapper
-	(
-	JListT::CompareResult (*compareFn)(const T&, const T&)
-	)
-	:
-	itsCompareFn(compareFn)
-{
-}
-
-template <class T>
-JCompareFnWrapper<T>::~JCompareFnWrapper()
-{
-}
-
-template <class T>
-JListT::CompareResult
-JCompareFnWrapper<T>::Compare
-	(
-	const T& t1,
-	const T& t2
-	)
-	const
-{
-	return itsCompareFn(t1, t2);
-}
-
-template <class T>
-JElementComparison<T>*
-JCompareFnWrapper<T>::Copy()
-	const
-{
-	JCompareFnWrapper<T>* copy = jnew JCompareFnWrapper<T>(itsCompareFn);
-	assert( copy != nullptr );
-	return copy;
 }
 
 #endif

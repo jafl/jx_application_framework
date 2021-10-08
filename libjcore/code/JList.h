@@ -239,35 +239,6 @@ public:
 };
 
 
-// pure virtual template classes
-
-template <class T>
-class JElementComparison
-{
-public:
-
-	virtual ~JElementComparison();
-
-	virtual JListT::CompareResult	Compare(const T&, const T&) const = 0;
-	virtual JElementComparison<T>*	Copy() const = 0;
-};
-
-template <class T>
-class JCompareFnWrapper : public JElementComparison<T>
-{
-public:
-
-	JCompareFnWrapper(JListT::CompareResult (*compareFn)(const T&, const T&));
-	virtual ~JCompareFnWrapper();
-
-	virtual JListT::CompareResult	Compare(const T&, const T&) const;
-	virtual JElementComparison<T>*	Copy() const;
-
-private:
-
-	JListT::CompareResult	(*itsCompareFn)(const T&, const T&);
-};
-
 template <class T>
 class JList : public JCollection
 {
@@ -278,7 +249,7 @@ public:
 	JList();
 	JList(const JList<T>& source);
 
-	virtual ~JList();
+	~JList();
 
 	virtual T	GetFirstElement() const = 0;
 	virtual T	GetLastElement() const = 0;
@@ -297,28 +268,27 @@ public:
 
 	// sorting functions -- virtual so they can be optimized for particular storage methods
 
-	bool	GetCompareFunction(JListT::CompareResult (**compareFn)(const T&, const T&)) const;
-	void		SetCompareFunction(JListT::CompareResult (*compareFn)(const T&, const T&));
-
-	bool	GetCompareObject(const JElementComparison<T>** compareObj) const;
-	void		SetCompareObject(const JElementComparison<T>& compareObj);
-	void		ClearCompareObject();
+	void	SetCompareFunction(const std::function<JListT::CompareResult(const T&, const T&)> compareFn);
+	void	CopyCompareFunction(const JList<T>& source);
+	void	ClearCompareFunction();
 
 	JListT::SortOrder	GetSortOrder() const;
 	void				SetSortOrder(const JListT::SortOrder order);
 
-	bool		IsSorted() const;
+	bool	IsSorted() const;
 
 protected:
+
+	// asserts that the result is not nullptr
+	std::function<JListT::CompareResult(const T&, const T&)>*	GetCompareFunction() const;
 
 	void	ListAssigned(const JList<T>& source);
 	void	NotifyIterators(const JBroadcaster::Message& message);
 
 private:
 
-	JListT::SortOrder		itsSortOrder;
-	JListT::CompareResult	(*itsCompareFn)(const T&, const T&);	// can be nullptr
-	JElementComparison<T>*	itsCompareObj;							// can be nullptr
+	JListT::SortOrder											itsSortOrder;
+	std::function<JListT::CompareResult(const T&, const T&)>*	itsCompareFn;	// can be nullptr
 
 	JListIterator<T>*		itsFirstIterator;	// linked list of active iterators
 

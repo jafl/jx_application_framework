@@ -23,11 +23,11 @@ public:
 	TestTextEditDocument(JXDirector* supervisor);
 	TestTextEditDocument(JXDirector* supervisor, const JString& fileName, const bool privateFmt);
 
-	virtual ~TestTextEditDocument();
+	~TestTextEditDocument();
 
 protected:
 
-	void			ReadFile(const JString& fileName);
+	void	ReadFile(const JString& fileName);
 	void	WriteTextFile(std::ostream& output, const bool safetySave) const override;
 	void	DiscardChanges() override;
 	void	Receive(JBroadcaster* sender, const Message& message) override;

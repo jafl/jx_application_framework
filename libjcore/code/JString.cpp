@@ -2474,15 +2474,15 @@ operator<<
 
 // private routines
 
-static void  Round(int start, int B, int D[], int *exp, const int sigDigitCount);
-static void  Shift(int* start, int D[], int* exp, const int sigDigitCount);
+static void  jRound(int start, int B, int D[], int *exp, const int sigDigitCount);
+static void  jShift(int* start, int D[], int* exp, const int sigDigitCount);
 
-static void  JInsertSubstring(char s1[], short pos1, const char *s2, short pos2, short pos3);
-static void  JShiftSubstring(char s[], short pos1, short pos2, short shift);
-static short JLocateSubstring(const char *s1, const char *s2);
+static void  jInsertSubstring(char s1[], short pos1, const char *s2, short pos2, short pos3);
+static void  jShiftSubstring(char s[], short pos1, short pos2, short shift);
+static short jLocateSubstring(const char *s1, const char *s2);
 
 inline void
-JAppendChar(char s1[], char c)
+jAppendChar(char s1[], char c)
 {
 	const int len = strlen(s1);
 	s1[len]   = c;
@@ -2515,7 +2515,7 @@ JAppendChar(char s1[], char c)
 
  -----------------------------------------------------------------------------*/
 
-void
+static void
 double2str
 	(
 	double	doubleVal,
@@ -2558,10 +2558,10 @@ int i,j;
 
 	// adjust digits that are outside [0,9]
 
-	Round(sigDigitCount, sigDigitCount, D, &exp, sigDigitCount);
+	jRound(sigDigitCount, sigDigitCount, D, &exp, sigDigitCount);
 	if (D[sigDigitCount] > 4)
 	{
-		Round(sigDigitCount-1, sigDigitCount, D, &exp, sigDigitCount);
+		jRound(sigDigitCount-1, sigDigitCount, D, &exp, sigDigitCount);
 	}
 	else
 	{
@@ -2584,7 +2584,7 @@ int i,j;
 	}
 	if (j >= 3)
 	{
-		Round(sigDigitCount-j, sigDigitCount, D, &exp, sigDigitCount);
+		jRound(sigDigitCount-j, sigDigitCount, D, &exp, sigDigitCount);
 	}
 
 	// set the exponent
@@ -2623,7 +2623,7 @@ int i,j;
 		int start = 1 + afterDec + (exp-expMin);
 		if (start < 1)
 		{
-			Shift(&start,D,&exp, sigDigitCount);
+			jShift(&start,D,&exp, sigDigitCount);
 		}
 		else if (start > sigDigitCount)
 		{
@@ -2634,7 +2634,7 @@ int i,j;
 
 		if (!truncate && D[start]>4)
 		{
-			Round(start-1,0,D,&exp, sigDigitCount);
+			jRound(start-1,0,D,&exp, sigDigitCount);
 		}
 		else
 		{
@@ -2693,7 +2693,7 @@ int i,j;
 		{
 			for (j=0; j<=expMin-exp-2; j++)
 			{
-				JInsertSubstring(returnStr,0,"0",0,1);
+				jInsertSubstring(returnStr,0,"0",0,1);
 			}
 		}
 		if (returnStr[0] == '\0')						// 0. is silly
@@ -2703,7 +2703,7 @@ int i,j;
 		}
 		else
 		{
-			JInsertSubstring(returnStr,0,"0.",0,2);		// prepend decimal point
+			jInsertSubstring(returnStr,0,"0.",0,2);		// prepend decimal point
 		}
 	}
 
@@ -2716,12 +2716,12 @@ int i,j;
 		{
 			for (j=1; j<=exp-expMin-i; j++)
 			{
-				JAppendChar(returnStr, '0');
+				jAppendChar(returnStr, '0');
 			}
 		}
 		else if (exp-expMin<i)
 		{
-			JInsertSubstring(returnStr,exp-expMin+1,".",0,1);
+			jInsertSubstring(returnStr,exp-expMin+1,".",0,1);
 		}
 	}
 
@@ -2729,17 +2729,17 @@ int i,j;
 
 	// append decimal point and trailing zeros
 
-	i = JLocateSubstring(returnStr,".") + 1;
+	i = jLocateSubstring(returnStr,".") + 1;
 	const int decPt = (i == 0 ? 0 : strlen(returnStr)-i);
 	if (afterDec > decPt)
 	{
 		if (decPt==0)
 		{
-			JAppendChar(returnStr, '.');
+			jAppendChar(returnStr, '.');
 		}
 		for (i=decPt+1; i<=afterDec; i++)
 		{
-			JAppendChar(returnStr, '0');
+			jAppendChar(returnStr, '0');
 		}
 	}
 
@@ -2747,14 +2747,14 @@ int i,j;
 
 	if (exp != 0)
 	{
-		JAppendChar(returnStr, 'e');
+		jAppendChar(returnStr, 'e');
 		if (exp>0)
 		{
-			JAppendChar(returnStr, '+');
+			jAppendChar(returnStr, '+');
 		}
 		else
 		{
-			JAppendChar(returnStr, '-');
+			jAppendChar(returnStr, '-');
 			exp=-exp;
 		}
 
@@ -2765,19 +2765,19 @@ int i,j;
 
 	if (neg)
 	{
-		JInsertSubstring(returnStr,0,"-",0,1);
+		jInsertSubstring(returnStr,0,"-",0,1);
 	}
 }
 
 /*-----------------------------------------------------------------------------
- Round (from ROUND in FORTRAN)
+ jRound (from ROUND in FORTRAN)
 
 	Rounds D starting from start.
 
  -----------------------------------------------------------------------------*/
 
-void
-Round
+static void
+jRound
 	(
 	int			start,
 	int			B,
@@ -2831,15 +2831,15 @@ int i;
 }
 
 /*-----------------------------------------------------------------------------
- Shift (from SHIFT in FORTRAN)
+ jShift (from SHIFT in FORTRAN)
 
 	Shifts digits in D array so that start can be increased to 1.
 	This takes care of the situation when doubleVal=0.002 and afterDec=0.
 
  -----------------------------------------------------------------------------*/
 
-void
-Shift
+static void
+jShift
 	(
 	int*		start,
 	int			D[],
@@ -2895,7 +2895,7 @@ int i;
  -----------------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------------
- JInsertSubstring (augments strcat in string.h)
+ jInsertSubstring (augments strcat in string.h)
 
 	Inserts s2 into s1 at the specified postion in s1.
 	pos# start at zero.  pos1 = -1 => append.  pos3 = -1 => to end of s2.
@@ -2903,18 +2903,18 @@ int i;
 
  -----------------------------------------------------------------------------*/
 
-void JInsertSubstring(char s1[],short pos1,const char *s2,short pos2,short pos3)
+static void jInsertSubstring(char s1[],short pos1,const char *s2,short pos2,short pos3)
 {
 	short len1=strlen(s1), len2=strlen(s2);
 	if (pos1==-1 || pos1>len1) pos1=len1;
 	if (pos2<0) pos2=0;
 	if (pos3==-1 || pos3>len2) pos3=len2;
-	JShiftSubstring(s1,pos1,-1,pos3-pos2);
+	jShiftSubstring(s1,pos1,-1,pos3-pos2);
 	for (short i=pos2;i<pos3;i++) s1[pos1+i-pos2]=*(s2+i);
 }
 
 /*-----------------------------------------------------------------------------
- JShiftSubstring
+ jShiftSubstring
 
 	Shifts characters in s from pos1 to pos2 by shift positions.
 	Overwrites old characters.  Gives up if you try to shift past left end of string.
@@ -2923,7 +2923,7 @@ void JInsertSubstring(char s1[],short pos1,const char *s2,short pos2,short pos3)
 
  -----------------------------------------------------------------------------*/
 
-void JShiftSubstring(char s[],short pos1,short pos2,short shift)
+static void jShiftSubstring(char s[],short pos1,short pos2,short shift)
 {
 short i,len;
 
@@ -2946,14 +2946,14 @@ short i,len;
 }
 
 /*-----------------------------------------------------------------------------
- JLocateSubstring (equivalent to INDEX()-1 in FORTRAN)
+ jLocateSubstring (equivalent to INDEX()-1 in FORTRAN)
 
 	Returns the offset to the 1st occurrence of s2 inside s1.
 	-1 => Not found.
 
  -----------------------------------------------------------------------------*/
 
-short JLocateSubstring(const char *s1,const char *s2)
+static short jLocateSubstring(const char *s1,const char *s2)
 {
 	short len1=strlen(s1), len2=strlen(s2);
 

@@ -17,22 +17,22 @@ class JXFSInputBase : public JXInputField
 {
 public:
 
-	virtual ~JXFSInputBase();
+	~JXFSInputBase();
 
 	bool	HasBasePath() const;
 	bool	GetBasePath(JString* path) const;
-	void		SetBasePath(const JString& path);
-	void		ClearBasePath();
+	void	SetBasePath(const JString& path);
+	void	ClearBasePath();
 
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
-								   const JXKeyModifiers& modifiers) override;
+						   const JXKeyModifiers& modifiers) override;
 
-	static JFont		GetFont();
+	static JFont	GetFont();
 	static bool		IsCharacterInWord(const JUtf8Character& c);
 
 	static bool		Complete(JXInputField* te, const JString& basePath,
-								 JDirInfo* completer,
-								 JXStringCompletionMenu** menu);
+							 JDirInfo* completer,
+							 JXStringCompletionMenu** menu);
 
 protected:
 

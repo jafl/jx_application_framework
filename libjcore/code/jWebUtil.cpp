@@ -147,8 +147,8 @@ JGetDefaultPort
 
  ******************************************************************************/
 
-typedef JVersionSocket<ACE_SOCK_STREAM>						VersionSocket;
-typedef ACE_Connector<VersionSocket, ACE_SOCK_CONNECTOR>	VersionConnector;
+using VersionSocket    = JVersionSocket<ACE_SOCK_STREAM>;
+using VersionConnector = ACE_Connector<VersionSocket, ACE_SOCK_CONNECTOR>;
 
 void
 JCheckForNewerVersion

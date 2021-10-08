@@ -20,9 +20,9 @@ public:
 
 	JXAdjustIWBoundsTask(JXImageWidget* widget);
 
-	virtual ~JXAdjustIWBoundsTask();
+	~JXAdjustIWBoundsTask();
 
-	virtual void	Perform();
+	void	Perform() override;
 
 private:
 

@@ -20,9 +20,9 @@ public:
 
 	JXAdjustScrollbarTask(JXScrollableWidget* widget);
 
-	virtual ~JXAdjustScrollbarTask();
+	~JXAdjustScrollbarTask();
 
-	virtual void	Perform();
+	void	Perform() override;
 
 private:
 

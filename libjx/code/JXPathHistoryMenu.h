@@ -26,7 +26,7 @@ public:
 	JXPathHistoryMenu(const JSize historyLength,
 					  JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual ~JXPathHistoryMenu();
+	~JXPathHistoryMenu();
 
 	const JString&	GetBasePath() const;
 	void			SetBasePath(const JString& path);
@@ -34,7 +34,7 @@ public:
 
 protected:
 
-	virtual void	UpdateMenu();		// must call inherited
+	void	UpdateMenu() override;		// must call inherited
 
 private:
 

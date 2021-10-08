@@ -21,10 +21,10 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXSaveFileInput();
+	~JXSaveFileInput();
 
 	static bool	WillAllowSpace();
-	static void		ShouldAllowSpace(const bool allow);
+	static void	ShouldAllowSpace(const bool allow);
 
 protected:
 

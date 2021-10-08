@@ -19,7 +19,7 @@ public:
 	JConstantValue(const JFloat value);
 	JConstantValue(const JConstantValue& source);
 
-	virtual ~JConstantValue();
+	~JConstantValue();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

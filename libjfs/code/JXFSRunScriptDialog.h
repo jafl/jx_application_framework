@@ -21,7 +21,7 @@ public:
 
 	JXFSRunScriptDialog(const JString& cmd);
 
-	virtual ~JXFSRunScriptDialog();
+	~JXFSRunScriptDialog();
 
 	void	Activate() override;
 

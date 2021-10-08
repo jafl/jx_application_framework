@@ -321,7 +321,11 @@ JXSelectionManager::DeleteData
 	const DeleteMethod	delMethod
 	)
 {
-	if (delMethod == kXFree)
+	if (*data == nullptr)
+	{
+		return;
+	}
+	else if (delMethod == kXFree)
 	{
 		XFree(*data);
 	}

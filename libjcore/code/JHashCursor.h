@@ -31,7 +31,7 @@ public:
 	JHashCursor(JHashTable<V>* table);
 	JHashCursor(JHashTable<V>* table, const JHashValue hash);
 //	JHashCursor(JHashTable<V>* table, const K* const key);
-	virtual ~JHashCursor();
+	~JHashCursor();
 
 	// Accept built-in forms
 	//	JHashCursor(const JHashCursor& source);

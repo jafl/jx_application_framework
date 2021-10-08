@@ -294,12 +294,13 @@ JXFontManager::GetXFontNames
 	(
 	const JRegex&		regex,
 	JPtrArray<JString>*	fontNames,
-	JSortXFontNamesFn	compare
+
+	const std::function<JListT::CompareResult(JString * const &, JString * const &)>* compare
 	)
 {
 	fontNames->CleanOut();
 	fontNames->SetCompareFunction(
-					compare != nullptr ? compare : &JCompareStringsCaseInsensitive);
+					compare != nullptr ? *compare : JCompareStringsCaseInsensitive);
 	fontNames->SetSortOrder(JListT::kSortAscending);
 
 	int nameCount;
@@ -326,6 +327,7 @@ JXFontManager::GetXFontNames
 		}
 	}
 
+	fontNames->ClearCompareFunction();
 	XFreeFontNames(nameList);
 }
 

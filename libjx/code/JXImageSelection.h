@@ -20,7 +20,7 @@ public:
 	JXImageSelection(JXImage* image);
 	JXImageSelection(JXWidget* widget, const JUtf8Byte* id);
 
-	virtual	~JXImageSelection();
+	~JXImageSelection();
 
 	bool	GetImage(const JXImage** image) const;
 

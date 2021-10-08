@@ -20,7 +20,7 @@ public:
 	JNaryFunction(const JUtf8Byte* name, JPtrArray<JFunction>* argList = nullptr);
 	JNaryFunction(const JNaryFunction& source);
 
-	virtual ~JNaryFunction();
+	~JNaryFunction();
 
 	JSize				GetArgCount() const override;
 	bool				ArgIndexValid(const JIndex index) const;

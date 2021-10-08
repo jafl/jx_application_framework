@@ -23,11 +23,11 @@ public:
 					 const JCoordinate x, const JCoordinate y,
 					 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXStyleMenuTable();
+	~JXStyleMenuTable();
 
 protected:
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 private:
 

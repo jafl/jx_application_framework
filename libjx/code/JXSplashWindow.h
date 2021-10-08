@@ -23,7 +23,7 @@ public:
 	JXSplashWindow(JXImage* image, const JString& text,
 				   const time_t displayInterval);
 
-	virtual ~JXSplashWindow();
+	~JXSplashWindow();
 
 protected:
 

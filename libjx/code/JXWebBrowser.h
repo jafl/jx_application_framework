@@ -19,7 +19,7 @@ public:
 
 	JXWebBrowser();
 
-	virtual ~JXWebBrowser();
+	~JXWebBrowser();
 
 	void	EditPrefs();
 

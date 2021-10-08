@@ -32,7 +32,7 @@ public:
 	JFSBinding(std::istream& input, const JFileVersion vers, const bool isSystem,
 			   bool* isDefault, bool* del);
 
-	virtual	~JFSBinding();
+	~JFSBinding();
 
 	bool		IsContentBinding() const;
 	bool		Match(const JString& fileName, const JString& content) const;
@@ -48,13 +48,13 @@ public:
 	void			SetCommandType(const CommandType type);
 
 	bool		IsSingleFileCommand() const;
-	void			SetSingleFileCommand(const bool singleFile);
+	void		SetSingleFileCommand(const bool singleFile);
 
 	bool		IsSystemBinding() const;
 
 	static void		ConvertCommand(JString* cmd);
 	static JRegex*	CreateContentRegex();
-	static bool	WillBeRegex(const JString& pattern);
+	static bool		WillBeRegex(const JString& pattern);
 
 	static JFSBinding::CommandType	GetCommandType(const bool shell,
 												   const bool window);

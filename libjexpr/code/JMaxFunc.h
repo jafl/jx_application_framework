@@ -19,7 +19,7 @@ public:
 	JMaxFunc(JPtrArray<JFunction>* argList = nullptr);
 	JMaxFunc(const JMaxFunc& source);
 
-	virtual ~JMaxFunc();
+	~JMaxFunc();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

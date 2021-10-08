@@ -22,7 +22,7 @@ public:
 	JArray(const JArray<T>& source);
 	JArray(JArray<T>&& dyingSource) noexcept;
 
-	virtual ~JArray();
+	~JArray();
 
 	JArray<T>& operator=(const JArray<T>& source);
 
@@ -31,24 +31,24 @@ public:
 	const T*	GetCArray() const;
 	T*			AllocateCArray() const;		// client must call delete [] when finished with it
 
-	T			GetElement(const JIndex index) const;
-	void		SetElement(const JIndex index, const T& data);
+	T		GetElement(const JIndex index) const;
+	void	SetElement(const JIndex index, const T& data);
 
-	T			GetElementFromEnd(const JIndex index) const;
-	void		SetElementFromEnd(const JIndex index, const T& data);
+	T		GetElementFromEnd(const JIndex index) const;
+	void	SetElementFromEnd(const JIndex index, const T& data);
 
 	T	GetFirstElement() const override;
 	T	GetLastElement() const override;
 
-	void			InsertElementAtIndex(const JIndex index, const T& data);
+	void	InsertElementAtIndex(const JIndex index, const T& data);
 	void	PrependElement(const T& data) override;
 	void	AppendElement(const T& data) override;
 
-	void			RemoveElement(const JIndex index);
-	void			RemoveNextElements(const JIndex firstIndex, const JSize count);
-	void			RemovePrevElements(const JIndex lastIndex, const JSize count);
-	void			RemoveElements(const JIndexRange& range);
-	void			RemoveElements(const JListT::ElementsRemoved& info);
+	void	RemoveElement(const JIndex index);
+	void	RemoveNextElements(const JIndex firstIndex, const JSize count);
+	void	RemovePrevElements(const JIndex lastIndex, const JSize count);
+	void	RemoveElements(const JIndexRange& range);
+	void	RemoveElements(const JListT::ElementsRemoved& info);
 	void	RemoveAll() override;
 
 	void	MoveElementToIndex(const JIndex currentIndex, const JIndex newIndex);

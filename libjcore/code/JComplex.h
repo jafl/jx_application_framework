@@ -13,7 +13,7 @@
 #include <complex>
 #include "jx-af/jcore/jTypes.h"
 
-typedef std::complex<double>	JComplex;
+using JComplex = std::complex<double>;
 
 class JString;
 

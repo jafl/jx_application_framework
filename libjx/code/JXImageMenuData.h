@@ -20,20 +20,20 @@ public:
 
 	JXImageMenuData(const JSize columnCount);
 
-	virtual ~JXImageMenuData();
+	~JXImageMenuData();
 
-	void			InsertItem(const JIndex index, JXImage* image,
-							   const bool menuOwnsImage,
-							   const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JString& id = JString::empty);
-	void			PrependItem(JXImage* image, const bool menuOwnsImage,
-							   const JXMenu::ItemType type = JXMenu::kPlainType,
-								const JString& id = JString::empty);
-	void			AppendItem(JXImage* image, const bool menuOwnsImage,
-							   const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JString& id = JString::empty);
-	virtual void	DeleteItem(const JIndex index);		// must call inherited
-	virtual void	DeleteAll();						// must call inherited
+	void	InsertItem(const JIndex index, JXImage* image,
+					   const bool menuOwnsImage,
+					   const JXMenu::ItemType type = JXMenu::kPlainType,
+					   const JString& id = JString::empty);
+	void	PrependItem(JXImage* image, const bool menuOwnsImage,
+					   const JXMenu::ItemType type = JXMenu::kPlainType,
+						const JString& id = JString::empty);
+	void	AppendItem(JXImage* image, const bool menuOwnsImage,
+					   const JXMenu::ItemType type = JXMenu::kPlainType,
+					   const JString& id = JString::empty);
+	void	DeleteItem(const JIndex index) override;	// must call inherited
+	void	DeleteAll() override;						// must call inherited
 
 	const JXImage*	GetImage(const JIndex index) const;
 	void			SetImage(const JIndex index, JXImage* image,

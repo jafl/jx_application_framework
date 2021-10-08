@@ -19,7 +19,7 @@ public:
 	JCosine(JFunction* arg = nullptr);
 	JCosine(const JCosine& source);
 
-	virtual ~JCosine();
+	~JCosine();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

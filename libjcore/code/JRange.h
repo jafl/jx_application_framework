@@ -225,7 +225,7 @@ operator+
 
 #include "JRange.tmpl"
 
-typedef JRange<JInteger> JIntRange;
-typedef JRange<JIndex> JIndexRange;
+using JIntRange   = JRange<JInteger>;
+using JIndexRange = JRange<JIndex>;
 
 #endif

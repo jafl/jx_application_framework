@@ -29,26 +29,26 @@ public:
 					 const JCoordinate x, const JCoordinate y,
 					 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXImageMenuTable();
+	~JXImageMenuTable();
 
 protected:
 
 	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 	bool	CellToItemIndex(const JPoint& pt, const JPoint& cell,
-										JIndex* itemIndex) const override;
-	void		MenuHilightItem(const JIndex itemIndex) override;
-	void		MenuUnhilightItem(const JIndex itemIndex) override;
-	void		GetSubmenuPoints(const JIndex itemIndex,
-										 JPoint* leftPt, JPoint* rightPt) override;
+							JIndex* itemIndex) const override;
+	void	MenuHilightItem(const JIndex itemIndex) override;
+	void	MenuUnhilightItem(const JIndex itemIndex) override;
+	void	GetSubmenuPoints(const JIndex itemIndex,
+							 JPoint* leftPt, JPoint* rightPt) override;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
 	const JXImageMenuData*	itsIconMenuData;
-	bool				itsHasCheckboxesFlag;
-	bool				itsHasSubmenusFlag;
+	bool					itsHasCheckboxesFlag;
+	bool					itsHasSubmenusFlag;
 	JPoint					itsHilightCell;
 
 private:

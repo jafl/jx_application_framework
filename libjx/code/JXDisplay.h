@@ -66,7 +66,7 @@ public:
 	{
 		bool	desktopMapsWindowsFlag;	// windows on virtual desktops are unmapped
 		bool	frameCompensateFlag;	// compensate for wm frame when placing
-		JPoint		reshowOffset;			// re-showing a window also moves it
+		JPoint	reshowOffset;			// re-showing a window also moves it
 
 		WMBehavior()
 			:
@@ -75,19 +75,19 @@ public:
 		{ };
 
 		bool	Load(JXDisplay* display);
-		void		Save(JXDisplay* display) const;
+		void	Save(JXDisplay* display) const;
 
 		private:
 
 		bool	Read(std::istream& input, const JFileVersion vers);
-		void		WriteV0(std::ostream& output) const;
+		void	WriteV0(std::ostream& output) const;
 	};
 
 public:
 
 	static bool	Create(const JString& displayName, JXDisplay** display);
 
-	virtual ~JXDisplay();
+	~JXDisplay();
 
 	bool	Close();
 
@@ -97,21 +97,21 @@ public:
 	Display*		GetXDisplay() const;
 	JXColorManager*	GetColorManager() const;
 	JSize			GetMaxStringByteCount() const;
-	bool		IsOSX() const;
+	bool			IsOSX() const;
 
 	JFontManager*		GetFontManager() const;
 	JXFontManager*		GetXFontManager() const;
 	JXSelectionManager*	GetSelectionManager() const;
 	JXDNDManager*		GetDNDManager() const;
 	JXMenuManager*		GetMenuManager() const;
-	bool			GetWDManager(JXWDManager** mgr) const;
+	bool				GetWDManager(JXWDManager** mgr) const;
 	JXImageCache*		GetImageCache() const;
 
 	JCursorIndex	CreateBuiltInCursor(const JUtf8Byte* name,
 										const unsigned int shape);
 	JCursorIndex	CreateCustomCursor(const JUtf8Byte* name,
 									   const JXCursor& cursor);
-	bool		GetCursor(const JUtf8Byte* name,
+	bool			GetCursor(const JUtf8Byte* name,
 							  JCursorIndex* index) const;
 	void			DisplayCursorInAllWindows(const JCursorIndex index);
 

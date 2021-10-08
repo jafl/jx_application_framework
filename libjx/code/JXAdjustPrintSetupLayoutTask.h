@@ -21,9 +21,9 @@ public:
 	JXAdjustPrintSetupLayoutTask(JXDirector* director, JXWidget* printCmd,
 								   JXWidget* chooseFileButton, JXWidget* fileInput);
 
-	virtual ~JXAdjustPrintSetupLayoutTask();
+	~JXAdjustPrintSetupLayoutTask();
 
-	virtual void	Perform();
+	void	Perform() override;
 
 private:
 

@@ -13,7 +13,7 @@
 
 struct JHSB;
 
-typedef JUInt64	JColorID;
+using JColorID = JUInt64;
 
 	// color specified via red,green,blue
 

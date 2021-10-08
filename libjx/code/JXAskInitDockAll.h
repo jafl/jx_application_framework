@@ -19,9 +19,9 @@ public:
 
 	JXAskInitDockAll(JXDirector* dir);
 
-	virtual ~JXAskInitDockAll();
+	~JXAskInitDockAll();
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	void	Perform(const Time delta, Time* maxSleepTime) override;
 
 private:
 

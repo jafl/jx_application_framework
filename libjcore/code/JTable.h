@@ -26,7 +26,7 @@ public:
 	JTable(const JCoordinate defRowHeight, const JCoordinate defColWidth,
 		   const JColorID borderColor, const JColorID selectionColor);
 
-	virtual ~JTable();
+	~JTable();
 
 	void	SetTableData(const JTableData* data);
 
@@ -44,7 +44,7 @@ public:
 	JCoordinate	GetDefaultColWidth() const;
 	void		SetDefaultColWidth(const JCoordinate defColWidth);
 
-	bool	GetCell(const JPoint& pt, JPoint* cell) const;
+	bool		GetCell(const JPoint& pt, JPoint* cell) const;
 	JRect		GetCellRect(const JPoint& cell) const;
 	JCoordinate	GetRowTop(const JIndex index) const;
 	JCoordinate	GetColLeft(const JIndex index) const;
@@ -63,8 +63,8 @@ public:
 	bool			BeginEditing(const JPoint& cell, const bool scrollToCell = true);
 	bool			ShiftEditing(const JCoordinate dx, const JCoordinate dy,
 								 const bool scrollToCell = true);
-	bool			EndEditing();
-	void			CancelEditing();
+	bool	EndEditing();
+	void	CancelEditing();
 
 	bool	IsEditing() const;
 	bool	GetEditedCell(JPoint* editCell) const;

@@ -27,7 +27,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXStringList();
+	~JXStringList();
 
 	const JPtrArray<JString>&	GetStringList() const;
 	void						SetStringList(const JPtrArray<JString>* list);

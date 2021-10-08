@@ -16,7 +16,7 @@ public:
 
 	JPrinter();
 
-	virtual ~JPrinter();
+	~JPrinter();
 
 private:
 

@@ -21,7 +21,7 @@ public:
 			const JCoordinate x, const JCoordinate y,
 			const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXTable();
+	~JXTable();
 
 protected:
 
@@ -29,28 +29,28 @@ protected:
 
 	bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
-	void		TableRefresh() override;
-	void		TableRefreshRect(const JRect& rect) override;
-	void		TableSetGUIBounds(const JCoordinate w, const JCoordinate h) override;
-	void		TableSetScrollSteps(const JCoordinate hStep,
-											const JCoordinate vStep) override;
-	void		TableHeightChanged(const JCoordinate y, const JCoordinate delta) override;
-	void		TableHeightScaled(const JFloat scaleFactor) override;
-	void		TableRowMoved(const JCoordinate origY, const JSize height,
-									  const JCoordinate newY) override;
-	void		TableWidthChanged(const JCoordinate x, const JCoordinate delta) override;
-	void		TableWidthScaled(const JFloat scaleFactor) override;
-	void		TableColMoved(const JCoordinate origX, const JSize width,
-									  const JCoordinate newX) override;
+	void	TableRefresh() override;
+	void	TableRefreshRect(const JRect& rect) override;
+	void	TableSetGUIBounds(const JCoordinate w, const JCoordinate h) override;
+	void	TableSetScrollSteps(const JCoordinate hStep,
+								const JCoordinate vStep) override;
+	void	TableHeightChanged(const JCoordinate y, const JCoordinate delta) override;
+	void	TableHeightScaled(const JFloat scaleFactor) override;
+	void	TableRowMoved(const JCoordinate origY, const JSize height,
+						  const JCoordinate newY) override;
+	void	TableWidthChanged(const JCoordinate x, const JCoordinate delta) override;
+	void	TableWidthScaled(const JFloat scaleFactor) override;
+	void	TableColMoved(const JCoordinate origX, const JSize width,
+						  const JCoordinate newX) override;
 	bool	TableScrollToCellRect(const JRect& cellRect,
-											  const bool centerInDisplay = false) override;
+								  const bool centerInDisplay = false) override;
 	JCoordinate	TableGetApertureWidth() const override;
 
-	void		BeginSelectionDrag(const JPoint& cell, const JXMouseButton button,
-								   const JXKeyModifiers& modifiers);
-	void		ContinueSelectionDrag(const JPoint& pt, const JXKeyModifiers& modifiers);
+	void	BeginSelectionDrag(const JPoint& cell, const JXMouseButton button,
+							   const JXKeyModifiers& modifiers);
+	void	ContinueSelectionDrag(const JPoint& pt, const JXKeyModifiers& modifiers);
 	bool	HandleSelectionKeyPress(const JUtf8Character& c,
-										const JXKeyModifiers& modifiers);
+									const JXKeyModifiers& modifiers);
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 };

@@ -26,14 +26,14 @@ public:
 	JXTEStyleMenu(JXTextEditor* te,
 				  JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual ~JXTEStyleMenu();
+	~JXTEStyleMenu();
 
 	void	SetTE(JXTextEditor* te);
 
 protected:
 
-	virtual JFontStyle	GetFontStyleForMenuUpdate() const;
-	virtual void		HandleMenuItem(const JIndex menuItem);
+	JFontStyle	GetFontStyleForMenuUpdate() const override;
+	void		HandleMenuItem(const JIndex menuItem) override;
 
 private:
 

@@ -20,16 +20,15 @@ public:
 
 	JFSFileTreeNode(JDirEntry* entry);
 
-	virtual ~JFSFileTreeNode();
+	~JFSFileTreeNode();
 
-	JError				GoUp();
-	JError				GoTo(const JString& path);
-	JError				Rename(const JString& newName,
-							   const bool sort = true);
+	JError	GoUp();
+	JError	GoTo(const JString& path);
+	JError	Rename(const JString& newName, const bool sort = true);
 	bool	Update(const bool force = false,
-							   JFSFileTreeNodeBase** updateNode = nullptr) override;
-	void				UpdatePath(const Message& message);
-	void				UpdatePath(const JString& oldPath, const JString& newPath);
+				   JFSFileTreeNodeBase** updateNode = nullptr) override;
+	void	UpdatePath(const Message& message);
+	void	UpdatePath(const JString& oldPath, const JString& newPath);
 
 	JDirEntry*			GetDirEntry();
 	const JDirEntry*	GetDirEntry() const;

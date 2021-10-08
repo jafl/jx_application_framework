@@ -34,7 +34,7 @@ public:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXImageWidget();
+	~JXImageWidget();
 
 	bool	HasImage() const;
 	bool	GetImage(JXImage** image) const;

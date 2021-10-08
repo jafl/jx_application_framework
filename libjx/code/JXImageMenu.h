@@ -33,7 +33,7 @@ public:
 	JXImageMenu(const JSize columnCount, JXMenu* owner, const JIndex itemIndex,
 				JXContainer* enclosure);
 
-	virtual ~JXImageMenu();
+	~JXImageMenu();
 
 	void			InsertItem(const JIndex index, JXImage* image,
 							   const bool menuOwnsImage,
@@ -53,8 +53,8 @@ public:
 
 protected:
 
-	virtual JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor);
-	virtual void			AdjustPopupChoiceTitle(const JIndex index);
+	JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor) override;
+	void			AdjustPopupChoiceTitle(const JIndex index) override;
 
 	JXImageMenuData*	GetIconMenuData();
 

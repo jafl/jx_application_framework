@@ -20,7 +20,7 @@ public:
 
 	static void	EditPrefs();
 
-	virtual ~JXMacWinPrefsDialog();
+	~JXMacWinPrefsDialog();
 
 protected:
 

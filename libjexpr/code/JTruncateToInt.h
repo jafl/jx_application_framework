@@ -19,7 +19,7 @@ public:
 	JTruncateToInt(JFunction* arg = nullptr);
 	JTruncateToInt(const JTruncateToInt& source);
 
-	virtual ~JTruncateToInt();
+	~JTruncateToInt();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

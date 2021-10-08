@@ -22,7 +22,7 @@ public:
 	JXIconDirector(JXWindowDirector* supervisor, JXImage* normalIcon,
 				   JXImage* dropIcon);
 
-	virtual ~JXIconDirector();
+	~JXIconDirector();
 
 	JXWindowIcon*	GetIconWidget() const;
 

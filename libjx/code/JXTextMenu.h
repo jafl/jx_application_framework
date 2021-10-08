@@ -34,7 +34,7 @@ public:
 
 	JXTextMenu(JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual ~JXTextMenu();
+	~JXTextMenu();
 
 	void	SetMenuItems(const JUtf8Byte* menuStr,
 						 const JUtf8Byte* idNamespace = nullptr);
@@ -79,22 +79,22 @@ public:
 	void	SetDefaultFont(const JFont& font, const bool updateExisting);
 
 	bool	GetItemImage(const JIndex index, const JXImage** image) const;
-	void		SetItemImage(const JIndex index, JXImage* image,
-							 const bool menuOwnsImage);
-	void		SetItemImage(const JIndex index, const JXPM& data);
-	void		ClearItemImage(const JIndex index);
+	void	SetItemImage(const JIndex index, JXImage* image,
+						 const bool menuOwnsImage);
+	void	SetItemImage(const JIndex index, const JXPM& data);
+	void	ClearItemImage(const JIndex index);
 
 	bool	GetItemNMShortcut(const JIndex index, JString* str) const;
-	void		SetItemNMShortcut(const JIndex index, const JString& str);
+	void	SetItemNMShortcut(const JIndex index, const JString& str);
 
 	bool	HasSeparatorAfter(const JIndex index) const;
-	void		ShowSeparatorAfter(const JIndex index, const bool show = true);
+	void	ShowSeparatorAfter(const JIndex index, const bool show = true);
 
 	bool	HeightCompressed() const;
-	void		CompressHeight(const bool compress = true);
+	void	CompressHeight(const bool compress = true);
 
-	virtual void	SetToPopupChoice(const bool isPopup,
-									 const JIndex initialChoice);
+	void	SetToPopupChoice(const bool isPopup,
+							 const JIndex initialChoice) override;
 
 	// called by JXWindow
 
@@ -102,8 +102,8 @@ public:
 
 protected:
 
-	virtual JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor);
-	virtual void			AdjustPopupChoiceTitle(const JIndex index);
+	JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor) override;
+	void			AdjustPopupChoiceTitle(const JIndex index) override;
 
 	JXTextMenuData*	GetTextMenuData();
 

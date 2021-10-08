@@ -26,20 +26,20 @@ public:
 						 const JCoordinate x, const JCoordinate y,
 						 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXHorizDockPartition();
+	~JXHorizDockPartition();
 
 	JXDockDirector*	GetDockDirector() const;
-	bool		FindDock(const JIndex id, JXDockWidget** dock);
-	bool		HasWindows() const;
-	bool		CloseAllWindows();
+	bool			FindDock(const JIndex id, JXDockWidget** dock);
+	bool			HasWindows() const;
+	bool			CloseAllWindows();
 	JPoint			UpdateMinSize();
 
 	void	InsertCompartment(const JIndex index, const bool reportError = false);
 	void	DeleteCompartment(const JIndex index);
 
 	bool	SplitVert(const JIndex index,
-						  JXVertDockPartition** returnPartition = nullptr,
-						  const bool reportError = false);
+					  JXVertDockPartition** returnPartition = nullptr,
+					  const bool reportError = false);
 
 	void	ReadSetup(std::istream& input, const JFileVersion vers);
 	void	WriteSetup(std::ostream& output) const;
@@ -51,14 +51,14 @@ public:
 protected:
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
 	JXWidgetSet*	CreateCompartment(const JIndex index,
-											  const JCoordinate position,
-											  const JCoordinate size) override;
-	bool		SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
+									  const JCoordinate position,
+									  const JCoordinate size) override;
+	bool			SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 

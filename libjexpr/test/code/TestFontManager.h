@@ -16,7 +16,7 @@ public:
 
 	TestFontManager();
 
-	virtual ~TestFontManager();
+	~TestFontManager();
 
 	virtual void	GetFontNames(JPtrArray<JString>* fontNames);
 	virtual void	GetMonospaceFontNames(JPtrArray<JString>* fontNames);

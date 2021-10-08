@@ -18,7 +18,7 @@ public:
 	JXFileSelection(JXDisplay* display, JPtrArray<JString>* list);
 	JXFileSelection(JXWidget* widget, const JUtf8Byte* id);
 
-	virtual	~JXFileSelection();
+	~JXFileSelection();
 
 	bool	GetData(const JPtrArray<JString>** list) const;
 
@@ -26,20 +26,20 @@ public:
 	void	SetData(JPtrArray<JString>* list);
 
 	static bool	GetFileList(const Atom selectionName, const Time time,
-								JXDisplay* display,
-								JPtrArray<JString>* fileNameList,
-								JPtrArray<JString>* urlList);
+							JXDisplay* display,
+							JPtrArray<JString>* fileNameList,
+							JPtrArray<JString>* urlList);
 	static bool	GetFileList(JXSelectionManager* selMgr,
-								const Atom selectionName, const Time time,
-								JPtrArray<JString>* fileNameList,
-								JPtrArray<JString>* urlList);
+							const Atom selectionName, const Time time,
+							JPtrArray<JString>* fileNameList,
+							JPtrArray<JString>* urlList);
 
 protected:
 
-	virtual void		AddTypes(const Atom selectionName);
-	virtual bool	ConvertData(const Atom requestType, Atom* returnType,
-									unsigned char** data, JSize* dataLength,
-									JSize* bitsPerBlock) const;
+	void	AddTypes(const Atom selectionName) override;
+	bool	ConvertData(const Atom requestType, Atom* returnType,
+						unsigned char** data, JSize* dataLength,
+						JSize* bitsPerBlock) const override;
 
 private:
 

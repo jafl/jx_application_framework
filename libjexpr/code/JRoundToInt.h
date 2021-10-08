@@ -19,7 +19,7 @@ public:
 	JRoundToInt(JFunction* arg = nullptr);
 	JRoundToInt(const JRoundToInt& source);
 
-	virtual ~JRoundToInt();
+	~JRoundToInt();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

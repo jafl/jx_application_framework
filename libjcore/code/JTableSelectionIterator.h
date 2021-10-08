@@ -33,7 +33,7 @@ public:
 							const JIndex row = 0, const JIndex col = 0);
 	JTableSelectionIterator(const JTableSelectionIterator& source);
 
-	virtual ~JTableSelectionIterator();
+	~JTableSelectionIterator();
 
 	Direction	GetDirection() const;
 	void		SetDirection(const Direction d);

@@ -18,14 +18,14 @@ public:
 
 	JXDockDragData(JXWindow* window);
 
-	virtual	~JXDockDragData();
+	~JXDockDragData();
 
 protected:
 
-	virtual void		AddTypes(const Atom selectionName);
-	virtual bool	ConvertData(const Atom requestType, Atom* returnType,
-									unsigned char** data, JSize* dataLength,
-									JSize* bitsPerBlock) const;
+	void	AddTypes(const Atom selectionName) override;
+	bool	ConvertData(const Atom requestType, Atom* returnType,
+						unsigned char** data, JSize* dataLength,
+						JSize* bitsPerBlock) const override;
 
 private:
 

@@ -23,10 +23,10 @@ public:
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXIntegerInput();
+	~JXIntegerInput();
 
 	bool	GetValue(JInteger* value) const;
-	void		SetValue(const JInteger value);
+	void	SetValue(const JInteger value);
 	bool	ValueValid(const JInteger value) const;
 
 	void	SetLimits(const JInteger minValue, const JInteger maxValue);
@@ -39,7 +39,7 @@ public:
 	void		SetUpperLimit(const JInteger maxValue);
 	void		ClearUpperLimit();
 
-	virtual bool	InputValid();
+	bool	InputValid() override;
 
 private:
 

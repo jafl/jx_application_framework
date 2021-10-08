@@ -47,7 +47,7 @@ public:
 	{ };
 };
 
-typedef JTaskIterator<JBroadcaster>	JBroadcasterIterator;
+using JBroadcasterIterator = JTaskIterator<JBroadcaster>;
 
 class JPointerClearList : public JArray<JBroadcaster::ClearPointer>
 {
@@ -581,24 +581,4 @@ JBroadcaster::ClearGone
 			itsClearPointers->RemoveElement(i);
 		}
 	}
-}
-
-/******************************************************************************
- JBroadcaster::Message
-
-	Refer to the documentation for JRTTIBase for the recommended way to
-	define type strings.  Examples of message definitions can be found
-	in JArray.h
-
-	BASE CLASS = JRTTIBase
-
- ******************************************************************************/
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-JBroadcaster::Message::~Message()
-{
 }

@@ -21,20 +21,20 @@ public:
 
 	JXStandAlonePG();
 
-	virtual ~JXStandAlonePG();
+	~JXStandAlonePG();
 
-	virtual bool	ProcessContinuing();
-	virtual void	ProcessFinished();
+	bool	ProcessContinuing() override;
+	void	ProcessFinished() override;
 
 	void	RaiseWhenUpdate(const bool raise = true);
 
 protected:
 
-	virtual void	ProcessBeginning(const ProcessType processType,
-									 const JSize stepCount,
-									 const JString& message,
-									 const bool allowCancel,
-									 const bool allowBackground);
+	void	ProcessBeginning(const ProcessType processType,
+							 const JSize stepCount,
+							 const JString& message,
+							 const bool allowCancel,
+							 const bool allowBackground) override;
 
 private:
 

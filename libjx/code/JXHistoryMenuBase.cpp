@@ -270,9 +270,6 @@ JXHistoryMenuBase::ReadSetup
 		}
 	}
 
-	const HistoryDirection direction = menu->GetHistoryDirection();
-	const JIndex firstIndex          = menu->GetFirstIndex();
-
 	JString text, nmShortcut;
 	for (JIndex i=1; i<=count; i++)
 	{
@@ -286,13 +283,13 @@ JXHistoryMenuBase::ReadSetup
 			break;
 		}
 
-		if (menu != nullptr && direction == kNewestItemAtTop)
+		if (menu != nullptr && menu->GetHistoryDirection() == kNewestItemAtTop)
 		{
 			menu->AppendItem(text, kPlainType, JString::empty, nmShortcut);
 		}
 		else if (menu != nullptr)
 		{
-			menu->InsertItem(firstIndex, text, kPlainType, JString::empty, nmShortcut);
+			menu->InsertItem(menu->GetFirstIndex(), text, kPlainType, JString::empty, nmShortcut);
 		}
 
 		if (itemList != nullptr)

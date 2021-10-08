@@ -18,9 +18,9 @@ public:
 
 	JXUpdateWDMenuTask(JXWDManager* wdMgr);
 
-	virtual ~JXUpdateWDMenuTask();
+	~JXUpdateWDMenuTask();
 
-	virtual void	Perform();
+	void	Perform() override;
 
 private:
 

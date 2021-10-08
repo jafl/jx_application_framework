@@ -31,7 +31,7 @@ public:
 
 	JXWDManager(JXDisplay* display, const bool wantShortcuts = true);
 
-	virtual ~JXWDManager();
+	~JXWDManager();
 
 	void	GetPermanentDirectors(JPtrArray<JXWindowDirector>* directorList) const;
 	void	GetDirectors(JPtrArray<JXWindowDirector>* directorList) const;

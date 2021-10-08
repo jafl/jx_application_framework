@@ -20,9 +20,9 @@
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-typedef JStyledText::TextIndex TextIndex;
-typedef JStyledText::TextCount TextCount;
-typedef JStyledText::TextRange TextRange;
+using TextIndex = JStyledText::TextIndex;
+using TextCount = JStyledText::TextCount;
+using TextRange = JStyledText::TextRange;
 
 int main()
 {

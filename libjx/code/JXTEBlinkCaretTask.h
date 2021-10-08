@@ -18,11 +18,11 @@ public:
 
 	JXTEBlinkCaretTask(JXTEBase* te);
 
-	virtual ~JXTEBlinkCaretTask();
+	~JXTEBlinkCaretTask();
 
-	void			ShouldBlink(const bool blink);
-	void			Reset();
-	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	void	ShouldBlink(const bool blink);
+	void	Reset();
+	void	Perform(const Time delta, Time* maxSleepTime) override;
 
 private:
 

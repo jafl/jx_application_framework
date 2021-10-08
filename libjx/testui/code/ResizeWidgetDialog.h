@@ -21,7 +21,7 @@ public:
 
 	ResizeWidgetDialog(JXWindowDirector* supervisor, const JXWidget* widget);
 
-	virtual ~ResizeWidgetDialog();
+	~ResizeWidgetDialog();
 
 	void	GetNewSize(JCoordinate* w, JCoordinate* h) const;
 

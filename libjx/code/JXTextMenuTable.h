@@ -39,7 +39,7 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXTextMenuTable();
+	~JXTextMenuTable();
 
 	static void		AdjustFont(JXDisplay* display, const JIndex colIndex,
 							   const JString& text, JFont* font);

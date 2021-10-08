@@ -38,7 +38,7 @@ class JMemoryManager : virtual public JBroadcaster
 
 public:
 
-	typedef JMessageProtocol<ACE_LSOCK_STREAM>	DebugLink;
+	using DebugLink = JMessageProtocol<ACE_LSOCK_STREAM>;
 
 	enum
 	{
@@ -55,7 +55,7 @@ public:
 
 	struct RecordFilter
 	{
-		bool	includeInternal;
+		bool		includeInternal;
 		JSize		minSize;
 		JString*	fileName;
 
@@ -79,7 +79,7 @@ public:
 
 public:
 
-	virtual ~JMemoryManager();
+	~JMemoryManager();
 
 	static JMemoryManager* Instance();
 

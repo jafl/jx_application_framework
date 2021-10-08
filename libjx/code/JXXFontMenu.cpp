@@ -30,7 +30,9 @@ bool
 JXXFontMenu::Create
 	(
 	const JRegex&		regex,
-	JSortXFontNamesFn	compare,
+
+	const std::function<JListT::CompareResult(JString * const &, JString * const &)> compare,
+
 	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -45,7 +47,7 @@ JXXFontMenu::Create
 	*menu = nullptr;
 
 	JPtrArray<JString> fontNames(JPtrArrayT::kDeleteAll);
-	(enclosure->GetXFontManager())->GetXFontNames(regex, &fontNames, compare);
+	enclosure->GetXFontManager()->GetXFontNames(regex, &fontNames, &compare);
 	if (!fontNames.IsEmpty())
 	{
 		*menu = jnew JXXFontMenu(fontNames, title, enclosure, hSizing, vSizing, x,y, w,h);
@@ -59,7 +61,9 @@ bool
 JXXFontMenu::Create
 	(
 	const JRegex&		regex,
-	JSortXFontNamesFn	compare,
+
+	const std::function<JListT::CompareResult(JString * const &, JString * const &)> compare,
+
 	JXMenu*				owner,
 	const JIndex		itemIndex,
 	JXContainer*		enclosure,
@@ -69,7 +73,7 @@ JXXFontMenu::Create
 	*menu = nullptr;
 
 	JPtrArray<JString> fontNames(JPtrArrayT::kDeleteAll);
-	(enclosure->GetXFontManager())->GetXFontNames(regex, &fontNames, compare);
+	enclosure->GetXFontManager()->GetXFontNames(regex, &fontNames, &compare);
 	if (!fontNames.IsEmpty())
 	{
 		*menu = jnew JXXFontMenu(fontNames, owner, itemIndex, enclosure);

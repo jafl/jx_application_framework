@@ -36,7 +36,7 @@ public:
 				 const bool testWidgetIsImage = false,
 				 const bool snoopWindow = false);
 
-	virtual ~TestDirector();
+	~TestDirector();
 
 	void	OpenTextFile(const JString& fileName);
 

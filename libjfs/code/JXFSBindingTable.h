@@ -29,29 +29,29 @@ public:
 					 const JCoordinate x, const JCoordinate y,
 					 const JCoordinate w, const JCoordinate h);
 
-	virtual	~JXFSBindingTable();
+	~JXFSBindingTable();
 
 	void	SetColTitles(JXColHeaderWidget* widget) const;
 	void	SyncWithBindingList();
 
-	void		HandleKeyPress(const JUtf8Character& c, const int keySym,
-									   const JXKeyModifiers& modifiers) override;
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+						   const JXKeyModifiers& modifiers) override;
 	bool	IsEditable(const JPoint& cell) const override;
 
 protected:
 
 	void	TableDrawCell(JPainter& p, const JPoint& cell,
-								  const JRect& rect) override;
+						  const JRect& rect) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
 	JXInputField*	CreateXInputField(const JPoint& cell,
 									const JCoordinate x, const JCoordinate y,
 									const JCoordinate w, const JCoordinate h) override;
-	bool		ExtractInputData(const JPoint& cell) override;
+	bool			ExtractInputData(const JPoint& cell) override;
 	void			PrepareDeleteXInputField() override;
 
 	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;

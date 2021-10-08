@@ -22,20 +22,20 @@ public:
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXDockTabGroup();
+	~JXDockTabGroup();
 
 	void	SetDockWidget(JXDockWidget* dock);
 
 protected:
 
-	void		DrawTab(const JIndex index, JXWindowPainter& p,
-								const JRect& rect, const Edge edge) override;
+	void	DrawTab(const JIndex index, JXWindowPainter& p,
+					const JRect& rect, const Edge edge) override;
 	bool	OKToDeleteTab(const JIndex index) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 

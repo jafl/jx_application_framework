@@ -25,10 +25,10 @@
 
 // Notation
 
-typedef ServerHandler<ACE_SOCK_STREAM>	INETHandler;
-typedef ServerHandler<ACE_LSOCK_STREAM>	UNIXHandler;
+using INETHandler = ServerHandler<ACE_SOCK_STREAM>;
+using UNIXHandler = ServerHandler<ACE_LSOCK_STREAM>;
 
-typedef ACE_Acceptor<INETHandler, ACE_SOCK_ACCEPTOR>	INETAcceptor;
+using INETAcceptor = ACE_Acceptor<INETHandler, ACE_SOCK_ACCEPTOR>;
 
 class UNIXAcceptor :
 	public ACE_Acceptor<UNIXHandler, ACE_LSOCK_ACCEPTOR>

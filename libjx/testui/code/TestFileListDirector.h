@@ -19,7 +19,7 @@ public:
 
 	TestFileListDirector(JXDirector* supervisor);
 
-	virtual ~TestFileListDirector();
+	~TestFileListDirector();
 
 protected:
 

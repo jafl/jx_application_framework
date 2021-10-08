@@ -28,8 +28,8 @@ public:
 					  const bool checkDoubleAllocation);
 
 	bool SetRecordDeleted(JMMRecord* record, const void* block,
-							  const JUtf8Byte* file, const JUInt32 line,
-							  const bool isArray);
+						  const JUtf8Byte* file, const JUInt32 line,
+						  const bool isArray);
 
 	virtual JSize GetAllocatedCount() const = 0;
 	virtual JSize GetAllocatedBytes() const = 0;
@@ -43,11 +43,11 @@ public:
 protected:
 
 	virtual void _AddNewRecord(const JMMRecord& record,
-									   const bool checkDoubleAllocation) = 0;
+							   const bool checkDoubleAllocation) = 0;
 
 	virtual bool _SetRecordDeleted(JMMRecord* record, const void* block,
-									   const JUtf8Byte* file, const JUInt32 line,
-									   const bool isArray) = 0;
+								   const JUtf8Byte* file, const JUInt32 line,
+								   const bool isArray) = 0;
 
 	void BeginRecursiveBlock();
 	void EndRecursiveBlock();

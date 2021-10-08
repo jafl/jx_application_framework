@@ -21,7 +21,7 @@ public:
 	JXDragPainter(JXDisplay* display, JXWindow* window,
 				  const JRect& defaultClipRect);
 
-	virtual ~JXDragPainter();
+	~JXDragPainter();
 };
 
 #endif

@@ -23,7 +23,6 @@ class JStringPtrMapCursor : public JStringMapCursor<V*>
 public:
 
 	JStringPtrMapCursor(const JStringPtrMap<V>* ptrMap);
-	virtual ~JStringPtrMapCursor();
 };
 
 #endif

@@ -16,7 +16,7 @@
 extern "C" {
 #endif
 
-typedef void (j_sig_func)(int);
+using j_sig_func = void (*)(int);
 
 #ifdef __cplusplus
 }

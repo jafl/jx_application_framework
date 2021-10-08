@@ -17,7 +17,7 @@ public:
 	JCollection();
 	JCollection(const JCollection& source);
 
-	virtual ~JCollection();
+	~JCollection();
 
 	JCollection& operator=(const JCollection& source);
 

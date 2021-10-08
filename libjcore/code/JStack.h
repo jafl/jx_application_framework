@@ -21,7 +21,7 @@ public:
 	JStack();
 	JStack(const JStack<T,S>& source);
 
-	virtual	~JStack();
+	~JStack();
 
 	JStack<T,S>& operator=(const JStack<T,S>& source);
 

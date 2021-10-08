@@ -19,7 +19,7 @@ public:
 	JArcCosine(JFunction* arg = nullptr);
 	JArcCosine(const JArcCosine& source);
 
-	virtual ~JArcCosine();
+	~JArcCosine();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

@@ -18,12 +18,12 @@ public:
 
 	JXCheckModTimeTask(const Time period, const JString& fullName);
 
-	virtual ~JXCheckModTimeTask();
+	~JXCheckModTimeTask();
 
 	const JString&	GetFileName() const;
 	void			UpdateModTime();
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	void	Perform(const Time delta, Time* maxSleepTime) override;
 
 private:
 

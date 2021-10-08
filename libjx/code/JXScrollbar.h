@@ -31,7 +31,7 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXScrollbar();
+	~JXScrollbar();
 
 	JCoordinate	GetValue() const;
 	void		SetValue(const JCoordinate value);

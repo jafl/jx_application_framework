@@ -21,7 +21,7 @@ public:
 
 	TestButtonsDialog(JXWindowDirector* supervisor);
 
-	virtual ~TestButtonsDialog();
+	~TestButtonsDialog();
 
 protected:
 

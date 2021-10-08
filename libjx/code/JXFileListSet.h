@@ -47,7 +47,7 @@ public:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXFileListSet();
+	~JXFileListSet();
 
 	void	AppendEditMenu(JXMenuBar* menuBar);
 

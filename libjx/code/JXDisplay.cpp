@@ -1544,7 +1544,7 @@ JXDisplay::CheckForXErrors()
 
  ******************************************************************************/
 
-int
+static int
 JXDebugAfterFunction
 	(
 	Display* xDisplay

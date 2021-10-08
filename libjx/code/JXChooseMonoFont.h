@@ -24,7 +24,7 @@ public:
 					 const JCoordinate x, const JCoordinate y,
 					 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXChooseMonoFont();
+	~JXChooseMonoFont();
 
 	void	GetFont(JString* name, JSize* size) const;
 	void	SetFont(const JString& name, const JSize size);

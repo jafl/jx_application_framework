@@ -22,17 +22,17 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXPathInput();
+	~JXPathInput();
 
-	bool	InputValid() override;
+	bool			InputValid() override;
 	virtual bool	GetPath(JString* path) const;
-	virtual JString		GetTextForChoosePath() const;
+	virtual JString	GetTextForChoosePath() const;
 
 	bool	WillAllowInvalidPath() const;
-	void		ShouldAllowInvalidPath(const bool allow = true);
+	void	ShouldAllowInvalidPath(const bool allow = true);
 
 	bool	WillRequireWritable() const;
-	void		ShouldRequireWritable(const bool require = true);
+	void	ShouldRequireWritable(const bool require = true);
 
 	bool	ChoosePath(const JString& prompt, const JString& instr = JString::empty);
 
@@ -52,9 +52,9 @@ protected:
 
 		protected:
 
-		virtual JSize	ComputeErrorLength(JXFSInputBase* field,
-										   const JSize totalLength,
-										   const JString& fullName) const;
+		JSize	ComputeErrorLength(JXFSInputBase* field,
+								   const JSize totalLength,
+								   const JString& fullName) const override;
 	};
 
 protected:

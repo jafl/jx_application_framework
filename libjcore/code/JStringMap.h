@@ -36,7 +36,7 @@ class JStringMap : public JHashTable< JStrValue<V> >
 public:
 
 	JStringMap(const JSize lgSize = kJDefaultLgMinTableSize);
-	virtual ~JStringMap();
+	~JStringMap();
 
 	bool Contains(const JString& key) const;
 	bool GetElement(const JString& key, V* value) const;

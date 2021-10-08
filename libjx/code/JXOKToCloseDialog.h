@@ -21,7 +21,7 @@ public:
 
 	JXOKToCloseDialog(JXDirector* supervisor, const JString& message);
 
-	virtual ~JXOKToCloseDialog();
+	~JXOKToCloseDialog();
 
 protected:
 

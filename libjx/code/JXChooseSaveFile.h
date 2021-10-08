@@ -28,42 +28,42 @@ public:
 	JXChooseSaveFile(JPrefsManager* prefsMgr = nullptr,
 					 const JPrefID& id = JFAID::kInvalidID);
 
-	virtual ~JXChooseSaveFile();
+	~JXChooseSaveFile();
 
 	bool ChooseFile(const JString& prompt,
-								const JString& instructions,
-								JString* fullName) override;
+					const JString& instructions,
+					JString* fullName) override;
 	bool ChooseFile(const JString& prompt,
-								const JString& instructions,
-								const JString& origName,
-								JString* fullName) override;
+					const JString& instructions,
+					const JString& origName,
+					JString* fullName) override;
 	bool ChooseFiles(const JString& prompt,
-								 const JString& instructions,
-								 JPtrArray<JString>* fullNameList) override;
+					 const JString& instructions,
+					 JPtrArray<JString>* fullNameList) override;
 
 	bool ChooseFile(const JString& prompt,
-						const JString& instructions,
-						const JString& wildcardFilter,
-						const JString& origName,
-						JString* fullName);
+					const JString& instructions,
+					const JString& wildcardFilter,
+					const JString& origName,
+					JString* fullName);
 	bool ChooseFiles(const JString& prompt,
-						 const JString& instructions,
-						 const JString& wildcardFilter,
-						 JPtrArray<JString>* fullNameList);
+					 const JString& instructions,
+					 const JString& wildcardFilter,
+					 JPtrArray<JString>* fullNameList);
 
 	bool ChooseRPath(const JString& prompt,
-								 const JString& instructions,
-								 const JString& origPath,
-								 JString* newPath) override;
+					 const JString& instructions,
+					 const JString& origPath,
+					 JString* newPath) override;
 	bool ChooseRWPath(const JString& prompt,
-								  const JString& instructions,
-								  const JString& origPath,
-								  JString* newPath) override;
+					  const JString& instructions,
+					  const JString& origPath,
+					  JString* newPath) override;
 
 	bool SaveFile(const JString& prompt,
-							  const JString& instructions,
-							  const JString& originalName,
-							  JString* newFullName) override;
+				  const JString& instructions,
+				  const JString& originalName,
+				  JString* newFullName) override;
 
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;
@@ -90,7 +90,7 @@ protected:
 						 const JString& fileFilter, const JString& origName,
 						 const JString& prompt, const JString& message);
 
-	JDirInfo*		GetDirInfo();
+	JDirInfo*	GetDirInfo();
 
 	void	ReadPrefs(std::istream& input) override;
 	void	WritePrefs(std::ostream& output) const override;
@@ -108,21 +108,21 @@ private:
 	JXSaveFileDialog*	itsSaveFileDialog;
 	JXCSFDialogBase*	itsCurrentDialog;
 
-	bool			itsResponse;
+	bool				itsResponse;
 	JString*			itsResultStr;	// not owned; non-nullptr if any other dialog is open
 	JPtrArray<JString>*	itsResultList;	// not owned; non-nullptr if choose multiple file dialog is open
 
 private:
 
 	bool	ChooseFile(const JString& prompt,
-						   const JString& instructions,
-						   const JString& origName,
-						   const bool allowSelectMultiple);
+					   const JString& instructions,
+					   const JString& origName,
+					   const bool allowSelectMultiple);
 
 	bool	ChoosePath(const bool selectOnlyWritable,
-						   const JString& instructions,
-						   const JString& origPath,
-						   JString* newPath);
+					   const JString& instructions,
+					   const JString& origPath,
+					   JString* newPath);
 
 	void	WaitForResponse(JXCSFDialogBase* dlog);
 

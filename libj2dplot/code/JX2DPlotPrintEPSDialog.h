@@ -32,7 +32,7 @@ public:
 			   const bool printPreview, const bool bw,
 			   const JCoordinate w, const JCoordinate h, const Unit unit);
 
-	virtual ~JX2DPlotPrintEPSDialog();
+	~JX2DPlotPrintEPSDialog();
 
 	void	GetPlotSize(JCoordinate* w, JCoordinate* h, Unit* unit);
 
@@ -41,7 +41,7 @@ protected:
 	JX2DPlotPrintEPSDialog();
 
 	bool	OKToDeactivate() override;
-	void		Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

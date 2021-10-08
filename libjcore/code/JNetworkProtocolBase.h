@@ -21,15 +21,15 @@ public:
 
 	JNetworkProtocolBase(const bool synch);
 
-	virtual ~JNetworkProtocolBase();
+	~JNetworkProtocolBase();
 
 	bool	DataPending() const;
-	void		Flush();
+	void	Flush();
 
 	// whether data is sent synch or asynch
 
 	bool	WillSendSynch() const;
-	void		ShouldSendSynch(const bool synch = true);
+	void	ShouldSendSynch(const bool synch = true);
 
 	// ACE_Svc_Handler functions
 
@@ -67,7 +67,7 @@ public:
 
 private:
 
-	bool			itsSynchFlag;	// true => synch send
+	bool				itsSynchFlag;	// true => synch send
 	JLinkedList<Chunk>	itsSendData;	// data waiting to be sent
 
 private:

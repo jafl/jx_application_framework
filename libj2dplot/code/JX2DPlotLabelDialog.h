@@ -25,7 +25,7 @@ public:
 						const JString& font, const JSize size,
 						const J2DPlotWidget::LabelSelection selection);
 
-	virtual ~JX2DPlotLabelDialog();
+	~JX2DPlotLabelDialog();
 
 	void	GetLabels(JString* title, JString* xLabel, JString* yLabel) const;
 	JString	GetFontName() const;

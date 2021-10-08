@@ -27,13 +27,13 @@ public:
 				   const JIndex index = 0);
 	JArrayIterator(const JArrayIterator<T>& source);
 
-	virtual ~JArrayIterator();
+	~JArrayIterator();
 
 	bool	Prev(T* data, const JIteratorAction move = kJIteratorMove) override;
 	bool	Next(T* data, const JIteratorAction move = kJIteratorMove) override;
 
-	void		SkipPrev(const JSize count = 1) override;
-	void		SkipNext(const JSize count = 1) override;
+	void	SkipPrev(const JSize count = 1) override;
+	void	SkipNext(const JSize count = 1) override;
 
 	// only allowed if constructed from non-const JArray<T>*
 

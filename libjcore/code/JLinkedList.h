@@ -40,7 +40,7 @@ public:
 	JLinkedList();
 	JLinkedList(const JLinkedList<T>& source);
 
-	virtual ~JLinkedList();
+	~JLinkedList();
 
 	JLinkedList<T>& operator=(const JLinkedList<T>& source);
 

@@ -28,7 +28,7 @@ public:
 	JPrefsManager(const JString& fileName, const JFileVersion currentVersion,
 				  const bool eraseFileIfOpen);
 
-	virtual ~JPrefsManager();
+	~JPrefsManager();
 
 	JError	SaveToDisk() const;
 

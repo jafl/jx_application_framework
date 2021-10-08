@@ -30,12 +30,12 @@ public:
 			  const JCoordinate x, const JCoordinate y,
 			  const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXMenuBar();
+	~JXMenuBar();
 
 	JSize			GetMenuCount() const;
 	JXMenu*			GetMenu(const JIndex index);
 	const JXMenu*	GetMenu(const JIndex index) const;
-	bool		FindMenu(const JXMenu* menu, JIndex* index) const;
+	bool			FindMenu(const JXMenu* menu, JIndex* index) const;
 
 	JXTextMenu*	InsertTextMenu(const JIndex index, const JString& title);
 	JXTextMenu*	PrependTextMenu(const JString& title);
@@ -46,15 +46,15 @@ public:
 	JXTextMenu*	PrependTextMenu(JXImage* image, const bool menuOwnsImage);
 	JXTextMenu*	AppendTextMenu(JXImage* image, const bool menuOwnsImage);
 
-	void		DeleteMenu(const JIndex index);
+	void	DeleteMenu(const JIndex index);
 	bool	DeleteMenu(JXMenu* menu);
 
-	void		InsertMenu(const JIndex index, JXMenu* menu);
+	void	InsertMenu(const JIndex index, JXMenu* menu);
 	bool	InsertMenuBefore(JXMenu* existingMenu, JXMenu* newMenu);
 	bool	InsertMenuAfter(JXMenu* existingMenu, JXMenu* newMenu);
-	void		PrependMenu(JXMenu* menu);
-	void		AppendMenu(JXMenu* menu);
-	JXMenu*		RemoveMenu(const JIndex index);
+	void	PrependMenu(JXMenu* menu);
+	void	AppendMenu(JXMenu* menu);
+	JXMenu*	RemoveMenu(const JIndex index);
 	bool	RemoveMenu(JXMenu* menu);
 
 protected:

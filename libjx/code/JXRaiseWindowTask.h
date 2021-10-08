@@ -19,9 +19,9 @@ public:
 
 	JXRaiseWindowTask(JXWindow* window);
 
-	virtual ~JXRaiseWindowTask();
+	~JXRaiseWindowTask();
 
-	virtual void	Perform();
+	void	Perform() override;
 
 private:
 

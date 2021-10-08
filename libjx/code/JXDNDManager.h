@@ -31,7 +31,7 @@ public:
 
 	JXDNDManager(JXDisplay* display);
 
-	virtual ~JXDNDManager();
+	~JXDNDManager();
 
 	Atom			GetDNDSelectionName() const;
 	Atom			GetCurrentDNDVersion() const;
@@ -185,7 +185,7 @@ public:		// kAtomCount required at global scope
 private:
 
 	JXDisplay*			itsDisplay;					// not owned
-	bool			itsIsDraggingFlag;			// true until FinishDND() is called
+	bool				itsIsDraggingFlag;			// true until FinishDND() is called
 	JXWidget*			itsDragger;					// widget initiating drag; not owned
 	Window				itsDraggerWindow;			// window of itsDragger; not owned
 	JArray<Atom>*		itsDraggerTypeList;			// data types supported by itsDragger
@@ -195,20 +195,20 @@ private:
 
 	Atom			itsDNDVersion;			// version being used
 	Window			itsMouseWindow;			// window that mouse is in; not owned
-	bool		itsMouseWindowIsAware;	// true if itsMouseWindow has XdndAware
+	bool			itsMouseWindowIsAware;	// true if itsMouseWindow has XdndAware
 	JXContainer*	itsMouseContainer;		// widget that mouse is in; nullptr if inter-app; not owned
 	Window			itsMsgWindow;			// window that receives messages (not itsMouseWindow if proxy)
 
-	bool		itsWillAcceptDropFlag;	// true if target will accept drop
-	bool		itsWaitForStatusFlag;	// true if waiting for XdndStatus message
-	bool		itsSendHereMsgFlag;		// true if need another XdndPosition with itsPrevHandleDNDPt
-	bool		itsReceivedStatusFlag;	// true if received any XdndStatus from current target
-	bool		itsUseMouseRectFlag;	// true if use itsMouseRectR
-	JRect			itsMouseRectR;			// don't send another XdndPosition while inside here
+	bool	itsWillAcceptDropFlag;	// true if target will accept drop
+	bool	itsWaitForStatusFlag;	// true if waiting for XdndStatus message
+	bool	itsSendHereMsgFlag;		// true if need another XdndPosition with itsPrevHandleDNDPt
+	bool	itsReceivedStatusFlag;	// true if received any XdndStatus from current target
+	bool	itsUseMouseRectFlag;	// true if use itsMouseRectR
+	JRect	itsMouseRectR;			// don't send another XdndPosition while inside here
 
-	JPoint			itsPrevMousePt;			// last XdndPosition coordinates (local coords of target)
-	Atom			itsPrevHereAction;		// last XdndPosition action
-	Atom			itsPrevStatusAction;	// last XdndStatus action
+	JPoint	itsPrevMousePt;			// last XdndPosition coordinates (local coords of target)
+	Atom	itsPrevHereAction;		// last XdndPosition action
+	Atom	itsPrevStatusAction;	// last XdndStatus action
 
 	JPoint			itsPrevHandleDNDPt;		// last values sent to HandleDND()
 	Atom			itsPrevHandleDNDAction;
@@ -219,8 +219,8 @@ private:
 	Atom*							itsUserDropAction;		// nullptr unless waiting for GetDropActionDialog
 
 	bool	itsSentFakePasteFlag;		// true if times are valid
-	Time		itsFakeButtonPressTime;
-	Time		itsFakeButtonReleaseTime;
+	Time	itsFakeButtonPressTime;
+	Time	itsFakeButtonReleaseTime;
 
 	JCursorIndex	itsDefDNDCursor [ kDefDNDCursorCount ];
 
@@ -240,9 +240,9 @@ private:
 	void	SendDNDStatus(const bool willAcceptDrop, const Atom action);
 	void	SendDNDFinished();
 
-	void		AnnounceTypeList(const Window xWindow, const JArray<Atom>& list) const;
-	void		AnnounceAskActions(const JXButtonStates& buttonStates,
-								   const JXKeyModifiers& modifiers) const;
+	void	AnnounceTypeList(const Window xWindow, const JArray<Atom>& list) const;
+	void	AnnounceAskActions(const JXButtonStates& buttonStates,
+							   const JXKeyModifiers& modifiers) const;
 	bool	DraggerCanProvideText() const;
 
 	void	HandleDNDEnter(const XClientMessageEvent& clientMessage);
@@ -254,13 +254,13 @@ private:
 	void	HandleDNDStatus(const XClientMessageEvent& clientMessage);
 
 	bool	FindTarget(const JXContainer* coordOwner, const JPoint& pt,
-						   Window* xWindow, Window* msgWindow,
-						   JXContainer** target, Atom* vers) const;
+					   Window* xWindow, Window* msgWindow,
+					   JXContainer** target, Atom* vers) const;
 
 	void	InvokeDNDScroll(const XClientMessageEvent& clientMessage, const JPoint& pt);
 
 	void		FinishDND1();
-	bool	WaitForLastStatusMsg();
+	bool		WaitForLastStatusMsg();
 	static Bool	GetNextStatusEvent(Display* display, XEvent* event, char* arg);
 
 	long	PackPoint(const JPoint& pt) const;
@@ -275,7 +275,7 @@ private:
 public:
 
 	class TargetFinder
-		{
+	{
 		public:
 
 			TargetFinder(JXDisplay* display);
@@ -294,7 +294,7 @@ public:
 		private:
 
 			JXDisplay*	itsDisplay;		// not owned
-		};
+	};
 };
 
 

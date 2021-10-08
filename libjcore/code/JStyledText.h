@@ -25,8 +25,6 @@ class JSTUndoPaste;
 class JSTUndoTabShift;
 class JSTUndoMove;
 
-typedef std::function<bool(const JUtf8Character&)> JCharacterInWordFn;
-
 class JStyledText : virtual public JBroadcaster
 {
 	friend class JSTUndoTextBase;
@@ -191,7 +189,7 @@ public:
 		CRMRuleList();
 		CRMRuleList(const CRMRuleList& source);
 
-		virtual	~CRMRuleList();
+		~CRMRuleList();
 
 		JInterpolate*
 		GetInterpolator()
@@ -211,7 +209,7 @@ public:
 	JStyledText(const bool useMultipleUndo, const bool pasteStyledText);
 	JStyledText(const JStyledText& source);
 
-	virtual ~JStyledText();
+	~JStyledText();
 
 	bool			IsEmpty() const;
 	bool			EndsWithNewline() const;
@@ -378,8 +376,7 @@ public:
 						   const bool teOwnsRuleList);
 	void	ClearCRMRuleList();
 
-	JCharacterInWordFn	GetCharacterInWordFunction() const;
-	void				SetCharacterInWordFunction(JCharacterInWordFn f);
+	void	SetCharacterInWordFunction(const std::function<bool(const JUtf8Character&)> f);
 
 	TextRange	SelectAll() const;
 	TextRange	CharToTextRange(const TextIndex* lineStart, const JCharacterRange& charRange) const;
@@ -458,7 +455,7 @@ private:
 	UndoState				itsUndoState;
 	JSize					itsMaxUndoCount;		// maximum length of itsUndoList
 
-	JCharacterInWordFn	itsCharInWordFn;
+	std::function<bool(const JUtf8Character&)>*	itsCharInWordFn;	// null => default
 
 	JSize	itsCRMLineWidth;
 	JSize	itsCRMTabCharCount;
@@ -973,19 +970,7 @@ JStyledText::GetBeyondEnd()
 }
 
 /******************************************************************************
- GetCharacterInWordFunction
-
- ******************************************************************************/
-
-inline JCharacterInWordFn
-JStyledText::GetCharacterInWordFunction()
-	const
-{
-	return itsCharInWordFn;
-}
-
-/******************************************************************************
- GetCharacterInWordFunction
+ SetBlockSizes
 
  ******************************************************************************/
 

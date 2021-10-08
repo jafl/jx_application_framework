@@ -22,13 +22,13 @@ public:
 
 	JXPGDirectorBase(JXDirector* supervisor);
 
-	virtual ~JXPGDirectorBase();
+	~JXPGDirectorBase();
 
 	void	ProcessContinuing(const JString& value);
 	void	ProcessFinished();
 
-	virtual void		Activate();
-	virtual bool	Close();
+	void	Activate() override;
+	bool	Close() override;
 
 protected:
 
@@ -37,7 +37,7 @@ protected:
 
 private:
 
-	bool	itsExpectsCloseFlag;
+	bool		itsExpectsCloseFlag;
 	JXButton*	itsCancelButton;
 };
 

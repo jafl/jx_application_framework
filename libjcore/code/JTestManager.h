@@ -15,7 +15,7 @@
 class JTestManager;
 class JError;
 
-typedef void	(*JUnitTest)();
+using JUnitTest = void (*)();
 
 #define MAX_TEST_COUNT 1000
 

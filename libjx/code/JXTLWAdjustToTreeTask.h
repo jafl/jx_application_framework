@@ -20,9 +20,9 @@ public:
 
 	JXTLWAdjustToTreeTask(JXTreeListWidget* widget);
 
-	virtual ~JXTLWAdjustToTreeTask();
+	~JXTLWAdjustToTreeTask();
 
-	virtual void	Perform();
+	void	Perform() override;
 
 private:
 

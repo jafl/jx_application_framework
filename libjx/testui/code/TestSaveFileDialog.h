@@ -24,7 +24,7 @@ public:
 			   const JString& origName, const JString& prompt,
 			   const JString& message = JString::empty);
 
-	virtual ~TestSaveFileDialog();
+	~TestSaveFileDialog();
 
 	TestChooseSaveFile::SaveFormat	GetSaveFormat() const;
 

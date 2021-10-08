@@ -49,7 +49,7 @@ public:
 	JRunArray(const JRunArray<T>& source);
 	JRunArray(const JRunArray<T>& source, const JIndexRange& range);
 
-	virtual ~JRunArray();
+	~JRunArray();
 
 	JRunArray<T>& operator=(const JRunArray<T>& source);
 

@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <jAssert.h>
 
-typedef Pipe<ACE_LSOCK_STREAM>	ProcessLink;
+using ProcessLink = Pipe<ACE_LSOCK_STREAM>;
 
 // Prototypes
 

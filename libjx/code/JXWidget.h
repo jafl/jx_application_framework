@@ -43,14 +43,14 @@ public:
 
 public:
 
-	virtual ~JXWidget();
+	~JXWidget();
 
 	void	Deactivate() override;
 
 	void	Refresh() const override;
-	void			RefreshRect(const JRect& rect) const;
+	void	RefreshRect(const JRect& rect) const;
 	void	Redraw() const override;
-	void			RedrawRect(const JRect& rect) const;
+	void	RedrawRect(const JRect& rect) const;
 
 	bool			Focus();
 	bool			Unfocus();
@@ -70,10 +70,10 @@ public:
 	JPoint	GlobalToLocal(const JCoordinate x, const JCoordinate y) const override;
 	JPoint	LocalToGlobal(const JCoordinate x, const JCoordinate y) const override;
 
-	void	Place(const JCoordinate enclX, const JCoordinate enclY) override;
-	void	Move(const JCoordinate dx, const JCoordinate dy) override;
-	void	SetSize(const JCoordinate w, const JCoordinate h) override;
-	void	AdjustSize(const JCoordinate dw, const JCoordinate dh) override;
+	void			Place(const JCoordinate enclX, const JCoordinate enclY) override;
+	void			Move(const JCoordinate dx, const JCoordinate dy) override;
+	void			SetSize(const JCoordinate w, const JCoordinate h) override;
+	void			AdjustSize(const JCoordinate dw, const JCoordinate dh) override;
 	HSizingOption	GetHSizing() const;
 	VSizingOption	GetVSizing() const;
 	void			SetSizing(const HSizingOption hSizing, const VSizingOption vSizing);
@@ -90,8 +90,8 @@ public:
 	JRect	GetBoundsGlobal() const override;
 	JRect	GetFrameGlobal() const override;
 	JRect	GetApertureGlobal() const override;
-	JSize			GetBorderWidth() const;
-	void			SetBorderWidth(const JSize width);
+	JSize	GetBorderWidth() const;
+	void	SetBorderWidth(const JSize width);
 
 	// background color
 

@@ -28,7 +28,7 @@ public:
 
 	JXStyleMenu(JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual ~JXStyleMenu();
+	~JXStyleMenu();
 
 protected:
 

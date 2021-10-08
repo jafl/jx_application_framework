@@ -22,7 +22,7 @@ public:
 
 	JXMenuDirector(JXDirector* supervisor, JXMenu* menu);
 
-	virtual ~JXMenuDirector();
+	~JXMenuDirector();
 
 	JXMenuTable*	GetMenuTable() const;
 

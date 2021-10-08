@@ -24,7 +24,7 @@ public:
 
 	JXMenuData();
 
-	virtual ~JXMenuData();
+	~JXMenuData();
 
 	bool	HasCheckboxes() const;
 	bool	HasSubmenus() const;

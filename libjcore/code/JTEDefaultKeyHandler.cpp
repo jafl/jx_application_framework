@@ -13,10 +13,10 @@
 #include "jx-af/jcore/jASCIIConstants.h"
 #include "jx-af/jcore/jAssert.h"
 
-typedef JStyledText::TextIndex TextIndex;
-typedef JStyledText::TextCount TextCount;
-typedef JStyledText::TextRange TextRange;
-typedef JTextEditor::CaretLocation CaretLocation;
+using TextIndex     = JStyledText::TextIndex;
+using TextCount     = JStyledText::TextCount;
+using TextRange     = JStyledText::TextRange;
+using CaretLocation = JTextEditor::CaretLocation;
 
 /******************************************************************************
  Constructor

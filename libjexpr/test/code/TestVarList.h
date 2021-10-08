@@ -13,7 +13,7 @@
 
 class JString;
 
-typedef JArray<JFloat>	TVLNArray;
+using TVLNArray = JArray<JFloat>;
 
 class TestVarList : public JVariableList
 {
@@ -22,29 +22,29 @@ public:
 	TestVarList();
 	TestVarList(std::istream& input);
 
-	virtual ~TestVarList();
+	~TestVarList();
 
 // implementation of JVariableList
 
 	const JString&	GetVariableName(const JIndex index) const override;
 	void			GetVariableName(const JIndex index, JString* name,
-											JString* subscript) const override;
+									JString* subscript) const override;
 
 	bool	IsArray(const JIndex index) const override;
 	bool	ArrayIndexValid(const JIndex variableIndex,
-										const JIndex elementIndex) const override;
+							const JIndex elementIndex) const override;
 
 	bool	GetNumericValue(const JIndex variableIndex,
-										const JIndex elementIndex, JFloat* value) const override;
+							const JIndex elementIndex, JFloat* value) const override;
 	bool	GetNumericValue(const JIndex variableIndex,
-										const JIndex elementIndex, JComplex* value) const override;
+							const JIndex elementIndex, JComplex* value) const override;
 
 	void	SetNumericValue(const JIndex variableIndex,
-									const JIndex elementIndex,
-									const JFloat value) override;
+							const JIndex elementIndex,
+							const JFloat value) override;
 	void	SetNumericValue(const JIndex variableIndex,
-									const JIndex elementIndex,
-									const JComplex& value) override;
+							const JIndex elementIndex,
+							const JComplex& value) override;
 
 private:
 

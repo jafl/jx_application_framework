@@ -36,17 +36,17 @@ public:
 	JXFSDirMenu(const JPtrArray<JString>& fileNameList,
 				JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual	~JXFSDirMenu();
+	~JXFSDirMenu();
 
 	bool	GetDirInfo(JDirInfo** info);
-	void		SetFileList(const JPtrArray<JString>& fullNameList);
+	void	SetFileList(const JPtrArray<JString>& fullNameList);
 
 	bool	WillShowPath() const;
-	void		ShouldShowPath(const bool show);
+	void	ShouldShowPath(const bool show);
 	bool	WillDereferenceLinks() const;
-	void		ShouldDereferenceLinks(const bool dereference);
+	void	ShouldDereferenceLinks(const bool dereference);
 	bool	WillDeleteBrokenLinks() const;
-	void		ShouldDeleteBrokenLinks(const bool deleteBroken);
+	void	ShouldDeleteBrokenLinks(const bool deleteBroken);
 
 	void	SetFileIcon(const JXImage& image);
 	void	SetFileIcon(const JXPM& data);
@@ -64,7 +64,7 @@ protected:
 	void	ClearMenu();
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
-	void			BroadcastIfTopLevel(const JString& filename);
+	void	BroadcastIfTopLevel(const JString& filename);
 
 private:
 
@@ -73,14 +73,14 @@ private:
 	JPtrArray<JDirEntry>*	itsEntries;		// can be nullptr
 	JXFSDirMenu*			itsParent;		// can be nullptr; owns us
 	JString					itsEmptyMsg;
-	bool				itsShowPathFlag;
-	bool				itsDereferenceLinksFlag;
-	bool				itsDeleteBrokenLinksFlag;
+	bool					itsShowPathFlag;
+	bool					itsDereferenceLinksFlag;
+	bool					itsDeleteBrokenLinksFlag;
 
-	bool	itsOwnsFileIcon;
+	bool		itsOwnsFileIcon;
 	JXImage*	itsFileIcon;
 	JXImage*	itsFolderIcon;		// not owned
-	bool	itsOwnsExecIcon;
+	bool		itsOwnsExecIcon;
 	JXImage*	itsExecIcon;
 	JXImage*	itsUnknownIcon;		// not owned
 

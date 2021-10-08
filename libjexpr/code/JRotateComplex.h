@@ -19,7 +19,7 @@ public:
 	JRotateComplex(JFunction* arg1, JFunction* arg2);
 	JRotateComplex(const JRotateComplex& source);
 
-	virtual ~JRotateComplex();
+	~JRotateComplex();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

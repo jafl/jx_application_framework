@@ -24,7 +24,7 @@ public:
 						  const JCoordinate x, const JCoordinate y,
 						  const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXNamedTreeListWidget();
+	~JXNamedTreeListWidget();
 
 	JNamedTreeList*			GetNamedTreeList();
 	const JNamedTreeList*	GetNamedTreeList() const;
@@ -33,11 +33,11 @@ public:
 	const JNamedTreeNode*	GetNamedTreeNode(const JIndex index) const;
 
 	bool	WillHilightTextOnly() const;
-	void		ShouldHilightTextOnly(const bool textOnly);
+	void	ShouldHilightTextOnly(const bool textOnly);
 
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
-								   const JXKeyModifiers& modifiers) override;
-	void			ClearIncrementalSearchBuffer();
+						   const JXKeyModifiers& modifiers) override;
+	void	ClearIncrementalSearchBuffer();
 
 protected:
 
@@ -53,13 +53,13 @@ protected:
 
 protected:
 
-	bool			GetNode(const JPoint& pt, JPoint* cell, NodePart* part) const;
+	bool	GetNode(const JPoint& pt, JPoint* cell, NodePart* part) const;
 	bool	HitSamePart(const JPoint& pt1, const JPoint& pt2) const override;
 
 	void	AdjustToTree() override;
 	JSize	GetMinCellWidth(const JPoint& cell) const override;
 
-	void	TLWDrawNode(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	void			TLWDrawNode(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual bool	GetImage(const JIndex index, const JXImage** image) const;
 	JSize			GetImageWidth(const JIndex index) const;
 	bool			GetImageRect(const JIndex index, JRect* rect) const;
@@ -75,7 +75,7 @@ protected:
 	void			PrepareDeleteXInputField() override;
 	void			PlaceInputField(const JCoordinate x, const JCoordinate y) override;
 	void			SetInputFieldSize(const JCoordinate w, const JCoordinate h) override;
-	JCoordinate				GetInputFieldIndent(const JIndex index) const;
+	JCoordinate		GetInputFieldIndent(const JIndex index) const;
 
 	virtual JXInputField*
 		CreateTreeListInput(const JPoint& cell, JXContainer* enclosure,

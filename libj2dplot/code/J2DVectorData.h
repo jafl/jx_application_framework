@@ -23,19 +23,19 @@ public:
 							const bool listen);
 
 	static bool	OKToCreate( const JArray<JFloat>& x,  const JArray<JFloat>& y,
-								const JArray<JFloat>& vx, const JArray<JFloat>& vy);
+							const JArray<JFloat>& vx, const JArray<JFloat>& vy);
 
 	J2DVectorData();
 
-	virtual ~J2DVectorData();
+	~J2DVectorData();
 
 	void	GetElement(const JIndex index, J2DDataPoint* data) const override;
 	void	GetElement(const JIndex index, J2DVectorPoint* data) const override;
 
 	void	GetXRange(JFloat* min, JFloat* max) const override;
 	bool	GetYRange(const JFloat xMin, const JFloat xMax,
-							  const bool xLinear,
-							  JFloat* yMin, JFloat* yMax) const override;
+					  const bool xLinear,
+					  JFloat* yMin, JFloat* yMax) const override;
 
 	void	AddElement(const JFloat x,  const JFloat y,
 					   const JFloat vx, const JFloat vy);

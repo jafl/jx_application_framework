@@ -29,8 +29,6 @@ public:
 
 	JError(const JError& source);
 
-	virtual	~JError();
-
 	JError& operator=(const JError& source);
 
 	const JString&	GetMessage() const;

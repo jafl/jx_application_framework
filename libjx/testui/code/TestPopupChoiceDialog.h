@@ -18,7 +18,7 @@ public:
 
 	TestPopupChoiceDialog(JXWindowDirector* supervisor);
 
-	virtual ~TestPopupChoiceDialog();
+	~TestPopupChoiceDialog();
 
 private:
 

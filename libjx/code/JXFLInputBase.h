@@ -25,13 +25,13 @@ public:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXFLInputBase();
+	~JXFLInputBase();
 
 	virtual JString	GetRegexString() const = 0;
 	JError			Apply() const;
 
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
-								   const JXKeyModifiers& modifiers) override;
+						   const JXKeyModifiers& modifiers) override;
 
 protected:
 

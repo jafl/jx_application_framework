@@ -25,7 +25,7 @@ public:
 
 	JXDisplayMenu(JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual ~JXDisplayMenu();
+	~JXDisplayMenu();
 
 	void		SelectCurrentDisplay() const;
 	JXDisplay*	GetSelectedDisplay() const;

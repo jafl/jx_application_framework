@@ -31,7 +31,7 @@ public:
 
 	JXPTPrinter();
 
-	virtual ~JXPTPrinter();
+	~JXPTPrinter();
 
 	void	Print(const JString& text) override;
 

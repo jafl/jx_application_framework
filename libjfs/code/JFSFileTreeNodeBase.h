@@ -19,7 +19,7 @@ public:
 
 	JFSFileTreeNodeBase(const bool isOpenable);
 
-	virtual ~JFSFileTreeNodeBase();
+	~JFSFileTreeNodeBase();
 
 	virtual bool	Update(const bool force = false,
 						   JFSFileTreeNodeBase** updateNode = nullptr);

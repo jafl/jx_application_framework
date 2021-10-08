@@ -21,17 +21,17 @@ class J2DPlotFunctionBase : public J2DPlotDataBase
 public:
 
 	J2DPlotFunctionBase(const Type type, J2DPlotWidget* plot,
-					  const JFloat xMin, const JFloat xMax);
+						const JFloat xMin, const JFloat xMax);
 
-	virtual ~J2DPlotFunctionBase();
+	~J2DPlotFunctionBase();
 
 	bool	IsFunction() const override;
 	void	GetElement(const JIndex index, J2DDataPoint* data) const override;
 
 	void	GetXRange(JFloat* min, JFloat* max) const override;
 	bool	GetYRange(const JFloat xMin, const JFloat xMax,
-							  const bool xLinear,
-							  JFloat* yMin, JFloat* yMax) const override;
+					  const bool xLinear,
+					  JFloat* yMin, JFloat* yMax) const override;
 
 	virtual JString	GetFunctionString() const = 0;
 	virtual bool	GetYValue(const JFloat x, JFloat* y) const = 0;

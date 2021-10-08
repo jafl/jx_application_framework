@@ -19,9 +19,9 @@ public:
 	JBinaryOperator(const JUtf8Byte* name, JFunction* arg1, JFunction* arg2);
 	JBinaryOperator(const JBinaryOperator& source);
 
-	virtual ~JBinaryOperator();
+	~JBinaryOperator();
 
-	virtual void	Print(std::ostream& output) const;
+	void	Print(std::ostream& output) const override;
 
 protected:
 

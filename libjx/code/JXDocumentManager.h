@@ -44,42 +44,42 @@ public:
 
 	JXDocumentManager(const bool wantShortcuts = true);
 
-	virtual ~JXDocumentManager();
+	~JXDocumentManager();
 
 	bool	WillSafetySave() const;
-	void		ShouldSafetySave(const bool doIt);
+	void	ShouldSafetySave(const bool doIt);
 
-	JSize		GetSafetySaveInterval() const;
-	void		SetSafetySaveInterval(const JSize deltaSeconds);
+	JSize	GetSafetySaveInterval() const;
+	void	SetSafetySaveInterval(const JSize deltaSeconds);
 
-	void		SafetySave(const SafetySaveReason reason);
+	void	SafetySave(const SafetySaveReason reason);
 
-	void		CloseDocuments();
+	void	CloseDocuments();
 
 	// for use by classes derived from JXDocument
 
-	JString		GetNewFileName();
-	void		DocumentMustStayOpen(JXDocument* doc, const bool stayOpen);
+	JString	GetNewFileName();
+	void	DocumentMustStayOpen(JXDocument* doc, const bool stayOpen);
 	bool	FileDocumentIsOpen(const JString& fileName,
-										   JXFileDocument** doc) const;
+							   JXFileDocument** doc) const;
 
 	virtual bool	FindFile(const JString& fileName,
-								 const JString& currPath,
-								 JString* newFileName,
-								 const bool askUser = true) const;
+							 const JString& currPath,
+							 JString* newFileName,
+							 const bool askUser = true) const;
 
 	// for use by JXDocument
 
 	virtual void	DocumentCreated(JXDocument* doc);	// must call inherited
 	virtual void	DocumentDeleted(JXDocument* doc);	// must call inherited
-	bool		OKToCloseDocument(JXDocument* doc) const;
+	bool			OKToCloseDocument(JXDocument* doc) const;
 
 	const JXImage*	GetDefaultMenuIcon() const;
 
 	// for use by JXDocumentMenu
 
-	void		UpdateDocumentMenu(JXDocumentMenu* menu);
-	void		ActivateDocument(const JIndex index);
+	void	UpdateDocumentMenu(JXDocumentMenu* menu);
+	void	ActivateDocument(const JIndex index);
 	bool	GetDocument(const JIndex index, JXDocument** doc) const;
 
 protected:

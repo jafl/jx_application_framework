@@ -78,7 +78,7 @@ public:
 
 protected:
 
-	virtual pos_type seekoff
+	pos_type seekoff
 		(
 		off_type				off,
 		std::ios_base::seekdir	dir,
@@ -102,7 +102,7 @@ protected:
 		return gptr() - eback();
 	}
 
-	virtual pos_type seekpos
+	pos_type seekpos
 		(
 		pos_type				sp,
 		std::ios_base::openmode	which

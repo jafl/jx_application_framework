@@ -27,7 +27,7 @@ public:
 	static JXFSBindingManager*	Instance();
 	static void					Destroy();
 
-	virtual	~JXFSBindingManager();
+	~JXFSBindingManager();
 
 	static void		Exec(const JString& path);
 	static void		Exec(const JString& fullProgramName,
@@ -54,7 +54,7 @@ private:
 
 	JXFSRunFileDialog*		itsRunFileDialog;		// nullptr unless processing files
 	JPtrArray<JFSBinding>*	itsFileList;			// nullptr unless waiting for itsRunFileDialog
-	bool				itsIgnoreBindingsFlag;	// true => ask for every file
+	bool					itsIgnoreBindingsFlag;	// true => ask for every file
 	JIndex					itsRunFileIndex;		// index in itsFileList of itsRunFileDialog
 
 	JXFSRunScriptDialog*	itsRunScriptDialog;		// nullptr unless processing script

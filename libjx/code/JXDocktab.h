@@ -30,7 +30,7 @@ public:
 			  const JCoordinate x, const JCoordinate y,
 			  const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXDocktab();
+	~JXDocktab();
 
 protected:
 
@@ -38,13 +38,13 @@ protected:
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
 	Atom	GetDNDAction(const JXContainer* target,
-								 const JXButtonStates& buttonStates,
-								 const JXKeyModifiers& modifiers) override;
+						 const JXButtonStates& buttonStates,
+						 const JXKeyModifiers& modifiers) override;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -56,12 +56,12 @@ private:
 
 			DockFinder(JXDisplay* display);
 
-			virtual	~DockFinder();
+			~DockFinder();
 
-			virtual bool	FindTarget(const JXContainer* coordOwner,
-										   const JPoint& pt,
-										   Window* xWindow, Window* msgWindow,
-										   JXContainer** target, Atom* vers);
+			bool	FindTarget(const JXContainer* coordOwner,
+							   const JPoint& pt,
+							   Window* xWindow, Window* msgWindow,
+							   JXContainer** target, Atom* vers) override;
 		};
 
 private:

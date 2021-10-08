@@ -33,9 +33,9 @@ class JXCSFDialogBase : public JXDialogDirector
 {
 public:
 
-	virtual ~JXCSFDialogBase();
+	~JXCSFDialogBase();
 
-	void		Activate() override;
+	void	Activate() override;
 	bool	Deactivate() override;
 
 	const JString&	GetPath() const;
@@ -74,7 +74,7 @@ protected:
 	JXNewDirButton*	GetNewDirButton() const;
 
 	bool	GoToItsPath();
-	void		AdjustFilter();
+	void	AdjustFilter();
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -83,7 +83,7 @@ private:
 	JDirInfo*	itsDirInfo;			// we don't own this
 	JString		itsPrevPath;
 	JString		itsPrevFilterString;
-	bool	itsDeactCancelFlag;
+	bool		itsDeactCancelFlag;
 
 	JXDirTable*				itsFileBrowser;
 	JXPathHistoryMenu*		itsPathHistory;

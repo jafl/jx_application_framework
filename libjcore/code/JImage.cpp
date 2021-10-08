@@ -249,7 +249,7 @@ JImage::ReadJPEG
 static int jQuality = -1;
 static void imageJpeg(gdImagePtr im, FILE *out);
 
-void
+static void
 imageJpeg
 	(
 	gdImagePtr	im,

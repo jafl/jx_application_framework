@@ -22,7 +22,7 @@ public:
 
 	JXSharedPrefsManager();
 
-	virtual ~JXSharedPrefsManager();
+	~JXSharedPrefsManager();
 
 	bool	WasNew() const;
 

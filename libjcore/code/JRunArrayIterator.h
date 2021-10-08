@@ -29,30 +29,30 @@ public:
 					  const JIndex index = 0);
 	JRunArrayIterator(const JRunArrayIterator<T>& source);
 
-	virtual ~JRunArrayIterator();
+	~JRunArrayIterator();
 
 	bool	Prev(T* item, const JIteratorAction move = kJIteratorMove) override;
 	bool	Next(T* item, const JIteratorAction move = kJIteratorMove) override;
 
-	void		SkipPrev(const JSize count = 1) override;
-	void		SkipNext(const JSize count = 1) override;
+	void	SkipPrev(const JSize count = 1) override;
+	void	SkipNext(const JSize count = 1) override;
 
-	void		MoveTo(const JIteratorPosition newPosition, const JIndex index) override;
+	void	MoveTo(const JIteratorPosition newPosition, const JIndex index) override;
 
 	// only allowed if constructed from non-const JList<T>*
 
 	bool	SetPrev(const T& data, const JIteratorAction move = kJIteratorMove) override;
 	bool	SetNext(const T& data, const JIteratorAction move = kJIteratorMove) override;
 
-	bool			SetPrev(const T& data, const JSize count, const JIteratorAction move = kJIteratorMove);
-	bool			SetNext(const T& data, const JSize count, const JIteratorAction move = kJIteratorMove);
+	bool	SetPrev(const T& data, const JSize count, const JIteratorAction move = kJIteratorMove);
+	bool	SetNext(const T& data, const JSize count, const JIteratorAction move = kJIteratorMove);
 
 	bool	RemovePrev(const JSize count = 1) override;
 	bool	RemoveNext(const JSize count = 1) override;
 
 	bool	Insert(const T& data) override;
-	bool			Insert(const T& data, const JSize count);
-	bool			InsertSlice(const JRunArray<T>& source, const JIndexRange& range);
+	bool	Insert(const T& data, const JSize count);
+	bool	InsertSlice(const JRunArray<T>& source, const JIndexRange& range);
 
 	bool	AtFirstRun() const;
 	bool	AtLastRun() const;
@@ -60,11 +60,11 @@ public:
 	bool	PrevRun();
 	bool	NextRun();
 
-	JIndex		GetRunStart() const;
-	JIndex		GetRunEnd() const;
-	JSize		GetRunLength() const;
-	JSize		GetRemainingInRun() const;
-	T			GetRunData() const;
+	JIndex	GetRunStart() const;
+	JIndex	GetRunEnd() const;
+	JSize	GetRunLength() const;
+	JSize	GetRemainingInRun() const;
+	T		GetRunData() const;
 
 protected:
 
@@ -75,7 +75,7 @@ private:
 	JRunArray<T>*	itsRunArray;
 	JIndex			itsRunIndex;
 	JIndex			itsOffsetInRun;
-	bool		itsIgnoreListChangedFlag;
+	bool			itsIgnoreListChangedFlag;
 
 private:
 

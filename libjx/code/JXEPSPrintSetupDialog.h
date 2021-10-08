@@ -26,7 +26,7 @@ public:
 		Create(const JString& fileName,
 			   const bool printPreview, const bool bw);
 
-	virtual ~JXEPSPrintSetupDialog();
+	~JXEPSPrintSetupDialog();
 
 	bool	SetParameters(JXEPSPrinter* p) const;
 
@@ -43,7 +43,7 @@ protected:
 					   JXTextCheckbox* bwCheckbox, const bool bw);
 
 	bool	OKToDeactivate() override;
-	void		Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

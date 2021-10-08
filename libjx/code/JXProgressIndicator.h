@@ -21,7 +21,7 @@ public:
 						const JCoordinate x, const JCoordinate y,
 						const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXProgressIndicator();
+	~JXProgressIndicator();
 
 	JSize	GetValue() const;
 	void	SetValue(const JSize value);

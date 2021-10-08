@@ -21,7 +21,7 @@ public:
 				   const JRect& defaultClipRect,
 				   const Region defaultClipRegion);
 
-	virtual ~JXImagePainter();
+	~JXImagePainter();
 
 	void	StringNoSubstitutions(
 						const JCoordinate left, const JCoordinate top,

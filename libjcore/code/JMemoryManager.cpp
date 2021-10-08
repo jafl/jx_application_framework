@@ -175,7 +175,7 @@
 #include "jx-af/jcore/jAssert.h"
 #include "jx-af/jcore/jNew.h"
 
-typedef ACE_Connector<JMemoryManager::DebugLink, ACE_LSOCK_CONNECTOR>	DebugLinkConnector;
+using DebugLinkConnector = ACE_Connector<JMemoryManager::DebugLink, ACE_LSOCK_CONNECTOR>;
 
 static const JUtf8Byte* kDisconnectStr = "JMemoryManager::DebugLinkDisconnect";
 const JSize kDisconnectStrLength       = strlen(kDisconnectStr);

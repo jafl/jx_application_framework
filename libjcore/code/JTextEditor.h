@@ -105,7 +105,7 @@ public:
 
 	JTextEditor(const JTextEditor& source, JStyledText* text);
 
-	virtual ~JTextEditor();
+	~JTextEditor();
 
 	Type	GetType() const;
 	bool	IsReadOnly() const;

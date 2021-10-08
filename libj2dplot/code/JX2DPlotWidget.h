@@ -37,7 +37,7 @@ public:
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	virtual ~JX2DPlotWidget();
+	~JX2DPlotWidget();
 
 	JXTextMenu*		GetCursorMenu() const;
 	JXTextMenu*		GetOptionsMenu() const;
@@ -61,7 +61,7 @@ public:
 	void			PrintMarksEPS();
 
 	void		HandleKeyPress(const JUtf8Character& c, const int keySym,
-									   const JXKeyModifiers& modifiers) override;
+							   const JXKeyModifiers& modifiers) override;
 
 	void	PWXReadSetup(std::istream& input);
 	void	PWXWriteSetup(std::ostream& output) const;

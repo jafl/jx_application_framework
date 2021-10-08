@@ -20,7 +20,7 @@ public:
 				  const bool hasSeparator, const bool checked,
 				  JTree* tree, JNamedTreeNode* parent, const JString& name);
 
-	virtual ~JXToolBarNode();
+	~JXToolBarNode();
 
 	JXTextMenu*	GetMenu() const;
 	JIndex		GetIndex() const;

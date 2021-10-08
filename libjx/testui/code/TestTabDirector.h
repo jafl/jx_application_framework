@@ -24,7 +24,7 @@ public:
 
 	TestTabDirector(JXDirector* supervisor);
 
-	virtual ~TestTabDirector();
+	~TestTabDirector();
 
 protected:
 

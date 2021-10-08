@@ -476,7 +476,7 @@ JCanEnterDirectory
 
  ******************************************************************************/
 
-static JError JMkDir(const JString& dirName, const mode_t mode);
+static JError jMkDir(const JString& dirName, const mode_t mode);
 
 JError
 JCreateDirectory
@@ -516,7 +516,7 @@ JCreateDirectory
 		dir.Set(path, JCharacterRange(1, i));
 		if (!JDirectoryExists(dir))
 		{
-			const JError err = JMkDir(dir, mode);
+			const JError err = jMkDir(dir, mode);
 			if (!err.OK())
 			{
 				return err;
@@ -529,8 +529,8 @@ JCreateDirectory
 
 // private
 
-JError
-JMkDir
+static JError
+jMkDir
 	(
 	const JString&	dirName,
 	const mode_t	mode

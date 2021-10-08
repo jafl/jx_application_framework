@@ -18,9 +18,9 @@ public:
 
 	JXCreatePG();
 
-	virtual ~JXCreatePG();
+	~JXCreatePG();
 
-	virtual JProgressDisplay* New();
+	JProgressDisplay* New() override;
 };
 
 #endif

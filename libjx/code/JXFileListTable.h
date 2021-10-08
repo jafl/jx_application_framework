@@ -28,7 +28,7 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXFileListTable();
+	~JXFileListTable();
 
 	bool	AddFile(const JString& fullName, JIndex* fullNameIndex = nullptr);
 	void	RemoveFile(const JString& fullName);
@@ -159,20 +159,11 @@ private:
 	void	HandleEditMenu(const JIndex index);
 	void	CopySelectedFileNames() const;
 
-	class PrefixMatch : public JElementComparison<VisInfo>
-	{
-	public:
+	void	InstallCompareWrapper(const JString& prefix) const;
 
-		PrefixMatch(const JString& prefix, const JPtrArray<JString>& fileList);
-		virtual ~PrefixMatch();
-		virtual JListT::CompareResult			Compare(const VisInfo&, const VisInfo&) const;
-		virtual JElementComparison<VisInfo>*	Copy() const;
-
-	private:
-
-		const JString&				itsPrefix;
-		const JPtrArray<JString>&	itsFileList;
-	};
+	static JListT::CompareResult
+		CompareWrapper(const JPtrArray<JString>& fileList, const JString& prefix,
+					   const VisInfo& i1, const VisInfo& i2);
 
 public:
 

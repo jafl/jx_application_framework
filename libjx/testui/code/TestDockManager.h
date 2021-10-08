@@ -16,10 +16,10 @@ public:
 
 	TestDockManager(JXDisplay* display);
 
-	virtual ~TestDockManager();
+	~TestDockManager();
 
-	virtual	bool	CanDockAll() const;
-	virtual void	DockAll();
+	bool	CanDockAll() const override;
+	void	DockAll() override;
 };
 
 #endif

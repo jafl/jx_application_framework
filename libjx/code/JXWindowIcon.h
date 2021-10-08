@@ -24,7 +24,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXWindowIcon();
+	~JXWindowIcon();
 
 	void	SetIcons(JXImage* normalImage, JXImage* dropImage);
 
@@ -35,13 +35,13 @@ protected:
 	void	HandleMouseEnter() override;
 
 	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const JPoint& pt, const Time time,
-									   const JXWidget* source) override;
-	void		HandleDNDEnter() override;
-	void		HandleDNDLeave() override;
-	void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
-									  const Atom action, const Time time,
-									  const JXWidget* source) override;
+						   const JPoint& pt, const Time time,
+						   const JXWidget* source) override;
+	void	HandleDNDEnter() override;
+	void	HandleDNDLeave() override;
+	void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+						  const Atom action, const Time time,
+						  const JXWidget* source) override;
 
 private:
 

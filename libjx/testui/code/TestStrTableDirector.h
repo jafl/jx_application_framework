@@ -26,7 +26,7 @@ public:
 
 	TestStrTableDirector(JXDirector* supervisor);
 
-	virtual ~TestStrTableDirector();
+	~TestStrTableDirector();
 
 protected:
 

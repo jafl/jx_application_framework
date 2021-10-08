@@ -19,26 +19,25 @@ public:
 
 	JTextProgressDisplay();
 
-	virtual ~JTextProgressDisplay();
+	~JTextProgressDisplay();
 
-	virtual bool	IncrementProgress(const JString& message = JString::empty);
-	virtual bool	IncrementProgress(const JSize delta);
-	virtual bool	IncrementProgress(const JString& message,
-										  const JSize delta);
-	virtual void		ProcessFinished();
-	virtual void		DisplayBusyCursor();
+	bool	IncrementProgress(const JString& message = JString::empty) override;
+	bool	IncrementProgress(const JSize delta) override;
+	bool	IncrementProgress(const JString& message, const JSize delta) override;
+	void	ProcessFinished() override;
+	void	DisplayBusyCursor() override;
 
 protected:
 
-	virtual void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
-									 const JString& message, const bool allowCancel,
-									 const bool allowBackground);
+	void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
+							 const JString& message, const bool allowCancel,
+							 const bool allowBackground) override;
 
-	virtual bool	CheckForCancel();
+	bool	CheckForCancel() override;
 
 private:
 
-	j_sig_func*	itsOldSigIntHandler;
+	j_sig_func	itsOldSigIntHandler;
 };
 
 #endif

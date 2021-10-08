@@ -57,9 +57,9 @@
 #include "jx-af/jcore/JStopWatch.h"
 #include "jx-af/jcore/jAssert.h"
 
-typedef JStyledText::TextIndex TextIndex;
-typedef JStyledText::TextCount TextCount;
-typedef JStyledText::TextRange TextRange;
+using TextIndex = JStyledText::TextIndex;
+using TextCount = JStyledText::TextCount;
+using TextRange = JStyledText::TextRange;
 
 const JSize kDecimationFactor = 50;
 const JSize kListBlockSize    = 50;

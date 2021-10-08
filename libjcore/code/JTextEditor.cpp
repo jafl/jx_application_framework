@@ -143,12 +143,12 @@
 #include "jx-af/jcore/jGlobals.h"
 #include "jx-af/jcore/jAssert.h"
 
-typedef JStyledText::TextIndex	TextIndex;
-typedef JStyledText::TextCount	TextCount;
-typedef JStyledText::TextRange	TextRange;
+using TextIndex = JStyledText::TextIndex;
+using TextCount = JStyledText::TextCount;
+using TextRange = JStyledText::TextRange;
 
-typedef JRunArrayIterator<JFont>						FontIterator;
-typedef JRunArrayIterator<JTextEditor::LineGeometry>	GeometryIterator;
+using FontIterator     = JRunArrayIterator<JFont>;
+using GeometryIterator = JRunArrayIterator<JTextEditor::LineGeometry>;
 
 const JCoordinate kDefLeftMarginWidth = 10;
 const JCoordinate kRightMarginWidth   = 2;

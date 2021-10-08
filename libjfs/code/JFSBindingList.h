@@ -19,7 +19,7 @@ public:
 
 	static JFSBindingList*	Create(JString* needUserCheck);
 
-	virtual	~JFSBindingList();
+	~JFSBindingList();
 
 	const JFSBinding*	GetBinding(const JIndex index) const;
 	bool				GetBinding(const JString& fileName,

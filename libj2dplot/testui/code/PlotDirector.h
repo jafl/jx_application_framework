@@ -21,7 +21,7 @@ public:
 
 	PlotDirector(JXDirector* supervisor);
 
-	virtual ~PlotDirector();
+	~PlotDirector();
 
 	JX2DPlotWidget*	GetPlotWidget() const;
 

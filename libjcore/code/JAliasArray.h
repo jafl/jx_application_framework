@@ -16,13 +16,10 @@ class JAliasArray : public JCollection
 public:
 
 	JAliasArray(JArray<T>* data,
-				JListT::CompareResult (*compareFn)(const T&, const T&),
-				const JListT::SortOrder order);
-	JAliasArray(JArray<T>* data,
-				const JElementComparison<T>& compareObj,
+				const std::function<JListT::CompareResult(const T&, const T&)> compareFn,
 				const JListT::SortOrder order);
 
-	virtual ~JAliasArray();
+	~JAliasArray();
 
 	JArray<T>*			GetData();
 	const JArray<T>&	GetData() const;
@@ -41,21 +38,17 @@ public:
 
 	// sorting functions -- the reason this class exists
 
-	bool	GetCompareFunction(JListT::CompareResult (**compareFn)(const T&, const T&)) const;
-	void		SetCompareFunction(JListT::CompareResult (*compareFn)(const T&, const T&));
-
-	const JElementComparison<T>&	GetCompareObject() const;
-	void	SetCompareObject(const JElementComparison<T>& compareObj);
+	void	SetCompareFunction(const std::function<JListT::CompareResult(const T&, const T&)> compareFn);
 
 	JListT::SortOrder	GetSortOrder() const;
 	void				SetSortOrder(const JListT::SortOrder order);
 
 	bool	SearchSorted(const T& target, const JListT::SearchReturn which,
-							 JIndex* index) const;
+						 JIndex* index) const;
 
-	JIndex		SearchSorted1(const T& target,
-							  const JListT::SearchReturn which,
-							  bool* found) const;
+	JIndex	SearchSorted1(const T& target,
+						  const JListT::SearchReturn which,
+						  bool* found) const;
 
 protected:
 
@@ -67,13 +60,11 @@ private:
 	JArray<T>*		itsData;		// not owned; die if nullptr
 	JArray<JIndex>*	itsIndexArray;
 
-	JListT::CompareResult	(*itsCompareFn)(const T&, const T&);	// can be nullptr
-	JElementComparison<T>*	itsCompareObj;							// can be nullptr
+	const std::function<JListT::CompareResult(const T&, const T&)>*	itsCompareFn;
 
 private:
 
-	void	JAliasArrayX1(const JListT::SortOrder order);
-	void	JAliasArrayX2();
+	void	InstallCompareWrapper(const T* search);
 
 	// not allowed
 

@@ -20,11 +20,6 @@
 class JRegex;
 class JProgressDisplay;
 
-typedef JListT::CompareResult
-	(JCompareDirEntries)(JDirEntry * const &, JDirEntry * const &);
-
-typedef bool (JCheckPermissions)(const JDirEntry&);
-
 class JDirInfo : public JContainer
 {
 public:
@@ -37,7 +32,7 @@ public:
 	JDirInfo(const JDirInfo& source);
 	JDirInfo(const JDirInfo& source, const JString& dirName);
 
-	virtual ~JDirInfo();
+	~JDirInfo();
 
 	JDirInfo&	operator=(const JDirInfo& source);
 	void		CopySettings(const JDirInfo& source);
@@ -51,7 +46,8 @@ public:
 	void	GoToClosest(const JString& dirName);
 	JError	GoTo(const JString& dirName);
 
-	void	ChangeSort(JCompareDirEntries* f, const JListT::SortOrder order);
+	void	ChangeSort(const std::function<JListT::CompareResult(JDirEntry * const &, JDirEntry * const &)> f,
+					   const JListT::SortOrder order);
 
 	bool	FilesVisible() const;
 	void	ShowFiles(const bool show);
@@ -80,7 +76,7 @@ public:
 	void	ShouldApplyWildcardFilterToDirs(const bool apply = true);
 
 	bool	HasDirEntryFilter() const;
-	void	SetDirEntryFilter(JCheckPermissions* f);
+	void	SetDirEntryFilter(const std::function<bool(const JDirEntry&)> f);
 	void	ClearDirEntryFilter();
 
 	bool	HasContentFilter() const;
@@ -142,7 +138,7 @@ private:
 	bool	itsFilterDirsFlag;
 	JRegex*	itsContentRegex;		// can be nullptr
 
-	JCheckPermissions*	itsPermFilter;	// can be nullptr
+	std::function<bool(const JDirEntry&)>*	itsPermFilter;	// can be nullptr
 
 	JPtrArray<JDirEntry>*	itsDirEntries;		// everything, current sorting fn
 	JPtrArray<JDirEntry>*	itsVisEntries;		// visible, current sorting fn

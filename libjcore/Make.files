@@ -9,7 +9,6 @@
 .cpp ./code/JBroadcaster
 .cpp ./code/JError
 .cpp ./code/JStdError
-.cpp ./code/JErrorState
 .cpp ./code/jGlobals
 .cpp ./code/jGlobals_UNIX
 .cpp ./code/jAssert

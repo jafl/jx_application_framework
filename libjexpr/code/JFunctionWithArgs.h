@@ -20,15 +20,15 @@ public:
 	JFunctionWithArgs(const JUtf8Byte* name);
 	JFunctionWithArgs(const JFunctionWithArgs& source);
 
-	virtual ~JFunctionWithArgs();
+	~JFunctionWithArgs();
 
 	const JString&	GetName() const;
 	void	Print(std::ostream& output) const override;
 	JIndex	Layout(const JExprRenderer& renderer,
-						   const JPoint& upperLeft, const JSize fontSize,
-						   JExprRectList* rectList) override;
+				   const JPoint& upperLeft, const JSize fontSize,
+				   JExprRectList* rectList) override;
 	void	Render(const JExprRenderer& renderer,
-						   const JExprRectList& rectList) const override;
+				   const JExprRectList& rectList) const override;
 
 	virtual JSize				GetArgCount() const = 0;
 	virtual const JFunction*	GetArg(const JIndex index) const = 0;

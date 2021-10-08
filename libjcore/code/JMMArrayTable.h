@@ -18,7 +18,7 @@ class JMMArrayTable : public JMMTable
 public:
 
 	JMMArrayTable(JMemoryManager* manager, const bool recordDelete);
-	virtual ~JMMArrayTable();
+	~JMMArrayTable();
 
 	JSize GetAllocatedCount() const override;
 	JSize GetAllocatedBytes() const override;
@@ -32,11 +32,11 @@ public:
 protected:
 
 	void _AddNewRecord(const JMMRecord& record,
-									   const bool checkDoubleAllocation) override;
+					   const bool checkDoubleAllocation) override;
 
 	bool _SetRecordDeleted(JMMRecord* record, const void* block,
-									   const JUtf8Byte* file, const JUInt32 line,
-									   const bool isArray) override;
+						   const JUtf8Byte* file, const JUInt32 line,
+						   const bool isArray) override;
 
 private:
 

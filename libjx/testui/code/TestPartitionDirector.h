@@ -25,7 +25,7 @@ public:
 
 	TestPartitionDirector(JXDirector* supervisor);
 
-	virtual ~TestPartitionDirector();
+	~TestPartitionDirector();
 
 	JXHorizPartition*	GetHorizPartition();
 	void				InsertHorizCompartment(const JIndex index);

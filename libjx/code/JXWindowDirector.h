@@ -25,7 +25,7 @@ public:
 
 	JXWindowDirector(JXDirector* supervisor);
 
-	virtual ~JXWindowDirector();
+	~JXWindowDirector();
 
 	void	Activate() override;
 	bool	Deactivate() override;

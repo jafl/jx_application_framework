@@ -20,7 +20,7 @@ public:
 
 	JStyleTableData(JTable* table, JFontManager* fontManager);
 
-	virtual ~JStyleTableData();
+	~JStyleTableData();
 
 	const JFont&	GetFont() const;
 	void			SetFont(const JString& name, const JSize size);

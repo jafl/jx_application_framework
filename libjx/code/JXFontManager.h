@@ -19,9 +19,6 @@ class JString;
 class JRegex;
 class JXDisplay;
 
-typedef JListT::CompareResult
-	(*JSortXFontNamesFn)(JString * const &, JString * const &);
-
 class JXFontManager : public JFontManager
 {
 	friend class JXGC;
@@ -54,28 +51,28 @@ public:
 
 	JXFontManager(JXDisplay* display);
 
-	virtual ~JXFontManager();
+	~JXFontManager();
 
-	void		GetFontNames(JPtrArray<JString>* fontNames) override;
-	void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) override;
+	void	GetFontNames(JPtrArray<JString>* fontNames) override;
+	void	GetMonospaceFontNames(JPtrArray<JString>* fontNames) override;
 	bool	GetFontSizes(const JString& name, JSize* minSize,
-									 JSize* maxSize, JArray<JSize>* sizeList) override;
+						 JSize* maxSize, JArray<JSize>* sizeList) override;
 
 	// for X Window System only
 
-	void		GetXFontNames(const JRegex& regex,
-							  JPtrArray<JString>* fontNames,
-							  JSortXFontNamesFn compare = nullptr);
+	void	GetXFontNames(const JRegex& regex,
+						  JPtrArray<JString>* fontNames,
+						  const std::function<JListT::CompareResult(JString * const &, JString * const &)>* compare = nullptr);
 	bool	GetXFont(const JString& xFontStr, JFont** font);
-	XFont		GetXFontInfo(const JFontID id);
+	XFont	GetXFontInfo(const JFontID id);
 
-	void		Preload(const JFontID id);
+	void	Preload(const JFontID id);
 
 protected:
 
 	JSize	GetLineHeight(const JFontID id, const JSize size,
-								  const JFontStyle& style,
-								  JCoordinate* ascent, JCoordinate* descent) override;
+						  const JFontStyle& style,
+						  JCoordinate* ascent, JCoordinate* descent) override;
 
 	JSize	GetCharWidth(const JFontID id, const JUtf8Character& c) override;
 	JSize	GetStringWidth(const JFontID id, const JString& str) override;
@@ -88,9 +85,9 @@ private:
 
 	struct FontInfo
 	{
-		bool	filled;
+		bool		filled;
 		XFont		xfont;
-		bool	exact;		// true => exact match to requested specs
+		bool		exact;		// true => exact match to requested specs
 		JCoordinate	ascent;		// 0 until first computed
 		JCoordinate	descent;	// 0 until first computed
 		JCoordinate	monoWidth;	// 0 if not monospace
@@ -117,19 +114,19 @@ private:
 									 const JSize pixelSize, const JSize pixelWidth,
 									 const JUtf8Byte* spacing,
 									 const JFontStyle& style, const JUtf8Byte* italicStr);
-	static bool	BuildTrueTypeFontName(const JString& xName,
+	static bool		BuildTrueTypeFontName(const JString& xName,
 										  const JSize size, const JFontStyle& style,
 										  JString* xFontStr);
 	static void		TrimTrueTypeFontName(JString* s);
 
 	bool	GetNewFont(const JString& name, const JSize size,
-						   const JFontStyle& style, XFont* xfont);
-	void		ApproximateFont(const JString& name, const JSize size,
-								const JFontStyle& style, XFont* xfont);
+					   const JFontStyle& style, XFont* xfont);
+	void	ApproximateFont(const JString& name, const JSize size,
+							const JFontStyle& style, XFont* xfont);
 
 	static void		ConvertToPSFontName(JString* name);
 
-	JCoordinate		IsMonospace(const XFont& xfont);
+	JCoordinate	IsMonospace(const XFont& xfont);
 	static bool	ShouldIgnore(const JString& name);
 };
 

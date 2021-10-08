@@ -23,7 +23,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXTextButton();
+	~JXTextButton();
 
 	const JString&	GetLabel() const;
 	void			SetLabel(const JString& label);

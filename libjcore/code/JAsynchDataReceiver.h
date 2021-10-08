@@ -61,7 +61,7 @@ public:
 	JAsynchDataReceiver();
 	JAsynchDataReceiver(const ACE_HANDLE fd);
 
-	virtual ~JAsynchDataReceiver();
+	~JAsynchDataReceiver();
 
 	// how much is read from the connection at one time
 

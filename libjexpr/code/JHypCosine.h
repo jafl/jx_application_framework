@@ -19,7 +19,7 @@ public:
 	JHypCosine(JFunction* arg = nullptr);
 	JHypCosine(const JHypCosine& source);
 
-	virtual ~JHypCosine();
+	~JHypCosine();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

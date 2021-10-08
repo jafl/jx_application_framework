@@ -77,7 +77,7 @@ public:
 
 	JProcess(const pid_t pid);
 
-	virtual ~JProcess();
+	~JProcess();
 
 	pid_t	GetPID() const;
 	JError	GetPGID(pid_t* pgid) const;

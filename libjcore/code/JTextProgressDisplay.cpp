@@ -16,14 +16,7 @@
 
 volatile sig_atomic_t cancelFlag;
 
-// prototypes
-
-static void cancelHandler(int sig);
-static void emptyHandler(int sig);
-
-// functions
-
-void cancelHandler(int sig)
+static void cancelHandler(int sig)
 {
 	signal(SIGINT, cancelHandler);
 	cancelFlag = 1;
@@ -31,7 +24,7 @@ void cancelHandler(int sig)
 
 // we use this as a placeholder for "nothing"
 
-void emptyHandler(int sig)
+static void emptyHandler(int sig)
 {
 }
 
@@ -213,7 +206,7 @@ JTextProgressDisplay::ProcessFinished()
 
 	if (itsOldSigIntHandler != &emptyHandler)
 	{
-		j_sig_func* currentSigIntHandler = signal(SIGINT, itsOldSigIntHandler);
+		j_sig_func currentSigIntHandler = signal(SIGINT, itsOldSigIntHandler);
 		assert( currentSigIntHandler == cancelHandler );
 		itsOldSigIntHandler = emptyHandler;
 	}

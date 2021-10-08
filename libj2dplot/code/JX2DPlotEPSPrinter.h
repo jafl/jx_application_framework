@@ -19,7 +19,7 @@ public:
 
 	JX2DPlotEPSPrinter(JXDisplay* display);
 
-	virtual ~JX2DPlotEPSPrinter();
+	~JX2DPlotEPSPrinter();
 
 	void	UsePlotSetup(const bool use);
 
@@ -33,16 +33,16 @@ public:
 
 protected:
 
-	virtual JXEPSPrintSetupDialog*
+	JXEPSPrintSetupDialog*
 		CreatePrintSetupDialog(const JString& fileName,
-							   const bool preview, const bool bw);
+							   const bool preview, const bool bw) override;
 
-	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
-										  bool* changed);
+	bool	EndUserPrintSetup(const JBroadcaster::Message& message,
+							  bool* changed) override;
 
 private:
 
-	bool	itsUsePlotSetupFlag;
+	bool		itsUsePlotSetupFlag;
 	JCoordinate	itsPlotWidth;
 	JCoordinate	itsPlotHeight;
 

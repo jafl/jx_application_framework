@@ -23,7 +23,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXStyleTable();
+	~JXStyleTable();
 
 	const JFont&	GetFont() const;
 	void			SetFont(const JString& name, const JSize size);
@@ -36,7 +36,7 @@ public:
 
 protected:
 
-	virtual JCoordinate	GetMin1DVisibleWidth(const JPoint& cell) const;
+	JCoordinate	GetMin1DVisibleWidth(const JPoint& cell) const override;
 
 private:
 

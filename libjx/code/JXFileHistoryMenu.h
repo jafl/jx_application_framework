@@ -25,7 +25,7 @@ public:
 	JXFileHistoryMenu(const JSize historyLength,
 					  JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual ~JXFileHistoryMenu();
+	~JXFileHistoryMenu();
 
 	void	AddFile(const JString& fullName);
 	void	AddFile(const JString& path, const JString& name);
@@ -35,7 +35,7 @@ public:
 
 protected:
 
-	virtual void	UpdateMenu();		// must call inherited
+	void	UpdateMenu() override;		// must call inherited
 
 private:
 

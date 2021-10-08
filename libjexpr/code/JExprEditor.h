@@ -73,7 +73,7 @@ public:
 
 	JExprEditor(const JVariableList* varList, JFontManager* fontManager);
 
-	virtual ~JExprEditor();
+	~JExprEditor();
 
 	void					SetFunction(const JVariableList* varList, JFunction* f);
 	void					ClearFunction();

@@ -23,9 +23,9 @@ public:
 
 	JXFontNameMenu(JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual ~JXFontNameMenu();
+	~JXFontNameMenu();
 
-	JString		GetFontName() const;
+	JString	GetFontName() const;
 	bool	SetFontName(const JString& name);
 
 #pragma GCC diagnostic push
@@ -45,7 +45,7 @@ protected:
 
 private:
 
-	JIndex		itsFontIndex;
+	JIndex	itsFontIndex;
 	bool	itsBroadcastNameChangeFlag;
 
 	JPtrArray<JString>*	itsNameHistory;

@@ -20,16 +20,16 @@ class JXRadioButton : public JXWidget
 
 public:
 
-	virtual ~JXRadioButton();
+	~JXRadioButton();
 
-	JIndex		GetID() const;
-	void		SetID(const JIndex id);
+	JIndex	GetID() const;
+	void	SetID(const JIndex id);
 
 	bool	IsChecked() const;
-	void		Select();
+	void	Select();
 
 	virtual void	SetShortcuts(const JString& list);
-	void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
+	void			HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -38,7 +38,7 @@ protected:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	bool		DrawChecked() const;
+	bool	DrawChecked() const;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,

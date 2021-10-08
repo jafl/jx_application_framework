@@ -22,10 +22,10 @@ public:
 	JXDockWindowTask(JXWindow* window, const Window parent, const JPoint& topLeft,
 					 JXDockWidget* dock);
 
-	virtual ~JXDockWindowTask();
+	~JXDockWindowTask();
 
 	void	Perform(const Time delta, Time* maxSleepTime) override;
-	bool		IsDone() const;
+	bool	IsDone() const;
 
 	static void	PrepareForDockAll();
 

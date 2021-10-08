@@ -20,7 +20,7 @@ public:
 
 	JX2DCursorMarkTableDir(JXWindowDirector* supervisor, J2DPlotWidget* plot);
 
-	virtual ~JX2DCursorMarkTableDir();
+	~JX2DCursorMarkTableDir();
 
 	JX2DCursorMarkTable*	GetTable();
 

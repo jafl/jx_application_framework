@@ -19,13 +19,13 @@ public:
 					  const JString& prompt, const JString& initialName,
 					  const JString& basePath, const bool modal = true);
 
-	virtual ~JXGetNewDirDialog();
+	~JXGetNewDirDialog();
 
 	JString	GetNewDirName() const;
 
 protected:
 
-	virtual bool	OKToDeactivate();
+	bool	OKToDeactivate() override;
 
 private:
 

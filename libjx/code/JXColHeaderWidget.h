@@ -25,7 +25,7 @@ public:
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXColHeaderWidget();
+	~JXColHeaderWidget();
 
 	void	TurnOnColResizing(const JCoordinate minColWidth = 20);
 	void	TurnOffColResizing();
@@ -50,22 +50,22 @@ protected:
 	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
-								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers) override;
+						  const JXButtonStates& buttonStates,
+						  const JXKeyModifiers& modifiers) override;
 
-	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
-	bool			InDragRegion(const JPoint& pt, JPoint* cell) const;
-	DragType		GetDragType() const;
+	void		AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
+	bool		InDragRegion(const JPoint& pt, JPoint* cell) const;
+	DragType	GetDragType() const;
 
 	JXInputField*	CreateXInputField(const JPoint& cell,
-											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h) override;
+									  const JCoordinate x, const JCoordinate y,
+									  const JCoordinate w, const JCoordinate h) override;
 	void			PrepareDeleteXInputField() override;
 
 	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;

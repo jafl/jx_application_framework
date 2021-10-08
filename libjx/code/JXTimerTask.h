@@ -17,9 +17,9 @@ public:
 
 	JXTimerTask(const Time period, const bool oneShot = false);
 
-	virtual ~JXTimerTask();
+	~JXTimerTask();
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	void	Perform(const Time delta, Time* maxSleepTime) override;
 
 private:
 

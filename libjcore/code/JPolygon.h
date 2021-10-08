@@ -14,6 +14,6 @@
 #include "jx-af/jcore/JArray.h"
 #include "jx-af/jcore/JPoint.h"
 
-typedef JArray<JPoint>	JPolygon;
+using JPolygon = JArray<JPoint>;
 
 #endif

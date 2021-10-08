@@ -20,9 +20,9 @@ public:
 
 	TestPGTask(const bool fixedLength);
 
-	virtual ~TestPGTask();
+	~TestPGTask();
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	void	Perform(const Time delta, Time* maxSleepTime) override;
 
 private:
 

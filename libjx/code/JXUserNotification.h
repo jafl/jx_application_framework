@@ -22,7 +22,7 @@ public:
 
 	JXUserNotification();
 
-	virtual ~JXUserNotification();
+	~JXUserNotification();
 
 	void	DisplayMessage(const JString& message) override;
 	void	ReportError(const JString& message) override;

@@ -24,25 +24,25 @@ public:
 
 	JXTextMenuData(JXTextMenu* menu);
 
-	virtual ~JXTextMenuData();
+	~JXTextMenuData();
 
-	void			InsertItem(const JIndex index, const JString& str,
-							   const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JString& shortcuts = JString::empty,
-							   const JString& nmShortcut = JString::empty,
-							   const JString& id = JString::empty);
-	void			PrependItem(const JString& str,
-							   const JXMenu::ItemType type = JXMenu::kPlainType,
-								const JString& shortcuts = JString::empty,
-								const JString& nmShortcut = JString::empty,
-								const JString& id = JString::empty);
-	void			AppendItem(const JString& str,
-							   const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JString& shortcuts = JString::empty,
-							   const JString& nmShortcut = JString::empty,
-							   const JString& id = JString::empty);
-	virtual void	DeleteItem(const JIndex index);		// must call inherited
-	virtual void	DeleteAll();						// must call inherited
+	void	InsertItem(const JIndex index, const JString& str,
+					   const JXMenu::ItemType type = JXMenu::kPlainType,
+					   const JString& shortcuts = JString::empty,
+					   const JString& nmShortcut = JString::empty,
+					   const JString& id = JString::empty);
+	void	PrependItem(const JString& str,
+						const JXMenu::ItemType type = JXMenu::kPlainType,
+						const JString& shortcuts = JString::empty,
+						const JString& nmShortcut = JString::empty,
+						const JString& id = JString::empty);
+	void	AppendItem(const JString& str,
+					   const JXMenu::ItemType type = JXMenu::kPlainType,
+					   const JString& shortcuts = JString::empty,
+					   const JString& nmShortcut = JString::empty,
+					   const JString& id = JString::empty);
+	void	DeleteItem(const JIndex index) override;		// must call inherited
+	void	DeleteAll() override;						// must call inherited
 
 	const JString&	GetText(const JIndex index) const;
 	void			SetText(const JIndex index, const JString& str);
@@ -93,7 +93,7 @@ public:
 
 protected:
 
-	virtual void	ItemShortcutsChanged(const JIndex index, const JString* shortcuts);
+	void	ItemShortcutsChanged(const JIndex index, const JString* shortcuts) override;
 
 private:
 

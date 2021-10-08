@@ -19,7 +19,7 @@ public:
 	JArcSine(JFunction* arg = nullptr);
 	JArcSine(const JArcSine& source);
 
-	virtual ~JArcSine();
+	~JArcSine();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

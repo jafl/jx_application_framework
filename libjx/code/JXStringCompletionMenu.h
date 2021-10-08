@@ -20,7 +20,7 @@ public:
 
 	JXStringCompletionMenu(JXTEBase* te, const bool allowTabChar);
 
-	virtual ~JXStringCompletionMenu();
+	~JXStringCompletionMenu();
 
 	bool	AddString(const JString& str);
 

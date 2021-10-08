@@ -25,9 +25,9 @@ public:
 	JXSpellCheckerDialog(JXSpellChecker* checker,
 						 JXTEBase* editor, const JStyledText::TextRange& range);
 
-	virtual ~JXSpellCheckerDialog();
+	~JXSpellCheckerDialog();
 
-	void		Activate() override;
+	void	Activate() override;
 	bool	Deactivate() override;
 	bool	Close() override;
 
@@ -43,7 +43,7 @@ private:
 	JXTEBase*				itsEditor;				// not owned
 	JStyledText::TextRange	itsCheckRange;
 	JStyledText::TextIndex	itsCurrentIndex;
-	bool				itsFoundErrorsFlag;
+	bool					itsFoundErrorsFlag;
 
 	JXSpellList*		itsSuggestionWidget;
 	JPtrArray<JString>*	itsSuggestionList;

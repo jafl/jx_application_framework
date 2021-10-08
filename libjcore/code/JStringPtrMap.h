@@ -24,7 +24,7 @@ public:
 
 	JStringPtrMap(const JPtrArrayT::CleanUpAction action,
 				  const JSize lgSize = kJDefaultLgMinTableSize);
-	virtual ~JStringPtrMap();
+	~JStringPtrMap();
 
 	bool GetElement(const JString& key, V** ptr);
 	bool GetElement(const JString& key, const V** ptr) const;

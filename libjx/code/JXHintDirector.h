@@ -22,7 +22,7 @@ public:
 	JXHintDirector(JXDirector* supervisor, JXContainer* widget,
 				   const JRect& rect, const JString& text);
 
-	virtual	~JXHintDirector();
+	~JXHintDirector();
 
 private:
 

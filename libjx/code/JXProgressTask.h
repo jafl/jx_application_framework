@@ -21,14 +21,14 @@ public:
 	JXProgressTask(const JString& message, const bool allowCancel);
 	JXProgressTask(JProgressDisplay* pg);
 
-	virtual ~JXProgressTask();
+	~JXProgressTask();
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	void	Perform(const Time delta, Time* maxSleepTime) override;
 
 private:
 
 	JProgressDisplay*	itsPG;
-	bool			itsOwnsPGFlag;
+	bool				itsOwnsPGFlag;
 
 private:
 

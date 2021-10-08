@@ -25,7 +25,7 @@ public:
 						  JXMenu* owner, const JIndex itemIndex,
 						  JXContainer* enclosure);
 
-	virtual ~JXFSCommandHistoryMenu();
+	~JXFSCommandHistoryMenu();
 
 	void	AddCommand(const JString& cmd,
 					   const bool isShell, const bool inWindow,

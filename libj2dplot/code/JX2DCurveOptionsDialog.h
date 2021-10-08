@@ -40,23 +40,23 @@ public:
 							const JArray<bool>& isScatter,
 							const JIndex startIndex);
 
-	virtual ~JX2DCurveOptionsDialog();
+	~JX2DCurveOptionsDialog();
 
 	const JArray<J2DCurveInfo>&	GetCurveInfoArray();
 
 protected:
 
 	bool	OKToDeactivate() override;
-	void		Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
 	JX2DCurveNameList*		itsNameList;		// not owned
 	JArray<J2DCurveInfo>*	itsCurveInfo;
-	JArray<bool>*		itsHasXErrors;
-	JArray<bool>*		itsHasYErrors;
-	JArray<bool>*		itsIsFunction;
-	JArray<bool>*		itsIsScatter;
+	JArray<bool>*			itsHasXErrors;
+	JArray<bool>*			itsHasYErrors;
+	JArray<bool>*			itsIsFunction;
+	JArray<bool>*			itsIsScatter;
 	JIndex					itsCurrentIndex;
 
 // begin JXLayout

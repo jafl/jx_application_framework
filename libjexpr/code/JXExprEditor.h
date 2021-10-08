@@ -41,27 +41,27 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXExprEditor();
+	~JXExprEditor();
 
-	JXTextMenu*		GetEditMenu() const;
+	JXTextMenu*	GetEditMenu() const;
 	bool		EditMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
 	bool		EditMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
 
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
-								   const JXKeyModifiers& modifiers) override;
+						   const JXKeyModifiers& modifiers) override;
 
 	JStyledText*	BuildStyledText() override;
 
 protected:
 
-	void		EIPRefresh() override;
-	void		EIPRedraw() override;
-	void		EIPBoundsChanged() override;
+	void	EIPRefresh() override;
+	void	EIPRedraw() override;
+	void	EIPBoundsChanged() override;
 	bool	EIPScrollToRect(const JRect& r) override;
 	bool	EIPScrollForDrag(const JPoint& pt) override;
-	void		EIPAdjustNeedTab(const bool needTab) override;
+	void	EIPAdjustNeedTab(const bool needTab) override;
 
-	void		EIPClipboardChanged() override;
+	void	EIPClipboardChanged() override;
 	bool	EIPOwnsClipboard() override;
 	bool	EIPGetExternalClipboard(JString* text) override;
 
@@ -70,20 +70,20 @@ protected:
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
-								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers) override;
+						  const JXButtonStates& buttonStates,
+						  const JXKeyModifiers& modifiers) override;
 
 	void	HandleFocusEvent() override;
 	void	HandleUnfocusEvent() override;
 
 	bool	OKToUnfocus() override;
-	void		AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
+	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 

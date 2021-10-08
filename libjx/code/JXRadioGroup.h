@@ -26,7 +26,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXRadioGroup();
+	~JXRadioGroup();
 
 	JIndex	GetSelectedItem() const;
 	void	SelectItem(const JIndex id);
@@ -35,8 +35,8 @@ public:
 
 protected:
 
-	void		Draw(JXWindowPainter& p, const JRect& rect) override;
-	void		DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	Draw(JXWindowPainter& p, const JRect& rect) override;
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 	bool	NeedsInternalFTC() const override;
 
 private:

@@ -26,7 +26,7 @@ public:
 
 	JXProgressDisplay();
 
-	virtual ~JXProgressDisplay();
+	~JXProgressDisplay();
 
 	void	SetItems(JXTextButton* cancelButton, JXStaticText* counter,
 					 JXProgressIndicator* indicator,
@@ -37,8 +37,8 @@ public:
 	bool	IncrementProgress(const JString& message,
 										  const JSize delta) override;
 	bool	ProcessContinuing() override;
-	void		ProcessFinished() override;
-	void		DisplayBusyCursor() override;
+	void	ProcessFinished() override;
+	void	DisplayBusyCursor() override;
 
 protected:
 
@@ -48,8 +48,8 @@ protected:
 									 const bool allowCancel,
 									 const bool allowBackground) override;
 
-	virtual void		AppendToMessageWindow(const JString& message);
-	bool	CheckForCancel() override;
+	virtual void	AppendToMessageWindow(const JString& message);
+	bool			CheckForCancel() override;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 

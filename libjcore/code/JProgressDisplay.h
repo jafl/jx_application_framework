@@ -40,9 +40,9 @@ public:
 	virtual bool	IncrementProgress(const JSize delta) = 0;
 	virtual bool	IncrementProgress(const JString& message, const JSize delta) = 0;
 	virtual bool	ProcessContinuing();
-	virtual void		ProcessFinished();
+	virtual void	ProcessFinished();
 
-	bool	ProcessRunning() const;
+	bool		ProcessRunning() const;
 	ProcessType	GetCurrentProcessType() const;
 	JSize		GetCurrentStepCount() const;
 
@@ -66,8 +66,8 @@ protected:
 private:
 
 	ProcessType	itsCurrentProcess;		// type of process currently running
-	bool	itsAllowCancelFlag;		// true if we accept cancel requests
-	bool	itsAllowBackgroundFlag;	// true if process can go into background
+	bool		itsAllowCancelFlag;		// true if we accept cancel requests
+	bool		itsAllowBackgroundFlag;	// true if process can go into background
 
 	JSize		itsMaxStepCount;		// total number of steps for fixed length process
 	JSize		itsCurrentStepCount;	// current step of process

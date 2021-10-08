@@ -27,7 +27,7 @@ public:
 
 	JPagePrinter(JFontManager* fontManager, const JRect& defaultClipRect);
 
-	virtual ~JPagePrinter();
+	~JPagePrinter();
 
 	virtual bool	WillPrintBlackWhite() const = 0;
 

@@ -28,10 +28,6 @@ T
 F
 "./code/JStdError.cpp"
 T
-2 "JErrorState.cpp"
-F
-"./code/JErrorState.cpp"
-T
 2 "jGlobals.cpp"
 F
 "./code/jGlobals.cpp"

@@ -22,7 +22,7 @@ public:
 	JAuxTableData(JTable* table, const T& defValue);
 	JAuxTableData(JTable* table, const JAuxTableData<T>& source);
 
-	virtual ~JAuxTableData();
+	~JAuxTableData();
 
 	JTable*	GetTable() const;
 

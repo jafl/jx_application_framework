@@ -19,7 +19,7 @@ public:
 	JSine(JFunction* arg = nullptr);
 	JSine(const JSine& source);
 
-	virtual ~JSine();
+	~JSine();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

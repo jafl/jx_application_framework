@@ -41,7 +41,7 @@ class JXContainer : virtual public JBroadcaster
 
 public:
 
-	virtual ~JXContainer();
+	~JXContainer();
 
 	bool		IsAncestor(JXContainer* obj) const;
 

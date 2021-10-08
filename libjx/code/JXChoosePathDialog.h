@@ -22,7 +22,7 @@ public:
 			   const bool selectOnlyWritable,
 			   const JString& message = JString::empty);
 
-	virtual ~JXChoosePathDialog();
+	~JXChoosePathDialog();
 
 protected:
 
@@ -45,7 +45,7 @@ protected:
 	void	UpdateDisplay() override;	// must call inherited
 
 	bool	OKToDeactivate() override;
-	void		Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

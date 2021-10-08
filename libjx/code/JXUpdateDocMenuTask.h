@@ -20,9 +20,9 @@ public:
 
 	JXUpdateDocMenuTask(JXDocumentManager* docMgr);
 
-	virtual ~JXUpdateDocMenuTask();
+	~JXUpdateDocMenuTask();
 
-	virtual void	Perform();
+	void	Perform() override;
 
 private:
 

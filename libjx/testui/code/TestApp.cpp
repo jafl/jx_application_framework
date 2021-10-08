@@ -12,7 +12,7 @@
 #include "AboutDialog.h"
 #include "TestMDIServer.h"
 #include "TestTextEditDocument.h"
-#include "testjxStringData.h"
+#include "stringData.h"
 #include "testjxGlobals.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jcore/JThisProcess.h>

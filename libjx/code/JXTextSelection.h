@@ -22,7 +22,7 @@ public:
 	JXTextSelection(JXDisplay* display, const JPtrArray<JString>& list);
 	JXTextSelection(JXWidget* widget, const JUtf8Byte* id);
 
-	virtual	~JXTextSelection();
+	~JXTextSelection();
 
 	bool	GetText(const JString** text) const;
 	bool	GetStyle(const JRunArray<JFont>** style) const;
@@ -38,10 +38,10 @@ public:
 
 protected:
 
-	virtual void		AddTypes(const Atom selectionName);
-	virtual bool	ConvertData(const Atom requestType, Atom* returnType,
-									unsigned char** data, JSize* dataLength,
-									JSize* bitsPerBlock) const;
+	void	AddTypes(const Atom selectionName) override;
+	bool	ConvertData(const Atom requestType, Atom* returnType,
+						unsigned char** data, JSize* dataLength,
+						JSize* bitsPerBlock) const override;
 
 private:
 

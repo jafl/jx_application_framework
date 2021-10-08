@@ -26,7 +26,7 @@ public:
 						const JCoordinate x, const JCoordinate y,
 						const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXVertDockPartition();
+	~JXVertDockPartition();
 
 	JXDockDirector*	GetDockDirector() const;
 	bool			FindDock(const JIndex id, JXDockWidget** dock);

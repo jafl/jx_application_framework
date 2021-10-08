@@ -15,7 +15,7 @@
 #define O_RDONLY	_O_RDONLY
 #define ETXTBSY		-1
 
-typedef int	ssize_t;
+using ssize_t = int;
 
 inline int
 setenv

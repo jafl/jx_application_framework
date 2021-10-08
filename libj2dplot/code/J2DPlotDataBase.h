@@ -30,7 +30,7 @@ public:
 
 	J2DPlotDataBase(const Type type);
 
-	virtual ~J2DPlotDataBase();
+	~J2DPlotDataBase();
 
 	Type			GetType() const;
 	virtual void	GetElement(const JIndex index, J2DDataPoint* data) const;
@@ -38,8 +38,8 @@ public:
 
 	virtual void	GetXRange(JFloat* xMin, JFloat* xMax) const = 0;
 	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const bool xLinear,
-								  JFloat* yMin, JFloat* yMax) const = 0;
+							  const bool xLinear,
+							  JFloat* yMin, JFloat* yMax) const = 0;
 
 	virtual bool	HasXErrors() const;
 	virtual bool	HasYErrors() const;

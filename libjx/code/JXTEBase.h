@@ -49,7 +49,7 @@ public:
 
 public:
 
-	virtual ~JXTEBase();
+	~JXTEBase();
 
 	void	Activate() override;
 	void	Deactivate() override;

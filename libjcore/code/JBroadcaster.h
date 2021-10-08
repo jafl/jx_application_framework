@@ -22,10 +22,6 @@ public:
 
 	class Message : public JRTTIBase
 	{
-		public:
-
-			virtual	~Message();
-
 		protected:
 
 			using JRTTIBase::JRTTIBase;

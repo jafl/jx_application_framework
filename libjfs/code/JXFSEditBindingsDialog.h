@@ -26,7 +26,7 @@ public:
 
 	JXFSEditBindingsDialog(JFSBindingList* list);
 
-	virtual	~JXFSEditBindingsDialog();
+	~JXFSEditBindingsDialog();
 
 	void	CheckIfNeedRevert();
 	void	AddBinding(const JString& suffix, const JString& cmd,

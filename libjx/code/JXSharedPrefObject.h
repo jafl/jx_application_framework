@@ -35,7 +35,7 @@ public:
 	JXSharedPrefObject(const JFileVersion currVers, const JPrefID& latestVersID,
 					   const VersionInfo versList[], const JSize versCount);
 
-	virtual ~JXSharedPrefObject();
+	~JXSharedPrefObject();
 
 	JFileVersion				GetCurrentPrefsVersion() const;
 	const JPrefID&				GetLatestVersionID() const;

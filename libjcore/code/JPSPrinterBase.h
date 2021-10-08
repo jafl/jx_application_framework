@@ -44,8 +44,8 @@ public:
 	// printing control
 
 	bool	PSOpenDocument();
-	void		PSCloseDocument();
-	void		PSCancelDocument();
+	void	PSCloseDocument();
+	void	PSCancelDocument();
 	bool	PSDocumentIsOpen() const;
 
 	// printing parameters
@@ -54,7 +54,7 @@ public:
 	void			SetOutputFileName(const JString& name);
 
 	bool	PSWillPrintBlackWhite() const;
-	void		PSPrintBlackWhite(const bool doIt);
+	void	PSPrintBlackWhite(const bool doIt);
 
 	// JPainter functions
 

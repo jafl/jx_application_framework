@@ -27,7 +27,7 @@ public:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXDirTable();
+	~JXDirTable();
 
 	const JString&	GetPath() const;
 
@@ -36,9 +36,9 @@ public:
 	bool	GetFirstSelection(const JDirEntry** theEntry) const;
 	bool	GetSelection(JPtrArray<JDirEntry>* entryList) const;
 	bool	SelectSingleEntry(const JIndex index, const bool scroll = true);
-	void		SelectFirstEntry(const bool scroll = true);
-	void		SelectLastEntry(const bool scroll = true);
-	void		SelectAll();
+	void	SelectFirstEntry(const bool scroll = true);
+	void	SelectLastEntry(const bool scroll = true);
+	void	SelectAll();
 	bool	ClosestMatch(const JString& prefixStr, JIndex* index) const;
 
 	void	ShowHidden(const bool showHidden);
@@ -49,14 +49,14 @@ public:
 	bool	GoToSelectedDirectory();
 
 	bool	WillSelectWhenChangePath() const;
-	void		ShouldSelectWhenChangePath(const bool select);
+	void	ShouldSelectWhenChangePath(const bool select);
 
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
-								   const JXKeyModifiers& modifiers) override;
+						   const JXKeyModifiers& modifiers) override;
 	void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 	bool	IsSelectable(const JPoint& cell,
-									 const bool forExtend) const override;
+						 const bool forExtend) const override;
 
 protected:
 
@@ -64,29 +64,29 @@ protected:
 	bool	ItemIsFile(const JIndex index) const;
 
 	bool	GetNextSelectable(const JIndex startIndex, const bool forMulti,
-								  JIndex* nextIndex) const;
+						  JIndex* nextIndex) const;
 	bool	GetPrevSelectable(const JIndex startIndex, const bool forMulti,
-								  JIndex* nextIndex) const;
+						  JIndex* nextIndex) const;
 	bool	ItemIsSelectable(const JIndex index, const bool forMulti) const;
 
 	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
-								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers) override;
+						  const JXButtonStates& buttonStates,
+						  const JXKeyModifiers& modifiers) override;
 
 	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const JPoint& pt, const Time time,
-									   const JXWidget* source) override;
+						   const JPoint& pt, const Time time,
+						   const JXWidget* source) override;
 	void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
-									  const Atom action, const Time time,
-									  const JXWidget* source) override;
+							  const Atom action, const Time time,
+							  const JXWidget* source) override;
 
 	void	HandleFocusEvent() override;
 
@@ -95,19 +95,19 @@ protected:
 
 private:
 
-	JDirInfo*			itsDirInfo;			// not owned
+	JDirInfo*		itsDirInfo;			// not owned
 	JArray<bool>*	itsActiveCells;
-	JXTimerTask*		itsDirUpdateTask;
+	JXTimerTask*	itsDirUpdateTask;
 
 	bool	itsIgnoreSelChangesFlag;		// true while cleaning selection
 	bool	itsAllowSelectFilesFlag;
 	bool	itsAllowSelectMultipleFlag;		// true => select multiple files, but not directories
 	bool	itsAllowDblClickInactiveFlag;	// true => broadcast FileDblClicked even if inactive
 	bool	itsSelectWhenChangePathFlag;	// true => select first entry when path changes
-	JSize		itsMaxStringWidth;
-	JString		itsKeyBuffer;
+	JSize	itsMaxStringWidth;
+	JString	itsKeyBuffer;
 
-	bool			itsReselectFlag;		// false => select first item in directory
+	bool				itsReselectFlag;		// false => select first item in directory
 	JPtrArray<JString>*	itsReselectNameList;	// non-empty => reselect after AdjustTableContents()
 	JPoint				itsReselectScrollOffset;
 

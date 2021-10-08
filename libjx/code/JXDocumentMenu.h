@@ -25,7 +25,7 @@ public:
 
 	JXDocumentMenu(JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
-	virtual ~JXDocumentMenu();
+	~JXDocumentMenu();
 
 protected:
 

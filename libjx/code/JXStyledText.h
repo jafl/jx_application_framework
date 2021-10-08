@@ -20,14 +20,15 @@ public:
 				 JFontManager* fontManager);
 	JXStyledText(const JXStyledText& source);
 
-	virtual ~JXStyledText();
+	~JXStyledText();
 
 protected:
 
-	virtual bool	NeedsToAdjustFontToDisplayGlyphs(const JString& text, const JRunArray<JFont>& style) const;
-	virtual bool	AdjustFontToDisplayGlyphs(const TextRange& range,
-												  const JString& text,
-												  JRunArray<JFont>* style);
+	bool	NeedsToAdjustFontToDisplayGlyphs(const JString& text,
+											 const JRunArray<JFont>& style) const override;
+	bool	AdjustFontToDisplayGlyphs(const TextRange& range,
+									  const JString& text,
+									  JRunArray<JFont>* style) override;
 
 private:
 

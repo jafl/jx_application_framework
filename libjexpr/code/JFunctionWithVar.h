@@ -21,13 +21,13 @@ public:
 					 const JIndex variableIndex, JFunction* arrayIndex);
 	JFunctionWithVar(const JFunctionWithVar& source);
 
-	virtual ~JFunctionWithVar();
+	~JFunctionWithVar();
 
 	JIndex	Layout(const JExprRenderer& renderer,
-						   const JPoint& upperLeft, const JSize fontSize,
-						   JExprRectList* rectList) override;
+				   const JPoint& upperLeft, const JSize fontSize,
+				   JExprRectList* rectList) override;
 	void	Render(const JExprRenderer& renderer,
-						   const JExprRectList& rectList) const override;
+				   const JExprRectList& rectList) const override;
 
 	void	PrintVariable(std::ostream& output) const;
 

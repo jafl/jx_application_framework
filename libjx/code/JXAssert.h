@@ -24,11 +24,11 @@ public:
 
 	JXAssert();
 
-	virtual	~JXAssert();
+	~JXAssert();
 
-	virtual int		Assert(const JUtf8Byte* expr, const JUtf8Byte* file,
-						   const int line, const JUtf8Byte* message);
-	virtual void	Abort();
+	int		Assert(const JUtf8Byte* expr, const JUtf8Byte* file,
+				   const int line, const JUtf8Byte* message) override;
+	void	Abort() override;
 
 	void	UnlockDisplays();
 

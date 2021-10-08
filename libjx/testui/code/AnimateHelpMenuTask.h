@@ -22,11 +22,11 @@ public:
 
 	AnimateHelpMenuTask(JXTextMenu* menu, const JIndex menuItem);
 
-	virtual ~AnimateHelpMenuTask();
+	~AnimateHelpMenuTask();
 
 	void	Reset();
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	void	Perform(const Time delta, Time* maxSleepTime) override;
 
 private:
 

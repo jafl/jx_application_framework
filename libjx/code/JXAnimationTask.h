@@ -22,9 +22,9 @@ public:
 
 	JXAnimationTask(JXImageWidget* widget);
 
-	virtual ~JXAnimationTask();
+	~JXAnimationTask();
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	void	Perform(const Time delta, Time* maxSleepTime) override;
 
 protected:
 

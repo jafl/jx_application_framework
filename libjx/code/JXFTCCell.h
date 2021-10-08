@@ -26,7 +26,7 @@ public:
 	JXFTCCell(JXContainer* matchObj, JXContainer* enc, const Direction direction,
 			  const bool exact);
 
-	virtual ~JXFTCCell();
+	~JXFTCCell();
 
 	JXContainer*	GetWidget();
 	JSize			GetDepth() const;

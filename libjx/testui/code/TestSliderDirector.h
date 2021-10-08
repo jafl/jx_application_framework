@@ -21,7 +21,7 @@ public:
 
 	TestSliderDirector(JXWindowDirector* supervisor);
 
-	virtual ~TestSliderDirector();
+	~TestSliderDirector();
 
 protected:
 

@@ -22,11 +22,11 @@ public:
 	JXAtMostOneCBGroup(const JPtrArray<JXCheckbox>& cbList);
 	JXAtMostOneCBGroup(const JSize	count, JXCheckbox* cb1, JXCheckbox* cb2, ...);
 
-	virtual ~JXAtMostOneCBGroup();
+	~JXAtMostOneCBGroup();
 
 protected:
 
-	virtual void	EnforceConstraints(const JIndex cbIndex);
+	void	EnforceConstraints(const JIndex cbIndex) override;
 
 private:
 

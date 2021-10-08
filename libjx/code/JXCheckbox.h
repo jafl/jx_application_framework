@@ -16,14 +16,14 @@ class JXCheckbox : public JXWidget
 {
 public:
 
-	virtual ~JXCheckbox();
+	~JXCheckbox();
 
 	bool	IsChecked() const;
-	void		SetState(const bool on);
-	void		ToggleState();
+	void	SetState(const bool on);
+	void	ToggleState();
 
 	virtual void	SetShortcuts(const JString& list);
-	void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
+	void			HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -32,17 +32,17 @@ protected:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	bool		DrawChecked() const;
+	bool	DrawChecked() const;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
-								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers) override;
+						  const JXButtonStates& buttonStates,
+						  const JXKeyModifiers& modifiers) override;
 
 private:
 

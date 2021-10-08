@@ -28,7 +28,7 @@ public:
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXStaticText();
+	~JXStaticText();
 
 	void	SetFontName(const JString& name);
 	void	SetFontSize(const JSize size);

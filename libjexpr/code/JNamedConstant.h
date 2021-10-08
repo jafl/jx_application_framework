@@ -20,7 +20,7 @@ public:
 	JNamedConstant(const JNamedConstIndex nameIndex);
 	JNamedConstant(const JNamedConstant& source);
 
-	virtual ~JNamedConstant();
+	~JNamedConstant();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

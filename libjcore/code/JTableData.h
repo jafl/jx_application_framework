@@ -20,7 +20,7 @@ public:
 	JTableData();
 	JTableData(const JTableData& source);
 
-	virtual ~JTableData();
+	~JTableData();
 
 	JTableData& operator=(const JTableData& source);
 

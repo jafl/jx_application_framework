@@ -23,11 +23,11 @@
 
 // notation
 
-typedef ClientHandler<ACE_SOCK_STREAM>	INETHandler;
-typedef ClientHandler<ACE_LSOCK_STREAM>	UNIXHandler;
+using INETHandler = ClientHandler<ACE_SOCK_STREAM>;
+using UNIXHandler = ClientHandler<ACE_LSOCK_STREAM>;
 
-typedef ACE_Connector<INETHandler, ACE_SOCK_CONNECTOR>	INETConnector;
-typedef ACE_Connector<UNIXHandler, ACE_LSOCK_CONNECTOR>	UNIXConnector;
+using INETConnector = ACE_Connector<INETHandler, ACE_SOCK_CONNECTOR>;
+using UNIXConnector = ACE_Connector<UNIXHandler, ACE_LSOCK_CONNECTOR>;
 
 // Prototypes
 

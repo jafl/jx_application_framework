@@ -22,7 +22,7 @@ public:
 	JLatentPG(JProgressDisplay* pg, const bool ownIt,
 			  const JSize scaleFactor = 1);
 
-	virtual ~JLatentPG();
+	~JLatentPG();
 
 	void	UseDefaultPG();
 	void	SetPG(JProgressDisplay* pg, const bool ownIt);
@@ -36,7 +36,7 @@ public:
 	bool	IncrementProgress(const JString& message = JString::empty) override;
 	bool	IncrementProgress(const JSize delta) override;
 	bool	IncrementProgress(const JString& message,
-										  const JSize delta) override;
+							  const JSize delta) override;
 	bool	ProcessContinuing() override;
 	void	ProcessFinished() override;
 	void	DisplayBusyCursor() override;
@@ -44,8 +44,8 @@ public:
 protected:
 
 	void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
-									 const JString& message, const bool allowCancel,
-									 const bool allowBackground) override;
+							 const JString& message, const bool allowCancel,
+							 const bool allowBackground) override;
 
 	bool	CheckForCancel() override;
 

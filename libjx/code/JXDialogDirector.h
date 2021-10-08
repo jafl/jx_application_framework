@@ -20,7 +20,7 @@ public:
 
 	JXDialogDirector(JXDirector* supervisor, const bool modal);
 
-	virtual ~JXDialogDirector();
+	~JXDialogDirector();
 
 	bool		IsModal() const;
 	JXButton*	GetOKButton() const;
@@ -38,7 +38,7 @@ protected:
 	void	UseModalPlacement(const bool doIt);
 
 	bool	OKToDeactivate() override;
-	bool			Cancelled() const;		// for use in OKToDeactivate()
+	bool	Cancelled() const;		// for use in OKToDeactivate()
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 

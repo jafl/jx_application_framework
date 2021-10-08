@@ -22,9 +22,9 @@ public:
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXFLRegexInput();
+	~JXFLRegexInput();
 
-	virtual JString	GetRegexString() const;
+	JString	GetRegexString() const override;
 };
 
 #endif

@@ -19,7 +19,7 @@ public:
 	JAlgSign(JFunction* arg = nullptr);
 	JAlgSign(const JAlgSign& source);
 
-	virtual ~JAlgSign();
+	~JAlgSign();
 
 	bool		Evaluate(JFloat* result) const override;
 	bool		Evaluate(JComplex* result) const override;

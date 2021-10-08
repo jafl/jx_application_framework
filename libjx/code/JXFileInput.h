@@ -19,23 +19,23 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	virtual ~JXFileInput();
+	~JXFileInput();
 
-	bool	InputValid() override;
-	virtual bool	GetFile(JString* fullName) const;
+	bool				InputValid() override;
+	virtual bool		GetFile(JString* fullName) const;
 	virtual JString		GetTextForChooseFile() const;
 
 	bool	WillAllowInvalidFile() const;
-	void		ShouldAllowInvalidFile(const bool allow = true);
+	void	ShouldAllowInvalidFile(const bool allow = true);
 
 	bool	WillRequireReadable() const;
-	void		ShouldRequireReadable(const bool require = true);
+	void	ShouldRequireReadable(const bool require = true);
 
 	bool	WillRequireWritable() const;
-	void		ShouldRequireWritable(const bool require = true);
+	void	ShouldRequireWritable(const bool require = true);
 
 	bool	WillRequireExecutable() const;
-	void		ShouldRequireExecutable(const bool require = true);
+	void	ShouldRequireExecutable(const bool require = true);
 
 	bool	ChooseFile(const JString& prompt, const JString& instr = JString::empty);
 	bool	SaveFile(const JString& prompt, const JString& instr = JString::empty);
@@ -58,8 +58,8 @@ protected:
 		protected:
 
 		JSize	ComputeErrorLength(JXFSInputBase* field,
-										   const JSize totalLength,
-										   const JString& fullName) const override;
+								   const JSize totalLength,
+								   const JString& fullName) const override;
 	};
 
 protected:

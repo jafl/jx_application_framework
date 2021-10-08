@@ -21,7 +21,7 @@ public:
 
 	JBroadcastTester(const JBroadcaster* obj);
 
-	virtual ~JBroadcastTester();
+	~JBroadcastTester();
 
 	void	Expect(const JUtf8Byte* type, std::function<void(const Message&)> validator = NOP);
 	void	ExpectGoingAway();

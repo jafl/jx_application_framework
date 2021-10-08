@@ -13,7 +13,7 @@
 
 class JXDisplay;
 
-typedef JIndex	JCursorIndex;
+using JCursorIndex = JIndex;
 
 // predefined by every JXDisplay object
 

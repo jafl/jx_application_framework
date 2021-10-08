@@ -58,7 +58,7 @@
 #include "jx-af/jcore/jGlobals.h"
 #include "jx-af/jcore/jAssert.h"
 
-typedef JRunArrayIterator<JFont>	FontIterator;
+using FontIterator = JRunArrayIterator<JFont>;
 
 const JFileVersion kCurrentPrivateFormatVersion = 1;
 
@@ -97,7 +97,7 @@ JStyledText::JStyledText
 	:
 	itsPasteStyledTextFlag(pasteStyledText),
 	itsDefaultFont(JFontManager::GetDefaultFont()),
-	itsCharInWordFn(&DefaultIsCharacterInWord)
+	itsCharInWordFn(nullptr)
 {
 	itsStyles = jnew JRunArray<JFont>;
 	assert( itsStyles != nullptr );
@@ -143,13 +143,19 @@ JStyledText::JStyledText
 
 	itsDefaultFont( source.itsDefaultFont ),
 
-	itsCharInWordFn( source.itsCharInWordFn ),
+	itsCharInWordFn(nullptr),
 
 	itsCRMLineWidth( source.itsCRMLineWidth ),
 	itsCRMTabCharCount( source.itsCRMTabCharCount )
 {
 	itsStyles = jnew JRunArray<JFont>(*source.itsStyles);
 	assert( itsStyles != nullptr );
+
+	if (source.itsCharInWordFn != nullptr)
+	{
+		itsCharInWordFn = jnew std::function(*source.itsCharInWordFn);
+		assert( itsCharInWordFn != nullptr );
+	}
 
 	itsUndo              = nullptr;
 	itsUndoList          = nullptr;
@@ -179,6 +185,7 @@ JStyledText::~JStyledText()
 	jdelete itsStyles;
 	jdelete itsUndo;
 	jdelete itsUndoList;
+	jdelete itsCharInWordFn;
 
 	ClearCRMRuleList();
 }
@@ -4813,11 +4820,11 @@ JStyledText::GetWordEnd
 void
 JStyledText::SetCharacterInWordFunction
 	(
-	JCharacterInWordFn f
+	const std::function<bool(const JUtf8Character&)> f
 	)
 {
-	assert( f != nullptr );
-	itsCharInWordFn = f;
+	itsCharInWordFn = jnew std::function(f);
+	assert( itsCharInWordFn != nullptr );
 }
 
 /******************************************************************************
@@ -4834,7 +4841,7 @@ JStyledText::IsCharacterInWord
 	)
 	const
 {
-	return itsCharInWordFn(c);
+	return itsCharInWordFn != nullptr ? (*itsCharInWordFn)(c) : DefaultIsCharacterInWord(c);
 }
 
 /******************************************************************************

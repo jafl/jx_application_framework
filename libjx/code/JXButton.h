@@ -16,12 +16,12 @@ class JXButton : public JXWidget
 {
 public:
 
-	virtual ~JXButton();
+	~JXButton();
 
 	void	Push();
 
 	virtual void	SetShortcuts(const JString& list);
-	void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
+	void			HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
 protected:
 

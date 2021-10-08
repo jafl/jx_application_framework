@@ -15,23 +15,20 @@
 // Superclass Header
 #include "jx-af/jcore/JBroadcaster.h"
 
-#include "jx-af/jcore/jTypes.h"
-
-	class JMMRecord;
-
+class JMMRecord;
 
 class JMMMonitor : virtual public JBroadcaster
 {
 public:
 
-	virtual ~JMMMonitor();
+	~JMMMonitor();
 
 protected:
 
 	// No darn reason to allow this class to be instantiated.
 	JMMMonitor();
 
-	virtual void Receive(JBroadcaster* sender, const Message& message);
+	void Receive(JBroadcaster* sender, const Message& message) override;
 
 	// JMemoryManager message handlers; all do nothing by default
 

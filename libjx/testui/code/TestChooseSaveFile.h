@@ -29,7 +29,7 @@ public:
 
 	TestChooseSaveFile();
 
-	virtual ~TestChooseSaveFile();
+	~TestChooseSaveFile();
 
 	SaveFormat	GetSaveFormat() const;
 

@@ -10,15 +10,15 @@
 #include <ace/DLL.h>
 #include <jTypes.h>
 
-typedef JFloat (SetFn)(const JFloat, const JFloat, const JFloat);
-typedef JFloat (EvalFn)(const JFloat);
+using SetFn  = JFloat (*)(const JFloat, const JFloat, const JFloat);
+using EvalFn = JFloat (*)(const JFloat);
 
 int
 main()
 {
 	ACE_DLL module("./dynamic_loaded.so");
-	SetFn* set   = (SetFn*) module.symbol("Set");
-	EvalFn* eval = (EvalFn*) module.symbol("Eval");
+	SetFn set   = (SetFn) module.symbol("Set");
+	EvalFn eval = (EvalFn) module.symbol("Eval");
 	set(1, 2, 3);
 	std::cout << eval(10) << std::endl;
 }
