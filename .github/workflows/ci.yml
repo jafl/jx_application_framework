@@ -65,7 +65,6 @@ jobs:
           languages: cpp
 
       - name: Configure
-        if: ${{ false }}
         run: |
           ./configure
 
