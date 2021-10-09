@@ -96,5 +96,6 @@ jobs:
           SOURCEFORGE_KEY: ${{ secrets.SOURCEFORGE_KEY }}
         run: |
           echo "$SOURCEFORGE_KEY" >> sourceforge_key
-          scp -i sourceforge_key configure jafl,libjx@web.sourceforge.net:htdocs/ci/
+          cat sourceforge_key
+          scp -i sourceforge_key ./configure jafl,libjx@web.sourceforge.net:htdocs/ci/
           echo scp -i sourceforge_key jx-application-framework-ci_i386.deb jafl,libjx@web.sourceforge.net:htdocs/ci/
