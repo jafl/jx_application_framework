@@ -22,7 +22,6 @@ jobs:
           echo FORCE_CACHE_UPDATE=${RANDOM}${RANDOM} >> $GITHUB_ENV
 
       - name: Sonar data cache
-        if: ${{ false }}
         id: cache-sonar-data
         uses: actions/cache@v2
         with:
@@ -32,7 +31,6 @@ jobs:
             ${{ runner.os }}-sonar-cache-
 
       - name: RE/flex cache
-        if: ${{ false }}
         id: cache-reflex
         uses: actions/cache@v2
         with:
@@ -40,13 +38,11 @@ jobs:
           key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
 
       - name: Set up JDK 11
-        if: ${{ false }}
         uses: actions/setup-java@v1
         with:
           java-version: 11
 
       - name: Download and set up sonar-scanner
-        if: ${{ false }}
         env:
           SONAR_SCANNER_DOWNLOAD_URL: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ env.SONAR_SCANNER_VERSION }}-linux.zip
         run: |
@@ -56,7 +52,6 @@ jobs:
           echo "$HOME/.sonar/sonar-scanner-${{ env.SONAR_SCANNER_VERSION }}-linux/bin" >> $GITHUB_PATH
 
       - name: Download and set up build-wrapper
-        if: ${{ false }}
         env:
           BUILD_WRAPPER_DOWNLOAD_URL: ${{ env.SONAR_SERVER_URL }}/static/cpp/build-wrapper-linux-x86.zip
         run: |
@@ -65,25 +60,21 @@ jobs:
           echo "$HOME/.sonar/build-wrapper-linux-x86" >> $GITHUB_PATH
 
       - name: Initialize CodeQL
-        if: ${{ false }}
         uses: github/codeql-action/init@v1
         with:
           languages: cpp
 
       - name: Configure
-        if: ${{ false }}
         run: |
           ./configure
 
       - name: Build
-        if: ${{ false }}
         run: |
           export LC_ALL=en_US.UTF-8
           export LANG=en_US.UTF-8
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make default
 
       - name: Run sonar-scanner
-        if: ${{ false }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -91,16 +82,14 @@ jobs:
           sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
 
       - name: Perform CodeQL analysis
-        if: ${{ false }}
         uses: github/codeql-action/analyze@v1
 
       - name: Build package
-        if: ${{ false }}
         run: |
           make JX_VERSION=1ci release
 
       - name: Upload package
         run: |
           echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
-          scp -v -v -v -o StrictHostKeyChecking=no -i sourceforge_key ./configure jafl,libjx@web.sourceforge.net:htdocs/ci/
-          echo scp -o StrictHostKeyChecking=no -i sourceforge_key jx-application-framework-ci_i386.deb jafl,libjx@web.sourceforge.net:htdocs/ci/
+          chmod 0600 sourceforge_key
+          scp -o StrictHostKeyChecking=no -i sourceforge_key jx-application-framework-*.deb jafl,libjx@web.sourceforge.net:htdocs/ci/
