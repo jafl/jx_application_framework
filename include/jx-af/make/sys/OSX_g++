@@ -24,9 +24,9 @@ J_RAW_SYSTEM_STUFF := \
   -D_J_OSX -DSIZEOF_LONG=8 -DSIZEOF_INT=4 -DSIZEOF_LONGLONG=8 \
   -DU_CHARSET_IS_UTF8=1 \
   -D_J_LLDB_HAS_SBVALUE_GETSUMMARY \
-  -D_J_HAS_SYSCTL -D_XFT_NO_COMPAT_ -I/usr/X11/include/freetype2
+  -D_J_HAS_SYSCTL -D_XFT_NO_COMPAT_
 
-SEARCHDIRS += -I/usr/X11/include
+SEARCHDIRS += -I/usr/X11/include -I/usr/local/include/freetype2
 
 J_HAS_SYSCTL := yes
 

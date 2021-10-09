@@ -29,21 +29,21 @@ class JXSharedPrefsManager;
 JXApplication*			JXGetApplication();
 JXChooseSaveFile*		JXGetChooseSaveFile();
 JXAssert*				JXGetAssertHandler();
-bool				JXGetComposeRuleList(JXComposeRuleList** ruleList);
+bool					JXGetComposeRuleList(JXComposeRuleList** ruleList);
 JXSharedPrefsManager*	JXGetSharedPrefsManager();
 
 JXDocumentManager*		JXGetDocumentManager();		// asserts if doesn't exist
 JXHelpManager*			JXGetHelpManager();			// asserts if doesn't exist
 JXDockManager*			JXGetDockManager();
-bool				JXGetDockManager(JXDockManager** dockMgr);
-bool				JXGetMDIServer(JXMDIServer** server);
+bool					JXGetDockManager(JXDockManager** dockMgr);
+bool					JXGetMDIServer(JXMDIServer** server);
 JXWebBrowser*			JXGetWebBrowser();
 JXSpellChecker*			JXGetSpellChecker();
 
 JXDirector*				JXGetPersistentWindowOwner();
 JXSearchTextDialog*		JXGetSearchTextDialog();
 
-bool				JXGetProgramDataDirectories(const JUtf8Byte* dirName,
+bool					JXGetProgramDataDirectories(const JUtf8Byte* dirName,
 													JString* sysDir, JString* userDir);
 
 const JUtf8Byte*		JXGetInvisibleWindowClass();
@@ -78,6 +78,6 @@ bool	JXGetApplication(JXApplication** app);
 bool	JXGetDocumentManager(JXDocumentManager** docManager);
 bool	JXGetHelpManager(JXHelpManager** helpMgr);
 bool	JXGetSearchTextDialog(JXSearchTextDialog** dlog);
-void		JXSetDockManager(JXDockManager* dockMgr);
+void	JXSetDockManager(JXDockManager* dockMgr);
 
 #endif
