@@ -2057,39 +2057,39 @@ static const JUtf8Byte* kDefaultDNDCursorName[] =
 
 // generic
 
-#include <jx_drag_object_cursor.xbm>
-#include <jx_drag_object_cursor_mask.xbm>
-#include <jx_drag_copy_object_cursor.xbm>
-#include <jx_drag_link_object_cursor.xbm>
-#include <jx_drag_ask_object_cursor.xbm>
-#include <jx_drag_mod_object_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_object_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_object_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_copy_object_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_link_object_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_ask_object_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_mod_object_cursor_mask.xbm>
 
 // file
 
-#include <jx_drag_file_cursor.xbm>
-#include <jx_drag_file_cursor_mask.xbm>
-#include <jx_drag_copy_file_cursor.xbm>
-#include <jx_drag_link_file_cursor.xbm>
-#include <jx_drag_ask_file_cursor.xbm>
-#include <jx_drag_mod_file_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_file_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_file_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_copy_file_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_link_file_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_ask_file_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_mod_file_cursor_mask.xbm>
 
 // directory
 
-#include <jx_drag_directory_cursor.xbm>
-#include <jx_drag_directory_cursor_mask.xbm>
-#include <jx_drag_copy_directory_cursor.xbm>
-#include <jx_drag_link_directory_cursor.xbm>
-#include <jx_drag_ask_directory_cursor.xbm>
-#include <jx_drag_mod_directory_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_directory_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_directory_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_copy_directory_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_link_directory_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_ask_directory_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_mod_directory_cursor_mask.xbm>
 
 // mixed
 
-#include <jx_drag_file_and_directory_cursor.xbm>
-#include <jx_drag_file_and_directory_cursor_mask.xbm>
-#include <jx_drag_copy_file_and_directory_cursor.xbm>
-#include <jx_drag_link_file_and_directory_cursor.xbm>
-#include <jx_drag_ask_file_and_directory_cursor.xbm>
-#include <jx_drag_mod_file_and_directory_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_file_and_directory_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_file_and_directory_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_copy_file_and_directory_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_link_file_and_directory_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_ask_file_and_directory_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_mod_file_and_directory_cursor_mask.xbm>
 
 #pragma GCC diagnostic pop
 

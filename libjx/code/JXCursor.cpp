@@ -44,8 +44,8 @@ JXGetInvisibleCursor
 
 static const JUtf8Byte* kHandCursorName = "JXHand";
 
-#include <jx_hand_cursor.xbm>
-#include <jx_hand_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_hand_cursor.xbm>
+#include <jx-af/image/jx/jx_hand_cursor_mask.xbm>
 
 static const JXCursor kHandCursor =
 {
@@ -69,8 +69,8 @@ JXGetHandCursor
 
 static const JUtf8Byte* kDragHorizLineCursorName = "JXDragHorizLine";
 
-#include <jx_drag_horiz_line_cursor.xbm>
-#include <jx_drag_horiz_line_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_horiz_line_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_horiz_line_cursor_mask.xbm>
 
 static const JXCursor kDragHorizLineCursor =
 {
@@ -95,8 +95,8 @@ JXGetDragHorizLineCursor
 
 static const JUtf8Byte* kDragAllHorizLineCursorName = "JXDragAllHorizLine";
 
-#include <jx_drag_all_horiz_line_cursor.xbm>
-#include <jx_drag_all_horiz_line_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_all_horiz_line_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_all_horiz_line_cursor_mask.xbm>
 
 static const JXCursor kDragAllHorizLineCursor =
 {
@@ -121,8 +121,8 @@ JXGetDragAllHorizLineCursor
 
 static const JUtf8Byte* kDragVertLineCursorName = "JXDragVertLine";
 
-#include <jx_drag_vert_line_cursor.xbm>
-#include <jx_drag_vert_line_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_vert_line_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_vert_line_cursor_mask.xbm>
 
 static const JXCursor kDragVertLineCursor =
 {
@@ -147,8 +147,8 @@ JXGetDragVertLineCursor
 
 static const JUtf8Byte* kDragAllVertLineCursorName = "JXDragAllVertLine";
 
-#include <jx_drag_all_vert_line_cursor.xbm>
-#include <jx_drag_all_vert_line_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_all_vert_line_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_all_vert_line_cursor_mask.xbm>
 
 static const JXCursor kDragAllVertLineCursor =
 {
@@ -173,8 +173,8 @@ JXGetDragAllVertLineCursor
 
 static const JUtf8Byte* kDragFileCursorName = "JXDragFile";
 
-#include <jx_drag_file_cursor.xbm>
-#include <jx_drag_file_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_file_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_file_cursor_mask.xbm>
 
 static const JXCursor kDragFileCursor =
 {
@@ -199,8 +199,8 @@ JXGetDragFileCursor
 
 static const JUtf8Byte* kDragDirectoryCursorName = "JXDragDirectory";
 
-#include <jx_drag_directory_cursor.xbm>
-#include <jx_drag_directory_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_directory_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_directory_cursor_mask.xbm>
 
 static const JXCursor kDragDirectoryCursor =
 {
@@ -225,8 +225,8 @@ JXGetDragDirectoryCursor
 
 static const JUtf8Byte* kDragFileAndDirectoryCursorName = "JXDragFileAndDirectory";
 
-#include <jx_drag_file_and_directory_cursor.xbm>
-#include <jx_drag_file_and_directory_cursor_mask.xbm>
+#include <jx-af/image/jx/jx_drag_file_and_directory_cursor.xbm>
+#include <jx-af/image/jx/jx_drag_file_and_directory_cursor_mask.xbm>
 
 static const JXCursor kDragFileAndDirectoryCursor =
 {
