@@ -65,10 +65,12 @@ jobs:
           languages: cpp
 
       - name: Configure
+        if: ${{ false }}
         run: |
           ./configure
 
       - name: Build
+        if: ${{ false }}
         run: |
           export LC_ALL=en_US.UTF-8
           export LANG=en_US.UTF-8
@@ -94,4 +96,6 @@ jobs:
         env:
           SOURCEFORGE_KEY: ${{ secrets.SOURCEFORGE_KEY }}
         run: |
-          scp jx-application-framework-ci_i386.deb jafl,libjx@web.sourceforge.net:htdocs/ci/
+          echo ${{ secrets.SOURCEFORGE_KEY }} > sourceforge_key
+          scp -i sourceforge_key configure jafl,libjx@web.sourceforge.net:htdocs/ci/
+          echo scp -i sourceforge_key jx-application-framework-ci_i386.deb jafl,libjx@web.sourceforge.net:htdocs/ci/
