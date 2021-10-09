@@ -14,6 +14,10 @@ default:
 test:
 	@${JMAKE} run_tests
 
+.PHONY : release
+release:
+	@${JMAKE} build_release
+
 # useful macros
 
 BEGIN_DIR = if { test -d ${dir}; } then ( cd ${dir}
@@ -121,8 +125,8 @@ uninstall:
 # build packages
 #
 
-.PHONY : release
-release:
+.PHONY : build_release
+build_release:
   ifeq (${HAS_RPM},1)
 	@echo Please authorize sudo access for building RPM...
 	@${SUDO} echo sudo access authorized...
