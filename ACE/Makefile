@@ -53,7 +53,7 @@ install: default
 .PHONY : uninstall
 uninstall:
 	@${BEGIN_ACE_CMD} \
-       ${SUDO} rm -rf /usr/local/include/ace /usr/local/lib/libACE* \
+       ${SUDO} rm -rf /usr/local/include/ace /usr/local/lib/libACE*; \
      ${END_ACE_CMD}
 
 #
