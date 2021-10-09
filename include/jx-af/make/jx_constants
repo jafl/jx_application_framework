@@ -51,7 +51,6 @@ ifneq (${shell which dpkg-deb 2> /dev/null},)
 else ifneq (${shell which rpm 2> /dev/null},)
   HAS_RPM := 1
 endif
-endif
 
 
 ifneq (${shell echo $$UID},0)
