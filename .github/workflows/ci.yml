@@ -101,10 +101,8 @@ jobs:
 
       - name: Upload package
         run: |
-          sudo apt-get install sharutils
           echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
+          chmod 0600 sourceforge_key
           echo "${{ secrets.SOURCEFORGE_PUBLIC_KEY }}" >> sourceforge_key-cert.pub
-          ls -l
-          cat sourceforge_key | uuencode foo
           scp -v -v -v -i sourceforge_key ./configure jafl,libjx@web.sourceforge.net:htdocs/ci/
           echo scp -i sourceforge_key jx-application-framework-ci_i386.deb jafl,libjx@web.sourceforge.net:htdocs/ci/
