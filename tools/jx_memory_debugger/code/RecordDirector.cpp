@@ -133,8 +133,8 @@ RecordDirector::~RecordDirector()
  ******************************************************************************/
 
 #include "md_main_window_icon.xpm"
-#include <jx_help_specific.xpm>
-#include <jx_help_toc.xpm>
+#include <jx-af/image/jx/jx_help_specific.xpm>
+#include <jx-af/image/jx/jx_help_toc.xpm>
 
 void
 RecordDirector::BuildWindow

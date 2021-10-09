@@ -1847,21 +1847,21 @@ JXTEBase::DataNotCompatible::DataNotCompatible
 
  ******************************************************************************/
 
-#include <jx_edit_undo.xpm>
-#include <jx_edit_redo.xpm>
-#include <jx_edit_cut.xpm>
-#include <jx_edit_copy.xpm>
-#include <jx_edit_paste.xpm>
-#include <jx_edit_clear.xpm>
-#include <jx_spell_check.xpm>
-#include <jx_spell_check_selection.xpm>
-#include <jx_edit_clean_right_margin.xpm>
-#include <jx_edit_coerce_right_margin.xpm>
-#include <jx_edit_shift_left.xpm>
-#include <jx_edit_shift_right.xpm>
-#include <jx_edit_force_shift_left.xpm>
-#include <jx_show_whitespace.xpm>
-#include <jx_edit_read_only.xpm>
+#include <jx-af/image/jx/jx_edit_undo.xpm>
+#include <jx-af/image/jx/jx_edit_redo.xpm>
+#include <jx-af/image/jx/jx_edit_cut.xpm>
+#include <jx-af/image/jx/jx_edit_copy.xpm>
+#include <jx-af/image/jx/jx_edit_paste.xpm>
+#include <jx-af/image/jx/jx_edit_clear.xpm>
+#include <jx-af/image/jx/jx_spell_check.xpm>
+#include <jx-af/image/jx/jx_spell_check_selection.xpm>
+#include <jx-af/image/jx/jx_edit_clean_right_margin.xpm>
+#include <jx-af/image/jx/jx_edit_coerce_right_margin.xpm>
+#include <jx-af/image/jx/jx_edit_shift_left.xpm>
+#include <jx-af/image/jx/jx_edit_shift_right.xpm>
+#include <jx-af/image/jx/jx_edit_force_shift_left.xpm>
+#include <jx-af/image/jx/jx_show_whitespace.xpm>
+#include <jx-af/image/jx/jx_edit_read_only.xpm>
 
 JXTextMenu*
 JXTEBase::AppendEditMenu
@@ -2064,12 +2064,12 @@ JXTEBase::ShareEditMenu
 
  ******************************************************************************/
 
-#include <jx_find.xpm>
-#include <jx_find_previous.xpm>
-#include <jx_find_next.xpm>
-#include <jx_find_selection_backwards.xpm>
-#include <jx_find_selection_forward.xpm>
-#include <jx_replace_selection.xpm>
+#include <jx-af/image/jx/jx_find.xpm>
+#include <jx-af/image/jx/jx_find_previous.xpm>
+#include <jx-af/image/jx/jx_find_next.xpm>
+#include <jx-af/image/jx/jx_find_selection_backwards.xpm>
+#include <jx-af/image/jx/jx_find_selection_forward.xpm>
+#include <jx-af/image/jx/jx_replace_selection.xpm>
 
 JXTextMenu*
 JXTEBase::AppendSearchMenu

@@ -18,12 +18,12 @@ public:
 
 	JOutPipeStream(const int fd, const bool close);
 
-	virtual ~JOutPipeStream();
+	~JOutPipeStream() override;
 
 	void	close();
 
 	bool	WillClosePipe() const;
-	void		ShouldClosePipe(const bool close = true);
+	void	ShouldClosePipe(const bool close = true);
 
 private:
 

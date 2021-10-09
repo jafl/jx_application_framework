@@ -41,17 +41,13 @@ ${APP_NAME}:: strings
 
 .PHONY : install
 install::
-  ifeq (${shell whoami},root)
 	@mkdir -p ${ROOT_DATA_FILE_DIR}
 	@cp -r ./app_template/ ${ROOT_DATA_FILE_DIR}
 	@cp -r ./lib_template/ ${ROOT_DATA_FILE_DIR}
-  endif
 
 .PHONY : uninstall
 uninstall::
-  ifeq (${shell whoami},root)
 	@${RM} -r ${ROOT_DATA_FILE_DIR}
-  endif
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

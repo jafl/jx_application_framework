@@ -83,3 +83,13 @@ jobs:
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v1
+
+      - name: Build package
+        run: |
+          make JX_VERSION=ci release
+
+      - name: Upload package
+        env:
+          SOURCEFORGE_KEY: ${{ secrets.SOURCEFORGE_KEY }}
+        run: |
+          scp jx-application-framework-ci_i386.deb jafl,libjx@web.sourceforge.net:htdocs/ci/

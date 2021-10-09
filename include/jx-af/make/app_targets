@@ -39,6 +39,7 @@ EXE_NAME := ${call EXE,${APP_NAME}}
 .PHONY : install
 install:: ${APP_NAME}
 	@${J_STRIP_DEBUG} ${EXE_NAME}
+	@mkdir -p ${JX_INSTALL_ROOT}/bin
 	@cp ${APP_NAME} ${JX_INSTALL_ROOT}/bin
 
 .PHONY : uninstall
@@ -55,8 +56,7 @@ JX_ACTION_DEFS   := ${JX_INCLUDE_ROOT}/jx-af/jx/jXActionDefs.h \
 
 .PHONY : strings
 strings:
-	@${RM} ${MENU_STRING_FILE}
-	@rm -f strings/version
+	@${RM} ${MENU_STRING_FILE} strings/version
 	@echo -e '0\nVERSION "${APP_VERSION}"' > strings/version
 	compile_jstrings ${J_STRING_FILES} \
       --code kDefaultStringData ./code/stringData.h
@@ -108,18 +108,6 @@ endif
 
 .PHONY : init_tarball_extra
 init_tarball_extra::
-
-ifneq (${shell which rpm 2> /dev/null},)
-  HAS_RPM := 1
-endif
-
-ifneq (${shell which dpkg-deb 2> /dev/null},)
-  HAS_DEB := 1
-endif
-
-ifneq (${shell echo $$UID},0)
-  SUDO := sudo
-endif
 
 .PHONY : _pre_build_pkgs
 _pre_build_pkgs:

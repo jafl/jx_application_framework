@@ -1,8 +1,6 @@
-JTreeNode::SetChildCompareFunction
-	use std::function
-
 store JX release pkg somewhere so it can be installed when building apps
 
+syntax hilighting for Makefiles - based off bash
 
 keg for brew
 	https://docs.brew.sh/Formula-Cookbook

@@ -19,7 +19,7 @@
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx_un_warning.xpm>
+#include <jx-af/image/jx/jx_un_warning.xpm>
 
 // JBroadcaster message types
 

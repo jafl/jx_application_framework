@@ -20,6 +20,7 @@ EXE_NAME := ${call EXE,${APP_NAME}}
 .PHONY : install
 install: makemake
 	@${J_STRIP_DEBUG} ${EXE_NAME}
+	@mkdir -p ${JX_INSTALL_ROOT}/bin
 	@cp ${APP_NAME} ${JX_INSTALL_ROOT}/bin
 	@if { command -v makemake > /dev/null; } then \
          { \

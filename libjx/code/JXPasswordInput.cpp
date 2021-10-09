@@ -89,7 +89,7 @@ JXPasswordInput::TERefreshRect
 
  ******************************************************************************/
 
-#include <jx_caps_lock_on.xpm>
+#include <jx-af/image/jx/jx_caps_lock_on.xpm>
 
 void
 JXPasswordInput::Draw

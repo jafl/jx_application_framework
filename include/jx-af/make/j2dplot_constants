@@ -4,8 +4,7 @@
 # version numbers
 #
 
-J2DPLOT_VERSION     := 2.0.0
-J2DPLOT_LIB_VERSION := 2_0_0
+J2DPLOT_VERSION := 2.0.0
 
 #
 # String data files -- prepend to allow app to override

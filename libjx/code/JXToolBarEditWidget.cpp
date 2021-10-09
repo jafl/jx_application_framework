@@ -25,9 +25,9 @@
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx_toolbar_menu_node.xpm>
-#include <jx_toolbar_checked.xpm>
-#include <jx_toolbar_unchecked.xpm>
+#include <jx-af/image/jx/jx_toolbar_menu_node.xpm>
+#include <jx-af/image/jx/jx_toolbar_checked.xpm>
+#include <jx-af/image/jx/jx_toolbar_unchecked.xpm>
 
 /******************************************************************************
  Constructor

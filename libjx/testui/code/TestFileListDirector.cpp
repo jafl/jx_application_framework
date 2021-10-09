@@ -74,8 +74,8 @@ TestFileListDirector::~TestFileListDirector()
 
  ******************************************************************************/
 
-#include <jx_filter_wildcard.xpm>
-#include <jx_filter_regex.xpm>
+#include <jx-af/image/jx/jx_filter_wildcard.xpm>
+#include <jx-af/image/jx/jx_filter_regex.xpm>
 
 void
 TestFileListDirector::BuildWindow()

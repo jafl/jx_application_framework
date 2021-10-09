@@ -38,7 +38,7 @@
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx_plain_file_small.xpm>
+#include <jx-af/image/jx/jx_plain_file_small.xpm>
 
 const JCoordinate kIconWidth    = 20;
 const JCoordinate kTextPadding  = 5;

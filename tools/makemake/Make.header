@@ -29,6 +29,7 @@ include ${MAKE_INCLUDE}/app_targets
 .PHONY : install
 install::
 	@chmod a+x ${SCRIPT_FILES}
+	@mkdir -p ${JX_INSTALL_ROOT}/bin
 	@cp ${SCRIPT_FILES} ${JX_INSTALL_ROOT}/bin
 
 .PHONY : uninstall

@@ -15,7 +15,6 @@ default: ${LIB_NAME_ROOT}.a
 
 .PHONY : install
 install:
-  ifeq ($(shell whoami),root)
 	@mkdir -p ${JX_INSTALL_ROOT}/lib ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
 	@cp ${LIB_NAME_ROOT}.a ${JX_INSTALL_ROOT}/lib
 	@cp code/*.h ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
@@ -27,13 +26,10 @@ install:
          mkdir -p ${INCLUDE_INSTALL_ROOT}/image/${INCLUDE_INSTALL_NAME}; \
          cp image/* ${INCLUDE_INSTALL_ROOT}/image/${INCLUDE_INSTALL_NAME}; \
      fi
-  endif
 
 .PHONY : uninstall
 uninstall:
-  ifeq ($(shell whoami),root)
 	@${RM} -r ${JX_INSTALL_ROOT}/lib/${LIB_NAME_ROOT}.a \
               ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME} \
               ${INCLUDE_INSTALL_ROOT}/strings/${INCLUDE_INSTALL_NAME} \
               ${INCLUDE_INSTALL_ROOT}/image/${INCLUDE_INSTALL_NAME}
-  endif

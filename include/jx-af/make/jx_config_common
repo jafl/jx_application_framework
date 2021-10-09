@@ -18,8 +18,6 @@ J_COMPILER_DEPEND_FLAGS_FOR_BISON := ${J_RAW_SYSTEM_STUFF}
 J_COMPILER_DEPEND_FLAGS := \
   ${J_COMPILER_DEPEND_FLAGS_FOR_BISON} -Wall -Werror
 
-SEARCHDIRS += -I${JX_INCLUDE_ROOT}/jx-af/image/jx
-
 J_GCC_LIBS := -lxml2 ${J_GCC_LIBS}
 J_IMG_LIBS := -lgd -lpng -ljpeg
 J_STD_LIBS := ${J_IMG_LIBS} ${J_X11_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
@@ -58,14 +56,8 @@ YFLAGS := -d
      elif test -e $*.cpp.h; then mv $*.cpp.h $*.hpp; fi
 	@if test -e $*.hpp_old -a -z "`diff $*.hpp $*.hpp_old 2> /dev/null`"; \
      then mv $*.hpp_old $*.hpp; \
-     else rm -f $*.hpp_old; fi
+     else ${RM} $*.hpp_old; fi
 	@${JX_INCLUDE_ROOT}/jx-af/scripts/fix_bison_output.pl $*.cpp
-
-#
-# tar
-#
-
-TAR := tar --exclude '*/.xvpics*'
 
 #
 # useful functions

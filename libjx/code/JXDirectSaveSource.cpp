@@ -22,7 +22,7 @@
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx_plain_file_small.xpm>
+#include <jx-af/image/jx/jx_plain_file_small.xpm>
 
 /******************************************************************************
  Constructor

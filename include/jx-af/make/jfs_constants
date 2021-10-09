@@ -4,8 +4,7 @@
 # version numbers
 #
 
-JFS_VERSION     := 2.0.0
-JFS_LIB_VERSION := 2_0_0
+JFS_VERSION := 2.0.0
 
 #
 # String data files -- prepend to allow app to override

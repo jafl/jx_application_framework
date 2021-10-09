@@ -6,9 +6,7 @@ SHELL := /bin/bash
 # version numbers
 #
 
-JX_VERSION     := 4.0.0
-JX_LIB_VERSION := 4_0_0
-JX             := JX-${JX_VERSION}
+JX_VERSION := 4.0.0
 
 ACE_VERSION := $(shell perl -e \
     'if (-f "ACE/ACE_wrappers/ace/Version.h") { \
@@ -45,6 +43,22 @@ ifndef JX_INSTALL_ROOT
 endif
 
 #
+# system features
+#
+
+ifneq (${shell which rpm 2> /dev/null},)
+  HAS_RPM := 1
+endif
+
+ifneq (${shell which dpkg-deb 2> /dev/null},)
+  HAS_DEB := 1
+endif
+
+ifneq (${shell echo $$UID},0)
+  SUDO := sudo
+endif
+
+#
 # RPM -- root is overridable
 #
 
@@ -64,6 +78,12 @@ RPM := rpmbuild -bb --quiet --clean --rmsource
 J_STRING_FILES := ${JX_INCLUDE_ROOT}/jx-af/strings/jcore/* \
                   ${JX_INCLUDE_ROOT}/jx-af/strings/jx/* \
                   ${J_STRING_FILES}
+
+#
+# tar
+#
+
+TAR := tar --exclude '*/.xvpics*'
 
 #
 # strip commands -- no spaces allowed

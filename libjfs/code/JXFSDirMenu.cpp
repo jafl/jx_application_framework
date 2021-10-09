@@ -26,10 +26,10 @@
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx_plain_file_small.xpm>
-#include <jx_folder_small.xpm>
-#include <jx_executable_small.xpm>
-#include <jx_unknown_file_small.xpm>
+#include <jx-af/image/jx/jx_plain_file_small.xpm>
+#include <jx-af/image/jx/jx_folder_small.xpm>
+#include <jx-af/image/jx/jx_executable_small.xpm>
+#include <jx-af/image/jx/jx_unknown_file_small.xpm>
 
 static const JUtf8Byte* kEmptyMenuText       = "No files";
 static const JUtf8Byte* kEmptyMenuTextSuffix = " %d";

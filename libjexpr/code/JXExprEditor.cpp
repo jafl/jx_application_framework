@@ -285,11 +285,11 @@ JXExprEditor::~JXExprEditor()
 
  ******************************************************************************/
 
-#include <jx_edit_undo.xpm>
-#include <jx_edit_cut.xpm>
-#include <jx_edit_copy.xpm>
-#include <jx_edit_paste.xpm>
-#include <jx_edit_clear.xpm>
+#include <jx-af/image/jx/jx_edit_undo.xpm>
+#include <jx-af/image/jx/jx_edit_cut.xpm>
+#include <jx-af/image/jx/jx_edit_copy.xpm>
+#include <jx-af/image/jx/jx_edit_paste.xpm>
+#include <jx-af/image/jx/jx_edit_clear.xpm>
 
 void
 JXExprEditor::CreateMenus

@@ -45,14 +45,16 @@ default:
 install: default
 	@${BEGIN_ACE_CMD} \
        echo Please authorize sudo access for building ACE...; \
-       sudo echo sudo access authorized...; \
+       ${SUDO} echo sudo access authorized...; \
        cd ACE_wrappers/ace; \
-       sudo ${BEGIN_ACE_MAKE} INSTALL_PREFIX=/usr/local install; \
-       ${END_ACE_CMD}
+       ${SUDO} ${BEGIN_ACE_MAKE} INSTALL_PREFIX=/usr/local install; \
+     ${END_ACE_CMD}
 
 .PHONY : uninstall
 uninstall:
-	@${SUDO} rm -rf /usr/local/include/ace /usr/local/lib/libACE*
+	@${BEGIN_ACE_CMD} \
+       ${SUDO} rm -rf /usr/local/include/ace /usr/local/lib/libACE* \
+     ${END_ACE_CMD}
 
 #
 # remove object files

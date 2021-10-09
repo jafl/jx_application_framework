@@ -38,3 +38,5 @@ obsolete/*/ChangeLog.html
 
 *.o.json
 compile_commands.json
+
+release_pkg

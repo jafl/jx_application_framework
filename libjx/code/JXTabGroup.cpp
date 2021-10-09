@@ -32,8 +32,8 @@
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx_tab_close.xpm>
-#include <jx_tab_close_pushed.xpm>
+#include <jx-af/image/jx/jx_tab_close.xpm>
+#include <jx-af/image/jx/jx_tab_close_pushed.xpm>
 
 const JCoordinate kBorderWidth      = kJXDefaultBorderWidth;
 const JCoordinate kTextMargin       = 4;

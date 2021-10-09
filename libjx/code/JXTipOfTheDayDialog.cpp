@@ -74,7 +74,7 @@ JXTipOfTheDayDialog::~JXTipOfTheDayDialog()
 
  ******************************************************************************/
 
-#include <jx_tip_of_the_day.xpm>
+#include <jx-af/image/jx/jx_tip_of_the_day.xpm>
 
 void
 JXTipOfTheDayDialog::BuildWindow

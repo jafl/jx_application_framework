@@ -19,7 +19,7 @@ class JXCheckboxGroup : public JContainer
 {
 public:
 
-	virtual ~JXCheckboxGroup();
+	~JXCheckboxGroup() override;
 
 	bool	Includes(JXCheckbox* cb) const;
 	void	Add(JXCheckbox* cb);
