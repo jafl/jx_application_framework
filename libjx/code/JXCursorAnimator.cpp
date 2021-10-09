@@ -108,10 +108,10 @@ static const JUtf8Byte* kBeachballFrameName[] =
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
 
-#include <jx_beachball_1_cursor.xbm>
-#include <jx_beachball_2_cursor.xbm>
-#include <jx_beachball_3_cursor.xbm>
-#include <jx_beachball_4_cursor.xbm>
+#include <jx-af/image/jx/jx_beachball_1_cursor.xbm>
+#include <jx-af/image/jx/jx_beachball_2_cursor.xbm>
+#include <jx-af/image/jx/jx_beachball_3_cursor.xbm>
+#include <jx-af/image/jx/jx_beachball_4_cursor.xbm>
 #include <jx-af/image/jx/jx_beachball_cursor_mask.xbm>
 
 #pragma GCC diagnostic pop
