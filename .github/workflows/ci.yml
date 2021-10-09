@@ -102,6 +102,5 @@ jobs:
       - name: Upload package
         run: |
           echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
-          chmod 0600 sourceforge_key
           scp -v -v -v -o StrictHostKeyChecking=no -i sourceforge_key ./configure jafl,libjx@web.sourceforge.net:htdocs/ci/
           echo scp -o StrictHostKeyChecking=no -i sourceforge_key jx-application-framework-ci_i386.deb jafl,libjx@web.sourceforge.net:htdocs/ci/
