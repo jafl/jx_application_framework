@@ -50,7 +50,7 @@ CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL} \
             ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
               pkg-config --cflags icu-i18n libpcre}
 CFLAGS    =
-CXXFLAGS  = -std=c++17 --verbose
+CXXFLAGS  = -std=c++17
 
 # libraries to link
 

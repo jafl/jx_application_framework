@@ -3,7 +3,7 @@ JX_ROOT := .
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
-JMAKE = ${MAKE} PATH=${PATH}:${JX_INSTALL_ROOT}/bin
+JMAKE = ${MAKE} PATH=${PATH}:${JX_INSTALL_ROOT}/bin:/usr/local/opt/bison/bin
 
 .PHONY : default
 default:
