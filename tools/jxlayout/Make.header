@@ -7,14 +7,14 @@ APP_NAME   := jxlayout
 SCRIPTS    := jfdesign convert_gravity
 DATA_FILES := class_map option_map need_font_list need_string_list need_create_list
 
+MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
+include ${MAKE_INCLUDE}/jx_config
+
 ifndef JXLAYOUTDIR
   ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}/jx/jxlayout
 else
   ROOT_DATA_FILE_DIR := ${JXLAYOUTDIR}
 endif
-
-MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
-include ${MAKE_INCLUDE}/jx_config
 
 # makemake variables
 
@@ -40,11 +40,11 @@ include ${MAKE_INCLUDE}/app_targets
 
 .PHONY : install
 install::
-	@cp jxlayout jfdesign ${JX_INSTALL_ROOT}/bin
+	@cp jfdesign ${JX_INSTALL_ROOT}/bin
 	@mkdir -p ${ROOT_DATA_FILE_DIR}
 	@cp ${DATA_FILES} ${ROOT_DATA_FILE_DIR}
 
 .PHONY : uninstall
 uninstall::
-	@${RM} $(addprefix ${JX_INSTALL_ROOT}/bin, jxlayout jfdesign)
+	@${RM} ${JX_INSTALL_ROOT}/bin/jfdesign
 	@${RM} -r ${ROOT_DATA_FILE_DIR}

@@ -34,7 +34,7 @@ install::
 
 .PHONY : uninstall
 uninstall::
-	@${RM} ${addprefix ${JX_INSTALL_ROOT}/bin, ${SCRIPT_FILES}}
+	@${RM} ${addprefix ${JX_INSTALL_ROOT}/bin/, ${SCRIPT_FILES}}
 
 #
 # jcc binary distribution (const JCC_TAR_DIR)
