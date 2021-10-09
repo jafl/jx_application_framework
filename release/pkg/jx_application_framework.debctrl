@@ -8,5 +8,4 @@ Architecture: i386
 Essential: no
 Depends: libx11, libxinerama, libxpm, libxft, libxml2, libgd, libjpeg, libpng, libace, libicu, libpcre3
 Suggests: code-crusader, code-medic
-Description: JX is a full-featured C++ application framework and widget library (SDK)
-for use with the X Window System.
+Description: JX is a full-featured C++ application framework and widget library (SDK) for use with the X Window System.
