@@ -104,5 +104,7 @@ jobs:
           echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
           chmod 0600 sourceforge_key
           echo "${{ secrets.SOURCEFORGE_PUBLIC_KEY }}" >> sourceforge_key-cert.pub
+          ssh -o StrictHostKeyChecking=no web.sourceforge.net
+          ssh -G -v -v -v -i sourceforge_key jafl,libjx@web.sourceforge.net
           scp -v -v -v -i sourceforge_key ./configure jafl,libjx@web.sourceforge.net:htdocs/ci/
           echo scp -i sourceforge_key jx-application-framework-ci_i386.deb jafl,libjx@web.sourceforge.net:htdocs/ci/
