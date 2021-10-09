@@ -114,6 +114,7 @@ layouts:
 install:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE, \
        ${BEGIN_DIR}; ${MAKE} install; ${END_DIR};)
+	@cp -r ${MAKE_INCLUDE} ${JX_INSTALL_ROOT}/include/jx-af
 
 .PHONY : uninstall
 uninstall:

@@ -11,7 +11,7 @@ MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
 ifndef JXLAYOUTDIR
-  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}/jx/jxlayout
+  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}/etc/jx/jxlayout
 else
   ROOT_DATA_FILE_DIR := ${JXLAYOUTDIR}
 endif
