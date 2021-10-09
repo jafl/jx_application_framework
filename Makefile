@@ -149,7 +149,7 @@ release:
 	@cp release/pkg/jx_application_framework.debctrl release_pkg/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' release_pkg/DEBIAN/control;
 	@dpkg-deb --build release_pkg
-	@mv release_pkg.deb jx-application-framework_${APP_VERSION}_i386.deb
+	@mv release_pkg.deb jx-application-framework_${JX_VERSION}_i386.deb
 	@${RM} -r release_pkg/DEBIAN
   endif
 
