@@ -46,5 +46,5 @@ install::
 
 .PHONY : uninstall
 uninstall::
-	@${RM} ${addprefix ${JX_INSTALL_ROOT}/bin, jxlayout jfdesign}
+	@${RM} $(addprefix ${JX_INSTALL_ROOT}/bin, jxlayout jfdesign)
 	@${RM} -r ${ROOT_DATA_FILE_DIR}

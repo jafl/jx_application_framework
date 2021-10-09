@@ -115,6 +115,7 @@ install:
 uninstall:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE, \
        ${BEGIN_DIR}; ${MAKE} uninstall; ${END_DIR};)
+	@${RM} -r ${JX_INCLUDE_ROOT}/jx-af
 
 #
 # build packages
