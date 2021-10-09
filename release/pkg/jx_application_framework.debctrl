@@ -4,7 +4,7 @@ Maintainer: John Lindal <https://about.me/johnlindal>
 Homepage: https://github.com/jafl/jx_application_framework
 Section: contrib/libs
 Priority: optional
-Architecture: i386
+Architecture: %ARCH%
 Essential: no
 Depends: libx11-dev, libxinerama-dev, libxpm-dev, libxft-dev, libxmu-dev, libxi-dev, libxml2-dev, libgd-dev, libjpeg-dev, libpng-dev, libace-dev, libicu-dev, libpcre3-dev
 Suggests: code-crusader, code-medic

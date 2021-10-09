@@ -153,6 +153,7 @@ build_release:
 	@${RM} -r release_pkg/DEBIAN; mkdir -p release_pkg/DEBIAN
 	@cp release/pkg/jx_application_framework.debctrl release_pkg/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' release_pkg/DEBIAN/control;
+	@perl -pi -e 's/%ARCH%/'`dpkg --print-architecture`'/' release_pkg/DEBIAN/control
 	@dpkg-deb --build release_pkg
 	@mv release_pkg.deb jx-application-framework_${JX_VERSION}_i386.deb
 	@${RM} -r release_pkg/DEBIAN
