@@ -2,7 +2,7 @@
 #
 # requires that jx_config has already been included
 
-APP_VERSION := ${shell cat release/VERSION}
+APP_VERSION := ${shell if { test -f release/VERSION; } then cat release/VERSION; fi}
 
 .PHONY : default
 default: libs all post_link
