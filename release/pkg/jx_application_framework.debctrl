@@ -6,6 +6,6 @@ Section: contrib/libs
 Priority: optional
 Architecture: i386
 Essential: no
-Depends: libx11-6, libxinerama1, libxpm4, libxft2, libxml2, libgd3, libjpeg8, libpng16-16, libace-6.4.5, libicu66, libpcre3
+Depends: libx11-dev, libxinerama-dev, libxpm-dev, libxft-dev, libxmu-dev, libxi-dev, libxml2-dev, libgd-dev, libjpeg-dev, libpng-dev, libace-dev, libicu-dev, libpcre3-dev
 Suggests: code-crusader, code-medic
 Description: JX is a full-featured C++ application framework and widget library (SDK) for use with the X Window System.
