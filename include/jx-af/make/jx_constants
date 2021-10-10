@@ -42,6 +42,8 @@ ifndef JX_INSTALL_ROOT
   endif
 endif
 
+APP_DATA_PATH := /etc/jx-af
+
 #
 # system features
 #
