@@ -114,7 +114,7 @@ layouts:
 install:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE, \
        ${BEGIN_DIR}; ${MAKE} install; ${END_DIR};)
-	@cp -rL ${MAKE_INCLUDE} ${JX_INSTALL_ROOT}/include/jx-af
+	@cp -RL ${MAKE_INCLUDE} ${JX_INSTALL_ROOT}/include/jx-af
 
 .PHONY : uninstall
 uninstall:
@@ -141,7 +141,7 @@ build_release:
 	@${RM} -r release_pkg; mkdir -p release_pkg
 	@pushd release_pkg; export JX_INSTALL_ROOT=`pwd`; popd; \
      ${MAKE} install
-	@cp -rL ${MAKE_INCLUDE} release_pkg/include/jx-af/; \
+	@cp -RL ${MAKE_INCLUDE} release_pkg/include/jx-af/; \
      ${RM} -r release_pkg/include/jx-af/make/sys
 
   ifeq (${HAS_RPM},1)
