@@ -133,7 +133,7 @@ build_release:
 	@${SUDO} echo sudo access authorized...
   endif
 
-	@${RM} -r release_pkg; mkdir -p release_pkg/usr
+	@${RM} -r release_pkg; mkdir -p release_pkg
 	@pushd release_pkg; export JX_INSTALL_ROOT=`pwd`; popd; \
      ${MAKE} install
 	@cp -rL ${MAKE_INCLUDE} release_pkg/include/jx-af/; \
@@ -151,7 +151,7 @@ build_release:
   endif
 
   ifeq (${HAS_DEB},1)
-	@cd release_pkg; mkdir usr; mv bin lib include etc usr;
+	@cd release_pkg; mkdir usr; mv bin lib include usr;
 	@${RM} -r release_pkg/DEBIAN; mkdir -p release_pkg/DEBIAN
 	@cp release/pkg/jx_application_framework.debctrl release_pkg/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' release_pkg/DEBIAN/control;
