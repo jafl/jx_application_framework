@@ -20,8 +20,7 @@ release:
 
 # useful macros
 
-BEGIN_DIR = if { test -d ${dir}; } then ( cd ${dir}
-END_DIR   = ) fi
+IF_DIR = if [[ -d ${dir} ]]; then cd ${dir}
 
 #
 # initial build
@@ -29,23 +28,23 @@ END_DIR   = ) fi
 
 .PHONY : initial_build
 initial_build:
-	@if { test -d misc/reflex; } then \
+	@if [[ -d misc/reflex ]]; then \
        echo Please authorize sudo access for installing reflex...; \
        ${SUDO} echo sudo access authorized...; \
        cd misc/reflex; \
-       if { ! test -f lib/libreflex.a;  } then \
+       if [[ ! -f lib/libreflex.a ]]; then \
           ./clean.sh; ./build.sh; \
        fi; \
        ${SUDO} ./allinstall.sh; \
      fi
-	@if { ! test -h ACE/ACE_wrappers && ! test -e ACE/ACE_wrappers/ace/libACE.a; } then \
+	@if [[ ! -h ACE/ACE_wrappers && ! test -e ACE/ACE_wrappers/ace/libACE.a ]]; then \
        cd ACE; ${JMAKE} install; \
      fi
-	@if { ! test -x tools/makemake/makemake; } then \
+	@if [[ ! -x tools/makemake/makemake ]]; then \
        cd tools/makemake; \
        ${MAKE} -f Makefile.port install; \
      fi
-	@if { ! test -f libjcore/Makefile; } then \
+	@if [[ ! -f libjcore/Makefile ]]; then \
        ${JMAKE} -w Makefiles; \
      fi
 	@cd libjcore; ${JMAKE} COMPILE_STRINGS=0
@@ -55,7 +54,7 @@ initial_build:
        if ! ( cd $$dir; ${JMAKE}; ); then exit 1; fi \
      done;
 	@$(foreach dir, $(wildcard tools/*), \
-       ${BEGIN_DIR}; ${JMAKE}; ${END_DIR};)
+       ${IF_DIR}; ${JMAKE}; fi)
 
 #
 # build all Makefiles
@@ -64,7 +63,7 @@ initial_build:
 .PHONY : Makefiles
 Makefiles:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE/test tutorial, \
-       ${BEGIN_DIR}; makemake; ${JMAKE} Makefiles; ${END_DIR};)
+       ${IF_DIR}; makemake; ${JMAKE} Makefiles; fi)
 
 #
 # build all libraries
@@ -73,7 +72,7 @@ Makefiles:
 .PHONY : libs
 libs:
 	@$(foreach dir, $(wildcard lib?*), \
-       ${BEGIN_DIR}; makemake; ${JMAKE}; ${END_DIR};)
+       ${IF_DIR}; makemake; ${JMAKE}; fi)
 
 #
 # run all test suites
@@ -100,11 +99,11 @@ endif
 .PHONY : layouts
 layouts:
 	@$(foreach dir, $(wildcard lib?* tools/*), \
-       ${BEGIN_DIR}; \
+       ${IF_DIR}; \
            if compgen -G "*.fd" > /dev/null; then \
                jxlayout --require-obj-names *.fd; \
            fi; \
-       ${END_DIR};)
+       fi)
 
 #
 # install libraries, headers, etc.
@@ -113,13 +112,13 @@ layouts:
 .PHONY : install
 install:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE, \
-       ${BEGIN_DIR}; ${JMAKE} install; ${END_DIR};)
+       ${IF_DIR}; ${JMAKE} install; fi)
 	@cp -RL ${MAKE_INCLUDE} ${JX_ROOT}/include/jx-af/scripts ${JX_INSTALL_ROOT}/include/jx-af
 
 .PHONY : uninstall
 uninstall:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE, \
-       ${BEGIN_DIR}; ${MAKE} uninstall; ${END_DIR};)
+       ${IF_DIR}; ${MAKE} uninstall; fi)
 	@${RM} -r ${JX_INSTALL_ROOT}/include/jx-af
 
 #
@@ -185,9 +184,9 @@ sonar:
 .PHONY : tidy
 tidy:
 	@$(foreach dir, $(wildcard lib?* tools/*)  ACE tutorial, \
-       ${BEGIN_DIR}; ${MAKE} tidy; ${END_DIR};)
+       ${IF_DIR}; ${MAKE} tidy; fi)
 
 .PHONY : clean
 clean:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE tutorial, \
-       ${BEGIN_DIR}; ${MAKE} clean; ${END_DIR};)
+       ${IF_DIR}; ${MAKE} clean; fi)

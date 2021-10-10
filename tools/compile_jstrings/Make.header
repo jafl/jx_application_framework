@@ -32,7 +32,7 @@ include ${MAKE_INCLUDE}/app_targets
 .PHONY : libs
 libs::
 	@cd ${JX_ROOT}/libjcore; \
-     if { ! test -e code/jStringData.h; } then \
+     if [[ ! -e code/jStringData.h ]]; then \
        cp -f jStringData_init.h code/jStringData.h; \
        ${MAKE} COMPILE_STRINGS=0; \
      else \

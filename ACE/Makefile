@@ -14,7 +14,7 @@ endif
 #
 
 BEGIN_ACE_CMD = \
-    if { test -f ACE_wrappers/ace/Makefile || test -f ACE_wrappers/ace/GNUmakefile; } then
+    if [[ -f ACE_wrappers/ace/Makefile || test -f ACE_wrappers/ace/GNUmakefile ]]; then
 
 END_ACE_CMD = \
     fi
@@ -28,9 +28,9 @@ BEGIN_ACE_MAKE = \
 
 .PHONY : default
 default:
-	@if { test -x ACE_wrappers/bin/mwc.pl && \
+	@if [[ -x ACE_wrappers/bin/mwc.pl && \
            ! test -f ACE_wrappers/ace/Makefile && \
-           ! test -f ACE_wrappers/ace/GNUmakefile; } \
+           ! test -f ACE_wrappers/ace/GNUmakefile ]]; \
      then \
          cd ACE_wrappers; \
          export ACE_ROOT=$$(pwd); \
@@ -62,12 +62,12 @@ uninstall:
 
 .PHONY : tidy
 tidy::
-	@if { test -d ACE_wrappers; } \
-     then { cd ACE_wrappers/ace; ${BEGIN_ACE_MAKE} clean; } fi
+	@if [[ -d ACE_wrappers ]]; \
+     then cd ACE_wrappers/ace; ${BEGIN_ACE_MAKE} clean; fi
 	@cd test; ${MAKE} tidy
 
 .PHONY : clean
 clean::
-	@if { test -d ACE_wrappers; } \
-     then { cd ACE_wrappers/ace; ${BEGIN_ACE_MAKE} realclean; } fi
+	@if [[ -d ACE_wrapper ]]; \
+     then cd ACE_wrappers/ace; ${BEGIN_ACE_MAKE} realclean; fi
 	@cd test; ${MAKE} clean

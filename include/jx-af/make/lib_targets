@@ -10,7 +10,7 @@ INCLUDE_INSTALL_NAME := $(subst lib,,${LIB_NAME_ROOT})
 .PHONY : default
 default: ${LIB_NAME_ROOT}.a
   ifneq (${jx.test.skip},true)
-	@if { test -d test; } then cd test; makemake; make FROM_LIB=1 test; fi
+	@if [[ -d test ]]; then cd test; makemake; make FROM_LIB=1 test; fi
   endif
 
 .PHONY : install
@@ -19,11 +19,11 @@ install:
 	@cp ${LIB_NAME_ROOT}.a ${JX_INSTALL_ROOT}/lib
 	@cp code/*.h ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
 	@-cp code/*.tmpl ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
-	@if { test -d strings; } then \
+	@if [[ -d strings ]]; then \
          mkdir -p ${INCLUDE_INSTALL_ROOT}/strings/${INCLUDE_INSTALL_NAME}; \
          cp strings/* ${INCLUDE_INSTALL_ROOT}/strings/${INCLUDE_INSTALL_NAME}; \
      fi
-	@if { test -d image; } then \
+	@if [[ -d image ]]; then \
          mkdir -p ${INCLUDE_INSTALL_ROOT}/image/${INCLUDE_INSTALL_NAME}; \
          cp image/* ${INCLUDE_INSTALL_ROOT}/image/${INCLUDE_INSTALL_NAME}; \
      fi

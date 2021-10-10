@@ -1,11 +1,17 @@
-store JX release pkg somewhere so it can be installed when building apps
-
 syntax hilighting for Makefiles - based off bash
 
 keg for brew
 	https://docs.brew.sh/Formula-Cookbook
 	https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap
 
+ci
+	drakon
+	jx-ide
+	systemg
+	leibnitz
+	ssh_askpass
+	svn_client
+	systemg
 
 
 
@@ -21,7 +27,6 @@ systemg slow to open new window
 
 JStyledText
 	CleanRightMargin
-	Clean whitespace
 
 
 u-ctags:
@@ -108,6 +113,8 @@ glove
 	test layouts on Linux and OS X
 
 	test column transform:  add two columns
+
+	ci
 
 clean up tutorial
 
