@@ -1,8 +1,11 @@
-%{
+%require "3.8"
+
+%code top {
 /*
 Copyright (C) 2018 by John Lindal.
 */
 
+#include "jx-af/jexpr/JExprParser.h"
 #include "jx-af/jexpr/JAbsValue.h"
 #include "jx-af/jexpr/JAlgSign.h"
 #include "jx-af/jexpr/JArcCosine.h"
@@ -43,13 +46,12 @@ Copyright (C) 2018 by John Lindal.
 #include "jx-af/jexpr/JVariableList.h"
 #include <jx-af/jcore/JPtrArray-JString.h>
 
-#include "jx-af/jexpr/JExprParser.h"
 #define yyparse JExprParser::yyparse
 
 // also uncomment yydebug=1; below
 //#define YYERROR_VERBOSE
 //#define YYDEBUG 1
-%}
+}
 
 %union {
 	JString*				pString;
@@ -57,6 +59,7 @@ Copyright (C) 2018 by John Lindal.
 	JPtrArray<JFunction>*	pList;
 }
 
+%header
 %define api.pure
 
 %token<pString>	P_NUMBER P_HEX P_VARIABLE
@@ -73,10 +76,10 @@ Copyright (C) 2018 by John Lindal.
 %type<pFunction>	expression e
 %type<pList>		arglist
 
-%{
+%code {
 
 // debugging output
-/*
+
 #define YYPRINT(file, type, value)	yyprint(file, type, value)
 #include <stdio.h>
 
@@ -93,12 +96,10 @@ yyprint
 		fprintf(file, "string:  %s", (value.pString)->GetBytes());
 	}
 }
-*/
-%}
 
-%{
-#include <jx-af/jcore/jAssert.h>	// must be last
-%}
+// must be last
+#include <jx-af/jcore/jAssert.h>
+}
 
 %initial-action
 {

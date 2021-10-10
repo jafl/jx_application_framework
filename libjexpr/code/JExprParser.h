@@ -16,6 +16,7 @@ class JExprEditor;
 
 #include <jx-af/jcore/JPtrArray-JString.h>
 #include "JExprParserY.hpp"
+
 namespace JExpr { class Scanner; }
 
 class JExprParser
