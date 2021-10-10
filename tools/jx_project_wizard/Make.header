@@ -5,7 +5,7 @@ JX_ROOT := ../..
 
 APP_NAME           := jx_project_wizard
 SIGNATURE          := ${APP_NAME}
-ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}/etc/jx/jx_project_wizard
+ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}/${APP_DATA_PATH}/jx_project_wizard
 
 J_STRING_FILES := strings/*
 

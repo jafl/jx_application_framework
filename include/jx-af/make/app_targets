@@ -4,6 +4,8 @@
 
 APP_VERSION := ${shell if { test -f release/VERSION; } then cat release/VERSION; fi}
 
+APP_DATA_PATH := etc/jx-af
+
 .PHONY : default
 default: libs all post_link
 
