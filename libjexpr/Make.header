@@ -40,9 +40,10 @@ tidy::
 
 .PHONY : clean
 clean::
-	@${RM} code/JExprParserY.cpp code/JExprParserY.hpp \
-           code/JExprScanner.cpp code/JExprScanner.h
+	@${RM} code/JExprScanner.cpp code/JExprScanner.h
 	@cd test; ${MAKE} clean
+
+.PRECIOUS : code/JExprParserY.cpp code/JExprParserY.hpp
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

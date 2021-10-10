@@ -1,4 +1,4 @@
-%require "3.5"
+%require "3.8"
 
 %code top {
 /*
