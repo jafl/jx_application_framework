@@ -12,7 +12,7 @@ include ${MAKE_INCLUDE}/jx_config
 
 ifeq (${J_IS_RELEASE_BUILD},1)
   APP_DATA_FILE_DIR  := ${APP_DATA_PREFIX}${APP_DATA_PATH}/jxlayout
-  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}${APP_DATA_PATH}
+  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}${APP_DATA_PATH}/jxlayout
 else
   APP_DATA_FILE_DIR  := $(shell cd ${JX_ROOT}; pwd)/tools/jxlayout
 endif

@@ -17,7 +17,7 @@ SEARCHDIRS := -I./code ${SEARCHDIRS}
 ifeq (${J_IS_RELEASE_BUILD},1)
   JX_PATH            := ${APP_DATA_PREFIX}
   APP_DATA_FILE_DIR  := ${APP_DATA_PREFIX}${APP_DATA_PATH}/jx_project_wizard
-  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}${APP_DATA_PATH}
+  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}${APP_DATA_PATH}/jx_project_wizard
 else
   JX_PATH            := $(shell cd ${JX_ROOT}; pwd)
   APP_DATA_FILE_DIR  := ${JX_PATH}/tools/jx_project_wizard
