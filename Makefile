@@ -151,14 +151,14 @@ build_release:
   endif
 
   ifeq (${HAS_DEB},1)
-	@cd release_pkg; mkdir usr; mv bin lib include usr;
+	@cd release_pkg; mkdir -p usr/local; mv bin lib include usr/local;
 	@${RM} -r release_pkg/DEBIAN; mkdir -p release_pkg/DEBIAN
 	@cp release/pkg/jx_application_framework.debctrl release_pkg/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' release_pkg/DEBIAN/control;
 	@perl -pi -e 's/%ARCH%/'`dpkg --print-architecture`'/' release_pkg/DEBIAN/control
 	@dpkg-deb --build release_pkg
 	@mv release_pkg.deb jx-application-framework.deb
-	@${RM} -r release_pkg/DEBIAN
+	@cd release_pkg; mv usr/local/bin usr/local/lib usr/local/include .; ${RM} -r usr/local DEBIAN
   endif
 
 	@${RM} -r release_pkg

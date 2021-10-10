@@ -30,7 +30,7 @@ const JSize kHistoryLength = 20;
 
 static const JString kDefaultVersion("1.0.0", JString::kNoCopy);
 static const JString kDefaultURLText("http://", JString::kNoCopy);
-static const JString kDefaultTemplateDir(JX_PATH "tools/jx_project_wizard/app_template/", JString::kNoCopy);
+static const JString kDefaultTemplateDir(TEMPLATE_PATH "/app_template", JString::kNoCopy);
 static const JString kDefaultOpenCmd("jcc $f", JString::kNoCopy);
 
 static const JString kBinaryPrefixTag("_Binary_", JString::kNoCopy);
