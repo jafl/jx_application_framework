@@ -2,6 +2,10 @@
 
 SHELL := /bin/bash
 
+ifeq ($(shell cat ${JX_ROOT}/0-RELEASE 2>/dev/null),1)
+  J_IS_RELEASE_BUILD := 1
+endif
+
 #
 # version numbers
 #
@@ -31,9 +35,12 @@ ifndef JX_LIB_ROOT
   JX_LIB_ROOT := ${JX_ROOT}/lib
 endif
 
+APP_DATA_PREFIX := /usr/local
+APP_DATA_PATH   := /etc/jx-af
+
 ifndef JX_INSTALL_ROOT
   ifeq ($(shell whoami),root)
-    JX_INSTALL_ROOT := /usr/local
+    JX_INSTALL_ROOT := ${APP_DATA_PREFIX}
   else
     JX_INSTALL_ROOT := \
       ${shell if [[ -d ${HOME}/bin && -w ${HOME}/bin ]]; \
@@ -41,8 +48,6 @@ ifndef JX_INSTALL_ROOT
               else mkdir -p ${JX_ROOT}/bin; cd ${JX_ROOT}; pwd; fi }
   endif
 endif
-
-APP_DATA_PATH := /usr/local/etc/jx-af
 
 #
 # system features

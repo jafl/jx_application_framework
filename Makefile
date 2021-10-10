@@ -156,7 +156,7 @@ build_release:
   endif
 
   ifeq (${HAS_DEB},1)
-	@cd release_pkg; mkdir -p usr/local; mv bin lib include etc usr/local;
+	@cd release_pkg; mkdir -p usr/local; mv bin lib include usr/local;
 	@${RM} -r release_pkg/DEBIAN; mkdir -p release_pkg/DEBIAN
 	@cp release/pkg/jx_application_framework.debctrl release_pkg/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' release_pkg/DEBIAN/control;

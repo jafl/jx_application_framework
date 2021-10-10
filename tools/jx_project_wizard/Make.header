@@ -5,6 +5,7 @@ JX_ROOT := ../..
 
 APP_NAME  := jx_project_wizard
 SIGNATURE := ${APP_NAME}
+TMPL_DIRS := app_template lib_template
 
 J_STRING_FILES := strings/*
 
@@ -14,19 +15,19 @@ include ${MAKE_INCLUDE}/jx_config
 SEARCHDIRS := -I./code ${SEARCHDIRS}
 
 ifeq (${J_IS_RELEASE_BUILD},1)
-  JX_PATH            := /usr/local
-  APP_DATA_FILE_DIR  := ${APP_DATA_PATH}/jx_project_wizard
-  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}${APP_DATA_FILE_DIR}
+  JX_PATH            := ${APP_DATA_PREFIX}
+  APP_DATA_FILE_DIR  := ${APP_DATA_PREFIX}${APP_DATA_PATH}/jx_project_wizard
+  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}${APP_DATA_PATH}
 else
   JX_PATH            := $(shell cd ${JX_ROOT}; pwd)
   APP_DATA_FILE_DIR  := ${JX_PATH}/tools/jx_project_wizard
-  ROOT_DATA_FILE_DIR := 
 endif
 
 # makemake variables
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS} \
-               -DTEMPLATE_PATH=\"${ROOT_DATA_FILE_DIR}\" -DJX_PATH=\"${JX_PATH}\"
+               -DJX_PATH=\"${JX_PATH}\" \
+               -DTEMPLATE_PATH=\"${APP_DATA_FILE_DIR}\"
 
 # library dependencies
 
@@ -52,8 +53,7 @@ ${APP_NAME}:: strings
 install::
   ifeq (${J_IS_RELEASE_BUILD},1)
 	@mkdir -p ${ROOT_DATA_FILE_DIR}
-	@cp -r ./app_template/ ${ROOT_DATA_FILE_DIR}
-	@cp -r ./lib_template/ ${ROOT_DATA_FILE_DIR}
+	@cp -r ${TMPL_DIRS} ${ROOT_DATA_FILE_DIR}
   endif
 
 .PHONY : uninstall

@@ -10,12 +10,11 @@ DATA_FILES := class_map option_map need_font_list need_string_list need_create_l
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
-ifndef JXLAYOUTDIR
-  APP_DATA_FILE_DIR  := ${APP_DATA_PATH}/jxlayout
-  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}${APP_DATA_FILE_DIR}
+ifeq (${J_IS_RELEASE_BUILD},1)
+  APP_DATA_FILE_DIR  := ${APP_DATA_PREFIX}${APP_DATA_PATH}/jxlayout
+  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}${APP_DATA_PATH}
 else
-  APP_DATA_FILE_DIR  := ${JXLAYOUTDIR}
-  ROOT_DATA_FILE_DIR := ${JXLAYOUTDIR}
+  APP_DATA_FILE_DIR  := $(shell cd ${JX_ROOT}; pwd)/tools/jxlayout
 endif
 
 # makemake variables
@@ -42,11 +41,17 @@ include ${MAKE_INCLUDE}/app_targets
 
 .PHONY : install
 install::
+  ifeq (${J_IS_RELEASE_BUILD},1)
 	@cp jfdesign ${JX_INSTALL_ROOT}/bin
 	@mkdir -p ${ROOT_DATA_FILE_DIR}
 	@cp ${DATA_FILES} ${ROOT_DATA_FILE_DIR}
+  else
+	@ln -sf jfdesign ${JX_INSTALL_ROOT}/bin
+  endif
 
 .PHONY : uninstall
 uninstall::
 	@${RM} ${JX_INSTALL_ROOT}/bin/jfdesign
+  ifeq (${J_IS_RELEASE_BUILD},1)
 	@${RM} -r ${ROOT_DATA_FILE_DIR}
+  endif
