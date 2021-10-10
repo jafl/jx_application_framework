@@ -14,7 +14,7 @@ endif
 #
 
 BEGIN_ACE_CMD = \
-    if [[ -f ACE_wrappers/ace/Makefile || test -f ACE_wrappers/ace/GNUmakefile ]]; then
+    if [[ -f ACE_wrappers/ace/Makefile || -f ACE_wrappers/ace/GNUmakefile ]]; then
 
 END_ACE_CMD = \
     fi
@@ -29,8 +29,8 @@ BEGIN_ACE_MAKE = \
 .PHONY : default
 default:
 	@if [[ -x ACE_wrappers/bin/mwc.pl && \
-           ! test -f ACE_wrappers/ace/Makefile && \
-           ! test -f ACE_wrappers/ace/GNUmakefile ]]; \
+           ! -f ACE_wrappers/ace/Makefile && \
+           ! -f ACE_wrappers/ace/GNUmakefile ]]; \
      then \
          cd ACE_wrappers; \
          export ACE_ROOT=$$(pwd); \
