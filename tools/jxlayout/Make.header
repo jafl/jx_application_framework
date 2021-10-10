@@ -11,15 +11,17 @@ MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
 ifndef JXLAYOUTDIR
-  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}/${APP_DATA_PATH}/jxlayout
+  APP_DATA_FILE_DIR  := /${APP_DATA_PATH}/jxlayout
+  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}${APP_DATA_FILE_DIR}
 else
+  APP_DATA_FILE_DIR  := ${JXLAYOUTDIR}
   ROOT_DATA_FILE_DIR := ${JXLAYOUTDIR}
 endif
 
 # makemake variables
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS} \
-               -DCONFIG_FILE_DIR=\"${ROOT_DATA_FILE_DIR}/\"
+               -DCONFIG_FILE_DIR=\"${APP_DATA_FILE_DIR}/\"
 
 # library dependencies
 
