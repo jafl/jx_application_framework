@@ -17,7 +17,7 @@ default: ${LIB_NAME_ROOT}.a
 install:
 	@mkdir -p ${JX_INSTALL_ROOT}/lib ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
 	@cp ${LIB_NAME_ROOT}.a ${JX_INSTALL_ROOT}/lib
-	@cp code/*.h ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
+	@cp code/*.h code/*.tmpl ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
 	@if { test -d strings; } then \
          mkdir -p ${INCLUDE_INSTALL_ROOT}/strings/${INCLUDE_INSTALL_NAME}; \
          cp strings/* ${INCLUDE_INSTALL_ROOT}/strings/${INCLUDE_INSTALL_NAME}; \
