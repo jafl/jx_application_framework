@@ -25,7 +25,7 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	virtual ~ClipboardWidget();
+	~ClipboardWidget() override;
 
 	void			SetText(const JCharacter* text);
 	const JString&	GetText() const;

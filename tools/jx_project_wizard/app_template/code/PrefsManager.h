@@ -32,7 +32,7 @@ public:
 
 	PrefsManager(bool* isNew);
 
-	virtual ~PrefsManager();
+	~PrefsManager() override;
 
 	JString GetPrevVersionStr() const;
 	void	EditPrefs();

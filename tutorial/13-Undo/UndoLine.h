@@ -20,9 +20,7 @@ public:
 
 	UndoLine(UndoWidget* uw);
 
-	virtual ~UndoLine();
-
-	virtual void	Undo();
+	void	Undo() override;
 
 private:
 

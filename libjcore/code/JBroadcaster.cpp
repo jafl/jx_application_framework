@@ -70,7 +70,7 @@ JBroadcaster::JBroadcaster()
 }
 
 /******************************************************************************
- Copy constructor
+ Copy constructor (protected)
 
 	Don't copy the connections.  We want this to be identical to the
 	default constructor so nobody has to worry about calling us.

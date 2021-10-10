@@ -22,7 +22,7 @@ public:
 
 	DialogHelloDir(JXDirector* supervisor);
 
-	virtual ~DialogHelloDir();
+	~DialogHelloDir() override;
 
 protected:
 

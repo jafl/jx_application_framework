@@ -18,8 +18,6 @@ public:
 
 	DragWidgetDir(JXDirector* supervisor);
 
-	virtual ~DragWidgetDir();
-
 private:
 
 	void BuildWindow();

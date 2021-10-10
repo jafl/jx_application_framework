@@ -29,7 +29,7 @@ public:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	virtual ~UndoWidget();
+	~UndoWidget() override;
 
 	// needed by undo
 	

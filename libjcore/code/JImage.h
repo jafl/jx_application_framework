@@ -36,7 +36,6 @@ public:
 public:
 
 	JImage(const JCoordinate width, const JCoordinate height, JColorManager* colorManager);
-	JImage(const JImage& source);
 
 	virtual ~JImage();
 
@@ -70,6 +69,8 @@ public:
 	virtual unsigned long	GetSystemColor(const JCoordinate x, const JCoordinate y) const = 0;
 
 protected:
+
+	JImage(const JImage& source);
 
 	void	SetDimensions(const JCoordinate width, const JCoordinate height);
 

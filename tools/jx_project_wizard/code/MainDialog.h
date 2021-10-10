@@ -23,7 +23,7 @@ public:
 
 	MainDialog(JXDirector* supervisor, const JSize argc, char** argv);
 
-	virtual ~MainDialog();
+	~MainDialog() override;
 
 protected:
 

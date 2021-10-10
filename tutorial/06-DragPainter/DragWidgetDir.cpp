@@ -29,15 +29,6 @@ DragWidgetDir::DragWidgetDir
 }
 
 /******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-DragWidgetDir::~DragWidgetDir()
-{
-}
-
-/******************************************************************************
  BuildWindow
 		This is a convenient and organized way of putting all of the initial
 	elements into a window. This will keep the constructor less cluttered.

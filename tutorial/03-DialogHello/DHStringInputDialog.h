@@ -21,8 +21,6 @@ public:
 
 	DHStringInputDialog(JXWindowDirector* supervisor, const JCharacter* str);
 
-	virtual ~DHStringInputDialog();
-
 	JString	GetString() const;
 
 private:

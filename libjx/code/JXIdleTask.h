@@ -29,7 +29,7 @@ public:
 	Time	GetPeriod() const;
 	void	SetPeriod(const Time period);
 
-	void		ResetTimer();
+	void	ResetTimer();
 	bool	TimeToPerform(const Time delta, Time* maxSleepTime);
 	bool	CheckIfTimeToPerform(const Time delta);
 

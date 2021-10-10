@@ -25,10 +25,10 @@ public:
 
 	virtual ~JFontManager();
 
-	virtual void		GetFontNames(JPtrArray<JString>* fontNames) = 0;
-	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) = 0;
+	virtual void	GetFontNames(JPtrArray<JString>* fontNames) = 0;
+	virtual void	GetMonospaceFontNames(JPtrArray<JString>* fontNames) = 0;
 	virtual bool	GetFontSizes(const JString& name, JSize* minSize,
-									 JSize* maxSize, JArray<JSize>* sizeList) = 0;
+								 JSize* maxSize, JArray<JSize>* sizeList) = 0;
 
 	static const JString&	GetDefaultFontName();
 	static const JString&	GetDefaultMonospaceFontName();

@@ -20,7 +20,7 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	virtual ~SizeHistogram();
+	~SizeHistogram() override;
 
 	void	SetValues(const JSize total,
 					  const JSize histo[ JMemoryManager::kHistogramSlotCount ]);

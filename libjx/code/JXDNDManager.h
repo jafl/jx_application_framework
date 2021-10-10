@@ -287,9 +287,9 @@ public:
 			JXDNDManager*		GetDNDManager() const;
 
 			virtual bool	FindTarget(const JXContainer* coordOwner,
-										   const JPoint& pt,
-										   Window* xWindow, Window* msgWindow,
-										   JXContainer** target, Atom* vers) = 0;
+									   const JPoint& pt,
+									   Window* xWindow, Window* msgWindow,
+									   JXContainer** target, Atom* vers) = 0;
 
 		private:
 

@@ -22,7 +22,7 @@ public:
 
 	ClipboardDir(JXDirector* supervisor);
 
-	virtual ~ClipboardDir();
+	~ClipboardDir() override;
 
 protected:
 
@@ -32,7 +32,7 @@ private:
 
 	ClipboardWidget*		itsText;
 	JXTextMenu* 			itsTextMenu;
-	CBStringInputDialog* 	itsDialog;
+	CBStringInputDialog*	itsDialog;
 
 private:
 

@@ -16,7 +16,7 @@ public:
 
 	TestMDIServer(const JUtf8Byte* signature);
 
-	virtual ~TestMDIServer();
+	~TestMDIServer() override;
 
 	bool	ShouldQuit() const;
 

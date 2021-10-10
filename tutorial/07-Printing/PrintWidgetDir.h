@@ -22,7 +22,7 @@ public:
 
 	PrintWidgetDir(JXDirector* supervisor);
 
-	virtual ~PrintWidgetDir();
+	~PrintWidgetDir() override;
 
 protected:
 

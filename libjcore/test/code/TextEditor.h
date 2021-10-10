@@ -16,7 +16,7 @@ public:
 
 	TextEditor(JStyledText* text, const bool breakCROnly, const JCoordinate width);
 
-	virtual ~TextEditor();
+	~TextEditor() override;
 
 	JCoordinate	GetWidth() const;
 	JCoordinate	GetHeight() const;

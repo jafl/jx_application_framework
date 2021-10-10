@@ -18,7 +18,7 @@ public:
 
 	App(int* argc, char* argv[], bool* displayAbout, JString* prevVersStr);
 
-	virtual ~App();
+	~App() override;
 
 	void	DisplayAbout(const JString& prevVersStr = JString::empty);
 	void	OpenFile(const JString& fileName, const JSize lineIndex);
@@ -28,7 +28,7 @@ public:
 
 protected:
 
-	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
+	void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason) override;
 };
 
 #endif

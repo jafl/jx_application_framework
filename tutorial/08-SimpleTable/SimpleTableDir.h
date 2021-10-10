@@ -18,7 +18,7 @@ public:
 
 	SimpleTableDir(JXDirector* supervisor);
 
-	virtual ~SimpleTableDir();
+	~SimpleTableDir() override;
 
 private:
 

@@ -20,7 +20,7 @@ public:
 
 	EditTableDir(JXDirector* supervisor);
 
-	virtual ~EditTableDir();
+	~EditTableDir() override;
 
 private:
 

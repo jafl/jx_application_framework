@@ -17,7 +17,7 @@ public:
 
 	TestPTPrinter(const JString& fileName);
 
-	virtual ~TestPTPrinter();
+	~TestPTPrinter() override;
 
 	void	Print(const JString& text) override;
 

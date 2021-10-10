@@ -29,15 +29,6 @@ DNDWidgetDir::DNDWidgetDir
 }
 
 /******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-DNDWidgetDir::~DNDWidgetDir()
-{
-}
-
-/******************************************************************************
  BuildWindow
 
 	This is a convenient and organized way of putting all of the initial

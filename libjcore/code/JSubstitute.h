@@ -110,9 +110,9 @@ private:
 
 	JString**			itsEscapeTable;
 	JArray<VarInfo>*	itsVarList;
-	bool			itsControlEscapesFlag;		// true => use \cX
-	bool			itsIgnoreUnrecognizedFlag;	// true => leave backslash if no defn
-	bool			itsPureEscapeEngineFlag;	// true => $ not special
+	bool				itsControlEscapesFlag;		// true => use \cX
+	bool				itsIgnoreUnrecognizedFlag;	// true => leave backslash if no defn
+	bool				itsPureEscapeEngineFlag;	// true => $ not special
 
 private:
 

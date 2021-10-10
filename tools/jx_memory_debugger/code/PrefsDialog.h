@@ -18,7 +18,7 @@ public:
 
 	PrefsDialog(JXDirector* supervisor, const JString& openCmd);
 
-	virtual ~PrefsDialog();
+	~PrefsDialog() override;
 
 	void	GetValues(JString* openCmd) const;
 

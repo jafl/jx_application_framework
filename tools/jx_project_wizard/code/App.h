@@ -16,14 +16,14 @@ public:
 
 	App(int* argc, char* argv[], bool* displayLicense);
 
-	virtual ~App();
+	~App() override;
 
 	static const JUtf8Byte*	GetAppSignature();
 	static void				InitStrings();
 
 protected:
 
-	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
+	void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason) override;
 };
 
 #endif

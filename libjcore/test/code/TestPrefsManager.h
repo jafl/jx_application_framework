@@ -16,7 +16,7 @@ public:
 
 	TestPrefsManager(const JUtf8Byte* signature, const JFileVersion currentVersion);
 
-	virtual ~TestPrefsManager();
+	~TestPrefsManager() override;
 
 protected:
 

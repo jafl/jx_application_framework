@@ -20,7 +20,8 @@ class DNDData : public JXSelectionData
 public:
 
 	DNDData(JXWidget* widget, const JCharacter* id);
-	virtual ~DNDData();
+
+	~DNDData() override;
 
 	void	SetData(const JArray<JPoint>& points);
 

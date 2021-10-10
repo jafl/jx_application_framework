@@ -27,14 +27,14 @@ public:
 
 	PrefsManager(bool* isNew);
 
-	virtual ~PrefsManager();
+	~PrefsManager() override;
 
 	JString GetPrevVersionStr() const;
 
 protected:
 
-	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion);
-	virtual void	SaveAllBeforeDestruct();
+	void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
+	void	SaveAllBeforeDestruct() override;
 };
 
 #endif

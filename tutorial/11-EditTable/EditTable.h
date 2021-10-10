@@ -28,7 +28,7 @@ public:
 		   const JCoordinate x, const JCoordinate y,
 		   const JCoordinate w, const JCoordinate h);
 
-	virtual ~EditTable();
+	~EditTable() override;
 	
 protected:
 	
@@ -41,8 +41,8 @@ protected:
 
 	bool			ExtractInputData(const JPoint& cell) override;
 	JXInputField*	CreateXInputField(const JPoint& cell,
-									const JCoordinate x, const JCoordinate y,
-									const JCoordinate w, const JCoordinate h) override;
+									  const JCoordinate x, const JCoordinate y,
+									  const JCoordinate w, const JCoordinate h) override;
 	void			PrepareDeleteXInputField() override;
 
 	

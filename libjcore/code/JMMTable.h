@@ -12,10 +12,9 @@
 
  *****************************************************************************/
 
-
 #include "jx-af/jcore/JMemoryManager.h"
 
-	class JMMRecord;
+class JMMRecord;
 
 class JMMTable
 {

@@ -21,8 +21,6 @@ public:
 
 	CBStringInputDialog(JXWindowDirector* supervisor, const JCharacter* str);
 
-	virtual ~CBStringInputDialog();
-
 	JString	GetString() const;
 
 private:

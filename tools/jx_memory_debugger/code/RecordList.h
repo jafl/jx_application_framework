@@ -35,7 +35,7 @@ public:
 
 	RecordList();
 
-	virtual ~RecordList();
+	~RecordList() override;
 
 	void			AddRecord(Record* record);
 	const Record*	GetRecord(const JIndex index) const;
@@ -49,7 +49,7 @@ private:
 
 	JPtrArray<Record>*	itsRecords;
 	JPtrArray<Record>*	itsAlphaRecords;
-	ColumnType				itsSortColumn;
+	ColumnType			itsSortColumn;
 
 private:
 

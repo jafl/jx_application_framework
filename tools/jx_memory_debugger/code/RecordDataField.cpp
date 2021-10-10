@@ -34,12 +34,3 @@ RecordDataField::RecordDataField
 	SetType(kSelectableText);
 	GetText()->SetText(text);
 }
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-RecordDataField::~RecordDataField()
-{
-}

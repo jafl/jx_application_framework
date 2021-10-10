@@ -30,7 +30,6 @@ public:
 	JListIterator(JList<T>* theList,
 				  const JIteratorPosition start = kJIteratorStartAtBeginning,
 				  const JIndex index = 0);
-	JListIterator(const JListIterator<T>& source);
 
 	virtual ~JListIterator();
 
@@ -71,6 +70,8 @@ public:
 	bool				operator!=(const JListIterator<T>& it) const;
 
 protected:
+
+	JListIterator(const JListIterator<T>& source);
 
 	JCursorPosition	GetCursor() const;
 	void			SetCursor(const JCursorPosition pos);

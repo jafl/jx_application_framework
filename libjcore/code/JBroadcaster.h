@@ -30,7 +30,6 @@ public:
 public:
 
 	JBroadcaster();
-	JBroadcaster(const JBroadcaster& source);
 
 	virtual ~JBroadcaster();
 
@@ -44,6 +43,8 @@ public:
 	virtual JString	ToString() const;
 
 protected:
+
+	JBroadcaster(const JBroadcaster& source);
 
 	void	ListenTo(const JBroadcaster* aSender);
 	void	StopListening(const JBroadcaster* aSender);

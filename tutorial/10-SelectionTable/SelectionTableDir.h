@@ -20,7 +20,7 @@ public:
 
 	SelectionTableDir(JXDirector* supervisor);
 
-	virtual ~SelectionTableDir();
+	~SelectionTableDir() override;
 
 private:
 

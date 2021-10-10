@@ -29,15 +29,6 @@ ScrollingWidgetDir::ScrollingWidgetDir
 }
 
 /******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-ScrollingWidgetDir::~ScrollingWidgetDir()
-{
-}
-
-/******************************************************************************
  BuildWindow
 
 	This is a convenient and organized way of putting all of the initial 

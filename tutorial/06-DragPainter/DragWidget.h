@@ -22,23 +22,23 @@ public:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	virtual ~DragWidget();
+	~DragWidget() override;
 
 	void	HandleKeyPress(const int key,				
-								   const JXKeyModifiers& modifiers) override;
+						   const JXKeyModifiers& modifiers) override;
 	
 protected:
 	
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
-								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers) override;
+						  const JXButtonStates& buttonStates,
+						  const JXKeyModifiers& modifiers) override;
 
 private:
 

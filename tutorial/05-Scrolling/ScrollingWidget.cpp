@@ -52,15 +52,6 @@ ScrollingWidget::ScrollingWidget
 }
 
 /******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-ScrollingWidget::~ScrollingWidget()
-{
-}
-
-/******************************************************************************
  Draw
 
 	This gets called by the event loop every time the Widget needs to

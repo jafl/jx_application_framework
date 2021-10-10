@@ -22,8 +22,6 @@ public:
 	RedoLine(UndoWidget* uw, const JPoint& start,
 				const JPoint& end);
 
-	virtual ~RedoLine();
-
 	virtual void	Undo();
 
 private:

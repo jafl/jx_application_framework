@@ -17,7 +17,6 @@ class GFilterDragData : public JXSelectionData
 public:
 
 	GFilterDragData(JXWidget* widget, const JCharacter* id);
-	virtual ~GFilterDragData();
 
 protected:
 

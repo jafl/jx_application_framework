@@ -23,15 +23,15 @@ public:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	virtual ~RecordTable();
+	~RecordTable() override;
 
 	bool	GetSelectedRecord(const Record** entry) const;
-	void		OpenSelectedFiles() const;
+	void	OpenSelectedFiles() const;
 
 	bool	IsEditable(const JPoint& cell) const override;
 
 	void	HandleKeyPress(const JUtf8Character& c,
-								   const int keySym, const JXKeyModifiers& modifiers) override;
+						   const int keySym, const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -39,13 +39,13 @@ protected:
 
 	void	HandleFocusEvent() override;
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
 	JXInputField*	CreateXInputField(const JPoint& cell,
-											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h) override;
+									  const JCoordinate x, const JCoordinate y,
+									  const JCoordinate w, const JCoordinate h) override;
 	bool			ExtractInputData(const JPoint& cell) override;
 	void			PrepareDeleteXInputField() override;
 
@@ -59,9 +59,9 @@ protected:
 private:
 
 	RecordList*		itsRecordList;
-	mutable JString		itsKeyBuffer;
+	mutable JString	itsKeyBuffer;
 	const Record* 	itsSelectedRecord;	// nullptr unless updating
-	JCoordinate			itsMinDataWidth;
+	JCoordinate		itsMinDataWidth;
 
 private:
 

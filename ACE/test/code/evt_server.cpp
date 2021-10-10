@@ -35,11 +35,11 @@ class UNIXAcceptor :
 {
 public:
 
-	virtual ~UNIXAcceptor()
-{
+	~UNIXAcceptor() override
+	{
 		close();
-		(acceptor()).remove();
-};
+		acceptor().remove();
+	};
 };
 
 // Prototypes

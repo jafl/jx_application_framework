@@ -113,16 +113,16 @@ public:
 		itsDirector(dir)
 	{ };
 
-	virtual ~LinkAcceptor()
-{
+	~LinkAcceptor() override
+	{
 		close();
 		(acceptor()).remove();
-};
+	};
 
 	StatsDirector* GetDirector()
-{
+	{
 		return itsDirector;
-};
+	};
 
 private:
 

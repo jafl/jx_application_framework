@@ -20,15 +20,16 @@ class JImageMask
 public:
 
 	JImageMask();
-	JImageMask(const JImageMask& source);
 
 	virtual ~JImageMask();
 
 	virtual bool	ContainsPixel(const JCoordinate x, const JCoordinate y) const = 0;
-	virtual void		AddPixel(const JCoordinate x, const JCoordinate y) = 0;
-	virtual void		RemovePixel(const JCoordinate x, const JCoordinate y) = 0;
+	virtual void	AddPixel(const JCoordinate x, const JCoordinate y) = 0;
+	virtual void	RemovePixel(const JCoordinate x, const JCoordinate y) = 0;
 
 protected:
+
+	JImageMask(const JImageMask& source);
 
 	void	CalcMask(const JImage& image, const JColorID color);
 

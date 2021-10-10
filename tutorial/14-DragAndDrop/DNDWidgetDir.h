@@ -18,8 +18,6 @@ public:
 
 	DNDWidgetDir(JXDirector* supervisor);
 
-	virtual ~DNDWidgetDir();
-
 private:
 
 	void BuildWindow();

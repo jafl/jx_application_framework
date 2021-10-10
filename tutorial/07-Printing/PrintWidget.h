@@ -25,7 +25,7 @@ public:
 			 const JCoordinate x, const JCoordinate y,
 			 const JCoordinate w, const JCoordinate h);
 
-	virtual ~PrintWidget();
+	~PrintWidget() override;
 
 	void	Print(JPagePrinter& p);
 

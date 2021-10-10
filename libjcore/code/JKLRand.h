@@ -28,8 +28,6 @@ public:
 	JKLRand();
 	JKLRand(const JInt32 seed);
 
-	virtual ~JKLRand();
-
 	// Accept default copy constructor and assignment operator
 	// JKLRand(const JKLRand& source);
 	// JKLRand& operator=(const JKLRand& source);

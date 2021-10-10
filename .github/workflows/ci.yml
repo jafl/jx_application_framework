@@ -92,4 +92,4 @@ jobs:
         run: |
           echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
           chmod 0600 sourceforge_key
-          scp -o StrictHostKeyChecking=no -i sourceforge_key jx-application-framework_*.deb jafl,libjx@web.sourceforge.net:htdocs/ci/
+          scp -o StrictHostKeyChecking=no -i sourceforge_key jx-application-framework.deb jafl,libjx@web.sourceforge.net:htdocs/ci/

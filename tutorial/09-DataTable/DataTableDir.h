@@ -20,7 +20,7 @@ public:
 
 	DataTableDir(JXDirector* supervisor);
 
-	virtual ~DataTableDir();
+	~DataTableDir() override;
 
 private:
 

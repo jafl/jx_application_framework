@@ -21,7 +21,7 @@ public:
 	Pipe();
 	Pipe(const ACE_HANDLE fd);
 
-	virtual ~Pipe();
+	~Pipe() override;
 
 	void	Dump();
 

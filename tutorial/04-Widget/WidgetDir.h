@@ -18,7 +18,7 @@ public:
 
 	WidgetDir(JXDirector* supervisor);
 
-	virtual ~WidgetDir();
+	~WidgetDir() override;
 
 private:
 

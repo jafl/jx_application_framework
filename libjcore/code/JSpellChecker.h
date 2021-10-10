@@ -25,7 +25,7 @@ public:
 	bool	IsAvailable() const;
 
 	bool	CheckWord(const JString& word, JPtrArray<JString>* suggestionList,
-						  bool* goodFirstSuggestion);
+					  bool* goodFirstSuggestion);
 
 	void	Learn(const JString& word);
 	void	LearnCaps(const JString& word);

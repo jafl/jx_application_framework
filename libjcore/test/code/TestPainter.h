@@ -16,7 +16,7 @@ public:
 
 	TestPainter(JFontManager* fontMgr);
 
-	virtual ~TestPainter();
+	~TestPainter() override;
 
 	void	Reset() override;
 

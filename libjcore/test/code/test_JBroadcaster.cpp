@@ -57,22 +57,22 @@ public:
 class B : virtual public A
 {
 public:
-	virtual ~B() { };
-	virtual JUtf8Byte foo() { return 'B'; };
+	~B() override { };
+	JUtf8Byte foo() override { return 'B'; };
 };
 
 class C : virtual public A
 {
 public:
-	virtual ~C() { };
-	virtual JUtf8Byte foo() { return 'C'; };
+	~C() override { };
+	JUtf8Byte foo() override { return 'C'; };
 };
 
 class D : public B, public C
 {
 public:
-	virtual ~D() { };
-	virtual JUtf8Byte foo() { return 'D'; };
+	~D() override { };
+	JUtf8Byte foo() override { return 'D'; };
 };
 
 JTEST(DiamondVirtualInheritance)

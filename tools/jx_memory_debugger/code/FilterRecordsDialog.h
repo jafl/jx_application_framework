@@ -21,7 +21,7 @@ public:
 
 	FilterRecordsDialog(JXDirector* supervisor);
 
-	virtual ~FilterRecordsDialog();
+	~FilterRecordsDialog() override;
 
 	void	BuildFilter(JMemoryManager::RecordFilter* filter) const;
 

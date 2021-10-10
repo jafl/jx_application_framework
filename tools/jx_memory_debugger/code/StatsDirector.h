@@ -31,7 +31,7 @@ public:
 
 	StatsDirector(JXDirector* supervisor);
 
-	virtual ~StatsDirector();
+	~StatsDirector() override;
 
 	void	SetLink(JMemoryManager::DebugLink* link);
 
@@ -56,7 +56,7 @@ private:
 	JXPGMessageDirector*		itsMessageDir;
 	JString						itsExitStatsFile;
 
-	SizeHistogram*		itsAllocatedHisto;
+	SizeHistogram*			itsAllocatedHisto;
 	FilterRecordsDialog*	itsRequestRecordsDialog;
 
 // begin JXLayout

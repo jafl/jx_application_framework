@@ -17,7 +17,7 @@ public:
 
 	StyledText(const bool useMultipleUndo = false);
 
-	virtual ~StyledText();
+	~StyledText() override;
 
 	void	SetStyler(JSTStyler* styler);
 

@@ -25,15 +25,6 @@ JXHelpManager::JXHelpManager()
 }
 
 /******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-JXHelpManager::~JXHelpManager()
-{
-}
-
-/******************************************************************************
  ShowTOC
 
 	The top of the main page is assumed to be the Table of Contents.

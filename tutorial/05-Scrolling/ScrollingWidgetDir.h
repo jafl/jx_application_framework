@@ -18,8 +18,6 @@ public:
 
 	ScrollingWidgetDir(JXDirector* supervisor);
 
-	virtual ~ScrollingWidgetDir();
-
 private:
 
 	void BuildWindow();

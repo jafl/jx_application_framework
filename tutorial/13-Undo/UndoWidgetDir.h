@@ -21,8 +21,6 @@ public:
 
 	UndoWidgetDir(JXDirector* supervisor);
 
-	virtual ~UndoWidgetDir();
-
 protected:
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;

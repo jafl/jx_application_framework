@@ -16,7 +16,7 @@ public:
 
 	TestPrefObject(JPrefsManager* prefsMgr, const JPrefID& prefID);
 
-	virtual ~TestPrefObject();
+	~TestPrefObject() override;
 
 protected:
 

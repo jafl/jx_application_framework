@@ -17,8 +17,6 @@ class HelloWorldDir : public JXWindowDirector
 public:
 
 	HelloWorldDir(JXDirector* supervisor);
-
-	virtual ~HelloWorldDir();
 };
 
 #endif

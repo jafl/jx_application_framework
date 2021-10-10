@@ -21,7 +21,7 @@ public:
 
 	MenuHelloDir(JXDirector* supervisor);
 
-	virtual ~MenuHelloDir();
+	~MenuHelloDir() override;
 
 protected:
 
@@ -29,8 +29,8 @@ protected:
 
 private:
 
-	JXStaticText* itsText;
-	JXTextMenu* itsTextMenu;
+	JXStaticText*	itsText;
+	JXTextMenu*		itsTextMenu;
 
 private:
 

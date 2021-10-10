@@ -16,7 +16,7 @@ public:
 
 	TestStyler();
 
-	virtual ~TestStyler();
+	~TestStyler() override;
 
 protected:
 

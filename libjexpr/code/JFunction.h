@@ -25,7 +25,6 @@ class JFunction
 public:
 
 	JFunction();
-	JFunction(const JFunction& source);
 
 	virtual ~JFunction();
 
@@ -51,6 +50,10 @@ public:
 	virtual void	VariablesRemoved(const JIndex firstIndex, const JSize count);
 	virtual void	VariableMoved(const JIndex origIndex, const JIndex newIndex);
 	virtual void	VariablesSwapped(const JIndex index1, const JIndex index2);
+
+protected:
+
+	JFunction(const JFunction& source);
 
 private:
 
