@@ -4,6 +4,8 @@ SHELL := /bin/bash
 
 ifeq ($(shell cat ${JX_ROOT}/0-RELEASE 2>/dev/null),1)
   J_IS_RELEASE_BUILD := 1
+else ifeq ($(shell cat ./0-RELEASE 2>/dev/null),1)
+  J_IS_RELEASE_BUILD := 1
 endif
 
 #
