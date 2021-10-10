@@ -2796,6 +2796,8 @@ JStyledText::MoveText
 	styleIter.RemoveNext(r.GetCount()); \
 	textIter.RemoveLastMatch(); // invalidates m
 
+static const JRegex newlinePattern("\n+");
+
 JStyledText::TextRange
 JStyledText::CleanWhitespace
 	(
@@ -2822,6 +2824,7 @@ JStyledText::CleanWhitespace
 	do
 	{
 		keepGoing = textIter.Next("\n");
+		textIter.SkipPrev();	// back up to check characters before newline
 
 		JUtf8Character c;
 		JSize count = 0;
@@ -2836,6 +2839,8 @@ JStyledText::CleanWhitespace
 			styleIter.MoveTo(kJIteratorStartBefore, textIter.GetNextCharacterIndex());
 			styleIter.RemoveNext(count);
 		}
+
+		textIter.SkipNext();	// skip over current newline
 	}
 		while (keepGoing);
 
@@ -2880,10 +2885,9 @@ JStyledText::CleanWhitespace
 					styleIter.Insert(f, count-1);
 
 					textIter.SkipPrev();
-					textIter.BeginMatch();
-					textIter.SkipNext();
-					textIter.FinishMatch();
-					textIter.ReplaceLastMatch(fill);
+					textIter.RemoveNext();
+					textIter.Insert(fill);
+					textIter.SkipNext(count);
 
 					n = 0;
 					textIter.BeginMatch();
@@ -2968,7 +2972,7 @@ JStyledText::CleanWhitespace
 			}
 		}
 	}
-		while (textIter.Next("\n") && !textIter.AtEnd());
+		while (textIter.Next(newlinePattern) && !textIter.AtEnd());
 
 	textIter.Invalidate();
 
