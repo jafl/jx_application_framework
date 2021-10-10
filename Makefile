@@ -128,6 +128,11 @@ uninstall:
 
 .PHONY : build_release
 build_release:
+  ifneq (${J_IS_RELEASE_BUILD},1)
+	@echo You can only build a package when you './configure release'
+	@false
+  endif
+
   ifeq (${HAS_RPM},1)
 	@echo Please authorize sudo access for building RPM...
 	@${SUDO} echo sudo access authorized...
@@ -151,14 +156,14 @@ build_release:
   endif
 
   ifeq (${HAS_DEB},1)
-	@cd release_pkg; mkdir -p usr/local; mv bin lib include usr/local;
+	@cd release_pkg; mkdir -p usr/local; mv bin lib include etc usr/local;
 	@${RM} -r release_pkg/DEBIAN; mkdir -p release_pkg/DEBIAN
 	@cp release/pkg/jx_application_framework.debctrl release_pkg/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' release_pkg/DEBIAN/control;
 	@perl -pi -e 's/%ARCH%/'`dpkg --print-architecture`'/' release_pkg/DEBIAN/control
 	@dpkg-deb --build release_pkg
 	@mv release_pkg.deb jx-application-framework.deb
-	@cd release_pkg; mv usr/local/bin usr/local/lib usr/local/include .; ${RM} -r usr/local DEBIAN
+	@cd release_pkg; mv usr/local/* .; ${RM} -r usr/local DEBIAN
   endif
 
 	@${RM} -r release_pkg
