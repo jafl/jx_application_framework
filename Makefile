@@ -20,7 +20,8 @@ release:
 
 # useful macros
 
-IF_DIR = if [[ -d ${dir} ]]; then cd ${dir}
+IF_DIR    = if [[ -d ${dir} ]]; then ( cd ${dir};
+ENDIF_DIR = ) fi;
 
 #
 # initial build
@@ -54,7 +55,7 @@ initial_build:
        if ! ( cd $$dir; ${JMAKE}; ); then exit 1; fi \
      done;
 	@$(foreach dir, $(wildcard tools/*), \
-       ${IF_DIR}; ${JMAKE}; fi;)
+       ${IF_DIR} ${JMAKE}; ${ENDIF_DIR})
 
 #
 # build all Makefiles
@@ -63,7 +64,7 @@ initial_build:
 .PHONY : Makefiles
 Makefiles:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE/test tutorial, \
-       ${IF_DIR}; makemake; ${JMAKE} Makefiles; fi;)
+       ${IF_DIR} makemake; ${JMAKE} Makefiles; ${ENDIF_DIR})
 
 #
 # build all libraries
@@ -72,7 +73,7 @@ Makefiles:
 .PHONY : libs
 libs:
 	@$(foreach dir, $(wildcard lib?*), \
-       ${IF_DIR}; makemake; ${JMAKE}; fi;)
+       ${IF_DIR} makemake; ${JMAKE}; ${ENDIF_DIR})
 
 #
 # run all test suites
@@ -99,11 +100,11 @@ endif
 .PHONY : layouts
 layouts:
 	@$(foreach dir, $(wildcard lib?* tools/*), \
-       ${IF_DIR}; \
+       ${IF_DIR} \
            if compgen -G "*.fd" > /dev/null; then \
                jxlayout --require-obj-names *.fd; \
            fi; \
-       fi;)
+       ${ENDIF_DIR})
 
 #
 # install libraries, headers, etc.
@@ -112,13 +113,13 @@ layouts:
 .PHONY : install
 install:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE, \
-       ${IF_DIR}; ${JMAKE} install; fi;)
+       ${IF_DIR} ${JMAKE} install; ${ENDIF_DIR})
 	@cp -RL ${MAKE_INCLUDE} ${JX_ROOT}/include/jx-af/scripts ${JX_INSTALL_ROOT}/include/jx-af
 
 .PHONY : uninstall
 uninstall:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE, \
-       ${IF_DIR}; ${MAKE} uninstall; fi;)
+       ${IF_DIR} ${MAKE} uninstall; ${ENDIF_DIR})
 	@${RM} -r ${JX_INSTALL_ROOT}/include/jx-af
 
 #
@@ -184,9 +185,9 @@ sonar:
 .PHONY : tidy
 tidy:
 	@$(foreach dir, $(wildcard lib?* tools/*)  ACE tutorial, \
-       ${IF_DIR}; ${MAKE} tidy; fi;)
+       ${IF_DIR} ${MAKE} tidy; ${ENDIF_DIR})
 
 .PHONY : clean
 clean:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE tutorial, \
-       ${IF_DIR}; ${MAKE} clean; fi;)
+       ${IF_DIR} ${MAKE} clean; ${ENDIF_DIR})
