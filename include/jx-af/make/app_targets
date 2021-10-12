@@ -80,11 +80,10 @@ PKG_PATH        := ${APP_NAME}-${APP_VERSION}
 SOURCE_TAR_NAME := ${subst -,_,${APP_NAME}}_${APP_VERSION}.tar
 
 .PHONY : release
-release: _pre_build_pkgs menu_strings default
+release: _pre_build_pkgs default menu_strings
 	@${J_STRIP_DEBUG} ${EXE_NAME}
 
 	@${RM} -r ${PKG_PATH}
-	@mkdir -p ${PKG_PATH}/lib
 	@ln -s ../${EXE_NAME}           ${PKG_PATH}/
 	@ln -s ../COPYING               ${PKG_PATH}/
 	@ln -s ../release/pkg/install   ${PKG_PATH}/
@@ -93,12 +92,14 @@ release: _pre_build_pkgs menu_strings default
 	@if [[ -e README ]];    then ln -s ../README    ${PKG_PATH}/; fi
 	@if [[ -e README.md ]]; then ln -s ../README.md ${PKG_PATH}/; fi
 	@if [[ -f ${MENU_STRING_FILE} ]]; then \
-         ln -s ../${MENU_STRING_FILE} ${PKG_PATH}/menu_strings; \
+         cp ../${MENU_STRING_FILE} ${PKG_PATH}/menu_strings; \
+         ${RM} ${MENU_STRING_FILE}; \
      fi
 
 ifdef J_RPM_GZ_LIBS
 	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
        if [[ -f ${LIB} ]]; then \
+         mkdir -p ${PKG_PATH}/lib; \
          cp ${LIB} ${PKG_PATH}/lib/; gzip ${PKG_PATH}/lib/${notdir ${LIB}}; \
        fi; }
 endif
