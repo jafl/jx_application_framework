@@ -65,7 +65,7 @@ function get_reflex
 	if [[ ! -d misc/reflex || ! -f misc/reflex/lib/libreflex.a ]]; then
 		REFLEX_VERSION=`make -f Makefile-versions reflex`;
 		rm -rf misc/reflex;
-		git clone -b $REFLEX_VERSION https://github.com/Genivia/RE-flex misc/reflex;
+		git clone -b $REFLEX_VERSION https://github.com/Genivia/RE-flex misc/reflex 2> /dev/null;
 	fi
 }
 

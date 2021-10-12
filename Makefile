@@ -167,6 +167,7 @@ build_release:
   endif
 
 	@${RM} -r release_pkg
+	@mv jx-application-framework.deb ..
 
 #
 # Sonar

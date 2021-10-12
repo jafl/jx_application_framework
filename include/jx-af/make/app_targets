@@ -80,7 +80,7 @@ PKG_PATH        := ${APP_NAME}-${APP_VERSION}
 SOURCE_TAR_NAME := ${subst -,_,${APP_NAME}}_${APP_VERSION}.tar
 
 .PHONY : release
-release: _pre_build_pkgs default
+release: _pre_build_pkgs menu_strings default
 	@${J_STRIP_DEBUG} ${EXE_NAME}
 
 	@${RM} -r ${PKG_PATH}
