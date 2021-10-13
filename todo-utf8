@@ -35,6 +35,7 @@ u-ctags:
 		aws-lambda-common: Transaction.js
 		aws-heimdall/views/commands.hbs - missing upgrade_app
 		vendomatic/src/main/webapp/public/assets/js/vendomatic-config-edit.js
+		yui-modules/src/gallery-bulkedit/js/BulkEditDataSource.js
 		any php file containing javascript
 	fix c++:
 		JRegex

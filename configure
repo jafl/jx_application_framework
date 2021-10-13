@@ -142,63 +142,33 @@ elif command -v apt-get; then
 		$SUDO apt update;
 		$SUDO apt -y install curl \
 			g++ bison make automake \
-			libx11-dev libxinerama-dev libxpm-dev libxft-dev \
-				libxmu-dev libxi-dev \
-			libxml2-dev libgd-dev libjpeg-dev libpng-dev \
-			libace-dev libicu-dev libpcre3-dev \
-			xutils-dev libx11-xcb-dev libxcb-dri2-0-dev \
-			libxcb-xfixes0-dev x11proto-gl-dev libdrm-dev \
+			libx11-dev libxinerama-dev libxft-dev libxmu-dev libxi-dev \
+				libx11-xcb-dev libxcb-xfixes0-dev libxcb-dri2-0-dev \
+			libxpm-dev libjpeg-dev libpng-dev libgd-dev \
+			libace-dev libicu-dev libpcre3-dev libxml2-dev \
+			xutils-dev libdrm-dev \
 			libforms-bin aspell;
 	fi
 
 	configure_linux;
 
-elif command -v dnf; then
+elif command -v dnf || command -v yum || command -v zypper; then
 
-	# redhat
+	if command -v dnf; then			# redhat
+		PKGMGR=dnf;
+	elif command -v zypper; then	# openSUSE
+		PKGMGR=zypper;
+	else							# redhat
+		PKGMGR=yum;
+	endif
 
-	$SUDO dnf -y install findutils perl python-libxml2 \
-		gcc-c++ bison make rpm-build \
-		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
-			libXmu-devel libXi-devel \
-		libxml2-devel gd-devel libjpeg-devel libpng-devel \
-		libicu-devel pcre-devel \
-		imake libtool xorg-x11-proto-devel libdrm-devel \
-		xorg-x11-server-devel libXdamage-devel expat-devel \
-		xforms-devel aspell aspell-en;
-
-	get_ace;
-	configure_linux;
-
-elif command -v yum; then
-
-	# redhat
-
-	$SUDO yum -y install findutils perl python-libxml2 \
-		gcc-c++ bison make rpm-build \
-		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
-			libXmu-devel libXi-devel \
-		libxml2-devel gd-devel libjpeg-devel libpng-devel \
-		libicu-devel pcre-devel \
-		imake libtool xorg-x11-proto-devel libdrm-devel \
-		xorg-x11-server-devel libXdamage-devel expat-devel \
-		xforms-devel aspell aspell-en;
-
-	get_ace;
-	configure_linux;
-
-elif command -v zypper; then
-
-	# openSUSE
-
-	$SUDO zypper -in install curl perl python-libxml2 \
-		gcc-c++ bison make rpm-build \
-		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
-			libXmu-devel libXi-devel \
-		libxml2-devel gd-devel libjpeg-devel libpng-devel \
-		libicu-devel pcre-devel \
-		imake libtool xorg-x11-proto-devel libdrm-devel \
-		xorg-x11-server-devel libXdamage-devel expat-devel \
+	$SUDO $PKGMGR -y install findutils perl python-libxml2 \
+		gcc-c++ bison make rpm-build imake libtool \
+		libX11-devel libXinerama-devel libXft-devel libXmu-devel libXi-devel \
+			xorg-x11-proto-devel xorg-x11-server-devel libXdamage-devel  \
+		libXpm-devel libjpeg-devel libpng-devel gd-devel \
+		libicu-devel pcre-devel libxml2-devel \
+		expat-devel libdrm-devel \
 		xforms-devel aspell aspell-en;
 
 	get_ace;
