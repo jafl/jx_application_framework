@@ -152,17 +152,33 @@ elif command -v apt-get; then
 
 	configure_linux;
 
-elif command -v dnf || command -v yum || command -v zypper; then
+elif command -v dnf || command -v yum; then
 
-	if command -v dnf; then			# redhat
+	# redhat
+
+	if command -v dnf; then
 		PKGMGR=dnf;
-	elif command -v zypper; then	# openSUSE
-		PKGMGR=zypper;
-	else							# redhat
+	else
 		PKGMGR=yum;
 	fi
 
 	$SUDO $PKGMGR -y install findutils perl python-libxml2 \
+		gcc-c++ bison make rpm-build imake libtool \
+		libX11-devel libXinerama-devel libXft-devel libXmu-devel libXi-devel \
+			xorg-x11-proto-devel xorg-x11-server-devel libXdamage-devel  \
+		libXpm-devel libjpeg-devel libpng-devel gd-devel \
+		libicu-devel pcre-devel libxml2-devel \
+		expat-devel libdrm-devel \
+		xforms-devel aspell aspell-en;
+
+	get_ace;
+	configure_linux;
+
+elif command -v zypper; then
+
+	# openSUSE
+
+	$SUDO zypper -in install curl perl python-libxml2 \
 		gcc-c++ bison make rpm-build imake libtool \
 		libX11-devel libXinerama-devel libXft-devel libXmu-devel libXi-devel \
 			xorg-x11-proto-devel xorg-x11-server-devel libXdamage-devel  \
