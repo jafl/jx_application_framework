@@ -18,6 +18,7 @@ install:
 	@mkdir -p ${JX_INSTALL_ROOT}/lib ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
 	@cp ${LIB_NAME_ROOT}.a ${JX_INSTALL_ROOT}/lib
 	@cp code/*.h ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
+	@-cp code/*.hpp ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
 	@-cp code/*.tmpl ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
 	@if [[ -d strings ]]; then \
          mkdir -p ${INCLUDE_INSTALL_ROOT}/strings/${INCLUDE_INSTALL_NAME}; \
