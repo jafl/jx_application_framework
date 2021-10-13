@@ -160,7 +160,7 @@ elif command -v dnf || command -v yum || command -v zypper; then
 		PKGMGR=zypper;
 	else							# redhat
 		PKGMGR=yum;
-	endif
+	fi
 
 	$SUDO $PKGMGR -y install findutils perl python-libxml2 \
 		gcc-c++ bison make rpm-build imake libtool \
