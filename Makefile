@@ -156,18 +156,26 @@ build_release:
   endif
 
   ifeq (${HAS_DEB},1)
-	@cd release_pkg; mkdir -p usr/local; mv bin lib include etc usr/local;
-	@${RM} -r release_pkg/DEBIAN; mkdir -p release_pkg/DEBIAN
+	@cd release_pkg; mkdir -p usr/local DEBIAN; mv bin lib include etc usr/local;
 	@cp release/pkg/jx_application_framework.debctrl release_pkg/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' release_pkg/DEBIAN/control;
 	@perl -pi -e 's/%ARCH%/'`dpkg --print-architecture`'/' release_pkg/DEBIAN/control
 	@dpkg-deb --build release_pkg
-	@mv release_pkg.deb jx-application-framework.deb
+	@mv release_pkg.deb ../jx-application-framework.deb
 	@cd release_pkg; mv usr/local/* .; ${RM} -r usr/local DEBIAN
+
+	@${RM} -r reflex_pkg; mkdir -p reflex_pkg/usr/local/include reflex_pkg/usr/local/lib reflex_pkg/DEBIAN
+	@cp -RL /usr/local/include/reflex reflex_pkg/usr/local/include
+	@cp -RL /usr/local/lib/libreflex.* reflex_pkg/usr/local/lib
+	@cp release/pkg/re-flex.debctrl reflex_pkg/DEBIAN/control
+	@perl -pi -e 's/%VERSION%/${REFLEX_VERSION}/' reflex_pkg/DEBIAN/control;
+	@perl -pi -e 's/%ARCH%/'`dpkg --print-architecture`'/' reflex_pkg/DEBIAN/control
+	@dpkg-deb --build reflex_pkg
+	@mv reflex_pkg.deb ../re-flex.deb
+	@${RM} -r reflex_pkg
   endif
 
 	@${RM} -r release_pkg
-	@mv jx-application-framework.deb ..
 
 #
 # Sonar

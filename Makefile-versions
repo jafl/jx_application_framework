@@ -6,4 +6,4 @@ ace:
 
 .PHONY : reflex
 reflex:
-	@echo v3.0.11
+	@echo ${REFLEX_VERSION}

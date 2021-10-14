@@ -12,7 +12,8 @@ endif
 # version numbers
 #
 
-JX_VERSION := 4.0.0
+JX_VERSION     := 4.0.0
+REFLEX_VERSION := v3.0.11
 
 ACE_VERSION := $(shell perl -e \
     'if (-f "ACE/ACE_wrappers/ace/Version.h") { \

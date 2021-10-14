@@ -1,0 +1,9 @@
+Package: re-flex
+Version: %VERSION%
+Maintainer: John Lindal <https://about.me/johnlindal>
+Homepage: https://github.com/Genivia/RE-flex
+Section: contrib/libs
+Priority: optional
+Architecture: %ARCH%
+Essential: no
+Description: Package to support JX Application Framework ci.
