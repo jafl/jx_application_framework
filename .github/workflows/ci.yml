@@ -74,6 +74,14 @@ jobs:
           export LANG=en_US.UTF-8
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
 
+      - name: Upload code coverage
+        run: |
+          make test
+          cd libjcore
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov -F unittests
+
       - name: Run sonar-scanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -34,21 +34,7 @@ install::
 
 .PHONY : uninstall
 uninstall::
-	@${RM} ${addprefix ${JX_INSTALL_ROOT}/bin/, ${SCRIPT_FILES}}
-
-#
-# jcc binary distribution (const JCC_TAR_DIR)
-#
-
-JCC_FILE_DIR := ${JCC_TAR_DIR}/makemake
-
-.PHONY : jcc
-jcc: ${APP_NAME}
-	@${J_STRIP_DEBUG} ${call EXE, ${APP_NAME}}
-	@mkdir ${JCC_FILE_DIR}
-	@cp ${DISTR_FILES} ${JCC_FILE_DIR}/
-	@cp Make.header ${JCC_FILE_DIR}/Make.header_sample
-	@cp Make.files  ${JCC_FILE_DIR}/Make.files_sample
+	@${RM} $(addprefix ${JX_INSTALL_ROOT}/bin/, ${SCRIPT_FILES})
 
 ### makemake inserts here ###
 

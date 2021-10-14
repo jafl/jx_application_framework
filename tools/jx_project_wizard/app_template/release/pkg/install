@@ -3,11 +3,9 @@
 # With no arguments, this script must install from an unpacked tgz.
 
 PRE=$1
-ZIP=$2
 
 BIN=$PRE/usr/bin
 DOC=$PRE/usr/share/doc/<Binary>
-LIB=$PRE/usr/lib/<Binary>
 APP=$PRE/usr/share/applications
 ICON=$PRE/usr/share/pixmaps
 
@@ -15,21 +13,10 @@ if [[ ! -z $PRE ]]; then
 	mkdir -p $BIN $APP $ICON;
 fi
 
-# <Binary>
-
 install -m755 <Binary> $BIN
-
-mkdir -p $LIB
-cp lib/* $LIB
 
 mkdir -p $DOC
 cp README COPYING menu_strings $DOC
 
 cp desktop/<Binary>.desktop $APP/
 cp desktop/<Binary>.xpm     $ICON/
-
-# post
-
-if [[ -z "$ZIP" ]]; then
-	gunzip $LIB/*.gz;
-fi

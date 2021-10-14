@@ -4,15 +4,6 @@ keg for brew
 	https://docs.brew.sh/Formula-Cookbook
 	https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap
 
-ci
-	drakon
-	jx-ide
-	systemg
-	leibnitz
-	ssh_askpass
-	svn_client
-	systemg
-
 
 
 jcc
