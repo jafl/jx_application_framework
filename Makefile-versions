@@ -6,4 +6,4 @@ ace:
 
 .PHONY : reflex
 reflex:
-	@echo ${REFLEX_VERSION}
+	@echo v${REFLEX_VERSION}
