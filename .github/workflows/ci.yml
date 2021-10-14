@@ -77,10 +77,9 @@ jobs:
       - name: Upload code coverage
         run: |
           make test
-          cd libjcore
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
-          ./codecov -F unittests
+          ./codecov -s libjcore -F unittests
 
       - name: Run sonar-scanner
         env:
