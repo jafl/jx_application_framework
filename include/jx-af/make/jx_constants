@@ -1,6 +1,10 @@
 # Constants used in all Makefiles
 
-SHELL := /bin/bash
+ifdef CODEQL_ACTION_VERSION
+	SHELL := /bin/bash -v
+else
+	SHELL := /bin/bash
+endif
 
 ifeq ($(shell cat ${JX_ROOT}/0-RELEASE 2>/dev/null),1)
   J_IS_RELEASE_BUILD := 1
