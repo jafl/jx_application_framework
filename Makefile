@@ -157,9 +157,9 @@ build_release:
 	@cd release_pkg; mkdir -p usr/local DEBIAN; mv bin lib include etc usr/local;
 	@cp release/pkg/jx_application_framework.debctrl release_pkg/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' release_pkg/DEBIAN/control;
-	@perl -pi -e 's/%ARCH%/'`dpkg --print-architecture`'/' release_pkg/DEBIAN/control
+	@perl -pi -e 's/%ARCH%/$DEB_ARCH/' release_pkg/DEBIAN/control
 	@dpkg-deb --build release_pkg
-	@mv release_pkg.deb ../jx-application-framework.deb
+	@mv release_pkg.deb ../jx-application-framework_${JX_VERSION}_${DEB_ARCH}.deb
 	@cd release_pkg; mv usr/local/* .; ${RM} -r usr/local DEBIAN
 
 	@${RM} -r reflex_pkg; mkdir -p reflex_pkg/usr/local/include reflex_pkg/usr/local/lib reflex_pkg/DEBIAN
@@ -167,9 +167,9 @@ build_release:
 	@cp -RL /usr/local/lib/libreflex.* reflex_pkg/usr/local/lib
 	@cp release/pkg/re-flex.debctrl reflex_pkg/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${REFLEX_VERSION}/' reflex_pkg/DEBIAN/control;
-	@perl -pi -e 's/%ARCH%/'`dpkg --print-architecture`'/' reflex_pkg/DEBIAN/control
+	@perl -pi -e 's/%ARCH%/$DEB_ARCH/' reflex_pkg/DEBIAN/control
 	@dpkg-deb --build reflex_pkg
-	@mv reflex_pkg.deb ../re-flex.deb
+	@mv reflex_pkg.deb ../re-flex_${JX_VERSION}_${DEB_ARCH}.deb
 	@${RM} -r reflex_pkg
   endif
 
