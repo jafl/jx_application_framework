@@ -1,5 +1,9 @@
 syntax hilighting for Makefiles - based off bash
 
+ci
+	upload artifact with current version #
+	https://github.com/marketplace/actions/upload-a-build-artifact
+
 keg for brew
 	https://docs.brew.sh/Formula-Cookbook
 	https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap
@@ -58,6 +62,8 @@ jcc:
 
 jcc
 	JXDocumentMenu - show partial paths for repeated file names
+
+	"parsing files" doesn't disappear
 
 	scroll after undo/redo puts selection at bottom
 

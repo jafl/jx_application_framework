@@ -76,7 +76,7 @@ jobs:
 
       - name: Upload code coverage
         run: |
-          make test
+          make coverage
           ls -R libjcore
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov

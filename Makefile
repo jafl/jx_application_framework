@@ -10,10 +10,6 @@ default:
 	@mkdir -p ${JX_INSTALL_ROOT}/bin
 	@${JMAKE} initial_build
 
-.PHONY : test
-test:
-	@${JMAKE} run_tests
-
 .PHONY : release
 release:
 	@${JMAKE} build_release
@@ -76,22 +72,22 @@ libs:
        ${IF_DIR} makemake; ${JMAKE}; ${ENDIF_DIR})
 
 #
-# run all test suites
+# build code coverage report
 #
 
-.PHONY : run_tests
-run_tests: libs
-ifeq (${J_RUN_GCOV},1)
-	@mkdir -p .sonar/cache .scannerwork
-	@chmod -R 777 .sonar .scannerwork
-	@find . \( -name '*.gcno' -or -name '*.gcda' \) -and -not -path '*/libjcore/code/*' -exec ${RM} '{}' +
-	@cd libjcore; p=`pwd`; \
+.PHONY : coverage
+coverage:
+	@cd libjcore; \
+     ${JMAKE} \
+         J_GCC_LIBS="${JGCC_LIBS} -coverage" \
+         J_COMPILER_DEPEND_FLAGS="${J_COMPILER_DEPEND_FLAGS} -coverage" \
+         clean default; \
+     ${RM} test/code/*.gcno test/code/*.gcda; \
+     cd code; \
+     p=`pwd`; \
      for f in `find . -name '*.gcno'`; do \
-         root=$$p/$${f%/*}; \
-         gcov -lp --object-directory $$root $$p/$${f%.*}.o &> /dev/null; \
-         mv -f *.gcov $$root &> /dev/null; \
+         gcov -lp --object-directory $$p $$p/$${f%.*}.o &> /dev/null; \
      done
-endif
 
 #
 # build all layouts

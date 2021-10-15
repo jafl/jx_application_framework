@@ -30,10 +30,6 @@ J_HAS_SYSCTL := yes
 # Nothing below this line should ever need to be changed.
 #
 
-ifdef TRAVIS
-  PKG_CONFIG_PATH := /usr/local/opt/icu4c/lib/pkgconfig
-endif
-
 # makemake variables
 
 LINKER := clang++
@@ -43,25 +39,15 @@ LINKER := clang++
 CC       := clang
 CXX      := clang++
 CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL} \
-            ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
-              pkg-config --cflags icu-i18n libpcre}
+            ${shell pkg-config --cflags icu-i18n libpcre}
 CFLAGS    =
 CXXFLAGS  = -std=c++17
 
 # libraries to link
 
-J_GCC_LIBS  := ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
-                 pkg-config --libs icu-i18n libpcre} \
-               -lstdc++ -lm -lc
+J_GCC_LIBS  := ${shell pkg-config --libs icu-i18n libpcre} -lstdc++ -lm -lc
 J_ACE_LIBS  := -lACE
 J_X11_LIBS  := -lXext -lXft -lfontconfig -lXpm -lX11
-
-# generate coverage part 1: ensure that all uses of J_GCC_LIBS are consistent
-
-ifdef TRAVIS
-  J_RUN_GCOV := 1
-  J_GCC_LIBS += -coverage
-endif
 
 # lldb
 
@@ -76,9 +62,3 @@ include ${MAKE_INCLUDE}/jx_config_common
 
 J_IMG_LIBS := ${J_IMG_LIBS}
 J_STD_LIBS := ${J_STD_LIBS}
-
-# generate coverage part 2: update compiler flags after the variable is defined
-
-ifdef TRAVIS
-  J_COMPILER_DEPEND_FLAGS += -coverage
-endif
