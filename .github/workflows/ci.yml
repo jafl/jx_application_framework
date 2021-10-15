@@ -2,7 +2,6 @@ name: Github CI
 on:
   push:
     branches: [ utf8 ]
-  workflow_dispatch
 jobs:
   build:
     name: Build
