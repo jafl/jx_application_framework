@@ -1,6 +1,6 @@
 # Constants used in all Makefiles
 
-ifdef CODEQL_ACTION_VERSION
+ifdef VERBOSE
 	SHELL := /bin/bash -v
 else
 	SHELL := /bin/bash

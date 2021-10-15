@@ -46,7 +46,7 @@ SEARCHDIRS += -I/usr/include/freetype2
 
 LINKER := g++
 
-# make variables - allow overriding for Travis CI
+# make variables
 
 ifndef CC
   CC := gcc
@@ -70,11 +70,6 @@ J_X11_LIBS  := ${J_XINERAMA_LIBS} -lfontconfig -lXext -lXft -lXpm -lX11
 
 # generate coverage part 1: ensure that all uses of J_GCC_LIBS are consistent
 
-ifdef TRAVIS
-  J_RUN_GCOV := 1
-  J_GCC_LIBS += -coverage
-endif
-
 # lldb
 
 J_LLDB_LIBS          := -L/usr/lib64/llvm -llldb
@@ -83,9 +78,3 @@ J_POST_LINK_LLDB_CMD := :
 # modify settings based on OS, compiler, etc.
 
 include ${MAKE_INCLUDE}/jx_config_common
-
-# generate coverage part 2: update compiler flags after the variable is defined
-
-ifdef TRAVIS
-  J_COMPILER_DEPEND_FLAGS += -coverage
-endif
