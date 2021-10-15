@@ -83,7 +83,7 @@ SOURCE_TAR_NAME := $(subst -,_,${APP_NAME})_${APP_VERSION}.tar
 release: _pre_build_pkgs default menu_strings
 	@${J_STRIP_DEBUG} ${EXE_NAME}
 
-	@${RM} -r ${PKG_PATH}
+	@${RM} -r ${PKG_PATH}; mkdir -p ${PKG_PATH}
 	@ln -s ../${EXE_NAME}           ${PKG_PATH}/
 	@ln -s ../COPYING               ${PKG_PATH}/
 	@ln -s ../release/pkg/install   ${PKG_PATH}/
