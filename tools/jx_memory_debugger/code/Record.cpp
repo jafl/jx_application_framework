@@ -158,8 +158,7 @@ Record::CompareData
 	)
 {
 	JListT::CompareResult	result =
-		JCompareStringsCaseInsensitive(const_cast<JString*>(&r1->itsData),
-									   const_cast<JString*>(&r2->itsData));
+		JCompareStringsCaseInsensitive(&r1->itsData, &r2->itsData);
 
 	if (result == JListT::kFirstEqualSecond)
 	{

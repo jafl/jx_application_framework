@@ -101,7 +101,7 @@ class DebugLink : public JMemoryManager::DebugLink
 {
 public:
 
-	virtual int open(void* data);
+	int open(void* data) override;
 };
 
 class LinkAcceptor : public ACE_Acceptor<DebugLink, ACE_LSOCK_ACCEPTOR>

@@ -111,7 +111,7 @@ SizeHistogram::Draw
 
 	JIndex exp   = 32 - (JMemoryManager::kHistogramSlotCount - 1);
 	JFloat total = itsTotal;
-	for (JUnsignedOffset i=0; i<JMemoryManager::kHistogramSlotCount; i++)
+	for (auto binCount : itsHisto)
 	{
 		r1 = r;
 
@@ -123,16 +123,16 @@ SizeHistogram::Draw
 		r1.left += numberColWidth;
 
 		r2.Shift(numberColWidth, 0);
-		const JString s2((JUInt64) itsHisto[i]);
+		const JString s2((JUInt64) binCount);
 		p.JPainter::String(r2, s2, JPainter::kHAlignRight);
 
-		if (total > 0 && itsHisto[i] > 0)
+		if (total > 0 && binCount > 0)
 		{
 			r1.left += numberColWidth;
 
 			r2 = r1;
 			r2.Shrink(0, 2);
-			r2.right = r2.left + JRound(r2.width() * (itsHisto[i] / total)) + 1;
+			r2.right = r2.left + JRound(r2.width() * (binCount / total)) + 1;
 			p.JPainter::Rect(r2);
 		}
 

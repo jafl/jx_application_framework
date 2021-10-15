@@ -373,16 +373,15 @@ MainDialog::WriteTemplate()
 		itsDevName, itsDevEmail, itsDevURL,
 		itsBinaryName
 	};
-	const JSize inputCount = sizeof(input)/sizeof(JXInputField*);
 
-	for (JUnsignedOffset i=0; i<inputCount; i++)
+	for (auto* i : input)
 	{
-		input[i]->SetIsRequired(true);
-		const bool ok = input[i]->InputValid();
-		input[i]->SetIsRequired(false);
+		i->SetIsRequired(true);
+		const bool ok = i->InputValid();
+		i->SetIsRequired(false);
 		if (!ok)
 		{
-			input[i]->Focus();
+			i->Focus();
 			return false;
 		}
 	}
