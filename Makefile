@@ -82,7 +82,7 @@ coverage:
          J_GCC_LIBS="${J_GCC_LIBS} -coverage" \
          J_COMPILER_DEPEND_FLAGS="${J_COMPILER_DEPEND_FLAGS} -coverage" \
          clean default
-	@${RM} libjcore/test/code/*.gcno libjcore/test/code/*.gcda; \
+	@${RM} libjcore/test/code/*.gcno libjcore/test/code/*.gcda;
 	@cd libjcore; p=`pwd`; \
      for f in `find . -name '*.gcno'`; do \
          root=$$p/$${f%/*}; \
