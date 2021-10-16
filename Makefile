@@ -56,7 +56,7 @@ initial_build_makefiles:
      fi
 
 .PHONY : initial_build_libs_tools
-initial_build_libs:
+initial_build_libs_tools:
 	@cd libjcore; ${JMAKE} COMPILE_STRINGS=0
 	@cd tools/compile_jstrings; ${JMAKE} install
 	@cd libjcore; ${JMAKE} jx.test.skip=true
@@ -95,8 +95,7 @@ analyze_coverage: initial_build_makemake
      ${JMAKE} \
          J_GCC_LIBS="${J_GCC_LIBS} -coverage" \
          J_COMPILER_DEPEND_FLAGS="${J_COMPILER_DEPEND_FLAGS} -coverage" \
-         COMPILE_STRINGS=0 \
-         clean default
+         COMPILE_STRINGS=0
 	@${RM} libjcore/test/code/*.gcno libjcore/test/code/*.gcda;
 	@cd libjcore; p=`pwd`; \
      for f in `find . -name '*.gcno'`; do \
