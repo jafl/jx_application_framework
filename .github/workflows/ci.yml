@@ -130,7 +130,7 @@ jobs:
         run: |
           ./configure release
 
-      - name: Generate code coverage
+      - name: Build with code coverage
         run: |
           export LC_ALL=en_US.UTF-8
           export LANG=en_US.UTF-8
