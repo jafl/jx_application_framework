@@ -15,7 +15,7 @@ release:
 	@${JMAKE} build_release
 
 .PHONY : coverage
-release:
+coverage:
 	@${JMAKE} analyze_coverage
 
 # useful macros
