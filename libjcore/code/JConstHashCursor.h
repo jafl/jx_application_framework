@@ -37,7 +37,7 @@ public:
 // Fundamental operations
 	bool Next();
 	bool Next(bool (*NextRecordType)(const JHashRecord<V>&),
-				  const bool stopOnEmpty);
+			  const bool stopOnEmpty);
 
 	bool NextFull();
 	bool NextOpen();
@@ -67,12 +67,12 @@ public:
 	const JHashRecord<V>& GetRecord() const;
 
 	JHashRecordT::State GetState() const;
-	bool            IsEmpty() const;
-	bool            IsDeleted() const;
-	bool            IsFull() const;
+	bool                IsEmpty() const;
+	bool                IsDeleted() const;
+	bool                IsFull() const;
 	JHashValue          GetHashValue() const;
 
-	const V&              GetValue() const;
+	const V&            GetValue() const;
 
 protected:
 

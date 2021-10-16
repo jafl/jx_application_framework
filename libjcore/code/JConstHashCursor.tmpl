@@ -33,7 +33,7 @@
 			V value = cursor.GetValue();
 			if (value == theRightValue)
 			{
-				cursor.Delete();
+				cursor.Remove();
 				break;
 			}
 		}
@@ -369,7 +369,7 @@ bool
 JConstHashCursor<V>::NextOpen()
 {
 	switch (itsInitialCount)
-{
+	{
 	case 0:
 		++itsInitialCount;
 		while ( IsFull() )
@@ -381,6 +381,7 @@ JConstHashCursor<V>::NextOpen()
 				return false;
 			}
 		}
+
 		if ( IsEmpty() )
 		{
 			++itsInitialCount;
@@ -398,7 +399,8 @@ JConstHashCursor<V>::NextOpen()
 				return false;
 			}
 		}
-			while ( IsFull() );
+		while ( IsFull() );
+
 		if ( IsEmpty() )
 		{
 			++itsInitialCount;
@@ -414,7 +416,7 @@ JConstHashCursor<V>::NextOpen()
 		assert(0); // Should never happen!
 		return false;
 		break;
-}
+	}
 }
 
 /******************************************************************************
@@ -438,7 +440,7 @@ JConstHashCursor<V>::NextHash
 	)
 {
 	switch (itsInitialCount)
-{
+	{
 	case 0:
 		++itsInitialCount;
 		while ( IsDeleted() || (IsFull() && GetHashValue() != itsHashValue) )
@@ -450,6 +452,7 @@ JConstHashCursor<V>::NextHash
 				return false;
 			}
 		}
+
 		if ( IsEmpty() )
 		{
 			++itsInitialCount;
@@ -471,7 +474,8 @@ JConstHashCursor<V>::NextHash
 				return false;
 			}
 		}
-			while ( IsDeleted() || (IsFull() && GetHashValue() != itsHashValue) );
+		while ( IsDeleted() || (IsFull() && GetHashValue() != itsHashValue) );
+
 		if ( IsEmpty() )
 		{
 			++itsInitialCount;
@@ -491,7 +495,7 @@ JConstHashCursor<V>::NextHash
 		assert(0); // Should never happen!
 		return false;
 		break;
-}
+	}
 }
 
 /******************************************************************************
@@ -672,7 +676,7 @@ JConstHashCursor<V>::NextKeyOrOpen()
 	assert(itsValue != nullptr);
 
 	switch (itsInitialCount)
-{
+	{
 	case 0:
 		++itsInitialCount;
 		while (IsFull() && GetHashValue() != itsHashValue && Equal(GetValue(), *itsValue) )
@@ -684,6 +688,7 @@ JConstHashCursor<V>::NextKeyOrOpen()
 				return false;
 			}
 		}
+
 		if ( IsEmpty() )
 		{
 			++itsInitialCount;
@@ -701,7 +706,8 @@ JConstHashCursor<V>::NextKeyOrOpen()
 				return false;
 			}
 		}
-			while (IsFull() && GetHashValue() != itsHashValue && Equal(GetValue(), *itsValue) );
+		while (IsFull() && GetHashValue() != itsHashValue && Equal(GetValue(), *itsValue) );
+
 		if ( IsEmpty() )
 		{
 			++itsInitialCount;
@@ -717,7 +723,7 @@ JConstHashCursor<V>::NextKeyOrOpen()
 		assert(0); // Should never happen!
 		return false;
 		break;
-}
+	}
 }
 
 /******************************************************************************

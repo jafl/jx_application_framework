@@ -116,15 +116,15 @@ protected:
 
 // Main resize function
 	virtual bool FitToLimits(const JSize required = 0,
-								 const bool force = false);
+							 const bool force = false);
 
 // For use by cursors
 	JSize HashToIndex(JHashValue hash) const;
 
 private:
 
-	JSize             itsLgSize;
-	JSize             itsMaxIndex;
+	JSize           itsLgSize;
+	JSize           itsMaxIndex;
 	JHashRecord<V>* itsArray;
 
 	JHashCursor<V>* itsCursor;
@@ -132,10 +132,10 @@ private:
 	JSize itsElementCount; // Number that are full, different than the array size!
 	JSize itsLoadCount;
 
-	bool itsResizeFlag;
-	JFloat   itsMaxLoadFactor;
-	JFloat   itsMinFillFactor;
-	JSize    itsLgMinTableSize;
+	bool   itsResizeFlag;
+	JFloat itsMaxLoadFactor;
+	JFloat itsMinFillFactor;
+	JSize  itsLgMinTableSize;
 
 	bool (*itsEqual)(const V&, const V&);
 	JHashValue (*itsHashFunction)(const V&);
@@ -144,7 +144,7 @@ private:
 
 private:
 
-	void     _MarkAllEmpty();
+	void _MarkAllEmpty();
 	bool TryInsert(const JHashRecord<V>& record);
 	bool TryInsertAll(const JHashTable<V>* source);
 

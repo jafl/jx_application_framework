@@ -222,9 +222,18 @@ void
 JMMHashTable::_AddNewRecord
 	(
 	const JMMRecord& record,
-	const bool   checkDoubleAllocation
+	const bool       checkDoubleAllocation
 	)
 {
+	if (itsDeletedTable != nullptr)		// check if address is being reused
+	{
+		JHashCursor<JMMRecord> deallocCursor(itsDeletedTable, reinterpret_cast<JHashValue>( record.GetAddress() ) );
+		if ( deallocCursor.NextHash() )
+		{
+			deallocCursor.Remove();
+		}
+	}
+
 	JHashCursor<JMMRecord> cursor(itsAllocatedTable, reinterpret_cast<JHashValue>( record.GetAddress() ) );
 	if (checkDoubleAllocation)
 	{
@@ -258,7 +267,7 @@ JMMHashTable::_SetRecordDeleted
 	const void*      block,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const bool   isArray
+	const bool       isArray
 	)
 {
 	JHashCursor<JMMRecord> allocCursor(itsAllocatedTable, reinterpret_cast<JHashValue>(block) );

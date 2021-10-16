@@ -567,7 +567,7 @@ JMemoryManager::DeleteRecord
 	void*            block,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const bool   isArray
+	const bool       isArray
 	)
 {
 	if (block == nullptr)

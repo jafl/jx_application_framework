@@ -81,9 +81,9 @@ coverage:
      ${JMAKE} \
          J_GCC_LIBS="${J_GCC_LIBS} -coverage" \
          J_COMPILER_DEPEND_FLAGS="${J_COMPILER_DEPEND_FLAGS} -coverage" \
-         clean default; \
-     ${RM} test/code/*.gcno test/code/*.gcda; \
-     p=`pwd`; \
+         clean default
+	@${RM} libjcore/test/code/*.gcno libjcore/test/code/*.gcda; \
+	@cd libjcore; p=`pwd`; \
      for f in `find . -name '*.gcno'`; do \
          root=$$p/$${f%/*}; \
          gcov -lp --object-directory $$root $$p/$${f%.*}.o &> /dev/null; \

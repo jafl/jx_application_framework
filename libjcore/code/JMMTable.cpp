@@ -49,7 +49,7 @@ void
 JMMTable::AddNewRecord
 	(
 	const JMMRecord& record,
-	const bool checkDoubleAllocation
+	const bool       checkDoubleAllocation
 	)
 {
 	BeginRecursiveBlock();
@@ -72,7 +72,7 @@ JMMTable::SetRecordDeleted
 	const void*      block,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const bool   isArray
+	const bool       isArray
 	)
 {
 	BeginRecursiveBlock();
