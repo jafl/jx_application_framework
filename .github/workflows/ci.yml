@@ -1,10 +1,12 @@
-name: Github CI
+name: CI Test
 on:
   push:
     branches: [ utf8 ]
+  workflow_dispatch:
 jobs:
-  build:
-    name: Build
+  test:
+    if: ${{ false }}
+    name: Build & Package
     runs-on: ubuntu-latest
     env:
       SONAR_SCANNER_VERSION: 4.4.0.2170
@@ -74,10 +76,60 @@ jobs:
           export LANG=en_US.UTF-8
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
 
-      - name: Build packages (before recompiling with coverage)
+      - name: Run sonar-scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v1
+
+      - name: Build packages
         run: |
           make VERBOSE=1 release
           make VERBOSE=1 JX_VERSION=1ci release
+
+      - name: Save CI packages
+        run: |
+          echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
+          chmod 0600 sourceforge_key
+          scp -o StrictHostKeyChecking=no -i sourceforge_key ../jx-application-framework_1ci_*.deb jafl,libjx@web.sourceforge.net:htdocs/ci/jx-application-framework.deb
+          scp -o StrictHostKeyChecking=no -i sourceforge_key ../re-flex_1ci_*.deb jafl,libjx@web.sourceforge.net:htdocs/ci/re-flex.deb
+          rm  -f ../jx-application-framework_1ci_*.deb ../re-flex_1ci_*.deb
+          mv ../jx-application-framework_*.deb ../re-flex_*.deb .
+
+      - name: Save release packages
+        uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: |
+            jx-application-framework_*.deb
+            re-flex_*.deb
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set environment variables
+        run: |
+          echo REFLEX_VERSION=`make -f Makefile-versions reflex` >> $GITHUB_ENV
+
+      - name: RE/flex cache
+        id: cache-reflex
+        uses: actions/cache@v2
+        with:
+          path: misc/reflex
+          key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
+
+      - name: Configure
+        run: |
+          ./configure release
 
       - name: Generate code coverage
         run: |
@@ -90,32 +142,3 @@ jobs:
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov -s libjcore/code -F unittests
-          cd libjcore
-          make clean
-
-      - name: Run sonar-scanner
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
-
-      - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v1
-
-      - name: Upload packages
-        run: |
-          echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
-          chmod 0600 sourceforge_key
-          scp -o StrictHostKeyChecking=no -i sourceforge_key ../jx-application-framework_1ci_*.deb jafl,libjx@web.sourceforge.net:htdocs/ci/jx-application-framework.deb
-          scp -o StrictHostKeyChecking=no -i sourceforge_key ../re-flex_1ci_*.deb jafl,libjx@web.sourceforge.net:htdocs/ci/re-flex.deb
-          rm  -f ../jx-application-framework_1ci_*.deb ../re-flex_1ci_*.deb
-          mv ../jx-application-framework_*.deb ../re-flex_*.deb .
-
-      - name: Store release artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: release
-          path: |
-            jx-application-framework_*.deb
-            re-flex_*.deb

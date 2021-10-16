@@ -24,7 +24,10 @@ ENDIF_DIR = ) fi;
 #
 
 .PHONY : initial_build
-initial_build:
+initial_build: initial_build_makefiles initial_build_libs_tools
+
+.PHONY : initial_build_makefiles
+initial_build_makefiles:
 	@if [[ -d misc/reflex ]]; then \
        echo Please authorize sudo access for installing reflex...; \
        ${SUDO} echo sudo access authorized...; \
@@ -44,6 +47,9 @@ initial_build:
 	@if [[ ! -f libjcore/Makefile ]]; then \
        ${JMAKE} -w Makefiles; \
      fi
+
+.PHONY : initial_build_libs_tools
+initial_build_libs:
 	@cd libjcore; ${JMAKE} COMPILE_STRINGS=0
 	@cd tools/compile_jstrings; ${JMAKE} install
 	@cd libjcore; ${JMAKE} jx.test.skip=true
@@ -76,19 +82,22 @@ libs:
 #
 
 .PHONY : coverage
-coverage:
+coverage: initial_build_makefiles
 	@cd libjcore; \
      ${JMAKE} \
          J_GCC_LIBS="${J_GCC_LIBS} -coverage" \
          J_COMPILER_DEPEND_FLAGS="${J_COMPILER_DEPEND_FLAGS} -coverage" \
+         COMPILE_STRINGS=0 \
          clean default
 	@${RM} libjcore/test/code/*.gcno libjcore/test/code/*.gcda;
 	@cd libjcore; p=`pwd`; \
      for f in `find . -name '*.gcno'`; do \
          root=$$p/$${f%/*}; \
-         gcov -lp --object-directory $$root $$p/$${f%.*}.o &> /dev/null; \
-         mv -f *.gcov $$root &> /dev/null; \
+         gcov -lp --object-directory $$root $$p/$${f%.*}.o; \
+         mv -f *.gcov $$root; \
      done
+
+#  &> /dev/null
 
 #
 # build all layouts
