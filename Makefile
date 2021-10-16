@@ -28,10 +28,10 @@ ENDIF_DIR = ) fi;
 #
 
 .PHONY : initial_build
-initial_build: initial_build_makefiles initial_build_libs_tools
+initial_build: initial_build_makemake initial_build_makefiles initial_build_libs_tools
 
-.PHONY : initial_build_makefiles
-initial_build_makefiles:
+.PHONY : initial_build_makemake
+initial_build_makemake:
 	@if [[ -d misc/reflex ]]; then \
        echo Please authorize sudo access for installing reflex...; \
        ${SUDO} echo sudo access authorized...; \
@@ -48,6 +48,9 @@ initial_build_makefiles:
        cd tools/makemake; \
        ${MAKE} -f Makefile.port install; \
      fi
+
+.PHONY : initial_build_makefiles
+initial_build_makefiles:
 	@if [[ ! -f libjcore/Makefile ]]; then \
        ${JMAKE} -w Makefiles; \
      fi
@@ -88,6 +91,7 @@ libs:
 .PHONY : analyze_coverage
 analyze_coverage: initial_build_makefiles
 	@cd libjcore; \
+     makemake; ${JMAKE} Makefiles; \
      ${JMAKE} \
          J_GCC_LIBS="${J_GCC_LIBS} -coverage" \
          J_COMPILER_DEPEND_FLAGS="${J_COMPILER_DEPEND_FLAGS} -coverage" \

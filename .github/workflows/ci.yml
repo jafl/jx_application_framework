@@ -5,7 +5,6 @@ on:
   workflow_dispatch:
 jobs:
   test:
-    if: ${{ false }}
     name: Build & Package
     runs-on: ubuntu-latest
     env:
