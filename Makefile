@@ -89,7 +89,7 @@ libs:
 #
 
 .PHONY : analyze_coverage
-analyze_coverage: initial_build_makefiles
+analyze_coverage: initial_build_makemake
 	@cd libjcore; \
      makemake; ${JMAKE} Makefiles; \
      ${JMAKE} \
