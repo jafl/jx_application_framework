@@ -213,11 +213,16 @@ void
 JMMArrayTable::_AddNewRecord
 	(
 	const JMMRecord& record,
-	const bool   checkDoubleAllocation
+	const bool       checkDoubleAllocation
 	)
 {
-	JSize index = 0;
+	JIndex index = FindDeletedBlock( record.GetAddress() );	// check if address is being reused
+	if (index > 0)
+	{
+		itsDeletedTable->RemoveElement(index);
+	}
 
+	index = 0;
 	if (checkDoubleAllocation)
 	{
 		index = FindAllocatedBlock( record.GetAddress() );
@@ -255,7 +260,7 @@ JMMArrayTable::_SetRecordDeleted
 	const void*      block,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const bool   isArray
+	const bool       isArray
 	)
 {
 	JSize index = FindAllocatedBlock(block);
