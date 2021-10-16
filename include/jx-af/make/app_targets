@@ -84,13 +84,9 @@ release: _pre_build_pkgs default menu_strings
 	@${J_STRIP_DEBUG} ${EXE_NAME}
 
 	@${RM} -r ${PKG_PATH}; mkdir -p ${PKG_PATH}
-	@ln -s ../${EXE_NAME}           ${PKG_PATH}/
-	@ln -s ../COPYING               ${PKG_PATH}/
-	@ln -s ../release/pkg/install   ${PKG_PATH}/
-	@ln -s ../release/pkg/uninstall ${PKG_PATH}/
-	@ln -s ../release/pkg/desktop   ${PKG_PATH}/
-	@if [[ -e README ]];    then ln -s ../README    ${PKG_PATH}/; fi
-	@if [[ -e README.md ]]; then ln -s ../README.md ${PKG_PATH}/; fi
+	@ln -s -t ${PKG_PATH}/ \
+         ../${EXE_NAME} ../README.md ../COPYING \
+         ../release/pkg/install ../release/pkg/uninstall ../release/pkg/desktop
 	@if [[ -f ${MENU_STRING_FILE} ]]; then \
          cp ../${MENU_STRING_FILE} ${PKG_PATH}/menu_strings; \
          ${RM} ${MENU_STRING_FILE}; \
@@ -150,7 +146,7 @@ _build_pkgs:
 
 # this has to be a sub-make to evaluate DEB_INSTALL_SCRIPT_PATH correctly
 
-DEB_INSTALL_SCRIPT_PATH = ${dir ${shell find debian -name install}}
+DEB_INSTALL_SCRIPT_PATH = $(dir $(shell find debian -name install))
 
 .PHONY : _build_deb_sub
 _build_deb_sub:
