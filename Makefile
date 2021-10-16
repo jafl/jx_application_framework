@@ -14,6 +14,10 @@ default:
 release:
 	@${JMAKE} build_release
 
+.PHONY : coverage
+release:
+	@${JMAKE} analyze_coverage
+
 # useful macros
 
 IF_DIR    = if [[ -d ${dir} ]]; then ( cd ${dir};
@@ -81,8 +85,8 @@ libs:
 # build code coverage report
 #
 
-.PHONY : coverage
-coverage: initial_build_makefiles
+.PHONY : analyze_coverage
+analyze_coverage: initial_build_makefiles
 	@cd libjcore; \
      ${JMAKE} \
          J_GCC_LIBS="${J_GCC_LIBS} -coverage" \
