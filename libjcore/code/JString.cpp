@@ -469,12 +469,12 @@ JString::CopyToPrivateBuffer
 
 		if (itsOwnerFlag && itsBytes!= nullptr)
 		{
-std::cout << "CopyToPrivateBuffer deleting " << std::hex << (void*) itsBytes << std::dec << std::endl;
+std::cerr << "CopyToPrivateBuffer deleting " << std::hex << (void*) itsBytes << std::dec << std::endl;
 			jdelete [] itsBytes;
 		}
 		itsBytes     = newString;
 		itsOwnerFlag = true;
-std::cout << "CopyToPrivateBuffer new memory " << std::hex << (void*) itsBytes << std::dec << std::endl;
+std::cerr << "CopyToPrivateBuffer new memory " << std::hex << (void*) itsBytes << std::dec << std::endl;
 	}
 
 	// copy normalized characters to the new string
@@ -872,12 +872,12 @@ JString::TrimWhitespace()
 
 		if (itsOwnerFlag)
 		{
-std::cout << "TrimWhitespace deleting " << std::hex << (void*) itsBytes << std::dec << std::endl;
+std::cerr << "TrimWhitespace deleting " << std::hex << (void*) itsBytes << std::dec << std::endl;
 			jdelete [] itsBytes;
 		}
 		itsBytes     = newString;
 		itsOwnerFlag = true;
-std::cout << "TrimWhitespace new memory " << std::hex << (void*) itsBytes << std::dec << std::endl;
+std::cerr << "TrimWhitespace new memory " << std::hex << (void*) itsBytes << std::dec << std::endl;
 	}
 
 	// Otherwise, just shift the characters.

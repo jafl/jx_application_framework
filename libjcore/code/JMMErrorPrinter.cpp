@@ -101,7 +101,7 @@ JMMErrorPrinter::HandleUnallocatedDeletion
 	(
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const bool   isArray
+	const bool       isArray
 	)
 {
 	if (itsPrintErrorsFlag)
@@ -124,12 +124,12 @@ JMMErrorPrinter::HandleMultipleDeletion
 	const JMMRecord& originalRecord,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const bool   isArray
+	const bool       isArray
 	)
 {
 	if (itsPrintErrorsFlag)
 	{
-		std::cerr << "*** memory error: Block deleted as "
+		std::cerr << "*** memory error: Block " << std::hex << originalRecord.GetAddress() << std::dec << " deleted as "
 				  << JMMRecord::TypeName(isArray) << " at"
 				  << "\n                     " << file << ":" << line
 				  << "\n                  was already deleted, most recently as "
@@ -153,10 +153,10 @@ JMMErrorPrinter::HandleMultipleAllocation
 {
 	if (itsPrintErrorsFlag)
 	{
-		std::cerr << "*** memory error: Item allocated as "
+		std::cerr << "*** memory error: Item " << std::hex << thisRecord.GetAddress() << std::dec << " allocated as "
 				  << thisRecord.DeleteTypeName() << " at\n                     "
 				  << thisRecord.GetNewFile() << ":" << thisRecord.GetNewLine()
-				  << "\n                  was first allocated as "
+				  << "\n                  was first allocated " << std::hex << firstRecord.GetAddress() << std::dec << " as "
 				  << firstRecord.DeleteTypeName() << " at"
 				  << "\n                     "
 				  << firstRecord.GetNewFile() << ":" << firstRecord.GetNewLine()
