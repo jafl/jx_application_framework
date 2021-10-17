@@ -177,9 +177,10 @@ build_release:
 	@mv release_pkg.deb ../jx-application-framework_${JX_VERSION}_${SYS_ARCH}.deb
 	@cd release_pkg; mv usr/local/* .; ${RM} -r usr/local DEBIAN
 
-	@${RM} -r reflex_pkg; mkdir -p reflex_pkg/usr/local/include reflex_pkg/usr/local/lib reflex_pkg/DEBIAN
+	@${RM} -r reflex_pkg; mkdir -p reflex_pkg/usr/local/lib reflex_pkg/usr/local/include reflex_pkg/usr/local/bin reflex_pkg/DEBIAN
+	@cp /usr/local/lib/libreflex.* reflex_pkg/usr/local/lib
 	@cp -RL /usr/local/include/reflex reflex_pkg/usr/local/include
-	@cp -RL /usr/local/lib/libreflex.* reflex_pkg/usr/local/lib
+	@cp /usr/local/bin/reflex reflex_pkg/usr/local/bin
 	@cp release/pkg/re-flex.debctrl reflex_pkg/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${REFLEX_VERSION}/' reflex_pkg/DEBIAN/control;
 	@perl -pi -e 's/%ARCH%/${SYS_ARCH}/' reflex_pkg/DEBIAN/control
