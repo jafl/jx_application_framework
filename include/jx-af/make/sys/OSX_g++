@@ -30,6 +30,8 @@ J_HAS_SYSCTL := yes
 # Nothing below this line should ever need to be changed.
 #
 
+SYS_ARCH := darwin
+
 # makemake variables
 
 LINKER := clang++

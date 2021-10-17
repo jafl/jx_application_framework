@@ -77,7 +77,7 @@ menu_strings:
 #
 
 PKG_PATH        := ${APP_NAME}-${APP_VERSION}
-SOURCE_TAR_NAME := $(subst -,_,${APP_NAME})_${APP_VERSION}.tar
+SOURCE_TAR_NAME := $(subst -,_,${APP_NAME})_${APP_VERSION}_${SYS_ARCH}.tar
 
 .PHONY : release
 release: _pre_build_pkgs default menu_strings
@@ -125,7 +125,8 @@ _build_pkgs:
 	@${SUDO} ./release/pkg/uninstall
 	@${SUDO} cp ../${SOURCE_TAR_NAME} ${RPM_SRC_DIR}/${SOURCE_TAR_NAME}
 	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
-                    --define 'pkg_version ${APP_VERSION}' ./release/pkg/${APP_NAME}.spec
+                    --define 'pkg_version ${APP_VERSION}' \
+                    ./release/pkg/${APP_NAME}.spec
 	@${SUDO} mv ${RPM_BIN_DIR}/*/*.rpm ../
 	@${SUDO} chown ${USER}. ../*.rpm
 	@${SUDO} ./release/pkg/uninstall
@@ -138,9 +139,9 @@ _build_pkgs:
 	@${MAKE} SOURCE_TAR_NAME=${SOURCE_TAR_NAME} _build_deb_sub
 	@cp ./release/pkg/${APP_NAME}.debctrl debian/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${APP_VERSION}/' debian/DEBIAN/control;
-	@perl -pi -e 's/%ARCH%/'`dpkg --print-architecture`'/' debian/DEBIAN/control
+	@perl -pi -e 's/%ARCH%/${SYS_ARCH}/' debian/DEBIAN/control
 	@dpkg-deb --build debian
-	@mv debian.deb ../${APP_NAME}_${APP_VERSION}_i386.deb
+	@mv debian.deb ../${APP_NAME}_${APP_VERSION}_${SYS_ARCH}.deb
 	@${RM} -r debian
   endif
 

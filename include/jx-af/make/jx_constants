@@ -60,14 +60,6 @@ endif
 # system features
 #
 
-ifneq (${shell which dpkg-deb 2> /dev/null},)
-  HAS_DEB  := 1
-  DEB_ARCH := $(shell dpkg --print-architecture)
-else ifneq (${shell which rpm 2> /dev/null},)
-  HAS_RPM := 1
-endif
-
-
 ifneq (${shell echo $$UID},0)
   SUDO := sudo
 endif

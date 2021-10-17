@@ -42,6 +42,14 @@ SEARCHDIRS += -I/usr/include/freetype2
 # Nothing below this line should ever need to be changed.
 #
 
+ifneq (${shell which dpkg-deb 2> /dev/null},)
+  HAS_DEB  := 1
+  SYS_ARCH := $(shell dpkg --print-architecture)
+else ifneq (${shell which rpm 2> /dev/null},)
+  HAS_RPM  := 1
+  SYS_ARCH := $(shell arch)
+endif
+
 # makemake variables
 
 LINKER := g++

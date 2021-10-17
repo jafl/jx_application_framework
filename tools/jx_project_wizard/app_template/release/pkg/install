@@ -16,7 +16,7 @@ fi
 install -m755 <Binary> $BIN
 
 mkdir -p $DOC
-cp README COPYING menu_strings $DOC
+cp README.md COPYING menu_strings $DOC
 
 cp desktop/<Binary>.desktop $APP/
 cp desktop/<Binary>.xpm     $ICON/
