@@ -1,3 +1,5 @@
+##make
+
 # should be included after defining "default" target
 #
 # requires that jx_config has already been included
@@ -34,7 +36,7 @@ libs::
 # Install (const APP_NAME, const JX_INSTALL_ROOT)
 #
 
-EXE_NAME := ${call EXE,${APP_NAME}}
+EXE_NAME := $(call EXE,${APP_NAME})
 
 .PHONY : install
 install:: ${APP_NAME}
@@ -88,7 +90,7 @@ release: _pre_build_pkgs default menu_strings
          ../${EXE_NAME} ../README.md ../COPYING \
          ../release/pkg/install ../release/pkg/uninstall ../release/pkg/desktop
 	@if [[ -f ${MENU_STRING_FILE} ]]; then \
-         cp ../${MENU_STRING_FILE} ${PKG_PATH}/menu_strings; \
+         cp ${MENU_STRING_FILE} ${PKG_PATH}/menu_strings; \
          ${RM} ${MENU_STRING_FILE}; \
      fi
 

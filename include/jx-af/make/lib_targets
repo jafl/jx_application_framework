@@ -1,3 +1,5 @@
+##make
+
 # for use in every library's Makefile
 #
 # requires the variables:

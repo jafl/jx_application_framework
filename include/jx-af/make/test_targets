@@ -1,3 +1,5 @@
+##make
+
 # requires TESTS - list of test programs to run
 
 .PHONY : default

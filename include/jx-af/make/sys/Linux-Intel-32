@@ -1,3 +1,5 @@
+##make
+
 # configuration for compiling with g++
 
 include ${MAKE_INCLUDE}/jx_constants
