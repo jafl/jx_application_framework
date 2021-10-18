@@ -43,15 +43,15 @@ LINKER := clang++
 CC       := clang
 CXX      := clang++
 CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL} \
-            ${shell pkg-config --cflags icu-i18n libpcre}
+            $(shell pkg-config --cflags icu-i18n libpcre)
 CFLAGS    =
 CXXFLAGS  = -std=c++17
 
-# libraries to link
+# libraries to link - must use XQuartz instead of Homebrew X11
 
 J_GCC_LIBS  := ${shell pkg-config --libs icu-i18n libpcre} -lstdc++ -lm -lc
 J_ACE_LIBS  := -lACE
-J_X11_LIBS  := -lXext -lXft -lfontconfig -lXpm -lX11
+J_X11_LIBS  := -L/opt/X11/lib -lXext -lXft -lfontconfig -lXpm -lX11
 
 # lldb
 

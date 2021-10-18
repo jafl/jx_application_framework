@@ -87,8 +87,8 @@ jobs:
 
       - name: Build packages
         run: |
-          make VERBOSE=1 release
-          make VERBOSE=1 JX_VERSION=1ci release
+          make release
+          make JX_VERSION=1ci release
 
       - name: Save CI packages
         run: |
@@ -134,7 +134,7 @@ jobs:
         run: |
           export LC_ALL=en_US.UTF-8
           export LANG=en_US.UTF-8
-          make VERBOSE=1 coverage
+          make coverage
 
       - name: Upload code coverage
         run: |

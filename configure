@@ -131,7 +131,7 @@ if [[ $SYS == Darwin ]]; then
 	fi
 
 	clean_links;
-	ln -sf sys/OSX_g++ include/jx-af/make/jx_config;
+	ln -sf sys/MacOS_g++ include/jx-af/make/jx_config;
 	ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jx-af/jcore/jMissingProto.h;
 
 elif command -v apt-get; then
