@@ -1,10 +1,8 @@
-ci
-	upload artifact with current version #
-	https://github.com/marketplace/actions/upload-a-build-artifact
+https://github.com/marketplace/actions/upload-files-to-a-github-release
 
 keg for brew
-	https://docs.brew.sh/Formula-Cookbook
-	https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap
+	must link to XQuartz libraries
+	formula downloads package and places files
 
 
 
