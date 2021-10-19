@@ -187,7 +187,7 @@ JCheckForNewerVersion
 		const JString msg = JGetString("JRemindNewVersion", map, sizeof(map));
 		if (JGetUserNotification()->AskUserYes(msg))
 		{
-			(JGetWebBrowser())->ShowURL(JGetString("DOWNLOAD_URL"));
+			JGetWebBrowser()->ShowURL(JGetString("DOWNLOAD_URL"));
 		}
 	}
 

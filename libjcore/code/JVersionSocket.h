@@ -27,8 +27,8 @@ public:
 	~JVersionSocket() override;
 
 	const JString&	GetLatestVersion() const;
-	bool		TimeToCheck() const;
-	bool		TimeToRemind();
+	bool			TimeToCheck() const;
+	bool			TimeToRemind();
 
 	int	open(void*) override;
 	int	handle_input(ACE_HANDLE) override;
