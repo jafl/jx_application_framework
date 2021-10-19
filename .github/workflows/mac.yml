@@ -1,4 +1,4 @@
-name: CI
+name: MacOS
 on:
   push:
     branches: [ utf8 ]
@@ -25,10 +25,11 @@ jobs:
 
       - name: Configure
         run: |
-          brew list
           ./configure release
+          brew upgrade
           brew install cask
           brew install --cask xquartz
+          find /usr/local/Cellar -name '*.pc'
 
       - name: Build
         run: |
