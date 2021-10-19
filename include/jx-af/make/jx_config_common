@@ -71,9 +71,9 @@ define run_tests
             MALLOC_PERTURB_=$$(($$RANDOM % 255 + 1)); \
      mkdir -p .timestamps; \
      ${foreach p, $(1), \
-       if [[ ! -f .timestamps/$p || $p -nt .timestamps/$p ]]; then \
-         echo; echo $p; \
-         if ./$p; then touch .timestamps/$p; else e=1; fi; \
+       if [[ ! -f .timestamps/${p} || ${p} -nt .timestamps/${p} ]]; then \
+         echo; echo ${p}; \
+         if ./${p}; then touch .timestamps/${p}; else e=1; fi; \
        fi;} \
      echo ==========; \
      if [[ "$$e" = "1" ]]; then false; fi

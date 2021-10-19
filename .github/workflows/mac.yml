@@ -1,0 +1,42 @@
+name: CI
+on:
+  push:
+    branches: [ utf8 ]
+  workflow_dispatch:
+jobs:
+  build-macos:
+    name: Build & Package MacOS
+    runs-on: macos-11
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set environment variables
+        run: |
+          echo REFLEX_VERSION=`make -f Makefile-versions reflex` >> $GITHUB_ENV
+
+      - name: RE/flex cache
+        id: cache-reflex
+        uses: actions/cache@v2
+        with:
+          path: misc/reflex
+          key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
+
+      - name: Configure
+        run: |
+          brew list
+          ./configure release
+          brew install cask
+          brew install --cask xquartz
+
+      - name: Build
+        run: |
+          export LC_ALL=en_US.UTF-8
+          export LANG=en_US.UTF-8
+          make
+
+      - name: Build packages
+        run: |
+          make release
+          make JX_VERSION=1ci release

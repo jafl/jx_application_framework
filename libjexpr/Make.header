@@ -40,7 +40,8 @@ tidy::
 
 .PHONY : clean
 clean::
-	@${RM} code/JExprScanner.cpp code/JExprScanner.h
+	@${RM} code/JExprParserY.cpp code/JExprParserY.hpp \
+           code/JExprScanner.cpp code/JExprScanner.h
 	@cd test; ${MAKE} clean
 
 .PRECIOUS : code/JExprParserY.cpp code/JExprParserY.hpp
