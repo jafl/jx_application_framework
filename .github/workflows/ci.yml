@@ -130,7 +130,7 @@ jobs:
         run: |
           ./configure release
           brew install cask
-          brew --cask install xquartz
+          brew install --cask xquartz
 
       - name: Build
         run: |
