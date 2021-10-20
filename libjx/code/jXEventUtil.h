@@ -19,9 +19,9 @@ class JXDisplay;
 
 bool JXGetEventTime(const XEvent& xEvent, Time* time);
 bool JXGetMouseLocation(const XEvent& xEvent, JXDisplay* display,
-							JPoint* pt);
+						JPoint* pt);
 bool JXGetButtonAndModifierStates(const XEvent& xEvent, JXDisplay* display,
-									  unsigned int* state);
+								  unsigned int* state);
 
 JUtf8Byte	JXCtrl(const JUtf8Character& c);
 

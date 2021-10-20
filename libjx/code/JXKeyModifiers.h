@@ -10,7 +10,6 @@
 #ifndef _H_JXKeyModifiers
 #define _H_JXKeyModifiers
 
-#include <X11/Xlib.h>
 #include <jx-af/jcore/jTypes.h>
 
 class JXDisplay;
@@ -140,7 +139,7 @@ public:
 	};
 
 	static bool		GetState(const JXDisplay* display,
-								 const unsigned int state, const JIndex i);
+							 const unsigned int state, const JIndex i);
 	static unsigned int	SetState(const JXDisplay* display, const unsigned int state,
 								 const JIndex i, const bool pushed);
 
