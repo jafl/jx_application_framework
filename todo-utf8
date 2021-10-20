@@ -32,6 +32,8 @@ u-ctags:
 		JRegex
 	update CBCtagsUser::DecodeSymbolType & CBSymbolTypeList
 
+	GDBVarGroupInfo.h not in medic files list
+
 
 jcc:
 	CBTree::SelectImplementors
