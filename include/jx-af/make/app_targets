@@ -93,15 +93,6 @@ release: _pre_build_pkgs default menu_strings
          cp ${MENU_STRING_FILE} ${PKG_PATH}/menu_strings; \
          ${RM} ${MENU_STRING_FILE}; \
      fi
-
-ifdef J_RPM_GZ_LIBS
-	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
-       if [[ -f ${LIB} ]]; then \
-         mkdir -p ${PKG_PATH}/lib; \
-         cp ${LIB} ${PKG_PATH}/lib/; gzip ${PKG_PATH}/lib/${notdir ${LIB}}; \
-       fi; }
-endif
-
 	@${MAKE} init_tarball_extra
 	@${MAKE} _build_pkgs
 	@gzip ../${SOURCE_TAR_NAME}
@@ -128,6 +119,7 @@ _build_pkgs:
 	@${SUDO} cp ../${SOURCE_TAR_NAME} ${RPM_SRC_DIR}/${SOURCE_TAR_NAME}
 	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
                     --define 'pkg_version ${APP_VERSION}' \
+                    --define 'pkg_name ${SOURCE_TAR_NAME}' \
                     ./release/pkg/${APP_NAME}.spec
 	@${SUDO} mv ${RPM_BIN_DIR}/*/*.rpm ../
 	@${SUDO} chown ${USER}. ../*.rpm
