@@ -2,7 +2,7 @@ name: CI
 on:
   push:
     branches: [ utf8 ]
-    tags: v*
+    tags: [ v* ]
   workflow_dispatch:
 jobs:
   build-ubuntu:
