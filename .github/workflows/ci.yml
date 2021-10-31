@@ -4,13 +4,15 @@ on:
     branches: [ utf8 ]
   workflow_dispatch:
 jobs:
-  build-linux:
-    name: Build & Package Linux
+  build-ubuntu:
+    name: Build & Package Ubuntu
     runs-on: ubuntu-latest
     env:
       SONAR_SCANNER_VERSION: 4.4.0.2170
-      SONAR_SERVER_URL: "https://sonarcloud.io"
+      SONAR_SERVER_URL: https://sonarcloud.io
       BUILD_WRAPPER_OUT_DIR: sonar_output
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
     steps:
       - uses: actions/checkout@v2
         with:
@@ -66,13 +68,10 @@ jobs:
           languages: cpp
 
       - name: Configure
-        run: |
-          ./configure release
+        run: ./configure release
 
       - name: Build
         run: |
-          export LC_ALL=en_US.UTF-8
-          export LANG=en_US.UTF-8
           touch libjexpr/code/JExprParserY.cpp libjexpr/code/JExprParserY.hpp
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
 
@@ -86,46 +85,40 @@ jobs:
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v1
 
-      - name: Build packages
+      - name: Build & save CI packages
         run: |
-          make release
           make JX_VERSION=1ci release
-
-      - name: Save CI packages
-        run: |
           echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
           chmod 0600 sourceforge_key
           scp -o StrictHostKeyChecking=no -i sourceforge_key ../jx-application-framework_1ci_*.deb jafl,libjx@web.sourceforge.net:htdocs/ci/jx-application-framework.deb
           scp -o StrictHostKeyChecking=no -i sourceforge_key ../re-flex_1ci_*.deb jafl,libjx@web.sourceforge.net:htdocs/ci/re-flex.deb
-          rm  -f ../jx-application-framework_1ci_*.deb ../re-flex_1ci_*.deb
-          mv ../jx-application-framework_*.deb ../re-flex_*.deb .
+          rm  -f ../jx-application-framework_1ci_* ../re-flex_1ci_*
+
+      - name: Build release packages
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          make release
+          mv ../jx-application-framework_* .
 
       - name: Save release packages
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
         uses: actions/upload-artifact@v2
         with:
           name: release
           path: |
-            jx-application-framework_*.deb
-            re-flex_*.deb
+            jx-application-framework_*
 
   build-macos:
     name: Build & Package MacOS
     runs-on: macos-11
+    env:
+      PKG_CONFIG_PATH: /usr/local/opt/icu4c/lib/pkgconfig
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Set environment variables
-        run: |
-          echo REFLEX_VERSION=`make -f Makefile-versions reflex` >> $GITHUB_ENV
-
-      - name: RE/flex cache
-        id: cache-reflex
-        uses: actions/cache@v2
-        with:
-          path: misc/reflex
-          key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
 
       - name: Configure
         run: |
@@ -135,21 +128,54 @@ jobs:
           brew install --cask xquartz
 
       - name: Build
-        run: |
-          export LC_ALL=en_US.UTF-8
-          export LANG=en_US.UTF-8
-          export PKG_CONFIG_PATH=/usr/local/opt/icu4c/lib/pkgconfig
-          make
+        run: make
 
-      - name: Build packages
+      - name: Build & save CI packages
         run: |
-          export PKG_CONFIG_PATH=/usr/local/opt/icu4c/lib/pkgconfig
-          make release
           make JX_VERSION=1ci release
+          echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
+          chmod 0600 sourceforge_key
+          scp -o StrictHostKeyChecking=no -i sourceforge_key ../jx-application-framework_1ci_*.tgz jafl,libjx@web.sourceforge.net:htdocs/ci/jx-application-framework_darwin.tgz
+          rm  -f ../jx-application-framework_1ci_*
+
+      - name: Build release packages
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          make release
+          mv ../jx-application-framework_* .
+
+      - name: Save release packages
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: |
+            jx-application-framework_*
+
+  release:
+    name: Upload releases
+    runs-on: ubuntu-latest
+    needs: [ build-ubuntu, build-macos ]
+    if: ${{ startsWith(github.ref, 'refs/tags/') }}
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: release
+
+      - name: Save release packages
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: jx-application-framework_*
+          tag: ${{ github.ref }}
+          file_glob: true
 
   coverage:
     name: Coverage
     runs-on: ubuntu-latest
+    env:
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
     steps:
       - uses: actions/checkout@v2
         with:
@@ -172,8 +198,6 @@ jobs:
 
       - name: Build with code coverage
         run: |
-          export LC_ALL=en_US.UTF-8
-          export LANG=en_US.UTF-8
           make coverage
 
       - name: Upload code coverage
