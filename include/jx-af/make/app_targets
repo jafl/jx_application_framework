@@ -79,7 +79,7 @@ menu_strings:
 #
 
 PKG_PATH        := ${APP_NAME}-${APP_VERSION}
-SOURCE_TAR_NAME := $(subst -,_,${APP_NAME})_${APP_VERSION}_${SYS_ARCH}.tar
+SOURCE_TAR_NAME := ${APP_NAME}_${APP_VERSION}_${SYS_ARCH}.tar
 
 .PHONY : release
 release: _pre_build_pkgs default menu_strings
@@ -94,21 +94,7 @@ release: _pre_build_pkgs default menu_strings
          ${RM} ${MENU_STRING_FILE}; \
      fi
 	@${MAKE} init_tarball_extra
-	@${MAKE} _build_pkgs
-	@gzip ../${SOURCE_TAR_NAME}
 
-.PHONY : init_tarball_extra
-init_tarball_extra::
-
-.PHONY : _pre_build_pkgs
-_pre_build_pkgs:
-  ifeq (${HAS_RPM},1)
-	@echo Please authorize sudo access for building RPM...
-	@${SUDO} echo sudo access authorized...
-  endif
-
-.PHONY : _build_pkgs
-_build_pkgs:
 	@${TAR} -chf ${SOURCE_TAR_NAME} ${PKG_PATH}
 	@${RM} -r ${PKG_PATH}
 	@mv ${SOURCE_TAR_NAME} ../
@@ -137,6 +123,18 @@ _build_pkgs:
 	@dpkg-deb --build debian
 	@mv debian.deb ../${APP_NAME}_${APP_VERSION}_${SYS_ARCH}.deb
 	@${RM} -r debian
+  endif
+
+	@gzip ../${SOURCE_TAR_NAME}
+
+.PHONY : init_tarball_extra
+init_tarball_extra::
+
+.PHONY : _pre_build_pkgs
+_pre_build_pkgs:
+  ifeq (${HAS_RPM},1)
+	@echo Please authorize sudo access for building RPM...
+	@${SUDO} echo sudo access authorized...
   endif
 
 # this has to be a sub-make to evaluate DEB_INSTALL_SCRIPT_PATH correctly
