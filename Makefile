@@ -92,6 +92,7 @@ libs:
 analyze_coverage: initial_build_makemake
 	@cd libjcore; \
      makemake; ${JMAKE} Makefiles; \
+     make clean; \
      ${JMAKE} \
          J_GCC_LIBS="${J_GCC_LIBS} -coverage" \
          J_COMPILER_DEPEND_FLAGS="${J_COMPILER_DEPEND_FLAGS} -coverage" \
@@ -139,6 +140,9 @@ uninstall:
 # build packages
 #
 
+PKG_PATH        := jx-application-framework-${JX_VERSION}
+SOURCE_TAR_NAME := jx-application-framework_${JX_VERSION}_${SYS_ARCH}.tar
+
 .PHONY : build_release
 build_release:
   ifneq (${J_IS_RELEASE_BUILD},1)
@@ -151,31 +155,25 @@ build_release:
 	@${SUDO} echo sudo access authorized...
   endif
 
-	@${RM} -r release_pkg; mkdir -p release_pkg
-	@pushd release_pkg; export JX_INSTALL_ROOT=`pwd`; popd; \
+	@${RM} -r ${PKG_PATH}; mkdir -p ${PKG_PATH}
+	@pushd ${PKG_PATH}; export JX_INSTALL_ROOT=`pwd`; popd; \
      ${MAKE} install
-	@cp -RL ${MAKE_INCLUDE} release_pkg/include/jx-af/; \
-     ${RM} -r release_pkg/include/jx-af/make/sys
+	@cp -RL ${MAKE_INCLUDE} ${PKG_PATH}/include/jx-af/; \
+     ${RM} -r ${PKG_PATH}/include/jx-af/make/sys
+	@${TAR} -chf ../${SOURCE_TAR_NAME} ${PKG_PATH}
 
   ifeq (${HAS_RPM},1)
 	@${SUDO} mkdir -p -m 755 ${RPM_BUILD_DIR} ${RPM_SRC_DIR} ${RPM_SPEC_DIR} ${RPM_BIN_DIR} ${RPM_SRPM_DIR}
-	@${SUDO} ./release/pkg/uninstall
-	@${SUDO} cp ../${SOURCE_TAR_NAME} ${RPM_SRC_DIR}/${SOURCE_TAR_NAME}
-	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
-                    --define 'pkg_version ${APP_VERSION}' ./release/pkg/jx_application_framework.spec
-	@${SUDO} mv ${RPM_BIN_DIR}/*/*.rpm ../
-	@${SUDO} chown ${USER}. ../*.rpm
-	@${SUDO} ./release/pkg/uninstall
   endif
 
   ifeq (${HAS_DEB},1)
-	@cd release_pkg; mkdir -p usr/local DEBIAN; mv bin lib include etc usr/local;
-	@cp release/pkg/jx_application_framework.debctrl release_pkg/DEBIAN/control
-	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' release_pkg/DEBIAN/control;
-	@perl -pi -e 's/%ARCH%/${SYS_ARCH}/' release_pkg/DEBIAN/control
-	@dpkg-deb --build release_pkg
-	@mv release_pkg.deb ../jx-application-framework_${JX_VERSION}_${SYS_ARCH}.deb
-	@cd release_pkg; mv usr/local/* .; ${RM} -r usr/local DEBIAN
+	@cd ${PKG_PATH}; mkdir -p usr/local DEBIAN; mv bin lib include etc usr/local;
+	@cp release/pkg/jx_application_framework.debctrl ${PKG_PATH}/DEBIAN/control
+	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' ${PKG_PATH}/DEBIAN/control;
+	@perl -pi -e 's/%ARCH%/${SYS_ARCH}/' ${PKG_PATH}/DEBIAN/control
+	@dpkg-deb --build ${PKG_PATH}
+	@mv ${PKG_PATH}.deb ../jx-application-framework_${JX_VERSION}_${SYS_ARCH}.deb
+	@cd ${PKG_PATH}; mv usr/local/* .; ${RM} -r usr/local DEBIAN
 
 	@${RM} -r reflex_pkg; mkdir -p reflex_pkg/usr/local/lib reflex_pkg/usr/local/include reflex_pkg/usr/local/bin reflex_pkg/DEBIAN
 	@cp /usr/local/lib/libreflex.* reflex_pkg/usr/local/lib
@@ -189,7 +187,8 @@ build_release:
 	@${RM} -r reflex_pkg
   endif
 
-	@${RM} -r release_pkg
+	@gzip ../${SOURCE_TAR_NAME}
+	@${RM} -r ${PKG_PATH}
 
 #
 # Sonar
