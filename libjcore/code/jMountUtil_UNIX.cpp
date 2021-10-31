@@ -22,14 +22,14 @@
 #define export Export
 #endif
 
-#if defined _J_OSX
+#if defined _J_MACOS
 	#include "jx-af/jcore/JProcess.h"
 	#include "jx-af/jcore/jStreamUtil.h"
 	#include "jx-af/jcore/JRegex.h"
 	#include <sys/param.h>
 	#include <sys/ucred.h>
 	#include <sys/mount.h>
-	#define JMOUNT_OSX
+	#define JMOUNT_MACOS
 #elif defined __FreeBSD__ || defined __OpenBSD__
 	#include <fstab.h>
 	#include <sys/param.h>
@@ -49,7 +49,7 @@
 
 #include "jx-af/jcore/jAssert.h"
 
-#if defined JMOUNT_OSX
+#if defined JMOUNT_MACOS
 static const JString kMountCmd("mount", JString::kNoCopy);
 #elif defined JMOUNT_BSD
 static const JString kAvailInfoName(_PATH_FSTAB, JString::kNoCopy);
@@ -83,7 +83,7 @@ static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 		ad*								=> kJHardDisk (IDE)
 		da*								=> kJHardDisk (SCSI)
 
-	Sample OSX output:
+	Sample macOS output:
 
 		/dev/disk1 on / (hfs, local, journaled)
 		/dev/disk3s1 on /Volumes/XFER (msdos, local, nodev, nosuid, noowners)
@@ -100,7 +100,7 @@ static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 
  ******************************************************************************/
 
-#if defined JMOUNT_OSX
+#if defined JMOUNT_MACOS
 
 static const JRegex theLinePattern = "^(/[^\\s]+)\\s+on\\s+(/[^)]+?)\\s+\\((.+)\\)";
 
@@ -453,7 +453,7 @@ JGetUserMountPointList
 
  ******************************************************************************/
 
-#if defined JMOUNT_OSX
+#if defined JMOUNT_MACOS
 
 JMountType
 JGetUserMountPointType
@@ -590,7 +590,7 @@ JGetUserMountPointType
 
  ******************************************************************************/
 
-#if defined JMOUNT_BSD || defined JMOUNT_OSX
+#if defined JMOUNT_BSD || defined JMOUNT_MACOS
 
 bool
 JIsMounted
@@ -638,7 +638,7 @@ JIsMounted
 			{
 				*fsType = kOtherFSType;
 				if (JString::Compare(info[i].f_fstypename, "vfat", JString::kIgnoreCase) == 0 ||	// UNIX
-					JString::Compare(info[i].f_fstypename, "msdos", JString::kIgnoreCase) == 0)		// OSX
+					JString::Compare(info[i].f_fstypename, "msdos", JString::kIgnoreCase) == 0)		// macOS
 				{
 					*fsType = kVFATType;
 				}
@@ -1006,7 +1006,7 @@ jTranslateLocalToRemote1
 	return true;
 }
 
-#if defined JMOUNT_BSD || defined JMOUNT_OSX
+#if defined JMOUNT_BSD || defined JMOUNT_MACOS
 
 bool
 JTranslateLocalToRemote
@@ -1165,7 +1165,7 @@ jTranslateRemoteToLocal1
 	return false;
 }
 
-#if defined JMOUNT_BSD || defined JMOUNT_OSX
+#if defined JMOUNT_BSD || defined JMOUNT_MACOS
 
 bool
 JTranslateRemoteToLocal
@@ -1405,7 +1405,7 @@ JMountPointList::SetCleanUpAction
 
 JMountState::~JMountState()
 {
-#if defined JMOUNT_OSX
+#if defined JMOUNT_MACOS
 	jdelete mountCmdOutput;
 #endif
 }

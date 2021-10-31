@@ -23,6 +23,7 @@ Changes to the build system
   longer includes libjcore and libjx, since these should be in LIB_DEPS.
 * Removed obsolete J_MAN_SECTION_VIA_DASH_S.
 * Completely restructured the build system to support Homebrew releases.
+* Renamed _J_OSX to _J_MACOS
 
 2.6.0
 -----

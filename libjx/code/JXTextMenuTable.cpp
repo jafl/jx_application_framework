@@ -171,7 +171,7 @@ JXTextMenuTable::TableDrawCell
 			rect.right -= kHilightBorderWidth;
 
 			JPainter::HAlignment hAlign = JPainter::kHAlignLeft;
-			if (GetDisplay()->IsOSX())
+			if (GetDisplay()->IsMacOS())
 			{
 				hAlign = JPainter::kHAlignRight;
 

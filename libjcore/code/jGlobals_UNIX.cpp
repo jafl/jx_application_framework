@@ -23,7 +23,7 @@
 
  ******************************************************************************/
 
-#ifdef _J_OSX
+#ifdef _J_MACOS
 const JUtf8Byte* kSystemDataFileDir = "/usr/local/lib/";
 #else
 const JUtf8Byte* kSystemDataFileDir = "/usr/lib/";

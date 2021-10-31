@@ -217,8 +217,8 @@ JXDisplay::JXDisplay
 	assert( itsImageCache != nullptr );
 
 	int major_opcode, first_event, first_error;
-	itsIsOSXFlag = XQueryExtension(itsXDisplay, "Apple-WM",
-										&major_opcode, &first_event, &first_error);
+	itsIsMacOSFlag = XQueryExtension(itsXDisplay, "Apple-WM",
+									 &major_opcode, &first_event, &first_error);
 
 	JXGetApplication()->DisplayOpened(this);
 

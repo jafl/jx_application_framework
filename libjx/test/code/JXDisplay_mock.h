@@ -21,7 +21,7 @@ class JXDisplay : virtual public JBroadcaster
 {
 public:
 
-	JXDisplay(const bool isOSX);
+	JXDisplay(const bool isMacOS);
 
 	bool	KeycodeToModifier(const KeyCode keycode, JIndex* modifierIndex) const;
 
@@ -36,7 +36,7 @@ private:
 	void*					itsXDisplay;
 	void*					itsColorManager;
 	const JSize				itsMaxStringByteCount;
-	bool				itsIsOSXFlag;
+	bool					itsIsMacOSFlag;
 	mutable JArray<JRect>*	itsBounds;
 	JSize					itsShrinkDisplayToScreenRefCount;
 

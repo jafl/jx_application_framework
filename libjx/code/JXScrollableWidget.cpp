@@ -36,11 +36,11 @@
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JFloat kSingleStepFraction    = 0.1;
-const JFloat kOSXSingleStepFraction = 0.02;
-const JFloat kPageStepFraction      = 0.9;
-const JInteger kWheelLineCount      = 5;		// * kSingleStepFraction = 1/2 page
-const JCoordinate kScrollZoneWidth  = 20;
+const JFloat kSingleStepFraction      = 0.1;
+const JFloat kMacOSSingleStepFraction = 0.02;
+const JFloat kPageStepFraction        = 0.9;
+const JInteger kWheelLineCount        = 5;		// * kSingleStepFraction = 1/2 page
+const JCoordinate kScrollZoneWidth    = 20;
 
 // setup information
 
@@ -508,7 +508,7 @@ JFloat
 JXScrollableWidget::GetSingleStepFraction()
 	const
 {
-	return (GetDisplay()->IsOSX() ? kOSXSingleStepFraction : kSingleStepFraction);
+	return (GetDisplay()->IsMacOS() ? kMacOSSingleStepFraction : kSingleStepFraction);
 }
 
 /******************************************************************************
@@ -604,13 +604,13 @@ JXScrollableWidget::ScrollForWheel
 		return true;
 	}
 
-	const bool osx = GetDisplay()->IsOSX();
+	const bool macos = GetDisplay()->IsMacOS();
 
-	if (osx && modifiers.control())
+	if (macos && modifiers.control())
 	{
 		scrollbar->StepLine(kWheelLineCount * delta);
 	}
-	else if (osx)
+	else if (macos)
 	{
 		scrollbar->StepLine(delta);
 	}

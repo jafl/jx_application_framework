@@ -97,7 +97,7 @@ public:
 	Display*		GetXDisplay() const;
 	JXColorManager*	GetColorManager() const;
 	JSize			GetMaxStringByteCount() const;
-	bool			IsOSX() const;
+	bool			IsMacOS() const;
 
 	JFontManager*		GetFontManager() const;
 	JXFontManager*		GetXFontManager() const;
@@ -284,7 +284,7 @@ private:
 	Display*				itsXDisplay;
 	JXColorManager*			itsColorManager;
 	const JSize				itsMaxStringByteCount;
-	bool				itsIsOSXFlag;	// scroll wheel is fine-grain on OS X
+	bool					itsIsMacOSFlag;		// scroll wheel is fine-grain on macOS
 	mutable JArray<JRect>*	itsBounds;
 	JSize					itsShrinkDisplayToScreenRefCount;
 
@@ -600,15 +600,15 @@ JXDisplay::GetMaxStringByteCount()
 }
 
 /******************************************************************************
- IsOSX
+ IsMacOS
 
  ******************************************************************************/
 
 inline bool
-JXDisplay::IsOSX()
+JXDisplay::IsMacOS()
 	const
 {
-	return itsIsOSXFlag;
+	return itsIsMacOSFlag;
 }
 
 /******************************************************************************

@@ -99,7 +99,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			Removed GetCharacterInWordFunction() in favor of lambdas.
 //	*** Removed HTML parsing from JTextEditor.  HTML belongs on the web.
 //			Removed JHTMLScanner, JTEHTMLScanner, JExtractHTMLTitle.
-//	*** Changed all /usr/lib paths to /usr/local/lib on OSX because of SIP
+//	*** Changed all /usr/lib paths to /usr/local/lib on macOS because of SIP
 //	jVCSUtil:
 //		*** Removed unecessary "deepInspection" argument from JGetVCSType().
 //		*** Removed obsolete JGetCurrentSVNRevision().
@@ -124,7 +124,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		*** Modified 2nd argument to JGetUserMountPointList() to be
 //			JMountState* instead of time_t*.
 //		*** Modified last arguments to JIsMounted() to be (..., fsType, fsTypeString)
-//		Added separate code paths for OSX, since it no longer uses /etc/fstab.
+//		Added separate code paths for macOS, since it no longer uses /etc/fstab.
 //		Removed obsolete JMountType::kJZipDisk.
 //		Added fsType to JMountPoint
 

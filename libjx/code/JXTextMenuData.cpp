@@ -352,7 +352,7 @@ JXTextMenuData::ParseMenuItemStr
 	text->Set(*(list.GetFirstElement()));
 	text->TrimWhitespace();
 
-	const bool isOSX = JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle;
+	const bool isMacOS = JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle;
 
 	const JSize count = list.GetElementCount();
 	for (JIndex i=2; i<=count; i++)
@@ -378,7 +378,7 @@ JXTextMenuData::ParseMenuItemStr
 
 		else if (opc == 'h' && shortcuts->IsEmpty())
 		{
-			if (!isOSX)
+			if (!isMacOS)
 			{
 				*shortcuts = jGetOpValue(*op);
 				shortcuts->TrimWhitespace();
@@ -815,7 +815,7 @@ static const JXTMModifierConversion kNMModConv[] =
 {
 { "Shift-", 6, kJXShiftKeyIndex   },
 { "Ctrl-",  5, kJXControlKeyIndex },
-{ "Meta-",  5, kJXMetaKeyIndex    },	// index = kOSXModifierCount
+{ "Meta-",  5, kJXMetaKeyIndex    },	// index = kMacOSModifierCount
 { "Mod1-",  5, kJXMod1KeyIndex    },
 { "Mod2-",  5, kJXMod2KeyIndex    },
 { "Mod3-",  5, kJXMod3KeyIndex    },
@@ -828,7 +828,7 @@ static const JXTMModifierConversion kNMModConv[] =
 
 const JSize kNMModConvCount = sizeof(kNMModConv)/sizeof(JXTMModifierConversion);
 
-const JSize kOSXModifierCount = 3;
+const JSize kMacOSModifierCount = 3;
 
 struct JXTMKeySymConversion
 {
@@ -919,12 +919,12 @@ JXTextMenuData::ParseNMShortcut
 
 	// nicer display for OS X
 
-	if (itsMenu->GetDisplay()->IsOSX() &&
+	if (itsMenu->GetDisplay()->IsMacOS() &&
 		(modifiers->shift() || modifiers->control() || modifiers->meta()))
 	{
 		JStringIterator iter(str);
 
-		for (JUnsignedOffset i=0; i<kOSXModifierCount; i++)
+		for (JUnsignedOffset i=0; i<kMacOSModifierCount; i++)
 		{
 			iter.MoveTo(kJIteratorStartAtBeginning, 0);
 			while (iter.Next(kNMModConv[i].str))

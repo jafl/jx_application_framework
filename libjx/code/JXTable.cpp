@@ -315,7 +315,7 @@ JXTable::BeginSelectionDrag
 				 button == kJXRightButton;
 
 		const bool selectDiscont =
-//			GetDisplay()->IsOSX() ? modifiers.meta() :	// meta-dbl-click used in too many places
+//			GetDisplay()->IsMacOS() ? modifiers.meta() :	// meta-dbl-click used in too many places
 			modifiers.control();
 
 		JTable::BeginSelectionDrag(cell, extendSelection, selectDiscont);

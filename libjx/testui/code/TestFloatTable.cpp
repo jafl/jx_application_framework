@@ -142,7 +142,7 @@ TestFloatTable::HandleMouseDown
 
 	JFloatTableData* data = GetFloatData();
 
-	if (button == kJXRightButton)	// middle button not easy on OSX
+	if (button == kJXRightButton)	// middle button not easy on MacOS
 	{
 		BeginEditing(cell);
 	}

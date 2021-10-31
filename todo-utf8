@@ -1,4 +1,5 @@
-https://github.com/marketplace/actions/upload-files-to-a-github-release
+to build release, use workflow_dispatch, require version #, add as tag
+	https://github.com/marketplace/actions/upload-files-to-a-github-release
 
 keg for brew
 	must link to XQuartz libraries

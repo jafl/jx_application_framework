@@ -143,7 +143,7 @@ JXApplication::JXApplication
 		JThisProcess::Exit(1);
 	}
 
-	if (JXGetSharedPrefsManager()->WasNew() && display->IsOSX())
+	if (JXGetSharedPrefsManager()->WasNew() && display->IsMacOS())
 	{
 		JXMenu::SetDisplayStyle(JXMenu::kMacintoshStyle);
 	}

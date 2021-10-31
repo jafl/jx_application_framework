@@ -15,13 +15,13 @@
 
 JXDisplay::JXDisplay
 	(
-	const bool isOSX
+	const bool isMacOS
 	)
 	:
 	itsXDisplay(nullptr),
 	itsColorManager(nullptr),
 	itsMaxStringByteCount(1024),
-	itsIsOSXFlag(isOSX),
+	itsIsMacOSFlag(isMacOS),
 	itsBounds(nullptr),
 	itsLatestKeyModifiers(this),
 	itsModifierKeymap(nullptr)

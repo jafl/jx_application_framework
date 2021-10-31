@@ -4602,7 +4602,7 @@ JXWindow::HandleWMStateChange()
 					   &itemCount, &remainingBytes, &xdata);
 	if (actualType != itsDisplay->GetWMStateXAtom() || actualFormat != 32)
 	{
-#if ! defined _J_OSX && ! defined _J_CYGWIN
+#if ! defined _J_MACOS && ! defined _J_CYGWIN
 		std::cerr << std::endl;
 		std::cerr << "Error detected in JXWindow::HandleMapNotify():" << std::endl;
 		std::cerr << "Your window manager is not setting the WM_STATE property correctly!" << std::endl;

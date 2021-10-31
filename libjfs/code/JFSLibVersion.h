@@ -22,7 +22,7 @@ static const char* kCurrentJFSLibVersionStr = "2.0.0";
 
 // version 2.0.0:
 //	Supports utf-8
-//	*** Moved global bindings file to /usr/local/lib/jx/jfs/file_bindings on OSX
+//	*** Moved global bindings file to /usr/local/lib/jx/jfs/file_bindings on macOS
 
 // version 1.1.4:
 //	JXFSBindingManager:

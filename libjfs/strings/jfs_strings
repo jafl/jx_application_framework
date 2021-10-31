@@ -98,7 +98,7 @@ DefaultBindingList::JFSBindingList
 
 # OS X does a lot for us
 
-DefaultBindingList-OSX::JFSBindingList
+DefaultBindingList-macOS::JFSBindingList
 
 "2 F F \"/bin/sh -c $q\" \"xterm -title $q -n $q -e $u\"
 \".gif\"  \"open\" p F

@@ -199,7 +199,7 @@ TestStringTable::HandleMouseDown
 	JStringTableData* data = GetStringData();
 	JTableSelection& s     = GetTableSelection();
 
-	if (button == kJXRightButton)	// middle button not easy on OSX
+	if (button == kJXRightButton)	// middle button not easy on MacOS
 	{
 		BeginEditing(cell);
 	}

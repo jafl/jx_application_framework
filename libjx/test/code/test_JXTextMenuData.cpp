@@ -35,7 +35,7 @@ public:
 }
 };
 
-JTEST(ParseOSX)
+JTEST(ParseMacOS)
 {
 	JXMenu::SetDisplayStyle(JXMenu::kMacintoshStyle);
 

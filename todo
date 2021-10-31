@@ -187,7 +187,7 @@ Clean up prefs
 	factor out JXEditStylesWidget from JXEditStylesDialog so it can be a card
 
 Docking
-	OSX: window placement inside dock sometimes wrong (iconfied windows)
+	MacOS: window placement inside dock sometimes wrong (iconfied windows)
 	undock: window placement not restored
 	raise window via menu shortcut:  dock moves on Ubuntu, and focus not set to the window
 

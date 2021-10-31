@@ -19,7 +19,7 @@
 #include <sstream>
 #include <jx-af/jcore/jAssert.h>
 
-#ifdef _J_OSX
+#ifdef _J_MACOS
 static const JUtf8Byte* kGlobalBindingsFile = "/usr/local/lib/jx/jfs/file_bindings";
 #else
 static const JUtf8Byte* kGlobalBindingsFile = "/usr/lib/jx/jfs/file_bindings";
@@ -667,8 +667,8 @@ JFSBindingList::Revert()
 
 	if (IsEmpty())		// nothing loaded
 	{
-#ifdef _J_OSX
-		const JString& data = JGetString("DefaultBindingList-OSX::JFSBindingList");
+#ifdef _J_MACOS
+		const JString& data = JGetString("DefaultBindingList-macOS::JFSBindingList");
 #else
 		const JString& data = JGetString("DefaultBindingList::JFSBindingList");
 #endif
