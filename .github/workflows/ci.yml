@@ -106,8 +106,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: release
-          path: |
-            jx-application-framework_*
+          path: jx-application-framework_*
 
   build-macos:
     name: Build & Package MacOS
