@@ -1,0 +1,30 @@
+#!/bin/bash
+
+PRE=$1
+if [[ -z $PRE ]]; then
+	PRE=/usr
+fi
+
+BIN=$PRE/bin
+LIB=$PRE/lib
+INC=$PRE/include
+ETC=/usr/local/etc
+
+rm -f $BIN/compile_jstrings \
+      $BIN/jx_memory_debugger \
+      $BIN/jx_project_wizard \
+      $BIN/jfdesign \
+      $BIN/jxlayout \
+      $BIN/makecheck \
+      $BIN/makemake \
+      $BIN/maketouch
+
+rm -f $LIB/libjcore.a \
+      $LIB/libjx.a \
+      $LIB/libjfs.a \
+      $LIB/libjexpr.a \
+      $LIB/libj2dplot.a
+
+rm -rf $INC/jx-af
+
+rm -rf $ETC/jx-af
