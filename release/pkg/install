@@ -7,25 +7,30 @@ if [[ -z $PRE ]]; then
 	PRE=/usr;
 fi
 
+SUDO=;
+if [[ ${PRE:0:4} == /usr ]]; then
+	SUDO=sudo;
+fi
+
 BIN=$PRE/bin;
 LIB=$PRE/lib;
 INC=$PRE/include;
 ETC=/usr/local/etc;
 
-mkdir -p $BIN;
+$SUDO mkdir -p $BIN;
 pushd bin;
 for f in *; do
-	install -m755 $f $BIN;
+	$SUDO install -m755 $f $BIN;
 done
 popd;
 
-mkdir -p $LIB;
-cp lib/* $LIB;
+$SUDO mkdir -p $LIB;
+$SUDO cp lib/* $LIB;
 
-mkdir -p $INC;
-cp -r include/* $INC;
+$SUDO mkdir -p $INC;
+$SUDO cp -r include/* $INC;
 
-mkdir -p $ETC;
-cp -r etc/* $ETC;
+$SUDO mkdir -p $ETC;
+$SUDO cp -r etc/* $ETC;
 
 ./configure package;
