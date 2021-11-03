@@ -1,14 +1,14 @@
 #!/bin/bash
 
-PRE=$1
+PRE=$1;
 if [[ -z $PRE ]]; then
-	PRE=/usr
+	PRE=/usr;
 fi
 
-BIN=$PRE/bin
-LIB=$PRE/lib
-INC=$PRE/include
-ETC=/usr/local/etc
+BIN=$PRE/bin;
+LIB=$PRE/lib;
+INC=$PRE/include;
+ETC=/usr/local/etc;
 
 rm -f $BIN/compile_jstrings \
       $BIN/jx_memory_debugger \
@@ -17,14 +17,14 @@ rm -f $BIN/compile_jstrings \
       $BIN/jxlayout \
       $BIN/makecheck \
       $BIN/makemake \
-      $BIN/maketouch
+      $BIN/maketouch;
 
 rm -f $LIB/libjcore.a \
       $LIB/libjx.a \
       $LIB/libjfs.a \
       $LIB/libjexpr.a \
-      $LIB/libj2dplot.a
+      $LIB/libj2dplot.a;
 
-rm -rf $INC/jx-af
+rm -rf $INC/jx-af;
 
-rm -rf $ETC/jx-af
+rm -rf $ETC/jx-af;

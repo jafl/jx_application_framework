@@ -3,17 +3,6 @@
 set -e;
 
 #
-# sanity checks
-#
-
-if [[ -n $JX_INSTALL_ROOT && ! ( -d $JX_INSTALL_ROOT && -w $JX_INSTALL_ROOT ) ]]; then
-	echo "$JX_INSTALL_ROOT either does not exist or is not writable.";
-	echo "Please set JX_INSTALL_ROOT to a valid directory";
-	echo "and make sure that it is on your execution path.";
-	exit 1;
-fi
-
-#
 # functions
 #
 
@@ -114,6 +103,8 @@ fi
 
 if [[ $1 == release ]]; then
 	echo -n 1 >| 0-RELEASE;
+elif [[ $1 == package ]]; then
+	mkdir ACE misc;
 fi
 
 if [[ $SYS == Darwin ]]; then
@@ -122,17 +113,16 @@ if [[ $SYS == Darwin ]]; then
 		if ! command -v brew; then
 			echo Installing Homebrew...;
 			sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
-		else
-			echo Updating Homebrew...;
-			brew update;
 		fi
 
 		brew bundle;
 	fi
 
-	clean_links;
-	ln -sf sys/MacOS_g++ include/jx-af/make/jx_config;
-	ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jx-af/jcore/jMissingProto.h;
+	if [[ $1 != package ]]; then
+		clean_links;
+		ln -sf sys/MacOS_g++ include/jx-af/make/jx_config;
+		ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jx-af/jcore/jMissingProto.h;
+	fi
 
 elif command -v apt-get; then
 
@@ -150,7 +140,9 @@ elif command -v apt-get; then
 			libforms-bin aspell;
 	fi
 
-	configure_linux;
+	if [[ $1 != package ]]; then
+		configure_linux;
+	fi
 
 elif command -v dnf || command -v yum; then
 
@@ -171,8 +163,10 @@ elif command -v dnf || command -v yum; then
 		expat-devel libdrm-devel \
 		xforms-devel aspell aspell-en;
 
-	get_ace;
-	configure_linux;
+	if [[ $1 != package ]]; then
+		get_ace;
+		configure_linux;
+	fi
 
 elif command -v zypper; then
 
@@ -187,8 +181,10 @@ elif command -v zypper; then
 		expat-devel libdrm-devel \
 		xforms-devel aspell aspell-en;
 
-	get_ace;
-	configure_linux;
+	if [[ $1 != package ]]; then
+		get_ace;
+		configure_linux;
+	fi
 
 elif [[ $SYS == Cygwin ]]; then
 
@@ -214,13 +210,15 @@ elif [[ $SYS == Cygwin ]]; then
 	$SETUP -q -P imake,libtool,xorg-server-devel,libXdamage-devel,libexpat-devel;
 	$SETUP -q -P aspell,aspell-en;
 
-	get_ace;
-	get_reflex;
-	clean_links;
+	if [[ $1 != package ]]; then
+		get_ace;
+		get_reflex;
 
-	ln -sf $SYS_CONFIG include/jx-af/make/jx_config;	
-	ln -sf ../../misc/missing_proto/jMissingProto_CygWin.h include/jx-af/jcore/jMissingProto.h;
-	configure_ace $ACE_CONFIG $ACE_MAKE_CONFIG;
+		clean_links;
+		ln -sf $SYS_CONFIG include/jx-af/make/jx_config;
+		ln -sf ../../misc/missing_proto/jMissingProto_CygWin.h include/jx-af/jcore/jMissingProto.h;
+		configure_ace $ACE_CONFIG $ACE_MAKE_CONFIG;
+	fi
 
 else
 
@@ -233,7 +231,7 @@ fi
 # final setup
 #
 
-if [[ ! -e libjcore/code/jStringData.h ]]; then
+if [[ ! -e libjcore/code/jStringData.h && $1 != package ]]; then
 	cp -f libjcore/jStringData_init.h libjcore/code/jStringData.h;
 	chmod u+w libjcore/code/jStringData.h;
 fi

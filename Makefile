@@ -160,7 +160,7 @@ build_release:
      ${MAKE} install
 	@cp -RL ${MAKE_INCLUDE} ${PKG_PATH}/include/jx-af/; \
      ${RM} -r ${PKG_PATH}/include/jx-af/make/sys
-	@cp release/pkg/install release/pkg/uninstall ${PKG_PATH}
+	@cp configure release/pkg/install release/pkg/uninstall ${PKG_PATH}
 	@${TAR} -chf ../${SOURCE_TAR_NAME} ${PKG_PATH}
 
   ifeq (${HAS_RPM},1)

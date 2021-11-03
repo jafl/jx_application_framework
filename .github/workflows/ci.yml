@@ -123,7 +123,6 @@ jobs:
       - name: Configure
         run: |
           ./configure release
-          brew upgrade
           brew install cask
           brew install --cask xquartz
 

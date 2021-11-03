@@ -2,28 +2,30 @@
 
 # With no arguments, this script must install from an unpacked tgz.
 
-PRE=$1
+PRE=$1;
 if [[ -z $PRE ]]; then
-	PRE=/usr
+	PRE=/usr;
 fi
 
-BIN=$PRE/bin
-LIB=$PRE/lib
-INC=$PRE/include
-ETC=/usr/local/etc
+BIN=$PRE/bin;
+LIB=$PRE/lib;
+INC=$PRE/include;
+ETC=/usr/local/etc;
 
-mkdir -p $BIN
-pushd bin
+mkdir -p $BIN;
+pushd bin;
 for f in *; do
 	install -m755 $f $BIN;
 done
-popd
+popd;
 
-mkdir -p $LIB
-cp lib/* $LIB
+mkdir -p $LIB;
+cp lib/* $LIB;
 
-mkdir -p $INC
-cp -r include/* $INC
+mkdir -p $INC;
+cp -r include/* $INC;
 
-mkdir -p $ETC
-cp -r etc/* $ETC
+mkdir -p $ETC;
+cp -r etc/* $ETC;
+
+./configure package;
