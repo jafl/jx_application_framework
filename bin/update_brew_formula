@@ -1,0 +1,40 @@
+#!/usr/bin/perl
+
+use strict;
+use Digest::SHA qw(sha256_hex);
+
+if ($#ARGV < 0)
+{
+	print "usage: $0 app_name\n";
+	exit 1;
+}
+
+my ($app_name) = @ARGV;
+
+chomp(my $version = `cat release/VERSION`);
+
+chomp(my $repo_url = `git remote get-url origin`);
+die unless $repo_url =~ m|/(.+?)\.git$|;
+my $repo_name = $1;
+
+chomp(my $url = `curl -sL https://api.github.com/repos/jafl/${repo_name}/releases/tags/v${version} | jq -r '.assets[].browser_download_url' | grep darwin`);
+
+my $file = `curl -L $url`;
+my $hash = sha256_hex($file);
+
+my $rb = "/usr/local/Homebrew/Library/Taps/jafl/homebrew-jx/Formula/${app_name}.rb";
+my $formula;
+open(F, "< $rb");
+{
+local $/ = undef;
+$formula = <F>;
+}
+close(F);
+
+$formula =~ s/version ".*?"/version "${version}"/;
+$formula =~ s/url ".*?"/url "${url}"/;
+$formula =~ s/sha256 ".*?"/sha256 "${hash}"/;
+
+open(F, "> $rb");
+print F $formula;
+close(F);
