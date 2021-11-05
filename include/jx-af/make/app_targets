@@ -88,7 +88,11 @@ release: _pre_build_pkgs default menu_strings
 	@${RM} -r ${PKG_PATH}; mkdir -p ${PKG_PATH}
 	@ln -s -t ${PKG_PATH}/ \
          ../${EXE_NAME} ../README.md ../COPYING \
-         ../release/pkg/install ../release/pkg/uninstall ../release/pkg/desktop
+         ../release/pkg/install ../release/pkg/uninstall
+  ifneq (${SYS_ARCH},darwin)
+	@ln -s -t ${PKG_PATH}/ \
+         ../release/pkg/desktop
+  endif
 	@if [[ -f ${MENU_STRING_FILE} ]]; then \
          cp ${MENU_STRING_FILE} ${PKG_PATH}/menu_strings; \
          ${RM} ${MENU_STRING_FILE}; \
