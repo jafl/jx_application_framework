@@ -83,9 +83,18 @@ RPM := rpmbuild -bb --quiet --clean --rmsource
 # string data files -- prepend to allow app to override
 #
 
-J_STRING_FILES := ${JX_INCLUDE_ROOT}/jx-af/strings/jcore/* \
-                  ${JX_INCLUDE_ROOT}/jx-af/strings/jx/* \
-                  ${J_STRING_FILES}
+J_STRING_FILES := $(shell \
+    if [[ -d strings ]]; then \
+      echo '${JX_INCLUDE_ROOT}/jx-af/strings/jcore/*' \
+           '${JX_INCLUDE_ROOT}/jx-af/strings/jx/*'; \
+      ls --hide=menu_strings strings/*; \
+    fi)
+
+ifneq (${J_STRING_FILES},)
+  ifeq ($(findstring strings/version,${J_STRING_FILES}),)
+    J_STRING_FILES += strings/version
+  endif
+endif
 
 #
 # tar

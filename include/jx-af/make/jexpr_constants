@@ -12,4 +12,6 @@ JEXPR_VERSION := 2.0.0
 # String data files -- prepend to allow app to override
 #
 
-J_STRING_FILES := ${JX_INCLUDE_ROOT}/jx-af/strings/jexpr/* ${J_STRING_FILES}
+ifneq (${J_STRING_FILES},)
+  J_STRING_FILES := ${JX_INCLUDE_ROOT}/jx-af/strings/jexpr/* ${J_STRING_FILES}
+endif

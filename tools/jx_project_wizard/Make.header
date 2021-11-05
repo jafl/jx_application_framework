@@ -4,10 +4,7 @@
 JX_ROOT := ../..
 
 APP_NAME  := jx_project_wizard
-SIGNATURE := ${APP_NAME}
 TMPL_DIRS := app_template lib_template
-
-J_STRING_FILES := strings/*
 
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
@@ -42,8 +39,6 @@ LDFLAGS   :=
 #####
 
 include ${MAKE_INCLUDE}/app_targets
-
-${APP_NAME}:: strings
 
 #
 # install extra

@@ -6,8 +6,18 @@
 
 APP_VERSION := $(shell if [[ -f release/VERSION ]]; then cat release/VERSION; fi)
 
+ifndef BIN_NAME
+  BIN_NAME := ${APP_NAME}
+endif
+
+ifndef SIGNATURE
+  SIGNATURE := ${BIN_NAME}
+endif
+
 .PHONY : default
 default: libs all post_link
+
+${BIN_NAME}:: strings
 
 .PHONY : post_link
 post_link::
@@ -16,7 +26,7 @@ post_link::
 Makefiles::
 
 #
-# Libraries (const LIB_DEPS)
+# Libraries
 #
 
 ifdef J_SYSTEM_HAS_SHARED_LIBS
@@ -33,35 +43,37 @@ libs::
      done;
 
 #
-# Install (const APP_NAME, const JX_INSTALL_ROOT)
+# Install
 #
 
-EXE_NAME := $(call EXE,${APP_NAME})
+EXE_NAME := $(call EXE,${BIN_NAME})
 
 .PHONY : install
-install:: ${APP_NAME}
+install:: ${BIN_NAME}
 	@${J_STRIP_DEBUG} ${EXE_NAME}
 	@mkdir -p ${JX_INSTALL_ROOT}/bin
-	@cp ${APP_NAME} ${JX_INSTALL_ROOT}/bin
+	@cp ${EXE_NAME} ${JX_INSTALL_ROOT}/bin
 
 .PHONY : uninstall
 uninstall::
-	@${RM} ${JX_INSTALL_ROOT}/bin/${APP_NAME}
+	@${RM} ${JX_INSTALL_ROOT}/bin/${EXE_NAME}
 
 #
-# Strings (const APP_NAME, const SIGNATURE)
+# Strings
 #
 
-MENU_STRING_FILE := ./strings/${APP_NAME}_menu_strings
+MENU_STRING_FILE := ./strings/menu_strings
 JX_ACTION_DEFS   := ${JX_INCLUDE_ROOT}/jx-af/jx/jXActionDefs.h \
                     ${JX_INCLUDE_ROOT}/jx-af/jx/JXTEBase.cpp
 
 .PHONY : strings
 strings:
+  ifneq (${J_STRING_FILES},)
 	@${RM} ${MENU_STRING_FILE} strings/version
 	@echo -e '0\nVERSION "${APP_VERSION}"' > strings/version
 	compile_jstrings ${J_STRING_FILES} \
       --code kDefaultStringData ./code/stringData.h
+  endif
 
 .PHONY : stringdb
 stringdb:
@@ -75,7 +87,7 @@ menu_strings:
        -m ./code/*.cpp ${JX_INCLUDE_ROOT}/jx-af/jx/*.cpp ${EXTRA_MENU_STRING_FILES}
 
 #
-# Building packages (const APP_NAME)
+# Building packages
 #
 
 PKG_PATH        := ${APP_NAME}-${APP_VERSION}
@@ -94,7 +106,7 @@ release: _pre_build_pkgs default menu_strings
          ../release/pkg/desktop
   endif
 	@if [[ -f ${MENU_STRING_FILE} ]]; then \
-         cp ${MENU_STRING_FILE} ${PKG_PATH}/menu_strings; \
+         cp ${MENU_STRING_FILE} ${PKG_PATH}; \
          ${RM} ${MENU_STRING_FILE}; \
      fi
 	@${MAKE} init_tarball_extra

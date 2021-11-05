@@ -3,11 +3,7 @@
 
 JX_ROOT := ../..
 
-APP_NAME          := jx_memory_debugger
-SIGNATURE         := ${APP_NAME}
-
-J_STRING_FILES := ${filter-out %/${APP_NAME}_menu_strings, \
-                    ${shell echo strings/*}}
+APP_NAME := jx_memory_debugger
 
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
@@ -31,8 +27,6 @@ LDFLAGS   :=
 #####
 
 include ${MAKE_INCLUDE}/app_targets
-
-${APP_NAME}:: strings
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

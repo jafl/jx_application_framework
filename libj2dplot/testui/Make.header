@@ -3,7 +3,7 @@
 
 JX_ROOT := ../..
 
-J_STRING_FILES := strings/*
+APP_NAME := testj2dplot
 
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
@@ -31,8 +31,6 @@ LDFLAGS   :=
 #####
 
 include ${MAKE_INCLUDE}/app_targets
-
-testj2dplot:: strings
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 
