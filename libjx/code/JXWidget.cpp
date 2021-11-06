@@ -1228,7 +1228,7 @@ JXWidget::CreateDragPainter
 	)
 {
 	assert( GetWindow()->IsVisible() );
-	assert( itsDragPainter == nullptr );
+	DeleteDragPainter();	// on macOS, mouse up seems to sometimes get lost
 
 	JRect clipRect;
 	const bool visible =
