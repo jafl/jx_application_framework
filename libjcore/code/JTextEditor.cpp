@@ -3214,7 +3214,7 @@ JTextEditor::VisualLineIndexToCRLineIndex
 	const
 {
 	const JIndex visualLineIndex = JMin(origVisualLineIndex, GetLineCount());
-	if (itsBreakCROnlyFlag)
+	if (itsBreakCROnlyFlag || itsText->IsEmpty())
 	{
 		return visualLineIndex;
 	}
