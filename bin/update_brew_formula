@@ -17,7 +17,7 @@ chomp(my $repo_url = `git remote get-url origin`);
 die unless $repo_url =~ m|/(.+?)\.git$|;
 my $repo_name = $1;
 
-chomp(my $url = `curl -sL https://api.github.com/repos/jafl/${repo_name}/releases/tags/v${version} | jq -r '.assets[].browser_download_url' | grep darwin`);
+chomp(my $url = `curl -sL https://api.github.com/repos/jafl/${repo_name}/releases/tags/v${version} | jq -r '.assets[].browser_download_url' | grep ${app_name} | grep darwin`);
 
 my $file = `curl -L $url`;
 my $hash = sha256_hex($file);
