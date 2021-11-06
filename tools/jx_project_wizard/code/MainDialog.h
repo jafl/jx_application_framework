@@ -40,7 +40,6 @@ private:
 	JXTextButton*      itsQuitButton;
 	JXTextButton*      itsHelpButton;
 	JXInputField*      itsProgramName;
-	JXInputField*      itsProgramVersion;
 	JXInputField*      itsDevName;
 	JXInputField*      itsDevEmail;
 	JXTextCheckbox*    itsNeedsMDICB;

@@ -1,6 +1,3 @@
 -suffix .cc
 
 @lib<Binary>.a
-
--prefix ${<Binary>DIR}/
-
