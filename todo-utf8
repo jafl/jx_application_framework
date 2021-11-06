@@ -13,6 +13,9 @@ jcc
 
 	select fileVersions.h, press return, then undo
 
+jcc
+	styling of JPtrArray<::VarNode>
+
 systemg slow to open new window
 
 
