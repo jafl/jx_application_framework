@@ -87,7 +87,7 @@ J_STRING_FILES := $(shell \
     if [[ -d strings ]]; then \
       echo '${JX_INCLUDE_ROOT}/jx-af/strings/jcore/*' \
            '${JX_INCLUDE_ROOT}/jx-af/strings/jx/*'; \
-      ls --hide=menu_strings strings/*; \
+      ls strings/* | grep -v menu_strings; \
     fi)
 
 ifneq (${J_STRING_FILES},)

@@ -27,7 +27,7 @@ post_link::
 Makefiles::
 
 .PHONY : update_rb
-update_rb:
+update_homebrew_formula:
 	@${JX_ROOT}/bin/update_brew_formula ${APP_NAME}
 
 #
