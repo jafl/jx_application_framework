@@ -360,7 +360,7 @@ bool
 JStringManager::MergeFile
 	(
 	std::istream&	input,
-	const bool	debug
+	const bool		debug
 	)
 {
 	JUInt format;

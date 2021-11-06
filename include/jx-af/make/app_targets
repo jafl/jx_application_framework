@@ -18,6 +18,7 @@ endif
 default: libs all post_link
 
 ${BIN_NAME}:: strings
+	@true # without this, compile_jstrings doesn't link
 
 .PHONY : post_link
 post_link::
