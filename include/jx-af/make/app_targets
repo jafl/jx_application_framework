@@ -26,6 +26,10 @@ post_link::
 .PHONY : Makefiles
 Makefiles::
 
+.PHONY : update_rb
+update_rb:
+	@${JX_ROOT}/bin/update_brew_formula ${APP_NAME}
+
 #
 # Libraries
 #
