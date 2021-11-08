@@ -105,14 +105,12 @@ us, but since we don't have access to your system, the burden of proof must
 rest on you if a system call that works fine on all other systems doesn't
 work for you.
 
-It is also important to realize that we do not maintain ACE.  You are
+It is also important to realize that we do not maintain [ACE](http://www.dre.vanderbilt.edu/~schmidt/ACE.html).  You are
 welcome to contact us if you have problems compiling it, but the ACE
 developers are more likely to be able to help, and patches should be sent
 to them, not to us.  JX uses ACE because networking is horribly
-UNIX-variant-dependent, and the ACE developers are much better at dealing
-with this than we are.  The ACE web page is:
-
-    http://www.cs.wustl.edu/~schmidt/ACE.html
+OS-dependent, and the ACE developers are much better at dealing
+with this than we are.
 
 ## FAQ
 
