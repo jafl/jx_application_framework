@@ -45,7 +45,7 @@ follows:
 
 New Planet Software       | MicroSoft       | MetroWerks
 -------------------       | ---------       |  ----------
-Code Crusader/Code Medic  | Visual Studio   |  CodeWarrior
+[Code Crusader/Code Medic](https://github.com/jafl/jx-ide) | Visual Studio | CodeWarrior
 `jx_project_wizard`       | Project Wizards |  Project Wizards
 JX Application Framework  | MFC             |  PowerPlant
 `JX/tutorials/`           | MSDN            |  Sample code
@@ -62,7 +62,7 @@ APPS.md              General FAQ for programs built using JX
 
 tutorial             Tutorial source code demonstrating JX library
 doc                  Documentation for JX library
-lib                  Links to static and shared libraries
+lib                  Links to the libraries
 
 include
   make               Include files for Makefiles
@@ -197,11 +197,6 @@ we can update the configuration for your system.
 #### When I link, it complains that it can't find `libXpm`.  How do I fix this?
 
 Uncomment `JX_INCLUDE_LIBXPM` in `include/make/jx_config`.
-
-
-#### How do I avoid stripping the shared libraries?
-
-Change `J_STRIP_DEBUG` to `echo` in `include/make/jx_config`.
 
 
 #### How do I avoid installing the binaries when I build?
