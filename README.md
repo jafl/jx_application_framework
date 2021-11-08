@@ -17,10 +17,15 @@ JX is a full-featured C++ application framework and widget library (SDK) for use
 
 The package also includes a complete test suite that demonstrates all of the features of the library and a set of tutorial programs that introduce the major concepts, one at a time. This provides a rich source of sample code, both for top level application design and for individual widget classes. It also shows how to extend the functionality of the library by, for example, creating custom tables or menus.
 
-To build the libraries and programs, simply run:
+To build the libraries and programs on Linux, clone the repo, cd into the directory, and run:
 
     ./configure
     make
+
+On macOS, it is easiest to use [Homebrew](https://brew.sh):
+
+    brew tap jafl/jx
+    brew install --HEAD jafl/jx/jx-application-framework
 
 If you are new to the JX Application Framework, then it is important to understand that it is not a program that you can run.  Rather, it is a set of classes that provide a foundation on which you can build a program with a graphical interface.  If you are familiar with either MicroSoft Visual Studio or MetroWerks CodeWarrior, then the equivalent components are as follows:
 
