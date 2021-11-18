@@ -1,12 +1,3 @@
-to build release, use workflow_dispatch, require version #, add as tag
-	https://github.com/marketplace/actions/upload-files-to-a-github-release
-
-keg for brew
-	must link to XQuartz libraries
-	formula downloads package and places files
-
-
-
 jcc
 /******************************************************************************
  fileVersions.h
@@ -19,10 +10,6 @@ jcc
 systemg slow to open new window
 
 
-
-
-JStyledText
-	CleanRightMargin
 
 
 u-ctags:
@@ -61,6 +48,11 @@ jcc:
 	inheritance tree:
 		show list of functions returned by CBSymbolList
 			based on file and class name and possibly partially qualified name (java)
+
+
+
+JStyledText
+	CleanRightMargin
 
 
 jcc
