@@ -1,9 +1,7 @@
 Summary: <Program> provides ...
-Name: <Program>
+Name: %app_name
 Version: %pkg_version
 Release: 1
-ExclusiveArch: i386
-ExclusiveOS: Linux
 License: ...
 Group: ...
 Source: %pkg_name
