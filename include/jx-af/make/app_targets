@@ -10,6 +10,10 @@ ifndef BIN_NAME
   BIN_NAME := ${APP_NAME}
 endif
 
+ifndef REPO_NAME
+  REPO_NAME := ${APP_NAME}
+endif
+
 ifndef SIGNATURE
   SIGNATURE := ${BIN_NAME}
 endif
@@ -180,13 +184,14 @@ upload_release:
 	@if [[ -f ../${DEB_PKG_NAME} ]]; then \
        ${MAKE} FILE=../${DEB_PKG_NAME} upload_release_file; \
      fi
-	@if [[ -f ../${APP_NAME}-${APP_VERSION}*.rpm ]]; then \
-       ${MAKE} FILE=../${APP_NAME}-${APP_VERSION}*.rpm upload_release_file; \
+	@RPM_FILE=$(wildcard ../${APP_NAME}-${APP_VERSION}*.rpm); \
+     if [[ -f $$RPM_FILE ]]; then \
+       ${MAKE} FILE=$$RPM_FILE upload_release_file; \
      fi
 
 .PHONY : upload_release_file
 upload_release_file:
-	@curl -v -X POST \
+	@curl -X POST \
         -H "Content-Length: $$(wc -c ${FILE} | cut -d ' ' -f1)" \
         -H "Content-Type: $$(file -b --mime-type ${FILE})" \
         -T "${FILE}" \

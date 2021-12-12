@@ -20,7 +20,7 @@ Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, lib
 %define gnome_app_path   /usr/share/applications
 %define gnome_icon_path  /usr/share/pixmaps
 
-./install "$RPM_BUILD_ROOT"
+./install "$RPM_BUILD_ROOT"/usr
 
 %files
 
