@@ -141,7 +141,9 @@ uninstall:
 #
 
 PKG_PATH        := jx-application-framework-${JX_VERSION}
-SOURCE_TAR_NAME := jx-application-framework_${JX_VERSION}_${SYS_ARCH}.tar
+SOURCE_TAR_NAME := jx-application-framework_${JX_VERSION}_${SYS_NAME}_${SYS_ARCH}.tar
+DEB_PKG_NAME    := jx-application-framework_${JX_VERSION}_${SYS_ARCH}.deb
+REFLEX_DEB_NAME := re-flex_${REFLEX_VERSION}_${SYS_ARCH}.deb
 
 .PHONY : build_release
 build_release:
@@ -173,7 +175,7 @@ build_release:
 	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' ${PKG_PATH}/DEBIAN/control;
 	@perl -pi -e 's/%ARCH%/${SYS_ARCH}/' ${PKG_PATH}/DEBIAN/control
 	@dpkg-deb --build ${PKG_PATH}
-	@mv ${PKG_PATH}.deb ../jx-application-framework_${JX_VERSION}_${SYS_ARCH}.deb
+	@mv ${PKG_PATH}.deb ../${DEB_PKG_NAME}
 	@cd ${PKG_PATH}; mv usr/local/* .; ${RM} -r usr/local DEBIAN
 
 	@${RM} -r reflex_pkg; mkdir -p reflex_pkg/usr/local/lib reflex_pkg/usr/local/include reflex_pkg/usr/local/bin reflex_pkg/DEBIAN
@@ -184,7 +186,7 @@ build_release:
 	@perl -pi -e 's/%VERSION%/${REFLEX_VERSION}/' reflex_pkg/DEBIAN/control;
 	@perl -pi -e 's/%ARCH%/${SYS_ARCH}/' reflex_pkg/DEBIAN/control
 	@dpkg-deb --build reflex_pkg
-	@mv reflex_pkg.deb ../re-flex_${JX_VERSION}_${SYS_ARCH}.deb
+	@mv reflex_pkg.deb ../${REFLEX_DEB_NAME}
 	@${RM} -r reflex_pkg
   endif
 

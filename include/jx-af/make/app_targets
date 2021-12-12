@@ -96,7 +96,8 @@ menu_strings:
 #
 
 PKG_PATH        := ${APP_NAME}-${APP_VERSION}
-SOURCE_TAR_NAME := ${APP_NAME}_${APP_VERSION}_${SYS_ARCH}.tar
+SOURCE_TAR_NAME := ${APP_NAME}_${APP_VERSION}_${SYS_NAME}_${SYS_ARCH}.tar
+DEB_PKG_NAME    := ${APP_NAME}_${APP_VERSION}_${SYS_ARCH}.deb
 
 .PHONY : release
 release: _pre_build_pkgs default menu_strings
@@ -106,7 +107,7 @@ release: _pre_build_pkgs default menu_strings
 	@ln -s -t ${PKG_PATH}/ \
          ../${EXE_NAME} ../README.md ../COPYING \
          ../release/pkg/install ../release/pkg/uninstall
-  ifneq (${SYS_ARCH},darwin)
+  ifneq (${SYS_NAME},macos)
 	@ln -s -t ${PKG_PATH}/ \
          ../release/pkg/desktop
   endif
@@ -125,6 +126,7 @@ release: _pre_build_pkgs default menu_strings
 	@${SUDO} ./release/pkg/uninstall
 	@${SUDO} cp ../${SOURCE_TAR_NAME} ${RPM_SRC_DIR}/${SOURCE_TAR_NAME}
 	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
+                    --define 'pkg_name ${APP_NAME}' \
                     --define 'pkg_version ${APP_VERSION}' \
                     --define 'pkg_name ${SOURCE_TAR_NAME}' \
                     ./release/pkg/${APP_NAME}.spec
@@ -139,10 +141,11 @@ release: _pre_build_pkgs default menu_strings
 	@cd debian; tar -xf ${SOURCE_TAR_NAME}
 	@${MAKE} SOURCE_TAR_NAME=${SOURCE_TAR_NAME} _build_deb_sub
 	@cp ./release/pkg/${APP_NAME}.debctrl debian/DEBIAN/control
+	@perl -pi -e 's/%NAME%/${APP_NAME}/' debian/DEBIAN/control;
 	@perl -pi -e 's/%VERSION%/${APP_VERSION}/' debian/DEBIAN/control;
 	@perl -pi -e 's/%ARCH%/${SYS_ARCH}/' debian/DEBIAN/control
 	@dpkg-deb --build debian
-	@mv debian.deb ../${APP_NAME}_${APP_VERSION}_${SYS_ARCH}.deb
+	@mv debian.deb ../${DEB_PKG_NAME}
 	@${RM} -r debian
   endif
 
@@ -166,3 +169,27 @@ DEB_INSTALL_SCRIPT_PATH = $(dir $(shell find debian -name install))
 _build_deb_sub:
 	@cd ${DEB_INSTALL_SCRIPT_PATH}; ./install ..
 	@${RM} -r debian/${SOURCE_TAR_NAME} ${DEB_INSTALL_SCRIPT_PATH}
+
+#
+# Uploading packages
+#
+
+.PHONY : upload_release
+upload_release:
+	@${MAKE} FILE=../${SOURCE_TAR_NAME}.gz upload_release_file
+	@if [[ -f ../${DEB_PKG_NAME} ]]; then \
+       ${MAKE} FILE=../${DEB_PKG_NAME} upload_release_file; \
+     fi
+	@if [[ -f ../${APP_NAME}-${APP_VERSION}*.rpm ]]; then \
+       ${MAKE} FILE=../${APP_NAME}-${APP_VERSION}*.rpm upload_release_file; \
+     fi
+
+.PHONY : upload_release_file
+upload_release_file:
+	@curl -v -X POST \
+        -H "Content-Length: $$(wc -c ${FILE} | cut -d ' ' -f1)" \
+        -H "Content-Type: $$(file -b --mime-type ${FILE})" \
+        -T "${FILE}" \
+        -H "Authorization: token $$(cat ~/.ssh/GITHUB_TOKEN)" \
+        -H "Accept: application/vnd.github.v3+json" \
+        https://uploads.github.com/repos/jafl/${REPO_NAME}/releases/$$(curl -s  https://api.github.com/repos/jafl/ssh-askpass/releases/latest | jq '.id')/assets?name=$(notdir ${FILE})

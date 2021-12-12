@@ -44,12 +44,13 @@ SEARCHDIRS += -I/usr/include/freetype2
 # Nothing below this line should ever need to be changed.
 #
 
+SYS_NAME := $(shell source /etc/os-release; echo $$ID$${VERSION_ID%%.*})
+SYS_ARCH := $(shell uname -m)
+
 ifneq (${shell which dpkg-deb 2> /dev/null},)
-  HAS_DEB  := 1
-  SYS_ARCH := $(shell dpkg --print-architecture)
+  HAS_DEB := 1
 else ifneq (${shell which rpm 2> /dev/null},)
-  HAS_RPM  := 1
-  SYS_ARCH := $(shell arch)
+  HAS_RPM := 1
 endif
 
 # makemake variables
