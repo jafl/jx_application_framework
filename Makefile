@@ -32,6 +32,7 @@ initial_build: initial_build_makemake initial_build_makefiles initial_build_libs
 
 .PHONY : initial_build_makemake
 initial_build_makemake:
+	ls -lR misc;
 	@if [[ -d misc/reflex && ! -f misc/reflex/lib/libreflex.a ]]; then \
        echo Please authorize sudo access for installing reflex...; \
        ${SUDO} echo sudo access authorized...; \
