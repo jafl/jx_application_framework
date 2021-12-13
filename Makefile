@@ -32,15 +32,18 @@ initial_build: initial_build_makemake initial_build_makefiles initial_build_libs
 
 .PHONY : initial_build_makemake
 initial_build_makemake:
-	ls -lR misc;
-	@if [[ -d misc/reflex && ! -f misc/reflex/lib/libreflex.a ]]; then \
-       echo Please authorize sudo access for installing reflex...; \
-       ${SUDO} echo sudo access authorized...; \
+	@if [[ -d misc/reflex ]]; then \
+       if ! command -v reflex; then \
+         echo Please authorize sudo access for installing reflex...; \
+         ${SUDO} echo sudo access authorized...; \
+       fi; \
        cd misc/reflex; \
        if [[ ! -f lib/libreflex.a ]]; then \
-          ./clean.sh; ./build.sh; \
+         ./clean.sh; ./build.sh; \
        fi; \
-       ${SUDO} ./allinstall.sh; \
+       if ! command -v reflex; then \
+         ${SUDO} ./allinstall.sh; \
+       fi; \
      fi
 	@if [[ ! -h ACE/ACE_wrappers && ! -e ACE/ACE_wrappers/ace/libACE.a ]]; then \
        cd ACE; ${JMAKE} install; \
