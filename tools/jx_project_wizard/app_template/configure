@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e;
+
+SYS=`uname -o || uname -s`;		# Darwin doesn't support -o
+
+if [[ $UID != 0 ]]; then
+	SUDO="sudo";
+fi
+
+if [[ $1 == release || $1 == ci ]]; then
+	echo -n 1 >| 0-RELEASE;
+fi
+
+if [[ $SYS == Darwin ]]; then
+
+	if ! command -v brew; then
+		echo Installing Homebrew...;
+		sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
+	fi;
+
+	if [[ $1 != ci ]]; then
+		brew tap jafl/jx;
+		brew bundle;
+	fi
+
+elif command -v apt-get; then
+
+	# debian
+
+	if [[ $1 != ci && ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
+		$SUDO apt update;
+		curl -O http://libjx.sourceforge.net/release/jx-application-framework.deb
+		sudo apt install ./jx-application-framework.deb
+	fi;
+
+fi
+
+if [[ ! -d /usr/local/include/jx-af/ && ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
+
+	echo "Please install jx-application-framework.";
+	exit 1;
+
+fi
+
+makemake;

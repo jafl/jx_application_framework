@@ -14,6 +14,10 @@ ifndef REPO_NAME
   REPO_NAME := ${APP_NAME}
 endif
 
+ifndef FORGE_NAME
+  FORGE_NAME := ${APP_NAME}
+endif
+
 ifndef SIGNATURE
   SIGNATURE := ${BIN_NAME}
 endif
@@ -29,6 +33,14 @@ post_link::
 
 .PHONY : Makefiles
 Makefiles::
+
+.PHONY : update_version
+update_version:
+	@scp release/VERSION release/doc/* jafl,${FORGE_NAME}@web.sourceforge.net:htdocs/;
+
+.PHONY : update_help
+update_help:
+	@scp release/doc/help.html jafl,${FORGE_NAME}@web.sourceforge.net:htdocs/;
 
 .PHONY : update_rb
 update_homebrew_formula:

@@ -14,6 +14,10 @@ default:
 release:
 	@${JMAKE} build_release
 
+.PHONY : update_docs
+update_docs:
+	@scp -r doc/html/* jafl,libjx@web.sourceforge.net:htdocs/;
+
 .PHONY : coverage
 coverage:
 	@${JMAKE} analyze_coverage
