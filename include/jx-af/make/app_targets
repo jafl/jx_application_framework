@@ -34,6 +34,10 @@ post_link::
 .PHONY : Makefiles
 Makefiles::
 
+.PHONY : github_release
+github_release:
+	@V=`cat release/VERSION`; git tag -a -m $$V v$$V; git push origin v$$V
+
 .PHONY : update_version
 update_version:
 	@scp release/VERSION release/doc/* jafl,${FORGE_NAME}@web.sourceforge.net:htdocs/;
@@ -118,6 +122,11 @@ DEB_PKG_NAME    := ${APP_NAME}_${APP_VERSION}_${SYS_ARCH}.deb
 .PHONY : release
 release: _pre_build_pkgs default menu_strings
 	@${J_STRIP_DEBUG} ${EXE_NAME}
+
+  ifneq (${J_IS_APP_RELEASE_BUILD},1)
+	@echo You can only build a package when you './configure release'
+	@false
+  endif
 
 	@${RM} -r ${PKG_PATH}; mkdir -p ${PKG_PATH}
 	@ln -s -t ${PKG_PATH}/ \
@@ -209,4 +218,4 @@ upload_release_file:
         -T "${FILE}" \
         -H "Authorization: token $$(cat ~/.ssh/GITHUB_TOKEN)" \
         -H "Accept: application/vnd.github.v3+json" \
-        https://uploads.github.com/repos/jafl/${REPO_NAME}/releases/$$(curl -s  https://api.github.com/repos/jafl/ssh-askpass/releases/latest | jq '.id')/assets?name=$(notdir ${FILE})
+        https://uploads.github.com/repos/jafl/${REPO_NAME}/releases/$$(curl -s  https://api.github.com/repos/jafl/${REPO_NAME}/releases/latest | jq '.id')/assets?name=$(notdir ${FILE})
