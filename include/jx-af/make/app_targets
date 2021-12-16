@@ -213,9 +213,24 @@ upload_release:
 .PHONY : upload_release_file
 upload_release_file:
 	@curl -X POST \
-        -H "Content-Length: $$(wc -c ${FILE} | cut -d ' ' -f1)" \
-        -H "Content-Type: $$(file -b --mime-type ${FILE})" \
+        -H "Content-Length: "`wc -c ${FILE} | cut -d ' ' -f1` \
+        -H "Content-Type: "`file -b --mime-type ${FILE}` \
         -T "${FILE}" \
-        -H "Authorization: token $$(cat ~/.ssh/GITHUB_TOKEN)" \
+        -H "Authorization: token "`cat ~/.ssh/GITHUB_TOKEN` \
         -H "Accept: application/vnd.github.v3+json" \
-        https://uploads.github.com/repos/jafl/${REPO_NAME}/releases/$$(curl -s  https://api.github.com/repos/jafl/${REPO_NAME}/releases/latest | jq '.id')/assets?name=$(notdir ${FILE})
+        https://uploads.github.com/repos/jafl/${REPO_NAME}/releases/`curl -s  https://api.github.com/repos/jafl/${REPO_NAME}/releases/latest | jq -r '.id'`/assets?name=$(notdir ${FILE})
+
+.PHONY : mirror_sourceforge
+mirror_sourceforge:
+	@R=`curl https://api.github.com/repos/jafl/${REPO_NAME}/releases/latest`; \
+     V=`echo $$R | jq -r '.tag_name'`; V=$${V#v}; V=$${V%.0}; \
+     echo "mkdir /home/frs/project/${FORGE_NAME}/$$V" | sftp -b - jafl@frs.sourceforge.net; \
+     for url in `echo $$R | jq -r '.assets[].browser_download_url'`; do \
+         f=$${url##*/}; \
+         curl -L -O $$url; \
+         scp $$f jafl@frs.sourceforge.net:/home/frs/project/${FORGE_NAME}/$$V/; \
+         rm -f $$f; \
+         if [[ $$url == *macos* ]]; then \
+             curl -H "Accept: application/json" -X PUT -d "default=mac" -d "api_key="`cat ~/.ssh/FORGE_API_KEY` https://sourceforge.net/projects/${FORGE_NAME}/files/$$V/$$f; \
+         fi; \
+     done
