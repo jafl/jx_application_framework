@@ -32,7 +32,7 @@ J_HAS_SYSCTL := yes
 # Nothing below this line should ever need to be changed.
 #
 
-SYS_NAME := macos
+SYS_NAME := macos$(shell V=`sw_vers -productVersion`; echo $${V%%.*})
 SYS_ARCH := $(shell uname -m)
 
 # makemake variables
