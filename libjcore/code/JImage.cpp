@@ -110,24 +110,24 @@ JImage::GetFileType
 		return kUnknownType;
 	}
 
-	if (JString::CompareMaxNBytes(buffer, "GIF", 3) == 0)
+	if (strncmp(buffer, "GIF", 3) == 0)
 	{
 		return kGIFType;
 	}
-	else if (JString::CompareMaxNBytes(buffer, "\x89PNG", 4) == 0)
+	else if (strncmp(buffer, "\x89PNG", 4) == 0)
 	{
 		return kPNGType;
 	}
-	else if (JString::CompareMaxNBytes(buffer, "\xFF\xD8\xFF", 3) == 0)
+	else if (strncmp(buffer, "\xFF\xD8\xFF", 3) == 0)
 	{
 		return kJPEGType;
 	}
-	else if (JString::CompareMaxNBytes(buffer, "/* XPM */", 9) == 0)
+	else if (strncmp(buffer, "/* XPM */", 9) == 0)
 	{
 		return kXPMType;
 	}
-	else if (JString::CompareMaxNBytes(buffer, "#define", 7) == 0 ||
-			 JString::CompareMaxNBytes(buffer, "/*"     , 2) == 0)
+	else if (strncmp(buffer, "#define", 7) == 0 ||
+			 strncmp(buffer, "/*"     , 2) == 0)
 	{
 		return kXBMType;
 	}
