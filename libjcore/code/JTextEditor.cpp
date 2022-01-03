@@ -379,7 +379,10 @@ JTextEditor::Receive
 	if (sender == itsText &&
 		message.Is(JStyledText::kTextSet))
 	{
-		assert( !TEIsDragging() );
+		if (TEIsDragging())		// on macOS, mouse up seems to sometimes get lost
+		{
+			TEHandleDNDLeave();
+		}
 
 		if (itsText->IsEmpty())
 		{
@@ -2541,8 +2544,8 @@ void
 JTextEditor::TEHandleDNDDrop
 	(
 	const JPoint&	pt,
-	const bool	dropOnSelf,
-	const bool	dropCopy
+	const bool		dropOnSelf,
+	const bool		dropCopy
 	)
 {
 	assert( itsDragType == kDragAndDrop );
