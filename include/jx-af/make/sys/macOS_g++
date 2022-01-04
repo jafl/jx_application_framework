@@ -62,8 +62,3 @@ J_POST_LINK_LLDB_CMD := install_name_tool -add_rpath /Library/Developer/CommandL
 # modify settings based on OS, compiler, etc.
 
 include ${MAKE_INCLUDE}/jx_config_common
-
-# libpng is part of X11
-
-J_IMG_LIBS := ${J_IMG_LIBS}
-J_STD_LIBS := ${J_STD_LIBS}

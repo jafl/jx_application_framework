@@ -1,0 +1,49 @@
+name: jx-application-framework
+title: JX Application Framework
+base: core20
+version: "3.99.0"
+#source-code: https://github.com/jafl/jx_application_framework
+#issues: https://github.com/jafl/jx_application_framework/issues
+#contact: https://johnlindal.wixsite.com/aboutme/contact-me
+summary: JX is an application framework for use with the X Window System.
+description: |
+  JX is a full-featured C++ application framework and widget library (SDK) for use with the X Window System.
+
+grade: stable
+confinement: strict
+
+parts:
+  jx-application-framework:
+    plugin: autotools
+    source-type: git
+    source: https://github.com/jafl/jx_application_framework
+    disable-parallel: true
+    autotools-configure-parameters:
+      - release
+    stage:
+      - include
+      - lib
+      - bin/compile_jstrings
+      - bin/makemake
+    build-packages:
+      - g++
+      - make
+      - libx11-dev
+      - libxinerama-dev
+      - libxft-dev
+      - libxmu-dev
+      - libxi-dev
+      - libx11-xcb-dev
+      - libxcb-xfixes0-dev
+      - libxcb-dri2-0-dev
+      - libxpm-dev
+      - libjpeg-dev
+      - libpng-dev
+      - libgd-dev
+      - libace-dev
+      - libicu-dev
+      - libpcre3-dev
+      - libxml2-dev
+      - xutils-dev
+      - libdrm-dev
+      - aspell

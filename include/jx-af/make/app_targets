@@ -40,10 +40,19 @@ github_release:
 
 .PHONY : update_version
 update_version:
+	@echo -n 'current version: '; cat release/VERSION; echo
+	@read -e -p 'new version: ' V; export V; \
+     echo -n $$V >| release/VERSION; \
+     if [[ -f snap/snapcraft.yaml ]]; then \
+         perl -pi -e 's/version: .+/version: "$$ENV{V}"/' snap/snapcraft.yaml; \
+     fi
+
+.PHONY : push_version
+push_version:
 	@scp release/VERSION release/doc/* jafl,${FORGE_NAME}@web.sourceforge.net:htdocs/;
 
-.PHONY : update_help
-update_help:
+.PHONY : push_help
+push_help:
 	@scp release/doc/help.html jafl,${FORGE_NAME}@web.sourceforge.net:htdocs/;
 
 .PHONY : update_rb

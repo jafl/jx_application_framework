@@ -35,29 +35,29 @@ ACE_VERSION := $(shell perl -e \
 # useful directories
 #
 
-ifndef JX_INCLUDE_ROOT
-  JX_INCLUDE_ROOT := ${JX_ROOT}/include
+JX_INCLUDE_ROOT := ${JX_ROOT}/include
+JX_LIB_ROOT     := ${JX_ROOT}/lib
+
+ifdef SNAPCRAFT_PART_INSTALL
+  APP_DATA_PREFIX := ${SNAPCRAFT_PART_INSTALL}
+else
+  APP_DATA_PREFIX := /usr/local
+endif
+
+APP_DATA_PATH := /etc/jx-af
+
+ifdef SNAPCRAFT_PART_INSTALL
+  JX_INSTALL_ROOT := ${SNAPCRAFT_PART_INSTALL}
+else ifeq ($(shell whoami),root)
+  JX_INSTALL_ROOT := ${APP_DATA_PREFIX}
+else
+  JX_INSTALL_ROOT := \
+    ${shell if [[ -d ${HOME}/bin && -w ${HOME}/bin ]]; \
+            then echo ${HOME}; \
+            else mkdir -p ${JX_ROOT}/bin; cd ${JX_ROOT}; pwd; fi }
 endif
 
 SEARCHDIRS := -I${JX_INCLUDE_ROOT}
-
-ifndef JX_LIB_ROOT
-  JX_LIB_ROOT := ${JX_ROOT}/lib
-endif
-
-APP_DATA_PREFIX := /usr/local
-APP_DATA_PATH   := /etc/jx-af
-
-ifndef JX_INSTALL_ROOT
-  ifeq ($(shell whoami),root)
-    JX_INSTALL_ROOT := ${APP_DATA_PREFIX}
-  else
-    JX_INSTALL_ROOT := \
-      ${shell if [[ -d ${HOME}/bin && -w ${HOME}/bin ]]; \
-              then echo ${HOME}; \
-              else mkdir -p ${JX_ROOT}/bin; cd ${JX_ROOT}; pwd; fi }
-  endif
-endif
 
 #
 # system features
@@ -93,6 +93,7 @@ J_STRING_FILES := $(shell \
 
 ifneq (${J_STRING_FILES},)
   ifeq ($(findstring strings/version,${J_STRING_FILES}),)
+    # strings/version will be generated
     J_STRING_FILES += strings/version
   endif
 endif
