@@ -59,6 +59,11 @@ push_help:
 update_homebrew_formula:
 	@${JX_ROOT}/bin/update_homebrew_formula ${APP_NAME}
 
+.PHONY : snap
+snap:
+	@chmod a+r snap/gui/*
+	@snapcraft
+
 #
 # Libraries
 #

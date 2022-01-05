@@ -15,8 +15,7 @@ confinement: strict
 parts:
   jx-application-framework:
     plugin: autotools
-    source-type: git
-    source: https://github.com/jafl/jx_application_framework
+    source: .
     disable-parallel: true
     autotools-configure-parameters:
       - release

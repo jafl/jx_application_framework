@@ -1,3 +1,12 @@
+publish updated versions for systemg, etc.
+
+mac symbols not shown in hint text for toolbar buttons
+
+include system name in rpm & deb file names
+
+
+
+
 jcc
 /******************************************************************************
  fileVersions.h
@@ -5,24 +14,31 @@ jcc
 	select fileVersions.h, press return, then undo
 
 jcc
+    with tab-inserts-spaces, select text, then press tab: doesn't replace selected text
+
+jcc
 	styling of JPtrArray<::VarNode>
 
 systemg slow to open new window
 
+jcc,medic: add universal ctags dependecy in .spec
 
 
 
+jcc:
+	turn off anonymous functions
 u-ctags:
-	test:  make, yacc, html
-	fix:  javascript, php
+	fix:  javascript
 		aws-lambda-common: Transaction.js
-		aws-heimdall/views/commands.hbs - missing upgrade_app
+			fails after 'update'
+		aws-heimdall/views/commands.hbs
+			missing change_group, upgrade_app
 		vendomatic/src/main/webapp/public/assets/js/vendomatic-config-edit.js
+			many functions misclassified as anonymous
 		yui-modules/src/gallery-bulkedit/js/BulkEditDataSource.js
-		any php file containing javascript
-	fix c++:
-		JRegex
-	update CBCtagsUser::DecodeSymbolType & CBSymbolTypeList
+			missing adjustRequest, internalSuccess
+			many functions misclassified as anonymous
+			missing mergeChanges, even as anonymous
 
 	GDBVarGroupInfo.h not in medic files list
 
