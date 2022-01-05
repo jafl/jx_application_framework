@@ -74,17 +74,8 @@ function configure_linux
 	get_reflex;
 	clean_links;
 
+	ln -sf sys/Linux-Intel-64  include/jx-af/make/jx_config;
 	ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jx-af/jcore/jMissingProto.h;
-
-	ARCH=`uname -m`;
-	if [[ $ARCH == x86_64 ]]; then
-		ln -sf sys/Linux-Intel-64  include/jx-af/make/jx_config;
-	elif [[ ${ARCH:0:1} == i ]]; then
-		ln -sf sys/Linux-Intel-32  include/jx-af/make/jx_config;
-	else
-		echo "Unknown architecture '$ARCH'.  Please file an issue on github.";
-		exit 1;
-	fi
 
 	if [[ -d ACE/ACE_wrappers ]]; then
 		configure_ace config-linux.h platform_linux.GNU;
