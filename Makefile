@@ -166,8 +166,8 @@ build_release:
   endif
 
 	@${RM} -r ${PKG_PATH}; mkdir -p ${PKG_PATH}
-	@pushd ${PKG_PATH}; export JX_INSTALL_ROOT=`pwd`; popd; \
-     ${MAKE} install
+	@pushd ${PKG_PATH}; P=`pwd`; popd; \
+     ${MAKE} JX_INSTALL_ROOT=$$P install
 	@cp -RL ${MAKE_INCLUDE} ${PKG_PATH}/include/jx-af/; \
      ${RM} -r ${PKG_PATH}/include/jx-af/make/sys
 	@cp configure Brewfile release/pkg/install release/pkg/uninstall ${PKG_PATH}
