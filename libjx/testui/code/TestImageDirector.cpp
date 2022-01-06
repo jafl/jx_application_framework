@@ -20,6 +20,7 @@
 #include <jx-af/jx/JXPSPrinter.h>
 #include <jx-af/jx/JXEPSPrinter.h>
 #include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -348,12 +349,34 @@ TestImageDirector::SaveImage
 	const
 {
 	JXImage* image;
+	if (itsFileName.IsEmpty() || !itsImageWidget->GetImage(&image))
+	{
+		return;
+	}
+
+	JString root, suffix, name = itsFileName;
+	JSplitRootAndSuffix(itsFileName, &root, &suffix);
+	if (type == JImage::kGIFType)
+	{
+		name = JCombineRootAndSuffix(root, "gif");
+	}
+	else if (type == JImage::kPNGType)
+	{
+		name = JCombineRootAndSuffix(root, "png");
+	}
+	else if (type == JImage::kJPEGType)
+	{
+		name = JCombineRootAndSuffix(root, "jpg");
+	}
+	else if (type == JImage::kXPMType)
+	{
+		name = JCombineRootAndSuffix(root, "xpm");
+	}
+
 	JString fullName;
-	if (!itsFileName.IsEmpty() &&
-		itsImageWidget->GetImage(&image) &&
-		JGetChooseSaveFile()->SaveFile(
+	if (JGetChooseSaveFile()->SaveFile(
 			JGetString("SaveImagePrompt::TestImageDirector"),
-			JString::empty, itsFileName, &fullName))
+			JString::empty, name, &fullName))
 	{
 		JError err = JNoError();
 		if (type == JImage::kGIFType)

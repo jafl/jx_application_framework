@@ -151,7 +151,7 @@ JXChooseSaveFile::ChooseFile
 	const JString&	prompt,
 	const JString&	instructions,
 	const JString&	originalName,
-	const bool	allowSelectMultiple
+	const bool		allowSelectMultiple
 	)
 {
 	JDirInfo* dirInfo       = GetDirInfo();
