@@ -49,3 +49,4 @@ parts:
       - xutils-dev
       - libdrm-dev
       - aspell
+      - locales
