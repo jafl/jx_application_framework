@@ -128,6 +128,10 @@ main
 		return 0;
 	}
 
+std::cout << "UINT_MAX: " << UINT_MAX << std::endl;
+std::cout << "ULONG_MAX: " << ULONG_MAX << std::endl;
+std::cout << "ULLONG_MAX: " << ULLONG_MAX << std::endl;
+
 	// parse the command line options
 
 	JString defSuffix, defineText, headerName, inputName, outputName, outputDirName;
