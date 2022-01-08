@@ -42,7 +42,7 @@ JColorManager::GetColorID
 	const JRGB& rgb
 	)
 {
-	return ((rgb.red << 32) | (rgb.green << 16) | rgb.blue);
+	return ((JColorID(rgb.red) << 32) | (JColorID(rgb.green) << 16) | JColorID(rgb.blue));
 }
 
 /******************************************************************************
