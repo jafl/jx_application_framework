@@ -51,8 +51,8 @@ static const JUtf8Byte* kFTCDebugOverlapOptionName = "--debug-ftc-overlap";
 static const JUtf8Byte* kDebugUtf8OptionName       = "--debug-utf8";
 static const JUtf8Byte* kPseudotranslateOptionName = "--pseudotranslate";
 
-const time_t kTimerStart = J_TIME_T_MAX/1000U;	// milliseconds before rollover
-const Time kMaxSleepTime = 50;					// 0.05 seconds (in milliseconds)
+const time_t kTimerStart = INT_MAX;		// seconds before rollover
+const Time kMaxSleepTime = 50;			// 0.05 seconds (in milliseconds)
 
 const JSize kWaitForChildCount = 10;
 

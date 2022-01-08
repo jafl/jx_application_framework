@@ -13,18 +13,6 @@
 #include "jx-af/jcore/jTypes.h"
 #include <time.h>
 
-#if defined _J_UNIX && SIZEOF_LONG == 4
-	#define J_TIME_T_MAX LONG_MAX
-#elif defined _J_UNIX && SIZEOF_INT == 4
-	#define J_TIME_T_MAX INT_MAX
-#else
-	figure out what to do!
-#endif
-
-#ifndef CLOCKS_PER_SEC
-#define CLOCKS_PER_SEC 1000000		// not declared in Sun headers
-#endif
-
 class JString;
 
 void JWait(const double delta);

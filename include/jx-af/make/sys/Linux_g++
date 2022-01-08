@@ -32,7 +32,6 @@ J_XINERAMA_LIBS := -lXinerama
 # Adjust these until everything compiles
 
 J_RAW_SYSTEM_STUFF := \
-  -DSIZEOF_INT=4 -DSIZEOF_LONG=8 -DSIZEOF_LONGLONG=8 \
   -D_J_HAS_PROC \
   -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED \
   -D_XFT_NO_COMPAT_ -I/usr/include/freetype2 \

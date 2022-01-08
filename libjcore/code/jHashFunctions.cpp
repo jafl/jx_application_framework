@@ -79,7 +79,7 @@ JHash7Bit
 {
 	assert(key != nullptr);
 
-	// Any optimizer worth it's salt ought to make this variable free
+	// Any optimizer worth its salt ought to make this variable free
 	const JUtf8Byte* thisChar = key;
 
 	JHashValue hash=0;
@@ -110,7 +110,7 @@ JHash8Bit
 {
 	assert(key != nullptr);
 
-	// Any optimizer worth it's salt ought to make this variable free
+	// Any optimizer worth its salt ought to make this variable free
 	const JUtf8Byte* thisChar = key;
 
 	JHashValue hash=0;

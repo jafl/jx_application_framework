@@ -196,87 +196,33 @@ JBoolFromString
 
  ******************************************************************************/
 
-#if SIZEOF_LONG == 4
+static_assert(sizeof(unsigned long) == 4 || sizeof(unsigned int) == 4,
+			  "unable to find a 4 byte unsigned integer type");
 
-	using JUInt32 = unsigned long;
-	using JInt32  = signed long;
+using JUInt32 = std::conditional<sizeof(unsigned long) == 4, unsigned long, unsigned int>::type;
+using JInt32  = std::conditional<sizeof(  signed long) == 4,   signed long,   signed int>::type;
 
-	const JUInt32 kJUInt32Min = 0;
-	const JUInt32 kJUInt32Max = ULONG_MAX;
+const JUInt32 kJUInt32Min = 0;
+const JUInt32 kJUInt32Max = sizeof(unsigned long) == 4 ? JUInt32(ULONG_MAX) : UINT_MAX;
 
-	const JInt32 kJInt32Min = LONG_MIN;
-	const JInt32 kJInt32Max = LONG_MAX;
+const JInt32 kJInt32Min = sizeof(signed long) == 4 ? JInt32(LONG_MIN) : INT_MIN;
+const JInt32 kJInt32Max = sizeof(signed long) == 4 ? JInt32(LONG_MAX) : INT_MAX;
 
-#elif SIZEOF_INT == 4
+static_assert(sizeof(unsigned long long) == 8 || sizeof(unsigned long) == 8,
+			  "unable to find a 8 byte unsigned integer type");
 
-	using JUInt32 = unsigned int;
-	using JInt32  = signed int;
+using JUInt64 = std::conditional<sizeof(unsigned long long) == 8, unsigned long long, unsigned long>::type;
+using JInt64  = std::conditional<sizeof(  signed long long) == 8,   signed long long,   signed long>::type;
 
-	const JUInt32 kJUInt32Min = 0;
-	const JUInt32 kJUInt32Max = UINT_MAX;
+const JUInt64 kJUInt64Min = 0;
+const JUInt64 kJUInt64Max = sizeof(unsigned long long) == 8 ? JUInt64(ULLONG_MAX) : ULONG_MAX;
 
-	const JInt32 kJInt32Min = INT_MIN;
-	const JInt32 kJInt32Max = INT_MAX;
+const JInt64 kJInt64Min = sizeof(signed long long) == 8 ? JInt64(LLONG_MIN) : LONG_MIN;
+const JInt64 kJInt64Max = sizeof(signed long long) == 8 ? JInt64(LLONG_MAX) : LONG_MAX;
 
-#else
-	*** Trouble; we must always have 32-bit types.  Generalize the test to
-	*** your architecture before compiling, and contact the JX team so the
-	*** next version does it correctly!
-#endif
-
-#if defined SIZEOF_LONGLONG && SIZEOF_LONGLONG == 8
-
-	// Need a way to detect that the type exists
-	#define JUInt64_EXISTS
-	#define  JInt64_EXISTS
-
-	using JUInt64 = unsigned long long;
-	using JInt64  = signed long long;
-
-	const JUInt64 kJUInt64Min = 0;
-	const JUInt64 kJUInt64Max = ULLONG_MAX;
-
-	const JInt64 kJInt64Min = LLONG_MIN;
-	const JInt64 kJInt64Max = LLONG_MAX;
-
-#elif SIZEOF_LONG == 8
-
-	// Need a way to detect that the type exists
-	#define JUInt64_EXISTS
-	#define  JInt64_EXISTS
-
-	using JUInt64 = unsigned long;
-	using JInt64  = signed long;
-
-	const JUInt64 kJUInt64Min = 0;
-	const JUInt64 kJUInt64Max = ULONG_MAX;
-
-	const JInt64 kJInt64Min = LONG_MIN;
-	const JInt64 kJInt64Max = LONG_MAX;
-
-#elif SIZEOF_INT == 8
-
-	// I know, but gotta look ahead to 128-bit processors
-
-	// Need a way to detect that the type exists
-	#define JUInt64_EXISTS
-	#define  JInt64_EXISTS
-
-	using JUInt64 = unsigned int;
-	using JInt64  = signed int;
-
-	const JUInt64 kJUInt64Min = 0;
-	const JUInt64 kJUInt64Max = UINT_MAX;
-
-	const JInt64 kJInt64Min = INT_MIN;
-	const JInt64 kJInt64Max = INT_MAX;
-
-#endif
-
-	// So far, all machines have word-sized longs
-	#define JWORDSIZE SIZEOF_LONG
-	using JUWord = unsigned long;
-	using JWord  = signed long;
+// So far, all machines have word-sized longs
+using JUWord = unsigned long;
+using JWord  = signed long;
 
 /******************************************************************************
 

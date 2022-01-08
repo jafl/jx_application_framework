@@ -74,7 +74,7 @@ function configure_linux
 	get_reflex;
 	clean_links;
 
-	ln -sf sys/Linux-Intel-64  include/jx-af/make/jx_config;
+	ln -sf sys/Linux_g++  include/jx-af/make/jx_config;
 	ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jx-af/jcore/jMissingProto.h;
 
 	if [[ -d ACE/ACE_wrappers ]]; then

@@ -118,6 +118,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		*** Removed GetCompareFunction() because it is useless for lambdas.
 //		*** Removed Get/SetCompareObject() in favor of lambdas.
 //	*** Removed unused class JErrorState.
+//	jTime.h:
+//		*** Removed unused J_TIME_T_MAX.
 
 // version 3.2.0:
 //	jMountUtil:

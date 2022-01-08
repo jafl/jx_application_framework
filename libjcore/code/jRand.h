@@ -28,7 +28,6 @@ JKLRandInt32
 	return 1664525L*seed + 1013904223L;
 }
 
-#ifdef JInt64_EXISTS
 /******************************************************************************
  JKHRandInt64
 
@@ -40,13 +39,8 @@ JKHRandInt64
 	const JInt64 seed
 	)
 {
-	#if defined SIZEOF_LONGLONG
 	return 6364136223846793005LL*seed + 1LL;
-	#else
-	return 6364136223846793005L*seed + 1L;
-	#endif
 }
-#endif
 
 /******************************************************************************
  JRandWord
@@ -59,28 +53,7 @@ JRandWord
 	const JWord seed
 	)
 {
-#if JWORDSIZE == 8
-
-	#ifndef JInt64_EXISTS
-
-		*** We dont have a word-sized variable available!
-
-	#endif
-
-	return JKHRandInt64(seed);
-
-#elif JWORDSIZE == 4
-
-	// We always have a 32-bit quantity
-
-	return JKLRandInt32(seed);
-
-#else
-
-	*** We dont have a word-sized generator available!
-
-#endif
+	return sizeof(JWord) == 8 ? JWord(JKHRandInt64(seed)) : JKLRandInt32(seed);
 }
-
 
 #endif
