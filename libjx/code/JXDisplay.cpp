@@ -179,10 +179,10 @@ JXDisplay::JXDisplay
 	XSetLocaleModifiers("");				// loads the XMODIFIERS environment variable
 	itsXIM = XOpenIM(itsXDisplay, nullptr, nullptr, nullptr);
 	if (!itsXIM)
-{
+	{
 		XSetLocaleModifiers("@im=none");	// fallback to internal input method
 		itsXIM = XOpenIM(itsXDisplay, nullptr, nullptr, nullptr);
-}
+	}
 	assert( itsXIM != nullptr );
 
 	itsNeedsUpdateFlag = false;

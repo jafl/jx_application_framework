@@ -37,6 +37,7 @@ parts:
       - lib
       - bin/compile_jstrings
       - bin/makemake
+      - bin/reflex
     build-packages:
       - g++
       - make

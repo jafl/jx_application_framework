@@ -137,6 +137,11 @@ install:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE, \
        ${IF_DIR} ${JMAKE} install; ${ENDIF_DIR})
 	@cp -RL ${MAKE_INCLUDE} ${JX_ROOT}/include/jx-af/scripts ${JX_INSTALL_ROOT}/include/jx-af
+  ifdef SNAPCRAFT_PART_INSTALL
+	@cp ${JX_ROOT}/misc/reflex/bin/reflex ${JX_INSTALL_ROOT}/bin
+	@cp ${JX_ROOT}/misc/reflex/lib/*.a ${JX_INSTALL_ROOT}/lib
+	@cp -R ${JX_ROOT}/misc/reflex/include ${JX_INSTALL_ROOT}/include
+  endif
 
 .PHONY : uninstall
 uninstall:
