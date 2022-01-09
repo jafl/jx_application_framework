@@ -12,6 +12,12 @@ description: |
 grade: stable
 confinement: strict
 
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+  - build-on: ppc64el
+  - build-on: s390x
+
 parts:
   jx-application-framework:
     plugin: autotools
@@ -20,6 +26,7 @@ parts:
     override-pull: |
       snapcraftctl pull
       sudo locale-gen en_US.UTF-8
+      touch libjexpr/code/JExprParserY.cpp libjexpr/code/JExprParserY.hpp
     build-environment:
       - LC_ALL: en_US.UTF-8
       - LANG: en_US.UTF-8
