@@ -80,7 +80,7 @@ JHash7Bit
 	assert(key != nullptr);
 
 	// Any optimizer worth its salt ought to make this variable free
-	const JUtf8Byte* thisChar = key;
+	const unsigned char* thisChar = (const unsigned char*) key;
 
 	JHashValue hash=0;
 	while (*thisChar != '\0')
@@ -111,7 +111,7 @@ JHash8Bit
 	assert(key != nullptr);
 
 	// Any optimizer worth its salt ought to make this variable free
-	const JUtf8Byte* thisChar = key;
+	const unsigned char* thisChar = (const unsigned char*) key;
 
 	JHashValue hash=0;
 	while (*thisChar != '\0')

@@ -128,11 +128,6 @@ main
 		return 0;
 	}
 
-std::cout << "size_t: " << sizeof(size_t) << std::endl;
-std::cout << "UINT: " << sizeof(unsigned int) << std::endl;
-std::cout << "ULONG: " << sizeof(unsigned long) << std::endl;
-std::cout << "ULLONG: " << sizeof(unsigned long long) << std::endl;
-
 	// parse the command line options
 
 	JString defSuffix, defineText, headerName, inputName, outputName, outputDirName;

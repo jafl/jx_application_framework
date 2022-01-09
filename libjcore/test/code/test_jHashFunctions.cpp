@@ -112,8 +112,8 @@ const JHashValue hash7Bit64Result[] =
 
 	(JHashValue) 0x844892c3e4cda55b,
 
-	(JHashValue) 0xe8377be3349f50ae,
-	(JHashValue) 0x6ba095e94b80e2db
+	(JHashValue) 0x60F39C7B395BD0AE,
+	(JHashValue) 0xE45CB681503D62DB
 };
 
 const JHashValue hash8Bit64Result[] =
@@ -137,8 +137,8 @@ const JHashValue hash8Bit64Result[] =
 
 	(JHashValue) 0x6ff44b4122e64237,
 
-	(JHashValue) 0x3da1685585e4a4b2,
-	(JHashValue) 0x9e45c859a8b34e17
+	(JHashValue) 0xE963AC690F2EA0B2,
+	(JHashValue) 0x4A080C6D31FD4A17
 };
 
 // 32 bit
