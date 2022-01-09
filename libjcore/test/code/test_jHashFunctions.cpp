@@ -93,52 +93,52 @@ const JDualHashValue dualHash64Result[] =
 
 const JHashValue hash7Bit64Result[] =
 {
-	0x4293031c4f11a6fd,
-	0x9ae4f7499ba7262a,
-	0xf336eb76e83ca557,
+	(JHashValue) 0x4293031c4f11a6fd,
+	(JHashValue) 0x9ae4f7499ba7262a,
+	(JHashValue) 0xf336eb76e83ca557,
 
-	0x264c1c6d370dda01,
-	0x7e9e109a83a3592e,
-	0x19a646c7685ae6ee,
-	0x6c9119aec1d4706e,
+	(JHashValue) 0x264c1c6d370dda01,
+	(JHashValue) 0x7e9e109a83a3592e,
+	(JHashValue) 0x19a646c7685ae6ee,
+	(JHashValue) 0x6c9119aec1d4706e,
 
-	0xbfc89db78bae5df1,
-	0x599407676389bc44,
-	0xf35f71173b651a97,
+	(JHashValue) 0xbfc89db78bae5df1,
+	(JHashValue) 0x599407676389bc44,
+	(JHashValue) 0xf35f71173b651a97,
 
-	0x39f3784c7f4571f8,
-	0xe1a1841f32aff2cb,
-	0x894f8ff1e61a739e,
+	(JHashValue) 0x39f3784c7f4571f8,
+	(JHashValue) 0xe1a1841f32aff2cb,
+	(JHashValue) 0x894f8ff1e61a739e,
 
-	0x844892c3e4cda55b,
+	(JHashValue) 0x844892c3e4cda55b,
 
-	0xe8377be3349f50ae,
-	0x6ba095e94b80e2db
+	(JHashValue) 0xe8377be3349f50ae,
+	(JHashValue) 0x6ba095e94b80e2db
 };
 
 const JHashValue hash8Bit64Result[] =
 {
-	0x4293031c4f11a6fd,
-	0x9ae4f7499ba7262a,
-	0xf336eb76e83ca557,
+	(JHashValue) 0x4293031c4f11a6fd,
+	(JHashValue) 0x9ae4f7499ba7262a,
+	(JHashValue) 0xf336eb76e83ca557,
 
-	0xe51692a9fe58cbf1,
-	0x3d6886d74aee4b1e,
-	0x80fd39b3abe7eb1a,
-	0x9f0cc2cd3053ebe,
+	(JHashValue) 0xe51692a9fe58cbf1,
+	(JHashValue) 0x3d6886d74aee4b1e,
+	(JHashValue) 0x80fd39b3abe7eb1a,
+	(JHashValue) 0x9f0cc2cd3053ebe,
 
-	0xc9b15198271f8365,
-	0x398272787f099e7c,
-	0xa9539358d6f3b993,
+	(JHashValue) 0xc9b15198271f8365,
+	(JHashValue) 0x398272787f099e7c,
+	(JHashValue) 0xa9539358d6f3b993,
 
-	0x9fa1c3b9b3e1f408,
-	0x474fcf8c674c74db,
-	0xeefddb5f1ab6f5ae,
+	(JHashValue) 0x9fa1c3b9b3e1f408,
+	(JHashValue) 0x474fcf8c674c74db,
+	(JHashValue) 0xeefddb5f1ab6f5ae,
 
-	0x6ff44b4122e64237,
+	(JHashValue) 0x6ff44b4122e64237,
 
-	0x3da1685585e4a4b2,
-	0x9e45c859a8b34e17
+	(JHashValue) 0x3da1685585e4a4b2,
+	(JHashValue) 0x9e45c859a8b34e17
 };
 
 // 32 bit
