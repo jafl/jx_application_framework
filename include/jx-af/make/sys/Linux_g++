@@ -28,7 +28,7 @@ J_XINERAMA_LIBS := -lXinerama
 # Adjust these until everything compiles
 
 J_RAW_SYSTEM_STUFF := \
-  -D_J_HAS_PROC \
+  -D_J_HAS_PROC -Wno-mismatched-new-delete \
   -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED \
   -D_XFT_NO_COMPAT_ -I/usr/include/freetype2 \
   ${shell getconf LFS_CFLAGS}
