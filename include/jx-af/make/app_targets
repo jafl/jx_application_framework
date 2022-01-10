@@ -68,8 +68,8 @@ snap:
 # Libraries
 #
 
-ifdef J_SYSTEM_HAS_SHARED_LIBS
-  LDFLAGS += -Xlinker -R${JX_INSTALL_ROOT}/${SIGNATURE}
+ifdef SNAPCRAFT_PART_INSTALL
+  LDFLAGS += -L${JX_ROOT}/lib
 endif
 
 .PHONY : libs

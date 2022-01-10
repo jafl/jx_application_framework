@@ -22,7 +22,6 @@ parts:
   jx-application-framework:
     plugin: autotools
     source: .
-    disable-parallel: true
     override-pull: |
       snapcraftctl pull
       sudo locale-gen en_US.UTF-8

@@ -8,10 +8,6 @@ include ${MAKE_INCLUDE}/jx_constants
 # Adjustable parameters
 #
 
-# Comment this out if your system is not ELF.
-
-J_SYSTEM_HAS_SHARED_LIBS := yes
-
 # Optimization level for debugging
 
 J_DEBUG_OPTIMIZATION_LEVEL := g
