@@ -140,7 +140,7 @@ install:
   ifdef SNAPCRAFT_PART_INSTALL
 	@cp ${JX_ROOT}/misc/reflex/bin/reflex ${JX_INSTALL_ROOT}/bin
 	@cp ${JX_ROOT}/misc/reflex/lib/*.a ${JX_INSTALL_ROOT}/lib
-	@cp -R ${JX_ROOT}/misc/reflex/include ${JX_INSTALL_ROOT}/include
+	@cp -R ${JX_ROOT}/misc/reflex/include/reflex ${JX_INSTALL_ROOT}/include
   endif
 
 .PHONY : uninstall
@@ -155,7 +155,7 @@ uninstall:
 
 PKG_PATH        := jx-application-framework-${JX_VERSION}
 SOURCE_TAR_NAME := jx-application-framework_${JX_VERSION}_${SYS_NAME}_${SYS_ARCH}.tar
-DEB_PKG_NAME    := jx-application-framework_${JX_VERSION}_${SYS_ARCH}.deb
+DEB_PKG_NAME    := jx-application-framework_${JX_VERSION}_${SYS_NAME}_${SYS_ARCH}.deb
 REFLEX_DEB_NAME := re-flex_${REFLEX_VERSION}_${SYS_ARCH}.deb
 
 .PHONY : build_release
