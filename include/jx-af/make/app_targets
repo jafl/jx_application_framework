@@ -34,10 +34,6 @@ post_link::
 .PHONY : Makefiles
 Makefiles::
 
-.PHONY : github_release
-github_release:
-	@V=`cat release/VERSION`; git tag -a -m $$V v$$V; git push origin v$$V
-
 .PHONY : update_version
 update_version:
 	@echo -n 'current version: '; cat release/VERSION; echo
@@ -58,6 +54,10 @@ push_help:
 .PHONY : update_rb
 update_homebrew_formula:
 	@${JX_ROOT}/bin/update_homebrew_formula ${APP_NAME}
+
+.PHONY : github_release
+github_release:
+	@V=`cat release/VERSION`; git tag -a -m $$V v$$V; git push origin v$$V
 
 .PHONY : snap
 snap:

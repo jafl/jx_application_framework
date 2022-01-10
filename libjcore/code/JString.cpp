@@ -382,6 +382,16 @@ JString::operator new
 	return memory;
 }
 
+void
+JString::operator delete
+	(
+	void* memory
+	)
+	noexcept
+{
+	JMemoryManager::Instance()->Delete(memory, false);
+}
+
 /******************************************************************************
  Set
 

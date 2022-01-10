@@ -90,6 +90,7 @@ public:
 	void* operator new(size_t sz) noexcept;
 	void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line) noexcept;
 	void* operator new(size_t sz, const bool forceShallow) noexcept;
+	void  operator delete(void* memory) noexcept;
 
 	JString& operator=(const JString& str);
 	JString& operator=(const JUtf8Byte* str);
