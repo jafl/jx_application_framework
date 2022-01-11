@@ -87,8 +87,8 @@ void
 JXImageWidget::SetBitmap
 	(
 	const JConstBitmap&	bitmap,
-	const JColorID	origForeColor,
-	const JColorID	origBackColor
+	const JColorID		origForeColor,
+	const JColorID		origBackColor
 	)
 {
 	const JColorID foreColor =
@@ -154,7 +154,7 @@ void
 JXImageWidget::SetImage
 	(
 	JXImage*		image,
-	const bool	widgetOwnsImage,
+	const bool		widgetOwnsImage,
 	const JColorID	origBackColor
 	)
 {

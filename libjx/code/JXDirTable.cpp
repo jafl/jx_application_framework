@@ -785,7 +785,7 @@ JXDirTable::WillAcceptDrop
 
 	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
-	for (auto type : typeList)
+	for (const auto type : typeList)
 	{
 		if (type == urlXAtom)
 		{
