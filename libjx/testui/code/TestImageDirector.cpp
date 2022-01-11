@@ -8,13 +8,13 @@
  ******************************************************************************/
 
 #include "TestImageDirector.h"
+#include "TestImageWidget.h"
 #include <jx-af/jx/JXImageMask.h>
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXScrollbarSet.h>
-#include <jx-af/jx/JXImageWidget.h>
 #include <jx-af/jx/JXSelectionManager.h>
 #include <jx-af/jx/JXImageSelection.h>
 #include <jx-af/jx/JXPSPrinter.h>
@@ -125,8 +125,8 @@ TestImageDirector::BuildWindow()
 	ListenTo(itsFileMenu);
 
 	itsImageWidget =
-		jnew JXImageWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
+		jnew TestImageWidget(this, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+							 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsImageWidget != nullptr );
 	itsImageWidget->FitToEnclosure();
 }

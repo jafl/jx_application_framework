@@ -1,4 +1,4 @@
-jx_browser_data 89
+jx_browser_data 90
 # project tree
 0 "root"
 T
@@ -61,6 +61,10 @@ T
 2 "TestImageDirector.cpp"
 F
 "./code/TestImageDirector.cpp"
+T
+2 "TestImageWidget.cpp"
+F
+"./code/TestImageWidget.cpp"
 T
 2 "TestSliderDirector.cpp"
 F

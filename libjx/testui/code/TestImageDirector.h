@@ -11,7 +11,6 @@
 #define _H_TestImageDirector
 
 #include <jx-af/jx/JXWindowDirector.h>
-#include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/JImage.h>		// need definition of FileType
 
 class JXTextMenu;
@@ -26,6 +25,8 @@ public:
 	TestImageDirector(JXDirector* supervisor);
 
 	~TestImageDirector() override;
+
+	void	SetFileName(const JString& name);
 
 protected:
 
@@ -63,5 +64,20 @@ private:
 	void	PrintPS() const;
 	void	PrintEPS() const;
 };
+
+
+/*****************************************************************************
+ SetFileName
+
+ ******************************************************************************/
+
+inline void
+TestImageDirector::SetFileName
+	(
+	const JString& name
+	)
+{
+	itsFileName = name;
+}
 
 #endif

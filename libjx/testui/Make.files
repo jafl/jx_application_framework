@@ -17,6 +17,7 @@
 .cpp ./code/AnimateWindowIconTask
 .cpp ./code/AnimateHelpMenuTask
 .cpp ./code/TestImageDirector
+.cpp ./code/TestImageWidget
 .cpp ./code/TestSliderDirector
 .cpp ./code/TestTabDirector
 .cpp ./code/TestPartitionDirector
