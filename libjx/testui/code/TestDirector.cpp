@@ -958,7 +958,7 @@ TestDirector::HandleTestMenu
 		if (err.OK())
 		{
 			close(fd[0]);
-			const size_t count = write(fd[1], "arf", 3);		// write to pipe with no readers => SIGPIPE
+			(void) write(fd[1], "arf", 3);		// write to pipe with no readers => SIGPIPE
 		}
 		else
 		{
