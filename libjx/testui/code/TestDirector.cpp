@@ -958,7 +958,11 @@ TestDirector::HandleTestMenu
 		if (err.OK())
 		{
 			close(fd[0]);
-			(void) write(fd[1], "arf", 3);		// write to pipe with no readers => SIGPIPE
+
+			#pragma GCC diagnostic push
+			#pragma GCC diagnostic ignored "-Wunused-result"
+			write(fd[1], "arf", 3);		// write to pipe with no readers => SIGPIPE
+			#pragma GCC diagnostic pop
 		}
 		else
 		{
