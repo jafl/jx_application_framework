@@ -66,7 +66,13 @@ update_homebrew_formula:
 .PHONY : test_snap
 test_snap:
 	@chmod a+r snap/gui/*
-	@snapcraft --debug
+	@snapcraft --debug --shell-after
+
+.PHONY : check_version
+check_version:
+	@echo -n "local:    "; cat release/VERSION; echo
+	@echo -n "released: "
+	@curl http://${FORGE_NAME}.sourceforge.net/VERSION; echo
 
 #
 # Libraries
