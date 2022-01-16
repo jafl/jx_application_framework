@@ -2,6 +2,8 @@
 
 # Copyright (C) 2000 by John Lindal.
 
+StringNotFound::JStringManager	"String not found: %s"
+
 # JError
 
 JNoError				"No errors occurred."

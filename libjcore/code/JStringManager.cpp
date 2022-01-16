@@ -114,9 +114,14 @@ JStringManager::Get
 	{
 		assert( s != nullptr );
 	}
-	else
+	else	// ok to leak memory, because it should never happen
 	{
-		s = &theMissingString;
+		const JUtf8Byte* map[] =
+		{
+			"s", id
+		};
+		s = jnew JString(JGetString("StringNotFound::JStringManager", map, sizeof(map)));
+		assert( s != nullptr );
 	}
 	return *s;
 }
