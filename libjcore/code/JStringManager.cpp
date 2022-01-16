@@ -100,6 +100,7 @@ JStringManager::~JStringManager()
 
  *****************************************************************************/
 
+static const JUtf8Byte* theMissingStringKey = "StringNotFound::JStringManager";
 static const JString theMissingString("<string not found>", JString::kNoCopy);
 
 const JString&
@@ -114,14 +115,18 @@ JStringManager::Get
 	{
 		assert( s != nullptr );
 	}
-	else	// ok to leak memory, because it should never happen
+	else if (Contains(theMissingStringKey))	// ok to leak memory, because it should never happen
 	{
 		const JUtf8Byte* map[] =
 		{
 			"s", id
 		};
-		s = jnew JString(JGetString("StringNotFound::JStringManager", map, sizeof(map)));
+		s = jnew JString(JGetString(theMissingStringKey, map, sizeof(map)));
 		assert( s != nullptr );
+	}
+	else
+	{
+		s = &theMissingString;
 	}
 	return *s;
 }
