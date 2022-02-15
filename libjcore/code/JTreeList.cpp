@@ -304,13 +304,13 @@ JTreeList::OpenDescendants
 	)
 {
 	JSize depth = 0;
-	return OpenDescendants1(node, &depth, maxDepth);
+	return CalledByOpenDescendants(node, &depth, maxDepth);
 }
 
 // private -- recursive
 
 bool
-JTreeList::OpenDescendants1
+JTreeList::CalledByOpenDescendants
 	(
 	const JTreeNode*	node,
 	JSize*				depth,
@@ -331,7 +331,7 @@ JTreeList::OpenDescendants1
 			const JTreeNode* child = node->GetChild(i);
 			if (ShouldOpenDescendant(child))
 			{
-				OpenDescendants1(child, depth, maxDepth);
+				CalledByOpenDescendants(child, depth, maxDepth);
 			}
 		}
 	}

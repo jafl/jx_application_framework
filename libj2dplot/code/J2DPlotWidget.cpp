@@ -1095,25 +1095,25 @@ J2DPlotWidget::SetPlotDecPlaces()
 	}
 
 	SetExp(itsXScale, &itsXExp, &itsForceXExp);
-	SetPlotDecPlaces1(itsXScale, !itsUseRealXStart, itsForceXExp, itsXExp,
-					  &itsXDecimalPoints);
+	CalledBySetPlotDecPlaces(itsXScale, !itsUseRealXStart, itsForceXExp, itsXExp,
+							  &itsXDecimalPoints);
 
 	SetExp(itsYScale, &itsYExp, &itsForceYExp);
-	SetPlotDecPlaces1(itsYScale, !itsUseRealYStart, itsForceYExp, itsYExp,
-					  &itsYDecimalPoints);
+	CalledBySetPlotDecPlaces(itsYScale, !itsUseRealYStart, itsForceYExp, itsYExp,
+							  &itsYDecimalPoints);
 }
 
 /*******************************************************************************
- SetPlotDecPlaces1 (static private)
+ CalledBySetPlotDecPlaces (static private)
 
  ******************************************************************************/
 
 void
-J2DPlotWidget::SetPlotDecPlaces1
+J2DPlotWidget::CalledBySetPlotDecPlaces
 	(
 	const JFloat*		scale,
-	const bool		useExactRange,
-	const bool		forceExp,
+	const bool			useExactRange,
+	const bool			forceExp,
 	const JCoordinate	exp,
 	JSize*				dpCount
 	)
@@ -3276,11 +3276,11 @@ J2DPlotWidget::Interpolate
 
 	const JFloat slope = vert ? 0.0 : (data2->y - data1->y)/(data2->x - data1->x);
 
-	if (!Interpolate1(data1, visRect, slope, horiz, vert))
+	if (!CalledByInterpolate(data1, visRect, slope, horiz, vert))
 	{
 		*move = true;
 	}
-	if (!Interpolate1(data2, visRect, slope, horiz, vert))
+	if (!CalledByInterpolate(data2, visRect, slope, horiz, vert))
 	{
 		*mark = false;
 	}
@@ -3295,20 +3295,20 @@ J2DPlotWidget::Interpolate
 }
 
 /*******************************************************************************
- Interpolate1 (private)
+ CalledByInterpolate (private)
 
 	Returns false if the point was moved.
 
  ******************************************************************************/
 
 bool
-J2DPlotWidget::Interpolate1
+J2DPlotWidget::CalledByInterpolate
 	(
 	J2DDataPoint*		data,
 	const J2DDataRect&	visRect,
 	const JFloat		slope,
-	const bool		horiz,
-	const bool		vert
+	const bool			horiz,
+	const bool			vert
 	)
 	const
 {

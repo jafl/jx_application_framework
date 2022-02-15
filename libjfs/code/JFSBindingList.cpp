@@ -156,7 +156,7 @@ JFSBindingList::AddBinding
 {
 	bool found;
 	const JIndex index =
-		itsBindingList->SearchSorted1(b, JListT::kLastMatch, &found);
+		itsBindingList->SearchSortedOTI(b, JListT::kLastMatch, &found);
 	if (found)
 	{
 		JFSBinding* origB = itsBindingList->GetElement(index);

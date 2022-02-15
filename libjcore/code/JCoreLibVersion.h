@@ -120,6 +120,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Removed unused class JErrorState.
 //	jTime.h:
 //		*** Removed unused J_TIME_T_MAX.
+//	JArray:
+//		*** Renamed SearchSorted1 to SearchSortedOTI (option to insert).
 
 // version 3.2.0:
 //	jMountUtil:
@@ -223,7 +225,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Removed const from GetElement(), GetElementFromEnd(),
 //		GetFirstElement(), GetLastElement() return values.
 //	JArray:
-//		Fixed SearchSorted1() to work with very large indices.
+//		Fixed SearchSortedOTI() to work with very large indices.
 //		Removed const from GetElement() return value.
 //	JLinkedList:
 //		Removed const from GetElement() return value.
@@ -1393,7 +1395,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JOrderedSet:
 //		Second argument of GetInsertionSortIndex() can now be nullptr.
 //	JArray:
-//		Fixed bug in SearchSorted1() that returned "not found" when searching for
+//		Fixed bug in SearchSortedOTI() that returned "not found" when searching for
 //			the single existing element with which == JOrderedSetT::kLastMatch.
 //	Created JLatentPG to replace almost all uses of JProgressDisplay.
 //	JProgressDisplay:
@@ -1968,7 +1970,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			element matches the target.
 //		InsertSorted() now takes 3rd argument "insertIfDuplicate".
 //			Because of this, it no longer an index.
-//		Created SearchSorted1().  This is what all the other functions call.
+//		Created SearchSortedOTI().  This is what all the other functions call.
 //			It is virtual so derived classes can optimize it.
 //	Created JRTTIBase to be base class for all objects that need RTTI.
 //	JBroadcaster::Message:

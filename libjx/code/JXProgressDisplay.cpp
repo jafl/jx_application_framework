@@ -175,7 +175,7 @@ JXProgressDisplay::IncrementProgress
 	assert( ProcessRunning() );
 
 	IncrementStepCount();
-	return IncrementProgress1(message);
+	return CalledByIncrementProgress(message);
 }
 
 /******************************************************************************
@@ -197,7 +197,7 @@ JXProgressDisplay::IncrementProgress
 	assert( ProcessRunning() );
 
 	IncrementStepCount(delta);
-	return IncrementProgress1(JString::empty);
+	return CalledByIncrementProgress(JString::empty);
 }
 
 /******************************************************************************
@@ -221,11 +221,11 @@ JXProgressDisplay::IncrementProgress
 	assert( ProcessRunning() );
 
 	IncrementStepCount(delta);
-	return IncrementProgress1(message);
+	return CalledByIncrementProgress(message);
 }
 
 /******************************************************************************
- IncrementProgress1 (private)
+ CalledByIncrementProgress (private)
 
 	Update the display to show that progress is being made.
 	Returns false if process was cancelled by user.
@@ -236,7 +236,7 @@ JXProgressDisplay::IncrementProgress
  ******************************************************************************/
 
 bool
-JXProgressDisplay::IncrementProgress1
+JXProgressDisplay::CalledByIncrementProgress
 	(
 	const JString& message
 	)
@@ -259,7 +259,7 @@ JXProgressDisplay::IncrementProgress1
 	}
 	else
 	{
-		std::cerr << "Unknown process type in JXProgressDisplay::IncrementProgress1()" << std::endl;
+		std::cerr << "Unknown process type in JXProgressDisplay::CalledByIncrementProgress()" << std::endl;
 	}
 
 	return ProcessContinuing();

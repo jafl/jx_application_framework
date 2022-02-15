@@ -848,7 +848,7 @@ AddSubTarget
 {
 	bool found;
 	const JIndex index =
-		targetList.SearchSorted1(targetName, JListT::kAnyMatch, &found);
+		targetList.SearchSortedOTI(targetName, JListT::kAnyMatch, &found);
 
 	if (found)
 	{
@@ -1749,7 +1749,7 @@ ParseHeaderFile
 	HeaderDep info(const_cast<JString*>(&fileName), (JPtrArray<JString>*) nullptr);
 	bool found;
 	const JIndex index =
-		headerList->SearchSorted1(info, JListT::kAnyMatch, &found);
+		headerList->SearchSortedOTI(info, JListT::kAnyMatch, &found);
 	if (found)
 	{
 		return headerList->GetElement(index);

@@ -467,7 +467,7 @@ private:
 	void	SetWindowStateHint(const int initial_state);
 
 	void	HandleExpose(const XExposeEvent& exposeEvent);
-	void	HandleExpose1(const XExposeEvent& exposeEvent);
+	void	CalledByHandleExpose(const XExposeEvent& exposeEvent);
 
 	void	AdjustTitle();
 

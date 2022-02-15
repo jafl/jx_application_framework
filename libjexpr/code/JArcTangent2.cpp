@@ -82,11 +82,11 @@ JArcTangent2::Evaluate
 	const
 {
 	JFloat y,x;
-	if (!(GetArg1())->Evaluate(&y))
+	if (!GetArg1()->Evaluate(&y))
 	{
 		return false;
 	}
-	if (!(GetArg2())->Evaluate(&x))
+	if (!GetArg2()->Evaluate(&x))
 	{
 		return false;
 	}
@@ -110,11 +110,11 @@ JArcTangent2::Evaluate
 	}
 
 	JComplex y,x;
-	if (!(GetArg2())->Evaluate(&x) || (real(x) == 0.0 && imag(x) == 0.0))
+	if (!GetArg2()->Evaluate(&x) || (real(x) == 0.0 && imag(x) == 0.0))
 	{
 		return false;
 	}
-	if (!(GetArg1())->Evaluate(&y))
+	if (!GetArg1()->Evaluate(&y))
 	{
 		return false;
 	}

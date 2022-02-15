@@ -73,9 +73,9 @@ private:
 
 	void	RemoveElement(const JIndex index);
 
-	void		ShowChildren(const JIndex index, const JTreeNode* parent);
-	bool	OpenDescendants1(const JTreeNode* node, JSize* depth,
-								 const JSize maxDepth);
+	void	ShowChildren(const JIndex index, const JTreeNode* parent);
+	bool	CalledByOpenDescendants(const JTreeNode* node, JSize* depth,
+									const JSize maxDepth);
 
 	// not allowed
 

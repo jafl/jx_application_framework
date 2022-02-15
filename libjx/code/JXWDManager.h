@@ -75,7 +75,7 @@ private:
 
 	JArray<WindowInfo>*	itsPermWindowList;
 	JArray<WindowInfo>*	itsWindowList;
-	const bool		itsWantShortcutFlag;
+	const bool			itsWantShortcutFlag;
 	JXUpdateWDMenuTask*	itsUpdateWDMenuTask;	// nullptr unless pending
 
 private:
@@ -86,15 +86,15 @@ private:
 
 	void	DirectorCreated(JArray<WindowInfo>* windowList, JXWindowDirector* dir,
 							const JString& shortcut, const JUtf8Byte* id);
-	bool	DirectorDeleted1(JArray<WindowInfo>* windowList,
-								 JXWindowDirector* dir);
-	void		UpdateWDMenu1(const JArray<WindowInfo>& windowList, JXWDMenu* menu);
+	bool	CalledByDirectorDeleted(JArray<WindowInfo>* windowList,
+									JXWindowDirector* dir);
+	void	CalledByUpdateWDMenu(const JArray<WindowInfo>& windowList, JXWDMenu* menu);
 
 	void	GetDirectors(JArray<WindowInfo>* windowList,
 						 JPtrArray<JXWindowDirector>* directorList) const;
 
 	static bool	ShortcutUsed(const JArray<WindowInfo>& windowList,
-								 const JInteger shortcutIndex);
+							 const JInteger shortcutIndex);
 
 	static JListT::CompareResult
 		CompareWindowNames(const WindowInfo& w1, const WindowInfo& w2);

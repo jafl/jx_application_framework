@@ -455,7 +455,7 @@ JXDNDManager::FinishDND()
 			SendDNDLeave(true);
 		}
 
-		FinishDND1();
+		CleanUpAfterDND();
 	}
 }
 
@@ -476,7 +476,7 @@ JXDNDManager::CancelDND()
 			itsDragger->DNDFinish(false, nullptr);
 		}
 		SendDNDLeave();
-		FinishDND1();
+		CleanUpAfterDND();
 		return true;
 	}
 
@@ -484,12 +484,12 @@ JXDNDManager::CancelDND()
 }
 
 /******************************************************************************
- FinishDND1 (private)
+ CleanUpAfterDND (private)
 
  ******************************************************************************/
 
 void
-JXDNDManager::FinishDND1()
+JXDNDManager::CleanUpAfterDND()
 {
 	// need to check itsMouseContainer because if drop in other app,
 	// the data has not yet been transferred
@@ -1639,17 +1639,17 @@ JXDNDManager::HandleDNDLeave
 		std::cout << "Received XdndLeave" << std::endl;
 		#endif
 
-		HandleDNDLeave1();
+		CleanUpAfterDNDLeave();
 	}
 }
 
 /******************************************************************************
- HandleDNDLeave1 (private)
+ CleanUpAfterDNDLeave (private)
 
  ******************************************************************************/
 
 void
-JXDNDManager::HandleDNDLeave1()
+JXDNDManager::CleanUpAfterDNDLeave()
 {
 	if (itsMouseContainer != nullptr && itsWillAcceptDropFlag)
 	{
@@ -1912,7 +1912,7 @@ JXDNDManager::ReceiveWithFeedback
 			#endif
 
 			itsDraggerWindow = None;
-			HandleDNDLeave1();
+			CleanUpAfterDNDLeave();
 			err->SetCaught();
 		}
 
@@ -1946,7 +1946,7 @@ JXDNDManager::HandleDestroyNotify
 		#endif
 
 		itsDraggerWindow = None;
-		HandleDNDLeave1();
+		CleanUpAfterDNDLeave();
 		return true;
 	}
 	else

@@ -179,12 +179,12 @@ JTEST(Exercise)
 	JAssertFalse(a2.SearchSorted(&target, JListT::kAnyMatch, &index));
 
 	bool found;
-	index = a2.SearchSorted1(&target, JListT::kAnyMatch, &found);
+	index = a2.SearchSortedOTI(&target, JListT::kAnyMatch, &found);
 	JAssertFalse(found);
 	JAssertEqual(4, index);
 
 	target = "3";
-	index = a2.SearchSorted1(&target, JListT::kAnyMatch, &found);
+	index = a2.SearchSortedOTI(&target, JListT::kAnyMatch, &found);
 	JAssertTrue(found);
 	JAssertEqual(3, index);
 

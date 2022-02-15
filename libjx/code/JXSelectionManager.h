@@ -110,9 +110,9 @@ private:
 					 const Atom type, unsigned char* data,
 					 const JSize dataLength, const JSize bitsPerBlock,
 					 XEvent* returnEvent);
-	bool	SendData1(const Window requestor, const Atom property,
-					  const Atom type, unsigned char* data,
-					  const JSize dataLength, const JSize bitsPerBlock);
+	bool	CalledBySendData(const Window requestor, const Atom property,
+							 const Atom type, unsigned char* data,
+							 const JSize dataLength, const JSize bitsPerBlock);
 	bool	WaitForPropertyDeleted(const Window xWindow, const Atom property);
 	static Bool	GetNextPropDeletedEvent(Display* display, XEvent* event, char* arg);
 

@@ -3466,7 +3466,7 @@ JTextEditor::GetLineForChar
 
 	bool found;
 	JIndex lineIndex =
-		itsLineStarts->SearchSorted1(TextIndex(charIndex, 0), JListT::kAnyMatch, &found);
+		itsLineStarts->SearchSortedOTI(TextIndex(charIndex, 0), JListT::kAnyMatch, &found);
 	if (!found)
 	{
 		lineIndex--;	// wants to insert -after- the value
@@ -3499,7 +3499,7 @@ JTextEditor::GetLineForByte
 
 	bool found;
 	JIndex lineIndex =
-		itsLineStarts->SearchSorted1(TextIndex(0, byteIndex), JListT::kAnyMatch, &found);
+		itsLineStarts->SearchSortedOTI(TextIndex(0, byteIndex), JListT::kAnyMatch, &found);
 	if (!found)
 	{
 		lineIndex--;	// wants to insert -after- the value

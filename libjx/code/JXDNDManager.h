@@ -248,7 +248,7 @@ private:
 	void	HandleDNDEnter(const XClientMessageEvent& clientMessage);
 	void	HandleDNDHere(const XClientMessageEvent& clientMessage);
 	void	HandleDNDLeave(const XClientMessageEvent& clientMessage);
-	void	HandleDNDLeave1();
+	void	CleanUpAfterDNDLeave();
 	void	HandleDNDDrop(const XClientMessageEvent& clientMessage);
 	void	HandleDNDFinished();
 	void	HandleDNDStatus(const XClientMessageEvent& clientMessage);
@@ -259,7 +259,7 @@ private:
 
 	void	InvokeDNDScroll(const XClientMessageEvent& clientMessage, const JPoint& pt);
 
-	void		FinishDND1();
+	void		CleanUpAfterDND();
 	bool		WaitForLastStatusMsg();
 	static Bool	GetNextStatusEvent(Display* display, XEvent* event, char* arg);
 

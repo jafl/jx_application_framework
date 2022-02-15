@@ -85,11 +85,11 @@ JLogB::Evaluate
 	const
 {
 	JFloat b,x;
-	if (!(GetArg1())->Evaluate(&b) || b <= 1.0)
+	if (!GetArg1()->Evaluate(&b) || b <= 1.0)
 	{
 		return false;
 	}
-	if (!(GetArg2())->Evaluate(&x))
+	if (!GetArg2()->Evaluate(&x))
 	{
 		return false;
 	}
@@ -107,11 +107,11 @@ JLogB::Evaluate
 {
 	JFloat b;
 	JComplex x;
-	if (!(GetArg1())->Evaluate(&b) || b <= 1.0)
+	if (!GetArg1()->Evaluate(&b) || b <= 1.0)
 	{
 		return false;
 	}
-	if (!(GetArg2())->Evaluate(&x))
+	if (!GetArg2()->Evaluate(&x))
 	{
 		return false;
 	}

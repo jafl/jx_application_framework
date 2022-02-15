@@ -146,7 +146,6 @@ private:
 private:
 
 	JString	GetFileNameForSave() const;
-	bool	SaveInCurrentFile1();
 	void	RemoveSafetySaveFile();
 
 public:

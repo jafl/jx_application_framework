@@ -167,7 +167,7 @@ JXFileListTable::AddFile
 	assert( s != nullptr );
 
 	bool found;
-	const JIndex index = itsFileList->SearchSorted1(s, JListT::kAnyMatch, &found);
+	const JIndex index = itsFileList->SearchSortedOTI(s, JListT::kAnyMatch, &found);
 	if (fullNameIndex != nullptr)
 	{
 		*fullNameIndex = index;
@@ -429,7 +429,7 @@ JXFileListTable::FilterFile
 
 		info.fileIndex = 0;
 		bool found;
-		const JIndex rowIndex = itsVisibleList->SearchSorted1(info, JListT::kFirstMatch, &found);
+		const JIndex rowIndex = itsVisibleList->SearchSortedOTI(info, JListT::kFirstMatch, &found);
 
 		info.fileIndex = fileIndex;
 		info.drawIndex = info.nameIndex;
@@ -1088,7 +1088,7 @@ JXFileListTable::ClosestMatch
 	target.fileIndex = 0;
 
 	InstallCompareWrapper(prefixStr);
-	*index = itsVisibleList->SearchSorted1(target, JListT::kFirstMatch, &found);
+	*index = itsVisibleList->SearchSortedOTI(target, JListT::kFirstMatch, &found);
 	if (*index > itsVisibleList->GetElementCount())		// insert beyond end of list
 	{
 		*index = itsVisibleList->GetElementCount();

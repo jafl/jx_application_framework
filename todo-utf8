@@ -1,6 +1,6 @@
 publish
 	systemg
-	drakon
+	jx-ide
 
 
 
@@ -28,6 +28,10 @@ jcc
 
 jcc
 	styling of JPtrArray<::VarNode>
+
+	include partial path in symbol search results when display duplicate file name?
+		/Users/jolindal/projects/vendomatic/src/main/webapp/public/sso.php
+		validateLogin
 
 systemg slow to open new window
 

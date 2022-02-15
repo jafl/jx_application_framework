@@ -559,8 +559,8 @@ JXSelectionManager::SendData
 	#endif
 
 	if (dataLength <= chunkSize &&
-		SendData1(requestor, property, type,
-				  data, dataLength, bitsPerBlock))
+		CalledBySendData(requestor, property, type,
+						 data, dataLength, bitsPerBlock))
 	{
 		#if JXSEL_DEBUG_MSGS
 		std::cout << "Transfer complete" << std::endl;
@@ -618,8 +618,8 @@ JXSelectionManager::SendData
 		std::cout << "Sending " << chunkSize << " bytes" << std::endl;
 		#endif
 
-		SendData1(requestor, property, type,
-				  dataStart, chunkSize, bitsPerBlock);
+		CalledBySendData(requestor, property, type,
+						 dataStart, chunkSize, bitsPerBlock);
 		if (itsTargetWindowDeletedFlag)
 		{
 			#if JXSEL_DEBUG_MSGS
@@ -664,7 +664,7 @@ JXSelectionManager::SendData
 
 	// send zero-length property to signal that we are done
 
-	SendData1(requestor, property, type, data, 0, 8);
+	CalledBySendData(requestor, property, type, data, 0, 8);
 
 	// we are done interacting with the requestor
 
@@ -679,7 +679,7 @@ JXSelectionManager::SendData
 }
 
 /******************************************************************************
- SendData1 (private)
+ CalledBySendData (private)
 
 	Put the data into the window property and check for BadAlloc and
 	BadWindow errors.
@@ -687,7 +687,7 @@ JXSelectionManager::SendData
  ******************************************************************************/
 
 bool
-JXSelectionManager::SendData1
+JXSelectionManager::CalledBySendData
 	(
 	const Window	requestor,
 	const Atom		property,

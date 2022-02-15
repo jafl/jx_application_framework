@@ -142,7 +142,7 @@ JPrefsManager::SetData
 	PrefItem item(id.GetID(), nullptr);
 	bool found;
 	const JIndex index =
-		itsData->SearchSorted1(item, JListT::kAnyMatch, &found);
+		itsData->SearchSortedOTI(item, JListT::kAnyMatch, &found);
 	if (found)
 	{
 		item         = itsData->GetElement(index);

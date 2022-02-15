@@ -13,12 +13,12 @@
 #include "jx-af/jcore/jAssert.h"
 
 /*****************************************************************************
- BuildInfo1 (private)
+ CalledByBuildInfo (private)
 
  ******************************************************************************/
 
 void
-JDirInfo::BuildInfo1
+JDirInfo::CalledByBuildInfo
 	(
 	JProgressDisplay& pg
 	)

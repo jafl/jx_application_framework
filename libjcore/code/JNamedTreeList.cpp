@@ -156,7 +156,7 @@ JNamedTreeList::ClosestMatch
 
 	JNamedTreeNode target(nullptr, prefixStr);
 	bool found;
-	*index = itsSortedNodeList->SearchSorted1(&target, JListT::kFirstMatch, &found);
+	*index = itsSortedNodeList->SearchSortedOTI(&target, JListT::kFirstMatch, &found);
 	if (*index > itsSortedNodeList->GetElementCount())		// insert beyond end of list
 	{
 		*index = itsSortedNodeList->GetElementCount();
@@ -244,12 +244,12 @@ JNamedTreeList::BuildSortedNodeList()
 	const JSize count = root->GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		BuildSortedNodeList1(root->GetChild(i));
+		CalledByBuildSortedNodeList(root->GetChild(i));
 	}
 }
 
 void
-JNamedTreeList::BuildSortedNodeList1
+JNamedTreeList::CalledByBuildSortedNodeList
 	(
 	JTreeNode* node
 	)
@@ -263,7 +263,7 @@ JNamedTreeList::BuildSortedNodeList1
 			const JSize count = node->GetChildCount();
 			for (JIndex i=1; i<=count; i++)
 			{
-				BuildSortedNodeList1(node->GetChild(i));
+				CalledByBuildSortedNodeList(node->GetChild(i));
 			}
 		}
 	}

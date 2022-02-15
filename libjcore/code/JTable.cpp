@@ -986,8 +986,8 @@ void
 JTable::Print
 	(
 	JEPSPrinter&	p,
-	const bool	userPrintRowHeader,
-	const bool	userPrintColHeader
+	const bool		userPrintRowHeader,
+	const bool		userPrintColHeader
 	)
 {
 	assert( !itsIsEditingFlag );
@@ -1015,30 +1015,30 @@ JTable::Print
 	if (p.WantsPreview())
 	{
 		JPainter& p1 = p.GetPreviewPainter(r);
-		PrintEPS1(p1, JPoint(0,0), printRowHeader, printColHeader);
+		PrintEPS(p1, JPoint(0,0), printRowHeader, printColHeader);
 	}
 
 	// print
 
 	if (p.OpenDocument(r))
 	{
-		PrintEPS1(p, JPoint(0,0), printRowHeader, printColHeader);
+		PrintEPS(p, JPoint(0,0), printRowHeader, printColHeader);
 		p.CloseDocument();
 	}
 }
 
 /******************************************************************************
- PrintEPS1 (private)
+ PrintEPS (private)
 
  ******************************************************************************/
 
 void
-JTable::PrintEPS1
+JTable::PrintEPS
 	(
 	JPainter&		p,
 	const JPoint&	topLeft,
-	const bool	printRowHeader,
-	const bool	printColHeader
+	const bool		printRowHeader,
+	const bool		printColHeader
 	)
 {
 	// calculate shift from row and column headers
@@ -1092,8 +1092,8 @@ JTable::DrawForPrint
 	(
 	JPainter&		p,
 	const JPoint&	topLeft,
-	const bool	userPrintRowHeader,
-	const bool	userPrintColHeader
+	const bool		userPrintRowHeader,
+	const bool		userPrintColHeader
 	)
 {
 	assert( !itsIsEditingFlag );
@@ -1103,7 +1103,7 @@ JTable::DrawForPrint
 	const bool printColHeader =
 		userPrintColHeader && itsColHdrTable != nullptr;
 
-	PrintEPS1(p, topLeft, printRowHeader, printColHeader);
+	PrintEPS(p, topLeft, printRowHeader, printColHeader);
 }
 
 /******************************************************************************

@@ -154,7 +154,7 @@ private:
 	void	CopyDirEntries(const JDirInfo& source);
 
 	JError	BuildInfo();
-	void	BuildInfo1(JProgressDisplay& pg);
+	void	CalledByBuildInfo(JProgressDisplay& pg);
 	void	ApplyFilters(const bool update);
 
 	static void	AppendRegex(const JString& origStr, JString* regexStr);

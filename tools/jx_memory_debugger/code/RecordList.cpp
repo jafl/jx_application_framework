@@ -76,7 +76,7 @@ RecordList::ClosestMatch
 {
 	Record target(prefix);
 	bool found;
-	JIndex i = itsAlphaRecords->SearchSorted1(&target, JListT::kFirstMatch, &found);
+	JIndex i = itsAlphaRecords->SearchSortedOTI(&target, JListT::kFirstMatch, &found);
 	if (i > itsAlphaRecords->GetElementCount())		// insert beyond end of list
 	{
 		i = itsAlphaRecords->GetElementCount();

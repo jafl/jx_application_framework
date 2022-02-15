@@ -217,16 +217,16 @@ JXWDManager::DirectorDeleted
 	JXWindowDirector* dir
 	)
 {
-	if (!DirectorDeleted1(itsWindowList, dir))	// much more frequent
+	if (!CalledByDirectorDeleted(itsWindowList, dir))	// much more frequent
 	{
-		DirectorDeleted1(itsPermWindowList, dir);
+		CalledByDirectorDeleted(itsPermWindowList, dir);
 	}
 }
 
 // private -- returns true if found dir in windowList
 
 bool
-JXWDManager::DirectorDeleted1
+JXWDManager::CalledByDirectorDeleted
 	(
 	JArray<WindowInfo>*	windowList,
 	JXWindowDirector*	dir
@@ -366,18 +366,18 @@ JXWDManager::UpdateWDMenu
 
 	// build menu
 
-	UpdateWDMenu1(*itsPermWindowList, menu);
+	CalledByUpdateWDMenu(*itsPermWindowList, menu);
 	menu->ShowSeparatorAfter(menu->GetItemCount());
-	UpdateWDMenu1(*itsWindowList, menu);
+	CalledByUpdateWDMenu(*itsWindowList, menu);
 }
 
 /******************************************************************************
- UpdateWDMenu1 (private)
+ CalledByUpdateWDMenu (private)
 
  ******************************************************************************/
 
 void
-JXWDManager::UpdateWDMenu1
+JXWDManager::CalledByUpdateWDMenu
 	(
 	const JArray<WindowInfo>&	windowList,
 	JXWDMenu*					menu

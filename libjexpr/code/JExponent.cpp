@@ -87,11 +87,11 @@ JExponent::Evaluate
 	const
 {
 	JFloat value, exponent;
-	if (!(GetArg1())->Evaluate(&value))
+	if (!GetArg1()->Evaluate(&value))
 	{
 		return false;
 	}
-	if (!(GetArg2())->Evaluate(&exponent))
+	if (!GetArg2()->Evaluate(&exponent))
 	{
 		return false;
 	}
@@ -108,11 +108,11 @@ JExponent::Evaluate
 	const
 {
 	JComplex value, exponent;
-	if (!(GetArg1())->Evaluate(&value))
+	if (!GetArg1()->Evaluate(&value))
 	{
 		return false;
 	}
-	if (!(GetArg2())->Evaluate(&exponent))
+	if (!GetArg2()->Evaluate(&exponent))
 	{
 		return false;
 	}

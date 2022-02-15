@@ -267,18 +267,18 @@ private:
 private:
 
 	bool	GetVisibleRange(const JCoordinate min, const JCoordinate max,
-								JRunArray<JCoordinate>& lengths,
-								const JCoordinate borderWidth,
-								JIndex* firstIndex, JIndex* lastIndex) const;
+							JRunArray<JCoordinate>& lengths,
+							const JCoordinate borderWidth,
+							JIndex* firstIndex, JIndex* lastIndex) const;
 	bool	Paginate(const JCoordinate stripLength,
 					 JRunArray<JCoordinate>& lengths,
 					 const JCoordinate borderWidth,
 					 JArray<JCoordinate>* breakpts) const;
 	void	PrintPage(JPainter& p, const JPoint& topLeft, const JPoint& botRight,
 					  const JPoint& offset, const bool drawFrame);
-	void	PrintEPS1(JPainter& p, const JPoint& topLeft,
-					  const bool printRowHeader,
-					  const bool printColHeader);
+	void	PrintEPS(JPainter& p, const JPoint& topLeft,
+					 const bool printRowHeader,
+					 const bool printColHeader);
 
 	bool	GetCellIndex(const JCoordinate coord, JRunArray<JCoordinate>& lengths,
 						 const JCoordinate borderWidth, JIndex* index) const;

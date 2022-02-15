@@ -464,7 +464,7 @@ JTEST(SearchSorted1EdgeCases)
 			a3.AppendElement(1);
 			for (k=0; k<=2; k++)
 			{
-				const JIndex index = a3.SearchSorted1(k, s, &found);
+				const JIndex index = a3.SearchSortedOTI(k, s, &found);
 				JAssertTrue(
 					found == found1[asc ? k : 2-k] &&
 					index == index1[asc ? k : 2-k] );
@@ -480,7 +480,7 @@ JTEST(SearchSorted1EdgeCases)
 			}
 			for (k=0; k<=4; k++)
 			{
-				const JIndex index = a3.SearchSorted1(k, s, &found);
+				const JIndex index = a3.SearchSortedOTI(k, s, &found);
 				JAssertTrue(
 					found == found2[asc ? k : 4-k] &&
 					index == index2[asc ? k : 4-k] );
@@ -490,7 +490,7 @@ JTEST(SearchSorted1EdgeCases)
 			a3.SetElement(2,1);
 			for (k=0; k<=2; k++)
 			{
-				const JIndex index = a3.SearchSorted1(k, s, &found);
+				const JIndex index = a3.SearchSortedOTI(k, s, &found);
 				JAssertTrue(
 					found == found2_same[j][asc ? k : 2-k] &&
 					index == index2_same[j][asc ? k : 2-k] );

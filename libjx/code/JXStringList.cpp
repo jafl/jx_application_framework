@@ -355,7 +355,7 @@ JXStringList::ClosestMatch
 	}
 
 	bool found;
-	*index = itsSortedList->SearchSorted1(const_cast<JString*>(&prefixStr),
+	*index = itsSortedList->SearchSortedOTI(const_cast<JString*>(&prefixStr),
 										  JListT::kFirstMatch, &found);
 	if (*index > GetRowCount())		// insert beyond end of list
 	{

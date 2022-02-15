@@ -66,7 +66,7 @@ private:
 
 private:
 
-	bool	IncrementProgress1(const JString& message);
+	bool	CalledByIncrementProgress(const JString& message);
 
 public:
 

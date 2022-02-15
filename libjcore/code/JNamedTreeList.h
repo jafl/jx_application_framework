@@ -41,7 +41,7 @@ private:
 private:
 
 	void	BuildSortedNodeList();
-	void	BuildSortedNodeList1(JTreeNode* node);
+	void	CalledByBuildSortedNodeList(JTreeNode* node);
 };
 
 #endif

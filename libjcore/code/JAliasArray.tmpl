@@ -349,7 +349,7 @@ JAliasArray<T>::SearchSorted
 	const
 {
 	bool found;
-	*index = SearchSorted1(target, which, &found);
+	*index = SearchSortedOTI(target, which, &found);
 	if (!found)
 	{
 		*index = 0;
@@ -358,7 +358,7 @@ JAliasArray<T>::SearchSorted
 }
 
 /******************************************************************************
- SearchSorted1 (virtual)
+ SearchSortedOTI (virtual)
 
 	Returns index where the element is or where it should be inserted in
 	order to keep the list sorted.  If there is an element that matches the
@@ -371,7 +371,7 @@ JAliasArray<T>::SearchSorted
 
 template <class T>
 JIndex
-JAliasArray<T>::SearchSorted1
+JAliasArray<T>::SearchSortedOTI
 	(
 	const T&					target,
 	const JListT::SearchReturn	which,
@@ -384,7 +384,7 @@ JAliasArray<T>::SearchSorted1
 	JAliasArray<T>* self = const_cast<JAliasArray<T>*>(this);
 
 	self->InstallCompareWrapper(&target);
-	const JIndex i = itsIndexArray->SearchSorted1(0, which, found);
+	const JIndex i = itsIndexArray->SearchSortedOTI(0, which, found);
 	self->InstallCompareWrapper(nullptr);
 	return i;
 }

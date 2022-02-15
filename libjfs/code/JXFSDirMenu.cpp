@@ -133,7 +133,7 @@ JXFSDirMenu::JXFSDirMenu
 	itsExecIcon(parent->itsExecIcon),
 	itsUnknownIcon(parent->itsUnknownIcon)
 {
-	JXFSDirMenuX1();
+	CalledByFSDirMenuX();
 }
 
 // private
@@ -151,11 +151,11 @@ JXFSDirMenu::JXFSDirMenuX()
 	itsExecIcon         = cache->GetImage(jx_executable_small);
 	itsUnknownIcon      = cache->GetImage(jx_unknown_file_small);
 
-	JXFSDirMenuX1();
+	CalledByFSDirMenuX();
 }
 
 void
-JXFSDirMenu::JXFSDirMenuX1()
+JXFSDirMenu::CalledByFSDirMenuX()
 {
 	itsOwnsFileIcon = false;
 	itsOwnsExecIcon = false;

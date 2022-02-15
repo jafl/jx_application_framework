@@ -87,7 +87,7 @@ private:
 private:
 
 	void	JXFSDirMenuX();
-	void	JXFSDirMenuX1();
+	void	CalledByFSDirMenuX();
 	void	UpdateSelf();
 	void	AppendEntry(const JDirEntry& entry);
 

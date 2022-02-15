@@ -4702,18 +4702,18 @@ JXWindow::HandleExpose
 		return;
 	}
 
-	HandleExpose1(exposeEvent);
+	CalledByHandleExpose(exposeEvent);
 
 	XEvent xEvent;
 	while (XCheckIfEvent(*itsDisplay, &xEvent, GetNextExposeEvent,
 						 reinterpret_cast<char*>(&itsXWindow)))
 	{
-		HandleExpose1(xEvent.xexpose);
+		CalledByHandleExpose(xEvent.xexpose);
 	}
 }
 
 void
-JXWindow::HandleExpose1
+JXWindow::CalledByHandleExpose
 	(
 	const XExposeEvent& exposeEvent
 	)

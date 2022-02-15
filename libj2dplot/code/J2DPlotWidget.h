@@ -469,9 +469,9 @@ private:
 	void	Interpolate(const J2DDataRect& visRect,
 						J2DDataPoint* data1, J2DDataPoint* data2,
 						bool* move, bool* draw, bool* mark) const;
-	bool	Interpolate1(J2DDataPoint* data, const J2DDataRect& visRect,
-						 const JFloat slope,
-						 const bool horiz, const bool vert) const;
+	bool	CalledByInterpolate(J2DDataPoint* data, const J2DDataRect& visRect,
+								const JFloat slope,
+								const bool horiz, const bool vert) const;
 	bool	ConvertLog10(J2DDataPoint* data) const;
 	JFloat	GetGraphValue(const JFloat value, const bool linear) const;
 
@@ -486,9 +486,9 @@ private:
 							 const bool linear, JFloat* scale);
 
 	void			SetPlotDecPlaces();
-	static void		SetPlotDecPlaces1(const JFloat* scale, const bool useExactRange,
-									  const bool forceExp, const JCoordinate exp,
-									  JSize* dpCount);
+	static void		CalledBySetPlotDecPlaces(const JFloat* scale, const bool useExactRange,
+											 const bool forceExp, const JCoordinate exp,
+											 JSize* dpCount);
 	static JSize	GetDecPlaces(const JFloat value);
 
 	bool			GetMinimumPositiveValue(const bool isX, JFloat *min) const;

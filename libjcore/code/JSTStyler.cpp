@@ -207,7 +207,7 @@ JSTStyler::UpdateStyles
 			bool foundTokenStart;
 			TokenData target(itsCheckRange.GetFirst(), TokenExtra());
 			JIndex tokenStartIndex =
-				tokenStartList->SearchSorted1(target, JListT::kAnyMatch, &foundTokenStart);
+				tokenStartList->SearchSortedOTI(target, JListT::kAnyMatch, &foundTokenStart);
 			if (!foundTokenStart)
 			{
 				tokenStartIndex--;	// wants to insert -after- the value

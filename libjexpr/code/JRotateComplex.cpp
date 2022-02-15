@@ -92,13 +92,13 @@ JRotateComplex::Evaluate
 	const
 {
 	JComplex x;
-	if (!(GetArg1())->Evaluate(&x))
+	if (!GetArg1()->Evaluate(&x))
 	{
 		return false;
 	}
 
 	JFloat a;
-	if (!(GetArg2())->Evaluate(&a))
+	if (!GetArg2()->Evaluate(&a))
 	{
 		return false;
 	}

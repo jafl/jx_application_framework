@@ -721,12 +721,12 @@ JIndex
 JArray<T>::GetInsertionSortIndex
 	(
 	const T&	data,
-	bool*	isDuplicate
+	bool*		isDuplicate
 	)
 	const
 {
 	bool found;
-	JIndex index = SearchSorted1(data, JListT::kLastMatch, &found);
+	JIndex index = SearchSortedOTI(data, JListT::kLastMatch, &found);
 	if (found)
 	{
 		index++;
@@ -753,14 +753,14 @@ template <class T>
 bool
 JArray<T>::SearchSorted
 	(
-	const T&							target,
+	const T&					target,
 	const JListT::SearchReturn	which,
-	JIndex*								index
+	JIndex*						index
 	)
 	const
 {
 	bool found;
-	*index = SearchSorted1(target, which, &found);
+	*index = SearchSortedOTI(target, which, &found);
 	if (!found)
 	{
 		*index = 0;
@@ -769,7 +769,7 @@ JArray<T>::SearchSorted
 }
 
 /******************************************************************************
- SearchSorted1
+ SearchSortedOTI
 
 	Returns index where the element is or where it should be inserted in
 	order to keep the list sorted.  If there is an element that matches the
@@ -782,7 +782,7 @@ JArray<T>::SearchSorted
 
 template <class T>
 JIndex
-JArray<T>::SearchSorted1
+JArray<T>::SearchSortedOTI
 	(
 	const T&					target,
 	const JListT::SearchReturn	which,

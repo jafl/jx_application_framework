@@ -84,11 +84,11 @@ JDivision::Evaluate
 	const
 {
 	JFloat numerator, denominator;
-	if (!(GetArg1())->Evaluate(&numerator))
+	if (!GetArg1()->Evaluate(&numerator))
 	{
 		return false;
 	}
-	if (!(GetArg2())->Evaluate(&denominator))
+	if (!GetArg2()->Evaluate(&denominator))
 	{
 		return false;
 	}
@@ -112,11 +112,11 @@ JDivision::Evaluate
 	const
 {
 	JComplex numerator, denominator;
-	if (!(GetArg1())->Evaluate(&numerator))
+	if (!GetArg1()->Evaluate(&numerator))
 	{
 		return false;
 	}
-	if (!(GetArg2())->Evaluate(&denominator))
+	if (!GetArg2()->Evaluate(&denominator))
 	{
 		return false;
 	}

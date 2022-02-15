@@ -693,7 +693,7 @@ JStyledText::WritePrivateFormat
 		const JString& fontName = f.GetName();
 		bool found;
 		const JIndex fontIndex =
-			fontNameList.SearchSorted1(const_cast<JString*>(&fontName), JListT::kAnyMatch, &found);
+			fontNameList.SearchSortedOTI(const_cast<JString*>(&fontName), JListT::kAnyMatch, &found);
 		if (!found)
 		{
 			fontNameList.InsertAtIndex(fontIndex, fontName);
@@ -701,7 +701,7 @@ JStyledText::WritePrivateFormat
 
 		const JColorID color = f.GetStyle().color;
 		const JIndex colorIndex =
-			colorList.SearchSorted1(color, JListT::kAnyMatch, &found);
+			colorList.SearchSortedOTI(color, JListT::kAnyMatch, &found);
 		if (!found)
 		{
 			colorList.InsertElementAtIndex(colorIndex, color);

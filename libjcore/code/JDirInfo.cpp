@@ -643,7 +643,7 @@ JDirInfo::ClosestMatch
 {
 	JDirEntry target(prefixStr, 0);
 	bool found;
-	*index = itsAlphaEntries->SearchSorted1(&target, JListT::kFirstMatch, &found);
+	*index = itsAlphaEntries->SearchSortedOTI(&target, JListT::kFirstMatch, &found);
 	if (*index > itsAlphaEntries->GetElementCount())		// insert beyond end of list
 	{
 		*index = itsAlphaEntries->GetElementCount();
@@ -809,7 +809,7 @@ JDirInfo::BuildInfo()
 	}
 	pg.VariableLengthProcessBeginning(JGetString("Scanning::JDirInfo"), true, false);
 
-	BuildInfo1(pg);
+	CalledByBuildInfo(pg);
 
 	pg.ProcessFinished();
 

@@ -951,7 +951,7 @@ jGetFullHostName
  ******************************************************************************/
 
 inline bool
-jTranslateLocalToRemote1
+jCalledByTranslateLocalToRemote
 	(
 	const JString&		localPath,
 	const JUtf8Byte*	mountDev,
@@ -1031,9 +1031,9 @@ JTranslateLocalToRemote
 	bool found = false;
 	for (JUnsignedOffset i=0; i<count; i++)
 	{
-		if (jTranslateLocalToRemote1(localPath, info[i].f_mntfromname,
-									 info[i].f_mntonname,
-									 &found, host, remotePath))
+		if (jCalledByTranslateLocalToRemote(localPath, info[i].f_mntfromname,
+											info[i].f_mntonname,
+											&found, host, remotePath))
 		{
 			break;		// localPath only on one partition
 		}
@@ -1066,8 +1066,8 @@ JTranslateLocalToRemote
 	mnttab info;
 	while (getmntent(f, &info) == 0)
 	{
-		if (jTranslateLocalToRemote1(localPath, info.mnt_special,
-									 info.mnt_mountp, &found, host, remotePath))
+		if (jCalledByTranslateLocalToRemote(localPath, info.mnt_special,
+											info.mnt_mountp, &found, host, remotePath))
 		{
 			break;		// localPath only on one partition
 		}
@@ -1100,8 +1100,8 @@ JTranslateLocalToRemote
 	bool found = false;
 	while (const mntent* info = getmntent(f))
 	{
-		if (jTranslateLocalToRemote1(localPath, info->mnt_fsname,
-									 info->mnt_dir, &found, host, remotePath))
+		if (jCalledByTranslateLocalToRemote(localPath, info->mnt_fsname,
+									 		info->mnt_dir, &found, host, remotePath))
 		{
 			break;		// localPath only on one partition
 		}
@@ -1124,7 +1124,7 @@ JTranslateLocalToRemote
  ******************************************************************************/
 
 inline bool
-jTranslateRemoteToLocal1
+jCalledByTranslateRemoteToLocal
 	(
 	const JString&		host,
 	const JString&		remotePath,
@@ -1183,8 +1183,8 @@ JTranslateRemoteToLocal
 	bool found = false;
 	for (JUnsignedOffset i=0; i<count; i++)
 	{
-		if (jTranslateRemoteToLocal1(hostStr, remotePath, info[i].f_mntfromname,
-									 info[i].f_mntonname, localPath))
+		if (jCalledByTranslateRemoteToLocal(hostStr, remotePath, info[i].f_mntfromname,
+											info[i].f_mntonname, localPath))
 		{
 			found = true;
 			break;
@@ -1218,8 +1218,8 @@ JTranslateRemoteToLocal
 	mnttab info;
 	while (getmntent(f, &info) == 0)
 	{
-		if (jTranslateRemoteToLocal1(host, remotePath, info.mnt_special,
-									 info.mnt_mountp, localPath))
+		if (jCalledByTranslateRemoteToLocal(host, remotePath, info.mnt_special,
+											info.mnt_mountp, localPath))
 		{
 			found = true;
 			break;
@@ -1253,8 +1253,8 @@ JTranslateRemoteToLocal
 	bool found = false;
 	while (const mntent* info = getmntent(f))
 	{
-		if (jTranslateRemoteToLocal1(host, remotePath, info->mnt_fsname,
-									 info->mnt_dir, localPath))
+		if (jCalledByTranslateRemoteToLocal(host, remotePath, info->mnt_fsname,
+											info->mnt_dir, localPath))
 		{
 			found = true;
 			break;

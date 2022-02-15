@@ -76,9 +76,9 @@ public:
 
 	bool	SearchSorted(const T& target, const JListT::SearchReturn which,
 						 JIndex* index) const;
-	JIndex	SearchSorted1(const T& target,
-						  const JListT::SearchReturn which,
-						  bool* found) const;
+	JIndex	SearchSortedOTI(const T& target,
+							const JListT::SearchReturn which,
+							bool* found) const;
 
 	// unrelated, fast sort -- broadcasts Sorted
 	// (Do NOT use on JPtrArray!)
