@@ -38,7 +38,7 @@ JXHintDirector::JXHintDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	const JRect frameR = (widget->GetWindow())->GlobalToRoot(widget->GetFrameGlobal());
+	const JRect frameR = widget->GetWindow()->GlobalToRoot(widget->GetFrameGlobal());
 	BuildWindow(frameR, text);
 }
 
@@ -53,7 +53,7 @@ JXHintDirector::JXHintDirector
 	JXWindowDirector(supervisor)
 {
 	const JRect frameR =
-		(widget->GetWindow())->GlobalToRoot(widget->JXContainer::LocalToGlobal(rect));
+		widget->GetWindow()->GlobalToRoot(widget->JXContainer::LocalToGlobal(rect));
 	BuildWindow(frameR, text);
 }
 

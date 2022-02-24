@@ -5,9 +5,7 @@ publish
 
 mac symbols not shown in hint text for toolbar buttons
 
-testjx - doesn't show all characters in new editor window
-systemg - doesn't show special characters when edit test file
-	jcc - doesn't show special characters when ask to create file
+file chooser doesn't allow special characters
 
 does not refresh after drag-and-drop
 	testjx image viewer

@@ -58,7 +58,7 @@ public:
 	void	SetTable(JXEditTable* table);
 
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
-								   const JXKeyModifiers& modifiers) override;
+						   const JXKeyModifiers& modifiers) override;
 
 	JString	ToString() const override;
 

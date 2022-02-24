@@ -30,6 +30,7 @@
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
 #include "jx-af/jcore/JString.h"
+#include "jx-af/jcore/JUtf8ByteBuffer.h"
 #include "jx-af/jcore/jSysUtil.h"
 #include "jx-af/jcore/jFileUtil.h"
 #include "jx-af/jcore/jDirUtil.h"
@@ -354,12 +355,13 @@ bool
 JMDIServer::ReceiveLine
 	(
 	ACE_LSOCK_Stream&	socket,
-	const bool		block,
+	const bool			block,
 	JString*			line,
-	bool*			receivedFinishedFlag
+	bool*				receivedFinishedFlag
 	)
 {
 	line->Clear();
+	JUtf8ByteBuffer buf(128);
 
 	const ACE_Time_Value timeout(kMDIMaxWaitTime);
 	while (!(*receivedFinishedFlag))
@@ -377,6 +379,8 @@ JMDIServer::ReceiveLine
 
 		if (result == 1 && c == kEndOfLine)
 		{
+			*line = buf.ExtractCharacters();
+			assert( buf.IsEmpty() );
 			return true;
 		}
 		else if ((result == 1 && c == kEndOfMessage) ||
@@ -387,7 +391,7 @@ JMDIServer::ReceiveLine
 		}
 		else if (result == 1)
 		{
-			line->Append(JUtf8Character(c));
+			buf.Append(&c, 1);
 		}
 	}
 

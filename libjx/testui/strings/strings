@@ -19,7 +19,7 @@ FileNotReadable::TestDirector	"You do not have permission to read \"$name\"."
 ZombieProcessNotification::TestDirector
 "This should not leave a zombie process lying around because JXApplication is supposed to automatically clean it up."
 
-TestMessage::TestDirector		"This is a test message."
+TestMessage::TestDirector		"This is a test message.  这是一条测试消息"
 WarningMessage::TestDirector	"Did you like this warning message?"
 ErrorMessage::TestDirector		"This is a fake error."
 

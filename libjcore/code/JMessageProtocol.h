@@ -34,9 +34,9 @@ public:
 	// Other constants
 
 	enum
-		{
+	{
 		kDefaultBufferSize = 65536
-		};
+	};
 
 public:
 
@@ -46,7 +46,7 @@ public:
 	static const JUtf8Byte* kReceivedDisconnect;	// other end sent disconnect
 
 	class MessageReady : public JBroadcaster::Message
-		{
+	{
 		public:
 
 			MessageReady(const JString& msg)
@@ -66,17 +66,17 @@ public:
 		private:
 
 			const JString& itsMessage;
-		};
+	};
 
 	class ReceivedDisconnect : public JBroadcaster::Message
-		{
+	{
 		public:
 
 			ReceivedDisconnect()
 				:
 				JBroadcaster::Message(kReceivedDisconnect)
 				{ };
-		};
+	};
 };
 
 template <ACE_PEER_STREAM_1>
