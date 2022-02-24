@@ -674,6 +674,11 @@ JXApplication::HandleOneEventForWindow
 				XCheckIfEvent(*display, &xEvent, GetNextWindowEvent,
 							  reinterpret_cast<char*>(eventWindow)))
 			{
+				if (XFilterEvent(&xEvent, None))	// XIM
+				{
+					continue;
+				}
+
 				windowHasEvents = true;
 				if (xEvent.type != MotionNotify)
 				{
@@ -683,6 +688,10 @@ JXApplication::HandleOneEventForWindow
 			}
 			else if (XCheckIfEvent(*display, &xEvent, GetNextBkgdEvent, nullptr))
 			{
+				if (XFilterEvent(&xEvent, None))	// XIM
+				{
+					continue;
+				}
 				display->HandleEvent(xEvent, itsCurrentTime);
 			}
 			else if (display == uiDisplay &&
