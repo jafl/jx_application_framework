@@ -306,8 +306,8 @@ JXTEBase::JXTEBase
 	(
 	const Type			type,
 	JStyledText*		text,
-	const bool		ownsText,
-	const bool		breakCROnly,
+	const bool			ownsText,
+	const bool			breakCROnly,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,

@@ -32,8 +32,8 @@ const JSize kUndoDepthCount     = sizeof(kUndoDepth)/sizeof(JSize);
 TestTextEditor::TestTextEditor
 	(
 	JStyledText*		text,
-	const bool		ownsText,
-	const bool		editable,
+	const bool			ownsText,
+	const bool			editable,
 	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
