@@ -50,7 +50,7 @@ CXXFLAGS  = -std=c++17
 
 # libraries to link - must use XQuartz instead of Homebrew X11
 
-J_GCC_LIBS  := ${shell pkg-config --libs icu-i18n libpcre} -lstdc++ -lm -lc
+J_GCC_LIBS  := ${shell pkg-config --libs icu-i18n libpcre} -lstdc++
 J_ACE_LIBS  := -lACE
 J_X11_LIBS  := -L/opt/X11/lib -lXext -lXft -lfontconfig -lXpm -lX11
 
