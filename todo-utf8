@@ -1,11 +1,5 @@
-publish
+publish snap
 	systemg
-
-
-
-mac symbols not shown in hint text for toolbar buttons
-
-
 
 
 
@@ -19,8 +13,6 @@ jcc
     with tab-inserts-spaces, select text, then press tab: doesn't replace selected text
 
 jcc
-	styling of JPtrArray<::VarNode>
-
 	include partial path in symbol search results when display duplicate file name?
 		/Users/jolindal/projects/vendomatic/src/main/webapp/public/sso.php
 		validateLogin

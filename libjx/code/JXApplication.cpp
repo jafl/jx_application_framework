@@ -51,7 +51,7 @@ static const JUtf8Byte* kFTCDebugOverlapOptionName = "--debug-ftc-overlap";
 static const JUtf8Byte* kDebugUtf8OptionName       = "--debug-utf8";
 static const JUtf8Byte* kPseudotranslateOptionName = "--pseudotranslate";
 
-const time_t kTimerStart = INT_MAX;		// seconds before rollover
+const time_t kTimerStart = 100000000;	// seconds before rollover
 const Time kMaxSleepTime = 50;			// 0.05 seconds (in milliseconds)
 
 const JSize kWaitForChildCount = 10;
@@ -157,7 +157,11 @@ JXApplication::JXApplication
 	timerInfo.it_interval.tv_usec = 0;
 	timerInfo.it_value.tv_sec     = kTimerStart;
 	timerInfo.it_value.tv_usec    = 0;
-	setitimer(ITIMER_REAL, &timerInfo, nullptr);
+	if (setitimer(ITIMER_REAL, &timerInfo, nullptr) != 0)
+	{
+		std::cout << "setitimer failed: " << errno << std::endl;
+		abort();
+	}
 
 #endif
 
