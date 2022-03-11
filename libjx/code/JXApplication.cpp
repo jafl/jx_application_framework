@@ -35,7 +35,6 @@
 #include <ace/Service_Config.h>
 #include <sys/time.h>
 
-#include <jx-af/jcore/JTaskIterator.h>
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <stdlib.h>
@@ -1018,15 +1017,24 @@ void
 JXApplication::PerformIdleTasks()
 {
 	itsMaxSleepTime = kMaxSleepTime;
+
+	JPtrArray<JXIdleTask>* taskList = nullptr;
 {
 	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsIdleTasks->IsEmpty())		// avoid constructing iterator
 	{
-		JTaskIterator<JXIdleTask> iter(itsIdleTasks);
-		JXIdleTask* task;
+		taskList = jnew JPtrArray<JXIdleTask>(*itsIdleTasks, JPtrArrayT::kForgetAll);
+		assert( taskList != nullptr);
+	}
+}
+	if (taskList != nullptr)
+	{
 		const Time deltaTime = itsCurrentTime - itsLastIdleTaskTime;
-		while (iter.Next(&task))
+
+		JListIterator<JXIdleTask*>* iter = taskList->NewIterator();
+		JXIdleTask* task;
+		while (iter->Next(&task))
 		{
 			Time maxSleepTime = itsMaxSleepTime;
 			task->Perform(deltaTime, &maxSleepTime);
@@ -1035,8 +1043,12 @@ JXApplication::PerformIdleTasks()
 				itsMaxSleepTime = maxSleepTime;
 			}
 		}
+
+		jdelete iter;
+
+		jdelete taskList;
+		taskList = nullptr;
 	}
-}
 
 	if (!itsHasBlockingWindowFlag)
 	{
@@ -1137,6 +1149,7 @@ JXApplication::RemoveUrgentTask
 void
 JXApplication::PerformUrgentTasks()
 {
+	JPtrArray<JXUrgentTask>* taskList = nullptr;
 {
 	std::lock_guard lock(*itsTaskMutex);
 
@@ -1144,24 +1157,31 @@ JXApplication::PerformUrgentTasks()
 	{
 		// clear out itsUrgentTasks so new ones can safely be added
 
-		JPtrArray<JXUrgentTask> taskList(*itsUrgentTasks, JPtrArrayT::kDeleteAll);
-		itsUrgentTasks->RemoveAll();
+		taskList = jnew JPtrArray<JXUrgentTask>(*itsUrgentTasks, JPtrArrayT::kDeleteAll);
+		assert( taskList != nullptr);
 
-		itsRunningUrgentTasks = &taskList;
+		itsUrgentTasks->RemoveAll();
+	}
+}
+	if (taskList != nullptr)
+	{
+		itsRunningUrgentTasks = taskList;
 
 		// perform each task - use iterator because task might be deleted
 
-		JListIterator<JXUrgentTask*>* iter = taskList.NewIterator();
+		JListIterator<JXUrgentTask*>* iter = taskList->NewIterator();
 		JXUrgentTask* task;
 		while (iter->Next(&task))
 		{
 			task->Perform();
 		}
 
-		jdelete iter;
 		itsRunningUrgentTasks = nullptr;
+		jdelete iter;
+
+		jdelete taskList;
+		taskList = nullptr;
 	}
-}
 
 	JXDisplay::CheckForXErrors();
 
