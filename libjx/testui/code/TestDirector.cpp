@@ -26,6 +26,7 @@
 #include "TestImageDirector.h"
 #include "TestFileListDirector.h"
 #include "TestChooseSaveFile.h"
+#include "TestIdleTask.h"
 #include "testjxGlobals.h"
 
 #include "SmileyBitmaps.h"
@@ -121,6 +122,7 @@ static const JUtf8Byte* kTestMenuStr =
 	"  | Move window by (+10,+10)          %k Ctrl-4"
 	"  | Raise all windows"
 	"  | Window config                     %k Ctrl-0"
+	"%l| Idle task mutex"
 	"%l| Force broken pipe (does not dump core)"
 	"  | Generate X error (dumps core)"
 	"  | Lock up for 10 seconds (test MDI)"
@@ -140,6 +142,7 @@ enum
 	kTestZombieProcessCmd,
 	kTestPlaceWindow0Cmd, kTestPlaceWindow30Cmd, kTestPlaceWindow100Cmd,
 	kTestMoveWindowCmd, kRaiseAllWindowsCmd, kPrintWMConfigCmd,
+	kTestIdleTaskMutexCmd,
 	kTestBrokenPipeCmd, kTestUncaughtXErrorCmd, kLockUpToTestMDICmd,
 	kTimeFontSubCmd
 };
@@ -946,6 +949,11 @@ TestDirector::HandleTestMenu
 	else if (index == kPrintWMConfigCmd)
 	{
 		GetWindow()->PrintWindowConfig();
+	}
+
+	else if (index == kTestIdleTaskMutexCmd)
+	{
+		jnew TestIdleTask();
 	}
 
 	else if (index == kTestBrokenPipeCmd)

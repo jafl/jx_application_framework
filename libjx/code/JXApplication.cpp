@@ -35,6 +35,7 @@
 #include <ace/Service_Config.h>
 #include <sys/time.h>
 
+#include <jx-af/jcore/JTaskIterator.h>
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <stdlib.h>
@@ -1017,24 +1018,16 @@ void
 JXApplication::PerformIdleTasks()
 {
 	itsMaxSleepTime = kMaxSleepTime;
-
-	JPtrArray<JXIdleTask>* taskList = nullptr;
 {
 	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsIdleTasks->IsEmpty())		// avoid constructing iterator
 	{
-		taskList = jnew JPtrArray<JXIdleTask>(*itsIdleTasks, JPtrArrayT::kForgetAll);
-		assert( taskList != nullptr);
-	}
-}
-	if (taskList != nullptr)
-	{
 		const Time deltaTime = itsCurrentTime - itsLastIdleTaskTime;
 
-		JListIterator<JXIdleTask*>* iter = taskList->NewIterator();
+		JTaskIterator<JXIdleTask> iter(itsIdleTasks);
 		JXIdleTask* task;
-		while (iter->Next(&task))
+		while (iter.Next(&task))
 		{
 			Time maxSleepTime = itsMaxSleepTime;
 			task->Perform(deltaTime, &maxSleepTime);
@@ -1043,12 +1036,8 @@ JXApplication::PerformIdleTasks()
 				itsMaxSleepTime = maxSleepTime;
 			}
 		}
-
-		jdelete iter;
-
-		jdelete taskList;
-		taskList = nullptr;
 	}
+}
 
 	if (!itsHasBlockingWindowFlag)
 	{

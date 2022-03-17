@@ -11,6 +11,7 @@
 .cpp ./code/TestDockManager
 .cpp ./code/AboutDialog
 .cpp ./code/TestPGTask
+.cpp ./code/TestIdleTask
 .cpp ./code/TestDirector
 .cpp ./code/TestWidget
 .cpp ./code/ResizeWidgetDialog

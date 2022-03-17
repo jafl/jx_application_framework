@@ -31,6 +31,10 @@ T
 2 "TestPGTask.cpp"
 F
 "./code/TestPGTask.cpp"
+T
+2 "TestIdleTask.cpp"
+F
+"./code/TestIdleTask.cpp"
 F
 T
 1 "Director+Widget"
