@@ -54,7 +54,7 @@ function get_reflex
 {
 	if [[ ! -d misc/reflex || ! -f misc/reflex/lib/libreflex.a ]]; then
 		rm -rf misc/reflex;
-		git clone -b $REFLEX_VERSION https://github.com/Genivia/RE-flex misc/reflex 2> /dev/null;
+		git clone -b $REFLEX_VERSION https://github.com/Genivia/RE-flex misc/reflex;# 2> /dev/null;
 	fi
 }
 
