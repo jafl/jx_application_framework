@@ -2,8 +2,8 @@
 
 set -e;
 
-ACE_VERSION=7.0.0
-REFLEX_VERSION=3.2.2
+export ACE_VERSION=7.0.0
+export REFLEX_VERSION=3.2.2
 
 #
 # functions
