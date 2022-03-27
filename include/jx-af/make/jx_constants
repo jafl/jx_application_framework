@@ -19,17 +19,7 @@ endif
 # version numbers
 #
 
-JX_VERSION     := 4.0.0
-REFLEX_VERSION := 3.1.0
-
-ACE_VERSION := $(shell perl -e \
-    'if (-f "ACE/ACE_wrappers/ace/Version.h") { \
-         $$data=`cat ACE/ACE_wrappers/ace/Version.h`; \
-         if ($$data =~ /\#define ACE_VERSION "(.+)"/) { \
-              print $$1; exit; \
-         } \
-     } \
-     print "7.0.0";')    # default version downloaded from libjx.sourceforge.net
+JX_VERSION := 4.0.0
 
 #
 # useful directories
