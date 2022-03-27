@@ -413,7 +413,7 @@ JTEST(Sort)
 	verify("-1 1 1 1 3 3 4 5 10", a);
 }
 
-JTEST(SearchSorted1EdgeCases)
+JTEST(SearchSortedOTIEdgeCases)
 {
 	const JListT::SortOrder order[] =
 	{ JListT::kSortAscending, JListT::kSortDescending };
