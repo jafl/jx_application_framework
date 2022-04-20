@@ -46,7 +46,7 @@ install::
 	@mkdir -p ${ROOT_DATA_FILE_DIR}
 	@cp ${DATA_FILES} ${ROOT_DATA_FILE_DIR}
   else
-	@ln -sf jfdesign ${JX_INSTALL_ROOT}/bin
+	@ln -sf $$(pwd)/jfdesign ${JX_INSTALL_ROOT}/bin
   endif
 
 .PHONY : uninstall
