@@ -16,12 +16,14 @@ class JXFontNameMenu : public JXTextMenu
 {
 public:
 
-	JXFontNameMenu(const JString& title, JXContainer* enclosure,
+	JXFontNameMenu(const JString& title, const bool prependHistory,
+				   JXContainer* enclosure,
 				   const HSizingOption hSizing, const VSizingOption vSizing,
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	JXFontNameMenu(JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
+	JXFontNameMenu(const bool prependHistory,
+				   JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
 	~JXFontNameMenu() override;
 
@@ -48,11 +50,11 @@ private:
 	JIndex	itsFontIndex;
 	bool	itsBroadcastNameChangeFlag;
 
-	JPtrArray<JString>*	itsNameHistory;
+	JPtrArray<JString>*	itsNameHistory;		// nullptr if not prepending history
 
 private:
 
-	void	BuildMenu();
+	void	BuildMenu(const bool prependHistory);
 	void	UpdateMenu();
 	void	UpdateHistory(const JString& name);
 

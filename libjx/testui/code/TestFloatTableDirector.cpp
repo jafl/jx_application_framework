@@ -81,25 +81,25 @@ TestFloatTableDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,330, JString::empty);
+	auto* window = jnew JXWindow(this, 400,330, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 320,30);
 	assert( menuBar != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( scrollbarSet != nullptr );
 
-	JXFloatInput* extraInput =
+	auto* extraInput =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 370,10, 30,20);
 	assert( extraInput != nullptr );
 
-	JXStaticText* rangeLabel =
+	auto* rangeLabel =
 		jnew JXStaticText(JGetString("rangeLabel::TestFloatTableDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,10, 50,20);
 	assert( rangeLabel != nullptr );

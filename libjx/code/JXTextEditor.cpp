@@ -28,7 +28,7 @@
 JXTextEditor::JXTextEditor
 	(
 	JStyledText*		text,
-	const bool		ownsText,
+	const bool			ownsText,
 	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -61,7 +61,7 @@ JXTextEditor::JXTextEditor
 		AppendEditMenu(menuBar, true, true, true, true, true, true, true, true);
 		AppendSearchReplaceMenu(menuBar);
 
-		itsFontMenu = jnew JXFontNameMenu(JGetString("FontMenuTitle::JXGlobal"), menuBar,
+		itsFontMenu = jnew JXFontNameMenu(JGetString("FontMenuTitle::JXGlobal"), true, menuBar,
 										  kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsFontMenu != nullptr );
 		menuBar->AppendMenu(itsFontMenu);

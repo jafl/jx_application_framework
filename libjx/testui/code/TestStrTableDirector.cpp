@@ -79,15 +79,15 @@ TestStrTableDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,330, JString::empty);
+	auto* window = jnew JXWindow(this, 400,330, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != nullptr );
 
-	JXScrollbarSet* scrollbarSet =
+	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( scrollbarSet != nullptr );

@@ -100,7 +100,7 @@ JIndex i,j;
 	itsColBorderMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsColBorderMenu);
 
-	itsFontMenu = jnew JXFontNameMenu(JGetString("FontMenuTitle::TestStringTable"),
+	itsFontMenu = jnew JXFontNameMenu(JGetString("FontMenuTitle::TestStringTable"), true,
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsFontMenu != nullptr );
 	menuBar->AppendMenu(itsFontMenu);

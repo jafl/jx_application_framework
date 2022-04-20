@@ -1030,7 +1030,7 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: JXFontNameMenu(JGetString("FontNameMenuTitle::JX2DPlotLabelDialog"),
+label: JXFontNameMenu(JGetString("FontNameMenuTitle::JX2DPlotLabelDialog"), false,
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity

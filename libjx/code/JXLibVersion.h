@@ -65,6 +65,8 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added CreateFromXPM() which works with > 256 colors.
 //	JXDisplay:
 //		*** Renamed IsOSX() to IsMacOS().
+//	JXFontNameMenu:
+//		*** Added constructor option to maintain history at the top of the menu.
 
 // version 3.1.0:
 //	JXGetStringDialog:

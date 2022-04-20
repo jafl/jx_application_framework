@@ -101,7 +101,7 @@ JXXFontMenu::JXXFontMenu
 	const JCoordinate			h
 	)
 	:
-	JXFontNameMenu(title, enclosure, hSizing, vSizing, x,y, w,h)
+	JXFontNameMenu(title, false, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	BuildMenu(fontNames);
 }
@@ -114,7 +114,7 @@ JXXFontMenu::JXXFontMenu
 	JXContainer*				enclosure
 	)
 	:
-	JXFontNameMenu(owner, itemIndex, enclosure)
+	JXFontNameMenu(false, owner, itemIndex, enclosure)
 {
 	BuildMenu(fontNames);
 }
@@ -154,5 +154,5 @@ JXXFontMenu::BuildMenu
 		fontManager->Preload(GetItemFont(i).GetID());
 	}
 
-	SetFontName(*(fontNames.GetFirstElement()));
+	SetFontName(*fontNames.GetFirstElement());
 }

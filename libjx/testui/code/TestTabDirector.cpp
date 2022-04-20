@@ -73,7 +73,7 @@ TestTabDirector::BuildWindow()
 	// card 1
 
 	itsFontMenu =
-		jnew JXFontNameMenu(JGetString("FontMenuTitle::TestTabDirector"), card1,
+		jnew JXFontNameMenu(JGetString("FontMenuTitle::TestTabDirector"), true, card1,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,30);
 	assert( itsFontMenu != nullptr );
 	itsFontMenu->SetFontName(itsTabGroup->GetFont().GetName());
@@ -140,7 +140,7 @@ TestTabDirector::BuildWindow()
 
 	itsMonoFontSample =
 		jnew JXInputField(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
-						 20, 20, 250, 20);
+						 20, 20, 200, 20);
 	assert( itsMonoFontSample != nullptr );
 	itsMonoFontSample->GetText()->SetText(JGetString("SampleText::TestTabDirector"));
 

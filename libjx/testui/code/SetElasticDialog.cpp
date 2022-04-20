@@ -55,15 +55,15 @@ SetElasticDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 200,90, JString::empty);
+	auto* window = jnew JXWindow(this, 200,90, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::SetElasticDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 30,60, 50,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::SetElasticDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 120,60, 50,20);
 	assert( okButton != nullptr );
@@ -74,7 +74,7 @@ SetElasticDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kFixedTop, 140,20, 40,20);
 	assert( itsElasticIndex != nullptr );
 
-	JXStaticText* elasticLabel =
+	auto* elasticLabel =
 		jnew JXStaticText(JGetString("elasticLabel::SetElasticDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 130,20);
 	assert( elasticLabel != nullptr );

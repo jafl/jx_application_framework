@@ -113,7 +113,7 @@ JX2DPlotLabelDialog::BuildWindow()
 	yAxisLabel->SetToLabel();
 
 	itsFontMenu =
-		jnew JXFontNameMenu(JGetString("FontNameMenuTitle::JX2DPlotLabelDialog"), window,
+		jnew JXFontNameMenu(JGetString("FontNameMenuTitle::JX2DPlotLabelDialog"), false, window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 350,20, 170,30);
 	assert( itsFontMenu != nullptr );
 

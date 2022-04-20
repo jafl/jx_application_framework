@@ -139,15 +139,15 @@ TestTextEditDocument::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,330, JString::empty);
+	auto* window = jnew JXWindow(this, 400,330, JString::empty);
 	assert( window != nullptr );
 
-	JXMenuBar* menuBar =
+	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != nullptr );
 
-	JXHorizPartition* partition =
+	auto* partition =
 		jnew JXHorizPartition(sizes, 1, minSizes, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( partition != nullptr );

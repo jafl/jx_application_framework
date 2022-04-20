@@ -53,31 +53,31 @@ TestPopupChoiceDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 230,170, JString::empty);
+	auto* window = jnew JXWindow(this, 230,170, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* cancelButton =
+	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::TestPopupChoiceDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,140, 70,20);
 	assert( cancelButton != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::TestPopupChoiceDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,140, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::TestPopupChoiceDialog::shortcuts::JXLayout"));
 
-	JXFontNameMenu* fontMenu =
-		jnew JXFontNameMenu(JGetString("FontMenuLabel::TestPopupChoiceDialog"), window,
+	auto* fontMenu =
+		jnew JXFontNameMenu(JGetString("FontMenuLabel::TestPopupChoiceDialog"), true, window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 190,30);
 	assert( fontMenu != nullptr );
 
-	JXFontSizeMenu* sizeMenu =
+	auto* sizeMenu =
 		jnew JXFontSizeMenu(fontMenu, JGetString("FontSizeMenuLabel::TestPopupChoiceDialog"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 190,30);
 	assert( sizeMenu != nullptr );
 
-	JXImageMenu* iconMenu =
+	auto* iconMenu =
 		jnew JXImageMenu(JGetString("ImageMenuLabel::TestPopupChoiceDialog"), 2, window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 190,30);
 	assert( iconMenu != nullptr );

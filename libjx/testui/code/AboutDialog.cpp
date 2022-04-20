@@ -48,10 +48,10 @@ AboutDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 100,100, JString::empty);
+	auto* window = jnew JXWindow(this, 100,100, JString::empty);
 	assert( window != nullptr );
 
-	JXTextButton* okButton =
+	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::AboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,35, 80,30);
 	assert( okButton != nullptr );
