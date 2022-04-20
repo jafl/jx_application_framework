@@ -12,33 +12,14 @@ jcc
 jcc
     with tab-inserts-spaces, select text, then press tab: doesn't replace selected text
 
-jcc
+	scroll after undo/redo puts selection at bottom
+
 	include partial path in symbol search results when display duplicate file name?
 		/Users/jolindal/projects/vendomatic/src/main/webapp/public/sso.php
 		validateLogin
 
 systemg slow to open new window
 
-jcc,medic: add universal ctags dependecy in .spec
-
-
-
-jcc:
-	turn off anonymous functions
-u-ctags:
-	fix:  javascript
-		aws-lambda-common: Transaction.js
-			fails after 'update'
-		aws-heimdall/views/commands.hbs
-			missing change_group, upgrade_app
-		vendomatic/src/main/webapp/public/assets/js/vendomatic-config-edit.js
-			many functions misclassified as anonymous
-		yui-modules/src/gallery-bulkedit/js/BulkEditDataSource.js
-			missing adjustRequest, internalSuccess
-			many functions misclassified as anonymous
-			missing mergeChanges, even as anonymous
-
-	GDBVarGroupInfo.h not in medic files list
 
 
 jcc:
@@ -72,22 +53,14 @@ JStyledText
 jcc
 	JXDocumentMenu - show partial paths for repeated file names
 
-	"parsing files" doesn't disappear - when process killed by running compile?
-
-	scroll after undo/redo puts selection at bottom
-
 	Editor Prefs
 		Emulator drop-down should be radio buttons
-		Fonts should have monospace, not Arial
 
 
 	HTML styler
 		unit test for CDATA - can contain php or jsp
 		tag, attribute value, script, char escapes
 		javascript regex, incl char class - can contain php or jsp
-
-	test CBMacroManager: Perform & HighlightErrors completely rewritten
-	test open flex, bison, maven error
 
 
 	shell doc doesn't work at all
