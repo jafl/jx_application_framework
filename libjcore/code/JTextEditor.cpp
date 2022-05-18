@@ -379,9 +379,15 @@ JTextEditor::Receive
 	if (sender == itsText &&
 		message.Is(JStyledText::kTextSet))
 	{
-		if (TEIsDragging())		// on macOS, mouse up seems to sometimes get lost
+		// on macOS, mouse up seems to sometimes get lost
+		if (itsDragType == kDragAndDrop)
 		{
 			TEHandleDNDLeave();
+			TEDNDFinished();
+		}
+		else if (TEIsDragging())
+		{
+			itsDragType = kInvalidDrag;
 		}
 
 		if (itsText->IsEmpty())
