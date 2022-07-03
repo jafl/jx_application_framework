@@ -322,7 +322,7 @@ JReadUNIXManOutput
 
  ******************************************************************************/
 
-static const JRegex theUNIXTerminalFormatPattern = "\033\\[([0-9]+(?:;[0-9]+)*)m";
+static const JRegex theUNIXTerminalFormatPattern = "\033\\[([0-9]+(?:;[0-9]+)*)?m";
 
 JStyledText::TextRange
 JPasteUNIXTerminalOutput
@@ -343,6 +343,7 @@ JPasteUNIXTerminalOutput
 
 	JPtrArray<JString> cmdList(JPtrArrayT::kDeleteAll);
 
+	JString substr;
 	for (const auto* chunk : chunkList)
 	{
 		const JStringMatch m = theUNIXTerminalFormatPattern.Match(*chunk, JRegex::kIncludeSubmatches);
@@ -353,7 +354,16 @@ JPasteUNIXTerminalOutput
 			continue;
 		}
 
-		m.GetSubstring(1).Split(";", &cmdList);
+		substr = m.GetSubstring(1);
+		if (substr.IsEmpty())
+		{
+			cmdList.CleanOut();
+			cmdList.Append(JString("0", JString::kNoCopy));
+		}
+		else
+		{
+			substr.Split(";", &cmdList);
+		}
 
 		for (const auto* cmd : cmdList)
 		{

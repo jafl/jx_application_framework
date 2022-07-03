@@ -66,19 +66,19 @@ public:
 									const JPtrArrayT::CleanUpAction action,
 									const bool append);
 
-	void		InsertAtIndex(const JIndex index, const T& data);
-	void		Prepend(const T& data);
-	void		Append(const T& data);
-	void		InsertBefore(const T* beforePtr, const T& data);
-	void		InsertAfter(const T* afterPtr, const T& data);
-	void		SetElement(const JIndex index, const T& data,
-						   const JPtrArrayT::SetElementAction action);
+	void	InsertAtIndex(const JIndex index, const T& data);
+	void	Prepend(const T& data);
+	void	Append(const T& data);
+	void	InsertBefore(const T* beforePtr, const T& data);
+	void	InsertAfter(const T* afterPtr, const T& data);
+	void	SetElement(const JIndex index, const T& data,
+					   const JPtrArrayT::SetElementAction action);
 
 	bool	Remove(const T* dataPtr);
-	void		DeleteElement(const JIndex index);
-	void		DeleteAll();
-	void		DeleteElementAsArray(const JIndex index);
-	void		DeleteAllAsArrays();
+	void	DeleteElement(const JIndex index);
+	void	DeleteAll();
+	void	DeleteElementAsArray(const JIndex index);
+	void	DeleteAllAsArrays();
 
 	bool	Includes(const T* dataPtr) const;
 	bool	Find(const T* dataPtr, JIndex* elementIndex) const;
