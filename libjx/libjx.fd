@@ -5,6 +5,7 @@ Internal Form Definition File
 
 Number of forms: 26
 Unit of measure: FL_COORD_PIXEL
+SnapGrid: 3
 
 =============== FORM ===============
 Name: JXPSPrintSetupDialog
@@ -3900,7 +3901,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 250 115 30 20
+box: 245 118 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -3918,7 +3919,7 @@ argument: kHistoryLength, JString::empty
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 250 41 30 20
+box: 245 43 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -4206,7 +4207,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 20 29 220 45
+box: 20 30 220 45
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT

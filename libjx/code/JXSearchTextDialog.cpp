@@ -309,12 +309,12 @@ JXSearchTextDialog::BuildWindow()
 
 	itsPrevReplaceMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,115, 30,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 245,118, 30,20);
 	assert( itsPrevReplaceMenu != nullptr );
 
 	itsPrevSearchMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,41, 30,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 245,43, 30,20);
 	assert( itsPrevSearchMenu != nullptr );
 
 	itsHelpButton =
@@ -401,7 +401,7 @@ JXSearchTextDialog::BuildWindow()
 
 	itsSearchInput =
 		jnew JXInputField(true, false, window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,29, 220,45);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,30, 220,45);
 	assert( itsSearchInput != nullptr );
 
 	itsReplaceInput =
