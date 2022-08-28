@@ -77,13 +77,13 @@ public:
 	JSize			GetLineWidth() const;
 	void			SetLineWidth(const JSize width);
 
-	bool		LinesAreDashed() const;
+	bool			LinesAreDashed() const;
 	void			DrawDashedLines(const bool on);
-	bool		GetDashList(const JArray<JSize>** dashList, JSize* dashOffset) const;
+	bool			GetDashList(const JArray<JSize>** dashList, JSize* dashOffset) const;
 	virtual void	SetDashList(const JArray<JSize>& dashList, const JSize dashOffset = 0);
 						// must call inherited
 
-	bool		IsFilling() const;
+	bool			IsFilling() const;
 	void			SetFilling(const bool on);
 
 	// text
@@ -193,10 +193,10 @@ private:
 	JPoint		itsPenLoc;
 	JSize		itsLineWidth;
 	JColorID	itsPenColor;
-	bool	itsFillFlag;
+	bool		itsFillFlag;
 	JRect		itsClipRect;
 
-	bool		itsDrawDashedLinesFlag;
+	bool			itsDrawDashedLinesFlag;
 	JSize			itsDashOffset;
 	JArray<JSize>*	itsDashList;			// can be nullptr
 

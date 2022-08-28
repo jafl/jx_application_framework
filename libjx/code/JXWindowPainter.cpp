@@ -171,7 +171,7 @@ JXWindowPainter::Reset
 /******************************************************************************
  SetClipRegion
 
-	Must be in local coordinates.
+	Must be in global coordinates.
 
  ******************************************************************************/
 
@@ -235,9 +235,6 @@ JXWindowPainter::CalcClipRegion
 		XDestroyRegion(itsClipRegion);
 	}
 
-	const JPoint& o = GetOrigin();
-	XOffsetRegion(region, o.x, o.y);		// to global coords
-
 	if (itsDefClipRegion != nullptr)
 	{
 		itsClipRegion = XCreateRegion();
@@ -247,8 +244,6 @@ JXWindowPainter::CalcClipRegion
 	{
 		itsClipRegion = JXCopyRegion(region);
 	}
-
-	XOffsetRegion(region, -o.x, -o.y);		// back to local coords
 }
 
 /******************************************************************************
@@ -297,7 +292,7 @@ JXWindowPainter::SetClipRect
 		itsFontClipRegion = nullptr;
 	}
 
-	const JRect r        = JPainter::SetClipRect(userRect);
+	const JRect r    = JPainter::SetClipRect(userRect);
 	const bool empty = r.IsEmpty();
 	if (!empty)
 	{

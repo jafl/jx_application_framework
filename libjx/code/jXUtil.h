@@ -27,9 +27,9 @@ JXXToJRect
 	return JRect(rect.y, rect.x, rect.y + rect.height, rect.x + rect.width);
 }
 
-Region		JXRectangleRegion(XRectangle* rectangle);
-Region		JXRectangleRegion(const JRect& rect);
-JRect		JXGetRegionBounds(Region region);
+Region	JXRectangleRegion(XRectangle* rectangle);
+Region	JXRectangleRegion(const JRect& rect);
+JRect	JXGetRegionBounds(Region region);
 bool	JXRegionIsRectangle(Region region, JRect* rect = nullptr);
 
 Region	JXCopyRegion(Region region);

@@ -67,6 +67,9 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		*** Renamed IsOSX() to IsMacOS().
 //	JXFontNameMenu:
 //		*** Added constructor option to maintain history at the top of the menu.
+//	JXWindowPainter:
+//		*** Switched regions passed to Reset() and SetClipRegion()
+//			to global coordinates to avoid overflow.
 
 // version 3.1.0:
 //	JXGetStringDialog:

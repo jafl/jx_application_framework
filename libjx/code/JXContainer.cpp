@@ -311,13 +311,12 @@ JXContainer::DrawAll
 
 	// draw border in the strip around the aperture
 
-	const JRect frameRect    = GetFrameLocal();
-	const JRect apertureRect = GlobalToLocal(apClipRectG);
-	if (frameRect != apertureRect)
+	const JRect frameRectG = GetFrameGlobal();
+	if (frameRectG != apClipRectG)
 	{
-		XRectangle xFrameRect    = JXJToXRect(frameRect);
+		XRectangle xFrameRect    = JXJToXRect(frameRectG);
 		Region borderRegion      = JXRectangleRegion(&xFrameRect);
-		XRectangle xApertureRect = JXJToXRect(apertureRect);
+		XRectangle xApertureRect = JXJToXRect(apClipRectG);
 		JXSubtractRectFromRegion(borderRegion, &xApertureRect, borderRegion);
 		p.Reset(clipRectG, borderRegion);
 		DrawBorder(p, GetFrameLocal());
@@ -345,7 +344,6 @@ JXContainer::DrawAll
 				origDefClipRegion = JXCopyRegion(region);
 			}
 			p.SetDefaultClipRegion(visRegion);	// in case derived class calls Reset()
-			XOffsetRegion(visRegion, -boundsG.left, -boundsG.top);	// convert to local coordinates
 			p.Reset(apClipRectG, visRegion);
 		}
 		else

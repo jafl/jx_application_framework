@@ -35,7 +35,7 @@ public:
 	JXGC*			GetGC() const;
 
 	void	Reset() override;
-	void			Reset(const JRect& defClipRect, const Region clipRegion);
+	void	Reset(const JRect& defClipRect, const Region clipRegion);
 
 	Region	GetClipRegion() const;
 	void	SetClipRegion(const Region region);
@@ -44,9 +44,8 @@ public:
 	JRect	SetClipRect(const JRect& r) override;
 	void	SetDashList(const JArray<JSize>& dashList, const JSize dashOffset = 0) override;
 
-	void	StringNoSubstitutions(
-						const JCoordinate left, const JCoordinate top,
-						const JString& str) override;
+	void	StringNoSubstitutions(const JCoordinate left, const JCoordinate top,
+								  const JString& str) override;
 	void	String(const JFloat angle, const JCoordinate left,
 				   const JCoordinate top, const JString& str,
 				   const JCoordinate width = 0,
@@ -100,8 +99,8 @@ private:
 	JXDisplay*	itsDisplay;			// we don't own this
 	Drawable	itsDrawable;		// we don't own this
 	JXGC*		itsGC;				// we don't own this
-	Region		itsDefClipRegion;	// can be nullptr
-	Region		itsClipRegion;		// can be nullptr
+	Region		itsDefClipRegion;	// can be nullptr, global coords to avoid overflow
+	Region		itsClipRegion;		// can be nullptr, global coords to avoid overflow
 	XftDraw*	itsFontDrawable;	// nullptr until first needed
 	Region		itsFontClipRegion;
 	bool		itsResetShouldClearClipRegionFlag;
