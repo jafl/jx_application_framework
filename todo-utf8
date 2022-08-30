@@ -4,12 +4,6 @@ publish snap
 
 
 jcc
-/******************************************************************************
- fileVersions.h
-
-	select fileVersions.h, press return, then undo
-
-jcc
     with tab-inserts-spaces, select text, then press tab: doesn't replace selected text
 
 	scroll after undo/redo puts selection at bottom

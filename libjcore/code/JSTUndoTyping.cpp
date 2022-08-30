@@ -82,17 +82,22 @@ JSTUndoTyping::HandleCharacters
 
 	Call this -before- deleting the characters.
 
-	Iterator is modified.
-
  ******************************************************************************/
 
 void
 JSTUndoTyping::HandleDelete
 	(
-	const JStringMatch& match
+	const JStringMatch&	match,
+	const bool			fromAutoIndent
 	)
 {
 	assert( IsActive() );
+
+	if (fromAutoIndent)
+	{
+		assert( !match.IsEmpty() &&
+				match.GetCharacterRange().last <= itsOrigStartIndex.charIndex + itsCount.charCount - 1 );
+	}
 
 	const JString s(GetText()->GetText().GetBytes(), match.GetUtf8ByteRange(), JString::kNoCopy);
 	JStringIterator iter(s, kJIteratorStartAtEnd);
@@ -113,14 +118,17 @@ JSTUndoTyping::HandleDelete
 			byteCount -= iter.GetPrevByteIndex();
 		}
 
-		if (itsCount.charCount > 0)
+		const JIndex charIndex = iter.GetNextCharacterIndex() + firstCharIndex - 1;
+
+		if ((!fromAutoIndent && itsCount.charCount > 0) ||
+			( fromAutoIndent && charIndex >= itsOrigStartIndex.charIndex))
 		{
 			itsCount.charCount--;
 			itsCount.byteCount -= byteCount;
 		}
 		else
 		{
-			PrependToSave(c, iter.GetNextCharacterIndex() + firstCharIndex - 1);
+			PrependToSave(c, charIndex);
 			itsOrigStartIndex.charIndex--;
 			itsOrigStartIndex.byteIndex -= byteCount;
 		}
@@ -131,8 +139,6 @@ JSTUndoTyping::HandleDelete
  HandleFwdDelete
 
 	Call this -before- deleting the characters.
-
-	Iterator is modified.
 
  ******************************************************************************/
 

@@ -23,7 +23,7 @@ public:
 
 	void	Undo() override;
 
-	void	HandleDelete(const JStringMatch& match);
+	void	HandleDelete(const JStringMatch& match, const bool fromAutoIndent);
 	void	HandleFwdDelete(const JStringMatch& match);
 
 	void	HandleCharacters(const JStyledText::TextCount& count);

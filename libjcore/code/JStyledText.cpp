@@ -2304,7 +2304,7 @@ JStyledText::BackwardDelete
 
 	bool isNew;
 	JSTUndoTyping* typingUndo = GetTypingUndo(caretIndex, &isNew);
-	typingUndo->HandleDelete(match);
+	typingUndo->HandleDelete(match, false);
 
 	const JInteger charDelta = - (JInteger) r.GetCount(),
 				   byteDelta = - (JInteger) match.GetUtf8ByteRange().GetCount();
@@ -4180,7 +4180,7 @@ void
 JStyledText::NewUndo
 	(
 	JSTUndoBase*	undo,
-	const bool	isNew
+	const bool		isNew
 	)
 {
 	if (!isNew)
@@ -4554,7 +4554,7 @@ JStyledText::AutoIndent
 			// the previous line is blank, so clear it
 
 			const JStringMatch& m = iter->FinishMatch();
-			typingUndo->HandleDelete(m);
+			typingUndo->HandleDelete(m, true);
 
 			const TextRange deleteRange(m.GetCharacterRange(), m.GetUtf8ByteRange());
 			PrivateDeleteText(deleteRange);
