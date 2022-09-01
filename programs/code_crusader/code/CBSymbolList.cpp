@@ -23,8 +23,8 @@
 #include <jAssert.h>
 
 static const JCharacter* kCtagsArgs =
-	"--format=2 --excmd=number --sort=no --extra=q "
-	"--c-kinds=+p --php-kinds=-v --ant-kinds=t "
+	"--format=2 --excmd=number --sort=no --extras=q "
+	"--c-kinds=+p --php-kinds=-v --ant-kinds=t --javascript-kinds=cfgm "
 	CBCtagsBisonDef
 	CBCtagsBisonNonterminalDef
 	CBCtagsBisonNonterminalDecl

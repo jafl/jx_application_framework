@@ -112,8 +112,8 @@ menu_strings:
 
 .PHONY : ctags
 ctags:
-	@if ! test -f ${JX_ROOT}/misc/ctags/Makefile; then cd ${JX_ROOT}/misc/ctags; ./configure > /dev/null; fi
-	@cd ${JX_ROOT}/misc/ctags; ${MAKE}; strip ${call EXE, ctags}
+#	@if ! test -f ${JX_ROOT}/misc/ctags/Makefile; then cd ${JX_ROOT}/misc/ctags; ./configure > /dev/null; fi
+#	@cd ${JX_ROOT}/misc/ctags; ${MAKE}; strip ${call EXE, ctags}
 
 #
 # install binaries
@@ -200,7 +200,7 @@ static: debug
 
 .PHONY : personal
 personal: static ctags
-	@cp jcc ${JX_ROOT}/misc/ctags/ctags ${HOME}/bin/
+	@cp jcc ${HOME}/bin/
 	@mkdir -p ${HOME}/Man/man1
 	@cp ${JX_ROOT}/misc/ctags/ctags.1 ${HOME}/Man/man1/
 

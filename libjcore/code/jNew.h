@@ -1,3 +1,5 @@
+#if 0
+
 #ifndef _H_jNew
 #define _H_jNew
 
@@ -32,5 +34,12 @@ void JLocateDelete(const JCharacter* file, const JUInt32 line);
 
 #define jnew new(__FILE__, __LINE__)
 #define jdelete JLocateDelete(__FILE__, __LINE__), delete
+
+#endif
+
+#else
+
+#define jnew new
+#define jdelete delete
 
 #endif

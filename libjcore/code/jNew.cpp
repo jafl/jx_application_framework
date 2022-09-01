@@ -1,3 +1,5 @@
+#if 0
+
 /******************************************************************************
  jNew.cpp
 
@@ -124,3 +126,5 @@ JLocateDelete
 {
 	JMemoryManager::Instance()->LocateDelete(file, line);
 }
+
+#endif

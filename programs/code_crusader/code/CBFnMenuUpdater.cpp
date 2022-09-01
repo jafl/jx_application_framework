@@ -25,7 +25,7 @@
 // sort=no requires so qualified tag comes after unqualified version
 
 static const JCharacter* kCtagsArgs =
-	"--format=1 --excmd=number --sort=no --extra=q "
+	"--format=1 --excmd=number --sort=no --extras=q "
 	"--ant-kinds=t "
 	"--asm-kinds=l "
 	"--asp-kinds=fs "
@@ -63,7 +63,7 @@ static const JCharacter* kCtagsArgs =
 	"--c#-kinds=m "
 	"--erlang-kinds=f "
 	"--sml-kinds=fc "
-	"--javascript-kinds=f "
+	"--javascript-kinds=fm "
 	"--basic-kinds=f "
 	"--matlab-kinds=f "
 	"--flex-kinds=fm ";
