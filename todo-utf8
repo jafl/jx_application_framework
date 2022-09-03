@@ -1,14 +1,10 @@
-publish snap
-	systemg
-
-
-
 jcc
-	if undo or redo and affected region is completely outside viewport, scroll to center
-
 	include partial path in symbol search results when display duplicate file name?
 		/Users/jolindal/projects/vendomatic/src/main/webapp/public/sso.php
 		validateLogin
+
+medic
+	if close last window and program running, open command line
 
 systemg slow to open new window
 

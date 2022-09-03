@@ -1535,7 +1535,7 @@ bool
 JXTEBase::TEScrollToRect
 	(
 	const JRect&	rect,
-	const bool	centerInDisplay
+	const bool		centerInDisplay
 	)
 {
 	if (centerInDisplay && rect.right <= GetApertureWidth())

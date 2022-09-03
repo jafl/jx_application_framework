@@ -1119,7 +1119,7 @@ bool
 JXWidget::ScrollToRectCentered
 	(
 	const JRect&	origRect,
-	const bool	forceScroll
+	const bool		forceScroll
 	)
 {
 	const JRect ap = GetAperture();
