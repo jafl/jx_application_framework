@@ -95,6 +95,8 @@ JSTUndoTextBase::UndoText
 
 	Prepend the character to the save text.
 
+	TODO: optimize callers to avoid random access into JST style run array.
+
  ******************************************************************************/
 
 void
@@ -112,6 +114,8 @@ JSTUndoTextBase::PrependToSave
  AppendToSave (protected)
 
 	Append the character at index to the save text.
+
+	TODO: optimize callers to avoid random access into JST style run array.
 
  ******************************************************************************/
 
