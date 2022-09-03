@@ -357,7 +357,7 @@ public:
 							const JUtf8Character& key, const JFont& font,
 							TextCount* count);
 
-	void	InsertSpacesForTab(const TextIndex& lineStart, const TextIndex& caretIndex);
+	JStyledText::TextRange	InsertSpacesForTab(const TextIndex& lineStart, const TextRange& replaceRange);
 
 	static bool	ContainsIllegalChars(const JString& text);
 	static bool	RemoveIllegalChars(JString* text, JRunArray<JFont>* style = nullptr);

@@ -4,9 +4,7 @@ publish snap
 
 
 jcc
-    with tab-inserts-spaces, select text, then press tab: doesn't replace selected text
-
-	scroll after undo/redo puts selection at bottom
+	if undo or redo and affected region is completely outside viewport, scroll to center
 
 	include partial path in symbol search results when display duplicate file name?
 		/Users/jolindal/projects/vendomatic/src/main/webapp/public/sso.php

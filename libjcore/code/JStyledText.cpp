@@ -4584,16 +4584,16 @@ JStyledText::AutoIndent
 
  ******************************************************************************/
 
-void
+JStyledText::TextRange
 JStyledText::InsertSpacesForTab
 	(
 	const TextIndex& lineStart,
-	const TextIndex& caretIndex
+	const TextRange& replaceRange
 	)
 {
-	JIndex column = GetColumnForChar(lineStart, caretIndex);
+	JIndex column = GetColumnForChar(lineStart, replaceRange.GetFirst());
 
-	if (caretIndex.charIndex == itsText.GetCharacterCount()+1 && EndsWithNewline())
+	if (replaceRange.charRange.first == itsText.GetCharacterCount()+1 && EndsWithNewline())
 	{
 		column = 1;
 	}
@@ -4606,10 +4606,7 @@ JStyledText::InsertSpacesForTab
 		space.Append(" ");
 	}
 
-	Paste(TextRange(
-			JCharacterRange(caretIndex.charIndex, 0),
-			JUtf8ByteRange(caretIndex.byteIndex, 0)),
-		  space);
+	return Paste(replaceRange, space);
 }
 
 /******************************************************************************

@@ -238,8 +238,13 @@ JTEDefaultKeyHandler::HandleKeyPress
 
 	else if (st->TabInsertsSpaces() && key == '\t')
 	{
-		const TextIndex i = te->GetInsertionIndex();
-		st->InsertSpacesForTab(te->GetLineStart(te->GetLineForChar(i.charIndex)), i);
+		TextRange r;
+		if (!te->GetSelection(&r))
+		{
+			r = TextRange(te->GetInsertionIndex(), TextCount());
+		}
+		r = st->InsertSpacesForTab(te->GetLineStart(te->GetLineForChar(r.charRange.first)), r);
+		te->SetCaretLocation(r.GetAfter());
 	}
 
 	else if (key.IsPrint() || key == '\n' || key == '\t')
