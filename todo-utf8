@@ -1,11 +1,3 @@
-jcc
-	include partial path in symbol search results when display duplicate file name?
-		/Users/jolindal/projects/vendomatic/src/main/webapp/public/sso.php
-		validateLogin
-
-medic
-	if close last window and program running, open command line
-
 systemg slow to open new window
 
 
@@ -40,6 +32,10 @@ JStyledText
 
 jcc
 	JXDocumentMenu - show partial paths for repeated file names
+
+	include partial path in symbol search results when display duplicate file name?
+		/Users/jolindal/projects/vendomatic/src/main/webapp/public/sso.php
+		validateLogin
 
 	Editor Prefs
 		Emulator drop-down should be radio buttons
@@ -147,10 +143,6 @@ test every function that uses JStringIterator, Split
 		FitModule
 		GVarList
 		GlovePlotter
-
-test JStringIterator usage:
-	JTranslateLocalToRemote
-	JTranslateRemoteToLocal
 
 -----
 

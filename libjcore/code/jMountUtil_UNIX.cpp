@@ -1101,7 +1101,7 @@ JTranslateLocalToRemote
 	while (const mntent* info = getmntent(f))
 	{
 		if (jCalledByTranslateLocalToRemote(localPath, info->mnt_fsname,
-									 		info->mnt_dir, &found, host, remotePath))
+											info->mnt_dir, &found, host, remotePath))
 		{
 			break;		// localPath only on one partition
 		}
@@ -1153,7 +1153,7 @@ jCalledByTranslateRemoteToLocal
 
 			JStringIterator iter2(localPath);
 			iter2.BeginMatch();
-			iter2.MoveTo(kJIteratorStartAfter, p.GetCharacterCount()-1);
+			iter2.MoveTo(kJIteratorStartBefore, p.GetCharacterCount());
 			iter2.FinishMatch();
 			iter2.ReplaceLastMatch(JString(mountDir, JString::kNoCopy));
 
@@ -1329,9 +1329,9 @@ JIsSamePartition
 	)
 {
 	ACE_stat stbuf1, stbuf2;
-	return ACE_OS::stat(path1.GetBytes(), &stbuf1) == 0 &&
-				ACE_OS::stat(path2.GetBytes(), &stbuf2) == 0 &&
-				stbuf1.st_dev == stbuf2.st_dev;
+	return (ACE_OS::stat(path1.GetBytes(), &stbuf1) == 0 &&
+			ACE_OS::stat(path2.GetBytes(), &stbuf2) == 0 &&
+			stbuf1.st_dev == stbuf2.st_dev;
 }
 
 /******************************************************************************
