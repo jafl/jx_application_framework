@@ -1,3 +1,8 @@
+jcc svn diff
+	~/svn/co/foo/bar.txt
+
+
+
 systemg slow to open new window
 
 
@@ -70,16 +75,6 @@ D tree
 
 test jcc with old project formats in code_crusader/test-manual/*.jcc
 
------
-
-glove
-	clean up .fd to match current layouts
-	test layouts on Linux and OS X
-
-	test column transform:  add two columns
-
-	ci
-
 clean up tutorial
 
 -----
@@ -107,23 +102,13 @@ jcc
 ---
 
 test every usage of JStringIterator
-	glove
-	jcc
 	medic
 
 test every usage of JRegex::Match
-	glove
 	jcc
 	medic
 
 test every usage of JRunArrayIterator
-	libjcore
-		JSTStyler
-	libjx
-		JXStringList
-		JXStyledText
-		JXTextMenuData
-	glove
 	jcc
 	medic
 
@@ -134,15 +119,21 @@ test
 	JVersionSocket - wait for version notice
 	code_medic on ubuntu with lldb-6.0
 
-test every function that uses JStringIterator, Split
-	jcc
-		?
-	medic
-		?
-	glove
-		FitModule
-		GVarList
-		GlovePlotter
+-----
+
+glove
+	clean up .fd to match current layouts
+	test layouts on Linux and OS X
+
+	test column transform:  add two columns
+
+	test every usage of:
+		JStringIterator
+		JRegex::Match
+		JRunArrayIterator
+		Split
+
+	ci
 
 -----
 

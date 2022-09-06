@@ -1331,7 +1331,7 @@ JIsSamePartition
 	ACE_stat stbuf1, stbuf2;
 	return (ACE_OS::stat(path1.GetBytes(), &stbuf1) == 0 &&
 			ACE_OS::stat(path2.GetBytes(), &stbuf2) == 0 &&
-			stbuf1.st_dev == stbuf2.st_dev;
+			stbuf1.st_dev == stbuf2.st_dev);
 }
 
 /******************************************************************************

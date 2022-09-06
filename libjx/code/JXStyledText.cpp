@@ -60,7 +60,7 @@ JXStyledText::~JXStyledText()
 }
 
 /******************************************************************************
- NeedsToAdjustFontToDisplayGlyphs(virtual protected)
+ NeedsToAdjustFontToDisplayGlyphs (virtual protected)
 
  ******************************************************************************/
 

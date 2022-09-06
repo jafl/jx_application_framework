@@ -178,14 +178,14 @@ JSTStyler::UpdateStyles
 
 		itsIterator->MoveTo(kJIteratorStartBefore, firstIndex);		// see below; faster to start here
 		itsCheckRange.charRange.Set(itsIterator->GetRunStart(), endIndex);
-	{
+		{
 		JStringIterator iter(text);
 		iter.UnsafeMoveTo(kJIteratorStartBefore, recalcRange->charRange.first, recalcRange->byteRange.first);
 		iter.MoveTo(kJIteratorStartBefore, itsIterator->GetRunStart());
 		itsCheckRange.byteRange.first = iter.GetNextByteIndex();
 		iter.MoveTo(kJIteratorStartAfter, endIndex);
 		itsCheckRange.byteRange.last = iter.GetPrevByteIndex();
-	}
+		}
 
 		// let derived class expand the range
 
@@ -285,7 +285,7 @@ JSTStyler::PreexpandCheckRange
 	const JString&			text,
 	const JRunArray<JFont>&	styles,
 	const JCharacterRange&	modifiedRange,
-	const bool			deletion,
+	const bool				deletion,
 	TextRange*				checkRange
 	)
 {

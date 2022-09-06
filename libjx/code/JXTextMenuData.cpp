@@ -1193,7 +1193,7 @@ JXTextMenuData::ConfigureTable
 		JRunArrayIterator<JCoordinate> iter(itsItemHeights);
 		JCoordinate h;
 		JIndex i=0;
-		while(iter.Next(&h))
+		while (iter.Next(&h))
 		{
 			i++;
 			table->SetRowHeight(i,h);
