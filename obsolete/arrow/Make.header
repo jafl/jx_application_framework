@@ -66,16 +66,16 @@ endif
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${ljfs} ${J_STD_LIBS}
+LDLIBS := -L${JLIBDIR} ${ljfs} ${J_STD_LIBS}
 ifdef J_BUILD_SHARED_LIB
-  LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
+  LDFLAGS += -Xlinker -R${RPM_LIB_PATH}
 endif
 
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${ljfs} ${ljx} ${ljcore} ${J_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_X11_LIBS} ${J_GCC_LIBS}
+DEBUG_LDLIBS := -L${JLIBDIR} \
+                ${J_BEGIN_LINK_STATIC} \
+                ${ljfs} ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                ${J_END_LINK_STATIC} \
+                ${J_X11_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -151,7 +151,7 @@ release: pre_build_pkgs static menu_strings
 .PHONY : debug
 debug: staticACE libs
 	@${RM} arrow
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" arrow
+	@${MAKE} "LDLIBS=${DEBUG_LDLIBS}" arrow
 
 #
 # static binary

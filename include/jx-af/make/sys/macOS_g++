@@ -4,6 +4,8 @@
 
 include ${MAKE_INCLUDE}/jx_constants
 
+BREW_ROOT := $(shell brew --prefix)
+
 #
 # Adjustable parameters
 #
@@ -24,7 +26,7 @@ J_RAW_SYSTEM_STUFF := \
   -D_J_LLDB_HAS_SBVALUE_GETSUMMARY \
   -D_J_HAS_SYSCTL -D_XFT_NO_COMPAT_
 
-SEARCHDIRS += -I/usr/local/include/freetype2
+SEARCHDIRS += -I${BREW_ROOT}/include -I${BREW_ROOT}/include/freetype2
 
 J_HAS_SYSCTL := yes
 
@@ -47,16 +49,17 @@ CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL} \
             $(shell pkg-config --cflags icu-i18n libpcre)
 CFLAGS    =
 CXXFLAGS  = -std=c++17
+LDFLAGS   = -L/opt/X11/lib -L${BREW_ROOT}/lib
 
 # libraries to link - must use XQuartz instead of Homebrew X11
 
 J_GCC_LIBS  := ${shell pkg-config --libs icu-i18n libpcre} -lstdc++
 J_ACE_LIBS  := -lACE
-J_X11_LIBS  := -L/opt/X11/lib -lXext -lXft -lfontconfig -lXpm -lX11
+J_X11_LIBS  := -lXext -lXft -lfontconfig -lXpm -lX11
 
 # lldb
 
-J_LLDB_LIBS          := -L/usr/local/opt/llvm/lib -llldb
+J_LLDB_LIBS          := -L${BREW_ROOT}/opt/llvm/lib -llldb
 J_POST_LINK_LLDB_CMD := install_name_tool -add_rpath /Library/Developer/CommandLineTools/Library/PrivateFrameworks
 
 # modify settings based on OS, compiler, etc.

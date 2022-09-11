@@ -40,8 +40,7 @@ LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a \
 
 # make variables
 
-LOADLIBES := ${J_STD_LIBS}
-LDFLAGS   := 
+LDLIBES := ${J_STD_LIBS}
 
 #####
 

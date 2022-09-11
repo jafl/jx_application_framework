@@ -18,8 +18,7 @@ LIBS := ${JX_LIB_ROOT}/libjcore.a
 
 # make variables
 
-LOADLIBES := ${J_ACE_LIBS} ${J_GCC_LIBS}
-LDFLAGS   :=
+LDLIBS := ${J_ACE_LIBS} ${J_GCC_LIBS}
 
 #####
 

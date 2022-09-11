@@ -14,12 +14,8 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} -g ${SEARCHDIRS}
 
 # library dependencies
 
-LOADLIBES := ${J_ACE_LIBS} ${J_GCC_LIBS}
-LIB_DEPS  := ${JX_LIB_ROOT}/libjcore.a
-
-# make variables
-
-LDFLAGS :=
+LDLIBS   := ${J_ACE_LIBS} ${J_GCC_LIBS}
+LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a
 
 #####
 

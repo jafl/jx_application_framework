@@ -20,8 +20,7 @@ LIB_DEPS := ${JX_LIB_ROOT}/libjexpr.a \
 
 # make variables
 
-LOADLIBES := -lreflex ${J_ACE_LIBS} ${J_GCC_LIBS}
-LDFLAGS   :=
+LDLIBS := -lreflex ${J_ACE_LIBS} ${J_GCC_LIBS}
 
 # tests
 

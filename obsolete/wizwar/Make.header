@@ -48,8 +48,7 @@ endif
 
 # make variables
 
-LOADLIBES := ${J_STD_LIBS}
-LDFLAGS   := 
+LDLIBS := ${J_STD_LIBS}
 
 #####
 
@@ -58,8 +57,8 @@ WAR_LIBS := -L${JLIBDIR} ${ljcore} ${J_ACE_LIBS} ${J_GCC_LIBS}
 
 .PHONY : default
 default: libs
-	@${MAKE} "LOADLIBES=${WIZ_LIBS}" wiz
-	@${MAKE} "LOADLIBES=${WAR_LIBS}" war
+	@${MAKE} "LDLIBS=${WIZ_LIBS}" wiz
+	@${MAKE} "LDLIBS=${WAR_LIBS}" war
 
 .PHONY : Makefiles
 Makefiles:
@@ -115,8 +114,8 @@ WAR_DEBUG_LIBS := -L${JLIBDIR} \
 .PHONY : debug
 debug: staticACE libs
 	@${RM} wiz war
-	@${MAKE} "LOADLIBES=${WIZ_DEBUG_LIBS}" wiz
-	@${MAKE} "LOADLIBES=${WAR_DEBUG_LIBS}" war
+	@${MAKE} "LDLIBS=${WIZ_DEBUG_LIBS}" wiz
+	@${MAKE} "LDLIBS=${WAR_DEBUG_LIBS}" war
 
 #
 # publish beta version

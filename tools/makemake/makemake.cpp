@@ -537,7 +537,7 @@ main
 
 			output << "  else\n";
 
-				output << "\t${LINKER} ${LDFLAGS} -o $@ $^ ${LOADLIBES}\n";
+				output << "\t${LINKER} ${LDFLAGS} -o $@ $^ ${LDLIBS}\n";
 
 			output << "  endif\n";
 		}

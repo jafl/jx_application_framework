@@ -25,8 +25,7 @@ LIB_DEPS := ${JX_LIB_ROOT}/libj2dplot.a \
 
 # make variables
 
-LOADLIBES := ${J_STD_LIBS}
-LDFLAGS   := 
+LDLIBS := ${J_STD_LIBS}
 
 #####
 

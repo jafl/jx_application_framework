@@ -22,8 +22,7 @@ CPPFLAGS += -Wno-sign-compare
 ifeq ($(CXX),g++)
   CPPFLAGS += -Wno-maybe-uninitialized
 endif
-LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
-LDFLAGS   := 
+LDLIBS := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
 
 # tests
 

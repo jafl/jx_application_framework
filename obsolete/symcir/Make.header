@@ -73,16 +73,15 @@ endif
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} ${ljx} ${ljcore} \
-             -L${MATHDIR} -lML ${J_SYS_LIBS}
-LDFLAGS   := 
+LDLIBS := -L${JLIBDIR} ${lj2dplot} ${ljexpr} ${ljx} ${ljcore} \
+          -L${MATHDIR} -lML ${J_SYS_LIBS}
 
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${lj2dplot} ${ljexpr} \
-                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_X11_LIBS} -L${MATHDIR} -lML ${J_GCC_LIBS}
+DEBUG_LDLIBS := -L${JLIBDIR} \
+                ${J_BEGIN_LINK_STATIC} \
+                ${lj2dplot} ${ljexpr} \
+                ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                ${J_END_LINK_STATIC} \
+                ${J_X11_LIBS} -L${MATHDIR} -lML ${J_GCC_LIBS}
 
 #####
 
@@ -131,7 +130,7 @@ jxuninstall:
 .PHONY : debug
 debug: staticACE libs
 	@${RM} symcir
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" symcir
+	@${MAKE} "LDLIBS=${DEBUG_LDLIBS}" symcir
 
 #
 # static binary

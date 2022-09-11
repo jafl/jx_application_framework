@@ -26,11 +26,6 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                ${J_COMPILE_DEBUG} ${J_BUILD_SHARED_LIB} \
                ${SEARCHDIRS}
 
-# make variables
-
-LOADLIBES := 
-LDFLAGS   := 
-
 #####
 
 LIB_NAME_ROOT := libjcal-${JCAL_LIB_VERSION}

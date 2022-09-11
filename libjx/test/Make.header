@@ -14,9 +14,8 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} -g ${SEARCHDIRS}
 
 # make variables
 
-CPPFLAGS  += -Wno-sign-compare
-LOADLIBES := ${J_STD_LIBS}
-LDFLAGS   := 
+CPPFLAGS += -Wno-sign-compare
+LDLIBS   := ${J_STD_LIBS}
 
 # tests
 

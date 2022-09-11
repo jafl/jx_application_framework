@@ -57,9 +57,8 @@ endif
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${lj3d} ${ljx} ${ljcore} \
-             ${J_MESA_LIBS} ${J_IMG_LIBS} ${J_SYS_LIBS}
-LDFLAGS   := 
+LDLIBS := -L${JLIBDIR} ${lj3d} ${ljx} ${ljcore} \
+          ${J_MESA_LIBS} ${J_IMG_LIBS} ${J_SYS_LIBS}
 
 #####
 
@@ -90,16 +89,16 @@ testj3d:: strings
 # debugging version
 #
 
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${lj3d} ${ljx} ${ljcore} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_MESA_LIBS} ${J_SYS_LIBS}
+DEBUG_LDLIBS := -L${JLIBDIR} \
+                ${J_BEGIN_LINK_STATIC} \
+                ${lj3d} ${ljx} ${ljcore} \
+                ${J_END_LINK_STATIC} \
+                ${J_MESA_LIBS} ${J_SYS_LIBS}
 
 .PHONY : debug
 debug: libs
 	@${RM} testj3d
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" testj3d
+	@${MAKE} "LDLIBS=${DEBUG_LDLIBS}" testj3d
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 
