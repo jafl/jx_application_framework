@@ -121,6 +121,7 @@ elif command -v apt-get; then
 
 	if [[ -z $LGTM_SRC ]]; then
 		$SUDO apt update;
+		$SUDO apt -y remove libgd;
 		$SUDO apt -y install curl \
 			g++ bison make automake \
 			libx11-dev libxinerama-dev libxft-dev libxmu-dev libxi-dev \
