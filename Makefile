@@ -113,7 +113,7 @@ analyze_coverage: initial_build_makemake
          echo $$root; \
          gcov -lp --object-directory $$root $$p/$${f%.*}.o; \
          ls -l *.gcov || true; \
-         mv -f *.gcov $$root; \
+         mv -f *.gcov $$root || true; \
      done
 
 #  &> /dev/null
