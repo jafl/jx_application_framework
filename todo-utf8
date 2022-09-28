@@ -1,3 +1,30 @@
+test every usage of JStringIterator
+	medic
+
+test every usage of JRegex::Match
+	jcc
+	medic
+
+test every usage of JRunArrayIterator
+	jcc
+	medic
+
+test
+	JVersionSocket - wait for version notice
+	code_medic on ubuntu with lldb-6.0
+
+unit test
+	JStyledText - every usage of JRunArrayIterator
+	JTextEditor - every usage of JRunArrayIterator
+	JTable - especially JRunArrayIterator
+	JTableSelection - especially JRunArrayIterator
+	JStringTableData
+	JFloatTableData
+	JPTPrinter - send to file
+	JVIKeyHandler:  split into multiple tests covering all options
+
+-----
+
 jcc svn diff
 	~/svn/co/foo/bar.txt
 
@@ -79,16 +106,6 @@ clean up tutorial
 
 -----
 
-unit test
-	JStyledText - every usage of JRunArrayIterator
-	JTextEditor - every usage of JRunArrayIterator
-	JTable - especially JRunArrayIterator
-	JTableSelection - especially JRunArrayIterator
-	JStringTableData
-	JFloatTableData
-	JPTPrinter - send to file
-	JVIKeyHandler:  split into multiple tests covering all options
-
 JTextEditor:
 	need smarter update during indent/outdent, to maintain caret location
 		when caret in another view is inside the affected range
@@ -99,27 +116,8 @@ jcc
 	menu of supported text formats in "open text file" dialog
 	sub-menu of supported text formats on File menu, just like "file formats"
 
----
-
-test every usage of JStringIterator
-	medic
-
-test every usage of JRegex::Match
-	jcc
-	medic
-
-test every usage of JRunArrayIterator
-	jcc
-	medic
-
 JXFontManager
 	some characters extend above line height
-
-test
-	JVersionSocket - wait for version notice
-	code_medic on ubuntu with lldb-6.0
-
------
 
 glove
 	clean up .fd to match current layouts
