@@ -110,7 +110,7 @@ analyze_coverage: initial_build_makemake
      for f in `find . -name '*.gcno'`; do \
          echo $$f; \
          root=$$p/$${f%/*}; \
-         echo $$root;
+         echo $$root; \
          gcov -lp --object-directory $$root $$p/$${f%.*}.o; \
          ls -l *.gcov || true; \
          mv -f *.gcov $$root; \
