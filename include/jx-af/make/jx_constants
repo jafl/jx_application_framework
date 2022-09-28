@@ -30,8 +30,10 @@ JX_LIB_ROOT     := ${JX_ROOT}/lib
 
 ifdef SNAPCRAFT_PART_INSTALL
   APP_DATA_PREFIX := ${SNAPCRAFT_PART_INSTALL}
+else ifeq ($(shell uname -s),Darwin)
+  APP_DATA_PREFIX := $(shell brew --prefix)
 else
-  APP_DATA_PREFIX := /usr/local
+  APP_DATA_PREFIX :=
 endif
 
 APP_DATA_PATH := /etc/jx-af
