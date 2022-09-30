@@ -47,8 +47,8 @@ static const JString kDefTopEnclVarName("window", JString::kNoCopy);
 
 // Data files (search for at startup)
 
-static const JString kMainConfigFileDir   (CONFIG_FILE_DIR, JString::kNoCopy);
-static const JString kEnvUserConfigFileDir("JXLAYOUTDIR",   JString::kNoCopy);
+static const JUtf8Byte* kMainConfigFileDir = CONFIG_FILE_DIR;
+static const JString kEnvUserConfigFileDir("JXLAYOUTDIR", JString::kNoCopy);
 
 static JString classMapFile      ("class_map",        JString::kNoCopy);
 static JString optionMapFile     ("option_map",       JString::kNoCopy);
@@ -1883,7 +1883,14 @@ FindConfigFile
 		return true;
 	}
 
-	const JString mainFileName = JCombinePathAndName(kMainConfigFileDir, *configFileName);
+	JString mainConfigFileDir(kMainConfigFileDir);
+	if (!JIsAbsolutePath(mainConfigFileDir))	// it's the app signature
+	{
+		JString s;
+		JGetDataDirectories(kMainConfigFileDir, "", &mainConfigFileDir, &s);
+	}
+
+	const JString mainFileName = JCombinePathAndName(mainConfigFileDir, *configFileName);
 	if (JFileExists(mainFileName))
 	{
 		*configFileName = mainFileName;
@@ -1902,7 +1909,7 @@ FindConfigFile
 	}
 
 	std::cerr << "Unable to find " << *configFileName << std::endl;
-	std::cerr << "  please install it in " << kMainConfigFileDir << std::endl;
+	std::cerr << "  please install it in " << mainConfigFileDir << std::endl;
 	std::cerr << "  or setenv " << kEnvUserConfigFileDir << " to point to it" << std::endl;
 	return false;
 }

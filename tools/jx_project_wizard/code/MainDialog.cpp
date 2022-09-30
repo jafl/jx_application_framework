@@ -29,8 +29,10 @@
 const JSize kHistoryLength = 20;
 
 static const JString kDefaultURLText("http://", JString::kNoCopy);
-static const JString kDefaultTemplateDir(TEMPLATE_PATH "/app_template", JString::kNoCopy);
 static const JString kDefaultOpenCmd("jcc $f", JString::kNoCopy);
+
+static const JUtf8Byte* kDefaultTemplateDir = TEMPLATE_ROOT;
+static const JUtf8Byte* kAppTemplateDir     = "app_template";
 
 static const JString kBinaryPrefixTag("_Binary_", JString::kNoCopy);
 
@@ -274,8 +276,15 @@ MainDialog::BuildWindow
 	itsProjectDir->ShouldAllowInvalidPath();
 	itsProjectDir->ShouldRequireWritable();
 
+	JString defaultTemplateDir(kDefaultTemplateDir);
+	if (!JIsAbsolutePath(defaultTemplateDir))	// it's the app signature
+	{
+		JString s;
+		JGetDataDirectories(kDefaultTemplateDir, kAppTemplateDir, &defaultTemplateDir, &s);
+	}
+
 	itsTemplateDir->ShouldAllowInvalidPath();
-	itsTemplateDir->GetText()->SetText(kDefaultTemplateDir);
+	itsTemplateDir->GetText()->SetText(defaultTemplateDir);
 
 	itsOpenCmd->GetText()->SetText(kDefaultOpenCmd);
 

@@ -3,20 +3,23 @@
 # With no arguments, this script must install from an unpacked tgz.
 
 PRE=$1
-
-BIN=$PRE/usr/bin
-DOC=$PRE/usr/share/doc/<Binary>
-APP=$PRE/usr/share/applications
-ICON=$PRE/usr/share/pixmaps
-
-if [[ ! -z $PRE ]]; then
-	mkdir -p $BIN $APP $ICON;
+if [[ -z $PRE ]]; then
+	PRE=/usr/local;
 fi
 
+BIN=$PRE/bin
+DOC=$PRE/share/doc/<Binary>
+APP=$PRE/share/applications
+ICON=$PRE/share/pixmaps
+
+mkdir -p $BIN;
 install -m755 <Binary> $BIN
 
 mkdir -p $DOC
 cp README.md COPYING menu_strings $DOC
 
-cp desktop/<Binary>.desktop $APP/
-cp desktop/<Binary>.xpm     $ICON/
+if [[ -d desktop ]]; then
+	mkdir -p $APP $ICON;
+	cp desktop/*.desktop $APP/;
+	cp desktop/*.png     $ICON/;
+fi

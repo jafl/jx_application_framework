@@ -30,6 +30,13 @@ ${BIN_NAME}:: strings
 
 .PHONY : post_link
 post_link::
+  ifdef J_MACOS_ENABLE_CORE
+	@if [[ -x /usr/libexec/PlistBuddy ]]; then \
+        /usr/libexec/PlistBuddy -c "Add :com.apple.security.get-task-allow bool true" tmp.entitlements > /dev/null; \
+        codesign -s - -f --entitlements tmp.entitlements ${BIN_NAME}; \
+        rm -f tmp.entitlements; \
+    fi
+  endif
 
 .PHONY : Makefiles
 Makefiles::
@@ -99,13 +106,15 @@ EXE_NAME := $(call EXE,${BIN_NAME})
 
 .PHONY : install
 install:: ${BIN_NAME}
+  ifndef J_MACOS_ENABLE_CORE
 	@${J_STRIP_DEBUG} ${EXE_NAME}
-	@mkdir -p ${JX_INSTALL_ROOT}/bin
-	@cp ${EXE_NAME} ${JX_INSTALL_ROOT}/bin
+  endif
+	@mkdir -p ${JX_INSTALL_BIN}
+	@cp ${EXE_NAME} ${JX_INSTALL_BIN}
 
 .PHONY : uninstall
 uninstall::
-	@${RM} ${JX_INSTALL_ROOT}/bin/${EXE_NAME}
+	@${RM} ${JX_INSTALL_BIN}/${EXE_NAME}
 
 #
 # Strings
@@ -217,7 +226,7 @@ DEB_INSTALL_SCRIPT_PATH = $(dir $(shell find debian -name install))
 
 .PHONY : _build_deb_sub
 _build_deb_sub:
-	@cd ${DEB_INSTALL_SCRIPT_PATH}; ./install ..
+	@cd ${DEB_INSTALL_SCRIPT_PATH}; ./install ../usr/local
 	@${RM} -r debian/${SOURCE_TAR_NAME} ${DEB_INSTALL_SCRIPT_PATH}
 
 #

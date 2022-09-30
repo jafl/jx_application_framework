@@ -12,9 +12,12 @@ include ${MAKE_INCLUDE}/jx_config
 SEARCHDIRS := -I./code ${SEARCHDIRS}
 
 ifeq (${J_IS_RELEASE_BUILD},1)
-  JX_PATH            := ${APP_DATA_PREFIX}
-  APP_DATA_FILE_DIR  := ${APP_DATA_PREFIX}${APP_DATA_PATH}/jx_project_wizard
-  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}${APP_DATA_PATH}/jx_project_wizard
+  ifeq ($(shell uname -s),Darwin)
+    JX_PATH := $(shell brew --prefix)
+  else
+    JX_PATH := /usr/local
+  endif
+  APP_DATA_FILE_DIR := ${APP_NAME}
 else
   JX_PATH            := $(shell cd ${JX_ROOT}; pwd)
   APP_DATA_FILE_DIR  := ${JX_PATH}/tools/jx_project_wizard
@@ -24,7 +27,7 @@ endif
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS} \
                -DJX_PATH=\"${JX_PATH}\" \
-               -DTEMPLATE_PATH=\"${APP_DATA_FILE_DIR}\"
+               -DTEMPLATE_ROOT=\"${APP_DATA_FILE_DIR}\"
 
 # library dependencies
 
@@ -46,14 +49,14 @@ include ${MAKE_INCLUDE}/app_targets
 .PHONY : install
 install::
   ifeq (${J_IS_RELEASE_BUILD},1)
-	@mkdir -p ${ROOT_DATA_FILE_DIR}
-	@cp -r ${TMPL_DIRS} ${ROOT_DATA_FILE_DIR}
+	@mkdir -p ${JX_INSTALL_DATA}/${APP_NAME}
+	@cp -r ${TMPL_DIRS} ${JX_INSTALL_DATA}/${APP_NAME}
   endif
 
 .PHONY : uninstall
 uninstall::
   ifeq (${J_IS_RELEASE_BUILD},1)
-	@${RM} -r ${ROOT_DATA_FILE_DIR}
+	@${RM} -r ${JX_INSTALL_DATA}/${APP_NAME}
   endif
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.

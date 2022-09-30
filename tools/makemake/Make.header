@@ -28,12 +28,12 @@ include ${MAKE_INCLUDE}/app_targets
 .PHONY : install
 install::
 	@chmod a+x ${SCRIPT_FILES}
-	@mkdir -p ${JX_INSTALL_ROOT}/bin
-	@cp ${SCRIPT_FILES} ${JX_INSTALL_ROOT}/bin
+	@mkdir -p ${JX_INSTALL_BIN}
+	@cp ${SCRIPT_FILES} ${JX_INSTALL_BIN}
 
 .PHONY : uninstall
 uninstall::
-	@${RM} $(addprefix ${JX_INSTALL_ROOT}/bin/, ${SCRIPT_FILES})
+	@${RM} $(addprefix ${JX_INSTALL_BIN}/, ${SCRIPT_FILES})
 
 ### makemake inserts here ###
 

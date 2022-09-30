@@ -1,3 +1,5 @@
+##make
+
 JX_ROOT := ../..
 
 APP_NAME := makemake
@@ -19,8 +21,8 @@ EXE_NAME := ${call EXE,${APP_NAME}}
 .PHONY : install
 install: makemake
 	@${J_STRIP_DEBUG} ${EXE_NAME}
-	@mkdir -p ${JX_INSTALL_ROOT}/bin
-	@cp ${APP_NAME} ${JX_INSTALL_ROOT}/bin
+	@mkdir -p ${JX_INSTALL_BIN}
+	@cp ${APP_NAME} ${JX_INSTALL_BIN}
 	@if { command -v makemake > /dev/null; } then \
          { \
          echo "makemake successfully installed"; \
@@ -30,9 +32,9 @@ install: makemake
          echo; \
          echo "makemake is not on your execution path.  It was placed in"; \
          echo; \
-         echo "    ${JX_INSTALL_ROOT}/bin"; \
+         echo "    ${JX_INSTALL_BIN}"; \
          echo; \
-         echo "Please add this to your execution path and restart start the build."; \
+         echo "Please add this to your execution path and restart the build."; \
          echo; \
          false; \
          } \

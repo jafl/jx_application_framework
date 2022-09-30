@@ -14,11 +14,14 @@
 
 #define CURRENT_JFS_MAJOR_VERSION	2
 #define CURRENT_JFS_MINOR_VERSION	0
-#define CURRENT_JFS_PATCH_VERSION	0
+#define CURRENT_JFS_PATCH_VERSION	1
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJFSLibVersionStr = "2.0.0";
+static const char* kCurrentJFSLibVersionStr = "2.0.1";
+
+// version 2.0.1:
+//	*** Moved global bindings file to $(brew --prefix)/jx/jfs/file_bindings on macOS
 
 // version 2.0.0:
 //	Supports utf-8

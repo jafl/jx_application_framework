@@ -34,7 +34,7 @@ JError
 JSimpleProcess::Create
 	(
 	const JString&	cmdStr,
-	const bool	detach
+	const bool		detach
 	)
 {
 	JSimpleProcess* p;
@@ -52,7 +52,7 @@ JSimpleProcess::Create
 	(
 	JSimpleProcess**	process,
 	const JString&		cmdStr,
-	const bool		deleteWhenFinished
+	const bool			deleteWhenFinished
 	)
 {
 	pid_t childPID;
@@ -79,7 +79,7 @@ JSimpleProcess::Create
 	(
 	const JString&	workingDirectory,
 	const JString&	cmdStr,
-	const bool	detach
+	const bool		detach
 	)
 {
 	JSimpleProcess* p;
@@ -98,7 +98,7 @@ JSimpleProcess::Create
 	JSimpleProcess**	process,
 	const JString&		workingDirectory,
 	const JString&		cmdStr,
-	const bool		deleteWhenFinished
+	const bool			deleteWhenFinished
 	)
 {
 	pid_t childPID;
@@ -124,7 +124,7 @@ JError
 JSimpleProcess::Create
 	(
 	const JPtrArray<JString>&	argList,
-	const bool				detach
+	const bool					detach
 	)
 {
 	JSimpleProcess* p;
@@ -142,7 +142,7 @@ JSimpleProcess::Create
 	(
 	JSimpleProcess**			process,
 	const JPtrArray<JString>&	argList,
-	const bool				deleteWhenFinished
+	const bool					deleteWhenFinished
 	)
 {
 	pid_t childPID;
@@ -169,7 +169,7 @@ JSimpleProcess::Create
 	(
 	const JString&				workingDirectory,
 	const JPtrArray<JString>&	argList,
-	const bool				detach
+	const bool					detach
 	)
 {
 	JSimpleProcess* p;
@@ -188,7 +188,7 @@ JSimpleProcess::Create
 	JSimpleProcess**			process,
 	const JString&				workingDirectory,
 	const JPtrArray<JString>&	argList,
-	const bool				deleteWhenFinished
+	const bool					deleteWhenFinished
 	)
 {
 	pid_t childPID;
@@ -215,7 +215,7 @@ JSimpleProcess::Create
 	(
 	const JUtf8Byte*	argv[],
 	const JSize			size,
-	const bool		detach
+	const bool			detach
 	)
 {
 	JSimpleProcess* p;
@@ -234,7 +234,7 @@ JSimpleProcess::Create
 	JSimpleProcess**	process,
 	const JUtf8Byte*	argv[],
 	const JSize			size,
-	const bool		deleteWhenFinished
+	const bool			deleteWhenFinished
 	)
 {
 	pid_t childPID;
@@ -262,7 +262,7 @@ JSimpleProcess::Create
 	const JString&		workingDirectory,
 	const JUtf8Byte*	argv[],
 	const JSize			size,
-	const bool		detach
+	const bool			detach
 	)
 {
 	JSimpleProcess* p;
@@ -282,7 +282,7 @@ JSimpleProcess::Create
 	const JString&		workingDirectory,
 	const JUtf8Byte*	argv[],
 	const JSize			size,
-	const bool		deleteWhenFinished
+	const bool			deleteWhenFinished
 	)
 {
 	pid_t childPID;
@@ -313,7 +313,7 @@ JSimpleProcess::JSimpleProcess
 	(
 	const pid_t		pid,
 	const int		fd,
-	const bool	deleteWhenFinished
+	const bool		deleteWhenFinished
 	)
 	:
 	JProcess(pid),

@@ -10,9 +10,6 @@ If you want the binaries installed somewhere other than `~/bin` (or
 `./bin`, if `~/bin` doesn't exist), set the environment variable
 `JX_INSTALL_ROOT` to the desired directory.
 
-If you do not want the binaries to be installed anywhere, set
-`J_WANT_INSTALL` to `0`.
-
 To compile the tutorials or test suites, go to the directory and run first
 makemake and then make.
 

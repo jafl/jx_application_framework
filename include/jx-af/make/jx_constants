@@ -29,25 +29,20 @@ JX_INCLUDE_ROOT := ${JX_ROOT}/include
 JX_LIB_ROOT     := ${JX_ROOT}/lib
 
 ifdef SNAPCRAFT_PART_INSTALL
-  APP_DATA_PREFIX := ${SNAPCRAFT_PART_INSTALL}
-else ifeq ($(shell uname -s),Darwin)
-  APP_DATA_PREFIX := $(shell brew --prefix)
-else
-  APP_DATA_PREFIX :=
-endif
-
-APP_DATA_PATH := /etc/jx-af
-
-ifdef SNAPCRAFT_PART_INSTALL
   JX_INSTALL_ROOT := ${SNAPCRAFT_PART_INSTALL}
 else ifeq ($(shell whoami),root)
-  JX_INSTALL_ROOT := ${APP_DATA_PREFIX}
+  JX_INSTALL_ROOT := /usr/local
 else
   JX_INSTALL_ROOT := \
     ${shell if [[ -d ${HOME}/bin && -w ${HOME}/bin ]]; \
             then echo ${HOME}; \
             else mkdir -p ${JX_ROOT}/bin; cd ${JX_ROOT}; pwd; fi }
 endif
+
+JX_INSTALL_BIN  := ${JX_INSTALL_ROOT}/bin
+JX_INSTALL_LIB  := ${JX_INSTALL_ROOT}/lib
+JX_INSTALL_INC  := ${JX_INSTALL_ROOT}/include/jx-af
+JX_INSTALL_DATA := ${JX_INSTALL_ROOT}/share
 
 SEARCHDIRS := -I${JX_INCLUDE_ROOT}
 

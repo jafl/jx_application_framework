@@ -33,7 +33,7 @@ static bool theIncludeCWDOnPathFlag = false;
 
 // Private functions
 
-void		JCleanArg(JString* arg);
+void	JCleanArg(JString* arg);
 bool	JProgramAvailable(const JString& programName, JString* fixedName);
 
 /******************************************************************************

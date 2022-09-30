@@ -85,7 +85,7 @@ public:
 	void	Quit();
 	void	Kill();
 
-	void		WaitUntilFinished();
+	void	WaitUntilFinished();
 	bool	IsFinished() const;
 	bool	SuccessfulFinish() const;
 	bool	GetFinishReason(JChildExitReason* reason, int* result) const;
@@ -99,22 +99,22 @@ public:
 	JError	SetPriority(const int priority);
 
 	bool	WillDeleteWhenFinished() const;
-	void		ShouldDeleteWhenFinished(const bool deleteObj = true);
+	void	ShouldDeleteWhenFinished(const bool deleteObj = true);
 
 	static void	CheckForFinishedChild(const bool block);
 
 	bool	WillQuitAtExit() const;
-	void		QuitAtExit(const bool quit = true);
+	void	QuitAtExit(const bool quit = true);
 
 	bool	WillKillAtExit() const;
-	void		KillAtExit(const bool kill = true);
+	void	KillAtExit(const bool kill = true);
 
 private:
 
 	const pid_t	itsPID;
-	bool	itsIsFinishedFlag;
+	bool		itsIsFinishedFlag;
 	int			itsFinishedStatus;
-	bool	itsAutoDeleteFlag;	// true => delete when process is finished
+	bool		itsAutoDeleteFlag;	// true => delete when process is finished
 
 	static JPtrArray<JProcess>	theProcessList;		// sorted by pid
 

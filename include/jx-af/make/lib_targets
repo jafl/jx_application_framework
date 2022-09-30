@@ -4,9 +4,9 @@
 #
 # requires the variables:
 #   LIB_NAME_ROOT -- root of library's name (e.g. "libjcore")
-#   JX_INSTALL_ROOT -- installation root containing bin, lib, include
+#   JX_INSTALL_LIB -- installation root for lib
+#   JX_INSTALL_INC -- installation root for include
 
-INCLUDE_INSTALL_ROOT := ${JX_INSTALL_ROOT}/include/jx-af
 INCLUDE_INSTALL_NAME := $(subst lib,,${LIB_NAME_ROOT})
 
 .PHONY : default
@@ -17,23 +17,23 @@ default: ${LIB_NAME_ROOT}.a
 
 .PHONY : install
 install:
-	@mkdir -p ${JX_INSTALL_ROOT}/lib ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
-	@cp ${LIB_NAME_ROOT}.a ${JX_INSTALL_ROOT}/lib
-	@cp code/*.h ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
-	@-cp code/*.hpp ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
-	@-cp code/*.tmpl ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME}
+	@mkdir -p ${JX_INSTALL_LIB} ${JX_INSTALL_INC}/${INCLUDE_INSTALL_NAME}
+	@cp ${LIB_NAME_ROOT}.a ${JX_INSTALL_LIB}
+	@cp code/*.h ${JX_INSTALL_INC}/${INCLUDE_INSTALL_NAME}
+	@-cp code/*.hpp ${JX_INSTALL_INC}/${INCLUDE_INSTALL_NAME}
+	@-cp code/*.tmpl ${JX_INSTALL_INC}/${INCLUDE_INSTALL_NAME}
 	@if [[ -d strings ]]; then \
-         mkdir -p ${INCLUDE_INSTALL_ROOT}/strings/${INCLUDE_INSTALL_NAME}; \
-         cp strings/* ${INCLUDE_INSTALL_ROOT}/strings/${INCLUDE_INSTALL_NAME}; \
+         mkdir -p ${JX_INSTALL_INC}/strings/${INCLUDE_INSTALL_NAME}; \
+         cp strings/* ${JX_INSTALL_INC}/strings/${INCLUDE_INSTALL_NAME}; \
      fi
 	@if [[ -d image ]]; then \
-         mkdir -p ${INCLUDE_INSTALL_ROOT}/image/${INCLUDE_INSTALL_NAME}; \
-         cp image/* ${INCLUDE_INSTALL_ROOT}/image/${INCLUDE_INSTALL_NAME}; \
+         mkdir -p ${JX_INSTALL_INC}/image/${INCLUDE_INSTALL_NAME}; \
+         cp image/* ${JX_INSTALL_INC}/image/${INCLUDE_INSTALL_NAME}; \
      fi
 
 .PHONY : uninstall
 uninstall:
-	@${RM} -r ${JX_INSTALL_ROOT}/lib/${LIB_NAME_ROOT}.a \
-              ${INCLUDE_INSTALL_ROOT}/${INCLUDE_INSTALL_NAME} \
-              ${INCLUDE_INSTALL_ROOT}/strings/${INCLUDE_INSTALL_NAME} \
-              ${INCLUDE_INSTALL_ROOT}/image/${INCLUDE_INSTALL_NAME}
+	@${RM} -r ${JX_INSTALL_LIB}/${LIB_NAME_ROOT}.a \
+              ${JX_INSTALL_INC}/${INCLUDE_INSTALL_NAME} \
+              ${JX_INSTALL_INC}/strings/${INCLUDE_INSTALL_NAME} \
+              ${JX_INSTALL_INC}/image/${INCLUDE_INSTALL_NAME}

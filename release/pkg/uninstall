@@ -2,13 +2,12 @@
 
 PRE=$1;
 if [[ -z $PRE ]]; then
-	PRE=/usr;
+    PRE=/usr/local;
 fi
 
 BIN=$PRE/bin;
 LIB=$PRE/lib;
 INC=$PRE/include;
-ETC=/usr/local/etc;
 
 rm -f $BIN/compile_jstrings \
       $BIN/jx_memory_debugger \
@@ -26,5 +25,3 @@ rm -f $LIB/libjcore.a \
       $LIB/libj2dplot.a;
 
 rm -rf $INC/jx-af;
-
-rm -rf $ETC/jx-af;

@@ -1,6 +1,16 @@
 #!/bin/bash
 
-rm -f  /usr/bin/<Binary>;
-rm -rf /usr/share/doc/<Binary>;
-rm -f  `find /usr/share/applications -name '<Binary>*.desktop'`;
-rm -f  `find /usr/share/pixmaps -name '<Binary>*.xpm'`;
+PRE=$1;
+if [[ -z $PRE ]]; then
+	PRE=/usr/local;
+fi
+
+BIN=$PRE/bin;
+DOC=$PRE/share/doc/<Binary>;
+APP=$PRE/share/applications;
+ICON=$PRE/share/pixmaps;
+
+rm -f  $BIN/<Binary>;
+rm -rf $DOC;
+rm -f  `find $APP -name '<Binary>*.desktop'`;
+rm -f  `find $ICON -name '<Binary>*.xpm'`;

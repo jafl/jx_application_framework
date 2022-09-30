@@ -19,14 +19,7 @@
 #include <sstream>
 #include <jx-af/jcore/jAssert.h>
 
-#ifdef _J_MACOS
-static const JUtf8Byte* kGlobalBindingsFile = "/usr/local/lib/jx/jfs/file_bindings";
-#else
-static const JUtf8Byte* kGlobalBindingsFile = "/usr/lib/jx/jfs/file_bindings";
-#endif
-
-static const JString kUserExtensionBindingRoot("jx/jfs/file_bindings", JString::kNoCopy);
-static const JString kOrigUserExtensionBindingFile("~/.systemG.filebindings", JString::kNoCopy);
+static const JString kExtensionBindingRoot("jx/jfs/file_bindings", JString::kNoCopy);
 static const JString kSignalFileName("~/.jx/jfs/file_bindings.signal", JString::kNoCopy);
 
 const JFileVersion kCurrentBindingVersion = 2;
@@ -614,7 +607,10 @@ JFSBindingList::Revert()
 
 	// read system bindings
 
-	std::ifstream sysInput(kGlobalBindingsFile);
+	JString sysFile, userFile;
+	JGetDataDirectories("", kExtensionBindingRoot.GetBytes(), &sysFile, &userFile);
+
+	std::ifstream sysInput(sysFile.GetBytes());
 	if (sysInput.good())
 	{
 		Load(sysInput, true);
@@ -625,45 +621,28 @@ JFSBindingList::Revert()
 
 	JPrefsFile* file = nullptr;
 	if (!itsSignalFileName.IsEmpty() &&
-		(JPrefsFile::Create(kUserExtensionBindingRoot, &file,
-							JFileArray::kDeleteIfWaitTimeout)).OK())
+		(JPrefsFile::Create(kExtensionBindingRoot, &file,
+							JFileArray::kDeleteIfWaitTimeout)).OK() &&
+		!file->IsEmpty())
 	{
-		if (file->IsEmpty())
+		for (JFileVersion vers = kCurrentBindingVersion; true; vers--)
 		{
-			JString origUserFile;
-			if (JExpandHomeDirShortcut(kOrigUserExtensionBindingFile, &origUserFile) &&
-				JFileReadable(origUserFile))
+			if (file->IDValid(vers))
 			{
-				std::ifstream userInput(origUserFile.GetBytes());
-				if (userInput.good())
-				{
-					Load(userInput, false);
-					userMsg = JGetString("UpgradeFromVersion1::JFSBindingList");
-				}
+				std::string data;
+				file->GetData(vers, &data);
+				std::istringstream input(data);
+				Load(input, false);
+				break;
+			}
+
+			if (vers == 0)
+			{
+				break;	// check *before* decrement since unsigned
 			}
 		}
-		else
-		{
-			for (JFileVersion vers = kCurrentBindingVersion; true; vers--)
-			{
-				if (file->IDValid(vers))
-				{
-					std::string data;
-					file->GetData(vers, &data);
-					std::istringstream input(data);
-					Load(input, false);
-					break;
-				}
-
-				if (vers == 0)
-				{
-					break;	// check *before* decrement since unsigned
-				}
-			}
-		}
-
-		jdelete file;
 	}
+	jdelete file;
 
 	if (IsEmpty())		// nothing loaded
 	{
@@ -771,7 +750,7 @@ JError
 JFSBindingList::Save()
 {
 	JPrefsFile* file = nullptr;
-	const JError err = JPrefsFile::Create(kUserExtensionBindingRoot, &file,
+	const JError err = JPrefsFile::Create(kExtensionBindingRoot, &file,
 										  JFileArray::kDeleteIfWaitTimeout);
 	if (err.OK())
 	{

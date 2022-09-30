@@ -13,7 +13,7 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
 #####
 
 LIB_NAME_ROOT := lib<Binary>
-include ${JX_INCLUDE_ROOT}/jx-af/make/lib_targets
+include ${MAKE_INCLUDE}/lib_targets
 
 .PHONY : Makefiles
 Makefiles:

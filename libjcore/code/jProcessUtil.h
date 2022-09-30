@@ -40,7 +40,7 @@ enum JChildExitReason
 // Prototypes
 
 bool	JWillIncludeCWDOnPath();
-void		JShouldIncludeCWDOnPath(const bool includeCWD);
+void	JShouldIncludeCWDOnPath(const bool includeCWD);
 
 bool	JProgramAvailable(const JString& programName);
 

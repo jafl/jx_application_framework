@@ -22,7 +22,8 @@ chomp(my $url = `curl -sL https://api.github.com/repos/jafl/${repo_name}/release
 my $file = `curl -L $url`;
 my $hash = sha256_hex($file);
 
-my $rb = "/usr/local/Homebrew/Library/Taps/jafl/homebrew-jx/Formula/${app_name}.rb";
+chomp(my $brew_prefix = `brew --prefix`);
+my $rb = "${brew_prefix}/Library/Taps/jafl/homebrew-jx/Formula/${app_name}.rb";
 my $formula;
 open(F, "< $rb");
 {
@@ -39,4 +40,4 @@ open(F, "> $rb");
 print F $formula;
 close(F);
 
-exec("systemg /usr/local/Homebrew/Library/Taps/jafl/homebrew-jx");
+exec("systemg ${brew_prefix}/Library/Taps/jafl/homebrew-jx");

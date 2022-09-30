@@ -11,8 +11,7 @@ MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
 ifeq (${J_IS_RELEASE_BUILD},1)
-  APP_DATA_FILE_DIR  := ${APP_DATA_PREFIX}${APP_DATA_PATH}/jxlayout
-  ROOT_DATA_FILE_DIR := ${JX_INSTALL_ROOT}${APP_DATA_PATH}/jxlayout
+  APP_DATA_FILE_DIR  := ${APP_NAME}
 else
   APP_DATA_FILE_DIR  := $(shell cd ${JX_ROOT}; pwd)/tools/jxlayout
 endif
@@ -41,16 +40,16 @@ include ${MAKE_INCLUDE}/app_targets
 .PHONY : install
 install::
   ifeq (${J_IS_RELEASE_BUILD},1)
-	@cp jfdesign ${JX_INSTALL_ROOT}/bin
-	@mkdir -p ${ROOT_DATA_FILE_DIR}
-	@cp ${DATA_FILES} ${ROOT_DATA_FILE_DIR}
+	@cp jfdesign ${JX_INSTALL_BIN}
+	@mkdir -p ${JX_INSTALL_DATA}/${APP_NAME}
+	@cp ${DATA_FILES} ${JX_INSTALL_DATA}/${APP_NAME}
   else
-	@ln -sf $$(pwd)/jfdesign ${JX_INSTALL_ROOT}/bin
+	@ln -sf $$(pwd)/jfdesign ${JX_INSTALL_BIN}
   endif
 
 .PHONY : uninstall
 uninstall::
-	@${RM} ${JX_INSTALL_ROOT}/bin/jfdesign
+	@${RM} ${JX_INSTALL_BIN}/jfdesign
   ifeq (${J_IS_RELEASE_BUILD},1)
-	@${RM} -r ${ROOT_DATA_FILE_DIR}
+	@${RM} -r ${JX_INSTALL_DATA}/${APP_NAME}
   endif

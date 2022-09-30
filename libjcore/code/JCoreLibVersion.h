@@ -122,6 +122,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		*** Removed unused J_TIME_T_MAX.
 //	JArray:
 //		*** Renamed SearchSorted1 to SearchSortedOTI (option to insert).
+//	Updated JGetDataDirectories() to use homebrew path on macOS.
 
 // version 3.2.0:
 //	jMountUtil:

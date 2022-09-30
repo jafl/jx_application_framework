@@ -8,6 +8,8 @@
 #include "jx-af/jcore/jGlobals.h"
 #include "jx-af/jcore/jDirUtil.h"
 #include "jx-af/jcore/jFileUtil.h"
+#include "jx-af/jcore/JProcess.h"
+#include "jx-af/jcore/jStreamUtil.h"
 #include "jx-af/jcore/jAssert.h"
 
 /******************************************************************************
@@ -23,13 +25,11 @@
 
  ******************************************************************************/
 
-#ifdef _J_MACOS
-const JUtf8Byte* kSystemDataFileDir = "/usr/local/lib/";
-#else
-const JUtf8Byte* kSystemDataFileDir = "/usr/lib/";
-#endif
+static const JString kDefaultSystemRoot("/usr/local", JString::kNoCopy);
+static const JString kSystemDataFileDir("share", JString::kNoCopy);
+static const JUtf8Byte* kUserDataFileDir = "~/.";
 
-const JUtf8Byte* kUserDataFileDir = "~/.";
+static JString systemDataFileDir;
 
 bool
 JGetDataDirectories
@@ -40,7 +40,39 @@ JGetDataDirectories
 	JString*			userDir
 	)
 {
-	*sysDir  = kSystemDataFileDir;
+	if (systemDataFileDir.IsEmpty())
+	{
+		if (JProgramAvailable(JString("brew", JString::kNoCopy)))
+		{
+			const JUtf8Byte* argv[] = { "brew", "--prefix", nullptr };
+			JProcess* p;
+			int fd;
+			const JError err =
+				JProcess::Create(
+					&p, argv, sizeof(argv),
+					kJIgnoreConnection, nullptr,
+					kJCreatePipe, &fd);
+
+			if (err.OK())
+			{
+				JReadAll(fd, &systemDataFileDir);
+				systemDataFileDir.TrimWhitespace();
+				if (!systemDataFileDir.IsEmpty())
+				{
+					systemDataFileDir = JCombinePathAndName(systemDataFileDir, kSystemDataFileDir);
+				}
+
+				jdelete p;
+			}
+		}
+
+		if (systemDataFileDir.IsEmpty())
+		{
+			systemDataFileDir = JCombinePathAndName(kDefaultSystemRoot, kSystemDataFileDir);
+		}
+	}
+
+	*sysDir  = systemDataFileDir;
 	*sysDir += signature;
 	*sysDir  = JCombinePathAndName(*sysDir, JString(dirName, JString::kNoCopy));
 

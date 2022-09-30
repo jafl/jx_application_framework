@@ -3,11 +3,11 @@ JX_ROOT := .
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
-JMAKE = ${MAKE} PATH=${PATH}:${JX_INSTALL_ROOT}/bin:/usr/local/opt/bison/bin:/opt/homebrew/opt/bison/bin
+JMAKE = ${MAKE} PATH=${PATH}:${JX_INSTALL_BIN}:/usr/local/opt/bison/bin:/opt/homebrew/opt/bison/bin
 
 .PHONY : default
 default:
-	@mkdir -p ${JX_INSTALL_ROOT}/bin
+	@mkdir -p ${JX_INSTALL_BIN}
 	@${JMAKE} initial_build
 
 .PHONY : release
@@ -137,18 +137,18 @@ layouts:
 install:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE, \
        ${IF_DIR} ${JMAKE} install; ${ENDIF_DIR})
-	@cp -RL ${MAKE_INCLUDE} ${JX_ROOT}/include/jx-af/scripts ${JX_INSTALL_ROOT}/include/jx-af
+	@cp -RL ${MAKE_INCLUDE} ${JX_ROOT}/include/jx-af/scripts ${JX_INSTALL_INC}
   ifdef SNAPCRAFT_PART_INSTALL
-	@cp ${JX_ROOT}/misc/reflex/bin/reflex ${JX_INSTALL_ROOT}/bin
-	@cp ${JX_ROOT}/misc/reflex/lib/*.a ${JX_INSTALL_ROOT}/lib
-	@cp -R ${JX_ROOT}/misc/reflex/include/reflex ${JX_INSTALL_ROOT}/include
+	@cp ${JX_ROOT}/misc/reflex/bin/reflex ${JX_INSTALL_BIN}
+	@cp ${JX_ROOT}/misc/reflex/lib/*.a ${JX_INSTALL_LIB}
+	@cp -R ${JX_ROOT}/misc/reflex/include/reflex ${JX_INSTALL_INC}/..
   endif
 
 .PHONY : uninstall
 uninstall:
 	@$(foreach dir, $(wildcard lib?* tools/*) ACE, \
        ${IF_DIR} ${MAKE} uninstall; ${ENDIF_DIR})
-	@${RM} -r ${JX_INSTALL_ROOT}/include/jx-af
+	@${RM} -r ${JX_INSTALL_INC}
 
 #
 # build packages
@@ -184,7 +184,7 @@ build_release:
   endif
 
   ifeq (${HAS_DEB},1)
-	@cd ${PKG_PATH}; mkdir -p usr/local DEBIAN; mv bin lib include etc usr/local;
+	@cd ${PKG_PATH}; mkdir -p usr/local DEBIAN; mv bin lib include usr/local;
 	@cp release/pkg/jx_application_framework.debctrl ${PKG_PATH}/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' ${PKG_PATH}/DEBIAN/control;
 	@perl -pi -e 's/%ARCH%/${SYS_ARCH}/' ${PKG_PATH}/DEBIAN/control
