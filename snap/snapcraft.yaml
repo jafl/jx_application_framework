@@ -32,11 +32,11 @@ parts:
     autotools-configure-parameters:
       - release
     stage:
-      - include
-      - lib
-      - bin/compile_jstrings
-      - bin/makemake
-      - bin/reflex
+      - usr/local/include
+      - usr/local/lib
+      - usr/local/bin/compile_jstrings
+      - usr/local/bin/makemake
+      - usr/local/bin/reflex
     build-packages:
       - g++
       - make
