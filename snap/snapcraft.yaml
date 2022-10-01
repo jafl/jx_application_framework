@@ -31,12 +31,16 @@ parts:
       - LANG: en_US.UTF-8
     autotools-configure-parameters:
       - release
+    organize:
+      usr/local/bin/compile_jstrings: bin/compile_jstrings
+      usr/local/bin/makemake: bin/makemake
+      usr/local/bin/reflex: bin/reflex
     stage:
       - usr/local/include
       - usr/local/lib
-      - usr/local/bin/compile_jstrings
-      - usr/local/bin/makemake
-      - usr/local/bin/reflex
+      - bin/compile_jstrings
+      - bin/makemake
+      - bin/reflex
     build-packages:
       - g++
       - make
