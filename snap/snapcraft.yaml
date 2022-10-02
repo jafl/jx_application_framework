@@ -32,12 +32,14 @@ parts:
     autotools-configure-parameters:
       - release
     organize:
+      usr/local/include: include
+      usr/local/lib: lib
       usr/local/bin/compile_jstrings: bin/compile_jstrings
       usr/local/bin/makemake: bin/makemake
       usr/local/bin/reflex: bin/reflex
     stage:
-      - usr/local/include
-      - usr/local/lib
+      - include
+      - lib
       - bin/compile_jstrings
       - bin/makemake
       - bin/reflex
