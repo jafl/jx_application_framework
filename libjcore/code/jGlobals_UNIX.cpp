@@ -6,7 +6,6 @@
  ******************************************************************************/
 
 #include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jDirUtil.h"
 #include "jx-af/jcore/jFileUtil.h"
 #include "jx-af/jcore/JProcess.h"
 #include "jx-af/jcore/jStreamUtil.h"
@@ -63,6 +62,17 @@ JGetDataDirectories
 				}
 
 				jdelete p;
+			}
+		}
+		else
+		{
+			JString s1, s2;
+			const JError err = JGetSymbolicLinkTarget(JString("/proc/self/exe", JString::kNoCopy), &s1);
+			if (err.OK())
+			{
+				JSplitPathAndName(s1, &systemDataFileDir, &s2);
+				systemDataFileDir = JCombinePathAndName(systemDataFileDir, JString("..", JString::kNoCopy));
+				systemDataFileDir = JCombinePathAndName(systemDataFileDir, kSystemDataFileDir);
 			}
 		}
 
