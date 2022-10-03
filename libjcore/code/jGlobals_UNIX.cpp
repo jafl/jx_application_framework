@@ -68,6 +68,8 @@ JGetDataDirectories
 		{
 			JString s1, s2;
 			const JError err = JGetSymbolicLinkTarget(JString("/proc/self/exe", JString::kNoCopy), &s1);
+std::cout << "symlink: " << err.GetMessage() << std::endl;
+std::cout << "/proc/self/exe: " << s1 << std::endl;
 			if (err.OK())
 			{
 				JSplitPathAndName(s1, &systemDataFileDir, &s2);
@@ -75,7 +77,7 @@ JGetDataDirectories
 				systemDataFileDir = JCombinePathAndName(systemDataFileDir, kSystemDataFileDir);
 			}
 		}
-
+std::cout << "systemDataFileDir: " << systemDataFileDir << std::endl;
 		if (systemDataFileDir.IsEmpty())
 		{
 			systemDataFileDir = JCombinePathAndName(kDefaultSystemRoot, kSystemDataFileDir);
