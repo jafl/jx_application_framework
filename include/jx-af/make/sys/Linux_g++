@@ -78,8 +78,7 @@ J_X11_LIBS  := ${J_XINERAMA_LIBS} -lfontconfig -lXext -lXft -lXpm -lX11
 
 # lldb
 
-J_LLDB_LIBS          := -L/usr/lib64/llvm -llldb
-J_POST_LINK_LLDB_CMD := :
+J_LLDB_LIBS := -L/usr/lib64/llvm -llldb
 
 # modify settings based on OS, compiler, etc.
 

@@ -59,8 +59,7 @@ J_X11_LIBS  := -lXext -lXft -lfontconfig -lXpm -lX11
 
 # lldb
 
-J_LLDB_LIBS          := -L${BREW_ROOT}/opt/llvm/lib -llldb
-J_POST_LINK_LLDB_CMD := install_name_tool -add_rpath /Library/Developer/CommandLineTools/Library/PrivateFrameworks
+J_LLDB_LIBS := -L${BREW_ROOT}/opt/llvm/lib -llldb
 
 # modify settings based on OS, compiler, etc.
 
