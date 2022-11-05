@@ -295,7 +295,7 @@ public:
 	bool	SetFontStyle(const TextRange& range,
 						 const JFontStyle& style, const bool clearUndo);
 	void	SetFont(const TextRange& range,
-				const JFont& font, const bool clearUndo);
+					const JFont& font, const bool clearUndo);
 
 	void	SetAllFontNameAndSize(const JString& name, const JSize size,
 								  const bool clearUndo);
@@ -953,8 +953,7 @@ inline bool
 JStyledText::EndsWithNewline()
 	const
 {
-	return !itsText.IsEmpty() &&
-				itsText.GetLastCharacter() == '\n';
+	return !itsText.IsEmpty() && itsText.GetLastCharacter() == '\n';
 }
 
 /******************************************************************************
