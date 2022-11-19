@@ -175,9 +175,9 @@ JUnsupportedVCS	"$file is either not managed by a version control system or is m
 # jWebUtil
 
 JRemindNewVersion
-"An improved version of this program ($vers) is available for download from $site.
+"An improved version of this program ($vers) is available for download.
 
-Would you like to go there now to download it?"
+Would you like to download it now?"
 
 # JTextEditor
 

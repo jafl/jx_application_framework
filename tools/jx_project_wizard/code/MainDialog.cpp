@@ -28,7 +28,7 @@
 
 const JSize kHistoryLength = 20;
 
-static const JString kDefaultURLText("http://", JString::kNoCopy);
+static const JString kDefaultURLText("https://", JString::kNoCopy);
 static const JString kDefaultOpenCmd("jcc $f", JString::kNoCopy);
 
 static const JUtf8Byte* kDefaultTemplateDir = TEMPLATE_ROOT;

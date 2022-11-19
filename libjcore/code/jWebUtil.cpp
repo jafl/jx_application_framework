@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include "jx-af/jcore/jWebUtil.h"
-#include "jx-af/jcore/JVersionSocket.h"
+#include "jx-af/jcore/JUpdateChecker.h"
 #include "jx-af/jcore/JRegex.h"
 #include "jx-af/jcore/JStringMatch.h"
 #include "jx-af/jcore/JWebBrowser.h"
@@ -147,9 +147,6 @@ JGetDefaultPort
 
  ******************************************************************************/
 
-using VersionSocket    = JVersionSocket<ACE_SOCK_STREAM>;
-using VersionConnector = ACE_Connector<VersionSocket, ACE_SOCK_CONNECTOR>;
-
 void
 JCheckForNewerVersion
 	(
@@ -157,32 +154,14 @@ JCheckForNewerVersion
 	const JPrefID&	prefID
 	)
 {
-	const JString& versionURL = JGetString("VERSION_URL");
+	auto* updater = jnew JUpdateChecker(prefsMgr, prefID);
+	assert( updater != nullptr );
 
-	JString protocol, host, path;
-	JIndex port;
-	if (!JParseURL(versionURL, &protocol, &host, &port, &path))
-	{
-		std::cerr << "unable to parse url: " << versionURL << std::endl;
-		return;
-	}
-
-	if (port == 0 && !JGetDefaultPort(protocol, &port))
-	{
-		std::cerr << "unknown protocol in versionURL: " << versionURL << std::endl;
-		return;
-	}
-
-	auto* socket = new VersionSocket(host, path, prefsMgr, prefID);
-	assert( socket != nullptr );
-
-	const JString vers = socket->GetLatestVersion();
-	if (socket->TimeToRemind())
+	if (updater->TimeToRemind())
 	{
 		const JUtf8Byte* map[] =
 		{
-			"vers", vers.GetBytes(),
-			"site", host.GetBytes()
+			"vers", updater->GetLatestVersion().GetBytes()
 		};
 		const JString msg = JGetString("JRemindNewVersion", map, sizeof(map));
 		if (JGetUserNotification()->AskUserYes(msg))
@@ -191,22 +170,5 @@ JCheckForNewerVersion
 		}
 	}
 
-	if (socket->TimeToCheck())
-	{
-		ACE_INET_Addr addr(port, host.GetBytes());
-
-		auto* connector = new VersionConnector;
-		assert( connector != nullptr );
-
-		if (connector->connect(socket, addr, ACE_Synch_Options::asynch) == -1 &&
-			jerrno() != EAGAIN)
-		{
-//			std::cerr << "unable to open socket: " << versionURL << std::endl;
-			delete connector;
-		}
-	}
-	else
-	{
-		delete socket;
-	}
+	updater->CheckForNewerVersion();
 }

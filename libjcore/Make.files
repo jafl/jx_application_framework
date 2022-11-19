@@ -130,6 +130,7 @@
 .cpp ./code/JBroadcastTester
 .cpp ./code/JBroadcastSnooper
 .cpp ./code/JMDIServer
+.cpp ./code/JUpdateChecker
 .cpp ./code/jMouseUtil
 .cpp ./code/JStopWatch
 .cpp ./code/jSysUtil_UNIX

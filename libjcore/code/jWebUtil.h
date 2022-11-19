@@ -24,7 +24,7 @@ enum
 
 bool	JIsURL(const JString& s);
 bool	JParseURL(const JString& url, JString* protocol,
-					  JString* host, JIndex* port, JString* path);
+				  JString* host, JIndex* port, JString* path);
 bool	JGetDefaultPort(const JString& protocol, JIndex* port);
 
 void	JCheckForNewerVersion(JPrefsManager* prefsMgr, const JPrefID& prefID);

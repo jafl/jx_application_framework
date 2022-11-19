@@ -783,8 +783,8 @@ JRead
 bool
 JReadAll
 	(
-	const int		input,
-	JString*		str,
+	const int	input,
+	JString*	str,
 	const bool	closeInput
 	)
 {

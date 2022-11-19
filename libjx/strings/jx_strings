@@ -2,7 +2,7 @@
 
 # Copyright (C) 2000 by John Lindal.
 
-CREDITS_URL	"http://libjx.sourceforge.net/help/credits.html"
+CREDITS_URL	"https://libjx.sourceforge.net/help/credits.html"
 
 # Global
 
@@ -392,8 +392,8 @@ ReplaceIsRegexShorcut::JXSearchTextDialog	"#X"
 
 EmptySearchText::JXSearchTextDialog	"You must enter something for which to search."
 
-HelpURL::JXSearchTextDialog		"http://libjx.sourceforge.net/help/regex.html"
-QuickRefURL::JXSearchTextDialog	"http://libjx.sourceforge.net/help/regex-qref.html"
+HelpURL::JXSearchTextDialog		"https://libjx.sourceforge.net/help/regex.html"
+QuickRefURL::JXSearchTextDialog	"https://libjx.sourceforge.net/help/regex-qref.html"
 
 # JXToolBarEditDir
 

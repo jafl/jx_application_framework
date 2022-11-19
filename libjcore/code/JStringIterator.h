@@ -107,16 +107,15 @@ public:
 	void	Insert(const std::string& str);
 	void	Insert(const std::string& str, const JUtf8ByteRange& range);
 
-	// called by JString - public to avoid friendship
-
-	void	Invalidate();
-
 	// misc
 
 	JIndex	GetPrevByteIndex() const;		// asserts
 	JIndex	GetNextByteIndex() const;		// asserts
 	bool	GetPrevByteIndex(JIndex* i) const;
 	bool	GetNextByteIndex(JIndex* i) const;
+
+	void	ClearLastMatch();
+	void	Invalidate();
 
 private:
 
@@ -132,8 +131,6 @@ private:
 
 	bool	PreparePrev(const bool move, JSize* byteCount);
 	bool	PrepareNext(const bool move, JSize* byteCount);
-
-	void	ClearLastMatch();
 
 	// not allowed - cannot have 2 iterators for a string
 

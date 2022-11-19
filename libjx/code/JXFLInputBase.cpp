@@ -66,7 +66,7 @@ JXFLInputBase::Apply()
 	const
 {
 	const JString r = GetRegexString();  // put on stack since SetFilterRegex() takes char*
-	return (itsFLSet->GetTable())->SetFilterRegex(r);
+	return itsFLSet->GetTable()->SetFilterRegex(r);
 }
 
 /******************************************************************************

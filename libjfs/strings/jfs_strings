@@ -12,7 +12,7 @@ $f has been replaced by $u and $q, as explained in the on-line help.  Several ot
 WindowTitle::JXFSEditBindingsDialog	"Edit file bindings"
 OKToClose::JXFSEditBindingsDialog	"Save bindings before closing?"
 MissingUorQ::JXFSEditBindingsDialog	"You must specify either $q or $u"
-HelpLink::JXFSEditBindingsDialog	"http://libjx.sourceforge.net/help/jfs.html"
+HelpLink::JXFSEditBindingsDialog	"https://libjx.sourceforge.net/help/jfs.html"
 
 WarnOverwrite::JXFSEditBindingsDialog	"The bindings stored on disk have been modified by another program.  Are you sure that you want to replace them with the contents of this editor window?"
 
@@ -35,7 +35,7 @@ PatternUsed::JXFSBindingTable
 # JXFSRunCommandDialog
 
 WindowTitle::JXFSRunCommandDialog	"Run command"
-HelpLink::JXFSRunCommandDialog		"http://libjx.sourceforge.net/help/jfs.html#RunCommand"
+HelpLink::JXFSRunCommandDialog		"https://libjx.sourceforge.net/help/jfs.html#RunCommand"
 
 # JXFSRunFileDialog
 
@@ -43,7 +43,7 @@ WindowTitle::JXFSRunFileDialog		"Run command with file"
 RunWithFile::JXFSRunFileDialog		"Command to run for $name:"
 RunWithFiles::JXFSRunFileDialog		"Command to run on the selected file(s):"
 ChooseCmdPrompt::JXFSRunFileDialog	"Select program"
-HelpLink::JXFSRunFileDialog			"http://libjx.sourceforge.net/help/jfs.html#RunFile"
+HelpLink::JXFSRunFileDialog			"https://libjx.sourceforge.net/help/jfs.html#RunFile"
 
 # JXFSRunScriptDialog
 

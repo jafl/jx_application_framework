@@ -128,10 +128,7 @@ JStringIterator::GetLastMatch()
 }
 
 /******************************************************************************
- ClearLastMatch (private)
-
-	Return true if iterator is positioned at the end of the string
-	or if the iterator has been invalidated.
+ ClearLastMatch
 
  ******************************************************************************/
 
@@ -977,7 +974,7 @@ bool
 JStringIterator::PreparePrev
 	(
 	const bool	move,
-	JSize*			byteCount
+	JSize*		byteCount
 	)
 {
 	if (AtBeginning())
@@ -1014,7 +1011,7 @@ bool
 JStringIterator::PrepareNext
 	(
 	const bool	move,
-	JSize*			byteCount
+	JSize*		byteCount
 	)
 {
 	if (AtEnd())

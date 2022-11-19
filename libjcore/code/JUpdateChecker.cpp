@@ -1,8 +1,5 @@
-#ifndef _T_JVersionSocket
-#define _T_JVersionSocket
-
 /******************************************************************************
- JVersionSocket.cpp
+ JUpdateChecker.cpp
 
 	Retrieves the program's version number from the server.
 
@@ -12,14 +9,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JVersionSocket.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/JStringMatch.h"
+#include "jx-af/jcore/JUpdateChecker.h"
+#include "jx-af/jcore/JProcess.h"
+#include "jx-af/jcore/jStreamUtil.h"
 #include "jx-af/jcore/jGlobals.h"
 #include "jx-af/jcore/jAssert.h"
-
-static const JUtf8Byte* kLineTerminator   = "\r\n";
-static const JUtf8Byte* kHeaderTerminator = "\r\n\r\n";
 
 const time_t kServerCheckInterval     = 7*24*3600;		// 1 week (seconds)
 const time_t kInitialReminderInterval = 30*24*3600;		// 1 month (seconds)
@@ -35,18 +29,13 @@ const JFileVersion kCurrentStateVersion = 1;
 
  ******************************************************************************/
 
-template <ACE_PEER_STREAM_1>
-JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket
+JUpdateChecker::JUpdateChecker
 	(
-	const JString&	host,
-	const JString&	path,
 	JPrefsManager*	prefsMgr,
 	const JPrefID&	prefID
 	)
 	:
 	JPrefObject(prefsMgr, prefID),
-	itsHostName(host),
-	itsPath(path),
 	itsNextServerTime(0)
 {
 	itsReminderList = jnew JArray<time_t>;
@@ -65,126 +54,54 @@ JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket
 	}
 }
 
-// keep ACE_Connector happy
-
-template <ACE_PEER_STREAM_1>
-JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket()
-	:
-	JPrefObject(nullptr, 0)
-{
-	assert( 0 );
-}
-
 /******************************************************************************
  Destructor
 
  ******************************************************************************/
 
-template <ACE_PEER_STREAM_1>
-JVersionSocket<ACE_PEER_STREAM_2>::~JVersionSocket()
+JUpdateChecker::~JUpdateChecker()
 {
 	jdelete itsReminderList;
 }
 
 /******************************************************************************
- open
+ CheckForNewerVersion
 
-	This is called when we get a connection to the server.
-
- ******************************************************************************/
-
-template <ACE_PEER_STREAM_1>
-int
-JVersionSocket<ACE_PEER_STREAM_2>::open
-	(
-	void* data
-	)
-{
-	(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::reactor())->register_handler(this, ACE_Event_Handler::READ_MASK);
-
-	JString msg("GET ");
-	msg += itsPath;
-	msg += " HTTP/1.1";
-
-	msg += kLineTerminator;
-
-	msg += "Host: ";
-	msg += itsHostName;
-
-	msg += kHeaderTerminator;
-
-	if (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().send_n(msg.GetBytes(), msg.GetByteCount()) != (JInteger) msg.GetByteCount())
-	{
-		std::cerr << "error sending version request to server" << std::endl;
-		ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::close();
-		return -1;
-	}
-
-	return ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::open(data);
-}
-
-/******************************************************************************
- handle_input
-
-	This is called when we receive data from the server.
+	Retrieve the latest version from the server.
 
  ******************************************************************************/
 
-template <ACE_PEER_STREAM_1>
-int
-JVersionSocket<ACE_PEER_STREAM_2>::handle_input
-	(
-	ACE_HANDLE
-	)
-{
-	const JSize kBufferSize = 65536;
-	char buffer[ kBufferSize ];
-
-	const ssize_t count = ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().recv(buffer, kBufferSize, &ACE_Time_Value::zero);
-	if (count == -1)
-	{
-		ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::destroy();
-		return -1;
-	}
-	else if (count == 0)
-	{
-		return 0;
-	}
-
-	itsRecvBuffer.Append(buffer, count);
-
-	if (itsRecvBuffer.BeginsWith("HTTP/1.1 200"))
-	{
-		JStringIterator iter(itsRecvBuffer);
-		if (iter.Next(kHeaderTerminator))
-		{
-			iter.BeginMatch();
-			iter.MoveTo(kJIteratorStartAtEnd, 0);
-			const JStringMatch& m = iter.FinishMatch();
-
-			JString vers = m.GetString();
-			vers.TrimWhitespace();
-			CheckVersion(vers);
-			ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::destroy();
-		}
-	}
-
-	return 0;
-}
-
-/******************************************************************************
- CheckVersion (private)
-
- ******************************************************************************/
-
-template <ACE_PEER_STREAM_1>
 void
-JVersionSocket<ACE_PEER_STREAM_2>::CheckVersion
-	(
-	const JString& vers
-	)
+JUpdateChecker::CheckForNewerVersion()
 {
 	const time_t now  = time(nullptr);
+	if (now < itsNextServerTime)
+	{
+		return;
+	}
+
+	const JUtf8Byte* argv[] = { "curl", "-L", JGetString("VERSION_URL").GetBytes(), nullptr };
+
+	JProcess* p;
+	int fd;
+	const JError err =
+		JProcess::Create(&p, argv, sizeof(argv),
+						 kJIgnoreConnection, nullptr,
+						 kJCreatePipe, &fd,
+						 kJTossOutput);
+	if (!err.OK())
+	{
+		std::cerr << err.GetMessage() << std::endl;
+		return;
+	}
+
+	JString vers;
+	if (!JReadAll(fd, &vers))
+	{
+		std::cerr << "Failed to read latest version from curl" << std::endl;
+		return;
+	}
+
 	itsNextServerTime = now + kServerCheckInterval;
 
 	if (vers == JGetString("VERSION"))
@@ -207,26 +124,12 @@ JVersionSocket<ACE_PEER_STREAM_2>::CheckVersion
 }
 
 /******************************************************************************
- TimeToCheck
-
- ******************************************************************************/
-
-template <ACE_PEER_STREAM_1>
-bool
-JVersionSocket<ACE_PEER_STREAM_2>::TimeToCheck()
-	const
-{
-	return time(nullptr) > itsNextServerTime;
-}
-
-/******************************************************************************
  TimeToRemind
 
  ******************************************************************************/
 
-template <ACE_PEER_STREAM_1>
 bool
-JVersionSocket<ACE_PEER_STREAM_2>::TimeToRemind()
+JUpdateChecker::TimeToRemind()
 {
 	bool remind = false;
 
@@ -263,9 +166,8 @@ JVersionSocket<ACE_PEER_STREAM_2>::TimeToRemind()
 
  ******************************************************************************/
 
-template <ACE_PEER_STREAM_1>
 void
-JVersionSocket<ACE_PEER_STREAM_2>::ReadPrefs
+JUpdateChecker::ReadPrefs
 	(
 	std::istream& input
 	)
@@ -300,9 +202,8 @@ JVersionSocket<ACE_PEER_STREAM_2>::ReadPrefs
 
  ******************************************************************************/
 
-template <ACE_PEER_STREAM_1>
 void
-JVersionSocket<ACE_PEER_STREAM_2>::WritePrefs
+JUpdateChecker::WritePrefs
 	(
 	std::ostream& output
 	)
@@ -319,5 +220,3 @@ JVersionSocket<ACE_PEER_STREAM_2>::WritePrefs
 		output << ' ' << t;
 	}
 }
-
-#endif
