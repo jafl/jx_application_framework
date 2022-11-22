@@ -1125,7 +1125,7 @@ jComputeForwardFontRange
 	const JStyledText::TextIndex&	start,
 	const JString&					text,
 	const FontIterator&				iter,
-	const bool					wrapped,
+	const bool						wrapped,
 	JStyledText::TextRange*			range
 	)
 {
@@ -1341,7 +1341,7 @@ JStyledText::SetFontName
 	(
 	const TextRange&	range,
 	const JString&		name,
-	const bool		clearUndo
+	const bool			clearUndo
 	)
 {
 	bool isNew;
@@ -1521,7 +1521,7 @@ JStyledText::SetFont
 	(
 	const TextRange&	range,
 	const JFont&		f,
-	const bool		clearUndo
+	const bool			clearUndo
 	)
 {
 	bool isNew;
@@ -2219,6 +2219,8 @@ JStyledText::InsertCharacter
 
 	Delete characters preceding the insertion caret.
 
+	Returns index of character after caret.
+
  ******************************************************************************/
 
 JStyledText::TextIndex
@@ -2455,7 +2457,7 @@ JStyledText::Outdent
 	(
 	const TextRange&	origRange,
 	const JSize			tabCount,
-	const bool		force
+	const bool			force
 	)
 {
 	const TextIndex pEnd = GetParagraphEnd(origRange.GetLast(*this));
@@ -2711,7 +2713,7 @@ JStyledText::MoveText
 	(
 	const TextRange&	srcRange,
 	const TextIndex&	origDestIndex,
-	const bool		copy,
+	const bool			copy,
 	TextRange*			newRange
 	)
 {

@@ -2804,7 +2804,7 @@ JTextEditor::InsertCharacter
 void
 JTextEditor::BackwardDelete
 	(
-	const bool		deleteToTabStop,
+	const bool			deleteToTabStop,
 	JString*			returnText,
 	JRunArray<JFont>*	returnStyle
 	)
@@ -2817,7 +2817,7 @@ JTextEditor::BackwardDelete
 								itsCaret.location, deleteToTabStop,
 								returnText, returnStyle, &undo);
 
-	JFont f          = JFontManager::GetDefaultFont();
+	JFont f      = JFontManager::GetDefaultFont();
 	bool setFont = false;
 	if (i.charIndex > 1)
 	{
@@ -2848,7 +2848,7 @@ JTextEditor::BackwardDelete
 void
 JTextEditor::ForwardDelete
 	(
-	const bool		deleteToTabStop,
+	const bool			deleteToTabStop,
 	JString*			returnText,
 	JRunArray<JFont>*	returnStyle
 	)

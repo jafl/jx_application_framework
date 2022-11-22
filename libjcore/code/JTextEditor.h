@@ -208,7 +208,7 @@ public:
 
 	void	Cut();
 	void	Copy() const;
-	void	Paste();															// clipboard
+	void	Paste();																// clipboard
 	void	Paste(const JString& text, const JRunArray<JFont>* style = nullptr);	// other source
 
 	bool	GetClipboard(JString* text, JRunArray<JFont>* style = nullptr) const;
