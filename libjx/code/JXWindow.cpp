@@ -321,8 +321,16 @@ JXWindow::SetTitle
 	const JUtf8Byte* t = itsTitle.GetBytes();
 
 	XTextProperty windowName;
-	const int ok = Xutf8TextListToTextProperty(*itsDisplay, (char**) &t, 1, XTextStyle, &windowName);
-	assert( ok == Success );
+	if (title.IsAscii())
+	{
+		const int ok = XStringListToTextProperty((char**) &t, 1, &windowName);
+		assert( ok );
+	}
+	else
+	{
+		const int ok = Xutf8TextListToTextProperty(*itsDisplay, (char**) &t, 1, XTextStyle, &windowName);
+		assert( ok == Success );
+	}
 
 	XSetWMName(*itsDisplay, itsXWindow, &windowName);
 	XSetWMIconName(*itsDisplay, itsXWindow, &windowName);
