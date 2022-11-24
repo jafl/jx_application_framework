@@ -10,7 +10,7 @@
 #ifndef _H_ClipboardWidget
 #define _H_ClipboardWidget
 
-#include <JXWidget.h>
+#include <jx-af/jx/JXWidget.h>
 
 class JXTextMenu;
 class JXMenuBar;
@@ -19,7 +19,7 @@ class ClipboardWidget : public JXWidget
 {
 public:
 
-	ClipboardWidget(const JCharacter* text, 
+	ClipboardWidget(const JString& text,
 					JXMenuBar* menuBar, JXContainer* enclosure,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
@@ -27,7 +27,7 @@ public:
 
 	~ClipboardWidget() override;
 
-	void			SetText(const JCharacter* text);
+	void			SetText(const JString& text);
 	const JString&	GetText() const;
 	
 protected:

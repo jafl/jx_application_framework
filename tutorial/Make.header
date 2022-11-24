@@ -40,8 +40,24 @@ LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a \
 
 # make variables
 
-LDLIBES := ${J_STD_LIBS}
+LDLIBS := ${J_STD_LIBS}
 
 #####
 
-include ${MAKE_INCLUDE}/app_targets
+.PHONY : default
+default: strings all
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# string data
+#
+
+.PHONY : strings
+strings:
+	compile_jstrings \
+        ${JX_INCLUDE_ROOT}/jx-af/strings/jcore/* \
+        ${JX_INCLUDE_ROOT}/jx-af/strings/jx/* \
+        */strings \
+        --code kTutorialStringData TutorialStringData.h

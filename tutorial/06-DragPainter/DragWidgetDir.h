@@ -10,7 +10,7 @@
 #ifndef _H_DragWidgetDir
 #define _H_DragWidgetDir
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class DragWidgetDir : public JXWindowDirector
 {

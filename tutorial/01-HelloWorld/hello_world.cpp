@@ -6,11 +6,11 @@
  ******************************************************************************/
 
 #include "HelloWorldDir.h"
-#include <JXApplication.h>
+#include <jx-af/jx/JXApplication.h>
 #include "../TutorialStringData.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
-static const JCharacter* kAppSignature = "tut1";
+static const JUtf8Byte* kAppSignature = "tut1";
 
 /******************************************************************************
  main

@@ -8,12 +8,12 @@
  ******************************************************************************/
 
 #include "DHStringInputDialog.h"
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXInputField.h>
-#include <JXStaticText.h>
-#include <JString.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXInputField.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -23,7 +23,7 @@
 DHStringInputDialog::DHStringInputDialog
 	(
 	JXWindowDirector*	supervisor,
-	const JCharacter* str
+	const JString&		str
 	)
 	:
 	JXDialogDirector(supervisor, true)
@@ -31,7 +31,7 @@ DHStringInputDialog::DHStringInputDialog
 	BuildWindow();
 
 	// Set the initial value of the input string to the value passed in.
-	itsText->SetText(str);
+	itsText->GetText()->SetText(str);
 }
 
 /******************************************************************************
@@ -43,21 +43,21 @@ void
 DHStringInputDialog::BuildWindow()
 {
 	// Create the window and pass it to the director.
-	JXWindow* window = jnew JXWindow(this, 280,90, "Change Text");
+	JXWindow* window = jnew JXWindow(this, 280,90, JGetString("DialogTitle::DHStringInputDialog"));
 	assert( window != nullptr );
 
 	// Create the cancel button.
 	JXTextButton* cancelButton =
-		jnew JXTextButton("Cancel", window,
+		jnew JXTextButton(JGetString("CancelLabel::JXGlobal"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,60, 50,20);
 	assert( cancelButton != nullptr );
 
 	// Create the OK button.
 	JXTextButton* okButton =
-		jnew JXTextButton("OK", window,
+		jnew JXTextButton(JGetString("OKLabel::JXGlobal"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 150,60, 50,20);
 	assert( okButton != nullptr );
-	okButton->SetShortcuts("^M");
+	okButton->SetShortcuts(JGetString("OKShortcut::JXGlobal"));
 
 	// Create the string input field.
 	itsText =
@@ -67,7 +67,7 @@ DHStringInputDialog::BuildWindow()
 
 	// Create a label for the input field.
 	JXStaticText* obj1 =
-		jnew JXStaticText("New Text:", window,
+		jnew JXStaticText(JGetString("Prompt::DHStringInputDialog"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,20, 65,20);
 	assert( obj1 != nullptr );
 
@@ -90,5 +90,5 @@ DHStringInputDialog::GetString()
 {
 	// After the dialog has been deactivated, this is how the program will
 	// access the new string that was typed into the input field.
-	return itsText->GetText();
+	return itsText->GetText()->GetText();
 }

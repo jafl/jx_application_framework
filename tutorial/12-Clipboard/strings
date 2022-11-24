@@ -1,2 +1,13 @@
 0
 
+WindowTitle::ClipboardDir	"Test Clipboard Program"
+MenuTitle::ClipboardDir		"Text"
+Text::ClipboardDir			"Hello world!"
+DialogTitle::ClipboardDir	"Change Text"
+DialogPrompt::ClipboardDir	"New Text:"
+
+MenuTitle::ClipboardWidget		"Edit"
+CopyError::ClipboardWidget		"Unable to copy to the X Clipboard."
+RetrieveError::ClipboardWidget	"Unable to retrieve text from the clipboard."
+PasteError::ClipboardWidget		"Unable to paste from clipboard."
+Empty::ClipboardWidget			"Clipboard is empty."

@@ -8,13 +8,12 @@
  ******************************************************************************/
 
 #include "DragWidget.h"
-#include <JXApplication.h>
-#include <JXWidget.h>
-#include <JXWindowPainter.h>
-#include <JXDragPainter.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWidget.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXDragPainter.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -257,13 +256,14 @@ DragWidget::HandleMouseUp
 void
 DragWidget::HandleKeyPress
 	(
-	const int             key,				
+	const JUtf8Character& c,
+	const int             keySym,
 	const JXKeyModifiers& modifiers
 	)
 {
 	// Check if the 'c' key was pressed
 	// If so, we want to clear the window
-	if (key == 'c')
+	if (c == 'c')
 	{
 		// remove all of the points from the JArray
 		itsPoints->RemoveAll();
@@ -273,7 +273,7 @@ DragWidget::HandleKeyPress
 	}
 		
 	// Check if the 'q' key was pressed
-	else if (key == 'q')
+	else if (c == 'q')
 	{
 		// Quit the application if 'q' was pressed
 		JXGetApplication()->Quit();
@@ -282,6 +282,6 @@ DragWidget::HandleKeyPress
 	// If anything else was pressed, pass it up the inheritance tree
 	else
 	{
-		JXScrollableWidget::HandleKeyPress(key,modifiers);
+		JXScrollableWidget::HandleKeyPress(c, keySym, modifiers);
 	}
 }

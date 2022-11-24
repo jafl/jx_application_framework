@@ -10,9 +10,7 @@
 #ifndef _H_SelectionTableDir
 #define _H_SelectionTableDir
 
-#include <JXWindowDirector.h>
-#include <JArray.h>
-
+#include <jx-af/jx/JXWindowDirector.h>
 
 class SelectionTableDir : public JXWindowDirector
 {

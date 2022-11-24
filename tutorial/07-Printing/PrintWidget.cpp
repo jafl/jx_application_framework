@@ -8,14 +8,13 @@
  ******************************************************************************/
 
 #include "PrintWidget.h"
-#include <JXApplication.h>
-#include <JXWidget.h>
-#include <JXWindowPainter.h>
-#include <JXDragPainter.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <JPagePrinter.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWidget.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXDragPainter.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JPagePrinter.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -84,7 +83,7 @@ PrintWidget::Print
 		// draw the header
 
 		JRect pageRect = p.GetPageRect();
-		p.String(pageRect.left, pageRect.top, "Printing Test",
+		p.String(pageRect.left, pageRect.top, JGetString("Text::PrintWidget"),
 				 pageRect.width(), JPainter::kHAlignCenter);
 		p.LockHeader(headerHeight);
 
@@ -114,8 +113,8 @@ PrintWidget::Draw
 {
 	// This needs to be out of the main drawing routing, because
 	// we don't want this to print
-	p.String(10, 10, "Type 'c' to clear, 'q' to quit.", 200, 
-			 JPainter::kHAlignLeft, p.GetLineHeight());
+	p.JPainter::String(10, 10, JGetString("Instructions::PrintWidget"), 200, 
+					   JPainter::kHAlignLeft, p.GetLineHeight());
 
 	// Call the generic drawing routing (same for printing)
 	DrawStuff(p);
@@ -313,13 +312,14 @@ PrintWidget::HandleMouseUp
 void
 PrintWidget::HandleKeyPress
 	(
-	const int key,				
+	const JUtf8Character& c,
+	const int             keySym,				
 	const JXKeyModifiers& modifiers
 	)
 {
 	// Check if the 'c' key was pressed
 	// If so, we want to clear the window
-	if (key == 'c')
+	if (c == 'c')
 	{
 		// remove all of the points from the JArray
 		itsPoints->RemoveAll();
@@ -329,7 +329,7 @@ PrintWidget::HandleKeyPress
 	}
 		
 	// Check if the 'q' key was pressed
-	else if (key == 'q')
+	else if (c == 'q')
 	{
 		// Quit the application if 'q' was pressed
 		JXGetApplication()->Quit();
@@ -338,6 +338,6 @@ PrintWidget::HandleKeyPress
 	// If anything else was pressed, pass it up the inheritance tree
 	else
 	{
-		JXScrollableWidget::HandleKeyPress(key,modifiers);
+		JXScrollableWidget::HandleKeyPress(c, keySym, modifiers);
 	}
 }

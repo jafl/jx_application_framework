@@ -10,8 +10,7 @@
 #ifndef _H_PrintWidget
 #define _H_PrintWidget
 
-#include <JXScrollableWidget.h>
-#include <JArray.h>
+#include <jx-af/jx/JXScrollableWidget.h>
 
 class JPainter;
 class JPagePrinter;
@@ -29,8 +28,8 @@ public:
 
 	void	Print(JPagePrinter& p);
 
-	void	HandleKeyPress(const int key,				
-						   const JXKeyModifiers& modifiers) override;
+	void	HandleKeyPress(const JUtf8Character& c,
+						   const int keySym, const JXKeyModifiers& modifiers) override;
 
 protected:
 

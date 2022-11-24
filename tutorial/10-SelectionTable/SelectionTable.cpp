@@ -14,30 +14,27 @@
  ******************************************************************************/
 
 #include "SelectionTable.h"
-#include <JXMenuBar.h>
-#include <JXWindowPainter.h>
-#include <JXTextMenu.h>
-#include <JXColorManager.h>
-#include <JList.h>
-#include <JString.h>
-#include <JTableSelection.h>
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
-#include <jXGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/jXConstants.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 // The default row height, column width, and insertion value.
 const JCoordinate	kDefRowHeight	= 20;
 const JCoordinate	kDefColWidth	= 80;
 const JIndex 		kDefInsertValue	= 12;
 
-// These define the menu title and the menu items.
+// This defines the menu items.
 // The '|' separates menu items.  The complete syntax
 // is described in JXTextMenuData.doc in SetMenuItems()
 // and ParseMenuItemStr().
 
-static const JCharacter* kTableMenuTitleStr = "Table";
-static const JCharacter* kTableMenuStr =
+static const JUtf8Byte* kTableMenuStr =
 	"Insert %k Meta-I | Remove | Quit %k Meta-Q";
 
 enum
@@ -87,7 +84,7 @@ SelectionTable::SelectionTable
 	ListenTo(itsData);
 
 	// Attach our menu to the menu bar.
-	itsTableMenu = menuBar->AppendTextMenu(kTableMenuTitleStr);
+	itsTableMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::SelectionTable"));
 
 	// Set the menu items in our menu.
 	itsTableMenu->SetMenuItems(kTableMenuStr);
@@ -146,7 +143,7 @@ SelectionTable::TableDrawCell
 	HilightIfSelected(p, cell, rect);
 
 	// Convert the array's current element into a JString.
-	JString cellNumber(itsData->GetElement(cell.y));
+	JString cellNumber((JUInt64) itsData->GetElement(cell.y));
 
 	// Draw the JString that holds the value.
 	p.String(rect, cellNumber, JPainter::kHAlignLeft, JPainter::kVAlignTop);

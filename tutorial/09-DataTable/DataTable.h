@@ -10,8 +10,7 @@
 #ifndef _H_DataTable
 #define _H_DataTable
 
-#include <JXTable.h>
-#include <JArray.h>
+#include <jx-af/jx/JXTable.h>
 
 class DataTable : public JXTable
 {

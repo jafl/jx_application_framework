@@ -10,22 +10,20 @@
 #ifndef _H_DNDData
 #define _H_DNDData
 
-#include <JXSelectionData.h>
-
-#include <JArray.h>
-#include <JPoint.h>
+#include <jx-af/jx/JXSelectionData.h>
+#include <jx-af/jcore/JPoint.h>
 
 class DNDData : public JXSelectionData
 {
 public:
 
-	DNDData(JXWidget* widget, const JCharacter* id);
+	DNDData(JXWidget* widget, const JUtf8Byte* id);
 
 	~DNDData() override;
 
 	void	SetData(const JArray<JPoint>& points);
 
-	static const JCharacter* GetDNDAtomName();
+	static const JUtf8Byte* GetDNDAtomName();
 
 protected:
 

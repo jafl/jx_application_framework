@@ -8,19 +8,19 @@
  ******************************************************************************/
 
 #include "MenuHelloDir.h"
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXTextMenu.h>
-#include <JXMenuBar.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
-// These define the menu title and the menu items.
+// This defines the menu items.
 // The '|' separates menu items.  The complete syntax
 // is described in JXTextMenuData.cpp in SetMenuItems()
 // and ParseMenuItemStr().
 
-static const JCharacter* kTextMenuTitleStr = "Text";
-static const JCharacter* kTextMenuStr =
+static const JUtf8Byte* kTextMenuStr =
 	"Hello world! | Goodbye cruel world!";
 
 enum
@@ -67,7 +67,7 @@ void
 MenuHelloDir::BuildWindow()
 {
 	// Create the window and give it to the director.
-	JXWindow* window = jnew JXWindow(this, 200,100, "Hello World Program");
+	JXWindow* window = jnew JXWindow(this, 200,100, JGetString("WindowTitle::MenuHelloDir"));
 	assert( window != nullptr );
 
 	// This sets the minimum and maximum size to be the
@@ -82,7 +82,7 @@ MenuHelloDir::BuildWindow()
 	assert( menuBar != nullptr );
 
 	// Attach our menu to the menu bar.
-	itsTextMenu = menuBar->AppendTextMenu(kTextMenuTitleStr);
+	itsTextMenu = menuBar->AppendTextMenu(JGetString("TextMenuTitle::MenuHelloDir"));
 
 	// Set the menu items in our menu.
 	itsTextMenu->SetMenuItems(kTextMenuStr);
@@ -97,7 +97,7 @@ MenuHelloDir::BuildWindow()
 	// Create the object to display the text. This time, we need to keep a
 	// pointer to it so we can change the text later.
 	itsText =
-		jnew JXStaticText("Hello world!", window,
+		jnew JXStaticText(JGetString("HelloText::MenuHelloDir"), window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			20, 40, 160, 20);
 	assert( itsText != nullptr );
@@ -165,11 +165,11 @@ MenuHelloDir::HandleTextMenu
 	// Check to see which menu item was selected, and set the text accordingly
 	if (index == kHello)
 	{
-		itsText->SetText("Hello world!");
+		itsText->GetText()->SetText(JGetString("HelloText::MenuHelloDir"));
 	}
 
 	else if (index == kGoodbye)
 	{
-		itsText->SetText("Goodbye cruel world!");
+		itsText->GetText()->SetText(JGetString("GoodbyeText::MenuHelloDir"));
 	}
 }

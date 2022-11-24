@@ -10,7 +10,7 @@
 #ifndef _H_WidgetDir
 #define _H_WidgetDir
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class WidgetDir : public JXWindowDirector
 {

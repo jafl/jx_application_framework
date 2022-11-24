@@ -7,11 +7,10 @@
 	
  *****************************************************************************/
 
-#include <GFilterDragData.h>
+#include "GFilterDragData.h"
+#include <jx-af/jcore/jAssert.h>
 
-#include <jAssert.h>
-
-static const JCharacter* kDragFilterXAtomName	= "GMFilterName";
+static const JUtf8Byte* kDragFilterXAtomName	= "GMFilterName";
 
 /******************************************************************************
  Constructor
@@ -21,7 +20,7 @@ static const JCharacter* kDragFilterXAtomName	= "GMFilterName";
 GFilterDragData::GFilterDragData
 	(
 	JXWidget* 			widget, 
-	const JCharacter*	id
+	const JUtf8Byte*	id
 	)
 	:
 	JXSelectionData(widget, id)

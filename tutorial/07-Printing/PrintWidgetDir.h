@@ -10,7 +10,7 @@
 #ifndef _H_PrintWidgetDir
 #define _H_PrintWidgetDir
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class JXPSPrinter;
 class PrintWidget;

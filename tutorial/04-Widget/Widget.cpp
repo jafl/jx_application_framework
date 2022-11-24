@@ -17,12 +17,12 @@
  ******************************************************************************/
 
 #include "Widget.h"
-#include <JXWidget.h>
-#include <JXWindowPainter.h>
-#include <JXColorManager.h>
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWidget.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/jXConstants.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

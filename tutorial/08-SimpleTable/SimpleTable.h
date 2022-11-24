@@ -10,7 +10,7 @@
 #ifndef _H_SimpleTable
 #define _H_SimpleTable
 
-#include <JXTable.h>
+#include <jx-af/jx/JXTable.h>
 
 class SimpleTable : public JXTable
 {

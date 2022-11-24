@@ -10,9 +10,7 @@
 #ifndef _H_DataTableDir
 #define _H_DataTableDir
 
-#include <JXWindowDirector.h>
-#include <JArray.h>
-
+#include <jx-af/jx/JXWindowDirector.h>
 
 class DataTableDir : public JXWindowDirector
 {

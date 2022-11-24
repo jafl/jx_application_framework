@@ -11,13 +11,11 @@
  ******************************************************************************/
 
 #include "DataTable.h"
-#include <JXWindowPainter.h>
-#include <JXColorManager.h>
-#include <JList.h>
-#include <JString.h>
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/jXConstants.h>
+#include <jx-af/jcore/jAssert.h>
 
 // The default row height and column width.
 const JCoordinate kDefRowHeight	= 20;
@@ -99,7 +97,7 @@ DataTable::TableDrawCell
 	)
 {
 	// Convert the array's current element into a JString.
-	JString cellNumber(itsData->GetElement(cell.y));
+	JString cellNumber((JUInt64) itsData->GetElement(cell.y));
 
 	// Draw the JString that holds the value. 
 	p.String(rect, cellNumber, JPainter::kHAlignLeft, JPainter::kVAlignTop);

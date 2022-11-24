@@ -10,7 +10,7 @@
 #ifndef _H_ScrollingWidget
 #define _H_ScrollingWidget
 
-#include <JXScrollableWidget.h>
+#include <jx-af/jx/JXScrollableWidget.h>
 
 class ScrollingWidget : public JXScrollableWidget
 {

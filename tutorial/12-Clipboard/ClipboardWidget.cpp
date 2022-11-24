@@ -17,23 +17,22 @@
 
 #include "ClipboardWidget.h"
 
-#include <JXColorManager.h>
-#include <JXDisplay.h>
-#include <JXMenuBar.h>
-#include <JXSelectionManager.h>
-#include <JXTextMenu.h>
-#include <JXTextSelection.h>
-#include <JXWidget.h>
-#include <JXWindowPainter.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXSelectionManager.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXTextSelection.h>
+#include <jx-af/jx/JXWidget.h>
+#include <jx-af/jx/JXWindowPainter.h>
 
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
-#include <jXGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/jXConstants.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
-// This defines the menu title and menu items
-static const JCharacter* kEditMenuTitleStr = "Edit";
-static const JCharacter* kEditMenuStr =
+// This defines the menu items
+static const JUtf8Byte* kEditMenuStr =
 	"Copy %k Meta-C | Paste %k Meta-V";
 
 enum
@@ -49,7 +48,7 @@ enum
 
 ClipboardWidget::ClipboardWidget
 	(
-	const JCharacter* 	text,
+	const JString& 		text,
 	JXMenuBar* 			menuBar,
 	JXContainer* 		enclosure,
 	const HSizingOption hSizing,
@@ -67,7 +66,7 @@ ClipboardWidget::ClipboardWidget
 	SetBackColor(JColorManager::GetWhiteColor());
 
 	// Create the menu and attach it to the menu bar.
-	itsEditMenu = menuBar->AppendTextMenu(kEditMenuTitleStr);
+	itsEditMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::ClipboardWidget"));
 
 	// Set the menu items.
 	itsEditMenu->SetMenuItems(kEditMenuStr);
@@ -156,9 +155,9 @@ ClipboardWidget::Draw
 	p.Rect(10, 10, 150, 50);
 
 	// This draws itsText.
-	p.String(20,20,itsText,
-				130, JPainter::kHAlignCenter,
-				30, JPainter::kVAlignCenter);
+	p.JPainter::String(20,20,itsText,
+					   130, JPainter::kHAlignCenter,
+					   30, JPainter::kVAlignCenter);
 }
 
 /******************************************************************************
@@ -189,7 +188,7 @@ ClipboardWidget::DrawBorder
 void
 ClipboardWidget::SetText
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 	// Set our JString to the specified text.
@@ -231,7 +230,7 @@ ClipboardWidget::HandleEditMenu
 		// The selection data is then given to the selection manager.
 		if (!GetSelectionManager()->SetData(kJXClipboardName, data))
 		{
-			JGetUserNotification()->ReportError("Unable to copy to the X Clipboard.");
+			JGetUserNotification()->ReportError(JGetString("CopyError::ClipboardWidget"));
 		}
 	}
 	else if (index == kPasteCmd)
@@ -253,7 +252,6 @@ void
 ClipboardWidget::Paste()
 {
 	// Get the window and selection manager for use below.
-	JXWindow* window           = GetWindow();
 	JXSelectionManager* selMgr = GetSelectionManager();
 
 	// If the clipboard is not empty, retrieve the available types.
@@ -284,7 +282,7 @@ ClipboardWidget::Paste()
 					if (returnType == XA_STRING)
 					{
 						// Copy the data into our text.
-						itsText.Set(reinterpret_cast<JCharacter*>(data), dataLength);
+						itsText.Set(reinterpret_cast<JUtf8Byte*>(data), dataLength);
 
 						// Our text changed, so we need to refresh.
 						Refresh();
@@ -303,18 +301,18 @@ ClipboardWidget::Paste()
 				else
 				{
 					JGetUserNotification()->ReportError(
-						"Unable to retrieve text from the clipboard.");
+						JGetString("RetrieveError::ClipboardWidget"));
 				}
 			}
 		}
 
 		// If we got this far, the data type that we want wasn't on the
 		// clipboard.
-		JGetUserNotification()->ReportError("Unable to paste from clipboard.");
+		JGetUserNotification()->ReportError(JGetString("PasteError::ClipboardWidget"));
 	}
 	else
 	{
 		// There isn't anything on the clipboard.
-		JGetUserNotification()->ReportError("Clipboard is empty.");
+		JGetUserNotification()->ReportError(JGetString("Empty::ClipboardWidget"));
 	}
 }

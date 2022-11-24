@@ -10,13 +10,13 @@
 #ifndef _H_GFilterDragData
 #define _H_GFilterDragData
 
-#include <JXSelectionData.h>
+#include <jx-af/jx/JXSelectionData.h>
 
 class GFilterDragData : public JXSelectionData
 {
 public:
 
-	GFilterDragData(JXWidget* widget, const JCharacter* id);
+	GFilterDragData(JXWidget* widget, const JUtf8Byte* id);
 
 protected:
 

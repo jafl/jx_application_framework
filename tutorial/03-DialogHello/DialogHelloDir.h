@@ -10,7 +10,7 @@
 #ifndef _H_DialogHelloDir
 #define _H_DialogHelloDir
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class JXStaticText;
 class JXTextMenu;

@@ -12,12 +12,11 @@
  ******************************************************************************/
 
 #include "SimpleTable.h"
-#include <JXWindowPainter.h>
-#include <JXColorManager.h>
-#include <JString.h>
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/jXConstants.h>
+#include <jx-af/jcore/jAssert.h>
 
 // The default row height and column width.
 const JCoordinate kDefRowHeight	= 20;
@@ -78,7 +77,7 @@ SimpleTable::TableDrawCell
 	)
 {
 	// Convert the row number into a JString.
-	JString cellNumber(cell.y);
+	JString cellNumber((JUInt64) cell.y);
 
 	// Draw the JString that holds the value. 
 	p.String(rect, cellNumber, JPainter::kHAlignLeft, JPainter::kVAlignTop);

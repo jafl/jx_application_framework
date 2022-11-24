@@ -9,18 +9,16 @@
 
 #include "DialogHelloDir.h"
 #include "DHStringInputDialog.h"
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <JXTextMenu.h>
-#include <JXMenuBar.h>
-#include <JString.h>
-#include <JXApplication.h>
-#include <jXGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXApplication.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 // This defines the menu title and menu items
-static const JCharacter* kTextMenuTitleStr = "Text";
-static const JCharacter* kTextMenuStr =
+static const JUtf8Byte* kTextMenuStr =
 	"Change Text %k Meta-C %l|Quit %k Meta-Q";
 
 enum
@@ -67,7 +65,7 @@ void
 DialogHelloDir::BuildWindow()
 {
 	// Create the window and give it to the director.
-	JXWindow* window = jnew JXWindow(this, 200,100, "Hello World Program");
+	JXWindow* window = jnew JXWindow(this, 200,100, JGetString("WindowTitle::DialogHelloDir"));
 	assert( window != nullptr );
 
 	// This sets the minimum and maximum size to be the
@@ -81,7 +79,7 @@ DialogHelloDir::BuildWindow()
 	assert( menuBar != nullptr );
 
 	// Create the menu and attach it to the menu bar.
-	itsTextMenu = menuBar->AppendTextMenu(kTextMenuTitleStr);
+	itsTextMenu = menuBar->AppendTextMenu(JGetString("TextMenuTitle::DialogHelloDir"));
 
 	// Set the menu items.
 	itsTextMenu->SetMenuItems(kTextMenuStr);
@@ -94,7 +92,7 @@ DialogHelloDir::BuildWindow()
 
 	// Create the object to hold the text.
 	itsText =
-		jnew JXStaticText("Hello world!", window,
+		jnew JXStaticText(JGetString("HelloText::DialogHelloDir"), window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			20, 40, 160, 20);
 	assert ( itsText != nullptr );
@@ -201,7 +199,7 @@ DialogHelloDir::SetupInputDialog()
 	assert ( itsDialog == nullptr );
 
 	// Create the dialog with text from our static text object.
-	itsDialog = jnew DHStringInputDialog(this, itsText->GetText());
+	itsDialog = jnew DHStringInputDialog(this, itsText->GetText()->GetText());
 	assert ( itsDialog != nullptr );
 
 	// We need to listen for the dialog's deactivation message.
@@ -226,5 +224,5 @@ DialogHelloDir::GetNewTextFromDialog()
 
 	// Get the text from the dialog and pass it to the static text object.
 	const JString str = itsDialog->GetString();
-	itsText->SetText(str);
+	itsText->GetText()->SetText(str);
 }

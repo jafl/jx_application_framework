@@ -22,10 +22,10 @@
  ******************************************************************************/
 
 #include "ScrollingWidget.h"
-#include <JXWidget.h>
-#include <JXWindowPainter.h>
-#include <JXColorManager.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWidget.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

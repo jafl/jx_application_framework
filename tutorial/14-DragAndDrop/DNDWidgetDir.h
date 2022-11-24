@@ -10,7 +10,7 @@
 #ifndef _H_DNDWidgetDir
 #define _H_DNDWidgetDir
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class DNDWidgetDir : public JXWindowDirector
 {

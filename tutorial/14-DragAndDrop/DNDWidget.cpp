@@ -10,19 +10,18 @@
 #include "DNDWidget.h"
 #include "DNDData.h"
 
-#include <JXApplication.h>
-#include <JXColorManager.h>
-#include <JXDisplay.h>
-#include <JXDNDManager.h>
-#include <JXDragPainter.h>
-#include <JXSelectionManager.h>
-#include <JXWidget.h>
-#include <JXWindowPainter.h>
-#include <jXGlobals.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXDNDManager.h>
+#include <jx-af/jx/JXDragPainter.h>
+#include <jx-af/jx/JXSelectionManager.h>
+#include <jx-af/jx/JXWidget.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/jXGlobals.h>
 #include <sstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
-static const JCharacter* kSelectionID = "DNDWidget";
+static const JUtf8Byte* kSelectionID = "DNDWidget";
 
 /******************************************************************************
  Constructor
@@ -88,7 +87,7 @@ DNDWidget::Draw
 	)
 {
 	// Draw some instructional text
-	p.String(10,10,"Shift-drag to initiate Drag-And-Drop.");
+	p.JPainter::String(10,10,JGetString("Instructions::DNDWidget"));
 
 	// Set pen color
 	p.SetPenColor(JColorManager::GetBlackColor());
@@ -298,13 +297,14 @@ DNDWidget::HandleMouseUp
 void
 DNDWidget::HandleKeyPress
 	(
-	const int             key,				
+	const JUtf8Character& c,
+	const int             keySym,				
 	const JXKeyModifiers& modifiers
 	)
 {
 	// Check if the 'c' key was pressed
 	// If so, we want to clear the window
-	if (key == 'c')
+	if (c == 'c')
 	{
 		// remove all of the points from the JArray
 		itsPoints->RemoveAll();
@@ -314,7 +314,7 @@ DNDWidget::HandleKeyPress
 	}
 		
 	// Check if the 'q' key was pressed
-	else if (key == 'q')
+	else if (c == 'q')
 	{
 		// Quit the application if 'q' was pressed
 		JXGetApplication()->Quit();
@@ -323,7 +323,7 @@ DNDWidget::HandleKeyPress
 	// If anything else was pressed, pass it up the inheritance tree
 	else
 	{
-		JXScrollableWidget::HandleKeyPress(key,modifiers);
+		JXScrollableWidget::HandleKeyPress(c,keySym,modifiers);
 	}
 }
 
@@ -342,11 +342,11 @@ void
 DNDWidget::GetSelectionData
 	(
 	JXSelectionData*	data,
-	const JCharacter*	id
+	const JString&	id
 	)
 {
 	// Check to see if this is our id
-	if (strcmp(id, kSelectionID) == 0)
+	if (id == kSelectionID)
 	{
 		// Cast the data object to the object that we know it is.
 		DNDData* lineData = dynamic_cast<DNDData*>(data);

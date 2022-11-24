@@ -10,8 +10,7 @@
 #ifndef _H_EditTableDir
 #define _H_EditTableDir
 
-#include <JXWindowDirector.h>
-#include <JArray.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 
 class EditTableDir : public JXWindowDirector

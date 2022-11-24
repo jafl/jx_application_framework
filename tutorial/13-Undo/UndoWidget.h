@@ -10,8 +10,7 @@
 #ifndef _H_UndoWidget
 #define _H_UndoWidget
 
-#include <JXScrollableWidget.h>
-#include <JPtrArray.h>
+#include <jx-af/jx/JXScrollableWidget.h>
 
 class JUndo;
 

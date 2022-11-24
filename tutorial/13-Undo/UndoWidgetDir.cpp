@@ -9,22 +9,22 @@
 
 #include "UndoWidgetDir.h"
 #include "UndoWidget.h"
-#include <JXWindow.h>
-#include <JXScrollbarSet.h>
-#include <JXTextMenu.h>
-#include <JXMenuBar.h>
-#include <jXGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
-// These define the menu title and the menu items.
+// This defines the menu items.
 // The '|' separates menu items.  The complete syntax
 // is described in JXTextMenuData.doc in SetMenuItems()
 // and ParseMenuItemStr().
 
-static const JCharacter* kActionsMenuTitleStr = "Actions";
-static const JCharacter* kActionsMenuStr =
-	"Undo %k Meta-Z|Redo %k Meta-Shift-Z"
-	"|Quit %k Meta-Q";
+static const JUtf8Byte* kActionsMenuStr =
+	"  Undo %k Meta-Z"
+	"| Redo %k Meta-Shift-Z"
+	"| Quit %k Meta-Q";
 
 enum
 {
@@ -59,7 +59,7 @@ void
 UndoWidgetDir::BuildWindow()
 {
 		// Create the window
-	JXWindow* window = jnew JXWindow(this, 300,200, "Undo Program");
+	JXWindow* window = jnew JXWindow(this, 300,200, JGetString("WindowTitle::UndoWidgetDir"));
 	assert( window != nullptr );
 
 	// Set the window sizing
@@ -74,7 +74,7 @@ UndoWidgetDir::BuildWindow()
 	assert( menuBar != nullptr );
 
 	// Attach our menu to the menu bar.
-	itsActionsMenu = menuBar->AppendTextMenu(kActionsMenuTitleStr);
+	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::UndoWidgetDir"));
 
 	// Set the menu items in our menu.
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);

@@ -10,8 +10,7 @@
 #ifndef _H_DragWidget
 #define _H_DragWidget
 
-#include <JXScrollableWidget.h>
-#include <JArray.h>
+#include <jx-af/jx/JXScrollableWidget.h>
 
 class DragWidget : public JXScrollableWidget
 {
@@ -24,8 +23,8 @@ public:
 
 	~DragWidget() override;
 
-	void	HandleKeyPress(const int key,				
-						   const JXKeyModifiers& modifiers) override;
+	void	HandleKeyPress(const JUtf8Character& c,
+						   const int keySym, const JXKeyModifiers& modifiers) override;
 	
 protected:
 	

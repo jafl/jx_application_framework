@@ -10,8 +10,7 @@
 #ifndef _H_EditTable
 #define _H_EditTable
 
-#include <JXEditTable.h>
-#include <JArray.h>
+#include <jx-af/jx/JXEditTable.h>
 
 class JXMenuBar;
 class JXTextMenu;

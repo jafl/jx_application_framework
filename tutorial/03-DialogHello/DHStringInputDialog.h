@@ -10,7 +10,7 @@
 #ifndef _H_DHStringInputDialog
 #define _H_DHStringInputDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXInputField;
 class JString;
@@ -19,7 +19,7 @@ class DHStringInputDialog : public JXDialogDirector
 {
 public:
 
-	DHStringInputDialog(JXWindowDirector* supervisor, const JCharacter* str);
+	DHStringInputDialog(JXWindowDirector* supervisor, const JString& str);
 
 	JString	GetString() const;
 

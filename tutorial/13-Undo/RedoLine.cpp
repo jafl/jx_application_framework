@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <RedoLine.h>
-#include <UndoWidget.h>
-#include <jAssert.h>
+#include "RedoLine.h"
+#include "UndoWidget.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

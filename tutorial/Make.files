@@ -3,61 +3,72 @@
 @hello_world
 ${DIR01}/hello_world
 ${DIR01}/HelloWorldDir
+literal: ${LIB_DEPS}
 
 @menu_hello
 ${DIR02}/menu_hello
 ${DIR02}/MenuHelloDir
+literal: ${LIB_DEPS}
 
 @dialog_hello
 ${DIR03}/dialog_hello
 ${DIR03}/DialogHelloDir
 ${DIR03}/DHStringInputDialog
+literal: ${LIB_DEPS}
 
 @widget
 ${DIR04}/widget_main
 ${DIR04}/WidgetDir
 ${DIR04}/Widget
+literal: ${LIB_DEPS}
 
 @scrolling
 ${DIR05}/scrolling
 ${DIR05}/ScrollingWidgetDir
 ${DIR05}/ScrollingWidget
+literal: ${LIB_DEPS}
 
 @drag_painter
 ${DIR06}/drag_painter
 ${DIR06}/DragWidgetDir
 ${DIR06}/DragWidget
+literal: ${LIB_DEPS}
 
 @printing
 ${DIR07}/printing
 ${DIR07}/PrintWidgetDir
 ${DIR07}/PrintWidget
+literal: ${LIB_DEPS}
 
 @simple_table
 ${DIR08}/simpletable_main
 ${DIR08}/SimpleTableDir
 ${DIR08}/SimpleTable
+literal: ${LIB_DEPS}
 
 @data_table
 ${DIR09}/datatable_main
 ${DIR09}/DataTableDir
 ${DIR09}/DataTable
+literal: ${LIB_DEPS}
 
 @selection_table
 ${DIR10}/selectiontable_main
 ${DIR10}/SelectionTableDir
 ${DIR10}/SelectionTable
+literal: ${LIB_DEPS}
 
 @edit_table
 ${DIR11}/edittable_main
 ${DIR11}/EditTableDir
 ${DIR11}/EditTable
+literal: ${LIB_DEPS}
 
 @clipboard
 ${DIR12}/clipboard
 ${DIR12}/ClipboardDir
 ${DIR12}/ClipboardWidget
-${DIR12}/CBStringInputDialog
+literal: ${LIB_DEPS}
 
 @undo
 ${DIR13}/undo
@@ -65,9 +76,11 @@ ${DIR13}/UndoWidgetDir
 ${DIR13}/UndoWidget
 ${DIR13}/UndoLine
 ${DIR13}/RedoLine
+literal: ${LIB_DEPS}
 
 @dnd_widget
 ${DIR14}/dnd_widget
 ${DIR14}/DNDWidgetDir
 ${DIR14}/DNDWidget
 ${DIR14}/DNDData
+literal: ${LIB_DEPS}

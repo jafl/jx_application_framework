@@ -10,7 +10,7 @@
 #ifndef _H_SimpleTableDir
 #define _H_SimpleTableDir
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class SimpleTableDir : public JXWindowDirector
 {

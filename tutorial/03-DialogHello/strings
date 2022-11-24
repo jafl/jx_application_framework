@@ -1,2 +1,8 @@
 0
 
+WindowTitle::DialogHelloDir		"Hello World Program"
+TextMenuTitle::DialogHelloDir	"Text"
+HelloText::DialogHelloDir		"Hello world!"
+
+DialogTitle::DHStringInputDialog	"Change Text"
+Prompt::DHStringInputDialog			"New Text:"

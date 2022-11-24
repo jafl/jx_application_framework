@@ -10,11 +10,11 @@
 #ifndef _H_ClipboardDir
 #define _H_ClipboardDir
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class ClipboardWidget;
 class JXTextMenu;
-class CBStringInputDialog;
+class JXGetStringDialog;
 
 class ClipboardDir : public JXWindowDirector
 {
@@ -30,9 +30,9 @@ protected:
 
 private:
 
-	ClipboardWidget*		itsText;
-	JXTextMenu* 			itsTextMenu;
-	CBStringInputDialog*	itsDialog;
+	ClipboardWidget*	itsText;
+	JXTextMenu* 		itsTextMenu;
+	JXGetStringDialog*	itsDialog;
 
 private:
 

@@ -10,7 +10,7 @@
 #ifndef _H_MenuHelloDir
 #define _H_MenuHelloDir
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class JXStaticText;
 class JXTextMenu;

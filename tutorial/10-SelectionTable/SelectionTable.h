@@ -10,8 +10,7 @@
 #ifndef _H_SelectionTable
 #define _H_SelectionTable
 
-#include <JXTable.h>
-#include <JArray.h>
+#include <jx-af/jx/JXTable.h>
 
 class JXMenuBar;
 class JXTextMenu;

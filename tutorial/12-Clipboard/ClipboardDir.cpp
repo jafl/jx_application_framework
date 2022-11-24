@@ -8,19 +8,16 @@
  ******************************************************************************/
 
 #include "ClipboardDir.h"
-#include "CBStringInputDialog.h"
 #include "ClipboardWidget.h"
-#include <JXWindow.h>
-#include <JXTextMenu.h>
-#include <JXMenuBar.h>
-#include <JString.h>
-#include <JXApplication.h>
-#include <jXGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXGetStringDialog.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
-// This defines the menu title and menu items
-static const JCharacter* kTextMenuTitleStr = "Text";
-static const JCharacter* kTextMenuStr =
+// This defines the menu items
+static const JUtf8Byte* kTextMenuStr =
 	"Change Text %k Meta-T %l| Quit %k Meta-Q";
 
 enum
@@ -68,7 +65,7 @@ void
 ClipboardDir::BuildWindow()
 {
 	// Create the window and give it to the director.
-	JXWindow* window = jnew JXWindow(this, 200,100, "Hello World Program");
+	JXWindow* window = jnew JXWindow(this, 200,100, JGetString("WindowTitle::ClipboardDir"));
 	assert( window != nullptr );
 
 	// This sets the minimum and maximum size to be the
@@ -82,7 +79,7 @@ ClipboardDir::BuildWindow()
 	assert( menuBar != nullptr );
 
 	// Create the menu and attach it to the menu bar.
-	itsTextMenu = menuBar->AppendTextMenu(kTextMenuTitleStr);
+	itsTextMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::ClipboardDir"));
 
 	// Set the menu items.
 	itsTextMenu->SetMenuItems(kTextMenuStr);
@@ -95,7 +92,7 @@ ClipboardDir::BuildWindow()
 
 	// Create the object to hold the text.
 	itsText =
-		jnew ClipboardWidget("Hello world!", menuBar, window,
+		jnew ClipboardWidget(JGetString("Text::ClipboardDir"), menuBar, window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			0, kJXDefaultMenuBarHeight, 200, 100-kJXDefaultMenuBarHeight);
 	assert ( itsText != nullptr );
@@ -202,7 +199,10 @@ ClipboardDir::SetupInputDialog()
 	assert ( itsDialog == nullptr );
 
 	// Create the dialog with text from our text widget object.
-	itsDialog = jnew CBStringInputDialog(this, itsText->GetText());
+	itsDialog = jnew JXGetStringDialog(this,
+		JGetString("DialogTitle::ClipboardDir"),
+		JGetString("DialogPrompt::ClipboardDir"),
+		itsText->GetText());
 	assert ( itsDialog != nullptr );
 
 	// We need to listen for the dialog's deactivation message.

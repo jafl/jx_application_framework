@@ -10,7 +10,7 @@
 #ifndef _H_UndoLine
 #define _H_UndoLine
 
-#include <JUndo.h>
+#include <jx-af/jcore/JUndo.h>
 
 class UndoWidget;
 

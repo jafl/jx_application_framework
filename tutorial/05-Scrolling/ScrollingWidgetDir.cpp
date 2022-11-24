@@ -3,15 +3,16 @@
 
 	BASE CLASS = JXWindowDirector
 
-	Written by Glenn Bach - 1997. 
+	Written by Glenn Bach - 1997.
 
  ******************************************************************************/
 
 #include "ScrollingWidgetDir.h"
 #include "ScrollingWidget.h"
-#include <JXWindow.h>
-#include <JXScrollbarSet.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -31,7 +32,7 @@ ScrollingWidgetDir::ScrollingWidgetDir
 /******************************************************************************
  BuildWindow
 
-	This is a convenient and organized way of putting all of the initial 
+	This is a convenient and organized way of putting all of the initial
 	elements into a window. This will keep the constructor less cluttered.
 
  ******************************************************************************/
@@ -40,10 +41,10 @@ void
 ScrollingWidgetDir::BuildWindow()
 {
 	// Create the window
-	JXWindow* window = jnew JXWindow(this, 300,200, "Scrolling Program");
+	JXWindow* window = jnew JXWindow(this, 300,200, JGetString("WindowTitle::ScrollingWidgetDir"));
 	assert( window != nullptr );
 
-    // Set window sizing
+	// Set window sizing
 	window->SetMinSize(300,200);
 	window->SetMaxSize(800,600);
 
@@ -56,8 +57,8 @@ ScrollingWidgetDir::BuildWindow()
 	// Create our custom widget.  It must be placed inside the
 	// special widget that JXScrollbarSet creates.  We get a
 	// pointer to this special widget by calling GetScrollEnclosure().
-	ScrollingWidget* widget = 
-		jnew ScrollingWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(), 
+	ScrollingWidget* widget =
+		jnew ScrollingWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
 	assert( widget != nullptr );

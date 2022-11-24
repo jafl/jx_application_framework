@@ -10,7 +10,7 @@
 #ifndef _H_UndoWidgetDir
 #define _H_UndoWidgetDir
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class JXTextMenu;
 class UndoWidget;

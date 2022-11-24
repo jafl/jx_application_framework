@@ -8,13 +8,10 @@
  ******************************************************************************/
 
 #include "HelloWorldDir.h"
-#include <JXWindow.h>
-#include <JXStaticText.h>
-#include <jGlobals.h>
-#include <jAssert.h>
-
-static const JCharacter* kWindowTitleID	= "WindowTitle::HelloWorldDir";
-static const JCharacter* kWindowTextID	= "WindowText::HelloWorldDir";
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -31,7 +28,7 @@ HelloWorldDir::HelloWorldDir
 	// Create the Hello World window. The function JGetString, retrieves
 	// the appropriate title string from the strings database. This allows
 	// for translations into other languages.
-	JXWindow* window = jnew JXWindow(this, 200,100, JGetString(kWindowTitleID));
+	JXWindow* window = jnew JXWindow(this, 200,100, JGetString("WindowTitle::HelloWorldDir"));
 
 	// Make sure that new succeeded
 	assert( window != nullptr );
@@ -47,7 +44,7 @@ HelloWorldDir::HelloWorldDir
 	// framework will delete it automatically when the window
 	// is closed.
 	JXStaticText* text =
-		jnew JXStaticText(JGetString(kWindowTextID), window,
+		jnew JXStaticText(JGetString("WindowText::HelloWorldDir"), window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			20, 40, 160, 20);
 	assert( text != nullptr );

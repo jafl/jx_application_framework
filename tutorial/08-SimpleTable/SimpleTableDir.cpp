@@ -9,9 +9,10 @@
 
 #include "SimpleTableDir.h"
 #include "SimpleTable.h"
-#include <JXWindow.h>
-#include <JXScrollbarSet.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -53,7 +54,7 @@ void
 SimpleTableDir::BuildWindow()
 {
 	// Create the window
-	JXWindow* window = jnew JXWindow(this, 300,200, "Test SimpleTable Program");
+	JXWindow* window = jnew JXWindow(this, 300,200, JGetString("WindowTitle::PrintWidgetDir"));
 	assert( window != nullptr );
 
 	// Set sizing

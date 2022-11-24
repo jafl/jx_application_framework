@@ -10,13 +10,13 @@
 #include "UndoWidget.h"
 #include "UndoLine.h"
 #include "RedoLine.h"
-#include <JXApplication.h>
-#include <JXWidget.h>
-#include <JXWindowPainter.h>
-#include <JXDragPainter.h>
-#include <JXColorManager.h>
-#include <jXGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXApplication.h>
+#include <jx-af/jx/JXWidget.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXDragPainter.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

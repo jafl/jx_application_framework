@@ -10,8 +10,8 @@
 #ifndef _H_RedoLine
 #define _H_RedoLine
 
-#include <JUndo.h>
-#include <JPoint.h>
+#include <jx-af/jcore/JUndo.h>
+#include <jx-af/jcore/JPoint.h>
 
 class UndoWidget;
 

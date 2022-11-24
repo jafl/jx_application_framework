@@ -1,2 +1,7 @@
 0
 
+WindowTitle::PrintWidgetDir	"Printing Test Program"
+PrintLabel::PrintWidgetDir	"Print"
+
+Text::PrintWidget			"Printing Test"
+Instructions::PrintWidget	"Type 'c' to clear, 'q' to quit."

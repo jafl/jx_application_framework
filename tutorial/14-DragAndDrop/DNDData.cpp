@@ -7,12 +7,12 @@
 	
  *****************************************************************************/
 
-#include <DNDData.h>
+#include "DNDData.h"
 #include <sstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 // This is the string that will be used to define the X Atom for our data.
-static const JCharacter* kDragLinesXAtomName	= "DNDTutorialWidget";
+static const JUtf8Byte* kDragLinesXAtomName	= "DNDTutorialWidget";
 
 /******************************************************************************
  Constructor
@@ -24,7 +24,7 @@ static const JCharacter* kDragLinesXAtomName	= "DNDTutorialWidget";
 DNDData::DNDData
 	(
 	JXWidget* 			widget, 
-	const JCharacter*	id
+	const JUtf8Byte*	id
 	)
 	:
 	JXSelectionData(widget, id),
@@ -131,11 +131,11 @@ DNDData::ConvertData
 
 		// The following code gives X the data in the form that it needs.
 		*returnType = itsLinesXAtom;
-		*dataLength = itsBuffer->GetLength();
+		*dataLength = itsBuffer->GetByteCount();
 		*data = jnew unsigned char[ *dataLength ];
 		if (*data != nullptr)
 		{
-			memcpy(*data, *itsBuffer, *dataLength);
+			memcpy(*data, itsBuffer->GetRawBytes(), *dataLength);
 			return true;
 		}
 	}
@@ -158,7 +158,7 @@ DNDData::ConvertData
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 DNDData::GetDNDAtomName()
 {
 	return kDragLinesXAtomName;

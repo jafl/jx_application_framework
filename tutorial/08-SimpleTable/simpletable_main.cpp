@@ -6,11 +6,11 @@
  ******************************************************************************/
 
 #include "SimpleTableDir.h"
-#include <JXApplication.h>
+#include <jx-af/jx/JXApplication.h>
 #include "../TutorialStringData.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
-static const JCharacter* kAppSignature = "tut8";
+static const JUtf8Byte* kAppSignature = "tut8";
 
 /******************************************************************************
  main

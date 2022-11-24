@@ -10,7 +10,7 @@
 #ifndef _H_HelloWorldDir
 #define _H_HelloWorldDir
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class HelloWorldDir : public JXWindowDirector
 {

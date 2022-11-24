@@ -9,11 +9,12 @@
 
 #include "PrintWidgetDir.h"
 #include "PrintWidget.h"
-#include <JXWindow.h>
-#include <JXScrollbarSet.h>
-#include <JXPSPrinter.h>
-#include <JXTextButton.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXPSPrinter.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -100,7 +101,7 @@ void
 PrintWidgetDir::BuildWindow()
 {
 	// Create the window
-	JXWindow* window = jnew JXWindow(this, 300,200, "Printing Test Program");
+	JXWindow* window = jnew JXWindow(this, 300,200, JGetString("WindowTitle::PrintWidgetDir"));
 	assert( window != nullptr );
 
 	// Set the window sizing
@@ -109,8 +110,8 @@ PrintWidgetDir::BuildWindow()
 
 	// Create the print button
 	itsPrintButton =
-		jnew JXTextButton("Print", window,
-			JXWidget::kHElastic, JXWidget::kVElastic,
+		jnew JXTextButton(JGetString("PrintLabel::PrintWidgetDir"), window,
+			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0, 0, 300, 20);
 
 	// We need to hear when the button has been pressed

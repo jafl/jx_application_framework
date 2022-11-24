@@ -16,21 +16,19 @@
 
 #include "EditTable.h"
 
-#include <JXMenuBar.h>
-#include <JXWindowPainter.h>
-#include <JXTextMenu.h>
-#include <JXIntegerInput.h>
-#include <JXColorManager.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXIntegerInput.h>
+#include <jx-af/jx/JXColorManager.h>
 
-#include <JList.h>
-#include <JString.h>
-#include <JTableSelection.h>
+#include <jx-af/jcore/JTableSelection.h>
 
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
-#include <jXGlobals.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/jXConstants.h>
+#include <jx-af/jx/jXGlobals.h>
 
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 // The default row height, column width, and insertion value.
 const JCoordinate	kDefRowHeight	= 20;
@@ -41,13 +39,12 @@ const JIndex 		kDefInsertValue	= 12;
 const JCoordinate kHMargin = JTextEditor::kMinLeftMarginWidth + 1;
 const JCoordinate kVMargin = 1;
 
-// These define the menu title and the menu items.
+// This defines the menu items.
 // The '|' separates menu items.  The complete syntax
 // is described in JXTextMenuData.doc in SetMenuItems()
 // and ParseMenuItemStr().
 
-static const JCharacter* kTableMenuTitleStr = "Table";
-static const JCharacter* kTableMenuStr =
+static const JUtf8Byte* kTableMenuStr =
 	"Insert %k Meta-I | Remove | Quit %k Meta-Q";
 
 enum
@@ -97,7 +94,7 @@ EditTable::EditTable
 	ListenTo(itsData);
 
 	// Attach our menu to the menu bar.
-	itsTableMenu = menuBar->AppendTextMenu(kTableMenuTitleStr);
+	itsTableMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::EditTable"));
 
 	// Set the menu items in our menu.
 	itsTableMenu->SetMenuItems(kTableMenuStr);
@@ -161,7 +158,7 @@ EditTable::TableDrawCell
 	HilightIfSelected(p, cell, rect);
 
 	// Convert the array's current element into a JString.
-	JString cellNumber(itsData->GetElement(cell.y));
+	JString cellNumber((JUInt64) itsData->GetElement(cell.y));
 
 	// Apply the margins.
 	JRect r = rect;
@@ -344,16 +341,9 @@ EditTable::UpdateTableMenu()
 	JTableSelection& selection = GetTableSelection();
 
 	// Check that only one cell is selected.
-	if (selection.GetSelectedCellCount() != 1)
-	{
-		// Too many cells are selected, or none are, so disallow insertion
-		itsTableMenu->DisableItem(kInsertCmd);
-	}
-	else
-	{
-		// Only one cell is selected, so allow insertion
-		itsTableMenu->EnableItem(kInsertCmd);
-	}
+	itsTableMenu->SetItemEnabled(kInsertCmd, selection.GetSelectedCellCount() == 1);
+
+	itsTableMenu->SetItemEnabled(kRemoveCmd, selection.GetSelectedCellCount() > 0);
 }
 
 /******************************************************************************

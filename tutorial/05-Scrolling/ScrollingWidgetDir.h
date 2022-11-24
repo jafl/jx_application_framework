@@ -10,7 +10,7 @@
 #ifndef _H_ScrollingWidgetDir
 #define _H_ScrollingWidgetDir
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class ScrollingWidgetDir : public JXWindowDirector
 {

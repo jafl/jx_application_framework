@@ -10,10 +10,8 @@
 #ifndef _H_DNDWidget
 #define _H_DNDWidget
 
-#include <JXScrollableWidget.h>
-#include <JXSelectionManager.h>
-
-#include <JArray.h>
+#include <jx-af/jx/JXScrollableWidget.h>
+#include <jx-af/jx/JXSelectionManager.h>
 
 class DNDWidget : public JXScrollableWidget
 {
@@ -26,7 +24,7 @@ public:
 
 	virtual ~DNDWidget() override;
 
-	void	HandleKeyPress(const int key,				
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 						   const JXKeyModifiers& modifiers) override;
 	
 protected:
@@ -43,7 +41,7 @@ protected:
 						  const JXKeyModifiers& modifiers) override;
 
 	void	GetSelectionData(JXSelectionData* data,
-							 const JCharacter* id) override;
+							 const JString& id) override;
 
 	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 						   const JPoint& pt, const Time time,

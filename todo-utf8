@@ -1,5 +1,10 @@
 medic: test with gdb, esp JStringIterator
 
+	list of source files is empty
+	typing doesn't work in file chooser
+	current disassembly doesn't shows line marker at top, not where it should be
+	when kill program, doesn't clear current source line marker
+
 unit test
 	JStyledText - every usage of JRunArrayIterator
 		SetFont(range)
@@ -17,10 +22,6 @@ unit test
 	JVIKeyHandler:  split into multiple tests covering all options
 
 -----
-
-systemg slow to open new window on macos - test on ubuntu
-
-
 
 jcc:
 	CBTree::SelectImplementors
@@ -75,8 +76,6 @@ jcc
 
 testjx crash - itsLineStarts was already broken
 
-medic ubuntu - crash on exit
-
 medic for go: delve back-end
 	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
 
@@ -89,8 +88,6 @@ D tree
 
 
 test jcc with old project formats in code_crusader/test-manual/*.jcc
-
-clean up tutorial
 
 -----
 

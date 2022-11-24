@@ -9,8 +9,9 @@
 
 #include "WidgetDir.h"
 #include "Widget.h"
-#include <JXWindow.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -51,7 +52,7 @@ void
 WidgetDir::BuildWindow()
 {
 	// Create the window
-	JXWindow* window = jnew JXWindow(this, 300,200, "Test Widget Program");
+	JXWindow* window = jnew JXWindow(this, 300,200, JGetString("WindowTitle::WidgetDir"));
 	assert( window != nullptr );
 
 	// Set sizing
