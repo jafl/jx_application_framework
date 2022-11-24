@@ -154,9 +154,9 @@ bool
 JVIKeyHandler::HandleKeyPress
 	(
 	const JUtf8Character&			key,
-	const bool					selectText,
+	const bool						selectText,
 	const JTextEditor::CaretMotion	motion,
-	const bool					deleteToTabStop
+	const bool						deleteToTabStop
 	)
 {
 	bool result;

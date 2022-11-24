@@ -70,6 +70,10 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXWindowPainter:
 //		*** Switched regions passed to Reset() and SetClipRegion()
 //			to global coordinates to avoid overflow.
+//	JXMenu:
+//		*** Renamed SetItemEnable() to SetItemEnabled().
+//	JXMenuData:
+//		*** Renamed SetItemEnable() to SetItemEnabled().
 
 // version 3.1.0:
 //	JXGetStringDialog:
@@ -2010,7 +2014,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			This means that the programmer is responsible for disabling
 //			empty menus.  It only checks after the NeedsUpdate message, however,
 //			so you can build the menu on the fly.
-//		Added SetItemEnable().
+//		Added SetItemEnabled().
 //		Popup menus (not in a menu bar) now draw a down arrow to the right
 //			of the menu title.
 //		Added PopUp() to allow (but not encourage!) hidden popup menus inside

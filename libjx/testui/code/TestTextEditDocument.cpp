@@ -275,9 +275,9 @@ TestTextEditDocument::Receive
 void
 TestTextEditDocument::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kSaveFileCmd, NeedsSave());
-	itsFileMenu->SetItemEnable(kRevertCmd, CanRevert());
-	itsFileMenu->SetItemEnable(kWritePrivateFmtCmd, NeedsSave());
+	itsFileMenu->SetItemEnabled(kSaveFileCmd, NeedsSave());
+	itsFileMenu->SetItemEnabled(kRevertCmd, CanRevert());
+	itsFileMenu->SetItemEnabled(kWritePrivateFmtCmd, NeedsSave());
 }
 
 /******************************************************************************

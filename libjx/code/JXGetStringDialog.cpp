@@ -26,8 +26,8 @@ JXGetStringDialog::JXGetStringDialog
 	const JString&	windowTitle,
 	const JString&	prompt,
 	const JString&	initialValue,
-	const bool	modal,
-	const bool	password
+	const bool		modal,
+	const bool		password
 	)
 	:
 	JXDialogDirector(supervisor, modal)

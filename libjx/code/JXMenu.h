@@ -130,7 +130,7 @@ public:
 	void	EnableAll();
 	void	DisableItem(const JIndex index);
 	void	DisableAll();
-	void	SetItemEnable(const JIndex index, const bool enabled);
+	void	SetItemEnabled(const JIndex index, const bool enabled);
 
 	bool	IsChecked(const JIndex index) const;
 	void	CheckItem(const JIndex index);

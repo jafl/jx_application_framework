@@ -379,14 +379,14 @@ JXVertDockPartition::UpdateDockMenu()
 	const bool canRemove =
 		GetEnclosure() != GetWindow() || GetCompartmentCount() > 2;
 
-	itsDockMenu->SetItemEnable(kRemoveTopCmd,    canRemove);
-	itsDockMenu->SetItemEnable(kRemoveBottomCmd, canRemove);
+	itsDockMenu->SetItemEnabled(kRemoveTopCmd,    canRemove);
+	itsDockMenu->SetItemEnabled(kRemoveBottomCmd, canRemove);
 
 	JIndex i;
 	if (GetElasticIndex(&i))
 	{
-		itsDockMenu->SetItemEnable(kSetTopElasticCmd,  i != itsCompartmentIndex );
-		itsDockMenu->SetItemEnable(kSetBottomElasticCmd, i != itsCompartmentIndex+1 );
+		itsDockMenu->SetItemEnabled(kSetTopElasticCmd,  i != itsCompartmentIndex );
+		itsDockMenu->SetItemEnabled(kSetBottomElasticCmd, i != itsCompartmentIndex+1 );
 		itsDockMenu->EnableItem(kSetAllElasticCmd);
 	}
 	else

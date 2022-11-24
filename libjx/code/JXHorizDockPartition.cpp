@@ -379,14 +379,14 @@ JXHorizDockPartition::UpdateDockMenu()
 	const bool canRemove =
 		GetEnclosure() != GetWindow() || GetCompartmentCount() > 2;
 
-	itsDockMenu->SetItemEnable(kRemoveLeftCmd,  canRemove);
-	itsDockMenu->SetItemEnable(kRemoveRightCmd, canRemove);
+	itsDockMenu->SetItemEnabled(kRemoveLeftCmd,  canRemove);
+	itsDockMenu->SetItemEnabled(kRemoveRightCmd, canRemove);
 
 	JIndex i;
 	if (GetElasticIndex(&i))
 	{
-		itsDockMenu->SetItemEnable(kSetLeftElasticCmd,  i != itsCompartmentIndex );
-		itsDockMenu->SetItemEnable(kSetRightElasticCmd, i != itsCompartmentIndex+1 );
+		itsDockMenu->SetItemEnabled(kSetLeftElasticCmd,  i != itsCompartmentIndex );
+		itsDockMenu->SetItemEnabled(kSetRightElasticCmd, i != itsCompartmentIndex+1 );
 		itsDockMenu->EnableItem(kSetAllElasticCmd);
 	}
 	else

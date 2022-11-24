@@ -174,7 +174,7 @@ TestFileListDirector::Receive
 void
 TestFileListDirector::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kShowLocationCmd,
+	itsFileMenu->SetItemEnabled(kShowLocationCmd,
 		itsFLSet->GetTable()->HasFocus() && itsFLSet->GetTable()->HasSelection() );
 
 	const JXFileListSet::FilterType type = itsFLSet->GetFilterType();

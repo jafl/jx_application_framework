@@ -64,7 +64,7 @@ protected:
 	void	EnableAll();
 	void	DisableItem(const JIndex index);
 	void	DisableAll();
-	void	SetItemEnable(const JIndex index, const bool enabled);
+	void	SetItemEnabled(const JIndex index, const bool enabled);
 
 	// must call inherited
 
@@ -171,7 +171,7 @@ JXMenuData::EnableItem
 	const JIndex index
 	)
 {
-	SetItemEnable(index, true);
+	SetItemEnabled(index, true);
 }
 
 /******************************************************************************
@@ -185,7 +185,7 @@ JXMenuData::DisableItem
 	const JIndex index
 	)
 {
-	SetItemEnable(index, false);
+	SetItemEnabled(index, false);
 }
 
 /******************************************************************************

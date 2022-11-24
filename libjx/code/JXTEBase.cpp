@@ -2411,7 +2411,7 @@ JXTEBase::UpdateEditMenu()
 				enable = itsCanToggleReadOnlyFlag;
 			}
 
-			itsEditMenu->SetItemEnable(i, enable && enableFlags.GetElement(cmd));
+			itsEditMenu->SetItemEnabled(i, enable && enableFlags.GetElement(cmd));
 		}
 	}
 }
@@ -2583,7 +2583,7 @@ JXTEBase::UpdateSearchMenu()
 		CmdIndex cmd;
 		if (SearchMenuIndexToCmd(i, &cmd))
 		{
-			itsSearchMenu->SetItemEnable(i, enableFlags.GetElement(cmd));
+			itsSearchMenu->SetItemEnabled(i, enableFlags.GetElement(cmd));
 		}
 	}
 }
@@ -2654,7 +2654,7 @@ JXTEBase::UpdateReplaceMenu()
 		CmdIndex cmd;
 		if (SearchReplaceMenuIndexToCmd(i, &cmd))
 		{
-			itsReplaceMenu->SetItemEnable(i, enableFlags.GetElement(cmd));
+			itsReplaceMenu->SetItemEnabled(i, enableFlags.GetElement(cmd));
 		}
 	}
 }

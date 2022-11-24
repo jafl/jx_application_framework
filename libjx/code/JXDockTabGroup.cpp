@@ -234,14 +234,14 @@ JXDockTabGroup::UpdateDockContextMenu()
 		itsDockContextMenu->AppendItem(itemText);
 	}
 
-	itsDockContextMenu->SetItemEnable(kUndockAllCmd, !dockList->IsEmpty());
-	itsDockContextMenu->SetItemEnable(kDockAllDefConfigCmd, dockMgr->CanDockAll());
+	itsDockContextMenu->SetItemEnabled(kUndockAllCmd, !dockList->IsEmpty());
+	itsDockContextMenu->SetItemEnabled(kDockAllDefConfigCmd, dockMgr->CanDockAll());
 
 	JXWindow* w;
 	found = itsDockWidget->GetWindow(itsDockContextIndex, &w);
 	assert( found );
 
-	itsDockContextMenu->SetItemEnable(kUpdateWindowTypeMapCmd, w->HasWindowType());
+	itsDockContextMenu->SetItemEnabled(kUpdateWindowTypeMapCmd, w->HasWindowType());
 	itsDockContextMenu->SetItemText(kUpdateWindowTypeMapCmd, JGetString("AutoDockNewWindows::JXDocktab"));
 }
 

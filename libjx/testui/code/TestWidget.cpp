@@ -1347,9 +1347,9 @@ TestWidget::UpdateActionsMenu()
 		itsActionsMenu->CheckItem(kToggleFillCmd);
 	}
 
-	itsActionsMenu->SetItemEnable(kShowHideQuitCmd,
+	itsActionsMenu->SetItemEnabled(kShowHideQuitCmd,
 								  itsQuitButton != nullptr);
-	itsActionsMenu->SetItemEnable(kActDeactQuitCmd,
+	itsActionsMenu->SetItemEnabled(kActDeactQuitCmd,
 								  itsQuitButton != nullptr);
 }
 

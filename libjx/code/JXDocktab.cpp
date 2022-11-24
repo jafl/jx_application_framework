@@ -278,13 +278,13 @@ JXDocktab::UpdateActionMenu()
 	}
 
 	const bool isDocked = GetWindow()->IsDocked();
-	itsActionMenu->SetItemEnable(kUndockCmd, isDocked);
-	itsActionMenu->SetItemEnable(kUndockAllCompartmentCmd, isDocked);
-	itsActionMenu->SetItemEnable(kUndockAllDockCmd, isDocked);
-	itsActionMenu->SetItemEnable(kUndockAllCmd, !dockList->IsEmpty());
-	itsActionMenu->SetItemEnable(kDockAllDefConfigCmd, dockMgr->CanDockAll());
+	itsActionMenu->SetItemEnabled(kUndockCmd, isDocked);
+	itsActionMenu->SetItemEnabled(kUndockAllCompartmentCmd, isDocked);
+	itsActionMenu->SetItemEnabled(kUndockAllDockCmd, isDocked);
+	itsActionMenu->SetItemEnabled(kUndockAllCmd, !dockList->IsEmpty());
+	itsActionMenu->SetItemEnabled(kDockAllDefConfigCmd, dockMgr->CanDockAll());
 
-	itsActionMenu->SetItemEnable(kUpdateWindowTypeMapCmd, GetWindow()->HasWindowType());
+	itsActionMenu->SetItemEnabled(kUpdateWindowTypeMapCmd, GetWindow()->HasWindowType());
 	if (isDocked)
 	{
 		itsActionMenu->SetItemText(kUpdateWindowTypeMapCmd, JGetString("AutoDockNewWindows::JXDocktab"));

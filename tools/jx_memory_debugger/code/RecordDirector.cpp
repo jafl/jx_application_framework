@@ -323,7 +323,7 @@ RecordDirector::Receive
 void
 RecordDirector::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kOpenSelCmd, (itsRecordTable->GetTableSelection()).HasSelection());
+	itsFileMenu->SetItemEnabled(kOpenSelCmd, (itsRecordTable->GetTableSelection()).HasSelection());
 }
 
 /******************************************************************************

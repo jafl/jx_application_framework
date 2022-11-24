@@ -962,7 +962,7 @@ StatsDirector::ReceiveErrorMessage
 void
 StatsDirector::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kGetRecordsCmd, itsProcess != nullptr);
+	itsFileMenu->SetItemEnabled(kGetRecordsCmd, itsProcess != nullptr);
 }
 
 /******************************************************************************

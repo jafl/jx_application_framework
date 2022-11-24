@@ -322,12 +322,12 @@ JXMenuData::DisableAll()
 }
 
 /******************************************************************************
- SetItemEnable (virtual protected)
+ SetItemEnabled (virtual protected)
 
  ******************************************************************************/
 
 void
-JXMenuData::SetItemEnable
+JXMenuData::SetItemEnabled
 	(
 	const JIndex	index,
 	const bool	enabled

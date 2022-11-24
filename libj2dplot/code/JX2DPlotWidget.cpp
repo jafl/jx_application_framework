@@ -1050,10 +1050,10 @@ JX2DPlotWidget::UpdateCursorMenu()
 		itsCursorMenu->CheckItem(kDualCursorsCmd);
 	}
 
-	itsCursorMenu->SetItemEnable(kMarkCursorCmd, CursorIsSelected());
-	itsCursorMenu->SetItemEnable(kMarkAllVisCursorsCmd,
+	itsCursorMenu->SetItemEnabled(kMarkCursorCmd, CursorIsSelected());
+	itsCursorMenu->SetItemEnabled(kMarkAllVisCursorsCmd,
 								 XCursorVisible() || YCursorVisible());
-	itsCursorMenu->SetItemEnable(kRemoveAllMarksCmd,
+	itsCursorMenu->SetItemEnabled(kRemoveAllMarksCmd,
 								GetXMarkCount() > 0 || GetYMarkCount() > 0);
 }
 
@@ -1241,13 +1241,13 @@ JX2DPlotWidget::UpdateCurveOptionsMenu()
 
 	// error bars
 
-	itsCurveOptionsMenu->SetItemEnable(kXErrorsCmd, curve.HasXErrors());
+	itsCurveOptionsMenu->SetItemEnabled(kXErrorsCmd, curve.HasXErrors());
 	if (curve.HasXErrors() && XErrorsAreVisible(itsCurveOptionsIndex))
 	{
 		itsCurveOptionsMenu->CheckItem(kXErrorsCmd);
 	}
 
-	itsCurveOptionsMenu->SetItemEnable(kYErrorsCmd, curve.HasYErrors());
+	itsCurveOptionsMenu->SetItemEnabled(kYErrorsCmd, curve.HasYErrors());
 	if (curve.HasYErrors() && YErrorsAreVisible(itsCurveOptionsIndex))
 	{
 		itsCurveOptionsMenu->CheckItem(kYErrorsCmd);
