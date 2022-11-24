@@ -101,6 +101,7 @@ JUpdateChecker::CheckForNewerVersion()
 		std::cerr << "Failed to read latest version from curl" << std::endl;
 		return;
 	}
+	vers.TrimWhitespace();
 
 	itsNextServerTime = now + kServerCheckInterval;
 
