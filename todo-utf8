@@ -1,4 +1,6 @@
-medic: test with gdb, esp JStringIterator
+medic: test with gdb
+	analyze core
+	init args from .gdbinit
 
 	list of source files is empty
 	typing doesn't work in file chooser
