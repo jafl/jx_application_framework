@@ -23,10 +23,16 @@ ifndef SIGNATURE
 endif
 
 .PHONY : default
-default: libs all post_link
+default: libs pre_build all post_link
 
 ${BIN_NAME}:: strings
 	@true # without this, compile_jstrings doesn't link
+
+.PHONY : pre_build
+pre_build::
+  ifdef J_MACOS_ENABLE_CORE
+	${RM} ${BIN_NAME};
+  endif
 
 .PHONY : post_link
 post_link::
@@ -105,7 +111,7 @@ libs::
 EXE_NAME := $(call EXE,${BIN_NAME})
 
 .PHONY : install
-install:: ${BIN_NAME}
+install:: pre_build all post_link
   ifndef J_MACOS_ENABLE_CORE
 	@${J_STRIP_DEBUG} ${EXE_NAME}
   endif
