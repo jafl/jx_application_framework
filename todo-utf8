@@ -2,10 +2,13 @@ medic: test with gdb
 	analyze core
 	init args from .gdbinit
 
-	list of source files is empty
-	typing doesn't work in file chooser
-	current disassembly doesn't shows line marker at top, not where it should be
 	when kill program, doesn't clear current source line marker
+
+jcc
+	don't scroll for undo if it is already visible
+	hangs on xml script run on entire file (Bahamas.html)
+
+
 
 unit test
 	JStyledText - every usage of JRunArrayIterator
@@ -92,6 +95,10 @@ D tree
 test jcc with old project formats in code_crusader/test-manual/*.jcc
 
 -----
+
+ubuntu
+	typing doesn't work in file chooser
+		XFilterEvent captures key events (and sometimes plays them back reversed)
 
 JTextEditor:
 	need smarter update during indent/outdent, to maintain caret location

@@ -618,7 +618,6 @@ JXApplication::HandleOneEventForWindow
 
 	itsHasBlockingWindowFlag = true;
 	itsHadBlockingWindowFlag = false;		// req'd by JXWindow
-
 {
 	std::lock_guard lock(*itsTaskMutex);
 	if (itsIdleTaskStack->IsEmpty())
