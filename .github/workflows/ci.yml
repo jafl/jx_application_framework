@@ -27,7 +27,7 @@ jobs:
 
       - name: Sonar data cache
         id: cache-sonar-data
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ env.SONAR_CACHE_PATH }}
           key: ${{ runner.os }}-sonar-cache-${{ env.FORCE_CACHE_UPDATE }}
@@ -36,7 +36,7 @@ jobs:
 
       - name: RE/flex cache
         id: cache-reflex
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: misc/reflex
           key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
@@ -187,7 +187,7 @@ jobs:
 
       - name: RE/flex cache
         id: cache-reflex
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: misc/reflex
           key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
