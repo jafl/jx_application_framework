@@ -102,7 +102,7 @@ static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 
 #if defined JMOUNT_MACOS
 
-static const JRegex theLinePattern = "^(/[^\\s]+)\\s+on\\s+(/[^)]+?)\\s+\\((.+)\\)";
+static const JRegex theLinePattern = "^((?:msdos|exfat):/)?(/[^\\s]+)\\s+on\\s+(/[^)]+?)\\s+\\((.+)\\)";
 
 bool
 JGetUserMountPointList
@@ -170,15 +170,15 @@ JGetUserMountPointList
 	{
 		const JStringMatch& m = iter.GetLastMatch();
 
-		options = m.GetSubstring(3);
+		options = m.GetSubstring(4);
 		if (options.Contains("nobrowse"))
 		{
 			continue;
 		}
 
-		auto* path = jnew JString(m.GetSubstring(2));
+		auto* path = jnew JString(m.GetSubstring(3));
 		assert( path != nullptr );
-		auto* devicePath = jnew JString(m.GetSubstring(1));
+		auto* devicePath = jnew JString(m.GetSubstring(2));
 		assert( devicePath != nullptr );
 
 		const JMountType type =
@@ -192,7 +192,9 @@ JGetUserMountPointList
 		}
 
 		JFileSystemType fsType = kOtherFSType;
-		if (options.Contains("msdos"))
+		if (options.Contains("msdos") ||
+			options.Contains("exfat") ||
+			!m.GetSubstring(1).IsEmpty())
 		{
 			fsType = kVFATType;
 		}
@@ -638,7 +640,9 @@ JIsMounted
 			{
 				*fsType = kOtherFSType;
 				if (JString::Compare(info[i].f_fstypename, "vfat", JString::kIgnoreCase) == 0 ||	// UNIX
-					JString::Compare(info[i].f_fstypename, "msdos", JString::kIgnoreCase) == 0)		// macOS
+					JString::Compare(info[i].f_fstypename, "msdos", JString::kIgnoreCase) == 0 ||	// macOS
+					JString::CompareMaxNBytes(info[i].f_mntfromname, "msdos:", 6) == 0 ||			// macOS
+					JString::CompareMaxNBytes(info[i].f_mntfromname, "exfat:", 6) == 0)				// macOS
 				{
 					*fsType = kVFATType;
 				}
