@@ -267,15 +267,14 @@ JXFSBindingManager::ProcessFiles
 			assert( itsRunFileDialog != nullptr );
 			if (itsRunFileDialog->DoDialog())
 			{
-				JFSBinding::CommandType type;
-				bool singleFile, saveBinding;
+				bool saveBinding;
 				const JString& cmd = itsRunFileDialog->GetCommand(&type, &singleFile, &saveBinding);
 
 				if (ignoreBindings && i == 1)
 				{
-					for (auto* f : *fileList)
+					for (auto* f1 : *fileList)
 					{
-						f->SetCommand(cmd, type, singleFile);
+						f1->SetCommand(cmd, type, singleFile);
 					}
 				}
 				else

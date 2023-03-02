@@ -31,10 +31,10 @@ public:
 	bool	ShowToolBar();
 	bool	UseSmallButtons();
 
-	JXToolBarButton::Type	GetType();
+	JXToolBarButton::Type	GetType() const;
 
 	void	ReadSetup(std::istream& is);
-	void	WriteSetup(std::ostream& os);
+	void	WriteSetup(std::ostream& os) const;
 
 protected:
 

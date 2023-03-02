@@ -819,6 +819,7 @@ JXDNDManager::ChooseDropAction
 	const JPtrArray<JString>&	descriptionList,
 	Atom*						action
 	)
+	const
 {
 	auto* dlog = jnew JXDNDChooseDropActionDialog(actionList, descriptionList, *action);
 	assert( dlog != nullptr );

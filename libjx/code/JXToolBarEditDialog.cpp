@@ -158,7 +158,7 @@ JXToolBarEditDialog::BuildWindow()
 }
 
 /******************************************************************************
- ReadPrefs
+ ReadSetup
 
 	This uses assert() to check the version number because we cannot use
 	a marker to skip the data (since it contains strings), so it is the
@@ -180,7 +180,7 @@ JXToolBarEditDialog::ReadSetup
 }
 
 /******************************************************************************
- WritePrefs
+ WriteSetup
 
  ******************************************************************************/
 
@@ -189,6 +189,7 @@ JXToolBarEditDialog::WriteSetup
 	(
 	std::ostream& os
 	)
+	const
 {
 	os << ' ' << kCurrentPrefsVersion << ' ';
 	GetWindow()->WriteGeometry(os);
@@ -246,6 +247,7 @@ JXToolBarEditDialog::UseSmallButtons()
 
 JXToolBarButton::Type
 JXToolBarEditDialog::GetType()
+	const
 {
 	bool images = itsShowImagesCB->IsChecked();
 	bool text	= itsShowTextCB->IsChecked();

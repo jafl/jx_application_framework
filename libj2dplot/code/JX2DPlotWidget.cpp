@@ -657,7 +657,6 @@ JX2DPlotWidget::ChangeScale
 	assert( dlog != nullptr );
 	if (dlog->DoDialog())
 	{
-		JFloat xmin, xmax, xinc, ymin, ymax, yinc;
 		bool xLinear, yLinear;
 
 		dlog->GetScaleValues(&xmin, &xmax, &xinc, &xLinear, &ymin, &ymax, &yinc, &yLinear);
@@ -698,7 +697,6 @@ JX2DPlotWidget::ChangeRange()
 
 	if (dlog->DoDialog())
 	{
-		JFloat xmax, xmin, ymax, ymin;
 		if (dlog->GetRangeValues(&xmax, &xmin, &ymax, &ymin))
 		{
 			SetRange(xmin, xmax, ymin, ymax);

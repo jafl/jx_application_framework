@@ -54,7 +54,7 @@ public:
 							  JPtrArray<JString>* descriptionList) const;
 	bool	ChooseDropAction(const JArray<Atom>& actionList,
 								 const JPtrArray<JString>& descriptionList,
-								 Atom* action);
+								 Atom* action) const;
 
 	bool	IsDragging() const;
 	Window		GetDraggerWindow() const;

@@ -26,7 +26,7 @@ public:
 
 protected:
 
-	virtual ~JXUrgentTask();
+	~JXUrgentTask() override;
 
 	virtual void	Perform() = 0;
 

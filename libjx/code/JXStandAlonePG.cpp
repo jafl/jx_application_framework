@@ -139,7 +139,7 @@ JXStandAlonePG::ProcessContinuing()
 	{
 		assert( JXApplication::IsWorkerFiber() );
 
-		std::unique_lock<boost::fibers::mutex> lock(itsMutex);
+		std::unique_lock lock(itsMutex);
 		itsCondition.wait(lock, [this](){ return itsContinueFlag; });
 		itsContinueFlag = false;
 	}

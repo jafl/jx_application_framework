@@ -97,16 +97,14 @@ PrefsManager::GetPrevVersionStr()
 void
 PrefsManager::EditPrefs()
 {
-	const JString openCmd = GetOpenFileCommand();
+	JString openCmd = GetOpenFileCommand();
 
 	auto* dlog = jnew PrefsDialog(openCmd);
 	assert( dlog != nullptr );
 
 	if (dlog->DoDialog())
 	{
-		JString openCmd;
 		dlog->GetValues(&openCmd);
-
 		SetOpenFileCommand(openCmd);
 	}
 }

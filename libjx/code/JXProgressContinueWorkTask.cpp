@@ -50,7 +50,7 @@ JXProgressContinueWorkTask::Perform
 	const Time delta
 	)
 {
-	std::unique_lock<boost::fibers::mutex> lock(*itsMutex);
+	std::unique_lock lock(*itsMutex);
 	*itsContinueFlag = true;
 	lock.unlock();
 

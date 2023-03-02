@@ -128,7 +128,7 @@ JXModalDialogDirector::DoDialog()
 
 	Activate();
 
-	std::unique_lock<boost::fibers::mutex> lock(itsMutex);
+	std::unique_lock lock(itsMutex);
 	itsCondition.wait(lock, [this](){ return itsDoneFlag; });
 
 	return !itsCancelFlag;
@@ -227,7 +227,7 @@ JXModalDialogDirector::Deactivate()
 		bool deleted   = false;
 		itsDeletedFlag = &deleted;
 
-		std::unique_lock<boost::fibers::mutex> lock(itsMutex);
+		std::unique_lock lock(itsMutex);
 		itsDoneFlag = true;
 		lock.unlock();
 

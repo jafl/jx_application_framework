@@ -49,7 +49,7 @@ private:
 class JXBoostPriorityScheduler :
 	public boost::fibers::algo::algorithm_with_properties<JXBoostPriorityProps>
 {
-	typedef boost::fibers::scheduler::ready_queue_type rqueue_t;
+	using rqueue_t = boost::fibers::scheduler::ready_queue_type;
 
 public:
 
@@ -61,12 +61,13 @@ public:
 
 	// fiber is ready to run
 
-	virtual void awakened
+	void awakened
 		(
 		boost::fibers::context*	ctx,
 		JXBoostPriorityProps&	props
 		)
 		noexcept
+		override
 	{
 		const int p = props.GetPriority();
 
@@ -77,8 +78,7 @@ public:
 		// with that same priority. In other words: search for the first fiber
 		// in the queue with LOWER priority, and insert before that one.
 
-		rqueue_t::iterator i(
-			std::find_if(itsReadyQ.begin(), itsReadyQ.end(),
+		auto i(std::find_if(itsReadyQ.begin(), itsReadyQ.end(),
 				[this, p](boost::fibers::context& c)
 				{
 					return properties(&c).GetPriority() < p;
@@ -92,7 +92,7 @@ public:
 
 	// tell the manager which fiber to run
 
-	virtual boost::fibers::context* pick_next() noexcept
+	boost::fibers::context* pick_next() noexcept override
 	{
 		if (itsReadyQ.empty())
 		{
@@ -111,19 +111,20 @@ public:
 		return ctx;
 	}
 
-	virtual bool has_ready_fibers() const noexcept
+	bool has_ready_fibers() const noexcept override
 	{
 		return ! itsReadyQ.empty();
 	}
 
 	// reshuffle the queue based on the new priority
 
-	virtual void property_change
+	void property_change
 		(
 		boost::fibers::context*	ctx,
 		JXBoostPriorityProps&	props
 		)
 		noexcept
+		override
 	{
 		if (ctx->ready_is_linked())
 		{
@@ -137,11 +138,12 @@ public:
 		std::chrono::steady_clock::time_point const& time_point
 		)
 		noexcept
+		override
 	{
-		std::unique_lock<std::mutex> lock(itsMutex);
+		std::unique_lock lock(itsMutex);
 		auto f = [this](){ return itsNotifyFlag; };
 
-		if ((std::chrono::steady_clock::time_point::max)() == time_point)
+		if (std::chrono::steady_clock::time_point::max() == time_point)
 		{
 			itsCondition.wait(lock, f);
 		}
@@ -153,9 +155,9 @@ public:
 		itsNotifyFlag = false;
 	}
 
-	void notify() noexcept
+	void notify() noexcept override
 	{
-		std::unique_lock<std::mutex> lock(itsMutex);
+		std::unique_lock lock(itsMutex);
 		itsNotifyFlag = true;
 		lock.unlock();
 		itsCondition.notify_all();
