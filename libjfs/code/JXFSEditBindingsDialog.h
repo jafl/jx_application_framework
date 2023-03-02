@@ -8,8 +8,8 @@
 #ifndef _H_JXFSEditBindingsDialog
 #define _H_JXFSEditBindingsDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
-#include "jx-af/jfs/JFSBinding.h"		// need defn of CommandType
+#include <jx-af/jx/JXModalDialogDirector.h>
+#include "JFSBinding.h"		// need defn of CommandType
 
 class JXTextButton;
 class JXTextCheckbox;
@@ -20,7 +20,7 @@ class JXFSBindingTable;
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Woverloaded-virtual"
 
-class JXFSEditBindingsDialog : public JXDialogDirector
+class JXFSEditBindingsDialog : public JXWindowDirector
 {
 public:
 

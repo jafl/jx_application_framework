@@ -10,8 +10,8 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JMMTable.h"
-#include "jx-af/jcore/JArray.h"
+#include "JMMTable.h"
+#include "JArray.h"
 
 class JMMArrayTable : public JMMTable
 {

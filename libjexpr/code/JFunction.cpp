@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JFunction.h"
-#include "jx-af/jexpr/JExprRenderer.h"
-#include "jx-af/jexpr/JExprRectList.h"
-#include "jx-af/jexpr/JExprParser.h"
+#include "JFunction.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
+#include "JExprParser.h"
 #include <sstream>
 #include <jx-af/jcore/jAssert.h>
 

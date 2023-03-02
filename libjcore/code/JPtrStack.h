@@ -10,8 +10,8 @@
 #ifndef _H_JPtrStack
 #define _H_JPtrStack
 
-#include "jx-af/jcore/JStack.h"
-#include "jx-af/jcore/JPtrArray.h"
+#include "JStack.h"
+#include "JPtrArray.h"
 
 template <class T, class S>
 class JPtrStack : public JStack<T*,S>

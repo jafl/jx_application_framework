@@ -650,17 +650,6 @@ F
 "./code/JCreateTextPG.cpp"
 F
 T
-1 "csf"
-T
-2 "JChooseSaveFile.cpp"
-F
-"./code/JChooseSaveFile.cpp"
-T
-2 "JTextChooseSaveFile.cpp"
-F
-"./code/JTextChooseSaveFile.cpp"
-F
-T
 1 "memory manager"
 T
 2 "jNew.cpp"

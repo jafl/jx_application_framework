@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/jXEventUtil.h"
-#include "jx-af/jx/JXDisplay.h"
+#include "jXEventUtil.h"
+#include "JXDisplay.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 

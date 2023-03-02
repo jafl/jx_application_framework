@@ -23,25 +23,25 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXTEBase.h"
-#include "jx-af/jx/JXSearchTextDialog.h"
-#include "jx-af/jx/JXTEBlinkCaretTask.h"
-#include "jx-af/jx/JXGoToLineDialog.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXMenuBar.h"
-#include "jx-af/jx/JXTextMenu.h"
-#include "jx-af/jx/JXScrollbar.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/JXPSPrinter.h"
-#include "jx-af/jx/JXPTPrinter.h"
-#include "jx-af/jx/JXSpellChecker.h"
-#include "jx-af/jx/JXSelectionManager.h"
-#include "jx-af/jx/JXDNDManager.h"
-#include "jx-af/jx/JXTextSelection.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/jXGlobals.h"
-#include "jx-af/jx/jXActionDefs.h"
+#include "JXTEBase.h"
+#include "JXSearchTextDialog.h"
+#include "JXTEBlinkCaretTask.h"
+#include "JXGoToLineDialog.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXMenuBar.h"
+#include "JXTextMenu.h"
+#include "JXScrollbar.h"
+#include "JXWindowPainter.h"
+#include "JXPSPrinter.h"
+#include "JXPTPrinter.h"
+#include "JXSpellChecker.h"
+#include "JXSelectionManager.h"
+#include "JXDNDManager.h"
+#include "JXTextSelection.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
+#include "jXActionDefs.h"
 
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JRegex.h>
@@ -342,8 +342,6 @@ JXTEBase::JXTEBase
 	itsPTPrinter      = nullptr;
 	itsPTPrintName    = nullptr;
 
-	itsGoToLineDialog = nullptr;
-
 	itsDNDDragInfo    = nullptr;
 	itsDNDDropInfo    = nullptr;
 
@@ -465,6 +463,11 @@ JXTEBase::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
+	if (!TEIsActive())
+	{
+		return;		// events can end up in queue before modal dialog blocks everything
+	}
+
 	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 	{
 		JXGetSearchTextDialog()->SetActiveTE(this);
@@ -1115,6 +1118,11 @@ JXTEBase::HandleKeyPress
 	const JXKeyModifiers&	origModifiers
 	)
 {
+	if (!TEIsActive())
+	{
+		return;		// events can end up in queue before modal dialog blocks everything
+	}
+
 	if (itsSearchMenu != nullptr || itsReplaceMenu != nullptr)
 	{
 		JXGetSearchTextDialog()->SetActiveTE(this);
@@ -2275,52 +2283,6 @@ JXTEBase::Receive
 		}
 	}
 
-	else if (sender == itsPSPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const auto* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			SetPSPrintFileName(itsPSPrinter->GetFileName());
-			Print(*itsPSPrinter);
-		}
-		StopListening(itsPSPrinter);
-	}
-
-	else if (sender == itsPTPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const auto* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			SetPTPrintFileName(itsPTPrinter->GetFileName());
-			itsPTPrinter->Print(GetText()->GetText());
-		}
-		StopListening(itsPTPrinter);
-	}
-
-	else if (sender == itsGoToLineDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			bool physicalLineIndexFlag;
-			JIndex lineIndex = itsGoToLineDialog->GetLineIndex(&physicalLineIndexFlag);
-			if (physicalLineIndexFlag)
-			{
-				lineIndex = CRLineIndexToVisualLineIndex(lineIndex);
-			}
-			GoToLine(lineIndex);
-		}
-		itsGoToLineDialog = nullptr;
-	}
-
 	else
 	{
 		if (sender == this && message.Is(JTextEditor::kCaretLocationChanged))
@@ -2548,7 +2510,7 @@ JXTEBase::HandleEditMenu
 #define MenuVar      itsEditMenu
 #define CmdType      MenuItemInfo
 #define CmdIDList    kEditMenuItemInfo
-#include "jx-af/jx/JXMenuItemIDUtil.th"
+#include "JXMenuItemIDUtil.th"
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn
@@ -2619,7 +2581,7 @@ JXTEBase::HandleSearchMenu
 #define MenuVar      itsSearchMenu
 #define CmdType      MenuItemInfo
 #define CmdIDList    kSearchMenuItemInfo
-#include "jx-af/jx/JXMenuItemIDUtil.th"
+#include "JXMenuItemIDUtil.th"
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn
@@ -2774,7 +2736,7 @@ JXTEBase::HandleSearchReplaceCmd
 #define MenuVar      itsReplaceMenu
 #define CmdType      MenuItemInfo
 #define CmdIDList    kReplaceMenuItemInfo
-#include "jx-af/jx/JXMenuItemIDUtil.th"
+#include "JXMenuItemIDUtil.th"
 #undef ClassName
 #undef IndexToCmdFn
 #undef CmdToIndexFn
@@ -3110,7 +3072,7 @@ JXTEBase::HandlePSPageSetup()
 {
 	assert( itsPSPrinter != nullptr );
 
-	itsPSPrinter->BeginUserPageSetup();
+	itsPSPrinter->EditUserPageSetup();
 }
 
 /******************************************************************************
@@ -3126,8 +3088,11 @@ JXTEBase::PrintPS()
 	assert( itsPSPrinter != nullptr );
 
 	itsPSPrinter->SetFileName(GetPSPrintFileName());
-	itsPSPrinter->BeginUserPrintSetup();
-	ListenTo(itsPSPrinter);
+	if (itsPSPrinter->ConfirmUserPrintSetup())
+	{
+		SetPSPrintFileName(itsPSPrinter->GetFileName());
+		Print(*itsPSPrinter);
+	}
 }
 
 /******************************************************************************
@@ -3161,7 +3126,7 @@ JXTEBase::DrawPrintFooter
 	pageNumberStr.Prepend("Page ");
 
 	p.String(pageRect, pageNumberStr,
-			 JPainter::kHAlignCenter, JPainter::kVAlignBottom);
+			 JPainter::HAlign::kCenter, JPainter::VAlign::kBottom);
 }
 
 /******************************************************************************
@@ -3235,7 +3200,7 @@ JXTEBase::HandlePTPageSetup()
 {
 	assert( itsPTPrinter != nullptr );
 
-	itsPTPrinter->BeginUserPageSetup();
+	itsPTPrinter->EditUserPageSetup();
 }
 
 /******************************************************************************
@@ -3251,8 +3216,11 @@ JXTEBase::PrintPT()
 	assert( itsPTPrinter != nullptr );
 
 	itsPTPrinter->SetFileName(GetPTPrintFileName());
-	itsPTPrinter->BeginUserPrintSetup();
-	ListenTo(itsPTPrinter);
+	if (itsPTPrinter->ConfirmUserPrintSetup())
+	{
+		SetPTPrintFileName(itsPTPrinter->GetFileName());
+		itsPTPrinter->Print(GetText()->GetText());
+	}
 }
 
 /******************************************************************************
@@ -3265,16 +3233,21 @@ JXTEBase::PrintPT()
 void
 JXTEBase::AskForLine()
 {
-	assert( itsGoToLineDialog == nullptr );
+	JIndex lineIndex = GetLineForChar(GetInsertionIndex().charIndex);
 
-	const JIndex lineIndex = GetLineForChar(GetInsertionIndex().charIndex);
-	const JSize lineCount  = GetLineCount();
+	auto* dlog = jnew JXGoToLineDialog(lineIndex, GetLineCount());
+	assert( dlog != nullptr );
 
-	JXDirector* sup = GetWindow()->GetDirector();
-	itsGoToLineDialog = jnew JXGoToLineDialog(sup, lineIndex, lineCount);
-	assert( itsGoToLineDialog != nullptr );
-	itsGoToLineDialog->BeginDialog();
-	ListenTo(itsGoToLineDialog);
+	if (dlog->DoDialog())
+	{
+		bool physicalLineIndexFlag;
+		lineIndex = dlog->GetLineIndex(&physicalLineIndexFlag);
+		if (physicalLineIndexFlag)
+		{
+			lineIndex = CRLineIndexToVisualLineIndex(lineIndex);
+		}
+		GoToLine(lineIndex);
+	}
 }
 
 /******************************************************************************

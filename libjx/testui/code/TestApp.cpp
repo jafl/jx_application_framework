@@ -83,10 +83,13 @@ TestApp::OpenDocuments()
 	{
 		input >> fullName;
 
-		TestTextEditDocument* doc = jnew TestTextEditDocument(this, fullName, false);
-		assert( doc != nullptr );
-		doc->GetWindow()->ReadGeometry(input);
-		doc->Activate();
+		if (JFileExists(fullName))
+		{
+			TestTextEditDocument* doc = jnew TestTextEditDocument(this, fullName, false);
+			assert( doc != nullptr );
+			doc->GetWindow()->ReadGeometry(input);
+			doc->Activate();
+		}
 	}
 }
 
@@ -151,9 +154,9 @@ TestApp::DisplayAbout
 	JXDisplay* display
 	)
 {
-	AboutDialog* dlog = jnew AboutDialog(this);
+	AboutDialog* dlog = jnew AboutDialog;
 	assert( dlog != nullptr );
-	dlog->BeginDialog();
+	dlog->DoDialog();
 }
 
 /******************************************************************************

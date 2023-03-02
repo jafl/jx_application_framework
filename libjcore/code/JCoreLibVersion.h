@@ -123,6 +123,18 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JArray:
 //		*** Renamed SearchSorted1 to SearchSortedOTI (option to insert).
 //	Updated JGetDataDirectories() to use homebrew path on macOS.
+//	*** Removed JChooseSaveFile because the API shouldn't be blocking.
+//	jGlobals:
+//		*** Removed JGetChooseSaveFile().
+//		Created JScheduleTask() to support fibers.
+//	JProgressDisplay:
+//		*** Switched allowBackground argument to modal.  This is inverted!
+//	JPrinter:
+//		*** Removed PageSetupFinished & PrintSetupFinished because the
+//			associated functions are now blocking.
+//	JPainter:
+//		*** Converted H/VAlign into "enum struct" to avoid problems
+//			with overloaded functions. ::k([HV])Align -> ::$1Align::k
 
 // version 3.2.0:
 //	jMountUtil:

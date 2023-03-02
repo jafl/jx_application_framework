@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jfs/JFSBinding.h"
+#include "JFSBinding.h"
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/JSubstitute.h>

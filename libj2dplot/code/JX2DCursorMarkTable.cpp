@@ -7,12 +7,12 @@
 
  ******************************************************************************/
 
-#include "jx-af/j2dplot/JX2DCursorMarkTable.h"
+#include "JX2DCursorMarkTable.h"
 
 #include <jx-af/jx/JXWindowDirector.h>
 #include <jx-af/jx/JXWindow.h>
 
-#include "jx-af/j2dplot/J2DPlotWidget.h"
+#include "J2DPlotWidget.h"
 
 #include <jx-af/jcore/JPagePrinter.h>
 #include <jx-af/jcore/JFontManager.h>
@@ -89,26 +89,26 @@ JX2DCursorMarkTable::TableDrawCell
 	if (cell.y == 1 && cell.x == 1)
 	{
 		p.String(r, JGetString("XColumnTitle::JX2DCursorMarkTable"),
-			itsPrintingFlag ? JPainter::kHAlignLeft : JPainter::kHAlignCenter,
-			JPainter::kVAlignCenter);
+			itsPrintingFlag ? JPainter::HAlign::kLeft : JPainter::HAlign::kCenter,
+			JPainter::VAlign::kCenter);
 	}
 	else if (cell.y == 1 && cell.x == 2)
 	{
 		p.String(r, JGetString("YColumnTitle::JX2DCursorMarkTable"),
-			itsPrintingFlag ? JPainter::kHAlignLeft : JPainter::kHAlignCenter,
-			JPainter::kVAlignCenter);
+			itsPrintingFlag ? JPainter::HAlign::kLeft : JPainter::HAlign::kCenter,
+			JPainter::VAlign::kCenter);
 	}
 	else if (cell.x == 1 && itsPlot->GetXMarkCount() >= JSize(cell.y - 1))
 	{
 		const JFloat value = itsPlot->GetXMarkValue(cell.y - 1);
 		const JString str  = J2DPlotWidget::FloatToString(value);
-		p.String(r, str, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+		p.String(r, str, JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 	}
 	else if (cell.x == 2 && itsPlot->GetYMarkCount() >= JSize(cell.y - 1))
 	{
 		const JFloat value = itsPlot->GetYMarkValue(cell.y - 1);
 		const JString str  = J2DPlotWidget::FloatToString(value);
-		p.String(r, str, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+		p.String(r, str, JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 	}
 }
 

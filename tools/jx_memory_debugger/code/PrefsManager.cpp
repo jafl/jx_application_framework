@@ -11,7 +11,6 @@
 #include "PrefsDialog.h"
 #include "globals.h"
 #include <jx-af/jx/JXWindow.h>
-#include <jx-af/jx/JXChooseSaveFile.h>
 #include <jx-af/jx/JXPSPrinter.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -29,14 +28,9 @@ PrefsManager::PrefsManager
 	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, true),
-	itsPrefsDialog(nullptr)
+	JXPrefsManager(kCurrentPrefsFileVersion, true, kgCSFSetupID)
 {
 	*isNew = JPrefsManager::UpgradeData();
-
-	JXChooseSaveFile* csf = JXGetChooseSaveFile();
-	csf->SetPrefInfo(this, kgCSFSetupID);
-	csf->JPrefObject::ReadPrefs();
 }
 
 /******************************************************************************
@@ -103,14 +97,18 @@ PrefsManager::GetPrevVersionStr()
 void
 PrefsManager::EditPrefs()
 {
-	assert( itsPrefsDialog == nullptr );
-
 	const JString openCmd = GetOpenFileCommand();
 
-	itsPrefsDialog = jnew PrefsDialog(JXGetApplication(), openCmd);
-	assert( itsPrefsDialog != nullptr );
-	ListenTo(itsPrefsDialog);
-	itsPrefsDialog->BeginDialog();
+	auto* dlog = jnew PrefsDialog(openCmd);
+	assert( dlog != nullptr );
+
+	if (dlog->DoDialog())
+	{
+		JString openCmd;
+		dlog->GetValues(&openCmd);
+
+		SetOpenFileCommand(openCmd);
+	}
 }
 
 /******************************************************************************
@@ -243,37 +241,4 @@ PrefsManager::SetOpenFileCommand
 	data << cmd;
 
 	SetData(kOpenCmdID, data);
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-PrefsManager::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsPrefsDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			JString openCmd;
-			itsPrefsDialog->GetValues(&openCmd);
-
-			SetOpenFileCommand(openCmd);
-		}
-		itsPrefsDialog = nullptr;
-	}
-
-	else
-	{
-		JXPrefsManager::Receive(sender, message);
-	}
 }

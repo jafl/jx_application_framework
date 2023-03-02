@@ -10,7 +10,7 @@
 #ifndef _H_JUnaryFunction
 #define _H_JUnaryFunction
 
-#include "jx-af/jexpr/JFunctionWithArgs.h"
+#include "JFunctionWithArgs.h"
 #include <jx-af/jcore/jNew.h>
 
 class JUnaryFunction : public JFunctionWithArgs

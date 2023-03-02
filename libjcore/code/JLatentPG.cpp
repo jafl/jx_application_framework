@@ -19,10 +19,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JLatentPG.h"
-#include "jx-af/jcore/JString.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JLatentPG.h"
+#include "JString.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 const time_t kDefMaxSilentTime = 3;		// seconds
 
@@ -125,12 +125,12 @@ JLatentPG::ProcessBeginning
 	const ProcessType	processType,
 	const JSize			stepCount,
 	const JString&		message,
-	const bool		allowCancel,
-	const bool		allowBackground
+	const bool			allowCancel,
+	const bool			modal
 	)
 {
 	JProgressDisplay::ProcessBeginning(processType, stepCount, message,
-									   allowCancel, allowBackground);
+									   allowCancel, modal);
 
 	itsMessage   = message;
 	itsStartTime = time(nullptr);
@@ -155,13 +155,13 @@ JLatentPG::StartInternalProcess()
 	{
 		itsPG->FixedLengthProcessBeginning(
 			GetMaxStepCount(), itsMessage,
-			AllowCancel(), AllowBackground());
+			AllowCancel(), IsModal());
 	}
 	else
 	{
 		assert( type == kVariableLengthProcess );
 		itsPG->VariableLengthProcessBeginning(
-			itsMessage, AllowCancel(), AllowBackground());
+			itsMessage, AllowCancel(), IsModal());
 	}
 }
 
@@ -239,7 +239,7 @@ JLatentPG::IncrementProgress
 	{
 		StartInternalProcess();
 
-		// delta must be calculated -after- ProcessBeginning()
+		// delta must be calculated *after* ProcessBeginning()
 
 		const JSize delta1 = GetCurrentStepCount() - itsPG->GetCurrentStepCount();
 		if (delta1 > 1)

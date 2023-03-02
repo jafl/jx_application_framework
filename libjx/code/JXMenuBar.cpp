@@ -20,15 +20,15 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXMenuBar.h"
-#include "jx-af/jx/JXTextMenu.h"
-#include "jx-af/jx/JXDocktab.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXImageCache.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/jXPainterUtil.h"
-#include "jx-af/jx/jXConstants.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXMenuBar.h"
+#include "JXTextMenu.h"
+#include "JXDocktab.h"
+#include "JXDisplay.h"
+#include "JXImageCache.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "jXConstants.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 #include <jx-af/image/jx/jx_down_chevron.xpm>

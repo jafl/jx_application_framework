@@ -6,39 +6,42 @@
 	classes, this code should be put in a SetObjects() function instead of
 	being inlined after the JXLayout code.
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1996-99 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXCSFDialogBase.h"
-#include "jx-af/jx/JXDirTable.h"
-#include "jx-af/jx/JXCurrentPathMenu.h"
+#include "JXCSFDialogBase.h"
+#include "JXDirTable.h"
+#include "JXCurrentPathMenu.h"
 #include <jx-af/jcore/JDirInfo.h>
-#include "jx-af/jx/JXNewDirButton.h"
-#include "jx-af/jx/JXGetNewDirDialog.h"
-#include "jx-af/jx/JXCSFSelectPrevDirTask.h"
+#include "JXNewDirButton.h"
+#include "JXGetNewDirDialog.h"
+#include "JXCSFSelectPrevDirTask.h"
 
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXPathInput.h"
-#include "jx-af/jx/JXPathHistoryMenu.h"
-#include "jx-af/jx/JXScrollbarSet.h"
-#include "jx-af/jx/JXScrollbar.h"
-#include "jx-af/jx/JXChooseSaveFile.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXPathInput.h"
+#include "JXPathHistoryMenu.h"
+#include "JXScrollbarSet.h"
+#include "JXScrollbar.h"
+#include "JXFontManager.h"
+#include "jXGlobals.h"
 
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
+#include <sstream>
 #include <jx-af/jcore/jAssert.h>
 
 const JSize kHistoryLength       = 20;
 const JCoordinate kMessageMargin = 20;
+
+JString JXCSFDialogBase::theState;
+JString JXCSFDialogBase::thePath;
 
 // setup information
 
@@ -56,32 +59,34 @@ const JUtf8Byte kSetupDataEndDelimiter  = '\1';
 
 JXCSFDialogBase::JXCSFDialogBase
 	(
-	JXDirector*		supervisor,
-	JDirInfo*		dirInfo,
-	const JString&	fileFilter
+	const JString& fileFilter
 	)
 	:
-	JXDialogDirector(supervisor, true),
-	itsPrevFilterString(fileFilter)
+	JXModalDialogDirector(true),
+	itsPrevFilterString(fileFilter),
+	itsDeactCancelFlag(false),
+	itsSavePathFlag(true),
+	itsSelectPrevDirTask(nullptr)
 {
-	// We turn the filter on in case the user changed it last time and then
-	// cancelled before setting it.
-
-	dirInfo->SetWildcardFilter(fileFilter);
-	dirInfo->ShouldSwitchToValidDirectory();
-	dirInfo->Update();
-
-	itsDirInfo = dirInfo;
+	if (thePath.IsEmpty() || !JDirInfo::Create(thePath, &itsDirInfo))
+	{
+		JString dirName = JGetCurrentDirectory();
+		if (!JDirInfo::Create(dirName, &itsDirInfo))
+		{
+			bool ok = JGetHomeDirectory(&dirName);
+			if (!ok || !JDirInfo::Create(dirName, &itsDirInfo))
+			{
+				dirName = JGetRootDirectory();
+				ok = JDirInfo::Create(dirName, &itsDirInfo);
+				assert( ok );
+			}
+		}
+	}
+	itsDirInfo->SetWildcardFilter(fileFilter);
+	itsDirInfo->ShouldSwitchToValidDirectory();
 	ListenTo(itsDirInfo);
 
 	itsPrevPath = itsDirInfo->GetDirectory();
-
-	itsDeactCancelFlag = false;
-	itsNewDirDialog    = nullptr;
-
-	// Our window geometry is stored by JXChooseSaveFile.
-
-	UseModalPlacement(false);
 }
 
 /******************************************************************************
@@ -91,6 +96,8 @@ JXCSFDialogBase::JXCSFDialogBase
 
 JXCSFDialogBase::~JXCSFDialogBase()
 {
+	jdelete itsDirInfo;
+	// cannot delete itsSelectPrevDirTask
 }
 
 /******************************************************************************
@@ -141,7 +148,7 @@ JXCSFDialogBase::HiddenVisible()
 void
 JXCSFDialogBase::Activate()
 {
-	JXDialogDirector::Activate();
+	JXModalDialogDirector::Activate();
 
 	itsPathHistory->AddString(itsDirInfo->GetDirectory());
 	itsFilterHistory->AddString(itsPrevFilterString);
@@ -164,18 +171,27 @@ JXCSFDialogBase::Deactivate()
 		return true;
 	}
 
-	itsDeactCancelFlag     = Cancelled();
-	const bool success = JXDialogDirector::Deactivate();
-	if (!success)
+	SaveState();
+	if (!Cancelled() && itsSavePathFlag)
+	{
+		thePath = GetPath();
+	}
+
+	itsDeactCancelFlag = Cancelled();
+	if (JXModalDialogDirector::Deactivate())
+	{
+		return true;
+	}
+	else
 	{
 		// We haven't been deleted.
 		itsDeactCancelFlag = false;
+		return false;
 	}
-	return success;
 }
 
 /******************************************************************************
- ReadBaseSetup
+ RestoreState (protected)
 
 	Read in path and filter histories and window geometry.
 	This is not virtual because it has to apply to all derived classes.
@@ -183,17 +199,31 @@ JXCSFDialogBase::Deactivate()
  ******************************************************************************/
 
 void
-JXCSFDialogBase::ReadBaseSetup
-	(
-	std::istream&		input,
-	const bool	ignoreScroll
-	)
+JXCSFDialogBase::RestoreState()
 {
 	JXWindow* window = GetWindow();
 	assert( window != nullptr && itsFileBrowser != nullptr );
 
+	if (theState.IsEmpty())
+	{
+		return;
+	}
+
+	std::string s(theState.GetRawBytes(), theState.GetByteCount());
+	std::istringstream input(s);
+
 	JFileVersion vers;
-	input >> vers;
+	input >> vers >> std::ws;
+
+	if (vers == 0 && input.peek() == '"')	// read old JXChooseSaveFile data
+	{
+		JString tmp;
+		input >> tmp;
+		s.assign(tmp.GetRawBytes(), tmp.GetByteCount());
+		input.str(s);
+
+		input >> vers;
+	}
 
 	if (vers <= kCurrentSetupVersion)
 	{
@@ -207,7 +237,7 @@ JXCSFDialogBase::ReadBaseSetup
 			JCoordinate y;
 			input >> y;
 
-			if (!ignoreScroll)
+			if (itsSavePathFlag)
 			{
 				JXScrollbar *hScrollbar, *vScrollbar;
 				itsFileBrowser->UpdateScrollbars();
@@ -224,7 +254,7 @@ JXCSFDialogBase::ReadBaseSetup
 }
 
 /******************************************************************************
- WriteBaseSetup
+ SaveState (protected)
 
 	Write path and filter histories and window geometry.
 	This is not virtual because it has to apply to all derived classes.
@@ -232,14 +262,12 @@ JXCSFDialogBase::ReadBaseSetup
  ******************************************************************************/
 
 void
-JXCSFDialogBase::WriteBaseSetup
-	(
-	std::ostream& output
-	)
+JXCSFDialogBase::SaveState()
 	const
 {
 	assert( itsFileBrowser != nullptr );
 
+	std::ostringstream output;
 	output << ' ' << kCurrentSetupVersion;
 
 	output << ' ';
@@ -256,6 +284,28 @@ JXCSFDialogBase::WriteBaseSetup
 	output << ' ' << vScrollbar->GetValue();
 
 	output << kSetupDataEndDelimiter;
+
+	theState = output.str();
+}
+
+/******************************************************************************
+ ReadOldState (static)
+
+ ******************************************************************************/
+
+void
+JXCSFDialogBase::ReadOldState
+	(
+	std::istream& input
+	)
+{
+	JFileVersion vers;
+	input >> vers >> std::ws;
+
+	if (vers == 0 && input.peek() == '"')
+	{
+		input >> theState;
+	}
 }
 
 /******************************************************************************
@@ -286,8 +336,8 @@ JXCSFDialogBase::SetObjects
 	JXContainer* encl = scrollbarSet->GetScrollEnclosure();
 	itsFileBrowser =
 		jnew JXDirTable(itsDirInfo, scrollbarSet, encl,
-					   JXWidget::kHElastic, JXWidget::kVElastic,
-					   0,0, encl->GetBoundsWidth(), encl->GetBoundsHeight());
+						JXWidget::kHElastic, JXWidget::kVElastic,
+						0,0, encl->GetBoundsWidth(), encl->GetBoundsHeight());
 	assert( itsFileBrowser != nullptr );
 	itsFileBrowser->FitToEnclosure();
 	itsFileBrowser->InstallShortcuts();
@@ -307,7 +357,7 @@ JXCSFDialogBase::SetObjects
 	itsPathInput->GetText()->SetText(itsDirInfo->GetDirectory());
 	itsPathInput->SetBasePath(itsDirInfo->GetDirectory());
 	itsFilterInput->GetText()->SetText(itsPrevFilterString);
-	itsFilterInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsFilterInput->GetText()->SetCharacterInWordFunction(IsCharacterInWord);
 
 	itsPathHistory->SetHistoryLength(kHistoryLength);
 	itsFilterHistory->SetHistoryLength(kHistoryLength);
@@ -328,6 +378,7 @@ JXCSFDialogBase::SetObjects
 	}
 	itsShowHiddenCB->SetShortcuts(JGetString("ShowHiddenShortcut::JXCSFDialogBase"));
 
+	ListenTo(itsFileBrowser);
 	ListenTo(itsPathInput);
 	ListenTo(itsPathHistory);
 	ListenTo(itsFilterInput);
@@ -393,18 +444,33 @@ JXCSFDialogBase::DisplayMessage
 			dh = bdh - aph;
 		}
 
-		window->AdjustSize(dw, bdh + kMessageMargin);
+		window->AdjustSize(dw, dh + kMessageMargin);
 		messageObj->AdjustSize(0, dh);
 	}
 
 	window->LockCurrentMinSize();
 	AdjustSizings();
 
-	scrollbarSet->SetSizing(JXWidget::kHElastic, JXWidget::kVElastic);
 	pathLabel->SetSizing(JXWidget::kFixedLeft, JXWidget::kFixedTop);
+	itsPathInput->SetSizing(JXWidget::kHElastic, JXWidget::kFixedTop);
 	pathHistory->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
+
 	filterLabel->SetSizing(JXWidget::kFixedLeft, JXWidget::kFixedTop);
+	itsFilterInput->SetSizing(JXWidget::kHElastic, JXWidget::kFixedTop);
 	filterHistory->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
+
+	itsShowHiddenCB->SetSizing(JXWidget::kFixedLeft, JXWidget::kFixedTop);
+	itsCurrPathMenu->SetSizing(JXWidget::kFixedLeft, JXWidget::kFixedTop);
+
+	itsUpButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
+	itsHomeButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
+	itsDesktopButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
+	if (itsNewDirButton != nullptr)
+	{
+		itsNewDirButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
+	}
+
+	scrollbarSet->SetSizing(JXWidget::kHElastic, JXWidget::kVElastic);
 }
 
 /******************************************************************************
@@ -418,19 +484,6 @@ JXCSFDialogBase::DisplayMessage
 void
 JXCSFDialogBase::AdjustSizings()
 {
-	itsPathInput->SetSizing(JXWidget::kHElastic, JXWidget::kFixedTop);
-	itsFilterInput->SetSizing(JXWidget::kHElastic, JXWidget::kFixedTop);
-
-	itsShowHiddenCB->SetSizing(JXWidget::kFixedLeft, JXWidget::kFixedTop);
-	itsCurrPathMenu->SetSizing(JXWidget::kFixedLeft, JXWidget::kFixedTop);
-	itsUpButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
-	itsHomeButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
-	itsDesktopButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
-
-	if (itsNewDirButton != nullptr)
-	{
-		itsNewDirButton->SetSizing(JXWidget::kFixedRight, JXWidget::kFixedTop);
-	}
 }
 
 /******************************************************************************
@@ -447,7 +500,10 @@ JXCSFDialogBase::Receive
 {
 	if (sender == itsDirInfo && message.Is(JDirInfo::kPathChanged))
 	{
-		SelectPrevDirectory();
+		if (IsActive())
+		{
+			SelectPrevDirectory();
+		}
 		const JString& newDir = itsDirInfo->GetDirectory();
 		itsPathInput->GetText()->SetText(newDir);
 		itsPathInput->SetBasePath(newDir);
@@ -458,6 +514,15 @@ JXCSFDialogBase::Receive
 	else if (sender == itsDirInfo && message.Is(JDirInfo::kPermissionsChanged))
 	{
 		UpdateDisplay();
+	}
+
+	else if (sender == itsFileBrowser && message.Is(JXDirTable::kFileDropped))
+	{
+		if (itsSelectPrevDirTask != nullptr)
+		{
+			itsSelectPrevDirTask->Cancel();
+			itsSelectPrevDirTask = nullptr;
+		}
 	}
 
 	else if (sender == itsPathInput && message.Is(JXWidget::kGotFocus))
@@ -553,23 +618,12 @@ JXCSFDialogBase::Receive
 
 	else if (sender == itsNewDirButton && message.Is(JXButton::kPushed))
 	{
-		GetNewDirectory();
-	}
-	else if (sender == itsNewDirDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			CreateNewDirectory();
-		}
-		itsNewDirDialog = nullptr;
+		CreateNewDirectory();
 	}
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 
@@ -644,74 +698,42 @@ JXCSFDialogBase::AdjustFilter()
 }
 
 /******************************************************************************
- GetNewDirectory (private)
+ CreateNewDirectory (private)
 
 	Display a blocking dialog window to get the name of the new directory.
 
  ******************************************************************************/
 
 void
-JXCSFDialogBase::GetNewDirectory()
-{
-	assert( itsNewDirDialog == nullptr );
-
-	JXApplication* app = JXGetApplication();
-	app->PrepareForBlockingWindow();
-
-	itsNewDirDialog =
-		jnew JXGetNewDirDialog(JXGetApplication(), JGetString("NewDirWindowTitle::JXCSFDialogBase"),
-							  JGetString("NewDirPrompt::JXCSFDialogBase"), JString::empty,
-							  itsDirInfo->GetDirectory(), false);
-	assert( itsNewDirDialog != nullptr );
-
-	JXWindow* window = itsNewDirDialog->GetWindow();
-	window->PlaceAsDialogWindow();
-	window->LockCurrentSize();
-
-	ListenTo(itsNewDirDialog);
-	itsNewDirDialog->BeginDialog();
-
-	// block with event loop running until we get a response
-
-	while (itsNewDirDialog != nullptr)
-	{
-		app->HandleOneEventForWindow(window);
-	}
-
-	app->BlockingWindowFinished();
-}
-
-/******************************************************************************
- CreateNewDirectory (private)
-
-	Get the name of the new directory from itsNewDirDialog and create it.
-	If successful, we switch to the new directory for convenience.
-
- ******************************************************************************/
-
-void
 JXCSFDialogBase::CreateNewDirectory()
 {
-	assert( itsNewDirDialog != nullptr);
+	auto* dlog =
+		jnew JXGetNewDirDialog(JGetString("NewDirWindowTitle::JXCSFDialogBase"),
+							   JGetString("NewDirPrompt::JXCSFDialogBase"),
+							   JString::empty, itsDirInfo->GetDirectory());
+	assert( dlog != nullptr );
 
-	const JString newDirName = itsNewDirDialog->GetNewDirName();
+	if (dlog->DoDialog())
+	{
+		const JString newDirName = dlog->GetNewDirName();
 
-	const JError err = JCreateDirectory(newDirName);
-	if (err == kJNoError)
-	{
-		itsDirInfo->GoTo(newDirName);
-	}
-	else if (err == kJDirEntryAlreadyExists)
-	{
-		JGetUserNotification()->ReportError(JGetString("DirectoryExists::JXGlobal"));
-	}
-	else if (err == kJAccessDenied)
-	{
-		JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXGlobal"));
-	}
-	else
-	{
-		JGetUserNotification()->ReportError(JGetString("CannotCreateDir::JXCSFDialogBase"));
+		const JError err = JCreateDirectory(newDirName);
+		if (err == kJNoError)
+		{
+			itsDirInfo->GoTo(newDirName);
+		}
+		else if (err == kJDirEntryAlreadyExists)
+		{
+			JGetUserNotification()->ReportError(JGetString("DirectoryExists::JXGlobal"));
+		}
+		else if (err == kJAccessDenied)
+		{
+			JGetUserNotification()->ReportError(JGetString("DirNotWritable::JXGlobal"));
+		}
+		else
+		{
+			JGetUserNotification()->ReportError(JGetString("CannotCreateDir::JXCSFDialogBase"));
+		}
 	}
 }
 
@@ -759,12 +781,31 @@ JXCSFDialogBase::SelectPrevDirectory()
 
 		if (!dirName.IsEmpty())
 		{
-			auto* task =
+			itsSelectPrevDirTask =
 				jnew JXCSFSelectPrevDirTask(itsDirInfo, itsFileBrowser, dirName);
-			assert( task != nullptr );
-			task->Go();
+			assert( itsSelectPrevDirTask != nullptr );
+			itsSelectPrevDirTask->Go();
+
+			ClearWhenGoingAway(itsSelectPrevDirTask, &itsSelectPrevDirTask);
 		}
 	}
 
 	itsPrevPath = newPath;
+}
+
+/******************************************************************************
+ IsCharacterInWord (static)
+
+	Returns true if the given character should be considered part of
+	a word.  Our definition is [A-Za-z0-9_].
+
+ ******************************************************************************/
+
+bool
+JXCSFDialogBase::IsCharacterInWord
+	(
+	const JUtf8Character& c
+	)
+{
+	return c.IsAlnum() || c == '_';
 }

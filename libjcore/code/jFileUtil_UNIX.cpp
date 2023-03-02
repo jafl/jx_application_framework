@@ -7,17 +7,17 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jFileUtil.h"
-#include "jx-af/jcore/jDirUtil.h"
-#include "jx-af/jcore/JStdError.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/JProcess.h"
+#include "jFileUtil.h"
+#include "jDirUtil.h"
+#include "JStdError.h"
+#include "JStringIterator.h"
+#include "JProcess.h"
 #include <unistd.h>
 #include <sys/stat.h>
 #include <ace/OS_NS_sys_stat.h>
 #include <stdio.h>
-#include "jx-af/jcore/jErrno.h"
-#include "jx-af/jcore/jAssert.h"
+#include "jErrno.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JFileExists

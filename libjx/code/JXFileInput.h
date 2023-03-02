@@ -8,7 +8,7 @@
 #ifndef _H_JXFileInput
 #define _H_JXFileInput
 
-#include "jx-af/jx/JXFSInputBase.h"
+#include "JXFSInputBase.h"
 
 class JXFileInput : public JXFSInputBase
 {
@@ -21,9 +21,9 @@ public:
 
 	~JXFileInput() override;
 
-	bool				InputValid() override;
-	virtual bool		GetFile(JString* fullName) const;
-	virtual JString		GetTextForChooseFile() const;
+	bool			InputValid() override;
+	virtual bool	GetFile(JString* fullName) const;
+	virtual JString	GetTextForChooseFile() const;
 
 	bool	WillAllowInvalidFile() const;
 	void	ShouldAllowInvalidFile(const bool allow = true);
@@ -37,7 +37,7 @@ public:
 	bool	WillRequireExecutable() const;
 	void	ShouldRequireExecutable(const bool require = true);
 
-	bool	ChooseFile(const JString& prompt, const JString& instr = JString::empty);
+	bool	ChooseFile(const JString& instr = JString::empty);
 	bool	SaveFile(const JString& prompt, const JString& instr = JString::empty);
 
 	static JColorID		GetTextColor(const JString& fileName, const JString& basePath,

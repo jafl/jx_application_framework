@@ -57,7 +57,6 @@ TestFloatTableDirector::TestFloatTableDirector
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != nullptr );
-	ListenTo(itsPrinter);
 }
 
 /******************************************************************************
@@ -189,18 +188,6 @@ TestFloatTableDirector::Receive
 		itsTable->AdjustSize(-dw,0);
 	}
 
-	else if (sender == itsPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			itsTable->Print(*itsPrinter);
-		}
-	}
-
 	else
 	{
 		JXWindowDirector::Receive(sender, message);
@@ -237,11 +224,14 @@ TestFloatTableDirector::HandleFileMenu
 {
 	if (index == kPageSetupCmd)
 	{
-		itsPrinter->BeginUserPageSetup();
+		itsPrinter->EditUserPageSetup();
 	}
 	else if (index == kPrintCmd && itsTable->EndEditing())
 	{
-		itsPrinter->BeginUserPrintSetup();
+		if (itsPrinter->ConfirmUserPrintSetup())
+		{
+			itsTable->Print(*itsPrinter);
+		}
 	}
 	else if (index == kCloseCmd)
 	{

@@ -56,11 +56,6 @@ protected:
 
 	void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
 	void	SaveAllBeforeDestruct() override;
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
-private:
-
-	PrefsDialog*	itsPrefsDialog;
 };
 
 #endif

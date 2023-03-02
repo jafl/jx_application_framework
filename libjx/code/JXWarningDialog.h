@@ -10,14 +10,13 @@
 #ifndef _H_JXWarningDialog
 #define _H_JXWarningDialog
 
-#include "jx-af/jx/JXUNDialogBase.h"
+#include "JXUNDialogBase.h"
 
 class JXWarningDialog : public JXUNDialogBase
 {
 public:
 
-	JXWarningDialog(JXDirector* supervisor,
-					const JString& title, const JString& message);
+	JXWarningDialog(const JString& title, const JString& message);
 
 	~JXWarningDialog() override;
 

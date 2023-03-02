@@ -10,9 +10,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXRadioButton.h"
-#include "jx-af/jx/JXRadioGroup.h"
-#include "jx-af/jx/JXWindow.h"
+#include "JXRadioButton.h"
+#include "JXRadioGroup.h"
+#include "JXWindow.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

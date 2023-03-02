@@ -26,12 +26,12 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JPrefsManager.h"
-#include "jx-af/jcore/JPrefsFile.h"
-#include "jx-af/jcore/jFileUtil.h"
-#include "jx-af/jcore/jSysUtil.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JPrefsManager.h"
+#include "JPrefsFile.h"
+#include "jFileUtil.h"
+#include "jSysUtil.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 // JBroadcaster messages
 
@@ -289,6 +289,7 @@ JPrefsManager::UpgradeData
 		itsPrevFileVersion = file->GetVersion();
 		LoadData(file);
 		UpgradeData(isNew, itsPrevFileVersion);
+		DataLoaded();
 		jdelete file;
 	}
 	else

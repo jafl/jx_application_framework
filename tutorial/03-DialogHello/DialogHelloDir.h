@@ -14,7 +14,6 @@
 
 class JXStaticText;
 class JXTextMenu;
-class DHStringInputDialog;
 
 class DialogHelloDir : public JXWindowDirector
 {
@@ -32,14 +31,11 @@ private:
 
 	JXStaticText* itsText;
 	JXTextMenu* itsTextMenu;
-	DHStringInputDialog* itsDialog;
 
 private:
 
 	void BuildWindow();
 	void HandleTextMenu(const JIndex index);
-	void SetupInputDialog();
-	void GetNewTextFromDialog();
 };
 
 #endif

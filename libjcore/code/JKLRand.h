@@ -12,8 +12,8 @@
 
 #include <time.h>
 
-#include "jx-af/jcore/jTypes.h"
-#include "jx-af/jcore/jRand.h"
+#include "jTypes.h"
+#include "jRand.h"
 
 	// For avoiding endpoints; probably should have a more sophisticated system
 	// someday.

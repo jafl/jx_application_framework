@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JTruncateToInt.h"
+#include "JTruncateToInt.h"
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jErrno.h>
 #include <jx-af/jcore/jAssert.h>

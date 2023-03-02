@@ -51,13 +51,13 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JPainter.h"
-#include "jx-af/jcore/JFontManager.h"
-#include "jx-af/jcore/JColorManager.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JPainter.h"
+#include "JFontManager.h"
+#include "JColorManager.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor
@@ -313,9 +313,9 @@ JPainter::String
 	const JCoordinate	top,
 	const JString&		str,
 	const JCoordinate	width,
-	const HAlignment	hAlign,
+	const HAlign	hAlign,
 	const JCoordinate	height,
-	const VAlignment	vAlign
+	const VAlign	vAlign
 	)
 {
 	if (str.IsEmpty())
@@ -381,30 +381,30 @@ JPainter::AlignString
 	JCoordinate*		top,
 	const JString&		str,
 	const JCoordinate	width,
-	const HAlignment	hAlign,
+	const HAlign	hAlign,
 	const JCoordinate	height,
-	const VAlignment	vAlign
+	const VAlign	vAlign
 	)
 	const
 {
 	JSize strWidth = 0;
-	if (hAlign == kHAlignCenter)
+	if (hAlign == HAlign::kCenter)
 	{
 		strWidth = GetStringWidth(str);
 		*left += (width-strWidth)/2;
 	}
-	else if (hAlign == kHAlignRight)
+	else if (hAlign == HAlign::kRight)
 	{
 		strWidth = GetStringWidth(str);
 		*left += width-strWidth;
 	}
 
-	if (vAlign == kVAlignCenter)
+	if (vAlign == VAlign::kCenter)
 	{
 		const JCoordinate lineHeight = GetLineHeight();
 		*top += (height-lineHeight)/2;
 	}
-	else if (vAlign == kVAlignBottom)
+	else if (vAlign == VAlign::kBottom)
 	{
 		const JCoordinate lineHeight = GetLineHeight();
 		*top += height-lineHeight;
@@ -446,8 +446,8 @@ JPainter::String
 	const JFloat		userAngle,
 	const JRect&		rect,
 	const JString&		str,
-	const HAlignment	hAlign,
-	const VAlignment	vAlign
+	const HAlign	hAlign,
+	const VAlign	vAlign
 	)
 {
 	// adjust the angle to lie between -45 and 315

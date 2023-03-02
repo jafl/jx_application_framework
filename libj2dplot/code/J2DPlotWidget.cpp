@@ -5,10 +5,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/j2dplot/J2DPlotWidget.h"
-#include "jx-af/j2dplot/J2DPlotDataBase.h"
-#include "jx-af/j2dplot/J2DPlotData.h"
-#include "jx-af/j2dplot/J2DDataRect.h"
+#include "J2DPlotWidget.h"
+#include "J2DPlotDataBase.h"
+#include "J2DPlotData.h"
+#include "J2DDataRect.h"
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/JPagePrinter.h>
@@ -2083,7 +2083,7 @@ JIndex i;
 			p.SetFontStyle(info.show ? itsBlackColor : itsGrayColor);
 			p.String(startx + 2 * kLegendItemBuffer,
 					yPos, *(info.name),
-					itsMaxCurveNameWidth, JPainter::kHAlignLeft, strHeight);
+					itsMaxCurveNameWidth, JPainter::HAlign::kLeft, strHeight);
 
 			p.SetPenColor(itsColors->GetElement(info.color));
 
@@ -2438,7 +2438,7 @@ J2DPlotWidget::DrawXTick
 
 			const JCoordinate sWidth = p.GetStringWidth(str);
 			JSize strStart = x - sWidth/2;
-			p.String(strStart, yLabel, str, sWidth, JPainter::kHAlignCenter, labelHeight);
+			p.String(strStart, yLabel, str, sWidth, JPainter::HAlign::kCenter, labelHeight);
 		}
 		if (itsShowFrameFlag && (x > itsXAxisStart + 1) && (x < itsXAxisEnd - 1))
 		{
@@ -2589,13 +2589,13 @@ J2DPlotWidget::DrawYTick
 			{
 				strStart = xLabel - sWidth;
 				p.String(strStart, y - labelHeight/2,
-					str, sWidth, JPainter::kHAlignRight, labelHeight);
+					str, sWidth, JPainter::HAlign::kRight, labelHeight);
 			}
 			else
 			{
 				strStart = xLabel;
 				p.String(strStart, y - labelHeight/2,
-					str, sWidth, JPainter::kHAlignLeft, labelHeight);
+					str, sWidth, JPainter::HAlign::kLeft, labelHeight);
 			}
 		}
 		if (itsShowFrameFlag && (y > itsYAxisEnd + 1) && (y < itsYAxisStart - 1))
@@ -2776,15 +2776,15 @@ J2DPlotWidget::DrawLabels
 
 // Draw X Axis Label
 
-	p.String(itsXLabelRect, itsXLabel, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(itsXLabelRect, itsXLabel, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 
 // Draw Y Axis Label
 
-	p.String(90.0, itsYLabelRect, itsYLabel, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(90.0, itsYLabelRect, itsYLabel, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 
 // Draw Title
 
-	p.String(itsTitleRect, itsTitle, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(itsTitleRect, itsTitle, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 }
 
 /*******************************************************************************
@@ -4426,8 +4426,8 @@ J2DPlotWidget::DrawCursorLabels
 		x1 += FloatToString(itsXCursorVal1);
 
 		p.String(startx,
-				starty, x1, strwidth, JPainter::kHAlignLeft, labelHeight,
-				JPainter::kVAlignCenter);
+				starty, x1, strwidth, JPainter::HAlign::kLeft, labelHeight,
+				JPainter::VAlign::kCenter);
 
 		if (itsDualCursors)
 		{
@@ -4438,11 +4438,11 @@ J2DPlotWidget::DrawCursorLabels
 			dx += FloatToString(itsXCursorVal2 - itsXCursorVal1);
 
 			p.String(startx + kCursorValueBuffer + strwidth,
-					starty, x2, strwidth, JPainter::kHAlignLeft, labelHeight,
-					JPainter::kVAlignCenter);
+					starty, x2, strwidth, JPainter::HAlign::kLeft, labelHeight,
+					JPainter::VAlign::kCenter);
 			p.String(startx + 2 * kCursorValueBuffer + 2 * strwidth,
-					starty, dx, strwidth, JPainter::kHAlignLeft, labelHeight,
-					JPainter::kVAlignCenter);
+					starty, dx, strwidth, JPainter::HAlign::kLeft, labelHeight,
+					JPainter::VAlign::kCenter);
 		}
 	}
 
@@ -4465,26 +4465,26 @@ J2DPlotWidget::DrawCursorLabels
 			dy += FloatToString(itsYCursorVal2 - itsYCursorVal1);
 
 			p.String(startx,
-					starty, y1, strwidth, JPainter::kHAlignLeft, labelHeight,
-					JPainter::kVAlignCenter);
+					starty, y1, strwidth, JPainter::HAlign::kLeft, labelHeight,
+					JPainter::VAlign::kCenter);
 			p.String(startx + kCursorValueBuffer + strwidth,
-					starty, y2, strwidth, JPainter::kHAlignLeft, labelHeight,
-					JPainter::kVAlignCenter);
+					starty, y2, strwidth, JPainter::HAlign::kLeft, labelHeight,
+					JPainter::VAlign::kCenter);
 			p.String(startx + 2 * kCursorValueBuffer + 2 * strwidth,
-					starty, dy, strwidth, JPainter::kHAlignLeft, labelHeight,
-					JPainter::kVAlignCenter);
+					starty, dy, strwidth, JPainter::HAlign::kLeft, labelHeight,
+					JPainter::VAlign::kCenter);
 		}
 		else if (itsXCursorVisible)
 		{
 			p.String(startx + kCursorValueBuffer + strwidth,
-					starty, y1, strwidth, JPainter::kHAlignLeft, labelHeight,
-					JPainter::kVAlignCenter);
+					starty, y1, strwidth, JPainter::HAlign::kLeft, labelHeight,
+					JPainter::VAlign::kCenter);
 		}
 		else
 		{
 			p.String(startx,
-					starty, y1, strwidth, JPainter::kHAlignLeft, labelHeight,
-					JPainter::kVAlignCenter);
+					starty, y1, strwidth, JPainter::HAlign::kLeft, labelHeight,
+					JPainter::VAlign::kCenter);
 		}
 	}
 

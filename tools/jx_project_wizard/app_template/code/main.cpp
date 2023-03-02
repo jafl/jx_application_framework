@@ -44,28 +44,27 @@ main
 
 	bool displayAbout;
 	JString prevVersStr;
-	App* app = jnew App(&argc, argv, &displayAbout, &prevVersStr);
+	auto* app = jnew App(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
-	if (displayAbout &&
-		!JGetUserNotification()->AcceptLicense())
+	JXApplication::StartFiber([argc, argv]()
 	{
-		return 0;
-	}
-
-	JCheckForNewerVersion(GetPrefsManager(), kVersionCheckID);
-
-	GetMDIServer()->HandleCmdLineOptions(argc, argv);
+		GetMDIServer()->HandleCmdLineOptions(argc, argv);
+	});
 
 	// You may want to create all directors inside HandleCmdLineOptions()
 
-	MainDirector* dir = jnew MainDirector(app);
+	auto* dir = jnew MainDirector(app);
 	assert( dir != nullptr );
 	dir->Activate();
 
 	if (displayAbout)
 	{
-		app->DisplayAbout(prevVersStr);
+		app->DisplayAbout(true, prevVersStr);
+	}
+	else
+	{
+		JCheckForNewerVersion(GetPrefsManager(), kVersionCheckID);
 	}
 
 	app->Run();

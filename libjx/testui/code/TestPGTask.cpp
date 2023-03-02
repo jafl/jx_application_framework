@@ -39,11 +39,11 @@ TestPGTask::TestPGTask
 	if (fixedLength)
 	{
 		itsPG->FixedLengthProcessBeginning(kStepCount, JGetString("ProcessText::TestPGTask"),
-										   true, true);
+										   true, false);
 	}
 	else
 	{
-		itsPG->VariableLengthProcessBeginning(JGetString("ProcessText::TestPGTask"), true, true);
+		itsPG->VariableLengthProcessBeginning(JGetString("ProcessText::TestPGTask"), true, false);
 	}
 }
 
@@ -69,23 +69,12 @@ TestPGTask::~TestPGTask()
 void
 TestPGTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	bool keepGoing = true;
-	if (TimeToPerform(delta, maxSleepTime))
-	{
-		JWait(0.5);		// simulate massive, greedy number crunching
-		itsCounter++;
-		keepGoing = itsPG->IncrementProgress();
-	}
-	else
-	{
-		keepGoing = itsPG->ProcessContinuing();
-	}
-
-	if (!keepGoing || itsCounter >= kStepCount)
+	JWait(0.5);		// simulate massive, greedy number crunching
+	itsCounter++;
+	if (!itsPG->IncrementProgress() || itsCounter >= kStepCount)
 	{
 		itsPG->ProcessFinished();
 		jdelete this;				// safe to commit suicide as last action

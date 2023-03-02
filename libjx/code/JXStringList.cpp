@@ -19,10 +19,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXStringList.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXStringList.h"
+#include "JXWindow.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/JStyleTableData.h>
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/JPainter.h>
@@ -112,7 +112,7 @@ JXStringList::TableDrawCell
 
 	JRect r = rect;
 	r.left += kHMarginWidth;
-	p.String(r, *str, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+	p.String(r, *str, JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

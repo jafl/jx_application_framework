@@ -16,13 +16,13 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXSelectionManager.h"
-#include "jx-af/jx/JXDNDManager.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXWidget.h"
-#include "jx-af/jx/jXGlobals.h"
-#include "jx-af/jx/jXUtil.h"
+#include "JXSelectionManager.h"
+#include "JXDNDManager.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWidget.h"
+#include "jXGlobals.h"
+#include "jXUtil.h"
 #include <jx-af/jcore/jTime.h>
 #include <string.h>
 #include <stdlib.h>

@@ -10,11 +10,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXEPSPrinter.h"
-#include "jx-af/jx/JXEPSPrintSetupDialog.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXImagePainter.h"
+#include "JXEPSPrinter.h"
+#include "JXEPSPrintSetupDialog.h"
+#include "JXDisplay.h"
+#include "JXImage.h"
+#include "JXImagePainter.h"
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>
@@ -40,8 +40,6 @@ JXEPSPrinter::JXEPSPrinter
 
 	itsPreviewImage   = nullptr;
 	itsPreviewPainter = nullptr;
-
-	itsPrintSetupDialog = nullptr;
 }
 
 /******************************************************************************
@@ -160,24 +158,26 @@ JXEPSPrinter::DeletePreviewData()
 }
 
 /******************************************************************************
- BeginUserPrintSetup
+ ConfirmUserPrintSetup
 
-	Displays a dialog with print setup information.  We broadcast
-	PrintSetupFinished when the dialog is closed.
+	Displays a dialog with print setup information.  Returns true if the
+	user confirms printing.
 
  ******************************************************************************/
 
-void
-JXEPSPrinter::BeginUserPrintSetup()
+bool
+JXEPSPrinter::ConfirmUserPrintSetup()
 {
-	assert( itsPrintSetupDialog == nullptr );
-
-	itsPrintSetupDialog =
+	auto* dlog =
 		CreatePrintSetupDialog(GetOutputFileName(),
 							   WantsPreview(), PSWillPrintBlackWhite());
 
-	itsPrintSetupDialog->BeginDialog();
-	ListenTo(itsPrintSetupDialog);
+	const bool ok = dlog->DoDialog();
+	if (ok)
+	{
+		dlog->SetParameters(this);
+	}
+	return ok;
 }
 
 /******************************************************************************
@@ -191,66 +191,9 @@ JXEPSPrintSetupDialog*
 JXEPSPrinter::CreatePrintSetupDialog
 	(
 	const JString&	fileName,
-	const bool	preview,
-	const bool	bw
+	const bool		preview,
+	const bool		bw
 	)
 {
 	return JXEPSPrintSetupDialog::Create(fileName, preview, bw);
-}
-
-/******************************************************************************
- EndUserPrintSetup (virtual protected)
-
-	Returns true if caller should continue the printing process.
-	Derived classes can override this to extract extra information.
-
- ******************************************************************************/
-
-bool
-JXEPSPrinter::EndUserPrintSetup
-	(
-	const JBroadcaster::Message&	message,
-	bool*						changed
-	)
-{
-	assert( itsPrintSetupDialog != nullptr );
-	assert( message.Is(JXDialogDirector::kDeactivated) );
-
-	const auto* info =
-		dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-	assert( info != nullptr );
-
-	if (info->Successful())
-	{
-		*changed = itsPrintSetupDialog->SetParameters(this);
-	}
-
-	itsPrintSetupDialog = nullptr;
-	return info->Successful();
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXEPSPrinter::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsPrintSetupDialog &&
-		message.Is(JXDialogDirector::kDeactivated))
-	{
-		bool changed = false;
-		const bool success = EndUserPrintSetup(message, &changed);
-		Broadcast(PrintSetupFinished(success, changed));
-	}
-
-	else
-	{
-		JEPSPrinter::Receive(sender, message);
-	}
 }

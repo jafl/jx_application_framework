@@ -10,7 +10,7 @@
 #ifndef _H_JTEUndoTextBase
 #define _H_JTEUndoTextBase
 
-#include "jx-af/jcore/JSTUndoBase.h"
+#include "JSTUndoBase.h"
 
 class JSTUndoTextBase : public JSTUndoBase
 {
@@ -24,7 +24,7 @@ public:
 
 protected:
 
-	void	UndoText(const JStyledText::TextRange& range);
+	void	UndoText(const JStyledText::TextRange range);
 
 	void	PrependToSave(const JUtf8Character& c, const JIndex charIndex);
 	void	AppendToSave(const JUtf8Character& c, const JIndex charIndex);

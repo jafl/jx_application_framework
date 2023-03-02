@@ -104,7 +104,7 @@ RecordDirector::RecordDirector
 
 	JPoint desktopLoc;
 	JCoordinate w,h;
-	if ((GetPrefsManager())->GetWindowSize(kRecordDirectorWindSizeID,
+	if (GetPrefsManager()->GetWindowSize(kRecordDirectorWindSizeID,
 											&desktopLoc, &w, &h))
 	{
 		JXWindow* window = GetWindow();
@@ -285,30 +285,6 @@ RecordDirector::Receive
 		HandleHelpMenu(selection->GetIndex());
 	}
 
-	else if (sender == itsPrinter &&
-			 message.Is(JPrinter::kPageSetupFinished))
-	{
-		const auto* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			(GetPrefsManager())->SavePrintSetup(*itsPrinter);
-		}
-	}
-	else if (sender == itsPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const auto* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			(GetPrefsManager())->SavePrintSetup(*itsPrinter);
-			itsRecordTable->Print(*itsPrinter);
-		}
-	}
-
 	else
 	{
 		JXWindowDirector::Receive(sender, message);
@@ -344,13 +320,20 @@ RecordDirector::HandleFileMenu
 
 	else if (index == kPageSetupCmd)
 	{
-		(GetPrefsManager())->LoadPrintSetup(itsPrinter);
-		itsPrinter->BeginUserPageSetup();
+		GetPrefsManager()->LoadPrintSetup(itsPrinter);
+		if (itsPrinter->EditUserPageSetup())
+		{
+			GetPrefsManager()->SavePrintSetup(*itsPrinter);
+		}
 	}
 	else if (index == kPrintCmd)
 	{
-		(GetPrefsManager())->LoadPrintSetup(itsPrinter);
-		itsPrinter->BeginUserPrintSetup();
+		GetPrefsManager()->LoadPrintSetup(itsPrinter);
+		if (itsPrinter->ConfirmUserPrintSetup())
+		{
+			GetPrefsManager()->SavePrintSetup(*itsPrinter);
+			itsRecordTable->Print(*itsPrinter);
+		}
 	}
 
 	else if (index == kCloseCmd)

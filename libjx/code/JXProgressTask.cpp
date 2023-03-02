@@ -10,7 +10,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXProgressTask.h"
+#include "JXProgressTask.h"
 #include <jx-af/jcore/JLatentPG.h>
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
@@ -32,7 +32,7 @@ const JUtf8Byte* JXProgressTask::kCancelled = "Cancelled::JXProgressTask";
 JXProgressTask::JXProgressTask
 	(
 	const JString&	message,
-	const bool	allowCancel
+	const bool		allowCancel
 	)
 	:
 	JXIdleTask(kUpdateInterval)
@@ -82,20 +82,18 @@ JXProgressTask::~JXProgressTask()
 }
 
 /******************************************************************************
- Perform (virtual)
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXProgressTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	if (TimeToPerform(delta, maxSleepTime) &&
-		(( itsOwnsPGFlag && !itsPG->IncrementProgress()) ||
-		 (!itsOwnsPGFlag && !itsPG->ProcessContinuing())))
+	if (( itsOwnsPGFlag && !itsPG->IncrementProgress()) ||
+		(!itsOwnsPGFlag && !itsPG->ProcessContinuing()))
 	{
 		Broadcast(Cancelled());
 		jdelete this;	// safe to commit suicide as last action

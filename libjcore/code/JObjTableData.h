@@ -10,8 +10,8 @@
 #ifndef _H_JObjTableData
 #define _H_JObjTableData
 
-#include "jx-af/jcore/JTableData.h"
-#include "jx-af/jcore/JPtrArray.h"
+#include "JTableData.h"
+#include "JPtrArray.h"
 
 template <class T>
 class JObjTableData : public JTableData

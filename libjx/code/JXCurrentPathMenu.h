@@ -8,7 +8,7 @@
 #ifndef _H_JXCurrentPathMenu
 #define _H_JXCurrentPathMenu
 
-#include "jx-af/jx/JXTextMenu.h"
+#include "JXTextMenu.h"
 
 class JXCurrentPathMenu : public JXTextMenu
 {

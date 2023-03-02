@@ -118,13 +118,13 @@ SizeHistogram::Draw
 		JRect r2         = r1;
 		r2.right         = r2.left + numberColWidth - kMarginWidth;
 		const JString s1 = JPrintFileSize(pow(2, exp));
-		p.JPainter::String(r2, s1, JPainter::kHAlignRight);
+		p.JPainter::String(r2, s1, JPainter::HAlign::kRight);
 
 		r1.left += numberColWidth;
 
 		r2.Shift(numberColWidth, 0);
 		const JString s2((JUInt64) binCount);
-		p.JPainter::String(r2, s2, JPainter::kHAlignRight);
+		p.JPainter::String(r2, s2, JPainter::HAlign::kRight);
 
 		if (total > 0 && binCount > 0)
 		{

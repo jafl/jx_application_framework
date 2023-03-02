@@ -12,10 +12,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JPoint.h"
-#include "jx-af/jcore/JRect.h"
-#include "jx-af/jcore/JMinMax.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JPoint.h"
+#include "JRect.h"
+#include "JMinMax.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JPinInRect

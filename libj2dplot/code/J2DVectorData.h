@@ -10,7 +10,7 @@
 #ifndef _H_J2DVectorData
 #define _H_J2DVectorData
 
-#include "jx-af/j2dplot/J2DPlotDataBase.h"
+#include "J2DPlotDataBase.h"
 #include <jx-af/jcore/JArray.h>
 
 class J2DVectorData : public J2DPlotDataBase

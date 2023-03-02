@@ -12,7 +12,7 @@
 		#define MenuVar      ____
 		#define CmdType      ____
 		#define CmdIDList    ____
-		#include "jx-af/jx/JXMenuItemIDUtil.th"
+		#include "JXMenuItemIDUtil.th"
 		#undef ClassName
 		#undef IndexToCmdFn
 		#undef CmdToIndexFn

@@ -1,14 +1,14 @@
 /******************************************************************************
  JX2DCurveOptionsDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1997 by Glenn W. Bach.
 
  ******************************************************************************/
 
-#include "jx-af/j2dplot/JX2DCurveOptionsDialog.h"
-#include "jx-af/j2dplot/JX2DCurveNameList.h"
+#include "JX2DCurveOptionsDialog.h"
+#include "JX2DCurveNameList.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXRadioGroup.h>
@@ -26,16 +26,15 @@
 
 JX2DCurveOptionsDialog::JX2DCurveOptionsDialog
 	(
-	JXWindowDirector*			supervisor,
 	const JArray<J2DCurveInfo>&	array,
-	const JArray<bool>&		hasXErrors,
-	const JArray<bool>&		hasYErrors,
-	const JArray<bool>&		isFunction,
-	const JArray<bool>&		isScatter,
+	const JArray<bool>&			hasXErrors,
+	const JArray<bool>&			hasYErrors,
+	const JArray<bool>&			isFunction,
+	const JArray<bool>&			isScatter,
 	const JIndex				startIndex
 	)
 	:
-	JXDialogDirector(supervisor, true),
+	JXModalDialogDirector(),
 	itsCurrentIndex(startIndex)
 {
 	assert( array.IndexValid(startIndex) );
@@ -218,7 +217,7 @@ JX2DCurveOptionsDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 
@@ -355,7 +354,7 @@ JX2DCurveOptionsDialog::DecodeCurveStyle
 bool
 JX2DCurveOptionsDialog::OKToDeactivate()
 {
-	if (!JXDialogDirector::OKToDeactivate())
+	if (!JXModalDialogDirector::OKToDeactivate())
 	{
 		return false;
 	}

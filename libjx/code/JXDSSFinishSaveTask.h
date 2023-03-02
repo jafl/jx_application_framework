@@ -8,8 +8,8 @@
 #ifndef _H_JXDSSFinishSaveTask
 #define _H_JXDSSFinishSaveTask
 
-#include "jx-af/jx/JXDirectSaveAction.h"
-#include "jx-af/jx/JXUrgentTask.h"
+#include "JXDirectSaveAction.h"
+#include "JXUrgentTask.h"
 
 class JXSaveFileDialog;
 
@@ -19,9 +19,12 @@ public:
 
 	JXDSSFinishSaveTask(JXSaveFileDialog* dialog);
 
+	void	Save(const JString& fullName) override;
+
+protected:
+
 	~JXDSSFinishSaveTask() override;
 
-	void	Save(const JString& fullName) override;
 	void	Perform() override;
 
 private:

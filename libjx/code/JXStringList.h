@@ -10,7 +10,7 @@
 #ifndef _H_JXStringList
 #define _H_JXStringList
 
-#include "jx-af/jx/JXTable.h"
+#include "JXTable.h"
 #include <jx-af/jcore/JRunArray.h>
 #include <jx-af/jcore/JAliasArray.h>
 #include <jx-af/jcore/JFont.h>

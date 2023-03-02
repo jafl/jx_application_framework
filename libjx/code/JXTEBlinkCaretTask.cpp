@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXTEBlinkCaretTask.h"
-#include "jx-af/jx/JXTEBase.h"
-#include "jx-af/jx/JXWindow.h"
+#include "JXTEBlinkCaretTask.h"
+#include "JXTEBase.h"
+#include "JXWindow.h"
 #include <jx-af/jcore/jAssert.h>
 
 const Time kHalfPeriod = 600;	// 0.6 seconds (milliseconds)
@@ -60,26 +60,22 @@ JXTEBlinkCaretTask::Reset()
 }
 
 /******************************************************************************
- Perform (virtual)
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXTEBlinkCaretTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	if (itsActiveFlag && TimeToPerform(delta, maxSleepTime))
-	{		
-		if (itsTE->TECaretIsVisible())
-		{
-			itsTE->TEHideCaret();
-		}
-		else
-		{
-			itsTE->TEShowCaret();
-		}
+	if (itsActiveFlag && itsTE->TECaretIsVisible())
+	{
+		itsTE->TEHideCaret();
+	}
+	else if (itsActiveFlag)
+	{
+		itsTE->TEShowCaret();
 	}
 }

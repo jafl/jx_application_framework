@@ -1,7 +1,7 @@
 /******************************************************************************
  TestPopupChoiceDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Written by John Lindal.
 
@@ -24,12 +24,9 @@
 
  ******************************************************************************/
 
-TestPopupChoiceDialog::TestPopupChoiceDialog
-	(
-	JXWindowDirector* supervisor
-	)
+TestPopupChoiceDialog::TestPopupChoiceDialog()
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow();
 }

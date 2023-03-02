@@ -4,22 +4,21 @@
 	Derived classes must override BuildWindow() and call SetObjects()
 	at the end of their implementation.
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1999 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXPTPageSetupDialog.h"
-#include "jx-af/jx/JXPTPrinter.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXIntegerInput.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXChooseSaveFile.h"
-#include "jx-af/jx/jXGlobals.h"
-#include <jx-af/jcore/JString.h>
+#include "JXPTPageSetupDialog.h"
+#include "JXPTPrinter.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXIntegerInput.h"
+#include "JXStaticText.h"
+#include "JXCSFDialogBase.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jProcessUtil.h>
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jFStreamUtil.h>
@@ -38,7 +37,7 @@ JXPTPageSetupDialog::Create
 	const JSize		pageWidth,
 	const JSize		pageHeight,
 	const JSize		minPageHeight,
-	const bool	printReverseOrder
+	const bool		printReverseOrder
 	)
 {
 	auto* dlog = jnew JXPTPageSetupDialog;
@@ -55,7 +54,7 @@ JXPTPageSetupDialog::Create
 
 JXPTPageSetupDialog::JXPTPageSetupDialog()
 	:
-	JXDialogDirector(JXGetApplication(), true)
+	JXModalDialogDirector()
 {
 }
 
@@ -195,7 +194,7 @@ JXPTPageSetupDialog::SetObjects
 
 	itsPrintCmd->GetText()->SetText(printCmd);
 	itsPrintCmd->SetIsRequired();
-	itsPrintCmd->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsPrintCmd->GetText()->SetCharacterInWordFunction(JXCSFDialogBase::IsCharacterInWord);
 
 	itsWidth->SetValue(pageWidth);
 	itsWidth->SetLowerLimit(1);
@@ -209,7 +208,9 @@ JXPTPageSetupDialog::SetObjects
 }
 
 /******************************************************************************
- SetParameters
+ SetParameters (virtual)
+
+	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 
@@ -262,7 +263,7 @@ JXPTPageSetupDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 

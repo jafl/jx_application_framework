@@ -10,7 +10,7 @@
 #ifndef _H_JTruncateToInt
 #define _H_JTruncateToInt
 
-#include "jx-af/jexpr/JUnaryFunction.h"
+#include "JUnaryFunction.h"
 
 class JTruncateToInt : public JUnaryFunction
 {

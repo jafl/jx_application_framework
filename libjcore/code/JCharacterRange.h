@@ -10,7 +10,7 @@
 #ifndef _H_JCharacterRange
 #define _H_JCharacterRange
 
-#include "jx-af/jcore/JRange.h"
+#include "JRange.h"
 
 class JCharacterRange : public JRange<JIndex>
 {

@@ -11,10 +11,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXScrollbarSet.h"
-#include "jx-af/jx/JXScrollableWidget.h"
-#include "jx-af/jx/JXScrollbar.h"
-#include "jx-af/jx/JXWindow.h"
+#include "JXScrollbarSet.h"
+#include "JXScrollableWidget.h"
+#include "JXScrollbar.h"
+#include "JXWindow.h"
 #include <jx-af/jcore/jAssert.h>
 
 const JSize	kScrollBarWidth = 15;

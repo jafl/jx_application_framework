@@ -10,7 +10,7 @@
 #ifndef _H_jTime
 #define _H_jTime
 
-#include "jx-af/jcore/jTypes.h"
+#include "jTypes.h"
 #include <time.h>
 
 class JString;

@@ -10,8 +10,8 @@
 #ifndef _H_JTextProgressDisplay
 #define _H_JTextProgressDisplay
 
-#include "jx-af/jcore/JProgressDisplay.h"
-#include "jx-af/jcore/jSignal.h"
+#include "JProgressDisplay.h"
+#include "jSignal.h"
 
 class JTextProgressDisplay : public JProgressDisplay
 {
@@ -31,7 +31,7 @@ protected:
 
 	void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
 							 const JString& message, const bool allowCancel,
-							 const bool allowBackground) override;
+							 const bool modal) override;
 
 	bool	CheckForCancel() override;
 

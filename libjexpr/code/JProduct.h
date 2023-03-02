@@ -10,7 +10,7 @@
 #ifndef _H_JProduct
 #define _H_JProduct
 
-#include "jx-af/jexpr/JNaryOperator.h"
+#include "JNaryOperator.h"
 
 class JProduct : public JNaryOperator
 {

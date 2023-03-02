@@ -36,7 +36,7 @@ public:
 
 	// Print Setup dialog
 
-	void	BeginUserPrintSetup();
+	bool	ConfirmUserPrintSetup();
 
 protected:
 
@@ -47,19 +47,12 @@ protected:
 		CreatePrintSetupDialog(const JString& fileName,
 							   const bool preview, const bool bw);
 
-	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
-									  bool* changed);
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JXDisplay*	itsDisplay;		// not owned
 
 	JXImage*		itsPreviewImage;
 	JXImagePainter*	itsPreviewPainter;
-
-	JXEPSPrintSetupDialog*	itsPrintSetupDialog;
 };
 
 #endif

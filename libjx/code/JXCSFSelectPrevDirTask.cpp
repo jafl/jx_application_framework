@@ -1,14 +1,14 @@
 /******************************************************************************
  JXCSFSelectPrevDirTask.cpp
 
-	BASE CLASS = JXUrgentTask, virtual JBroadcaster
+	BASE CLASS = JXUrgentTask
 
 	Copyright (C) 1996 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXCSFSelectPrevDirTask.h"
-#include "jx-af/jx/JXDirTable.h"
+#include "JXCSFSelectPrevDirTask.h"
+#include "JXDirTable.h"
 #include <jx-af/jcore/JDirInfo.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -24,16 +24,15 @@ JXCSFSelectPrevDirTask::JXCSFSelectPrevDirTask
 	const JString&	dirName
 	)
 	:
-	JXUrgentTask(),
+	JXUrgentTask(dirTable),
 	itsDirInfo(dirInfo),
 	itsDirTable(dirTable),
 	itsDirName(dirName)
 {
-	ClearWhenGoingAway(itsDirTable, &itsDirTable);
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -42,7 +41,7 @@ JXCSFSelectPrevDirTask::~JXCSFSelectPrevDirTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
@@ -50,7 +49,7 @@ void
 JXCSFSelectPrevDirTask::Perform()
 {
 	JIndex index;
-	if (itsDirTable != nullptr && itsDirInfo->FindEntry(itsDirName, &index))
+	if (itsDirInfo->FindEntry(itsDirName, &index))
 	{
 		itsDirTable->UpdateScrollbars();
 		itsDirTable->SelectSingleEntry(index);

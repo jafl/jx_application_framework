@@ -29,13 +29,13 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JEPSPrinter.h"
-#include "jx-af/jcore/JImage.h"
-#include "jx-af/jcore/JString.h"
-#include "jx-af/jcore/jStreamUtil.h"
-#include "jx-af/jcore/jMath.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JEPSPrinter.h"
+#include "JImage.h"
+#include "JString.h"
+#include "jStreamUtil.h"
+#include "jMath.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 // setup information
 
@@ -396,9 +396,9 @@ JEPSPrinter::String
 	const JCoordinate	top,
 	const JString&		str,
 	const JCoordinate	width,
-	const HAlignment	hAlign,
+	const HAlign	hAlign,
 	const JCoordinate	height,
-	const VAlignment	vAlign
+	const VAlign	vAlign
 	)
 {
 	JCoordinate ascent, descent;

@@ -1,7 +1,7 @@
 /******************************************************************************
  SetElasticDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Written by John Lindal.
 
@@ -22,12 +22,11 @@
 
 SetElasticDialog::SetElasticDialog
 	(
-	JXWindowDirector*	supervisor,
-	const JIndex		index,
-	const JIndex		maxIndex
+	const JIndex index,
+	const JIndex maxIndex
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow(index, maxIndex);
 }

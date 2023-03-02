@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXUpdateWDMenuTask.h"
-#include "jx-af/jx/JXWDManager.h"
+#include "JXUpdateWDMenuTask.h"
+#include "JXWDManager.h"
 
 /******************************************************************************
  Constructor
@@ -20,13 +20,13 @@ JXUpdateWDMenuTask::JXUpdateWDMenuTask
 	JXWDManager* wdMgr
 	)
 	:
-	JXUrgentTask()
+	JXUrgentTask(wdMgr),
+	itsWDMgr(wdMgr)
 {
-	itsWDMgr = wdMgr;
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -35,13 +35,16 @@ JXUpdateWDMenuTask::~JXUpdateWDMenuTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXUpdateWDMenuTask::Perform()
 {
-	itsWDMgr->itsUpdateWDMenuTask = nullptr;	// we will now be deleted
 	itsWDMgr->UpdateAllWDMenus();
+	if (itsWDMgr != nullptr)
+	{
+		itsWDMgr->itsUpdateWDMenuTask = nullptr;
+	}
 }

@@ -10,8 +10,8 @@
 #ifndef _H_JTableSelection
 #define _H_JTableSelection
 
-#include "jx-af/jcore/JAuxTableData.h"
-#include "jx-af/jcore/JTableSelectionIterator.h"	// need definition of Direction
+#include "JAuxTableData.h"
+#include "JTableSelectionIterator.h"	// need definition of Direction
 
 class JTableSelection : public JAuxTableData<bool>
 {

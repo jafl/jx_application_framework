@@ -8,7 +8,7 @@
 #ifndef _H_JTEUndoTyping
 #define _H_JTEUndoTyping
 
-#include "jx-af/jcore/JSTUndoTextBase.h"
+#include "JSTUndoTextBase.h"
 
 class JStringMatch;
 

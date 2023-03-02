@@ -5,15 +5,15 @@
 
  ******************************************************************************/
 
-#include "jx-af/j2dplot/JX2DPlotWidget.h"
-#include "jx-af/j2dplot/JX2DPlotLabelDialog.h"
-#include "jx-af/j2dplot/JX2DPlotScaleDialog.h"
-#include "jx-af/j2dplot/JX2DPlotRangeDialog.h"
-#include "jx-af/j2dplot/JX2DCurveOptionsDialog.h"
-#include "jx-af/j2dplot/JX2DCursorMarkTableDir.h"
-#include "jx-af/j2dplot/JX2DCursorMarkTable.h"
-#include "jx-af/j2dplot/JX2DPlotEPSPrinter.h"
-#include "jx-af/j2dplot/J2DPlotDataBase.h"
+#include "JX2DPlotWidget.h"
+#include "JX2DPlotLabelDialog.h"
+#include "JX2DPlotScaleDialog.h"
+#include "JX2DPlotRangeDialog.h"
+#include "JX2DCurveOptionsDialog.h"
+#include "JX2DCursorMarkTableDir.h"
+#include "JX2DCursorMarkTable.h"
+#include "JX2DPlotEPSPrinter.h"
+#include "J2DPlotDataBase.h"
 
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/JXWindowDirector.h>
@@ -224,11 +224,6 @@ JX2DPlotWidget::JX2DPlotWidgetX()
 	AddColor(JColorManager::GetMagentaColor());
 	AddColor(JColorManager::GetBrownColor());
 	AddColor(JColorManager::GetLightBlueColor());
-
-	itsPlotLabelDialog		= nullptr;
-	itsPlotScaleDialog		= nullptr;
-	itsPlotRangeDialog		= nullptr;
-	itsCurveOptionsDialog	= nullptr;
 
 	itsMarkDir = jnew JX2DCursorMarkTableDir(GetWindow()->GetDirector(), this);
 	assert(itsMarkDir != nullptr);
@@ -475,88 +470,6 @@ JX2DPlotWidget::Receive
 		HandleCurveOptionsMenu(selection->GetIndex());
 	}
 
-	else if (sender == itsPlotLabelDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			GetNewLabels();
-		}
-		itsPlotLabelDialog = nullptr;
-	}
-
-	else if (sender == itsPlotScaleDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			GetNewScale();
-		}
-		itsPlotScaleDialog = nullptr;
-	}
-
-	else if (sender == itsPlotRangeDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			GetNewRange();
-		}
-		itsPlotRangeDialog = nullptr;
-	}
-
-	else if (sender == itsCurveOptionsDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			GetNewCurveOptions();
-		}
-		itsCurveOptionsDialog = nullptr;
-	}
-
-	else if (sender == itsPSPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const auto* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			itsPSPrintName = itsPSPrinter->GetFileName();
-			Print(*itsPSPrinter);
-		}
-		StopListening(itsPSPrinter);
-	}
-
-	else if (sender == itsEPSPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const auto* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != nullptr );
-		if (info->Successful() && itsPrintEPSPlotFlag)
-		{
-			itsEPSPlotName   = itsEPSPrinter->GetOutputFileName();
-			itsEPSPlotBounds = itsEPSPrinter->GetPlotBounds();
-			Print(*itsEPSPrinter, itsEPSPlotBounds);
-		}
-		else if (info->Successful())
-		{
-			itsEPSMarksName = itsEPSPrinter->GetOutputFileName();
-			(itsMarkDir->GetTable())->JTable::Print(*itsEPSPrinter);
-		}
-		StopListening(itsEPSPrinter);
-	}
-
 	else
 	{
 		if (sender == this && message.Is(kCurveAdded))
@@ -703,35 +616,23 @@ JX2DPlotWidget::ChangeLabels
 	const LabelSelection selection
 	)
 {
-	assert (itsPlotLabelDialog == nullptr);
-	itsPlotLabelDialog =
-		jnew JX2DPlotLabelDialog(GetWindow()->GetDirector(),
-								GetTitle(), GetXLabel(), GetYLabel(),
-								GetFontName(), GetFontSize(), selection);
-	assert (itsPlotLabelDialog != nullptr);
-	ListenTo(itsPlotLabelDialog);
-	itsPlotLabelDialog->BeginDialog();
-}
+	auto* dlog =
+		jnew JX2DPlotLabelDialog(GetTitle(), GetXLabel(), GetYLabel(),
+								 GetFontName(), GetFontSize(), selection);
+	assert (dlog != nullptr);
 
-/*******************************************************************************
- GetNewLabels
+	if (dlog->DoDialog())
+	{
+		JString title, xLabel, yLabel;
+		dlog->GetLabels(&title, &xLabel, &yLabel);
+		SetTitle(title);
+		SetXLabel(xLabel);
+		SetYLabel(yLabel);
 
- ******************************************************************************/
-
-void
-JX2DPlotWidget::GetNewLabels()
-{
-	assert( itsPlotLabelDialog != nullptr );
-
-	JString title, xLabel, yLabel;
-	itsPlotLabelDialog->GetLabels(&title, &xLabel, &yLabel);
-	SetTitle(title);
-	SetXLabel(xLabel);
-	SetYLabel(yLabel);
-
-	const JString fontName = itsPlotLabelDialog->GetFontName();
-	SetFontName(fontName);
-	SetFontSize(itsPlotLabelDialog->GetFontSize());
+		const JString fontName = dlog->GetFontName();
+		SetFontName(fontName);
+		SetFontSize(dlog->GetFontSize());
+	}
 }
 
 /*******************************************************************************
@@ -742,22 +643,27 @@ JX2DPlotWidget::GetNewLabels()
 void
 JX2DPlotWidget::ChangeScale
 	(
-	const bool xAxis
+	const bool editXAxis
 	)
 {
-	assert (itsPlotScaleDialog == nullptr);
 	JFloat xmin, xmax, xinc, ymin, ymax, yinc;
 	GetXScale(&xmin, &xmax, &xinc);
 	GetYScale(&ymin, &ymax, &yinc);
 
-	itsPlotScaleDialog =
-		jnew JX2DPlotScaleDialog(GetWindow()->GetDirector(),
-								xmin, xmax, xinc, XAxisIsLinear(),
-								ymin, ymax, yinc, YAxisIsLinear());
-	assert (itsPlotScaleDialog != nullptr);
-	ListenTo(itsPlotScaleDialog);
-	itsPlotScaleDialog->BeginDialog();
-	itsPlotScaleDialog->EditXAxis(xAxis);
+	auto* dlog =
+		jnew JX2DPlotScaleDialog(xmin, xmax, xinc, XAxisIsLinear(),
+								 ymin, ymax, yinc, YAxisIsLinear(),
+								 editXAxis);
+	assert( dlog != nullptr );
+	if (dlog->DoDialog())
+	{
+		JFloat xmin, xmax, xinc, ymin, ymax, yinc;
+		bool xLinear, yLinear;
+
+		dlog->GetScaleValues(&xmin, &xmax, &xinc, &xLinear, &ymin, &ymax, &yinc, &yLinear);
+		SetXScale(xmin, xmax, (xLinear ? xinc : -1.0), xLinear);
+		SetYScale(ymin, ymax, (yLinear ? yinc : -1.0), yLinear);
+	}
 }
 
 /*******************************************************************************
@@ -772,24 +678,6 @@ JX2DPlotWidget::ChangeScale()
 }
 
 /*******************************************************************************
- GetNewScale
-
- ******************************************************************************/
-
-void
-JX2DPlotWidget::GetNewScale()
-{
-	assert( itsPlotScaleDialog != nullptr );
-
-	JFloat xmin, xmax, xinc, ymin, ymax, yinc;
-	bool xLinear, yLinear;
-
-	itsPlotScaleDialog->GetScaleValues(&xmin, &xmax, &xinc, &xLinear, &ymin, &ymax, &yinc, &yLinear);
-	SetXScale(xmin, xmax, (xLinear ? xinc : -1.0), xLinear);
-	SetYScale(ymin, ymax, (yLinear ? yinc : -1.0), yLinear);
-}
-
-/*******************************************************************************
  ChangeRange (private)
 
  ******************************************************************************/
@@ -797,7 +685,6 @@ JX2DPlotWidget::GetNewScale()
 void
 JX2DPlotWidget::ChangeRange()
 {
-	assert (itsPlotRangeDialog == nullptr);
 	JFloat xmax, xmin, ymax, ymin;
 	if (!GetRange(&xmin, &xmax, &ymin, &ymax))
 	{
@@ -805,32 +692,21 @@ JX2DPlotWidget::ChangeRange()
 		GetXScale(&xmin, &xmax, &xinc);
 		GetYScale(&ymin, &ymax, &yinc);
 	}
-	itsPlotRangeDialog =
-		jnew JX2DPlotRangeDialog(GetWindow()->GetDirector(),
-								xmax, xmin, ymax, ymin);
-	assert (itsPlotRangeDialog != nullptr);
-	ListenTo(itsPlotRangeDialog);
-	itsPlotRangeDialog->BeginDialog();
-}
 
-/*******************************************************************************
- GetNewRange (private)
+	auto* dlog = jnew JX2DPlotRangeDialog(xmax, xmin, ymax, ymin);
+	assert( dlog != nullptr );
 
- ******************************************************************************/
-
-void
-JX2DPlotWidget::GetNewRange()
-{
-	assert( itsPlotRangeDialog != nullptr );
-
-	JFloat xmax, xmin, ymax, ymin;
-	if (itsPlotRangeDialog->GetRangeValues(&xmax, &xmin, &ymax, &ymin))
+	if (dlog->DoDialog())
 	{
-		SetRange(xmin, xmax, ymin, ymax);
-	}
-	else
-	{
-		ClearRange();
+		JFloat xmax, xmin, ymax, ymin;
+		if (dlog->GetRangeValues(&xmax, &xmin, &ymax, &ymin))
+		{
+			SetRange(xmin, xmax, ymin, ymax);
+		}
+		else
+		{
+			ClearRange();
+		}
 	}
 }
 
@@ -943,8 +819,6 @@ JX2DPlotWidget::ChangeCurveOptions
 	const JIndex index
 	)
 {
-	assert (itsCurveOptionsDialog == nullptr);
-
 	JArray<bool> hasXErrors, hasYErrors, isFunction, isScatter;
 
 	const JSize count = GetCurveCount();
@@ -957,24 +831,15 @@ JX2DPlotWidget::ChangeCurveOptions
 		isScatter.AppendElement(curve.GetType() == J2DPlotDataBase::kScatterPlot);
 	}
 
-	itsCurveOptionsDialog =
-		jnew JX2DCurveOptionsDialog(GetWindow()->GetDirector(), GetCurveInfoArray(),
+	auto* dlog =
+		jnew JX2DCurveOptionsDialog(GetCurveInfoArray(),
 									hasXErrors, hasYErrors, isFunction, isScatter, index);
-	assert (itsCurveOptionsDialog != nullptr);
-	ListenTo(itsCurveOptionsDialog);
-	itsCurveOptionsDialog->BeginDialog();
-}
+	assert( dlog != nullptr );
 
-/*******************************************************************************
- GetNewCurveOptions
-
- ******************************************************************************/
-
-void
-JX2DPlotWidget::GetNewCurveOptions()
-{
-	assert( itsCurveOptionsDialog != nullptr );
-	SetCurveInfoArray(itsCurveOptionsDialog->GetCurveInfoArray());
+	if (dlog->DoDialog())
+	{
+		SetCurveInfoArray(dlog->GetCurveInfoArray());
+	}
 }
 
 /*******************************************************************************
@@ -1336,10 +1201,6 @@ JX2DPlotWidget::SetPSPrinter
 	JXPSPrinter* p
 	)
 {
-	if (itsPSPrinter != nullptr)
-	{
-		StopListening(itsPSPrinter);
-	}
 	itsPSPrinter = p;
 }
 
@@ -1355,7 +1216,7 @@ JX2DPlotWidget::HandlePSPageSetup()
 {
 	assert( itsPSPrinter != nullptr );
 
-	itsPSPrinter->BeginUserPageSetup();
+	itsPSPrinter->EditUserPageSetup();
 }
 
 /******************************************************************************
@@ -1371,8 +1232,11 @@ JX2DPlotWidget::PrintPS()
 	assert( itsPSPrinter != nullptr );
 
 	itsPSPrinter->SetFileName(itsPSPrintName);
-	itsPSPrinter->BeginUserPrintSetup();
-	ListenTo(itsPSPrinter);
+	if (itsPSPrinter->ConfirmUserPrintSetup())
+	{
+		itsPSPrintName = itsPSPrinter->GetFileName();
+		Print(*itsPSPrinter);
+	}
 }
 
 /******************************************************************************
@@ -1441,15 +1305,18 @@ JX2DPlotWidget::PrintPlotEPS()
 {
 	assert( itsEPSPrinter != nullptr );
 
-	itsPrintEPSPlotFlag = true;
 	itsEPSPrinter->SetOutputFileName(itsEPSPlotName);
 	itsEPSPrinter->UsePlotSetup(true);
 	if (!itsEPSPlotBounds.IsEmpty())
 	{
 		itsEPSPrinter->SetPlotBounds(itsEPSPlotBounds);
 	}
-	itsEPSPrinter->BeginUserPrintSetup();
-	ListenTo(itsEPSPrinter);
+	if (itsEPSPrinter->ConfirmUserPrintSetup())
+	{
+		itsEPSPlotName   = itsEPSPrinter->GetOutputFileName();
+		itsEPSPlotBounds = itsEPSPrinter->GetPlotBounds();
+		Print(*itsEPSPrinter, itsEPSPlotBounds);
+	}
 }
 
 /******************************************************************************
@@ -1464,11 +1331,13 @@ JX2DPlotWidget::PrintMarksEPS()
 {
 	assert( itsEPSPrinter != nullptr );
 
-	itsPrintEPSPlotFlag = false;
 	itsEPSPrinter->SetOutputFileName(itsEPSMarksName);
 	itsEPSPrinter->UsePlotSetup(false);
-	itsEPSPrinter->BeginUserPrintSetup();
-	ListenTo(itsEPSPrinter);
+	if (itsEPSPrinter->ConfirmUserPrintSetup())
+	{
+		itsEPSMarksName = itsEPSPrinter->GetOutputFileName();
+		itsMarkDir->GetTable()->JTable::Print(*itsEPSPrinter);
+	}
 }
 
 /******************************************************************************

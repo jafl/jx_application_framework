@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JUpdateChecker.h"
-#include "jx-af/jcore/JProcess.h"
-#include "jx-af/jcore/jStreamUtil.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JUpdateChecker.h"
+#include "JProcess.h"
+#include "jStreamUtil.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 const time_t kServerCheckInterval     = 7*24*3600;		// 1 week (seconds)
 const time_t kInitialReminderInterval = 30*24*3600;		// 1 month (seconds)

@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jfs/JXFSRunCommandDialog.h"
-#include "jx-af/jfs/JXFSCommandHistoryMenu.h"
-#include "jx-af/jfs/JXFSBindingManager.h"
-#include "jx-af/jfs/JXFSRunFileDialog.h"
+#include "JXFSRunCommandDialog.h"
+#include "JXFSCommandHistoryMenu.h"
+#include "JXFSBindingManager.h"
+#include "JXFSRunFileDialog.h"
 #include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXPathInput.h>
@@ -19,10 +19,11 @@
 #include <jx-af/jx/JXTextCheckbox.h>
 #include <jx-af/jx/JXPathHistoryMenu.h>
 #include <jx-af/jx/JXWidgetSet.h>
-#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXCSFDialogBase.h>
 #include <jx-af/jx/JXCheckModTimeTask.h>
 #include <jx-af/jx/JXFontManager.h>
 #include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JPrefsFile.h>
 #include <jx-af/jcore/JSimpleProcess.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jFileUtil.h>
@@ -223,7 +224,7 @@ JXFSRunCommandDialog::BuildWindow()
 	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 	itsPathHistoryMenu->SetDefaultFont(font, true);
 
-	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsCmdInput->GetText()->SetCharacterInWordFunction(JXCSFDialogBase::IsCharacterInWord);
 	ListenTo(itsCmdInput);
 
 	itsCmdInput->SetFont(font);

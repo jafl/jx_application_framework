@@ -7,20 +7,19 @@
 
  *****************************************************************************/
 
-#include "jx-af/jx/JXToolBarEditWidget.h"
-#include "jx-af/jx/JXToolBarNode.h"
-#include "jx-af/jx/JXDirector.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXMenuBar.h"
-#include "jx-af/jx/JXTextMenu.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/JXSelectionManager.h"
-#include "jx-af/jx/JXDNDManager.h"
-#include "jx-af/jx/JXChooseSaveFile.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXImageCache.h"
+#include "JXToolBarEditWidget.h"
+#include "JXToolBarNode.h"
+#include "JXDirector.h"
+#include "JXWindow.h"
+#include "JXMenuBar.h"
+#include "JXTextMenu.h"
+#include "JXWindowPainter.h"
+#include "JXSelectionManager.h"
+#include "JXDNDManager.h"
+#include "JXDisplay.h"
+#include "JXColorManager.h"
+#include "JXImage.h"
+#include "JXImageCache.h"
 #include <jx-af/jcore/JTreeList.h>
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/jAssert.h>

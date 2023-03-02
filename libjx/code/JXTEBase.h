@@ -10,7 +10,7 @@
 #ifndef _H_JXTEBase
 #define _H_JXTEBase
 
-#include "jx-af/jx/JXScrollableWidget.h"
+#include "JXScrollableWidget.h"
 #include <jx-af/jcore/JTextEditor.h>
 #include <jx-af/jcore/JError.h>
 
@@ -18,7 +18,6 @@ class JXMenuBar;
 class JXTextMenu;
 class JXPSPrinter;
 class JXPTPrinter;
-class JXGoToLineDialog;
 class JXTEBlinkCaretTask;
 
 class JXTEBase : public JXScrollableWidget, public JTextEditor
@@ -293,7 +292,6 @@ private:
 	static PartialWordModifier	thePWMod;		// which modifier to use for partial word movement
 
 	JXTEBlinkCaretTask*	itsBlinkTask;
-	JXGoToLineDialog*	itsGoToLineDialog;
 
 	static bool		theWindowsHomeEndFlag;	// true => use Windows/Motif Home/End action
 	static bool		theScrollCaretFlag;		// true => caret follows when text scrolls

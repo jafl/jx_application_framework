@@ -25,17 +25,17 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JString.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/jStreamUtil.h"
-#include "jx-af/jcore/jMath.h"
-#include "jx-af/jcore/JMinMax.h"
+#include "JString.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "jStreamUtil.h"
+#include "jMath.h"
+#include "JMinMax.h"
 #include <stdlib.h>
 #include <sstream>
 #include <iomanip>
-#include "jx-af/jcore/jErrno.h"
-#include "jx-af/jcore/jAssert.h"
+#include "jErrno.h"
+#include "jAssert.h"
 
 JSize JString::theDefaultBlockSize = 1024;
 const JString JString::empty("", JString::kNoCopy);
@@ -341,7 +341,7 @@ JString::~JString()
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JMemoryManager.h"
+#include "JMemoryManager.h"
 
 void*
 JString::operator new
@@ -2383,11 +2383,11 @@ JString::MatchCase
  *****************************************************************************/
 
 #define Separator JString
-#include "jx-af/jcore/JStringSplit.th"
+#include "JStringSplit.th"
 #undef Separator
 
 #define Separator JRegex
-#include "jx-af/jcore/JStringSplit.th"
+#include "JStringSplit.th"
 #undef Separator
 
 /******************************************************************************

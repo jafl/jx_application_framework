@@ -24,14 +24,14 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXTreeListWidget.h"
-#include "jx-af/jx/JXTLWAdjustToTreeTask.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXTreeListWidget.h"
+#include "JXTLWAdjustToTreeTask.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/JTree.h>
 #include <jx-af/jcore/JTreeList.h>
 #include <jx-af/jcore/JTreeNode.h>
 #include <jx-af/jcore/JPainter.h>
-#include "jx-af/jx/JXColorManager.h"
+#include "JXColorManager.h"
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jASCIIConstants.h>
@@ -115,8 +115,8 @@ JXTreeListWidget::~JXTreeListWidget()
 	jdelete itsTreeList;
 	jdelete itsMinColWidths;
 	jdelete itsReselectNodeList;
-	jdelete itsAdjustToTreeTask;
 	jdelete itsSavedScrollSetup;
+	// cannot delete itsAdjustToTreeTask
 }
 
 /******************************************************************************
@@ -801,7 +801,7 @@ JXTreeListWidget::ForceAdjustToTree()
 {
 	while (itsAdjustToTreeTask != nullptr)
 	{
-		jdelete itsAdjustToTreeTask;
+		itsAdjustToTreeTask->Cancel();
 		itsAdjustToTreeTask = nullptr;
 		AdjustToTree();
 	}

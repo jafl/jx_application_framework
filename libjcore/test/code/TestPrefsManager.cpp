@@ -44,7 +44,7 @@ TestPrefsManager::~TestPrefsManager()
 void
 TestPrefsManager::UpgradeData
 	(
-	const bool		isNew,
+	const bool			isNew,
 	const JFileVersion	currentVersion
 	)
 {
@@ -56,4 +56,14 @@ TestPrefsManager::UpgradeData
 	{
 		JAssertEqual(0, currentVersion);
 	}
+}
+
+/******************************************************************************
+ DataLoaded (virtual protected)
+
+ ******************************************************************************/
+
+void
+TestPrefsManager::DataLoaded()
+{
 }

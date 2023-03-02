@@ -8,7 +8,7 @@
 #ifndef _H_JXDockTabGroup
 #define _H_JXDockTabGroup
 
-#include "jx-af/jx/JXTabGroup.h"
+#include "JXTabGroup.h"
 
 class JXTextMenu;
 class JXDockWidget;

@@ -5,9 +5,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jSignal.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "jSignal.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JGetSignalName

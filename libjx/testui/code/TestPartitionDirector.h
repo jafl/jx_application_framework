@@ -12,8 +12,6 @@
 
 #include <jx-af/jx/JXWindowDirector.h>
 
-class SetElasticDialog;
-
 class JXTextMenu;
 class JXPartition;
 class JXHorizPartition;
@@ -41,18 +39,7 @@ protected:
 
 private:
 
-	enum ElasticType
-	{
-		kHorizElastic,
-		kVertElastic
-	};
-
-private:
-
 	JXVertPartition* itsVertPartition;	// owned by the horiz partition
-
-	SetElasticDialog*	itsSetElasticDialog;
-	ElasticType			itsSetElasticType;
 
 	// owned by the menu bar
 

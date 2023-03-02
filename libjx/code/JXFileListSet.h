@@ -10,7 +10,7 @@
 #ifndef _H_JXFileListSet
 #define _H_JXFileListSet
 
-#include "jx-af/jx/JXWidgetSet.h"
+#include "JXWidgetSet.h"
 
 class JXMenuBar;
 class JXTEBase;

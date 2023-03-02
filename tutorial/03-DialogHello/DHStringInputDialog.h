@@ -10,16 +10,15 @@
 #ifndef _H_DHStringInputDialog
 #define _H_DHStringInputDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXInputField;
-class JString;
 
-class DHStringInputDialog : public JXDialogDirector
+class DHStringInputDialog : public JXModalDialogDirector
 {
 public:
 
-	DHStringInputDialog(JXWindowDirector* supervisor, const JString& str);
+	DHStringInputDialog(const JString& str);
 
 	JString	GetString() const;
 

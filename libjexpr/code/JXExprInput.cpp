@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JXExprInput.h"
-#include "jx-af/jexpr/JUserInputFunction.h"
+#include "JXExprInput.h"
+#include "JUserInputFunction.h"
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>

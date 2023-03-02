@@ -22,6 +22,18 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 
 // version 4.0.0:
 //	Supports utf-8
+//	*** Upgraded the event handling system to use fibers.  This allows
+//		removing the (invisible) JXApplication::HandleOneEventForWindow()
+//		mechanism for handling JXUserNotification and JXChooseSaveFile.
+//		It also allows *all* dialogs to block, eliminating the need for
+//		JXDialogDirector::kDeactivated.  Any code that might show a dialog
+//		before you call JXApplication::Run() must now be wrapped in
+//		JScheduleTask to avoid blocking the main fiber.  Any code that
+//		blocks a fiber must first assert( JXApplication::IsWorkerFiber() );
+//
+//		This change was required because on Linux, XFilterEvent() did not
+//		work inside JXApplication::HandleOneEventForWindow(): it swallowed all
+//		keypresses and randomly plays them back in reverse order.
 //	Upgraded to new api's using JFont.
 //	*** Upgraded jxlayout to work with latest version of fdesign
 //		Bug in fdesign makes it impossible to set FL_NO_BOX, so you have
@@ -45,6 +57,11 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		--debug-ftc-noop		extra debugging for noop cycles in FTC
 //		--debug-ftc-overlap		extra debugging for FTC overlap calculations
 //		--pseudotranslate		fake translation to test layout
+//		Support multi-threaded applications by allowing other threads to create
+//			urgent & idle tasks.  UI code must run only in the UI thread.
+//		*** Removed HandleCustomEvent().  Use a pipe to a separate process.
+//		*** Close() is only called after all other directors are closed.
+//			If you need to save state, do it in Quit().
 //	JXToolBar:
 //		*** Removed minWidth & minHeight ctor arguments, because FTC can
 //			change the values.
@@ -58,9 +75,6 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	All strings have been extracted to jx_strings.
 //	JXTipOfTheDayDialog
 //		*** Switched from HTML to limited markdown.  Changed tip separator to "====="
-//	JXApplication:
-//		Support multi-threaded applications by allowing other threads to create
-//			urgent & idle tasks.  UI code must run only in the UI thread.
 //	JXImage
 //		Added CreateFromXPM() which works with > 256 colors.
 //	JXDisplay:
@@ -74,6 +88,41 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		*** Renamed SetItemEnable() to SetItemEnabled().
 //	JXMenuData:
 //		*** Renamed SetItemEnable() to SetItemEnabled().
+//	*** Renamed JXDialogDirector to JXModalDialogDirector.
+//		*** Renamed BeginDialog() to DoDialog().  It now *blocks* the fiber,
+//			so it can return bool to indicate success.
+//		*** Removed Deactivated message, because DoDialog() blocks.
+//	*** Removed JXChooseSaveFile.  Use JXChooseFileDialog, JXChoosePathDialog,
+//			JXSaveFileDialog directly.
+//	JXStandAlonePG:
+//		Upgrading to fibers offers improved responsiveness.
+//	jXGlobals:
+//		*** Removed JXGetChooseSaveFile().
+//	JXProgressDisplay:
+//		Rewritten to process events via the regular event loop when modal.
+//	JXPTPrinter:
+//		*** async BeginUserPageSetup -> blocking EditUserPageSetup
+//		*** async BeginUserPrintSetup -> blocking ConfirmUserPrintSetup
+//		*** Instead of EndUserPage/PrintSetup(), override the dialog's SetParameters().
+//	JXPSPrinter:
+//		*** async BeginUserPageSetup -> blocking EditUserPageSetup
+//		*** async BeginUserPrintSetup -> blocking ConfirmUserPrintSetup
+//		*** Instead of EndUserPage/PrintSetup(), override the dialog's SetParameters().
+//	JXEPSPrinter:
+//		*** async BeginUserPrintSetup -> blocking ConfirmUserPrintSetup
+//		*** Instead of EndUserPrintSetup(), override the dialog's SetParameters().
+//	*** Removed JXAskInitDockAllTask, because about dialogs are now blocking.
+//	JXUrgentTask:
+//		*** Constructor requires an object that, if deleted, will cancel the task.
+//		*** Derived classes must declare destructor and Perform() as protected.
+//		Added Cancel() & Cancelled().
+//	JXIdleTask:
+//		*** Removed maxSleepTime argument from Perform().
+//		*** Perform() must be protected and should no longer call ReadyToPerform().
+//		*** Removed CheckIfTimeToPerform() because it is no longer necessary.
+//			Perform() can be overridden without worrying about timing.
+//	JXUserNotification:
+//		Made text selectable, so error messages can be copied.
 
 // version 3.1.0:
 //	JXGetStringDialog:

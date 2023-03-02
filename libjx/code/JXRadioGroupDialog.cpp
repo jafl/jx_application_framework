@@ -4,18 +4,18 @@
 	Dynamically constructed dialog window to ask the user to pick from
 	a list of choices.
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1998 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXRadioGroupDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXRadioGroup.h"
-#include "jx-af/jx/JXTextRadioButton.h"
-#include "jx-af/jx/JXStaticText.h"
+#include "JXRadioGroupDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXRadioGroup.h"
+#include "JXTextRadioButton.h"
+#include "JXStaticText.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jAssert.h>
@@ -40,14 +40,13 @@ const JCoordinate kMinButtonHMargin = 10;
 
 JXRadioGroupDialog::JXRadioGroupDialog
 	(
-	JXDirector*					supervisor,
 	const JString&				windowTitle,
 	const JString&				prompt,
 	const JPtrArray<JString>&	choiceList,
 	const JPtrArray<JString>*	shortcutList
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow(windowTitle, prompt, choiceList, shortcutList);
 }

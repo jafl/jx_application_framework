@@ -14,9 +14,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXSelectionData.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWidget.h"
+#include "JXSelectionData.h"
+#include "JXDisplay.h"
+#include "JXWidget.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

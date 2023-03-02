@@ -23,7 +23,6 @@ TestMessage::TestDirector		"This is a test message.  这是一条测试消息"
 WarningMessage::TestDirector	"Did you like this warning message?"
 ErrorMessage::TestDirector		"This is a fake error."
 
-ChooseFilePrompt::TestDirector	"Name of file:"
 SaveFilePrompt::TestDirector	"Save file as:"
 DefaultFileName::TestDirector	"Untitled"
 
@@ -89,7 +88,6 @@ WindowTitle::ResizeWidgetDialog	"Change widget size"
 WindowTitle::TestImageDirector			"Test Image"
 FileMenuTitle::TestImageDirector		"File"
 FileMenuShortcut::TestImageDirector		"#F"
-ChooseImagePrompt::TestImageDirector	"Image to load:"
 SaveImagePrompt::TestImageDirector		"Save image as:"
 SaveMaskPrompt::TestImageDirector		"Save mask as:"
 
@@ -237,7 +235,6 @@ ProcessText::TestPGTask	"Crunching numbers..."
 
 FileMenuShortcut::TestTextEditDocument	"#F"
 FilesMenuTitle::TestTextEditDocument	"Files"
-ChooseFilesPrompt::TestTextEditDocument	"Files to open:"
 OpenFilesProgress::TestTextEditDocument	"Opening files..."
 
 EmulatorMenuTitle::TestTextEditDocument	"Emulator"
@@ -250,11 +247,6 @@ WindowTitle::TestDNDTextDirector	"Test Drag-And-Drop (text)"
 
 FileNotFound::TestLinkedDocument	"Unable to find \"about_owner_docs\""
 FileAlreadyOpen::TestLinkedDocument	"The file that we require is already open for a different purpose."
-
-OwnedFileNotFound::TestLinkedDocument
-"Unable to open $name
-
-I hope you didn't delete it!"
 
 # CBMDIServer
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890

@@ -25,7 +25,8 @@ J_RAW_SYSTEM_STUFF := \
   -DU_CHARSET_IS_UTF8=1 \
   -D_J_LLDB_HAS_SBVALUE_GETSUMMARY \
   -D_J_HAS_SYSCTL -D_XFT_NO_COMPAT_ \
-  -DACE_LACKS_VSPRINTF -DACE_DISABLE_MKTEMP
+  -DACE_LACKS_VSPRINTF -DACE_DISABLE_MKTEMP \
+  -D_GNU_SOURCE=1
 
 SEARCHDIRS += -I${BREW_ROOT}/include -I${BREW_ROOT}/include/freetype2
 
@@ -54,9 +55,11 @@ LDFLAGS   = -L/opt/X11/lib -L${BREW_ROOT}/lib
 
 # libraries to link - must use XQuartz instead of Homebrew X11
 
-J_GCC_LIBS  := ${shell pkg-config --libs icu-i18n libpcre} -lstdc++
-J_ACE_LIBS  := -lACE
-J_X11_LIBS  := -lXext -lXft -lfontconfig -lXpm -lX11
+J_GCC_LIBS := ${BREW_ROOT}/lib/libboost_fiber-mt.a \
+              ${BREW_ROOT}/lib/libboost_context-mt.a \
+              ${shell pkg-config --libs icu-i18n libpcre} -lstdc++
+J_ACE_LIBS := -lACE
+J_X11_LIBS := -lXext -lXft -lfontconfig -lXpm -lX11
 
 # lldb
 

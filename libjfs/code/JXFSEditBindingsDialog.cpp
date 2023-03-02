@@ -1,15 +1,15 @@
 /******************************************************************************
  JXFSEditBindingsDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXWindowDirector
 
 	Copyright (C) 1997 by Glenn Bach.
 
  ******************************************************************************/
 
-#include "jx-af/jfs/JXFSEditBindingsDialog.h"
-#include "jx-af/jfs/JXFSBindingTable.h"
-#include "jx-af/jfs/JFSBindingList.h"
+#include "JXFSEditBindingsDialog.h"
+#include "JXFSBindingTable.h"
+#include "JFSBindingList.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXTextButton.h>
@@ -43,7 +43,7 @@ JXFSEditBindingsDialog::JXFSEditBindingsDialog
 	JFSBindingList* list
 	)
 	:
-	JXDialogDirector(JXGetApplication(), false),
+	JXWindowDirector(JXGetApplication()),
 	itsBindingList(JFSBindingList::Create(&kUserMsg)),
 	itsOrigBindingList(list)
 {
@@ -70,15 +70,7 @@ JXFSEditBindingsDialog::~JXFSEditBindingsDialog()
 bool
 JXFSEditBindingsDialog::OKToDeactivate()
 {
-	if (!JXDialogDirector::OKToDeactivate())
-	{
-		return false;
-	}
-	else if (Cancelled())
-	{
-		return true;
-	}
-	else if (!CheckData())
+	if (!JXWindowDirector::OKToDeactivate() || !CheckData())
 	{
 		return false;
 	}
@@ -342,7 +334,10 @@ JXFSEditBindingsDialog::Receive
 	}
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
 	{
-		EndDialog(true);
+		if (Deactivate())
+		{
+			Close();
+		}
 	}
 
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
@@ -362,7 +357,7 @@ JXFSEditBindingsDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXWindowDirector::Receive(sender, message);
 	}
 }
 

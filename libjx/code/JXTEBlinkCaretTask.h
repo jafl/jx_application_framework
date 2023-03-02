@@ -8,7 +8,7 @@
 #ifndef _H_JXTEBlinkCaretTask
 #define _H_JXTEBlinkCaretTask
 
-#include "jx-af/jx/JXIdleTask.h"
+#include "JXIdleTask.h"
 
 class JXTEBase;
 
@@ -22,7 +22,10 @@ public:
 
 	void	ShouldBlink(const bool blink);
 	void	Reset();
-	void	Perform(const Time delta, Time* maxSleepTime) override;
+
+protected:
+
+	void	Perform(const Time delta) override;
 
 private:
 

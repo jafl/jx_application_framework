@@ -12,7 +12,7 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JString.h"
+#include "JString.h"
 
 template <class V>
 class JStrValue

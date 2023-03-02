@@ -5,8 +5,11 @@
 
  ******************************************************************************/
 
-#ifndef _H_jAssert
-#define _H_jAssert
+// memory manager - at the top, so our assert is used
+
+#include "jNew.h"
+
+// no fence - may need to override system macros multiple times
 
 // regular assert macro
 
@@ -14,7 +17,7 @@
 #undef assert_msg
 #undef assert_ok
 
-int JAssert(const char*, const char*, const int, const char* message);
+int JAssert(const char*, const char*, const int, const char* message, const char* function);
 
 #ifdef NDEBUG
 
@@ -24,14 +27,10 @@ int JAssert(const char*, const char*, const int, const char* message);
 
 #else
 
-	#define assert(x)			((void) ((x) || JAssert(#x, __FILE__, __LINE__, "")))
-	#define assert_msg(x, msg)	((void) ((x) || JAssert(#x, __FILE__, __LINE__, msg)))
-	#define assert_ok(x)		((void) ((x).OK() || JAssert((x).GetMessage().GetBytes(), __FILE__, __LINE__, "")))
+	#include <boost/current_function.hpp>
+
+	#define assert(x)			((void) ((x) || JAssert(#x, __FILE__, __LINE__, "", BOOST_CURRENT_FUNCTION)))
+	#define assert_msg(x, msg)	((void) ((x) || JAssert(#x, __FILE__, __LINE__, msg, BOOST_CURRENT_FUNCTION)))
+	#define assert_ok(x)		((void) ((x).OK() || JAssert((x).GetMessage().GetBytes(), __FILE__, __LINE__, "", BOOST_CURRENT_FUNCTION)))
 
 #endif
-
-#endif
-
-// memory manager - outside include fence
-
-#include "jx-af/jcore/jNew.h"

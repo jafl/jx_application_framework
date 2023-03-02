@@ -11,7 +11,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JArcCosine.h"
+#include "JArcCosine.h"
 #include <jx-af/jcore/jErrno.h>
 #include <jx-af/jcore/jAssert.h>
 

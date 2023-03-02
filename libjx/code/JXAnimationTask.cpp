@@ -28,9 +28,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXAnimationTask.h"
-#include "jx-af/jx/JXImageWidget.h"
-#include "jx-af/jx/JXImage.h"
+#include "JXAnimationTask.h"
+#include "JXImageWidget.h"
+#include "JXImage.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -60,39 +60,35 @@ JXAnimationTask::~JXAnimationTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXAnimationTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	if (TimeToPerform(delta, maxSleepTime))
+	itsCurrentImage++;
+	if (itsCurrentImage > GetFrameCount())
 	{
-		itsCurrentImage++;
-		if (itsCurrentImage > GetFrameCount())
-		{
-			itsCurrentImage = 1;
-		}
-
-		Time tmin, tmax;
-		GetFrameTime(itsCurrentImage, &tmin, &tmax);
-		if (tmin == tmax)
-		{
-			SetPeriod(tmin);
-		}
-		else
-		{
-			SetPeriod(itsRNG.UniformULong(tmin, tmax));
-		}
-
-		JXImage* image = GetFrame(itsCurrentImage);
-		image->ConvertToRemoteStorage();
-
-		itsWidget->SetImage(image, false);
+		itsCurrentImage = 1;
 	}
+
+	Time tmin, tmax;
+	GetFrameTime(itsCurrentImage, &tmin, &tmax);
+	if (tmin == tmax)
+	{
+		SetPeriod(tmin);
+	}
+	else
+	{
+		SetPeriod(itsRNG.UniformULong(tmin, tmax));
+	}
+
+	JXImage* image = GetFrame(itsCurrentImage);
+	image->ConvertToRemoteStorage();
+
+	itsWidget->SetImage(image, false);
 }

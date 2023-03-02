@@ -55,8 +55,8 @@ public:
 
 	// Page Setup and Print Setup dialogs
 
-	void	BeginUserPageSetup();
-	void	BeginUserPrintSetup();
+	bool	EditUserPageSetup();
+	bool	ConfirmUserPrintSetup();
 
 protected:
 
@@ -71,20 +71,11 @@ protected:
 							   const JString& printCmd, const JString& fileName,
 							   const bool printLineNumbers);
 
-	virtual bool	EndUserPageSetup(const JBroadcaster::Message& message);
-	virtual bool	EndUserPrintSetup(const JBroadcaster::Message& message,
-										  bool* changed);
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	Destination	itsDestination;
 	JString		itsPrintCmd;
 	JString		itsFileName;
-
-	JXPTPageSetupDialog*	itsPageSetupDialog;
-	JXPTPrintSetupDialog*	itsPrintSetupDialog;
 };
 
 std::istream& operator>>(std::istream& input, JXPTPrinter::Destination& dest);

@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JRealPart.h"
+#include "JRealPart.h"
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jAssert.h>
 

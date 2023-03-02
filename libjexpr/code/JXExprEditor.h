@@ -11,7 +11,7 @@
 #define _H_JXExprEditor
 
 #include <jx-af/jx/JXScrollableWidget.h>
-#include "jx-af/jexpr/JExprEditor.h"
+#include "JExprEditor.h"
 #include <jx-af/jx/JXStyledText.h>
 
 class JXTextMenu;

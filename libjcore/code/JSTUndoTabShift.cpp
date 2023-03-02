@@ -10,9 +10,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JSTUndoTabShift.h"
-#include "jx-af/jcore/JStyledText.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JSTUndoTabShift.h"
+#include "JStyledText.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

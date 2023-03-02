@@ -9,7 +9,7 @@
 #define _H_JXFSBindingManager
 
 #include <jx-af/jcore/JPtrArray-JString.h>
-#include "jx-af/jfs/JFSBinding.h"		// need defn of CommandType
+#include "JFSBinding.h"		// need defn of CommandType
 #include <jx-af/jcore/JError.h>
 
 class JXTimerTask;
@@ -17,7 +17,6 @@ class JFSBindingList;
 class JXFSEditBindingsDialog;
 class JXFSRunCommandDialog;
 class JXFSRunFileDialog;
-class JXFSRunScriptDialog;
 
 class JXFSBindingManager : virtual public JBroadcaster
 {
@@ -51,24 +50,17 @@ private:
 	JXTimerTask*	itsUpdateBindingListTask;
 
 	JXFSRunCommandDialog*	itsRunCmdDialog;
-
-	JXFSRunFileDialog*		itsRunFileDialog;		// nullptr unless processing files
-	JPtrArray<JFSBinding>*	itsFileList;			// nullptr unless waiting for itsRunFileDialog
-	bool					itsIgnoreBindingsFlag;	// true => ask for every file
-	JIndex					itsRunFileIndex;		// index in itsFileList of itsRunFileDialog
-
-	JXFSRunScriptDialog*	itsRunScriptDialog;		// nullptr unless processing script
-	JString					itsScriptPath;			// used when itsRunScriptDialog finishes
-
-	JXFSEditBindingsDialog*	itsEditDialog;
+	JXFSRunFileDialog*		itsRunFileDialog;	// nullptr unless processing files
+	JXFSEditBindingsDialog*	itsEditDialog;		// nullptr unless editing
 
 	static JXFSBindingManager*	itsSelf;
 
 private:
 
-	bool	HasFiles() const;
-	void		ProcessFiles();
-	void		Exec(const JIndex startIndex, const JIndex endIndex);
+	void		ProcessFiles(JPtrArray<JFSBinding>* fileList,
+							 const bool ignoreBindings);
+	void		Exec(const JPtrArray<JFSBinding>& fileList,
+					 const JIndex startIndex, const JIndex endIndex);
 	static void	BuildCommand(JString* cmd, const JString& q, const JString& u,
 							 const JString& qf, const JString& uf);
 	void		SaveBinding(const JString& fileName, const JString& cmd,

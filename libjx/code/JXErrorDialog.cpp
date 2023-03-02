@@ -7,12 +7,13 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXErrorDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXImageWidget.h"
-#include "jx-af/jx/JXImage.h"
+#include "JXErrorDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXImageWidget.h"
+#include "JXImage.h"
+#include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -25,11 +26,10 @@
 
 JXErrorDialog::JXErrorDialog
 	(
-	JXDirector*		supervisor,
-	const JString&	message
+	const JString& message
 	)
 	:
-	JXUNDialogBase(supervisor)
+	JXUNDialogBase()
 {
 	BuildWindow(message);
 }
@@ -65,20 +65,23 @@ JXErrorDialog::BuildWindow
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::JXErrorDialog::shortcuts::JXLayout"));
 
-	auto* text =
-		jnew JXStaticText(JGetString("text::JXErrorDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 60,20, 250,50);
-	assert( text != nullptr );
-
 	auto* icon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
 	assert( icon != nullptr );
 
+	auto* text =
+		jnew JXStaticText(JString::empty, true, true, false, nullptr, window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,20, 250,50);
+	assert( text != nullptr );
+
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::JXErrorDialog"));
 	SetButtons(okButton, nullptr);
+
+	text->SetBorderWidth(0);
+	text->SetBackgroundColor(JColorManager::GetDefaultBackColor());
 
 	Init(window, text, message, icon, jx_un_error);
 }

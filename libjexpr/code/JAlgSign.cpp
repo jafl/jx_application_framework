@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JAlgSign.h"
+#include "JAlgSign.h"
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jErrno.h>
 #include <jx-af/jcore/jAssert.h>

@@ -8,7 +8,7 @@
 #ifndef _H_JXImageSelection
 #define _H_JXImageSelection
 
-#include "jx-af/jx/JXSelectionData.h"
+#include "JXSelectionData.h"
 
 class JXImage;
 

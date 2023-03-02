@@ -20,10 +20,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JXExprEditor.h"
-#include "jx-af/jexpr/JFunction.h"
-#include "jx-af/jexpr/JExprRectList.h"
-#include "jx-af/jexpr/JUserInputFunction.h"
+#include "JXExprEditor.h"
+#include "JFunction.h"
+#include "JExprRectList.h"
+#include "JUserInputFunction.h"
 
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXWindow.h>
@@ -262,7 +262,6 @@ JXExprEditor::JXExprEditorX()
 {
 	itsEPSPrinter = jnew JXEPSPrinter(GetDisplay());
 	assert( itsEPSPrinter != nullptr );
-	ListenTo(itsEPSPrinter);
 
 	// ensure that we have a JFunction to display
 	// (also calls EIPBoundsChanged and EIPAdjustNeedTab)
@@ -813,7 +812,10 @@ JXExprEditor::HandleMathMenu
 	}
 	else if (cmd == kPrintEPSCmd)
 	{
-		itsEPSPrinter->BeginUserPrintSetup();
+		if (itsEPSPrinter->ConfirmUserPrintSetup())
+		{
+			Print(*itsEPSPrinter);
+		}
 	}
 	else if (cmd == kNegateSelCmd)
 	{
@@ -1001,18 +1003,6 @@ JXExprEditor::Receive
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFontMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsEPSPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const auto* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			Print(*itsEPSPrinter);
-		}
 	}
 
 	else

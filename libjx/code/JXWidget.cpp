@@ -41,12 +41,12 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXWidget.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXDragPainter.h"
-#include "jx-af/jx/JXDNDManager.h"
-#include "jx-af/jx/JXColorManager.h"
+#include "JXWidget.h"
+#include "JXWindow.h"
+#include "JXDisplay.h"
+#include "JXDragPainter.h"
+#include "JXDNDManager.h"
+#include "JXColorManager.h"
 #include <jx-af/jcore/jAssert.h>
 
 // JBroadcaster message types

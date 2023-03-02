@@ -1,7 +1,7 @@
 /******************************************************************************
  AboutDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2010 by John Lindal.
 
@@ -26,11 +26,10 @@
 
 AboutDialog::AboutDialog
 	(
-	JXDirector*		supervisor,
-	const JString&	prevVersStr
+	const JString& prevVersStr
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	itsIsUpgradeFlag = false;
 
@@ -61,23 +60,23 @@ AboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 370,120, JString::empty);
+	auto* window = jnew JXWindow(this, 390,120, JString::empty);
 	assert( window != nullptr );
 
 	auto* textWidget =
 		jnew JXStaticText(JGetString("textWidget::AboutDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 280,50);
+					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 300,50);
 	assert( textWidget != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::AboutDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 260,90, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 280,90, 60,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::AboutDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::AboutDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 155,90, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 165,90, 60,20);
 	assert( itsHelpButton != nullptr );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::AboutDialog::shortcuts::JXLayout"));
 
@@ -158,6 +157,6 @@ AboutDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }

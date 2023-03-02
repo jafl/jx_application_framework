@@ -8,16 +8,15 @@
 #ifndef _H_JXGetNewDirDialog
 #define _H_JXGetNewDirDialog
 
-#include "jx-af/jx/JXGetStringDialog.h"
+#include "JXGetStringDialog.h"
 #include <jx-af/jcore/JString.h>
 
 class JXGetNewDirDialog : public JXGetStringDialog
 {
 public:
 
-	JXGetNewDirDialog(JXDirector* supervisor, const JString& windowTitle,
-					  const JString& prompt, const JString& initialName,
-					  const JString& basePath, const bool modal = true);
+	JXGetNewDirDialog(const JString& windowTitle, const JString& prompt,
+					  const JString& initialName, const JString& basePath);
 
 	~JXGetNewDirDialog() override;
 

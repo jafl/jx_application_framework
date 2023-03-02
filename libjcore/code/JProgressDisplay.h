@@ -10,7 +10,7 @@
 #ifndef _H_JProgressDisplay
 #define _H_JProgressDisplay
 
-#include "jx-af/jcore/JString.h"
+#include "JString.h"
 
 class JProgressDisplay
 {
@@ -31,10 +31,10 @@ public:
 
 	void	FixedLengthProcessBeginning(const JSize stepCount, const JString& message,
 										const bool allowCancel,
-										const bool allowBackground);
+										const bool modal);
 	void	VariableLengthProcessBeginning(const JString& message,
 										   const bool allowCancel,
-										   const bool allowBackground);
+										   const bool modal);
 
 	virtual bool	IncrementProgress(const JString& message = JString::empty) = 0;
 	virtual bool	IncrementProgress(const JSize delta) = 0;
@@ -54,11 +54,11 @@ protected:
 
 	virtual void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
 									 const JString& message, const bool allowCancel,
-									 const bool allowBackground);
+									 const bool modal);
 
 	virtual bool	CheckForCancel() = 0;
 	bool			AllowCancel() const;
-	bool			AllowBackground() const;
+	bool			IsModal() const;
 
 	JSize	GetMaxStepCount() const;			// only for fixed length processes
 	void	IncrementStepCount(const JSize delta = 1);
@@ -67,7 +67,7 @@ private:
 
 	ProcessType	itsCurrentProcess;		// type of process currently running
 	bool		itsAllowCancelFlag;		// true if we accept cancel requests
-	bool		itsAllowBackgroundFlag;	// true if process can go into background
+	bool		itsModalFlag;			// true if process can go into background
 
 	JSize		itsMaxStepCount;		// total number of steps for fixed length process
 	JSize		itsCurrentStepCount;	// current step of process
@@ -91,12 +91,12 @@ JProgressDisplay::FixedLengthProcessBeginning
 	(
 	const JSize		stepCount,
 	const JString&	message,
-	const bool	allowCancel,
-	const bool	allowBackground
+	const bool		allowCancel,
+	const bool		modal
 	)
 {
 	ProcessBeginning(kFixedLengthProcess, stepCount,
-					 message, allowCancel, allowBackground);
+					 message, allowCancel, modal);
 }
 
 /******************************************************************************
@@ -108,12 +108,12 @@ inline void
 JProgressDisplay::VariableLengthProcessBeginning
 	(
 	const JString&	message,
-	const bool	allowCancel,
-	const bool	allowBackground
+	const bool		allowCancel,
+	const bool		modal
 	)
 {
 	ProcessBeginning(kVariableLengthProcess, 0,
-					 message, allowCancel, allowBackground);
+					 message, allowCancel, modal);
 }
 
 /******************************************************************************
@@ -153,15 +153,15 @@ JProgressDisplay::AllowCancel()
 }
 
 /******************************************************************************
- AllowBackground (protected)
+ IsModal (protected)
 
  ******************************************************************************/
 
 inline bool
-JProgressDisplay::AllowBackground()
+JProgressDisplay::IsModal()
 	const
 {
-	return itsAllowBackgroundFlag;
+	return itsModalFlag;
 }
 
 /******************************************************************************

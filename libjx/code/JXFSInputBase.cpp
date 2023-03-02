@@ -10,9 +10,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXFSInputBase.h"
-#include "jx-af/jx/JXStringCompletionMenu.h"
-#include "jx-af/jx/jXUtil.h"
+#include "JXFSInputBase.h"
+#include "JXStringCompletionMenu.h"
+#include "jXUtil.h"
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/JStringIterator.h>

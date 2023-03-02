@@ -10,7 +10,7 @@
 #ifndef _H_JBinaryFunction
 #define _H_JBinaryFunction
 
-#include "jx-af/jexpr/JFunctionWithArgs.h"
+#include "JFunctionWithArgs.h"
 #include <jx-af/jcore/jNew.h>
 
 class JBinaryFunction : public JFunctionWithArgs

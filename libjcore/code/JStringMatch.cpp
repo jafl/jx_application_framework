@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/JRegex.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JStringMatch.h"
+#include "JRegex.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

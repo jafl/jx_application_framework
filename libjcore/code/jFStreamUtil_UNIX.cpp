@@ -8,11 +8,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jFStreamUtil.h"
-#include "jx-af/jcore/JString.h"
+#include "jFStreamUtil.h"
+#include "JString.h"
 #include <fcntl.h>
 #include <unistd.h>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JSetFStreamLength

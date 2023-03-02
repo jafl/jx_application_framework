@@ -8,13 +8,13 @@
 #ifndef _H_JXTipOfTheDayDialog
 #define _H_JXTipOfTheDayDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 
 class JXStaticText;
 class JXTextButton;
 class JXTextCheckbox;
 
-class JXTipOfTheDayDialog : public JXDialogDirector
+class JXTipOfTheDayDialog : public JXModalDialogDirector
 {
 public:
 
@@ -22,6 +22,8 @@ public:
 						const bool showAtStartup = false);
 
 	~JXTipOfTheDayDialog() override;
+
+	bool	ShowAtStartup() const;
 
 protected:
 
@@ -50,34 +52,6 @@ private:
 	void	ParseTips();
 	void	AddTip(JString tip);
 	void	DisplayTip();
-
-public:
-
-	// JBroadcaster messages
-
-	static const JUtf8Byte* kShowAtStartup;
-
-	class ShowAtStartup : public JBroadcaster::Message
-		{
-		public:
-
-			ShowAtStartup(const bool showAtStartup)
-				:
-				JBroadcaster::Message(kShowAtStartup),
-				itsShowAtStartupFlag(showAtStartup)
-				{ };
-
-			bool
-			ShouldShowAtStartup()
-				const
-			{
-				return itsShowAtStartupFlag;
-			};
-
-		private:
-
-			bool	itsShowAtStartupFlag;
-		};
 };
 
 #endif

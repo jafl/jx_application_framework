@@ -13,7 +13,7 @@
 #include <jx-af/jx/JXStyledText.h>
 #include <jx-af/jx/JXVIKeyHandler.h>
 #include <jx-af/jx/JXDocumentManager.h>
-#include "jx-af/jx/JXDisplay.h"
+#include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
@@ -22,6 +22,7 @@
 #include <jx-af/jx/JXScrollbarSet.h>
 #include <jx-af/jx/JXStandAlonePG.h>
 #include <jx-af/jx/JXDeleteObjectTask.h>
+#include <jx-af/jx/JXChooseFileDialog.h>
 #include <jx-af/jx/jXGlobals.h>
 
 #include <jx-af/jcore/jFStreamUtil.h>
@@ -354,19 +355,22 @@ TestTextEditDocument::HandleFileMenu
 void
 TestTextEditDocument::OpenFiles()
 {
-	JChooseSaveFile* csf = JGetChooseSaveFile();
-	JPtrArray<JString> fullNameList(JPtrArrayT::kDeleteAll);
-	if (csf->ChooseFiles(JGetString("ChooseFilesPrompt::TestTextEditDocument"), JString::empty, &fullNameList))
+	auto* dlog = JXChooseFileDialog::Create(JXChooseFileDialog::kSelectMultipleFiles);
+
+	if (dlog->DoDialog())
 	{
+		JPtrArray<JString> fullNameList(JPtrArrayT::kDeleteAll);
+		dlog->GetFullNames(&fullNameList);
+
 		const JSize count = fullNameList.GetElementCount();
 		JXStandAlonePG pg;
 		pg.RaiseWhenUpdate();
-		pg.FixedLengthProcessBeginning(count, JGetString("OpenFilesProgress::TestTextEditDocument"), true, false);
+		pg.FixedLengthProcessBeginning(count, JGetString("OpenFilesProgress::TestTextEditDocument"), true, true);
 
 		for (auto* fileName : fullNameList)
 		{
 			JXFileDocument* doc;
-			if (!(JXGetDocumentManager())->FileDocumentIsOpen(*fileName, &doc))
+			if (!JXGetDocumentManager()->FileDocumentIsOpen(*fileName, &doc))
 			{
 				doc = jnew TestTextEditDocument(GetSupervisor(), *fileName, itsWritePrivateFmtFlag);
 			}

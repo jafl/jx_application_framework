@@ -13,8 +13,6 @@
 #include <jx-af/jx/JXScrollableWidget.h>
 #include <jx-af/jcore/JKLRand.h>
 
-class ResizeWidgetDialog;
-
 class JPainter;
 class JPagePrinter;
 class JEPSPrinter;
@@ -107,10 +105,6 @@ private:
 	JXTextMenu*		itsSecretMenu;
 	JXTextMenu*		itsSecretSubmenu;
 
-	// owned by our Window's Director
-
-	ResizeWidgetDialog*	itsResizeDialog;
-
 	// owned by the menu bar
 
 	JXTextMenu*	itsActionsMenu;
@@ -133,7 +127,6 @@ private:
 	void	HandlePointMenu(const JIndex item);
 
 	void	GetNewSize();
-	void	ChangeSize();
 
 	void	BuildXlsfontsMenu(JXMenu* owner, JXContainer* enclosure);
 	void	PrintSelectionTargets(const Time time);

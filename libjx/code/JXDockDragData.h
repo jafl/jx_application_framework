@@ -8,7 +8,7 @@
 #ifndef _H_JXDockDragData
 #define _H_JXDockDragData
 
-#include "jx-af/jx/JXSelectionManager.h"
+#include "JXSelectionManager.h"
 
 class JXWindow;
 

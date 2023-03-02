@@ -12,8 +12,8 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JMMTable.h"
-#include "jx-af/jcore/JHashTable.h"
+#include "JMMTable.h"
+#include "JHashTable.h"
 
 class JMMHashTable : public JMMTable
 {

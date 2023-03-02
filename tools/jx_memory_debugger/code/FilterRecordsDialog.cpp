@@ -1,7 +1,7 @@
 /******************************************************************************
  FilterRecordsDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2010 by John Lindal.
 
@@ -22,12 +22,9 @@
 
  ******************************************************************************/
 
-FilterRecordsDialog::FilterRecordsDialog
-	(
-	JXDirector* supervisor
-	)
+FilterRecordsDialog::FilterRecordsDialog()
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow();
 }
@@ -141,7 +138,7 @@ FilterRecordsDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 

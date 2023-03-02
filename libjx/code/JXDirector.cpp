@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXDirector.h"
+#include "JXDirector.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -24,13 +24,13 @@ JXDirector::JXDirector
 	(
 	JXDirector* supervisor
 	)
+	:
+	itsSupervisor(supervisor),
+	itsSubdirectors(nullptr),
+	itsActiveFlag(false),
+	itsSuspendCount(0),
+	itsClosingFlag(false)
 {
-	itsSupervisor   = supervisor;
-	itsSubdirectors = nullptr;
-	itsActiveFlag   = false;
-	itsSuspendCount = 0;
-	itsClosingFlag  = false;
-
 	if (itsSupervisor != nullptr)
 	{
 		itsSupervisor->AddDirector(this);
@@ -49,23 +49,6 @@ JXDirector::~JXDirector()
 {
 	assert( itsClosingFlag );
 	assert( itsSubdirectors == nullptr );
-
-	if (itsSupervisor != nullptr)
-	{
-		itsSupervisor->RemoveDirector(this);
-	}
-}
-
-/******************************************************************************
- IsWindowDirector (virtual)
-
- ******************************************************************************/
-
-bool
-JXDirector::IsWindowDirector()
-	const
-{
-	return false;
 }
 
 /******************************************************************************
@@ -83,6 +66,11 @@ JXDirector::Close()
 
 	if (CloseAllSubdirectors())
 	{
+		if (itsSupervisor != nullptr)
+		{
+			itsSupervisor->RemoveDirector(this);
+		}
+
 		jdelete this;
 		return true;
 	}

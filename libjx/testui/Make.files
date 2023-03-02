@@ -36,7 +36,6 @@
 .cpp ./code/TestTextEditor
 .cpp ./code/TestDNDTextDirector
 .cpp ./code/TestLinkedDocument
-.cpp ./code/TestChooseSaveFile
 .cpp ./code/TestSaveFileDialog
 .cpp ./code/SmileyBitmaps
 .cpp ./code/HelpMenuBitmaps

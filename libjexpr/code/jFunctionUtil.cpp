@@ -7,14 +7,14 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/jFunctionUtil.h"
-#include "jx-af/jexpr/JConstantValue.h"
-#include "jx-af/jexpr/JDivision.h"
-#include "jx-af/jexpr/JExponent.h"
-#include "jx-af/jexpr/JNegation.h"
-#include "jx-af/jexpr/JParallel.h"
-#include "jx-af/jexpr/JProduct.h"
-#include "jx-af/jexpr/JSummation.h"
+#include "jFunctionUtil.h"
+#include "JConstantValue.h"
+#include "JDivision.h"
+#include "JExponent.h"
+#include "JNegation.h"
+#include "JParallel.h"
+#include "JProduct.h"
+#include "JSummation.h"
 #include <jx-af/jcore/JStringMap.h>
 #include <jx-af/jcore/jAssert.h>
 

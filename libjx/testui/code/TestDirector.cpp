@@ -12,6 +12,7 @@
 #include "TestPGTask.h"
 #include "AnimateHelpMenuTask.h"
 #include "AnimateWindowIconTask.h"
+#include "TestSaveFileDialog.h"
 #include "TestInputFieldsDialog.h"
 #include "TestButtonsDialog.h"
 #include "TestPopupChoiceDialog.h"
@@ -25,7 +26,6 @@
 #include "TestDNDTextDirector.h"
 #include "TestImageDirector.h"
 #include "TestFileListDirector.h"
-#include "TestChooseSaveFile.h"
 #include "TestIdleTask.h"
 #include "testjxGlobals.h"
 
@@ -46,6 +46,9 @@
 #include <jx-af/jx/JXTipOfTheDayDialog.h>
 #include <jx-af/jx/JXStandAlonePG.h>
 #include <jx-af/jx/JXWebBrowser.h>
+#include <jx-af/jx/JXChooseFileDialog.h>
+#include <jx-af/jx/JXChoosePathDialog.h>
+#include <jx-af/jx/JXSaveFileDialog.h>
 #include <jx-af/jx/jXActionDefs.h>
 
 #include <jx-af/jcore/JFontManager.h>
@@ -54,6 +57,7 @@
 #include <jx-af/jcore/JConstBitmap.h>
 #include <jx-af/jcore/JBroadcastSnooper.h>
 #include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/JDirInfo.h>
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jSysUtil.h>
 #include <unistd.h>
@@ -202,15 +206,11 @@ TestDirector::TestDirector
 	const bool	snoopWindow
 	)
 	:
-	JXWindowDirector(supervisor)
+	JXWindowDirector(supervisor),
+	itsIsMasterFlag(isMaster),
+	itsPSPrinter(nullptr),
+	itsEPSPrinter(nullptr)
 {
-	itsIsMasterFlag = isMaster;
-	itsPSPrinter    = nullptr;
-	itsEPSPrinter   = nullptr;
-
-	itsCSF = jnew TestChooseSaveFile;
-	assert( itsCSF != nullptr );
-
 	BuildWindow(isMaster, bufferTestWidget, testWidgetIsImage);
 
 	JXWindow* window = GetWindow();
@@ -239,11 +239,9 @@ TestDirector::TestDirector
 
 	itsPSPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPSPrinter != nullptr );
-	ListenTo(itsPSPrinter);
 
 	itsEPSPrinter = jnew JXEPSPrinter(GetDisplay());
 	assert( itsEPSPrinter != nullptr );
-	ListenTo(itsEPSPrinter);
 }
 
 /******************************************************************************
@@ -258,7 +256,6 @@ TestDirector::~TestDirector()
 
 	jdelete itsPSPrinter;
 	jdelete itsEPSPrinter;
-	jdelete itsCSF;
 	jdelete itsAnimHelpTask;
 	jdelete itsAnimIconTask;
 
@@ -602,38 +599,6 @@ TestDirector::Receive
 		itsAnimIconTask->Stop();
 	}
 
-	else if (sender == itsPSPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			itsWidget->Print(*itsPSPrinter);
-		}
-	}
-
-	else if (sender == itsEPSPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			itsWidget->Print(*itsEPSPrinter);
-		}
-	}
-
-	else if (message.Is(JXTipOfTheDayDialog::kShowAtStartup))
-	{
-		const JXTipOfTheDayDialog::ShowAtStartup* info =
-			dynamic_cast<const JXTipOfTheDayDialog::ShowAtStartup*>(&message);
-		assert( info != nullptr );
-		std::cout << "Should show at startup: " << JBoolToString(info->ShouldShowAtStartup()) << std::endl;
-	}
-
 	else
 	{
 		JXWindowDirector::Receive(sender, message);
@@ -665,23 +630,28 @@ TestDirector::HandleAboutMenu
 {
 	if (index == kAboutCmd)
 	{
-		(TestjxGetApplication())->DisplayAbout(GetDisplay());
+		TestjxGetApplication()->DisplayAbout(GetDisplay());
 	}
 	else if (index == kHelpCmd)
 	{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 	}
 	else if (index == kTipCmd)
 	{
-		JXTipOfTheDayDialog* dlog = jnew JXTipOfTheDayDialog(true, false);
+		auto* dlog = jnew JXTipOfTheDayDialog(true, false);
 		assert( dlog != nullptr );
-		dlog->BeginDialog();
-		ListenTo(dlog);
+		if (dlog->DoDialog())
+		{
+			std::cout << "Should show at startup: " << JBoolToString(dlog->ShowAtStartup()) << std::endl;
+		}
 	}
 
 	else if (index == kPrintEPSCmd)
 	{
-		itsEPSPrinter->BeginUserPrintSetup();
+		if (itsEPSPrinter->ConfirmUserPrintSetup())
+		{
+			itsWidget->Print(*itsEPSPrinter);
+		}
 	}
 
 	else if (index == kQuitCmd && itsIsMasterFlag)
@@ -717,11 +687,14 @@ TestDirector::HandlePrintPSMenu
 {
 	if (index == kPSPageSetupCmd)
 	{
-		itsPSPrinter->BeginUserPageSetup();
+		itsPSPrinter->EditUserPageSetup();
 	}
 	else if (index == kPrintPSCmd)
 	{
-		itsPSPrinter->BeginUserPrintSetup();
+		if (itsPSPrinter->ConfirmUserPrintSetup())
+		{
+			itsWidget->Print(*itsPSPrinter);
+		}
 	}
 }
 
@@ -763,21 +736,21 @@ TestDirector::HandleTestMenu
 
 	else if (index == kTestInputCmd)
 	{
-		TestInputFieldsDialog* dir = jnew TestInputFieldsDialog(this);
+		TestInputFieldsDialog* dir = jnew TestInputFieldsDialog();
 		assert( dir != nullptr );
-		dir->BeginDialog();
+		dir->DoDialog();
 	}
 	else if (index == kTestButtonsCmd)
 	{
-		TestButtonsDialog* dir = jnew TestButtonsDialog(this);
+		TestButtonsDialog* dir = jnew TestButtonsDialog();
 		assert( dir != nullptr );
-		dir->BeginDialog();
+		dir->DoDialog();
 	}
 	else if (index == kTestPopupChoiceCmd)
 	{
-		TestPopupChoiceDialog* dir = jnew TestPopupChoiceDialog(this);
+		TestPopupChoiceDialog* dir = jnew TestPopupChoiceDialog();
 		assert( dir != nullptr );
-		dir->BeginDialog();
+		dir->DoDialog();
 	}
 	else if (index == kTestSliderCmd)
 	{
@@ -953,7 +926,7 @@ TestDirector::HandleTestMenu
 
 	else if (index == kTestIdleTaskMutexCmd)
 	{
-		jnew TestIdleTask();
+		(jnew TestIdleTask())->Start();
 	}
 
 	else if (index == kTestBrokenPipeCmd)
@@ -1097,7 +1070,7 @@ TestDirector::HandleUNMenu
 	}
 	else if (index == kTestWarningCmd)
 	{
-		JGetUserNotification()->AskUserYes(JGetString("WarningMessage::TestDirector"));
+		std::cout << JGetUserNotification()->AskUserYes(JGetString("WarningMessage::TestDirector")) << std::endl;
 	}
 	else if (index == kTestErrorCmd)
 	{
@@ -1126,43 +1099,48 @@ TestDirector::HandleCSFMenu
 	const JIndex index
 	)
 {
-	JChooseSaveFile* csf = JGetChooseSaveFile();
-
 	bool ok = false;
 	JString resultStr;
 	if (index == kChooseFileCmd)
 	{
-		ok = csf->ChooseFile(JGetString("ChooseFilePrompt::TestDirector"),
-			JGetString("ChooseFileInstructions::TestDirector"),
-			&resultStr);
+		auto* dlog = JXChooseFileDialog::Create(JXChooseFileDialog::kSelectSingleFile, JString::empty, JString::empty, JGetString("ChooseFileInstructions::TestDirector"));
+		ok = dlog->DoDialog();
+		if (ok)
+		{
+			resultStr = dlog->GetFullName();
+		}
 	}
 	else if (index == kChooseFileCustomCmd)
 	{
-		csf = itsCSF;
-		ok  = csf->ChooseFile(JGetString("ChooseFilePrompt::TestDirector"),
-			JGetString("CustomChooseFileInstructions::TestDirector"),
-			&resultStr);
+		auto* dlog = JXChooseFileDialog::Create(JXChooseFileDialog::kSelectSingleFile, JString("./about_owner_docs", JString::kNoCopy), JString::empty, JGetString("CustomChooseFileInstructions::TestDirector"));
+		ok = dlog->DoDialog();
+		if (ok)
+		{
+			resultStr = dlog->GetFullName();
+		}
 	}
 	else if (index == kSaveFileCmd)
 	{
-		ok = csf->SaveFile(JGetString("SaveFilePrompt::TestDirector"),
-			JGetString("SaveFileInstructions::TestDirector"),
-			JGetString("DefaultFileName::TestDirector"), &resultStr);
+		auto* dlog = JXSaveFileDialog::Create(JGetString("SaveFilePrompt::TestDirector"), JGetString("DefaultFileName::TestDirector"), JString::empty, JGetString("SaveFileInstructions::TestDirector"));
+		ok = dlog->DoDialog();
+		if (ok)
+		{
+			resultStr = dlog->GetFullName();
+		}
 	}
 	else if (index == kSaveFileCustomCmd)
 	{
-		csf = itsCSF;
-		ok  = csf->SaveFile(JGetString("SaveFilePrompt::TestDirector"),
-			JGetString("CustomSaveFileInstructions::TestDirector"),
-			JGetString("DefaultFileName::TestDirector"), &resultStr);
-
+		auto* dlog = TestSaveFileDialog::Create(TestSaveFileDialog::kPNGFormat, JGetString("SaveFilePrompt::TestDirector"), JGetString("DefaultFileName::TestDirector"), JString::empty, JGetString("CustomSaveFileInstructions::TestDirector"));
+		ok = dlog->DoDialog();
 		if (ok)
 		{
-			TestChooseSaveFile::SaveFormat format = itsCSF->GetSaveFormat();
+			resultStr = dlog->GetFullName();
+
+			TestSaveFileDialog::SaveFormat format = dlog->GetSaveFormat();
 			const JUtf8Byte* formatStr =
-				(format == TestChooseSaveFile::kGIFFormat  ? "GIF"  :
-				(format == TestChooseSaveFile::kPNGFormat  ? "PNG"  :
-				(format == TestChooseSaveFile::kJPEGFormat ? "JPEG" : "unknown")));
+				(format == TestSaveFileDialog::kGIFFormat  ? "GIF"  :
+				(format == TestSaveFileDialog::kPNGFormat  ? "PNG"  :
+				(format == TestSaveFileDialog::kJPEGFormat ? "JPEG" : "unknown")));
 
 			const JUtf8Byte* map[] =
 			{
@@ -1173,15 +1151,21 @@ TestDirector::HandleCSFMenu
 	}
 	else if (index == kChooseRPathCmd)
 	{
-		ok = csf->ChooseRPath(JString::empty,
-			JGetString("ChooseReadableDirectory::TestDirector"),
-			JString::empty, &resultStr);
+		auto* dlog = JXChoosePathDialog::Create(JXChoosePathDialog::kAcceptReadable, JString::empty, JString::empty, JGetString("ChooseReadableDirectory::TestDirector"));
+		ok = dlog->DoDialog();
+		if (ok)
+		{
+			resultStr = dlog->GetPath();
+		}
 	}
 	else if (index == kChooseRWPathCmd)
 	{
-		ok = csf->ChooseRWPath(JString::empty,
-			JGetString("ChooseWritableDirectory::TestDirector"),
-			JString::empty, &resultStr);
+		auto* dlog = JXChoosePathDialog::Create(JXChoosePathDialog::kRequireWritable, JString::empty, JString::empty, JGetString("ChooseWritableDirectory::TestDirector"));
+		ok = dlog->DoDialog();
+		if (ok)
+		{
+			resultStr = dlog->GetPath();
+		}
 	}
 
 	if (ok)
@@ -1251,12 +1235,12 @@ TestDirector::FGProcess
 	if (fixedLength)
 	{
 		pg->FixedLengthProcessBeginning(
-			stepCount, JGetString("ProgressMessage::TestDirector"), true, false);
+			stepCount, JGetString("ProgressMessage::TestDirector"), true, true);
 	}
 	else
 	{
 		pg->VariableLengthProcessBeginning(
-			JGetString("ProgressMessage::TestDirector"), true, false);
+			JGetString("ProgressMessage::TestDirector"), true, true);
 	}
 
 	for (JIndex i=1; i<=stepCount; i++)

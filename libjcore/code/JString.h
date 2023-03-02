@@ -10,10 +10,10 @@
 #ifndef _H_JString
 #define _H_JString
 
-#include "jx-af/jcore/JUtf8Character.h"
-#include "jx-af/jcore/JUtf8ByteRange.h"
-#include "jx-af/jcore/JCharacterRange.h"
-#include "jx-af/jcore/JPtrArray.h"	// for Split()
+#include "JUtf8Character.h"
+#include "JUtf8ByteRange.h"
+#include "JCharacterRange.h"
+#include "JPtrArray.h"	// for Split()
 #include <string.h>
 #include <unicode/ucasemap.h>
 #include <unicode/ucol.h>

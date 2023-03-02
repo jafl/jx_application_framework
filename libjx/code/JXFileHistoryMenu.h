@@ -10,7 +10,7 @@
 #ifndef _H_JXFileHistoryMenu
 #define _H_JXFileHistoryMenu
 
-#include "jx-af/jx/JXHistoryMenuBase.h"
+#include "JXHistoryMenuBase.h"
 
 class JXFileHistoryMenu : public JXHistoryMenuBase
 {

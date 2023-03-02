@@ -3,15 +3,15 @@
 
 	Adjusts location of widgets after fit-to-content.
 
-	BASE CLASS = JXUrgentTask, virtual JBroadcaster
+	BASE CLASS = JXUrgentTask
 
 	Copyright (C) 2017-2018 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXAdjustPrintSetupLayoutTask.h"
-#include "jx-af/jx/JXDirector.h"
-#include "jx-af/jx/JXWidget.h"
+#include "JXAdjustPrintSetupLayoutTask.h"
+#include "JXDirector.h"
+#include "JXWidget.h"
 
 /******************************************************************************
  Constructor
@@ -26,16 +26,15 @@ JXAdjustPrintSetupLayoutTask::JXAdjustPrintSetupLayoutTask
 	JXWidget*	fileInput
 	)
 	:
-	itsDirector(director),
+	JXUrgentTask(director),
 	itsPrintCmd(printCmd),
 	itsChooseFileButton(chooseFileButton),
 	itsFileInput(fileInput)
 {
-	ClearWhenGoingAway(itsDirector, &itsDirector);
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -44,19 +43,16 @@ JXAdjustPrintSetupLayoutTask::~JXAdjustPrintSetupLayoutTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXAdjustPrintSetupLayoutTask::Perform()
 {
-	if (itsDirector != nullptr)
-	{
-		const JCoordinate delta =
-			itsPrintCmd->GetFrameGlobal().top - itsFileInput->GetFrameGlobal().top;
+	const JCoordinate delta =
+		itsPrintCmd->GetFrameGlobal().top - itsFileInput->GetFrameGlobal().top;
 
-		itsChooseFileButton->Move(0, delta);
-		itsFileInput->Move(0, delta);
-	}
+	itsChooseFileButton->Move(0, delta);
+	itsFileInput->Move(0, delta);
 }

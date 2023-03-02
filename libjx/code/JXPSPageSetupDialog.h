@@ -10,7 +10,7 @@
 #ifndef _H_JXPSPageSetupDialog
 #define _H_JXPSPageSetupDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 #include <jx-af/jcore/JPSPrinter.h>		// need definition of enums
 
 class JXPSPrinter;
@@ -19,7 +19,7 @@ class JXTextMenu;
 class JXRadioGroup;
 class JXImageRadioButton;
 
-class JXPSPageSetupDialog : public JXDialogDirector
+class JXPSPageSetupDialog : public JXModalDialogDirector
 {
 public:
 
@@ -29,7 +29,7 @@ public:
 
 	~JXPSPageSetupDialog() override;
 
-	bool	SetParameters(JXPSPrinter* p) const;
+	virtual bool	SetParameters(JXPSPrinter* p) const;
 
 protected:
 

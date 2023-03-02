@@ -25,8 +25,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JPtrArray.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JPtrArray.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor
@@ -212,7 +212,7 @@ JPtrArray<T>::CopyObjects
 	(
 	const JPtrArray<T>&				source,
 	const JPtrArrayT::CleanUpAction	action,
-	const bool					append
+	const bool						append
 	)
 {
 	if (this == &source)

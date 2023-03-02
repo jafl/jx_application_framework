@@ -10,8 +10,8 @@
 #ifndef _H_JPackedTableData
 #define _H_JPackedTableData
 
-#include "jx-af/jcore/JTableData.h"
-#include "jx-af/jcore/JRunArray.h"
+#include "JTableData.h"
+#include "JRunArray.h"
 
 class JTable;
 

@@ -26,12 +26,12 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JBroadcaster.h"
-#include "jx-af/jcore/JPtrArray-JString.h"
-#include "jx-af/jcore/JTaskIterator.h"
+#include "JBroadcaster.h"
+#include "JPtrArray-JString.h"
+#include "JTaskIterator.h"
 #include <sstream>
 #include <typeinfo>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 // A derived class is needed because of cross-dependencies between JBroadcaster
 // and JCollection.  Typedefs cannot be forward declared in header files, and
@@ -137,11 +137,6 @@ JBroadcaster::operator=
 	const JBroadcaster& source
 	)
 {
-	if (this == &source)
-	{
-		return *this;
-	}
-
 	// We don't want to inherit the dependencies, and we don't want to
 	// kill the existing ones, so we do nothing.
 

@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JStringTableData.h"
-#include "jx-af/jcore/JString.h"
+#include "JStringTableData.h"
+#include "JString.h"
 
 /******************************************************************************
  Constructor

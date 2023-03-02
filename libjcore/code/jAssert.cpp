@@ -5,8 +5,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jAssert.h"
-#include "jx-af/jcore/jGlobals.h"
+#include "jAssert.h"
+#include "jGlobals.h"
 
 int
 JAssert
@@ -14,16 +14,17 @@ JAssert
 	const char*	expr,
 	const char*	file,
 	const int	line,
-	const char*	message
+	const char*	message,
+	const char*	function
 	)
 {
 	JAssertBase* ah;
 	if (JGetAssertHandler(&ah))
 	{
-		return ah->Assert(expr, file, line, message);
+		return ah->Assert(expr, file, line, message, function);
 	}
 	else
 	{
-		return JAssertBase::DefaultAssert(expr, file, line, message);
+		return JAssertBase::DefaultAssert(expr, file, line, message, function);
 	}
 }

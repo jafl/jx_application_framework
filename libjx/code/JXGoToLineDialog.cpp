@@ -1,18 +1,18 @@
 /******************************************************************************
  JXGoToLineDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1996 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXGoToLineDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXIntegerInput.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXStaticText.h"
+#include "JXGoToLineDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXIntegerInput.h"
+#include "JXTextCheckbox.h"
+#include "JXStaticText.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -23,13 +23,12 @@
 
 JXGoToLineDialog::JXGoToLineDialog
 	(
-	JXDirector*		supervisor,
 	const JIndex	lineIndex,
 	const JIndex	maxLine,
-	const bool	physicalLineIndexFlag
+	const bool		physicalLineIndexFlag
 	)
 	:
-	JXDialogDirector(supervisor, true),
+	JXModalDialogDirector(),
 	itsMaxLineCount(maxLine)
 {
 	BuildWindow(lineIndex, physicalLineIndexFlag);
@@ -53,7 +52,7 @@ void
 JXGoToLineDialog::BuildWindow
 	(
 	const JIndex	lineIndex,
-	const bool	physicalLineIndexFlag
+	const bool		physicalLineIndexFlag
 	)
 {
 // begin JXLayout

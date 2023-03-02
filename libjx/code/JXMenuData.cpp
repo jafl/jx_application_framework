@@ -12,7 +12,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXMenuData.h"
+#include "JXMenuData.h"
 #include <algorithm>
 #include <jx-af/jcore/jAssert.h>
 
@@ -117,17 +117,17 @@ JXMenuData::CleanOutBaseItem
 	BaseItemData* itemData
 	)
 {
-	jdelete (itemData->shortcuts);
+	jdelete itemData->shortcuts;
 	itemData->shortcuts = nullptr;
 
-	jdelete (itemData->id);
+	jdelete itemData->id;
 	itemData->id = nullptr;
 
 	if (itemData->submenu != nullptr)
 	{
-		assert( (itemData->submenu)->itsMenuBar == nullptr );
-		(itemData->submenu)->itsOwner = nullptr;
-		jdelete (itemData->submenu);
+		assert( itemData->submenu->itsMenuBar == nullptr );
+		itemData->submenu->itsOwner = nullptr;
+		jdelete itemData->submenu;
 		itemData->submenu = nullptr;
 	}
 }
@@ -144,7 +144,7 @@ JXMenuData::HasCheckboxes()
 	return std::any_of(begin(*itsBaseItemData), end(*itsBaseItemData),
 			[] (const BaseItemData& itemData)
 			{ return (itemData.type == JXMenu::kCheckboxType ||
-						  itemData.type == JXMenu::kRadioType); });
+					  itemData.type == JXMenu::kRadioType); });
 }
 
 /******************************************************************************
@@ -188,7 +188,7 @@ JXMenuData::SetItemShortcuts
 		{
 			*(itemData.shortcuts) = shortcuts;
 		}
-		(itemData.shortcuts)->ToLower();
+		itemData.shortcuts->ToLower();
 		changed = true;
 	}
 	else if (itemData.shortcuts != nullptr)
@@ -246,7 +246,7 @@ JXMenuData::ShortcutToIndex
 	{
 		const BaseItemData itemData = itsBaseItemData->GetElement(i);
 		if (itemData.enabled && itemData.shortcuts != nullptr &&
-			(itemData.shortcuts)->Contains(c))
+			itemData.shortcuts->Contains(c))
 		{
 			*index = i;
 			return true;
@@ -341,15 +341,15 @@ JXMenuData::SetItemEnabled
 	}
 	else if (itemData.submenu != nullptr)
 	{
-		if (enabled && !(itemData.submenu)->itsShouldBeActiveFlag)
+		if (enabled && !itemData.submenu->itsShouldBeActiveFlag)
 		{
-			(itemData.submenu)->Activate();
+			itemData.submenu->Activate();
 		}
-		else if (!enabled && (itemData.submenu)->itsShouldBeActiveFlag)
+		else if (!enabled && itemData.submenu->itsShouldBeActiveFlag)
 		{
-			(itemData.submenu)->Deactivate();
+			itemData.submenu->Deactivate();
 		}
-		itemData.enabled = (itemData.submenu)->IsActive();
+		itemData.enabled = itemData.submenu->IsActive();
 		itsBaseItemData->SetElement(index, itemData);
 	}
 }
@@ -393,9 +393,9 @@ JXMenuData::AttachSubmenu
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
 	if (itemData.submenu != nullptr)
 	{
-		assert( (itemData.submenu)->itsMenuBar == nullptr );
-		(itemData.submenu)->itsOwner = nullptr;
-		jdelete (itemData.submenu);
+		assert( itemData.submenu->itsMenuBar == nullptr );
+		itemData.submenu->itsOwner = nullptr;
+		jdelete itemData.submenu;
 	}
 	itemData.submenu   = submenu;
 	itemData.enabled   = submenu->IsActive();
@@ -497,9 +497,9 @@ JXMenuData::DeleteSubmenu
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
 	if (itemData.submenu != nullptr)
 	{
-		assert( (itemData.submenu)->itsMenuBar == nullptr );
-		(itemData.submenu)->itsOwner = nullptr;
-		jdelete (itemData.submenu);
+		assert( itemData.submenu->itsMenuBar == nullptr );
+		itemData.submenu->itsOwner = nullptr;
+		jdelete itemData.submenu;
 
 		itemData.submenu = nullptr;
 		itsBaseItemData->SetElement(index, itemData);

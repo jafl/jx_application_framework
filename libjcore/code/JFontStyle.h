@@ -10,8 +10,8 @@
 #ifndef _H_JFontStyle
 #define _H_JFontStyle
 
-#include "jx-af/jcore/jTypes.h"
-#include "jx-af/jcore/jColor.h"
+#include "jTypes.h"
+#include "jColor.h"
 
 struct JFontStyle
 {

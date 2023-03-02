@@ -15,15 +15,14 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXUserNotification.h"
-#include "jx-af/jx/JXMessageDialog.h"
-#include "jx-af/jx/JXErrorDialog.h"
-#include "jx-af/jx/JXWarningDialog.h"
-#include "jx-af/jx/JXOKToCloseDialog.h"
-#include "jx-af/jx/JXAcceptLicenseDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/jXGlobals.h"
-#include <jx-af/jcore/JString.h>
+#include "JXUserNotification.h"
+#include "JXMessageDialog.h"
+#include "JXErrorDialog.h"
+#include "JXWarningDialog.h"
+#include "JXOKToCloseDialog.h"
+#include "JXAcceptLicenseDialog.h"
+#include "JXWindow.h"
+#include "jXGlobals.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <jx-af/jcore/jAssert.h>
@@ -57,8 +56,6 @@ JXUserNotification::JXUserNotification()
 	:
 	JUserNotification()
 {
-	itsCurrentDialog   = nullptr;
-	itsOKToCloseDialog = nullptr;
 }
 
 /******************************************************************************
@@ -81,15 +78,11 @@ JXUserNotification::DisplayMessage
 	const JString& message
 	)
 {
-	assert( itsCurrentDialog == nullptr );
-
 	if (!IsSilent())
 	{
-		JXGetApplication()->PrepareForBlockingWindow();
-
-		itsCurrentDialog = jnew JXMessageDialog(JXGetApplication(), message);
-		assert( itsCurrentDialog != nullptr );
-		WaitForResponse();
+		auto* dlog = jnew JXMessageDialog(message);
+		assert( dlog != nullptr );
+		dlog->DoDialog();
 	}
 }
 
@@ -104,15 +97,11 @@ JXUserNotification::ReportError
 	const JString& message
 	)
 {
-	assert( itsCurrentDialog == nullptr );
-
 	if (!IsSilent())
 	{
-		JXGetApplication()->PrepareForBlockingWindow();
-
-		itsCurrentDialog = jnew JXErrorDialog(JXGetApplication(), message);
-		assert( itsCurrentDialog != nullptr );
-		WaitForResponse();
+		auto* dlog = jnew JXErrorDialog(message);
+		assert( dlog != nullptr );
+		dlog->DoDialog();
 	}
 }
 
@@ -129,16 +118,10 @@ JXUserNotification::AskUserYes
 	const JString& message
 	)
 {
-	assert( itsCurrentDialog == nullptr );
+	auto* dlog = jnew JXWarningDialog(JGetString("QuestionWindowTitle::JXWarningDialog"), message);
+	assert( dlog != nullptr );
 
-	JXGetApplication()->PrepareForBlockingWindow();
-
-	itsCurrentDialog = jnew JXWarningDialog(
-		JXGetApplication(), JGetString("QuestionWindowTitle::JXWarningDialog"), message);
-	assert( itsCurrentDialog != nullptr );
-	WaitForResponse();
-
-	return itsWarningResponse;
+	return dlog->DoDialog();
 }
 
 /******************************************************************************
@@ -154,16 +137,10 @@ JXUserNotification::AskUserNo
 	const JString& message
 	)
 {
-	assert( itsCurrentDialog == nullptr );
+	auto* dlog = jnew JXWarningDialog(JGetString("WarningWindowTitle::JXWarningDialog"), message);
+	assert( dlog != nullptr );
 
-	JXGetApplication()->PrepareForBlockingWindow();
-
-	itsCurrentDialog = jnew JXWarningDialog(
-		JXGetApplication(), JGetString("WarningWindowTitle::JXWarningDialog"), message);
-	assert( itsCurrentDialog != nullptr );
-	WaitForResponse();
-
-	return itsWarningResponse;
+	return dlog->DoDialog();
 }
 
 /******************************************************************************
@@ -177,102 +154,25 @@ JXUserNotification::OKToClose
 	const JString& message
 	)
 {
-	assert( itsCurrentDialog == nullptr && itsOKToCloseDialog == nullptr );
+	auto* dlog = jnew JXOKToCloseDialog(message);
+	assert( dlog != nullptr );
 
-	JXGetApplication()->PrepareForBlockingWindow();
-
-	itsOKToCloseDialog = jnew JXOKToCloseDialog(JXGetApplication(), message);
-	assert( itsOKToCloseDialog != nullptr );
-
-	itsCurrentDialog = itsOKToCloseDialog;
-	WaitForResponse();
-
-	return itsCloseAction;
+	dlog->DoDialog();
+	return dlog->GetCloseAction();
 }
 
 /******************************************************************************
  AcceptLicense
 
-	Display the license (asking for acceptance) and wait for a response.
+	Display the license and ask for acceptance.
 
  ******************************************************************************/
 
 bool
 JXUserNotification::AcceptLicense()
 {
-	assert( itsCurrentDialog == nullptr );
+	auto* dlog = jnew JXAcceptLicenseDialog();
+	assert( dlog != nullptr );
 
-	JXGetApplication()->PrepareForBlockingWindow();
-
-	itsCurrentDialog = jnew JXAcceptLicenseDialog(JXGetApplication());
-	assert( itsCurrentDialog != nullptr );
-	WaitForResponse();
-
-	return itsWarningResponse;
-}
-
-/******************************************************************************
- Receive (protected)
-
-	Listen for response from active dialog.
-
- ******************************************************************************/
-
-void
-JXUserNotification::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsCurrentDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		itsWarningResponse = info->Successful();
-		itsCurrentDialog   = nullptr;
-	}
-
-	else if (sender == itsOKToCloseDialog && message.Is(JXOKToCloseDialog::kGotResponse))
-	{
-		const auto* response =
-			dynamic_cast<const JXOKToCloseDialog::GotResponse*>(&message);
-		assert( response != nullptr );
-		itsCloseAction     = response->GetResponse();
-		itsCurrentDialog   = nullptr;
-		itsOKToCloseDialog = nullptr;
-	}
-
-	else
-	{
-		JBroadcaster::Receive(sender, message);
-	}
-}
-
-/******************************************************************************
- WaitForResponse (private)
-
- ******************************************************************************/
-
-void
-JXUserNotification::WaitForResponse()
-{
-	ListenTo(itsCurrentDialog);
-	itsCurrentDialog->BeginDialog();
-
-	// display the inactive cursor in all the other windows
-
-	JXApplication* app = JXGetApplication();
-	app->DisplayInactiveCursor();
-
-	// block with event loop running until we get a response
-
-	JXWindow* window = itsCurrentDialog->GetWindow();
-	while (itsCurrentDialog != nullptr)
-	{
-		app->HandleOneEventForWindow(window);
-	}
-
-	app->BlockingWindowFinished();
+	return dlog->DoDialog();
 }

@@ -10,7 +10,7 @@
 #ifndef _H_jWebUtil
 #define _H_jWebUtil
 
-#include "jx-af/jcore/JPrefsManager.h"
+#include "JPrefsManager.h"
 
 enum
 {

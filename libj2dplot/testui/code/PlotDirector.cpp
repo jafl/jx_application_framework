@@ -11,9 +11,9 @@
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
-#include "jx-af/j2dplot/JX2DPlotWidget.h"
+#include "JX2DPlotWidget.h"
 #include <jx-af/jx/JXPSPrinter.h>
-#include "jx-af/j2dplot/JX2DPlotEPSPrinter.h"
+#include "JX2DPlotEPSPrinter.h"
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 

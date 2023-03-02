@@ -1,7 +1,9 @@
 0
+itsChoosePathButton::TestInputFieldsDialog::JXLayout "Choose"
 max10Label::TestInputFieldsDialog::JXLayout "req'd max 10 chars:"
 cancelButton::TestInputFieldsDialog::JXLayout "Cancel"
 highIntLabel::TestInputFieldsDialog::JXLayout "High (<8):"
+itsChooseFileButton::TestInputFieldsDialog::JXLayout "Choose"
 max5Label::TestInputFieldsDialog::JXLayout "max 5 chars:"
 okButton::TestInputFieldsDialog::JXLayout "OK"
 negativeLabel::TestInputFieldsDialog::JXLayout "<-3.2 :"

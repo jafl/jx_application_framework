@@ -10,7 +10,7 @@
 #ifndef _H_JXImagePainter
 #define _H_JXImagePainter
 
-#include "jx-af/jx/JXWindowPainter.h"
+#include "JXWindowPainter.h"
 #include <jx-af/jcore/JBroadcaster.h>
 
 class JXImagePainter : public JXWindowPainter, virtual public JBroadcaster
@@ -29,9 +29,9 @@ public:
 	void	String(const JFloat angle, const JCoordinate left,
 						   const JCoordinate top, const JString& str,
 						   const JCoordinate width = 0,
-						   const HAlignment hAlign = kHAlignLeft,
+						   const HAlign hAlign = HAlign::kLeft,
 						   const JCoordinate height = 0,
-						   const VAlignment vAlign = kVAlignTop) override;
+						   const VAlign vAlign = VAlign::kTop) override;
 
 	void	Point(const JCoordinate x, const JCoordinate y) override;
 
@@ -56,9 +56,9 @@ public:
 	void	String(const JCoordinate left, const JCoordinate top,
 						   const JString& str, const JIndex uIndex,
 						   const JCoordinate width = 0,
-						   const HAlignment hAlign = kHAlignLeft,
+						   const HAlign hAlign = HAlign::kLeft,
 						   const JCoordinate height = 0,
-						   const VAlignment vAlign = kVAlignTop) override;
+						   const VAlign vAlign = VAlign::kTop) override;
 
 private:
 

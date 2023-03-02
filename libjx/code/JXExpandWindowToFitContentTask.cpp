@@ -1,16 +1,16 @@
 /******************************************************************************
  JXExpandWindowToFitContentTask.cpp
 
-	BASE CLASS = JXUrgentTask, virtual JBroadcaster
+	BASE CLASS = JXUrgentTask
 
 	Copyright (C) 2017 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXExpandWindowToFitContentTask.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXDialogDirector.h"
-#include "jx-af/jx/JXWidget.h"
+#include "JXExpandWindowToFitContentTask.h"
+#include "JXWindow.h"
+#include "JXModalDialogDirector.h"
+#include "JXWidget.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -23,15 +23,15 @@ JXExpandWindowToFitContentTask::JXExpandWindowToFitContentTask
 	JXWindow* window
 	)
 	:
+	JXUrgentTask(window),
 	itsWindow(window),
 	itShowWindowAfterFTCFlag(false),
 	itsFocusWidget(nullptr)
 {
-	ClearWhenGoingAway(itsWindow, &itsWindow);
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -40,35 +40,30 @@ JXExpandWindowToFitContentTask::~JXExpandWindowToFitContentTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXExpandWindowToFitContentTask::Perform()
 {
-	if (itsWindow != nullptr)
+	itsWindow->itsExpandTask = nullptr;
+	itsWindow->ExpandToFitContent();
+
+	// modal dialogs must be realigned after FTC
+
+	if (dynamic_cast<JXModalDialogDirector*>(itsWindow->GetDirector()) != nullptr)
 	{
-		itsWindow->itsExpandTask = nullptr;
-		itsWindow->ExpandToFitContent();
+		itsWindow->PlaceAsDialogWindow();
+	}
 
-		// modal dialogs must be realigned after FTC
+	if (itShowWindowAfterFTCFlag)
+	{
+		itsWindow->Show();
 
-		JXWindowDirector* dir = itsWindow->GetDirector();
-		auto* dlog = dynamic_cast<JXDialogDirector*>(dir);
-		if (dlog != nullptr && dlog->IsModal())
+		if (itsFocusWidget != nullptr)
 		{
-			itsWindow->PlaceAsDialogWindow();
-		}
-
-		if (itShowWindowAfterFTCFlag)
-		{
-			itsWindow->Show();
-
-			if (itsFocusWidget != nullptr)
-			{
-				itsFocusWidget->Focus();
-			}
+			itsFocusWidget->Focus();
 		}
 	}
 }

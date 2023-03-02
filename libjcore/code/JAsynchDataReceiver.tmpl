@@ -12,8 +12,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JAsynchDataReceiver.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JAsynchDataReceiver.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor
@@ -55,7 +56,7 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiverX()
 	itsRecvBuffer = jnew JUtf8Byte [ itsRecvBufferSize ];
 	assert( itsRecvBuffer != nullptr );
 
-	itsInHandleInputFlag = false;
+	itsCancelTaskFlag = nullptr;
 }
 
 /******************************************************************************
@@ -66,6 +67,11 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiverX()
 template <ACE_PEER_STREAM_1>
 JAsynchDataReceiver<ACE_PEER_STREAM_2>::~JAsynchDataReceiver()
 {
+	if (itsCancelTaskFlag != nullptr)
+	{
+		*itsCancelTaskFlag = true;		// deleted inside task
+	}
+
 	jdelete [] itsRecvBuffer;
 }
 
@@ -117,11 +123,10 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::handle_input
 {
 	// protect against recursive calls
 
-	if (itsInHandleInputFlag)
+	if (itsCancelTaskFlag != nullptr)
 	{
 		return 0;
 	}
-	itsInHandleInputFlag = true;
 
 	// Read the available data.
 
@@ -131,17 +136,39 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::handle_input
 		itsByteBuffer.Append(itsRecvBuffer, count);
 
 		const JString data = itsByteBuffer.ExtractCharacters();
-		Broadcast(JAsynchDataReceiverT::DataReady(data));
+		if (!data.IsEmpty())
+		{
+			itsCancelTaskFlag = jnew bool;
+			assert( itsCancelTaskFlag != nullptr );
+			*itsCancelTaskFlag = false;
 
-//		std::cerr << "read:\n---\n" << data << "\n---" << std::endl;
-	}
-	else
-	{
-//		std::cerr << "read: " << count << std::endl;
-//		std::cerr << "err:  " << jerrno() << std::endl;
+			bool* cancelFlag = itsCancelTaskFlag;
+
+			JScheduleTask([this, data, cancelFlag]()
+			{
+				if (*cancelFlag)
+				{
+					jdelete cancelFlag;
+					return;
+				}
+
+				Broadcast(JAsynchDataReceiverT::DataReady(data));
+
+				if (*cancelFlag)
+				{
+					jdelete cancelFlag;
+					return;
+				}
+
+				// we are still alive
+
+				jdelete itsCancelTaskFlag;
+				itsCancelTaskFlag = nullptr;
+			});
+			return 0;
+		}
 	}
 
-	itsInHandleInputFlag = false;
 	return 0;
 }
 

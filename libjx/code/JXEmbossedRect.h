@@ -10,7 +10,7 @@
 #ifndef _H_JXEmbossedRect
 #define _H_JXEmbossedRect
 
-#include "jx-af/jx/JXDecorRect.h"
+#include "JXDecorRect.h"
 
 class JXEmbossedRect : public JXDecorRect
 {

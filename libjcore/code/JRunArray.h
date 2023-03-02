@@ -10,9 +10,9 @@
 #ifndef _H_JRunArray
 #define _H_JRunArray
 
-#include "jx-af/jcore/JArray.h"
-#include "jx-af/jcore/JRunArrayIterator.h"
-#include "jx-af/jcore/JRange.h"
+#include "JArray.h"
+#include "JRunArrayIterator.h"
+#include "JRange.h"
 
 template <class T>
 class JRunArrayElement

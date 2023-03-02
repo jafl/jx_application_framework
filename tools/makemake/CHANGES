@@ -1,5 +1,9 @@
 Changes from previous versions
 
+4.1.0
+
+Removed --assume-autogen option, because it should always be true.
+
 4.0.0
 
 Removed support for shared libraries and TOUCHPATHS.

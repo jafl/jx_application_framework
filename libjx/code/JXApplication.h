@@ -10,8 +10,8 @@
 #ifndef _H_JXApplication
 #define _H_JXApplication
 
-#include "jx-af/jx/JXDirector.h"
-#include "jx-af/jx/JXDocumentManager.h"	// need definition of SafetySaveReason
+#include "JXDirector.h"
+#include "JXDocumentManager.h"	// need definition of SafetySaveReason
 #include <jx-af/jcore/JPtrArray-JString.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -24,6 +24,18 @@ class JXUrgentTask;
 
 class JXApplication : public JXDirector
 {
+	friend class JXWindow;
+
+public:
+
+	enum FiberPriority
+	{
+		kEventLoopPriority,
+		kEventHandlerPriority,
+		kIdleTaskPriority,
+		kUrgentTaskPriority
+	};
+
 public:
 
 	JXApplication(int* argc, char* argv[], const JUtf8Byte* appSignature,
@@ -46,11 +58,10 @@ public:
 
 	Time	GetCurrentTime() const;
 
-	void	InstallIdleTask(JXIdleTask* newTask);
+	void	InstallIdleTask(JXIdleTask* task);
 	void	RemoveIdleTask(JXIdleTask* task);
 
-	void	InstallUrgentTask(JXUrgentTask* newTask);
-	void	RemoveUrgentTask(JXUrgentTask* task);
+	void	InstallUrgentTask(JXUrgentTask* task);
 
 	JXDisplay*	GetCurrentDisplay() const;
 	void		SetCurrentDisplay(const JIndex index);
@@ -66,9 +77,9 @@ public:
 	bool	DisplayExists(const Display* xDisplay);
 	bool	FindDisplay(const Display* xDisplay, JXDisplay** display);
 
-	// for use by networking clean-up code
-
-	static void	CheckACEReactor();
+	static void	StartFiber(const std::function<void()>& f,
+						   const FiberPriority priority = kIdleTaskPriority);
+	static bool	IsWorkerFiber();
 
 	// for use by main()
 
@@ -85,11 +96,6 @@ public:
 
 	const JString&	GetRestartCommand() const;
 
-	// for use by special windows that block until dismissed
-
-	bool	HasBlockingWindow() const;
-	bool	HadBlockingWindow() const;
-
 	// required by JXInitGlobals()
 
 	[[noreturn]] static int	JXIOErrorHandler(Display* xDisplay);
@@ -105,18 +111,12 @@ public:
 
 protected:
 
-	void			UpdateCurrentTime();
-	virtual bool	HandleCustomEvent();
-	virtual bool	HandleCustomEventWhileBlocking();
+	void	UpdateCurrentTime();
 
 	bool	Close() override;	// use Quit() instead
 
-	void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
+	void			ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
-
-private:
-
-	using IdleTaskStack = JPtrArray< JPtrArray<JXIdleTask> >;
 
 private:
 
@@ -131,49 +131,21 @@ private:
 	Time					itsLastIdleTime;		// in milliseconds
 	Time					itsLastIdleTaskTime;	// in milliseconds
 	JSize					itsWaitForChildCounter;
-	IdleTaskStack*			itsIdleTaskStack;
-
-	JPtrArray<JXUrgentTask>*	itsUrgentTasks;
-	JPtrArray<JXUrgentTask>*	itsRunningUrgentTasks;	// usually nullptr; not owned
-	bool						itsHasBlockingWindowFlag;
-	bool						itsHadBlockingWindowFlag;
 
 	std::recursive_mutex*	itsTaskMutex;
 
 	JString	itsSignature;
 	JString	itsRestartCmd;		// for session managers
 	bool	itsRequestQuitFlag;
+	bool	itsIsQuittingFlag;
 
 private:
 
 	void	HandleOneEvent();
-	void	PerformTasks(const bool hadEvents, const bool allowSleep);
-	void	PerformIdleTasks();
-	void	PerformUrgentTasks();
-
-	void	PushIdleTaskStack();
-	void	PopIdleTaskStack();
-	void	PopAllIdleTaskStack();
+	void	StartTasks(const bool hadEvents);
+	void	StartIdleTasks();
 
 	static void	ParseBaseOptions(int* argc, char* argv[], JString* displayName);
-
-	static Bool	GetNextWindowEvent(Display* display, XEvent* event, char* arg);
-	static Bool	GetNextBkgdEvent(Display* display, XEvent* event, char* arg);
-	static Bool	DiscardNextEvent(Display* display, XEvent* event, char* arg);
-
-	// for use by special windows that block until dismissed
-
-	void	PrepareForBlockingWindow();
-	void	BlockingWindowFinished();
-	bool	HandleOneEventForWindow(JXWindow* window,
-									const bool allowSleep = true);
-
-	friend class JXCSFDialogBase;
-	friend class JXChooseSaveFile;
-	friend class JXUserNotification;
-	friend class JXStandAlonePG;
-	friend class JXDNDManager;
-	friend class JXWindow;
 };
 
 
@@ -274,39 +246,6 @@ JXApplication::DisplayExists
 }
 
 /******************************************************************************
- Blocking window
-
- ******************************************************************************/
-
-inline bool
-JXApplication::HasBlockingWindow()
-	const
-{
-	return itsHasBlockingWindowFlag;
-}
-
-inline bool
-JXApplication::HadBlockingWindow()
-	const
-{
-	return itsHadBlockingWindowFlag;
-}
-
-// private
-
-inline void
-JXApplication::PrepareForBlockingWindow()
-{
-	PushIdleTaskStack();
-}
-
-inline void
-JXApplication::BlockingWindowFinished()
-{
-	PopIdleTaskStack();
-}
-
-/******************************************************************************
  GetSignature
 
  ******************************************************************************/
@@ -342,7 +281,7 @@ inline bool
 JXApplication::IsQuitting()
 	const
 {
-	return itsRequestQuitFlag;
+	return itsIsQuittingFlag;
 }
 
 #endif

@@ -9,14 +9,15 @@
 #define _H_JXPrefsManager
 
 #include <jx-af/jcore/JPrefsManager.h>
-#include "jx-af/jx/JXDocumentManager.h"	// need definition of SafetySaveReason
+#include "JXDocumentManager.h"	// need definition of SafetySaveReason
 
 class JXPrefsManager : public JPrefsManager
 {
 public:
 
 	JXPrefsManager(const JFileVersion currentVersion,
-				   const bool eraseFileIfOpen);
+				   const bool eraseFileIfOpen,
+				   const JPrefID& csfID);
 
 	~JXPrefsManager() override;
 
@@ -24,12 +25,15 @@ public:
 
 protected:
 
+	void			DataLoaded() override;
 	virtual void	SaveAllBeforeDestruct();
-	void	Receive(JBroadcaster* sender, const Message& message) override;
+
+	void			Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
 	JXTimerTask*	itsSafetySaveTask;
+	const JPrefID	itsCSFPrefID;
 };
 
 #endif

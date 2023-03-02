@@ -10,10 +10,9 @@
 #ifndef _H_JXFontSizeMenu
 #define _H_JXFontSizeMenu
 
-#include "jx-af/jx/JXTextMenu.h"
+#include "JXTextMenu.h"
 
 class JXFontNameMenu;
-class JXChooseFontSizeDialog;
 
 class JXFontSizeMenu : public JXTextMenu
 {
@@ -62,10 +61,6 @@ private:
 	JIndex			itsCurrIndex;
 	JIndex			itsVarSizeIndex;	// 0 if font not rescalable
 	bool			itsBroadcastChangeFlag;
-
-	// used when selecting arbitrary font size
-
-	JXChooseFontSizeDialog*	itsChooseSizeDialog;	// can be nullptr
 
 private:
 

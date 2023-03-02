@@ -9,12 +9,12 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXTextButton.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "JXFontManager.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -174,8 +174,8 @@ JXTextButton::Draw
 	}
 
 	p.String(bounds.left, bounds.top, itsLabel, itsULIndex,
-			 bounds.width(), JPainter::kHAlignCenter,
-			 bounds.height(), JPainter::kVAlignCenter);
+			 bounds.width(), JPainter::HAlign::kCenter,
+			 bounds.height(), JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

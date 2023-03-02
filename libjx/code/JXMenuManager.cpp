@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXMenuManager.h"
-#include "jx-af/jx/JXMenu.h"
-#include "jx-af/jx/JXWindow.h"
+#include "JXMenuManager.h"
+#include "JXMenu.h"
+#include "JXWindow.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -53,33 +53,6 @@ JXMenuManager::CloseCurrentMenus()
 	{
 		(itsOpenMenuList->GetFirstElement())->Close();
 		assert( itsOpenMenuList->IsEmpty() && itsOpenWindowList->IsEmpty() );
-	}
-}
-
-/******************************************************************************
- IsMenuForWindow
-
-	For use by JXApplication::HandleOneEventForWindow().
-
- ******************************************************************************/
-
-bool
-JXMenuManager::IsMenuForWindow
-	(
-	JXWindow* menuWindow,
-	JXWindow* mainWindow
-	)
-	const
-{
-	JIndex index;
-	if (itsOpenWindowList->Find(menuWindow, &index))
-	{
-		JXMenu* menu = itsOpenMenuList->GetElement(index);
-		return mainWindow == menu->GetWindow();
-	}
-	else
-	{
-		return false;
 	}
 }
 

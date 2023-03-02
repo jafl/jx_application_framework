@@ -21,6 +21,7 @@ public:
 protected:
 
 	void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
+	void	DataLoaded() override;
 };
 
 #endif

@@ -154,26 +154,26 @@
  *****************************************************************************/
 
 //Class Header
-#include "jx-af/jcore/JMemoryManager.h"
+#include "JMemoryManager.h"
 
 #include <stdlib.h>
 #include <new>
 #include <atomic>
 
-#include "jx-af/jcore/JMMArrayTable.h"
-#include "jx-af/jcore/JMMHashTable.h"
-#include "jx-af/jcore/JMMErrorPrinter.h"
+#include "JMMArrayTable.h"
+#include "JMMHashTable.h"
+#include "JMMErrorPrinter.h"
 
 #include <ace/Connector.h>
 #include <ace/LSOCK_Connector.h>
-#include "jx-af/jcore/JMMDebugErrorStream.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/jFileUtil.h"
+#include "JMMDebugErrorStream.h"
+#include "JStringIterator.h"
+#include "jFileUtil.h"
 #include <fstream>
 
-#include "jx-af/jcore/jErrno.h"
-#include "jx-af/jcore/jAssert.h"
-#include "jx-af/jcore/jNew.h"
+#include "jErrno.h"
+#include "jAssert.h"
+#include "jNew.h"
 
 using DebugLinkConnector = ACE_Connector<JMemoryManager::DebugLink, ACE_LSOCK_CONNECTOR>;
 

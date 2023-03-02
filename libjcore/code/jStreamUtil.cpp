@@ -7,16 +7,16 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jStreamUtil.h"
-#include "jx-af/jcore/JString.h"
-#include "jx-af/jcore/JUtf8ByteBuffer.h"
-#include "jx-af/jcore/jFileUtil.h"
-#include "jx-af/jcore/jFStreamUtil.h"
-#include "jx-af/jcore/jErrno.h"
+#include "jStreamUtil.h"
+#include "JString.h"
+#include "JUtf8ByteBuffer.h"
+#include "jFileUtil.h"
+#include "jFStreamUtil.h"
+#include "jErrno.h"
 #include <poll.h>
 #include <string.h>
 #include <limits.h>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JCopyBinaryData
@@ -159,7 +159,7 @@ JReadUntil
 	(
 	std::istream&	input,
 	const JUtf8Byte	delimiter,
-	bool*		foundDelimiter
+	bool*			foundDelimiter
 	)
 {
 	JString str;

@@ -8,7 +8,7 @@
 #ifndef _H_JXQuitIfAllDeactTask
 #define _H_JXQuitIfAllDeactTask
 
-#include "jx-af/jx/JXIdleTask.h"
+#include "JXIdleTask.h"
 
 class JXQuitIfAllDeactTask : public JXIdleTask
 {
@@ -18,7 +18,9 @@ public:
 
 	~JXQuitIfAllDeactTask() override;
 
-	void	Perform(const Time delta, Time* maxSleepTime) override;
+protected:
+
+	void	Perform(const Time delta) override;
 };
 
 #endif

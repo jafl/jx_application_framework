@@ -5,8 +5,8 @@
 
  *****************************************************************************/
 
-#include "jx-af/jx/JXToolBarNode.h"
-#include "jx-af/jx/JXTextMenu.h"
+#include "JXToolBarNode.h"
+#include "JXTextMenu.h"
 #include <jx-af/jcore/JTree.h>
 #include <jx-af/jcore/jAssert.h>
 

@@ -12,8 +12,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JExprRectList.h"
-#include "jx-af/jexpr/JFunction.h"
+#include "JExprRectList.h"
+#include "JFunction.h"
 #include <jx-af/jcore/JRect.h>
 #include <jx-af/jcore/jAssert.h>
 

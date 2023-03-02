@@ -27,8 +27,6 @@ public:
 
 	void	CloseCurrentMenus();
 
-	bool	IsMenuForWindow(JXWindow* menuWindow, JXWindow* mainWindow) const;
-
 private:
 
 	JPtrArray<JXMenu>*		itsOpenMenuList;	// we don't own the menus

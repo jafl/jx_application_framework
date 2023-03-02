@@ -10,20 +10,16 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXOKToCloseDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXImageWidget.h"
-#include "jx-af/jx/JXImage.h"
+#include "JXOKToCloseDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXImageWidget.h"
+#include "JXImage.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 #include <jx-af/image/jx/jx_un_warning.xpm>
-
-// JBroadcaster message types
-
-const JUtf8Byte* JXOKToCloseDialog::kGotResponse = "GotResponse::JXOKToCloseDialog";
 
 /******************************************************************************
  Constructor
@@ -32,14 +28,13 @@ const JUtf8Byte* JXOKToCloseDialog::kGotResponse = "GotResponse::JXOKToCloseDial
 
 JXOKToCloseDialog::JXOKToCloseDialog
 	(
-	JXDirector*		supervisor,
-	const JString&	message
+	const JString& message
 	)
 	:
-	JXUNDialogBase(supervisor)
+	JXUNDialogBase(),
+	itsCloseAction(JUserNotification::kSaveData)
 {
 	BuildWindow(message);
-	ListenTo(this);
 }
 
 /******************************************************************************
@@ -115,25 +110,10 @@ JXOKToCloseDialog::Receive
 	const Message&	message
 	)
 {
-	if (sender == this && message.Is(kDeactivated))
+	if (sender == itsDiscardButton && message.Is(JXButton::kPushed))
 	{
-		const auto* info = dynamic_cast<const Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			Broadcast(GotResponse(JUserNotification::kSaveData));
-		}
-		else
-		{
-			Broadcast(GotResponse(JUserNotification::kDontClose));
-		}
-	}
-
-	else if (sender == itsDiscardButton && message.Is(JXButton::kPushed))
-	{
-		Broadcast(GotResponse(JUserNotification::kDiscardData));
-		const bool ok = Close();
-		assert( ok );
+		itsCloseAction = JUserNotification::kDiscardData;
+		EndDialog(true);
 	}
 
 	else

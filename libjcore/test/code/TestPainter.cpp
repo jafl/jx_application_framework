@@ -98,9 +98,9 @@ TestPainter::String
 	const JCoordinate	top,
 	const JString&		str,
 	const JCoordinate	width,
-	const HAlignment	hAlign,
+	const HAlign		hAlign,
 	const JCoordinate	height,
-	const VAlignment	vAlign
+	const VAlign		vAlign
 	)
 {
 	std::cout << str << std::endl;

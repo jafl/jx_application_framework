@@ -9,14 +9,14 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXImageWidget.h"
-#include "jx-af/jx/JXAdjustIWBoundsTask.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXImageCache.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXImageWidget.h"
+#include "JXAdjustIWBoundsTask.h"
+#include "JXWindowPainter.h"
+#include "JXImage.h"
+#include "JXImageCache.h"
+#include "JXColorManager.h"
+#include "JXDisplay.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -35,12 +35,11 @@ JXImageWidget::JXImageWidget
 	const JCoordinate	h
 	)
 	:
-	JXScrollableWidget(nullptr, enclosure, hSizing, vSizing, x,y, w,h)
+	JXScrollableWidget(nullptr, enclosure, hSizing, vSizing, x,y, w,h),
+	itsImage(nullptr),
+	itsOwnsImageFlag(true),
+	itsAdjustBoundsTask(nullptr)
 {
-	itsImage            = nullptr;
-	itsOwnsImageFlag    = true;
-	itsAdjustBoundsTask = nullptr;
-
 	SetBorderWidth(0);
 }
 
@@ -56,11 +55,11 @@ JXImageWidget::JXImageWidget
 	const JCoordinate	h
 	)
 	:
-	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
+	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
+	itsImage(nullptr),
+	itsOwnsImageFlag(true),
+	itsAdjustBoundsTask(nullptr)
 {
-	itsImage            = nullptr;
-	itsOwnsImageFlag    = true;
-	itsAdjustBoundsTask = nullptr;
 }
 
 /******************************************************************************
@@ -75,7 +74,7 @@ JXImageWidget::~JXImageWidget()
 		jdelete itsImage;
 	}
 
-	jdelete itsAdjustBoundsTask;
+	// cannot delete itsAdjustBoundsTask;
 }
 
 /******************************************************************************

@@ -11,12 +11,8 @@
 #define _H_JXUserNotification
 
 #include <jx-af/jcore/JUserNotification.h>
-#include <jx-af/jcore/JBroadcaster.h>
 
-class JXDialogDirector;
-class JXOKToCloseDialog;
-
-class JXUserNotification : public JUserNotification, virtual public JBroadcaster
+class JXUserNotification : public JUserNotification
 {
 public:
 
@@ -33,22 +29,6 @@ public:
 	CloseAction	OKToClose(const JString& message) override;
 
 	bool	AcceptLicense() override;
-
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
-private:
-
-	JXDialogDirector*	itsCurrentDialog;
-	bool				itsWarningResponse;
-
-	JXOKToCloseDialog*	itsOKToCloseDialog;
-	CloseAction			itsCloseAction;
-
-private:
-
-	void	WaitForResponse();
 };
 
 #endif

@@ -26,13 +26,13 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXDNDManager.h"
-#include "jx-af/jx/JXDNDChooseDropActionDialog.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXWidget.h"
-#include "jx-af/jx/jXGlobals.h"
-#include "jx-af/jx/jXUtil.h"
+#include "JXDNDManager.h"
+#include "JXDNDChooseDropActionDialog.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWidget.h"
+#include "jXGlobals.h"
+#include "jXUtil.h"
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jAssert.h>
@@ -169,9 +169,6 @@ JXDNDManager::JXDNDManager
 
 	itsDraggerAskDescripList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsDraggerAskDescripList != nullptr );
-
-	itsChooseDropActionDialog = nullptr;
-	itsUserDropAction         = nullptr;
 
 	itsSentFakePasteFlag = false;
 
@@ -823,71 +820,16 @@ JXDNDManager::ChooseDropAction
 	Atom*						action
 	)
 {
-	assert( itsChooseDropActionDialog == nullptr );
+	auto* dlog = jnew JXDNDChooseDropActionDialog(actionList, descriptionList, *action);
+	assert( dlog != nullptr );
 
-	JXApplication* app = JXGetApplication();
-	app->PrepareForBlockingWindow();
-
-	itsChooseDropActionDialog =
-		jnew JXDNDChooseDropActionDialog(actionList, descriptionList, *action);
-	assert( itsChooseDropActionDialog != nullptr );
-
-	ListenTo(itsChooseDropActionDialog);
-	itsChooseDropActionDialog->BeginDialog();
-
-	// display the inactive cursor in all the other windows
-
-	app->DisplayInactiveCursor();
-
-	// block with event loop running until we get a response
-
-	itsUserDropAction = action;
-
-	JXWindow* window = itsChooseDropActionDialog->GetWindow();
-	while (itsChooseDropActionDialog != nullptr)
+	*action = None;
+	if (dlog->DoDialog())
 	{
-		app->HandleOneEventForWindow(window);
+		*action = dlog->GetAction();
 	}
 
-	app->BlockingWindowFinished();
-
-	itsUserDropAction = nullptr;
 	return *action != None;
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXDNDManager::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsChooseDropActionDialog &&
-		message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			*itsUserDropAction = itsChooseDropActionDialog->GetAction();
-		}
-		else
-		{
-			*itsUserDropAction = None;
-		}
-		itsChooseDropActionDialog = nullptr;
-	}
-
-	else
-	{
-		JBroadcaster::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

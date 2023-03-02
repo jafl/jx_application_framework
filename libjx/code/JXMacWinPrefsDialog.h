@@ -10,11 +10,11 @@
 #ifndef _H_JXMacWinPrefsDialog
 #define _H_JXMacWinPrefsDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 
 class JXTextCheckbox;
 
-class JXMacWinPrefsDialog : public JXDialogDirector
+class JXMacWinPrefsDialog : public JXModalDialogDirector
 {
 public:
 
@@ -25,8 +25,6 @@ public:
 protected:
 
 	JXMacWinPrefsDialog();
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

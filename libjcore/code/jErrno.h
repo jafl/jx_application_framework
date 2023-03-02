@@ -12,7 +12,7 @@
 #define _H_jErrno
 
 #include <errno.h>
-#include "jx-af/jcore/jTypes.h"
+#include "jTypes.h"
 
 inline int
 jerrno()

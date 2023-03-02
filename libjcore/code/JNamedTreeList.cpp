@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JNamedTreeList.h"
-#include "jx-af/jcore/JNamedTreeNode.h"
-#include "jx-af/jcore/JTree.h"
-#include "jx-af/jcore/JString.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JNamedTreeList.h"
+#include "JNamedTreeNode.h"
+#include "JTree.h"
+#include "JString.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

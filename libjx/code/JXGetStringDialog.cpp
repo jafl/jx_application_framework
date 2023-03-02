@@ -1,18 +1,18 @@
 /******************************************************************************
  JXGetStringDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2008 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXGetStringDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXPasswordInput.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXGetStringDialog.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXTextButton.h"
+#include "JXPasswordInput.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -22,15 +22,13 @@
 
 JXGetStringDialog::JXGetStringDialog
 	(
-	JXDirector*		supervisor,
 	const JString&	windowTitle,
 	const JString&	prompt,
 	const JString&	initialValue,
-	const bool		modal,
 	const bool		password
 	)
 	:
-	JXDialogDirector(supervisor, modal)
+	JXModalDialogDirector()
 {
 	BuildWindow(windowTitle, prompt, initialValue, password);
 }
@@ -67,7 +65,7 @@ JXGetStringDialog::BuildWindow
 	const JString&	windowTitle,
 	const JString&	prompt,
 	const JString&	initialValue,
-	const bool	password
+	const bool		password
 	)
 {
 // begin JXLayout

@@ -14,7 +14,6 @@
 
 class ClipboardWidget;
 class JXTextMenu;
-class JXGetStringDialog;
 
 class ClipboardDir : public JXWindowDirector
 {
@@ -32,14 +31,11 @@ private:
 
 	ClipboardWidget*	itsText;
 	JXTextMenu* 		itsTextMenu;
-	JXGetStringDialog*	itsDialog;
 
 private:
 
 	void BuildWindow();
 	void HandleTextMenu(const JIndex index);
-	void SetupInputDialog();
-	void GetNewTextFromDialog();
 };
 
 #endif

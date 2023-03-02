@@ -20,10 +20,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXCursorAnimator.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXCursorAnimator.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

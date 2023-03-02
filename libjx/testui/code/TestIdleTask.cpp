@@ -1,7 +1,7 @@
 /******************************************************************************
  TestIdleTask.cpp
 
-	This class tests the mutext used in JXApplication.
+	This class tests the mutex used in JXApplication.
 
 	BASE CLASS = JXIdleTask
 
@@ -11,6 +11,8 @@
 
 #include "TestIdleTask.h"
 #include <jx-af/jx/JXTimerTask.h>
+#include <jx-af/jx/JXUpdateDocMenuTask.h>
+#include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -26,25 +28,22 @@ TestIdleTask::TestIdleTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 TestIdleTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	if (TimeToPerform(delta, maxSleepTime))
-	{
-		itsCounter++;
-		jnew JXTimerTask(100, true);
+	itsCounter++;
+	(jnew JXTimerTask(100, true))->Start();
+	(jnew JXUpdateDocMenuTask(JXGetDocumentManager()))->Go();
 
-		if (itsCounter >= 10)
-		{
-			jdelete this;		// safe to commit suicide as last action
-		}
+	if (itsCounter >= 10)
+	{
+		jdelete this;		// safe to commit suicide as last action
 	}
 }

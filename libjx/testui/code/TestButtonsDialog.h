@@ -10,16 +10,16 @@
 #ifndef _H_TestButtonsDialog
 #define _H_TestButtonsDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXRadioGroup;
 class JXTextCheckbox;
 
-class TestButtonsDialog : public JXDialogDirector
+class TestButtonsDialog : public JXModalDialogDirector
 {
 public:
 
-	TestButtonsDialog(JXWindowDirector* supervisor);
+	TestButtonsDialog();
 
 	~TestButtonsDialog() override;
 

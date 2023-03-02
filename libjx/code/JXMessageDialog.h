@@ -10,13 +10,13 @@
 #ifndef _H_JXMessageDialog
 #define _H_JXMessageDialog
 
-#include "jx-af/jx/JXUNDialogBase.h"
+#include "JXUNDialogBase.h"
 
 class JXMessageDialog : public JXUNDialogBase
 {
 public:
 
-	JXMessageDialog(JXDirector* supervisor, const JString& message);
+	JXMessageDialog(const JString& message);
 
 	~JXMessageDialog() override;
 

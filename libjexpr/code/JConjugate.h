@@ -10,7 +10,7 @@
 #ifndef _H_JConjugate
 #define _H_JConjugate
 
-#include "jx-af/jexpr/JUnaryFunction.h"
+#include "JUnaryFunction.h"
 
 class JConjugate : public JUnaryFunction
 {

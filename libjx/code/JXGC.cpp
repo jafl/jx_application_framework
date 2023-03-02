@@ -16,12 +16,12 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXGC.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXImageMask.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/jXUtil.h"
+#include "JXGC.h"
+#include "JXDisplay.h"
+#include "JXColorManager.h"
+#include "JXImageMask.h"
+#include "JXFontManager.h"
+#include "jXUtil.h"
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jMath.h>
 #include <string.h>

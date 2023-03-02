@@ -173,14 +173,9 @@ TestWidget::TestWidget
 	)
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
-	itsRNG()
+	itsFillFlag(false),
+	itsRandPointCount(10)
 {
-JIndex i;
-
-	itsFillFlag       = false;
-	itsRandPointCount = 10;
-	itsResizeDialog   = nullptr;
-
 	SetBackColor(JColorManager::GetDefaultBackColor());
 
 	// cursors
@@ -213,7 +208,7 @@ JIndex i;
 
 	JXMenu* prevMenu     = itsActionsMenu;
 	JIndex prevMenuIndex = kAdviceMenuCmd;
-	for (i=1; i<=kAdviceMenuCount; i++)
+	for (JIndex i=1; i<=kAdviceMenuCount; i++)
 	{
 		JXTextMenu* adviceMenu = jnew JXTextMenu(prevMenu, prevMenuIndex, menuBar);
 		assert( adviceMenu != nullptr );
@@ -366,7 +361,7 @@ TestWidget::Print
 		JRect pageRect = p.GetPageRect();
 		p.String(pageRect.left, pageRect.top, JGetString("PageHeader::TestWidget"));
 		p.String(pageRect.left, pageRect.top, dateStr,
-				 pageRect.width(), JPainter::kHAlignRight);
+				 pageRect.width(), JPainter::HAlign::kRight);
 		p.LockHeader(headerHeight);
 
 		// draw the footer
@@ -380,8 +375,8 @@ TestWidget::Print
 		};
 		p.String(pageRect.left, pageRect.bottom - footerHeight,
 				 JGetString("PageFooter::TestWidget", map, sizeof(map)),
-				 pageRect.width(), JPainter::kHAlignCenter,
-				 footerHeight, JPainter::kVAlignBottom);
+				 pageRect.width(), JPainter::HAlign::kCenter,
+				 footerHeight, JPainter::VAlign::kBottom);
 		p.LockFooter(footerHeight);
 
 		// draw the page
@@ -479,16 +474,16 @@ JIndex i;
 	p.Rect(its2Rect);
 	p.SetFontStyle(JColorManager::GetRedColor());
 	p.String(its2Rect.topLeft(), JString("2", JString::kNoCopy),
-			 its2Rect.width(),  JPainter::kHAlignCenter,
-			 its2Rect.height(), JPainter::kVAlignCenter);
+			 its2Rect.width(),  JPainter::HAlign::kCenter,
+			 its2Rect.height(), JPainter::VAlign::kCenter);
 
 	its3Rect = JRect(10, 150, 40, 200);
 	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Rect(its3Rect);
 	p.SetFontStyle(JColorManager::GetBlueColor());
 	p.String(its3Rect.topLeft(), JString("3", JString::kNoCopy),
-			 its3Rect.width(),  JPainter::kHAlignCenter,
-			 its3Rect.height(), JPainter::kVAlignCenter);
+			 its3Rect.width(),  JPainter::HAlign::kCenter,
+			 its3Rect.height(), JPainter::VAlign::kCenter);
 
 	p.SetLineWidth(1);
 	p.SetFont(JFontManager::GetDefaultFont());
@@ -552,21 +547,21 @@ JIndex i;
 	}
 	p.SetLineWidth(1);
 */
-	p.String(  0.0, r, helloStr, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
-	p.String( 90.0, r, helloStr, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
-	p.String(180.0, r, helloStr, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
-	p.String(270.0, r, helloStr, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(  0.0, r, helloStr, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
+	p.String( 90.0, r, helloStr, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
+	p.String(180.0, r, helloStr, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
+	p.String(270.0, r, helloStr, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 
-	p.String(  0.0, r, helloStr, JPainter::kHAlignRight, JPainter::kVAlignBottom);
-	p.String( 90.0, r, helloStr, JPainter::kHAlignRight, JPainter::kVAlignBottom);
-	p.String(180.0, r, helloStr, JPainter::kHAlignRight, JPainter::kVAlignBottom);
-	p.String(270.0, r, helloStr, JPainter::kHAlignRight, JPainter::kVAlignBottom);
+	p.String(  0.0, r, helloStr, JPainter::HAlign::kRight, JPainter::VAlign::kBottom);
+	p.String( 90.0, r, helloStr, JPainter::HAlign::kRight, JPainter::VAlign::kBottom);
+	p.String(180.0, r, helloStr, JPainter::HAlign::kRight, JPainter::VAlign::kBottom);
+	p.String(270.0, r, helloStr, JPainter::HAlign::kRight, JPainter::VAlign::kBottom);
 
 	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Rect(200, 10, 100, 50);
-	p.String(200, 10, helloStr, 100, JPainter::kHAlignLeft);
-	p.String(200, 10+p.GetLineHeight(), helloStr, 100, JPainter::kHAlignCenter);
-	p.String(200, 10+2*p.GetLineHeight(), helloStr, 100, JPainter::kHAlignRight);
+	p.String(200, 10, helloStr, 100, JPainter::HAlign::kLeft);
+	p.String(200, 10+p.GetLineHeight(), helloStr, 100, JPainter::HAlign::kCenter);
+	p.String(200, 10+2*p.GetLineHeight(), helloStr, 100, JPainter::HAlign::kRight);
 
 	p.SetPenColor(JColorManager::GetDarkGreenColor());
 	p.SetFilling(true);
@@ -1464,27 +1459,15 @@ TestWidget::HandlePointMenu
 void
 TestWidget::GetNewSize()
 {
-	assert( itsResizeDialog == nullptr );
+	auto* dlog = jnew ResizeWidgetDialog(this);
+	assert( dlog != nullptr );
 
-	itsResizeDialog = jnew ResizeWidgetDialog(GetWindow()->GetDirector(), this);
-	assert( itsResizeDialog != nullptr );
-	ListenTo(itsResizeDialog);
-	itsResizeDialog->BeginDialog();
-}
-
-/******************************************************************************
- ChangeSize
-
- ******************************************************************************/
-
-void
-TestWidget::ChangeSize()
-{
-	assert( itsResizeDialog != nullptr );
-
-	JCoordinate w,h;
-	itsResizeDialog->GetNewSize(&w, &h);
-	SetBounds(w,h);
+	if (dlog->DoDialog())
+	{
+		JCoordinate w,h;
+		dlog->GetNewSize(&w, &h);
+		SetBounds(w,h);
+	}
 }
 
 /******************************************************************************
@@ -1568,18 +1551,6 @@ TestWidget::Receive
 			JGetUserNotification()->DisplayMessage(
 				JGetString("SecretMenuMessage::TestWidget"));
 		}
-	}
-
-	else if (sender == itsResizeDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const JXDialogDirector::Deactivated* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			ChangeSize();
-		}
-		itsResizeDialog = nullptr;
 	}
 
 	else

@@ -12,8 +12,8 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JThisProcess.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JThisProcess.h"
+#include "jAssert.h"
 
 // JBroadcaster message types
 
@@ -390,8 +390,8 @@ JProcess::CheckForFinishedChild
 			for (auto* p : list)
 			{
 				const bool autoDelete = p->itsAutoDeleteFlag;	// save since Broadcast() might delete it -- in which case, the flag must be false!
-				p->itsIsFinishedFlag      = true;
-				p->itsFinishedStatus      = status;
+				p->itsIsFinishedFlag  = true;
+				p->itsFinishedStatus  = status;
 				p->Broadcast(Finished(status));
 				if (autoDelete)
 				{

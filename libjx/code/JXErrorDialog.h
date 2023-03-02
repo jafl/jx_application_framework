@@ -10,13 +10,13 @@
 #ifndef _H_JXErrorDialog
 #define _H_JXErrorDialog
 
-#include "jx-af/jx/JXUNDialogBase.h"
+#include "JXUNDialogBase.h"
 
 class JXErrorDialog : public JXUNDialogBase
 {
 public:
 
-	JXErrorDialog(JXDirector* supervisor, const JString& message);
+	JXErrorDialog(const JString& message);
 
 	~JXErrorDialog() override;
 

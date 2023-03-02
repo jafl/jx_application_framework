@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JDivision.h"
-#include "jx-af/jexpr/JExprRenderer.h"
-#include "jx-af/jexpr/JExprRectList.h"
+#include "JDivision.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
 #include <jx-af/jcore/JRect.h>
 #include <jx-af/jcore/jAssert.h>
 

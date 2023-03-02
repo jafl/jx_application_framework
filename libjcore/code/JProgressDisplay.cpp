@@ -62,8 +62,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JProgressDisplay.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JProgressDisplay.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor
@@ -99,15 +99,15 @@ JProgressDisplay::ProcessBeginning
 	const ProcessType	processType,
 	const JSize			stepCount,
 	const JString&		message,
-	const bool		allowCancel,
-	const bool		allowBackground
+	const bool			allowCancel,
+	const bool			modal
 	)
 {
 	assert( itsCurrentProcess == kNoRunningProcess );
 
-	itsCurrentProcess      = processType;
-	itsAllowCancelFlag     = allowCancel;
-	itsAllowBackgroundFlag = allowBackground;
+	itsCurrentProcess  = processType;
+	itsAllowCancelFlag = allowCancel;
+	itsModalFlag       = modal;
 
 	itsMaxStepCount     = stepCount;
 	itsCurrentStepCount = 0;

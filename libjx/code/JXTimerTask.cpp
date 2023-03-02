@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXTimerTask.h"
+#include "JXTimerTask.h"
 #include <jx-af/jcore/jAssert.h>
 
 const JUtf8Byte* JXTimerTask::kTimerWentOff = "TimerWentOff::JXTimerTask";
@@ -40,23 +40,19 @@ JXTimerTask::~JXTimerTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXTimerTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	if (TimeToPerform(delta, maxSleepTime))
+	Broadcast(TimerWentOff());
+	if (itsIsOneShotFlag)
 	{
-		Broadcast(TimerWentOff());
-		if (itsIsOneShotFlag)
-		{
-			jdelete this;
-		}
+		jdelete this;
 	}
 }

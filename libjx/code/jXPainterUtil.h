@@ -10,7 +10,7 @@
 
 #include <jx-af/jcore/JPainter.h>
 #include <jx-af/jcore/JFontStyle.h>		// for convenience
-#include "jx-af/jx/jXConstants.h"
+#include "jXConstants.h"
 
 // frame
 

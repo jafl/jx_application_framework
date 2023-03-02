@@ -10,7 +10,7 @@
 #ifndef _H_JBinaryOperator
 #define _H_JBinaryOperator
 
-#include "jx-af/jexpr/JBinaryFunction.h"
+#include "JBinaryFunction.h"
 
 class JBinaryOperator : public JBinaryFunction
 {

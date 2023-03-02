@@ -10,7 +10,7 @@
 #ifndef _H_JMaxFunc
 #define _H_JMaxFunc
 
-#include "jx-af/jexpr/JNaryFunction.h"
+#include "JNaryFunction.h"
 
 class JMaxFunc : public JNaryFunction
 {

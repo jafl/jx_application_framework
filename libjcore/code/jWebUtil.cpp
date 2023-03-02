@@ -7,16 +7,15 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jWebUtil.h"
-#include "jx-af/jcore/JUpdateChecker.h"
-#include "jx-af/jcore/JRegex.h"
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/JWebBrowser.h"
-#include "jx-af/jcore/jGlobals.h"
+#include "jWebUtil.h"
+#include "JUpdateChecker.h"
+#include "JRegex.h"
+#include "JStringMatch.h"
+#include "JWebBrowser.h"
+#include "jGlobals.h"
 #include <ace/Connector.h>
 #include <ace/SOCK_Connector.h>
-#include "jx-af/jcore/jErrno.h"
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JIsURL
@@ -164,10 +163,14 @@ JCheckForNewerVersion
 			"vers", updater->GetLatestVersion().GetBytes()
 		};
 		const JString msg = JGetString("JRemindNewVersion", map, sizeof(map));
-		if (JGetUserNotification()->AskUserYes(msg))
+
+		JScheduleTask([msg]()
 		{
-			JGetWebBrowser()->ShowURL(JGetString("DOWNLOAD_URL"));
-		}
+			if (JGetUserNotification()->AskUserYes(msg))
+			{
+				JGetWebBrowser()->ShowURL(JGetString("DOWNLOAD_URL"));
+			}
+		});
 	}
 
 	updater->CheckForNewerVersion();

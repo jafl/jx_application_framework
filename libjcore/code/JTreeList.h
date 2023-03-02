@@ -8,8 +8,8 @@
 #ifndef _H_JTreeList
 #define _H_JTreeList
 
-#include "jx-af/jcore/JContainer.h"
-#include "jx-af/jcore/JPtrArray.h"
+#include "JContainer.h"
+#include "JPtrArray.h"
 
 class JTree;
 class JTreeNode;

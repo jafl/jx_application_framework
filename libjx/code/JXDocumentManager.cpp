@@ -48,16 +48,17 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXDocumentManager.h"
-#include "jx-af/jx/JXFileDocument.h"
-#include "jx-af/jx/JXDocumentMenu.h"
-#include "jx-af/jx/JXUpdateDocMenuTask.h"
-#include "jx-af/jx/JXTimerTask.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXImageCache.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXDocumentManager.h"
+#include "JXFileDocument.h"
+#include "JXDocumentMenu.h"
+#include "JXUpdateDocMenuTask.h"
+#include "JXTimerTask.h"
+#include "JXImage.h"
+#include "JXImageCache.h"
+#include "JXDisplay.h"
+#include "JXColorManager.h"
+#include "JXChooseFileDialog.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jFileUtil.h>
 #include <algorithm>
 #include <jx-af/jcore/jAssert.h>
@@ -134,7 +135,7 @@ JXDocumentManager::~JXDocumentManager()
 	jdelete itsFileMap;
 
 	jdelete itsSafetySaveTask;
-	jdelete itsUpdateDocMenuTask;
+	// cannot delete itsUpdateDocMenuTask
 }
 
 /******************************************************************************
@@ -284,7 +285,7 @@ JXDocumentManager::UpdateAllDocumentMenus()
 void
 JXDocumentManager::DocumentMustStayOpen
 	(
-	JXDocument*		doc,
+	JXDocument*	doc,
 	const bool	stayOpen
 	)
 {
@@ -426,7 +427,7 @@ JXDocumentManager::FindFile
 	const JString&	fileName,
 	const JString&	currPath,
 	JString*		newFileName,
-	const bool	askUser
+	const bool		askUser
 	)
 	const
 {
@@ -466,8 +467,16 @@ JXDocumentManager::FindFile
 		};
 		JString instrMsg = JGetString("PleaseFind::JXDocumentManager", map, sizeof(map));
 
-		while (JGetChooseSaveFile()->ChooseFile(JGetString("ChooseFilePrompt::JXDocumentManager"), instrMsg, newFileName))
+		while (true)
 		{
+			auto* dlog = JXChooseFileDialog::Create(JXChooseFileDialog::kSelectSingleFile, JString::empty, JString::empty, instrMsg);
+			if (!dlog->DoDialog())
+			{
+				break;
+			}
+
+			*newFileName = dlog->GetFullName();
+
 			JString newPath, newName;
 			JSplitPathAndName(*newFileName, &newPath, &newName);
 			if (newName != name)

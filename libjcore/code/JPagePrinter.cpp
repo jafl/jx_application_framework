@@ -28,8 +28,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JPagePrinter.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JPagePrinter.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

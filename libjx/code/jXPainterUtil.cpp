@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/jXPainterUtil.h"
+#include "jXPainterUtil.h"
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jAssert.h>
 

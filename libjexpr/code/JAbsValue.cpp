@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JAbsValue.h"
-#include "jx-af/jexpr/JExprRenderer.h"
-#include "jx-af/jexpr/JExprRectList.h"
+#include "JAbsValue.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
 #include <jx-af/jcore/JRect.h>
 #include <math.h>
 #include <jx-af/jcore/jErrno.h>

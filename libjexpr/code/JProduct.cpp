@@ -11,10 +11,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JProduct.h"
-#include "jx-af/jexpr/JExprRenderer.h"
-#include "jx-af/jexpr/JExprRectList.h"
-#include "jx-af/jexpr/jFunctionUtil.h"
+#include "JProduct.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
+#include "jFunctionUtil.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 

@@ -8,13 +8,13 @@
 #ifndef _H_JX2DPlotScaleDialog
 #define _H_JX2DPlotScaleDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXFloatInput;
 class JXRadioGroup;
 class JXStaticText;
 
-class JX2DPlotScaleDialog : public JXDialogDirector
+class JX2DPlotScaleDialog : public JXModalDialogDirector
 {
 public:
 
@@ -26,20 +26,20 @@ public:
 
 public:
 
-	JX2DPlotScaleDialog(JXWindowDirector* supervisor,
-						const JFloat xMin, const JFloat xMax, const JFloat xInc,
+	JX2DPlotScaleDialog(const JFloat xMin, const JFloat xMax, const JFloat xInc,
 						const bool xLinear,
 						const JFloat yMin, const JFloat yMax, const JFloat yInc,
-						const bool yLinear);
+						const bool yLinear,
+						const bool editXAxis);
 
 	~JX2DPlotScaleDialog() override;
+
+	void	Activate() override;
 
 	void GetScaleValues(JFloat* xMin, JFloat* xMax, JFloat* xInc,
 						bool* xLinear,
 						JFloat* yMin, JFloat* yMax, JFloat* yInc,
 						bool* yLinear);
-
-	void EditXAxis(const bool xAxis);
 
 protected:
 
@@ -48,6 +48,8 @@ protected:
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
+
+	const bool itsEditXAxisFlag;
 
 // begin JXLayout
 

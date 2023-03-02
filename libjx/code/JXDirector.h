@@ -35,10 +35,6 @@ public:
 	bool	HasSubdirectors() const;
 	bool	GetSubdirectors(const JPtrArray<JXDirector>** list) const;
 
-	// needed by JXDialogDirector until dynamic_cast works
-
-	virtual bool	IsWindowDirector() const;
-
 protected:
 
 	JXDirector*	GetSupervisor() const;

@@ -8,20 +8,19 @@
 #ifndef _H_JX2DPlotRangeDialog
 #define _H_JX2DPlotRangeDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXTextButton;
 class JXFloatInput;
 class JXStaticText;
 
-class JX2DPlotRangeDialog : public JXDialogDirector
+class JX2DPlotRangeDialog : public JXModalDialogDirector
 {
 
 public:
 
-	JX2DPlotRangeDialog(JXWindowDirector* supervisor, const JFloat xMax,
-						const JFloat xMin, const JFloat yMax,
-						const JFloat yMin);
+	JX2DPlotRangeDialog(const JFloat xMax, const JFloat xMin,
+						const JFloat yMax, const JFloat yMin);
 
 	~JX2DPlotRangeDialog() override;
 

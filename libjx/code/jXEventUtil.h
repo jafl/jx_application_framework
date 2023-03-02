@@ -10,8 +10,8 @@
 
 #include <jx-af/jcore/JUtf8Character.h>
 #include <jx-af/jcore/JPoint.h>
-#include "jx-af/jx/JXButtonStates.h"
-#include "jx-af/jx/JXKeyModifiers.h"
+#include "JXButtonStates.h"
+#include "JXKeyModifiers.h"
 
 class JXDisplay;
 

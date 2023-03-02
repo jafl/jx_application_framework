@@ -9,8 +9,8 @@
 
  *****************************************************************************/
 
-#include "jx-af/jfs/JFSFileTreeNodeBase.h"
-#include "jx-af/jfs/JFSFileTree.h"
+#include "JFSFileTreeNodeBase.h"
+#include "JFSFileTree.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

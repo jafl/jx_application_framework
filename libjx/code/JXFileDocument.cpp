@@ -27,10 +27,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXFileDocument.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/jXGlobals.h"
-#include <jx-af/jcore/JString.h>
+#include "JXFileDocument.h"
+#include "JXWindow.h"
+#include "JXSaveFileDialog.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jFStreamUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jFileUtil.h>
@@ -77,25 +77,23 @@ JXFileDocument::JXFileDocument
 	(
 	JXDirector*			supervisor,
 	const JString&		fileName,
-	const bool		onDisk,
-	const bool		wantBackupFile,
+	const bool			onDisk,
+	const bool			wantBackupFile,
 	const JUtf8Byte*	defaultFileNameSuffix
 	)
 	:
 	JXDocument(supervisor),
 	itsFileSuffix(defaultFileNameSuffix),
+	itsWantBackupFileFlag(wantBackupFile),
+	itsWantNewBackupEveryOpenFlag(true),
+	itsAutosaveBeforeCloseFlag(false),
+	itsAllocateTitleSpaceFlag(false),
+	itsNeedSafetySaveFlag(false),
+	itsSafetySaveFileName(nullptr),
 	itsSaveBeforeClosePrompt(JGetString("SaveBeforeClosePrompt::JXFileDocument")),
 	itsSaveNewFilePrompt(JGetString("SaveNewFilePrompt::JXFileDocument")),
 	itsOKToRevertPrompt(JGetString("OKToRevertPrompt::JXFileDocument"))
 {
-	itsAllocateTitleSpaceFlag     = false;
-	itsWantBackupFileFlag         = wantBackupFile;
-	itsWantNewBackupEveryOpenFlag = true;
-	itsAutosaveBeforeCloseFlag    = false;
-	itsCSF                        = JGetChooseSaveFile();
-	itsNeedSafetySaveFlag         = false;
-	itsSafetySaveFileName         = nullptr;
-
 	FileChanged(fileName, onDisk);
 }
 
@@ -230,7 +228,7 @@ void
 JXFileDocument::FileChanged
 	(
 	const JString&	fileName,
-	const bool	onDisk
+	const bool		onDisk
 	)
 {
 	itsSavedFlag          = true;
@@ -238,11 +236,15 @@ JXFileDocument::FileChanged
 	itsMakeBackupFileFlag = itsWasOnDiskFlag && itsWantBackupFileFlag;
 	itsIsFirstSaveFlag    = true;
 
+	JString fullName;
+	bool ok = false;
 	if (onDisk)
 	{
-		JString fullName;
-		const bool ok = JGetTrueName(fileName, &fullName);
-		assert( ok );
+		ok = JGetTrueName(fileName, &fullName);
+	}
+
+	if (ok)
+	{
 		JSplitPathAndName(fullName, &itsFilePath, &itsFileName);
 
 		JError err = JGetModificationTime(fileName, &itsFileModTime);
@@ -266,7 +268,7 @@ JXFileDocument::FileChanged
 	RemoveSafetySaveFile();
 	AdjustWindowTitle();
 
-	const JString fullName = itsFilePath + itsFileName;
+	fullName = itsFilePath + itsFileName;
 	Broadcast(NameChanged(fullName));
 }
 
@@ -542,9 +544,11 @@ JXFileDocument::SaveCopyInNewFile
 		origName = GetFileNameForSave();
 	}
 
-	JString newName;
-	if (itsCSF->SaveFile(itsSaveNewFilePrompt, JString::empty, origName, &newName))
+	auto* dlog = CreateSaveFileDialog(origName);
+	if (dlog->DoDialog())
 	{
+		const JString& newName = dlog->GetFullName();
+
 		// We set safetySave because it's as if it were a temp file.
 
 		const JError err = WriteFile(newName, true);
@@ -582,50 +586,53 @@ JXFileDocument::SaveInNewFile
 	const JString& newFullName
 	)
 {
-	JString fullName;
-	if (!newFullName.IsEmpty())
+	JString fullName = newFullName;
+	if (fullName.IsEmpty())
 	{
-		fullName = newFullName;
-	}
-
-	const JString origName = GetFileNameForSave();
-	if (!fullName.IsEmpty() ||
-		itsCSF->SaveFile(itsSaveNewFilePrompt, JString::empty, origName, &fullName))
-	{
-		const JString savePath    = itsFilePath;
-		const JString saveName    = itsFileName;
-		const bool saveFlag[] =
+		auto* dlog = CreateSaveFileDialog(GetFileNameForSave());
+		if (dlog->DoDialog())
 		{
-			itsWasOnDiskFlag,
-			itsMakeBackupFileFlag,
-			itsCheckModTimeFlag,
-			itsCheckPermsFlag,
-			itsSavedFlag,
-		};
-
-		JSplitPathAndName(fullName, &itsFilePath, &itsFileName);
-		itsWasOnDiskFlag      = true;
-		itsMakeBackupFileFlag = false;
-		itsCheckModTimeFlag   = false;
-		itsCheckPermsFlag     = false;
-		itsSavedFlag          = false;
-		SaveInCurrentFile();
-		if (itsSavedFlag)
-		{
-			itsMakeBackupFileFlag = itsWantBackupFileFlag;	// make backup when save next time
-			Broadcast(NameChanged(fullName));
-			return true;
+			fullName = dlog->GetFullName();
 		}
 		else
 		{
-			itsFilePath           = savePath;
-			itsFileName           = saveName;
-			itsWasOnDiskFlag      = saveFlag[0];
-			itsMakeBackupFileFlag = saveFlag[1];
-			itsCheckModTimeFlag   = saveFlag[2];
-			itsCheckPermsFlag     = saveFlag[3];
-			itsSavedFlag          = saveFlag[4];
+			return false;
 		}
+	}
+
+	const JString savePath = itsFilePath;
+	const JString saveName = itsFileName;
+	const bool saveFlag[] =
+	{
+		itsWasOnDiskFlag,
+		itsMakeBackupFileFlag,
+		itsCheckModTimeFlag,
+		itsCheckPermsFlag,
+		itsSavedFlag,
+	};
+
+	JSplitPathAndName(fullName, &itsFilePath, &itsFileName);
+	itsWasOnDiskFlag      = true;
+	itsMakeBackupFileFlag = false;
+	itsCheckModTimeFlag   = false;
+	itsCheckPermsFlag     = false;
+	itsSavedFlag          = false;
+	SaveInCurrentFile();
+	if (itsSavedFlag)
+	{
+		itsMakeBackupFileFlag = itsWantBackupFileFlag;	// make backup when save next time
+		Broadcast(NameChanged(fullName));
+		return true;
+	}
+	else
+	{
+		itsFilePath           = savePath;
+		itsFileName           = saveName;
+		itsWasOnDiskFlag      = saveFlag[0];
+		itsMakeBackupFileFlag = saveFlag[1];
+		itsCheckModTimeFlag   = saveFlag[2];
+		itsCheckPermsFlag     = saveFlag[3];
+		itsSavedFlag          = saveFlag[4];
 	}
 
 	return false;
@@ -665,7 +672,7 @@ JXFileDocument::SaveInCurrentFile()
 		return SaveInNewFile();
 	}
 
-	const JString fullName     = itsFilePath + itsFileName;
+	const JString fullName = itsFilePath + itsFileName;
 	const bool exists      = JFileExists(fullName);
 	const bool dirWritable = JDirectoryWritable(itsFilePath);
 	if (exists && !JFileWritable(fullName))
@@ -678,9 +685,9 @@ JXFileDocument::SaveInCurrentFile()
 			if (JGetPermissions(fullName, &perms)          == kJNoError &&
 				JSetPermissions(fullName, perms | S_IWUSR) == kJNoError)
 			{
-				const bool ok1 = JFileWritable(fullName);
-				const bool ok2 = ok1 && SaveInCurrentFile();
-				const JError err   = JSetPermissions(fullName, perms);
+				const bool ok1   = JFileWritable(fullName);
+				const bool ok2   = ok1 && SaveInCurrentFile();
+				const JError err = JSetPermissions(fullName, perms);
 				if (!err.OK())
 				{
 					JGetStringManager()->ReportError("NoRestoreWriteProtectError::JXFileDocument", err);
@@ -1197,6 +1204,22 @@ JXFileDocument::GetWindowTitle()
 	const
 {
 	return GetName();
+}
+
+/******************************************************************************
+ CreateSaveFileDialog (virtual protected)
+
+	Virtual to allow customized dialogs.
+
+ ******************************************************************************/
+
+JXSaveFileDialog*
+JXFileDocument::CreateSaveFileDialog
+	(
+	const JString& startName
+	)
+{
+	return JXSaveFileDialog::Create(itsSaveNewFilePrompt, startName);
 }
 
 /******************************************************************************

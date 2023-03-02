@@ -14,11 +14,11 @@
  *****************************************************************************/
 
 //Class Header
-#include "jx-af/jcore/JMMMonitor.h"
+#include "JMMMonitor.h"
 
-#include "jx-af/jcore/JMemoryManager.h"
+#include "JMemoryManager.h"
 
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

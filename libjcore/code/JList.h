@@ -8,9 +8,9 @@
 #ifndef _H_JList
 #define _H_JList
 
-#include "jx-af/jcore/JCollection.h"
-#include "jx-af/jcore/JListIterator.h"
-#include "jx-af/jcore/JRange.h"
+#include "JCollection.h"
+#include "JListIterator.h"
+#include "JRange.h"
 
 // namespace to own JBroadcaster messages, etc (template is unnecessary)
 

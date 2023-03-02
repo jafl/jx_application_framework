@@ -27,7 +27,7 @@ App::App
 	(
 	int*		argc,
 	char*		argv[],
-	bool*	displayAbout,
+	bool*		displayAbout,
 	JString*	prevVersStr
 	)
 	:
@@ -37,7 +37,7 @@ App::App
 
 	if (!*displayAbout)
 	{
-		*prevVersStr = (GetPrefsManager())->GetPrevVersionStr();
+		*prevVersStr = GetPrefsManager()->GetPrevVersionStr();
 		if (*prevVersStr == GetVersionNumberStr())
 		{
 			prevVersStr->Clear();
@@ -73,12 +73,24 @@ App::~App()
 void
 App::DisplayAbout
 	(
-	const JString& prevVersStr
+	const bool		showLicense,
+	const JString&	prevVersStr
 	)
 {
-	auto* dlog = jnew AboutDialog(this, prevVersStr);
-	assert( dlog != nullptr );
-	dlog->BeginDialog();
+	StartFiber([showLicense, prevVersStr]()
+	{
+		if (!showLicense || JGetUserNotification()->AcceptLicense())
+		{
+			auto* dlog = jnew AboutDialog(prevVersStr);
+			assert( dlog != nullptr );
+			dlog->DoDialog();
+		}
+		else
+		{
+			ForgetPrefsManager();
+			JXGetApplication()->Quit();
+		}
+	});
 }
 
 /******************************************************************************
@@ -98,7 +110,7 @@ App::OpenFile
 		return;
 	}
 
-	JString cmd = (GetPrefsManager())->GetOpenFileCommand();
+	JString cmd = GetPrefsManager()->GetOpenFileCommand();
 
 	JString lineStr((JUInt64) lineIndex);
 

@@ -48,10 +48,10 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JInterpolate.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JInterpolate.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "jAssert.h"
 
 static const JUtf8Byte* theVariablePattern = "[+-]?[0-9]+|\\{[A-Za-z0-9_]+\\}";
 

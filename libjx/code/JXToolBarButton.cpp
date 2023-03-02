@@ -9,15 +9,15 @@
 
  *****************************************************************************/
 
-#include "jx-af/jx/JXToolBar.h"
-#include "jx-af/jx/JXToolBarButton.h"
-#include "jx-af/jx/JXHintDirector.h"
-#include "jx-af/jx/JXTextMenu.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/jXGlobals.h"
-#include "jx-af/jx/jXPainterUtil.h"
+#include "JXToolBar.h"
+#include "JXToolBarButton.h"
+#include "JXHintDirector.h"
+#include "JXTextMenu.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
+#include "JXWindowPainter.h"
+#include "jXGlobals.h"
+#include "jXPainterUtil.h"
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -115,7 +115,7 @@ JXToolBarButton::Draw
 	{
 		p.SetFont(GetLabelFont());
 		p.JPainter::String(bounds, itsLabel,
-						   JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+						   JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 	}
 	else
 	{
@@ -130,7 +130,7 @@ JXToolBarButton::Draw
 		rt.right = bounds.right - kDualBuffer;
 		p.SetFont(GetLabelFont());
 		p.JPainter::String(rt, itsLabel,
-						   JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+						   JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 	}
 }
 

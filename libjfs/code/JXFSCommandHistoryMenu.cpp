@@ -16,7 +16,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jfs/JXFSCommandHistoryMenu.h"
+#include "JXFSCommandHistoryMenu.h"
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXImageCache.h>

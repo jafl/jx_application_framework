@@ -15,6 +15,8 @@
 
 class JXIdleTask
 {
+	friend class JXApplication;
+
 public:
 
 	JXIdleTask(const Time period);
@@ -24,19 +26,20 @@ public:
 	void	Start();
 	void	Stop();
 
-	virtual void	Perform(const Time delta, Time* maxSleepTime) = 0;
-
 	Time	GetPeriod() const;
 	void	SetPeriod(const Time period);
 
 	void	ResetTimer();
-	bool	TimeToPerform(const Time delta, Time* maxSleepTime);
-	bool	CheckIfTimeToPerform(const Time delta);
+
+protected:
+
+	bool			Ready(const Time delta, Time* maxSleepTime);
+	virtual void	Perform(const Time delta) = 0;
 
 private:
 
-	Time	itsPeriod;			// time between performances (milliseconds)
-	Time	itsElapsedTime;		// time since last performance (milliseconds)
+	Time	itsPeriod;			// time between runs (milliseconds)
+	Time	itsElapsedTime;		// time since last runs (milliseconds)
 
 private:
 
@@ -77,23 +80,6 @@ inline void
 JXIdleTask::ResetTimer()
 {
 	itsElapsedTime = 0;
-}
-
-/******************************************************************************
- CheckIfTimeToPerform
-
-	Returns true if it is time to perform the task again but does not
-	reset the timer.
-
- ******************************************************************************/
-
-inline bool
-JXIdleTask::CheckIfTimeToPerform
-	(
-	const Time delta
-	)
-{
-	return itsElapsedTime + delta >= itsPeriod;
 }
 
 #endif

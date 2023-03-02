@@ -19,10 +19,10 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JSubstitute.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/JRegex.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JSubstitute.h"
+#include "JStringIterator.h"
+#include "JRegex.h"
+#include "jAssert.h"
 
 const JSize kEscapeCount = 256;
 

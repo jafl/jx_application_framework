@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXMDIServer.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXMDIServer.h"
+#include "jXGlobals.h"
 
 /******************************************************************************
  Constructor
@@ -41,8 +41,7 @@ JXMDIServer::~JXMDIServer()
 bool
 JXMDIServer::CanAcceptMDIRequest()
 {
-	JXApplication* app = JXGetApplication();
-	return !app->HasBlockingWindow() && !app->IsSuspended();
+	return !JXGetApplication()->IsSuspended();
 }
 
 /******************************************************************************
@@ -61,7 +60,7 @@ JXMDIServer::PreprocessArgList
 	const JSize count = argList->GetElementCount();
 	for (JIndex i=2; i<=count; i++)
 	{
-		if (*(argList->GetElement(i)) == JMDIServer::kQuitOptionName)
+		if (*argList->GetElement(i) == JMDIServer::kQuitOptionName)
 		{
 			JXGetApplication()->Quit();
 			argList->CleanOut();	// don't invoke HandleMDIRequest()

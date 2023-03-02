@@ -12,7 +12,7 @@
 #ifndef _H_JMMRecord
 #define _H_JMMRecord
 
-#include "jx-af/jcore/jTypes.h"
+#include "jTypes.h"
 
 #include <stdlib.h> // For size_t
 

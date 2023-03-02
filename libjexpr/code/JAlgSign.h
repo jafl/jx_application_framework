@@ -10,7 +10,7 @@
 #ifndef _H_JAlgSign
 #define _H_JAlgSign
 
-#include "jx-af/jexpr/JUnaryFunction.h"
+#include "JUnaryFunction.h"
 
 class JAlgSign : public JUnaryFunction
 {

@@ -10,8 +10,8 @@
 #ifndef _H_JXWindow
 #define _H_JXWindow
 
-#include "jx-af/jx/JXContainer.h"
-#include "jx-af/jx/JXCursor.h"
+#include "JXContainer.h"
+#include "JXCursor.h"
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <jx-af/jcore/JString.h>
@@ -389,10 +389,9 @@ private:
 	JCursorIndex	itsCursorIndex;			// currently displayed cursor
 
 	JXContainer*	itsMouseContainer;		// object that contains the mouse -- not owned
-	bool		itsIsDraggingFlag;			// true while dragging (even if not processed)
-	bool		itsProcessDragFlag;			// true if send drag to itsMouseContainer
-	bool		itsCursorLeftFlag;			// true if mouse left window during drag
-	bool		itsCleanAfterBlockFlag;
+	bool			itsIsDraggingFlag;			// true while dragging (even if not processed)
+	bool			itsProcessDragFlag;			// true if send drag to itsMouseContainer
+	bool			itsCursorLeftFlag;			// true if mouse left window during drag
 
 	JXContainer*	itsButtonPressReceiver;	// receives DispatchMouseEvent() messages
 	bool			itsPointerGrabbedFlag;	// true if GrabPointer() in effect
@@ -508,94 +507,94 @@ public:
 	static const JUtf8Byte* kTitleChanged;
 
 	class Iconified : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			Iconified()
-				:
-				JBroadcaster::Message(kIconified)
-				{ };
-		};
+		Iconified()
+			:
+			JBroadcaster::Message(kIconified)
+			{ };
+	};
 
 	class Deiconified : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			Deiconified()
-				:
-				JBroadcaster::Message(kDeiconified)
-				{ };
-		};
+		Deiconified()
+			:
+			JBroadcaster::Message(kDeiconified)
+			{ };
+	};
 
 	class Mapped : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			Mapped()
-				:
-				JBroadcaster::Message(kMapped)
-				{ };
-		};
+		Mapped()
+			:
+			JBroadcaster::Message(kMapped)
+			{ };
+	};
 
 	class Unmapped : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			Unmapped()
-				:
-				JBroadcaster::Message(kUnmapped)
-				{ };
-		};
+		Unmapped()
+			:
+			JBroadcaster::Message(kUnmapped)
+			{ };
+	};
 
 	class Raised : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			Raised()
-				:
-				JBroadcaster::Message(kRaised)
-				{ };
-		};
+		Raised()
+			:
+			JBroadcaster::Message(kRaised)
+			{ };
+	};
 
 	class Docked : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			Docked()
-				:
-				JBroadcaster::Message(kDocked)
-				{ };
-		};
+		Docked()
+			:
+			JBroadcaster::Message(kDocked)
+			{ };
+	};
 
 	class Undocked : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			Undocked()
-				:
-				JBroadcaster::Message(kUndocked)
-				{ };
-		};
+		Undocked()
+			:
+			JBroadcaster::Message(kUndocked)
+			{ };
+	};
 
 	class MinSizeChanged : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			MinSizeChanged()
-				:
-				JBroadcaster::Message(kMinSizeChanged)
-				{ };
-		};
+		MinSizeChanged()
+			:
+			JBroadcaster::Message(kMinSizeChanged)
+			{ };
+	};
 
 	class TitleChanged : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			TitleChanged()
-				:
-				JBroadcaster::Message(kTitleChanged)
-				{ };
-		};
+		TitleChanged()
+			:
+			JBroadcaster::Message(kTitleChanged)
+			{ };
+	};
 };
 
 
@@ -799,9 +798,9 @@ inline void
 JXWindow::RecalcMouseContainer()
 {
 	if (!itsIsDraggingFlag)
-		{
+	{
 		DispatchMouse();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1022,13 +1021,13 @@ JXWindow::UsePixmapAsBackground
 {
 	itsUseBkgdPixmapFlag = useIt;
 	if (itsUseBkgdPixmapFlag)
-		{
+	{
 		BufferDrawing(true);
-		}
+	}
 	else
-		{
+	{
 		SetBackColor(itsBackColor);
-		}
+	}
 }
 
 /******************************************************************************

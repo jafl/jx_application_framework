@@ -8,7 +8,7 @@
 #ifndef _H_JXDockWindowTask
 #define _H_JXDockWindowTask
 
-#include "jx-af/jx/JXIdleTask.h"
+#include "JXIdleTask.h"
 #include <jx-af/jcore/JBroadcaster.h>
 #include <jx-af/jcore/JPoint.h>
 
@@ -24,13 +24,13 @@ public:
 
 	~JXDockWindowTask() override;
 
-	void	Perform(const Time delta, Time* maxSleepTime) override;
 	bool	IsDone() const;
 
 	static void	PrepareForDockAll();
 
 protected:
 
+	void	Perform(const Time delta) override;
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:

@@ -1,7 +1,7 @@
 /******************************************************************************
  PrefsDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2010 by John Lindal.
 
@@ -23,11 +23,10 @@
 
 PrefsDialog::PrefsDialog
 	(
-	JXDirector*		supervisor,
-	const JString&	openCmd
+	const JString& openCmd
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow(openCmd);
 }

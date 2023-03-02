@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXBusyIconTask.h"
-#include "jx-af/jx/JXImageWidget.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXImageCache.h"
-#include "jx-af/jx/JXDisplay.h"
+#include "JXBusyIconTask.h"
+#include "JXImageWidget.h"
+#include "JXImage.h"
+#include "JXImageCache.h"
+#include "JXDisplay.h"
 #include <jx-af/jcore/jAssert.h>
 
 #include <jx-af/image/jx/jx_busy_1_small.xpm>

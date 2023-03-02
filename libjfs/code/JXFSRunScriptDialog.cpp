@@ -1,13 +1,13 @@
 /******************************************************************************
  JXFSRunScriptDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2000 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jfs/JXFSRunScriptDialog.h"
+#include "JXFSRunScriptDialog.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXTextButton.h>
@@ -27,7 +27,7 @@ JXFSRunScriptDialog::JXFSRunScriptDialog
 	const JString& cmd
 	)
 	:
-	JXDialogDirector(JXGetApplication(), true)
+	JXModalDialogDirector()
 {
 	BuildWindow(cmd);
 }
@@ -66,7 +66,7 @@ JXFSRunScriptDialog::GetCommand
 void
 JXFSRunScriptDialog::Activate()
 {
-	JXDialogDirector::Activate();
+	JXModalDialogDirector::Activate();
 
 	if (IsActive())
 	{

@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXBorderRect.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/jXPainterUtil.h"
+#include "JXBorderRect.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
 
 /******************************************************************************
  Constructor

@@ -1,19 +1,19 @@
 /******************************************************************************
  JXMacWinPrefsDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2002 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXMacWinPrefsDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXMenu.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXMacWinPrefsDialog.h"
+#include "JXWindow.h"
+#include "JXMenu.h"
+#include "JXStaticText.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -27,7 +27,11 @@ JXMacWinPrefsDialog::EditPrefs()
 {
 	auto* dlog = jnew JXMacWinPrefsDialog;
 	assert( dlog != nullptr );
-	dlog->BeginDialog();
+
+	if (dlog->DoDialog())
+	{
+		dlog->UpdateSettings();
+	}
 }
 
 /******************************************************************************
@@ -37,7 +41,7 @@ JXMacWinPrefsDialog::EditPrefs()
 
 JXMacWinPrefsDialog::JXMacWinPrefsDialog()
 	:
-	JXDialogDirector(JXGetApplication(), true)
+	JXModalDialogDirector()
 {
 	BuildWindow();
 	ListenTo(this);
@@ -118,35 +122,6 @@ JXMacWinPrefsDialog::BuildWindow()
 	itsScrollCaretCB->SetState(JXTEBase::CaretWillFollowScroll());
 	itsCopyWhenSelectCB->SetState(JTextEditor::WillCopyWhenSelect());
 	itsFocusInDockCB->SetState(JXWindow::WillFocusFollowCursorInDock());
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXMacWinPrefsDialog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == this && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			UpdateSettings();
-		}
-	}
-
-	else
-	{
-		JXDialogDirector::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

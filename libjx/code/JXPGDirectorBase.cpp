@@ -3,15 +3,15 @@
 
 	BASE CLASS = JXWindowDirector
 
-	Copyright (C) 1997 by John Lindal.
+	Copyright (C) 1997-2023 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXPGDirectorBase.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXButton.h"
-#include <jx-af/jcore/jGlobals.h>
+#include "JXPGDirectorBase.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXButton.h"
+#include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -21,13 +21,14 @@
 
 JXPGDirectorBase::JXPGDirectorBase
 	(
-	JXDirector* supervisor
+	const bool modal
 	)
 	:
-	JXWindowDirector(supervisor)
+	JXWindowDirector(JXGetApplication()),
+	itsModalFlag(modal),
+	itsExpectsCloseFlag(false),
+	itsCancelButton(nullptr)
 {
-	itsExpectsCloseFlag = false;
-	itsCancelButton     = nullptr;
 }
 
 /******************************************************************************
@@ -81,14 +82,29 @@ JXPGDirectorBase::ProcessFinished()
 void
 JXPGDirectorBase::Activate()
 {
-	// We need to be active, regardless of our supervisor's state!
-
-	while (IsSuspended())
+	if (!IsActive())
 	{
-		Resume();
-	}
+		JXWindow* window = GetWindow();
+		assert( window != nullptr );
+		window->ShouldFocusWhenShow(true);
+		window->SetWMWindowType(JXWindow::kWMDialogType);
+		window->PlaceAsDialogWindow();
 
-	JXWindowDirector::Activate();
+		JXWindowDirector::Activate();
+		if (IsActive() && itsModalFlag)
+		{
+			GetSupervisor()->Suspend();
+
+			while (IsSuspended())
+			{
+				Resume();			// we need to be active
+			}
+		}
+	}
+	else
+	{
+		JXWindowDirector::Activate();
+	}
 }
 
 /******************************************************************************
@@ -103,6 +119,10 @@ JXPGDirectorBase::Close()
 {
 	if (itsExpectsCloseFlag)
 	{
+		if (itsModalFlag)
+		{
+			GetSupervisor()->Resume();
+		}
 		return JXWindowDirector::Close();
 	}
 	else if (itsCancelButton != nullptr)
@@ -128,7 +148,7 @@ JXPGDirectorBase::Init
 	JXWindow*		window,
 	JXStaticText*	text,
 	const JString&	message,
-	const bool	allowCancel,
+	const bool		allowCancel,
 	JXButton*		cancelButton
 	)
 {

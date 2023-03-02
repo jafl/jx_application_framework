@@ -4,17 +4,17 @@
 	Dynamically constructed dialog window to ask the user to pick from
 	a list of choices.
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2017 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXCheckboxListDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXStaticText.h"
+#include "JXCheckboxListDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXStaticText.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jAssert.h>
@@ -39,14 +39,13 @@ const JCoordinate kMinButtonHMargin = 10;
 
 JXCheckboxListDialog::JXCheckboxListDialog
 	(
-	JXDirector*					supervisor,
 	const JString&				windowTitle,
 	const JString&				prompt,
 	const JPtrArray<JString>&	choiceList,
 	const JPtrArray<JString>*	shortcutList
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	itsCBList = jnew JPtrArray<JXCheckbox>(JPtrArrayT::kForgetAll);
 	assert( itsCBList != nullptr );

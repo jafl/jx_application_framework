@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXFontNameMenuTable.h"
-#include "jx-af/jx/JXFontNameMenu.h"
+#include "JXFontNameMenuTable.h"
+#include "JXFontNameMenu.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jXMLUtil.h"
-#include "jx-af/jcore/jAssert.h"
+#include "jXMLUtil.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JGetXMLChildNode

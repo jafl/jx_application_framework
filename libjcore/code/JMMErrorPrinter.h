@@ -13,9 +13,9 @@
 #define _H_JMMErrorPrinter
 
 // Superclass Header
-#include "jx-af/jcore/JMMMonitor.h"
+#include "JMMMonitor.h"
 
-#include "jx-af/jcore/jTypes.h"
+#include "jTypes.h"
 
 class JMMErrorPrinter : public JMMMonitor
 {

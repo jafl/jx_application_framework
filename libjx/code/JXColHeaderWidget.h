@@ -10,7 +10,7 @@
 #ifndef _H_JXColHeaderWidget
 #define _H_JXColHeaderWidget
 
-#include "jx-af/jx/JXEditTable.h"
+#include "JXEditTable.h"
 
 class JString;
 class JXScrollbar;

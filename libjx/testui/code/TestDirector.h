@@ -46,7 +46,7 @@ protected:
 
 private:
 
-	bool			itsIsMasterFlag;	// true if we were the first one created
+	const bool		itsIsMasterFlag;	// true if we were the first one created
 	JXPSPrinter*	itsPSPrinter;
 	JXEPSPrinter*	itsEPSPrinter;
 	TestWidget*		itsWidget;			// owned by its enclosure
@@ -67,7 +67,6 @@ private:
 
 	// we own these
 
-	TestChooseSaveFile*		itsCSF;
 	AnimateHelpMenuTask*	itsAnimHelpTask;
 	AnimateWindowIconTask*	itsAnimIconTask;
 	JBroadcastSnooper*		itsWindowSnooper;

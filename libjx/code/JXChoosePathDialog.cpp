@@ -10,20 +10,20 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXChoosePathDialog.h"
-#include "jx-af/jx/JXDirTable.h"
-#include "jx-af/jx/JXCurrentPathMenu.h"
+#include "JXChoosePathDialog.h"
+#include "JXDirTable.h"
+#include "JXCurrentPathMenu.h"
 #include <jx-af/jcore/JDirInfo.h>
-#include "jx-af/jx/JXNewDirButton.h"
+#include "JXNewDirButton.h"
 
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXPathInput.h"
-#include "jx-af/jx/JXPathHistoryMenu.h"
-#include "jx-af/jx/JXScrollbarSet.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXPathInput.h"
+#include "JXPathHistoryMenu.h"
+#include "JXScrollbarSet.h"
+#include "jXGlobals.h"
 
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/JUserNotification.h>
@@ -34,22 +34,22 @@
 /******************************************************************************
  Constructor function (static)
 
+	This allows derived classes to override BuildWindow().
+
  ******************************************************************************/
 
 JXChoosePathDialog*
 JXChoosePathDialog::Create
 	(
-	JXDirector*		supervisor,
-	JDirInfo*		dirInfo,
-	const JString&	fileFilter,
-	const bool	selectOnlyWritable,
-	const JString&	message
+	const SelectPathType	type,
+	const JString&			startPath,
+	const JString&			fileFilter,
+	const JString&			message
 	)
 {
-	auto* dlog =
-		jnew JXChoosePathDialog(supervisor, dirInfo, fileFilter, selectOnlyWritable);
+	auto* dlog = jnew JXChoosePathDialog(type, fileFilter);
 	assert( dlog != nullptr );
-	dlog->BuildWindow(message);
+	dlog->BuildWindow(startPath, message);
 	return dlog;
 }
 
@@ -60,14 +60,12 @@ JXChoosePathDialog::Create
 
 JXChoosePathDialog::JXChoosePathDialog
 	(
-	JXDirector*		supervisor,
-	JDirInfo*		dirInfo,
-	const JString&	fileFilter,
-	const bool	selectOnlyWritable
+	const SelectPathType	type,
+	const JString&			fileFilter
 	)
 	:
-	JXCSFDialogBase(supervisor, dirInfo, fileFilter),
-	itsSelectOnlyWritableFlag( selectOnlyWritable )
+	JXCSFDialogBase(fileFilter),
+	itsSelectPathType(type)
 {
 }
 
@@ -88,6 +86,7 @@ JXChoosePathDialog::~JXChoosePathDialog()
 void
 JXChoosePathDialog::BuildWindow
 	(
+	const JString& startPath,
 	const JString& message
 	)
 {
@@ -191,7 +190,7 @@ JXChoosePathDialog::BuildWindow
 			   filterLabel, filterInput, filterHistory,
 			   openButton, selectButton, cancelButton,
 			   upButton, homeButton, desktopButton,
-			   newDirButton, showHiddenCB, currPathMenu, message);
+			   newDirButton, showHiddenCB, currPathMenu, startPath, message);
 }
 
 /******************************************************************************
@@ -218,13 +217,14 @@ JXChoosePathDialog::SetObjects
 	JXNewDirButton*			newDirButton,
 	JXTextCheckbox*			showHiddenCB,
 	JXCurrentPathMenu*		currPathMenu,
+	const JString&			startPath,
 	const JString&			message
 	)
 {
 	itsOpenButton   = openButton;
 	itsSelectButton = selectButton;
 
-	(scrollbarSet->GetWindow())->SetTitle(JGetString("Title::JXChoosePathDialog"));
+	scrollbarSet->GetWindow()->SetTitle(JGetString("Title::JXChoosePathDialog"));
 
 	SetButtons(itsSelectButton, cancelButton);
 	JXCSFDialogBase::SetObjects(
@@ -243,6 +243,14 @@ JXChoosePathDialog::SetObjects
 
 	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXGlobal"));
 	itsSelectButton->SetShortcuts(JGetString("SelectShortcut::JXChoosePathDialog"));
+
+	if (!startPath.IsEmpty())
+	{
+		GetDirInfo()->GoToClosest(startPath);
+		DoNotSaveCurrentPath();
+	}
+
+	RestoreState();
 }
 
 /******************************************************************************
@@ -318,7 +326,7 @@ JXChoosePathDialog::OKToDeactivate()
 		return false;
 	}
 
-	else if (itsSelectOnlyWritableFlag && !JDirectoryWritable(GetPath()))
+	else if (itsSelectPathType == kRequireWritable && !JDirectoryWritable(GetPath()))
 	{
 		JGetUserNotification()->ReportError(JGetString("DirMustBeWritable::JXChoosePathDialog"));
 		return false;
@@ -339,7 +347,7 @@ JXChoosePathDialog::UpdateDisplay()
 {
 	JXCSFDialogBase::UpdateDisplay();
 
-	if (itsSelectOnlyWritableFlag && !GetDirInfo()->IsWritable())
+	if (itsSelectPathType == kRequireWritable && !GetDirInfo()->IsWritable())
 	{
 		itsSelectButton->Deactivate();
 	}

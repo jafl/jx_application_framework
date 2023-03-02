@@ -8,18 +8,19 @@
 #ifndef _H_JXSearchTextDecorTask
 #define _H_JXSearchTextDecorTask
 
-#include "jx-af/jx/JXUrgentTask.h"
-#include <jx-af/jcore/JBroadcaster.h>
+#include "JXUrgentTask.h"
 
 class JXWindow;
 class JXTextCheckbox;
 
-class JXSearchTextDecorTask : public JXUrgentTask, virtual public JBroadcaster
+class JXSearchTextDecorTask : public JXUrgentTask
 {
 public:
 
 	JXSearchTextDecorTask(JXWindow* window,
 						  JXTextCheckbox* stayOpenCB, JXTextCheckbox* retainFocusCB);
+
+protected:
 
 	~JXSearchTextDecorTask() override;
 

@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXImagePainter.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXGC.h"
+#include "JXImagePainter.h"
+#include "JXImage.h"
+#include "JXGC.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -96,9 +96,9 @@ JXImagePainter::String
 	const JString&		str,
 	const JIndex		uIndex,
 	const JCoordinate	width,
-	const HAlignment	hAlign,
+	const HAlign	hAlign,
 	const JCoordinate	height,
-	const VAlignment	vAlign
+	const VAlign	vAlign
 	)
 {
 	if (PrepareXDraw())
@@ -115,9 +115,9 @@ JXImagePainter::String
 	const JCoordinate	top,
 	const JString&		str,
 	const JCoordinate	width,
-	const HAlignment	hAlign,
+	const HAlign	hAlign,
 	const JCoordinate	height,
-	const VAlignment	vAlign
+	const VAlign	vAlign
 	)
 {
 	if (PrepareXDraw())

@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXHorizPartition.h"
-#include "jx-af/jx/JXRestorePartitionGeometry.h"
-#include "jx-af/jx/JXDragPainter.h"
-#include "jx-af/jx/JXCursor.h"
+#include "JXHorizPartition.h"
+#include "JXRestorePartitionGeometry.h"
+#include "JXDragPainter.h"
+#include "JXCursor.h"
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jAssert.h>
 

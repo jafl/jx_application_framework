@@ -8,13 +8,13 @@
 #ifndef _H_PrefsDialog
 #define _H_PrefsDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
-class PrefsDialog : public JXDialogDirector
+class PrefsDialog : public JXModalDialogDirector
 {
 public:
 
-	PrefsDialog(JXDirector* supervisor, const JString& data);
+	PrefsDialog(const JString& data);
 
 	~PrefsDialog() override;
 

@@ -17,8 +17,9 @@
 
 class MainDialog;
 
-App*				GetApplication();
+App*			GetApplication();
 PrefsManager*	GetPrefsManager();
+void			ForgetPrefsManager();
 
 const JUtf8Byte*	GetVersionNumberStr();
 JString				GetVersionStr();
@@ -26,8 +27,8 @@ JString				GetVersionStr();
 	// called by App
 
 bool	CreateGlobals(App* app);
-void		DeleteGlobals();
-void		CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
+void	DeleteGlobals();
+void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
 	// called by MainDialog
 

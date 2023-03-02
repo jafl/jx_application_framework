@@ -11,10 +11,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JFileArrayIndex.h"
-#include "jx-af/jcore/JFileArray.h"
+#include "JFileArrayIndex.h"
+#include "JFileArray.h"
 #include <algorithm>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 // size of data stored in index section of file
 

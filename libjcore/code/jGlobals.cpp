@@ -7,28 +7,28 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jStringData.h"
-#include "jx-af/jcore/JTextUserNotification.h"
-#include "jx-af/jcore/JTextChooseSaveFile.h"
-#include "jx-af/jcore/JCreateTextPG.h"
-#include "jx-af/jcore/JThisProcess.h"
-#include "jx-af/jcore/JWebBrowser.h"
-#include "jx-af/jcore/jDirUtil.h"
-#include "jx-af/jcore/jFileUtil.h"
+#include "jGlobals.h"
+#include "jStringData.h"
+#include "JTextUserNotification.h"
+#include "JCreateTextPG.h"
+#include "JThisProcess.h"
+#include "JWebBrowser.h"
+#include "jDirUtil.h"
+#include "jFileUtil.h"
 #include <stdlib.h>
 #include <locale.h>
 #include <ace/OS_NS_sys_socket.h>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 static JAssertBase*				theAssertHandler    = nullptr;
 
 static JUserNotification*		theUserNotification = nullptr;
-static JChooseSaveFile*			theChooseSaveFile   = nullptr;
 static JCreateProgressDisplay*	theCreatePG         = nullptr;
 
 static JStringManager*			theStringManager    = nullptr;
 static JWebBrowser*				theWebBrowser       = nullptr;
+
+static std::function<void(const std::function<void()>&)>* theTaskScheduler = nullptr;
 
 /******************************************************************************
  JInitCore
@@ -39,7 +39,7 @@ static JWebBrowser*				theWebBrowser       = nullptr;
 	*** We take ownership of all the objects that are passed in.
 		We make copies of the string data.
 
-	Passing in nullptr for ah,un,csf,cpg means that you want the default text
+	Passing in nullptr for ah,un,cpg means that you want the default text
 	implementation.
 
 	Passing in nullptr for appSignature and defaultStringData means that you want
@@ -64,7 +64,6 @@ JInitCore
 	const JUtf8Byte**		defaultStringData,
 
 	JUserNotification*		un,
-	JChooseSaveFile*		csf,
 	JCreateProgressDisplay*	cpg
 	)
 {
@@ -113,18 +112,6 @@ JInitCore
 		assert( theUserNotification != nullptr );
 	}
 
-	// choose/save file
-
-	if (csf != nullptr)
-	{
-		theChooseSaveFile = csf;
-	}
-	else
-	{
-		theChooseSaveFile = jnew JTextChooseSaveFile;
-		assert( theChooseSaveFile != nullptr );
-	}
-
 	// progress display factory
 
 	if (cpg != nullptr)
@@ -154,9 +141,6 @@ JDeleteGlobals()
 {
 	jdelete theCreatePG;
 	theCreatePG = nullptr;
-
-	jdelete theChooseSaveFile;
-	theChooseSaveFile = nullptr;
 
 	jdelete theUserNotification;
 	theUserNotification = nullptr;
@@ -288,25 +272,6 @@ JGetUserNotification()
 }
 
 /******************************************************************************
- JGetChooseSaveFile
-
- ******************************************************************************/
-
-JChooseSaveFile*
-JGetChooseSaveFile()
-{
-	if (theChooseSaveFile == nullptr)
-	{
-		std::cerr << "Forgot to initialize ChooseSaveFile: using default version" << std::endl;
-
-		theChooseSaveFile = jnew JTextChooseSaveFile;
-		assert( theChooseSaveFile != nullptr );
-	}
-
-	return theChooseSaveFile;
-}
-
-/******************************************************************************
  JGetCreatePG
 
  ******************************************************************************/
@@ -323,4 +288,45 @@ JGetCreatePG()
 	}
 
 	return theCreatePG;
+}
+
+/******************************************************************************
+ JSetTaskScheduler
+
+ ******************************************************************************/
+
+void
+JSetTaskScheduler
+	(
+	const std::function<void(const std::function<void()>&)>& sched
+	)
+{
+	if (theTaskScheduler != nullptr)
+	{
+		jdelete theTaskScheduler;
+	}
+
+	theTaskScheduler = jnew std::function(sched);
+	assert( theTaskScheduler != nullptr );
+}
+
+/******************************************************************************
+ JScheduleTask
+
+ ******************************************************************************/
+
+void
+JScheduleTask
+	(
+	const std::function<void()>& task
+	)
+{
+	if (theTaskScheduler != nullptr)
+	{
+		(*theTaskScheduler)(task);
+	}
+	else
+	{
+		task();
+	}
 }

@@ -10,7 +10,7 @@
 #ifndef _H_JSquareRoot
 #define _H_JSquareRoot
 
-#include "jx-af/jexpr/JUnaryFunction.h"
+#include "JUnaryFunction.h"
 
 class JSquareRoot : public JUnaryFunction
 {

@@ -1,17 +1,17 @@
 /******************************************************************************
  JXAcceptLicenseDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1996 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXAcceptLicenseDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXScrollbarSet.h"
-#include "jx-af/jx/JXStaticText.h"
+#include "JXAcceptLicenseDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXScrollbarSet.h"
+#include "JXStaticText.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -20,12 +20,9 @@
 
  ******************************************************************************/
 
-JXAcceptLicenseDialog::JXAcceptLicenseDialog
-	(
-	JXDirector* supervisor
-	)
+JXAcceptLicenseDialog::JXAcceptLicenseDialog()
 	:
-	JXDialogDirector(supervisor, false)
+	JXModalDialogDirector(true)
 {
 	BuildWindow();
 }
@@ -70,8 +67,6 @@ JXAcceptLicenseDialog::BuildWindow()
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::JXAcceptLicenseDialog"));
-	window->LockCurrentMinSize();
-	window->PlaceAsDialogWindow();
 
 	SetButtons(yesButton, noButton);
 

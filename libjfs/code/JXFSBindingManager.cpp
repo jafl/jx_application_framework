@@ -7,12 +7,12 @@
 
  *****************************************************************************/
 
-#include "jx-af/jfs/JXFSBindingManager.h"
-#include "jx-af/jfs/JFSBindingList.h"
-#include "jx-af/jfs/JXFSEditBindingsDialog.h"
-#include "jx-af/jfs/JXFSRunCommandDialog.h"
-#include "jx-af/jfs/JXFSRunFileDialog.h"
-#include "jx-af/jfs/JXFSRunScriptDialog.h"
+#include "JXFSBindingManager.h"
+#include "JFSBindingList.h"
+#include "JXFSEditBindingsDialog.h"
+#include "JXFSRunCommandDialog.h"
+#include "JXFSRunFileDialog.h"
+#include "JXFSRunScriptDialog.h"
 #include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jx/JXTimerTask.h>
 #include <jx-af/jx/jXGlobals.h>
@@ -49,9 +49,12 @@ JXFSBindingManager::Instance()
 
 		if (!needUserCheck.IsEmpty())
 		{
-			EditBindings();
-			JGetUserNotification()->DisplayMessage(needUserCheck);
-			itsSelf->itsBindingList->Save();	// only display message once
+			JScheduleTask([needUserCheck]()
+			{
+				EditBindings();
+				JGetUserNotification()->DisplayMessage(needUserCheck);
+				Instance()->itsBindingList->Save();	// only display message once
+			});
 		}
 	}
 
@@ -81,12 +84,10 @@ JXFSBindingManager::JXFSBindingManager
 	(
 	JString* needUserCheck
 	)
+	:
+	itsRunFileDialog(nullptr),
+	itsEditDialog(nullptr)
 {
-	itsRunFileDialog   = nullptr;
-	itsFileList        = nullptr;
-	itsRunScriptDialog = nullptr;
-	itsEditDialog      = nullptr;
-
 	itsBindingList = JFSBindingList::Create(needUserCheck);
 
 	itsUpdateBindingListTask = jnew JXTimerTask(kUpdateInterval);
@@ -107,7 +108,6 @@ JXFSBindingManager::~JXFSBindingManager()
 {
 	jdelete itsBindingList;
 	jdelete itsUpdateBindingListTask;
-	jdelete itsFileList;
 }
 
 /******************************************************************************
@@ -124,10 +124,10 @@ JXFSBindingManager::EditBindings()
 	{
 		me->itsEditDialog = jnew JXFSEditBindingsDialog(me->itsBindingList);
 		assert( me->itsEditDialog != nullptr );
-		me->ListenTo(me->itsEditDialog);
 	}
 
 	me->itsEditDialog->Activate();
+	me->ClearWhenGoingAway(me->itsEditDialog, &me->itsEditDialog);
 }
 
 /******************************************************************************
@@ -161,29 +161,31 @@ void
 JXFSBindingManager::Exec
 	(
 	const JString&	fullProgramName,
-	const bool	askForArgs
+	const bool		askForArgs
 	)
 {
-	JXFSBindingManager* me = Instance();
-
-	JString cmd;
-	JSplitPathAndName(fullProgramName, &(me->itsScriptPath), &cmd);
+	JString path, cmd;
+	JSplitPathAndName(fullProgramName, &path, &cmd);
 
 	#ifdef _J_UNIX
 	cmd.Prepend("./");
 	#endif
 
-	if (askForArgs && me->itsRunScriptDialog == nullptr)
+	if (askForArgs)
 	{
-		me->itsRunScriptDialog = jnew JXFSRunScriptDialog(cmd);
-		assert( me->itsRunScriptDialog != nullptr );
-		me->ListenTo(me->itsRunScriptDialog);
-		me->itsRunScriptDialog->BeginDialog();
+		auto* dlog = jnew JXFSRunScriptDialog(cmd);
+		assert( dlog != nullptr );
+		if (dlog->DoDialog())
+		{
+			JFSBinding::CommandType type;
+			cmd = dlog->GetCommand(&type);
+			Exec(path, cmd, type);
+		}
 	}
-	else if (!askForArgs)
+	else
 	{
 		JXGetApplication()->DisplayBusyCursor();
-		Exec(me->itsScriptPath, cmd, JFSBinding::kRunPlain);
+		Exec(path, cmd, JFSBinding::kRunPlain);
 	}
 }
 
@@ -198,7 +200,7 @@ void
 JXFSBindingManager::Exec
 	(
 	const JPtrArray<JString>&	fileList,
-	const bool				ignoreBindings
+	const bool					ignoreBindings
 	)
 {
 	if (fileList.IsEmpty())
@@ -206,39 +208,20 @@ JXFSBindingManager::Exec
 		return;
 	}
 
-	JXFSBindingManager* me = Instance();
-
-	if (me->itsFileList == nullptr)
-	{
-		me->itsFileList = jnew JPtrArray<JFSBinding>(JPtrArrayT::kDeleteAll);
-		assert( me->itsFileList != nullptr );
-		me->itsFileList->SetCompareFunction(ComparePatterns);
-	}
+	JPtrArray<JFSBinding> bindingList(JPtrArrayT::kDeleteAll);
+	bindingList.SetCompareFunction(ComparePatterns);
 
 	for (const auto* fileName : fileList)
 	{
 		auto* f = jnew JFSBinding(*fileName, JString::empty, JFSBinding::kRunPlain, true, false);
 		assert( f != nullptr );
-		if (!me->itsFileList->InsertSorted(f, false))
+		if (!bindingList.InsertSorted(f, false))
 		{
 			jdelete f;
 		}
 	}
 
-	me->itsIgnoreBindingsFlag = ignoreBindings;
-	me->ProcessFiles();
-}
-
-/******************************************************************************
- HasFiles (private)
-
- ******************************************************************************/
-
-inline bool
-JXFSBindingManager::HasFiles()
-	const
-{
-	return itsFileList != nullptr && !itsFileList->IsEmpty();
+	Instance()->ProcessFiles(&bindingList, ignoreBindings);
 }
 
 /******************************************************************************
@@ -247,9 +230,13 @@ JXFSBindingManager::HasFiles()
  ******************************************************************************/
 
 void
-JXFSBindingManager::ProcessFiles()
+JXFSBindingManager::ProcessFiles
+	(
+	JPtrArray<JFSBinding>*	fileList,
+	const bool				ignoreBindings
+	)
 {
-	if (!HasFiles() || itsRunFileDialog != nullptr)
+	if (itsRunFileDialog != nullptr)	// paranoia
 	{
 		return;
 	}
@@ -257,7 +244,7 @@ JXFSBindingManager::ProcessFiles()
 	// check for file with no command
 
 	JIndex i = 1;
-	for (auto* f : *itsFileList)
+	for (auto* f : *fileList)
 	{
 		const JString& fileName = f->GetPattern();
 
@@ -266,7 +253,7 @@ JXFSBindingManager::ProcessFiles()
 		const JString& cmd = f->GetCommand(&type, &singleFile);
 
 		const JFSBinding* b;
-		if (!itsIgnoreBindingsFlag &&
+		if (!ignoreBindings &&
 			cmd.IsEmpty() && itsBindingList->GetBinding(fileName, &b))
 		{
 			const JString& c = b->GetCommand(&type, &singleFile);
@@ -274,15 +261,40 @@ JXFSBindingManager::ProcessFiles()
 		}
 		else if (cmd.IsEmpty())
 		{
-			assert( itsRunFileDialog == nullptr );
 			itsRunFileDialog =
 				jnew JXFSRunFileDialog(fileName,
-					itsFileList->GetElementCount() <= 1 || !itsIgnoreBindingsFlag);
+					fileList->GetElementCount() <= 1 || !ignoreBindings);
 			assert( itsRunFileDialog != nullptr );
-			ListenTo(itsRunFileDialog);
-			itsRunFileDialog->BeginDialog();
-			itsRunFileIndex = i;
-			return;
+			if (itsRunFileDialog->DoDialog())
+			{
+				JFSBinding::CommandType type;
+				bool singleFile, saveBinding;
+				const JString& cmd = itsRunFileDialog->GetCommand(&type, &singleFile, &saveBinding);
+
+				if (ignoreBindings && i == 1)
+				{
+					for (auto* f : *fileList)
+					{
+						f->SetCommand(cmd, type, singleFile);
+					}
+				}
+				else
+				{
+					f->SetCommand(cmd, type, singleFile);
+				}
+
+				if (saveBinding)
+				{
+					SaveBinding(f->GetPattern(), cmd, type, singleFile);
+				}
+
+				itsRunFileDialog = nullptr;
+			}
+			else
+			{
+				itsRunFileDialog = nullptr;
+				return;
+			}
 		}
 
 		i++;
@@ -292,32 +304,32 @@ JXFSBindingManager::ProcessFiles()
 
 	JXGetApplication()->DisplayBusyCursor();
 
-	for (i=itsFileList->GetElementCount(); i>=1; i--)
+	for (i=fileList->GetElementCount(); i>=1; i--)
 	{
 		JFSBinding::CommandType t;
 		bool singleFile;
-		itsFileList->GetElement(i)->GetCommand(&t, &singleFile);
+		fileList->GetElement(i)->GetCommand(&t, &singleFile);
 
 		if (singleFile)
 		{
-			Exec(i, i);
-			itsFileList->DeleteElement(i);
+			Exec(*fileList, i, i);
+			fileList->DeleteElement(i);
 		}
 	}
 
 	// group remaining files and exec
 
-	if (!itsFileList->IsEmpty())
+	if (!fileList->IsEmpty())
 	{
-		itsFileList->SetCompareFunction(CompareCommands);
-		itsFileList->Sort();
+		fileList->SetCompareFunction(CompareCommands);
+		fileList->Sort();
 
 		JIndex startIndex = 1;
 		JString cmd;
 		JFSBinding::CommandType type = JFSBinding::kRunPlain;
 
 		i = 1;
-		for (const auto* f : *itsFileList)
+		for (const auto* f : *fileList)
 		{
 			JFSBinding::CommandType t;
 			bool singleFile;
@@ -331,7 +343,7 @@ JXFSBindingManager::ProcessFiles()
 			}
 			else if (c != cmd || type != t)
 			{
-				Exec(startIndex, i-1);
+				Exec(*fileList, startIndex, i-1);
 
 				startIndex = i;
 				cmd        = c;
@@ -341,26 +353,24 @@ JXFSBindingManager::ProcessFiles()
 			i++;
 		}
 
-		Exec(startIndex, itsFileList->GetElementCount());
+		Exec(*fileList, startIndex, fileList->GetElementCount());
 	}
-
-	jdelete itsFileList;
-	itsFileList = nullptr;
 }
 
 /******************************************************************************
  Exec (private)
 
 	The directory and command *must* be the same for all items in
-	itsFileList between startIndex and endIndex, inclusive.
+	fileList between startIndex and endIndex, inclusive.
 
  ******************************************************************************/
 
 void
 JXFSBindingManager::Exec
 	(
-	const JIndex startIndex,
-	const JIndex endIndex
+	const JPtrArray<JFSBinding>&	fileList,
+	const JIndex					startIndex,
+	const JIndex					endIndex
 	)
 {
 	// check if same path for all files
@@ -371,25 +381,26 @@ JXFSBindingManager::Exec
 	if (endIndex > startIndex)
 	{
 		JString p;
-		for (JIndex i=startIndex; i<=endIndex; i++)
+		JIndex i = 1;
+		for (auto* f : fileList)
 		{
-			const JString& fullName = (itsFileList->GetElement(i))->GetPattern();
-			JSplitPathAndName(fullName, &p, &name);
+			JSplitPathAndName(f->GetPattern(), &p, &name);
 			if (i > startIndex && p != path)
 			{
 				samePath = false;
 				break;
 			}
 			path = p;
+			i++;
 		}
 	}
 
 	// build $q, $u, $qf, $uf
 
 	JString q, u, qf, uf;
-	for (JIndex i=startIndex; i<=endIndex; i++)
+	for (auto* f : fileList)
 	{
-		const JString& fullName = (itsFileList->GetElement(i))->GetPattern();
+		const JString& fullName = f->GetPattern();
 
 		if (samePath)
 		{
@@ -415,7 +426,7 @@ JXFSBindingManager::Exec
 
 	// run command
 
-	JFSBinding* f = itsFileList->GetElement(startIndex);
+	JFSBinding* f = fileList.GetElement(startIndex);
 	JSplitPathAndName(f->GetPattern(), &path, &name);
 
 	JFSBinding::CommandType type;
@@ -520,67 +531,7 @@ JXFSBindingManager::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsEditDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		itsEditDialog = nullptr;
-	}
-
-	else if (sender == itsRunFileDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info = dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert(info != nullptr);
-		if (info->Successful())
-		{
-			assert( HasFiles() );
-
-			JFSBinding::CommandType type;
-			bool singleFile, saveBinding;
-			const JString& cmd = itsRunFileDialog->GetCommand(&type, &singleFile, &saveBinding);
-
-			if (itsIgnoreBindingsFlag && itsRunFileIndex == 1)
-			{
-				for (auto* f : *itsFileList)
-				{
-					f->SetCommand(cmd, type, singleFile);
-				}
-			}
-			else
-			{
-				JFSBinding* f = itsFileList->GetElement(itsRunFileIndex);
-				f->SetCommand(cmd, type, singleFile);
-			}
-
-			if (saveBinding)
-			{
-				JFSBinding* f = itsFileList->GetElement(itsRunFileIndex);
-				SaveBinding(f->GetPattern(), cmd, type, singleFile);
-			}
-
-			itsRunFileDialog = nullptr;
-			ProcessFiles();
-		}
-		else
-		{
-			jdelete itsFileList;
-			itsFileList      = nullptr;
-			itsRunFileDialog = nullptr;
-		}
-	}
-
-	else if (sender == itsRunScriptDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info = dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert(info != nullptr);
-		if (info->Successful())
-		{
-			JFSBinding::CommandType type;
-			const JString& cmd = itsRunScriptDialog->GetCommand(&type);
-			Exec(itsScriptPath, cmd, type);
-		}
-		itsRunScriptDialog = nullptr;
-	}
-
-	else if (sender == itsUpdateBindingListTask && message.Is(JXTimerTask::kTimerWentOff))
+	if (sender == itsUpdateBindingListTask && message.Is(JXTimerTask::kTimerWentOff))
 	{
 		if (itsEditDialog == nullptr && itsRunFileDialog == nullptr)
 		{
@@ -609,7 +560,7 @@ JXFSBindingManager::SaveBinding
 	const JString&					fileName,
 	const JString&					cmd,
 	const JFSBinding::CommandType	type,
-	const bool					singleFile
+	const bool						singleFile
 	)
 {
 	JString root, suffix;

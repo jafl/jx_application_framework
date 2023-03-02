@@ -9,9 +9,9 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JOutPipeStream.h"
-#include "jx-af/jcore/jStreamUtil.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JOutPipeStream.h"
+#include "jStreamUtil.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor
@@ -20,7 +20,7 @@
 
 JOutPipeStream::JOutPipeStream
 	(
-	const int		fd,
+	const int	fd,
 	const bool	close
 	)
 	:

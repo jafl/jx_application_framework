@@ -8,7 +8,7 @@
 #ifndef _H_JTEUndoPaste
 #define _H_JTEUndoPaste
 
-#include "jx-af/jcore/JSTUndoTextBase.h"
+#include "JSTUndoTextBase.h"
 
 class JSTUndoPaste : public JSTUndoTextBase
 {

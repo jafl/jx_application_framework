@@ -10,7 +10,7 @@
 #ifndef _H_JXFileListTable
 #define _H_JXFileListTable
 
-#include "jx-af/jx/JXTable.h"
+#include "JXTable.h"
 
 class JError;
 class JString;

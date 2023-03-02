@@ -55,9 +55,9 @@ CXXFLAGS  = -std=c++17
 
 # libraries to link
 
-J_GCC_LIBS  := -lpcre -licu-i18n -lpthread
-J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE
-J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lfontconfig -lXext -lXft -lXpm -lX11
+J_GCC_LIBS := -lpcre -licu-i18n -lpthread
+J_ACE_LIBS := -L${JX_ROOT}/lib -lACE
+J_X11_LIBS := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lfontconfig -lXext -lXft -lXpm -lX11
 
 # modify settings based on OS, compiler, etc.
 

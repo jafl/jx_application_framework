@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXStringCompletionMenu.h"
-#include "jx-af/jx/JXTEBase.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/jXConstants.h"
+#include "JXStringCompletionMenu.h"
+#include "JXTEBase.h"
+#include "JXFontManager.h"
+#include "jXConstants.h"
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jGlobals.h>

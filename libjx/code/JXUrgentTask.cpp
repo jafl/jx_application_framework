@@ -3,32 +3,37 @@
 
 	Urgent tasks are performed as soon as possible and then deleted.
 
-	BASE CLASS = none
+	BASE CLASS = virtual JBroadcaster
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2023 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXUrgentTask.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXUrgentTask.h"
+#include "jXGlobals.h"
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-JXUrgentTask::JXUrgentTask()
+JXUrgentTask::JXUrgentTask
+	(
+	JBroadcaster* target
+	)
+	:
+	itsTarget(target)
 {
+	ClearWhenGoingAway(itsTarget, &itsTarget);
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
 JXUrgentTask::~JXUrgentTask()
 {
-	JXGetApplication()->RemoveUrgentTask(this);
 }
 
 /******************************************************************************

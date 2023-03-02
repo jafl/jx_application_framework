@@ -8,34 +8,30 @@
 	is off by default since it merely annoys most users.  If the checkbox
 	is displayed, the dialog will broadcast the result when it is closed.
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2005 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXTipOfTheDayDialog.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXScrollbarSet.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXImageWidget.h"
-#include "jx-af/jx/JXFlatRect.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXTipOfTheDayDialog.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXScrollbarSet.h"
+#include "JXStaticText.h"
+#include "JXImageWidget.h"
+#include "JXFlatRect.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
+#include "JXFontManager.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jTextUtil.h>
 #include <jx-af/jcore/JKLRand.h>
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kDelimiter = "=====";
-
-// JBroadcaster message types
-
-const JUtf8Byte* JXTipOfTheDayDialog::kShowAtStartup = "ShowAtStartup::JXTipOfTheDayDialog";
 
 /******************************************************************************
  Constructor
@@ -48,7 +44,7 @@ JXTipOfTheDayDialog::JXTipOfTheDayDialog
 	const bool showAtStartup
 	)
 	:
-	JXDialogDirector(JXGetPersistentWindowOwner(), false)
+	JXModalDialogDirector()
 {
 	itsTipList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsTipList != nullptr );
@@ -67,6 +63,18 @@ JXTipOfTheDayDialog::JXTipOfTheDayDialog
 JXTipOfTheDayDialog::~JXTipOfTheDayDialog()
 {
 	jdelete itsTipList;
+}
+
+/******************************************************************************
+ ShowAtStartup
+
+ ******************************************************************************/
+
+bool
+JXTipOfTheDayDialog::ShowAtStartup()
+	const
+{
+	return itsShowAtStartupCB->IsChecked();
 }
 
 /******************************************************************************
@@ -128,8 +136,7 @@ JXTipOfTheDayDialog::BuildWindow
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::JXTipOfTheDayDialog"));
-	window->LockCurrentMinSize();
-	window->PlaceAsDialogWindow();
+	SetButtons(itsCloseButton, nullptr);
 
 	JXImage* wIcon;
 	const JError err = JXImage::CreateFromXPM(GetDisplay(), JXPM(jx_tip_of_the_day), &wIcon);
@@ -188,16 +195,12 @@ JXTipOfTheDayDialog::Receive
 
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
 	{
-		if (itsShowAtStartupCB->IsVisible())
-		{
-			Broadcast(ShowAtStartup(itsShowAtStartupCB->IsChecked()));
-		}
-		Close();
+		EndDialog(true);
 	}
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 

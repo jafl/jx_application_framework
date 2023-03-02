@@ -10,7 +10,7 @@
 #ifndef _H_JXColorWheel
 #define _H_JXColorWheel
 
-#include "jx-af/jx/JXWidget.h"
+#include "JXWidget.h"
 #include <jx-af/jcore/jColor.h>
 
 class JXSlider;

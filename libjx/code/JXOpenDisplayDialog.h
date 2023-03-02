@@ -8,13 +8,13 @@
 #ifndef _H_JXOpenDisplayDialog
 #define _H_JXOpenDisplayDialog
 
-#include "jx-af/jx/JXGetStringDialog.h"
+#include "JXGetStringDialog.h"
 
 class JXOpenDisplayDialog : public JXGetStringDialog
 {
 public:
 
-	JXOpenDisplayDialog(JXWindowDirector* supervisor);
+	JXOpenDisplayDialog();
 
 	~JXOpenDisplayDialog() override;
 

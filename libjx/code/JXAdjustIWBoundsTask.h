@@ -10,7 +10,7 @@
 #ifndef _H_JXAdjustIWBoundsTask
 #define _H_JXAdjustIWBoundsTask
 
-#include "jx-af/jx/JXUrgentTask.h"
+#include "JXUrgentTask.h"
 
 class JXImageWidget;
 
@@ -19,6 +19,8 @@ class JXAdjustIWBoundsTask : public JXUrgentTask
 public:
 
 	JXAdjustIWBoundsTask(JXImageWidget* widget);
+
+protected:
 
 	~JXAdjustIWBoundsTask() override;
 

@@ -8,7 +8,7 @@
 #ifndef _H_JXHintDirector
 #define _H_JXHintDirector
 
-#include "jx-af/jx/JXWindowDirector.h"
+#include "JXWindowDirector.h"
 #include <jx-af/jcore/JRect.h>
 
 class JXContainer;

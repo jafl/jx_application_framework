@@ -1,20 +1,20 @@
 /******************************************************************************
  JXUNDialogBase.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1998 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXUNDialogBase.h"
-#include "jx-af/jx/JXUserNotification.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXImageWidget.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXImageCache.h"
+#include "JXUNDialogBase.h"
+#include "JXUserNotification.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXImageWidget.h"
+#include "JXImage.h"
+#include "JXImageCache.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -22,12 +22,9 @@
 
  ******************************************************************************/
 
-JXUNDialogBase::JXUNDialogBase
-	(
-	JXDirector* supervisor
-	)
+JXUNDialogBase::JXUNDialogBase()
 	:
-	JXDialogDirector(supervisor, false)
+	JXModalDialogDirector()
 {
 }
 
@@ -110,8 +107,6 @@ JXUNDialogBase::Init
 	text->SetSizing(JXWidget::kFixedLeft, JXWidget::kVElastic);		// maintain width
 
 	window->AdjustSize(dw, dh);
-	window->LockCurrentSize();
-	window->PlaceAsDialogWindow();
 	window->HideFromTaskbar();
 
 	text->SetSizing(JXWidget::kHElastic, JXWidget::kFixedTop);		// allow ftc expansion

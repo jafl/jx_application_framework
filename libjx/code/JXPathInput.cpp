@@ -10,7 +10,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXPathInput.h"
+#include "JXPathInput.h"
+#include "JXChoosePathDialog.h"
+#include "JXWindow.h"
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jGlobals.h>
@@ -264,28 +266,21 @@ JXPathInput::GetTextForChoosePath()
 /******************************************************************************
  ChoosePath
 
-	Calls either ChooseRPath() or ChooseRWPath(), as appropriate based
-	on itsRequireWriteFlag.
-
-	instr can be nullptr, just like in JChooseSaveFile::Choose*Path().
-
  ******************************************************************************/
 
 bool
 JXPathInput::ChoosePath
 	(
-	const JString& prompt,
 	const JString& instr
 	)
 {
-	JString origPath = GetTextForChoosePath();
-	JString newPath;
-	if ((itsRequireWriteFlag &&
-		 JGetChooseSaveFile()->ChooseRWPath(prompt, instr, origPath, &newPath)) ||
-		(!itsRequireWriteFlag &&
-		 JGetChooseSaveFile()->ChooseRPath(prompt, instr, origPath, &newPath)))
+	auto* dlog =
+		JXChoosePathDialog::Create((JXChoosePathDialog::SelectPathType) itsRequireWriteFlag,
+								   GetTextForChoosePath(), JString::empty, instr);
+
+	if (dlog->DoDialog())
 	{
-		GetText()->SetText(newPath);
+		GetText()->SetText(dlog->GetPath());
 		return true;
 	}
 	else

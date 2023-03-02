@@ -8,8 +8,8 @@
 #ifndef _H_JXDocktab
 #define _H_JXDocktab
 
-#include "jx-af/jx/JXWidget.h"
-#include "jx-af/jx/JXDNDManager.h"
+#include "JXWidget.h"
+#include "JXDNDManager.h"
 #include <jx-af/jcore/JPartition.h>		// need defn of kDragRegionSize
 
 class JXTextMenu;

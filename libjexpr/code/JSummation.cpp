@@ -11,11 +11,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JSummation.h"
-#include "jx-af/jexpr/JNegation.h"
-#include "jx-af/jexpr/JExprRenderer.h"
-#include "jx-af/jexpr/JExprRectList.h"
-#include "jx-af/jexpr/jFunctionUtil.h"
+#include "JSummation.h"
+#include "JNegation.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
+#include "jFunctionUtil.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 

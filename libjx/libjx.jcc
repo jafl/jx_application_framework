@@ -132,9 +132,9 @@ T
 F
 "./code/JXWindowDirector.cpp"
 T
-2 "JXDialogDirector.cpp"
+2 "JXModalDialogDirector.cpp"
 F
-"./code/JXDialogDirector.cpp"
+"./code/JXModalDialogDirector.cpp"
 T
 2 "JXWDManager.cpp"
 F
@@ -635,10 +635,6 @@ T
 2 "JXUpdateMinSizeTask.cpp"
 F
 "./code/JXUpdateMinSizeTask.cpp"
-T
-2 "JXAskInitDockAll.cpp"
-F
-"./code/JXAskInitDockAll.cpp"
 F
 T
 1 "Tree"
@@ -666,9 +662,9 @@ T
 F
 "./code/JXToolBarButton.cpp"
 T
-2 "JXToolBarEditDir.cpp"
+2 "JXToolBarEditDialog.cpp"
 F
-"./code/JXToolBarEditDir.cpp"
+"./code/JXToolBarEditDialog.cpp"
 T
 2 "JXToolBarEditWidget.cpp"
 F
@@ -756,10 +752,6 @@ F
 F
 T
 1 "CSF"
-T
-2 "JXChooseSaveFile.cpp"
-F
-"./code/JXChooseSaveFile.cpp"
 T
 2 "JXCSFDialogBase.cpp"
 F
@@ -858,6 +850,10 @@ T
 2 "JXStandAlonePG.cpp"
 F
 "./code/JXStandAlonePG.cpp"
+T
+2 "JXProgressContinueWorkTask.cpp"
+F
+"./code/JXProgressContinueWorkTask.cpp"
 T
 2 "JXCreatePG.cpp"
 F
@@ -1023,13 +1019,13 @@ T
 F
 "./code/JXPSPrinter.cpp"
 T
-2 "JXPSPrintSetupDialog.cpp"
-F
-"./code/JXPSPrintSetupDialog.cpp"
-T
 2 "JXPSPageSetupDialog.cpp"
 F
 "./code/JXPSPageSetupDialog.cpp"
+T
+2 "JXPSPrintSetupDialog.cpp"
+F
+"./code/JXPSPrintSetupDialog.cpp"
 T
 2 "JXAdjustPrintSetupLayoutTask.cpp"
 F

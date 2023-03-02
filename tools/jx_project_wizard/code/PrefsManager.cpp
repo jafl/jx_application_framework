@@ -9,7 +9,6 @@
 
 #include "PrefsManager.h"
 #include "globals.h"
-#include <jx-af/jx/JXChooseSaveFile.h>
 #include <jx-af/jcore/jAssert.h>
 
 const JFileVersion kCurrentPrefsFileVersion = 0;
@@ -24,13 +23,9 @@ PrefsManager::PrefsManager
 	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, true)
+	JXPrefsManager(kCurrentPrefsFileVersion, true, kgCSFSetupID)
 {
 	*isNew = JPrefsManager::UpgradeData();
-
-	JXChooseSaveFile* csf = JXGetChooseSaveFile();
-	csf->SetPrefInfo(this, kgCSFSetupID);
-	csf->JPrefObject::ReadPrefs();
 }
 
 /******************************************************************************

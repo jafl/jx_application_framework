@@ -1,6 +1,5 @@
 0
 noButton::JXWarningDialog::JXLayout "No"
 yesButton::JXWarningDialog::shortcuts::JXLayout "#Y"
-text::JXWarningDialog::JXLayout ""
 yesButton::JXWarningDialog::JXLayout "Yes"
 noButton::JXWarningDialog::shortcuts::JXLayout "#N"

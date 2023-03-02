@@ -11,7 +11,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JSine.h"
+#include "JSine.h"
 #include <jx-af/jcore/jErrno.h>
 #include <jx-af/jcore/jAssert.h>
 

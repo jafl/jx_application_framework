@@ -8,7 +8,7 @@
 #ifndef _H_JXCheckModTimeTask
 #define _H_JXCheckModTimeTask
 
-#include "jx-af/jx/JXIdleTask.h"
+#include "JXIdleTask.h"
 #include <jx-af/jcore/JBroadcaster.h>
 #include <jx-af/jcore/JString.h>
 
@@ -23,7 +23,9 @@ public:
 	const JString&	GetFileName() const;
 	void			UpdateModTime();
 
-	void	Perform(const Time delta, Time* maxSleepTime) override;
+protected:
+
+	void	Perform(const Time delta) override;
 
 private:
 
@@ -35,14 +37,14 @@ public:
 	static const JUtf8Byte* kFileChanged;
 
 	class FileChanged: public JBroadcaster::Message
-		{
-		public:
-		
-			FileChanged()
-				:
-				JBroadcaster::Message(kFileChanged)
-				{ };
-		};
+	{
+	public:
+
+		FileChanged()
+			:
+			JBroadcaster::Message(kFileChanged)
+			{ };
+	};
 };
 
 

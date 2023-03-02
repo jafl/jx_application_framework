@@ -5,12 +5,12 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JDirInfo.h"
-#include "jx-af/jcore/JProgressDisplay.h"
-#include "jx-af/jcore/JStdError.h"
-#include "jx-af/jcore/jMountUtil.h"
+#include "JDirInfo.h"
+#include "JProgressDisplay.h"
+#include "JStdError.h"
+#include "jMountUtil.h"
 #include <dirent.h>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /*****************************************************************************
  CalledByBuildInfo (private)

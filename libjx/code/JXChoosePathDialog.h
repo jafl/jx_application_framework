@@ -10,25 +10,32 @@
 #ifndef _H_JXChoosePathDialog
 #define _H_JXChoosePathDialog
 
-#include "jx-af/jx/JXCSFDialogBase.h"
+#include "JXCSFDialogBase.h"
 
 class JXChoosePathDialog : public JXCSFDialogBase
 {
 public:
 
+	enum SelectPathType		// supports cast from bool
+	{
+		kAcceptReadable = 0,
+		kRequireWritable
+	};
+
+public:
+
 	static JXChoosePathDialog*
-		Create(JXDirector* supervisor, JDirInfo* dirInfo,
-			   const JString& fileFilter,
-			   const bool selectOnlyWritable,
+		Create(const SelectPathType type,
+			   const JString& startPath = JString::empty,
+			   const JString& fileFilter = JString::empty,
 			   const JString& message = JString::empty);
 
 	~JXChoosePathDialog() override;
 
 protected:
 
-	JXChoosePathDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-					   const JString& fileFilter,
-					   const bool selectOnlyWritable);
+	JXChoosePathDialog(const SelectPathType type,
+					   const JString& fileFilter);
 
 	void	SetObjects(JXScrollbarSet* scrollbarSet,
 					   JXStaticText* pathLabel, JXPathInput* pathInput,
@@ -40,7 +47,8 @@ protected:
 					   JXTextButton* upButton, JXTextButton* homeButton,
 					   JXTextButton* desktopButton,
 					   JXNewDirButton* newDirButton, JXTextCheckbox* showHiddenCB,
-					   JXCurrentPathMenu* currPathMenu, const JString& message);
+					   JXCurrentPathMenu* currPathMenu,
+					   const JString& startPath, const JString& message);
 
 	void	UpdateDisplay() override;	// must call inherited
 
@@ -49,7 +57,7 @@ protected:
 
 private:
 
-	const bool	itsSelectOnlyWritableFlag;
+	const SelectPathType	itsSelectPathType;
 
 	JXTextButton*	itsOpenButton;
 	JXTextButton*	itsSelectButton;
@@ -61,7 +69,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JString& message);
+	void	BuildWindow(const JString& startPath, const JString& message);
 };
 
 #endif

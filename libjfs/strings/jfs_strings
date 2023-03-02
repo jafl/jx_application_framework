@@ -39,11 +39,10 @@ HelpLink::JXFSRunCommandDialog		"https://libjx.sourceforge.net/help/jfs.html#Run
 
 # JXFSRunFileDialog
 
-WindowTitle::JXFSRunFileDialog		"Run command with file"
-RunWithFile::JXFSRunFileDialog		"Command to run for $name:"
-RunWithFiles::JXFSRunFileDialog		"Command to run on the selected file(s):"
-ChooseCmdPrompt::JXFSRunFileDialog	"Select program"
-HelpLink::JXFSRunFileDialog			"https://libjx.sourceforge.net/help/jfs.html#RunFile"
+WindowTitle::JXFSRunFileDialog	"Run command with file"
+RunWithFile::JXFSRunFileDialog	"Command to run for $name:"
+RunWithFiles::JXFSRunFileDialog	"Command to run on the selected file(s):"
+HelpLink::JXFSRunFileDialog		"https://libjx.sourceforge.net/help/jfs.html#RunFile"
 
 # JXFSRunScriptDialog
 

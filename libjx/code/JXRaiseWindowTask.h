@@ -8,16 +8,17 @@
 #ifndef _H_JXRaiseWindowTask
 #define _H_JXRaiseWindowTask
 
-#include "jx-af/jx/JXUrgentTask.h"
-#include <jx-af/jcore/JBroadcaster.h>
+#include "JXUrgentTask.h"
 
 class JXWindow;
 
-class JXRaiseWindowTask : public JXUrgentTask, virtual public JBroadcaster
+class JXRaiseWindowTask : public JXUrgentTask
 {
 public:
 
 	JXRaiseWindowTask(JXWindow* window);
+
+protected:
 
 	~JXRaiseWindowTask() override;
 

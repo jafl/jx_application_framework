@@ -9,13 +9,13 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXTextMenuTable.h"
-#include "jx-af/jx/JXTextMenuData.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/jXPainterUtil.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXDisplay.h"
+#include "JXTextMenuTable.h"
+#include "JXTextMenuData.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
+#include "JXDisplay.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -147,8 +147,8 @@ JXTextMenuTable::TableDrawCell
 		auto* xp = dynamic_cast<JXWindowPainter*>(&p);
 		assert( xp != nullptr );
 		xp->String(rect.left, rect.top, text, ulIndex,
-				   rect.width(), JPainter::kHAlignLeft,
-				   rect.height(), JPainter::kVAlignCenter);
+				   rect.width(), JPainter::HAlign::kLeft,
+				   rect.height(), JPainter::VAlign::kCenter);
 	}
 
 	else if (cell.x == kSubmenuColumnIndex && itsTextMenuData->HasSubmenu(cell.y))
@@ -170,10 +170,10 @@ JXTextMenuTable::TableDrawCell
 			rect.left  += kHNMSMarginWidth;
 			rect.right -= kHilightBorderWidth;
 
-			JPainter::HAlignment hAlign = JPainter::kHAlignLeft;
+			JPainter::HAlign hAlign = JPainter::HAlign::kLeft;
 			if (GetDisplay()->IsMacOS())
 			{
-				hAlign = JPainter::kHAlignRight;
+				hAlign = JPainter::HAlign::kRight;
 
 				rect.right -= font.GetCharWidth(GetFontManager(), JUtf8Character('W'));
 				rect.right += font.GetCharWidth(GetFontManager(), nmShortcut->GetLastCharacter());
@@ -185,7 +185,7 @@ JXTextMenuTable::TableDrawCell
 			}
 
 			p.SetFont(font);
-			p.String(rect, *nmShortcut, hAlign, JPainter::kVAlignCenter);
+			p.String(rect, *nmShortcut, hAlign, JPainter::VAlign::kCenter);
 		}
 	}
 }

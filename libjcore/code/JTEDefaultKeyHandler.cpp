@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JTEDefaultKeyHandler.h"
-#include "jx-af/jcore/jASCIIConstants.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JTEDefaultKeyHandler.h"
+#include "jASCIIConstants.h"
+#include "jAssert.h"
 
 using TextIndex     = JStyledText::TextIndex;
 using TextCount     = JStyledText::TextCount;

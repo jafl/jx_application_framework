@@ -10,8 +10,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXFloatTable.h"
-#include "jx-af/jx/JXFloatInput.h"
+#include "JXFloatTable.h"
+#include "JXFloatInput.h"
 #include <jx-af/jcore/JFloatTableData.h>
 #include <jx-af/jcore/JFloatBufferTableData.h>
 #include <jx-af/jcore/JPainter.h>
@@ -88,7 +88,7 @@ JXFloatTable::TableDrawCell
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
-		p.String(r, str, JPainter::kHAlignRight, JPainter::kVAlignCenter);
+		p.String(r, str, JPainter::HAlign::kRight, JPainter::VAlign::kCenter);
 	}
 }
 

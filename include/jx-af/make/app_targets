@@ -23,26 +23,13 @@ ifndef SIGNATURE
 endif
 
 .PHONY : default
-default: libs pre_build all post_link
+default: libs all post_link
 
 ${BIN_NAME}:: strings
 	@true # without this, compile_jstrings doesn't link
 
-.PHONY : pre_build
-pre_build::
-  ifdef J_MACOS_ENABLE_CORE
-	${RM} ${BIN_NAME};
-  endif
-
 .PHONY : post_link
 post_link::
-  ifdef J_MACOS_ENABLE_CORE
-	@if [[ -x /usr/libexec/PlistBuddy ]]; then \
-        /usr/libexec/PlistBuddy -c "Add :com.apple.security.get-task-allow bool true" tmp.entitlements > /dev/null; \
-        codesign -s - -f --entitlements tmp.entitlements ${BIN_NAME}; \
-        rm -f tmp.entitlements; \
-    fi
-  endif
 
 .PHONY : Makefiles
 Makefiles::
@@ -88,6 +75,18 @@ check_version:
 	@curl https://${FORGE_NAME}.sourceforge.net/VERSION; echo
 
 #
+# Core dumps on macOS
+#
+
+.PHONY : macos_sign_for_core
+macos_sign_for_core:
+	@if [[ -x /usr/libexec/PlistBuddy ]]; then \
+         /usr/libexec/PlistBuddy -c "Add :com.apple.security.get-task-allow bool true" tmp.entitlements > /dev/null; \
+         codesign -s - -f --entitlements tmp.entitlements ${BIN_NAME}; \
+         rm -f tmp.entitlements; \
+     fi
+
+#
 # Libraries
 #
 
@@ -111,10 +110,8 @@ libs::
 EXE_NAME := $(call EXE,${BIN_NAME})
 
 .PHONY : install
-install:: pre_build all post_link
-  ifndef J_MACOS_ENABLE_CORE
+install:: default
 	@${J_STRIP_DEBUG} ${EXE_NAME}
-  endif
 	@mkdir -p ${JX_INSTALL_BIN}
 	@cp ${EXE_NAME} ${JX_INSTALL_BIN}
 

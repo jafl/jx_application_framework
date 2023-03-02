@@ -8,8 +8,8 @@
 #ifndef _H_JXImageMenu
 #define _H_JXImageMenu
 
-#include "jx-af/jx/JXMenu.h"
-#include "jx-af/jx/JXImageMenuData.h"	// need defn of ItemType
+#include "JXMenu.h"
+#include "JXImageMenuData.h"	// need defn of ItemType
 #include "jx-af/jcore/JXPM.h"
 
 class JXImage;

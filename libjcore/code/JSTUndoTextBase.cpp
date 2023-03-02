@@ -10,9 +10,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JSTUndoTextBase.h"
-#include "jx-af/jcore/JSTUndoPaste.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JSTUndoTextBase.h"
+#include "JSTUndoPaste.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor
@@ -58,7 +58,7 @@ JSTUndoTextBase::~JSTUndoTextBase()
 void
 JSTUndoTextBase::UndoText
 	(
-	const JStyledText::TextRange& range
+	const JStyledText::TextRange range	// copy, because we will be deleted half way through, and it probably comes from an instance variable
 	)
 {
 	JStyledText* text = GetText();

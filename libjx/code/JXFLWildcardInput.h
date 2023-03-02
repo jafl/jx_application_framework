@@ -10,7 +10,7 @@
 #ifndef _H_JXFLWildcardInput
 #define _H_JXFLWildcardInput
 
-#include "jx-af/jx/JXFLInputBase.h"
+#include "JXFLInputBase.h"
 
 class JXFLWildcardInput : public JXFLInputBase
 {

@@ -12,9 +12,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JFunctionWithArgs.h"
-#include "jx-af/jexpr/JExprRenderer.h"
-#include "jx-af/jexpr/JExprRectList.h"
+#include "JFunctionWithArgs.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 

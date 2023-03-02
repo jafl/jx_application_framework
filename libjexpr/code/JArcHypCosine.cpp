@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JArcHypCosine.h"
+#include "JArcHypCosine.h"
 #include <jx-af/jcore/jErrno.h>
 #include <jx-af/jcore/jAssert.h>
 

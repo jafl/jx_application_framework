@@ -11,8 +11,8 @@
 #ifndef _H_JPolygon
 #define _H_JPolygon
 
-#include "jx-af/jcore/JArray.h"
-#include "jx-af/jcore/JPoint.h"
+#include "JArray.h"
+#include "JPoint.h"
 
 using JPolygon = JArray<JPoint>;
 

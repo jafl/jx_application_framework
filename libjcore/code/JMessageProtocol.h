@@ -8,10 +8,10 @@
 #ifndef _H_JMessageProtocol
 #define _H_JMessageProtocol
 
-#include "jx-af/jcore/JNetworkProtocolBase.h"
-#include "jx-af/jcore/JPtrArray-JString.h"
-#include "jx-af/jcore/JUtf8ByteBuffer.h"
-#include "jx-af/jcore/JRegex.h"
+#include "JNetworkProtocolBase.h"
+#include "JPtrArray-JString.h"
+#include "JUtf8ByteBuffer.h"
+#include "JRegex.h"
 
 class JMessageProtocolT
 {
@@ -138,9 +138,9 @@ private:
 	JRegex		itsTokenPattern;			// separator or disconnect
 
 	bool	itsWantsBlankMessagesFlag;
-	bool	itsSentDisconnectFlag;		// true => we are finished
-	bool	itsReceivedDisconnectFlag;	// true => other end is finished
-	bool	itsInHandleInputFlag;		// true => stack passes through handle_input()
+	bool	itsSentDisconnectFlag;			// true => we are finished
+	bool	itsReceivedDisconnectFlag;		// true => other end is finished
+	bool*	itsCancelTaskFlag;				// non-null => handle_input() is in progress
 
 private:
 

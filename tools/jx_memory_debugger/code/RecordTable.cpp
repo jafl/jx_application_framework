@@ -15,7 +15,6 @@
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXStaticText.h>
-#include <jx-af/jx/JXDeleteObjectTask.h>
 #include <jx-af/jcore/JPainter.h>
 #include <jx-af/jcore/JPagePrinter.h>
 #include <jx-af/jcore/JTableSelection.h>
@@ -166,7 +165,7 @@ RecordTable::TableDrawCell
 	const Record& record = *(itsRecordList->GetRecord(cell.y));
 
 	JString str;
-	JPainter::HAlignment halign = JPainter::kHAlignLeft;
+	JPainter::HAlign halign = JPainter::HAlign::kLeft;
 	if (cell.x == RecordList::kRecordState)
 	{
 		DrawRecordState(record, p, rect);
@@ -175,27 +174,27 @@ RecordTable::TableDrawCell
 	else if (cell.x == RecordList::kRecordFile)
 	{
 		str    = record.GetNewFile();
-		halign = JPainter::kHAlignLeft;
+		halign = JPainter::HAlign::kLeft;
 	}
 	else if (cell.x == RecordList::kRecordLine)
 	{
 		str	   = JString((JUInt64) record.GetNewLine());
-		halign = JPainter::kHAlignRight;
+		halign = JPainter::HAlign::kRight;
 	}
 	else if (cell.x == RecordList::kRecordSize)
 	{
 		str    = JString((JUInt64) record.GetSize());
-		halign = JPainter::kHAlignRight;
+		halign = JPainter::HAlign::kRight;
 	}
 	else if (cell.x == RecordList::kRecordArray)
 	{
 		str    = record.IsArrayNew() ? "[]" : "";
-		halign = JPainter::kHAlignCenter;
+		halign = JPainter::HAlign::kCenter;
 	}
 	else if (cell.x == RecordList::kRecordData)
 	{
 		str    = record.GetData();
-		halign = JPainter::kHAlignLeft;
+		halign = JPainter::HAlign::kLeft;
 
 		const JCoordinate w  = p.GetStringWidth(str) + 2*kHMarginWidth;
 		const JCoordinate dw = rect.left - GetColLeft(RecordList::kRecordData);
@@ -207,7 +206,7 @@ RecordTable::TableDrawCell
 
 	JRect r = rect;
 	r.Shrink(kHMarginWidth, 0);
-	p.JPainter::String(r, str, halign, JPainter::kVAlignCenter);
+	p.JPainter::String(r, str, halign, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************
@@ -555,7 +554,7 @@ RecordTable::DrawPrintHeader
 	p.String(pageRect.left, pageRect.top, GetWindow()->GetTitle());
 	const JString dateStr = JGetTimeStamp();
 	p.String(pageRect.left, pageRect.top, dateStr,
-			 pageRect.width(), JPainter::kHAlignRight);
+			 pageRect.width(), JPainter::HAlign::kRight);
 }
 
 void
@@ -568,6 +567,6 @@ RecordTable::DrawPrintFooter
 	JRect pageRect = p.GetPageRect();
 	const JString pageNumberStr = "Page " + JString((JUInt64) p.GetPageIndex());
 	p.String(pageRect.left, pageRect.bottom - footerHeight, pageNumberStr,
-			 pageRect.width(), JPainter::kHAlignCenter,
-			 footerHeight, JPainter::kVAlignBottom);
+			 pageRect.width(), JPainter::HAlign::kCenter,
+			 footerHeight, JPainter::VAlign::kBottom);
 }

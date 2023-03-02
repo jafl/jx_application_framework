@@ -13,10 +13,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JCollection.h"
-#include "jx-af/jcore/JString.h"
+#include "JCollection.h"
+#include "JString.h"
 #include <sstream>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

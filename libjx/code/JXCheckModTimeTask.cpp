@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXCheckModTimeTask.h"
+#include "JXCheckModTimeTask.h"
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -42,27 +42,23 @@ JXCheckModTimeTask::~JXCheckModTimeTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXCheckModTimeTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	if (TimeToPerform(delta, maxSleepTime))
+	time_t t;
+	if (JGetModificationTime(itsFullName, &t) == kJNoError &&
+		t != itsModTime)
 	{
-		time_t t;
-		if (JGetModificationTime(itsFullName, &t) == kJNoError &&
-			t != itsModTime)
-		{
-			Broadcast(FileChanged());
-		}
-		itsModTime = t;		// set to zero if file doesn't exist, so bcast when created
+		Broadcast(FileChanged());
 	}
+	itsModTime = t;		// set to zero if file doesn't exist, so bcast when created
 }
 
 /******************************************************************************

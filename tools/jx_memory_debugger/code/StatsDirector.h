@@ -23,7 +23,6 @@ class JXTimerTask;
 class JXPGMessageDirector;
 class LinkAcceptor;
 class SizeHistogram;
-class FilterRecordsDialog;
 
 class StatsDirector : public JXWindowDirector, public JPrefObject
 {
@@ -57,7 +56,6 @@ private:
 	JString						itsExitStatsFile;
 
 	SizeHistogram*			itsAllocatedHisto;
-	FilterRecordsDialog*	itsRequestRecordsDialog;
 
 // begin JXLayout
 

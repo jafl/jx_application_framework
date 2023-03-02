@@ -59,9 +59,6 @@ TestPartitionDirector::TestPartitionDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	itsSetElasticDialog = nullptr;
-	itsSetElasticType   = kHorizElastic;
-
 	BuildWindow();
 }
 
@@ -293,25 +290,6 @@ TestPartitionDirector::Receive
 		HandleVertMenu(selection->GetIndex());
 	}
 
-	else if (sender == itsSetElasticDialog &&
-			 message.Is(JXDialogDirector::kDeactivated))
-	{
-		const JXDialogDirector::Deactivated* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		const bool ok = info->Successful();
-		const JIndex newElasticIndex = itsSetElasticDialog->GetElasticIndex();
-		if (ok && itsSetElasticType == kHorizElastic)
-		{
-			itsHorizPartition->SetElasticIndex(newElasticIndex);
-		}
-		else if (ok && itsSetElasticType == kVertElastic)
-		{
-			itsVertPartition->SetElasticIndex(newElasticIndex);
-		}
-		itsSetElasticDialog = nullptr;
-	}
-
 	else
 	{
 		JXWindowDirector::Receive(sender, message);
@@ -349,18 +327,17 @@ TestPartitionDirector::HandleHorizMenu
 	}
 	else if (index == kSetHorizElasticIndexCmd)
 	{
-		assert( itsSetElasticDialog == nullptr );
-
 		JIndex elasticIndex;
 		itsHorizPartition->GetElasticIndex(&elasticIndex);
 		const JSize count = itsHorizPartition->GetCompartmentCount();
 
-		itsSetElasticDialog = jnew SetElasticDialog(this, elasticIndex, count);
-		assert( itsSetElasticDialog != nullptr );
-		ListenTo(itsSetElasticDialog);
-		itsSetElasticDialog->BeginDialog();
+		auto* dlog = jnew SetElasticDialog(elasticIndex, count);
+		assert( dlog != nullptr );
 
-		itsSetElasticType = kHorizElastic;
+		if (dlog->DoDialog())
+		{
+			itsHorizPartition->SetElasticIndex(dlog->GetElasticIndex());
+		}
 	}
 }
 
@@ -387,17 +364,16 @@ TestPartitionDirector::HandleVertMenu
 {
 	if (index == kSetVertElasticIndexCmd)
 	{
-		assert( itsSetElasticDialog == nullptr );
-
 		JIndex elasticIndex;
 		itsVertPartition->GetElasticIndex(&elasticIndex);
 		const JSize count = itsVertPartition->GetCompartmentCount();
 
-		itsSetElasticDialog = jnew SetElasticDialog(this, elasticIndex, count);
-		assert( itsSetElasticDialog != nullptr );
-		ListenTo(itsSetElasticDialog);
-		itsSetElasticDialog->BeginDialog();
+		auto* dlog = jnew SetElasticDialog(elasticIndex, count);
+		assert( dlog != nullptr );
 
-		itsSetElasticType = kVertElastic;
+		if (dlog->DoDialog())
+		{
+			itsVertPartition->SetElasticIndex(dlog->GetElasticIndex());
+		}
 	}
 }

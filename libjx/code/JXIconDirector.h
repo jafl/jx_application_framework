@@ -10,7 +10,7 @@
 #ifndef _H_JXIconDirector
 #define _H_JXIconDirector
 
-#include "jx-af/jx/JXWindowDirector.h"
+#include "JXWindowDirector.h"
 
 class JXImage;
 class JXWindowIcon;

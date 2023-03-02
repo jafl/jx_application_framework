@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXDNDChooseDropActionDialog.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXDNDChooseDropActionDialog.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -25,8 +25,7 @@ JXDNDChooseDropActionDialog::JXDNDChooseDropActionDialog
 	const Atom					defaultAction
 	)
 	:
-	JXRadioGroupDialog(JXGetApplication(),
-					   JGetString("WindowTitle::JXDNDChooseDropActionDialog"),
+	JXRadioGroupDialog(JGetString("WindowTitle::JXDNDChooseDropActionDialog"),
 					   JGetString("Prompt::JXDNDChooseDropActionDialog"),
 					   descriptionList),
 	itsActionList(actionList)

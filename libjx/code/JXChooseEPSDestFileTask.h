@@ -8,16 +8,17 @@
 #ifndef _H_JXChooseEPSDestFileTask
 #define _H_JXChooseEPSDestFileTask
 
-#include "jx-af/jx/JXUrgentTask.h"
-#include <jx-af/jcore/JBroadcaster.h>
+#include "JXUrgentTask.h"
 
 class JXEPSPrintSetupDialog;
 
-class JXChooseEPSDestFileTask : public JXUrgentTask, virtual public JBroadcaster
+class JXChooseEPSDestFileTask : public JXUrgentTask
 {
 public:
 
 	JXChooseEPSDestFileTask(JXEPSPrintSetupDialog* director);
+
+protected:
 
 	~JXChooseEPSDestFileTask() override;
 

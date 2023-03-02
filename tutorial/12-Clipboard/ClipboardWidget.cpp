@@ -156,8 +156,8 @@ ClipboardWidget::Draw
 
 	// This draws itsText.
 	p.JPainter::String(20,20,itsText,
-					   130, JPainter::kHAlignCenter,
-					   30, JPainter::kVAlignCenter);
+					   130, JPainter::HAlign::kCenter,
+					   30, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

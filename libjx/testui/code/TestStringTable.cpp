@@ -475,7 +475,7 @@ TestStringTable::HandleTableMenu
 		// SetCol() would be the fastest in this case.  But it's a good stress test.
 
 		JProgressDisplay* pg = JNewPG();
-		pg->FixedLengthProcessBeginning(40, JGetString("Progress::TestStringTable"), true, false);
+		pg->FixedLengthProcessBeginning(40, JGetString("Progress::TestStringTable"), true, true);
 
 		JStringTableData* data   = GetStringData();
 		const JSize origRowCount = GetRowCount();
@@ -600,7 +600,7 @@ TestStringTable::DrawPrintHeader
 	p.String(pageRect.left, pageRect.top, JGetString("PageHeader::TestStringTable"));
 	const JString dateStr = JGetTimeStamp();
 	p.String(pageRect.left, pageRect.top, dateStr,
-			 pageRect.width(), JPainter::kHAlignRight);
+			 pageRect.width(), JPainter::HAlign::kRight);
 }
 
 void
@@ -619,6 +619,6 @@ TestStringTable::DrawPrintFooter
 	};
 	p.String(pageRect.left, pageRect.bottom - footerHeight,
 			 JGetString("PageFooter::TestStringTable", map, sizeof(map)),
-			 pageRect.width(), JPainter::kHAlignCenter,
-			 footerHeight, JPainter::kVAlignBottom);
+			 pageRect.width(), JPainter::HAlign::kCenter,
+			 footerHeight, JPainter::VAlign::kBottom);
 }

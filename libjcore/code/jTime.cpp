@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jTime.h"
-#include "jx-af/jcore/jMath.h"
+#include "jTime.h"
+#include "jMath.h"
 #include <unistd.h>
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JGetTimeStamp

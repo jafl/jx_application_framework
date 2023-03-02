@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JPhaseAngle.h"
+#include "JPhaseAngle.h"
 #include <jx-af/jcore/jErrno.h>
 #include <jx-af/jcore/jAssert.h>
 

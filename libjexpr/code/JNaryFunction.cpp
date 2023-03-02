@@ -11,7 +11,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JNaryFunction.h"
+#include "JNaryFunction.h"
 #include <jx-af/jcore/jAssert.h>
 
 const JSize kMaxReasonableArgCount = 10;

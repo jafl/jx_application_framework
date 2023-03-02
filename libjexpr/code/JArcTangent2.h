@@ -10,7 +10,7 @@
 #ifndef _H_JArcTangent2
 #define _H_JArcTangent2
 
-#include "jx-af/jexpr/JBinaryFunction.h"
+#include "JBinaryFunction.h"
 
 class JArcTangent2 : public JBinaryFunction
 {

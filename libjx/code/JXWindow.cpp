@@ -10,27 +10,27 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXWindowDirector.h"
-#include "jx-af/jx/JXMenuManager.h"
-#include "jx-af/jx/JXDNDManager.h"
-#include "jx-af/jx/JXHintManager.h"
-#include "jx-af/jx/JXRaiseWindowTask.h"
-#include "jx-af/jx/JXExpandWindowToFitContentTask.h"
-#include "jx-af/jx/JXTextMenu.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXGC.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/JXIconDirector.h"
-#include "jx-af/jx/JXWindowIcon.h"
-#include "jx-af/jx/JXImageMask.h"
-#include "jx-af/jx/JXDockManager.h"
-#include "jx-af/jx/JXDockDirector.h"
-#include "jx-af/jx/JXDockWidget.h"
-#include "jx-af/jx/JXDockWindowTask.h"
-#include "jx-af/jx/jXUtil.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXWindow.h"
+#include "JXWindowDirector.h"
+#include "JXMenuManager.h"
+#include "JXDNDManager.h"
+#include "JXHintManager.h"
+#include "JXRaiseWindowTask.h"
+#include "JXExpandWindowToFitContentTask.h"
+#include "JXTextMenu.h"
+#include "JXDisplay.h"
+#include "JXGC.h"
+#include "JXColorManager.h"
+#include "JXWindowPainter.h"
+#include "JXIconDirector.h"
+#include "JXWindowIcon.h"
+#include "JXImageMask.h"
+#include "JXDockManager.h"
+#include "JXDockDirector.h"
+#include "JXDockWidget.h"
+#include "JXDockWindowTask.h"
+#include "jXUtil.h"
+#include "jXGlobals.h"
 
 #include <X11/Xatom.h>
 
@@ -92,7 +92,7 @@ JXWindow::JXWindow
 	const JCoordinate	w,
 	const JCoordinate	h,
 	const JString&		title,
-	const bool		isOverlay
+	const bool			isOverlay
 	)
 	:
 	JXContainer(JXGetApplication()->GetCurrentDisplay(), this, nullptr),
@@ -122,7 +122,6 @@ JXWindow::JXWindow
 	itsIsDraggingFlag(false),
 	itsProcessDragFlag(false),
 	itsCursorLeftFlag(false),
-	itsCleanAfterBlockFlag(false),
 	itsButtonPressReceiver(this),
 	itsPointerGrabbedFlag(false),
 	itsBPRChangedFlag(false),
@@ -1309,7 +1308,7 @@ JXWindow::WaitForWM
 	const time_t start = time(nullptr);
 	while (XPending(*d) > 0)
 	{
-		JXGetApplication()->HandleOneEventForWindow(w);
+		JXGetApplication()->HandleOneEvent();
 		if (time(nullptr) - start > 2)	// sometimes we get events for other windows
 		{
 			break;
@@ -1341,7 +1340,7 @@ JXWindow::AnalyzeWindowManager
 	// init wm virtual desktop style
 	// Modern window managers map/unmap windows when switching desktops.
 	// This completely destroys the usefulness of itsFocusWhenShowFlag.
-{
+	{
 	Atom actualType;
 	int actualFormat;
 	unsigned long itemCount, remainingBytes;
@@ -1355,14 +1354,13 @@ JXWindow::AnalyzeWindowManager
 		actualType == XA_CARDINAL && actualFormat == 32 && itemCount > 0;
 
 	XFree(xdata);
-}
+	}
 	d->SetWMBehavior(behavior);
 
 	// block off everything until we get some answers about window placement
 
 	JXApplication* app = JXGetApplication();
 	app->DisplayInactiveCursor();
-	app->PrepareForBlockingWindow();
 
 	// create a test window
 
@@ -1371,7 +1369,7 @@ JXWindow::AnalyzeWindowManager
 
 	auto* w = jnew JXWindow(dir, 100, 100, JString("Testing Window Manager", JString::kNoCopy));
 	assert( w != nullptr );
-	jdelete w->itsExpandTask;
+	w->itsExpandTask->Cancel();
 	w->itsExpandTask = nullptr;
 
 	// test placing visible window (fvwm2)
@@ -1423,7 +1421,6 @@ JXWindow::AnalyzeWindowManager
 	// done
 
 	dir->Close();
-	app->BlockingWindowFinished();
 
 	theAnalyzeWMFlag = false;
 }
@@ -1707,7 +1704,7 @@ JXWindow::UndockedSetSize
 	(
 	const JCoordinate	origW,
 	const JCoordinate	origH,
-	const bool		ftc
+	const bool			ftc
 	)
 {
 	JCoordinate w = origW;
@@ -2983,21 +2980,6 @@ JXWindow::HandleButtonPress
 									 JXKeyModifiers(itsDisplay, state));
 	}
 
-	// If a blocking dialog window was popped up, then we will never get
-	// the ButtonRelease event because HandleOneEventForWindow() tossed it.
-
-	if (JXGetApplication()->HadBlockingWindow())
-	{
-		itsCleanAfterBlockFlag = true;
-		if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != nullptr)
-		{
-			EndDrag(itsMouseContainer, JPoint(xEvent.x, xEvent.y),
-					JXButtonStates(state), JXKeyModifiers(itsDisplay, state));
-		}
-		itsIsDraggingFlag      = false;
-		itsCleanAfterBlockFlag = false;
-	}
-
 	return true;
 }
 
@@ -3097,21 +3079,6 @@ JXWindow::HandleButtonRelease
 		{
 			SetMouseContainer(nullptr, JPoint(xEvent.x, xEvent.y), state);
 		}
-	}
-
-	// If a blocking dialog window was popped up, then we will never get
-	// other ButtonRelease events because HandleOneEventForWindow() tossed them.
-
-	else if (JXGetApplication()->HadBlockingWindow() && !itsCleanAfterBlockFlag)
-	{
-		itsCleanAfterBlockFlag = true;
-		if (itsIsDraggingFlag && itsProcessDragFlag && itsMouseContainer != nullptr)
-		{
-			EndDrag(itsMouseContainer, JPoint(xEvent.x, xEvent.y),
-					JXButtonStates(state), JXKeyModifiers(itsDisplay, state));
-		}
-		itsIsDraggingFlag      = false;
-		itsCleanAfterBlockFlag = false;
 	}
 
 	return true;

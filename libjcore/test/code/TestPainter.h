@@ -29,9 +29,9 @@ public:
 	void	String(const JFloat angle, const JCoordinate left,
 						   const JCoordinate top, const JString& str,
 						   const JCoordinate width = 0,
-						   const HAlignment hAlign = kHAlignLeft,
+						   const HAlign hAlign = HAlign::kLeft,
 						   const JCoordinate height = 0,
-						   const VAlignment vAlign = kVAlignTop) override;
+						   const VAlign vAlign = VAlign::kTop) override;
 
 	void	Point(const JCoordinate x, const JCoordinate y) override;
 

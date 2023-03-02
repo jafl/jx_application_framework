@@ -1,18 +1,18 @@
 /******************************************************************************
  JXEditWWWPrefsDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1998-2000 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXEditWWWPrefsDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXInputField.h"
-#include "jx-af/jx/JXFontManager.h"
+#include "JXEditWWWPrefsDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXInputField.h"
+#include "JXFontManager.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -23,14 +23,13 @@
 
 JXEditWWWPrefsDialog::JXEditWWWPrefsDialog
 	(
-	JXDirector*		supervisor,
 	const JString&	showURLCmd,
 	const JString&	showFileContentCmd,
 	const JString&	showFileLocationCmd,
 	const JString&	composeMailCmd
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow(showURLCmd, showFileContentCmd, showFileLocationCmd, composeMailCmd);
 }

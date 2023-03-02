@@ -19,13 +19,13 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXImageMask.h"
-#include "jx-af/jx/JXImagePainter.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXGC.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/jXUtil.h"
+#include "JXImage.h"
+#include "JXImageMask.h"
+#include "JXImagePainter.h"
+#include "JXDisplay.h"
+#include "JXGC.h"
+#include "JXColorManager.h"
+#include "jXUtil.h"
 #include <jx-af/jcore/JStdError.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jFileUtil.h>

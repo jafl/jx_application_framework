@@ -11,7 +11,7 @@
 #define _H_JX2DPlotEPSPrinter
 
 #include <jx-af/jx/JXEPSPrinter.h>
-#include "jx-af/j2dplot/JX2DPlotPrintEPSDialog.h"		// need def of Unit
+#include "JX2DPlotPrintEPSDialog.h"		// need def of Unit
 
 class JX2DPlotEPSPrinter : public JXEPSPrinter
 {
@@ -25,6 +25,8 @@ public:
 
 	JRect	GetPlotBounds() const;
 	void	SetPlotBounds(const JRect& rect);
+	void	SetPlotSize(const JCoordinate w, const JCoordinate h,
+						const JX2DPlotPrintEPSDialog::Unit u);
 
 	// saving setup information
 
@@ -36,9 +38,6 @@ protected:
 	JXEPSPrintSetupDialog*
 		CreatePrintSetupDialog(const JString& fileName,
 							   const bool preview, const bool bw) override;
-
-	bool	EndUserPrintSetup(const JBroadcaster::Message& message,
-							  bool* changed) override;
 
 private:
 
@@ -89,6 +88,19 @@ JX2DPlotEPSPrinter::SetPlotBounds
 {
 	itsPlotWidth  = rect.width();
 	itsPlotHeight = rect.height();
+}
+
+inline void
+JX2DPlotEPSPrinter::SetPlotSize
+	(
+	const JCoordinate					w,
+	const JCoordinate					h,
+	const JX2DPlotPrintEPSDialog::Unit	u
+	)
+{
+	itsPlotWidth  = w;
+	itsPlotHeight = h;
+	itsUnit       = u;
 }
 
 #endif

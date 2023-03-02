@@ -7,14 +7,14 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jDirUtil.h"
-#include "jx-af/jcore/jFileUtil.h"
-#include "jx-af/jcore/JDirInfo.h"
-#include "jx-af/jcore/JLatentPG.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/jGlobals.h"
+#include "jDirUtil.h"
+#include "jFileUtil.h"
+#include "JDirInfo.h"
+#include "JLatentPG.h"
+#include "JStringIterator.h"
+#include "jGlobals.h"
 #include <limits.h>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JIsRelativePath
@@ -325,7 +325,7 @@ JSearchSubdirs
 		"name", name.GetBytes()
 	};
 	const JString msg = JGetString("Searching::jDirUtil", map, sizeof(map));
-	pg.VariableLengthProcessBeginning(msg, true, false);
+	pg.VariableLengthProcessBeginning(msg, true, true);
 
 	bool cancelled = false;
 	const bool found =

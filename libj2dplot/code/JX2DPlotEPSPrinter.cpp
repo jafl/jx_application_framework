@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/j2dplot/JX2DPlotEPSPrinter.h"
+#include "JX2DPlotEPSPrinter.h"
 #include <jx-af/jcore/JPSPrinter.h>
-#include "jx-af/j2dplot/J2DPlotWidget.h"
+#include "J2DPlotWidget.h"
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -110,57 +110,17 @@ JXEPSPrintSetupDialog*
 JX2DPlotEPSPrinter::CreatePrintSetupDialog
 	(
 	const JString&	fileName,
-	const bool	preview,
-	const bool	bw
+	const bool		preview,
+	const bool		bw
 	)
 {
-	assert( itsPlotSetupDialog == nullptr );
-
 	if (itsUsePlotSetupFlag)
 	{
-		itsPlotSetupDialog =
-			JX2DPlotPrintEPSDialog::Create(fileName, preview, bw,
-										   itsPlotWidth, itsPlotHeight, itsUnit);
-		return itsPlotSetupDialog;
+		return JX2DPlotPrintEPSDialog::Create(fileName, preview, bw,
+											  itsPlotWidth, itsPlotHeight, itsUnit);
 	}
 	else
 	{
 		return JXEPSPrinter::CreatePrintSetupDialog(fileName, preview, bw);
 	}
-}
-
-/******************************************************************************
- EndUserPrintSetup (virtual protected)
-
-	Returns true if caller should continue the printing process.
-	Derived classes can override this to extract extra information.
-
- ******************************************************************************/
-
-bool
-JX2DPlotEPSPrinter::EndUserPrintSetup
-	(
-	const JBroadcaster::Message&	message,
-	bool*						changed
-	)
-{
-	const bool ok = JXEPSPrinter::EndUserPrintSetup(message, changed);
-	if (itsPlotSetupDialog != nullptr)
-	{
-		JCoordinate w,h;
-		JX2DPlotPrintEPSDialog::Unit u;
-		itsPlotSetupDialog->GetPlotSize(&w, &h, &u);
-
-		*changed = *changed ||
-			w != itsPlotWidth  ||
-			h != itsPlotHeight ||
-			u != itsUnit;
-
-		itsPlotWidth  = w;
-		itsPlotHeight = h;
-		itsUnit       = u;
-	}
-
-	itsPlotSetupDialog = nullptr;
-	return ok;
 }

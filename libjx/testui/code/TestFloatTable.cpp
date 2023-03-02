@@ -316,7 +316,7 @@ TestFloatTable::DrawPrintHeader
 	p.String(pageRect.left, pageRect.top, JGetString("PageHeader::TestFloatTable"));
 	const JString dateStr = JGetTimeStamp();
 	p.String(pageRect.left, pageRect.top, dateStr,
-			 pageRect.width(), JPainter::kHAlignRight);
+			 pageRect.width(), JPainter::HAlign::kRight);
 }
 
 void
@@ -335,6 +335,6 @@ TestFloatTable::DrawPrintFooter
 	};
 	p.String(pageRect.left, pageRect.bottom - footerHeight,
 			 JGetString("PageFooter::TestFloatTable", map, sizeof(map)),
-			 pageRect.width(), JPainter::kHAlignCenter,
-			 footerHeight, JPainter::kVAlignBottom);
+			 pageRect.width(), JPainter::HAlign::kCenter,
+			 footerHeight, JPainter::VAlign::kBottom);
 }

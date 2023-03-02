@@ -10,8 +10,8 @@
 #ifndef _H_JNamedConstant
 #define _H_JNamedConstant
 
-#include "jx-af/jexpr/JFunction.h"
-#include "jx-af/jexpr/jFunctionUtil.h"
+#include "JFunction.h"
+#include "jFunctionUtil.h"
 
 class JNamedConstant : public JFunction
 {

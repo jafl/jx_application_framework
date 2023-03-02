@@ -10,7 +10,7 @@
 #ifndef _H_JExponent
 #define _H_JExponent
 
-#include "jx-af/jexpr/JBinaryOperator.h"
+#include "JBinaryOperator.h"
 
 class JExponent : public JBinaryOperator
 {

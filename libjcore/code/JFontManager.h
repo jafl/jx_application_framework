@@ -10,9 +10,9 @@
 #ifndef _H_JFontManager
 #define _H_JFontManager
 
-#include "jx-af/jcore/JPtrArray-JString.h"
-#include "jx-af/jcore/JStringMap.h"
-#include "jx-af/jcore/JFont.h"
+#include "JPtrArray-JString.h"
+#include "JStringMap.h"
+#include "JFont.h"
 
 class JFontManager
 {

@@ -10,7 +10,7 @@
 #ifndef _H_JXWindowDirector
 #define _H_JXWindowDirector
 
-#include "jx-af/jx/JXDirector.h"
+#include "JXDirector.h"
 
 class JString;
 class JXImage;
@@ -41,10 +41,6 @@ public:
 	virtual const JString&	GetName() const;
 	virtual bool			GetMenuIcon(const JXImage** icon) const;
 	virtual bool			NeedsSave() const;
-
-	// needed by JXDialogDirector until dynamic_cast works
-
-	bool	IsWindowDirector() const override;
 
 protected:
 

@@ -20,6 +20,8 @@
 #include <jx-af/jx/JXPSPrinter.h>
 #include <jx-af/jx/JXEPSPrinter.h>
 #include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXChooseFileDialog.h>
+#include <jx-af/jx/JXSaveFileDialog.h>
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
@@ -72,11 +74,9 @@ TestImageDirector::TestImageDirector
 
 	itsPSPrinter = jnew JXPSPrinter(display);
 	assert( itsPSPrinter != nullptr );
-	ListenTo(itsPSPrinter);
 
 	itsEPSPrinter = jnew JXEPSPrinter(display);
 	assert( itsEPSPrinter != nullptr );
-	ListenTo(itsEPSPrinter);
 }
 
 /******************************************************************************
@@ -153,30 +153,6 @@ TestImageDirector::Receive
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsPSPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			PrintPS();
-		}
-	}
-
-	else if (sender == itsEPSPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			PrintEPS();
-		}
 	}
 
 	else
@@ -263,16 +239,22 @@ TestImageDirector::HandleFileMenu
 
 	else if (index == kPageSetupCmd)
 	{
-		itsPSPrinter->BeginUserPageSetup();
+		itsPSPrinter->EditUserPageSetup();
 	}
 	else if (index == kPrintPSCmd)
 	{
-		itsPSPrinter->BeginUserPrintSetup();
+		if (itsPSPrinter->ConfirmUserPrintSetup())
+		{
+			PrintPS();
+		}
 	}
 
 	else if (index == kPrintEPSCmd)
 	{
-		itsEPSPrinter->BeginUserPrintSetup();
+		if (itsEPSPrinter->ConfirmUserPrintSetup())
+		{
+			PrintEPS();
+		}
 	}
 
 	else if (index == kCloseCmd)
@@ -292,15 +274,15 @@ TestImageDirector::HandleFileMenu
 void
 TestImageDirector::LoadImage()
 {
-	JString fullName;
-	if (JGetChooseSaveFile()->ChooseFile(JGetString("ChooseImagePrompt::TestImageDirector"), JString::empty, &fullName))
+	auto* dlog = JXChooseFileDialog::Create();
+
+	if (dlog->DoDialog())
 	{
 		itsImageWidget->SetImage(nullptr, true);	// free current colors
 
-		itsFileName = fullName;
+		itsFileName = dlog->GetFullName();
 
 		JXDisplay* display = GetDisplay();
-
 		JXImage* image;
 		JError err = JNoError();
 		if (JImage::GetFileType(itsFileName) == JImage::kXBMType)
@@ -373,11 +355,12 @@ TestImageDirector::SaveImage
 		name = JCombineRootAndSuffix(root, "xpm");
 	}
 
-	JString fullName;
-	if (JGetChooseSaveFile()->SaveFile(
-			JGetString("SaveImagePrompt::TestImageDirector"),
-			JString::empty, name, &fullName))
+	auto* dlog = JXSaveFileDialog::Create(JGetString("SaveImagePrompt::TestImageDirector"), name);
+
+	if (dlog->DoDialog())
 	{
+		const JString fullName = dlog->GetFullName();
+
 		JError err = JNoError();
 		if (type == JImage::kGIFType)
 		{
@@ -411,19 +394,20 @@ void
 TestImageDirector::SaveMask()
 	const
 {
-	const JString fileName = itsFileName + ".mask";
-
 	JXImage* image;
 	JXImageMask* mask;
-	JString fullName;
-	if (!itsFileName.IsEmpty() &&
-		itsImageWidget->GetImage(&image) &&
-		image->GetMask(&mask) &&
-		JGetChooseSaveFile()->SaveFile(
-			JGetString("SaveMaskPrompt::TestImageDirector"),
-			JString::empty, fileName, &fullName))
+	if (itsFileName.IsEmpty() ||
+		!itsImageWidget->GetImage(&image) ||
+		!image->GetMask(&mask))
 	{
-		const JError err = mask->WriteXBM(fullName);
+		return;
+	}
+
+	auto* dlog = JXSaveFileDialog::Create(JGetString("SaveMaskPrompt::TestImageDirector"), itsFileName + ".mask");
+
+	if (dlog->DoDialog())
+	{
+		const JError err = mask->WriteXBM(dlog->GetFullName());
 		JGetStringManager()->ReportError("UnableToSaveMask::TestImageDirector", err);
 	}
 }

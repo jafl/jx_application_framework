@@ -8,9 +8,9 @@
 #ifndef _H_JStyleTableData
 #define _H_JStyleTableData
 
-#include "jx-af/jcore/JAuxTableData.h"
-#include "jx-af/jcore/JFont.h"
-#include "jx-af/jcore/JString.h"
+#include "JAuxTableData.h"
+#include "JFont.h"
+#include "JString.h"
 
 class JFontManager;
 

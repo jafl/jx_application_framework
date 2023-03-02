@@ -10,7 +10,7 @@
 #ifndef _H_JUserInputFunction
 #define _H_JUserInputFunction
 
-#include "jx-af/jexpr/JFunction.h"
+#include "JFunction.h"
 #include <jx-af/jcore/JTextEditor.h>
 
 class JFontManager;

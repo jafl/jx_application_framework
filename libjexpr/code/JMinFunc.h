@@ -10,7 +10,7 @@
 #ifndef _H_JMinFunc
 #define _H_JMinFunc
 
-#include "jx-af/jexpr/JNaryFunction.h"
+#include "JNaryFunction.h"
 
 class JMinFunc : public JNaryFunction
 {

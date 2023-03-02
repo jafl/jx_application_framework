@@ -8,7 +8,7 @@
 #ifndef _H_JXSpellCheckerDialog
 #define _H_JXSpellCheckerDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 #include <jx-af/jcore/JStyledText.h>
 
 class JXTextButton;
@@ -18,7 +18,7 @@ class JXInputField;
 class JXSpellChecker;
 class JXSpellList;
 
-class JXSpellCheckerDialog : public JXDialogDirector
+class JXSpellCheckerDialog : public JXWindowDirector
 {
 public:
 

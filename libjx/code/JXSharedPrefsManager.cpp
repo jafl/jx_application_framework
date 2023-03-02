@@ -24,13 +24,13 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXSharedPrefsManager.h"
-#include "jx-af/jx/JXSharedPrefObject.h"
+#include "JXSharedPrefsManager.h"
+#include "JXSharedPrefObject.h"
 #include <jx-af/jcore/JPrefsFile.h>
-#include "jx-af/jx/JXSaveFileInput.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTimerTask.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXSaveFileInput.h"
+#include "JXWindow.h"
+#include "JXTimerTask.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jFileUtil.h>
 #include <sstream>

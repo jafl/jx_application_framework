@@ -18,12 +18,12 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JNetworkProtocolBase.h"
-#include "jx-af/jcore/JString.h"
+#include "JNetworkProtocolBase.h"
+#include "JString.h"
 #include <sys/types.h>
 #include <sys/socket.h>
-#include "jx-af/jcore/jErrno.h"
-#include "jx-af/jcore/jAssert.h"
+#include "jErrno.h"
+#include "jAssert.h"
 
 #ifdef IP_MAXPACKET
 const JSize kDefaultBlockSize = IP_MAXPACKET;	// bytes
@@ -111,13 +111,13 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
 {
 	if (itsSynchFlag)
 	{
-		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(data, count);
+		ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().send_n(data, count);
 	}
 	else if (count > 0)
 	{
 		if (itsSendData.IsEmpty())
 		{
-			(ACE_Event_Handler::reactor())->register_handler(this, ACE_Event_Handler::WRITE_MASK);
+			ACE_Event_Handler::reactor()->register_handler(this, ACE_Event_Handler::WRITE_MASK);
 		}
 
 		itsSendData.AppendElement(Chunk(data, count));
@@ -178,7 +178,7 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Flush()
 	Chunk c;
 	while (iter->Next(&c))
 	{
-		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(c.data + c.sendOffset, c.count - c.sendOffset);
+		ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().send_n(c.data + c.sendOffset, c.count - c.sendOffset);
 		c.CleanOut();
 		iter->RemovePrev();
 	}
@@ -204,7 +204,7 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::handle_output
 	{
 		Chunk c = itsSendData.GetFirstElement();
 
-		const int count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send(c.data + c.sendOffset, c.count - c.sendOffset, MSG_DONTWAIT);
+		const int count = ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().send(c.data + c.sendOffset, c.count - c.sendOffset, MSG_DONTWAIT);
 		if (count > 0)
 		{
 			c.sendOffset += count;
@@ -229,7 +229,7 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::handle_output
 
 		if (itsSendData.IsEmpty())
 		{
-			(ACE_Event_Handler::reactor())->remove_handler(this, ACE_Event_Handler::WRITE_MASK | ACE_Event_Handler::DONT_CALL);
+			ACE_Event_Handler::reactor()->remove_handler(this, ACE_Event_Handler::WRITE_MASK | ACE_Event_Handler::DONT_CALL);
 		}
 	}
 

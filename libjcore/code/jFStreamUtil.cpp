@@ -7,12 +7,12 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jFStreamUtil.h"
-#include "jx-af/jcore/jStreamUtil.h"
-#include "jx-af/jcore/jFileUtil.h"
-#include "jx-af/jcore/JString.h"
+#include "jFStreamUtil.h"
+#include "jStreamUtil.h"
+#include "jFileUtil.h"
+#include "JString.h"
 #include <stdio.h>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JReadFile

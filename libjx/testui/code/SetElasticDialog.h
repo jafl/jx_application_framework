@@ -10,16 +10,15 @@
 #ifndef _H_SetElasticDialog
 #define _H_SetElasticDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXIntegerInput;
 
-class SetElasticDialog : public JXDialogDirector
+class SetElasticDialog : public JXModalDialogDirector
 {
 public:
 
-	SetElasticDialog(JXWindowDirector* supervisor,
-					 const JIndex index, const JIndex maxIndex);
+	SetElasticDialog(const JIndex index, const JIndex maxIndex);
 
 	~SetElasticDialog() override;
 

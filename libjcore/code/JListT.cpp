@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JList.h"
-#include "jx-af/jcore/JListUtil.h"
+#include "JList.h"
+#include "JListUtil.h"
 
 // JBroadcaster message types
 

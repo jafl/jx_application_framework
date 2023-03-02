@@ -150,10 +150,6 @@ F
 T
 1 "ChooseSaveFile"
 T
-2 "TestChooseSaveFile.cpp"
-F
-"./code/TestChooseSaveFile.cpp"
-T
 2 "TestSaveFileDialog.cpp"
 F
 "./code/TestSaveFileDialog.cpp"
@@ -174,7 +170,7 @@ F
 "./code/WindowIconBitmaps.cpp"
 F
 T
-1 "Strings"
+1 "strings"
 T
 2 "strings"
 F

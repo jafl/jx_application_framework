@@ -10,7 +10,7 @@
 #ifndef _H_JXTextButton
 #define _H_JXTextButton
 
-#include "jx-af/jx/JXButton.h"
+#include "JXButton.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/JFont.h>
 

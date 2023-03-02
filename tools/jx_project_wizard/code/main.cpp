@@ -35,15 +35,20 @@ main
 	auto* app = jnew App(&argc, argv, &displayLicense);
 	assert( app != nullptr );
 
-	if (displayLicense &&
-		!JGetUserNotification()->AcceptLicense())
-	{
-		return 0;
-	}
-
 	auto* dlog = jnew MainDialog(app, argc, argv);
 	assert( dlog != nullptr );
 	dlog->Activate();
+
+	if (displayLicense)
+	{
+		JScheduleTask([]()
+		{
+			if (!JGetUserNotification()->AcceptLicense())
+			{
+				ForgetPrefsManager();
+			}
+		});
+	}
 
 	app->Run();
 	return 0;

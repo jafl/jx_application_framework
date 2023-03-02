@@ -10,10 +10,9 @@
 #ifndef _H_JXStyleMenu
 #define _H_JXStyleMenu
 
-#include "jx-af/jx/JXTextMenu.h"
+#include "JXTextMenu.h"
 
 class JXStyleMenuTable;
-class JXChooseColorDialog;
 
 class JXStyleMenu : public JXTextMenu
 {
@@ -65,10 +64,6 @@ private:
 
 	JColorID	itsColorIndex;
 	JColorID	itsColorList[ kColorCount ];
-
-	// used when selecting custom color
-
-	JXChooseColorDialog*	itsChooseColorDialog;	// can be nullptr
 
 private:
 

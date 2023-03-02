@@ -10,7 +10,7 @@
 #ifndef _H_JXMenuBar
 #define _H_JXMenuBar
 
-#include "jx-af/jx/JXWidget.h"
+#include "JXWidget.h"
 #include <jx-af/jcore/JPtrArray.h>
 
 const JSize	kJXDefaultMenuBarHeight = 30;

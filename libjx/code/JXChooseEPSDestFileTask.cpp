@@ -3,14 +3,14 @@
 
 	Requests destination file after fit-to-content.
 
-	BASE CLASS = JXUrgentTask, virtual JBroadcaster
+	BASE CLASS = JXUrgentTask
 
 	Copyright (C) 2017-2018 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXChooseEPSDestFileTask.h"
-#include "jx-af/jx/JXEPSPrintSetupDialog.h"
+#include "JXChooseEPSDestFileTask.h"
+#include "JXEPSPrintSetupDialog.h"
 
 /******************************************************************************
  Constructor
@@ -22,13 +22,13 @@ JXChooseEPSDestFileTask::JXChooseEPSDestFileTask
 	JXEPSPrintSetupDialog* director
 	)
 	:
+	JXUrgentTask(director),
 	itsDirector(director)
 {
-	ClearWhenGoingAway(itsDirector, &itsDirector);
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -37,15 +37,12 @@ JXChooseEPSDestFileTask::~JXChooseEPSDestFileTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXChooseEPSDestFileTask::Perform()
 {
-	if (itsDirector != nullptr)
-	{
-		itsDirector->ChooseDestinationFile();
-	}
+	itsDirector->ChooseDestinationFile();
 }

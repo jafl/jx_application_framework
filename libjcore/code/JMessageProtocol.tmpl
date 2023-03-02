@@ -21,10 +21,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JMessageProtocol.h"
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/JMinMax.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JMessageProtocol.h"
+#include "JStringMatch.h"
+#include "JMinMax.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor
@@ -81,7 +82,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 	itsWantsBlankMessagesFlag = false;
 	itsSentDisconnectFlag     = false;
 	itsReceivedDisconnectFlag = false;
-	itsInHandleInputFlag      = false;
+	itsCancelTaskFlag         = nullptr;
 }
 
 /******************************************************************************
@@ -96,6 +97,11 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 template <ACE_PEER_STREAM_1>
 JMessageProtocol<ACE_PEER_STREAM_2>::~JMessageProtocol()
 {
+	if (itsCancelTaskFlag != nullptr)
+	{
+		*itsCancelTaskFlag = true;		// deleted inside task
+	}
+
 	jdelete [] itsRecvBuffer;
 }
 
@@ -442,11 +448,10 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 {
 	// protect against recursive calls
 
-	if (itsInHandleInputFlag)
+	if (itsCancelTaskFlag != nullptr)
 	{
 		return 0;
 	}
-	itsInHandleInputFlag = true;
 
 	// We flush the system buffer even if we have received a disconnect.
 
@@ -454,7 +459,6 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 
 	if (itsReceivedDisconnectFlag || count <= 0)
 	{
-		itsInHandleInputFlag = false;
 		return 0;
 	}
 
@@ -474,28 +478,87 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 		list.DeleteElement(list.GetElementCount());
 	}
 
-	const JSize blockCount = list.GetElementCount();
-	for (JIndex i=1; i<=blockCount; i++)
+	if (!list.IsEmpty())
 	{
-		const JString* s = list.GetElement(i);
-		if (BytesEqual(*s, itsDisconnectStr))
+		auto* msgList = jnew JPtrArray<JBroadcaster::Message>(JPtrArrayT::kDeleteAll);
+		assert( msgList != nullptr );
+
+		for (const auto* s : list)
 		{
-			itsReceivedDisconnectFlag = true;
-			itsRecvData.Clear();
-			Broadcast(JMessageProtocolT::ReceivedDisconnect());
-			return 0;	// we might be deleted and itsInHandleInputFlag is now irrelevant
+			if (BytesEqual(*s, itsDisconnectStr))
+			{
+				auto* m = jnew JMessageProtocolT::ReceivedDisconnect();
+				assert( m != nullptr );
+				msgList->Append(m);
+				break;
+			}
+			else if (!BytesEqual(*s, itsSeparatorStr) &&
+					 (!s->IsEmpty() || itsWantsBlankMessagesFlag))
+			{
+				auto* msg = jnew JString(*s);
+				assert( msg != nullptr );
+				itsMessageList.Append(msg);
+
+				auto* m = jnew JMessageProtocolT::MessageReady(*msg);
+				assert( m != nullptr );
+				msgList->Append(m);
+			}
 		}
-		else if (!BytesEqual(*s, itsSeparatorStr) &&
-				 (!s->IsEmpty() || itsWantsBlankMessagesFlag))
+
+		if (!msgList->IsEmpty())
 		{
-			JString* msg = jnew JString(*s);
-			assert( msg != nullptr );
-			itsMessageList.Append(msg);
-			Broadcast(JMessageProtocolT::MessageReady(*msg));
+			itsCancelTaskFlag = jnew bool;
+			assert( itsCancelTaskFlag != nullptr );
+			*itsCancelTaskFlag = false;
+
+			bool* cancelFlag = itsCancelTaskFlag;
+
+			JScheduleTask([this, msgList, cancelFlag]()
+			{
+				if (*cancelFlag)
+				{
+					jdelete cancelFlag;
+					jdelete msgList;
+					return;
+				}
+
+				for (auto* msg : *msgList)
+				{
+					bool done = false;
+					if (msg->Is(JMessageProtocolT::kReceivedDisconnect))
+					{
+						itsReceivedDisconnectFlag = true;
+						itsRecvData.Clear();
+						done = true;
+					}
+
+					Broadcast(*msg);
+
+					if (*cancelFlag)
+					{
+						jdelete cancelFlag;
+						jdelete msgList;
+						return;
+					}
+					else if (done)
+					{
+						break;
+					}
+				}
+
+				// we are still alive
+
+				jdelete itsCancelTaskFlag;
+				itsCancelTaskFlag = nullptr;
+
+				jdelete msgList;
+			});
+			return 0;
 		}
+
+		jdelete msgList;
 	}
 
-	itsInHandleInputFlag = false;
 	return 0;
 }
 

@@ -12,16 +12,16 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JUserInputFunction.h"
-#include "jx-af/jexpr/JExprEditor.h"
-#include "jx-af/jexpr/JExprRectList.h"
-#include "jx-af/jexpr/JExprParser.h"
+#include "JUserInputFunction.h"
+#include "JExprEditor.h"
+#include "JExprRectList.h"
+#include "JExprParser.h"
 
-#include "jx-af/jexpr/JVariableList.h"
-#include "jx-af/jexpr/JFunctionWithVar.h"
-#include "jx-af/jexpr/JProduct.h"
-#include "jx-af/jexpr/JExponent.h"
-#include "jx-af/jexpr/JConstantValue.h"
+#include "JVariableList.h"
+#include "JFunctionWithVar.h"
+#include "JProduct.h"
+#include "JExponent.h"
+#include "JConstantValue.h"
 
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/JPainter.h>
@@ -323,6 +323,11 @@ JUserInputFunction::HandleMouseDown
 	const JExprRenderer&	renderer
 	)
 {
+	if (!TEIsActive())
+	{
+		return false;		// events can end up in queue before modal dialog blocks everything
+	}
+
 	// find ourselves in the list
 
 	JIndex ourIndex;
@@ -396,10 +401,15 @@ bool
 JUserInputFunction::HandleKeyPress
 	(
 	const JUtf8Character&	c,
-	bool*				needParse,
-	bool*				needRender
+	bool*					needParse,
+	bool*					needRender
 	)
 {
+	if (!TEIsActive())
+	{
+		return false;		// events can end up in queue before modal dialog blocks everything
+	}
+
 	*needRender = false;
 	*needParse  = false;
 

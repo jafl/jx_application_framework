@@ -109,14 +109,14 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JTable.h"
-#include "jx-af/jcore/JTableSelection.h"
-#include "jx-af/jcore/JPagePrinter.h"
-#include "jx-af/jcore/JEPSPrinter.h"
-#include "jx-af/jcore/JListUtil.h"
-#include "jx-af/jcore/JMinMax.h"
-#include "jx-af/jcore/jASCIIConstants.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JTable.h"
+#include "JTableSelection.h"
+#include "JPagePrinter.h"
+#include "JEPSPrinter.h"
+#include "JListUtil.h"
+#include "JMinMax.h"
+#include "jASCIIConstants.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

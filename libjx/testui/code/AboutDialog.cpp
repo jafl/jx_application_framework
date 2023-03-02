@@ -1,7 +1,7 @@
 /******************************************************************************
  AboutDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Written by John Lindal.
 
@@ -19,12 +19,9 @@
 
  ******************************************************************************/
 
-AboutDialog::AboutDialog
-	(
-	JXDirector* supervisor
-	)
+AboutDialog::AboutDialog()
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow();
 }

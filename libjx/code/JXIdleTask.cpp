@@ -19,11 +19,11 @@
 	since the last call.  This can be used to ensure that a task is not
 	performed too often.
 
-	Since most tasks will perform at regular intervals, we provide
-	TimeToPerform() to handle this case.  The constructor asks for the time
-	between performances, and TimeToPerform() returns true whenever the
-	elapsed time exceeds the period.  It also sets maxSleepTime to the
-	period, for convenience.
+	Since most tasks will run at regular intervals, we provide
+	Ready() to handle this case.  The constructor asks for the time
+	between runs, and Ready() returns true whenever the elapsed time
+	exceeds the period.  It also sets maxSleepTime to the period,
+	for convenience.
 
 	If your task does not operate with a constant period, then simply
 	pass in zero for the period.
@@ -34,8 +34,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXIdleTask.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXIdleTask.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -47,9 +47,10 @@ JXIdleTask::JXIdleTask
 	(
 	const Time period
 	)
+	:
+	itsPeriod(period),
+	itsElapsedTime(0)
 {
-	itsPeriod      = period;
-	itsElapsedTime = 0;
 }
 
 /******************************************************************************
@@ -85,32 +86,29 @@ JXIdleTask::Stop()
 }
 
 /******************************************************************************
- TimeToPerform
+ Ready
 
-	Returns true if it is time to perform the task again.
+	Returns true if it is time to run the task again.
 
  ******************************************************************************/
 
 bool
-JXIdleTask::TimeToPerform
+JXIdleTask::Ready
 	(
 	const Time	delta,
 	Time*		maxSleepTime
 	)
 {
-	if (itsPeriod > 0)
-	{
-		*maxSleepTime = itsPeriod;
-	}
-
-	itsElapsedTime += delta;
-	if (itsElapsedTime >= itsPeriod)
+	itsElapsedTime  += delta;
+	const bool ready = itsElapsedTime >= itsPeriod;
+	if (ready)
 	{
 		ResetTimer();
-		return true;
 	}
-	else
+
+	if (itsPeriod > 0)
 	{
-		return false;
+		*maxSleepTime = itsPeriod - itsElapsedTime;
 	}
+	return ready;
 }

@@ -128,9 +128,9 @@ private:
 
 	JArray<FileMap>*		itsFileMap;
 
-	const bool			itsWantShortcutFlag;
+	const bool				itsWantShortcutFlag;
 
-	bool				itsPerformSafetySaveFlag;
+	bool					itsPerformSafetySaveFlag;
 	JXTimerTask*			itsSafetySaveTask;
 
 	JXUpdateDocMenuTask*	itsUpdateDocMenuTask;	// nullptr unless pending
@@ -139,7 +139,7 @@ private:
 private:
 
 	bool	SearchFileMap(const JString& fileName,
-							  JString* newFileName) const;
+						  JString* newFileName) const;
 
 	void	DocumentMenusNeedUpdate();
 	void	UpdateAllDocumentMenus();

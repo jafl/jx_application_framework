@@ -1,14 +1,14 @@
 /******************************************************************************
  JXRaiseWindowTask.cpp
 
-	BASE CLASS = JXUrgentTask, virtual JBroadcaster
+	BASE CLASS = JXUrgentTask
 
 	Copyright (C) 2010 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXRaiseWindowTask.h"
-#include "jx-af/jx/JXWindow.h"
+#include "JXRaiseWindowTask.h"
+#include "JXWindow.h"
 
 /******************************************************************************
  Constructor
@@ -20,13 +20,13 @@ JXRaiseWindowTask::JXRaiseWindowTask
 	JXWindow* window
 	)
 	:
+	JXUrgentTask(window),
 	itsWindow(window)
 {
-	ClearWhenGoingAway(itsWindow, &itsWindow);
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -35,15 +35,12 @@ JXRaiseWindowTask::~JXRaiseWindowTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXRaiseWindowTask::Perform()
 {
-	if (itsWindow != nullptr)
-	{
-		itsWindow->Raise();
-	}
+	itsWindow->Raise();
 }

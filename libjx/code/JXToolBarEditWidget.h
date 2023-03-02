@@ -8,7 +8,7 @@
 #ifndef _H_JXToolBarEditWidget
 #define _H_JXToolBarEditWidget
 
-#include "jx-af/jx/JXNamedTreeListWidget.h"
+#include "JXNamedTreeListWidget.h"
 
 class JNamedTreeList;
 class JTree;

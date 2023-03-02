@@ -10,17 +10,16 @@
 #ifndef _H_JXGoToLineDialog
 #define _H_JXGoToLineDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 
 class JXIntegerInput;
 class JXTextCheckbox;
 
-class JXGoToLineDialog : public JXDialogDirector
+class JXGoToLineDialog : public JXModalDialogDirector
 {
 public:
 
-	JXGoToLineDialog(JXDirector* supervisor,
-					 const JIndex lineIndex, const JIndex maxLine,
+	JXGoToLineDialog(const JIndex lineIndex, const JIndex maxLine,
 					 const bool physicalLineIndexFlag = false);
 
 	~JXGoToLineDialog() override;

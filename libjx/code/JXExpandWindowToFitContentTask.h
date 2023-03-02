@@ -8,23 +8,24 @@
 #ifndef _H_JXExpandWindowToFitContentTask
 #define _H_JXExpandWindowToFitContentTask
 
-#include "jx-af/jx/JXUrgentTask.h"
-#include <jx-af/jcore/JBroadcaster.h>
+#include "JXUrgentTask.h"
 
 class JXWindow;
 class JXWidget;
 
-class JXExpandWindowToFitContentTask : public JXUrgentTask, virtual public JBroadcaster
+class JXExpandWindowToFitContentTask : public JXUrgentTask
 {
 public:
 
 	JXExpandWindowToFitContentTask(JXWindow* window);
 
-	~JXExpandWindowToFitContentTask() override;
-
 	void	ShowAfterFTC();
 	void	PlaceAsDialogAfterFTC();
 	void	FocusAfterFTC(JXWidget* widget);
+
+protected:
+
+	~JXExpandWindowToFitContentTask() override;
 
 	void	Perform() override;
 

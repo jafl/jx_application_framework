@@ -11,10 +11,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXWebBrowser.h"
-#include "jx-af/jx/JXEditWWWPrefsDialog.h"
-#include "jx-af/jx/JXSharedPrefsManager.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXWebBrowser.h"
+#include "JXEditWWWPrefsDialog.h"
+#include "JXSharedPrefsManager.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 static const JXSharedPrefObject::VersionInfo kVersList[] =
@@ -35,7 +35,6 @@ JXWebBrowser::JXWebBrowser()
 	JXSharedPrefObject(GetCurrentConfigVersion(),
 					   JXSharedPrefsManager::kLatestWebBrowserVersionID,
 					   kVersList, kVersCount),
-	itsPrefsDialog(nullptr),
 	itsSaveChangesFlag(true)
 {
 	JXSharedPrefObject::ReadPrefs();
@@ -72,55 +71,26 @@ JXWebBrowser::SaveCommands()
 void
 JXWebBrowser::EditPrefs()
 {
-	assert( itsPrefsDialog == nullptr );
+	auto* dlog = jnew JXEditWWWPrefsDialog(GetShowURLCmd(),
+										   GetShowFileContentCmd(),
+										   GetShowFileLocationCmd(),
+										   GetComposeMailCmd());
+	assert( dlog != nullptr );
 
-	itsPrefsDialog = jnew JXEditWWWPrefsDialog(JXGetApplication(), GetShowURLCmd(),
-											  GetShowFileContentCmd(),
-											  GetShowFileLocationCmd(),
-											  GetComposeMailCmd());
-	assert( itsPrefsDialog != nullptr );
-	itsPrefsDialog->BeginDialog();
-	ListenTo(itsPrefsDialog);
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXWebBrowser::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsPrefsDialog && message.Is(JXDialogDirector::kDeactivated))
+	if (dlog->DoDialog())
 	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			JString showURLCmd, showFileContentCmd, showFileLocationCmd, composeMailCmd;
-			itsPrefsDialog->GetPrefs(&showURLCmd, &showFileContentCmd,
-									 &showFileLocationCmd, &composeMailCmd);
+		JString showURLCmd, showFileContentCmd, showFileLocationCmd, composeMailCmd;
+		dlog->GetPrefs(&showURLCmd, &showFileContentCmd,
+					   &showFileLocationCmd, &composeMailCmd);
 
-			itsSaveChangesFlag = false;
-			SetShowURLCmd(showURLCmd);
-			SetShowFileContentCmd(showFileContentCmd);
-			SetShowFileLocationCmd(showFileLocationCmd);
-			SetComposeMailCmd(composeMailCmd);
-			itsSaveChangesFlag = true;
+		itsSaveChangesFlag = false;
+		SetShowURLCmd(showURLCmd);
+		SetShowFileContentCmd(showFileContentCmd);
+		SetShowFileLocationCmd(showFileLocationCmd);
+		SetComposeMailCmd(composeMailCmd);
+		itsSaveChangesFlag = true;
 
-			SaveCommands();
-		}
-		itsPrefsDialog = nullptr;
-	}
-
-	else
-	{
-		JXSharedPrefObject::Receive(sender, message);
+		SaveCommands();
 	}
 }
 

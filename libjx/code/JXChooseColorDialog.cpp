@@ -1,20 +1,20 @@
 /******************************************************************************
  JXChooseColorDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1998 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXChooseColorDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXColorWheel.h"
-#include "jx-af/jx/JXSlider.h"
-#include "jx-af/jx/JXIntegerInput.h"
-#include "jx-af/jx/JXFlatRect.h"
-#include "jx-af/jx/JXStaticText.h"
+#include "JXChooseColorDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXColorWheel.h"
+#include "JXSlider.h"
+#include "JXIntegerInput.h"
+#include "JXFlatRect.h"
+#include "JXStaticText.h"
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jGlobals.h>
@@ -27,11 +27,10 @@
 
 JXChooseColorDialog::JXChooseColorDialog
 	(
-	JXWindowDirector*	supervisor,
-	const JColorID		colorIndex
+	const JColorID colorIndex
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow(colorIndex);
 }
@@ -253,7 +252,7 @@ JXChooseColorDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 
@@ -383,5 +382,5 @@ bool
 JXChooseColorDialog::OKToDeactivate()
 {
 	UpdateRGBColor();
-	return JXDialogDirector::OKToDeactivate();
+	return JXModalDialogDirector::OKToDeactivate();
 }

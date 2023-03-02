@@ -10,13 +10,13 @@
 #ifndef _H_jDirUtil
 #define _H_jDirUtil
 
-#include "jx-af/jcore/JStdError.h"
+#include "JStdError.h"
 #include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <ace/Default_Constants.h>
-#include "jx-af/jcore/JString.h"	// need Case
-#include "jx-af/jcore/jFileUtil.h"	// for convenience
+#include "JString.h"	// need Case
+#include "jFileUtil.h"	// for convenience
 
 class JProgressDisplay;
 class JProcess;

@@ -142,20 +142,20 @@ TestCompartment::Draw
 		p.SetFontStyle(JColorManager::GetInactiveLabelColor());
 	}
 
-	p.String(ap.left, top, JGetString("LeftClickInstr::TestCompartment"),
-			 ap.width(), JPainter::kHAlignCenter);
+	p.JPainter::String(ap.left, top, JGetString("LeftClickInstr::TestCompartment"),
+					   ap.width(), JPainter::HAlign::kCenter);
 	top += lineHeight;
-	p.String(ap.left, top, JGetString("MiddleClickInstr::TestCompartment"),
-			 ap.width(), JPainter::kHAlignCenter);
+	p.JPainter::String(ap.left, top, JGetString("MiddleClickInstr::TestCompartment"),
+					   ap.width(), JPainter::HAlign::kCenter);
 	top += lineHeight;
-	p.String(ap.left, top, JGetString("RightClickInstr::TestCompartment"),
-			 ap.width(), JPainter::kHAlignCenter);
+	p.JPainter::String(ap.left, top, JGetString("RightClickInstr::TestCompartment"),
+					   ap.width(), JPainter::HAlign::kCenter);
 
 	if (isElastic)
 	{
 		top += lineHeight;
-		p.String(ap.left, top, JGetString("ElasticLabel::TestCompartment"),
-				 ap.width(), JPainter::kHAlignCenter);
+		p.JPainter::String(ap.left, top, JGetString("ElasticLabel::TestCompartment"),
+						   ap.width(), JPainter::HAlign::kCenter);
 	}
 }
 

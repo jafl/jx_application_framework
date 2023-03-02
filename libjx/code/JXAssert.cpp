@@ -9,9 +9,9 @@
 
  *****************************************************************************/
 
-#include "jx-af/jx/JXAssert.h"
-#include "jx-af/jx/JXApplication.h"
-#include "jx-af/jx/JXDisplay.h"
+#include "JXAssert.h"
+#include "JXApplication.h"
+#include "JXDisplay.h"
 #include <X11/Xlib.h>
 #include <stdio.h>
 #include <jx-af/jcore/jAssert.h>
@@ -60,7 +60,8 @@ JXAssert::Assert
 	const JUtf8Byte*	expr,
 	const JUtf8Byte*	file,
 	const int			line,
-	const JUtf8Byte*	message
+	const JUtf8Byte*	message,
+	const JUtf8Byte*	function
 	)
 {
 	const bool wasOperating = itsIsOperatingFlag;
@@ -75,7 +76,7 @@ JXAssert::Assert
 		UnlockDisplays();
 	}
 
-	const int result = JAssertBase::DefaultAssert(expr, file, line, message);
+	const int result = JAssertBase::DefaultAssert(expr, file, line, message, function);
 
 	itsIsOperatingFlag = wasOperating;
 	return result;

@@ -10,44 +10,43 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXChooseFileDialog.h"
-#include "jx-af/jx/JXDirTable.h"
-#include "jx-af/jx/JXCurrentPathMenu.h"
-#include <jx-af/jcore/JDirInfo.h>
+#include "JXChooseFileDialog.h"
+#include "JXDirTable.h"
+#include "JXCurrentPathMenu.h"
 
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXPathInput.h"
-#include "jx-af/jx/JXPathHistoryMenu.h"
-#include "jx-af/jx/JXScrollbarSet.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXPathInput.h"
+#include "JXPathHistoryMenu.h"
+#include "JXScrollbarSet.h"
+#include "jXGlobals.h"
 
 #include <jx-af/jcore/JTableSelection.h>
-#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor function (static)
+
+	This allows derived classes to override BuildWindow().
 
  ******************************************************************************/
 
 JXChooseFileDialog*
 JXChooseFileDialog::Create
 	(
-	JXDirector*		supervisor,
-	JDirInfo*		dirInfo,
-	const JString&	fileFilter,
-	const bool	allowSelectMultiple,
-	const JString&	origName,
-	const JString&	message
+	const SelectType	selectType,
+	const JString&		selectName,
+	const JString&		fileFilter,
+	const JString&		message
 	)
 {
-	auto* dlog =
-		jnew JXChooseFileDialog(supervisor, dirInfo, fileFilter, allowSelectMultiple);
+	auto* dlog = jnew JXChooseFileDialog(fileFilter);
 	assert( dlog != nullptr );
-	dlog->BuildWindow(origName, message);
+	dlog->BuildWindow(selectType, selectName, message);
 	return dlog;
 }
 
@@ -58,14 +57,10 @@ JXChooseFileDialog::Create
 
 JXChooseFileDialog::JXChooseFileDialog
 	(
-	JXDirector*		supervisor,
-	JDirInfo*		dirInfo,
-	const JString&	fileFilter,
-	const bool	allowSelectMultiple
+	const JString& fileFilter
 	)
 	:
-	JXCSFDialogBase(supervisor, dirInfo, fileFilter),
-	itsSelectMultipleFlag(allowSelectMultiple)
+	JXCSFDialogBase(fileFilter)
 {
 }
 
@@ -83,23 +78,15 @@ JXChooseFileDialog::~JXChooseFileDialog()
 
  ******************************************************************************/
 
-bool
-JXChooseFileDialog::GetFullName
-	(
-	JString* fullName
-	)
+const JString&
+JXChooseFileDialog::GetFullName()
 	const
 {
 	const JDirEntry* entry;
-	if (GetFileBrowser()->GetFirstSelection(&entry))
-	{
-		*fullName = entry->GetFullName();
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	const bool ok = GetFileBrowser()->GetFirstSelection(&entry);
+	assert( ok );
+
+	return entry->GetFullName();
 }
 
 /******************************************************************************
@@ -107,7 +94,7 @@ JXChooseFileDialog::GetFullName
 
  ******************************************************************************/
 
-bool
+void
 JXChooseFileDialog::GetFullNames
 	(
 	JPtrArray<JString>* fullNameList
@@ -117,19 +104,14 @@ JXChooseFileDialog::GetFullNames
 	fullNameList->CleanOut();
 
 	JPtrArray<JDirEntry> entryList(JPtrArrayT::kDeleteAll);
-	if (GetFileBrowser()->GetSelection(&entryList))
+	const bool ok = GetFileBrowser()->GetSelection(&entryList);
+	assert( ok );
+
+	for (const auto* entry : entryList)
 	{
-		for (const auto* entry : entryList)
-		{
-			auto* s = jnew JString(entry->GetFullName());
-			assert( s != nullptr );
-			fullNameList->Append(s);
-		}
-		return true;
-	}
-	else
-	{
-		return false;
+		auto* s = jnew JString(entry->GetFullName());
+		assert( s != nullptr );
+		fullNameList->Append(s);
 	}
 }
 
@@ -141,8 +123,9 @@ JXChooseFileDialog::GetFullNames
 void
 JXChooseFileDialog::BuildWindow
 	(
-	const JString& origName,
-	const JString& message
+	const SelectType	selectType,
+	const JString&		selectName,
+	const JString&		message
 	)
 {
 // begin JXLayout
@@ -234,7 +217,7 @@ JXChooseFileDialog::BuildWindow
 			   filterLabel, filterInput, filterHistory,
 			   openButton, cancelButton, upButton, homeButton, desktopButton,
 			   selectAllButton, showHiddenCB, currPathMenu,
-			   origName, message);
+			   selectType, selectName, message);
 }
 
 /******************************************************************************
@@ -260,19 +243,11 @@ JXChooseFileDialog::SetObjects
 	JXTextButton*			selectAllButton,
 	JXTextCheckbox*			showHiddenCB,
 	JXCurrentPathMenu*		currPathMenu,
-	const JString&			origName,
+	const SelectType		selectType,
+	const JString&			selectName,
 	const JString&			message
 	)
 {
-	if (itsSelectMultipleFlag)
-	{
-		(scrollbarSet->GetWindow())->SetTitle(JGetString("ChooseFilesTitle::JXChooseFileDialog"));
-	}
-	else
-	{
-		(scrollbarSet->GetWindow())->SetTitle(JGetString("ChooseFileTitle::JXChooseFileDialog"));
-	}
-
 	itsOpenButton      = openButton;
 	itsSelectAllButton = selectAllButton;
 
@@ -284,29 +259,45 @@ JXChooseFileDialog::SetObjects
 		currPathMenu, message);
 
 	JXDirTable* fileBrowser = GetFileBrowser();
-	fileBrowser->AllowSelectFiles(true, itsSelectMultipleFlag);
+	fileBrowser->AllowSelectFiles(true, selectType == kSelectMultipleFiles);
 	ListenTo(fileBrowser);
-	ListenTo(&(fileBrowser->GetTableSelection()));
+	ListenTo(&fileBrowser->GetTableSelection());
 
-	if (itsSelectMultipleFlag)
+	if (selectType == kSelectMultipleFiles)
 	{
+		scrollbarSet->GetWindow()->SetTitle(JGetString("ChooseFilesTitle::JXChooseFileDialog"));
 		ListenTo(itsSelectAllButton);
 	}
 	else
 	{
+		scrollbarSet->GetWindow()->SetTitle(JGetString("ChooseFileTitle::JXChooseFileDialog"));
 		itsSelectAllButton->Hide();
 	}
 
 	cancelButton->SetShortcuts(JGetString("CancelShortcut::JXGlobal"));
 
-	// select initial file
+	JDirInfo* dirInfo = GetDirInfo();
+	JString name;
+	if (selectName.Contains(ACE_DIRECTORY_SEPARATOR_STR))
+	{
+		JString path;
+		JSplitPathAndName(selectName, &path, &name);
+		dirInfo->GoToClosest(path);
+		if (!JSameDirEntry(path, dirInfo->GetDirectory()))
+		{
+			name.Clear();
+		}
+		DoNotSaveCurrentPath();
+	}
+
+	RestoreState();
 
 	JIndex index;
-	if (!origName.IsEmpty() &&
-		fileBrowser->ClosestMatch(origName, &index))
+	if (!name.IsEmpty() &&
+		fileBrowser->ClosestMatch(name, &index))
 	{
-		const JDirEntry& entry = GetDirInfo()->GetEntry(index);
-		if (entry.GetName() == origName)
+		const JDirEntry& entry = dirInfo->GetEntry(index);
+		if (entry.GetName() == name)
 		{
 			fileBrowser->UpdateScrollbars();
 			fileBrowser->SelectSingleEntry(index);

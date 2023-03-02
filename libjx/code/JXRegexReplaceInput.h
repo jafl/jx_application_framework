@@ -10,7 +10,7 @@
 #ifndef _H_JXRegexReplaceInput
 #define _H_JXRegexReplaceInput
 
-#include "jx-af/jx/JXInputField.h"
+#include "JXInputField.h"
 
 class JInterpolate;
 

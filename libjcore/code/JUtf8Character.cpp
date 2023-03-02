@@ -5,10 +5,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JUtf8Character.h"
+#include "JUtf8Character.h"
 #include <unicode/uchar.h>
 #include <iomanip>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 const JUInt32 JUtf8Character::kUtf32SubstitutionCharacter       = 0x0000FFFD;
 const JUtf8Character JUtf8Character::kUtf8SubstitutionCharacter("\xEF\xBF\xBD");

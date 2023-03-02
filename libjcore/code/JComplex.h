@@ -11,7 +11,7 @@
 #define _H_JComplex
 
 #include <complex>
-#include "jx-af/jcore/jTypes.h"
+#include "jTypes.h"
 
 using JComplex = std::complex<double>;
 

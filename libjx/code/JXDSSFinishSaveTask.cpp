@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXDSSFinishSaveTask.h"
-#include "jx-af/jx/JXSaveFileDialog.h"
+#include "JXDSSFinishSaveTask.h"
+#include "JXSaveFileDialog.h"
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -23,13 +23,13 @@ JXDSSFinishSaveTask::JXDSSFinishSaveTask
 	)
 	:
 	JXDirectSaveAction(),
-	JXUrgentTask()
+	JXUrgentTask(dialog),
+	itsDialog(dialog)
 {
-	itsDialog = dialog;
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -54,12 +54,15 @@ JXDSSFinishSaveTask::Save
 }
 
 /******************************************************************************
- Perform (virtual)
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXDSSFinishSaveTask::Perform()
 {
-	itsDialog->Save(itsDirName);
+	if (!itsDirName.IsEmpty())
+	{
+		itsDialog->Save(itsDirName);
+	}
 }

@@ -29,21 +29,21 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXMenu.h"
-#include "jx-af/jx/JXMenuData.h"
-#include "jx-af/jx/JXMenuDirector.h"
-#include "jx-af/jx/JXMenuTable.h"
-#include "jx-af/jx/JXMenuBar.h"
-#include "jx-af/jx/JXMenuManager.h"
+#include "JXMenu.h"
+#include "JXMenuData.h"
+#include "JXMenuDirector.h"
+#include "JXMenuTable.h"
+#include "JXMenuBar.h"
+#include "JXMenuManager.h"
 
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindowDirector.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/jXPainterUtil.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXDisplay.h"
+#include "JXWindowDirector.h"
+#include "JXWindowPainter.h"
+#include "JXWindow.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
+#include "jXPainterUtil.h"
+#include "jXGlobals.h"
 
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JStringIterator.h>
@@ -392,7 +392,7 @@ JXMenu::SetShortcuts
 	w->InstallShortcuts(this, list);
 
 	#define LabelVarName	itsTitle
-	#include "jx-af/jx/JXUpdateShortcutIndex.th"
+	#include "JXUpdateShortcutIndex.th"
 	#undef LabelVarName
 
 	Refresh();
@@ -1225,8 +1225,8 @@ JXMenu::Draw
 		}
 
 		p.String(r.left, r.top, itsTitle, itsULIndex,
-				 r.width(), JPainter::kHAlignLeft,
-				 r.height(), JPainter::kVAlignCenter);
+				 r.width(), JPainter::HAlign::kLeft,
+				 r.height(), JPainter::VAlign::kCenter);
 	}
 
 	p.ResetClipRect();

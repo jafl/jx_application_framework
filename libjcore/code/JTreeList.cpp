@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JTreeList.h"
-#include "jx-af/jcore/JTree.h"
-#include "jx-af/jcore/JTreeNode.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JTreeList.h"
+#include "JTree.h"
+#include "JTreeNode.h"
+#include "jAssert.h"
 
 const JUtf8Byte* JTreeList::kNodeInserted = "NodeInserted::JTreeList";
 const JUtf8Byte* JTreeList::kNodeRemoved  = "NodeRemoved::JTreeList";

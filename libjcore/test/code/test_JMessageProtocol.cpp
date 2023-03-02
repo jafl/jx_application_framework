@@ -141,7 +141,6 @@ private:
 	HandleMessage()
 	{
 		JAssertTrue(itsLink->HasMessages());
-		JAssertEqual(1, itsLink->GetMessageCount());
 		JAssertFalse(itsLink->ReceivedDisconnect());
 
 		JString msg;

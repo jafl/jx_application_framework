@@ -10,7 +10,7 @@
 #ifndef _H_JXProgressIndicator
 #define _H_JXProgressIndicator
 
-#include "jx-af/jx/JXWidget.h"
+#include "JXWidget.h"
 
 class JXProgressIndicator : public JXWidget
 {

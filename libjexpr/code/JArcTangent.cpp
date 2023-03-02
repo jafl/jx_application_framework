@@ -11,7 +11,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JArcTangent.h"
+#include "JArcTangent.h"
 #include <jx-af/jcore/jErrno.h>
 #include <jx-af/jcore/jAssert.h>
 

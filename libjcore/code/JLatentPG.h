@@ -10,9 +10,9 @@
 #ifndef _H_JLatentPG
 #define _H_JLatentPG
 
-#include "jx-af/jcore/JProgressDisplay.h"
-#include "jx-af/jcore/JString.h"
-#include "jx-af/jcore/jTime.h"
+#include "JProgressDisplay.h"
+#include "JString.h"
+#include "jTime.h"
 
 class JLatentPG : public JProgressDisplay
 {
@@ -45,7 +45,7 @@ protected:
 
 	void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
 							 const JString& message, const bool allowCancel,
-							 const bool allowBackground) override;
+							 const bool modal) override;
 
 	bool	CheckForCancel() override;
 

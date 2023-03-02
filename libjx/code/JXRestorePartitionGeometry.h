@@ -8,16 +8,17 @@
 #ifndef _H_JXRestorePartitionGeometry
 #define _H_JXRestorePartitionGeometry
 
-#include "jx-af/jx/JXUrgentTask.h"
-#include <jx-af/jcore/JBroadcaster.h>
+#include "JXUrgentTask.h"
 
 class JXPartition;
 
-class JXRestorePartitionGeometry : public JXUrgentTask, virtual public JBroadcaster
+class JXRestorePartitionGeometry : public JXUrgentTask
 {
 public:
 
 	JXRestorePartitionGeometry(JXPartition* partition);
+
+protected:
 
 	~JXRestorePartitionGeometry() override;
 

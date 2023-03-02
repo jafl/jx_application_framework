@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXQuitIfAllDeactTask.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXQuitIfAllDeactTask.h"
+#include "jXGlobals.h"
 #include <algorithm>
 #include <jx-af/jcore/jAssert.h>
 
@@ -37,27 +37,23 @@ JXQuitIfAllDeactTask::~JXQuitIfAllDeactTask()
 }
 
 /******************************************************************************
- Perform (virtual)
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXQuitIfAllDeactTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	if (TimeToPerform(delta, maxSleepTime))
-	{		
-		JXApplication* app = JXGetApplication();
+	JXApplication* app = JXGetApplication();
 
-		const JPtrArray<JXDirector>* list;
-		if (!app->GetSubdirectors(&list) ||
-			std::all_of(begin(*list), end(*list),
-				[] (JXDirector* dir) { return !dir->IsActive(); }))
-		{
-				app->Quit();
-		}
+	const JPtrArray<JXDirector>* list;
+	if (!app->GetSubdirectors(&list) ||
+		std::all_of(begin(*list), end(*list),
+			[] (JXDirector* dir) { return !dir->IsActive(); }))
+	{
+			app->Quit();
 	}
 }

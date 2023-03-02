@@ -7,10 +7,10 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JNamedTreeNode.h"
-#include "jx-af/jcore/JTree.h"
-#include "jx-af/jcore/JPtrArray-JString.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JNamedTreeNode.h"
+#include "JTree.h"
+#include "JPtrArray-JString.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

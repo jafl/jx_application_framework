@@ -14,7 +14,7 @@
 #include <jx-af/jx/JXLibVersion.h>
 #include <jx-af/jcore/jAssert.h>
 
-static App*			theApplication  = nullptr;		// owns itself
+static App*				theApplication  = nullptr;		// owns itself
 static PrefsManager*	thePrefsManager = nullptr;
 
 /******************************************************************************
@@ -109,6 +109,19 @@ GetPrefsManager()
 {
 	assert( thePrefsManager != nullptr );
 	return thePrefsManager;
+}
+
+/******************************************************************************
+ ForgetPrefsManager
+
+	Called when license is not accepted, to avoid writing prefs file.
+
+ ******************************************************************************/
+
+void
+ForgetPrefsManager()
+{
+	thePrefsManager = nullptr;
 }
 
 /******************************************************************************

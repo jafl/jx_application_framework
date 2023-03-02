@@ -10,7 +10,7 @@
 #ifndef _H_JXScrollableWidget
 #define _H_JXScrollableWidget
 
-#include "jx-af/jx/JXWidget.h"
+#include "JXWidget.h"
 
 class JXScrollbar;
 class JXScrollbarSet;
@@ -40,16 +40,16 @@ public:
 
 	~JXScrollableWidget() override;
 
-	void		AlwaysShowScrollbars(const bool alwaysShow = true);
+	void	AlwaysShowScrollbars(const bool alwaysShow = true);
 	bool	GetScrollbars(JXScrollbar** hScrollbar, JXScrollbar** vScrollbar) const;
-	void		UpdateScrollbars();
+	void	UpdateScrollbars();
 
 	void		ReadScrollSetup(std::istream& input);
 	static void	SkipScrollSetup(std::istream& input);
 	void		WriteScrollSetup(std::ostream& output) const;
 
 	void	HandleKeyPress(const JUtf8Character& c, const int key,
-								   const JXKeyModifiers& modifiers) override;
+						   const JXKeyModifiers& modifiers) override;
 
 	DisplayState	SaveDisplayState() const;
 	void			RestoreDisplayState(const DisplayState& state);
@@ -58,10 +58,10 @@ protected:
 
 	bool	ScrollForDrag(const JPoint& pt);
 	bool	ScrollForWheel(const JXMouseButton button,
-							   const JXKeyModifiers& modifiers);
+						   const JXKeyModifiers& modifiers);
 	bool	ScrollForWheel(const JXMouseButton button,
-							   const JXKeyModifiers& modifiers,
-							   JXScrollbar* hScrollbar, JXScrollbar* vScrollbar);
+						   const JXKeyModifiers& modifiers,
+						   JXScrollbar* hScrollbar, JXScrollbar* vScrollbar);
 
 	void	SetHorizStepSize(const JCoordinate hStep);
 	void	SetHorizPageStepContext(const JCoordinate hPageContext);
@@ -74,9 +74,9 @@ protected:
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
 	void	BoundsMoved(const JCoordinate dx, const JCoordinate dy) override;
 	void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
@@ -84,17 +84,16 @@ protected:
 	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 	void	HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
-									const JXKeyModifiers& modifiers) override;
+							const JXKeyModifiers& modifiers) override;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
 	JXScrollbarSet*	itsScrollbarSet;		// can be nullptr
-	bool		itsAlwaysShowScrollFlag;
-	bool		itsWindowFrozenFlag;
-	bool		itsAdjustingFlag;		// if should ignore scrollbar messages
-	bool		itsShouldRedrawFlag;	// if Redraw() when scrolled
+	bool			itsAlwaysShowScrollFlag;
+	bool			itsAdjustingFlag;		// if should ignore scrollbar messages
+	bool			itsShouldRedrawFlag;	// if Redraw() when scrolled
 
 	JXAdjustScrollbarTask*	itsAdjustScrollbarTask;
 

@@ -64,51 +64,51 @@
 #define YYPULL 1
 
 /* "%code top" blocks.  */
-#line 3 "code/JExprParserY.y"
+#line 3 "../../include/jx-af/jexpr/JExprParserY.y"
 
 /*
 Copyright (C) 2018 by John Lindal.
 */
 
-#include "jx-af/jexpr/JExprParser.h"
-#include "jx-af/jexpr/JAbsValue.h"
-#include "jx-af/jexpr/JAlgSign.h"
-#include "jx-af/jexpr/JArcCosine.h"
-#include "jx-af/jexpr/JArcHypCosine.h"
-#include "jx-af/jexpr/JArcHypSine.h"
-#include "jx-af/jexpr/JArcHypTangent.h"
-#include "jx-af/jexpr/JArcSine.h"
-#include "jx-af/jexpr/JArcTangent.h"
-#include "jx-af/jexpr/JArcTangent2.h"
-#include "jx-af/jexpr/JConjugate.h"
-#include "jx-af/jexpr/JConstantValue.h"
-#include "jx-af/jexpr/JCosine.h"
-#include "jx-af/jexpr/JDivision.h"
-#include "jx-af/jexpr/JExponent.h"
-#include "jx-af/jexpr/JHypCosine.h"
-#include "jx-af/jexpr/JHypSine.h"
-#include "jx-af/jexpr/JHypTangent.h"
-#include "jx-af/jexpr/JImagPart.h"
-#include "jx-af/jexpr/JLogB.h"
-#include "jx-af/jexpr/JLogE.h"
-#include "jx-af/jexpr/JMaxFunc.h"
-#include "jx-af/jexpr/JMinFunc.h"
-#include "jx-af/jexpr/JNamedConstant.h"
-#include "jx-af/jexpr/JNegation.h"
-#include "jx-af/jexpr/JParallel.h"
-#include "jx-af/jexpr/JPhaseAngle.h"
-#include "jx-af/jexpr/JProduct.h"
-#include "jx-af/jexpr/JRealPart.h"
-#include "jx-af/jexpr/JRotateComplex.h"
-#include "jx-af/jexpr/JRoundToInt.h"
-#include "jx-af/jexpr/JSine.h"
-#include "jx-af/jexpr/JSquareRoot.h"
-#include "jx-af/jexpr/JSummation.h"
-#include "jx-af/jexpr/JTangent.h"
-#include "jx-af/jexpr/JTruncateToInt.h"
-#include "jx-af/jexpr/JUserInputFunction.h"
-#include "jx-af/jexpr/JVariableValue.h"
-#include "jx-af/jexpr/JVariableList.h"
+#include "JExprParser.h"
+#include "JAbsValue.h"
+#include "JAlgSign.h"
+#include "JArcCosine.h"
+#include "JArcHypCosine.h"
+#include "JArcHypSine.h"
+#include "JArcHypTangent.h"
+#include "JArcSine.h"
+#include "JArcTangent.h"
+#include "JArcTangent2.h"
+#include "JConjugate.h"
+#include "JConstantValue.h"
+#include "JCosine.h"
+#include "JDivision.h"
+#include "JExponent.h"
+#include "JHypCosine.h"
+#include "JHypSine.h"
+#include "JHypTangent.h"
+#include "JImagPart.h"
+#include "JLogB.h"
+#include "JLogE.h"
+#include "JMaxFunc.h"
+#include "JMinFunc.h"
+#include "JNamedConstant.h"
+#include "JNegation.h"
+#include "JParallel.h"
+#include "JPhaseAngle.h"
+#include "JProduct.h"
+#include "JRealPart.h"
+#include "JRotateComplex.h"
+#include "JRoundToInt.h"
+#include "JSine.h"
+#include "JSquareRoot.h"
+#include "JSummation.h"
+#include "JTangent.h"
+#include "JTruncateToInt.h"
+#include "JUserInputFunction.h"
+#include "JVariableValue.h"
+#include "JVariableList.h"
 #include <jx-af/jcore/JPtrArray-JString.h>
 
 #define yyparse JExprParser::yyparse
@@ -117,7 +117,7 @@ Copyright (C) 2018 by John Lindal.
 //#define YYERROR_VERBOSE
 //#define YYDEBUG 1
 
-#line 121 "code/JExprParserY.cpp"
+#line 121 "../../include/jx-af/jexpr/JExprParserY.cpp"
 
 
 
@@ -211,7 +211,7 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
 
 
 /* Unqualified %code blocks.  */
-#line 79 "code/JExprParserY.y"
+#line 79 "../../include/jx-af/jexpr/JExprParserY.y"
 
 
 // debugging output
@@ -236,7 +236,7 @@ yyprint
 // must be last
 #include <jx-af/jcore/jAssert.h>
 
-#line 240 "code/JExprParserY.cpp"
+#line 240 "../../include/jx-af/jexpr/JExprParserY.cpp"
 
 #ifdef short
 # undef short
@@ -1130,12 +1130,12 @@ YYSTYPE yylval YY_INITIAL_VALUE (= yyval_default);
 
 
 /* User initialization code.  */
-#line 105 "code/JExprParserY.y"
+#line 105 "../../include/jx-af/jexpr/JExprParserY.y"
 {
 //	yydebug = 1;
 }
 
-#line 1139 "code/JExprParserY.cpp"
+#line 1139 "../../include/jx-af/jexpr/JExprParserY.cpp"
 
   goto yysetstate;
 
@@ -1336,16 +1336,16 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* expression: e P_EOF  */
-#line 120 "code/JExprParserY.y"
+#line 120 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		itsParseResult = (yyvsp[-1].pFunction);
 		YYACCEPT;
 	}
-#line 1345 "code/JExprParserY.cpp"
+#line 1345 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 3: /* e: P_NUMBER  */
-#line 128 "code/JExprParserY.y"
+#line 128 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		JPtrArray<JString> s(JPtrArrayT::kDeleteAll);
 		(yyvsp[0].pString)->ToLower();
@@ -1376,11 +1376,11 @@ yyreduce:
 			assert( (yyval.pFunction) != nullptr );
 		}
 	}
-#line 1380 "code/JExprParserY.cpp"
+#line 1380 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 4: /* e: P_NUMBER P_E '+' P_NUMBER  */
-#line 160 "code/JExprParserY.y"
+#line 160 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		JFloat v, e;
 		if (!(yyvsp[-3].pString)->ConvertToFloat(&v) || !(yyvsp[0].pString)->ConvertToFloat(&e))
@@ -1393,11 +1393,11 @@ yyreduce:
 		p->AppendArg(jnew JExponent(jnew JConstantValue(10), jnew JConstantValue(e)));
 		(yyval.pFunction) = p;
 	}
-#line 1397 "code/JExprParserY.cpp"
+#line 1397 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 5: /* e: P_NUMBER P_E '-' P_NUMBER  */
-#line 174 "code/JExprParserY.y"
+#line 174 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		JFloat v, e;
 		if (!(yyvsp[-3].pString)->ConvertToFloat(&v) || !(yyvsp[0].pString)->ConvertToFloat(&e))
@@ -1410,11 +1410,11 @@ yyreduce:
 		p->AppendArg(jnew JExponent(jnew JConstantValue(10), jnew JNegation(jnew JConstantValue(e))));
 		(yyval.pFunction) = p;
 	}
-#line 1414 "code/JExprParserY.cpp"
+#line 1414 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 6: /* e: P_HEX  */
-#line 188 "code/JExprParserY.y"
+#line 188 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		JFloat v;
 		if (!(yyvsp[0].pString)->ConvertToFloat(&v))
@@ -1424,38 +1424,38 @@ yyreduce:
 		(yyval.pFunction) = jnew JConstantValue(v);
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1428 "code/JExprParserY.cpp"
+#line 1428 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 7: /* e: P_E  */
-#line 199 "code/JExprParserY.y"
+#line 199 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JNamedConstant(kEJNamedConstIndex);
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1437 "code/JExprParserY.cpp"
+#line 1437 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 8: /* e: P_PI  */
-#line 205 "code/JExprParserY.y"
+#line 205 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JNamedConstant(kPiJNamedConstIndex);
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1446 "code/JExprParserY.cpp"
+#line 1446 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 9: /* e: P_I  */
-#line 211 "code/JExprParserY.y"
+#line 211 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JNamedConstant(kIJNamedConstIndex);
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1455 "code/JExprParserY.cpp"
+#line 1455 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 10: /* e: P_VARIABLE  */
-#line 217 "code/JExprParserY.y"
+#line 217 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		JIndex i;
 		if (!itsVarList->ParseVariableName(*(yyvsp[0].pString), &i))
@@ -1465,11 +1465,11 @@ yyreduce:
 		(yyval.pFunction) = jnew JVariableValue(itsVarList, i, nullptr);
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1469 "code/JExprParserY.cpp"
+#line 1469 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 11: /* e: P_VARIABLE '[' e ']'  */
-#line 228 "code/JExprParserY.y"
+#line 228 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		JIndex i;
 		if (!itsVarList->ParseVariableName(*(yyvsp[-3].pString), &i))
@@ -1479,11 +1479,11 @@ yyreduce:
 		(yyval.pFunction) = jnew JVariableValue(itsVarList, i, (yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1483 "code/JExprParserY.cpp"
+#line 1483 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 12: /* e: P_INPUT  */
-#line 239 "code/JExprParserY.y"
+#line 239 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		if (itsEditor != nullptr)
 		{
@@ -1495,366 +1495,366 @@ yyreduce:
 		}
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1499 "code/JExprParserY.cpp"
+#line 1499 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 13: /* e: '(' e ')'  */
-#line 252 "code/JExprParserY.y"
+#line 252 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = (yyvsp[-1].pFunction);
 	}
-#line 1507 "code/JExprParserY.cpp"
+#line 1507 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 14: /* e: e '+' e  */
-#line 257 "code/JExprParserY.y"
+#line 257 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = UpdateSum((yyvsp[-2].pFunction), (yyvsp[0].pFunction));
 	}
-#line 1515 "code/JExprParserY.cpp"
+#line 1515 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 15: /* e: e '-' e  */
-#line 262 "code/JExprParserY.y"
+#line 262 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = UpdateSum((yyvsp[-2].pFunction), jnew JNegation((yyvsp[0].pFunction)));
 	}
-#line 1523 "code/JExprParserY.cpp"
+#line 1523 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 16: /* e: e '*' e  */
-#line 267 "code/JExprParserY.y"
+#line 267 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = UpdateProduct((yyvsp[-2].pFunction), (yyvsp[0].pFunction));
 	}
-#line 1531 "code/JExprParserY.cpp"
+#line 1531 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 17: /* e: e '/' e  */
-#line 272 "code/JExprParserY.y"
+#line 272 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JDivision((yyvsp[-2].pFunction), (yyvsp[0].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1540 "code/JExprParserY.cpp"
+#line 1540 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 18: /* e: e '^' e  */
-#line 278 "code/JExprParserY.y"
+#line 278 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JExponent((yyvsp[-2].pFunction), (yyvsp[0].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1549 "code/JExprParserY.cpp"
+#line 1549 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 19: /* e: '-' e  */
-#line 284 "code/JExprParserY.y"
+#line 284 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JNegation((yyvsp[0].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1558 "code/JExprParserY.cpp"
+#line 1558 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 20: /* e: '+' e  */
-#line 290 "code/JExprParserY.y"
+#line 290 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = (yyvsp[0].pFunction);
 	}
-#line 1566 "code/JExprParserY.cpp"
+#line 1566 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 21: /* e: P_FN_ABS '(' e ')'  */
-#line 295 "code/JExprParserY.y"
+#line 295 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JAbsValue((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1575 "code/JExprParserY.cpp"
+#line 1575 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 22: /* e: P_FN_PHASE '(' e ')'  */
-#line 301 "code/JExprParserY.y"
+#line 301 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JPhaseAngle((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1584 "code/JExprParserY.cpp"
+#line 1584 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 23: /* e: P_FN_CONJUGATE '(' e ')'  */
-#line 307 "code/JExprParserY.y"
+#line 307 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JConjugate((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1593 "code/JExprParserY.cpp"
+#line 1593 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 24: /* e: P_FN_ROTATE '(' e ',' e ')'  */
-#line 313 "code/JExprParserY.y"
+#line 313 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JRotateComplex((yyvsp[-3].pFunction), (yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1602 "code/JExprParserY.cpp"
+#line 1602 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 25: /* e: P_FN_RE '(' e ')'  */
-#line 319 "code/JExprParserY.y"
+#line 319 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JRealPart((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1611 "code/JExprParserY.cpp"
+#line 1611 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 26: /* e: P_FN_IM '(' e ')'  */
-#line 325 "code/JExprParserY.y"
+#line 325 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JImagPart((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1620 "code/JExprParserY.cpp"
+#line 1620 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 27: /* e: P_FN_MIN '(' arglist ')'  */
-#line 331 "code/JExprParserY.y"
+#line 331 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JMinFunc((yyvsp[-1].pList));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1629 "code/JExprParserY.cpp"
+#line 1629 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 28: /* e: P_FN_MAX '(' arglist ')'  */
-#line 337 "code/JExprParserY.y"
+#line 337 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JMaxFunc((yyvsp[-1].pList));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1638 "code/JExprParserY.cpp"
+#line 1638 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 29: /* e: P_FN_SQRT '(' e ')'  */
-#line 343 "code/JExprParserY.y"
+#line 343 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JSquareRoot((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1647 "code/JExprParserY.cpp"
+#line 1647 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 30: /* e: P_FN_PARALLEL '(' arglist ')'  */
-#line 349 "code/JExprParserY.y"
+#line 349 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JParallel((yyvsp[-1].pList));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1656 "code/JExprParserY.cpp"
+#line 1656 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 31: /* e: P_FN_SIGN '(' e ')'  */
-#line 355 "code/JExprParserY.y"
+#line 355 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JAlgSign((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1665 "code/JExprParserY.cpp"
+#line 1665 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 32: /* e: P_FN_ROUND '(' e ')'  */
-#line 361 "code/JExprParserY.y"
+#line 361 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JRoundToInt((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1674 "code/JExprParserY.cpp"
+#line 1674 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 33: /* e: P_FN_TRUNCATE '(' e ')'  */
-#line 367 "code/JExprParserY.y"
+#line 367 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JTruncateToInt((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1683 "code/JExprParserY.cpp"
+#line 1683 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 34: /* e: P_FN_LOG '(' e ',' e ')'  */
-#line 373 "code/JExprParserY.y"
+#line 373 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JLogB((yyvsp[-3].pFunction), (yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1692 "code/JExprParserY.cpp"
+#line 1692 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 35: /* e: P_FN_LOG2 '(' e ')'  */
-#line 379 "code/JExprParserY.y"
+#line 379 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JLogB(jnew JConstantValue(2), (yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1701 "code/JExprParserY.cpp"
+#line 1701 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 36: /* e: P_FN_LOG10 '(' e ')'  */
-#line 385 "code/JExprParserY.y"
+#line 385 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JLogB(jnew JConstantValue(10), (yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1710 "code/JExprParserY.cpp"
+#line 1710 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 37: /* e: P_FN_LN '(' e ')'  */
-#line 391 "code/JExprParserY.y"
+#line 391 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JLogE((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1719 "code/JExprParserY.cpp"
+#line 1719 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 38: /* e: P_FN_ARCSIN '(' e ')'  */
-#line 397 "code/JExprParserY.y"
+#line 397 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JArcSine((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1728 "code/JExprParserY.cpp"
+#line 1728 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 39: /* e: P_FN_ARCCOS '(' e ')'  */
-#line 403 "code/JExprParserY.y"
+#line 403 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JArcCosine((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1737 "code/JExprParserY.cpp"
+#line 1737 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 40: /* e: P_FN_ARCTAN '(' e ')'  */
-#line 409 "code/JExprParserY.y"
+#line 409 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JArcTangent((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1746 "code/JExprParserY.cpp"
+#line 1746 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 41: /* e: P_FN_ARCTAN2 '(' e ',' e ')'  */
-#line 415 "code/JExprParserY.y"
+#line 415 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JArcTangent2((yyvsp[-3].pFunction), (yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1755 "code/JExprParserY.cpp"
+#line 1755 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 42: /* e: P_FN_SIN '(' e ')'  */
-#line 421 "code/JExprParserY.y"
+#line 421 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JSine((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1764 "code/JExprParserY.cpp"
+#line 1764 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 43: /* e: P_FN_COS '(' e ')'  */
-#line 427 "code/JExprParserY.y"
+#line 427 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JCosine((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1773 "code/JExprParserY.cpp"
+#line 1773 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 44: /* e: P_FN_TAN '(' e ')'  */
-#line 433 "code/JExprParserY.y"
+#line 433 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JTangent((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1782 "code/JExprParserY.cpp"
+#line 1782 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 45: /* e: P_FN_SINH '(' e ')'  */
-#line 439 "code/JExprParserY.y"
+#line 439 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JHypSine((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1791 "code/JExprParserY.cpp"
+#line 1791 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 46: /* e: P_FN_COSH '(' e ')'  */
-#line 445 "code/JExprParserY.y"
+#line 445 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JHypCosine((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1800 "code/JExprParserY.cpp"
+#line 1800 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 47: /* e: P_FN_TANH '(' e ')'  */
-#line 451 "code/JExprParserY.y"
+#line 451 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JHypTangent((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1809 "code/JExprParserY.cpp"
+#line 1809 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 48: /* e: P_FN_ARCSINH '(' e ')'  */
-#line 457 "code/JExprParserY.y"
+#line 457 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JArcHypSine((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1818 "code/JExprParserY.cpp"
+#line 1818 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 49: /* e: P_FN_ARCCOSH '(' e ')'  */
-#line 463 "code/JExprParserY.y"
+#line 463 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JArcHypCosine((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1827 "code/JExprParserY.cpp"
+#line 1827 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 50: /* e: P_FN_ARCTANH '(' e ')'  */
-#line 469 "code/JExprParserY.y"
+#line 469 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pFunction) = jnew JArcHypTangent((yyvsp[-1].pFunction));
 		assert( (yyval.pFunction) != nullptr );
 	}
-#line 1836 "code/JExprParserY.cpp"
+#line 1836 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 51: /* arglist: e  */
-#line 477 "code/JExprParserY.y"
+#line 477 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pList) = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
 		assert( (yyval.pList) != nullptr );
 		(yyval.pList)->AppendElement((yyvsp[0].pFunction));
 	}
-#line 1846 "code/JExprParserY.cpp"
+#line 1846 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
   case 52: /* arglist: arglist ',' e  */
-#line 484 "code/JExprParserY.y"
+#line 484 "../../include/jx-af/jexpr/JExprParserY.y"
         {
 		(yyval.pList) = (yyvsp[-2].pList); (yyval.pList)->AppendElement((yyvsp[0].pFunction));
 	}
-#line 1854 "code/JExprParserY.cpp"
+#line 1854 "../../include/jx-af/jexpr/JExprParserY.cpp"
     break;
 
 
-#line 1858 "code/JExprParserY.cpp"
+#line 1858 "../../include/jx-af/jexpr/JExprParserY.cpp"
 
       default: break;
     }

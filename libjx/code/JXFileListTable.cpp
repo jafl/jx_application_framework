@@ -11,22 +11,22 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXFileListTable.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXImageCache.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXTEBase.h"
-#include "jx-af/jx/JXTextMenu.h"
-#include "jx-af/jx/JXSelectionManager.h"
-#include "jx-af/jx/JXTextSelection.h"
-#include "jx-af/jx/JXDNDManager.h"
-#include "jx-af/jx/JXFileSelection.h"
-#include "jx-af/jx/JXWebBrowser.h"
-#include "jx-af/jx/jXUtil.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXFileListTable.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "JXImage.h"
+#include "JXImageCache.h"
+#include "JXColorManager.h"
+#include "JXTEBase.h"
+#include "JXTextMenu.h"
+#include "JXSelectionManager.h"
+#include "JXTextSelection.h"
+#include "JXDNDManager.h"
+#include "JXFileSelection.h"
+#include "JXWebBrowser.h"
+#include "jXUtil.h"
+#include "jXGlobals.h"
 
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/JFontManager.h>
@@ -853,7 +853,7 @@ JXFileListTable::TableDrawCell
 
 	r = rect;
 	r.left += kIconWidth + kHMarginWidth;
-	p.String(r, JString(s, JString::kNoCopy), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+	p.String(r, JString(s, JString::kNoCopy), JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

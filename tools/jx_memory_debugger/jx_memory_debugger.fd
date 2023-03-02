@@ -122,14 +122,14 @@ argument:
 
 =============== FORM ===============
 Name: AboutDialog
-Width: 370
+Width: 390
 Height: 120
 Number of Objects: 6
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 370 120
+box: 0 0 390 120
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -147,7 +147,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 70 20 280 50
+box: 70 20 300 50
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -165,7 +165,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_RETURN_BUTTON
-box: 260 90 60 20
+box: 280 90 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -183,7 +183,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 155 90 60 20
+box: 165 90 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER

@@ -8,7 +8,7 @@
 #ifndef _H_JXUpdateWDMenuTask
 #define _H_JXUpdateWDMenuTask
 
-#include "jx-af/jx/JXUrgentTask.h"
+#include "JXUrgentTask.h"
 
 class JXWDManager;
 
@@ -17,6 +17,8 @@ class JXUpdateWDMenuTask : public JXUrgentTask
 public:
 
 	JXUpdateWDMenuTask(JXWDManager* wdMgr);
+
+protected:
 
 	~JXUpdateWDMenuTask() override;
 

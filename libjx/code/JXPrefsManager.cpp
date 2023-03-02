@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXPrefsManager.h"
-#include "jx-af/jx/JXChooseSaveFile.h"
-#include "jx-af/jx/JXTimerTask.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXPrefsManager.h"
+#include "JXCSFDialogBase.h"
+#include "JXTimerTask.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 const Time kSafetySaveInterval = 15 * 60 * 1000;	// 15 minutes (ms)
@@ -25,11 +25,13 @@ const Time kSafetySaveInterval = 15 * 60 * 1000;	// 15 minutes (ms)
 JXPrefsManager::JXPrefsManager
 	(
 	const JFileVersion	currentVersion,
-	const bool		eraseFileIfOpen
+	const bool			eraseFileIfOpen,
+	const JPrefID&		csfID
 	)
 	:
 	JPrefsManager(JXGetApplication()->GetSignature(),
-				  currentVersion, eraseFileIfOpen)
+				  currentVersion, eraseFileIfOpen),
+	itsCSFPrefID(csfID)
 {
 	itsSafetySaveTask = jnew JXTimerTask(kSafetySaveInterval);
 	assert( itsSafetySaveTask != nullptr );
@@ -45,6 +47,21 @@ JXPrefsManager::JXPrefsManager
 JXPrefsManager::~JXPrefsManager()
 {
 	jdelete itsSafetySaveTask;
+}
+
+/******************************************************************************
+ DataLoaded (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXPrefsManager::DataLoaded()
+{
+	std::string data;
+	if (itsCSFPrefID.IsValid() && GetData(itsCSFPrefID, &data))
+	{
+		JXCSFDialogBase::SetState(JString(data));
+	}
 }
 
 /******************************************************************************
@@ -80,7 +97,10 @@ JXPrefsManager::CleanUpBeforeSuddenDeath
 void
 JXPrefsManager::SaveAllBeforeDestruct()
 {
-	(JXGetChooseSaveFile())->JPrefObject::WritePrefs();
+	if (itsCSFPrefID.IsValid())
+	{
+		SetData(itsCSFPrefID, JXCSFDialogBase::GetState());
+	}
 	SaveToDisk();
 }
 

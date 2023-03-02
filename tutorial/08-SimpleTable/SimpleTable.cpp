@@ -80,5 +80,5 @@ SimpleTable::TableDrawCell
 	JString cellNumber((JUInt64) cell.y);
 
 	// Draw the JString that holds the value. 
-	p.String(rect, cellNumber, JPainter::kHAlignLeft, JPainter::kVAlignTop);
+	p.String(rect, cellNumber, JPainter::HAlign::kLeft, JPainter::VAlign::kTop);
 }

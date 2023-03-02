@@ -115,8 +115,6 @@
 .cpp ./code/JTextProgressDisplay
 .cpp ./code/JCreateProgressDisplay
 .cpp ./code/JCreateTextPG
-.cpp ./code/JChooseSaveFile
-.cpp ./code/JTextChooseSaveFile
 .cpp ./code/jNew
 .cpp ./code/JMemoryManager
 .cpp ./code/JMMArrayTable

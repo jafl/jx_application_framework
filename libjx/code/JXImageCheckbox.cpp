@@ -7,13 +7,13 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXImageCheckbox.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXImageCache.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/jXPainterUtil.h"
+#include "JXImageCheckbox.h"
+#include "JXImage.h"
+#include "JXImageCache.h"
+#include "JXWindowPainter.h"
+#include "JXColorManager.h"
+#include "JXDisplay.h"
+#include "jXPainterUtil.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

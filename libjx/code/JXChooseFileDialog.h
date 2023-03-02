@@ -10,27 +10,34 @@
 #ifndef _H_JXChooseFileDialog
 #define _H_JXChooseFileDialog
 
-#include "jx-af/jx/JXCSFDialogBase.h"
+#include "JXCSFDialogBase.h"
 
 class JXChooseFileDialog : public JXCSFDialogBase
 {
 public:
 
+	enum SelectType		// supports cast from bool
+	{
+		kSelectSingleFile = 0,
+		kSelectMultipleFiles
+	};
+
+public:
+
 	static JXChooseFileDialog*
-		Create(JXDirector* supervisor, JDirInfo* dirInfo,
-			   const JString& fileFilter,
-			   const bool allowSelectMultiple,
-			   const JString& origName, const JString& message);
+		Create(const SelectType type = kSelectSingleFile,
+			   const JString& selectName = JString::empty,
+			   const JString& fileFilter = JString::empty,
+			   const JString& message = JString::empty);
 
 	~JXChooseFileDialog() override;
 
-	bool	GetFullName(JString* fullName) const;
-	bool	GetFullNames(JPtrArray<JString>* fullNameList) const;
+	const JString&	GetFullName() const;
+	void			GetFullNames(JPtrArray<JString>* fullNameList) const;
 
 protected:
 
-	JXChooseFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-					   const JString& fileFilter, const bool allowSelectMultiple);
+	JXChooseFileDialog(const JString& fileFilter);
 
 	void	SetObjects(JXScrollbarSet* scrollbarSet,
 					   JXStaticText* pathLabel, JXPathInput* pathInput,
@@ -42,7 +49,8 @@ protected:
 					   JXTextButton* desktopButton,
 					   JXTextButton* selectAllButton, JXTextCheckbox* showHiddenCB,
 					   JXCurrentPathMenu* currPathMenu,
-					   const JString& origName, const JString& message);
+					   const SelectType type, const JString& selectName,
+					   const JString& message);
 
 	void	AdjustSizings() override;
 	void	UpdateDisplay() override;
@@ -51,8 +59,6 @@ protected:
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
-
-	const bool	itsSelectMultipleFlag;
 
 	JXTextButton*	itsOpenButton;
 	JXTextButton*	itsSelectAllButton;
@@ -64,7 +70,8 @@ private:
 
 private:
 
-	void	BuildWindow(const JString& origName, const JString& message);
+	void	BuildWindow(const SelectType type, const JString& selectName,
+						const JString& message);
 };
 
 #endif

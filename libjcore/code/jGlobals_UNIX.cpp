@@ -5,11 +5,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jFileUtil.h"
-#include "jx-af/jcore/JProcess.h"
-#include "jx-af/jcore/jStreamUtil.h"
-#include "jx-af/jcore/jAssert.h"
+#include "jGlobals.h"
+#include "jFileUtil.h"
+#include "JProcess.h"
+#include "jStreamUtil.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JGetDataDirectories

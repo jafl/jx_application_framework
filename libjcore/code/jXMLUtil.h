@@ -8,7 +8,7 @@
 #ifndef _H_jXMLUtil
 #define _H_jXMLUtil
 
-#include "jx-af/jcore/JString.h"
+#include "JString.h"
 #include <libxml/tree.h>
 
 xmlNode*	JGetXMLChildNode(xmlNode* node, const JUtf8Byte* childName);

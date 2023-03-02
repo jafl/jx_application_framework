@@ -10,18 +10,13 @@
 
 	For derived classes of JXDirector, use JXCloseDirectorTask instead.
 
-	This is an idle task rather than an urgent task because it might be
-	unsafe to perform until after the idle task stack has returned to the
-	same level, e.g., after blocking dialogs have finished.
-
-	BASE CLASS = JXIdleTask, virtual JBroadcaster
+	BASE CLASS = JXUrgentTask
 
 	Copyright (C) 2000 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXDeleteObjectTask.h"
-#include <jx-af/jcore/jAssert.h>
+#include "JXDeleteObjectTask.h"
 
 /******************************************************************************
  Delete (static)
@@ -35,9 +30,11 @@ JXDeleteObjectTask<T>::Delete
 	T* obj
 	)
 {
+	static_assert(std::is_base_of<JBroadcaster,T>::value, "T must derive from JBroadcaster");
+
 	JXDeleteObjectTask<T>* task = jnew JXDeleteObjectTask<T>(obj);
 	assert( task != nullptr );
-	task->Start();
+	task->Go();
 }
 
 /******************************************************************************
@@ -51,67 +48,31 @@ JXDeleteObjectTask<T>::JXDeleteObjectTask
 	T* obj
 	)
 	:
-	JXIdleTask(0)
+	JXUrgentTask(obj)
 {
 	itsObject = obj;
-
-	JBroadcaster* b = dynamic_cast<JBroadcaster*>(obj);
-	if (b != nullptr)
-	{
-		ListenTo(b);
-	}
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
 template <class T>
 JXDeleteObjectTask<T>::~JXDeleteObjectTask()
 {
-	jdelete itsObject;
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 template <class T>
 void
-JXDeleteObjectTask<T>::Perform
-	(
-	const Time	delta,
-	Time*		maxSleepTime
-	)
+JXDeleteObjectTask<T>::Perform()
 {
 	jdelete itsObject;
-	itsObject = nullptr;
-	jdelete this;
-}
-
-/******************************************************************************
- ReceiveGoingAway (virtual protected)
-
- ******************************************************************************/
-
-template <class T>
-void
-JXDeleteObjectTask<T>::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	JBroadcaster* b = dynamic_cast<JBroadcaster*>(itsObject);
-	if (sender == b)
-	{
-		itsObject = nullptr;
-	}
-	else
-	{
-		JBroadcaster::ReceiveGoingAway(sender);
-	}
 }
 
 #endif

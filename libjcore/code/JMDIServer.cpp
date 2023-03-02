@@ -24,20 +24,20 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JMDIServer.h"
+#include "JMDIServer.h"
 #include <ace/LSOCK_Acceptor.h>
 #include <ace/LSOCK_Connector.h>
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
-#include "jx-af/jcore/JString.h"
-#include "jx-af/jcore/JUtf8ByteBuffer.h"
-#include "jx-af/jcore/jSysUtil.h"
-#include "jx-af/jcore/jFileUtil.h"
-#include "jx-af/jcore/jDirUtil.h"
-#include "jx-af/jcore/jErrno.h"
+#include "JString.h"
+#include "JUtf8ByteBuffer.h"
+#include "jSysUtil.h"
+#include "jFileUtil.h"
+#include "jDirUtil.h"
+#include "jErrno.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 const JSize kMDIServerQSize   = 1;
 const JSize kMDIMaxWaitTime   = 2;		// seconds

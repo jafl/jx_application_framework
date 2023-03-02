@@ -4,25 +4,25 @@
 	Derived classes must override BuildWindow() and call SetObjects()
 	at the end of their implementation.
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1999 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXPTPrintSetupDialog.h"
-#include "jx-af/jx/JXPSPrintSetupDialog.h"
-#include "jx-af/jx/JXAdjustPrintSetupLayoutTask.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXIntegerInput.h"
-#include "jx-af/jx/JXFileInput.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXRadioGroup.h"
-#include "jx-af/jx/JXTextRadioButton.h"
-#include "jx-af/jx/JXChooseSaveFile.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXPTPrintSetupDialog.h"
+#include "JXPSPrintSetupDialog.h"
+#include "JXAdjustPrintSetupLayoutTask.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXIntegerInput.h"
+#include "JXFileInput.h"
+#include "JXTextCheckbox.h"
+#include "JXRadioGroup.h"
+#include "JXTextRadioButton.h"
+#include "JXCSFDialogBase.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -51,7 +51,7 @@ JXPTPrintSetupDialog::Create
 	const JXPTPrinter::Destination	dest,
 	const JString&					printCmd,
 	const JString&					fileName,
-	const bool					printLineNumbers
+	const bool						printLineNumbers
 	)
 {
 	auto* dlog = jnew JXPTPrintSetupDialog;
@@ -67,7 +67,7 @@ JXPTPrintSetupDialog::Create
 
 JXPTPrintSetupDialog::JXPTPrintSetupDialog()
 	:
-	JXDialogDirector(JXGetApplication(), true)
+	JXModalDialogDirector()
 {
 }
 
@@ -229,7 +229,7 @@ JXPTPrintSetupDialog::SetObjects
 	JXStaticText*					lastPageIndexLabel,
 	JXIntegerInput*					lastPageIndex,
 	JXTextCheckbox*					printLineNumbersCB,
-	const bool					printLineNumbers
+	const bool						printLineNumbers
 	)
 {
 	itsPrintButton         = okButton;
@@ -266,7 +266,7 @@ JXPTPrintSetupDialog::SetObjects
 	task->Go();
 
 	itsPrintCmd->GetText()->SetText(printCmd);
-	itsPrintCmd->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsPrintCmd->GetText()->SetCharacterInWordFunction(JXCSFDialogBase::IsCharacterInWord);
 
 	ListenTo(itsDestination);
 	ListenTo(itsChooseFileButton);
@@ -324,7 +324,7 @@ JXPTPrintSetupDialog::UpdateDisplay()
 bool
 JXPTPrintSetupDialog::OKToDeactivate()
 {
-	if (!JXDialogDirector::OKToDeactivate())
+	if (!JXModalDialogDirector::OKToDeactivate())
 	{
 		return false;
 	}
@@ -381,7 +381,7 @@ JXPTPrintSetupDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 
@@ -470,18 +470,13 @@ JXPTPrintSetupDialog::PrintAllPages
 void
 JXPTPrintSetupDialog::ChooseDestinationFile()
 {
-	if (itsFileInput->SaveFile(JGetString("SaveFilePrompt::JXPTPrintSetupDialog")))
-	{
-		itsPrintButton->Activate();
-	}
-	else if (itsFileInput->GetText()->IsEmpty())
-	{
-		itsPrintButton->Deactivate();
-	}
+	itsFileInput->SaveFile(JGetString("SaveFilePrompt::JXPTPrintSetupDialog"));
 }
 
 /******************************************************************************
- SetParameters
+ SetParameters (virtual)
+
+	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 

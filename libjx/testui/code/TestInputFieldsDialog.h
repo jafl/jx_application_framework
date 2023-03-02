@@ -10,21 +10,25 @@
 #ifndef _H_TestInputFieldsDialog
 #define _H_TestInputFieldsDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXIntegerInput;
+class JXFileInput;
+class JXPathInput;
+class JXTextButton;
 
-class TestInputFieldsDialog : public JXDialogDirector
+class TestInputFieldsDialog : public JXModalDialogDirector
 {
 public:
 
-	TestInputFieldsDialog(JXWindowDirector* supervisor);
+	TestInputFieldsDialog();
 
 	~TestInputFieldsDialog() override;
 
 protected:
 
 	bool	OKToDeactivate() override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
@@ -32,6 +36,10 @@ private:
 
 	JXIntegerInput* itsLowerValue;
 	JXIntegerInput* itsUpperValue;
+	JXPathInput*    itsPathInput;
+	JXFileInput*    itsFileInput;
+	JXTextButton*   itsChoosePathButton;
+	JXTextButton*   itsChooseFileButton;
 
 // end JXLayout
 

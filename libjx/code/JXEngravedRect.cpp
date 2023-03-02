@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXEngravedRect.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/jXPainterUtil.h"
+#include "JXEngravedRect.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
 
 /******************************************************************************
  Constructor

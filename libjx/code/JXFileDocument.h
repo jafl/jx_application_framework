@@ -10,12 +10,12 @@
 #ifndef _H_JXFileDocument
 #define _H_JXFileDocument
 
-#include "jx-af/jx/JXDocument.h"
+#include "JXDocument.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/JError.h>
 #include <jx-af/jcore/jTime.h>
 
-class JChooseSaveFile;
+class JXSaveFileDialog;
 
 class JXFileDocument : public JXDocument
 {
@@ -74,7 +74,6 @@ public:
 	static bool		CheckForSafetySaveFiles(const JString& fullName,
 											JPtrArray<JString>* filesToOpen);
 
-	JChooseSaveFile*	GetChooseSaveFile() const;
 	const JString&		GetSaveBeforeClosePrompt() const;
 	const JString&		GetSaveNewFilePrompt() const;
 	const JString&		GetOKToRevertPrompt() const;
@@ -92,12 +91,12 @@ protected:
 				   const bool onDisk, const bool wantBackupFile,
 				   const JUtf8Byte* defaultFileNameSuffix);
 
-	void		AdjustWindowTitle();
-	void		FileChanged(const JString& fileName, const bool onDisk);
+	void	AdjustWindowTitle();
+	void	FileChanged(const JString& fileName, const bool onDisk);
 
-	bool	OKToClose() override;
-	bool	OKToRevert() override;
-	bool	CanRevert() override;
+	bool			OKToClose() override;
+	bool			OKToRevert() override;
+	bool			CanRevert() override;
 	virtual void	HandleFileModifiedByOthers(const bool modTimeChanged,
 											   const bool permsChanged);
 	virtual JError	WriteFile(const JString& fullName, const bool safetySave) const;
@@ -105,12 +104,13 @@ protected:
 
 	virtual JString	GetWindowTitle() const;
 
+	virtual JXSaveFileDialog*	CreateSaveFileDialog(const JString& startName);
+
 	static FileStatus	DefaultCanReadASCIIFile(std::istream& input,
 												const JUtf8Byte* fileSignature,
 												const JFileVersion currFileVersion,
 												JFileVersion* actualFileVersion);
 
-	void	SetChooseSaveFile(JChooseSaveFile* csf);
 	void	SetSaveBeforeClosePrompt(const JString& prompt);
 	void	SetSaveNewFilePrompt(const JString& prompt);
 	void	SetOKToRevertPrompt(const JString& prompt);
@@ -133,13 +133,12 @@ private:
 	bool	itsCheckPermsFlag;
 	bool	itsAllocateTitleSpaceFlag;
 
-	bool		itsNeedSafetySaveFlag;	// true if not safety saved after latest DataModified()
-	JString*	itsSafetySaveFileName;	// not nullptr if safety save file exists
+	bool		itsNeedSafetySaveFlag;		// true if not safety saved after latest DataModified()
+	JString*	itsSafetySaveFileName;		// not nullptr if safety save file exists
 
-	JChooseSaveFile*	itsCSF;			// we don't own this
-	JString				itsSaveBeforeClosePrompt;
-	JString				itsSaveNewFilePrompt;
-	JString				itsOKToRevertPrompt;
+	JString	itsSaveBeforeClosePrompt;
+	JString	itsSaveNewFilePrompt;
+	JString	itsOKToRevertPrompt;
 
 	static bool	itsAskOKToCloseFlag;		// true if should ask "Save before closing?"
 
@@ -155,7 +154,7 @@ public:
 	static const JUtf8Byte* kNameChanged;
 
 	class NameChanged : public JBroadcaster::Message
-		{
+	{
 		public:
 
 			NameChanged(const JString& fullName)
@@ -173,7 +172,7 @@ public:
 		private:
 
 			const JString& itsFullName;
-		};
+	};
 
 public:
 
@@ -227,20 +226,6 @@ JXFileDocument::DataModified()
 		}
 
 	itsNeedSafetySaveFlag = true;
-}
-
-/******************************************************************************
- SetChooseSaveFile (protected)
-
- ******************************************************************************/
-
-inline void
-JXFileDocument::SetChooseSaveFile
-	(
-	JChooseSaveFile* csf
-	)
-{
-	itsCSF = csf;
 }
 
 /******************************************************************************
@@ -377,16 +362,9 @@ JXFileDocument::ShouldAskOKToClose
 }
 
 /******************************************************************************
- Choose/Save file
+ Prompts
 
  ******************************************************************************/
-
-inline JChooseSaveFile*
-JXFileDocument::GetChooseSaveFile()
-	const
-{
-	return itsCSF;
-}
 
 inline const JString&
 JXFileDocument::GetSaveBeforeClosePrompt()

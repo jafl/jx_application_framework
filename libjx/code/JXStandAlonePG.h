@@ -11,9 +11,11 @@
 #ifndef _H_JXStandAlonePG
 #define _H_JXStandAlonePG
 
-#include "jx-af/jx/JXProgressDisplay.h"
+#include "JXProgressDisplay.h"
+#include <boost/fiber/condition_variable.hpp>
 
 class JXPGDirectorBase;
+class JXProgressContinueWorkTask;
 
 class JXStandAlonePG : public JXProgressDisplay
 {
@@ -34,14 +36,18 @@ protected:
 							 const JSize stepCount,
 							 const JString& message,
 							 const bool allowCancel,
-							 const bool allowBackground) override;
+							 const bool modal) override;
 
 private:
 
-	JIndex				itsWindowIndex;
 	JXPGDirectorBase*	itsProgressDirector;
 	bool				itsRaiseWindowFlag;
 	JSize				itsStepCount;
+
+	JXProgressContinueWorkTask*			itsContinueTask;
+	boost::fibers::condition_variable	itsCondition;
+	boost::fibers::mutex				itsMutex;
+	bool								itsContinueFlag;
 };
 
 

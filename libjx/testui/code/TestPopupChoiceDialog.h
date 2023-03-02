@@ -10,13 +10,13 @@
 #ifndef _H_TestPopupChoiceDialog
 #define _H_TestPopupChoiceDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
-class TestPopupChoiceDialog : public JXDialogDirector
+class TestPopupChoiceDialog : public JXModalDialogDirector
 {
 public:
 
-	TestPopupChoiceDialog(JXWindowDirector* supervisor);
+	TestPopupChoiceDialog();
 
 	~TestPopupChoiceDialog() override;
 

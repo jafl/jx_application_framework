@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXPathHistoryMenu.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXImageCache.h"
-#include "jx-af/jx/JXDisplay.h"
+#include "JXPathHistoryMenu.h"
+#include "JXImage.h"
+#include "JXImageCache.h"
+#include "JXDisplay.h"
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jMountUtil.h>
 #include <jx-af/jcore/jAssert.h>

@@ -10,8 +10,8 @@
 #ifndef _H_JStack
 #define _H_JStack
 
-#include "jx-af/jcore/JContainer.h"
-#include "jx-af/jcore/JListIterator.h"	// template
+#include "JContainer.h"
+#include "JListIterator.h"	// template
 
 template <class T, class S>
 class JStack : public JContainer

@@ -8,7 +8,7 @@
 #ifndef _H_JPTPrinter
 #define _H_JPTPrinter
 
-#include "jx-af/jcore/JPrinter.h"
+#include "JPrinter.h"
 
 class JString;
 
@@ -69,12 +69,12 @@ protected:
 
 private:
 
-	JSize		itsCopyCount;			// for use by derived classes
-	JIndex		itsFirstPageIndex;
-	JIndex		itsLastPageIndex;
-	JSize		itsPageWidth;			// characters
-	JSize		itsPageHeight;			// lines
-	JSize		itsTabWidth;			// characters
+	JSize	itsCopyCount;			// for use by derived classes
+	JIndex	itsFirstPageIndex;
+	JIndex	itsLastPageIndex;
+	JSize	itsPageWidth;			// characters
+	JSize	itsPageHeight;			// lines
+	JSize	itsTabWidth;			// characters
 	bool	itsPrintReverseOrderFlag;
 	bool	itsPrintLineNumberFlag;
 

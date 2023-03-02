@@ -15,11 +15,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXDisplayMenu.h"
-#include "jx-af/jx/JXOpenDisplayDialog.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXDisplayMenu.h"
+#include "JXOpenDisplayDialog.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -47,7 +47,6 @@ JXDisplayMenu::JXDisplayMenu
 	:
 	JXTextMenu(title, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsNewDisplayDialog = nullptr;
 	BuildMenu();
 }
 
@@ -60,7 +59,6 @@ JXDisplayMenu::JXDisplayMenu
 	:
 	JXTextMenu(owner, itemIndex, enclosure)
 {
-	itsNewDisplayDialog = nullptr;
 	BuildMenu();
 }
 
@@ -163,21 +161,6 @@ JXDisplayMenu::Receive
 		BuildMenu();
 	}
 
-	else if (sender == itsNewDisplayDialog &&
-			 message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			itsDisplayIndex = itsNewDisplayDialog->GetDisplayIndex();
-			Broadcast(DisplayChanged(itsDisplayIndex));
-		}
-		SetPopupChoice(itsDisplayIndex);
-		itsNewDisplayDialog = nullptr;
-	}
-
 	else
 	{
 		JXTextMenu::Receive(sender, message);
@@ -202,12 +185,14 @@ JXDisplayMenu::ChooseDisplay
 	}
 	else
 	{
-		assert( itsNewDisplayDialog == nullptr );
-		JXWindowDirector* supervisor = GetWindow()->GetDirector();
-		itsNewDisplayDialog = jnew JXOpenDisplayDialog(supervisor);
-		assert( itsNewDisplayDialog != nullptr );
-		ListenTo(itsNewDisplayDialog);
-		itsNewDisplayDialog->BeginDialog();
+		auto* dlog = jnew JXOpenDisplayDialog();
+		assert( dlog != nullptr );
+		if (dlog->DoDialog())
+		{
+			itsDisplayIndex = dlog->GetDisplayIndex();
+			Broadcast(DisplayChanged(itsDisplayIndex));
+		}
+		SetPopupChoice(itsDisplayIndex);
 	}
 }
 

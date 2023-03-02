@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jfs/JFSFileTree.h"
-#include "jx-af/jfs/JFSFileTreeNodeBase.h"
+#include "JFSFileTree.h"
+#include "JFSFileTreeNodeBase.h"
 #include <jx-af/jcore/jAssert.h>
 
 const JUtf8Byte* JFSFileTree::kDirectoryRenamed = "DirectoryRenamed::JFSFileTree";

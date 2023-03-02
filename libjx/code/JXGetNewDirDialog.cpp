@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXGetNewDirDialog.h"
-#include "jx-af/jx/JXInputField.h"
-#include "jx-af/jx/JXChooseSaveFile.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXGetNewDirDialog.h"
+#include "JXInputField.h"
+#include "JXCSFDialogBase.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -21,20 +21,18 @@
 
 JXGetNewDirDialog::JXGetNewDirDialog
 	(
-	JXDirector*		supervisor,
-	const JString&	windowTitle,
-	const JString&	prompt,
-	const JString&	initialName,
-	const JString&	basePath,
-	const bool	modal
+	const JString& windowTitle,
+	const JString& prompt,
+	const JString& initialName,
+	const JString& basePath
 	)
 	:
-	JXGetStringDialog(supervisor, windowTitle, prompt, initialName, modal),
+	JXGetStringDialog(windowTitle, prompt, initialName),
 	itsBasePath(basePath)
 {
 	assert( JDirectoryExists(basePath) );
 
-	GetInputField()->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	GetInputField()->GetText()->SetCharacterInWordFunction(JXCSFDialogBase::IsCharacterInWord);
 }
 
 /******************************************************************************

@@ -11,7 +11,7 @@
 #ifndef _H_JXPathInput
 #define _H_JXPathInput
 
-#include "jx-af/jx/JXFSInputBase.h"
+#include "JXFSInputBase.h"
 
 class JXPathInput : public JXFSInputBase
 {
@@ -34,7 +34,7 @@ public:
 	bool	WillRequireWritable() const;
 	void	ShouldRequireWritable(const bool require = true);
 
-	bool	ChoosePath(const JString& prompt, const JString& instr = JString::empty);
+	bool	ChoosePath(const JString& instr = JString::empty);
 
 	static JColorID		GetTextColor(const JString& path, const JString& base,
 									 const bool requireWrite);

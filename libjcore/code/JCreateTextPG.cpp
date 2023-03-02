@@ -5,9 +5,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JCreateTextPG.h"
-#include "jx-af/jcore/JTextProgressDisplay.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JCreateTextPG.h"
+#include "JTextProgressDisplay.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

@@ -9,14 +9,14 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXColHeaderWidget.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXScrollbarSet.h"
-#include "jx-af/jx/JXScrollbar.h"
-#include "jx-af/jx/JXDragPainter.h"
-#include "jx-af/jx/jXPainterUtil.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXColHeaderWidget.h"
+#include "JXWindow.h"
+#include "JXScrollbarSet.h"
+#include "JXScrollbar.h"
+#include "JXDragPainter.h"
+#include "jXPainterUtil.h"
+#include "JXFontManager.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -214,7 +214,7 @@ JXColHeaderWidget::TableDrawCell
 			JFontManager::GetDefaultRowColHeaderFontSize(),
 			JFontStyle(true, false, 0, false));
 	p.SetFont(font);
-	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(rect, str, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

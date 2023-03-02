@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JSTUndoPaste.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JSTUndoPaste.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

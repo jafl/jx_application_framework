@@ -11,20 +11,20 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXDirTable.h"
+#include "JXDirTable.h"
 #include <jx-af/jcore/JDirInfo.h>
 
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXImageCache.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXSelectionManager.h"
-#include "jx-af/jx/JXDNDManager.h"
-#include "jx-af/jx/JXTimerTask.h"
-#include "jx-af/jx/jXGlobals.h"
-#include "jx-af/jx/jXUtil.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "JXImage.h"
+#include "JXImageCache.h"
+#include "JXColorManager.h"
+#include "JXSelectionManager.h"
+#include "JXDNDManager.h"
+#include "JXTimerTask.h"
+#include "jXGlobals.h"
+#include "jXUtil.h"
 
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/JString.h>
@@ -49,6 +49,7 @@ const JCoordinate kVMarginWidth = 1;
 const Time kDirUpdatePeriod = 1000;		// milliseconds
 
 const JUtf8Byte* JXDirTable::kFileDblClicked = "FileDblClicked::JXDirTable";
+const JUtf8Byte* JXDirTable::kFileDropped    = "FileDropped::JXDirTable";
 
 /******************************************************************************
  Constructor
@@ -490,7 +491,7 @@ JXDirTable::TableDrawCell
 
 	JRect r = rect;
 	r.left += kIconWidth + kHMarginWidth;
-	p.String(r, entry.GetName(), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+	p.String(r, entry.GetName(), JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************
@@ -873,6 +874,8 @@ JXDirTable::HandleDNDDrop
 				{
 					continue;
 				}
+
+				Broadcast(FileDropped(name));
 
 				GetWindow()->Raise();
 				if (!s.HasSelection())

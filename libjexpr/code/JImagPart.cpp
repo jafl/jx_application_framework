@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JImagPart.h"
+#include "JImagPart.h"
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jAssert.h>
 

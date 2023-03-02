@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXUpdateDocMenuTask.h"
-#include "jx-af/jx/JXDocumentManager.h"
+#include "JXUpdateDocMenuTask.h"
+#include "JXDocumentManager.h"
 
 /******************************************************************************
  Constructor
@@ -20,13 +20,13 @@ JXUpdateDocMenuTask::JXUpdateDocMenuTask
 	JXDocumentManager* docMgr
 	)
 	:
-	JXUrgentTask()
+	JXUrgentTask(docMgr),
+	itsDocMgr(docMgr)
 {
-	itsDocMgr = docMgr;
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -35,13 +35,16 @@ JXUpdateDocMenuTask::~JXUpdateDocMenuTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXUpdateDocMenuTask::Perform()
 {
-	itsDocMgr->itsUpdateDocMenuTask = nullptr;	// we will now be deleted
 	itsDocMgr->UpdateAllDocumentMenus();
+	if (itsDocMgr != nullptr)
+	{
+		itsDocMgr->itsUpdateDocMenuTask = nullptr;
+	}
 }

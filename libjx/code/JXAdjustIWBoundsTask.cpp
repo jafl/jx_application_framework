@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXAdjustIWBoundsTask.h"
-#include "jx-af/jx/JXImageWidget.h"
+#include "JXAdjustIWBoundsTask.h"
+#include "JXImageWidget.h"
 
 /******************************************************************************
  Constructor
@@ -19,12 +19,14 @@ JXAdjustIWBoundsTask::JXAdjustIWBoundsTask
 	(
 	JXImageWidget* widget
 	)
+	:
+	JXUrgentTask(widget),
+	itsImageWidget(widget)
 {
-	itsImageWidget = widget;
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -33,7 +35,7 @@ JXAdjustIWBoundsTask::~JXAdjustIWBoundsTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
 	By clearing itsAdjustBoundsTask first, we allow the widget
 	to create another one, if necessary.

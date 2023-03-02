@@ -8,16 +8,17 @@
 #ifndef _H_JXScrollTabsTask
 #define _H_JXScrollTabsTask
 
-#include "jx-af/jx/JXUrgentTask.h"
-#include <jx-af/jcore/JBroadcaster.h>
+#include "JXUrgentTask.h"
 
 class JXTabGroup;
 
-class JXScrollTabsTask : public JXUrgentTask, virtual public JBroadcaster
+class JXScrollTabsTask : public JXUrgentTask
 {
 public:
 
 	JXScrollTabsTask(JXTabGroup* tabGroup);
+
+protected:
 
 	~JXScrollTabsTask() override;
 

@@ -43,10 +43,10 @@ public:
 protected:
 
 	void	ProcessBeginning(const ProcessType processType,
-									 const JSize stepCount,
-									 const JString& message, 
-									 const bool allowCancel,
-									 const bool allowBackground) override;
+							 const JSize stepCount,
+							 const JString& message,
+							 const bool allowCancel,
+							 const bool modal) override;
 
 	virtual void	AppendToMessageWindow(const JString& message);
 	bool			CheckForCancel() override;

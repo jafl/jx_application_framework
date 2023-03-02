@@ -1,5 +1,5 @@
 /******************************************************************************
- JXDialogDirector.cpp
+ JXModalDialogDirector.cpp
 
 	Maintains a dialog window.  If we are modal, we suspend our supervisor
 	when activated and resume it when we are deactivated.
@@ -21,8 +21,8 @@
 	generates kJXDialogDeactivated, extracting the data only has to be
 	done one place: in the "deactivated" message handler.
 
-	The only difference between a modeless JXDialogDirector and a
-	JXWindowDirector is that JXDialogDirector is transient by default
+	The only difference between a modeless JXModalDialogDirector and a
+	JXWindowDirector is that JXModalDialogDirector is transient by default
 	and notifies you when it is closed.
 
 	Derived classes that implement modal windows are required to call
@@ -39,34 +39,30 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXDialogDirector.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXButton.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXModalDialogDirector.h"
+#include "JXWindow.h"
+#include "JXButton.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
-
-// JBroadcaster message types
-
-const JUtf8Byte* JXDialogDirector::kDeactivated = "Deactivated::JXDialogDirector";
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-JXDialogDirector::JXDialogDirector
+JXModalDialogDirector::JXModalDialogDirector
 	(
-	JXDirector*		supervisor,
-	const bool	modal
+	const bool allowResizing
 	)
 	:
-	JXWindowDirector(supervisor),
-	itsModalFlag(modal)
+	JXWindowDirector(JXGetApplication()),
+	itsAllowResizeFlag(allowResizing),
+	itsCancelFlag(false),
+	itsOKButton(nullptr),
+	itsCancelButton(nullptr),
+	itsDoneFlag(false),
+	itsDeletedFlag(nullptr)
 {
-	itsAutoGeomFlag = modal;
-	itsCancelFlag   = false;
-	itsOKButton     = nullptr;
-	itsCancelButton = nullptr;
 }
 
 /******************************************************************************
@@ -74,8 +70,12 @@ JXDialogDirector::JXDialogDirector
 
  ******************************************************************************/
 
-JXDialogDirector::~JXDialogDirector()
+JXModalDialogDirector::~JXModalDialogDirector()
 {
+	if (itsDeletedFlag != nullptr)
+	{
+		*itsDeletedFlag = true;
+	}
 }
 
 /******************************************************************************
@@ -87,21 +87,18 @@ JXDialogDirector::~JXDialogDirector()
  ******************************************************************************/
 
 void
-JXDialogDirector::SetButtons
+JXModalDialogDirector::SetButtons
 	(
 	JXButton* okButton,
 	JXButton* cancelButton
 	)
 {
-	assert( !itsModalFlag || okButton != nullptr );
+	assert( okButton != nullptr );
 
 	JXWindow* window = GetWindow();
 	assert( window != nullptr );
 
-	if (itsModalFlag)
-	{
-		window->HideFromTaskbar();
-	}
+	window->HideFromTaskbar();
 
 	itsOKButton = okButton;
 	if (itsOKButton != nullptr)
@@ -118,50 +115,82 @@ JXDialogDirector::SetButtons
 }
 
 /******************************************************************************
+ DoDialog
+
+	Returns true if the dialog is ok'd.
+
+ ******************************************************************************/
+
+bool
+JXModalDialogDirector::DoDialog()
+{
+	assert( JXApplication::IsWorkerFiber() );
+
+	Activate();
+
+	std::unique_lock<boost::fibers::mutex> lock(itsMutex);
+	itsCondition.wait(lock, [this](){ return itsDoneFlag; });
+
+	return !itsCancelFlag;
+}
+
+/******************************************************************************
+ EndDialog
+
+	If success is true, we close ourselves with success.
+	Otherwise, we close as if cancelled.
+
+	We don't bother to return the result of Deactivate() because, if it
+	is successful, kJXDialogDeactivated will be broadcast.
+
+ ******************************************************************************/
+
+void
+JXModalDialogDirector::EndDialog
+	(
+	const bool success
+	)
+{
+	itsCancelFlag = !success;
+	if (!Deactivate())
+	{
+		itsCancelFlag = true;		// so WM_DELETE_WINDOW => cancel
+	}
+}
+
+/******************************************************************************
  Activate (virtual)
 
  ******************************************************************************/
 
 void
-JXDialogDirector::Activate()
+JXModalDialogDirector::Activate()
 {
 	if (!IsActive())
 	{
-		assert( !itsModalFlag || itsOKButton != nullptr );
+		assert( itsOKButton != nullptr );
 
 		JXWindow* window = GetWindow();
 		assert( window != nullptr );
 		window->SetCloseAction(JXWindow::kDeactivateDirector);
 		window->ShouldFocusWhenShow(true);
+		window->SetWMWindowType(JXWindow::kWMDialogType);
 
-		JXDirector* supervisor = GetSupervisor();
-		if (supervisor->IsWindowDirector())
+		window->PlaceAsDialogWindow();
+		if (!itsAllowResizeFlag)
 		{
-			auto* windowDir =
-				dynamic_cast<JXWindowDirector*>(supervisor);
-			assert( windowDir != nullptr );
-			window->SetTransientFor(windowDir);
-		}
-
-		if (itsModalFlag)
-		{
-			window->SetWMWindowType(JXWindow::kWMDialogType);
-		}
-
-		if (itsAutoGeomFlag)
-		{
-			window->PlaceAsDialogWindow();
 			window->LockCurrentSize();
+		}
+		else
+		{
+			window->LockCurrentMinSize();
 		}
 
 		JXWindowDirector::Activate();
 		if (IsActive())
 		{
-			itsCancelFlag = true;		// so WM_DELETE_WINDOW => cancel
-			if (itsModalFlag)
-			{
-				supervisor->Suspend();
-			}
+			itsCancelFlag = true;	// so WM_DELETE_WINDOW => cancel
+			GetSupervisor()->Suspend();
 
 			while (IsSuspended())
 			{
@@ -181,7 +210,7 @@ JXDialogDirector::Activate()
  ******************************************************************************/
 
 bool
-JXDialogDirector::Deactivate()
+JXModalDialogDirector::Deactivate()
 {
 	if (!IsActive())
 	{
@@ -195,14 +224,25 @@ JXDialogDirector::Deactivate()
 
 	if (JXWindowDirector::Deactivate())
 	{
-		const bool success = !itsCancelFlag;
-		Broadcast(JXDialogDirector::Deactivated(success));
-		if (itsModalFlag)
+		bool deleted   = false;
+		itsDeletedFlag = &deleted;
+
+		std::unique_lock<boost::fibers::mutex> lock(itsMutex);
+		itsDoneFlag = true;
+		lock.unlock();
+
+		itsCondition.notify_one();
+		boost::this_fiber::yield();
+
+		if (!deleted)
 		{
+			itsDeletedFlag = nullptr;
+
 			GetSupervisor()->Resume();
+
+			const bool ok = Close();
+			assert( ok );
 		}
-		const bool ok = Close();
-		assert( ok );
 		return true;
 	}
 	else
@@ -217,9 +257,30 @@ JXDialogDirector::Deactivate()
  ******************************************************************************/
 
 bool
-JXDialogDirector::OKToDeactivate()
+JXModalDialogDirector::OKToDeactivate()
 {
 	return itsCancelFlag || JXWindowDirector::OKToDeactivate();
+}
+
+/******************************************************************************
+ Close (virtual)
+
+	Close all sub-directors and delete ourselves.
+
+ ******************************************************************************/
+
+bool
+JXModalDialogDirector::Close()
+{
+	if (IsActive())
+	{
+		EndDialog(false);
+		return true;
+	}
+	else
+	{
+		return JXWindowDirector::Close();
+	}
 }
 
 /******************************************************************************
@@ -230,7 +291,7 @@ JXDialogDirector::OKToDeactivate()
  ******************************************************************************/
 
 void
-JXDialogDirector::Receive
+JXModalDialogDirector::Receive
 	(
 	JBroadcaster*	sender,
 	const Message&	message

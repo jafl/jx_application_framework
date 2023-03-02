@@ -10,17 +10,17 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXDocktab.h"
-#include "jx-af/jx/JXDockManager.h"
-#include "jx-af/jx/JXDockDirector.h"
-#include "jx-af/jx/JXDockWidget.h"
-#include "jx-af/jx/JXDockDragData.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextMenu.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/jXPainterUtil.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXDocktab.h"
+#include "JXDockManager.h"
+#include "JXDockDirector.h"
+#include "JXDockWidget.h"
+#include "JXDockDragData.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXTextMenu.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jAssert.h>
 

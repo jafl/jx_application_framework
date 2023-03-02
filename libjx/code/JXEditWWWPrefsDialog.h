@@ -10,17 +10,16 @@
 #ifndef _H_JXEditWWWPrefsDialog
 #define _H_JXEditWWWPrefsDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 
 class JString;
 class JXInputField;
 
-class JXEditWWWPrefsDialog : public JXDialogDirector
+class JXEditWWWPrefsDialog : public JXModalDialogDirector
 {
 public:
 
-	JXEditWWWPrefsDialog(JXDirector* supervisor,
-						 const JString& showURLCmd,
+	JXEditWWWPrefsDialog(const JString& showURLCmd,
 						 const JString& showFileContentCmd,
 						 const JString& showFileLocationCmd,
 						 const JString& composeMailCmd);

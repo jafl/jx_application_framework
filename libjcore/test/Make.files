@@ -248,12 +248,20 @@ literal: ${LIB_DEPS}
 @test_memcpy
 code/_testmemcpy
 
+@test_fibers
+code/_testfibers
+literal: ${LIB_DEPS}
+
 @test_hash
 code/_testhash
 literal: ${LIB_DEPS}
 
 @test_mutex
 code/_testmutex
+
+@test_stacktrace
+code/_teststacktrace
+literal: ${LIB_DEPS}
 
 @test_JTextChooseSaveFile
 code/_testJTextChooseSaveFile

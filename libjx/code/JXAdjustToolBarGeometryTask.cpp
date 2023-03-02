@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXAdjustToolBarGeometryTask.h"
-#include "jx-af/jx/JXToolBar.h"
+#include "JXAdjustToolBarGeometryTask.h"
+#include "JXToolBar.h"
 
 /******************************************************************************
  Constructor
@@ -20,13 +20,13 @@ JXAdjustToolBarGeometryTask::JXAdjustToolBarGeometryTask
 	JXToolBar* toolBar
 	)
 	:
-	JXUrgentTask()
+	JXUrgentTask(toolBar),
+	itsToolBar(toolBar)
 {
-	itsToolBar = toolBar;
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -35,7 +35,7 @@ JXAdjustToolBarGeometryTask::~JXAdjustToolBarGeometryTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
 	By clearing itsAdjustTask first, we allow the widget
 	to create another one, if necessary.

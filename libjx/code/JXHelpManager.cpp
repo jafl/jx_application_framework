@@ -10,7 +10,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXHelpManager.h"
+#include "JXHelpManager.h"
 #include <jx-af/jcore/JWebBrowser.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>

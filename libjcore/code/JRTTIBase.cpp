@@ -22,9 +22,9 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JRTTIBase.h"
+#include "JRTTIBase.h"
 #include <string.h>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Destructor

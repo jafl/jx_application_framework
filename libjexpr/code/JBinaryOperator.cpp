@@ -12,8 +12,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JBinaryOperator.h"
-#include "jx-af/jexpr/jFunctionUtil.h"
+#include "JBinaryOperator.h"
+#include "jFunctionUtil.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

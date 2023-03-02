@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXFloatInput.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXFloatInput.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

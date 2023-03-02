@@ -19,10 +19,10 @@ class Foo
 public:
 
 	Foo()
-{
+	{
 		std::lock_guard mg(m);
 		std::cout << "static init" << std::endl;
-}
+	}
 };
 
 static Foo foo;
@@ -50,6 +50,7 @@ main()
 	std::cout << "\nTest mutexes" << std::endl;
 	std::cout << "system has " << std::thread::hardware_concurrency() << " cores" << std::endl;
 
+	run();
 	std::atexit(run);
 
 	std::thread* t[kThreadCount];

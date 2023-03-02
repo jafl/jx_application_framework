@@ -11,7 +11,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXStyledText.h"
+#include "JXStyledText.h"
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/jAssert.h>

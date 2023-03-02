@@ -7,19 +7,19 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jDirUtil.h"
-#include "jx-af/jcore/JThisProcess.h"
-#include "jx-af/jcore/JDirInfo.h"
-#include "jx-af/jcore/JProgressDisplay.h"
-#include "jx-af/jcore/JLatentPG.h"
-#include "jx-af/jcore/JSimpleProcess.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/JStdError.h"
+#include "jDirUtil.h"
+#include "JThisProcess.h"
+#include "JDirInfo.h"
+#include "JProgressDisplay.h"
+#include "JLatentPG.h"
+#include "JSimpleProcess.h"
+#include "JStringIterator.h"
+#include "jGlobals.h"
+#include "JStdError.h"
 #include <pwd.h>
-#include "jx-af/jcore/jErrno.h"
-#include "jx-af/jcore/jMissingProto.h"
-#include "jx-af/jcore/jAssert.h"
+#include "jErrno.h"
+#include "jMissingProto.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JNameUsed

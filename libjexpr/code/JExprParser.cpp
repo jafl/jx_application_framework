@@ -5,11 +5,11 @@
 
  *****************************************************************************/
 
-#include "jx-af/jexpr/JExprParser.h"
-#include "jx-af/jexpr/JExprScanner.h"
-#include "jx-af/jexpr/JExprEditor.h"
-#include "jx-af/jexpr/JSummation.h"
-#include "jx-af/jexpr/JProduct.h"
+#include "JExprParser.h"
+#include "JExprScanner.h"
+#include "JExprEditor.h"
+#include "JSummation.h"
+#include "JProduct.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

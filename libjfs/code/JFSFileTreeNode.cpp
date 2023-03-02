@@ -22,8 +22,8 @@
 
  *****************************************************************************/
 
-#include "jx-af/jfs/JFSFileTreeNode.h"
-#include "jx-af/jfs/JFSFileTree.h"
+#include "JFSFileTreeNode.h"
+#include "JFSFileTree.h"
 #include <jx-af/jcore/JPtrArray-JString.h>
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/JDirInfo.h>

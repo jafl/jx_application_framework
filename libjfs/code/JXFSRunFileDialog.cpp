@@ -1,14 +1,14 @@
 /******************************************************************************
  JXFSRunFileDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2000 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jfs/JXFSRunFileDialog.h"
-#include "jx-af/jfs/JXFSCommandHistoryMenu.h"
+#include "JXFSRunFileDialog.h"
+#include "JXFSCommandHistoryMenu.h"
 #include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXInputField.h>
@@ -16,9 +16,10 @@
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXTextCheckbox.h>
 #include <jx-af/jx/JXWidgetSet.h>
-#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXChooseFileDialog.h>
 #include <jx-af/jx/JXFontManager.h>
 #include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JPrefsFile.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jDirUtil.h>
@@ -44,7 +45,7 @@ JXFSRunFileDialog::JXFSRunFileDialog
 	const bool	allowSaveCmd
 	)
 	:
-	JXDialogDirector(JXGetApplication(), true)
+	JXModalDialogDirector()
 {
 	BuildWindow(fileName, allowSaveCmd);
 }
@@ -66,7 +67,7 @@ JXFSRunFileDialog::~JXFSRunFileDialog()
 bool
 JXFSRunFileDialog::OKToDeactivate()
 {
-	if (!JXDialogDirector::OKToDeactivate())
+	if (!JXModalDialogDirector::OKToDeactivate())
 	{
 		return false;
 	}
@@ -208,14 +209,13 @@ JXFSRunFileDialog::BuildWindow
 
 	window->SetTitle(JGetString("WindowTitle::JXFSRunFileDialog"));
 	window->LockCurrentMinSize();
-	UseModalPlacement(false);
 	ftcContainer->SetNeedsInternalFTC();
 
 	ListenTo(itsChooseCmdButton);
 	ListenTo(itsHelpButton);
 	ListenTo(itsCmdHistoryMenu);
 
-	itsCmdInput->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsCmdInput->GetText()->SetCharacterInWordFunction(JXCSFDialogBase::IsCharacterInWord);
 	ListenTo(itsCmdInput);
 
 	itsCmdInput->SetFont(JFontManager::GetDefaultMonospaceFont());
@@ -251,10 +251,7 @@ JXFSRunFileDialog::BuildWindow
 
 	// read previous window geometry
 
-	if (!ReadSetup())
-	{
-		window->PlaceAsDialogWindow();
-	}
+	ReadSetup();
 
 	// adjust window width to fit prompt
 
@@ -321,7 +318,7 @@ JXFSRunFileDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 
@@ -379,13 +376,11 @@ JXFSRunFileDialog::HandleChooseCmdButton
 	JXInputField* cmdInput
 	)
 {
-	JString fullName;
-	if (JGetChooseSaveFile()->ChooseFile(
-			JGetString("ChooseCmdPrompt::JXFSRunFileDialog"),
-			JString::empty, &fullName))
+	auto* dlog = JXChooseFileDialog::Create(JXChooseFileDialog::kSelectSingleFile);
+	if (dlog->DoDialog())
 	{
 		JString path, name;
-		JSplitPathAndName(fullName, &path, &name);
+		JSplitPathAndName(dlog->GetFullName(), &path, &name);
 		name.Append(" ");
 		cmdInput->GetText()->SetText(name);
 		cmdInput->GoToEndOfLine();
@@ -403,8 +398,8 @@ JXFSRunFileDialog::ReadSetup()
 	bool found = false;
 
 	JPrefsFile* file = nullptr;
-	if ((JPrefsFile::Create(kPrefsFileRoot, &file,
-							JFileArray::kDeleteIfWaitTimeout)).OK())
+	if (JPrefsFile::Create(kPrefsFileRoot, &file,
+						   JFileArray::kDeleteIfWaitTimeout).OK())
 	{
 		for (JFileVersion vers = kCurrentPrefsVersion; true; vers--)
 		{

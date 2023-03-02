@@ -8,19 +8,17 @@
 #ifndef _H_JXGetStringDialog
 #define _H_JXGetStringDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 #include <jx-af/jcore/JString.h>
 
 class JXInputField;
 
-class JXGetStringDialog : public JXDialogDirector
+class JXGetStringDialog : public JXModalDialogDirector
 {
 public:
 
-	JXGetStringDialog(JXDirector* supervisor, const JString& windowTitle,
-					  const JString& prompt,
+	JXGetStringDialog(const JString& windowTitle, const JString& prompt,
 					  const JString& initialValue = JString::empty,
-					  const bool modal = true,
 					  const bool password = false);
 
 	~JXGetStringDialog() override;

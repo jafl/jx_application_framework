@@ -79,7 +79,7 @@ TestMDIServer::HandleMDIRequest
 
 		JXStandAlonePG pg;
 		pg.RaiseWhenUpdate();
-		pg.FixedLengthProcessBeginning(argCount-1, JGetString("OpeningFiles::TestMDIServer"), true, false);
+		pg.FixedLengthProcessBeginning(argCount-1, JGetString("OpeningFiles::TestMDIServer"), true, true);
 
 		for (JIndex i=2; i<=argCount; i++)
 		{

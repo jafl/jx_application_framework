@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JTextProgressDisplay.h"
-#include "jx-af/jcore/JString.h"
-#include "jx-af/jcore/jMath.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JTextProgressDisplay.h"
+#include "JString.h"
+#include "jMath.h"
+#include "jAssert.h"
 
 // Interrupt routine
 
@@ -68,12 +68,12 @@ JTextProgressDisplay::ProcessBeginning
 	const ProcessType	processType,
 	const JSize			stepCount,
 	const JString&		message,
-	const bool		allowCancel,
-	const bool		allowBackground
+	const bool			allowCancel,
+	const bool			modal
 	)
 {
 	JProgressDisplay::ProcessBeginning(processType, stepCount, message,
-									   allowCancel, allowBackground);
+									   allowCancel, modal);
 
 	std::cout << std::endl << std::endl << message << std::endl;
 	if (allowCancel)

@@ -11,9 +11,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXWDMenu.h"
-#include "jx-af/jx/JXWDManager.h"
-#include "jx-af/jx/JXDisplay.h"
+#include "JXWDMenu.h"
+#include "JXWDManager.h"
+#include "JXDisplay.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

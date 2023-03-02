@@ -10,7 +10,7 @@
 #ifndef _H_JXSaveFileDialog
 #define _H_JXSaveFileDialog
 
-#include "jx-af/jx/JXCSFDialogBase.h"
+#include "JXCSFDialogBase.h"
 
 class JXSaveFileInput;
 class JXDirectSaveSource;
@@ -20,26 +20,27 @@ class JXSaveFileDialog : public JXCSFDialogBase
 public:
 
 	static JXSaveFileDialog*
-		Create(JXDirector* supervisor, JDirInfo* dirInfo,
-			   const JString& fileFilter,
-			   const JString& origName, const JString& prompt,
+		Create(const JString& prompt,
+			   const JString& startName = JString::empty,
+			   const JString& fileFilter = JString::empty,
 			   const JString& message = JString::empty);
 
 	~JXSaveFileDialog() override;
 
+	const JString&	GetFileName() const;
+	JString			GetFullName() const;
+
 	void	Activate() override;
 
 	void	Save(const JString& path);
-	bool	GetFileName(JString* name) const;
 
 protected:
 
-	JXSaveFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-					 const JString& fileFilter);
+	JXSaveFileDialog(const JString& fileFilter);
 
 	void	SetObjects(JXScrollbarSet* scrollbarSet,
 					   JXStaticText* promptLabel, const JString& prompt,
-					   JXSaveFileInput* fileNameInput, const JString& origName,
+					   JXSaveFileInput* fileNameInput,
 					   JXStaticText* pathLabel, JXPathInput* pathInput,
 					   JXPathHistoryMenu* pathHistory,
 					   JXStaticText* filterLabel, JXInputField* filterInput,
@@ -48,7 +49,8 @@ protected:
 					   JXTextButton* upButton, JXTextButton* homeButton,
 					   JXTextButton* desktopButton,
 					   JXNewDirButton* newDirButton, JXTextCheckbox* showHiddenCB,
-					   JXCurrentPathMenu* currPathMenu, const JString& message);
+					   JXCurrentPathMenu* currPathMenu,
+					   const JString& startName, const JString& message);
 
 	JXInputField*	GetFileNameInput();
 
@@ -72,8 +74,8 @@ private:
 
 private:
 
-	void	BuildWindow(const JString& origName, const JString& prompt,
-						const JString& message);
+	void	BuildWindow(const JString& startName,
+						const JString& prompt, const JString& message);
 };
 
 #endif

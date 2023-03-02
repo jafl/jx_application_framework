@@ -1,3 +1,5 @@
+##make
+
 # Constants used in all Makefiles
 
 #
@@ -11,4 +13,6 @@
 # String data files
 #
 
-J_STRING_FILES += ${JX_ROOT}/lib<Binary>/<Binary>_strings
+ifneq (${J_STRING_FILES},)
+  J_STRING_FILES := ${JX_INCLUDE_ROOT}/jx-af/strings/<Binary>/* ${J_STRING_FILES}
+endif

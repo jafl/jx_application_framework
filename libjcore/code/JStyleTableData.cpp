@@ -11,11 +11,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JStyleTableData.h"
-#include "jx-af/jcore/JTable.h"
-#include "jx-af/jcore/JFontManager.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JStyleTableData.h"
+#include "JTable.h"
+#include "JFontManager.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 const JCoordinate kVMarginWidth = 1;
 

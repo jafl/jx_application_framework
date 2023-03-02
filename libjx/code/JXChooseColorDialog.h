@@ -10,7 +10,7 @@
 #ifndef _H_JXChooseColorDialog
 #define _H_JXChooseColorDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 #include <jx-af/jcore/jColor.h>
 
 class JXSlider;
@@ -18,11 +18,11 @@ class JXIntegerInput;
 class JXFlatRect;
 class JXColorWheel;
 
-class JXChooseColorDialog : public JXDialogDirector
+class JXChooseColorDialog : public JXModalDialogDirector
 {
 public:
 
-	JXChooseColorDialog(JXWindowDirector* supervisor, const JColorID colorIndex);
+	JXChooseColorDialog(const JColorID colorIndex);
 
 	~JXChooseColorDialog() override;
 

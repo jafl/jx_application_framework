@@ -18,7 +18,8 @@ public:
 
 	~App() override;
 
-	void	DisplayAbout(const JString& prevVersStr = JString::empty);
+	void	DisplayAbout(const bool showLicense = false,
+						 const JString& prevVersStr = JString::empty);
 
 	static const JUtf8Byte*	GetAppSignature();
 	static void				InitStrings();

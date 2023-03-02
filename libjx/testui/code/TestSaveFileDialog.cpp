@@ -33,19 +33,16 @@
 TestSaveFileDialog*
 TestSaveFileDialog::Create
 	(
-	JXDirector*								supervisor,
-	JDirInfo*								dirInfo,
-	const JString&							fileFilter,
-	const TestChooseSaveFile::SaveFormat	saveFormat,
-	const JString&							origName,
-	const JString&							prompt,
-	const JString&							message
+	const SaveFormat	saveFormat,
+	const JString&		prompt,
+	const JString&		startName,
+	const JString&		fileFilter,
+	const JString&		message
 	)
 {
-	TestSaveFileDialog* dlog =
-		jnew TestSaveFileDialog(supervisor, dirInfo, fileFilter, saveFormat);
+	TestSaveFileDialog* dlog = jnew TestSaveFileDialog(saveFormat, fileFilter);
 	assert( dlog != nullptr );
-	dlog->BuildWindow(origName, prompt, message);
+	dlog->BuildWindow(startName, prompt, message);
 	return dlog;
 }
 
@@ -56,15 +53,13 @@ TestSaveFileDialog::Create
 
 TestSaveFileDialog::TestSaveFileDialog
 	(
-	JXDirector*								supervisor,
-	JDirInfo*								dirInfo,
-	const JString&							fileFilter,
-	const TestChooseSaveFile::SaveFormat	saveFormat
+	const SaveFormat	saveFormat,
+	const JString&		fileFilter
 	)
 	:
-	JXSaveFileDialog(supervisor, dirInfo, fileFilter)
+	JXSaveFileDialog(fileFilter),
+	itsSaveFormat(saveFormat)
 {
-	itsSaveFormat = saveFormat;
 }
 
 /******************************************************************************
@@ -83,11 +78,11 @@ TestSaveFileDialog::~TestSaveFileDialog()
 
  ******************************************************************************/
 
-TestChooseSaveFile::SaveFormat
+TestSaveFileDialog::SaveFormat
 TestSaveFileDialog::GetSaveFormat()
 	const
 {
-	return (TestChooseSaveFile::SaveFormat) itsFormatRG->GetSelectedItem();
+	return (SaveFormat) itsFormatRG->GetSelectedItem();
 }
 
 /******************************************************************************
@@ -98,9 +93,9 @@ TestSaveFileDialog::GetSaveFormat()
 void
 TestSaveFileDialog::BuildWindow
 	(
-	const JString&	origName,
-	const JString&	prompt,
-	const JString&	message
+	const JString& startName,
+	const JString& prompt,
+	const JString& message
 	)
 {
 // begin JXLayout
@@ -179,17 +174,17 @@ TestSaveFileDialog::BuildWindow
 	assert( itsFormatRG != nullptr );
 
 	auto* gifRB =
-		jnew JXTextRadioButton(TestChooseSaveFile::kGIFFormat, JGetString("gifRB::TestSaveFileDialog::JXLayout"), itsFormatRG,
+		jnew JXTextRadioButton(kGIFFormat, JGetString("gifRB::TestSaveFileDialog::JXLayout"), itsFormatRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,5, 50,20);
 	assert( gifRB != nullptr );
 
 	auto* jpegRB =
-		jnew JXTextRadioButton(TestChooseSaveFile::kJPEGFormat, JGetString("jpegRB::TestSaveFileDialog::JXLayout"), itsFormatRG,
+		jnew JXTextRadioButton(kJPEGFormat, JGetString("jpegRB::TestSaveFileDialog::JXLayout"), itsFormatRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,5, 60,20);
 	assert( jpegRB != nullptr );
 
 	auto* pngRB =
-		jnew JXTextRadioButton(TestChooseSaveFile::kPNGFormat, JGetString("pngRB::TestSaveFileDialog::JXLayout"), itsFormatRG,
+		jnew JXTextRadioButton(kPNGFormat, JGetString("pngRB::TestSaveFileDialog::JXLayout"), itsFormatRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,5, 50,20);
 	assert( pngRB != nullptr );
 
@@ -225,15 +220,15 @@ TestSaveFileDialog::BuildWindow
 
 // end JXLayout
 
-	SetObjects(scrollbarSet, promptLabel, prompt, fileNameInput, origName,
+	SetObjects(scrollbarSet, promptLabel, prompt, fileNameInput,
 			   pathLabel, pathInput, pathHistory,
 			   filterLabel, filterInput, filterHistory,
 			   saveButton, cancelButton, upButton,
 			   homeButton, desktopButton, newDirButton,
-			   showHiddenCB, currPathMenu, message);
+			   showHiddenCB, currPathMenu, startName, message);
 
-	itsFormatRG->SelectItem(itsSaveFormat);
 	ListenTo(itsFormatRG);
+	itsFormatRG->SelectItem(itsSaveFormat);
 
 	HandleFormatChange(itsFormatRG->GetSelectedItem());
 }
@@ -292,17 +287,17 @@ TestSaveFileDialog::HandleFormatChange
 
 	const JSize nameLength = fileName.GetCharacterCount();
 
-	if (id == TestChooseSaveFile::kGIFFormat)
+	if (id == kGIFFormat)
 	{
 		fileName += ".gif";
 	}
-	else if (id == TestChooseSaveFile::kPNGFormat)
+	else if (id == kPNGFormat)
 	{
 		fileName += ".png";
 	}
 	else
 	{
-		assert( id == TestChooseSaveFile::kJPEGFormat );
+		assert( id == kJPEGFormat );
 		fileName += ".jpg";
 	}
 

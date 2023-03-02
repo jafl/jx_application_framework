@@ -9,18 +9,18 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JPTPrinter.h"
-#include "jx-af/jcore/JLatentPG.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/jFStreamUtil.h"
-#include "jx-af/jcore/jStreamUtil.h"
-#include "jx-af/jcore/jASCIIConstants.h"
-#include "jx-af/jcore/jFileUtil.h"
-#include "jx-af/jcore/jGlobals.h"
+#include "JPTPrinter.h"
+#include "JLatentPG.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "jFStreamUtil.h"
+#include "jStreamUtil.h"
+#include "jASCIIConstants.h"
+#include "jFileUtil.h"
+#include "jGlobals.h"
 #include <sstream>
 #include <stdio.h>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 const JUtf8Byte* kLineNumberMarginStr = "  ";
 const JSize kLineNumberMarginWidth    = 2;
@@ -139,7 +139,7 @@ JPTPrinter::Print
 	const JSize lineCountPerPage = itsPageHeight - headerLineCount - footerLineCount;
 
 	JLatentPG pg;
-	pg.VariableLengthProcessBeginning(JGetString("Printing::JPTPrinter"), true, false);
+	pg.VariableLengthProcessBeginning(JGetString("Printing::JPTPrinter"), true, true);
 	bool keepGoing = true;
 
 	JUnsignedOffset i   = 0;

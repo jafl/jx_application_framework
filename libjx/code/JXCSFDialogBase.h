@@ -10,8 +10,8 @@
 #ifndef _H_JXCSFDialogBase
 #define _H_JXCSFDialogBase
 
-#include "jx-af/jx/JXDialogDirector.h"
-#include <jx-af/jcore/JString.h>
+#include "JXModalDialogDirector.h"
+#include "JXCSFSelectPrevDirTask.h"
 
 class JDirInfo;
 class JXDirTable;
@@ -26,10 +26,9 @@ class JXPathHistoryMenu;
 class JXScrollbarSet;
 class JXNewDirButton;
 class JXCurrentPathMenu;
-class JXGetNewDirDialog;
 class JXIdleTask;
 
-class JXCSFDialogBase : public JXDialogDirector
+class JXCSFDialogBase : public JXModalDialogDirector
 {
 public:
 
@@ -40,17 +39,19 @@ public:
 
 	const JString&	GetPath() const;
 	const JString&	GetFilter() const;
-	bool		HiddenVisible() const;
+	bool			HiddenVisible() const;
 
-	// called by JXChooseSaveFile
+	JDirInfo*	GetDirInfo() const;
 
-	void	ReadBaseSetup(std::istream& input, const bool ignoreScroll);
-	void	WriteBaseSetup(std::ostream& output) const;
+	static const JString&	GetState();
+	static void				SetState(const JString& state);
+	static void				ReadOldState(std::istream& input);
+
+	static bool	IsCharacterInWord(const JUtf8Character& c);
 
 protected:
 
-	JXCSFDialogBase(JXDirector* supervisor, JDirInfo* dirInfo,
-					const JString& fileFilter);
+	JXCSFDialogBase(const JString& fileFilter);
 
 	void	SetObjects(JXScrollbarSet* scrollbarSet,
 					   JXStaticText* pathLabel, JXPathInput* pathInput,
@@ -67,7 +68,6 @@ protected:
 	virtual void	AdjustSizings();	// must call inherited
 	virtual void	UpdateDisplay();	// must call inherited
 
-	JDirInfo*		GetDirInfo() const;
 	JXDirTable*		GetFileBrowser() const;
 	JXPathInput*	GetPathInput() const;
 	JXInputField*	GetFilterInput() const;
@@ -76,29 +76,38 @@ protected:
 	bool	GoToItsPath();
 	void	AdjustFilter();
 
+	void	RestoreState();
+	void	SaveState() const;
+
+	void	DoNotSaveCurrentPath();
+
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	JDirInfo*	itsDirInfo;			// we don't own this
+	JDirInfo*	itsDirInfo;
 	JString		itsPrevPath;
 	JString		itsPrevFilterString;
 	bool		itsDeactCancelFlag;
+	bool		itsSavePathFlag;
 
 	JXDirTable*				itsFileBrowser;
-	JXPathHistoryMenu*		itsPathHistory;
 	JXPathInput*			itsPathInput;
-	JXStringHistoryMenu*	itsFilterHistory;
+	JXPathHistoryMenu*		itsPathHistory;
 	JXInputField*			itsFilterInput;
+	JXStringHistoryMenu*	itsFilterHistory;
 	JXTextButton*			itsEnterButton;
 	JXTextButton*			itsUpButton;
 	JXTextButton*			itsHomeButton;
 	JXTextButton*			itsDesktopButton;
-	JXNewDirButton*			itsNewDirButton;	// can be nullptr
+	JXNewDirButton*			itsNewDirButton;		// can be nullptr
 	JXTextCheckbox*			itsShowHiddenCB;
 	JXCurrentPathMenu*		itsCurrPathMenu;
 
-	JXGetNewDirDialog*	itsNewDirDialog;
+	JXCSFSelectPrevDirTask*	itsSelectPrevDirTask;	// nullptr unless queued
+
+	static JString	theState;
+	static JString	thePath;
 
 private:
 
@@ -106,7 +115,6 @@ private:
 						   JXStaticText* pathLabel, JXPathHistoryMenu* pathHistory,
 						   JXStaticText* filterLabel, JXStringHistoryMenu* filterHistory);
 
-	void	GetNewDirectory();
 	void	CreateNewDirectory();
 
 	void	SelectPrevDirectory();
@@ -114,7 +122,7 @@ private:
 
 
 /******************************************************************************
- Access to objects (protected)
+ GetDirInfo
 
  ******************************************************************************/
 
@@ -124,6 +132,31 @@ JXCSFDialogBase::GetDirInfo()
 {
 	return itsDirInfo;
 }
+
+/******************************************************************************
+ State (static)
+
+ ******************************************************************************/
+
+inline const JString&
+JXCSFDialogBase::GetState()
+{
+	return theState;
+}
+
+inline void
+JXCSFDialogBase::SetState
+	(
+	const JString& state
+	)
+{
+	theState = state;
+}
+
+/******************************************************************************
+ Access to objects (protected)
+
+ ******************************************************************************/
 
 inline JXDirTable*
 JXCSFDialogBase::GetFileBrowser()
@@ -151,6 +184,12 @@ JXCSFDialogBase::GetNewDirButton()
 	const
 {
 	return itsNewDirButton;
+}
+
+inline void
+JXCSFDialogBase::DoNotSaveCurrentPath()
+{
+	itsSavePathFlag = false;
 }
 
 #endif

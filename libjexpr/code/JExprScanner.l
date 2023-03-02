@@ -3,7 +3,7 @@
 Copyright (C) 2018 by John Lindal.
 */
 
-#include "jx-af/jexpr/JFunction.h"
+#include "JFunction.h"
 #include <jx-af/jcore/JPtrArray-JString.h>
 #include "JExprParserY.hpp"
 #include <jx-af/jcore/jAssert.h>

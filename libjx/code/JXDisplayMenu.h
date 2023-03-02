@@ -10,9 +10,7 @@
 #ifndef _H_JXDisplayMenu
 #define _H_JXDisplayMenu
 
-#include "jx-af/jx/JXTextMenu.h"
-
-class JXOpenDisplayDialog;
+#include "JXTextMenu.h"
 
 class JXDisplayMenu : public JXTextMenu
 {
@@ -46,10 +44,6 @@ private:
 
 	JIndex	itsDisplayIndex;
 	JIndex	itsNewDisplayIndex;
-
-	// used when opening a new display
-
-	JXOpenDisplayDialog*	itsNewDisplayDialog;
 
 private:
 

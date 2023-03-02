@@ -11,8 +11,8 @@
 #define _H_JPlotDataBase
 
 #include <jx-af/jcore/JCollection.h>
-#include "jx-af/j2dplot/J2DDataPoint.h"
-#include "jx-af/j2dplot/J2DVectorPoint.h"
+#include "J2DDataPoint.h"
+#include "J2DVectorPoint.h"
 
 class J2DPlotDataBase : public JCollection
 {

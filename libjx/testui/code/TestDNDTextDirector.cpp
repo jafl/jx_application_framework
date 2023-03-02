@@ -12,7 +12,7 @@
 
 #include "TestDNDTextDirector.h"
 #include <jx-af/jx/JXStyledText.h>
-#include "jx-af/jx/JXDisplay.h"
+#include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXHorizPartition.h>
 #include <jx-af/jx/JXTextEditorSet.h>

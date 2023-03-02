@@ -4,12 +4,6 @@
 	Class to display the progress of a long process.  The client must call
 	SetItems() with the appropriate widgets so we have something to draw to.
 
-	We completely ignore the allowBackground flag in ProcessBeginning()
-	becase the JX event loop is not reentrant.  This is not a problem if
-	the process should not be backgrounded.  If one wants the process to
-	run in the background, one should install an IdleTask and do work when
-	the IdleTask gets time.
-
 	When a background process is event driven, it is convenient to ignore
 	the process until an event arrives.  In this case, the Cancel button
 	will not work nicely if events are rare.  The CancelRequested message
@@ -22,13 +16,13 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXProgressDisplay.h"
-#include "jx-af/jx/JXPGMessageDirector.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXProgressIndicator.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXProgressDisplay.h"
+#include "JXPGMessageDirector.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXProgressIndicator.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 // JBroadcaster message types
@@ -106,18 +100,13 @@ JXProgressDisplay::ProcessBeginning
 	const ProcessType	processType,
 	const JSize			stepCount,
 	const JString&		message,
-	const bool		allowCancel,
-	const bool		allowBackground
+	const bool			allowCancel,
+	const bool			modal
 	)
 {
 	itsCancelFlag = false;
 	JProgressDisplay::ProcessBeginning(processType, stepCount, message,
-									   allowCancel, allowBackground);
-
-	if (!allowBackground)
-	{
-		DisplayBusyCursor();
-	}
+									   allowCancel, modal);
 
 	if (itsLabel != nullptr)
 	{
@@ -280,7 +269,7 @@ JXProgressDisplay::ProcessContinuing()
 	{
 		messageWindowLocInit = true;
 		messageWindowLoc =
-			(itsMessageDirector->GetWindow())->GetDesktopLocation();
+			itsMessageDirector->GetWindow()->GetDesktopLocation();
 	}
 
 	return JProgressDisplay::ProcessContinuing();
@@ -311,7 +300,7 @@ JXProgressDisplay::ProcessFinished()
 	{
 		messageWindowLocInit = true;
 		messageWindowLoc =
-			(itsMessageDirector->GetWindow())->GetDesktopLocation();
+			itsMessageDirector->GetWindow()->GetDesktopLocation();
 
 		itsMessageDirector->ProcessFinished();
 		itsMessageDirector = nullptr;
@@ -347,7 +336,7 @@ JXProgressDisplay::AppendToMessageWindow
 
 		if (messageWindowLocInit)
 		{
-			(itsMessageDirector->GetWindow())->
+			itsMessageDirector->GetWindow()->
 				Place(messageWindowLoc.x, messageWindowLoc.y);
 		}
 
@@ -378,7 +367,7 @@ JXProgressDisplay::Receive
 
 		// must be last since it could delete us
 
-		if (AllowBackground())
+		if (!IsModal())
 		{
 			Broadcast(CancelRequested());
 		}

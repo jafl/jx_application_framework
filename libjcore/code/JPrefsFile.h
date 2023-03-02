@@ -8,7 +8,7 @@
 #ifndef _H_JPrefsFile
 #define _H_JPrefsFile
 
-#include "jx-af/jcore/JFileArray.h"
+#include "JFileArray.h"
 
 using JPrefID = JFAID;
 

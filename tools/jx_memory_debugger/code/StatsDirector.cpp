@@ -30,7 +30,7 @@
 #include <jx-af/jx/JXFileInput.h>
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jx/JXImage.h>
-#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXChooseFileDialog.h>
 #include <jx-af/jx/JXTimerTask.h>
 #include <jx-af/jx/JXPGMessageDirector.h>
 #include <jx-af/jcore/JMemoryManager.h>
@@ -151,15 +151,14 @@ StatsDirector::StatsDirector
 	itsLink(nullptr),
 	itsProcess(nullptr),
 	itsPingTask(nullptr),
-	itsMessageDir(nullptr),
-	itsRequestRecordsDialog(nullptr)
+	itsMessageDir(nullptr)
 {
 	BuildWindow();
 
 	JPoint desktopLoc;
 	JCoordinate w,h;
-	if ((GetPrefsManager())->GetWindowSize(kStatsDirectorWindSizeID,
-											&desktopLoc, &w, &h))
+	if (GetPrefsManager()->GetWindowSize(kStatsDirectorWindSizeID,
+										 &desktopLoc, &w, &h))
 	{
 		JXWindow* window = GetWindow();
 		window->Place(desktopLoc.x, desktopLoc.y);
@@ -514,20 +513,6 @@ StatsDirector::Receive
 		UpdateDisplay();
 	}
 
-	else if (sender == itsRequestRecordsDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			JMemoryManager::RecordFilter filter;
-			itsRequestRecordsDialog->BuildFilter(&filter);
-			RequestRecords(filter);
-		}
-		itsRequestRecordsDialog = nullptr;
-	}
-
 	else if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
 	{
 		UpdateFileMenu();
@@ -578,10 +563,10 @@ StatsDirector::Receive
 void
 StatsDirector::ChooseProgram()
 {
-	JString fullName;
-	if ((JXGetChooseSaveFile())->ChooseFile(JString::empty, JString::empty, itsProgramInput->GetText()->GetText(), &fullName))
+	auto* dlog = JXChooseFileDialog::Create(JXChooseFileDialog::kSelectSingleFile, itsProgramInput->GetText()->GetText());
+	if (dlog->DoDialog())
 	{
-		itsProgramInput->GetText()->SetText(fullName);
+		itsProgramInput->GetText()->SetText(dlog->GetFullName());
 	}
 }
 
@@ -978,11 +963,14 @@ StatsDirector::HandleFileMenu
 {
 	if (index == kGetRecordsCmd)
 	{
-		assert( itsRequestRecordsDialog == nullptr );
-		itsRequestRecordsDialog = jnew FilterRecordsDialog(this);
-		assert( itsRequestRecordsDialog != nullptr );
-		itsRequestRecordsDialog->BeginDialog();
-		ListenTo(itsRequestRecordsDialog);
+		auto* dlog = jnew FilterRecordsDialog();
+		assert( dlog != nullptr );
+		if (dlog->DoDialog())
+		{
+			JMemoryManager::RecordFilter filter;
+			dlog->BuildFilter(&filter);
+			RequestRecords(filter);
+		}
 	}
 
 	else if (index == kQuitCmd)

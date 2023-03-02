@@ -26,25 +26,25 @@
 
  *****************************************************************************/
 
-#include "jx-af/jx/JXToolBar.h"
-#include "jx-af/jx/JXToolBarEditDir.h"
-#include "jx-af/jx/JXToolBarNode.h"
-#include "jx-af/jx/JXAdjustToolBarGeometryTask.h"
+#include "JXToolBar.h"
+#include "JXToolBarEditDialog.h"
+#include "JXToolBarNode.h"
+#include "JXAdjustToolBarGeometryTask.h"
 
 #include <jx-af/jcore/JTree.h>
 #include <jx-af/jcore/JNamedTreeNode.h>
 
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/JXTextMenu.h"
-#include "jx-af/jx/JXTextMenuData.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXTimerTask.h"
-#include "jx-af/jx/JXApplication.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXDirector.h"
-#include "jx-af/jx/JXMenuBar.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXFontManager.h"
+#include "JXTextMenu.h"
+#include "JXTextMenuData.h"
+#include "JXImage.h"
+#include "JXTimerTask.h"
+#include "JXApplication.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXDirector.h"
+#include "JXMenuBar.h"
+#include "jXGlobals.h"
 
 #include <jx-af/jcore/JString.h>
 #include <sstream>
@@ -88,8 +88,6 @@ JXToolBar::JXToolBar
 	JPrefObject(prefsMgr, id),
 	itsNextButtonPosition(kButConBuffer),
 	itsInNewGroupMode(true),
-	itsEditDialog(nullptr),
-	itsMenuTree(nullptr),
 	itsMenuBar(menuBar),
 	itsCurrentButtonHeight(kSmallButtonHeight),
 	itsIsShowingButtons(true),
@@ -146,11 +144,10 @@ JXToolBar::JXToolBar
 JXToolBar::~JXToolBar()
 {
 	jdelete itsGroupStarts;
-	jdelete itsMenuTree;
 	jdelete itsTimerTask;
-	jdelete itsAdjustTask;
 	jdelete itsButtons;
 	jdelete itsMenus;
+	// cannot delete itsAdjustTask
 }
 
 /******************************************************************************
@@ -290,20 +287,6 @@ JXToolBar::Receive
 		propagate = false;
 	}
 
-	else if (sender == itsEditDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert(info != nullptr);
-		if (info->Successful())
-		{
-			ExtractChanges();
-		}
-		jdelete itsMenuTree;
-		itsMenuTree = nullptr;
-		itsEditDialog = nullptr;
-		propagate = false;
-	}
 	else if (hasPrefs &&
 			 sender == prefsMgr && message.Is(JPrefsManager::kDataChanged))
 	{
@@ -343,60 +326,50 @@ JXToolBar::Receive
 void
 JXToolBar::Edit()
 {
-	assert(itsEditDialog == nullptr);
+	auto* tree = BuildTree();
 
-	BuildTree();
-
-	bool small = itsCurrentButtonHeight == kSmallButtonHeight;
-
-	itsEditDialog =
-		jnew JXToolBarEditDir(itsMenuTree, itsIsShowingButtons,
-							 small, itsButtonType,
-							 this->GetWindow()->GetDirector());
-	assert(itsEditDialog != nullptr);
+	auto* dlog =
+		jnew JXToolBarEditDialog(tree, itsIsShowingButtons,
+								 itsCurrentButtonHeight == kSmallButtonHeight,
+								 itsButtonType);
+	assert(dlog != nullptr);
 
 	if (!itsDialogPrefs.IsEmpty())
 	{
 		const std::string s(itsDialogPrefs.GetBytes(), itsDialogPrefs.GetByteCount());
-		std::istringstream is(s);
-		itsEditDialog->ReadSetup(is);
+		std::istringstream input(s);
+		dlog->ReadSetup(input);
 	}
-	itsEditDialog->BeginDialog();
-	ListenTo(itsEditDialog);
-}
 
-/******************************************************************************
- ExtractChanges (private)
-
- ******************************************************************************/
-
-void
-JXToolBar::ExtractChanges()
-{
-	itsButtons->DeleteAll();
-	itsGroupStarts->RemoveAll();
-
-	SetButtonType(itsEditDialog->GetType());
-	UseSmallButtons(itsEditDialog->UseSmallButtons());
-
-	itsInNewGroupMode		= true;
-	itsNextButtonPosition	= kButConBuffer;
-	JTreeNode* base = itsMenuTree->GetRoot();
-	JSize menuCount = base->GetChildCount();
-	for (JIndex i=1; i<=menuCount; i++)
+	if (dlog->DoDialog())
 	{
-		JTreeNode* node = base->GetChild(i);
-		ExtractItemNodes(node);
+		itsButtons->DeleteAll();
+		itsGroupStarts->RemoveAll();
+
+		SetButtonType(dlog->GetType());
+		UseSmallButtons(dlog->UseSmallButtons());
+
+		itsInNewGroupMode     = true;
+		itsNextButtonPosition = kButConBuffer;
+
+		JTreeNode* base       = tree->GetRoot();
+		const JSize menuCount = base->GetChildCount();
+		for (JIndex i=1; i<=menuCount; i++)
+		{
+			ExtractItemNodes(base->GetChild(i));
+		}
+
+		AdjustToolBarGeometry();
+		ShowToolBar(dlog->ShowToolBar());
+
+		std::ostringstream data;
+		dlog->WriteSetup(data);
+		itsDialogPrefs = data.str();
+
+		JPrefObject::WritePrefs();
 	}
 
-	AdjustToolBarGeometry();
-	ShowToolBar(itsEditDialog->ShowToolBar());
-
-	std::ostringstream data;
-	itsEditDialog->WriteSetup(data);
-	itsDialogPrefs = data.str();
-
-	JPrefObject::WritePrefs();
+	jdelete tree;
 }
 
 /******************************************************************************
@@ -442,23 +415,26 @@ JXToolBar::ExtractItemNodes
 
  ******************************************************************************/
 
-void
+JTree*
 JXToolBar::BuildTree()
 {
-	assert(itsMenuTree == nullptr);
 	auto* base = jnew JNamedTreeNode(nullptr, JString("BASE", JString::kNoCopy));
-	assert(base != nullptr);
-	itsMenuTree = jnew JTree(base);
-	assert(itsMenuTree != nullptr);
+	assert( base != nullptr );
+
+	auto* tree = jnew JTree(base);
+	assert( tree != nullptr );
 
 	const JSize count = itsMenuBar->GetMenuCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		JXMenu* menu		= itsMenuBar->GetMenu(i);
+		auto* menu  = itsMenuBar->GetMenu(i);
 		auto* tmenu	= dynamic_cast<JXTextMenu*>(menu);
-		assert(tmenu != nullptr);
-		AddMenuToTree(tmenu, base, tmenu->GetTitleText());
+		assert( tmenu != nullptr );
+
+		AddMenuToTree(tree, tmenu, base, tmenu->GetTitleText());
 	}
+
+	return tree;
 }
 
 /******************************************************************************
@@ -469,15 +445,17 @@ JXToolBar::BuildTree()
 void
 JXToolBar::AddMenuToTree
 	(
+	JTree*			tree,
 	JXTextMenu*		menu,
 	JNamedTreeNode*	parent,
 	const JString&	name
 	)
 {
 	auto* mnode = jnew JNamedTreeNode(parent->GetTree(), name);
-	assert(mnode != nullptr);
+	assert( mnode != nullptr );
 	parent->Append(mnode);
-	JSize itemCount = menu->GetItemCount();
+
+	const JSize itemCount = menu->GetItemCount();
 	for (JIndex i=1; i<=itemCount; i++)
 	{
 		const JString& name1 = menu->GetItemText(i);
@@ -486,7 +464,7 @@ JXToolBar::AddMenuToTree
 		{
 			const auto* temp	= dynamic_cast<const JXTextMenu*>(sub);
 			auto* tsub = const_cast<JXTextMenu*>(temp);
-			AddMenuToTree(tsub, mnode, name1);
+			AddMenuToTree(tree, tsub, mnode, name1);
 		}
 		else
 		{
@@ -498,8 +476,8 @@ JXToolBar::AddMenuToTree
 			{
 				auto* tbnode =
 					jnew JXToolBarNode(menu, i, separator, checked,
-									  itsMenuTree, mnode, name1);
-				assert(tbnode != nullptr);
+									   tree, mnode, name1);
+				assert( tbnode != nullptr );
 			}
 		}
 	}

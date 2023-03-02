@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXAdjustScrollbarTask.h"
-#include "jx-af/jx/JXScrollableWidget.h"
+#include "JXAdjustScrollbarTask.h"
+#include "JXScrollableWidget.h"
 
 /******************************************************************************
  Constructor
@@ -19,12 +19,14 @@ JXAdjustScrollbarTask::JXAdjustScrollbarTask
 	(
 	JXScrollableWidget* widget
 	)
+	:
+	JXUrgentTask(widget),
+	itsScrollableWidget(widget)
 {
-	itsScrollableWidget = widget;
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -33,7 +35,7 @@ JXAdjustScrollbarTask::~JXAdjustScrollbarTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
 	By clearing itsAdjustScrollbarTask first, we allow the widget
 	to create another one, if necessary.

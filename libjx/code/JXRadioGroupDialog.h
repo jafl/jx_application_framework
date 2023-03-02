@@ -10,17 +10,16 @@
 #ifndef _H_JXRadioGroupDialog
 #define _H_JXRadioGroupDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 #include <jx-af/jcore/JPtrArray-JString.h>
 
 class JXRadioGroup;
 
-class JXRadioGroupDialog : public JXDialogDirector
+class JXRadioGroupDialog : public JXModalDialogDirector
 {
 public:
 
-	JXRadioGroupDialog(JXDirector* supervisor,
-					   const JString& windowTitle, const JString& prompt,
+	JXRadioGroupDialog(const JString& windowTitle, const JString& prompt,
 					   const JPtrArray<JString>& choiceList,
 					   const JPtrArray<JString>* shortcutList = nullptr);
 

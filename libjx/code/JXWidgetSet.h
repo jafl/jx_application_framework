@@ -10,7 +10,7 @@
 #ifndef _H_JXWidgetSet
 #define _H_JXWidgetSet
 
-#include "jx-af/jx/JXWidget.h"
+#include "JXWidget.h"
 
 class JXWidgetSet : public JXWidget
 {

@@ -8,11 +8,11 @@
 
  *****************************************************************************/
 
-#include "jx-af/jx/JXSpellChecker.h"
-#include "jx-af/jx/JXSpellCheckerDialog.h"
-#include "jx-af/jx/JXSharedPrefsManager.h"
-#include "jx-af/jx/JXTEBase.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXSpellChecker.h"
+#include "JXSpellCheckerDialog.h"
+#include "JXSharedPrefsManager.h"
+#include "JXTEBase.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 // setup information
@@ -66,8 +66,7 @@ JXSpellChecker::Check
 		return;
 	}
 
-	auto* dlog =
-		jnew JXSpellCheckerDialog(this, editor, editor->GetText()->SelectAll());
+	auto* dlog = jnew JXSpellCheckerDialog(this, editor, editor->GetText()->SelectAll());
 	assert( dlog != nullptr );
 	dlog->Check();
 }

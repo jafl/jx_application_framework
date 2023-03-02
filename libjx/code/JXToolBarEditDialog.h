@@ -1,7 +1,7 @@
 /******************************************************************************
- JXToolBarEditDir.h
+ JXToolBarEditDialog.h
 
-	Interface for the JXToolBarEditDir class
+	Interface for the JXToolBarEditDialog class
 
 	Copyright (C) 1999 by Glenn W. Bach.
 
@@ -10,22 +10,21 @@
 #ifndef _H_JXToolBarEditDir
 #define _H_JXToolBarEditDir
 
-#include "jx-af/jx/JXDialogDirector.h"
-#include "jx-af/jx/JXToolBarButton.h"
+#include "JXModalDialogDirector.h"
+#include "JXToolBarButton.h"
 
 class JTree;
 class JXTextCheckbox;
 class JXToolBarEditWidget;
 
-class JXToolBarEditDir : public JXDialogDirector
+class JXToolBarEditDialog : public JXModalDialogDirector
 {
 public:
 
-	JXToolBarEditDir(JTree* tree, const bool show,
+	JXToolBarEditDialog(JTree* tree, const bool show,
 					 const bool useSmall,
-					 const JXToolBarButton::Type type,
-					 JXDirector* supervisor);
-	~JXToolBarEditDir() override;
+					 const JXToolBarButton::Type type);
+	~JXToolBarEditDialog() override;
 
 	bool	TreeChanged();
 

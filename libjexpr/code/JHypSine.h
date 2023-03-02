@@ -10,7 +10,7 @@
 #ifndef _H_JHypSine
 #define _H_JHypSine
 
-#include "jx-af/jexpr/JUnaryFunction.h"
+#include "JUnaryFunction.h"
 
 class JHypSine : public JUnaryFunction
 {

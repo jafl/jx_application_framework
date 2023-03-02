@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXFontManager.h"
+#include "JXDisplay.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/JPtrArray-JString.h>
 #include <jx-af/jcore/JListUtil.h>
 #include <jx-af/jcore/JStringIterator.h>

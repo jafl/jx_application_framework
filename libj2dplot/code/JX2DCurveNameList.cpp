@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include "jx-af/j2dplot/JX2DCurveNameList.h"
+#include "JX2DCurveNameList.h"
 #include <jx-af/jx/JXInputField.h>
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JColorManager.h>
@@ -136,7 +136,7 @@ JX2DCurveNameList::TableDrawCell
 
 	JRect r = rect;
 	r.left += kHMarginWidth;
-	p.String(r, *curveName, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+	p.String(r, *curveName, JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

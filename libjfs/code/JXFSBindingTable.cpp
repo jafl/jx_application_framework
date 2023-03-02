@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jfs/JXFSBindingTable.h"
-#include "jx-af/jfs/JFSBindingList.h"
+#include "JXFSBindingTable.h"
+#include "JFSBindingList.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXTextMenu.h>
@@ -188,7 +188,7 @@ JXFSBindingTable::TableDrawCell
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
-		p.String(r, b->GetPattern(), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+		p.String(r, b->GetPattern(), JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 
 		p.SetFont(JFontManager::GetDefaultFont());
 	}
@@ -198,14 +198,14 @@ JXFSBindingTable::TableDrawCell
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
-		p.String(r, cmd, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+		p.String(r, cmd, JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 
 		p.SetFont(JFontManager::GetDefaultFont());
 	}
 	else if (cell.x == kTypeColumn)
 	{
 		const JString& str = itsTypeMenu->GetItemText(kCmdTypeToMenuIndex[type]);
-		p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+		p.String(rect, str, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 	}
 	else if (cell.x == kSingleFileColumn && singleFile)
 	{

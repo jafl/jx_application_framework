@@ -13,9 +13,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXXFontMenu.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/JXDisplay.h"
+#include "JXXFontMenu.h"
+#include "JXFontManager.h"
+#include "JXDisplay.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

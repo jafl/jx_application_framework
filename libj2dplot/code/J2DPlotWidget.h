@@ -13,7 +13,7 @@
 #include <jx-af/jcore/JRect.h>
 #include <jx-af/jcore/JPtrArray-JString.h>
 #include <jx-af/jcore/JFontStyle.h>
-#include "jx-af/j2dplot/J2DCurveInfo.h"
+#include "J2DCurveInfo.h"
 
 class JPainter;
 class JPagePrinter;
@@ -254,21 +254,21 @@ protected:
 	void			PWBoundsChanged();
 	void			PWRefresh();
 	virtual void	PWRefreshRect(const JRect& rect) = 0;
-	virtual void	PWRedraw()						= 0;
+	virtual void	PWRedraw() = 0;
 	virtual void	PWRedrawRect(const JRect& rect) = 0;
-	virtual void	PWForceRefresh()				= 0;
+	virtual void	PWForceRefresh() = 0;
 
 	JSize			PWGetWidth() const;
 	JSize			PWGetHeight() const;
-	virtual JSize	PWGetGUIWidth() const			= 0;
-	virtual JSize	PWGetGUIHeight() const			= 0;
+	virtual JSize	PWGetGUIWidth() const = 0;
+	virtual JSize	PWGetGUIHeight() const = 0;
 	virtual void	PWDisplayCursor(const MouseCursor cursor) = 0;
 
-	virtual void	ProtectionChanged()			= 0;
+	virtual void	ProtectionChanged() = 0;
 
-	virtual void	ChangeCurveOptions(const JIndex index)			= 0;
-	virtual void	ChangeLabels(const LabelSelection selection)	= 0;
-	virtual void	ChangeScale(const bool xAxis)				= 0;
+	virtual void	ChangeCurveOptions(const JIndex index) = 0;
+	virtual void	ChangeLabels(const LabelSelection selection) = 0;
+	virtual void	ChangeScale(const bool editXAxis) = 0;
 
 	virtual JCoordinate	GetMarksHeight() const = 0;
 	virtual bool		PrintMarks(JPagePrinter& p, const bool putOnSamePage,

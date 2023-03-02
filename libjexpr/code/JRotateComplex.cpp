@@ -10,7 +10,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JRotateComplex.h"
+#include "JRotateComplex.h"
 #include <jx-af/jcore/jErrno.h>
 #include <jx-af/jcore/jAssert.h>
 

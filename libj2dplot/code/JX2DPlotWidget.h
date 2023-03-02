@@ -9,7 +9,7 @@
 #define _H_JX2DPlotWidget
 
 #include <jx-af/jx/JXWidget.h>
-#include "jx-af/j2dplot/J2DPlotWidget.h"
+#include "J2DPlotWidget.h"
 
 class JXPSPrinter;
 class JX2DPlotEPSPrinter;
@@ -17,10 +17,6 @@ class JXTextMenu;
 class JXMenuBar;
 class JXFontNameMenu;
 class JXFontSizeMenu;
-class JX2DPlotLabelDialog;
-class JX2DPlotScaleDialog;
-class JX2DPlotRangeDialog;
-class JX2DCurveOptionsDialog;
 class JX2DCursorMarkTableDir;
 
 class JX2DPlotWidget : public JXWidget, public J2DPlotWidget
@@ -103,7 +99,7 @@ protected:
 	void	ProtectionChanged() override;
 	void	ChangeCurveOptions(const JIndex index) override;
 	void	ChangeLabels(const LabelSelection selection) override;
-	void	ChangeScale(const bool xAxis) override;
+	void	ChangeScale(const bool editXAxis) override;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
@@ -113,11 +109,7 @@ private:
 	JXTextMenu*				itsRemoveCurveMenu;
 	JXTextMenu*				itsCursorMenu;
 	JXTextMenu*				itsMarkMenu;
-	bool				itsIsSharingMenusFlag;
-	JX2DPlotLabelDialog*	itsPlotLabelDialog;
-	JX2DPlotScaleDialog*	itsPlotScaleDialog;
-	JX2DPlotRangeDialog*	itsPlotRangeDialog;
-	JX2DCurveOptionsDialog*	itsCurveOptionsDialog;
+	bool					itsIsSharingMenusFlag;
 	JIndex					itsCurrentCurve;
 	JPoint					itsStartPt;
 	JPoint					itsPrevPt;
@@ -135,7 +127,6 @@ private:
 	JString					itsEPSPlotName;		// output file name
 	JRect					itsEPSPlotBounds;	// bounding rect when printed
 	JString					itsEPSMarksName;	// output file name
-	bool				itsPrintEPSPlotFlag;
 
 private:
 
@@ -159,16 +150,9 @@ private:
 	void UpdateCurveOptionsMenu();
 	void HandleCurveOptionsMenu(const JIndex index);
 
-	void GetNewLabels();
-
 	void ChangeScale();
-	void GetNewScale();
-
 	void ChangeRange();
-	void GetNewRange();
-
 	void ChangeCurveOptions();
-	void GetNewCurveOptions();
 };
 
 

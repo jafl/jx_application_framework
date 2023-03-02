@@ -9,7 +9,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXFileInput.h"
+#include "JXFileInput.h"
+#include "JXChooseFileDialog.h"
+#include "JXSaveFileDialog.h"
+#include "JXWindow.h"
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jGlobals.h>
@@ -215,7 +218,7 @@ JXFileInput::GetTextColor
 /******************************************************************************
  GetTextForChooseFile (virtual)
 
-	Returns a string that can safely be passed to JChooseSaveFile::ChooseFile().
+	Returns a string that can safely be passed to JXChooseFileDialog.
 
  ******************************************************************************/
 
@@ -247,22 +250,21 @@ JXFileInput::GetTextForChooseFile()
 /******************************************************************************
  ChooseFile
 
-	instr can be nullptr, just like in JChooseSaveFile::ChooseFile().
-
  ******************************************************************************/
 
 bool
 JXFileInput::ChooseFile
 	(
-	const JString& prompt,
 	const JString& instr
 	)
 {
-	const JString origName = GetTextForChooseFile();
-	JString newName;
-	if (JGetChooseSaveFile()->ChooseFile(prompt, instr, origName, &newName))
+	auto* dlog =
+		JXChooseFileDialog::Create(JXChooseFileDialog::kSelectSingleFile,
+								   GetTextForChooseFile(), JString::empty, instr);
+
+	if (dlog->DoDialog())
 	{
-		GetText()->SetText(newName);
+		GetText()->SetText(dlog->GetFullName());
 		return true;
 	}
 	else
@@ -274,8 +276,6 @@ JXFileInput::ChooseFile
 /******************************************************************************
  SaveFile
 
-	instr can be nullptr, just like in JChooseSaveFile::SaveFile().
-
  ******************************************************************************/
 
 bool
@@ -285,11 +285,10 @@ JXFileInput::SaveFile
 	const JString& instr
 	)
 {
-	const JString origName = GetTextForChooseFile();
-	JString newName;
-	if (JGetChooseSaveFile()->SaveFile(prompt, instr, origName, &newName))
+	auto* dlog = JXSaveFileDialog::Create(prompt, GetTextForChooseFile(), JString::empty, instr);
+	if (dlog->DoDialog())
 	{
-		GetText()->SetText(newName);
+		GetText()->SetText(dlog->GetFullName());
 		return true;
 	}
 	else

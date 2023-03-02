@@ -10,7 +10,7 @@
 
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/JBroadcaster.h>
-#include "jx-af/jx/jXConstants.h"
+#include "jXConstants.h"
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 

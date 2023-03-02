@@ -165,7 +165,7 @@ EditTable::TableDrawCell
 	r.Shrink(kHMargin, kVMargin);
 
 	// Draw the JString that holds the value.
-	p.String(r, cellNumber, JPainter::kHAlignLeft, JPainter::kVAlignTop);
+	p.String(r, cellNumber, JPainter::HAlign::kLeft, JPainter::VAlign::kTop);
 }
 
 /******************************************************************************

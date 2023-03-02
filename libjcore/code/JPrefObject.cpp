@@ -24,9 +24,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JPrefObject.h"
+#include "JPrefObject.h"
 #include <sstream>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

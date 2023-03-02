@@ -24,12 +24,13 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JAssertBase.h"
-#include "jx-af/jcore/jGlobals.h"
+#include "JAssertBase.h"
+#include "jGlobals.h"
+#include <boost/stacktrace.hpp>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 static const JUtf8Byte* kAssertActionEnvName = "J_ASSERT_ACTION";
 static const JUtf8Byte* kAskUserAction       = "ask_user";
@@ -77,14 +78,25 @@ JAssertBase::DefaultAssert
 	const JUtf8Byte*	expr,
 	const JUtf8Byte*	file,
 	const int			line,
-	const JUtf8Byte*	message
+	const JUtf8Byte*	message,
+	const JUtf8Byte*	function
 	)
 {
 	const Action action = GetAction();
 	if (action != kIgnoreFailure)
 	{
-		fprintf(stderr, "\a\nAssertion failed: %s\n    %s:%d\n    %s\n",
-				expr, file, line, message);
+		std::string st = boost::stacktrace::to_string(boost::stacktrace::stacktrace());
+
+		if (message[0] == 0)
+		{
+			fprintf(stderr, "\a\nAssertion failed: %s\n    %s\n    %s:%d\nStack trace:\n%s\n",
+					expr, function, file, line, st.c_str());
+		}
+		else
+		{
+			fprintf(stderr, "\a\nAssertion failed: %s\n    %s\n    %s\n    %s:%d\nStack trace:\n%s\n",
+					expr, message, function, file, line, st.c_str());
+		}
 
 		if (action == kAskUser)
 		{

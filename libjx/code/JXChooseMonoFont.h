@@ -10,7 +10,7 @@
 #ifndef _H_JXChooseMonoFont
 #define _H_JXChooseMonoFont
 
-#include "jx-af/jx/JXWidgetSet.h"
+#include "JXWidgetSet.h"
 
 class JXXFontMenu;
 class JXFontSizeMenu;

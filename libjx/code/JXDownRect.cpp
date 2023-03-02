@@ -9,10 +9,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXDownRect.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/jXPainterUtil.h"
-#include "jx-af/jx/jXConstants.h"
+#include "JXDownRect.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "jXConstants.h"
 
 /******************************************************************************
  Constructor

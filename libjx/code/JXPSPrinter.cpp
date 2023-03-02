@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXPSPrinter.h"
-#include "jx-af/jx/JXPSPageSetupDialog.h"
-#include "jx-af/jx/JXPSPrintSetupDialog.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXPSPrinter.h"
+#include "JXPSPageSetupDialog.h"
+#include "JXPSPrintSetupDialog.h"
+#include "JXDisplay.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jProcessUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
@@ -40,13 +40,10 @@ JXPSPrinter::JXPSPrinter
 	)
 	:
 	JPSPrinter(display->GetFontManager()),
-	itsPrintCmd("lpr")
+	itsDestination(kPrintToPrinter),
+	itsPrintCmd("lpr"),
+	itsCollateFlag(false)
 {
-	itsDestination = kPrintToPrinter;
-	itsCollateFlag = false;
-
-	itsPageSetupDialog  = nullptr;
-	itsPrintSetupDialog = nullptr;
 }
 
 /******************************************************************************
@@ -285,23 +282,19 @@ JXPSPrinter::CloseDocument()
 }
 
 /******************************************************************************
- BeginUserPageSetup
+ EditUserPageSetup
 
-	Displays a dialog with print setup information.  We broadcast
-	PageSetupFinished when the dialog is closed.
+	Displays a dialog with print setup information.  Returns true if the
+	setup changed.
 
  ******************************************************************************/
 
-void
-JXPSPrinter::BeginUserPageSetup()
+bool
+JXPSPrinter::EditUserPageSetup()
 {
-	assert( itsPageSetupDialog == nullptr && itsPrintSetupDialog == nullptr );
+	auto* dlog = CreatePageSetupDialog(GetPaperType(), GetOrientation());
 
-	itsPageSetupDialog =
-		CreatePageSetupDialog(GetPaperType(), GetOrientation());
-
-	itsPageSetupDialog->BeginDialog();
-	ListenTo(itsPageSetupDialog);
+	return dlog->DoDialog() && dlog->SetParameters(this);
 }
 
 /******************************************************************************
@@ -322,56 +315,27 @@ JXPSPrinter::CreatePageSetupDialog
 }
 
 /******************************************************************************
- EndUserPageSetup (virtual protected)
+ ConfirmUserPrintSetup
 
-	Returns true if settings were changed.
-	Derived classes can override this to extract extra information.
+	Displays a dialog with print setup information.  Returns true if the
+	user confirms printing.
 
  ******************************************************************************/
 
 bool
-JXPSPrinter::EndUserPageSetup
-	(
-	const JBroadcaster::Message& message
-	)
+JXPSPrinter::ConfirmUserPrintSetup()
 {
-	assert( itsPageSetupDialog != nullptr );
-	assert( message.Is(JXDialogDirector::kDeactivated) );
-
-	const auto* info =
-		dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-	assert( info != nullptr );
-
-	bool changed = false;
-	if (info->Successful())
-	{
-		changed = itsPageSetupDialog->SetParameters(this);
-	}
-
-	itsPageSetupDialog = nullptr;
-	return changed;
-}
-
-/******************************************************************************
- BeginUserPrintSetup
-
-	Displays a dialog with print setup information.  We broadcast
-	PrintSetupFinished when the dialog is closed.
-
- ******************************************************************************/
-
-void
-JXPSPrinter::BeginUserPrintSetup()
-{
-	assert( itsPageSetupDialog == nullptr && itsPrintSetupDialog == nullptr );
-
-	itsPrintSetupDialog =
+	auto* dlog =
 		CreatePrintSetupDialog(itsDestination, itsPrintCmd,
 							   itsFileName, itsCollateFlag,
 							   PSWillPrintBlackWhite());
 
-	itsPrintSetupDialog->BeginDialog();
-	ListenTo(itsPrintSetupDialog);
+	const bool ok = dlog->DoDialog();
+	if (ok)
+	{
+		dlog->SetParameters(this);
+	}
+	return ok;
 }
 
 /******************************************************************************
@@ -392,68 +356,6 @@ JXPSPrinter::CreatePrintSetupDialog
 	)
 {
 	return JXPSPrintSetupDialog::Create(destination, printCmd, fileName, collate, bw);
-}
-
-/******************************************************************************
- EndUserPrintSetup (virtual protected)
-
-	Returns true if caller should continue the printing process.
-	Derived classes can override this to extract extra information.
-
- ******************************************************************************/
-
-bool
-JXPSPrinter::EndUserPrintSetup
-	(
-	const JBroadcaster::Message&	message,
-	bool*						changed
-	)
-{
-	assert( itsPrintSetupDialog != nullptr );
-	assert( message.Is(JXDialogDirector::kDeactivated) );
-
-	const auto* info =
-		dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-	assert( info != nullptr );
-
-	if (info->Successful())
-	{
-		*changed = itsPrintSetupDialog->SetParameters(this);
-	}
-
-	itsPrintSetupDialog = nullptr;
-	return info->Successful();
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXPSPrinter::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsPageSetupDialog &&
-		message.Is(JXDialogDirector::kDeactivated))
-	{
-		Broadcast(PageSetupFinished(EndUserPageSetup(message)));
-	}
-	else if (sender == itsPrintSetupDialog &&
-			 message.Is(JXDialogDirector::kDeactivated))
-	{
-		bool changed = false;
-		const bool success = EndUserPrintSetup(message, &changed);
-		Broadcast(PrintSetupFinished(success, changed));
-	}
-
-	else
-	{
-		JPSPrinter::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

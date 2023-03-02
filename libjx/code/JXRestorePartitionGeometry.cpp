@@ -3,15 +3,15 @@
 
 	Ensures that geometry is applied, in case FTC delta is zero.
 
-	BASE CLASS = JXUrgentTask, virtual JBroadcaster
+	BASE CLASS = JXUrgentTask
 
 	Copyright (C) 2017 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXRestorePartitionGeometry.h"
-#include "jx-af/jx/JXHorizPartition.h"
-#include "jx-af/jx/JXVertPartition.h"
+#include "JXRestorePartitionGeometry.h"
+#include "JXHorizPartition.h"
+#include "JXVertPartition.h"
 
 /******************************************************************************
  Constructor
@@ -23,13 +23,13 @@ JXRestorePartitionGeometry::JXRestorePartitionGeometry
 	JXPartition* partition
 	)
 	:
+	JXUrgentTask(partition),
 	itsPartition(partition)
 {
-	ClearWhenGoingAway(itsPartition, &itsPartition);
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -38,7 +38,7 @@ JXRestorePartitionGeometry::~JXRestorePartitionGeometry()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
@@ -46,7 +46,7 @@ void
 JXRestorePartitionGeometry::Perform()
 {
 	auto* h = dynamic_cast<JXHorizPartition*>(itsPartition);
-	auto*  v = dynamic_cast<JXVertPartition*>(itsPartition);
+	auto* v = dynamic_cast<JXVertPartition*>(itsPartition);
 
 	if (h != nullptr && h->itsSavedGeom != nullptr)
 	{

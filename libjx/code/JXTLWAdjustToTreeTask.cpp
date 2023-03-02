@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXTLWAdjustToTreeTask.h"
-#include "jx-af/jx/JXTreeListWidget.h"
+#include "JXTLWAdjustToTreeTask.h"
+#include "JXTreeListWidget.h"
 
 /******************************************************************************
  Constructor
@@ -19,12 +19,14 @@ JXTLWAdjustToTreeTask::JXTLWAdjustToTreeTask
 	(
 	JXTreeListWidget* widget
 	)
+	:
+	JXUrgentTask(widget),
+	itsWidget(widget)
 {
-	itsWidget = widget;
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -33,7 +35,7 @@ JXTLWAdjustToTreeTask::~JXTLWAdjustToTreeTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
 	By clearing itsAdjustToTreeTask first, we allow the widget
 	to create another one, if necessary.

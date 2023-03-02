@@ -7,28 +7,26 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/jXGlobals.h"
-#include "jx-af/jx/JXUserNotification.h"
-#include "jx-af/jx/JXChooseSaveFile.h"
-#include "jx-af/jx/JXCreatePG.h"
-#include "jx-af/jx/JXSearchTextDialog.h"
-#include "jx-af/jx/JXSpellChecker.h"
-#include "jx-af/jx/JXHelpManager.h"
-#include "jx-af/jx/JXDocumentManager.h"
-#include "jx-af/jx/JXDockManager.h"
-#include "jx-af/jx/JXMDIServer.h"
-#include "jx-af/jx/JXWebBrowser.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXAssert.h"
-#include "jx-af/jx/JXSharedPrefsManager.h"
-#include "jx-af/jx/JXFontManager.h"
+#include "jXGlobals.h"
+#include "JXUserNotification.h"
+#include "JXCreatePG.h"
+#include "JXSearchTextDialog.h"
+#include "JXSpellChecker.h"
+#include "JXHelpManager.h"
+#include "JXDocumentManager.h"
+#include "JXDockManager.h"
+#include "JXMDIServer.h"
+#include "JXWebBrowser.h"
+#include "JXDisplay.h"
+#include "JXAssert.h"
+#include "JXSharedPrefsManager.h"
+#include "JXFontManager.h"
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <X11/Xlib.h>
 #include <jx-af/jcore/jAssert.h>
 
 static JXApplication*			theApplication    = nullptr;	// owns itself
-static JXChooseSaveFile*		theChooseSaveFile = nullptr;	// owned by JCore
 static JXAssert*				theAssertHandler  = nullptr;	// owned by JCore
 
 // we own these
@@ -70,11 +68,8 @@ JXCreateGlobals
 	auto* un = jnew JXUserNotification;
 	assert( un != nullptr );
 
-	theChooseSaveFile = jnew JXChooseSaveFile;
-	assert( theChooseSaveFile != nullptr );
-
 	JInitCore(theAssertHandler, appSignature, defaultStringData,
-			  un, theChooseSaveFile, jnew JXCreatePG);
+			  un, jnew JXCreatePG);
 
 	JXFontManager::Init();
 
@@ -155,9 +150,8 @@ JXDeleteGlobals2()
 	jdelete theSharedPrefsMgr;
 	theSharedPrefsMgr = nullptr;
 
-	theChooseSaveFile = nullptr;
-	theAssertHandler  = nullptr;
-	theApplication    = nullptr;
+	theAssertHandler = nullptr;
+	theApplication   = nullptr;
 
 //	JDeleteGlobals();	// called atexit()
 }
@@ -184,18 +178,6 @@ JXGetApplication
 {
 	*app = theApplication;
 	return theApplication != nullptr;
-}
-
-/******************************************************************************
- JXGetChooseSaveFile
-
- ******************************************************************************/
-
-JXChooseSaveFile*
-JXGetChooseSaveFile()
-{
-	assert( theChooseSaveFile != nullptr );
-	return theChooseSaveFile;
 }
 
 /******************************************************************************

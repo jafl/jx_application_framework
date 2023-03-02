@@ -8,19 +8,19 @@
 #ifndef _H_JX2DPlotLabelDialog
 #define _H_JX2DPlotLabelDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
-#include "jx-af/j2dplot/J2DPlotWidget.h"
+#include <jx-af/jx/JXModalDialogDirector.h>
+#include "J2DPlotWidget.h"
 
 class JString;
 class JXInputField;
 class JXFontNameMenu;
 class JXFontSizeMenu;
 
-class JX2DPlotLabelDialog : public JXDialogDirector
+class JX2DPlotLabelDialog : public JXModalDialogDirector
 {
 public:
 
-	JX2DPlotLabelDialog(JXWindowDirector* supervisor, const JString& title,
+	JX2DPlotLabelDialog(const JString& title,
 						const JString& xLabel, const JString& yLabel,
 						const JString& font, const JSize size,
 						const J2DPlotWidget::LabelSelection selection);

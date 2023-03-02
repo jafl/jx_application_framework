@@ -10,7 +10,7 @@
 #ifndef _H_JImagPart
 #define _H_JImagPart
 
-#include "jx-af/jexpr/JUnaryFunction.h"
+#include "JUnaryFunction.h"
 
 class JImagPart : public JUnaryFunction
 {

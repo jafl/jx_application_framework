@@ -34,29 +34,29 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JStyledText.h"
-#include "jx-af/jcore/JSTUndoTyping.h"
-#include "jx-af/jcore/JSTUndoPaste.h"
-#include "jx-af/jcore/JSTUndoMove.h"
-#include "jx-af/jcore/JSTUndoStyle.h"
-#include "jx-af/jcore/JSTUndoTabShift.h"
-#include "jx-af/jcore/JFontManager.h"
-#include "jx-af/jcore/JColorManager.h"
-#include "jx-af/jcore/JListUtil.h"
-#include "jx-af/jcore/JRunArrayIterator.h"
-#include "jx-af/jcore/JRegex.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/JInterpolate.h"
-#include "jx-af/jcore/JLatentPG.h"
-#include "jx-af/jcore/JMinMax.h"
-#include "jx-af/jcore/jTextUtil.h"
-#include "jx-af/jcore/jASCIIConstants.h"
-#include "jx-af/jcore/jFStreamUtil.h"
-#include "jx-af/jcore/jStreamUtil.h"
-#include "jx-af/jcore/jFileUtil.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JStyledText.h"
+#include "JSTUndoTyping.h"
+#include "JSTUndoPaste.h"
+#include "JSTUndoMove.h"
+#include "JSTUndoStyle.h"
+#include "JSTUndoTabShift.h"
+#include "JFontManager.h"
+#include "JColorManager.h"
+#include "JListUtil.h"
+#include "JRunArrayIterator.h"
+#include "JRegex.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "JInterpolate.h"
+#include "JLatentPG.h"
+#include "JMinMax.h"
+#include "jTextUtil.h"
+#include "jASCIIConstants.h"
+#include "jFStreamUtil.h"
+#include "jStreamUtil.h"
+#include "jFileUtil.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 using FontIterator = JRunArrayIterator<JFont>;
 
@@ -322,7 +322,7 @@ JStyledText::ReadPlainText
 
 		JLatentPG pg(100);
 		pg.FixedLengthProcessBeginning(byteCount,
-				JGetString("ConvertFromDOS::JStyledText"), false, false);
+				JGetString("ConvertFromDOS::JStyledText"), false, true);
 
 		// Converting itsText in memory is more than 100 times slower,
 		// but we have to normalize the bytes after reading, so we have to
@@ -1000,7 +1000,7 @@ JStyledText::ReplaceAllInRange
 	}
 
 	JLatentPG pg(100);
-	pg.VariableLengthProcessBeginning(JGetString("ReplacingText::JStyledText"), true, false);
+	pg.VariableLengthProcessBeginning(JGetString("ReplacingText::JStyledText"), true, true);
 
 	bool changed = false;
 
@@ -1408,7 +1408,7 @@ JStyledText::SetFontSize
 	#define LocalVarName   size
 	#define GetElementName GetSize()
 	#define SetElementName SetSize
-	#include "jx-af/jcore/JStyledTextSetFont.th"
+	#include "JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName
@@ -1425,7 +1425,7 @@ JStyledText::SetFontBold
 	#define LocalVarName   bold
 	#define GetElementName GetStyle().bold
 	#define SetElementName SetBold
-	#include "jx-af/jcore/JStyledTextSetFont.th"
+	#include "JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName
@@ -1442,7 +1442,7 @@ JStyledText::SetFontItalic
 	#define LocalVarName   italic
 	#define GetElementName GetStyle().italic
 	#define SetElementName SetItalic
-	#include "jx-af/jcore/JStyledTextSetFont.th"
+	#include "JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName
@@ -1459,7 +1459,7 @@ JStyledText::SetFontUnderline
 	#define LocalVarName   count
 	#define GetElementName GetStyle().underlineCount
 	#define SetElementName SetUnderlineCount
-	#include "jx-af/jcore/JStyledTextSetFont.th"
+	#include "JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName
@@ -1476,7 +1476,7 @@ JStyledText::SetFontStrike
 	#define LocalVarName   strike
 	#define GetElementName GetStyle().strike
 	#define SetElementName SetStrike
-	#include "jx-af/jcore/JStyledTextSetFont.th"
+	#include "JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName
@@ -1493,7 +1493,7 @@ JStyledText::SetFontColor
 	#define LocalVarName   color
 	#define GetElementName GetStyle().color
 	#define SetElementName SetColor
-	#include "jx-af/jcore/JStyledTextSetFont.th"
+	#include "JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName
@@ -1510,7 +1510,7 @@ JStyledText::SetFontStyle
 	#define LocalVarName   style
 	#define GetElementName GetStyle()
 	#define SetElementName SetStyle
-	#include "jx-af/jcore/JStyledTextSetFont.th"
+	#include "JStyledTextSetFont.th"
 	#undef LocalVarName
 	#undef GetElementName
 	#undef SetElementName

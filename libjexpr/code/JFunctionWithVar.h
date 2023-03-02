@@ -10,7 +10,7 @@
 #ifndef _H_JFunctionWithVar
 #define _H_JFunctionWithVar
 
-#include "jx-af/jexpr/JFunction.h"
+#include "JFunction.h"
 #include <jx-af/jcore/jNew.h>
 
 class JFunctionWithVar : public JFunction

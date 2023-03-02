@@ -11,8 +11,8 @@
 #define _H_JXContainer
 
 #include <jx-af/jcore/JBroadcaster.h>
-#include "jx-af/jx/jXEventUtil.h"
-#include "jx-af/jx/JXCursor.h"
+#include "jXEventUtil.h"
+#include "JXCursor.h"
 #include <jx-af/jcore/JPtrArray.h>
 #include <jx-af/jcore/JRect.h>
 #include <jx-af/jcore/jColor.h>

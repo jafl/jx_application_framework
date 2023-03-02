@@ -37,7 +37,7 @@
 
 static const JUtf8Byte* kVersionStr =
 
-	"makemake 4.0.0\n"
+	"makemake 4.1.0\n"
 	"\n"
 	"Copyright (C) 1994-2021 by John Lindal.";
 
@@ -56,7 +56,6 @@ static const JUtf8Byte* kMakedependMarkerStr =
 
 static const JUtf8Byte* kObjDirArg   = "--obj-dir";
 static const JUtf8Byte* kNoStdIncArg = "--no-std-inc";
-static const JUtf8Byte* kAutoGenArg  = "--assume-autogen";
 
 static const JString kCurrentDir   ("./", JString::kNoCopy);
 static const JString kSysIncludeDir("/usr/include/", JString::kNoCopy);
@@ -96,7 +95,6 @@ void GetOptions(const JSize argc, char* argv[], JString* defSuffix,
 				JString* defineText, JString* headerName,
 				JString* inputName, JString* outputName, JString* outputDirName,
 				JPtrArray<JString>* userTargetList, bool* searchSysDir,
-				bool* assumeAutoGen,
 				JPtrArray<JString>* suffixMapIn, JPtrArray<JString>* suffixMapOut);
 bool FindFile(const JString& fileName, const JPtrArray<JString>& pathList,
 				  JString* fullName);
@@ -132,14 +130,14 @@ main
 
 	JString defSuffix, defineText, headerName, inputName, outputName, outputDirName;
 	JPtrArray<JString> userTargetList(JPtrArrayT::kDeleteAll);	// empty => include all targets
-	bool searchSysDir, assumeAutoGen;
+	bool searchSysDir;
 
 	JPtrArray<JString> suffixMapIn(JPtrArrayT::kDeleteAll),
 					   suffixMapOut(JPtrArrayT::kDeleteAll);
 
 	GetOptions(argc, argv, &defSuffix, &defineText, &headerName, &inputName,
 			   &outputName, &outputDirName, &userTargetList, &searchSysDir,
-			   &assumeAutoGen, &suffixMapIn, &suffixMapOut);
+			   &suffixMapIn, &suffixMapOut);
 
 	// process the input file
 
@@ -691,10 +689,6 @@ main
 	{
 		output << ' ' << kNoStdIncArg;
 	}
-	if (assumeAutoGen)
-	{
-		output << ' ' << kAutoGenArg;
-	}
 	output << " -- ${DEPENDFLAGS} -- ";
 
 #if USE_TEMP_FILE_FOR_DEPEND
@@ -948,8 +942,7 @@ GetOptions
 	JString*			outputName,
 	JString*			outputDirName,
 	JPtrArray<JString>*	userTargetList,
-	bool*			searchSysDir,
-	bool*			assumeAutoGen,
+	bool*				searchSysDir,
 	JPtrArray<JString>*	suffixMapIn,
 	JPtrArray<JString>*	suffixMapOut
 	)
@@ -958,21 +951,20 @@ GetOptions
 			suffixMapIn->IsEmpty() &&
 			suffixMapOut->IsEmpty() );
 
-	*defSuffix     = ".c";
-	*headerName    = "Make.header";
-	*inputName     = "Make.files";
-	*outputName    = "Makefile";
-	*searchSysDir  = true;
-	*assumeAutoGen = false;
+	*defSuffix    = ".c";
+	*headerName   = "Make.header";
+	*inputName    = "Make.files";
+	*outputName   = "Makefile";
+	*searchSysDir = true;
 
-{
+	{
 	auto* s = jnew JString(".java");
 	assert( s != nullptr );
 	suffixMapIn->Append(s);
 	s = jnew JString(".java");
 	assert( s != nullptr );
 	suffixMapOut->Append(s);
-}
+	}
 
 	outputDirName->Clear();
 	defineText->Clear();
@@ -1081,11 +1073,6 @@ GetOptions
 		else if (strcmp(argv[index], kNoStdIncArg) == 0)
 		{
 			*searchSysDir = false;
-		}
-
-		else if (strcmp(argv[index], kAutoGenArg) == 0)
-		{
-			*assumeAutoGen = true;
 		}
 
 		else if (strcmp(argv[index], "--check") == 0)
@@ -1313,7 +1300,6 @@ PrintHelp
 	std::cout << "-of               <output file name>  - default " << outputName << std::endl;
 	std::cout << kObjDirArg << "         <variable name>     - specifies directory for all .o files" << std::endl;
 	std::cout << kNoStdIncArg << "      exclude dependencies on files in /usr/include" << std::endl;
-	std::cout << kAutoGenArg << "  assume unfound \"...\" files reside in includer's directory" << std::endl;
 	std::cout << "--check           only rebuild output file if input files are newer" << std::endl;
 	std::cout << "--choose          interactively choose the targets" << std::endl;
 	std::cout << "--make-name       <make binary> - default " << kMakeBinary << std::endl;
@@ -1365,7 +1351,6 @@ void		WriteDependencies(std::ostream& output, const JString& fileName,
 							  const JString& makeName,
 							  const JPtrArray<JString>& pathList1,
 							  const JPtrArray<JString>& pathList2,
-							  const bool assumeAutoGen,
 							  const JString& outputDirName,
 							  JArray<HeaderDep>* headerList);
 void		PrintDependencies(std::ostream& output, const JString& outputDirName,
@@ -1374,18 +1359,15 @@ void		PrintDependencies(std::ostream& output, const JString& outputDirName,
 void		AddDependency(JPtrArray<JString>* depList, const JString& headerName,
 						  const JPtrArray<JString>& pathList1,
 						  const JPtrArray<JString>& pathList2,
-						  const bool assumeAutoGen,
 						  JArray<HeaderDep>* headerList,
 						  const bool addToDepList = true);
 HeaderDep	ParseHeaderFile(const JString& fileName,
 							const JPtrArray<JString>& pathList1,
 							const JPtrArray<JString>& pathList2,
-							const bool assumeAutoGen,
 							JArray<HeaderDep>* headerList);
-bool	GetNextIncludedFile(const JString& inputFileName, std::istream& input,
+bool		GetNextIncludedFile(const JString& inputFileName, std::istream& input,
 								const JPtrArray<JString>& pathList1,
 								const JPtrArray<JString>& pathList2,
-								const bool assumeAutoGen,
 								JString* fileName);
 void		TruncateMakefile(const JString& fileName);
 
@@ -1420,8 +1402,7 @@ CalcDepend
 	// parse command line arguments
 
 	JString outputDirName;
-	bool searchSysDir  = true;
-	bool assumeAutoGen = false;
+	bool searchSysDir = true;
 
 	JIndex i = startArg;
 
@@ -1438,10 +1419,6 @@ CalcDepend
 		else if (strcmp(argv[i], kNoStdIncArg) == 0)
 		{
 			searchSysDir = false;
-		}
-		else if (strcmp(argv[i], kAutoGenArg) == 0)
-		{
-			assumeAutoGen = true;
 		}
 		else
 		{
@@ -1546,7 +1523,7 @@ CalcDepend
 		}
 		makeName = JReadLine(input);
 		WriteDependencies(output, fileName, makeName, pathList1, pathList2,
-						  assumeAutoGen, outputDirName, &headerList);
+						  outputDirName, &headerList);
 	}
 
 #else
@@ -1554,7 +1531,7 @@ CalcDepend
 	for ( ; i<argc; i+=2)
 	{
 		WriteDependencies(output, argv[i], argv[i+1], pathList1, pathList2,
-						  assumeAutoGen, outputDirName, &headerList);
+						  outputDirName, &headerList);
 	}
 
 #endif
@@ -1594,7 +1571,6 @@ WriteDependencies
 	const JString&				makeName,
 	const JPtrArray<JString>&	pathList1,
 	const JPtrArray<JString>&	pathList2,
-	const bool				assumeAutoGen,
 	const JString&				outputDirName,
 	JArray<HeaderDep>*			headerList
 	)
@@ -1612,9 +1588,9 @@ WriteDependencies
 
 	std::ifstream input(fileName.GetBytes());
 	JString headerName;
-	while (GetNextIncludedFile(fileName, input, pathList1, pathList2, assumeAutoGen, &headerName))
+	while (GetNextIncludedFile(fileName, input, pathList1, pathList2, &headerName))
 	{
-		AddDependency(&depList, headerName, pathList1, pathList2, assumeAutoGen, headerList);
+		AddDependency(&depList, headerName, pathList1, pathList2, headerList);
 	}
 	input.close();
 
@@ -1653,11 +1629,10 @@ PrintDependencies
 
 		output << ':';
 
-		const JSize depCount = depList.GetElementCount();
-		for (JIndex i=1; i<=depCount; i++)
+		for (auto* dep : depList)
 		{
 			output << ' ';
-			(depList.GetElement(i))->Print(output);
+			dep->Print(output);
 		}
 
 		output << "\n\n";
@@ -1678,12 +1653,11 @@ AddDependency
 	const JString&				headerName,
 	const JPtrArray<JString>&	pathList1,
 	const JPtrArray<JString>&	pathList2,
-	const bool				assumeAutoGen,
 	JArray<HeaderDep>*			headerList,
-	const bool				addToDepList
+	const bool					addToDepList
 	)
 {
-	const HeaderDep info = ParseHeaderFile(headerName, pathList1, pathList2, assumeAutoGen, headerList);
+	const HeaderDep info = ParseHeaderFile(headerName, pathList1, pathList2, headerList);
 
 	bool isDuplicate;
 	const JIndex index =
@@ -1721,7 +1695,7 @@ AddDependency
 			#endif
 
 			AddDependency(depList, *includedFileName,
-						  pathList1, pathList2, assumeAutoGen,
+						  pathList1, pathList2,
 						  headerList, addSubToDepList);
 		}
 	}
@@ -1740,7 +1714,6 @@ ParseHeaderFile
 	const JString&				fileName,
 	const JPtrArray<JString>&	pathList1,
 	const JPtrArray<JString>&	pathList2,
-	const bool				assumeAutoGen,
 	JArray<HeaderDep>*			headerList
 	)
 {
@@ -1777,7 +1750,7 @@ ParseHeaderFile
 
 	std::ifstream input(fileName.GetBytes());
 	JString headerName;
-	while (GetNextIncludedFile(fileName, input, pathList1, pathList2, assumeAutoGen, &headerName))
+	while (GetNextIncludedFile(fileName, input, pathList1, pathList2, &headerName))
 	{
 		bool isDuplicate;
 		const JIndex i = (info.depList)->GetInsertionSortIndex(&headerName, &isDuplicate);
@@ -1807,7 +1780,6 @@ GetNextIncludedFile
 	std::istream&				input,
 	const JPtrArray<JString>&	pathList1,
 	const JPtrArray<JString>&	pathList2,
-	const bool				assumeAutoGen,
 	JString*					fileName
 	)
 {
@@ -1837,7 +1809,7 @@ GetNextIncludedFile
 				}
 				return true;
 			}
-			else if (type == '"' && assumeAutoGen)	// assume in same dir as including file
+			else if (type == '"')	// assume in same dir as including file
 			{
 				JString p, n;
 				if (!JSplitPathAndName(inputFileName, &p, &n))
@@ -1845,7 +1817,7 @@ GetNextIncludedFile
 					p = "./";
 				}
 				*fileName = JCombinePathAndName(p, name);
-				return true;
+				return JFileExists(*fileName);
 			}
 		}
 	}
@@ -1889,11 +1861,9 @@ FindFile
 
 	// otherwise, check search paths
 
-	const JSize count = pathList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const auto* path : pathList)
 	{
-		const JString* path = pathList.GetElement(i);
-		*fullName           = JCombinePathAndName(*path, fileName);
+		*fullName = JCombinePathAndName(*path, fileName);
 		if (JFileExists(*fullName))
 		{
 			return true;

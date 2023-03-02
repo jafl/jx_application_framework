@@ -20,7 +20,8 @@ public:
 
 	~App() override;
 
-	void	DisplayAbout(const JString& prevVersStr = JString::empty);
+	void	DisplayAbout(const bool showLicense = false,
+						 const JString& prevVersStr = JString::empty);
 	void	OpenFile(const JString& fileName, const JSize lineIndex);
 
 	static const JUtf8Byte*	GetAppSignature();

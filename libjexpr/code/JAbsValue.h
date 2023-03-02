@@ -10,7 +10,7 @@
 #ifndef _H_JAbsValue
 #define _H_JAbsValue
 
-#include "jx-af/jexpr/JUnaryFunction.h"
+#include "JUnaryFunction.h"
 
 class JAbsValue : public JUnaryFunction
 {

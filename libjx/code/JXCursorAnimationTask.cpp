@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXCursorAnimationTask.h"
-#include "jx-af/jx/JXCursorAnimator.h"
+#include "JXCursorAnimationTask.h"
+#include "JXCursorAnimator.h"
 
 /******************************************************************************
  Constructor
@@ -35,19 +35,15 @@ JXCursorAnimationTask::~JXCursorAnimationTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXCursorAnimationTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	if (TimeToPerform(delta, maxSleepTime))
-	{
-		itsCursorAnim->NextFrame();
-	}
+	itsCursorAnim->NextFrame();
 }

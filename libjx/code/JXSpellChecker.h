@@ -10,7 +10,7 @@
 #define _H_JXSpellChecker
 
 #include <jx-af/jcore/JSpellChecker.h>
-#include "jx-af/jx/JXSharedPrefObject.h"
+#include "JXSharedPrefObject.h"
 #include <jx-af/jcore/JRect.h>
 
 class JXTEBase;

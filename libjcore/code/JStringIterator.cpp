@@ -40,11 +40,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/JRegex.h"
-#include "jx-af/jcore/JMinMax.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "JRegex.h"
+#include "JMinMax.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

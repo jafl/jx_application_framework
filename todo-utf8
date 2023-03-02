@@ -1,3 +1,34 @@
+save file dialog
+	instructions wrap too close to path input
+
+
+
+
+
+
+check all uses of JXDeleteObjectTask
+	unsafe to perform while modal dialog is open?
+
+always forget object after JXDeleteObjectTask, JXCloseDirectorTask
+
+medic
+	test uses of JXCloseDirectorTask
+
+
+
+
+test on linux:
+	file chooser
+	launch medic from jcc when no terminal is open
+
+jx_project_wizard
+	online help: upload & set keys in strings file
+
+
+
+test all changed code
+
+
 medic: test with gdb
 	analyze core
 	init args from .gdbinit
@@ -6,6 +37,7 @@ medic: test with gdb
 
 jcc
 	don't scroll for undo if it is already visible
+	html-auto-close not run when typing at very end of file (no trailing newline)
 	hangs on xml script run on entire file (Bahamas.html)
 
 
@@ -95,10 +127,6 @@ D tree
 test jcc with old project formats in code_crusader/test-manual/*.jcc
 
 -----
-
-ubuntu
-	typing doesn't work in file chooser
-		XFilterEvent captures key events (and sometimes plays them back reversed)
 
 JTextEditor:
 	need smarter update during indent/outdent, to maintain caret location

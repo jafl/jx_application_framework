@@ -10,7 +10,7 @@
 #ifndef _H_JXPTPageSetupDialog
 #define _H_JXPTPageSetupDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 
 class JXPTPrinter;
 class JXTextButton;
@@ -18,7 +18,7 @@ class JXTextCheckbox;
 class JXInputField;
 class JXIntegerInput;
 
-class JXPTPageSetupDialog : public JXDialogDirector
+class JXPTPageSetupDialog : public JXModalDialogDirector
 {
 public:
 
@@ -30,7 +30,7 @@ public:
 
 	~JXPTPageSetupDialog() override;
 
-	bool	SetParameters(JXPTPrinter* p) const;
+	virtual bool	SetParameters(JXPTPrinter* p) const;
 
 protected:
 

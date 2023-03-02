@@ -15,20 +15,21 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXApplication.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXIdleTask.h"
-#include "jx-af/jx/JXQuitIfAllDeactTask.h"
-#include "jx-af/jx/JXUrgentTask.h"
-#include "jx-af/jx/JXMenuManager.h"
-#include "jx-af/jx/JXHelpManager.h"
-#include "jx-af/jx/JXDocumentManager.h"
-#include "jx-af/jx/JXSharedPrefsManager.h"
-#include "jx-af/jx/JXMDIServer.h"
-#include "jx-af/jx/JXAssert.h"
-#include "jx-af/jx/jXEventUtil.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXApplication.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXIdleTask.h"
+#include "JXQuitIfAllDeactTask.h"
+#include "JXUrgentTask.h"
+#include "JXMenuManager.h"
+#include "JXHelpManager.h"
+#include "JXDocumentManager.h"
+#include "JXSharedPrefsManager.h"
+#include "JXMDIServer.h"
+#include "JXBoostPriorityScheduler.h"
+#include "JXAssert.h"
+#include "jXEventUtil.h"
+#include "jXGlobals.h"
 
 #include <jx-af/jcore/JThisProcess.h>
 #include <ace/Reactor.h>
@@ -70,11 +71,18 @@ JXApplication::JXApplication
 	)
 	:
 	JXDirector(nullptr),
+	itsCurrDisplayIndex(1),
 	itsIgnoreDisplayDeletedFlag(false),
 	itsIgnoreTaskDeletedFlag(false),
-	itsRunningUrgentTasks(nullptr),
+	itsCurrentTime(0),
+	itsMaxSleepTime(0),
+	itsLastIdleTime(0),
+	itsLastIdleTaskTime(0),
+	itsWaitForChildCounter(0),
 	itsSignature(appSignature),
-	itsRestartCmd(argv[0])
+	itsRestartCmd(argv[0]),
+	itsRequestQuitFlag(false),
+	itsIsQuittingFlag(false)
 {
 	std::cout << std::boolalpha;	// since it will only be used for debugging
 	std::cerr << std::boolalpha;
@@ -90,26 +98,8 @@ JXApplication::JXApplication
 	itsDisplayList = jnew JPtrArray<JXDisplay>(JPtrArrayT::kDeleteAll);
 	assert( itsDisplayList != nullptr );
 
-	itsCurrDisplayIndex = 1;
-
-	itsIdleTaskStack = jnew IdleTaskStack(JPtrArrayT::kDeleteAll);
-	assert( itsIdleTaskStack != nullptr );
-
 	itsIdleTasks = jnew JPtrArray<JXIdleTask>(JPtrArrayT::kDeleteAll);
 	assert( itsIdleTasks != nullptr );
-
-	itsCurrentTime         = 0;
-	itsMaxSleepTime        = 0;
-	itsLastIdleTime        = 0;
-	itsLastIdleTaskTime    = 0;
-	itsWaitForChildCounter = 0;
-
-	itsUrgentTasks = jnew JPtrArray<JXUrgentTask>(JPtrArrayT::kDeleteAll);
-	assert( itsUrgentTasks != nullptr );
-
-	itsHasBlockingWindowFlag = false;
-	itsHadBlockingWindowFlag = false;
-	itsRequestQuitFlag       = false;
 
 	// if no path info specified, assume it's on exec path
 
@@ -124,6 +114,12 @@ JXApplication::JXApplication
 
 	JXCreateGlobals(this, appSignature, defaultStringData);
 	ListenTo(JThisProcess::Instance());		// for SIGTERM
+
+	// init fiber manager - required for JXWindow::AnalyzeWindowManager()
+
+	boost::fibers::use_scheduling_algorithm<JXBoostPriorityScheduler>();
+
+	JSetTaskScheduler(std::bind(JXApplication::StartFiber, std::placeholders::_1, kIdleTaskPriority));
 
 	// create display -- requires JXGetApplication() to work
 
@@ -188,9 +184,7 @@ JXApplication::~JXApplication()
 
 	itsIgnoreTaskDeletedFlag = true;
 
-	jdelete itsIdleTaskStack;
 	jdelete itsIdleTasks;
-	jdelete itsUrgentTasks;
 	jdelete itsTaskMutex;
 
 	JXDeleteGlobals2();
@@ -417,16 +411,28 @@ JXApplication::Run()
 	{
 		HandleOneEvent();
 
-		if (itsRequestQuitFlag || !HasSubdirectors())
+		if (itsRequestQuitFlag)
 		{
-			itsRequestQuitFlag = true;
+			itsRequestQuitFlag = false;
+			itsIsQuittingFlag  = true;
+			StartFiber([this]()
+			{
+				if (!CloseAllSubdirectors())
+				{
+					itsIsQuittingFlag = false;
+				}
+			});
+		}
+		else if (!HasSubdirectors())
+		{
+			itsIsQuittingFlag = true;
 			if (Close())
 			{
-				break;		// we have been deleted
+				break;	// we have been deleted
 			}
 			else
 			{
-				itsRequestQuitFlag = false;
+				itsIsQuittingFlag = false;
 			}
 		}
 	}
@@ -457,7 +463,7 @@ JXApplication::Quit()
 bool
 JXApplication::Close()
 {
-	assert( itsRequestQuitFlag );
+	assert( itsIsQuittingFlag );
 
 	for (auto* d : *itsDisplayList)
 	{
@@ -496,17 +502,15 @@ JXApplication::UpdateCurrentTime()
 
 	We process one event for each display.  If there are none, we idle.
 
-	To process custom events, override HandleCustomEvent().
+	Each event is processed in a separate fiber to allow blocking for the
+	result of a dialog.
 
  ******************************************************************************/
 
 void
 JXApplication::HandleOneEvent()
 {
-	itsHadBlockingWindowFlag = false;
-
 	UpdateCurrentTime();
-	const bool allowSleep = HandleCustomEvent();
 
 	UpdateCurrentTime();
 	bool hasEvents = false;
@@ -539,7 +543,14 @@ JXApplication::HandleOneEvent()
 
 			// dispatch the event
 
-			display->HandleEvent(xEvent, itsCurrentTime);
+			const Time t = this->itsCurrentTime;
+			StartFiber([display, xEvent, t]()
+			{
+				display->HandleEvent(xEvent, t);
+			},
+			kEventHandlerPriority);
+
+			boost::this_fiber::yield();
 		}
 		else
 		{
@@ -547,281 +558,11 @@ JXApplication::HandleOneEvent()
 		}
 	}
 
-	PopAllIdleTaskStack();
-	PerformTasks(hasEvents, allowSleep);
+	StartTasks(hasEvents);
 }
 
 /******************************************************************************
- HandleCustomEvent (virtual protected)
-
-	This function exists to support real-time applications which need
-	to modify the main event loop.  It is called every time through the
-	main event loop.  (HandleCustomEventWhileBlocking() is called when a
-	blocking dialog window is active.)
-
-	The derived class is not required to return after handling a single
-	event, but if it waits too long before returning, then the graphical
-	interface will react sluggishly.
-
-	The return value controls whether or not the main event loop idles
-	by calling JWait().  The default is to return true to avoid hogging
-	CPU time.  If the derived class handles the sleeping via some other
-	system call, then it should return false.  Otherwise, it might return
-	true if there were no events and false if there were.
-
- ******************************************************************************/
-
-bool
-JXApplication::HandleCustomEvent()
-{
-	return true;
-}
-
-/******************************************************************************
- HandleOneEventForWindow (private)
-
-	We process one event for one window on one display.  We process Expose
-	events for everybody.  We toss mouse and keyboard events for all other
-	windows.
-
-	In order to allow menus inside the window, we always pass all events
-	to the current mouse and keyboard grabber windows.
-
-	Returns true if we processed an event for the specified window.
-
-	This enables the equivalent of await in JavaScript, which is the only
-	known way to avoid callback-hell.
-
- ******************************************************************************/
-
-const JSize kEventWindowCount = 3;
-
-struct DiscardEventInfo
-{
-	JXDisplay*	display;
-	Window*		eventWindow;	// pass to GetNextWindowEvent()
-
-	DiscardEventInfo(JXDisplay* d, Window* w)
-		:
-		display(d), eventWindow(w)
-	{ };
-};
-
-bool
-JXApplication::HandleOneEventForWindow
-	(
-	JXWindow*	window,
-	const bool	origAllowSleep
-	)
-{
-	const bool origHadBlockingWindowFlag = itsHadBlockingWindowFlag;
-
-	itsHasBlockingWindowFlag = true;
-	itsHadBlockingWindowFlag = false;		// req'd by JXWindow
-{
-	std::lock_guard lock(*itsTaskMutex);
-	if (itsIdleTaskStack->IsEmpty())
-	{
-		PushIdleTaskStack();
-	}
-}
-	UpdateCurrentTime();
-	const bool allowSleep =
-		origAllowSleep && HandleCustomEventWhileBlocking();
-
-	UpdateCurrentTime();
-	bool windowHasEvents = false;
-
-	const JXDisplay* uiDisplay = window->GetDisplay();
-
-	Window eventWindow [ kEventWindowCount ];
-	eventWindow[0] = window->GetXWindow();
-
-	JPtrArrayIterator<JXDisplay> iter(itsDisplayList);
-	JXDisplay* display;
-	JIndex displayIndex = 0;
-	while (iter.Next(&display))
-	{
-		JXMenuManager* menuMgr = display->GetMenuManager();
-		if (!origHadBlockingWindowFlag)
-		{
-			menuMgr->CloseCurrentMenus();
-		}
-
-		JXWindow* mouseContainer;
-
-		displayIndex++;
-		itsCurrDisplayIndex = displayIndex;		// itsCurrDisplayIndex might change during event
-		if (XPending(*display) != 0)
-		{
-			// get mouse and keyboard grabbers -- for menus inside blocking window
-
-			eventWindow[1] = eventWindow[2] = None;
-
-			JXWindow* grabber;
-			if (display == uiDisplay && display->GetMouseGrabber(&grabber) &&
-				menuMgr->IsMenuForWindow(grabber, window))
-			{
-				eventWindow[1] = grabber->GetXWindow();
-			}
-			if (display == uiDisplay && display->GetKeyboardGrabber(&grabber) &&
-				menuMgr->IsMenuForWindow(grabber, window))
-			{
-				eventWindow[2] = grabber->GetXWindow();
-			}
-
-			// process one event
-
-			XEvent xEvent;
-			if (display == uiDisplay &&
-				XCheckIfEvent(*display, &xEvent, GetNextWindowEvent,
-							  reinterpret_cast<char*>(eventWindow)))
-			{
-				if (XFilterEvent(&xEvent, None))	// XIM
-				{
-					continue;
-				}
-
-				windowHasEvents = true;
-				if (xEvent.type != MotionNotify)
-				{
-					itsLastIdleTime = itsCurrentTime;
-				}
-				display->HandleEvent(xEvent, itsCurrentTime);
-			}
-			else if (XCheckIfEvent(*display, &xEvent, GetNextBkgdEvent, nullptr))
-			{
-				if (XFilterEvent(&xEvent, None))	// XIM
-				{
-					continue;
-				}
-				display->HandleEvent(xEvent, itsCurrentTime);
-			}
-			else if (display == uiDisplay &&
-					 display->GetMouseContainer(&mouseContainer) &&
-					 mouseContainer == window)
-			{
-				display->Idle(itsCurrentTime);
-			}
-			else
-			{
-				display->Update();
-			}
-
-			// discard mouse and keyboard events
-
-			DiscardEventInfo discardInfo(display, nullptr);
-			if (display == uiDisplay)
-			{
-				discardInfo.eventWindow = eventWindow;
-			}
-			while (XCheckIfEvent(*display, &xEvent, DiscardNextEvent,
-								 reinterpret_cast<char*>(&discardInfo)))
-			{ /* discard events */ }
-		}
-		else if (display == uiDisplay &&
-				 display->GetMouseContainer(&mouseContainer) &&
-				 mouseContainer == window)
-		{
-			display->Idle(itsCurrentTime);
-		}
-		else
-		{
-			display->Update();
-		}
-	}
-
-	PerformTasks(windowHasEvents, allowSleep);
-
-	itsHasBlockingWindowFlag = false;
-	itsHadBlockingWindowFlag = true;
-
-	return windowHasEvents;
-}
-
-// static private
-
-Bool
-JXApplication::GetNextWindowEvent
-	(
-	Display*	display,
-	XEvent*		event,
-	char*		arg
-	)
-{
-	const Window currWindow = (event->xany).window;
-
-	auto* eventWindow = reinterpret_cast<Window*>(arg);
-	for (JUnsignedOffset i=0; i<kEventWindowCount; i++)
-	{
-		if (currWindow == eventWindow[i])
-		{
-			return True;
-		}
-	}
-
-	return False;
-}
-
-Bool
-JXApplication::GetNextBkgdEvent
-	(
-	Display*	display,
-	XEvent*		event,
-	char*		arg
-	)
-{
-	// Expose:           redraw window
-	// ConfigureNotify:  redraw window correctly when resized
-	// Map/UnmapNotify:  redraw window when deiconified
-	// SelectionRequest: paste to other program
-	// SelectionClear:   yield ownership so paste works correctly in CSF
-
-	if (event->type == Expose           ||
-		event->type == ConfigureNotify  ||
-		event->type == MapNotify        ||
-		event->type == UnmapNotify      ||
-		event->type == SelectionRequest ||
-		event->type == SelectionClear)
-	{
-		return True;
-	}
-	else
-	{
-		return False;
-	}
-}
-
-Bool
-JXApplication::DiscardNextEvent
-	(
-	Display*	display,
-	XEvent*		event,
-	char*		arg
-	)
-{
-	auto* info = reinterpret_cast<DiscardEventInfo*>(arg);
-
-	if (info->eventWindow != nullptr &&
-		GetNextWindowEvent(display, event, reinterpret_cast<char*>(info->eventWindow)))
-	{
-		return False;
-	}
-	else if (event->type == KeyPress || event->type == KeyRelease ||
-			 event->type == ButtonPress || event->type == ButtonRelease ||
-			 event->type == MotionNotify ||
-			 JXWindow::IsDeleteWindowMessage(info->display, *event))
-	{
-		return True;
-	}
-	else
-	{
-		return False;
-	}
-}
-
-/******************************************************************************
- PerformTasks (private)
+ StartTasks (private)
 
 	Perform idle tasks when we don't receive any events and during long
 	intervals of "mouse moved".
@@ -829,67 +570,38 @@ JXApplication::DiscardNextEvent
  ******************************************************************************/
 
 void
-JXApplication::PerformTasks
+JXApplication::StartTasks
 	(
-	const bool hadEvents,
-	const bool allowSleep
+	const bool hadEvents
 	)
 {
+	StartFiber(JXDisplay::CheckForXErrors, kUrgentTaskPriority);
+
+	StartFiber([this]()
+	{
+		// We check in this order so CheckForSignals() can broadcast even
+		// if the app is suspended.
+
+		if (JThisProcess::CheckForSignals() && !IsSuspended())
+		{
+			Quit();
+		}
+	},
+	kUrgentTaskPriority);
+
+	boost::this_fiber::yield();
+
 	if (!hadEvents)
 	{
-		PerformIdleTasks();
+		StartIdleTasks();
 		itsLastIdleTime = itsCurrentTime;
-		PerformUrgentTasks();
-		if (allowSleep)
-		{
-			JWait(itsMaxSleepTime / 1000.0);
-		}
+		JWait(itsMaxSleepTime / 1000.0);
 	}
-	else if (hadEvents &&
-			 itsCurrentTime - itsLastIdleTime > itsMaxSleepTime)
+	else if (itsCurrentTime - itsLastIdleTime > itsMaxSleepTime)
 	{
-		PerformIdleTasks();
+		StartIdleTasks();
 		itsLastIdleTime = itsCurrentTime;
-		PerformUrgentTasks();
 	}
-	else
-	{
-		PerformUrgentTasks();
-	}
-}
-
-/******************************************************************************
- HandleCustomEventWhileBlocking (virtual protected)
-
-	This function exists to support real-time applications which need
-	to modify the subsidiary event loop that runs while a blocking dialog is
-	active.  It is called every time through the event loop.
-
-	Derived classes may just call HandleCustomEvent(), but they must first
-	be sure that it is safe to do so.  The subsidiary event loop is only
-	called when the main event loop is blocked.  This means that there may
-	be an arbitrary amount of state stored on the execution stack and
-	the affected objects may not be re-entrant.
-
-	The derived class is not required to return after handling a single
-	event, but if it waits too long before returning, then the graphical
-	interface will react sluggishly.  This is especially important if the
-	blocking window is a progress display, because the more often one
-	returns, the sooner the window will disappear, thereby returning to
-	the main event loop.
-
-	The return value controls whether or not the main event loop idles
-	by calling JWait().  The default is to return true to avoid hogging
-	CPU time.  If the derived class handles the sleeping via some other
-	system call, then it should return false.  Otherwise, it might return
-	true if there were no events and false if there were.
-
- ******************************************************************************/
-
-bool
-JXApplication::HandleCustomEventWhileBlocking()
-{
-	return true;
 }
 
 /******************************************************************************
@@ -904,22 +616,14 @@ JXApplication::HandleCustomEventWhileBlocking()
 void
 JXApplication::InstallIdleTask
 	(
-	JXIdleTask* newTask
+	JXIdleTask* task
 	)
 {
 	std::lock_guard lock(*itsTaskMutex);
 
-	if (!itsIdleTasks->Includes(newTask))
+	if (!itsIdleTasks->Includes(task))
 	{
-		itsIdleTasks->Prepend(newTask);
-
-		// Make sure it isn't stored anywhere else, so PopIdleTaskTask()
-		// doesn't have to worry about duplicates when merging lists.
-
-		for (auto* list : *itsIdleTaskStack)
-		{
-			list->Remove(newTask);
-		}
+		itsIdleTasks->Prepend(task);
 	}
 }
 
@@ -939,85 +643,19 @@ JXApplication::RemoveIdleTask
 		std::lock_guard lock(*itsTaskMutex);
 
 		itsIdleTasks->Remove(task);
-
-		for (auto* list : *itsIdleTaskStack)
-		{
-			list->Remove(task);
-		}
 	}
 }
 
 /******************************************************************************
- PushIdleTaskStack (private)
+ StartIdleTasks (private)
 
  ******************************************************************************/
 
 void
-JXApplication::PushIdleTaskStack()
-{
-	std::lock_guard lock(*itsTaskMutex);
-
-	itsIdleTaskStack->Append(itsIdleTasks);
-
-	itsIdleTasks = jnew JPtrArray<JXIdleTask>(JPtrArrayT::kDeleteAll);
-	assert( itsIdleTasks != nullptr );
-}
-
-/******************************************************************************
- PopIdleTaskStack (private)
-
-	Since every object is required to delete its idle tasks, any
-	remaining tasks should stay active.  (e.g. tasks installed by
-	documents while a progress display is active)
-
- ******************************************************************************/
-
-void
-JXApplication::PopIdleTaskStack()
-{
-	std::lock_guard lock(*itsTaskMutex);
-
-	if (!itsIdleTaskStack->IsEmpty())
-	{
-		JPtrArray<JXIdleTask>* list = itsIdleTasks;
-		itsIdleTasks                = itsIdleTaskStack->GetLastElement();
-		itsIdleTaskStack->RemoveElement(itsIdleTaskStack->GetElementCount());
-
-		itsIdleTasks->CopyPointers(*list, JPtrArrayT::kDeleteAll, true);
-		list->SetCleanUpAction(JPtrArrayT::kForgetAll);
-		jdelete list;
-	}
-}
-
-/******************************************************************************
- PopAllIdleTaskStack (private)
-
-	This could be optimized, but the test for IsEmpty() ensures that
-	it almost never has to do any work.
-
- ******************************************************************************/
-
-void
-JXApplication::PopAllIdleTaskStack()
-{
-	std::lock_guard lock(*itsTaskMutex);
-
-	while (!itsIdleTaskStack->IsEmpty())
-	{
-		PopIdleTaskStack();
-	}
-}
-
-/******************************************************************************
- PerformIdleTasks (private)
-
- ******************************************************************************/
-
-void
-JXApplication::PerformIdleTasks()
+JXApplication::StartIdleTasks()
 {
 	itsMaxSleepTime = kMaxSleepTime;
-{
+	{
 	std::lock_guard lock(*itsTaskMutex);
 
 	if (!itsIdleTasks->IsEmpty())		// avoid constructing iterator
@@ -1029,158 +667,107 @@ JXApplication::PerformIdleTasks()
 		while (iter.Next(&task))
 		{
 			Time maxSleepTime = itsMaxSleepTime;
-			task->Perform(deltaTime, &maxSleepTime);
+			if (task->Ready(deltaTime, &maxSleepTime))
+			{
+				StartFiber([task, deltaTime]()
+				{
+					task->Perform(deltaTime);
+				});
+			}
+
 			if (maxSleepTime < itsMaxSleepTime)
 			{
 				itsMaxSleepTime = maxSleepTime;
 			}
+			boost::this_fiber::yield();		// wait for task to finish - might delete other tasks
 		}
 	}
-}
-
-	if (!itsHasBlockingWindowFlag)
-	{
-		// let sockets broadcast
-
-		CheckACEReactor();
-
-		// let processes broadcast -- not necessary to check each time
-
-		itsWaitForChildCounter++;
-		if (itsWaitForChildCounter >= kWaitForChildCount)
-		{
-			JProcess::CheckForFinishedChild(false);
-			itsWaitForChildCounter = 0;
-		}
-	}
-
-	JXMDIServer* mdiServer = nullptr;
-	if (JXGetMDIServer(&mdiServer))
-	{
-		mdiServer->CheckForConnections();
 	}
 
 	// save time for next call
 
 	itsLastIdleTaskTime = itsCurrentTime;
-}
 
-/******************************************************************************
- CheckACEReactor (static)
+	// let sockets broadcast
 
-	Bumps the ACE reactor to check sockets, signals, etc.
+	StartFiber(JThisProcess::CheckACEReactor);
 
-	It is not generally a good idea to call this if there is a blocking
-	window open because it may invoke arbitrary amounts of code, which is
-	dangerous since JX is not re-entrant.
+	// let processes broadcast -- not necessary to check each time
 
- ******************************************************************************/
+	itsWaitForChildCounter++;
+	if (itsWaitForChildCounter >= kWaitForChildCount)
+	{
+		StartFiber([this]()
+		{
+			JProcess::CheckForFinishedChild(false);
+			itsWaitForChildCounter = 0;
+		});
+	}
 
-void
-JXApplication::CheckACEReactor()
-{
-	JThisProcess::CheckACEReactor();
+	JXMDIServer* mdiServer = nullptr;
+	if (JXGetMDIServer(&mdiServer))
+	{
+		StartFiber([mdiServer]()
+		{
+			mdiServer->CheckForConnections();
+		});
+	}
+
+	boost::this_fiber::yield();
 }
 
 /******************************************************************************
  InstallUrgentTask
 
-	We insert the task in front of the execution iterator so it will be
-	performed next time, if PerformUrgentTasks is executing.  This ensures
-	that we will eventually reach the end of the task list.
+	We immediately create a fiber, so it will run as soon as possible.
 
  ******************************************************************************/
 
 void
 JXApplication::InstallUrgentTask
 	(
-	JXUrgentTask* newTask
-	)
-{
-	std::lock_guard lock(*itsTaskMutex);
-
-	if (!itsUrgentTasks->Includes(newTask))
-	{
-		itsUrgentTasks->Append(newTask);
-	}
-}
-
-/******************************************************************************
- RemoveUrgentTask
-
- ******************************************************************************/
-
-void
-JXApplication::RemoveUrgentTask
-	(
 	JXUrgentTask* task
 	)
 {
-	if (!itsIgnoreTaskDeletedFlag)
+	StartFiber([task]()
 	{
-		std::lock_guard lock(*itsTaskMutex);
-
-		itsUrgentTasks->Remove(task);
-
-		if (itsRunningUrgentTasks != nullptr)
+		if (!task->Cancelled())
 		{
-			itsRunningUrgentTasks->Remove(task);
+			task->Perform();
 		}
-	}
+		jdelete task;
+	},
+	kUrgentTaskPriority);
 }
 
 /******************************************************************************
- PerformUrgentTasks (private)
+ StartFiber (static)
 
  ******************************************************************************/
 
 void
-JXApplication::PerformUrgentTasks()
+JXApplication::StartFiber
+	(
+	const std::function<void()>&	f,
+	const FiberPriority				priority
+	)
 {
-	JPtrArray<JXUrgentTask>* taskList = nullptr;
-{
-	std::lock_guard lock(*itsTaskMutex);
+	assert( priority > kEventLoopPriority );
 
-	if (!itsUrgentTasks->IsEmpty())
-	{
-		// clear out itsUrgentTasks so new ones can safely be added
-
-		taskList = jnew JPtrArray<JXUrgentTask>(*itsUrgentTasks, JPtrArrayT::kDeleteAll);
-		assert( taskList != nullptr);
-
-		itsUrgentTasks->RemoveAll();
-	}
+	auto fiber = boost::fibers::fiber(f);
+	fiber.properties<JXBoostPriorityProps>().SetPriority(priority);
+	fiber.detach();
 }
-	if (taskList != nullptr)
-	{
-		itsRunningUrgentTasks = taskList;
 
-		// perform each task - use iterator because task might be deleted
+/******************************************************************************
+ IsWorkerFiber (static)
 
-		JListIterator<JXUrgentTask*>* iter = taskList->NewIterator();
-		JXUrgentTask* task;
-		while (iter->Next(&task))
-		{
-			task->Perform();
-		}
+ ******************************************************************************/
 
-		itsRunningUrgentTasks = nullptr;
-		jdelete iter;
-
-		jdelete taskList;
-		taskList = nullptr;
-	}
-
-	JXDisplay::CheckForXErrors();
-
-	// We check in this order so CheckForSignals() can broadcast even
-	// if the app is suspended.
-
-	if (!itsHasBlockingWindowFlag && JThisProcess::CheckForSignals() &&
-		!IsSuspended())
-	{
-		Quit();
-	}
+bool
+JXApplication::IsWorkerFiber()
+{
+	return boost::this_fiber::properties<JXBoostPriorityProps>().GetPriority() > kEventLoopPriority;
 }
 
 /******************************************************************************
@@ -1381,7 +968,7 @@ void
 JXApplication::Abort
 	(
 	const JXDocumentManager::SafetySaveReason	reason,
-	const bool								dumpCore
+	const bool									dumpCore
 	)
 {
 	if (!abortCalled)
@@ -1402,7 +989,7 @@ JXApplication::Abort
 	}
 	else
 	{
-		fprintf(stderr, "\nError inside XIO fatal error handler!\n\n");
+		fprintf(stderr, "\nError inside JXApplication::Abort!\n\n");
 	}
 
 	if (dumpCore)

@@ -36,19 +36,13 @@ main
 	auto* app = jnew App(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
-	if (displayAbout &&
-		!JGetUserNotification()->AcceptLicense())
-	{
-		return 0;
-	}
-
 	auto* dir = jnew StatsDirector(app);
 	assert( dir != nullptr );
 	dir->Activate();
 
 	if (displayAbout)
 	{
-		app->DisplayAbout(prevVersStr);
+		app->DisplayAbout(true, prevVersStr);
 	}
 
 	app->Run();

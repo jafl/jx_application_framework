@@ -9,9 +9,9 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JStdError.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JStdError.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 // Types
 

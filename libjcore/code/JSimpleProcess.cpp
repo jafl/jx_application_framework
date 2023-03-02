@@ -15,10 +15,10 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JSimpleProcess.h"
-#include "jx-af/jcore/JThisProcess.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JSimpleProcess.h"
+#include "JThisProcess.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 static const time_t kMaxReportInverval = 5;		// seconds
 

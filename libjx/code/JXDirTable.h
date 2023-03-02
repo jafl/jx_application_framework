@@ -9,7 +9,7 @@
 #ifndef _H_JXDirTable
 #define _H_JXDirTable
 
-#include "jx-af/jx/JXTable.h"
+#include "JXTable.h"
 
 class JString;
 class JDirInfo;
@@ -84,9 +84,9 @@ protected:
 	bool	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
 						   const JPoint& pt, const Time time,
 						   const JXWidget* source) override;
-	void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
-							  const Atom action, const Time time,
-							  const JXWidget* source) override;
+	void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
+						  const Atom action, const Time time,
+						  const JXWidget* source) override;
 
 	void	HandleFocusEvent() override;
 
@@ -95,15 +95,15 @@ protected:
 
 private:
 
-	JDirInfo*		itsDirInfo;			// not owned
+	JDirInfo*		itsDirInfo;					// not owned
 	JArray<bool>*	itsActiveCells;
 	JXTimerTask*	itsDirUpdateTask;
 
-	bool	itsIgnoreSelChangesFlag;		// true while cleaning selection
+	bool	itsIgnoreSelChangesFlag;			// true while cleaning selection
 	bool	itsAllowSelectFilesFlag;
-	bool	itsAllowSelectMultipleFlag;		// true => select multiple files, but not directories
-	bool	itsAllowDblClickInactiveFlag;	// true => broadcast FileDblClicked even if inactive
-	bool	itsSelectWhenChangePathFlag;	// true => select first entry when path changes
+	bool	itsAllowSelectMultipleFlag;			// true => select multiple files, but not directories
+	bool	itsAllowDblClickInactiveFlag;		// true => broadcast FileDblClicked even if inactive
+	bool	itsSelectWhenChangePathFlag;		// true => select first entry when path changes
 	JSize	itsMaxStringWidth;
 	JString	itsKeyBuffer;
 
@@ -136,35 +136,57 @@ public:
 	// JBroadcaster messages
 
 	static const JUtf8Byte* kFileDblClicked;
+	static const JUtf8Byte* kFileDropped;
 
 	class FileDblClicked : public JBroadcaster::Message
+	{
+	public:
+
+		FileDblClicked(const JDirEntry& entry, const bool active)
+			:
+			JBroadcaster::Message(kFileDblClicked),
+			itsDirEntry(entry),
+			itsActiveFlag(active)
+		{ };
+
+		const JDirEntry&
+		GetDirEntry() const
 		{
-		public:
-
-			FileDblClicked(const JDirEntry& entry, const bool active)
-				:
-				JBroadcaster::Message(kFileDblClicked),
-				itsDirEntry(entry),
-				itsActiveFlag(active)
-			{ };
-
-			const JDirEntry&
-			GetDirEntry() const
-			{
-				return itsDirEntry;
-			};
-
-			bool
-			IsActive() const
-			{
-				return itsActiveFlag;
-			};
-
-		private:
-
-			const JDirEntry&	itsDirEntry;
-			bool			itsActiveFlag;
+			return itsDirEntry;
 		};
+
+		bool
+		IsActive() const
+		{
+			return itsActiveFlag;
+		};
+
+	private:
+
+		const JDirEntry&	itsDirEntry;
+		bool				itsActiveFlag;
+	};
+
+	class FileDropped : public JBroadcaster::Message
+	{
+	public:
+
+		FileDropped(const JString& name)
+			:
+			JBroadcaster::Message(kFileDropped),
+			itsFileName(name)
+		{ };
+
+		const JString&
+		GetFileName() const
+		{
+			return itsFileName;
+		};
+
+	private:
+
+		const JString&	itsFileName;
+	};
 };
 
 

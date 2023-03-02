@@ -8,7 +8,7 @@
 #ifndef _H_JXHintManager
 #define _H_JXHintManager
 
-#include "jx-af/jx/JXDirector.h"
+#include "JXDirector.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/JPoint.h>
 #include <X11/X.h>

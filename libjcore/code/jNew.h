@@ -17,7 +17,7 @@
  *****************************************************************************/
 
 #include <stdlib.h> // For size_t
-#include "jx-af/jcore/jTypes.h"
+#include "jTypes.h"
 
 void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line) noexcept;
 void* operator new[](size_t size, const JUtf8Byte* file, const JUInt32 line) noexcept;

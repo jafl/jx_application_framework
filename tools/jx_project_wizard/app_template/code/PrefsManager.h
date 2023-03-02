@@ -12,7 +12,6 @@
 
 class JPoint;
 class JXWindow;
-class PrefsDialog;
 
 // Preferences -- do not change ID's once they are assigned
 
@@ -45,11 +44,6 @@ protected:
 
 	void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
 	void	SaveAllBeforeDestruct() override;
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
-private:
-
-	PrefsDialog*	itsPrefsDialog;
 };
 
 #endif

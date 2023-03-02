@@ -85,12 +85,19 @@ CannotExec::JXFileInput		"This file is not executable."
 
 # JXDocumentManager
 
-NewDocName::JXDocumentManager		"Untitled $i"
-PleaseFind::JXDocumentManager		"Unable to locate $name\n\nPlease find it."
-ChooseFilePrompt::JXDocumentManager	"New name of file:"
+NewDocName::JXDocumentManager	"Untitled $i"
+
+PleaseFind::JXDocumentManager
+"Unable to locate $name
+
+Please find it."
 
 WarnDifferentName::JXDocumentManager
-"$name1 was requested.\n\nYou selected $name2.\n\nAre you sure that this is correct?"
+"$name1 was requested.
+
+You selected $name2.
+
+Are you sure that this is correct?"
 
 # JXFileDocument
 
@@ -395,9 +402,9 @@ EmptySearchText::JXSearchTextDialog	"You must enter something for which to searc
 HelpURL::JXSearchTextDialog		"https://libjx.sourceforge.net/help/regex.html"
 QuickRefURL::JXSearchTextDialog	"https://libjx.sourceforge.net/help/regex-qref.html"
 
-# JXToolBarEditDir
+# JXToolBarEditDialog
 
-WindowTitle::JXToolBarEditDir	"Configure Toolbar"
+WindowTitle::JXToolBarEditDialog	"Configure Toolbar"
 
 # JXFileListSet
 

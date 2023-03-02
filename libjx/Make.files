@@ -33,7 +33,7 @@
 .cpp ./code/JXDirector
 .cpp ./code/JXCloseDirectorTask
 .cpp ./code/JXWindowDirector
-.cpp ./code/JXDialogDirector
+.cpp ./code/JXModalDialogDirector
 .cpp ./code/JXWDManager
 .cpp ./code/JXWDMenu
 .cpp ./code/JXUpdateWDMenuTask
@@ -150,13 +150,12 @@
 .cpp ./code/JXDockDragData
 .cpp ./code/JXDockWindowTask
 .cpp ./code/JXUpdateMinSizeTask
-.cpp ./code/JXAskInitDockAll
 .cpp ./code/JXTreeListWidget
 .cpp ./code/JXNamedTreeListWidget
 .cpp ./code/JXTLWAdjustToTreeTask
 .cpp ./code/JXToolBar
 .cpp ./code/JXToolBarButton
-.cpp ./code/JXToolBarEditDir
+.cpp ./code/JXToolBarEditDialog
 .cpp ./code/JXToolBarEditWidget
 .cpp ./code/JXToolBarNode
 .cpp ./code/JXAdjustToolBarGeometryTask
@@ -175,7 +174,6 @@
 .cpp ./code/JXSharedPrefObject
 .cpp ./code/JXEditWWWPrefsDialog
 .cpp ./code/JXMacWinPrefsDialog
-.cpp ./code/JXChooseSaveFile
 .cpp ./code/JXCSFDialogBase
 .cpp ./code/JXChooseFileDialog
 .cpp ./code/JXChoosePathDialog
@@ -199,6 +197,7 @@
 .cpp ./code/JXAcceptLicenseDialog
 .cpp ./code/JXProgressDisplay
 .cpp ./code/JXStandAlonePG
+.cpp ./code/JXProgressContinueWorkTask
 .cpp ./code/JXCreatePG
 .cpp ./code/JXPGDirectorBase
 .cpp ./code/JXFixLenPGDirector
@@ -237,8 +236,8 @@
 .cpp ./code/JXPTPageSetupDialog
 .cpp ./code/JXPTPrintSetupDialog
 .cpp ./code/JXPSPrinter
-.cpp ./code/JXPSPrintSetupDialog
 .cpp ./code/JXPSPageSetupDialog
+.cpp ./code/JXPSPrintSetupDialog
 .cpp ./code/JXAdjustPrintSetupLayoutTask
 .cpp ./code/JXEPSPrinter
 .cpp ./code/JXEPSPrintSetupDialog

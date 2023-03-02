@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JTEKeyHandler.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JTEKeyHandler.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

@@ -8,7 +8,7 @@
 #ifndef _H_JXTreeListWidget
 #define _H_JXTreeListWidget
 
-#include "jx-af/jx/JXStyleTable.h"
+#include "JXStyleTable.h"
 
 class JTreeNode;
 class JTreeList;
@@ -64,7 +64,7 @@ public:
 protected:
 
 	bool	WillDrawSelection() const;
-	void		ShouldDrawSelection(const bool draw);
+	void	ShouldDrawSelection(const bool draw);
 
 	JIndex	GetElasticColIndex() const;
 	void	SetElasticColIndex(const JIndex index);
@@ -74,23 +74,23 @@ protected:
 	virtual JSize	GetMinCellWidth(const JPoint& cell) const = 0;
 
 	bool		WantsToDrawCell(const JPoint& cell) const;
-	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	void		TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual void	TLWDrawNode(JPainter& p, const JPoint& cell, const JRect& rect) = 0;
 
-	bool		IsDraggingToggle() const;
+	bool	IsDraggingToggle() const;
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JXKeyModifiers& modifiers) override;
 	void	HandleMouseUp(const JPoint& pt, const JXMouseButton button,
-								  const JXButtonStates& buttonStates,
-								  const JXKeyModifiers& modifiers) override;
+						  const JXButtonStates& buttonStates,
+						  const JXKeyModifiers& modifiers) override;
 
 	bool	GetDNDTargetIndex(JIndex* index) const;
-	void		SetDNDTargetIndex(const JIndex index);
-	void		ClearDNDTargetIndex();
+	void	SetDNDTargetIndex(const JIndex index);
+	void	ClearDNDTargetIndex();
 
 	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 	void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -101,7 +101,7 @@ private:
 	JIndex		itsToggleOpenColIndex;
 	JIndex		itsNodeColIndex;
 	JSize		itsIndentWidth;
-	bool	itsDrawSelectionFlag;
+	bool		itsDrawSelectionFlag;
 
 	JArray<JSize>*	itsMinColWidths;		// minimum width of each column
 	JIndex			itsElasticColIndex;		// column that can expand to fill aperture width
@@ -116,10 +116,10 @@ private:
 	// used while dragging
 
 	bool		itsMouseInToggleFlag;
-	JCoordinate		itsToggleDragIndex;		// 0 => off; JCoordinate to avoid signed-unsigned compare
-	JSize			itsMaxOpenDepth;		// max depth when opening descendants
+	JCoordinate	itsToggleDragIndex;		// 0 => off; JCoordinate to avoid signed-unsigned compare
+	JSize		itsMaxOpenDepth;		// max depth when opening descendants
 
-	JIndex			itsDNDTargetIndex;		// highlight arrow if > 0
+	JIndex		itsDNDTargetIndex;		// highlight arrow if > 0
 
 private:
 

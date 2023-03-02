@@ -1,19 +1,14 @@
 /******************************************************************************
  JXCloseDirectorTask.cpp
 
-	This is an idle task rather than an urgent task because it might be
-	unsafe to perform until after the idle task stack has returned to the
-	same level, e.g., after blocking dialogs have finished.
-
-	BASE CLASS = JXIdleTask
+	BASE CLASS = JXUrgentTask
 
 	Copyright (C) 2000 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXCloseDirectorTask.h"
-#include "jx-af/jx/JXDirector.h"
-#include <jx-af/jcore/jAssert.h>
+#include "JXCloseDirectorTask.h"
+#include "JXDirector.h"
 
 /******************************************************************************
  Close (static)
@@ -28,7 +23,7 @@ JXCloseDirectorTask::Close
 {
 	auto* task = jnew JXCloseDirectorTask(director);
 	assert( task != nullptr );
-	task->Start();
+	task->Go();
 }
 
 /******************************************************************************
@@ -41,13 +36,13 @@ JXCloseDirectorTask::JXCloseDirectorTask
 	JXDirector* director
 	)
 	:
-	JXIdleTask(0),
+	JXUrgentTask(director),
 	itsDirector(director)
 {
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -56,18 +51,12 @@ JXCloseDirectorTask::~JXCloseDirectorTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
-JXCloseDirectorTask::Perform
-	(
-	const Time	delta,
-	Time*		maxSleepTime
-	)
+JXCloseDirectorTask::Perform()
 {
 	itsDirector->Close();
-	itsDirector = nullptr;
-	jdelete this;
 }

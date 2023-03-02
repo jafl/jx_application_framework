@@ -8,14 +8,14 @@
 #ifndef _H_JXFSRunScriptDialog
 #define _H_JXFSRunScriptDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
-#include "jx-af/jfs/JFSBinding.h"		// need defn of CommandType
+#include <jx-af/jx/JXModalDialogDirector.h>
+#include "JFSBinding.h"		// need defn of CommandType
 
 class JString;
 class JXInputField;
 class JXTextCheckbox;
 
-class JXFSRunScriptDialog : public JXDialogDirector
+class JXFSRunScriptDialog : public JXModalDialogDirector
 {
 public:
 

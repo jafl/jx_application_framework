@@ -8,18 +8,18 @@
 #ifndef _H_FilterRecordsDialog
 #define _H_FilterRecordsDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 #include <jx-af/jcore/JMemoryManager.h>
 
 class JXTextCheckbox;
 class JXInputField;
 class JXIntegerInput;
 
-class FilterRecordsDialog : public JXDialogDirector
+class FilterRecordsDialog : public JXModalDialogDirector
 {
 public:
 
-	FilterRecordsDialog(JXDirector* supervisor);
+	FilterRecordsDialog();
 
 	~FilterRecordsDialog() override;
 

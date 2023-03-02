@@ -7,15 +7,15 @@
 
  ******************************************************************************/
 
-#include "jx-af/j2dplot/JX2DCursorMarkTableDir.h"
-#include "jx-af/j2dplot/JX2DCursorMarkTable.h"
+#include "JX2DCursorMarkTableDir.h"
+#include "JX2DCursorMarkTable.h"
 
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXScrollbarSet.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXScrollbar.h>
 
-#include "jx-af/j2dplot/J2DPlotWidget.h"
+#include "J2DPlotWidget.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 

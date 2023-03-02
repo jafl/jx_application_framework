@@ -13,11 +13,11 @@
  *****************************************************************************/
 
 // Superclass header
-#include "jx-af/jcore/JMMRecord.h"
+#include "JMMRecord.h"
 
 #include <ace/UNIX_Addr.h>
 #include <ace/LSOCK_Stream.h>
-#include "jx-af/jcore/JMessageProtocol.h"	// template; requires ace includes
+#include "JMessageProtocol.h"	// template; requires ace includes
 #include <sstream>
 #include <mutex>
 

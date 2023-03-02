@@ -54,17 +54,15 @@ AnimateWindowIconTask::~AnimateWindowIconTask()
 void
 AnimateWindowIconTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	const bool perform = TimeToPerform(delta, maxSleepTime);
-	if (perform && itsState == kNormalIconState)
+	if (itsState == kNormalIconState)
 	{
 		DisplaySillyIcon();
 		SetPeriod(kSillyIconPeriod);
 	}
-	else if (perform && itsState == kSillyIconState)
+	else if (itsState == kSillyIconState)
 	{
 		DisplayNormalIcon();
 		SetPeriod(itsRNG.UniformULong(5,15) * 1000);

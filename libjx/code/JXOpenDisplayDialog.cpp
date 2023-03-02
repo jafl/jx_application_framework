@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXOpenDisplayDialog.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXOpenDisplayDialog.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -16,13 +16,10 @@
 
  ******************************************************************************/
 
-JXOpenDisplayDialog::JXOpenDisplayDialog
-	(
-	JXWindowDirector* supervisor
-	)
+JXOpenDisplayDialog::JXOpenDisplayDialog()
 	:
-	JXGetStringDialog(supervisor, JGetString("WindowTitle::JXOpenDisplayDialog"),
-					  JGetString("Prompt::JXOpenDisplayDialog"), JString::empty, true)
+	JXGetStringDialog(JGetString("WindowTitle::JXOpenDisplayDialog"),
+					  JGetString("Prompt::JXOpenDisplayDialog"))
 {
 }
 

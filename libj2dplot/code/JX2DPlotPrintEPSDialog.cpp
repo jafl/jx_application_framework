@@ -7,8 +7,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/j2dplot/JX2DPlotPrintEPSDialog.h"
-#include "jx-af/j2dplot/J2DPlotWidget.h"
+#include "JX2DPlotPrintEPSDialog.h"
+#include "J2DPlotWidget.h"
+#include "JX2DPlotEPSPrinter.h"
 #include <jx-af/jcore/JPSPrinter.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXTextButton.h>
@@ -139,32 +140,6 @@ JX2DPlotPrintEPSDialog::JX2DPlotPrintEPSDialog()
 
 JX2DPlotPrintEPSDialog::~JX2DPlotPrintEPSDialog()
 {
-}
-
-/******************************************************************************
- GetPlotSize
-
- ******************************************************************************/
-
-void
-JX2DPlotPrintEPSDialog::GetPlotSize
-	(
-	JCoordinate*	w,
-	JCoordinate*	h,
-	Unit*			unit
-	)
-{
-JFloat v;
-
-	bool ok = itsWidthInput->GetValue(&v);
-	assert( ok );
-	*w = JRound(v * kUnitToPixel [ itsUnit ]);
-
-	ok = itsHeightInput->GetValue(&v);
-	assert( ok );
-	*h = JRound(v * kUnitToPixel [ itsUnit ]);
-
-	*unit = itsUnit;
 }
 
 /******************************************************************************
@@ -315,8 +290,7 @@ JX2DPlotPrintEPSDialog::OKToDeactivate()
 	}
 
 	JCoordinate w,h;
-	Unit u;
-	GetPlotSize(&w, &h, &u);
+	GetSize(&w, &h);
 	if (w < 50 || h < 50)
 	{
 		JGetUserNotification()->ReportError(JGetString("TooSmall::JX2DPlotPrintEPSDialog"));
@@ -435,6 +409,61 @@ JX2DPlotPrintEPSDialog::UpdateSize
 		v /= kUnitToPixel [ newUnit ];
 		input->SetValue(v);
 	}
+}
+
+/******************************************************************************
+ SetParameters (virtual)
+
+	Derived classes can override this to extract extra information.
+
+ ******************************************************************************/
+
+bool
+JX2DPlotPrintEPSDialog::SetParameters
+	(
+	JXEPSPrinter* p
+	)
+	const
+{
+	bool changed = JXEPSPrintSetupDialog::SetParameters(p);
+
+	auto* pp = dynamic_cast<JX2DPlotEPSPrinter*>(p);
+	if (pp != nullptr)
+	{
+		JCoordinate w,h;
+		GetSize(&w, &h);
+
+		const auto r = pp->GetPlotBounds();
+		changed      = changed || w != r.width() || h != r.height();
+
+		pp->SetPlotSize(w, h, itsUnit);
+	}
+
+	return changed;
+}
+
+/******************************************************************************
+ GetSize (private)
+
+ ******************************************************************************/
+
+void
+JX2DPlotPrintEPSDialog::GetSize
+	(
+	JCoordinate* w,
+	JCoordinate* h
+	)
+	const
+{
+JFloat v;
+
+	bool ok = itsWidthInput->GetValue(&v);
+	assert( ok );
+	*w = JRound(v * kUnitToPixel [ itsUnit ]);
+
+	ok = itsHeightInput->GetValue(&v);
+	assert( ok );
+	*h = JRound(v * kUnitToPixel [ itsUnit ]);
 }
 
 /******************************************************************************

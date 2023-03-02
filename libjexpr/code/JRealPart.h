@@ -10,7 +10,7 @@
 #ifndef _H_JRealPart
 #define _H_JRealPart
 
-#include "jx-af/jexpr/JUnaryFunction.h"
+#include "JUnaryFunction.h"
 
 class JRealPart : public JUnaryFunction
 {

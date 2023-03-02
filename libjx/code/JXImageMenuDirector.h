@@ -8,7 +8,7 @@
 #ifndef _H_JXImageMenuDirector
 #define _H_JXImageMenuDirector
 
-#include "jx-af/jx/JXMenuDirector.h"
+#include "JXMenuDirector.h"
 
 class JXMenu;
 class JXImageMenuData;

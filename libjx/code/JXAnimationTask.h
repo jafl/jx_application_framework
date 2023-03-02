@@ -10,7 +10,7 @@
 #ifndef _H_JXAnimationTask
 #define _H_JXAnimationTask
 
-#include "jx-af/jx/JXIdleTask.h"
+#include "JXIdleTask.h"
 #include <jx-af/jcore/JKLRand.h>
 
 class JXImage;
@@ -24,9 +24,9 @@ public:
 
 	~JXAnimationTask() override;
 
-	void	Perform(const Time delta, Time* maxSleepTime) override;
-
 protected:
+
+	void	Perform(const Time delta) override;
 
 	virtual JSize		GetFrameCount() = 0;
 	virtual void		GetFrameTime(const JIndex frameIndex,

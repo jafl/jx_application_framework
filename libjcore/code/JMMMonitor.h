@@ -13,7 +13,7 @@
 #define _H_JMMMonitor
 
 // Superclass Header
-#include "jx-af/jcore/JBroadcaster.h"
+#include "JBroadcaster.h"
 
 class JMMRecord;
 

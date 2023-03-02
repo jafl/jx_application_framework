@@ -19,11 +19,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXEditTable.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXInputField.h"
-#include "jx-af/jx/JXDeleteObjectTask.h"
-#include "jx-af/jx/jXEventUtil.h"
+#include "JXEditTable.h"
+#include "JXWindow.h"
+#include "JXInputField.h"
+#include "JXDeleteObjectTask.h"
+#include "jXEventUtil.h"
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jAssert.h>

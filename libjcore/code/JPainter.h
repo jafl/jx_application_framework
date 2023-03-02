@@ -10,9 +10,9 @@
 #ifndef _H_JPainter
 #define _H_JPainter
 
-#include "jx-af/jcore/JRect.h"
-#include "jx-af/jcore/JPolygon.h"
-#include "jx-af/jcore/JFont.h"
+#include "JRect.h"
+#include "JPolygon.h"
+#include "JFont.h"
 
 class JString;
 class JFontManager;
@@ -22,18 +22,18 @@ class JPainter
 {
 public:
 
-	enum HAlignment
+	enum struct HAlign
 	{
-		kHAlignLeft,
-		kHAlignCenter,
-		kHAlignRight
+		kLeft,
+		kCenter,
+		kRight
 	};
 
-	enum VAlignment
+	enum struct VAlign
 	{
-		kVAlignTop,
-		kVAlignCenter,
-		kVAlignBottom
+		kTop,
+		kCenter,
+		kBottom
 	};
 
 public:
@@ -103,32 +103,32 @@ public:
 	void			String(const JCoordinate left, const JCoordinate top,
 						   const JString& str,
 						   const JCoordinate width = 0,
-						   const HAlignment hAlign = kHAlignLeft,
+						   const HAlign hAlign = HAlign::kLeft,
 						   const JCoordinate height = 0,
-						   const VAlignment vAlign = kVAlignTop);
+						   const VAlign vAlign = VAlign::kTop);
 	void			String(const JPoint& topLeft, const JString& str,
 						   const JCoordinate width = 0,
-						   const HAlignment hAlign = kHAlignLeft,
+						   const HAlign hAlign = HAlign::kLeft,
 						   const JCoordinate height = 0,
-						   const VAlignment vAlign = kVAlignTop);
+						   const VAlign vAlign = VAlign::kTop);
 	void			String(const JRect& rect, const JString& str,
-						   const HAlignment hAlign = kHAlignLeft,
-						   const VAlignment vAlign = kVAlignTop);
+						   const HAlign hAlign = HAlign::kLeft,
+						   const VAlign vAlign = VAlign::kTop);
 	virtual void	String(const JFloat angle, const JCoordinate left,
 						   const JCoordinate top, const JString& str,
 						   const JCoordinate width = 0,
-						   const HAlignment hAlign = kHAlignLeft,
+						   const HAlign hAlign = HAlign::kLeft,
 						   const JCoordinate height = 0,
-						   const VAlignment vAlign = kVAlignTop) = 0;
+						   const VAlign vAlign = VAlign::kTop) = 0;
 	void			String(const JFloat angle, const JPoint& topLeft,
 						   const JString& str, const JCoordinate width = 0,
-						   const HAlignment hAlign = kHAlignLeft,
+						   const HAlign hAlign = HAlign::kLeft,
 						   const JCoordinate height = 0,
-						   const VAlignment vAlign = kVAlignTop);
+						   const VAlign vAlign = VAlign::kTop);
 	void			String(const JFloat angle, const JRect& rect,
 						   const JString& str,
-						   const HAlignment hAlign = kHAlignLeft,
-						   const VAlignment vAlign = kVAlignTop);
+						   const HAlign hAlign = HAlign::kLeft,
+						   const VAlign vAlign = VAlign::kTop);
 
 	virtual void	StringNoSubstitutions(
 						const JCoordinate left, const JCoordinate top,
@@ -184,8 +184,8 @@ public:
 protected:
 
 	JSize	AlignString(JCoordinate* left, JCoordinate* top, const JString& str,
-						const JCoordinate width, const HAlignment hAlign,
-						const JCoordinate height, const VAlignment vAlign) const;
+						const JCoordinate width, const HAlign hAlign,
+						const JCoordinate height, const VAlign vAlign) const;
 
 private:
 
@@ -488,9 +488,9 @@ JPainter::String
 	const JPoint&		topLeft,
 	const JString&		str,
 	const JCoordinate	width,
-	const HAlignment	hAlign,
+	const HAlign	hAlign,
 	const JCoordinate	height,
-	const VAlignment	vAlign
+	const VAlign	vAlign
 	)
 {
 	String(topLeft.x, topLeft.y, str, width, hAlign, height, vAlign);
@@ -501,8 +501,8 @@ JPainter::String
 	(
 	const JRect&		rect,
 	const JString&		str,
-	const HAlignment	hAlign,
-	const VAlignment	vAlign
+	const HAlign	hAlign,
+	const VAlign	vAlign
 	)
 {
 	String(rect.left, rect.top, str, rect.width(), hAlign, rect.height(), vAlign);
@@ -515,9 +515,9 @@ JPainter::String
 	const JPoint&		topLeft,
 	const JString&		str,
 	const JCoordinate	width,
-	const HAlignment	hAlign,
+	const HAlign	hAlign,
 	const JCoordinate	height,
-	const VAlignment	vAlign
+	const VAlign	vAlign
 	)
 {
 	String(angle, topLeft.x, topLeft.y, str, width, hAlign, height, vAlign);

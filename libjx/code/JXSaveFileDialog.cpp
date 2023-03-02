@@ -10,21 +10,21 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXSaveFileDialog.h"
-#include "jx-af/jx/JXDirTable.h"
-#include "jx-af/jx/JXCurrentPathMenu.h"
-#include "jx-af/jx/JXNewDirButton.h"
-#include "jx-af/jx/JXDirectSaveSource.h"
+#include "JXSaveFileDialog.h"
+#include "JXDirTable.h"
+#include "JXCurrentPathMenu.h"
+#include "JXNewDirButton.h"
+#include "JXDirectSaveSource.h"
 
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXSaveFileInput.h"
-#include "jx-af/jx/JXPathInput.h"
-#include "jx-af/jx/JXPathHistoryMenu.h"
-#include "jx-af/jx/JXScrollbarSet.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXTextButton.h"
+#include "JXTextCheckbox.h"
+#include "JXSaveFileInput.h"
+#include "JXPathInput.h"
+#include "JXPathHistoryMenu.h"
+#include "JXScrollbarSet.h"
+#include "jXGlobals.h"
 
 #include <jx-af/jcore/JDirInfo.h>
 #include <jx-af/jcore/JTableSelection.h>
@@ -34,23 +34,22 @@
 /******************************************************************************
  Constructor function (static)
 
+	This allows derived classes to override BuildWindow().
+
  ******************************************************************************/
 
 JXSaveFileDialog*
 JXSaveFileDialog::Create
 	(
-	JXDirector*		supervisor,
-	JDirInfo*		dirInfo,
-	const JString&	fileFilter,
-	const JString&	origName,
-	const JString&	prompt,
-	const JString&	message
+	const JString& prompt,
+	const JString& startName,
+	const JString& fileFilter,
+	const JString& message
 	)
 {
-	auto* dlog =
-		jnew JXSaveFileDialog(supervisor, dirInfo, fileFilter);
+	auto* dlog = jnew JXSaveFileDialog(fileFilter);
 	assert( dlog != nullptr );
-	dlog->BuildWindow(origName, prompt, message);
+	dlog->BuildWindow(startName, prompt, message);
 	return dlog;
 }
 
@@ -61,12 +60,10 @@ JXSaveFileDialog::Create
 
 JXSaveFileDialog::JXSaveFileDialog
 	(
-	JXDirector*		supervisor,
-	JDirInfo*		dirInfo,
-	const JString&	fileFilter
+	const JString& fileFilter
 	)
 	:
-	JXCSFDialogBase(supervisor, dirInfo, fileFilter)
+	JXCSFDialogBase(fileFilter)
 {
 }
 
@@ -80,36 +77,7 @@ JXSaveFileDialog::~JXSaveFileDialog()
 }
 
 /******************************************************************************
- GetFileName
-
- ******************************************************************************/
-
-bool
-JXSaveFileDialog::GetFileName
-	(
-	JString* name
-	)
-	const
-{
-	*name = itsFileName;
-	return !name->IsEmpty();
-}
-
-/******************************************************************************
- GetFileNameInput
-
- ******************************************************************************/
-
-JXInputField*
-JXSaveFileDialog::GetFileNameInput()
-{
-	return itsFileNameInput;
-}
-
-/******************************************************************************
- Activate
-
-	We want the file name input field to have focus.
+ Activate (virtual)
 
  ******************************************************************************/
 
@@ -121,6 +89,47 @@ JXSaveFileDialog::Activate()
 }
 
 /******************************************************************************
+ GetFileNameInput
+
+	Not inline to avoid #include JXSaveFileInput in header.
+
+ ******************************************************************************/
+
+JXInputField*
+JXSaveFileDialog::GetFileNameInput()
+{
+	return itsFileNameInput;
+}
+
+/******************************************************************************
+ GetFileName
+
+ ******************************************************************************/
+
+const JString&
+JXSaveFileDialog::GetFileName()
+	const
+{
+	assert( !itsFileName.IsEmpty() );
+
+	return itsFileName;
+}
+
+/******************************************************************************
+ GetFullName
+
+ ******************************************************************************/
+
+JString
+JXSaveFileDialog::GetFullName()
+	const
+{
+	assert( !itsFileName.IsEmpty() );
+
+	return JCombinePathAndName(GetPath(), itsFileName);
+}
+
+/******************************************************************************
  BuildWindow (private)
 
  ******************************************************************************/
@@ -128,9 +137,9 @@ JXSaveFileDialog::Activate()
 void
 JXSaveFileDialog::BuildWindow
 	(
-	const JString&	origName,
-	const JString&	prompt,
-	const JString&	message
+	const JString& startName,
+	const JString& prompt,
+	const JString& message
 	)
 {
 // begin JXLayout
@@ -229,12 +238,12 @@ JXSaveFileDialog::BuildWindow
 
 // end JXLayout
 
-	SetObjects(scrollbarSet, promptLabel, prompt, fileNameInput, origName,
+	SetObjects(scrollbarSet, promptLabel, prompt, fileNameInput,
 			   pathLabel, pathInput, pathHistory,
 			   filterLabel, filterInput, filterHistory,
 			   saveButton, cancelButton, upButton, homeButton,
 			   desktopButton, newDirButton,
-			   showHiddenCB, currPathMenu, message);
+			   showHiddenCB, currPathMenu, startName, message);
 }
 
 /******************************************************************************
@@ -249,7 +258,6 @@ JXSaveFileDialog::SetObjects
 	JXStaticText*			promptLabel,
 	const JString&			prompt,
 	JXSaveFileInput*		fileNameInput,
-	const JString&			origName,
 	JXStaticText*			pathLabel,
 	JXPathInput*			pathInput,
 	JXPathHistoryMenu*		pathHistory,
@@ -264,6 +272,7 @@ JXSaveFileDialog::SetObjects
 	JXNewDirButton*			newDirButton,
 	JXTextCheckbox*			showHiddenCB,
 	JXCurrentPathMenu*		currPathMenu,
+	const JString&			startName,
 	const JString&			message
 	)
 {
@@ -284,7 +293,6 @@ JXSaveFileDialog::SetObjects
 	table->AllowSelectFiles(false, false);
 	table->AllowDblClickInactive(true);
 	promptLabel->GetText()->SetText(prompt);
-	itsFileNameInput->GetText()->SetText(origName);
 
 	JXDirTable* fileBrowser = GetFileBrowser();
 	fileBrowser->ShouldSelectWhenChangePath(false);
@@ -315,6 +323,18 @@ JXSaveFileDialog::SetObjects
 	{
 		cancelButton->Move(0, -1);
 	}
+
+	JString name = startName;
+	if (startName.Contains(ACE_DIRECTORY_SEPARATOR_STR))
+	{
+		JString path;
+		JSplitPathAndName(startName, &path, &name);
+		GetDirInfo()->GoToClosest(path);
+		DoNotSaveCurrentPath();
+	}
+
+	RestoreState();
+	itsFileNameInput->GetText()->SetText(name);
 }
 
 /******************************************************************************

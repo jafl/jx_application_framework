@@ -14,15 +14,15 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXRowHeaderWidget.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXScrollbarSet.h"
-#include "jx-af/jx/JXScrollbar.h"
-#include "jx-af/jx/JXDragPainter.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/jXPainterUtil.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXRowHeaderWidget.h"
+#include "JXWindow.h"
+#include "JXScrollbarSet.h"
+#include "JXScrollbar.h"
+#include "JXDragPainter.h"
+#include "JXFontManager.h"
+#include "JXColorManager.h"
+#include "jXPainterUtil.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -223,7 +223,7 @@ JXRowHeaderWidget::TableDrawCell
 			JFontManager::GetDefaultRowColHeaderFontSize(),
 			JFontStyle(true, false, 0, false));
 	p.SetFont(font);
-	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(rect, str, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 
 	const JCoordinate wmin = p.GetStringWidth(str) + 2*itsHMarginWidth;
 	if (rect.width() < wmin && itsMaxBcastWidth < wmin)

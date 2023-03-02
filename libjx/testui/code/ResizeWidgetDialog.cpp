@@ -1,7 +1,7 @@
 /******************************************************************************
  ResizeWidgetDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Written by John Lindal.
 
@@ -22,11 +22,10 @@
 
 ResizeWidgetDialog::ResizeWidgetDialog
 	(
-	JXWindowDirector*	supervisor,
-	const JXWidget*		widget
+	const JXWidget* widget
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow(widget);
 }

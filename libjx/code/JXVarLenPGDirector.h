@@ -11,7 +11,7 @@
 #ifndef _H_JXVarLenPGDirector
 #define _H_JXVarLenPGDirector
 
-#include "jx-af/jx/JXPGDirectorBase.h"
+#include "JXPGDirectorBase.h"
 
 class JXProgressDisplay;
 
@@ -19,8 +19,8 @@ class JXVarLenPGDirector : public JXPGDirectorBase
 {
 public:
 
-	JXVarLenPGDirector(JXDirector* supervisor, JXProgressDisplay* pg,
-					   const JString& message, const bool allowCancel);
+	JXVarLenPGDirector(JXProgressDisplay* pg, const JString& message,
+					   const bool allowCancel, const bool modal);
 
 	~JXVarLenPGDirector() override;
 

@@ -1,14 +1,14 @@
 /******************************************************************************
  JXUpdateMinSizeTask.cpp
 
-	BASE CLASS = JXUrgentTask, virtual JBroadcaster
+	BASE CLASS = JXUrgentTask
 
 	Copyright (C) 2008 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXUpdateMinSizeTask.h"
-#include "jx-af/jx/JXDockWidget.h"
+#include "JXUpdateMinSizeTask.h"
+#include "JXDockWidget.h"
 
 /******************************************************************************
  Constructor
@@ -20,13 +20,13 @@ JXUpdateMinSizeTask::JXUpdateMinSizeTask
 	JXDockWidget* dock
 	)
 	:
+	JXUrgentTask(dock),
 	itsDockWidget(dock)
 {
-	ClearWhenGoingAway(itsDockWidget, &itsDockWidget);
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -35,15 +35,12 @@ JXUpdateMinSizeTask::~JXUpdateMinSizeTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXUpdateMinSizeTask::Perform()
 {
-	if (itsDockWidget != nullptr)
-	{
-		itsDockWidget->UpdateMinSize();
-	}
+	itsDockWidget->UpdateMinSize();
 }

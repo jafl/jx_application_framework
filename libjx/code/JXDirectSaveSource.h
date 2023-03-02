@@ -8,7 +8,7 @@
 #ifndef _H_JXDirectSaveSource
 #define _H_JXDirectSaveSource
 
-#include "jx-af/jx/JXImageWidget.h"
+#include "JXImageWidget.h"
 
 class JXSaveFileDialog;
 class JXInputField;

@@ -10,7 +10,7 @@
 #ifndef _H_JRotateComplex
 #define _H_JRotateComplex
 
-#include "jx-af/jexpr/JBinaryFunction.h"
+#include "JBinaryFunction.h"
 
 class JRotateComplex : public JBinaryFunction
 {

@@ -10,15 +10,15 @@
 #ifndef _H_JXChooseFontSizeDialog
 #define _H_JXChooseFontSizeDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 
 class JXIntegerInput;
 
-class JXChooseFontSizeDialog : public JXDialogDirector
+class JXChooseFontSizeDialog : public JXModalDialogDirector
 {
 public:
 
-	JXChooseFontSizeDialog(JXWindowDirector* supervisor, const JSize fontSize);
+	JXChooseFontSizeDialog(const JSize fontSize);
 
 	~JXChooseFontSizeDialog() override;
 

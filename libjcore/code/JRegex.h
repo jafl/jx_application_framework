@@ -12,9 +12,9 @@
 #ifndef _H_JRegex
 #define _H_JRegex
 
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/JPtrArray-JString.h"
-#include "jx-af/jcore/JError.h"
+#include "JStringMatch.h"
+#include "JPtrArray-JString.h"
+#include "JError.h"
 #include <pcre.h>
 
 class JStringMatch;

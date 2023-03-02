@@ -84,7 +84,7 @@ PrintWidget::Print
 
 		JRect pageRect = p.GetPageRect();
 		p.String(pageRect.left, pageRect.top, JGetString("Text::PrintWidget"),
-				 pageRect.width(), JPainter::kHAlignCenter);
+				 pageRect.width(), JPainter::HAlign::kCenter);
 		p.LockHeader(headerHeight);
 
 		// draw the page
@@ -114,7 +114,7 @@ PrintWidget::Draw
 	// This needs to be out of the main drawing routing, because
 	// we don't want this to print
 	p.JPainter::String(10, 10, JGetString("Instructions::PrintWidget"), 200, 
-					   JPainter::kHAlignLeft, p.GetLineHeight());
+					   JPainter::HAlign::kLeft, p.GetLineHeight());
 
 	// Call the generic drawing routing (same for printing)
 	DrawStuff(p);

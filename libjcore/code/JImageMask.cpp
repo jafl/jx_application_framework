@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JImageMask.h"
-#include "jx-af/jcore/JImage.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JImageMask.h"
+#include "JImage.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

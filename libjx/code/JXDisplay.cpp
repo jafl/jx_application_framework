@@ -42,19 +42,19 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXGC.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXWindowDirector.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/JXSelectionManager.h"
-#include "jx-af/jx/JXDNDManager.h"
-#include "jx-af/jx/JXMenuManager.h"
-#include "jx-af/jx/JXWDManager.h"
-#include "jx-af/jx/JXImageCache.h"
-#include "jx-af/jx/JXCursor.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXDisplay.h"
+#include "JXGC.h"
+#include "JXColorManager.h"
+#include "JXWindow.h"
+#include "JXWindowDirector.h"
+#include "JXFontManager.h"
+#include "JXSelectionManager.h"
+#include "JXDNDManager.h"
+#include "JXMenuManager.h"
+#include "JXWDManager.h"
+#include "JXImageCache.h"
+#include "JXCursor.h"
+#include "jXGlobals.h"
 #include <X11/Xutil.h>
 #include <X11/cursorfont.h>
 #include <X11/Xproto.h>		// for error request codes

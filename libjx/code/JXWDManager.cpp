@@ -18,15 +18,15 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXWDManager.h"
-#include "jx-af/jx/JXWindowDirector.h"
-#include "jx-af/jx/JXWDMenu.h"
-#include "jx-af/jx/JXUpdateWDMenuTask.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/jXGlobals.h"
-#include "jx-af/jx/jXActionDefs.h"
+#include "JXWDManager.h"
+#include "JXWindowDirector.h"
+#include "JXWDMenu.h"
+#include "JXUpdateWDMenuTask.h"
+#include "JXDisplay.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
+#include "jXActionDefs.h"
 #include <jx-af/jcore/jAssert.h>
 
 const JInteger kFirstShortcut = 0;
@@ -68,7 +68,7 @@ const JUtf8Byte* JXWDManager::kWDMenuNeedsUpdate = "WDMenuNeedsUpdate::JXWDManag
 
 JXWDManager::JXWDManager
 	(
-	JXDisplay*		display,
+	JXDisplay*	display,
 	const bool	wantShortcuts
 	)
 	:
@@ -99,7 +99,7 @@ JXWDManager::~JXWDManager()
 	assert( itsWindowList->IsEmpty() );
 	jdelete itsWindowList;
 
-	jdelete itsUpdateWDMenuTask;
+	// cannot delete itsUpdateWDMenuTask
 }
 
 /******************************************************************************

@@ -7,13 +7,13 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jMountUtil.h"
-#include "jx-af/jcore/jDirUtil.h"
-#include "jx-af/jcore/JThisProcess.h"
-#include "jx-af/jcore/JRegex.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/jSysUtil.h"
+#include "jMountUtil.h"
+#include "jDirUtil.h"
+#include "JThisProcess.h"
+#include "JRegex.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "jSysUtil.h"
 
 #if defined __OpenBSD__
 // Unfortunately, <sys/mount.h> does not compile cleanly with C++ due to
@@ -23,9 +23,9 @@
 #endif
 
 #if defined _J_MACOS
-	#include "jx-af/jcore/JProcess.h"
-	#include "jx-af/jcore/jStreamUtil.h"
-	#include "jx-af/jcore/JRegex.h"
+	#include "JProcess.h"
+	#include "jStreamUtil.h"
+	#include "JRegex.h"
 	#include <sys/param.h>
 	#include <sys/ucred.h>
 	#include <sys/mount.h>
@@ -47,7 +47,7 @@
 	#include <mntent.h>
 #endif
 
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 #if defined JMOUNT_MACOS
 static const JString kMountCmd("mount", JString::kNoCopy);

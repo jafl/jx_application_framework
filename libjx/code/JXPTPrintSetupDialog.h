@@ -10,8 +10,8 @@
 #ifndef _H_JXPTPrintSetupDialog
 #define _H_JXPTPrintSetupDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
-#include "jx-af/jx/JXPTPrinter.h"		// need definition of enums
+#include "JXModalDialogDirector.h"
+#include "JXPTPrinter.h"		// need definition of enums
 
 class JXTextButton;
 class JXStaticText;
@@ -21,7 +21,7 @@ class JXFileInput;
 class JXTextCheckbox;
 class JXRadioGroup;
 
-class JXPTPrintSetupDialog : public JXDialogDirector
+class JXPTPrintSetupDialog : public JXModalDialogDirector
 {
 public:
 
@@ -32,7 +32,7 @@ public:
 
 	~JXPTPrintSetupDialog() override;
 
-	bool	SetParameters(JXPTPrinter* p) const;
+	virtual bool	SetParameters(JXPTPrinter* p) const;
 
 protected:
 
@@ -49,7 +49,7 @@ protected:
 					   JXTextCheckbox* printLineNumbersCB, const bool printLineNumbers);
 
 	bool	OKToDeactivate() override;
-	void		Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

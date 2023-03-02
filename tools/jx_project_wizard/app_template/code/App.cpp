@@ -11,6 +11,7 @@
 #include "AboutDialog.h"
 #include "stringData.h"
 #include "globals.h"
+#include <jx-af/jcore/jWebUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kAppSignature = "<Binary>";
@@ -70,12 +71,26 @@ App::~App()
 void
 App::DisplayAbout
 	(
-	const JString& prevVersStr
+	const bool		showLicense,
+	const JString&	prevVersStr
 	)
 {
-	AboutDialog* dlog = jnew AboutDialog(this, prevVersStr);
-	assert( dlog != nullptr );
-	dlog->BeginDialog();
+	StartFiber([showLicense, prevVersStr]()
+	{
+		if (!showLicense || JGetUserNotification()->AcceptLicense())
+		{
+			auto* dlog = jnew AboutDialog(prevVersStr);
+			assert( dlog != nullptr );
+			dlog->DoDialog();
+
+			JCheckForNewerVersion(GetPrefsManager(), kVersionCheckID);
+		}
+		else
+		{
+			ForgetPrefsManager();
+			JXGetApplication()->Quit();
+		}
+	});
 }
 
 /******************************************************************************

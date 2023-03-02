@@ -25,22 +25,22 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JDirInfo.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/JRegex.h"
-#include "jx-af/jcore/JLatentPG.h"
-#include "jx-af/jcore/JStdError.h"
+#include "JDirInfo.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "JRegex.h"
+#include "JLatentPG.h"
+#include "JStdError.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <limits.h>
-#include "jx-af/jcore/jDirUtil.h"
-#include "jx-af/jcore/jVCSUtil.h"
-#include "jx-af/jcore/jTime.h"
-#include "jx-af/jcore/jGlobals.h"
+#include "jDirUtil.h"
+#include "jVCSUtil.h"
+#include "jTime.h"
+#include "jGlobals.h"
 #include <ace/OS_NS_sys_stat.h>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 // Broadcaster messages types
 
@@ -807,7 +807,7 @@ JDirInfo::BuildInfo()
 	{
 		pg.SetPG(itsPG, false);
 	}
-	pg.VariableLengthProcessBeginning(JGetString("Scanning::JDirInfo"), true, false);
+	pg.VariableLengthProcessBeginning(JGetString("Scanning::JDirInfo"), true, true);
 
 	CalledByBuildInfo(pg);
 

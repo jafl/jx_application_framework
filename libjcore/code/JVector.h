@@ -10,7 +10,7 @@
 #ifndef _H_JVector
 #define _H_JVector
 
-#include "jx-af/jcore/jTypes.h"
+#include "jTypes.h"
 
 class JMatrix;
 

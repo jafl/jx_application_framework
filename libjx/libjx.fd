@@ -5,7 +5,6 @@ Internal Form Definition File
 
 Number of forms: 26
 Unit of measure: FL_COORD_PIXEL
-SnapGrid: 3
 
 =============== FORM ===============
 Name: JXPSPrintSetupDialog
@@ -644,24 +643,6 @@ callback:
 argument: 
 
 --------------------
-class: FL_TEXT
-type: FL_NORMAL_TEXT
-box: 60 20 250 50
-boxtype: FL_FLAT_BOX
-colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: 
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: (text)
-callback: 
-argument: 
-
---------------------
 class: FL_BOX
 type: FL_NO_BOX
 box: 20 20 40 40
@@ -678,6 +659,24 @@ gravity: FL_NorthWest FL_NoGravity
 name: (icon)
 callback: 
 argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 60 20 250 50
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXStaticText
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_South FL_NoGravity
+name: (text)
+callback: 
+argument: JString::empty, true, true, false, nullptr,
 
 =============== FORM ===============
 Name: JXWarningDialog
@@ -740,24 +739,6 @@ callback:
 argument: 
 
 --------------------
-class: FL_TEXT
-type: FL_NORMAL_TEXT
-box: 60 20 250 50
-boxtype: FL_FLAT_BOX
-colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: 
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: (text)
-callback: 
-argument: 
-
---------------------
 class: FL_BOX
 type: FL_NO_BOX
 box: 20 20 40 40
@@ -774,6 +755,24 @@ gravity: FL_NorthWest FL_NoGravity
 name: (icon)
 callback: 
 argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 60 20 250 50
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXStaticText
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_South FL_NoGravity
+name: (text)
+callback: 
+argument: JString::empty, true, true, false, nullptr,
 
 =============== FORM ===============
 Name: JXErrorDialog
@@ -818,24 +817,6 @@ callback:
 argument: 
 
 --------------------
-class: FL_TEXT
-type: FL_NORMAL_TEXT
-box: 60 20 250 50
-boxtype: FL_FLAT_BOX
-colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: 
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: (text)
-callback: 
-argument: 
-
---------------------
 class: FL_BOX
 type: FL_NO_BOX
 box: 20 20 40 40
@@ -852,6 +833,24 @@ gravity: FL_NorthWest FL_NoGravity
 name: (icon)
 callback: 
 argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 60 20 250 50
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXStaticText
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_South FL_NoGravity
+name: (text)
+callback: 
+argument: JString::empty, true, true, false, nullptr,
 
 =============== FORM ===============
 Name: JXFixLenPGDirector
@@ -4655,7 +4654,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: JXToolBarEditDir
+Name: JXToolBarEditDialog
 Width: 320
 Height: 430
 Number of Objects: 9

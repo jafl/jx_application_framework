@@ -1,7 +1,7 @@
 /******************************************************************************
  TestInputFieldsDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Written by John Lindal.
 
@@ -16,6 +16,7 @@
 #include <jx-af/jx/JXCharInput.h>
 #include <jx-af/jx/JXPathInput.h>
 #include <jx-af/jx/JXFileInput.h>
+#include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/JFontManager.h>
@@ -28,12 +29,9 @@
 
  ******************************************************************************/
 
-TestInputFieldsDialog::TestInputFieldsDialog
-	(
-	JXWindowDirector* supervisor
-	)
+TestInputFieldsDialog::TestInputFieldsDialog()
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow();
 }
@@ -247,15 +245,25 @@ TestInputFieldsDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,130, 180,20);
 	assert( charInput != nullptr );
 
-	auto* pathInput =
+	itsPathInput =
 		jnew JXPathInput(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 340,110, 260,20);
-	assert( pathInput != nullptr );
+					JXWidget::kHElastic, JXWidget::kFixedTop, 340,110, 210,20);
+	assert( itsPathInput != nullptr );
 
-	auto* fileInput =
+	itsFileInput =
 		jnew JXFileInput(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 340,130, 260,20);
-	assert( fileInput != nullptr );
+					JXWidget::kHElastic, JXWidget::kFixedTop, 340,130, 210,20);
+	assert( itsFileInput != nullptr );
+
+	itsChoosePathButton =
+		jnew JXTextButton(JGetString("itsChoosePathButton::TestInputFieldsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 550,110, 50,20);
+	assert( itsChoosePathButton != nullptr );
+
+	itsChooseFileButton =
+		jnew JXTextButton(JGetString("itsChooseFileButton::TestInputFieldsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 550,130, 50,20);
+	assert( itsChooseFileButton != nullptr );
 
 // end JXLayout
 
@@ -286,11 +294,13 @@ TestInputFieldsDialog::BuildWindow()
 	pwInput->GetText()->SetText(JGetString("Password::TestInputFieldsDialog"));
 	pwInput->SetHint(JGetString("PasswordHint::TestInputFieldsDialog"));
 
-	pathInput->SetBasePath(JGetCurrentDirectory());
-	pathInput->GetText()->SetText(JString("~", JString::kNoCopy));
+	itsPathInput->SetBasePath(JGetCurrentDirectory());
+	itsPathInput->GetText()->SetText(JString("~", JString::kNoCopy));
+	ListenTo(itsChoosePathButton);
 
-	fileInput->SetBasePath(JGetCurrentDirectory());
-	fileInput->GetText()->SetText(JString("./testjx", JString::kNoCopy));
+	itsFileInput->SetBasePath(JGetCurrentDirectory());
+	itsFileInput->GetText()->SetText(JString("./testjx", JString::kNoCopy));
+	ListenTo(itsChooseFileButton);
 
 	charInput->SetCharacter(JUtf8Character("\xC3\xA7"));
 }
@@ -307,7 +317,7 @@ TestInputFieldsDialog::OKToDeactivate()
 {
 JInteger v1,v2;
 
-	if (!JXDialogDirector::OKToDeactivate())
+	if (!JXModalDialogDirector::OKToDeactivate())
 	{
 		return false;
 	}
@@ -328,5 +338,31 @@ JInteger v1,v2;
 	else
 	{
 		return true;
+	}
+}
+
+/******************************************************************************
+ Receive (virtual protected)
+
+ ******************************************************************************/
+
+void
+TestInputFieldsDialog::Receive
+	(
+	JBroadcaster*	sender,
+	const Message&	message
+	)
+{
+	if (sender == itsChoosePathButton && message.Is(JXButton::kPushed))
+	{
+		itsPathInput->ChoosePath();
+	}
+	else if (sender == itsChooseFileButton && message.Is(JXButton::kPushed))
+	{
+		itsFileInput->ChooseFile();
+	}
+	else
+	{
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }

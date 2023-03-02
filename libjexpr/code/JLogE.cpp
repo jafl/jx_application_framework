@@ -11,7 +11,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JLogE.h"
+#include "JLogE.h"
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jErrno.h>
 #include <jx-af/jcore/jAssert.h>

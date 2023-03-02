@@ -7,17 +7,17 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jSysUtil.h"
-#include "jx-af/jcore/JStdError.h"
-#include "jx-af/jcore/jErrno.h"
-#include "jx-af/jcore/JListUtil.h"
-#include "jx-af/jcore/jDirUtil.h"
-#include "jx-af/jcore/jGlobals.h"
+#include "jSysUtil.h"
+#include "JStdError.h"
+#include "jErrno.h"
+#include "JListUtil.h"
+#include "jDirUtil.h"
+#include "jGlobals.h"
 #include <unistd.h>
 #include <sys/stat.h>
 #include <grp.h>
 #include <pwd.h>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /*******************************************************************************
  JUserIsAdmin

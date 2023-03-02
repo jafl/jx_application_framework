@@ -11,12 +11,12 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXPasswordInput.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXImageCache.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXColorManager.h"
+#include "JXPasswordInput.h"
+#include "JXWindowPainter.h"
+#include "JXDisplay.h"
+#include "JXImageCache.h"
+#include "JXImage.h"
+#include "JXColorManager.h"
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jAssert.h>
 

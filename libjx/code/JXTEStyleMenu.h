@@ -10,7 +10,7 @@
 #ifndef _H_JXTEStyleMenu
 #define _H_JXTEStyleMenu
 
-#include "jx-af/jx/JXStyleMenu.h"
+#include "JXStyleMenu.h"
 
 class JXTextEditor;
 

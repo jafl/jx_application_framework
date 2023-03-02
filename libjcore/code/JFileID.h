@@ -8,7 +8,7 @@
 #ifndef _H_JFileID
 #define _H_JFileID
 
-#include "jx-af/jcore/JList.h"
+#include "JList.h"
 #include <sys/types.h>
 
 class JString;

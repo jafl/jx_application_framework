@@ -10,7 +10,7 @@
 #ifndef _H_JXUpdateDocMenuTask
 #define _H_JXUpdateDocMenuTask
 
-#include "jx-af/jx/JXUrgentTask.h"
+#include "JXUrgentTask.h"
 
 class JXDocumentManager;
 
@@ -19,6 +19,8 @@ class JXUpdateDocMenuTask : public JXUrgentTask
 public:
 
 	JXUpdateDocMenuTask(JXDocumentManager* docMgr);
+
+protected:
 
 	~JXUpdateDocMenuTask() override;
 

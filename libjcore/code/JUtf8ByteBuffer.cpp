@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JUtf8ByteBuffer.h"
-#include "jx-af/jcore/JString.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JUtf8ByteBuffer.h"
+#include "JString.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

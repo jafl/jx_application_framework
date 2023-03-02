@@ -8,7 +8,7 @@
 #ifndef _H_JXProgressTask
 #define _H_JXProgressTask
 
-#include "jx-af/jx/JXIdleTask.h"
+#include "JXIdleTask.h"
 #include <jx-af/jcore/JBroadcaster.h>
 
 class JString;
@@ -23,7 +23,9 @@ public:
 
 	~JXProgressTask() override;
 
-	void	Perform(const Time delta, Time* maxSleepTime) override;
+protected:
+
+	void	Perform(const Time delta) override;
 
 private:
 
@@ -41,14 +43,14 @@ public:
 	static const JUtf8Byte* kCancelled;
 
 	class Cancelled : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			Cancelled()
-				:
-				JBroadcaster::Message(kCancelled)
-				{ };
-		};
+		Cancelled()
+			:
+			JBroadcaster::Message(kCancelled)
+			{ };
+	};
 };
 
 #endif

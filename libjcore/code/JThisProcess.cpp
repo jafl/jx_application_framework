@@ -75,15 +75,15 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JThisProcess.h"
+#include "JThisProcess.h"
 #include <ace/Reactor.h>
-#include "jx-af/jcore/JString.h"
-#include "jx-af/jcore/JMinMax.h"
-#include "jx-af/jcore/JStdError.h"
+#include "JString.h"
+#include "JMinMax.h"
+#include "JStdError.h"
 #include <stdlib.h>
 #include <atomic>
-#include "jx-af/jcore/jErrno.h"
-#include "jx-af/jcore/jAssert.h"
+#include "jErrno.h"
+#include "jAssert.h"
 
 JThisProcess* JThisProcess::itsSelf = nullptr;
 
@@ -620,10 +620,6 @@ JThisProcess::CleanUpProcesses()
 
 	Bumps the ACE reactor to check sockets, signals, etc.
 
-	It is not generally a good idea to call this if there is a blocking
-	window open because it may invoke arbitrary amounts of code, which is
-	dangerous since JX is not re-entrant.
-
  ******************************************************************************/
 
 void
@@ -632,7 +628,7 @@ JThisProcess::CheckACEReactor()
 	ACE_Time_Value timeout(0);
 //	ACE_Reactor::run_event_loop(timeout);	// locks up when child process exits
 
-	(ACE_Reactor::instance())->handle_events(timeout);
+	ACE_Reactor::instance()->handle_events(timeout);
 	ACE_Reactor::check_reconfiguration(nullptr);
 }
 

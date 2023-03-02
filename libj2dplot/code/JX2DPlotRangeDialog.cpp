@@ -1,13 +1,13 @@
 /******************************************************************************
  JX2DPlotRangeDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1997 by Glenn W. Bach.
 
  ******************************************************************************/
 
-#include "jx-af/j2dplot/JX2DPlotRangeDialog.h"
+#include "JX2DPlotRangeDialog.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXFloatInput.h>
@@ -24,14 +24,13 @@
 
 JX2DPlotRangeDialog::JX2DPlotRangeDialog
 	(
-	JXWindowDirector* supervisor,
 	const JFloat xMax,
 	const JFloat xMin,
 	const JFloat yMax,
 	const JFloat yMin
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	itsClearRangeFlag = false;
 
@@ -180,6 +179,6 @@ JX2DPlotRangeDialog::Receive
 	}
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }

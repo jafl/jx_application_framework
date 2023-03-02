@@ -8,16 +8,17 @@
 #ifndef _H_JXUpdateMinSizeTask
 #define _H_JXUpdateMinSizeTask
 
-#include "jx-af/jx/JXUrgentTask.h"
-#include <jx-af/jcore/JBroadcaster.h>
+#include "JXUrgentTask.h"
 
 class JXDockWidget;
 
-class JXUpdateMinSizeTask : public JXUrgentTask, virtual public JBroadcaster
+class JXUpdateMinSizeTask : public JXUrgentTask
 {
 public:
 
 	JXUpdateMinSizeTask(JXDockWidget* dock);
+
+protected:
 
 	~JXUpdateMinSizeTask() override;
 

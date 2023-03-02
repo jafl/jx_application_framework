@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXStyleTable.h"
-#include "jx-af/jx/JXInputField.h"
-#include "jx-af/jx/JXColorManager.h"
+#include "JXStyleTable.h"
+#include "JXInputField.h"
+#include "JXColorManager.h"
 #include <jx-af/jcore/JStyleTableData.h>
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/jAssert.h>

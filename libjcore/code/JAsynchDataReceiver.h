@@ -8,8 +8,8 @@
 #ifndef _H_JAsynchDataReceiver
 #define _H_JAsynchDataReceiver
 
-#include "jx-af/jcore/JPtrArray-JString.h"
-#include "jx-af/jcore/JUtf8ByteBuffer.h"
+#include "JPtrArray-JString.h"
+#include "JUtf8ByteBuffer.h"
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 
@@ -74,11 +74,11 @@ public:
 
 private:
 
-	JUtf8Byte*		itsRecvBuffer;					// buffer to receive raw bytes
+	JUtf8Byte*		itsRecvBuffer;		// buffer to receive raw bytes
 	JSize			itsRecvBufferSize;
 	JUtf8ByteBuffer	itsByteBuffer;
 
-	bool	itsInHandleInputFlag;		// true => stack passes through handle_input()
+	bool*	itsCancelTaskFlag;			// non-null => handle_input() is in progress
 
 private:
 

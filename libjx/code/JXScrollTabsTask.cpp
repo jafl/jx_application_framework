@@ -1,14 +1,14 @@
 /******************************************************************************
  JXScrollTabsTask.cpp
 
-	BASE CLASS = JXUrgentTask, virtual JBroadcaster
+	BASE CLASS = JXUrgentTask
 
 	Copyright (C) 2008 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXScrollTabsTask.h"
-#include "jx-af/jx/JXTabGroup.h"
+#include "JXScrollTabsTask.h"
+#include "JXTabGroup.h"
 
 /******************************************************************************
  Constructor
@@ -20,13 +20,13 @@ JXScrollTabsTask::JXScrollTabsTask
 	JXTabGroup* tabGroup
 	)
 	:
+	JXUrgentTask(tabGroup),
 	itsTabGroup(tabGroup)
 {
-	ClearWhenGoingAway(itsTabGroup, &itsTabGroup);
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -35,15 +35,12 @@ JXScrollTabsTask::~JXScrollTabsTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXScrollTabsTask::Perform()
 {
-	if (itsTabGroup != nullptr)
-	{
-		itsTabGroup->ScrollTabsIntoView();
-	}
+	itsTabGroup->ScrollTabsIntoView();
 }

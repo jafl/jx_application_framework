@@ -8,7 +8,7 @@
 #ifndef _H_JXTimerTask
 #define _H_JXTimerTask
 
-#include "jx-af/jx/JXIdleTask.h"
+#include "JXIdleTask.h"
 #include <jx-af/jcore/JBroadcaster.h>
 
 class JXTimerTask : public JXIdleTask, virtual public JBroadcaster
@@ -19,7 +19,9 @@ public:
 
 	~JXTimerTask() override;
 
-	void	Perform(const Time delta, Time* maxSleepTime) override;
+protected:
+
+	void	Perform(const Time delta) override;
 
 private:
 
@@ -30,14 +32,14 @@ public:
 	static const JUtf8Byte* kTimerWentOff;
 
 	class TimerWentOff: public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			TimerWentOff()
-				:
-				JBroadcaster::Message(kTimerWentOff)
-				{ };
-		};
+		TimerWentOff()
+			:
+			JBroadcaster::Message(kTimerWentOff)
+			{ };
+	};
 };
 
 #endif

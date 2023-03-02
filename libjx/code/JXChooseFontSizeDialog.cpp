@@ -1,17 +1,17 @@
 /******************************************************************************
  JXChooseFontSizeDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1996 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXChooseFontSizeDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXIntegerInput.h"
-#include "jx-af/jx/JXStaticText.h"
+#include "JXChooseFontSizeDialog.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXIntegerInput.h"
+#include "JXStaticText.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -22,11 +22,10 @@
 
 JXChooseFontSizeDialog::JXChooseFontSizeDialog
 	(
-	JXWindowDirector*	supervisor,
-	const JSize			fontSize
+	const JSize fontSize
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow(fontSize);
 }

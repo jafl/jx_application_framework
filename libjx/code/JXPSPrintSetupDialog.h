@@ -10,8 +10,8 @@
 #ifndef _H_JXPSPrintSetupDialog
 #define _H_JXPSPrintSetupDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
-#include "jx-af/jx/JXPSPrinter.h"		// need definition of enums
+#include "JXModalDialogDirector.h"
+#include "JXPSPrinter.h"		// need definition of enums
 
 class JXTextButton;
 class JXStaticText;
@@ -21,7 +21,7 @@ class JXFileInput;
 class JXTextCheckbox;
 class JXRadioGroup;
 
-class JXPSPrintSetupDialog : public JXDialogDirector
+class JXPSPrintSetupDialog : public JXModalDialogDirector
 {
 public:
 
@@ -32,7 +32,7 @@ public:
 
 	~JXPSPrintSetupDialog() override;
 
-	bool	SetParameters(JXPSPrinter* p) const;
+	virtual bool	SetParameters(JXPSPrinter* p) const;
 
 	static bool	OKToDeactivate(const JString& fullName);
 
@@ -52,7 +52,7 @@ protected:
 					   JXStaticText* lastPageIndexLabel, JXIntegerInput* lastPageIndex);
 
 	bool	OKToDeactivate() override;
-	void		Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 

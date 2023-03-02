@@ -8,7 +8,7 @@
 #ifndef _H_JXFileSelection
 #define _H_JXFileSelection
 
-#include "jx-af/jx/JXSelectionManager.h"
+#include "JXSelectionManager.h"
 
 class JXFileSelection : public JXSelectionData
 {

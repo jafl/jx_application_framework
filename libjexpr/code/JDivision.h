@@ -10,7 +10,7 @@
 #ifndef _H_Division
 #define _H_Division
 
-#include "jx-af/jexpr/JBinaryOperator.h"
+#include "JBinaryOperator.h"
 
 class JDivision : public JBinaryOperator
 {

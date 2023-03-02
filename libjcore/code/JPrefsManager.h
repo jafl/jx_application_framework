@@ -10,10 +10,10 @@
 #ifndef _H_JPrefsManager
 #define _H_JPrefsManager
 
-#include "jx-af/jcore/JContainer.h"
-#include "jx-af/jcore/JPrefsFile.h"		// need definition of JPrefID
-#include "jx-af/jcore/JArray.h"
-#include "jx-af/jcore/JError.h"
+#include "JContainer.h"
+#include "JPrefsFile.h"		// need definition of JPrefID
+#include "JArray.h"
+#include "JError.h"
 
 class JString;
 class JPrefsFile;
@@ -48,6 +48,7 @@ protected:
 
 	bool			UpgradeData(const bool reportError = true);
 	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion) = 0;
+	virtual void	DataLoaded() = 0;
 
 private:
 

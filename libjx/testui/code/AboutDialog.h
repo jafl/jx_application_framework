@@ -10,13 +10,13 @@
 #ifndef _H_AboutDialog
 #define _H_AboutDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
-class AboutDialog : public JXDialogDirector
+class AboutDialog : public JXModalDialogDirector
 {
 public:
 
-	AboutDialog(JXDirector* supervisor);
+	AboutDialog();
 
 	~AboutDialog() override;
 

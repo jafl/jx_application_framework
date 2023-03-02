@@ -8,9 +8,9 @@
 #ifndef _H_JXToolBar
 #define _H_JXToolBar
 
-#include "jx-af/jx/JXWidgetSet.h"
+#include "JXWidgetSet.h"
 #include <jx-af/jcore/JPrefObject.h>
-#include "jx-af/jx/JXToolBarButton.h"	// need defn of Type
+#include "JXToolBarButton.h"	// need defn of Type
 
 class JTree;
 class JTreeNode;
@@ -18,7 +18,6 @@ class JNamedTreeNode;
 class JXMenu;
 class JXMenuBar;
 class JXTextMenu;
-class JXToolBarEditDir;
 class JXTimerTask;
 class JXAdjustToolBarGeometryTask;
 
@@ -70,49 +69,47 @@ protected:
 private:
 
 	JCoordinate						itsNextButtonPosition;
-	bool						itsInNewGroupMode;
+	bool							itsInNewGroupMode;
 	JPtrArray<JXToolBarButton>*		itsButtons;
 	JPtrArray<JXMenu>*				itsMenus;
 	JXTimerTask*					itsTimerTask;
 	JXAdjustToolBarGeometryTask*	itsAdjustTask;
-	JXToolBarEditDir*				itsEditDialog;
-	JTree*							itsMenuTree;
 	JXMenuBar*						itsMenuBar;
 	JSize							itsCurrentButtonHeight;
 	JXWidgetSet*					itsToolBarSet;
 	JXWidgetSet*					itsToolBarEnclosure;
-	JArray<bool>*				itsGroupStarts;
+	JArray<bool>*					itsGroupStarts;
 	JCoordinate						itsCurrentLineY;
-	bool						itsIsShowingButtons;
-	bool						itsWasShowingButtons;
+	bool							itsIsShowingButtons;
+	bool							itsWasShowingButtons;
 	JString							itsDialogPrefs;
 	JXToolBarButton::Type			itsButtonType;
-	bool						itsLoadedPrefs;
+	bool							itsLoadedPrefs;
 
 private:
 
-	void		AdjustToolBarGeometry();
-	void		AdjustGeometryIfNeeded();
-	void		AdjustWindowMinSize();
+	void	AdjustToolBarGeometry();
+	void	AdjustGeometryIfNeeded();
+	void	AdjustWindowMinSize();
 
-	void		GetGroups(JArray<JIndexRange>* groups);
-	void		PlaceButton(const JIndex index);
-	void		PlaceGroup(const JIndexRange& range);
-	JSize		GetGroupWidth(const JIndexRange& range);
-	void		NewLine();
+	void	GetGroups(JArray<JIndexRange>* groups);
+	void	PlaceButton(const JIndex index);
+	void	PlaceGroup(const JIndexRange& range);
+	JSize	GetGroupWidth(const JIndexRange& range);
+	void	NewLine();
 
-	void		RevertBar();
+	void	RevertBar();
 
 	bool	ItemIsUsed(JXTextMenu* menu, const JIndex index);
-	void		FindItemAndAdd(const JString& id);
-	void		FindItemAndAdd(JXTextMenu* menu, const JString& id);
+	void	FindItemAndAdd(const JString& id);
+	void	FindItemAndAdd(JXTextMenu* menu, const JString& id);
 
-	void		ExtractChanges();
-	void		ExtractItemNodes(JTreeNode* menuNode);
-	void		BuildTree();
-	void		AddMenuToTree(JXTextMenu* menu, JNamedTreeNode* parent, const JString& name);
+	void	ExtractItemNodes(JTreeNode* menuNode);
+	JTree*	BuildTree();
+	void	AddMenuToTree(JTree* tree, JXTextMenu* menu,
+						  JNamedTreeNode* parent, const JString& name);
 
-	void		UpdateButtons();
+	void	UpdateButtons();
 
 private:
 

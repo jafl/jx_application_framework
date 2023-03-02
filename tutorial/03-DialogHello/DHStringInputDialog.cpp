@@ -1,7 +1,7 @@
 /******************************************************************************
  DHStringInputDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Written by Glenn Bach - 1997.
 
@@ -22,11 +22,10 @@
 
 DHStringInputDialog::DHStringInputDialog
 	(
-	JXWindowDirector*	supervisor,
-	const JString&		str
+	const JString& str
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow();
 

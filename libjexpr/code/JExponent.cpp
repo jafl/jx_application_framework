@@ -11,10 +11,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JExponent.h"
-#include "jx-af/jexpr/JExprRenderer.h"
-#include "jx-af/jexpr/JExprRectList.h"
-#include "jx-af/jexpr/jFunctionUtil.h"
+#include "JExponent.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
+#include "jFunctionUtil.h"
 #include <jx-af/jcore/JRect.h>
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jErrno.h>

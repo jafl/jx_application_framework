@@ -10,7 +10,7 @@
 #ifndef _H_JExprEditor
 #define _H_JExprEditor
 
-#include "jx-af/jexpr/JExprRenderer.h"
+#include "JExprRenderer.h"
 #include <jx-af/jcore/JArray.h>
 #include <jx-af/jcore/JFontStyle.h>
 

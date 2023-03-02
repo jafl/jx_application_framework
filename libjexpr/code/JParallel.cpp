@@ -16,10 +16,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JParallel.h"
-#include "jx-af/jexpr/JExprRenderer.h"
-#include "jx-af/jexpr/JExprRectList.h"
-#include "jx-af/jexpr/jFunctionUtil.h"
+#include "JParallel.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
+#include "jFunctionUtil.h"
 #include <jx-af/jcore/JRect.h>
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jAssert.h>

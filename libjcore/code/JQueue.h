@@ -10,8 +10,8 @@
 #ifndef _H_JQueue
 #define _H_JQueue
 
-#include "jx-af/jcore/JContainer.h"
-#include "jx-af/jcore/JListIterator.h"	// template
+#include "JContainer.h"
+#include "JListIterator.h"	// template
 
 template <class T, class S>
 class JQueue : public JContainer

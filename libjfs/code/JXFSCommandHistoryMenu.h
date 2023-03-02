@@ -9,7 +9,7 @@
 #define _H_JXFSCommandHistoryMenu
 
 #include <jx-af/jx/JXHistoryMenuBase.h>
-#include "jx-af/jfs/JFSBinding.h"		// need defn of CommandType
+#include "JFSBinding.h"		// need defn of CommandType
 
 class JXFSCommandHistoryMenu : public JXHistoryMenuBase
 {

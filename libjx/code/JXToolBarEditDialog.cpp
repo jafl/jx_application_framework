@@ -1,7 +1,7 @@
 /******************************************************************************
- JXToolBarEditDir.cpp
+ JXToolBarEditDialog.cpp
 
-	BASE CLASS = public JXDocument
+	BASE CLASS = public JXModalDialogDirector
 
 	Copyright (C) 1998 by Glenn W. Bach.
 
@@ -9,27 +9,26 @@
 
  *****************************************************************************/
 
-#include "jx-af/jx/JXToolBarEditDir.h"
+#include "JXToolBarEditDialog.h"
 #include <jx-af/jcore/JTree.h>
-#include "jx-af/jx/JXToolBarNode.h"
-#include "jx-af/jx/JXToolBarEditWidget.h"
+#include "JXToolBarNode.h"
+#include "JXToolBarEditWidget.h"
 #include <jx-af/jcore/JNamedTreeList.h>
 
-#include "jx-af/jx/JXToolBar.h"
+#include "JXToolBar.h"
 
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXMenuBar.h"
-#include "jx-af/jx/JXScrollbarSet.h"
-#include "jx-af/jx/JXApplication.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXDocumentManager.h"
-#include "jx-af/jx/JXDocumentMenu.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXAtLeastOneCBGroup.h"
+#include "JXWindow.h"
+#include "JXStaticText.h"
+#include "JXMenuBar.h"
+#include "JXScrollbarSet.h"
+#include "JXApplication.h"
+#include "JXTextButton.h"
+#include "JXDocumentManager.h"
+#include "JXDocumentMenu.h"
+#include "JXImage.h"
+#include "JXTextCheckbox.h"
+#include "JXAtLeastOneCBGroup.h"
 
-#include <jx-af/jcore/JChooseSaveFile.h>
 #include <jx-af/jcore/JFileArray.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
@@ -41,31 +40,28 @@ const JCoordinate kCurrentPrefsVersion = 1;
 
  *****************************************************************************/
 
-JXToolBarEditDir::JXToolBarEditDir
+JXToolBarEditDialog::JXToolBarEditDialog
 	(
 	JTree*						tree,
-	const bool				show,
-	const bool				useSmall,
-	const JXToolBarButton::Type	type,
-	JXDirector*				supervisor
+	const bool					show,
+	const bool					useSmall,
+	const JXToolBarButton::Type	type
 	)
 	:
-   JXDialogDirector(supervisor, true),
-   itsTree(tree),
-   itsTreeChanged(false)
+	JXModalDialogDirector(true),
+	itsTree(tree),
+	itsTreeChanged(false)
 {
-	UseModalPlacement(false);
-
 	BuildWindow();
 	ListenTo(itsTree);
 
 	itsShowToolBarCB->SetState(show);
 	itsUseSmallButtonsCB->SetState(useSmall);
-	if ((type == JXToolBarButton::kImage) || (type == JXToolBarButton::kBoth))
+	if (type == JXToolBarButton::kImage || type == JXToolBarButton::kBoth)
 	{
 		itsShowImagesCB->SetState(true);
 	}
-	if ((type == JXToolBarButton::kText) || (type == JXToolBarButton::kBoth))
+	if (type == JXToolBarButton::kText || type == JXToolBarButton::kBoth)
 	{
 		itsShowTextCB->SetState(true);
 	}
@@ -77,7 +73,7 @@ JXToolBarEditDir::JXToolBarEditDir
 
  *****************************************************************************/
 
-JXToolBarEditDir::~JXToolBarEditDir()
+JXToolBarEditDialog::~JXToolBarEditDialog()
 {
 }
 
@@ -87,7 +83,7 @@ JXToolBarEditDir::~JXToolBarEditDir()
  ******************************************************************************/
 
 void
-JXToolBarEditDir::BuildWindow()
+JXToolBarEditDialog::BuildWindow()
 {
 // begin JXLayout
 
@@ -100,52 +96,49 @@ JXToolBarEditDir::BuildWindow()
 	assert( scrollbarSet != nullptr );
 
 	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::JXToolBarEditDir::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::JXToolBarEditDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,400, 70,20);
 	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts(JGetString("cancelButton::JXToolBarEditDir::shortcuts::JXLayout"));
+	cancelButton->SetShortcuts(JGetString("cancelButton::JXToolBarEditDialog::shortcuts::JXLayout"));
 
 	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::JXToolBarEditDir::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::JXToolBarEditDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 200,400, 70,20);
 	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::JXToolBarEditDir::shortcuts::JXLayout"));
+	okButton->SetShortcuts(JGetString("okButton::JXToolBarEditDialog::shortcuts::JXLayout"));
 
 	auto* prompt =
-		jnew JXStaticText(JGetString("prompt::JXToolBarEditDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("prompt::JXToolBarEditDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,10, 270,30);
 	assert( prompt != nullptr );
 
 	itsShowToolBarCB =
-		jnew JXTextCheckbox(JGetString("itsShowToolBarCB::JXToolBarEditDir::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsShowToolBarCB::JXToolBarEditDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 135,20);
 	assert( itsShowToolBarCB != nullptr );
-	itsShowToolBarCB->SetShortcuts(JGetString("itsShowToolBarCB::JXToolBarEditDir::shortcuts::JXLayout"));
+	itsShowToolBarCB->SetShortcuts(JGetString("itsShowToolBarCB::JXToolBarEditDialog::shortcuts::JXLayout"));
 
 	itsUseSmallButtonsCB =
-		jnew JXTextCheckbox(JGetString("itsUseSmallButtonsCB::JXToolBarEditDir::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsUseSmallButtonsCB::JXToolBarEditDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 135,20);
 	assert( itsUseSmallButtonsCB != nullptr );
-	itsUseSmallButtonsCB->SetShortcuts(JGetString("itsUseSmallButtonsCB::JXToolBarEditDir::shortcuts::JXLayout"));
+	itsUseSmallButtonsCB->SetShortcuts(JGetString("itsUseSmallButtonsCB::JXToolBarEditDialog::shortcuts::JXLayout"));
 
 	itsShowImagesCB =
-		jnew JXTextCheckbox(JGetString("itsShowImagesCB::JXToolBarEditDir::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsShowImagesCB::JXToolBarEditDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,50, 140,20);
 	assert( itsShowImagesCB != nullptr );
-	itsShowImagesCB->SetShortcuts(JGetString("itsShowImagesCB::JXToolBarEditDir::shortcuts::JXLayout"));
+	itsShowImagesCB->SetShortcuts(JGetString("itsShowImagesCB::JXToolBarEditDialog::shortcuts::JXLayout"));
 
 	itsShowTextCB =
-		jnew JXTextCheckbox(JGetString("itsShowTextCB::JXToolBarEditDir::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsShowTextCB::JXToolBarEditDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,70, 130,20);
 	assert( itsShowTextCB != nullptr );
-	itsShowTextCB->SetShortcuts(JGetString("itsShowTextCB::JXToolBarEditDir::shortcuts::JXLayout"));
+	itsShowTextCB->SetShortcuts(JGetString("itsShowTextCB::JXToolBarEditDialog::shortcuts::JXLayout"));
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JXToolBarEditDir"));
-	window->PlaceAsDialogWindow();
-	window->LockCurrentMinSize();
-
+	window->SetTitle(JGetString("WindowTitle::JXToolBarEditDialog"));
 	SetButtons(okButton, cancelButton);
 
 	auto* group =
@@ -175,7 +168,7 @@ JXToolBarEditDir::BuildWindow()
  ******************************************************************************/
 
 void
-JXToolBarEditDir::ReadSetup
+JXToolBarEditDialog::ReadSetup
 	(
 	std::istream& is
 	)
@@ -192,7 +185,7 @@ JXToolBarEditDir::ReadSetup
  ******************************************************************************/
 
 void
-JXToolBarEditDir::WriteSetup
+JXToolBarEditDialog::WriteSetup
 	(
 	std::ostream& os
 	)
@@ -208,7 +201,7 @@ JXToolBarEditDir::WriteSetup
  ******************************************************************************/
 
 void
-JXToolBarEditDir::Receive
+JXToolBarEditDialog::Receive
 	(
 	JBroadcaster*  sender,
 	const Message& message
@@ -220,7 +213,7 @@ JXToolBarEditDir::Receive
 	}
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 
@@ -230,7 +223,7 @@ JXToolBarEditDir::Receive
  ******************************************************************************/
 
 bool
-JXToolBarEditDir::ShowToolBar()
+JXToolBarEditDialog::ShowToolBar()
 {
 	return itsShowToolBarCB->IsChecked();
 }
@@ -241,7 +234,7 @@ JXToolBarEditDir::ShowToolBar()
  ******************************************************************************/
 
 bool
-JXToolBarEditDir::UseSmallButtons()
+JXToolBarEditDialog::UseSmallButtons()
 {
 	return itsUseSmallButtonsCB->IsChecked();
 }
@@ -252,7 +245,7 @@ JXToolBarEditDir::UseSmallButtons()
  ******************************************************************************/
 
 JXToolBarButton::Type
-JXToolBarEditDir::GetType()
+JXToolBarEditDialog::GetType()
 {
 	bool images = itsShowImagesCB->IsChecked();
 	bool text	= itsShowTextCB->IsChecked();

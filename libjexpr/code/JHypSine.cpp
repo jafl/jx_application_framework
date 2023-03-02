@@ -9,7 +9,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JHypSine.h"
+#include "JHypSine.h"
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jErrno.h>
 #include <jx-af/jcore/jAssert.h>

@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXImageMask.h"
-#include "jx-af/jx/JXDisplay.h"
+#include "JXImageMask.h"
+#include "JXDisplay.h"
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/JStdError.h>

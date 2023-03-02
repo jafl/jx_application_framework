@@ -8,7 +8,7 @@
 #ifndef _H_jFStreamUtil
 #define _H_jFStreamUtil
 
-#include "jx-af/jcore/jTypes.h"
+#include "jTypes.h"
 #include <fstream> // templates
 
 class JString;

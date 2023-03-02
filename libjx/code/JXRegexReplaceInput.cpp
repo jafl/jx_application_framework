@@ -10,7 +10,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXRegexReplaceInput.h"
+#include "JXRegexReplaceInput.h"
 #include <jx-af/jcore/JInterpolate.h>
 #include <jx-af/jcore/jAssert.h>
 

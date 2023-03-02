@@ -10,7 +10,7 @@
 #ifndef _H_JXAtMostOneCBGroup
 #define _H_JXAtMostOneCBGroup
 
-#include "jx-af/jx/JXCheckboxGroup.h"
+#include "JXCheckboxGroup.h"
 
 class JXCheckbox;
 

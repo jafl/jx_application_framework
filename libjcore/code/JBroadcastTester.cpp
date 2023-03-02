@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JBroadcastTester.h"
-#include "jx-af/jcore/JTestManager.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JBroadcastTester.h"
+#include "JTestManager.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor
@@ -57,7 +57,7 @@ JBroadcastTester::Expect
 {
 	Validation v;
 	v.type      = type;
-	v.validator = jnew std::function<void(const Message&)>(validator);
+	v.validator = jnew std::function(validator);
 	itsExpectedMessages.Append(v);
 }
 

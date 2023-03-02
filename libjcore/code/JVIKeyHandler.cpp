@@ -21,11 +21,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JVIKeyHandler.h"
-#include "jx-af/jcore/JTEDefaultKeyHandler.h"
-#include "jx-af/jcore/JRegex.h"
-#include "jx-af/jcore/jASCIIConstants.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JVIKeyHandler.h"
+#include "JTEDefaultKeyHandler.h"
+#include "JRegex.h"
+#include "jASCIIConstants.h"
+#include "jAssert.h"
 
 static const JRegex numberPattern("^[0-9]+$");
 static const JRegex numberPrefixPattern("^[0-9]+");

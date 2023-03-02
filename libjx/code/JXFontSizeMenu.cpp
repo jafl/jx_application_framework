@@ -13,12 +13,12 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXFontSizeMenu.h"
-#include "jx-af/jx/JXFontNameMenu.h"
-#include "jx-af/jx/JXChooseFontSizeDialog.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/jXConstants.h"
-#include "jx-af/jx/jXActionDefs.h"
+#include "JXFontSizeMenu.h"
+#include "JXFontNameMenu.h"
+#include "JXChooseFontSizeDialog.h"
+#include "JXWindow.h"
+#include "jXConstants.h"
+#include "jXActionDefs.h"
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jGlobals.h>
@@ -121,7 +121,6 @@ JXFontSizeMenu::JXFontSizeMenuX
 	}
 
 	itsBroadcastChangeFlag = true;
-	itsChooseSizeDialog    = nullptr;
 }
 
 /******************************************************************************
@@ -303,23 +302,6 @@ JXFontSizeMenu::Receive
 		ChooseFontSize(selection->GetIndex());
 	}
 
-	else if (sender == itsChooseSizeDialog &&
-			 message.Is(JXDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			SetFontSize(itsChooseSizeDialog->GetFontSize());
-		}
-		else
-		{
-			SetPopupChoice(itsCurrIndex);	// revert displayed string
-		}
-		itsChooseSizeDialog = nullptr;
-	}
-
 	else
 	{
 		JXTextMenu::Receive(sender, message);
@@ -340,19 +322,24 @@ JXFontSizeMenu::ChooseFontSize
 	if (sizeIndex != itsVarSizeIndex)
 	{
 		itsCurrIndex = sizeIndex;
-		const bool ok = (GetItemText(sizeIndex)).ConvertToUInt(&itsFontSize);
+		const bool ok = GetItemText(sizeIndex).ConvertToUInt(&itsFontSize);
 		assert( ok );
 		AdjustVarSizeItem(0);
 		Broadcast(SizeChanged(itsFontSize));
 	}
 	else
 	{
-		assert( itsChooseSizeDialog == nullptr );
-		JXWindowDirector* supervisor = GetWindow()->GetDirector();
-		itsChooseSizeDialog = jnew JXChooseFontSizeDialog(supervisor, itsFontSize);
-		assert( itsChooseSizeDialog != nullptr );
-		ListenTo(itsChooseSizeDialog);
-		itsChooseSizeDialog->BeginDialog();
+		auto* dlog = jnew JXChooseFontSizeDialog(itsFontSize);
+		assert( dlog != nullptr );
+
+		if (dlog->DoDialog())
+		{
+			SetFontSize(dlog->GetFontSize());
+		}
+		else
+		{
+			SetPopupChoice(itsCurrIndex);	// revert displayed string
+		}
 	}
 }
 

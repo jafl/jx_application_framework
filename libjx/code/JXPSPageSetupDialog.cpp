@@ -4,21 +4,21 @@
 	Derived classes must override BuildWindow() and call SetObjects()
 	at the end of their implementation.
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1996-99 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXPSPageSetupDialog.h"
-#include "jx-af/jx/JXPSPrinter.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXTextMenu.h"
-#include "jx-af/jx/JXRadioGroup.h"
-#include "jx-af/jx/JXImageRadioButton.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXPSPageSetupDialog.h"
+#include "JXPSPrinter.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXTextMenu.h"
+#include "JXRadioGroup.h"
+#include "JXImageRadioButton.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/JConstBitmap.h>
 #include <jx-af/jcore/jAssert.h>
@@ -100,7 +100,7 @@ JXPSPageSetupDialog::Create
 
 JXPSPageSetupDialog::JXPSPageSetupDialog()
 	:
-	JXDialogDirector(JXGetApplication(), true)
+	JXModalDialogDirector()
 {
 }
 
@@ -236,7 +236,9 @@ JIndex i;
 }
 
 /******************************************************************************
- SetParameters
+ SetParameters (virtual)
+
+	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 
@@ -288,6 +290,6 @@ JXPSPageSetupDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }

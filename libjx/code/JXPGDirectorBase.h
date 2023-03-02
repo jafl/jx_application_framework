@@ -3,14 +3,14 @@
 
 	Interface for the JXPGDirectorBase class
 
-	Copyright (C) 1997 by John Lindal.
+	Copyright (C) 1997-2023 by John Lindal.
 
  ******************************************************************************/
 
 #ifndef _H_JXPGDirectorBase
 #define _H_JXPGDirectorBase
 
-#include "jx-af/jx/JXWindowDirector.h"
+#include "JXWindowDirector.h"
 
 class JXWindow;
 class JXStaticText;
@@ -20,7 +20,7 @@ class JXPGDirectorBase : public JXWindowDirector
 {
 public:
 
-	JXPGDirectorBase(JXDirector* supervisor);
+	JXPGDirectorBase(const bool modal);
 
 	~JXPGDirectorBase() override;
 
@@ -37,6 +37,7 @@ protected:
 
 private:
 
+	const bool	itsModalFlag;
 	bool		itsExpectsCloseFlag;
 	JXButton*	itsCancelButton;
 };

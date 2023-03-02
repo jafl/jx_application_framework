@@ -10,8 +10,8 @@
 #ifndef _H_JPtrQueue
 #define _H_JPtrQueue
 
-#include "jx-af/jcore/JQueue.h"
-#include "jx-af/jcore/JPtrArray.h"
+#include "JQueue.h"
+#include "JPtrArray.h"
 
 template <class T, class S>
 class JPtrQueue : public JQueue<T*,S>

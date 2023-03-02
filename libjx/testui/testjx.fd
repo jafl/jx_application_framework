@@ -142,7 +142,7 @@ argument:
 Name: TestInputFieldsDialog
 Width: 620
 Height: 210
-Number of Objects: 35
+Number of Objects: 37
 
 --------------------
 class: FL_BOX
@@ -741,7 +741,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 340 110 260 20
+box: 340 110 210 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -752,14 +752,14 @@ label: JXPathInput
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
-name: (pathInput)
+name: itsPathInput
 callback: 
 argument: 
 
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 340 130 260 20
+box: 340 130 210 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -770,7 +770,43 @@ label: JXFileInput
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
-name: (fileInput)
+name: itsFileInput
+callback: 
+argument: 
+
+--------------------
+class: FL_BUTTON
+type: FL_NORMAL_BUTTON
+box: 550 110 50 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Choose
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: itsChoosePathButton
+callback: 
+argument: 
+
+--------------------
+class: FL_BUTTON
+type: FL_NORMAL_BUTTON
+box: 550 130 50 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Choose
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: itsChooseFileButton
 callback: 
 argument: 
 
@@ -2110,7 +2146,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: (gifRB)
 callback: 
-argument: TestChooseSaveFile::kGIFFormat
+argument: kGIFFormat
 
 --------------------
 class: FL_CHECKBUTTON
@@ -2128,7 +2164,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: (jpegRB)
 callback: 
-argument: TestChooseSaveFile::kJPEGFormat
+argument: kJPEGFormat
 
 --------------------
 class: FL_CHECKBUTTON
@@ -2146,7 +2182,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: (pngRB)
 callback: 
-argument: TestChooseSaveFile::kPNGFormat
+argument: kPNGFormat
 
 --------------------
 class: FL_BOX

@@ -9,8 +9,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXDisplay.h"
+#include "JXColorManager.h"
+#include "JXDisplay.h"
 #include <stdlib.h>
 #include <jx-af/jcore/jAssert.h>
 

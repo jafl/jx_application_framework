@@ -10,7 +10,7 @@
 #ifndef _H_JArcTangent
 #define _H_JArcTangent
 
-#include "jx-af/jexpr/JUnaryFunction.h"
+#include "JUnaryFunction.h"
 
 class JArcTangent : public JUnaryFunction
 {

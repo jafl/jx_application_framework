@@ -4,22 +4,22 @@
 	Derived classes must override BuildWindow() and call SetObjects()
 	at the end of their implementation.
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1997-99 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXEPSPrintSetupDialog.h"
-#include "jx-af/jx/JXEPSPrinter.h"
-#include "jx-af/jx/JXPSPrintSetupDialog.h"
-#include "jx-af/jx/JXChooseEPSDestFileTask.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXFileInput.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXEPSPrintSetupDialog.h"
+#include "JXEPSPrinter.h"
+#include "JXPSPrintSetupDialog.h"
+#include "JXChooseEPSDestFileTask.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXTextCheckbox.h"
+#include "JXFileInput.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -32,8 +32,8 @@ JXEPSPrintSetupDialog*
 JXEPSPrintSetupDialog::Create
 	(
 	const JString&	fileName,
-	const bool	printPreview,
-	const bool	bw
+	const bool		printPreview,
+	const bool		bw
 	)
 {
 	auto* dlog = jnew JXEPSPrintSetupDialog;
@@ -49,7 +49,7 @@ JXEPSPrintSetupDialog::Create
 
 JXEPSPrintSetupDialog::JXEPSPrintSetupDialog()
 	:
-	JXDialogDirector(JXGetApplication(), true)
+	JXModalDialogDirector()
 {
 }
 
@@ -71,8 +71,8 @@ void
 JXEPSPrintSetupDialog::BuildWindow
 	(
 	const JString&	fileName,
-	const bool	printPreview,
-	const bool	bw
+	const bool		printPreview,
+	const bool		bw
 	)
 {
 // begin JXLayout
@@ -131,9 +131,9 @@ JXEPSPrintSetupDialog::SetObjects
 	const JString&	fileName,
 	JXTextButton*	chooseFileButton,
 	JXTextCheckbox*	previewCheckbox,
-	const bool	printPreview,
+	const bool		printPreview,
 	JXTextCheckbox*	bwCheckbox,
-	const bool	bw
+	const bool		bw
 	)
 {
 	itsPrintButton      = okButton;
@@ -142,7 +142,7 @@ JXEPSPrintSetupDialog::SetObjects
 	itsPreviewCheckbox  = previewCheckbox;
 	itsBWCheckbox       = bwCheckbox;
 
-	(itsChooseFileButton->GetWindow())->SetTitle(JGetString("WindowTitle::JXEPSPrintSetupDialog"));
+	itsChooseFileButton->GetWindow()->SetTitle(JGetString("WindowTitle::JXEPSPrintSetupDialog"));
 	SetButtons(okButton, cancelButton);
 
 	ListenTo(itsChooseFileButton);
@@ -186,7 +186,7 @@ JXEPSPrintSetupDialog::UpdateDisplay()
 bool
 JXEPSPrintSetupDialog::OKToDeactivate()
 {
-	if (!JXDialogDirector::OKToDeactivate())
+	if (!JXModalDialogDirector::OKToDeactivate())
 	{
 		return false;
 	}
@@ -222,7 +222,7 @@ JXEPSPrintSetupDialog::Receive
 	}
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 
@@ -238,7 +238,9 @@ JXEPSPrintSetupDialog::ChooseDestinationFile()
 }
 
 /******************************************************************************
- SetParameters
+ SetParameters (virtual)
+
+	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 
@@ -249,7 +251,8 @@ JXEPSPrintSetupDialog::SetParameters
 	)
 	const
 {
-	const bool changed = itsFileInput->GetText()->GetText() != p->GetOutputFileName() ||
+	const bool changed =
+		itsFileInput->GetText()->GetText() != p->GetOutputFileName() ||
 		itsPreviewCheckbox->IsChecked()    != p->WantsPreview()      ||
 		itsBWCheckbox->IsChecked()         != p->PSWillPrintBlackWhite();
 

@@ -15,7 +15,7 @@
 
  *****************************************************************************/
 
-#include "jx-af/jfs/JXFSDirMenu.h"
+#include "JXFSDirMenu.h"
 #include <jx-af/jx/JXApplication.h>
 #include <jx-af/jx/JXMenuManager.h>
 #include <jx-af/jx/JXDisplay.h>

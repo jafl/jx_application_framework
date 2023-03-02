@@ -8,7 +8,7 @@
 #ifndef _H_JXBorderRect
 #define _H_JXBorderRect
 
-#include "jx-af/jx/JXDecorRect.h"
+#include "JXDecorRect.h"
 
 class JXBorderRect : public JXDecorRect
 {

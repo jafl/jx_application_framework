@@ -34,10 +34,9 @@ TestLinkedDocument::TestLinkedDocument
 	JXDirector* supervisor
 	)
 	:
-	TestTextEditDocument(supervisor)
+	TestTextEditDocument(supervisor),
+	itsDoc(nullptr)
 {
-	itsDoc = nullptr;
-
 	if (JFileExists(kOurFile))
 	{
 		FileChanged(kOurFile, true);

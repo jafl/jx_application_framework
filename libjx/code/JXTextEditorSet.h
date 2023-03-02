@@ -10,7 +10,7 @@
 #ifndef _H_JXTextEditorSet
 #define _H_JXTextEditorSet
 
-#include "jx-af/jx/JXWidgetSet.h"
+#include "JXWidgetSet.h"
 
 class JStyledText;
 class JXMenuBar;

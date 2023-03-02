@@ -14,9 +14,9 @@
  *****************************************************************************/
 
 //Library Header
-#include "jx-af/jcore/jHashFunctions.h"
+#include "jHashFunctions.h"
 
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /******************************************************************************
  JDualHash

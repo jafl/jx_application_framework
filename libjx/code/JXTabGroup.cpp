@@ -15,19 +15,19 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXTabGroup.h"
-#include "jx-af/jx/JXCardFile.h"
-#include "jx-af/jx/JXScrollTabsTask.h"
-#include "jx-af/jx/JXTextMenu.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/jXPainterUtil.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/JXImage.h"
-#include "jx-af/jx/JXImageCache.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXTabGroup.h"
+#include "JXCardFile.h"
+#include "JXScrollTabsTask.h"
+#include "JXTextMenu.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "JXFontManager.h"
+#include "JXColorManager.h"
+#include "JXImage.h"
+#include "JXImageCache.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jAssert.h>

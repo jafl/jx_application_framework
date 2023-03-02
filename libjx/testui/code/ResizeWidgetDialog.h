@@ -10,16 +10,16 @@
 #ifndef _H_ResizeWidgetDialog
 #define _H_ResizeWidgetDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXWidget;
 class JXIntegerInput;
 
-class ResizeWidgetDialog : public JXDialogDirector
+class ResizeWidgetDialog : public JXModalDialogDirector
 {
 public:
 
-	ResizeWidgetDialog(JXWindowDirector* supervisor, const JXWidget* widget);
+	ResizeWidgetDialog(const JXWidget* widget);
 
 	~ResizeWidgetDialog() override;
 

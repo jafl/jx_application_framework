@@ -8,8 +8,8 @@
 #ifndef _H_JX2DCurveOptionsDialog
 #define _H_JX2DCurveOptionsDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
-#include "jx-af/j2dplot/J2DCurveInfo.h"
+#include <jx-af/jx/JXModalDialogDirector.h>
+#include "J2DCurveInfo.h"
 
 class JString;
 class JXTextButton;
@@ -18,7 +18,7 @@ class JXRadioGroup;
 class JXTextRadioButton;
 class JX2DCurveNameList;
 
-class JX2DCurveOptionsDialog : public JXDialogDirector
+class JX2DCurveOptionsDialog : public JXModalDialogDirector
 {
 public:
 
@@ -32,8 +32,7 @@ public:
 
 public:
 
-	JX2DCurveOptionsDialog(JXWindowDirector* supervisor,
-							const JArray<J2DCurveInfo>& array,
+	JX2DCurveOptionsDialog(const JArray<J2DCurveInfo>& array,
 							const JArray<bool>& hasXErrors,
 							const JArray<bool>& hasYErrors,
 							const JArray<bool>& isFunction,

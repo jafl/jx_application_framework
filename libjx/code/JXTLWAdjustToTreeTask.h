@@ -10,7 +10,7 @@
 #ifndef _H_JXTLWAdjustToTreeTask
 #define _H_JXTLWAdjustToTreeTask
 
-#include "jx-af/jx/JXUrgentTask.h"
+#include "JXUrgentTask.h"
 
 class JXTreeListWidget;
 
@@ -20,13 +20,15 @@ public:
 
 	JXTLWAdjustToTreeTask(JXTreeListWidget* widget);
 
+protected:
+
 	~JXTLWAdjustToTreeTask() override;
 
 	void	Perform() override;
 
 private:
 
-	JXTreeListWidget*	itsWidget;		// we don't own this
+	JXTreeListWidget*	itsWidget;		// not owned
 };
 
 #endif

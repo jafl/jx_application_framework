@@ -3,7 +3,7 @@
 set -e;
 
 export ACE_VERSION=7.0.0
-export REFLEX_VERSION=3.2.5
+export REFLEX_VERSION=3.2.12
 
 #
 # functions
@@ -128,7 +128,7 @@ elif command -v apt-get; then
 				libx11-xcb-dev libxcb-xfixes0-dev libxcb-dri2-0-dev \
 			libxpm-dev libjpeg-dev libpng-dev libgd-dev \
 			libace-dev libicu-dev libpcre3-dev libxml2-dev \
-			xutils-dev libdrm-dev \
+			libboost-fiber-dev xutils-dev libdrm-dev \
 			libforms-bin aspell;
 	fi
 
@@ -152,7 +152,7 @@ elif command -v dnf || command -v yum; then
 			xorg-x11-proto-devel xorg-x11-server-devel libXdamage-devel  \
 		libXpm-devel libjpeg-devel libpng-devel gd-devel \
 		libicu-devel pcre-devel libxml2-devel \
-		expat-devel libdrm-devel \
+		boost-devel expat-devel libdrm-devel \
 		xforms-devel aspell aspell-en;
 
 	if [[ $1 != package ]]; then
@@ -170,7 +170,7 @@ elif command -v zypper; then
 			xorg-x11-proto-devel xorg-x11-server-devel libXdamage-devel  \
 		libXpm-devel libjpeg-devel libpng-devel gd-devel \
 		libicu-devel pcre-devel libxml2-devel \
-		expat-devel libdrm-devel \
+		boost-devel expat-devel libdrm-devel \
 		xforms-devel aspell aspell-en;
 
 	if [[ $1 != package ]]; then

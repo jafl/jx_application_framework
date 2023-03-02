@@ -121,27 +121,27 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/JTextEditor.h"
-#include "jx-af/jcore/JTEDefaultKeyHandler.h"
-#include "jx-af/jcore/JPagePrinter.h"
-#include "jx-af/jcore/JFontManager.h"
-#include "jx-af/jcore/JListUtil.h"
-#include "jx-af/jcore/JUndo.h"
-#include "jx-af/jcore/JRunArrayIterator.h"
-#include "jx-af/jcore/JRegex.h"
-#include "jx-af/jcore/JStringIterator.h"
-#include "jx-af/jcore/JStringMatch.h"
-#include "jx-af/jcore/JLatentPG.h"
-#include "jx-af/jcore/JMinMax.h"
-#include "jx-af/jcore/jTextUtil.h"
-#include "jx-af/jcore/jASCIIConstants.h"
-#include "jx-af/jcore/jFStreamUtil.h"
-#include "jx-af/jcore/jStreamUtil.h"
-#include "jx-af/jcore/jMouseUtil.h"
-#include "jx-af/jcore/jFileUtil.h"
-#include "jx-af/jcore/jTime.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JTextEditor.h"
+#include "JTEDefaultKeyHandler.h"
+#include "JPagePrinter.h"
+#include "JFontManager.h"
+#include "JListUtil.h"
+#include "JUndo.h"
+#include "JRunArrayIterator.h"
+#include "JRegex.h"
+#include "JStringIterator.h"
+#include "JStringMatch.h"
+#include "JLatentPG.h"
+#include "JMinMax.h"
+#include "jTextUtil.h"
+#include "jASCIIConstants.h"
+#include "jFStreamUtil.h"
+#include "jStreamUtil.h"
+#include "jMouseUtil.h"
+#include "jFileUtil.h"
+#include "jTime.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 using TextIndex = JStyledText::TextIndex;
 using TextCount = JStyledText::TextCount;
@@ -2251,8 +2251,8 @@ JTextEditor::TEHandleMouseDown
 	(
 	const JPoint&	origPt,
 	const JSize		clickCount,
-	const bool	extendSelection,
-	const bool	partialWord
+	const bool		extendSelection,
+	const bool		partialWord
 	)
 {
 	assert( itsActiveFlag );
@@ -2724,9 +2724,9 @@ bool
 JTextEditor::TEHandleKeyPress
 	(
 	const JUtf8Character&	origKey,
-	const bool			selectText,
+	const bool				selectText,
 	const CaretMotion		motion,
-	const bool			deleteToTabStop
+	const bool				deleteToTabStop
 	)
 {
 	assert( itsActiveFlag );

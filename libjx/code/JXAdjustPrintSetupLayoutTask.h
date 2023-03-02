@@ -8,18 +8,19 @@
 #ifndef _H_JXAdjustPrintSetupLayoutTask
 #define _H_JXAdjustPrintSetupLayoutTask
 
-#include "jx-af/jx/JXUrgentTask.h"
-#include <jx-af/jcore/JBroadcaster.h>
+#include "JXUrgentTask.h"
 
 class JXDirector;
 class JXWidget;
 
-class JXAdjustPrintSetupLayoutTask : public JXUrgentTask, virtual public JBroadcaster
+class JXAdjustPrintSetupLayoutTask : public JXUrgentTask
 {
 public:
 
 	JXAdjustPrintSetupLayoutTask(JXDirector* director, JXWidget* printCmd,
-								   JXWidget* chooseFileButton, JXWidget* fileInput);
+								 JXWidget* chooseFileButton, JXWidget* fileInput);
+
+protected:
 
 	~JXAdjustPrintSetupLayoutTask() override;
 
@@ -27,7 +28,6 @@ public:
 
 private:
 
-	JXDirector*	itsDirector;			// not owned
 	JXWidget*	itsPrintCmd;			// not owned
 	JXWidget*	itsChooseFileButton;	// not owned
 	JXWidget*	itsFileInput;			// not owned

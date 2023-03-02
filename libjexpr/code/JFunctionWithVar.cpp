@@ -12,10 +12,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jexpr/JFunctionWithVar.h"
-#include "jx-af/jexpr/JVariableList.h"
-#include "jx-af/jexpr/JExprRenderer.h"
-#include "jx-af/jexpr/JExprRectList.h"
+#include "JFunctionWithVar.h"
+#include "JVariableList.h"
+#include "JExprRenderer.h"
+#include "JExprRectList.h"
 
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/JListUtil.h>

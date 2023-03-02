@@ -13,11 +13,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXFontNameMenu.h"
-#include "jx-af/jx/JXFontNameMenuDirector.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXFontNameMenu.h"
+#include "JXFontNameMenuDirector.h"
+#include "JXFontManager.h"
+#include "JXDisplay.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 const JSize kHistoryCount = 5;

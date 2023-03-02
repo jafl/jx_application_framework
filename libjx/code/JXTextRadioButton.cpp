@@ -7,13 +7,13 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXTextRadioButton.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXWindowPainter.h"
-#include "jx-af/jx/jXPainterUtil.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXTextRadioButton.h"
+#include "JXWindow.h"
+#include "JXWindowPainter.h"
+#include "jXPainterUtil.h"
+#include "JXFontManager.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kMarginWidth   = 5;
@@ -101,7 +101,7 @@ JXTextRadioButton::SetShortcuts
 	JXRadioButton::SetShortcuts(list);
 
 	#define LabelVarName	itsLabel
-	#include "jx-af/jx/JXUpdateShortcutIndex.th"
+	#include "JXUpdateShortcutIndex.th"
 	#undef LabelVarName
 }
 
@@ -175,8 +175,8 @@ JXTextRadioButton::Draw
 	JRect textRect  = bounds;
 	textRect.left  += 2*kMarginWidth + kBoxHeight;
 	p.String(textRect.left, textRect.top, itsLabel, itsULIndex,
-			 textRect.width(), JPainter::kHAlignLeft,
-			 textRect.height(), JPainter::kVAlignCenter);
+			 textRect.width(), JPainter::HAlign::kLeft,
+			 textRect.height(), JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

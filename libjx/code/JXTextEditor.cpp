@@ -9,14 +9,14 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXTextEditor.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXMenuBar.h"
-#include "jx-af/jx/JXFontNameMenu.h"
-#include "jx-af/jx/JXFontSizeMenu.h"
-#include "jx-af/jx/JXTEStyleMenu.h"
-#include "jx-af/jx/JXScrollbarSet.h"
-#include "jx-af/jx/JXScrollbar.h"
+#include "JXTextEditor.h"
+#include "JXWindow.h"
+#include "JXMenuBar.h"
+#include "JXFontNameMenu.h"
+#include "JXFontSizeMenu.h"
+#include "JXTEStyleMenu.h"
+#include "JXScrollbarSet.h"
+#include "JXScrollbar.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 

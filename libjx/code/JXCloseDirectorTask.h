@@ -8,23 +8,23 @@
 #ifndef _H_JXCloseDirectorTask
 #define _H_JXCloseDirectorTask
 
-#include "jx-af/jx/JXIdleTask.h"
+#include "JXUrgentTask.h"
 
 class JXDirector;
 
-class JXCloseDirectorTask : public JXIdleTask
+class JXCloseDirectorTask : public JXUrgentTask
 {
 public:
 
 	static void	Close(JXDirector* director);
 
-	~JXCloseDirectorTask() override;
-
-	void	Perform(const Time delta, Time* maxSleepTime) override;
-
 protected:
 
 	JXCloseDirectorTask(JXDirector* director);
+
+	~JXCloseDirectorTask() override;
+
+	void	Perform() override;
 
 private:
 

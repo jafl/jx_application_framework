@@ -10,7 +10,7 @@
 #ifndef _H_JXEPSPrintSetupDialog
 #define _H_JXEPSPrintSetupDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 
 class JXEPSPrinter;
 class JXTextButton;
@@ -18,7 +18,7 @@ class JXStaticText;
 class JXTextCheckbox;
 class JXFileInput;
 
-class JXEPSPrintSetupDialog : public JXDialogDirector
+class JXEPSPrintSetupDialog : public JXModalDialogDirector
 {
 public:
 
@@ -28,7 +28,7 @@ public:
 
 	~JXEPSPrintSetupDialog() override;
 
-	bool	SetParameters(JXEPSPrinter* p) const;
+	virtual bool	SetParameters(JXEPSPrinter* p) const;
 
 	void	ChooseDestinationFile();
 

@@ -10,7 +10,7 @@
 #ifndef _H_JXTextMenu
 #define _H_JXTextMenu
 
-#include "jx-af/jx/JXMenu.h"
+#include "JXMenu.h"
 #include <jx-af/jcore/JFont.h>
 #include "jx-af/jcore/JXPM.h"
 

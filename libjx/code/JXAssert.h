@@ -12,7 +12,7 @@
 
 #include <jx-af/jcore/JAssertBase.h>
 #include <jx-af/jcore/JPtrArray.h>
-#include "jx-af/jx/JXDisplay.h"	// for Windows template compile
+#include "JXDisplay.h"	// for Windows template compile
 
 class JXApplication;
 
@@ -27,7 +27,8 @@ public:
 	~JXAssert() override;
 
 	int		Assert(const JUtf8Byte* expr, const JUtf8Byte* file,
-				   const int line, const JUtf8Byte* message) override;
+				   const int line, const JUtf8Byte* message,
+				   const JUtf8Byte* function) override;
 	void	Abort() override;
 
 	void	UnlockDisplays();

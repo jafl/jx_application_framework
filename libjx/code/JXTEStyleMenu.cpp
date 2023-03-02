@@ -10,8 +10,8 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXTEStyleMenu.h"
-#include "jx-af/jx/JXTextEditor.h"
+#include "JXTEStyleMenu.h"
+#include "JXTextEditor.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

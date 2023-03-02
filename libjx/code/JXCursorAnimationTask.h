@@ -10,7 +10,7 @@
 #ifndef _H_JXCursorAnimationTask
 #define _H_JXCursorAnimationTask
 
-#include "jx-af/jx/JXIdleTask.h"
+#include "JXIdleTask.h"
 
 class JXCursorAnimator;
 
@@ -22,7 +22,9 @@ public:
 
 	~JXCursorAnimationTask() override;
 
-	void	Perform(const Time delta, Time* maxSleepTime) override;
+protected:
+
+	void	Perform(const Time delta) override;
 
 private:
 

@@ -8,10 +8,10 @@
 #ifndef _H_JXDNDManager
 #define _H_JXDNDManager
 
-#include "jx-af/jx/JXSelectionManager.h"
-#include "jx-af/jx/JXButtonStates.h"
-#include "jx-af/jx/JXKeyModifiers.h"
-#include "jx-af/jx/JXCursor.h"
+#include "JXSelectionManager.h"
+#include "JXButtonStates.h"
+#include "JXKeyModifiers.h"
+#include "JXCursor.h"
 #include <jx-af/jcore/JRect.h>
 
 class JXDisplay;
@@ -19,7 +19,6 @@ class JXContainer;
 class JXWidget;
 class JXButtonStates;
 class JXKeyModifiers;
-class JXDNDChooseDropActionDialog;
 
 class JXDNDManager : virtual public JBroadcaster
 {
@@ -97,15 +96,15 @@ public:
 						 const JXKeyModifiers& modifiers,
 						 JXSelectionData* data,
 						 TargetFinder* targetFinder);
-	void		HandleDND(const JPoint& pt,
-						  const JXButtonStates& buttonStates,
-						  const JXKeyModifiers& modifiers,
-						  const JXMouseButton scrollButton);
-	void		FinishDND();
+	void	HandleDND(const JPoint& pt,
+					  const JXButtonStates& buttonStates,
+					  const JXKeyModifiers& modifiers,
+					  const JXMouseButton scrollButton);
+	void	FinishDND();
 
 	// called by JXWindow
 
-	void		EnableDND(const Window xWindow) const;
+	void	EnableDND(const Window xWindow) const;
 	bool	CancelDND();
 
 	// called by JXDisplay
@@ -119,7 +118,6 @@ public:
 
 protected:
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
 	void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 	void	ReceiveGoingAway(JBroadcaster* sender) override;
 
@@ -214,9 +212,6 @@ private:
 	Atom			itsPrevHandleDNDAction;
 	JXMouseButton	itsPrevHandleDNDScrollButton;
 	JXKeyModifiers	itsPrevHandleDNDModifiers;
-
-	JXDNDChooseDropActionDialog*	itsChooseDropActionDialog;
-	Atom*							itsUserDropAction;		// nullptr unless waiting for GetDropActionDialog
 
 	bool	itsSentFakePasteFlag;		// true if times are valid
 	Time	itsFakeButtonPressTime;

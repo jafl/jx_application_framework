@@ -10,7 +10,7 @@
 #ifndef _H_JArcCosine
 #define _H_JArcCosine
 
-#include "jx-af/jexpr/JUnaryFunction.h"
+#include "JUnaryFunction.h"
 
 class JArcCosine : public JUnaryFunction
 {

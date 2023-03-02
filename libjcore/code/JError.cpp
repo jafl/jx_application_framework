@@ -9,9 +9,9 @@
 		Consider the following code:
 
 		JError foo()
-	{
+		{
 			return JUnknownError();
-	}
+		}
 
 		If this looks scary to you, you understand C++.  If you understand
 		why this compiles, you grok C++.  What happens is that an object of
@@ -39,9 +39,9 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JError.h"
-#include "jx-af/jcore/jGlobals.h"
-#include "jx-af/jcore/jAssert.h"
+#include "JError.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

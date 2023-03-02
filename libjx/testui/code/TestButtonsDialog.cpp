@@ -1,7 +1,7 @@
 /******************************************************************************
 TestButtonsDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Written by John Lindal.
 
@@ -57,12 +57,9 @@ Constructor
 
 ******************************************************************************/
 
-TestButtonsDialog::TestButtonsDialog
-	(
-	JXWindowDirector* supervisor
-	)
+TestButtonsDialog::TestButtonsDialog()
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow();
 }
@@ -320,7 +317,7 @@ TestButtonsDialog::Receive
 	}
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 
@@ -332,7 +329,7 @@ OKToDeactivate (virtual protected)
 bool
 TestButtonsDialog::OKToDeactivate()
 {
-	if (!JXDialogDirector::OKToDeactivate())
+	if (!JXModalDialogDirector::OKToDeactivate())
 	{
 		return false;
 	}

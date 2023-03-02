@@ -1,13 +1,13 @@
 /******************************************************************************
  JX2DPlotScaleDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1997 by Glenn W. Bach.
 
  ******************************************************************************/
 
-#include "jx-af/j2dplot/JX2DPlotScaleDialog.h"
+#include "JX2DPlotScaleDialog.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXFloatInput.h>
@@ -15,7 +15,7 @@
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXTextRadioButton.h>
 #include <jx-af/jx/JXColorManager.h>
-#include "jx-af/j2dplot/J2DPlotWidget.h"
+#include "J2DPlotWidget.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jAssert.h>
@@ -27,7 +27,6 @@
 
 JX2DPlotScaleDialog::JX2DPlotScaleDialog
 	(
-	JXWindowDirector* supervisor,
 	const JFloat xMin,
 	const JFloat xMax,
 	const JFloat xInc,
@@ -35,10 +34,12 @@ JX2DPlotScaleDialog::JX2DPlotScaleDialog
 	const JFloat yMin,
 	const JFloat yMax,
 	const JFloat yInc,
-	const bool yLinear
+	const bool yLinear,
+	const bool editXAxis
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector(),
+	itsEditXAxisFlag(editXAxis)
 {
 	BuildWindow();
 
@@ -82,17 +83,16 @@ JX2DPlotScaleDialog::~JX2DPlotScaleDialog()
 }
 
 /******************************************************************************
- EditXAxis
+ Activate (virtual)
 
  ******************************************************************************/
 
 void
-JX2DPlotScaleDialog::EditXAxis
-	(
-	const bool xAxis
-	)
+JX2DPlotScaleDialog::Activate()
 {
-	if (!xAxis)
+	JXModalDialogDirector::Activate();
+
+	if (IsActive() && !itsEditXAxisFlag)
 	{
 		itsYMin->Focus();
 	}
@@ -277,7 +277,7 @@ JX2DPlotScaleDialog::OKToDeactivate()
 {
 JFloat value, min,max;
 
-	if (!JXDialogDirector::OKToDeactivate())
+	if (!JXModalDialogDirector::OKToDeactivate())
 	{
 		return false;
 	}
@@ -361,7 +361,7 @@ JX2DPlotScaleDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender,message);
+		JXModalDialogDirector::Receive(sender,message);
 	}
 }
 

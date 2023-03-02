@@ -10,8 +10,8 @@
 #ifndef _H_StopWatch
 #define _H_StopWatch
 
-#include "jx-af/jcore/jTypes.h"
-#include "jx-af/jcore/jTime.h"
+#include "jTypes.h"
+#include "jTime.h"
 
 class JString;
 

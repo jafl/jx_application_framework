@@ -20,10 +20,10 @@
 
  *****************************************************************************/
 
-#include "jx-af/jcore/JRange.h"
-#include "jx-af/jcore/JMinMax.h"
+#include "JRange.h"
+#include "JMinMax.h"
 #include <limits>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 template <class T>
 const T JRange<T>::min = std::numeric_limits<T>::min();
@@ -40,7 +40,7 @@ JRange<T>::JRange
 	first(0),
 	last(0)
 {
-	assert( std::numeric_limits<T>::is_integer );
+	static_assert( std::numeric_limits<T>::is_integer );
 }
 
 template <class T>
@@ -53,7 +53,7 @@ JRange<T>::JRange
 	first(firstIndex),
 	last(lastIndex)
 {
-	assert( std::numeric_limits<T>::is_integer );
+	static_assert( std::numeric_limits<T>::is_integer );
 }
 
 /******************************************************************************

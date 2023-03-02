@@ -29,12 +29,12 @@
  *****************************************************************************/
 
 //Class Header
-#include "jx-af/jcore/JMMRecord.h"
+#include "JMMRecord.h"
 
-#include "jx-af/jcore/JMemoryManager.h"
-#include "jx-af/jcore/JString.h"
+#include "JMemoryManager.h"
+#include "JString.h"
 #include <stddef.h> // For offsetof
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

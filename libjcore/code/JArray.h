@@ -10,8 +10,8 @@
 #ifndef _H_JArray
 #define _H_JArray
 
-#include "jx-af/jcore/JList.h"
-#include "jx-af/jcore/JArrayIterator.h"
+#include "JList.h"
+#include "JArrayIterator.h"
 
 template <class T>
 class JArray : public JList<T>

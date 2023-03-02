@@ -10,7 +10,7 @@
 #ifndef _H_JAssertBase
 #define _H_JAssertBase
 
-#include "jx-af/jcore/jTypes.h"
+#include "jTypes.h"
 
 class JAssertBase
 {
@@ -30,11 +30,13 @@ public:
 	virtual ~JAssertBase();
 
 	virtual int		Assert(const JUtf8Byte* expr, const JUtf8Byte* file,
-						   const int line, const JUtf8Byte* message) = 0;
+						   const int line, const JUtf8Byte* message,
+						   const JUtf8Byte* function) = 0;
 	virtual void	Abort();
 
 	static int	DefaultAssert(const JUtf8Byte* expr, const JUtf8Byte* file,
-							  const int line, const JUtf8Byte* message);
+							  const int line, const JUtf8Byte* message,
+							  const JUtf8Byte* function);
 
 	static Action	GetAction();
 	static void		SetAction(const Action action);

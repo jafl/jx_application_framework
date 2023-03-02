@@ -10,18 +10,17 @@
 
 // we include these for convenience
 
-#include "jx-af/jcore/JAssertBase.h"
-#include "jx-af/jcore/JUserNotification.h"
-#include "jx-af/jcore/JChooseSaveFile.h"
-#include "jx-af/jcore/JCreateProgressDisplay.h"
-#include "jx-af/jcore/JStringManager.h"
+#include "JAssertBase.h"
+#include "JUserNotification.h"
+#include "JCreateProgressDisplay.h"
+#include "JStringManager.h"
 
 class JFontManager;
 class JWebBrowser;
 
 void JInitCore(JAssertBase* ah = nullptr, const JUtf8Byte* appSignature = nullptr,
-			   const JUtf8Byte** defaultStringData = nullptr, JUserNotification* un = nullptr,
-			   JChooseSaveFile* csf = nullptr, JCreateProgressDisplay* cpg = nullptr);
+			   const JUtf8Byte** defaultStringData = nullptr,
+			   JUserNotification* un = nullptr, JCreateProgressDisplay* cpg = nullptr);
 void JSetWebBrowser(JWebBrowser* webBrowser);
 
 void JDeleteGlobals();
@@ -30,7 +29,6 @@ bool					JGetAssertHandler(JAssertBase** ah);
 JWebBrowser*			JGetWebBrowser();
 
 JUserNotification*		JGetUserNotification();
-JChooseSaveFile*		JGetChooseSaveFile();
 JCreateProgressDisplay*	JGetCreatePG();
 
 JStringManager*			JGetStringManager();
@@ -40,6 +38,9 @@ JString					JGetString(const JUtf8Byte* id, const JUtf8Byte* map[], const JSize 
 bool	JGetDataDirectories(const JUtf8Byte* signature, const JUtf8Byte* dirName,
 							JString* sysDir, JString* userDir);
 
+void	JSetTaskScheduler(const std::function<void(const std::function<void()>&)>& sched);
+void	JScheduleTask(const std::function<void()>& f);
+
 /******************************************************************************
  Convenience functions
 
@@ -48,7 +49,7 @@ bool	JGetDataDirectories(const JUtf8Byte* signature, const JUtf8Byte* dirName,
 inline JProgressDisplay*
 JNewPG()
 {
-	return (JGetCreatePG())->New();
+	return JGetCreatePG()->New();
 }
 
 #endif

@@ -21,9 +21,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXLinkText.h"
-#include "jx-af/jx/JXStyledText.h"
-#include "jx-af/jx/JXDisplay.h"
+#include "JXLinkText.h"
+#include "JXStyledText.h"
+#include "JXDisplay.h"
 #include <X11/cursorfont.h>
 #include <jx-af/jcore/jAssert.h>
 

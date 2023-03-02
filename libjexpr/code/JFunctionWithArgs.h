@@ -10,7 +10,7 @@
 #ifndef _H_JFunctionWithArgs
 #define _H_JFunctionWithArgs
 
-#include "jx-af/jexpr/JFunction.h"
+#include "JFunction.h"
 #include <jx-af/jcore/JString.h>
 
 class JFunctionWithArgs : public JFunction

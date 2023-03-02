@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include "jx-af/jcore/jTypes.h"
-#include "jx-af/jcore/jStreamUtil.h"
-#include "jx-af/jcore/jAssert.h"
+#include "jTypes.h"
+#include "jStreamUtil.h"
+#include "jAssert.h"
 
 const JUtf8Byte kTrueMarker  = 'T';
 const JUtf8Byte kFalseMarker = 'F';

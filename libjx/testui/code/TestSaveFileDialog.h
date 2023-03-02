@@ -9,7 +9,6 @@
 #define _H_TestSaveFileDialog
 
 #include <jx-af/jx/JXSaveFileDialog.h>
-#include "TestChooseSaveFile.h"		// need definition of SaveFormat
 
 class JXRadioGroup;
 
@@ -17,28 +16,36 @@ class TestSaveFileDialog : public JXSaveFileDialog
 {
 public:
 
+	enum SaveFormat
+	{
+		kGIFFormat = 1,		// matches ID's of radio buttons
+		kPNGFormat,
+		kJPEGFormat
+	};
+
+public:
+
 	static TestSaveFileDialog*
-		Create(JXDirector* supervisor, JDirInfo* dirInfo,
-			   const JString& fileFilter,
-			   const TestChooseSaveFile::SaveFormat saveFormat,
-			   const JString& origName, const JString& prompt,
+		Create(const SaveFormat saveFormat,
+			   const JString& prompt,
+			   const JString& startName,
+			   const JString& fileFilter = JString::empty,
 			   const JString& message = JString::empty);
 
 	~TestSaveFileDialog() override;
 
-	TestChooseSaveFile::SaveFormat	GetSaveFormat() const;
+	SaveFormat	GetSaveFormat() const;
 
 protected:
 
-	TestSaveFileDialog(JXDirector* supervisor, JDirInfo* dirInfo,
-					   const JString& fileFilter,
-					   const TestChooseSaveFile::SaveFormat saveFormat);
+	TestSaveFileDialog(const SaveFormat saveFormat,
+					   const JString& fileFilter);
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	TestChooseSaveFile::SaveFormat	itsSaveFormat;
+	SaveFormat	itsSaveFormat;
 
 // begin JXLayout
 
@@ -48,8 +55,8 @@ private:
 
 private:
 
-	void	BuildWindow(const JString& origName, const JString& prompt,
-						const JString& message);
+	void	BuildWindow(const JString& startName,
+						const JString& prompt, const JString& message);
 
 	void	HandleFormatChange(const JIndex id);
 };

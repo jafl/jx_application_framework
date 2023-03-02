@@ -1,23 +1,23 @@
 /******************************************************************************
  JXSpellCheckerDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXWindowDirector
 
 	Copyright @ 1997 by Glenn W. Bach.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXSpellCheckerDialog.h"
-#include "jx-af/jx/JXSpellChecker.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXInputField.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXSpellList.h"
-#include "jx-af/jx/JXScrollbarSet.h"
-#include "jx-af/jx/JXColorManager.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXSpellCheckerDialog.h"
+#include "JXSpellChecker.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXInputField.h"
+#include "JXStaticText.h"
+#include "JXSpellList.h"
+#include "JXScrollbarSet.h"
+#include "JXColorManager.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/JUserNotification.h>
 #include <jx-af/jcore/jAssert.h>
@@ -34,7 +34,7 @@ JXSpellCheckerDialog::JXSpellCheckerDialog
 	const JStyledText::TextRange&	range
 	)
 	:
-	JXDialogDirector(editor->GetWindow()->GetDirector(), true),
+	JXWindowDirector(editor->GetWindow()->GetDirector()),
 	itsChecker(checker),
 	itsEditor(editor),
 	itsCheckRange(range),
@@ -65,7 +65,7 @@ JXSpellCheckerDialog::~JXSpellCheckerDialog()
 void
 JXSpellCheckerDialog::Activate()
 {
-	JXDialogDirector::Activate();
+	JXWindowDirector::Activate();
 	itsEditor->TEActivate();
 }
 
@@ -84,7 +84,7 @@ JXSpellCheckerDialog::Deactivate()
 	}
 
 	itsEditor->TEDeactivate();
-	return JXDialogDirector::Deactivate();
+	return JXWindowDirector::Deactivate();
 }
 
 /******************************************************************************
@@ -105,7 +105,7 @@ JXSpellCheckerDialog::Close()
 		JGetUserNotification()->DisplayMessage(JGetString("NoErrors::JXSpellCheckerDialog"));
 	}
 
-	return JXDialogDirector::Close();		// deletes us if successful
+	return JXWindowDirector::Close();		// deletes us if successful
 }
 
 /******************************************************************************
@@ -193,7 +193,7 @@ JXSpellCheckerDialog::BuildWindow()
 	window->SetTitle(JGetString("WindowTitle::JXSpellCheckerDialog"));
 	window->LockCurrentMinSize();
 
-	SetButtons(itsCloseButton, nullptr);
+	ListenTo(itsCloseButton);
 
 	itsSuggestionWidget =
 		jnew JXSpellList(set, set->GetScrollEnclosure(),
@@ -215,8 +215,6 @@ JXSpellCheckerDialog::BuildWindow()
 
 	// place intelligently
 	// (outside left, right, bottom, top; inside top, bottom, left, right)
-
-	UseModalPlacement(false);
 
 	const JPoint& pt = itsChecker->GetWindowSize();
 	if (pt.x > 0 && pt.y > 0)
@@ -272,6 +270,7 @@ JXSpellCheckerDialog::BuildWindow()
 	y = JMax(rootBounds.top, y);
 
 	window->Place(x, y);
+	window->SetTransientFor(itsEditor->GetWindow()->GetDirector());
 }
 
 /******************************************************************************
@@ -291,14 +290,7 @@ JXSpellCheckerDialog::Check()
 			!itsEditor->GetText()->GetText().CharacterIndexValid(itsCurrentIndex.charIndex) ||
 			itsCheckRange.charRange.last < start.charIndex)
 		{
-			if (IsActive())
-			{
-				EndDialog(true);
-			}
-			else
-			{
-				Close();
-			}
+			Close();
 			return;
 		}
 		else
@@ -332,7 +324,7 @@ JXSpellCheckerDialog::Check()
 				itsSuggestionWidget->SetStringList(itsSuggestionList);
 
 				itsEditor->TEScrollToSelection(false);
-				BeginDialog();
+				Activate();
 			}
 		}
 	}
@@ -428,9 +420,14 @@ JXSpellCheckerDialog::Receive
 		Check();
 	}
 
+	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
+	{
+		Close();
+	}
+
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXWindowDirector::Receive(sender, message);
 	}
 }
 

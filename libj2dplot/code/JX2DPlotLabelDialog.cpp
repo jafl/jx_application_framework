@@ -1,13 +1,13 @@
 /******************************************************************************
  JX2DPlotLabelDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1997 by Glenn W. Bach.
 
  ******************************************************************************/
 
-#include "jx-af/j2dplot/JX2DPlotLabelDialog.h"
+#include "JX2DPlotLabelDialog.h"
 #include <jx-af/jx/JXFontNameMenu.h>
 #include <jx-af/jx/JXFontSizeMenu.h>
 #include <jx-af/jx/JXWindow.h>
@@ -24,16 +24,16 @@
 
 JX2DPlotLabelDialog::JX2DPlotLabelDialog
 	(
-	JXWindowDirector*	supervisor,
 	const JString&		title,
 	const JString&		xLabel,
 	const JString&		yLabel,
 	const JString&		font,
-	const JSize		size,
+	const JSize			size,
+
 	const J2DPlotWidget::LabelSelection selection
 	)
 	:
-	JXDialogDirector(supervisor, true),
+	JXModalDialogDirector(),
 	itsSelection(selection)
 {
 	BuildWindow();
@@ -182,7 +182,7 @@ JX2DPlotLabelDialog::GetFontSize()
 void
 JX2DPlotLabelDialog::Activate()
 {
-	JXDialogDirector::Activate();
+	JXModalDialogDirector::Activate();
 	if (itsSelection == J2DPlotWidget::kTitle)
 	{
 		itsPlotTitle->Focus();

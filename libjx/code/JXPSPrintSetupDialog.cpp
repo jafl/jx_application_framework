@@ -4,25 +4,25 @@
 	Derived classes must override BuildWindow() and call SetObjects()
 	at the end of their implementation.
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1996-99 by John Lindal.
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXPSPrintSetupDialog.h"
-#include "jx-af/jx/JXAdjustPrintSetupLayoutTask.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXStaticText.h"
-#include "jx-af/jx/JXIntegerInput.h"
-#include "jx-af/jx/JXFileInput.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXRadioGroup.h"
-#include "jx-af/jx/JXTextRadioButton.h"
-#include "jx-af/jx/JXFileNameDisplay.h"
-#include "jx-af/jx/JXChooseSaveFile.h"
-#include "jx-af/jx/jXGlobals.h"
+#include "JXPSPrintSetupDialog.h"
+#include "JXAdjustPrintSetupLayoutTask.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
+#include "JXIntegerInput.h"
+#include "JXFileInput.h"
+#include "JXTextCheckbox.h"
+#include "JXRadioGroup.h"
+#include "JXTextRadioButton.h"
+#include "JXFileNameDisplay.h"
+#include "JXCSFDialogBase.h"
+#include "jXGlobals.h"
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -51,8 +51,8 @@ JXPSPrintSetupDialog::Create
 	const JXPSPrinter::Destination	dest,
 	const JString&					printCmd,
 	const JString&					fileName,
-	const bool					collate,
-	const bool					bw
+	const bool						collate,
+	const bool						bw
 	)
 {
 	auto* dlog = jnew JXPSPrintSetupDialog;
@@ -68,7 +68,7 @@ JXPSPrintSetupDialog::Create
 
 JXPSPrintSetupDialog::JXPSPrintSetupDialog()
 	:
-	JXDialogDirector(JXGetApplication(), true)
+	JXModalDialogDirector()
 {
 }
 
@@ -92,8 +92,8 @@ JXPSPrintSetupDialog::BuildWindow
 	const JXPSPrinter::Destination	dest,
 	const JString&					printCmd,
 	const JString&					fileName,
-	const bool					collate,
-	const bool					bw
+	const bool						collate,
+	const bool						bw
 	)
 {
 // begin JXLayout
@@ -232,9 +232,9 @@ JXPSPrintSetupDialog::SetObjects
 	const JString&					fileName,
 	JXIntegerInput*					copyCount,
 	JXTextCheckbox*					collateCheckbox,
-	const bool					collate,
+	const bool						collate,
 	JXTextCheckbox*					bwCheckbox,
-	const bool					bw,
+	const bool						bw,
 	JXTextCheckbox*					printAllCheckbox,
 	JXStaticText*					firstPageIndexLabel,
 	JXIntegerInput*					firstPageIndex,
@@ -277,7 +277,7 @@ JXPSPrintSetupDialog::SetObjects
 	task->Go();
 
 	itsPrintCmd->GetText()->SetText(printCmd);
-	itsPrintCmd->GetText()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsPrintCmd->GetText()->SetCharacterInWordFunction(JXCSFDialogBase::IsCharacterInWord);
 
 	ListenTo(itsDestination);
 	ListenTo(itsChooseFileButton);
@@ -337,7 +337,7 @@ JXPSPrintSetupDialog::UpdateDisplay()
 bool
 JXPSPrintSetupDialog::OKToDeactivate()
 {
-	if (!JXDialogDirector::OKToDeactivate())
+	if (!JXModalDialogDirector::OKToDeactivate())
 	{
 		return false;
 	}
@@ -435,7 +435,7 @@ JXPSPrintSetupDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 
@@ -530,7 +530,9 @@ JXPSPrintSetupDialog::ChooseDestinationFile()
 }
 
 /******************************************************************************
- SetParameters
+ SetParameters (virtual)
+
+	Derived classes can override this to extract extra information.
 
  ******************************************************************************/
 

@@ -8,7 +8,7 @@
 #ifndef _H_jCommandLine
 #define _H_jCommandLine
 
-#include "jx-af/jcore/jTypes.h"
+#include "jTypes.h"
 
 void JWaitForReturn();
 void JInputFinished();

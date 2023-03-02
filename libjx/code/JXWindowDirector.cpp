@@ -22,10 +22,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXWindowDirector.h"
-#include "jx-af/jx/JXDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXWDManager.h"
+#include "JXWindowDirector.h"
+#include "JXDisplay.h"
+#include "JXWindow.h"
+#include "JXWDManager.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -68,18 +68,6 @@ JXWindowDirector::~JXWindowDirector()
 		}
 		jdelete itsWindow;
 	}
-}
-
-/******************************************************************************
- IsWindowDirector (virtual)
-
- ******************************************************************************/
-
-bool
-JXWindowDirector::IsWindowDirector()
-	const
-{
-	return true;
 }
 
 /******************************************************************************

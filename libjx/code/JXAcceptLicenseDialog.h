@@ -8,13 +8,13 @@
 #ifndef _H_JXAcceptLicenseDialog
 #define _H_JXAcceptLicenseDialog
 
-#include "jx-af/jx/JXDialogDirector.h"
+#include "JXModalDialogDirector.h"
 
-class JXAcceptLicenseDialog : public JXDialogDirector
+class JXAcceptLicenseDialog : public JXModalDialogDirector
 {
 public:
 
-	JXAcceptLicenseDialog(JXDirector* supervisor);
+	JXAcceptLicenseDialog();
 
 	~JXAcceptLicenseDialog() override;
 

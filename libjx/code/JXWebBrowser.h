@@ -9,9 +9,7 @@
 #define _H_JXWebBrowser
 
 #include <jx-af/jcore/JWebBrowser.h>
-#include "jx-af/jx/JXSharedPrefObject.h"
-
-class JXEditWWWPrefsDialog;
+#include "JXSharedPrefObject.h"
 
 class JXWebBrowser : public JWebBrowser, public JXSharedPrefObject
 {
@@ -29,12 +27,10 @@ public:
 protected:
 
 	void	SaveCommands() override;
-	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	JXEditWWWPrefsDialog*	itsPrefsDialog;
-	bool					itsSaveChangesFlag;		// optimization
+	bool	itsSaveChangesFlag;		// optimization
 };
 
 #endif

@@ -11,15 +11,14 @@
 // we include these for convenience
 
 #include <jx-af/jcore/jGlobals.h>
-#include "jx-af/jx/jXConstants.h"
-#include "jx-af/jx/JXApplication.h"
+#include "jXConstants.h"
+#include "JXApplication.h"
 
 class JXDocumentManager;
 class JXHelpManager;
 class JXDockManager;
 class JXMDIServer;
 class JXWebBrowser;
-class JXChooseSaveFile;
 class JXSearchTextDialog;
 class JXSpellChecker;
 class JXAssert;
@@ -27,7 +26,6 @@ class JXComposeRuleList;
 class JXSharedPrefsManager;
 
 JXApplication*			JXGetApplication();
-JXChooseSaveFile*		JXGetChooseSaveFile();
 JXAssert*				JXGetAssertHandler();
 bool					JXGetComposeRuleList(JXComposeRuleList** ruleList);
 JXSharedPrefsManager*	JXGetSharedPrefsManager();

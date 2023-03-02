@@ -11,7 +11,6 @@
 #include "PrefsDialog.h"
 #include "globals.h"
 #include <jx-af/jx/JXWindow.h>
-#include <jx-af/jx/JXChooseSaveFile.h>
 #include <jx-af/jcore/jAssert.h>
 
 const JFileVersion kCurrentPrefsFileVersion = 0;
@@ -26,14 +25,9 @@ PrefsManager::PrefsManager
 	bool* isNew
 	)
 	:
-	JXPrefsManager(kCurrentPrefsFileVersion, true),
-	itsPrefsDialog(nullptr)
+	JXPrefsManager(kCurrentPrefsFileVersion, true, kgCSFSetupID)
 {
 	*isNew = JPrefsManager::UpgradeData();
-
-	JXChooseSaveFile* csf = JXGetChooseSaveFile();
-	csf->SetPrefInfo(this, kgCSFSetupID);
-	csf->JPrefObject::ReadPrefs();
 }
 
 /******************************************************************************
@@ -100,15 +94,19 @@ PrefsManager::GetPrevVersionStr()
 void
 PrefsManager::EditPrefs()
 {
-	assert( itsPrefsDialog == nullptr );
-
 	// replace with whatever is appropriate
 	JString data;
 
-	itsPrefsDialog = jnew PrefsDialog(JXGetApplication(), data);
-	assert( itsPrefsDialog != nullptr );
-	ListenTo(itsPrefsDialog);
-	itsPrefsDialog->BeginDialog();
+	auto* dlog = jnew PrefsDialog(data);
+	assert( dlog != nullptr );
+
+	if (dlog->DoDialog())
+	{
+		// replace with whatever is appropriate
+		dlog->GetValues(&data);
+
+		// store data somehow
+	}
 }
 
 /******************************************************************************
@@ -157,39 +155,4 @@ PrefsManager::SaveWindowSize
 	data << ' ' << window->GetFrameHeight();
 
 	SetData(id, data);
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-PrefsManager::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsPrefsDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		const JXDialogDirector::Deactivated* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			// replace with whatever is appropriate
-			JString data;
-
-			itsPrefsDialog->GetValues(&data);
-
-			// store data somehow
-		}
-		itsPrefsDialog = nullptr;
-	}
-
-	else
-	{
-		JXPrefsManager::Receive(sender, message);
-	}
 }

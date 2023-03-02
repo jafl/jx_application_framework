@@ -34,7 +34,7 @@ public:
 
 	~JX2DPlotPrintEPSDialog() override;
 
-	void	GetPlotSize(JCoordinate* w, JCoordinate* h, Unit* unit);
+	bool	SetParameters(JXEPSPrinter* p) const override;
 
 protected:
 
@@ -69,6 +69,8 @@ private:
 	void	HandleUnitMenu(const JIndex index);
 	void	UpdateSize(const Unit origUnit, const Unit newUnit,
 					   JXFloatInput* input);
+
+	void	GetSize(JCoordinate* w, JCoordinate* h) const;
 };
 
 std::istream& operator>>(std::istream& input, JX2DPlotPrintEPSDialog::Unit& u);

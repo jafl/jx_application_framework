@@ -8,7 +8,7 @@
 #ifndef _H_JArrayIterator
 #define _H_JArrayIterator
 
-#include "jx-af/jcore/JListIterator.h"
+#include "JListIterator.h"
 
 // must forward declare to avoid #include loop
 // (We do it here so JArray includes JArrayIterator for convenience.)

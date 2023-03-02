@@ -10,7 +10,7 @@
 #ifndef _H_JSine
 #define _H_JSine
 
-#include "jx-af/jexpr/JUnaryFunction.h"
+#include "JUnaryFunction.h"
 
 class JSine : public JUnaryFunction
 {

@@ -10,19 +10,20 @@
 #ifndef _H_JXCSFSelectPrevDirTask
 #define _H_JXCSFSelectPrevDirTask
 
-#include "jx-af/jx/JXUrgentTask.h"
-#include <jx-af/jcore/JBroadcaster.h>
+#include "JXUrgentTask.h"
 #include <jx-af/jcore/JString.h>
 
 class JDirInfo;
 class JXDirTable;
 
-class JXCSFSelectPrevDirTask : public JXUrgentTask, virtual public JBroadcaster
+class JXCSFSelectPrevDirTask : public JXUrgentTask
 {
 public:
 
 	JXCSFSelectPrevDirTask(JDirInfo* dirInfo, JXDirTable* dirTable,
 						   const JString& dirName);
+
+protected:
 
 	~JXCSFSelectPrevDirTask() override;
 

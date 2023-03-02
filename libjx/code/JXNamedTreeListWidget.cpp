@@ -23,10 +23,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXNamedTreeListWidget.h"
-#include "jx-af/jx/JXInputField.h"
-#include "jx-af/jx/JXFontManager.h"
-#include "jx-af/jx/JXImage.h"
+#include "JXNamedTreeListWidget.h"
+#include "JXInputField.h"
+#include "JXFontManager.h"
+#include "JXImage.h"
 #include <jx-af/jcore/JNamedTreeList.h>
 #include <jx-af/jcore/JNamedTreeNode.h>
 #include <jx-af/jcore/JPainter.h>
@@ -146,7 +146,7 @@ JXNamedTreeListWidget::TLWDrawNode
 			HilightIfSelected(p, cell, textRect);
 		}
 
-		p.String(textRect, text, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+		p.String(textRect, text, JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 	}
 }
 

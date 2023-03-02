@@ -10,10 +10,10 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXSearchTextDecorTask.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextCheckbox.h"
-#include "jx-af/jx/JXDownRect.h"
+#include "JXSearchTextDecorTask.h"
+#include "JXWindow.h"
+#include "JXTextCheckbox.h"
+#include "JXDownRect.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -28,15 +28,15 @@ JXSearchTextDecorTask::JXSearchTextDecorTask
 	JXTextCheckbox*	retainFocusCB
 	)
 	:
+	JXUrgentTask(window),
 	itsWindow(window),
 	itsStayOpenCB(stayOpenCB),
 	itsRetainFocusCB(retainFocusCB)
 {
-	ClearWhenGoingAway(itsWindow, &itsWindow);
 }
 
 /******************************************************************************
- Destructor
+ Destructor (protected)
 
  ******************************************************************************/
 
@@ -45,18 +45,13 @@ JXSearchTextDecorTask::~JXSearchTextDecorTask()
 }
 
 /******************************************************************************
- Perform
+ Perform (virtual protected)
 
  ******************************************************************************/
 
 void
 JXSearchTextDecorTask::Perform()
 {
-	if (itsWindow == nullptr)
-	{
-		return;
-	}
-
 	const JRect soFrame = itsStayOpenCB->GetFrameGlobal();
 	const JRect rfFrame = itsRetainFocusCB->GetFrameGlobal();
 

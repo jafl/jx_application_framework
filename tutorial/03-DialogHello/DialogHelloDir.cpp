@@ -40,9 +40,6 @@ DialogHelloDir::DialogHelloDir
 	JXWindowDirector(supervisor)
 {
 	BuildWindow();
-
-	// We create the dialog when we need it.
-	itsDialog = nullptr;
 }
 
 /******************************************************************************
@@ -124,25 +121,6 @@ DialogHelloDir::Receive
 		HandleTextMenu(selection->GetIndex());
 	}
 
-	// Check if the sender is our dialog and that it's been diactivated.
-	else if (sender == itsDialog && message.Is(JXDialogDirector::kDeactivated))
-	{
-		// Cast the sender so we can access its functions.
-		const JXDialogDirector::Deactivated* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-
-		// If the user pressed the cancel button, this will fail.
-		if (info->Successful())
-		{
-			// Get the next text from the dialog.
-			GetNewTextFromDialog();
-		}
-
-		// The dialog is deleted (not by us) after it broadcasts this message.
-		itsDialog = nullptr;
-	}
-
 	// If we don't handle the message, we need to pass it to the base class
 	else
 	{
@@ -166,9 +144,16 @@ DialogHelloDir::HandleTextMenu
 	// Respond to the different menu items.
 	if (index == kChangeText)
 	{
-		// Create and activate the input dialog.
+		// Create the dialog with text from our static text object.
+		auto* dlog = jnew DHStringInputDialog(itsText->GetText()->GetText());
+		assert ( dlog != nullptr );
 
-		SetupInputDialog();
+		// Activate the dialog.
+		if (dlog->DoDialog())
+		{
+			// Get the text from the dialog and pass it to the static text object.
+			itsText->GetText()->SetText(dlog->GetString());
+		}
 	}
 
 	else if (index == kQuit)
@@ -178,51 +163,4 @@ DialogHelloDir::HandleTextMenu
 
 		JXGetApplication()->Quit();
 	}
-}
-
-/******************************************************************************
- SetupInputDialog
-
-	Create and activate the input dialog.
-
-	Dialog windows notify you that they have been dismissed by
-	broadcasting the message JXDialogDirector::kDeactivated.
-	Thus, all we have to do is create it, activate it, and listen
-	to it.
-
- ******************************************************************************/
-
-void
-DialogHelloDir::SetupInputDialog()
-{
-	// Make sure the dialog hasn't already been created.
-	assert ( itsDialog == nullptr );
-
-	// Create the dialog with text from our static text object.
-	itsDialog = jnew DHStringInputDialog(this, itsText->GetText()->GetText());
-	assert ( itsDialog != nullptr );
-
-	// We need to listen for the dialog's deactivation message.
-	ListenTo(itsDialog);
-
-	// Activate the dialog.
-	itsDialog->BeginDialog();
-}
-
-/******************************************************************************
- GetNewTextFromDialog
-
-	Pull the new text out of the dialog.
-
- ******************************************************************************/
-
-void
-DialogHelloDir::GetNewTextFromDialog()
-{
-	// The dialog must have been created if we're calling this.
-	assert ( itsDialog != nullptr );
-
-	// Get the text from the dialog and pass it to the static text object.
-	const JString str = itsDialog->GetString();
-	itsText->GetText()->SetText(str);
 }

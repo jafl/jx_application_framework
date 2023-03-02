@@ -8,11 +8,11 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXVarLenPGDirector.h"
-#include "jx-af/jx/JXProgressDisplay.h"
-#include "jx-af/jx/JXWindow.h"
-#include "jx-af/jx/JXTextButton.h"
-#include "jx-af/jx/JXStaticText.h"
+#include "JXVarLenPGDirector.h"
+#include "JXProgressDisplay.h"
+#include "JXWindow.h"
+#include "JXTextButton.h"
+#include "JXStaticText.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -23,13 +23,13 @@
 
 JXVarLenPGDirector::JXVarLenPGDirector
 	(
-	JXDirector*			supervisor,
 	JXProgressDisplay*	pg,
 	const JString&		message,
-	const bool		allowCancel
+	const bool			allowCancel,
+	const bool			modal
 	)
 	:
-	JXPGDirectorBase(supervisor)
+	JXPGDirectorBase(modal)
 {
 	BuildWindow(pg, message, allowCancel);
 }
@@ -53,7 +53,7 @@ JXVarLenPGDirector::BuildWindow
 	(
 	JXProgressDisplay*	pg,
 	const JString&		message,
-	const bool		allowCancel
+	const bool			allowCancel
 	)
 {
 // begin JXLayout

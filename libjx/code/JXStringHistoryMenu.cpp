@@ -13,7 +13,7 @@
 
  ******************************************************************************/
 
-#include "jx-af/jx/JXStringHistoryMenu.h"
+#include "JXStringHistoryMenu.h"
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 

@@ -78,11 +78,10 @@ AnimateHelpMenuTask::~AnimateHelpMenuTask()
 void
 AnimateHelpMenuTask::Perform
 	(
-	const Time	delta,
-	Time*		maxSleepTime
+	const Time delta
 	)
 {
-	if (TimeToPerform(delta, maxSleepTime))
+	if (itsMenu->IsOpen())
 	{
 		itsCurrentImage++;
 		if (itsCurrentImage > kHelpIconCount)
@@ -90,11 +89,9 @@ AnimateHelpMenuTask::Perform
 			itsCurrentImage = 1;
 		}
 
-		itsMenu->SetItemImage(itsMenuItem, itsImageList->GetElement(itsCurrentImage),
-							  false);
+		itsMenu->SetItemImage(itsMenuItem, itsImageList->GetElement(itsCurrentImage), false);
 	}
-
-	if (!itsMenu->IsOpen())
+	else
 	{
 		Stop();
 	}
