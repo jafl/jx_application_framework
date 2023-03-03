@@ -9,7 +9,7 @@
 
 #include "jTime.h"
 #include "jMath.h"
-#include <unistd.h>
+#include <time.h>
 #include "jAssert.h"
 
 /******************************************************************************
@@ -19,19 +19,38 @@
 
  ******************************************************************************/
 
+inline void
+jWait
+	(
+	const long nsec
+	)
+{
+	timespec requested, remainder;
+	requested.tv_sec  = 0;
+	requested.tv_nsec = nsec;
+
+	while (1)
+	{
+		const int result = nanosleep(&requested, &remainder);
+		if (result == 0)
+		{
+			break;
+		}
+		requested = remainder;
+	}
+}
+
 void
 JWait
 	(
 	const double delta
 	)
 {
-	// some systems don't want the argument of usleep() to exceed 1 second
-
 	double remaining = delta;
 	while (remaining > 0.5)
 	{
-		usleep(500000UL);					// 0.5 seconds
+		jWait(500000000L);	// 0.5 seconds
 		remaining -= 0.5;
 	}
-	usleep((unsigned long) JRound(remaining * 1000000));	// remainder
+	jWait(JRound(remaining * 1000000000));	// remainder
 }

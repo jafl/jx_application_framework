@@ -1747,7 +1747,7 @@ J2DPlotWidget::AdjustGeometry
 
 	JSize maxLabelWidth = 0;
 
-	const JSize count = itsCurves->GetElementCount();
+	JSize count = itsCurves->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 	{
 		J2DCurveInfo info = itsCurveInfo->GetElement(i);
@@ -1796,7 +1796,7 @@ J2DPlotWidget::AdjustGeometry
 
 		strWidth = 0;
 		JString str;
-		JSize count = major.GetElementCount();
+		count = major.GetElementCount();
 		for (JSize i = 1; i <= count; i++)
 		{
 			str = GetLogAxisString(major.GetElement(i));

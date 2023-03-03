@@ -39,7 +39,8 @@ JConvertToTimeStamp
 	const time_t t
 	)
 {
-	JString timeStamp(ctime(&t));
+	char buf[256];
+	JString timeStamp(ctime_r(&t, buf));
 	timeStamp.TrimWhitespace();
 	return timeStamp;
 }

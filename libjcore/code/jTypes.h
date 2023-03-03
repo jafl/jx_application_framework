@@ -199,8 +199,8 @@ JBoolFromString
 static_assert(sizeof(unsigned long) == 4 || sizeof(unsigned int) == 4,
 			  "unable to find a 4 byte unsigned integer type");
 
-using JUInt32 = std::conditional<sizeof(unsigned long) == 4, unsigned long, unsigned int>::type;
-using JInt32  = std::conditional<sizeof(  signed long) == 4,   signed long,   signed int>::type;
+using JUInt32 = std::conditional_t<sizeof(unsigned long) == 4, unsigned long, unsigned int>;
+using JInt32  = std::conditional_t<sizeof(  signed long) == 4,   signed long,   signed int>;
 
 const JUInt32 kJUInt32Min = 0;
 const JUInt32 kJUInt32Max = sizeof(unsigned long) == 4 ? JUInt32(ULONG_MAX) : UINT_MAX;
@@ -211,8 +211,8 @@ const JInt32 kJInt32Max = sizeof(signed long) == 4 ? JInt32(LONG_MAX) : INT_MAX;
 static_assert(sizeof(unsigned long long) == 8 || sizeof(unsigned long) == 8,
 			  "unable to find a 8 byte unsigned integer type");
 
-using JUInt64 = std::conditional<sizeof(unsigned long long) == 8, unsigned long long, unsigned long>::type;
-using JInt64  = std::conditional<sizeof(  signed long long) == 8,   signed long long,   signed long>::type;
+using JUInt64 = std::conditional_t<sizeof(unsigned long long) == 8, unsigned long long, unsigned long>;
+using JInt64  = std::conditional_t<sizeof(  signed long long) == 8,   signed long long,   signed long>;
 
 const JUInt64 kJUInt64Min = 0;
 const JUInt64 kJUInt64Max = sizeof(unsigned long long) == 8 ? JUInt64(ULLONG_MAX) : ULONG_MAX;

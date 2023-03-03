@@ -105,16 +105,14 @@ struct FontSizeConversion
 
 static const FontSizeConversion kFontSizeTable[] =
 {
-{"FL_DEFAULT_SIZE", "JFontManager::GetDefaultFontSize()-2"},
-{"FL_TINY_SIZE",    "JFontManager::GetDefaultFontSize()-4"},
-{"FL_SMALL_SIZE",   "JFontManager::GetDefaultFontSize()-2"},
-{"FL_NORMAL_SIZE",  "JFontManager::GetDefaultFontSize()"},
-{"FL_MEDIUM_SIZE",  "JFontManager::GetDefaultFontSize()+2"},
-{"FL_LARGE_SIZE",   "JFontManager::GetDefaultFontSize()+4"},
-{"FL_HUGE_SIZE",    "JFontManager::GetDefaultFontSize()+8"}
+	{"FL_DEFAULT_SIZE", "JFontManager::GetDefaultFontSize()-2"},
+	{"FL_TINY_SIZE",    "JFontManager::GetDefaultFontSize()-4"},
+	{"FL_SMALL_SIZE",   "JFontManager::GetDefaultFontSize()-2"},
+	{"FL_NORMAL_SIZE",  "JFontManager::GetDefaultFontSize()"},
+	{"FL_MEDIUM_SIZE",  "JFontManager::GetDefaultFontSize()+2"},
+	{"FL_LARGE_SIZE",   "JFontManager::GetDefaultFontSize()+4"},
+	{"FL_HUGE_SIZE",    "JFontManager::GetDefaultFontSize()+8"}
 };
-
-const JSize kFontSizeTableSize = sizeof(kFontSizeTable)/sizeof(FontSizeConversion);
 
 // color conversion
 
@@ -126,26 +124,24 @@ struct ColorConversion
 
 static const ColorConversion kColorTable[] =
 {
-{"FL_BLACK",        "JColorManager::GetBlackColor()"},
-{"FL_RED",          "JColorManager::GetRedColor()"},
-{"FL_GREEN",        "JColorManager::GetGreenColor()"},
-{"FL_YELLOW",       "JColorManager::GetYellowColor()"},
-{"FL_BLUE",         "JColorManager::GetBlueColor()"},
-{"FL_MAGENTA",      "JColorManager::GetMagentaColor()"},
-{"FL_CYAN",         "JColorManager::GetCyanColor()"},
-{"FL_WHITE",        "JColorManager::GetWhiteColor()"},
-{"FL_LCOL",         "JColorManager::GetBlackColor()"},
-{"FL_COL1",         "JColorManager::GetDefaultBackColor()"},
-{"FL_MCOL",         "JColorManager::GetDefaultFocusColor()"},
-{"FL_RIGHT_BCOL",   "JColorManager::Get3DShadeColor()"},
-{"FL_BOTTOM_BCOL",  "JColorManager::Get3DShadeColor()"},
-{"FL_TOP_BCOL",     "JColorManager::Get3DLightColor()"},
-{"FL_LEFT_BCOL",    "JColorManager::Get3DLightColor()"},
-{"FL_INACTIVE",     "JColorManager::GetInactiveLabelColor()"},
-{"FL_INACTIVE_COL", "JColorManager::GetInactiveLabelColor()"}
+	{"FL_BLACK",        "JColorManager::GetBlackColor()"},
+	{"FL_RED",          "JColorManager::GetRedColor()"},
+	{"FL_GREEN",        "JColorManager::GetGreenColor()"},
+	{"FL_YELLOW",       "JColorManager::GetYellowColor()"},
+	{"FL_BLUE",         "JColorManager::GetBlueColor()"},
+	{"FL_MAGENTA",      "JColorManager::GetMagentaColor()"},
+	{"FL_CYAN",         "JColorManager::GetCyanColor()"},
+	{"FL_WHITE",        "JColorManager::GetWhiteColor()"},
+	{"FL_LCOL",         "JColorManager::GetBlackColor()"},
+	{"FL_COL1",         "JColorManager::GetDefaultBackColor()"},
+	{"FL_MCOL",         "JColorManager::GetDefaultFocusColor()"},
+	{"FL_RIGHT_BCOL",   "JColorManager::Get3DShadeColor()"},
+	{"FL_BOTTOM_BCOL",  "JColorManager::Get3DShadeColor()"},
+	{"FL_TOP_BCOL",     "JColorManager::Get3DLightColor()"},
+	{"FL_LEFT_BCOL",    "JColorManager::Get3DLightColor()"},
+	{"FL_INACTIVE",     "JColorManager::GetInactiveLabelColor()"},
+	{"FL_INACTIVE_COL", "JColorManager::GetInactiveLabelColor()"}
 };
-
-const JSize kColorTableSize = sizeof(kColorTable)/sizeof(ColorConversion);
 
 // Prototypes
 
@@ -1305,7 +1301,6 @@ ApplyOptions
 			}
 			else
 			{
-				JIndex i;
 				bool supported;
 
 				// shortcuts
@@ -1344,7 +1339,7 @@ ApplyOptions
 
 				// colors
 
-				for (i=2; i<=kOptionCount; i++)
+				for (JIndex i=2; i<=kOptionCount; i++)
 				{
 					optionMap >> std::ws >> JBoolFromString(supported);
 					if (supported)
@@ -1580,11 +1575,11 @@ ConvertXFormsFontSize
 	JString*		jxSize
 	)
 {
-	for (JUnsignedOffset i=0; i<kFontSizeTableSize; i++)
+	for (const auto& f : kFontSizeTable)
 	{
-		if (kFontSizeTable[i].flSize == flSize)
+		if (f.flSize == flSize)
 		{
-			*jxSize = kFontSizeTable[i].jxSize;
+			*jxSize = f.jxSize;
 			return true;
 		}
 	}
@@ -1604,11 +1599,11 @@ ConvertXFormsColor
 	JString*		jxColor
 	)
 {
-	for (JUnsignedOffset i=0; i<kColorTableSize; i++)
+	for (const auto& c : kColorTable)
 	{
-		if (kColorTable[i].flColor == flColor)
+		if (c.flColor == flColor)
 		{
-			*jxColor = kColorTable[i].jxColor;
+			*jxColor = c.jxColor;
 			return true;
 		}
 	}
