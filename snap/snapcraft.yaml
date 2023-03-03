@@ -56,6 +56,7 @@ parts:
       - libicu-dev
       - libpcre3-dev
       - libxml2-dev
+      - libboost-fiber-dev
       - xutils-dev
       - libdrm-dev
       - aspell
