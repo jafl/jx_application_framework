@@ -18,7 +18,6 @@ medic
 
 
 test on linux:
-	file chooser
 	launch medic from jcc when no terminal is open
 
 jx_project_wizard
