@@ -29,7 +29,7 @@ jWait
 	requested.tv_sec  = 0;
 	requested.tv_nsec = nsec;
 
-	while (1)
+	while (true)
 	{
 		const int result = nanosleep(&requested, &remainder);
 		if (result == 0)

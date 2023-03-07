@@ -22,6 +22,8 @@ jcc
 		dd doesn't work on last line of file
 		Ndd doesn't include last line of file even if it should be included
 
+	hangs on html clean indentation script run on entire file: help.html
+
 Fedora 27 window manager
 	JXWindow does not analyze correctly
 

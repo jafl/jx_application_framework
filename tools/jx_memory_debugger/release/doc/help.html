@@ -16,11 +16,11 @@
 <h2>Table of Contents</h2>
 
 <ul>
-	<li><a href="#MDOverviewHelp">Overview</a></li>
+	<li><a href="#OverviewHelp">Overview</a></li>
 
-	<li><a href="#MDMainHelp">Live/Exit Stats</a></li>
+	<li><a href="#MainHelp">Live/Exit Stats</a></li>
 
-	<li><a href="#MDRecordHelp">Query Results / Leftovers</a></li>
+	<li><a href="#RecordHelp">Query Results / Leftovers</a></li>
 
 	<li><a href="ChangeLog.html">Changes from previous versions</a></li>
 
@@ -31,17 +31,17 @@
 
 
 <hr>
-<h2><a name="MDOverviewHelp">Overview of JX Memory Debugger</a></h2>
+<h2><a name="OverviewHelp">Overview of JX Memory Debugger</a></h2>
 
 <p>This program helps analyze the memory usage of programs built on top of the <a href="https://github.com/jafl/jx_application_framework">JX Application Framework</a>.  It only displays memory allocated via <code>jnew</code> by your code or by JX.  It cannot display memory allocated via <code>malloc()</code> or by other libraries like ACE or PCRE.</p>
 
-<p>Statistics are displayed in the <a href="#MDMainHelp">Live Stats window</a>.</p>
+<p>Statistics are displayed in the <a href="#MainHelp">Live Stats window</a>.</p>
 
-<p>Detailed information can be displayed by opening a <a href="#MDRecordHelp">Query Results window</a>.</p>
+<p>Detailed information can be displayed by opening a <a href="#RecordHelp">Query Results window</a>.</p>
 
 
 <hr>
-<h2><a name="MDMainHelp">Live/Exit Stats</a></h2>
+<h2><a name="MainHelp">Live/Exit Stats</a></h2>
 
 <p>This window displays live statistics of the program's memory usage while the program is running.  After the program exits, the window displays the leftovers: the blocks that were allocated but not deallocated.<p/>
 
@@ -53,9 +53,9 @@
 
 
 <hr>
-<h2><a name="MDRecordHelp">Query Results / Leftovers</a></h2>
+<h2><a name="RecordHelp">Query Results / Leftovers</a></h2>
 
-<p>When you select "Get allocated records" from the File menu in the <a href="#MDMainHelp">Live Stats window</a>, you can set the filter criteria for which records will be returned.  You can enter a file name to restrict the results to everything allocated in a single source file.  You can also enter a minimum allocation size.  The matching records (at the time of the query) are displayed in a Query Results window.  When the program exits, a Leftovers window opens automatically to show the blocks that were never deallocated.</p>
+<p>When you select "Get allocated records" from the File menu in the <a href="#MainHelp">Live Stats window</a>, you can set the filter criteria for which records will be returned.  You can enter a file name to restrict the results to everything allocated in a single source file.  You can also enter a minimum allocation size.  The matching records (at the time of the query) are displayed in a Query Results window.  When the program exits, a Leftovers window opens automatically to show the blocks that were never deallocated.</p>
 
 <p>The first column indicates if there is an error in the allocation.  The next two columns display the file name and line number.  The size of the block is in column four.  If the block was allocated via <code>jnew[]</code>, column five displays <code>[]</code>.  The last column displays the data, rendered as a string.  This is useless for binary data, but very useful for string data.</p>
 

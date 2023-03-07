@@ -174,9 +174,9 @@ JTextEditor::JTextEditor
 	(
 	const Type			type,
 	JStyledText*		text,
-	const bool		ownsText,
+	const bool			ownsText,
 	JFontManager*		fontManager,
-	const bool		breakCROnly,
+	const bool			breakCROnly,
 	const JColorID		caretColor,
 	const JColorID		selectionColor,
 	const JColorID		outlineColor,

@@ -11,6 +11,9 @@ You should have received a copy of the GNU General Public License along with thi
 
 https://github.com/jafl/jx_application_framework"
 
+HELP_URL		"https://libjx.sourceforge.net/jx_project_wizard/help.html"
+CHANGE_LOG_URL	"https://libjx.sourceforge.net/jx_project_wizard/ChangeLog.html"
+
 # globals
 
 Description::globals

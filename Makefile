@@ -17,6 +17,8 @@ release:
 .PHONY : update_docs
 update_docs:
 	@scp -r doc/html/* jafl,libjx@web.sourceforge.net:htdocs/;
+	@scp -r tools/jx_memory_debugger/release/doc/* jafl,libjx@web.sourceforge.net:htdocs/jx_memory_debugger/;
+	@scp -r tools/jx_project_wizard/release/doc/* jafl,libjx@web.sourceforge.net:htdocs/jx_project_wizard/;
 
 .PHONY : coverage
 coverage:

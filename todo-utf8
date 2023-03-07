@@ -1,18 +1,10 @@
 save file dialog
 	instructions wrap too close to path input
 
+jcc: Search: load file set:
+	if window state > min, does not correctly size radio group at bottom
+	JXCSFDialogBase::RestoreState calls window->ExpandToFitContent();
 
-
-
-
-
-check all uses of JXDeleteObjectTask
-	unsafe to perform while modal dialog is open?
-
-always forget object after JXDeleteObjectTask, JXCloseDirectorTask
-
-medic
-	test uses of JXCloseDirectorTask
 
 
 
@@ -21,11 +13,9 @@ test on linux:
 	launch medic from jcc when no terminal is open
 
 jx_project_wizard
-	online help: upload & set keys in strings file
+	online help: write & upload
 
 
-
-test all changed code
 
 
 medic: test with gdb
@@ -33,11 +23,6 @@ medic: test with gdb
 	init args from .gdbinit
 
 	when kill program, doesn't clear current source line marker
-
-jcc
-	don't scroll for undo if it is already visible
-	html-auto-close not run when typing at very end of file (no trailing newline)
-	hangs on xml script run on entire file (Bahamas.html)
 
 
 
