@@ -48,6 +48,7 @@ private:
 	JXButton*	itsOKButton;
 	JXButton*	itsCancelButton;
 
+	boost::fibers::context*				itsExecutionContext;
 	boost::fibers::condition_variable	itsCondition;
 	boost::fibers::mutex				itsMutex;
 	bool								itsDoneFlag;

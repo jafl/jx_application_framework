@@ -60,6 +60,7 @@ JXModalDialogDirector::JXModalDialogDirector
 	itsCancelFlag(false),
 	itsOKButton(nullptr),
 	itsCancelButton(nullptr),
+	itsExecutionContext(nullptr),
 	itsDoneFlag(false),
 	itsDeletedFlag(nullptr)
 {
@@ -125,6 +126,7 @@ bool
 JXModalDialogDirector::DoDialog()
 {
 	assert( JXApplication::IsWorkerFiber() );
+	itsExecutionContext = boost::fibers::context::active();
 
 	Activate();
 
@@ -181,10 +183,7 @@ JXModalDialogDirector::Activate()
 		{
 			window->LockCurrentSize();
 		}
-		else
-		{
-			window->LockCurrentMinSize();
-		}
+		// else, assume app locks appropriate min size and then restores from saved state
 
 		JXWindowDirector::Activate();
 		if (IsActive())
@@ -232,7 +231,10 @@ JXModalDialogDirector::Deactivate()
 		lock.unlock();
 
 		itsCondition.notify_one();
-		boost::this_fiber::yield();
+
+		assert( itsExecutionContext != nullptr );
+		itsExecutionContext->join();	// wait until "done" processing finishes
+		itsExecutionContext = nullptr;
 
 		if (!deleted)
 		{
