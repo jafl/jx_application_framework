@@ -36,7 +36,7 @@ public:
 
 	void	ScrollToNode(const JTreeNode* node);
 	void	ScrollToShowChildren(const JIndex index);
-	void	GetSelectedNodes(JPtrArray<JTreeNode>* list);
+	void	GetSelectedNodes(JPtrArray<JTreeNode>* list) const;
 	void	SelectNodes(const JPtrArray<JTreeNode>& list);
 	void	OpenSelectedNodes(const bool openSiblings = false,
 							  const bool openDescendants = false);
@@ -53,10 +53,10 @@ public:
 	JSize	GetMaxOpenDepth() const;
 	void	SetMaxOpenDepth(const JSize maxDepth);
 
-	void		HandleKeyPress(const JUtf8Character& c, const int keySym,
-									   const JXKeyModifiers& modifiers) override;
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+						   const JXKeyModifiers& modifiers) override;
 	bool	IsSelectable(const JPoint& cell,
-									 const bool forExtend) const override;
+						 const bool forExtend) const override;
 	bool	IsEditable(const JPoint& cell) const override;
 
 	void	ForceAdjustToTree();
@@ -73,8 +73,8 @@ protected:
 	virtual void	AdjustToTree();
 	virtual JSize	GetMinCellWidth(const JPoint& cell) const = 0;
 
-	bool		WantsToDrawCell(const JPoint& cell) const;
-	void		TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	bool			WantsToDrawCell(const JPoint& cell) const;
+	void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	virtual void	TLWDrawNode(JPainter& p, const JPoint& cell, const JRect& rect) = 0;
 
 	bool	IsDraggingToggle() const;
@@ -135,7 +135,7 @@ public:
 	static const JUtf8Byte* kNodeDblClicked;
 
 	class NodeDblClicked : public JBroadcaster::Message
-		{
+	{
 		public:
 
 			NodeDblClicked(const JTreeNode* node, const JPoint& cell)
@@ -173,7 +173,7 @@ public:
 
 			const JTreeNode*	itsNode;
 			JPoint				itsCell;
-		};
+	};
 };
 
 

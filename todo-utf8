@@ -9,9 +9,6 @@ jcc: Search: load file set:
 
 
 
-test on linux:
-	launch medic from jcc when no terminal is open
-
 jx_project_wizard
 	online help: write & upload
 

@@ -925,7 +925,7 @@ JGetHomeDirectory
 	JUtf8Byte* envHomeDir = getenv("HOME");
 	if (!JString::IsEmpty(envHomeDir))
 	{
-		const JString dir = JString(envHomeDir, JString::kNoCopy);
+		const JString dir(envHomeDir, JString::kNoCopy);
 		if (JDirectoryExists(dir))
 		{
 			*homeDir = dir;
@@ -950,7 +950,7 @@ JGetHomeDirectory
 
 	if (pw != nullptr)
 	{
-		const JString dir = JString(pw->pw_dir, JString::kNoCopy);
+		const JString dir(pw->pw_dir, JString::kNoCopy);
 		if (JDirectoryExists(dir))
 		{
 			*homeDir = dir;
@@ -982,7 +982,7 @@ JGetHomeDirectory
 	struct passwd* pw = getpwnam(user.GetBytes());
 	if (pw != nullptr)
 	{
-		const JString dir = JString(pw->pw_dir, JString::kNoCopy);
+		const JString dir(pw->pw_dir, JString::kNoCopy);
 		if (JDirectoryExists(dir))
 		{
 			*homeDir = dir;

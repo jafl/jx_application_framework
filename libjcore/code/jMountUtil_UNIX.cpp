@@ -435,9 +435,9 @@ JGetUserMountPointList
 			fsType = kVFATType;
 		}
 
-		JString* path = jnew JString(info->mnt_dir);
+		auto* path = jnew JString(info->mnt_dir);
 		assert( path != nullptr );
-		JString* devicePath = jnew JString(info->mnt_fsname);
+		auto* devicePath = jnew JString(info->mnt_fsname);
 		assert( devicePath != nullptr );
 		list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 	}

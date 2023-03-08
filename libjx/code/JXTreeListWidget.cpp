@@ -182,6 +182,7 @@ JXTreeListWidget::GetSelectedNodes
 	(
 	JPtrArray<JTreeNode>* list
 	)
+	const
 {
 	JTableSelectionIterator iter(&(GetTableSelection()));
 
