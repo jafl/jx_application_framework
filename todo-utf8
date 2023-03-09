@@ -1,13 +1,3 @@
-save file dialog
-	instructions wrap too close to path input
-
-jcc: Search: load file set:
-	if window state > min, does not correctly size radio group at bottom
-	JXCSFDialogBase::RestoreState calls window->ExpandToFitContent();
-
-
-
-
 medic: test with gdb
 	analyze core
 	init args from .gdbinit

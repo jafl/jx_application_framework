@@ -444,7 +444,7 @@ JXCSFDialogBase::DisplayMessage
 			dh = bdh - aph;
 		}
 
-		window->AdjustSize(dw, dh + kMessageMargin);
+		window->AdjustSize(dw, dh + 2*kMessageMargin);
 		messageObj->AdjustSize(0, dh);
 	}
 
