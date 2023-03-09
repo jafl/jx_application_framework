@@ -1,3 +1,27 @@
+jcc:
+	CBTree::SelectImplementors
+	CBTreeDirector::ViewFunctionList
+	CBTreeWidget::FindFunction
+	CBTreeWidget::HandleMouseDrag
+
+	CBSymbolList needs to store
+		access: check "access" flag (public, private, protected, java-default)
+		implemented: check "implementation" flag
+		enum FnAccessLevel
+		{
+			kPublicAccess = 0,
+			kProtectedAccess,
+			kPrivateAccess,
+			kJavaDefaultAccess
+		}
+	replace CBFnListDirector with CBSymbolSRDirector
+		color protected, private, java-default
+	inheritance tree:
+		show list of functions returned by CBSymbolList
+			based on file and class name and possibly partially qualified name (java)
+
+-----
+
 medic: test with gdb
 	analyze core
 	init args from .gdbinit
@@ -24,33 +48,8 @@ unit test
 
 -----
 
-jcc:
-	CBTree::SelectImplementors
-	CBTreeDirector::ViewFunctionList
-	CBTreeWidget::FindFunction
-	CBTreeWidget::HandleMouseDrag
-
-	CBSymbolList needs to store
-		access: check "access" flag (public, private, protected, java-default)
-		implemented: check "implementation" flag
-		enum FnAccessLevel
-		{
-			kPublicAccess = 0,
-			kProtectedAccess,
-			kPrivateAccess,
-			kJavaDefaultAccess
-		}
-	replace CBFnListDirector with CBSymbolSRDirector
-		color protected, private, java-default
-	inheritance tree:
-		show list of functions returned by CBSymbolList
-			based on file and class name and possibly partially qualified name (java)
-
-
-
 JStyledText
 	CleanRightMargin
-
 
 jcc
 	JXDocumentMenu - show partial paths for repeated file names
