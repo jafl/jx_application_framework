@@ -8,13 +8,6 @@ jcc: Search: load file set:
 
 
 
-
-jx_project_wizard
-	online help: write & upload
-
-
-
-
 medic: test with gdb
 	analyze core
 	init args from .gdbinit
