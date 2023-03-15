@@ -2,8 +2,8 @@
 
 set -e;
 
-export ACE_VERSION=7.0.0
-export REFLEX_VERSION=3.2.12
+export ACE_VERSION=7.1.0
+export REFLEX_VERSION=3.3.1
 
 #
 # functions
@@ -18,14 +18,7 @@ function get_ace
 	pushd ACE;
 
 	if [[ ! -f ACE.tgz ]]; then
-		if command -v wget; then
-			wget -O ACE.tgz http://libjx.sourceforge.net/data/ACE-$ACE_VERSION.tar.gz;
-		elif command -v curl; then
-			curl -o ACE.tgz http://libjx.sourceforge.net/data/ACE-$ACE_VERSION.tar.gz;
-		else
-			echo "Please install either curl or wget";
-			exit 1;
-		fi
+		curl -o ACE.tgz https://github.com/DOCGroup/ACE_TAO/releases/download/ACE%2BTAO-${ACE_VERSION//./_}/ACE-${ACE_VERSION}.tar.gz;
 	fi
 
 	tar -xzf ACE.tgz;
@@ -146,7 +139,7 @@ elif command -v dnf || command -v yum; then
 		PKGMGR=yum;
 	fi
 
-	$SUDO $PKGMGR -y install findutils perl python-libxml2 \
+	$SUDO $PKGMGR -y install findutils curl perl python-libxml2 \
 		gcc-c++ bison make rpm-build imake libtool \
 		libX11-devel libXinerama-devel libXft-devel libXmu-devel libXi-devel \
 			xorg-x11-proto-devel xorg-x11-server-devel libXdamage-devel  \
