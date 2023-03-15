@@ -132,14 +132,14 @@ public:
 	bool				IsOwner() const;		// primarily for debugging
 	const JUtf8Byte*	GetRawBytes() const;	// NOT guaranteed to be nullptr terminated
 
-	bool	BeginsWith(const JString& str, const Case caseSensitive = kCompareCase) const;
-	bool	BeginsWith(const JString& str, const JCharacterRange& range, const Case caseSensitive = kCompareCase) const;
-	bool	BeginsWith(const JUtf8Byte* str, const Case caseSensitive = kCompareCase) const;
-	bool	BeginsWith(const JUtf8Byte* str, const JSize byteCount, const Case caseSensitive = kCompareCase) const;
-	bool	BeginsWith(const JUtf8Byte* str, const JUtf8ByteRange& range, const Case caseSensitive = kCompareCase) const;
-	bool	BeginsWith(const JUtf8Character& c, const Case caseSensitive = kCompareCase) const;
-	bool	BeginsWith(const std::string& str, const Case caseSensitive = kCompareCase) const;
-	bool	BeginsWith(const std::string& str, const JUtf8ByteRange& range, const Case caseSensitive = kCompareCase) const;
+	bool	StartsWith(const JString& str, const Case caseSensitive = kCompareCase) const;
+	bool	StartsWith(const JString& str, const JCharacterRange& range, const Case caseSensitive = kCompareCase) const;
+	bool	StartsWith(const JUtf8Byte* str, const Case caseSensitive = kCompareCase) const;
+	bool	StartsWith(const JUtf8Byte* str, const JSize byteCount, const Case caseSensitive = kCompareCase) const;
+	bool	StartsWith(const JUtf8Byte* str, const JUtf8ByteRange& range, const Case caseSensitive = kCompareCase) const;
+	bool	StartsWith(const JUtf8Character& c, const Case caseSensitive = kCompareCase) const;
+	bool	StartsWith(const std::string& str, const Case caseSensitive = kCompareCase) const;
+	bool	StartsWith(const std::string& str, const JUtf8ByteRange& range, const Case caseSensitive = kCompareCase) const;
 
 	bool	Contains(const JString& str, const Case caseSensitive = kCompareCase) const;
 	bool	Contains(const JString& str, const JCharacterRange& range, const Case caseSensitive = kCompareCase) const;
@@ -529,23 +529,23 @@ JString::CountCharacters
 }
 
 /******************************************************************************
- BeginsWith
+ StartsWith
 
  ******************************************************************************/
 
 inline bool
-JString::BeginsWith
+JString::StartsWith
 	(
 	const JString&	str,
 	const Case		caseSensitive
 	)
 	const
 {
-	return BeginsWith(str.itsBytes, JUtf8ByteRange(1, str.itsByteCount), caseSensitive);
+	return StartsWith(str.itsBytes, JUtf8ByteRange(1, str.itsByteCount), caseSensitive);
 }
 
 inline bool
-JString::BeginsWith
+JString::StartsWith
 	(
 	const JString&			str,
 	const JCharacterRange&	range,
@@ -553,22 +553,22 @@ JString::BeginsWith
 	)
 	const
 {
-	return BeginsWith(str.itsBytes + range.first-1, str.CharacterToUtf8ByteRange(range), caseSensitive);
+	return StartsWith(str.itsBytes + range.first-1, str.CharacterToUtf8ByteRange(range), caseSensitive);
 }
 
 inline bool
-JString::BeginsWith
+JString::StartsWith
 	(
 	const JUtf8Byte*	str,
 	const Case			caseSensitive
 	)
 	const
 {
-	return BeginsWith(str, JUtf8ByteRange(1, strlen(str)), caseSensitive);
+	return StartsWith(str, JUtf8ByteRange(1, strlen(str)), caseSensitive);
 }
 
 inline bool
-JString::BeginsWith
+JString::StartsWith
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
@@ -576,33 +576,33 @@ JString::BeginsWith
 	)
 	const
 {
-	return BeginsWith(str, JUtf8ByteRange(1, byteCount), caseSensitive);
+	return StartsWith(str, JUtf8ByteRange(1, byteCount), caseSensitive);
 }
 
 inline bool
-JString::BeginsWith
+JString::StartsWith
 	(
 	const JUtf8Character&	c,
 	const Case				caseSensitive
 	)
 	const
 {
-	return BeginsWith(c.GetBytes(), JUtf8ByteRange(1, c.GetByteCount()), caseSensitive);
+	return StartsWith(c.GetBytes(), JUtf8ByteRange(1, c.GetByteCount()), caseSensitive);
 }
 
 inline bool
-JString::BeginsWith
+JString::StartsWith
 	(
 	const std::string&	str,
 	const Case			caseSensitive
 	)
 	const
 {
-	return BeginsWith(str.data(), JUtf8ByteRange(1, str.length()), caseSensitive);
+	return StartsWith(str.data(), JUtf8ByteRange(1, str.length()), caseSensitive);
 }
 
 inline bool
-JString::BeginsWith
+JString::StartsWith
 	(
 	const std::string&		str,
 	const JUtf8ByteRange&	range,
@@ -610,7 +610,7 @@ JString::BeginsWith
 	)
 	const
 {
-	return BeginsWith(str.data(), range, caseSensitive);
+	return StartsWith(str.data(), range, caseSensitive);
 }
 
 /******************************************************************************

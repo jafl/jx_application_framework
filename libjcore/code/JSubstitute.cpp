@@ -819,7 +819,7 @@ JSubstitute::Evaluate
 	{
 		const VarInfo info    = itsVarList->GetElement(i);
 		const JSize charCount = info.name->GetCharacterCount();
-		if (info.regex == nullptr && s.BeginsWith(*(info.name)) &&
+		if (info.regex == nullptr && s.StartsWith(*(info.name)) &&
 			charCount > matchCharCount)
 		{
 			varIndex       = i;

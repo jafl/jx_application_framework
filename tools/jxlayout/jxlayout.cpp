@@ -1718,7 +1718,7 @@ RemoveIdentifier
 	JString*		line
 	)
 {
-	assert( line->BeginsWith(id) );
+	assert( line->StartsWith(id) );
 
 	JStringIterator iter(line);
 	iter.Next(id);

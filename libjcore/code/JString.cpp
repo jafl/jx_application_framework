@@ -1146,12 +1146,12 @@ JString::SearchBackward
 }
 
 /******************************************************************************
- BeginsWith
+ StartsWith
 
  ******************************************************************************/
 
 bool
-JString::BeginsWith
+JString::StartsWith
 	(
 	const JUtf8Byte*		str,
 	const JUtf8ByteRange&	range,

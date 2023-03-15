@@ -750,7 +750,7 @@ JXCSFDialogBase::SelectPrevDirectory()
 {
 	const JString& newPath = itsDirInfo->GetDirectory();
 
-	if (itsPrevPath.BeginsWith(newPath))
+	if (itsPrevPath.StartsWith(newPath))
 	{
 		// remove common base path
 

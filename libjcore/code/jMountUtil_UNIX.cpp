@@ -482,12 +482,12 @@ JGetUserMountPointType
 	{
 		return kJCDROM;
 	}
-	else if (device.BeginsWith("/dev/ad") ||	// IDE
-			 device.BeginsWith("/dev/da"))		// SCSI
+	else if (device.StartsWith("/dev/ad") ||	// IDE
+			 device.StartsWith("/dev/da"))		// SCSI
 	{
 		return kJHardDisk;
 	}
-	else if (device.BeginsWith("/dev/fd"))
+	else if (device.StartsWith("/dev/fd"))
 	{
 		return kJFloppyDisk;
 	}
@@ -519,7 +519,7 @@ JGetUserMountPointType
 	{
 		return kJHardDisk;
 	}
-	else if (device.BeginsWith("/dev/fd"))
+	else if (device.StartsWith("/dev/fd"))
 	{
 		return kJFloppyDisk;
 	}
@@ -564,12 +564,12 @@ JGetUserMountPointType
 	{
 		return kJFloppyDisk;	// hot-swappable drives are often /dev/sd*
 	}
-	else if (device.BeginsWith("/dev/hd") ||		// IDE
-			 device.BeginsWith("/dev/sd"))			// SCSI
+	else if (device.StartsWith("/dev/hd") ||		// IDE
+			 device.StartsWith("/dev/sd"))			// SCSI
 	{
 		return kJHardDisk;
 	}
-	else if (device.BeginsWith("/dev/fd"))
+	else if (device.StartsWith("/dev/fd"))
 	{
 		return kJFloppyDisk;
 	}
@@ -1149,9 +1149,9 @@ jCalledByTranslateRemoteToLocal
 		iter.BeginMatch();
 		iter.MoveTo(kJIteratorStartAtEnd, 0);
 		JString p = iter.FinishMatch().GetString();
-		JAppendDirSeparator(&p);		// force complete name when check BeginsWith()
+		JAppendDirSeparator(&p);		// force complete name when check StartsWith()
 
-		if (host == h && remotePath.BeginsWith(p))
+		if (host == h && remotePath.StartsWith(p))
 		{
 			*localPath = remotePath;
 

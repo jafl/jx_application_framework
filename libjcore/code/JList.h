@@ -62,180 +62,180 @@ private:
 	// base class for JBroadcaster messages
 
 	class ElementMessage : public JBroadcaster::Message
+	{
+	public:
+
+		ElementMessage(const JUtf8Byte* type,
+					   const JIndex firstIndex, const JSize count)
+			:
+			JBroadcaster::Message(type),
+			itsFirstIndex(firstIndex),
+			itsCount(count)
+			{ };
+
+		JIndex
+		GetFirstIndex() const
 		{
-		public:
-
-			ElementMessage(const JUtf8Byte* type,
-						   const JIndex firstIndex, const JSize count)
-				:
-				JBroadcaster::Message(type),
-				itsFirstIndex(firstIndex),
-				itsCount(count)
-				{ };
-
-			JIndex
-			GetFirstIndex() const
-			{
-				return itsFirstIndex;
-			};
-
-			JIndex
-			GetLastIndex() const
-			{
-				return itsFirstIndex + itsCount-1;
-			};
-
-			JSize
-			GetCount() const
-			{
-				return itsCount;
-			};
-
-			bool
-			Contains(const JIndex index) const
-			{
-				return itsFirstIndex <= index && index <= GetLastIndex();
-			};
-
-		private:
-
-			JIndex	itsFirstIndex;
-			JSize	itsCount;
+			return itsFirstIndex;
 		};
+
+		JIndex
+		GetLastIndex() const
+		{
+			return itsFirstIndex + itsCount-1;
+		};
+
+		JSize
+		GetCount() const
+		{
+			return itsCount;
+		};
+
+		bool
+		Contains(const JIndex index) const
+		{
+			return itsFirstIndex <= index && index <= GetLastIndex();
+		};
+
+	private:
+
+		JIndex	itsFirstIndex;
+		JSize	itsCount;
+	};
 
 public:
 
 	// for all objects
 
 	class ElementsInserted : public ElementMessage
-		{
-		public:
+	{
+	public:
 
-			ElementsInserted(const JIndex firstIndex, const JSize count)
-				:
-				ElementMessage(kElementsInserted, firstIndex, count)
-				{ };
+		ElementsInserted(const JIndex firstIndex, const JSize count)
+			:
+			ElementMessage(kElementsInserted, firstIndex, count)
+			{ };
 
-			void	AdjustIndex(JIndex* index) const;
-		};
+		void	AdjustIndex(JIndex* index) const;
+	};
 
 	class ElementsRemoved : public ElementMessage
-		{
-		public:
+	{
+	public:
 
-			ElementsRemoved(const JIndex firstIndex, const JSize count)
-				:
-				ElementMessage(kElementsRemoved, firstIndex, count)
-				{ };
+		ElementsRemoved(const JIndex firstIndex, const JSize count)
+			:
+			ElementMessage(kElementsRemoved, firstIndex, count)
+			{ };
 
-			bool	AdjustIndex(JIndex* index) const;
-		};
+		bool	AdjustIndex(JIndex* index) const;
+	};
 
 	// for JBroadcasters
 
 	class ElementMoved : public JBroadcaster::Message
+	{
+	public:
+
+		ElementMoved(const JIndex origIndex, const JIndex newIndex)
+			:
+			JBroadcaster::Message(kElementMoved),
+			itsOrigIndex(origIndex),
+			itsNewIndex(newIndex)
+			{ };
+
+		void	AdjustIndex(JIndex* index) const;
+
+		JIndex
+		GetOrigIndex() const
 		{
-		public:
-
-			ElementMoved(const JIndex origIndex, const JIndex newIndex)
-				:
-				JBroadcaster::Message(kElementMoved),
-				itsOrigIndex(origIndex),
-				itsNewIndex(newIndex)
-				{ };
-
-			void	AdjustIndex(JIndex* index) const;
-
-			JIndex
-			GetOrigIndex() const
-			{
-				return itsOrigIndex;
-			};
-
-			JIndex
-			GetNewIndex() const
-			{
-				return itsNewIndex;
-			};
-
-		private:
-
-			JIndex	itsOrigIndex;
-			JIndex	itsNewIndex;
+			return itsOrigIndex;
 		};
+
+		JIndex
+		GetNewIndex() const
+		{
+			return itsNewIndex;
+		};
+
+	private:
+
+		JIndex	itsOrigIndex;
+		JIndex	itsNewIndex;
+	};
 
 	class ElementsSwapped : public JBroadcaster::Message
+	{
+	public:
+
+		ElementsSwapped(const JIndex index1, const JIndex index2)
+			:
+			JBroadcaster::Message(kElementsSwapped),
+			itsIndex1(index1),
+			itsIndex2(index2)
+			{ };
+
+		void	AdjustIndex(JIndex* index) const;
+
+		JIndex
+		GetIndex1() const
 		{
-		public:
-
-			ElementsSwapped(const JIndex index1, const JIndex index2)
-				:
-				JBroadcaster::Message(kElementsSwapped),
-				itsIndex1(index1),
-				itsIndex2(index2)
-				{ };
-
-			void	AdjustIndex(JIndex* index) const;
-
-			JIndex
-			GetIndex1() const
-			{
-				return itsIndex1;
-			};
-
-			JIndex
-			GetIndex2() const
-			{
-				return itsIndex2;
-			};
-
-		private:
-
-			JIndex	itsIndex1;
-			JIndex	itsIndex2;
+			return itsIndex1;
 		};
+
+		JIndex
+		GetIndex2() const
+		{
+			return itsIndex2;
+		};
+
+	private:
+
+		JIndex	itsIndex1;
+		JIndex	itsIndex2;
+	};
 
 	class ElementsChanged : public ElementMessage
-		{
-		public:
+	{
+	public:
 
-			ElementsChanged(const JIndex firstIndex, const JSize count)
-				:
-				ElementMessage(kElementsChanged, firstIndex, count)
-				{ };
-		};
+		ElementsChanged(const JIndex firstIndex, const JSize count)
+			:
+			ElementMessage(kElementsChanged, firstIndex, count)
+			{ };
+	};
 
 	class Sorted : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			Sorted()
-				:
-				JBroadcaster::Message(kSorted)
-				{ };
-		};
+		Sorted()
+			:
+			JBroadcaster::Message(kSorted)
+			{ };
+	};
 
 	// for iterators
 
 	class GoingAway : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			GoingAway()
-				:
-				JBroadcaster::Message(kGoingAway)
-				{ };
-		};
+		GoingAway()
+			:
+			JBroadcaster::Message(kGoingAway)
+			{ };
+	};
 
 	class Copied : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			Copied()
-				:
-				JBroadcaster::Message(kCopied)
-				{ };
-		};
+		Copied()
+			:
+			JBroadcaster::Message(kCopied)
+			{ };
+	};
 };
 
 
@@ -290,7 +290,7 @@ private:
 	JListT::SortOrder											itsSortOrder;
 	std::function<JListT::CompareResult(const T&, const T&)>*	itsCompareFn;	// can be nullptr
 
-	JListIterator<T>*		itsFirstIterator;	// linked list of active iterators
+	JListIterator<T>*	itsFirstIterator;	// linked list of active iterators
 
 private:
 

@@ -1278,7 +1278,7 @@ JCleanPath
 	static const JRegex multiSlashPattern  = "(?<!:)/{2,}";
 
 	JStringIterator iter(path);
-	if (path->BeginsWith("file://"))
+	if (path->StartsWith("file://"))
 	{
 		iter.SkipNext(7);
 	}
@@ -1528,7 +1528,7 @@ JExpandHomeDirShortcut
 			*homeLength = 1;
 		}
 	}
-	else if (path.BeginsWith("~/"))
+	else if (path.StartsWith("~/"))
 	{
 		ok = JGetHomeDirectory(result);
 		if (ok && homeDir != nullptr)
@@ -1549,7 +1549,7 @@ JExpandHomeDirShortcut
 			*result = JCombinePathAndName(*result, m.GetString());
 		}
 	}
-	else if (path.BeginsWith("~"))
+	else if (path.StartsWith("~"))
 	{
 		JStringIterator iter(path, kJIteratorStartAfter, 1);
 		iter.BeginMatch();

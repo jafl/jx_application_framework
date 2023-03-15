@@ -888,7 +888,7 @@ JXTextMenuData::ParseNMShortcut
 		bool found = false;
 		for (const auto& conv : kNMModConv)
 		{
-			if (keyStr.BeginsWith(conv.str) &&
+			if (keyStr.StartsWith(conv.str) &&
 				keyStr.GetByteCount() > conv.strLength)
 			{
 				const JXModifierKey mkey = JXMenu::AdjustNMShortcutModifier(conv.key);

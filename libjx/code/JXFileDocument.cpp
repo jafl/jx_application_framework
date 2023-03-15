@@ -1040,7 +1040,7 @@ JXFileDocument::CheckForSafetySaveFiles
 	JSplitPathAndName(fullName, &path, &name);
 
 	time_t modTime, safetyTime, assertTime;
-	if (!name.BeginsWith(kSafetySavePrefix) &&
+	if (!name.StartsWith(kSafetySavePrefix) &&
 		JGetModificationTime(fullName, &modTime) == kJNoError)
 	{
 		const JString safetyName = path + kSafetySavePrefix + name + kSafetySaveSuffix;

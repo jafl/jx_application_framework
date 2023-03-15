@@ -775,8 +775,7 @@ JArray<T>::SearchSorted
 	order to keep the list sorted.  If there is an element that matches the
 	given one, *found is set to true.
 
-	Since lookup's in Arrays are O(1), we override this function to use a
-	binary search, yielding O(log N) instead of the default O(N).
+	OTI = option to insert
 
  ******************************************************************************/
 
@@ -806,7 +805,7 @@ JArray<T>::SearchSortedOTI
 	JListT::CompareResult r1;
 
 	JIndex firstIndex = 1;
-{
+	{
 	const T& element = ProtectedGetElement(firstIndex);
 	r1 = compare(target, element);
 	if (r1 == JListT::kFirstEqualSecond &&
@@ -826,14 +825,14 @@ JArray<T>::SearchSortedOTI
 	{
 		return 2;
 	}
-}
+	}
 
 	// check last element
 
 	JListT::CompareResult r2;
 
 	JIndex lastIndex = count;
-{
+	{
 	const T& element = ProtectedGetElement(lastIndex);
 	r2 = compare(target, element);
 	if (r2 == JListT::kFirstEqualSecond &&
@@ -849,7 +848,7 @@ JArray<T>::SearchSortedOTI
 	{
 		return count+1;
 	}
-}
+	}
 
 	// assert for ascending:  first element <= data <= last element
 	// assert for descending: first element >= data >= last element

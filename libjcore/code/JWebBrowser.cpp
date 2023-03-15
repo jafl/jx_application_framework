@@ -86,7 +86,7 @@ JWebBrowser::ShowURL
 	const JString& url
 	)
 {
-	if (url.BeginsWith(kMailURLPrefix))
+	if (url.StartsWith(kMailURLPrefix))
 	{
 		ComposeMail(JString(url,
 			JCharacterRange(strlen(kMailURLPrefix)+1, url.GetCharacterCount()),
@@ -94,7 +94,7 @@ JWebBrowser::ShowURL
 		return;
 	}
 
-	if (url.BeginsWith(kFileURLPrefix))
+	if (url.StartsWith(kFileURLPrefix))
 	{
 		ShowFileContent(JString(url,
 			JCharacterRange(strlen(kFileURLPrefix)+1, url.GetCharacterCount()),

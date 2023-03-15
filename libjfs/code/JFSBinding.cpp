@@ -118,7 +118,7 @@ JFSBinding::Match
 	}
 	else if (itsContentRegex != nullptr)
 	{
-		return (content.BeginsWith(itsLiteralPrefix) &&
+		return (content.StartsWith(itsLiteralPrefix) &&
 				itsContentRegex->Match(content));
 	}
 	else if (itsNameRegex != nullptr)
@@ -140,7 +140,7 @@ JFSBinding::Match
 void
 JFSBinding::UpdateRegex()
 {
-	if (itsPattern.BeginsWith(kContentRegexMarker))
+	if (itsPattern.StartsWith(kContentRegexMarker))
 	{
 		jdelete itsNameRegex;
 		itsNameRegex = nullptr;
@@ -203,7 +203,7 @@ JFSBinding::WillBeRegex
 	const JString& pattern
 	)
 {
-	return pattern.BeginsWith(kContentRegexMarker);
+	return pattern.StartsWith(kContentRegexMarker);
 }
 
 /******************************************************************************

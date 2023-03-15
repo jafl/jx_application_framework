@@ -1741,7 +1741,7 @@ ParseHeaderFile
 
 	// extract dependencies only from non-system header files
 
-	if (fileName.BeginsWith(kSysIncludeDir))
+	if (fileName.StartsWith(kSysIncludeDir))
 	{
 		return info;
 	}
@@ -1844,8 +1844,8 @@ FindFile
 	// if full path is specified, use it
 
 	if (fileName.GetFirstCharacter() == '/' ||
-		fileName.BeginsWith("./") ||
-		fileName.BeginsWith("../"))
+		fileName.StartsWith("./") ||
+		fileName.StartsWith("../"))
 	{
 		if (JFileExists(fileName))
 		{

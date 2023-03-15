@@ -251,7 +251,7 @@ JGetClosestDirectory
 	// convert back to partial path, if possible
 
 	if (origDirName.GetFirstCharacter() == '~' &&
-		dirName.BeginsWith(homeDir))
+		dirName.StartsWith(homeDir))
 	{
 		JStringIterator iter(&dirName);
 		const bool found = iter.Next(homeDir);
@@ -260,7 +260,7 @@ JGetClosestDirectory
 	}
 	else if (JIsRelativePath(origDirName) &&
 			 dirName.GetCharacterCount() > workingDir.GetCharacterCount() &&
-			 dirName.BeginsWith(workingDir))
+			 dirName.StartsWith(workingDir))
 	{
 		JStringIterator iter(&dirName);
 		const bool found = iter.Next(workingDir);
@@ -463,7 +463,7 @@ JConvertToHomeDirShortcut
 
 	JString homeDir, trueDir;
 	if (JGetHomeDirectory(&homeDir) && JGetTrueName(homeDir, &trueDir) &&
-		s.BeginsWith(trueDir))
+		s.StartsWith(trueDir))
 	{
 		JStringIterator iter(&s);
 		const bool found = iter.Next(trueDir);

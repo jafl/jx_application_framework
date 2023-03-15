@@ -442,7 +442,7 @@ MainDialog::WriteTemplate()
 	JSplitPathAndName(f, &p, &dirName);
 
 	JString jxPath(JX_PATH, JString::kNoCopy);
-	if (projectDir.BeginsWith(jxPath))
+	if (projectDir.StartsWith(jxPath))
 	{
 		jxPath = JConvertToRelativePath(jxPath, projectDir);
 	}
@@ -530,7 +530,7 @@ MainDialog::CopyAndAdjustTemplateFiles
 		else if (entry.IsFile())
 		{
 			JString name = entry.GetName();
-			if (name.BeginsWith(kBinaryPrefixTag))
+			if (name.StartsWith(kBinaryPrefixTag))
 			{
 				JStringIterator iter(&name);
 				iter.BeginMatch();

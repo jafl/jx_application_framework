@@ -42,6 +42,6 @@ JTEST(Print)
 	JAssertStringsEqual("-1", JPrintComplexNumber(JComplex(-1,0)));
 	JAssertStringsEqual("1, -90 deg", JPrintComplexNumber(JComplex(0,-1)));
 	JAssertStringsEqual("2, -90 deg", JPrintComplexNumber(JComplex(0,-2)));
-	JAssertTrue(JPrintComplexNumber(JComplex(1,1)).BeginsWith("1.414"));
+	JAssertTrue(JPrintComplexNumber(JComplex(1,1)).StartsWith("1.414"));
 	JAssertTrue(JPrintComplexNumber(JComplex(1,1)).EndsWith(", 45 deg"));
 }

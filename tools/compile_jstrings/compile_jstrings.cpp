@@ -282,7 +282,7 @@ GetOptions
 			assert( inputFileName != nullptr );
 
 			if (inputFileName->EndsWith("~") ||
-				inputFileName->BeginsWith("#"))
+				inputFileName->StartsWith("#"))
 			{
 				jdelete inputFileName;
 			}

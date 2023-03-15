@@ -326,7 +326,7 @@ JXFileInput::StyledText::ComputeErrorLength
 		(f->itsRequireExecFlag  && !JFileExecutable(fullName)))
 	{
 		const JString closestDir = JGetClosestDirectory(fullName, false);
-		if (fullName.BeginsWith(closestDir))
+		if (fullName.StartsWith(closestDir))
 		{
 			return fullName.GetCharacterCount() - closestDir.GetCharacterCount();
 		}

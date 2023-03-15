@@ -212,7 +212,7 @@ JFSFileTreeNode::UpdatePath
 
 	JString fullName = itsDirEntry->GetFullName();
 	JAppendDirSeparator(&fullName);		// need exact match for directories
-	if (fullName.BeginsWith(oldPath))
+	if (fullName.StartsWith(oldPath))
 	{
 		const bool setName = fullName == oldPath;
 
@@ -231,7 +231,7 @@ JFSFileTreeNode::UpdatePath
 			SetName(name);
 		}
 	}
-	else if (oldPath.BeginsWith(fullName))
+	else if (oldPath.StartsWith(fullName))
 	{
 		const JSize childCount = GetChildCount();
 		for (JIndex i=1; i<=childCount; i++)

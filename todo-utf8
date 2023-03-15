@@ -1,24 +1,5 @@
-jcc:
-	CBTree::SelectImplementors
-	CBTreeDirector::ViewFunctionList
-	CBTreeWidget::FindFunction
-	CBTreeWidget::HandleMouseDrag
-
-	CBSymbolList needs to store
-		access: check "access" flag (public, private, protected, java-default)
-		implemented: check "implementation" flag
-		enum FnAccessLevel
-		{
-			kPublicAccess = 0,
-			kProtectedAccess,
-			kPrivateAccess,
-			kJavaDefaultAccess
-		}
-	replace CBFnListDirector with CBSymbolSRDirector
-		color protected, private, java-default
-	inheritance tree:
-		show list of functions returned by CBSymbolList
-			based on file and class name and possibly partially qualified name (java)
+JStyledText
+	CleanRightMargin
 
 -----
 
@@ -48,9 +29,6 @@ unit test
 
 -----
 
-JStyledText
-	CleanRightMargin
-
 jcc
 	JXDocumentMenu - show partial paths for repeated file names
 
@@ -70,7 +48,7 @@ jcc
 
 	shell doc doesn't work at all
 
-	slow when typing at end of 30M 5csv file
+	slow when typing at end of 30M csv file
 
 
 

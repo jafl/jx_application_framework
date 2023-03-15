@@ -63,8 +63,10 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			Completely redesigned JString API.  Introduced JStringIterator.
 //			Replaced JCharacter with JUtf8Byte & JUtf8Character.
 //			Introduced JCharacterRange & JUtf8ByteRange.
-//	*** JString(float) now requires second argument to prevent nullptr from
-//		silently converting to "0"
+//	JString
+//		*** ctor(float) now requires second argument to prevent nullptr from
+//			silently converting to "0"
+//		*** Renamed BeginsWith() to StartsWith() for consistency with other languages.
 //	Added JStringJoin for joining lists of strings.
 //	*** Created JFont.  Instances can only be obtained from JFontManager.
 //			Redesigned JFontManager so JFontID is system independent.

@@ -575,10 +575,10 @@ JTEST(Search)
 	JAssertTrue(s.TestSearchBackward("\xC3\xA9\xC3\xAD\xC3\xA7", 6, JString::kIgnoreCase, &byteIndex));
 */
 	s.Set("\xC3\xB6\xE2\x9C\x94");
-	JAssertTrue(s.BeginsWith(JString("\x6F\xCC\x88\xE2\x9C\x94")));
+	JAssertTrue(s.StartsWith(JString("\x6F\xCC\x88\xE2\x9C\x94")));
 	JAssertTrue(s.Contains(JString("\x6F\xCC\x88\xE2\x9C\x94")));
 	JAssertTrue(s.EndsWith(JString("\x6F\xCC\x88\xE2\x9C\x94")));
-	JAssertTrue(s.BeginsWith("\x6F\xCC\x88\xE2\x9C\x94", JString::kIgnoreCase));
+	JAssertTrue(s.StartsWith("\x6F\xCC\x88\xE2\x9C\x94", JString::kIgnoreCase));
 	JAssertTrue(s.Contains("\x6F\xCC\x88\xE2\x9C\x94", JString::kIgnoreCase));
 	JAssertTrue(s.EndsWith("\x6F\xCC\x88\xE2\x9C\x94", JString::kIgnoreCase));
 
@@ -589,16 +589,16 @@ JTEST(Search)
 JTEST(Contains)
 {
 	JString s;
-	JAssertFalse(s.BeginsWith("1"));
+	JAssertFalse(s.StartsWith("1"));
 	JAssertFalse(s.Contains("1"));
 	JAssertFalse(s.EndsWith("1"));
 
 	s = "abcd";
 
-	JAssertTrue(s.BeginsWith("ab"));
-	JAssertTrue(s.BeginsWith("AB", JString::kIgnoreCase));
-	JAssertFalse(s.BeginsWith("bc"));
-	JAssertFalse(s.BeginsWith("BC", JString::kIgnoreCase));
+	JAssertTrue(s.StartsWith("ab"));
+	JAssertTrue(s.StartsWith("AB", JString::kIgnoreCase));
+	JAssertFalse(s.StartsWith("bc"));
+	JAssertFalse(s.StartsWith("BC", JString::kIgnoreCase));
 
 	JAssertTrue(s.Contains("ab"));
 	JAssertTrue(s.Contains("AB", JString::kIgnoreCase));
@@ -616,8 +616,8 @@ JTEST(Contains)
 
 	s = "\xC3\x86" "a34567\xCE\xA6" "90b\xE2\x9C\x94\xCE\xA6";
 
-	JAssertTrue(s.BeginsWith("\xC3\x86" "a34"));
-	JAssertTrue(s.BeginsWith("\xC3\xA6" "A34", JString::kIgnoreCase));
+	JAssertTrue(s.StartsWith("\xC3\x86" "a34"));
+	JAssertTrue(s.StartsWith("\xC3\xA6" "A34", JString::kIgnoreCase));
 
 	JAssertTrue(s.Contains("\xCE\xA6" "90b"));
 	JAssertTrue(s.Contains("\xCF\x86" "90B", JString::kIgnoreCase));
@@ -628,12 +628,12 @@ JTEST(Contains)
 
 	s = "\xC3\xB6";
 	JString s1("\x6F\xCC\x88", 0);	// force normalization
-	JAssertTrue(s.BeginsWith(s1));
+	JAssertTrue(s.StartsWith(s1));
 	JAssertTrue(s.Contains(s1));
 	JAssertTrue(s.EndsWith(s1));
 
 	s = "\x6F\xCC\x88";
-	JAssertTrue(s.BeginsWith("\xC3\xB6"));
+	JAssertTrue(s.StartsWith("\xC3\xB6"));
 	JAssertTrue(s.Contains("\xC3\xB6"));
 	JAssertTrue(s.EndsWith("\xC3\xB6"));
 }
