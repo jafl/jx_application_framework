@@ -123,6 +123,8 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			Perform() can be overridden without worrying about timing.
 //	JXUserNotification:
 //		Made text selectable, so error messages can be copied.
+//	JXCurrentPathMenu:
+//		Inverted order of path segments and appended mounted volumes for easy access.
 
 // version 3.1.0:
 //	JXGetStringDialog:

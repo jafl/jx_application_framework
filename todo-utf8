@@ -54,9 +54,6 @@ jcc
 
 testjx crash - itsLineStarts was already broken
 
-medic for go: delve back-end
-	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
-
 
 
 D tree

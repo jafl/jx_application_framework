@@ -9,6 +9,7 @@
 #define _H_JXCurrentPathMenu
 
 #include "JXTextMenu.h"
+#include <jx-af/jcore/jMountUtil.h>
 
 class JXCurrentPathMenu : public JXTextMenu
 {
@@ -30,15 +31,23 @@ public:
 
 private:
 
+	JSize				itsSegmentCount;
+	JMountPointList*	itsMountPointList;
+	JMountState			itsMountPointState;
+
 	// not owned
 
 	JXImage*	itsFolderIcon;
 	JXImage*	itsReadOnlyFolderIcon;
+	JXImage*	itsHDIcon;
+	JXImage*	itsFDIcon;
+	JXImage*	itsCDIcon;
 
 private:
 
 	void		JXCurrentPathMenuX(const JString& path);
 	JXImage*	GetIcon(const JString& path) const;
+	JXImage*	GetMountPointIcon(const JMountType type) const;
 };
 
 #endif

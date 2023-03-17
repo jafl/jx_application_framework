@@ -22,6 +22,9 @@
 
 #include <jx-af/image/jx/jx_folder_small.xpm>
 #include <jx-af/image/jx/jx_folder_read_only_small.xpm>
+#include <jx-af/image/jx/jx_hard_disk_small.xpm>
+#include <jx-af/image/jx/jx_floppy_disk_small.xpm>
+#include <jx-af/image/jx/jx_cdrom_disk_small.xpm>
 
 /******************************************************************************
  Constructor
@@ -69,6 +72,13 @@ JXCurrentPathMenu::JXCurrentPathMenuX
 	JXImageCache* cache   = GetDisplay()->GetImageCache();
 	itsFolderIcon         = cache->GetImage(jx_folder_small);
 	itsReadOnlyFolderIcon = cache->GetImage(jx_folder_read_only_small);
+	itsHDIcon             = cache->GetImage(jx_hard_disk_small);
+	itsFDIcon             = cache->GetImage(jx_floppy_disk_small);
+	itsCDIcon             = cache->GetImage(jx_cdrom_disk_small);
+
+	itsMountPointList = jnew JMountPointList(JPtrArrayT::kDeleteAll);
+	assert( itsMountPointList != nullptr );
+	JGetUserMountPointList(itsMountPointList, &itsMountPointState);
 
 	// after creating icons
 
@@ -112,13 +122,20 @@ JXCurrentPathMenu::GetPath
 	)
 	const
 {
-	JString path = GetItemText(1);
-	for (JIndex i=2; i<=itemIndex; i++)
+	if (itemIndex <= itsSegmentCount)
 	{
-		path = JCombinePathAndName(path, GetItemText(i));
+		JString path = GetItemText(itsSegmentCount);
+		for (JIndex i=itsSegmentCount-1; i>=itemIndex; i--)
+		{
+			path = JCombinePathAndName(path, GetItemText(i));
+		}
+		JAppendDirSeparator(&path);
+		return path;
 	}
-	JAppendDirSeparator(&path);
-	return path;
+	else
+	{
+		return GetItemText(itemIndex);
+	}
 }
 
 /******************************************************************************
@@ -142,17 +159,29 @@ JXCurrentPathMenu::SetPath
 	{
 		JStripTrailingDirSeparator(&p);
 		JSplitPathAndName(p, &p1, &n);
-		PrependItem(n);
-		SetItemImage(1, GetIcon(p), false);
+		AppendItem(n);
+		SetItemImage(GetItemCount(), GetIcon(p), false);
 		p = p1;
 	}
 
-	PrependItem(p);
-	SetItemImage(1, GetIcon(p), false);
+	AppendItem(p);
+	SetItemImage(GetItemCount(), GetIcon(p), false);
+
+	itsSegmentCount = GetItemCount();
+	if (!itsMountPointList->IsEmpty())
+	{
+		ShowSeparatorAfter(itsSegmentCount);
+
+		for (const auto& mp : *itsMountPointList)
+		{
+			AppendItem(*mp.path);
+			SetItemImage(GetItemCount(), GetMountPointIcon(mp.type), false);
+		}
+	}
 
 	const JXImage* image = nullptr;
-	GetItemImage(GetItemCount(), &image);
-	SetTitle(GetItemText(GetItemCount()), const_cast<JXImage*>(image), false);
+	GetItemImage(1, &image);
+	SetTitle(GetItemText(1), const_cast<JXImage*>(image), false);
 	SetUpdateAction(kDisableNone);
 }
 
@@ -168,5 +197,22 @@ JXCurrentPathMenu::GetIcon
 	)
 	const
 {
-	return (JDirectoryWritable(path) ? itsFolderIcon : itsReadOnlyFolderIcon);
+	return JDirectoryWritable(path) ? itsFolderIcon : itsReadOnlyFolderIcon;
+}
+
+/******************************************************************************
+ GetMountPointIcon (private)
+
+ ******************************************************************************/
+
+JXImage*
+JXCurrentPathMenu::GetMountPointIcon
+	(
+	const JMountType type
+	)
+	const
+{
+	return (type == kJFloppyDisk ? itsFDIcon :
+			type == kJCDROM      ? itsCDIcon :
+			itsHDIcon);
 }
