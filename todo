@@ -1,16 +1,15 @@
-When g++/clang++ both support stringstream::view
-	fix JString::Encode/DecodeBase64
-
 JXDialogDirector
 	systemg: "Add remote..." doesn't validate emtpy second field
 	Only validates input with focus!
 
+medic for go: delve back-end
+	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
+
+When g++/clang++ both support stringstream::view
+	fix JString::Encode/DecodeBase64
+
 jx_memory_debugger:  filtered histogram of allocation sizes
 	would "static string" optimzation help?
-
-JXCurrentPathMenu
-	invert order of folders
-	show volumes at bottom
 
 jcc
 	if modified separately in memory and on disk, offer to show diff
@@ -37,9 +36,6 @@ multi-pane editing
 		double appropriate window dimension, if screen has space
 	each partition needs small [x] to close
 	small [+] buttons to split either horiz or vert
-
-JXMenu::PrepareToOpenMenu()
-	itsOwner may delete us!
 
 JPrefsManager
 	Atomic lock around SaveToDisk(), etc. in case multiple instances try writing

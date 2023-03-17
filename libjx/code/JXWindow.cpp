@@ -1887,15 +1887,15 @@ JXWindow::UpdateBounds
 	(
 	const JCoordinate	w,
 	const JCoordinate	h,
-	const bool		ftc
+	const bool			ftc
 	)
 {
 	const JCoordinate dw = w - itsBounds.width();
 	const JCoordinate dh = h - itsBounds.height();
-	itsBounds.top    = 0;
-	itsBounds.left   = 0;
-	itsBounds.bottom = h;
-	itsBounds.right  = w;
+	itsBounds.top        = 0;
+	itsBounds.left       = 0;
+	itsBounds.bottom     = h;
+	itsBounds.right      = w;
 
 	if (dw != 0 || dh != 0)
 	{

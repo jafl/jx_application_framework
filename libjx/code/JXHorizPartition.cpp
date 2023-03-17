@@ -350,7 +350,7 @@ JXHorizPartition::AdjustCursor
 bool
 JXHorizPartition::RunInternalFTC
 	(
-	const bool	horizontal,
+	const bool		horizontal,
 	JCoordinate*	newSize
 	)
 {

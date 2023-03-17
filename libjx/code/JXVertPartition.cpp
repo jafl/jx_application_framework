@@ -350,7 +350,7 @@ JXVertPartition::AdjustCursor
 bool
 JXVertPartition::RunInternalFTC
 	(
-	const bool	horizontal,
+	const bool		horizontal,
 	JCoordinate*	newSize
 	)
 {

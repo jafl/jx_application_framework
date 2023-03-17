@@ -427,7 +427,7 @@ void
 JXTextMenu::ShowSeparatorAfter
 	(
 	const JIndex	index,
-	const bool	show
+	const bool		show
 	)
 {
 	itsTextMenuData->ShowSeparatorAfter(index, show);

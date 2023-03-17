@@ -238,6 +238,7 @@ private:
 	// used when menu is pulled down
 
 	JXMenuDirector*	itsMenuDirector;
+	bool*			itsDeletedFlag;		// can be nullptr
 
 private:
 

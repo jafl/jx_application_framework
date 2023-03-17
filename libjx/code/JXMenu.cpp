@@ -98,7 +98,7 @@ JXMenu::JXMenu
 JXMenu::JXMenu
 	(
 	JXImage*			image,
-	const bool		menuOwnsImage,
+	const bool			menuOwnsImage,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -118,7 +118,7 @@ JXMenu::JXMenu
 	(
 	const JString&		title,
 	JXImage*			image,
-	const bool		menuOwnsImage,
+	const bool			menuOwnsImage,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -153,8 +153,8 @@ JXMenu::JXMenu
 void
 JXMenu::JXMenuX
 	(
-	const JString&		title,
-	JXImage*			image,
+	const JString&	title,
+	JXImage*		image,
 	const bool		menuOwnsImage
 	)
 {
@@ -176,6 +176,7 @@ JXMenu::JXMenuX
 	itsIsPopupChoiceFlag     = false;
 	itsIsHiddenPopupMenuFlag = false;
 	itsMenuDirector          = nullptr;
+	itsDeletedFlag           = nullptr;
 
 	itsWaitingForFTCFlag = true;
 
@@ -195,6 +196,11 @@ JXMenu::JXMenuX
 JXMenu::~JXMenu()
 {
 	assert( itsMenuDirector == nullptr );
+
+	if (itsDeletedFlag != nullptr)
+	{
+		*itsDeletedFlag = true;
+	}
 
 	if (itsMenuBar != nullptr)
 	{
@@ -1011,8 +1017,19 @@ JXMenu::PrepareToOpenMenu
 
 	// let owner update us as appropriate
 
+	bool deleted   = false;
+	itsDeletedFlag = &deleted;
+
 	Broadcast(NeedsUpdate(shortcut));
-	return IsActive() && GetItemCount() > 0;
+	if (!deleted)
+	{
+		itsDeletedFlag = nullptr;
+		return IsActive() && GetItemCount() > 0;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 /******************************************************************************
