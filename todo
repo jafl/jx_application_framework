@@ -1,20 +1,37 @@
-JXDialogDirector
-	systemg: "Add remote..." doesn't validate emtpy second field
-	Only validates input with focus!
+jcc
+	if modified separately in memory and on disk, offer to show diff
+		if window closed, deactivate "Redo diff" button
+
+	JXDocumentMenu - show partial paths for repeated file names
+
+	include partial path in symbol search results when display duplicate file name?
+		/Users/jolindal/projects/vendomatic/src/main/webapp/public/sso.php
+		validateLogin
+
+medic
+	when kill program, doesn't clear current source line marker
+
+-----
 
 medic for go: delve back-end
 	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
 
-When g++/clang++ both support stringstream::view
-	fix JString::Encode/DecodeBase64
+switch to cairo for rendering
+	anti-aliased lines
+	postscript printing
+
+libjexpr write to mathml
+	https://developer.mozilla.org/en/Mathml
+	http://en.wikipedia.org/wiki/MathML
+	http://www.w3.org/TR/MathML/
+	http://www.w3.org/TR/MathML2/
+
+-----
 
 jx_memory_debugger:  filtered histogram of allocation sizes
 	would "static string" optimzation help?
 
 jcc
-	if modified separately in memory and on disk, offer to show diff
-		if window closed, deactivate "Redo diff" button
-
 	EditTasksDialog: top partition gets larger every time it is opened
 
 	vi emulator
@@ -26,10 +43,6 @@ jcc
 Fedora 27 window manager
 	JXWindow does not analyze correctly
 
-switch to cairo for rendering
-	anti-aliased lines
-	postscript printing
-
 multi-pane editing
 	CBTextDocument owns JXStyledText
 	use partitions to show multiple views
@@ -40,11 +53,8 @@ multi-pane editing
 JPrefsManager
 	Atomic lock around SaveToDisk(), etc. in case multiple instances try writing
 
-libjexpr write to mathml
-	https://developer.mozilla.org/en/Mathml
-	http://en.wikipedia.org/wiki/MathML
-	http://www.w3.org/TR/MathML/
-	http://www.w3.org/TR/MathML2/
+When g++/clang++ both support stringstream::view
+	fix JString::Encode/DecodeBase64
 
 -----
 
@@ -112,8 +122,6 @@ jcc
 	Symbol list: print unique prefix for file names (like in Files window)
 	PHP: balance <? ?>
 	JXChooseMonoFont: allow "Other..."
-
-	Class trees need to search symbol database for function location.
 
 medic
 	accept connection or switch to gdb:  should stop listening on port
@@ -213,10 +221,6 @@ cygwin
 	systemg:  dragging files doesn't work
 	jcc:  dragging files from systemg to diff dialog doesn't work
 
-switch to xcb
-	requires managing our own queue, so we can implement XCheckTypedWindowEvent, etc.
-	does xcb support XIM?
-
 -----
 
 nm
@@ -228,3 +232,6 @@ ASIO
 	http://think-async.com/Asio
 	source is half the size of ACE, but it's all header files - everything is inline
 	JXApplication should call io_service::poll_one()
+
+switch to xcb
+	does not support XIM

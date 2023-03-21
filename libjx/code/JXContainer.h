@@ -43,7 +43,7 @@ public:
 
 	~JXContainer() override;
 
-	bool		IsAncestor(JXContainer* obj) const;
+	bool			IsAncestor(JXContainer* obj) const;
 
 	virtual void	Show();					// must call inherited
 	virtual void	Hide();					// must call inherited
@@ -114,6 +114,9 @@ public:
 
 	bool	GetVisibleRectGlobal(const JRect& origRectG,
 								 JRect* visRectG) const;
+
+	void	ForEach(const std::function<void(JXContainer*)>& f, const bool recurse);
+	void	ForEach(const std::function<void(const JXContainer*)>& f, const bool recurse) const;
 
 	// primarily invoked (automagically) after BuildWindow() finishes
 

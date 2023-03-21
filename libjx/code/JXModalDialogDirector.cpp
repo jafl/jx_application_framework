@@ -42,6 +42,7 @@
 #include "JXModalDialogDirector.h"
 #include "JXWindow.h"
 #include "JXButton.h"
+#include "JXInputField.h"
 #include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
@@ -261,7 +262,34 @@ JXModalDialogDirector::Deactivate()
 bool
 JXModalDialogDirector::OKToDeactivate()
 {
-	return itsCancelFlag || JXWindowDirector::OKToDeactivate();
+	if (itsCancelFlag)
+	{
+		return true;
+	}
+	else if (!JXWindowDirector::OKToDeactivate())
+	{
+		return false;
+	}
+
+	bool ok = true;
+	GetWindow()->ForEach([this, &ok](JXContainer* obj)
+	{
+		if (!ok)
+		{
+			return;
+		}
+
+		auto* f = dynamic_cast<JXInputField*>(obj);
+		if (f != nullptr && !f->InputValid())
+		{
+			ok = false;
+			Resume();
+			f->Focus();
+		}
+	},
+	true);
+
+	return ok;
 }
 
 /******************************************************************************

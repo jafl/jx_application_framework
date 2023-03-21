@@ -428,6 +428,55 @@ JXContainer::GetVisibleRectGlobal
 }
 
 /******************************************************************************
+ ForEach
+
+	Calls the given function for each enclosed object.  If recurse,
+	also calls ForEach() on each enclosed object.
+
+ ******************************************************************************/
+
+void
+JXContainer::ForEach
+	(
+	const std::function<void(JXContainer*)>&	f,
+	const bool									recurse
+	)
+{
+	if (itsEnclosedObjs != nullptr)
+	{
+		for (auto* obj : *itsEnclosedObjs)
+		{
+			f(obj);
+			if (recurse)
+			{
+				obj->ForEach(f, recurse);
+			}
+		}
+	}
+}
+
+void
+JXContainer::ForEach
+	(
+	const std::function<void(const JXContainer*)>&	f,
+	const bool										recurse
+	)
+	const
+{
+	if (itsEnclosedObjs != nullptr)
+	{
+		for (const auto* obj : *itsEnclosedObjs)
+		{
+			f(obj);
+			if (recurse)
+			{
+				obj->ForEach(f, recurse);
+			}
+		}
+	}
+}
+
+/******************************************************************************
  FindContainer
 
 	Returns the JXContainer that contains the given point.

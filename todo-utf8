@@ -1,15 +1,28 @@
 JStyledText
 	CleanRightMargin
 
+jcc
+	Editor Prefs
+		Emulator drop-down should be radio buttons
+
+	menu of supported text encodings in "open text file" dialog, default autodetect
+	sub-menu of supported text encodings on File menu, just like "file formats"
+
+glove
+	clean up .fd to match current layouts
+	test layouts on Linux and OS X
+
+	test column transform:  add two columns
+
+	test every usage of:
+		JStringIterator
+		JRegex::Match
+		JRunArrayIterator
+		Split
+
+	ci
+
 -----
-
-medic: test with gdb
-	analyze core
-	init args from .gdbinit
-
-	when kill program, doesn't clear current source line marker
-
-
 
 unit test
 	JStyledText - every usage of JRunArrayIterator
@@ -29,40 +42,25 @@ unit test
 
 -----
 
+medic: test with gdb
+	analyze core
+	init args from .gdbinit
+
 jcc
-	JXDocumentMenu - show partial paths for repeated file names
-
-	include partial path in symbol search results when display duplicate file name?
-		/Users/jolindal/projects/vendomatic/src/main/webapp/public/sso.php
-		validateLogin
-
-	Editor Prefs
-		Emulator drop-down should be radio buttons
-
-
 	HTML styler
 		unit test for CDATA - can contain php or jsp
 		tag, attribute value, script, char escapes
 		javascript regex, incl char class - can contain php or jsp
 
-
 	shell doc doesn't work at all
 
 	slow when typing at end of 30M csv file
 
-
-
-testjx crash - itsLineStarts was already broken
-
-
+	test with old project formats in code_crusader/test-manual/*.jcc
 
 D tree
 	must remember all imported packages, to resolve parents after full parse
 	imports are scoped to block
-
-
-
-test jcc with old project formats in code_crusader/test-manual/*.jcc
 
 -----
 
@@ -72,26 +70,8 @@ JTextEditor:
 
 	don't change insertion font while typing when glyphs are rendered with fallback font
 
-jcc
-	menu of supported text formats in "open text file" dialog
-	sub-menu of supported text formats on File menu, just like "file formats"
-
 JXFontManager
 	some characters extend above line height
-
-glove
-	clean up .fd to match current layouts
-	test layouts on Linux and OS X
-
-	test column transform:  add two columns
-
-	test every usage of:
-		JStringIterator
-		JRegex::Match
-		JRunArrayIterator
-		Split
-
-	ci
 
 -----
 
