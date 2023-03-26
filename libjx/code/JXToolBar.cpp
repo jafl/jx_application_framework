@@ -103,7 +103,7 @@ JXToolBar::JXToolBar
 	itsMenus = jnew JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
 	assert(itsMenus != nullptr);
 
-	const JCoordinate barHeight = itsCurrentButtonHeight + 2* kButConBuffer;
+	const JCoordinate barHeight = itsCurrentButtonHeight + 2*kButConBuffer;
 
 	itsToolBarSet =
 		jnew JXWidgetSet(this,

@@ -125,6 +125,8 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Made text selectable, so error messages can be copied.
 //	JXCurrentPathMenu:
 //		Inverted order of path segments and appended mounted volumes for easy access.
+//	JXPrefsManager:
+//		Added ctor argument csfID, which stores the prefs for Choose/SaveFileDialog.
 
 // version 3.1.0:
 //	JXGetStringDialog:

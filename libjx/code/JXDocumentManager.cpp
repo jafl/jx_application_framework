@@ -348,8 +348,8 @@ JXDocumentManager::CloseDocuments()
 		for (JIndex i=1; i<=count; i++)
 		{
 			const DocInfo info = itsDocList->GetElement(i);
-			if (!(info.doc)->IsActive() && !(info.keepOpen) &&
-				OKToCloseDocument(info.doc) && (info.doc)->Close())
+			if (!info.doc->IsActive() && !info.keepOpen &&
+				OKToCloseDocument(info.doc) && info.doc->Close())
 			{
 				closeCount++;
 				count = itsDocList->GetElementCount();	// several documents may have closed

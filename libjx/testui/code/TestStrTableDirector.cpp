@@ -108,7 +108,6 @@ TestStrTableDirector::BuildWindow()
 
 // begin tablelayout
 
-	const JRect tablelayout_Frame    = encl->GetFrame();
 	const JRect tablelayout_Aperture = encl->GetAperture();
 	encl->AdjustSize(400 - tablelayout_Aperture.width(), 300 - tablelayout_Aperture.height());
 
@@ -127,7 +126,7 @@ TestStrTableDirector::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 10,280);
 	assert( itsRowHeader != nullptr );
 
-	encl->SetSize(tablelayout_Frame.width(), tablelayout_Frame.height());
+	encl->SetSize(tablelayout_Aperture.width(), tablelayout_Aperture.height());
 
 // end tablelayout
 

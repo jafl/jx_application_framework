@@ -76,10 +76,10 @@ JXDocument::JXDocument
 	:
 	JXWindowDirector(supervisor)
 {
-	(JXGetDocumentManager())->DocumentCreated(this);
+	JXGetDocumentManager()->DocumentCreated(this);
 
 	JXWDManager* mgr;
-	if ((JXGetApplication()->GetCurrentDisplay())->GetWDManager(&mgr))
+	if (JXGetApplication()->GetCurrentDisplay()->GetWDManager(&mgr))
 	{
 		mgr->DirectorCreated(this);
 	}
@@ -92,7 +92,7 @@ JXDocument::JXDocument
 
 JXDocument::~JXDocument()
 {
-	(JXGetDocumentManager())->DocumentDeleted(this);
+	JXGetDocumentManager()->DocumentDeleted(this);
 }
 
 /******************************************************************************
@@ -174,7 +174,7 @@ JXDocument::GetMenuIcon
 	)
 	const
 {
-	*icon = (JXGetDocumentManager())->GetDefaultMenuIcon();
+	*icon = JXGetDocumentManager()->GetDefaultMenuIcon();
 	return true;
 }
 

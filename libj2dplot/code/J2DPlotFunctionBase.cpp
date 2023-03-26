@@ -192,7 +192,7 @@ J2DPlotFunctionBase::EvaluateFunction
 	(
 	const JFloat	min,
 	const JFloat	max,
-	const bool	linear,
+	const bool		linear,
 	const JSize		stepCount,
 	JArray<Point>*	list
 	)
@@ -223,7 +223,7 @@ J2DPlotFunctionBase::EvaluateFunction
 		{
 			pt.x = pow(10, logMin + i*stepSize);
 		}
-		if (GetYValue(pt.x, &(pt.y)))
+		if (GetYValue(pt.x, &pt.y))
 		{
 			list->AppendElement(pt);
 		}

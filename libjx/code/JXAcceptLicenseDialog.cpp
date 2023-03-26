@@ -67,7 +67,6 @@ JXAcceptLicenseDialog::BuildWindow()
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::JXAcceptLicenseDialog"));
-
 	SetButtons(yesButton, noButton);
 
 	auto* text =

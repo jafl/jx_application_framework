@@ -21,6 +21,10 @@
 static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 
 // version 4.0.0:
+//	*** UTF-8 support
+//			Completely redesigned JString API.  Introduced JStringIterator.
+//			Replaced JCharacter with JUtf8Byte & JUtf8Character.
+//			Introduced JCharacterRange & JUtf8ByteRange.
 //	*** Removed JBoolean in favor of bool.
 //		All stream writes must be updated to use JBoolToString().
 //		All stream reads must be updated to use JBoolFromString().
@@ -59,10 +63,6 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		can be overridden in translation files by specifying any of
 //		NAME::FONT, SIZE::FONT, SIZE::ROWCOLHDR::FONT, NAME::MONO::FONT,
 //		SIZE::MONO::FONT.
-//	*** UTF-8 support
-//			Completely redesigned JString API.  Introduced JStringIterator.
-//			Replaced JCharacter with JUtf8Byte & JUtf8Character.
-//			Introduced JCharacterRange & JUtf8ByteRange.
 //	JString
 //		*** ctor(float) now requires second argument to prevent nullptr from
 //			silently converting to "0"

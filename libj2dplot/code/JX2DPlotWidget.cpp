@@ -822,11 +822,11 @@ JX2DPlotWidget::ChangeCurveOptions
 	const JSize count = GetCurveCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const J2DPlotDataBase& curve = GetCurve(i);
-		hasXErrors.AppendElement(curve.HasXErrors());
-		hasYErrors.AppendElement(curve.HasYErrors());
-		isFunction.AppendElement(curve.IsFunction());
-		isScatter.AppendElement(curve.GetType() == J2DPlotDataBase::kScatterPlot);
+		const J2DPlotDataBase* curve = GetCurve(i);
+		hasXErrors.AppendElement(curve->HasXErrors());
+		hasYErrors.AppendElement(curve->HasYErrors());
+		isFunction.AppendElement(curve->IsFunction());
+		isScatter.AppendElement(curve->GetType() == J2DPlotDataBase::kScatterPlot);
 	}
 
 	auto* dlog =
@@ -1046,7 +1046,7 @@ JX2DPlotWidget::UpdateCurveOptionsMenu()
 		return;
 	}
 
-	const J2DPlotDataBase& curve = GetCurve(itsCurveOptionsIndex);
+	const J2DPlotDataBase* curve = GetCurve(itsCurveOptionsIndex);
 
 	// visibility
 
@@ -1058,7 +1058,7 @@ JX2DPlotWidget::UpdateCurveOptionsMenu()
 	// style
 
 	JIndex style;
-	if (curve.GetType() != J2DPlotDataBase::kScatterPlot)
+	if (curve->GetType() != J2DPlotDataBase::kScatterPlot)
 	{
 		style = (SymbolsAreVisible(itsCurveOptionsIndex) ? kSymbolsCmd : kPointsCmd);
 		itsCurveOptionsMenu->EnableItem(kPointsCmd);
@@ -1066,7 +1066,7 @@ JX2DPlotWidget::UpdateCurveOptionsMenu()
 		itsCurveOptionsMenu->DisableItem(kLinesCmd);
 		itsCurveOptionsMenu->DisableItem(kLinesSymbolsCmd);
 	}
-	else if (curve.IsFunction())
+	else if (curve->IsFunction())
 	{
 		style = kLinesCmd;
 		itsCurveOptionsMenu->DisableItem(kPointsCmd);
@@ -1104,14 +1104,14 @@ JX2DPlotWidget::UpdateCurveOptionsMenu()
 
 	// error bars
 
-	itsCurveOptionsMenu->SetItemEnabled(kXErrorsCmd, curve.HasXErrors());
-	if (curve.HasXErrors() && XErrorsAreVisible(itsCurveOptionsIndex))
+	itsCurveOptionsMenu->SetItemEnabled(kXErrorsCmd, curve->HasXErrors());
+	if (curve->HasXErrors() && XErrorsAreVisible(itsCurveOptionsIndex))
 	{
 		itsCurveOptionsMenu->CheckItem(kXErrorsCmd);
 	}
 
-	itsCurveOptionsMenu->SetItemEnabled(kYErrorsCmd, curve.HasYErrors());
-	if (curve.HasYErrors() && YErrorsAreVisible(itsCurveOptionsIndex))
+	itsCurveOptionsMenu->SetItemEnabled(kYErrorsCmd, curve->HasYErrors());
+	if (curve->HasYErrors() && YErrorsAreVisible(itsCurveOptionsIndex))
 	{
 		itsCurveOptionsMenu->CheckItem(kYErrorsCmd);
 	}

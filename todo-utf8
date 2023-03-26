@@ -9,10 +9,7 @@ jcc
 	sub-menu of supported text encodings on File menu, just like "file formats"
 
 glove
-	clean up .fd to match current layouts
-	test layouts on Linux and OS X
-
-	test column transform:  add two columns
+	catch NaN during fits: exponential fit to linear data
 
 	test every usage of:
 		JStringIterator
@@ -20,7 +17,24 @@ glove
 		JRunArrayIterator
 		Split
 
-	ci
+	edit toolbar in datadoc, plot, fit windows
+	fit window:
+		show which plot has focus, and therefore applies to menus
+		show only data curves in "Curves" list, not existing fit curves
+
+	help for PolyFitDialog
+	fit & polyfitdialog:
+		display function as read-only, no menus
+
+medic: lldb disassembly
+[33m   [0m 0x104925034 <+2024>: ldur   x9, [x8, #-0x18]
+[33m   [0m 0x104925038 <+2028>: mov    x8, x11
+[33m   [0m 0x10492503c <+2032>: add    x8, x8, x9
+[33m   [0m 0x104925040 <+2036>: str    x8, [sp]
+[33m   [0m 0x104925044 <+2040>: ldrb   w10, [x11, #0x368]
+[33m   [0m 0x104925048 <+2044>: ldrb   w9, [x11, #0x369]
+[33m   [0m 0x10492504c <+2048>: ldrb   w8, [x11, #0x36a]
+[33m   [0m 0x104925050 <+2052>: ldr    d0, [x11, #0x3a8]
 
 -----
 
