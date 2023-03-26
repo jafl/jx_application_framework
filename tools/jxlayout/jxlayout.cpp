@@ -496,7 +496,7 @@ GenerateCode
 	const JString&		tagName,
 	const JString&		userTopEnclVarName,
 	const JUtf8Byte*	indent,
-	const bool		requireObjectNames,
+	const bool			requireObjectNames,
 	JPtrArray<JString>*	objTypes,
 	JPtrArray<JString>*	objNames
 	)
@@ -529,8 +529,7 @@ JIndex i;
 
 	// create window
 
-	const JString topEnclFrameName = tagName + "_Frame";
-	const JString topEnclApName    = tagName + "_Aperture";
+	const JString topEnclApName = tagName + "_Aperture";
 
 	JString topEnclVarName;
 	if (tagName == kDefaultDelimTag)
@@ -547,12 +546,6 @@ JIndex i;
 	{
 		assert( !userTopEnclVarName.IsEmpty() );
 		topEnclVarName = userTopEnclVarName;
-
-		output << indent << "const JRect ";
-		topEnclFrameName.Print(output);
-		output << "    = ";
-		topEnclVarName.Print(output);
-		output << "->GetFrame();" << std::endl;
 
 		output << indent << "const JRect ";
 		topEnclApName.Print(output);
@@ -922,9 +915,9 @@ JIndex i;
 		output << indent;
 		topEnclVarName.Print(output);
 		output << "->SetSize(";
-		topEnclFrameName.Print(output);
+		topEnclApName.Print(output);
 		output << ".width(), ";
-		topEnclFrameName.Print(output);
+		topEnclApName.Print(output);
 		output << ".height());" << std::endl;
 		output << std::endl;
 	}
