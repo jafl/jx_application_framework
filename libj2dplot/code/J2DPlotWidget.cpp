@@ -68,14 +68,71 @@ J2DPlotWidget::J2DPlotWidget
 	itsTitle(JGetString("DefaultTitle::J2DPlotWidget")),
 	itsXLabel(JGetString("DefaultXLabel::J2DPlotWidget")),
 	itsYLabel(JGetString("DefaultYLabel::J2DPlotWidget")),
+	itsShowLegendFlag(false),
+	itsShowGridFlag(false),
+	itsShowFrameFlag(true),
+	itsGeometryNeedsAdjustmentFlag(true),
+	itsAutomaticRefreshFlag(true),
+	itsIgnoreCurveChangedFlag(false),
+	itsXScale{0,0,0,0},
+	itsYScale{0,0,0,0},
+	itsFontName(JFontManager::GetDefaultFontName()),
+	itsFontSize(JFontManager::GetDefaultFontSize()),
+	itsXAxisStart(0),
+	itsXAxisEnd(0),
+	itsYAxisStart(0),
+	itsYAxisEnd(0),
+	itsXTrans(0),
+	itsYTrans(0),
+	itsXDecimalPoints(0),
+	itsYDecimalPoints(0),
+	itsXExp(0),
+	itsYExp(0),
+	itsForceXExp(false),
+	itsForceYExp(false),
+	itsXAxisIsLinear(true),
+	itsYAxisIsLinear(true),
+	itsIsZoomedFlag(false),
+	itsUseRealXStart(false),
+	itsUseRealYStart(false),
+	itsShowXMinorTics(true),
+	itsShowYMinorTics(true),
 	itsBlackColor(black),
 	itsWhiteColor(white),
 	itsGrayColor(gray),
-	itsSelectionColor(selection)
+	itsSelectionColor(selection),
+	itsUsingRange(false),
+	itsRangeXMin(0),
+	itsRangeXMax(0),
+	itsRangeYMin(0),
+	itsRangeYMax(0),
+	itsLineHeight(0),
+	itsMaxCurveNameWidth(0),
+	itsMaxXLabelWidth(0),
+	itsLegendWidth(0),
+	itsIsPrintingFlag(false),
+	itsPrintWidth(0),
+	itsPrintHeight(0),
+	itsXCursorVisible(false),
+	itsYCursorVisible(false),
+	itsDualCursors(false),
+	itsXCursorPos1(0),
+	itsXCursorPos2(0),
+	itsYCursorPos1(0),
+	itsYCursorPos2(0),
+	itsIsCursorDragging(false),
+	itsXCursorVal1(0),
+	itsXCursorVal2(0),
+	itsYCursorVal1(0),
+	itsYCursorVal2(0),
+	itsSelectedCursor(kNoCursor),
+	itsXCursor1InitFlag(false),
+	itsXCursor2InitFlag(false),
+	itsYCursor1InitFlag(false),
+	itsYCursor2InitFlag(false)
 {
-	itsShowLegendFlag	= false;
-	itsShowGridFlag		= false;
-	itsShowFrameFlag	= true;
+	itsCurves = jnew JPtrArray<J2DPlotDataBase>(JPtrArrayT::kForgetAll);
+	assert(itsCurves != nullptr);
 
 	itsCurveInfo = jnew JArray<J2DCurveInfo>;
 	assert(itsCurveInfo != nullptr);
@@ -88,61 +145,16 @@ J2DPlotWidget::J2DPlotWidget
 
 	AddColor(itsBlackColor);
 
-	itsCurves = jnew JPtrArray<J2DPlotDataBase>(JPtrArrayT::kForgetAll);
-	assert(itsCurves != nullptr);
-
 	for (auto& v : itsSymbolUsage)
 	{
 		v = 0;
 	}
-
-	itsFontName					= JFontManager::GetDefaultFontName();
-	itsFontSize					= JFontManager::GetDefaultFontSize();
-
-	itsLegendWidth				= 0;
-
-	itsGeometryNeedsAdjustmentFlag	= true;
-	itsAutomaticRefreshFlag			= true;
-	itsIgnoreCurveChangedFlag		= false;
-
-	itsXDecimalPoints			= 0;
-	itsYDecimalPoints			= 0;
-
-	itsXAxisIsLinear			= true;
-	itsYAxisIsLinear			= true;
-
-	itsIsZoomedFlag				= false;
-	itsShowXMinorTics			= true;
-	itsShowYMinorTics			= true;
-	itsUseRealXStart			= false;
-	itsUseRealYStart			= false;
-
-	itsUsingRange				= false;
-	itsForceXExp				= false;
-	itsForceYExp				= false;
-
-	itsIsPrintingFlag			= false;
-
-	// Cursors
 
 	itsXMarks = jnew JArray<JFloat>;
 	assert(itsXMarks != nullptr);
 
 	itsYMarks = jnew JArray<JFloat>;
 	assert(itsYMarks != nullptr);
-
-	itsXCursorVisible	= false;
-	itsYCursorVisible	= false;
-	itsDualCursors		= false;
-	itsXCursorPos1		= 0;
-	itsXCursorPos2		= 0;
-	itsYCursorPos1		= 0;
-	itsYCursorPos2		= 0;
-	itsSelectedCursor	= kNoCursor;
-	itsXCursor1InitFlag	= false;
-	itsXCursor2InitFlag	= false;
-	itsYCursor1InitFlag	= false;
-	itsYCursor2InitFlag	= false;
 
 	ResetScale(true);
 }
@@ -752,7 +764,7 @@ void
 J2DPlotWidget::GetScale
 	(
 	const JFloat*	scale,
-	const bool	linear,
+	const bool		linear,
 	JFloat*			min,
 	JFloat*			max,
 	JFloat*			inc
@@ -784,7 +796,7 @@ J2DPlotWidget::SetScale
 	const JFloat	min,
 	const JFloat	max,
 	const JFloat	inc,
-	const bool	linear,
+	const bool		linear,
 	JFloat*			scale
 	)
 {
@@ -882,11 +894,11 @@ J2DPlotWidget::ResetScale
 void
 J2DPlotWidget::UpdateScale
 	(
-	const bool	allowResetToLinear,
-	bool*		linear,
+	const bool		allowResetToLinear,
+	bool*			linear,
 	const JFloat	min,
 	const JFloat	max,
-	const bool	clean,
+	const bool		clean,
 	JFloat*			scale
 	)
 {
@@ -1020,22 +1032,21 @@ J2DPlotWidget::GetXDataRange
 {
 	*min = *max = 0.0;
 
-	const JSize count = itsCurves->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	bool first = true;
+	for (const auto* data : *itsCurves)
 	{
-		const J2DPlotDataBase* data = itsCurves->GetElement(i);
-
 		JFloat testMin, testMax;
 		data->GetXRange(&testMin, &testMax);
 
-		if (testMax > *max || i == 1)
+		if (testMax > *max || first)
 		{
 			*max = testMax;
 		}
-		if (testMin < *min || i == 1)
+		if (testMin < *min || first)
 		{
 			*min = testMin;
 		}
+		first = false;
 	}
 }
 
@@ -1060,11 +1071,8 @@ J2DPlotWidget::GetYDataRange
 	GetXScale(&xmin, &xmax, &xinc);
 
 	bool first = true;
-	const JSize count = itsCurves->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const auto* data : *itsCurves)
 	{
-		const J2DPlotDataBase* data = itsCurves->GetElement(i);
-
 		JFloat testMin, testMax;
 		if (data->GetYRange(xmin, xmax, itsXAxisIsLinear, &testMin, &testMax))
 		{
@@ -1740,7 +1748,7 @@ J2DPlotWidget::AdjustGeometry
 	JPainter& p
 	)
 {
-	itsLineHeight			= p.GetLineHeight();
+	itsLineHeight					= p.GetLineHeight();
 	const JCoordinate kYLabelBuffer	= itsLineHeight + 2 * kLabelBuffer;
 	const JCoordinate kXLabelBuffer = itsLineHeight + 2 * kLabelBuffer;
 	const JCoordinate kTitleHeight	= itsLineHeight + 2 * kTitleBuffer;

@@ -147,8 +147,8 @@ public:
 	JColorID		GetCurveColor(const JIndex index) const;
 	J2DSymbolType	GetSymbolType(const JIndex index) const;
 
-	J2DPlotDataBase&		GetCurve(const JIndex index);
-	const J2DPlotDataBase&	GetCurve(const JIndex index) const;
+	J2DPlotDataBase*		GetCurve(const JIndex index);
+	const J2DPlotDataBase*	GetCurve(const JIndex index) const;
 
 	JIndex	AddCurve(J2DPlotDataBase* data, const bool ownsData,
 					 const JString& name);
@@ -356,10 +356,10 @@ private:
 	const JColorID	itsSelectionColor;
 
 	bool	itsUsingRange;
-	JFloat	itsRangeXMax;
 	JFloat	itsRangeXMin;
-	JFloat	itsRangeYMax;
+	JFloat	itsRangeXMax;
 	JFloat	itsRangeYMin;
+	JFloat	itsRangeYMax;
 
 	JSize	itsLineHeight;
 	JSize	itsMaxCurveNameWidth;
@@ -537,7 +537,7 @@ public:
 		TitleChanged()
 			:
 			JBroadcaster::Message(kTitleChanged)
-			{ };
+		{ };
 	};
 
 	class ScaleChanged : public JBroadcaster::Message
@@ -547,7 +547,7 @@ public:
 		ScaleChanged()
 			:
 			JBroadcaster::Message(kScaleChanged)
-			{ };
+		{ };
 	};
 
 	class GeometryChanged : public JBroadcaster::Message
@@ -557,7 +557,7 @@ public:
 		GeometryChanged()
 			:
 			JBroadcaster::Message(kGeometryChanged)
-			{ };
+		{ };
 	};
 
 	class PlotChanged : public JBroadcaster::Message
@@ -567,7 +567,7 @@ public:
 		PlotChanged()
 			:
 			JBroadcaster::Message(kPlotChanged)
-			{ };
+		{ };
 	};
 
 
@@ -578,7 +578,7 @@ public:
 		IsEmpty()
 			:
 			JBroadcaster::Message(kIsEmpty)
-			{ };
+		{ };
 	};
 
 	class CurveAdded : public JBroadcaster::Message
@@ -589,7 +589,7 @@ public:
 			:
 			JBroadcaster::Message(kCurveAdded),
 			itsIndex(index)
-			{ };
+		{ };
 
 		JIndex
 		GetIndex() const
@@ -611,7 +611,7 @@ public:
 			:
 			JBroadcaster::Message(kCurveRemoved),
 			itsIndex(index)
-			{ };
+		{ };
 
 		JIndex
 		GetIndex() const
@@ -648,59 +648,59 @@ public:
 			itsX2(x2),
 			itsY1(y1),
 			itsY2(y2)
-			{ };
+		{ };
 
-			bool
-			ShowX() const
-			{
+		bool
+		ShowX() const
+		{
 			return itsShowX;
-			};
+		};
 
-			bool
-			ShowY() const
-			{
+		bool
+		ShowY() const
+		{
 			return itsShowY;
-			};
+		};
 
-			bool
-			Dual() const
-			{
+		bool
+		Dual() const
+		{
 			return itsDual;
-			};
+		};
 
-			JFloat
-			GetX1() const
-			{
+		JFloat
+		GetX1() const
+		{
 			return itsX1;
-			};
+		};
 
-			JFloat
-			GetX2() const
-			{
+		JFloat
+		GetX2() const
+		{
 			return itsX2;
-			};
+		};
 
-			JFloat
-			GetY1() const
-			{
+		JFloat
+		GetY1() const
+		{
 			return itsY1;
-			};
+		};
 
-			JFloat
-			GetY2() const
-			{
+		JFloat
+		GetY2() const
+		{
 			return itsY2;
-			};
+		};
 
-		private:
+	private:
 
-			bool	itsShowX;
-			bool	itsShowY;
-			bool	itsDual;
-			JFloat		itsX1;
-			JFloat		itsX2;
-			JFloat		itsY1;
-			JFloat		itsY2;
+		bool	itsShowX;
+		bool	itsShowY;
+		bool	itsDual;
+		JFloat	itsX1;
+		JFloat	itsX2;
+		JFloat	itsY1;
+		JFloat	itsY2;
 	};
 
 	class CursorMarked : public JBroadcaster::Message
@@ -712,7 +712,7 @@ public:
 			JBroadcaster::Message(kCursorMarked),
 			itsIsXCursor(isXCursor),
 			itsValue(value)
-			{ };
+		{ };
 
 		bool
 		IsXCursor() const
@@ -729,7 +729,7 @@ public:
 	private:
 
 		bool	itsIsXCursor;
-		JFloat		itsValue;
+		JFloat	itsValue;
 	};
 
 	class MarkRemoved : public JBroadcaster::Message
@@ -741,7 +741,7 @@ public:
 			JBroadcaster::Message(kMarkRemoved),
 			itsIsXCursor(isXCursor),
 			itsIndex(index)
-			{ };
+		{ };
 
 		bool
 		IsXCursor() const
@@ -758,7 +758,7 @@ public:
 	private:
 
 		bool	itsIsXCursor;
-		JIndex		itsIndex;
+		JIndex	itsIndex;
 	};
 };
 
@@ -783,7 +783,7 @@ inline JSize
 J2DPlotWidget::PWGetWidth()
 	const
 {
-	return (itsIsPrintingFlag ? itsPrintWidth : PWGetGUIWidth());
+	return itsIsPrintingFlag ? itsPrintWidth : PWGetGUIWidth();
 }
 
 /*******************************************************************************
@@ -795,7 +795,7 @@ inline JSize
 J2DPlotWidget::PWGetHeight()
 	const
 {
-	return (itsIsPrintingFlag ? itsPrintHeight : PWGetGUIHeight());
+	return itsIsPrintingFlag ? itsPrintHeight : PWGetGUIHeight();
 }
 
 /*******************************************************************************
@@ -807,9 +807,9 @@ inline void
 J2DPlotWidget::PWRefresh()
 {
 	if (itsAutomaticRefreshFlag)
-		{
+	{
 		PWForceRefresh();
-		}
+	}
 }
 
 /*******************************************************************************
@@ -832,9 +832,9 @@ J2DPlotWidget::ShouldAutoRefresh
 {
 	itsAutomaticRefreshFlag = refresh;
 	if (refresh)
-		{
+	{
 		PWRefresh();
-		}
+	}
 }
 
 /*******************************************************************************
@@ -1047,23 +1047,23 @@ J2DPlotWidget::GetCurveCount()
 
  ******************************************************************************/
 
-inline J2DPlotDataBase&
+inline J2DPlotDataBase*
 J2DPlotWidget::GetCurve
 	(
 	const JIndex index
 	)
 {
-	return *(itsCurves->GetElement(index));
+	return itsCurves->GetElement(index);
 }
 
-inline const J2DPlotDataBase&
+inline const J2DPlotDataBase*
 J2DPlotWidget::GetCurve
 	(
 	const JIndex index
 	)
 	const
 {
-	return *(itsCurves->GetElement(index));
+	return itsCurves->GetElement(index);
 }
 
 /*******************************************************************************
@@ -1078,7 +1078,7 @@ J2DPlotWidget::GetCurveName
 	)
 	const
 {
-	return *((itsCurveInfo->GetElement(index)).name);
+	return *itsCurveInfo->GetElement(index).name;
 }
 
 /*******************************************************************************
@@ -1090,7 +1090,7 @@ inline bool
 J2DPlotWidget::GetCurveIndex
 	(
 	J2DPlotDataBase*	data,
-	JIndex*			index
+	JIndex*				index
 	)
 {
 	return itsCurves->Find(data, index);
@@ -1119,7 +1119,7 @@ J2DPlotWidget::CurveIsVisible
 	)
 	const
 {
-	return (itsCurveInfo->GetElement(index)).show;
+	return itsCurveInfo->GetElement(index).show;
 }
 
 /*******************************************************************************
@@ -1134,7 +1134,7 @@ J2DPlotWidget::LinesAreVisible
 	)
 	const
 {
-	return (itsCurveInfo->GetElement(index)).lines;
+	return itsCurveInfo->GetElement(index).lines;
 }
 
 /*******************************************************************************
@@ -1149,7 +1149,7 @@ J2DPlotWidget::SymbolsAreVisible
 	)
 	const
 {
-	return (itsCurveInfo->GetElement(index)).symbols;
+	return itsCurveInfo->GetElement(index).symbols;
 }
 
 /******************************************************************************
@@ -1163,7 +1163,7 @@ J2DPlotWidget::XErrorsAreVisible
 	const JIndex index
 	)
 {
-	return (itsCurveInfo->GetElement(index)).xerrors;
+	return itsCurveInfo->GetElement(index).xerrors;
 }
 
 /******************************************************************************
@@ -1177,7 +1177,7 @@ J2DPlotWidget::YErrorsAreVisible
 	const JIndex index
 	)
 {
-	return (itsCurveInfo->GetElement(index)).yerrors;
+	return itsCurveInfo->GetElement(index).yerrors;
 }
 
 /*******************************************************************************
@@ -1192,7 +1192,7 @@ J2DPlotWidget::CurveIsProtected
 	)
 	const
 {
-	return (itsCurveInfo->GetElement(index)).protect;
+	return itsCurveInfo->GetElement(index).protect;
 }
 
 /*******************************************************************************
@@ -1207,7 +1207,7 @@ J2DPlotWidget::GetCurveColor
 	)
 	const
 {
-	return (itsCurveInfo->GetElement(index)).color;
+	return itsCurveInfo->GetElement(index).color;
 }
 
 /*******************************************************************************
@@ -1237,7 +1237,7 @@ J2DPlotWidget::GetSymbolType
 	)
 	const
 {
-	return (itsCurveInfo->GetElement(index)).symbol;
+	return itsCurveInfo->GetElement(index).symbol;
 }
 
 /******************************************************************************
@@ -1376,11 +1376,11 @@ inline void
 J2DPlotWidget::ClearRange()
 {
 	if (itsUsingRange)
-		{
+	{
 		itsUsingRange = false;
 		Broadcast(PlotChanged());
 		PWRefresh();
-		}
+	}
 }
 
 /*******************************************************************************
@@ -1548,10 +1548,10 @@ J2DPlotWidget::GetXCursorVal1
 	)
 {
 	if (itsXCursorVisible)
-		{
+	{
 		*value = itsXCursorVal1;
 		return true;
-		}
+	}
 	return false;
 }
 
@@ -1567,10 +1567,10 @@ J2DPlotWidget::GetXCursorVal2
 	)
 {
 	if (itsXCursorVisible && itsDualCursors)
-		{
+	{
 		*value = itsXCursorVal2;
 		return true;
-		}
+	}
 	return false;
 }
 
@@ -1586,10 +1586,10 @@ J2DPlotWidget::GetYCursorVal1
 	)
 {
 	if (itsYCursorVisible)
-		{
+	{
 		*value = itsYCursorVal1;
 		return true;
-		}
+	}
 	return false;
 }
 
@@ -1605,10 +1605,10 @@ J2DPlotWidget::GetYCursorVal2
 	)
 {
 	if (itsYCursorVisible && itsDualCursors)
-		{
+	{
 		*value = itsYCursorVal2;
 		return true;
-		}
+	}
 	return false;
 }
 
