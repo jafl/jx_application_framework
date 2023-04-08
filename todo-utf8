@@ -2,6 +2,9 @@ JStyledText
 	CleanRightMargin
 
 jcc
+	if undo/redo inserts text containing newline,
+		it scrolls to center, even if already visible
+
 	Editor Prefs
 		Emulator drop-down should be radio buttons
 
@@ -25,6 +28,9 @@ glove
 	help for PolyFitDialog
 	fit & polyfitdialog:
 		display function as read-only, no menus
+
+	generate column with uniform or gaussian noise
+	test on 1000, 10000 rows: run fit in thread?
 
 medic: lldb disassembly
 [33m   [0m 0x104925034 <+2024>: ldur   x9, [x8, #-0x18]
