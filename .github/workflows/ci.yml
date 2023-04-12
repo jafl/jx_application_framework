@@ -216,7 +216,7 @@ jobs:
       matrix:
         repo:
           - drakon
-          # glove
+          - glove
           - jx-ide
           - leibnitz
           - ssh-askpass
