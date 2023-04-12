@@ -57,6 +57,8 @@ const Time kMaxSleepTime = 50;			// 0.05 seconds (in milliseconds)
 
 const JSize kWaitForChildCount = 10;
 
+static thread_local bool theUIThreadFlag = false;
+
 /******************************************************************************
  Constructor
 
@@ -84,6 +86,8 @@ JXApplication::JXApplication
 	itsRequestQuitFlag(false),
 	itsIsQuittingFlag(false)
 {
+	theUIThreadFlag = true;
+
 	std::cout << std::boolalpha;	// since it will only be used for debugging
 	std::cerr << std::boolalpha;
 
@@ -752,6 +756,7 @@ JXApplication::StartFiber
 	const FiberPriority				priority
 	)
 {
+	assert( theUIThreadFlag );
 	assert( priority > kEventLoopPriority );
 
 	auto fiber = boost::fibers::fiber(f);
