@@ -9,6 +9,7 @@
 #define _H_JXFunctionTask
 
 #include "JXIdleTask.h"
+#include <functional>
 
 class JXFunctionTask : public JXIdleTask
 {
