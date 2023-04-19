@@ -14,7 +14,7 @@ class JXDisplay;
 class JXImage;
 class JXWindowDirector;
 class JXWDMenu;
-class JXUpdateWDMenuTask;
+class JXUrgentFunctionTask;
 
 class JXWDManager : virtual public JBroadcaster
 {
@@ -73,10 +73,10 @@ private:
 
 private:
 
-	JArray<WindowInfo>*	itsPermWindowList;
-	JArray<WindowInfo>*	itsWindowList;
-	const bool			itsWantShortcutFlag;
-	JXUpdateWDMenuTask*	itsUpdateWDMenuTask;	// nullptr unless pending
+	JArray<WindowInfo>*		itsPermWindowList;
+	JArray<WindowInfo>*		itsWindowList;
+	const bool				itsWantShortcutFlag;
+	JXUrgentFunctionTask*	itsUpdateWDMenuTask;	// nullptr unless pending
 
 private:
 

@@ -10,7 +10,7 @@
  ******************************************************************************/
 
 #include "JXImageWidget.h"
-#include "JXAdjustIWBoundsTask.h"
+#include "JXUrgentFunctionTask.h"
 #include "JXWindowPainter.h"
 #include "JXImage.h"
 #include "JXImageCache.h"
@@ -224,7 +224,11 @@ JXImageWidget::NeedAdjustBounds()
 {
 	if (itsAdjustBoundsTask == nullptr)
 	{
-		itsAdjustBoundsTask = jnew JXAdjustIWBoundsTask(this);
+		itsAdjustBoundsTask = jnew JXUrgentFunctionTask(this, [this]()
+		{
+			itsAdjustBoundsTask = nullptr;
+			AdjustBounds();
+		});
 		assert( itsAdjustBoundsTask != nullptr );
 		itsAdjustBoundsTask->Go();
 	}

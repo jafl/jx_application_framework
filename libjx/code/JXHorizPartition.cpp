@@ -11,7 +11,7 @@
  ******************************************************************************/
 
 #include "JXHorizPartition.h"
-#include "JXRestorePartitionGeometry.h"
+#include "JXUrgentFunctionTask.h"
 #include "JXDragPainter.h"
 #include "JXCursor.h"
 #include <jx-af/jcore/JColorManager.h>
@@ -470,7 +470,15 @@ JXHorizPartition::SaveGeometryForLater
 		itsSavedGeom = jnew JArray<JCoordinate>(sizes);
 		assert( itsSavedGeom != nullptr );
 
-		JXUrgentTask* geomTask = jnew JXRestorePartitionGeometry(this);
+		auto* geomTask = jnew JXUrgentFunctionTask(this, [this]()
+		{
+			if (itsSavedGeom != nullptr)
+			{
+				RestoreGeometry(*itsSavedGeom);
+				jdelete itsSavedGeom;
+				itsSavedGeom = nullptr;
+			}
+		});
 		assert( geomTask != nullptr );
 		geomTask->Go();
 	}

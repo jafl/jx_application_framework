@@ -1,29 +1,30 @@
 /******************************************************************************
- JXQuitIfAllDeactTask.cpp
-
-	Idle task to quit if all the application's subdirectors are inactive.
+ JXFunctionTask.cpp
 
 	BASE CLASS = JXIdleTask
 
-	Copyright (C) 1999 by John Lindal.
+	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#include "JXQuitIfAllDeactTask.h"
-#include "jXGlobals.h"
-#include <algorithm>
+#include "JXFunctionTask.h"
 #include <jx-af/jcore/jAssert.h>
-
-const Time kCheckPeriod = 30001;	// 30 seconds (milliseconds)
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-JXQuitIfAllDeactTask::JXQuitIfAllDeactTask()
+JXFunctionTask::JXFunctionTask
+	(
+	const Time						period,
+	const std::function<void()>&	f,
+	const bool						oneShot
+	)
 	:
-	JXIdleTask(kCheckPeriod)
+	JXIdleTask(period),
+	itsFunction(f),
+	itsIsOneShotFlag(oneShot)
 {
 }
 
@@ -32,7 +33,7 @@ JXQuitIfAllDeactTask::JXQuitIfAllDeactTask()
 
  ******************************************************************************/
 
-JXQuitIfAllDeactTask::~JXQuitIfAllDeactTask()
+JXFunctionTask::~JXFunctionTask()
 {
 }
 
@@ -42,18 +43,14 @@ JXQuitIfAllDeactTask::~JXQuitIfAllDeactTask()
  ******************************************************************************/
 
 void
-JXQuitIfAllDeactTask::Perform
+JXFunctionTask::Perform
 	(
 	const Time delta
 	)
 {
-	JXApplication* app = JXGetApplication();
-
-	const JPtrArray<JXDirector>* list;
-	if (!app->GetSubdirectors(&list) ||
-		std::all_of(begin(*list), end(*list),
-			[] (JXDirector* dir) { return !dir->IsActive(); }))
+	itsFunction();
+	if (itsIsOneShotFlag)
 	{
-			app->Quit();
+		jdelete this;
 	}
 }

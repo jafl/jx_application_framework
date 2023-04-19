@@ -15,7 +15,7 @@
 #include "JXMenuManager.h"
 #include "JXDNDManager.h"
 #include "JXHintManager.h"
-#include "JXRaiseWindowTask.h"
+#include "JXUrgentFunctionTask.h"
 #include "JXExpandWindowToFitContentTask.h"
 #include "JXTextMenu.h"
 #include "JXDisplay.h"
@@ -4817,7 +4817,7 @@ JXWindow::Undock()
 
 	if (itsDockWidget != nullptr)
 	{
-		(itsDockWidget->GetDockDirector())->ClearFocusWindow(this);
+		itsDockWidget->GetDockDirector()->ClearFocusWindow(this);
 	}
 
 	Hide();
@@ -4838,7 +4838,7 @@ JXWindow::Undock()
 
 	if (wasVisible)
 	{
-		auto* task = jnew JXRaiseWindowTask(this);
+		auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXWindow::Raise, this, true));
 		assert( task != nullptr );
 		task->Go();
 	}

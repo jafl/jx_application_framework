@@ -17,7 +17,7 @@ class JXHorizDockPartition;
 class JXVertDockPartition;
 class JXTabGroup;
 class JXHintDirector;
-class JXTimerTask;
+class JXFunctionTask;
 
 class JXDockWidget : public JXWidgetSet
 {
@@ -94,7 +94,7 @@ private:
 	JPoint					itsMinSize;
 	JXPartition*			itsChildPartition;	// nullptr if contains docked windows
 	JXHintDirector*			itsHintDirector;	// nullptr unless showing hint; not owned
-	JXTimerTask*			itsDeleteHintTask;	// nullptr unless showing hint
+	JXFunctionTask*			itsDeleteHintTask;	// nullptr unless showing hint
 
 private:
 

@@ -22,7 +22,7 @@
 #include "JXColorManager.h"
 #include "JXSelectionManager.h"
 #include "JXDNDManager.h"
-#include "JXTimerTask.h"
+#include "JXFunctionTask.h"
 #include "jXGlobals.h"
 #include "jXUtil.h"
 
@@ -77,10 +77,9 @@ JXDirTable::JXDirTable
 	itsActiveCells = jnew JArray<bool>;
 	assert( itsActiveCells != nullptr );
 
-	itsDirUpdateTask = jnew JXTimerTask(kDirUpdatePeriod);
+	itsDirUpdateTask = jnew JXFunctionTask(kDirUpdatePeriod, std::bind(&JXDirTable::UpdateDisplay, this));
 	assert( itsDirUpdateTask != nullptr );
 	itsDirUpdateTask->Start();
-	ListenTo(itsDirUpdateTask);
 
 	itsAllowSelectFilesFlag      = true;
 	itsAllowSelectMultipleFlag   = false;
@@ -1174,11 +1173,6 @@ JXDirTable::Receive
 	else if (sender == itsDirInfo && message.Is(JDirInfo::kContentsChanged))
 	{
 		AdjustTableContents();
-	}
-
-	else if (sender == itsDirUpdateTask && message.Is(JXTimerTask::kTimerWentOff))
-	{
-		UpdateDisplay();
 	}
 
 	else

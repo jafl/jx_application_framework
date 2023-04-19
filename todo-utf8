@@ -5,9 +5,6 @@ jcc
 	if undo/redo inserts text containing newline,
 		it scrolls to center, even if already visible
 
-	Editor Prefs
-		Emulator drop-down should be radio buttons
-
 	menu of supported text encodings in "open text file" dialog, default autodetect
 	sub-menu of supported text encodings on File menu, just like "file formats"
 

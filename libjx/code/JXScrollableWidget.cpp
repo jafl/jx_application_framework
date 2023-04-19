@@ -20,9 +20,9 @@
  ******************************************************************************/
 
 #include "JXScrollableWidget.h"
-#include "JXAdjustScrollbarTask.h"
 #include "JXScrollbarSet.h"
 #include "JXScrollbar.h"
+#include "JXUrgentFunctionTask.h"
 #include "JXMenu.h"
 #include "JXDisplay.h"
 #include "JXWindow.h"
@@ -369,7 +369,11 @@ JXScrollableWidget::NeedAdjustScrollbars()
 {
 	if (itsScrollbarSet != nullptr && itsAdjustScrollbarTask == nullptr)
 	{
-		itsAdjustScrollbarTask = jnew JXAdjustScrollbarTask(this);
+		itsAdjustScrollbarTask = jnew JXUrgentFunctionTask(this, [this]()
+		{
+			itsAdjustScrollbarTask = nullptr;
+			AdjustScrollbars();
+		});
 		assert( itsAdjustScrollbarTask != nullptr );
 		itsAdjustScrollbarTask->Go();
 	}

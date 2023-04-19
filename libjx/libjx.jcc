@@ -1,4 +1,4 @@
-jx_browser_data 90
+jx_browser_data 91
 # project tree
 0 "root"
 T
@@ -16,25 +16,32 @@ T
 F
 "./code/JXMDIServer.cpp"
 T
+2 "JXCheckModTimeTask.cpp"
+F
+"./code/JXCheckModTimeTask.cpp"
+F
+T
+1 "Tasks"
+T
 2 "JXIdleTask.cpp"
 F
 "./code/JXIdleTask.cpp"
+T
+2 "JXFunctionTask.cpp"
+F
+"./code/JXFunctionTask.cpp"
 T
 2 "JXTimerTask.cpp"
 F
 "./code/JXTimerTask.cpp"
 T
-2 "JXQuitIfAllDeactTask.cpp"
-F
-"./code/JXQuitIfAllDeactTask.cpp"
-T
-2 "JXCheckModTimeTask.cpp"
-F
-"./code/JXCheckModTimeTask.cpp"
-T
 2 "JXUrgentTask.cpp"
 F
 "./code/JXUrgentTask.cpp"
+T
+2 "JXUrgentFunctionTask.cpp"
+F
+"./code/JXUrgentFunctionTask.cpp"
 F
 T
 1 "Display/Window"
@@ -74,10 +81,6 @@ T
 2 "JXOpenDisplayDialog.cpp"
 F
 "./code/JXOpenDisplayDialog.cpp"
-T
-2 "JXRaiseWindowTask.cpp"
-F
-"./code/JXRaiseWindowTask.cpp"
 T
 2 "JXExpandWindowToFitContentTask.cpp"
 F
@@ -143,10 +146,6 @@ T
 2 "JXWDMenu.cpp"
 F
 "./code/JXWDMenu.cpp"
-T
-2 "JXUpdateWDMenuTask.cpp"
-F
-"./code/JXUpdateWDMenuTask.cpp"
 F
 T
 1 "Document"
@@ -166,10 +165,6 @@ T
 2 "JXDocumentMenu.cpp"
 F
 "./code/JXDocumentMenu.cpp"
-T
-2 "JXUpdateDocMenuTask.cpp"
-F
-"./code/JXUpdateDocMenuTask.cpp"
 F
 T
 1 "Widget"
@@ -194,10 +189,6 @@ T
 F
 "./code/JXScrollableWidget.cpp"
 T
-2 "JXAdjustScrollbarTask.cpp"
-F
-"./code/JXAdjustScrollbarTask.cpp"
-T
 2 "JXScrollbar.cpp"
 F
 "./code/JXScrollbar.cpp"
@@ -221,10 +212,6 @@ T
 2 "JXCursor.cpp"
 F
 "./code/JXCursor.cpp"
-T
-2 "JXCursorAnimationTask.cpp"
-F
-"./code/JXCursorAnimationTask.cpp"
 T
 2 "JXCursorAnimator.cpp"
 F
@@ -461,10 +448,6 @@ T
 F
 "./code/JXSearchTextButton.cpp"
 T
-2 "JXSearchTextDecorTask.cpp"
-F
-"./code/JXSearchTextDecorTask.cpp"
-T
 2 "JXRegexInput.cpp"
 F
 "./code/JXRegexInput.cpp"
@@ -573,10 +556,6 @@ T
 2 "JXVertPartition.cpp"
 F
 "./code/JXVertPartition.cpp"
-T
-2 "JXRestorePartitionGeometry.cpp"
-F
-"./code/JXRestorePartitionGeometry.cpp"
 F
 T
 1 "CardFile"
@@ -584,10 +563,6 @@ T
 2 "JXTabGroup.cpp"
 F
 "./code/JXTabGroup.cpp"
-T
-2 "JXScrollTabsTask.cpp"
-F
-"./code/JXScrollTabsTask.cpp"
 T
 2 "JXCardFile.cpp"
 F
@@ -631,10 +606,6 @@ T
 2 "JXDockWindowTask.cpp"
 F
 "./code/JXDockWindowTask.cpp"
-T
-2 "JXUpdateMinSizeTask.cpp"
-F
-"./code/JXUpdateMinSizeTask.cpp"
 F
 T
 1 "Tree"
@@ -646,10 +617,6 @@ T
 2 "JXNamedTreeListWidget.cpp"
 F
 "./code/JXNamedTreeListWidget.cpp"
-T
-2 "JXTLWAdjustToTreeTask.cpp"
-F
-"./code/JXTLWAdjustToTreeTask.cpp"
 F
 T
 1 "ToolBar"
@@ -673,10 +640,6 @@ T
 2 "JXToolBarNode.cpp"
 F
 "./code/JXToolBarNode.cpp"
-T
-2 "JXAdjustToolBarGeometryTask.cpp"
-F
-"./code/JXAdjustToolBarGeometryTask.cpp"
 F
 T
 1 "FileList"
@@ -777,10 +740,6 @@ T
 F
 "./code/JXDirTable.cpp"
 T
-2 "JXCSFSelectPrevDirTask.cpp"
-F
-"./code/JXCSFSelectPrevDirTask.cpp"
-T
 2 "JXCurrentPathMenu.cpp"
 F
 "./code/JXCurrentPathMenu.cpp"
@@ -851,10 +810,6 @@ T
 F
 "./code/JXStandAlonePG.cpp"
 T
-2 "JXProgressContinueWorkTask.cpp"
-F
-"./code/JXProgressContinueWorkTask.cpp"
-T
 2 "JXCreatePG.cpp"
 F
 "./code/JXCreatePG.cpp"
@@ -901,10 +856,6 @@ T
 2 "JXImageWidget.cpp"
 F
 "./code/JXImageWidget.cpp"
-T
-2 "JXAdjustIWBoundsTask.cpp"
-F
-"./code/JXAdjustIWBoundsTask.cpp"
 T
 2 "JXAnimationTask.cpp"
 F
@@ -1038,10 +989,6 @@ T
 2 "JXEPSPrintSetupDialog.cpp"
 F
 "./code/JXEPSPrintSetupDialog.cpp"
-T
-2 "JXChooseEPSDestFileTask.cpp"
-F
-"./code/JXChooseEPSDestFileTask.cpp"
 F
 T
 1 "misc"

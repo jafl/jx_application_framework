@@ -52,10 +52,10 @@ protected:
 											  const JCoordinate position,
 											  const JCoordinate size) override;
 	void			UpdateCompartmentSizes() override;
-	bool		SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
+	bool			SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
 
 	bool	RunInternalFTC(const bool horizontal, JCoordinate* newSize) override;
-	void		FTCAdjustSize(const JCoordinate dw, const JCoordinate dh) override;
+	void	FTCAdjustSize(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 

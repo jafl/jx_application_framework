@@ -12,7 +12,7 @@
 #include "JFSBinding.h"		// need defn of CommandType
 #include <jx-af/jcore/JError.h>
 
-class JXTimerTask;
+class JXFunctionTask;
 class JFSBindingList;
 class JXFSEditBindingsDialog;
 class JXFSRunCommandDialog;
@@ -42,12 +42,10 @@ protected:
 
 	JXFSBindingManager(JString* needUserCheck);
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JFSBindingList*	itsBindingList;
-	JXTimerTask*	itsUpdateBindingListTask;
+	JXFunctionTask*	itsUpdateBindingListTask;
 
 	JXFSRunCommandDialog*	itsRunCmdDialog;
 	JXFSRunFileDialog*		itsRunFileDialog;	// nullptr unless processing files

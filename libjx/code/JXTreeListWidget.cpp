@@ -25,7 +25,7 @@
  ******************************************************************************/
 
 #include "JXTreeListWidget.h"
-#include "JXTLWAdjustToTreeTask.h"
+#include "JXUrgentFunctionTask.h"
 #include "jXGlobals.h"
 #include <jx-af/jcore/JTree.h>
 #include <jx-af/jcore/JTreeList.h>
@@ -780,7 +780,11 @@ JXTreeListWidget::NeedsAdjustToTree()
 {
 	if (itsAdjustToTreeTask == nullptr)
 	{
-		itsAdjustToTreeTask = jnew JXTLWAdjustToTreeTask(this);
+		itsAdjustToTreeTask = jnew JXUrgentFunctionTask(this, [this]()
+		{
+			itsAdjustToTreeTask = nullptr;
+			AdjustToTree();
+		});
 		assert( itsAdjustToTreeTask != nullptr );
 		itsAdjustToTreeTask->Go();
 	}

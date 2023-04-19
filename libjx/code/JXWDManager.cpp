@@ -21,7 +21,7 @@
 #include "JXWDManager.h"
 #include "JXWindowDirector.h"
 #include "JXWDMenu.h"
-#include "JXUpdateWDMenuTask.h"
+#include "JXUrgentFunctionTask.h"
 #include "JXDisplay.h"
 #include "JXImage.h"
 #include "JXColorManager.h"
@@ -307,7 +307,11 @@ JXWDManager::WDMenusNeedUpdate()
 {
 	if (itsUpdateWDMenuTask == nullptr)
 	{
-		itsUpdateWDMenuTask = jnew JXUpdateWDMenuTask(this);
+		itsUpdateWDMenuTask = jnew JXUrgentFunctionTask(this, [this]()
+		{
+			itsUpdateWDMenuTask = nullptr;
+			UpdateAllWDMenus();
+		});
 		assert( itsUpdateWDMenuTask != nullptr );
 		itsUpdateWDMenuTask->Go();
 	}

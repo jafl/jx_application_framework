@@ -15,7 +15,7 @@ class JString;
 class JDirInfo;
 class JDirEntry;
 class JXImage;
-class JXTimerTask;
+class JXFunctionTask;
 
 class JXDirTable : public JXTable
 {
@@ -97,7 +97,7 @@ private:
 
 	JDirInfo*		itsDirInfo;					// not owned
 	JArray<bool>*	itsActiveCells;
-	JXTimerTask*	itsDirUpdateTask;
+	JXFunctionTask*	itsDirUpdateTask;
 
 	bool	itsIgnoreSelChangesFlag;			// true while cleaning selection
 	bool	itsAllowSelectFilesFlag;

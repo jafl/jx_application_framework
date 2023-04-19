@@ -44,7 +44,7 @@
 #include "JXWindow.h"
 #include "JXWindowPainter.h"
 #include "JXCursorAnimator.h"
-#include "JXCursorAnimationTask.h"
+#include "JXFunctionTask.h"
 #include "JXDNDManager.h"
 #include "JXHintManager.h"
 #include "JXFTCCell.h"
@@ -59,7 +59,7 @@ bool JXContainer::theDebugHorizFTCFlag                    = false;
 bool JXContainer::theDebugVertFTCFlag                     = false;
 bool JXContainer::theDebugFTCNoopExaminations             = false;
 bool JXContainer::theDebugFTCWillOverlapNonincludedWidget = false;
-std::ostream* JXContainer::theDebugFTCLogBuffer               = nullptr;
+std::ostream* JXContainer::theDebugFTCLogBuffer           = nullptr;
 
 /******************************************************************************
  Constructor (protected)
@@ -1634,7 +1634,7 @@ JXContainer::CreateCursorAnimator()
 	assert( itsCursorAnim != nullptr );
 
 	jdelete itsCursorAnimTask;
-	itsCursorAnimTask = jnew JXCursorAnimationTask(itsCursorAnim);
+	itsCursorAnimTask = jnew JXFunctionTask(JXCursorAnimator::kmsecPerFrame, std::bind(&JXCursorAnimator::NextFrame, itsCursorAnim));
 	assert( itsCursorAnimTask != nullptr );
 
 	if (IsVisible())

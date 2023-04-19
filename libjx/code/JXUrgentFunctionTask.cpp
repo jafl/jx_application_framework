@@ -1,27 +1,27 @@
 /******************************************************************************
- JXUpdateMinSizeTask.cpp
+ JXUrgentFunctionTask.cpp
 
 	BASE CLASS = JXUrgentTask
 
-	Copyright (C) 2008 by John Lindal.
+	Copyright (C) 2023 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
-#include "JXUpdateMinSizeTask.h"
-#include "JXDockWidget.h"
+#include "JXUrgentFunctionTask.h"
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-JXUpdateMinSizeTask::JXUpdateMinSizeTask
+JXUrgentFunctionTask::JXUrgentFunctionTask
 	(
-	JXDockWidget* dock
+	JBroadcaster* 					target,
+	const std::function<void()>&	f
 	)
 	:
-	JXUrgentTask(dock),
-	itsDockWidget(dock)
+	JXUrgentTask(target),
+	itsFunction(f)
 {
 }
 
@@ -30,7 +30,7 @@ JXUpdateMinSizeTask::JXUpdateMinSizeTask
 
  ******************************************************************************/
 
-JXUpdateMinSizeTask::~JXUpdateMinSizeTask()
+JXUrgentFunctionTask::~JXUrgentFunctionTask()
 {
 }
 
@@ -40,7 +40,7 @@ JXUpdateMinSizeTask::~JXUpdateMinSizeTask()
  ******************************************************************************/
 
 void
-JXUpdateMinSizeTask::Perform()
+JXUrgentFunctionTask::Perform()
 {
-	itsDockWidget->UpdateMinSize();
+	itsFunction();
 }

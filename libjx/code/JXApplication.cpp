@@ -18,8 +18,7 @@
 #include "JXApplication.h"
 #include "JXDisplay.h"
 #include "JXWindow.h"
-#include "JXIdleTask.h"
-#include "JXQuitIfAllDeactTask.h"
+#include "JXFunctionTask.h"
 #include "JXUrgentTask.h"
 #include "JXMenuManager.h"
 #include "JXHelpManager.h"
@@ -39,6 +38,7 @@
 #include <jx-af/jcore/JTaskIterator.h>
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jDirUtil.h>
+#include <algorithm>
 #include <stdlib.h>
 #include <stdio.h>
 #include <jx-af/jcore/jAssert.h>
@@ -55,6 +55,7 @@ static const JUtf8Byte* kPseudotranslateOptionName = "--pseudotranslate";
 const time_t kTimerStart = 100000000;	// seconds before rollover
 const Time kMaxSleepTime = 50;			// 0.05 seconds (in milliseconds)
 
+const Time kCheckQuitPeriod    = 30001;	// 30 seconds (milliseconds)
 const JSize kWaitForChildCount = 10;
 
 static thread_local bool theUIThreadFlag = false;
@@ -167,7 +168,16 @@ JXApplication::JXApplication
 
 	// idle task to quit if add directors deactivated
 
-	auto* task = jnew JXQuitIfAllDeactTask;
+	auto* task = jnew JXFunctionTask(kCheckQuitPeriod, [this]()
+	{
+		const JPtrArray<JXDirector>* list;
+		if (!GetSubdirectors(&list) ||
+			std::all_of(begin(*list), end(*list),
+				[](JXDirector* dir) { return !dir->IsActive(); }))
+		{
+			Quit();
+		}
+	});
 	assert( task != nullptr );
 	task->Start();
 }

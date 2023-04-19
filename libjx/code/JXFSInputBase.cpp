@@ -12,6 +12,7 @@
 
 #include "JXFSInputBase.h"
 #include "JXStringCompletionMenu.h"
+#include "JXUrgentFunctionTask.h"
 #include "jXUtil.h"
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JColorManager.h>
@@ -30,7 +31,7 @@
 JXFSInputBase::JXFSInputBase
 	(
 	StyledText*			text,
-	const bool		showFilesForCompletion,
+	const bool			showFilesForCompletion,
 	const JUtf8Byte*	defaultHintID,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -154,10 +155,15 @@ JXFSInputBase::Receive
 	}
 	else if (sender == this && message.Is(JTextEditor::kCaretLocationChanged))
 	{
-		JIndex i;
-		WantInput(true,
-				  GetCaretLocation(&i) && i == GetText()->GetText().GetCharacterCount()+1,
-				  WantsModifiedTab());
+		auto* task = jnew JXUrgentFunctionTask(this, [this]()
+		{
+			JIndex i;
+			WantInput(true,
+					  GetCaretLocation(&i) && i == GetText()->GetText().GetCharacterCount()+1,
+					  WantsModifiedTab());
+		});
+		assert( task != nullptr );
+		task->Go();
 	}
 }
 

@@ -17,12 +17,12 @@
 
 #include "JXTabGroup.h"
 #include "JXCardFile.h"
-#include "JXScrollTabsTask.h"
 #include "JXTextMenu.h"
 #include "JXDisplay.h"
 #include "JXWindow.h"
 #include "JXWindowPainter.h"
 #include "jXPainterUtil.h"
+#include "JXUrgentFunctionTask.h"
 #include "JXFontManager.h"
 #include "JXColorManager.h"
 #include "JXImage.h"
@@ -413,7 +413,7 @@ JXTabGroup::RemoveTab
 
 	if (itsCanScrollUpFlag && !itsCanScrollDownFlag)
 	{
-		auto* task = jnew JXScrollTabsTask(this);
+		auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXTabGroup::ScrollTabsIntoView, this));
 		assert( task != nullptr );
 		task->Go();
 	}
@@ -1296,7 +1296,7 @@ JXTabGroup::BoundsResized
 	if (((itsEdge == kTop || itsEdge == kBottom) && dw > 0) ||
 		((itsEdge == kLeft || itsEdge == kRight) && dh > 0))
 	{
-		auto* task = jnew JXScrollTabsTask(this);
+		auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXTabGroup::ScrollTabsIntoView, this));
 		assert( task != nullptr );
 		task->Go();
 	}

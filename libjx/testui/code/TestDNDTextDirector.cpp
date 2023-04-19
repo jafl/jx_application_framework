@@ -105,7 +105,7 @@ TestDNDTextDirector::BuildWindow()
 		text->SetFontStyle(TEXT_RANGE(14, 30), JFontStyle(false, true, 1, false), true);
 		text->SetFontStyle(TEXT_RANGE(31, 45), JFontStyle(false, false, 3, false), true);
 		text->SetFontStyle(TEXT_RANGE(46, 53), JFontStyle(false, false, 0, true), true);
-		text->SetFontStyle(TEXT_RANGE(54, 62),
+		text->SetFontStyle(TEXT_RANGE(54, 61),
 			JFontStyle(true, false, 0, false, JColorManager::GetRedColor()), true);
 	}
 }

@@ -15,7 +15,7 @@
 #include <boost/fiber/condition_variable.hpp>
 
 class JXPGDirectorBase;
-class JXProgressContinueWorkTask;
+class JXFunctionTask;
 
 class JXStandAlonePG : public JXProgressDisplay
 {
@@ -44,7 +44,7 @@ private:
 	bool				itsRaiseWindowFlag;
 	JSize				itsStepCount;
 
-	JXProgressContinueWorkTask*			itsContinueTask;
+	JXFunctionTask*						itsContinueTask;
 	boost::fibers::condition_variable	itsCondition;
 	boost::fibers::mutex				itsMutex;
 	bool								itsContinueFlag;

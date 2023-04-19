@@ -116,11 +116,14 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		*** Constructor requires an object that, if deleted, will cancel the task.
 //		*** Derived classes must declare destructor and Perform() as protected.
 //		Added Cancel() & Cancelled().
+//		Converted most derived classes to JXUrgentFunctionTask.
 //	JXIdleTask:
 //		*** Removed maxSleepTime argument from Perform().
 //		*** Perform() must be protected and should no longer call ReadyToPerform().
 //		*** Removed CheckIfTimeToPerform() because it is no longer necessary.
 //			Perform() can be overridden without worrying about timing.
+//	*** Replaced JXTimerTask with JXFunctionTask.  Anything that can be done
+//			in Receive() can be done in a lambda.
 //	JXUserNotification:
 //		Made text selectable, so error messages can be copied.
 //	JXCurrentPathMenu:

@@ -14,7 +14,7 @@
 #include "JXStaticText.h"
 #include "JXImageWidget.h"
 #include "JXImage.h"
-#include "JXTimerTask.h"
+#include "JXFunctionTask.h"
 #include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
@@ -129,34 +129,11 @@ JXSplashWindow::BuildWindow
 
 	// close after specified time interval
 
-	auto* task = jnew JXTimerTask(displayInterval * 1000, true);
+	JXFunctionTask* task = jnew JXFunctionTask(displayInterval * 1000, std::bind(&JXSplashWindow::Close, this), true);
 	assert( task != nullptr );
-	ListenTo(task);
 	task->Start();
 
 	// place window
 
 	window->PlaceAsDialogWindow();
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-JXSplashWindow::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (message.Is(JXTimerTask::kTimerWentOff))
-	{
-		Close();
-	}
-	else
-	{
-		JXWindowDirector::Receive(sender, message);
-	}
 }

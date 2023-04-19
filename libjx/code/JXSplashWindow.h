@@ -25,10 +25,6 @@ public:
 
 	~JXSplashWindow() override;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	void	BuildWindow(JXImage* image, const JString& text,

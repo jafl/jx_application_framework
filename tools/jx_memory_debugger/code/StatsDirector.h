@@ -19,7 +19,7 @@ class JXToolBar;
 class JXStaticText;
 class JXInputField;
 class JXFileInput;
-class JXTimerTask;
+class JXFunctionTask;
 class JXPGMessageDirector;
 class LinkAcceptor;
 class SizeHistogram;
@@ -51,7 +51,7 @@ private:
 	LinkAcceptor*				itsAcceptor;
 	JMemoryManager::DebugLink*	itsLink;
 	JProcess*					itsProcess;
-	JXTimerTask*				itsPingTask;
+	JXFunctionTask*				itsPingTask;
 	JXPGMessageDirector*		itsMessageDir;
 	JString						itsExitStatsFile;
 

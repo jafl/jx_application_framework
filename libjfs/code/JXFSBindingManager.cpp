@@ -14,7 +14,7 @@
 #include "JXFSRunFileDialog.h"
 #include "JXFSRunScriptDialog.h"
 #include <jx-af/jx/JXHelpManager.h>
-#include <jx-af/jx/JXTimerTask.h>
+#include <jx-af/jx/JXFunctionTask.h>
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/JSimpleProcess.h>
 #include <jx-af/jcore/JListUtil.h>
@@ -90,10 +90,19 @@ JXFSBindingManager::JXFSBindingManager
 {
 	itsBindingList = JFSBindingList::Create(needUserCheck);
 
-	itsUpdateBindingListTask = jnew JXTimerTask(kUpdateInterval);
+	itsUpdateBindingListTask = jnew JXFunctionTask(kUpdateInterval, [this]()
+	{
+		if (itsEditDialog == nullptr && itsRunFileDialog == nullptr)
+		{
+			itsBindingList->RevertIfModified();
+		}
+		else if (itsEditDialog != nullptr)
+		{
+			itsEditDialog->CheckIfNeedRevert();
+		}
+	});
 	assert( itsUpdateBindingListTask != nullptr );
 	itsUpdateBindingListTask->Start();
-	ListenTo(itsUpdateBindingListTask);
 
 	itsRunCmdDialog = jnew JXFSRunCommandDialog;
 	assert( itsRunCmdDialog != nullptr );
@@ -515,36 +524,6 @@ JXFSBindingManager::BuildCommand
 	{
 		*cmd += " ";
 		*cmd += qf;
-	}
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-JXFSBindingManager::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsUpdateBindingListTask && message.Is(JXTimerTask::kTimerWentOff))
-	{
-		if (itsEditDialog == nullptr && itsRunFileDialog == nullptr)
-		{
-			itsBindingList->RevertIfModified();
-		}
-		else if (itsEditDialog != nullptr)
-		{
-			itsEditDialog->CheckIfNeedRevert();
-		}
-	}
-
-	else
-	{
-		JBroadcaster::Receive(sender, message);
 	}
 }
 

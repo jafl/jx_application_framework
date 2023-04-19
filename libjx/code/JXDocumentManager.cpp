@@ -51,8 +51,8 @@
 #include "JXDocumentManager.h"
 #include "JXFileDocument.h"
 #include "JXDocumentMenu.h"
-#include "JXUpdateDocMenuTask.h"
-#include "JXTimerTask.h"
+#include "JXUrgentFunctionTask.h"
+#include "JXFunctionTask.h"
 #include "JXImage.h"
 #include "JXImageCache.h"
 #include "JXDisplay.h"
@@ -105,9 +105,8 @@ JXDocumentManager::JXDocumentManager
 
 	itsPerformSafetySaveFlag = true;
 
-	itsSafetySaveTask = jnew JXTimerTask(kDefaultSafetySavePeriod);
+	itsSafetySaveTask = jnew JXFunctionTask(kDefaultSafetySavePeriod, std::bind(&JXDocumentManager::SafetySave, this, JXDocumentManager::kTimer));
 	assert( itsSafetySaveTask != nullptr );
-	ListenTo(itsSafetySaveTask);
 
 	itsUpdateDocMenuTask = nullptr;
 
@@ -254,7 +253,11 @@ JXDocumentManager::DocumentMenusNeedUpdate()
 {
 	if (itsUpdateDocMenuTask == nullptr)
 	{
-		itsUpdateDocMenuTask = jnew JXUpdateDocMenuTask(this);
+		itsUpdateDocMenuTask = jnew JXUrgentFunctionTask(this, [this]()
+		{
+			itsUpdateDocMenuTask = nullptr;
+			UpdateAllDocumentMenus();
+		});
 		assert( itsUpdateDocMenuTask != nullptr );
 		itsUpdateDocMenuTask->Go();
 	}
@@ -749,28 +752,6 @@ JXDocumentManager::SafetySave
 	for (const auto& info : *itsDocList)
 	{
 		info.doc->SafetySave(reason);
-	}
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXDocumentManager::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsSafetySaveTask && message.Is(JXTimerTask::kTimerWentOff))
-	{
-		SafetySave(JXDocumentManager::kTimer);
-	}
-	else
-	{
-		JBroadcaster::Receive(sender, message);
 	}
 }
 

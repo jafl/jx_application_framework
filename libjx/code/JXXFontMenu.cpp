@@ -7,7 +7,7 @@
 	we are responsible for marking the menu item, clients should listen
 	for FontNeedsUpdate instead of NeedsUpdate.
 
-	BASE CLASS = JXTextMenu
+	BASE CLASS = JXFontNameMenu
 
 	Copyright (C) 1996-2010 by John Lindal.
 

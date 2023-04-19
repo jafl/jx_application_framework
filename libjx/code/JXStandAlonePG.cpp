@@ -13,7 +13,7 @@
 #include "JXStandAlonePG.h"
 #include "JXFixLenPGDirector.h"
 #include "JXVarLenPGDirector.h"
-#include "JXProgressContinueWorkTask.h"
+#include "JXFunctionTask.h"
 #include "JXDisplay.h"
 #include "JXWindow.h"
 #include "jXGlobals.h"
@@ -93,7 +93,15 @@ JXStandAlonePG::ProcessBeginning
 
 	if (modal)
 	{
-		itsContinueTask = jnew JXProgressContinueWorkTask(&itsCondition, &itsMutex, &itsContinueFlag);
+		itsContinueTask = jnew JXFunctionTask(0, [this]()
+		{
+			std::unique_lock lock(itsMutex);
+			itsContinueFlag = true;
+			lock.unlock();
+
+			itsCondition.notify_one();
+			boost::this_fiber::yield();
+		});
 		assert( itsContinueTask != nullptr );
 		itsContinueTask->Start();
 	}

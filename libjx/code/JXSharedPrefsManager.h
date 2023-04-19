@@ -13,7 +13,7 @@
 #include <jx-af/jcore/jTime.h>
 
 class JPrefsFile;
-class JXTimerTask;
+class JXFunctionTask;
 class JXSharedPrefObject;
 
 class JXSharedPrefsManager : virtual public JBroadcaster
@@ -28,10 +28,6 @@ public:
 
 	void	ReadPrefs(JXSharedPrefObject* obj);
 	void	WritePrefs(const JXSharedPrefObject* obj);
-
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 public:
 
@@ -63,7 +59,7 @@ private:
 
 	JPrefsFile*		itsFile;			// nullptr unless working
 	bool			itsChangedFlag;		// used when re-entrant
-	JXTimerTask*	itsUpdateTask;
+	JXFunctionTask*	itsUpdateTask;
 	JString			itsSignalFileName;	// can be empty
 	time_t			itsSignalModTime;	// last time signal file was modified
 	bool			itsWasNewFlag;		// true => we created the file

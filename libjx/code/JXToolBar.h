@@ -18,8 +18,8 @@ class JNamedTreeNode;
 class JXMenu;
 class JXMenuBar;
 class JXTextMenu;
-class JXTimerTask;
-class JXAdjustToolBarGeometryTask;
+class JXFunctionTask;
+class JXUrgentFunctionTask;
 
 class JXToolBar : public JXWidgetSet, public JPrefObject
 {
@@ -68,23 +68,23 @@ protected:
 
 private:
 
-	JCoordinate						itsNextButtonPosition;
-	bool							itsInNewGroupMode;
-	JPtrArray<JXToolBarButton>*		itsButtons;
-	JPtrArray<JXMenu>*				itsMenus;
-	JXTimerTask*					itsTimerTask;
-	JXAdjustToolBarGeometryTask*	itsAdjustTask;
-	JXMenuBar*						itsMenuBar;
-	JSize							itsCurrentButtonHeight;
-	JXWidgetSet*					itsToolBarSet;
-	JXWidgetSet*					itsToolBarEnclosure;
-	JArray<bool>*					itsGroupStarts;
-	JCoordinate						itsCurrentLineY;
-	bool							itsIsShowingButtons;
-	bool							itsWasShowingButtons;
-	JString							itsDialogPrefs;
-	JXToolBarButton::Type			itsButtonType;
-	bool							itsLoadedPrefs;
+	JCoordinate					itsNextButtonPosition;
+	bool						itsInNewGroupMode;
+	JPtrArray<JXToolBarButton>*	itsButtons;
+	JPtrArray<JXMenu>*			itsMenus;
+	JXFunctionTask*				itsTimerTask;
+	JXUrgentFunctionTask*		itsAdjustTask;
+	JXMenuBar*					itsMenuBar;
+	JSize						itsCurrentButtonHeight;
+	JXWidgetSet*				itsToolBarSet;
+	JXWidgetSet*				itsToolBarEnclosure;
+	JArray<bool>*				itsGroupStarts;
+	JCoordinate					itsCurrentLineY;
+	bool						itsIsShowingButtons;
+	bool						itsWasShowingButtons;
+	JString						itsDialogPrefs;
+	JXToolBarButton::Type		itsButtonType;
+	bool						itsLoadedPrefs;
 
 private:
 

@@ -13,7 +13,7 @@
 #include "JXEPSPrintSetupDialog.h"
 #include "JXEPSPrinter.h"
 #include "JXPSPrintSetupDialog.h"
-#include "JXChooseEPSDestFileTask.h"
+#include "JXUrgentFunctionTask.h"
 #include "JXWindow.h"
 #include "JXTextButton.h"
 #include "JXStaticText.h"
@@ -158,7 +158,7 @@ JXEPSPrintSetupDialog::SetObjects
 	itsFileInput->GetText()->SetText(fileName);
 	if (itsFileInput->GetText()->IsEmpty())
 	{
-		auto* task = jnew JXChooseEPSDestFileTask(this);
+		auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXEPSPrintSetupDialog::ChooseDestinationFile, this));
 		assert( task != nullptr );
 		task->Go();
 	}

@@ -18,7 +18,7 @@
 #include <jx-af/jcore/JDirInfo.h>
 #include "JXNewDirButton.h"
 #include "JXGetNewDirDialog.h"
-#include "JXCSFSelectPrevDirTask.h"
+#include "JXUrgentFunctionTask.h"
 
 #include "JXWindow.h"
 #include "JXStaticText.h"
@@ -781,12 +781,19 @@ JXCSFDialogBase::SelectPrevDirectory()
 
 		if (!dirName.IsEmpty())
 		{
-			itsSelectPrevDirTask =
-				jnew JXCSFSelectPrevDirTask(itsDirInfo, itsFileBrowser, dirName);
+			itsSelectPrevDirTask = jnew JXUrgentFunctionTask(itsFileBrowser, [this, dirName]()
+			{
+				itsSelectPrevDirTask = nullptr;
+
+				JIndex index;
+				if (itsDirInfo->FindEntry(dirName, &index))
+				{
+					itsFileBrowser->UpdateScrollbars();
+					itsFileBrowser->SelectSingleEntry(index);
+				}
+			});
 			assert( itsSelectPrevDirTask != nullptr );
 			itsSelectPrevDirTask->Go();
-
-			ClearWhenGoingAway(itsSelectPrevDirTask, &itsSelectPrevDirTask);
 		}
 	}
 

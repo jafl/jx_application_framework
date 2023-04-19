@@ -28,11 +28,9 @@ protected:
 	void			DataLoaded() override;
 	virtual void	SaveAllBeforeDestruct();
 
-	void			Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
-	JXTimerTask*	itsSafetySaveTask;
+	JXFunctionTask*	itsSafetySaveTask;
 	const JPrefID	itsCSFPrefID;
 };
 

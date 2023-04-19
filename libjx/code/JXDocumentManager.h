@@ -14,9 +14,9 @@
 class JXImage;
 class JXDocument;
 class JXFileDocument;
-class JXTimerTask;
 class JXDocumentMenu;
-class JXUpdateDocMenuTask;
+class JXFunctionTask;
+class JXUrgentFunctionTask;
 
 class JXDocumentManager : virtual public JBroadcaster
 {
@@ -82,10 +82,6 @@ public:
 	void	ActivateDocument(const JIndex index);
 	bool	GetDocument(const JIndex index, JXDocument** doc) const;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	struct DocInfo
@@ -131,9 +127,9 @@ private:
 	const bool				itsWantShortcutFlag;
 
 	bool					itsPerformSafetySaveFlag;
-	JXTimerTask*			itsSafetySaveTask;
+	JXFunctionTask*			itsSafetySaveTask;
 
-	JXUpdateDocMenuTask*	itsUpdateDocMenuTask;	// nullptr unless pending
+	JXUrgentFunctionTask*	itsUpdateDocMenuTask;	// nullptr unless pending
 	JXImage*				itsDefaultMenuIcon;		// not owned
 
 private:

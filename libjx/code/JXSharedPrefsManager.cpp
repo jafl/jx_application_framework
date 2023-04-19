@@ -29,7 +29,7 @@
 #include <jx-af/jcore/JPrefsFile.h>
 #include "JXSaveFileInput.h"
 #include "JXWindow.h"
-#include "JXTimerTask.h"
+#include "JXFunctionTask.h"
 #include "jXGlobals.h"
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jFileUtil.h>
@@ -70,10 +70,9 @@ JXSharedPrefsManager::JXSharedPrefsManager()
 
 	GetAll(&itsWasNewFlag);
 
-	itsUpdateTask = jnew JXTimerTask(kUpdateInterval);
+	itsUpdateTask = jnew JXFunctionTask(kUpdateInterval, std::bind(&JXSharedPrefsManager::Update, this));
 	assert( itsUpdateTask != nullptr );
 	itsUpdateTask->Start();
-	ListenTo(itsUpdateTask);
 }
 
 /******************************************************************************
@@ -85,28 +84,6 @@ JXSharedPrefsManager::~JXSharedPrefsManager()
 {
 	jdelete itsFile;
 //	jdelete itsUpdateTask;	// already deleted by JXApplication!
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXSharedPrefsManager::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsUpdateTask && message.Is(JXTimerTask::kTimerWentOff))
-	{
-		Update();
-	}
-	else
-	{
-		JBroadcaster::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

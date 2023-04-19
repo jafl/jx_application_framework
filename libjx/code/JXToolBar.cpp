@@ -29,7 +29,7 @@
 #include "JXToolBar.h"
 #include "JXToolBarEditDialog.h"
 #include "JXToolBarNode.h"
-#include "JXAdjustToolBarGeometryTask.h"
+#include "JXUrgentFunctionTask.h"
 
 #include <jx-af/jcore/JTree.h>
 #include <jx-af/jcore/JNamedTreeNode.h>
@@ -38,7 +38,7 @@
 #include "JXTextMenu.h"
 #include "JXTextMenuData.h"
 #include "JXImage.h"
-#include "JXTimerTask.h"
+#include "JXFunctionTask.h"
 #include "JXApplication.h"
 #include "JXDisplay.h"
 #include "JXWindow.h"
@@ -120,12 +120,15 @@ JXToolBar::JXToolBar
 	itsGroupStarts = jnew JArray<bool>;
 	assert(itsGroupStarts != nullptr);
 
-	itsTimerTask = jnew JXTimerTask(kTimerDelay);
+	itsTimerTask = jnew JXFunctionTask(kTimerDelay, std::bind(&JXToolBar::UpdateButtons, this));
 	assert(itsTimerTask != nullptr);
 	itsTimerTask->Start();
-	ListenTo(itsTimerTask);
 
-	itsAdjustTask = jnew JXAdjustToolBarGeometryTask(this);
+	itsAdjustTask = jnew JXUrgentFunctionTask(this, [this]()
+	{
+		itsAdjustTask = nullptr;
+		AdjustGeometryIfNeeded();
+	});
 	assert( itsAdjustTask != nullptr );
 	itsAdjustTask->Go();
 
@@ -279,12 +282,6 @@ JXToolBar::Receive
 			}
 			propagate = false;
 		}
-	}
-
-	else if (sender == itsTimerTask && message.Is(JXTimerTask::kTimerWentOff))
-	{
-		UpdateButtons();
-		propagate = false;
 	}
 
 	else if (hasPrefs &&

@@ -15,14 +15,14 @@
 #include "JXHorizDockPartition.h"
 #include "JXVertDockPartition.h"
 #include "JXDockDragData.h"
-#include "JXUpdateMinSizeTask.h"
+#include "JXUrgentFunctionTask.h"
 #include "JXFileDocument.h"
 #include "JXDisplay.h"
 #include "JXWindow.h"
 #include "JXPartition.h"
 #include "JXTabGroup.h"
 #include "JXHintDirector.h"
-#include "JXTimerTask.h"
+#include "JXFunctionTask.h"
 #include "JXWindowPainter.h"
 #include "JXGC.h"
 #include "jXPainterUtil.h"
@@ -67,15 +67,15 @@ JXDockWidget::JXDockWidget
 	assert( itsPartition != nullptr );
 	assert( itsTabGroup != nullptr );
 
-	if (!(JXGetDockManager())->IsReadingSetup())
+	if (!JXGetDockManager()->IsReadingSetup())
 	{
-		(JXGetDockManager())->IDUsed(itsID);
+		JXGetDockManager()->IDUsed(itsID);
 	}
 
 	ListenTo(itsTabGroup);
 	ListenTo(itsTabGroup->GetCardEnclosure());
 
-	auto* task = jnew JXUpdateMinSizeTask(this);
+	auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXDockWidget::UpdateMinSize, this));
 	assert( task != nullptr );
 	task->Go();
 }
@@ -87,7 +87,7 @@ JXDockWidget::JXDockWidget
 
 JXDockWidget::~JXDockWidget()
 {
-	const JXDockManager::CloseDockMode mode = (JXGetDockManager())->GetCloseDockMode();
+	const JXDockManager::CloseDockMode mode = JXGetDockManager()->GetCloseDockMode();
 	if (itsWindowList != nullptr && mode == JXDockManager::kUndockWindows)
 	{
 		// can't call UndockAll() because that calls UpdateMinSize()
@@ -144,8 +144,8 @@ JXDockWidget::WindowWillFit
 	const
 {
 	const JPoint minSize = w->GetMinSize();
-	return GetApertureWidth()  >= minSize.x &&
-				GetApertureHeight() >= minSize.y;
+	return (GetApertureWidth()  >= minSize.x &&
+			GetApertureHeight() >= minSize.y);
 }
 
 /******************************************************************************
@@ -176,7 +176,7 @@ JXDockWidget::Dock
 	}
 
 	const JRect geom = GetApertureGlobal();
-	if (w->Dock(this, (JXWidgetSet::GetWindow())->GetXWindow(), geom))
+	if (w->Dock(this, JXWidgetSet::GetWindow()->GetXWindow(), geom))
 	{
 		if (itsWindowList == nullptr)
 		{
@@ -236,7 +236,7 @@ JXDockWidget::GetTabInsertionIndex
 		}
 
 		const JUtf8Byte* t =
-			JXFileDocument::SkipNeedsSavePrefix((itsWindowList->GetElement(i))->GetTitle().GetBytes());
+			JXFileDocument::SkipNeedsSavePrefix(itsWindowList->GetElement(i)->GetTitle().GetBytes());
 		if (JString::Compare(title, t, JString::kIgnoreCase) < 0)
 		{
 			index = i;
@@ -534,10 +534,15 @@ JXDockWidget::WillAcceptDrop
 		assert( itsHintDirector != nullptr );
 		itsHintDirector->Activate();
 
-		itsDeleteHintTask = jnew JXTimerTask(kDeleteHintDelay, true);
+		itsDeleteHintTask = jnew JXFunctionTask(kDeleteHintDelay, [this]()
+		{
+			itsDeleteHintTask = nullptr;
+			itsHintDirector->Close();
+			itsHintDirector = nullptr;
+		},
+		true);
 		assert( itsDeleteHintTask != nullptr );
 		itsDeleteHintTask->Start();
-		ListenTo(itsDeleteHintTask);
 	}
 
 	return acceptDrop;
@@ -761,12 +766,6 @@ JXDockWidget::Receive
 			JXWindow* w = itsWindowList->GetElement(index);
 			(w->GetDirector())->Activate();
 		}
-	}
-	else if (sender == itsDeleteHintTask && message.Is(JXTimerTask::kTimerWentOff))
-	{
-		itsDeleteHintTask = nullptr;
-		itsHintDirector->Close();
-		itsHintDirector = nullptr;
 	}
 	else
 	{

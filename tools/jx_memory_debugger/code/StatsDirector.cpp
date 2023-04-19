@@ -31,7 +31,7 @@
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXChooseFileDialog.h>
-#include <jx-af/jx/JXTimerTask.h>
+#include <jx-af/jx/JXFunctionTask.h>
 #include <jx-af/jx/JXPGMessageDirector.h>
 #include <jx-af/jcore/JMemoryManager.h>
 #include <ace/Acceptor.h>
@@ -41,7 +41,7 @@
 #include <jx-af/jcore/jErrno.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JSize kRefreshInterval = 1;		// seconds
+const JSize kRefreshInterval = 1000;	// 1 second (ms)
 
 // File menu
 
@@ -197,10 +197,9 @@ StatsDirector::SetLink
 
 	DeleteDebugAcceptor();
 
-	itsPingTask = jnew JXTimerTask(kRefreshInterval * 1000);
+	itsPingTask = jnew JXFunctionTask(kRefreshInterval, std::bind(&StatsDirector::RequestRunningStats, this));
 	assert( itsPingTask != nullptr );
 	itsPingTask->Start();
-	ListenTo(itsPingTask);
 }
 
 /******************************************************************************
@@ -477,12 +476,7 @@ StatsDirector::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsPingTask && message.Is(JXTimerTask::kTimerWentOff))
-	{
-		RequestRunningStats();
-	}
-
-	else if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
+	if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
 	{
 		HandleResponse();
 	}

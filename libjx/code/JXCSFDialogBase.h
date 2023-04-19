@@ -11,7 +11,7 @@
 #define _H_JXCSFDialogBase
 
 #include "JXModalDialogDirector.h"
-#include "JXCSFSelectPrevDirTask.h"
+#include <jx-af/jcore/JString.h>
 
 class JDirInfo;
 class JXDirTable;
@@ -27,6 +27,7 @@ class JXScrollbarSet;
 class JXNewDirButton;
 class JXCurrentPathMenu;
 class JXIdleTask;
+class JXUrgentFunctionTask;
 
 class JXCSFDialogBase : public JXModalDialogDirector
 {
@@ -104,7 +105,7 @@ private:
 	JXTextCheckbox*			itsShowHiddenCB;
 	JXCurrentPathMenu*		itsCurrPathMenu;
 
-	JXCSFSelectPrevDirTask*	itsSelectPrevDirTask;	// nullptr unless queued
+	JXUrgentFunctionTask*	itsSelectPrevDirTask;	// nullptr unless queued
 
 	static JString	theState;
 	static JString	thePath;

@@ -11,7 +11,7 @@
 
 #include "JXPrefsManager.h"
 #include "JXCSFDialogBase.h"
-#include "JXTimerTask.h"
+#include "JXFunctionTask.h"
 #include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
@@ -33,10 +33,12 @@ JXPrefsManager::JXPrefsManager
 				  currentVersion, eraseFileIfOpen),
 	itsCSFPrefID(csfID)
 {
-	itsSafetySaveTask = jnew JXTimerTask(kSafetySaveInterval);
+	itsSafetySaveTask = jnew JXFunctionTask(kSafetySaveInterval, [this]()
+	{
+		SaveAllBeforeDestruct();	// virtual
+	});
 	assert( itsSafetySaveTask != nullptr );
 	itsSafetySaveTask->Start();
-	ListenTo(itsSafetySaveTask);
 }
 
 /******************************************************************************
@@ -102,26 +104,4 @@ JXPrefsManager::SaveAllBeforeDestruct()
 		SetData(itsCSFPrefID, JXCSFDialogBase::GetState());
 	}
 	SaveToDisk();
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXPrefsManager::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsSafetySaveTask && message.Is(JXTimerTask::kTimerWentOff))
-	{
-		SaveAllBeforeDestruct();
-	}
-	else
-	{
-		JPrefsManager::Receive(sender, message);
-	}
 }

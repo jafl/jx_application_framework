@@ -31,9 +31,10 @@
 #include "JXRadioGroup.h"
 #include "JXTextRadioButton.h"
 #include "JXStringHistoryMenu.h"
-#include "JXTimerTask.h"
+#include "JXDownRect.h"
 #include "JXMenu.h"
-#include "JXSearchTextDecorTask.h"
+#include "JXFunctionTask.h"
+#include "JXUrgentFunctionTask.h"
 #include "JXFontManager.h"
 #include "JXColorManager.h"
 #include "jXGlobals.h"
@@ -94,9 +95,11 @@ JXSearchTextDialog::JXSearchTextDialog()
 	assert( itsInterpolator != nullptr );
 	itsInterpolator->SetWhitespaceEscapes();
 
-	itsUpdateTask = jnew JXTimerTask(kUpdatePeriod);
+	itsUpdateTask = jnew JXFunctionTask(kUpdatePeriod, [this]()
+	{
+		UpdateDisplay();	// virtual
+	});
 	assert( itsUpdateTask != nullptr );
-	ListenTo(itsUpdateTask);
 
 	itsNeedXSearchBcastFlag    = false;
 	itsIgnoreXSearchChangeFlag = true;			// until InitXSearch() is called
@@ -506,7 +509,18 @@ JXSearchTextDialog::SetObjects
 
 	// decor
 
-	JXUrgentTask* decorTask = jnew JXSearchTextDecorTask(window, itsStayOpenCB, itsRetainFocusCB);
+	auto* decorTask = jnew JXUrgentFunctionTask(window, [this, window]()
+	{
+		const JRect soFrame = itsStayOpenCB->GetFrameGlobal();
+		const JRect rfFrame = itsRetainFocusCB->GetFrameGlobal();
+
+		auto* line =
+			jnew JXDownRect(window, JXWidget::kFixedLeft, JXWidget::kFixedTop,
+							soFrame.left, soFrame.top-6,
+							rfFrame.right-soFrame.left, 2);
+		assert( line != nullptr );
+		line->SetBorderWidth(1);
+	});
 	assert( decorTask != nullptr );
 	decorTask->Go();
 
@@ -734,10 +748,6 @@ JXSearchTextDialog::Receive
 		{
 			itsUpdateTask->Start();
 		}
-	}
-	else if (sender == itsUpdateTask && message.Is(JXTimerTask::kTimerWentOff))
-	{
-		UpdateDisplay();
 	}
 
 	else if (sender == itsSearchInput || sender == itsReplaceInput)

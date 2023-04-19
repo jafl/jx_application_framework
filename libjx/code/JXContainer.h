@@ -25,7 +25,7 @@ class JXWindow;
 class JXWidget;
 class JXWindowPainter;
 class JXCursorAnimator;
-class JXCursorAnimationTask;
+class JXFunctionTask;
 class JXFontManager;
 class JXSelectionManager;
 class JXDNDManager;
@@ -252,12 +252,12 @@ private:
 
 	// cursor information
 
-	JCursorIndex			itsDefCursor;
-	JCursorIndex			itsInvisibleCursor;
-	bool					itsCursorVisibleFlag;
-	JCursorIndex			itsCurrCursor;
-	JXCursorAnimator*		itsCursorAnim;
-	JXCursorAnimationTask*	itsCursorAnimTask;
+	JCursorIndex		itsDefCursor;
+	JCursorIndex		itsInvisibleCursor;
+	bool				itsCursorVisibleFlag;
+	JCursorIndex		itsCurrCursor;
+	JXCursorAnimator*	itsCursorAnim;
+	JXFunctionTask*		itsCursorAnimTask;
 
 	// hint
 
