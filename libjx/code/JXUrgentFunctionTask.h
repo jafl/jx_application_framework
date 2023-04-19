@@ -9,6 +9,7 @@
 #define _H_JXUrgentFunctionTask
 
 #include "JXUrgentTask.h"
+#include <functional>
 
 class JXUrgentFunctionTask : public JXUrgentTask
 {
