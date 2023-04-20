@@ -1713,7 +1713,7 @@ JTextEditor::TEGetFontManager()
 
  ******************************************************************************/
 
-inline int
+inline bool
 operator==
 	(
 	const JTextEditor::CaretLocation& l1,
@@ -1724,23 +1724,12 @@ operator==
 			l1.location.byteIndex == l2.location.byteIndex);
 }
 
-inline int
-operator!=
-	(
-	const JTextEditor::CaretLocation& l1,
-	const JTextEditor::CaretLocation& l2
-	)
-{
-	return (l1.location.charIndex != l2.location.charIndex ||
-			l1.location.byteIndex != l2.location.byteIndex);
-}
-
 /******************************************************************************
  LineGeometry operators
 
  ******************************************************************************/
 
-inline int
+inline bool
 operator==
 	(
 	const JTextEditor::LineGeometry& g1,
@@ -1748,16 +1737,6 @@ operator==
 	)
 {
 	return (g1.height == g2.height && g1.ascent == g2.ascent);
-}
-
-inline int
-operator!=
-	(
-	const JTextEditor::LineGeometry& g1,
-	const JTextEditor::LineGeometry& g2
-	)
-{
-	return !(g1 == g2);
 }
 
 #endif

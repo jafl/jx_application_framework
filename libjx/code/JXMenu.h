@@ -270,53 +270,53 @@ public:
 	static const JUtf8Byte* kItemSelected;
 
 	class NeedsUpdate : public JBroadcaster::Message
+	{
+	public:
+
+		NeedsUpdate(const bool fromShortcut)
+			:
+			JBroadcaster::Message(kNeedsUpdate),
+			itsFromShortcutFlag(fromShortcut)
+			{ };
+
+		bool
+		IsFromShortcut() const
 		{
-		public:
-
-			NeedsUpdate(const bool fromShortcut)
-				:
-				JBroadcaster::Message(kNeedsUpdate),
-				itsFromShortcutFlag(fromShortcut)
-				{ };
-
-			bool
-			IsFromShortcut() const
-			{
-				return itsFromShortcutFlag;
-			};
-
-		private:
-
-			const bool itsFromShortcutFlag;
+			return itsFromShortcutFlag;
 		};
+
+	private:
+
+		const bool itsFromShortcutFlag;
+	};
 
 	class ItemSelected : public JBroadcaster::Message
+	{
+	public:
+
+		ItemSelected(const JIndex index, const bool fromShortcut)
+			:
+			JBroadcaster::Message(kItemSelected),
+			itsIndex(index), itsFromShortcutFlag(fromShortcut)
+			{ };
+
+		JIndex
+		GetIndex() const
 		{
-		public:
-
-			ItemSelected(const JIndex index, const bool fromShortcut)
-				:
-				JBroadcaster::Message(kItemSelected),
-				itsIndex(index), itsFromShortcutFlag(fromShortcut)
-				{ };
-
-			JIndex
-			GetIndex() const
-			{
-				return itsIndex;
-			};
-
-			bool
-			IsFromShortcut() const
-			{
-				return itsFromShortcutFlag;
-			};
-
-		private:
-
-			const JIndex	itsIndex;
-			const bool	itsFromShortcutFlag;
+			return itsIndex;
 		};
+
+		bool
+		IsFromShortcut() const
+		{
+			return itsFromShortcutFlag;
+		};
+
+	private:
+
+		const JIndex	itsIndex;
+		const bool		itsFromShortcutFlag;
+	};
 };
 
 

@@ -246,7 +246,7 @@ JRect    JCovering(const JRect& r1, const JRect& r2);
 std::istream& operator>>(std::istream& input, JRect& r);
 std::ostream& operator<<(std::ostream& output, const JRect& r);
 
-inline int
+inline bool
 operator==
 	(
 	const JRect& r1,
@@ -255,17 +255,6 @@ operator==
 {
 	return (r1.top  == r2.top  && r1.bottom == r2.bottom &&
 			r1.left == r2.left && r1.right  == r2.right);
-}
-
-inline int
-operator!=
-	(
-	const JRect& r1,
-	const JRect& r2
-	)
-{
-	return (r1.top  != r2.top  || r1.bottom != r2.bottom ||
-			r1.left != r2.left || r1.right  != r2.right);
 }
 
 inline JRect

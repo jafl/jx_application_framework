@@ -226,7 +226,7 @@ JUtf8Character::operator=
 
  ******************************************************************************/
 
-inline int
+inline bool
 operator==
 	(
 	const JUtf8Character& c1,
@@ -237,7 +237,7 @@ operator==
 			memcmp(c1.GetBytes(), c2.GetBytes(), c1.GetByteCount()) == 0);
 }
 
-inline int
+inline bool
 operator==
 	(
 	const JUtf8Byte			c1,
@@ -247,7 +247,7 @@ operator==
 	return (c2.GetByteCount() == 1 && c1 == c2.GetBytes()[0]);
 }
 
-inline int
+inline bool
 operator==
 	(
 	const JUtf8Character&	c1,
@@ -257,7 +257,7 @@ operator==
 	return (c1.GetByteCount() == 1 && c1.GetBytes()[0] == c2);
 }
 
-inline int
+inline bool
 operator==
 	(
 	const JUtf8Byte*		c1,
@@ -268,7 +268,7 @@ operator==
 			memcmp(c1, c2.GetBytes(), c2.GetByteCount()) == 0);
 }
 
-inline int
+inline bool
 operator==
 	(
 	const JUtf8Character&	c1,
@@ -277,56 +277,6 @@ operator==
 {
 	return (c1.GetByteCount() == strlen(c2) &&
 			memcmp(c1.GetBytes(), c2, c1.GetByteCount()) == 0);
-}
-
-inline int
-operator!=
-	(
-	const JUtf8Character& c1,
-	const JUtf8Character& c2
-	)
-{
-	return !(c1 == c2);
-}
-
-inline int
-operator!=
-	(
-	const JUtf8Byte			c1,
-	const JUtf8Character&	c2
-	)
-{
-	return !(c1 == c2);
-}
-
-inline int
-operator!=
-	(
-	const JUtf8Character&	c1,
-	const JUtf8Byte			c2
-	)
-{
-	return !(c1 == c2);
-}
-
-inline int
-operator!=
-	(
-	const JUtf8Byte*		c1,
-	const JUtf8Character&	c2
-	)
-{
-	return !(c1 == c2);
-}
-
-inline int
-operator!=
-	(
-	const JUtf8Character&	c1,
-	const JUtf8Byte*		c2
-	)
-{
-	return !(c1 == c2);
 }
 
 #endif

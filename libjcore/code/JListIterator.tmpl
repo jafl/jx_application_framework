@@ -579,13 +579,13 @@ JListIterator<T>::operator++()
 
 template <class T>
 bool
-JListIterator<T>::operator!=
+JListIterator<T>::operator==
 	(
 	const JListIterator<T>& iter
 	)
 	const
 {
-	return itsCursorPosition != iter.itsCursorPosition;
+	return itsCursorPosition == iter.itsCursorPosition;
 }
 
 #endif

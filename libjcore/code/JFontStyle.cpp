@@ -18,7 +18,7 @@ JColorID JFontStyle::itsDefaultColorIndex = JColorManager::GetBlackColor();
 
  ******************************************************************************/
 
-int
+bool
 operator==
 	(
 	const JFontStyle& s1,

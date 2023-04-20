@@ -56,15 +56,4 @@ operator==
 	return *lhs.key == *rhs.key;
 }
 
-template <class V>
-bool
-operator!=
-	(
-	const JStrValue<V>& lhs,
-	const JStrValue<V>& rhs
-	)
-{
-	return *lhs.key != *rhs.key;
-}
-
 #endif

@@ -149,7 +149,7 @@ template <class T> bool		JIntersection(const JRange<T>& r1, const JRange<T>& r2,
 template <class T> JRange<T>	JCovering(const JRange<T>& r1, const JRange<T>& r2);
 
 template <class T>
-inline int
+inline bool
 operator==
 	(
 	const JRange<T>& r1,
@@ -158,17 +158,6 @@ operator==
 {
 	return ((r1.IsEmpty() && r2.IsEmpty() && r1.first == r2.first) ||
 			(r1.first == r2.first && r1.last == r2.last));
-}
-
-template <class T>
-inline int
-operator!=
-	(
-	const JRange<T>& r1,
-	const JRange<T>& r2
-	)
-{
-	return !(r1 == r2);
 }
 
 template <class T>

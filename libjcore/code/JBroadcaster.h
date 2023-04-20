@@ -46,8 +46,8 @@ protected:
 
 	JBroadcaster(const JBroadcaster& source);
 
-	void	ListenTo(const JBroadcaster* aSender);
-	void	StopListening(const JBroadcaster* aSender);
+	void	ListenTo(const JBroadcaster* sender);
+	void	StopListening(const JBroadcaster* sender);
 	void	ClearWhenGoingAway(const JBroadcaster* sender, void* pointerToMember);
 
 	void			Send(JBroadcaster* recipient, const Message& message);

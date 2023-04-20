@@ -83,16 +83,6 @@ public:
 	};
 };
 
-int operator==(const JFontStyle& s1, const JFontStyle& s2);
-
-inline int
-operator!=
-	(
-	const JFontStyle& s1,
-	const JFontStyle& s2
-	)
-{
-	return !(s1 == s2);
-}
+bool operator==(const JFontStyle& s1, const JFontStyle& s2);
 
 #endif

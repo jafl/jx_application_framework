@@ -43,7 +43,7 @@ private:
 
  ******************************************************************************/
 
-inline int
+inline bool
 operator==
 	(
 	const JRTTIBase& obj1,
@@ -53,7 +53,7 @@ operator==
 	return obj1.Is(obj2.GetType());
 }
 
-inline int
+inline bool
 operator==
 	(
 	const JRTTIBase&	obj,
@@ -63,7 +63,7 @@ operator==
 	return obj.Is(type);
 }
 
-inline int
+inline bool
 operator==
 	(
 	const JUtf8Byte*	type,
@@ -71,36 +71,6 @@ operator==
 	)
 {
 	return obj.Is(type);
-}
-
-inline int
-operator!=
-	(
-	const JRTTIBase& obj1,
-	const JRTTIBase& obj2
-	)
-{
-	return ! obj1.Is(obj2.GetType());
-}
-
-inline int
-operator!=
-	(
-	const JRTTIBase&	obj,
-	const JUtf8Byte*	type
-	)
-{
-	return ! obj.Is(type);
-}
-
-inline int
-operator!=
-	(
-	const JUtf8Byte*	type,
-	const JRTTIBase&	obj
-	)
-{
-	return ! obj.Is(type);
 }
 
 #endif

@@ -17,6 +17,7 @@
 #include <string.h>
 #include <unicode/ucasemap.h>
 #include <unicode/ucol.h>
+#include <compare>
 
 class JStringIterator;
 class JRegex;
@@ -985,9 +986,7 @@ operator+
 -->
  ******************************************************************************/
 
-// operator==
-
-inline int
+inline bool
 operator==
 	(
 	const JString& s1,
@@ -997,7 +996,7 @@ operator==
 	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount()) == 0);
 }
 
-inline int
+inline bool
 operator==
 	(
 	const JString&		s,
@@ -1007,7 +1006,7 @@ operator==
 	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str)) == 0);
 }
 
-inline int
+inline bool
 operator==
 	(
 	const JUtf8Byte*	str,
@@ -1017,7 +1016,7 @@ operator==
 	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str)) == 0);
 }
 
-inline int
+inline bool
 operator==
 	(
 	const JString&		s,
@@ -1027,7 +1026,7 @@ operator==
 	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length()) == 0);
 }
 
-inline int
+inline bool
 operator==
 	(
 	const std::string&	str,
@@ -1035,58 +1034,6 @@ operator==
 	)
 {
 	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length()) == 0);
-}
-
-// operator!=
-
-inline int
-operator!=
-	(
-	const JString& s1,
-	const JString& s2
-	)
-{
-	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount()) != 0);
-}
-
-inline int
-operator!=
-	(
-	const JString&		s,
-	const JUtf8Byte*	str
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str)) != 0);
-}
-
-inline int
-operator!=
-	(
-	const JUtf8Byte*	str,
-	const JString&		s
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str)) != 0);
-}
-
-inline int
-operator!=
-	(
-	const JString&		s,
-	const std::string&	str
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length()) != 0);
-}
-
-inline int
-operator!=
-	(
-	const std::string&	str,
-	const JString&		s
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length()) != 0);
 }
 
 /******************************************************************************
@@ -1098,213 +1045,64 @@ operator!=
 -->
  ******************************************************************************/
 
-// operator<
+inline std::weak_ordering
+jIntToWeakOrdering
+	(
+	const int r
+	)
+{
+	return (r < 0 ? std::weak_ordering::less :
+			r > 0 ? std::weak_ordering::greater : std::weak_ordering::equivalent);
+}
 
-inline int
-operator<
+inline std::weak_ordering
+operator<=>
 	(
 	const JString& s1,
 	const JString& s2
 	)
 {
-	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), JString::kIgnoreCase) < 0);
+	return jIntToWeakOrdering(JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), JString::kIgnoreCase));
 }
 
-inline int
-operator<
+inline std::weak_ordering
+operator<=>
 	(
 	const JString&		s,
 	const JUtf8Byte*	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) < 0);
+	return jIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase));
 }
 
-inline int
-operator<
+inline std::weak_ordering
+operator<=>
 	(
 	const JUtf8Byte*	str,
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) < 0);
+	return jIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase));
 }
 
-inline int
-operator<
+inline std::weak_ordering
+operator<=>
 	(
 	const JString&		s,
 	const std::string&	str
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) < 0);
+	return jIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase));
 }
 
-inline int
-operator<
+inline std::weak_ordering
+operator<=>
 	(
 	const std::string&	str,
 	const JString&		s
 	)
 {
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) < 0);
-}
-
-// operator<=
-
-inline int
-operator<=
-	(
-	const JString& s1,
-	const JString& s2
-	)
-{
-	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), JString::kIgnoreCase) <= 0);
-}
-
-inline int
-operator<=
-	(
-	const JString&		s,
-	const JUtf8Byte*	str
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) <= 0);
-}
-
-inline int
-operator<=
-	(
-	const JUtf8Byte*	str,
-	const JString&		s
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) <= 0);
-}
-
-inline int
-operator<=
-	(
-	const JString&		s,
-	const std::string&	str
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) <= 0);
-}
-
-inline int
-operator<=
-	(
-	const std::string&	str,
-	const JString&		s
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) <= 0);
-}
-
-// operator>
-
-
-inline int
-operator>
-	(
-	const JString& s1,
-	const JString& s2
-	)
-{
-	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), JString::kIgnoreCase) > 0);
-}
-
-inline int
-operator>
-	(
-	const JString&		s,
-	const JUtf8Byte*	str
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) > 0);
-}
-
-inline int
-operator>
-	(
-	const JUtf8Byte*	str,
-	const JString&		s
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) > 0);
-}
-
-inline int
-operator>
-	(
-	const JString&		s,
-	const std::string&	str
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) > 0);
-}
-
-inline int
-operator>
-	(
-	const std::string&	str,
-	const JString&		s
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) > 0);
-}
-
-// operator>=
-
-inline int
-operator>=
-	(
-	const JString& s1,
-	const JString& s2
-	)
-{
-	return (JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), JString::kIgnoreCase) >= 0);
-}
-
-inline int
-operator>=
-	(
-	const JString&		s,
-	const JUtf8Byte*	str
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) >= 0);
-}
-
-inline int
-operator>=
-	(
-	const JUtf8Byte*	str,
-	const JString&		s
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase) >= 0);
-}
-
-inline int
-operator>=
-	(
-	const JString&		s,
-	const std::string&	str
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) >= 0);
-}
-
-inline int
-operator>=
-	(
-	const std::string&	str,
-	const JString&		s
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase) >= 0);
+	return jIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase));
 }
 
 /******************************************************************************

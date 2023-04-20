@@ -22,7 +22,7 @@ const JFontID kInvalidFontID = 0;
 
 class JFont
 {
-	friend int operator==(const JFont& f1, const JFont& f2);
+	friend bool operator==(const JFont& f1, const JFont& f2);
 
 public:
 
@@ -136,21 +136,6 @@ inline void
 JFont::ClearStyle()
 {
 	SetStyle(JFontStyle());
-}
-
-/******************************************************************************
- Font operators
-
- ******************************************************************************/
-
-inline int
-operator!=
-	(
-	const JFont& f1,
-	const JFont& f2
-	)
-{
-	return !(f1 == f2);
 }
 
 #endif

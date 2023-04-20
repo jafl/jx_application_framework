@@ -67,7 +67,7 @@ public:
 
 	T					operator*() const;
 	JListIterator<T>&	operator++();
-	bool				operator!=(const JListIterator<T>& it) const;
+	bool				operator==(const JListIterator<T>& it) const;
 
 protected:
 

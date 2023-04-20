@@ -367,7 +367,7 @@ JBroadcaster::RemoveSender
 /******************************************************************************
  Send (protected)
 
-	Send the given message to the specified recipients.  It is the
+	Send the given message to the specified recipient.  It is the
 	responsibility of derived classes to implement a set of useful
 	messages. Every message must be derived from JBroadcaster::Message and
 	should contain all the information necessary to process the message.

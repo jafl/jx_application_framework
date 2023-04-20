@@ -104,17 +104,7 @@ JMatrix JIdentityMatrix(const JSize dimCount);
 std::istream& operator>>(std::istream&, JMatrix&);
 std::ostream& operator<<(std::ostream&, const JMatrix&);
 
-int operator==(const JMatrix&, const JMatrix&);
-
-inline int
-operator!=
-	(
-	const JMatrix& mx1,
-	const JMatrix& mx2
-	)
-{
-	return !(mx1 == mx2);
-}
+bool operator==(const JMatrix&, const JMatrix&);
 
 /******************************************************************************
  Get dimensions

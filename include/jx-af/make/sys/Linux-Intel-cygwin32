@@ -51,7 +51,7 @@ CC       := gcc
 CXX      := g++
 CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL} -Wno-deprecated
 CFLAGS    = 
-CXXFLAGS  = -std=c++17
+CXXFLAGS  = -std=c++20
 
 # libraries to link
 

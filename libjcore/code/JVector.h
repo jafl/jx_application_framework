@@ -79,17 +79,7 @@ JMatrix JOuterProduct(const JVector&, const JVector&);
 std::istream& operator>>(std::istream&, JVector&);
 std::ostream& operator<<(std::ostream&, const JVector&);
 
-int operator==(const JVector&, const JVector&);
-
-inline int
-operator!=
-	(
-	const JVector& v1,
-	const JVector& v2
-	)
-{
-	return !(v1 == v2);
-}
+bool operator==(const JVector&, const JVector&);
 
 /******************************************************************************
  GetDimensionCount

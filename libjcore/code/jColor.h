@@ -84,7 +84,7 @@ JBlend
 		JMax(0UL, JMin(kJMaxRGBValue, (JSize) JRound((1.0-alpha) * c1.blue  + alpha * c2.blue))));
 }
 
-inline int
+inline bool
 operator==
 	(
 	const JRGB& c1,
@@ -92,16 +92,6 @@ operator==
 	)
 {
 	return (c1.red == c2.red && c1.green == c2.green && c1.blue == c2.blue);
-}
-
-inline int
-operator!=
-	(
-	const JRGB& c1,
-	const JRGB& c2
-	)
-{
-	return (c1.red != c2.red || c1.green != c2.green || c1.blue != c2.blue);
 }
 
 inline JRGB
@@ -171,7 +161,7 @@ std::ostream& operator<<(std::ostream& output, const JHSB& color);
 
 JListT::CompareResult JCompareHSBValues(const JHSB& c1, const JHSB& c2);
 
-inline int
+inline bool
 operator==
 	(
 	const JHSB& c1,
@@ -179,16 +169,6 @@ operator==
 	)
 {
 	return (c1.hue == c2.hue && c1.saturation == c2.saturation && c1.brightness == c2.brightness);
-}
-
-inline int
-operator!=
-	(
-	const JHSB& c1,
-	const JHSB& c2
-	)
-{
-	return (c1.hue != c2.hue || c1.saturation != c2.saturation || c1.brightness != c2.brightness);
 }
 
 #endif

@@ -103,7 +103,7 @@ std::ostream& operator<<(std::ostream& output, const JPoint& pt);
 
 JPoint JPinInRect(const JPoint& pt, const JRect& r);
 
-inline int
+inline bool
 operator==
 	(
 	const JPoint& p1,
@@ -111,16 +111,6 @@ operator==
 	)
 {
 	return (p1.x == p2.x && p1.y == p2.y);
-}
-
-inline int
-operator!=
-	(
-	const JPoint& p1,
-	const JPoint& p2
-	)
-{
-	return (p1.x != p2.x || p1.y != p2.y);
 }
 
 inline JPoint

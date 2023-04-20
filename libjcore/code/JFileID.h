@@ -20,7 +20,6 @@ class JString;
 class JFileID
 {
 	friend bool operator==(const JFileID& lhs, const JFileID& rhs);
-	friend bool operator!=(const JFileID& lhs, const JFileID& rhs);
 
 public:
 
@@ -36,8 +35,8 @@ public:
 private:
 
 	bool	itsValidFlag;
-	dev_t		itsDevice;
-	ino_t		itsINode;
+	dev_t	itsDevice;
+	ino_t	itsINode;
 };
 
 
@@ -51,21 +50,6 @@ JFileID::IsValid()
 	const
 {
 	return itsValidFlag;
-}
-
-/******************************************************************************
- Comparison
-
- *****************************************************************************/
-
-inline bool
-operator!=
-	(
-	const JFileID& lhs,
-	const JFileID& rhs
-	)
-{
-	return !(lhs == rhs);
 }
 
 #endif
