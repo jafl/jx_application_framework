@@ -39,8 +39,6 @@ void
 JStringMap<V>::JStringMapX()
 {
 	JHashTable< JStrValue<V> >::DisallowCursors();
-	JStringMap<V>::SetKeyComparison(Compare);
-	JStringMap<V>::SetHashFunction(Hash);
 }
 
 /******************************************************************************
@@ -239,43 +237,6 @@ JStringMap<V>::RemoveAll
 	// Mark all at once and possibly resize; we want to call even if the
 	// hash table is already empty to zero out the load count
 	JHashTable< JStrValue<V> >::MarkAllEmpty();
-}
-
-/******************************************************************************
- Compare (static private)
-
-	Too bad this can't be a member function, but JHashTable can't know anything
-	about it.
-
- *****************************************************************************/
-
-template <class V>
-bool
-JStringMap<V>::Compare
-	(
-	const JStrValue<V>& lhs,
-	const JStrValue<V>& rhs
-	)
-{
-	return *(lhs.key) == *(rhs.key);
-}
-
-/******************************************************************************
- Hash (static private)
-
-	Too bad this can't be a member function, but JHashTable can't know anything
-	about it.
-
- *****************************************************************************/
-
-template <class V>
-JHashValue
-JStringMap<V>::Hash
-	(
-	const JStrValue<V>& value
-	)
-{
-	return JHash7Bit(value.key->GetBytes());
 }
 
 #endif

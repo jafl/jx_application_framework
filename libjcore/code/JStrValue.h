@@ -13,6 +13,7 @@
  *****************************************************************************/
 
 #include "JString.h"
+#include "jHashFunctions.h"
 
 template <class V>
 class JStrValue
@@ -35,6 +36,35 @@ public:
 		:
 		key(k), value(v)
 	{ };
+
+	JHashValue
+	Hash()
+		const
+	{
+		return JHash7Bit(key->GetBytes());
+	};
 };
+
+template <class V>
+bool
+operator==
+	(
+	const JStrValue<V>& lhs,
+	const JStrValue<V>& rhs
+	)
+{
+	return *lhs.key == *rhs.key;
+}
+
+template <class V>
+bool
+operator!=
+	(
+	const JStrValue<V>& lhs,
+	const JStrValue<V>& rhs
+	)
+{
+	return *lhs.key != *rhs.key;
+}
 
 #endif

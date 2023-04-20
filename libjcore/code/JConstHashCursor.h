@@ -58,9 +58,6 @@ public:
 	// Useful for avoiding extra calls to the hash function
 	JHashValue GetCursorHashValue() const;
 
-	bool Equal(const V& value1, const V& value2) const;
-	JHashValue Hash(const V& value1) const;
-
 // Get... functions--may only be called after Next() has returned true;
 // otherwise the result is undefined (but isn't likely to be good).
 
@@ -170,39 +167,6 @@ inline JHashValue
 JConstHashCursor<V>::GetCursorHashValue() const
 {
 	return itsHashValue;
-}
-
-/******************************************************************************
- Equal
-
- *****************************************************************************/
-
-template <class V>
-inline bool
-JConstHashCursor<V>::Equal
-	(
-	const V& value1,
-	const V& value2
-	)
-	const
-{
-	return itsTable->itsEqual(value1, value2);
-}
-
-/******************************************************************************
- Hash
-
- *****************************************************************************/
-
-template <class V>
-inline JHashValue
-JConstHashCursor<V>::Hash
-	(
-	const V& value
-	)
-	const
-{
-	return itsTable->itsHashFunction(value);
 }
 
 /******************************************************************************

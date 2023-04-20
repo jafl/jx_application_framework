@@ -132,7 +132,7 @@ JConstHashCursor<V>::JConstHashCursor
 	:
 	itsTable(table),
 	itsValue(nullptr),
-	itsHashValue( Hash(*itsValue) ),
+	itsHashValue( itsValue->Hash() ),
 //	itsInitialIndex(0),
 //	itsIndex(0),
 	itsIncrement( DualHash(itsHashValue) ),
@@ -595,7 +595,7 @@ JConstHashCursor<V>::NextKey
 				(
 					IsFull()
 					&&
-					(GetHashValue() != itsHashValue || !Equal(GetValue(), *itsValue) )
+					(GetHashValue() != itsHashValue || GetValue() != *itsValue )
 				)
 			)
 		{
@@ -634,7 +634,7 @@ JConstHashCursor<V>::NextKey
 					(
 						IsFull()
 						&&
-						(GetHashValue() != itsHashValue || !Equal(GetValue(), *itsValue) )
+						(GetHashValue() != itsHashValue || GetValue() != *itsValue )
 					)
 				);
 		if ( IsEmpty() )
@@ -679,7 +679,7 @@ JConstHashCursor<V>::NextKeyOrOpen()
 	{
 	case 0:
 		++itsInitialCount;
-		while (IsFull() && GetHashValue() != itsHashValue && Equal(GetValue(), *itsValue) )
+		while (IsFull() && GetHashValue() != itsHashValue && GetValue() == *itsValue )
 		{
 			Step();
 			if (GetIndex() == itsInitialIndex)
@@ -706,7 +706,7 @@ JConstHashCursor<V>::NextKeyOrOpen()
 				return false;
 			}
 		}
-		while (IsFull() && GetHashValue() != itsHashValue && Equal(GetValue(), *itsValue) );
+		while (IsFull() && GetHashValue() != itsHashValue && GetValue() == *itsValue );
 
 		if ( IsEmpty() )
 		{
@@ -814,7 +814,7 @@ JConstHashCursor<V>::NextMapInsertKey()
 				{
 					break; // Return deleted
 				}
-				else if ( GetHashValue() == itsHashValue && Equal(GetValue(), *itsValue) )
+				else if ( GetHashValue() == itsHashValue && GetValue() == *itsValue )
 				{
 					return true;
 				}
@@ -824,7 +824,7 @@ JConstHashCursor<V>::NextMapInsertKey()
 			itsInitialCount = initialCount;
 			return true;
 		}
-		else if ( IsEmpty() || ( GetHashValue() == itsHashValue && Equal(GetValue(), *itsValue) ) )
+		else if ( IsEmpty() || ( GetHashValue() == itsHashValue && GetValue() == *itsValue ) )
 		{
 			return true;
 		}
@@ -894,7 +894,7 @@ JConstHashCursor<V>::ResetKey
 	)
 {
 	itsValue = &value;
-	itsHashValue = Hash(*itsValue);
+	itsHashValue = itsValue->Hash();
 	itsInitialIndex = itsIndex = itsTable->HashToIndex(itsHashValue);
 	itsIncrement = DualHash(itsHashValue);
 	itsInitialCount = 0;

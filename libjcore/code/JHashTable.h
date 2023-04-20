@@ -74,20 +74,6 @@ protected:
 	JHashCursor<V>*      GetCursor();
 	JConstHashCursor<V>* GetCursor() const;
 
-// Key manipulation functions
-	void SetKeyComparison(bool (* const keysEqual)(const V&, const V&) );
-	void GetKeyComparison( bool (**keysEqual)(const V&, const V&) ) const;
-
-	// Predefined comparison functions
-	static bool AssertReturnTrue(const V& value1, const V& value2);
-	static bool ReturnTrue(const V& value1, const V& value2);
-
-	void SetHashFunction(JHashValue (* const hashFunction)(const V&) );
-	void GetHashFunction(JHashValue (**hashFunction)(const V&) ) const;
-
-	// Predefined hash functions
-	static JHashValue Abort(const V& key);
-
 // Get... values
 	const JHashRecord<V>& GetRecord(const JSize index) const;
 
@@ -136,9 +122,6 @@ private:
 	JFloat itsMaxLoadFactor;
 	JFloat itsMinFillFactor;
 	JSize  itsLgMinTableSize;
-
-	bool (*itsEqual)(const V&, const V&);
-	JHashValue (*itsHashFunction)(const V&);
 
 	bool itsAllowCursorFlag;
 
@@ -284,38 +267,6 @@ inline JSize
 JHashTable<V>::GetMinTableSize() const
 {
 	return (1 << itsLgMinTableSize);
-}
-
-/******************************************************************************
- GetKeyComparison
-
- *****************************************************************************/
-
-template <class V>
-inline void
-JHashTable<V>::GetKeyComparison
-	(
-	bool (**keysEqual)(const V&, const V&)
-	)
-	const
-{
-	*keysEqual = itsEqual;
-}
-
-/******************************************************************************
- GetHashFunction
-
- *****************************************************************************/
-
-template <class V>
-inline void
-JHashTable<V>::GetHashFunction
-	(
-	JHashValue (**hashFunction)(const V&)
-	)
-	const
-{
-	*hashFunction = itsHashFunction;
 }
 
 /******************************************************************************

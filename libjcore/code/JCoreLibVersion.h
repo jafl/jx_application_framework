@@ -67,6 +67,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		*** ctor(float) now requires second argument to prevent nullptr from
 //			silently converting to "0"
 //		*** Renamed BeginsWith() to StartsWith() for consistency with other languages.
+//		Implemented operator<=>().
 //	Added JStringJoin for joining lists of strings.
 //	*** Created JFont.  Instances can only be obtained from JFontManager.
 //			Redesigned JFontManager so JFontID is system independent.
@@ -137,6 +138,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JPainter:
 //		*** Converted H/VAlign into "enum struct" to avoid problems
 //			with overloaded functions. ::k([HV])Align -> ::$1Align::k
+//	JHashTable:
+//		*** Removed Get/SetKeyComparison() & Get/SetHashFunction() in favor of
+//			requiring the template class to provide Hash() & operator==.
 
 // version 3.2.0:
 //	jMountUtil:

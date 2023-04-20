@@ -63,10 +63,10 @@ public:
 
 protected:
 
-	bool     SetElement(const JString& key, const V& value,
-						const JPtrArrayT::SetElementAction action,
-						const JStringMapT::SetType type,
-						bool* existed);
+	bool         SetElement(const JString& key, const V& value,
+							const JPtrArrayT::SetElementAction action,
+							const JStringMapT::SetType type,
+							bool* existed);
 	virtual void PrepareForSet(const JPtrArrayT::SetElementAction action);
 
 	bool RemoveElement(const JString& key,
@@ -76,10 +76,6 @@ protected:
 private:
 
 	void JStringMapX();
-
-	static bool Compare(const JStrValue<V>& lhs, const JStrValue<V>& rhs);
-
-	static JHashValue Hash(const JStrValue<V>& value);
 };
 
 

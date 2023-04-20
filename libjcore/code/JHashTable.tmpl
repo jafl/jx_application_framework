@@ -161,8 +161,6 @@ JHashTable<V>::JHashTable
 	itsMaxLoadFactor(kJDefaultMaxLoadFactor),
 	itsMinFillFactor(kJDefaultMinFillFactor),
 	itsLgMinTableSize(itsLgSize),
-	itsEqual(AssertReturnTrue),
-	itsHashFunction(Abort),
 	itsAllowCursorFlag(true)
 {
 	assert(CHAR_BIT == 8);
@@ -330,123 +328,6 @@ JHashTable<V>::IsOK() const
 }
 
 /******************************************************************************
- Key manipulation functions
-
-	These functions are the only place where JHashTable does not treat keys as
-	opaque types.  They are provided as a convenient alternative to doing the
-	same work by hand in the client code, but if desired that can be done by
-	avoiding using the cursor functions which would call one of them (generally
-	easy to tell from the name).  As a further convenience predefined defaults
-	and alternatives are supplied.  They are static member functions only
-	because they need to be templates in order to work for any instantiation;
-	user-defined alternatives may be ordinary functions, template functions,
-	or static members of some other template class (unlike ordinary members,
-	static members have ordinary addresses and can be treated like ordinary
-	functions).
-
- *****************************************************************************/
-
-/******************************************************************************
- SetKeyComparison (protected)
-
-	The default asserts and then returns zero; this is useful to ensure that the
-	comparison function is not being called in debug code but having it do nothing
-	in ship code, just in case.
-
-	An alternative is supplied which always returns true, which implies that the
-	hash function is perfect (or that the client doesn't care about JHashTable's
-	key comparisons).  In this case NextKey behaves identically to NextHash, and
-	so on, though it is slower by an indirection and a function call.
-
- *****************************************************************************/
-
-template <class V>
-void
-JHashTable<V>::SetKeyComparison
-	(
-	bool (* const keysEqual)(const V&, const V&)
-	)
-{
-	assert(keysEqual != nullptr);
-	itsEqual = keysEqual;
-}
-
-/******************************************************************************
- AssertReturnTrue (static protected)
-
- *****************************************************************************/
-
-template <class V>
-bool
-JHashTable<V>::AssertReturnTrue
-	(
-	const V& value1,
-	const V& value2
-	)
-{
-	assert(0);
-	return true;
-}
-
-/******************************************************************************
- ReturnTrue (static protected)
-
- *****************************************************************************/
-
-template <class V>
-bool
-JHashTable<V>::ReturnTrue
-	(
-	const V& value1,
-	const V& value2
-	)
-{
-	return true;
-}
-
-/******************************************************************************
- SetHashFunction (protected)
-
-	The default is a function which merely aborts, indicating that the client
-	is calculating hash values by hand (perhaps because they are being cached
-	for efficiency) and wants a way to test whether it is actually being called.
-	Those who want a safer alternative for ship code will have to pass in the
-	hash function they are using, because nothing is more dangerous than the
-	possibility that more than one hash function could be invoked on one table.
-
-	nullptr is not a valid parameter, naturally enough.
-
- *****************************************************************************/
-
-template <class V>
-void
-JHashTable<V>::SetHashFunction
-	(
-	JHashValue (* const hashFunction)(const V&)
-	)
-{
-	assert(hashFunction != nullptr);
-
-	itsHashFunction = hashFunction;
-}
-
-/******************************************************************************
- Abort (static protected)
-
- *****************************************************************************/
-
-template <class V>
-JHashValue
-JHashTable<V>::Abort
-	(
-	const V& key
-	)
-{
-	abort();
-	return 0;
-}
-
-/******************************************************************************
  Set (protected)
 
 	Warning: no bounds checking, and the argument must be an index because it
@@ -556,7 +437,7 @@ JHashTable<V>::SetHash
 		++itsLoadCount;
 	}
 
-	thisRecord.Set(itsHashFunction(value), value);
+	thisRecord.Set(value.Hash(), value);
 
 	FitToLimits();
 }
@@ -695,9 +576,6 @@ JHashTable<V>::TryResizeTable
 	newTable.itsMaxLoadFactor = itsMaxLoadFactor;
 	newTable.itsMinFillFactor = itsMinFillFactor;
 	newTable.itsLgMinTableSize = itsLgMinTableSize;
-
-	//	newTable.itsEqual = itsEqual; // Not needed to rebuild the table
-	newTable.itsHashFunction = itsHashFunction;
 
 	// Try to resize
 	// Unt now ve exchange der subject's brains, Igor!
