@@ -142,7 +142,6 @@ JPTPrinter::Print
 	pg.VariableLengthProcessBeginning(JGetString("Printing::JPTPrinter"), true, true);
 	bool keepGoing = true;
 
-	JUnsignedOffset i   = 0;
 	JIndex pageIndex    = 0;
 	JSize printCount    = 0;
 	JSize textLineCount = 0;
@@ -229,14 +228,9 @@ JPTPrinter::Print
 					output->write(c.GetBytes(), c.GetByteCount());
 					col++;
 				}
-				i++;
 			}
 
 			*output << '\n';
-			if (c == '\n')
-			{
-				i++;
-			}
 
 			lineCount++;
 			textLineCount++;

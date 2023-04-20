@@ -1204,8 +1204,8 @@ JXTextMenuData::ConfigureTable
 
 	if (hasCheckboxes)
 	{
-		table->SetColWidth(1, JXMenuTable::kCheckboxColWidth +
-							  JXTextMenuTable::kHilightBorderWidth);
+		table->SetColWidth(1, JCoordinate(JXMenuTable::kCheckboxColWidth) +
+							  JCoordinate(JXTextMenuTable::kHilightBorderWidth));
 	}
 	else
 	{
