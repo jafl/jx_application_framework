@@ -23,10 +23,7 @@ class JXDockWidget : public JXWidgetSet
 {
 public:
 
-	enum
-	{
-		kDefaultMinSize = 10
-	};
+	static constexpr JCoordinate kDefaultMinSize = 10;
 
 public:
 

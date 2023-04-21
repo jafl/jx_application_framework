@@ -13,6 +13,7 @@
 #include <limits.h>
 #include <float.h>
 #include <iostream> // templates
+#include <compare>
 
 	// general types
 
@@ -142,6 +143,18 @@ JBoolFromString
 	)
 {
 	return JBoolRefHolder(v);
+}
+
+	// comparison
+
+inline std::weak_ordering
+JIntToWeakOrdering
+	(
+	const int r
+	)
+{
+	return (r < 0 ? std::weak_ordering::less :
+			r > 0 ? std::weak_ordering::greater : std::weak_ordering::equivalent);
 }
 
 /******************************************************************************

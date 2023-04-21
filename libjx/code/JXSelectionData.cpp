@@ -351,7 +351,7 @@ JXSelectionData::ReceiveGoingAway
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JXSelectionData::CompareAtoms
 	(
 	const Atom& atom1,
@@ -360,14 +360,14 @@ JXSelectionData::CompareAtoms
 {
 	if (atom1 < atom2)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
-	else if (atom1 == atom2)
+	else if (atom1 > atom2)
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::greater;
 	}
 	else
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::equivalent;
 	}
 }

@@ -789,7 +789,7 @@ JArray<T>::SearchSortedOTI
 	)
 	const
 {
-	std::function<JListT::CompareResult(const T&, const T&)>& compare = *JList<T>::GetCompareFunction();
+	std::function<std::weak_ordering(const T&, const T&)>& compare = *JList<T>::GetCompareFunction();
 
 	const JListT::SortOrder sortOrder = JList<T>::GetSortOrder();
 	*found = false;
@@ -802,22 +802,17 @@ JArray<T>::SearchSortedOTI
 
 	// check first element
 
-	JListT::CompareResult r1;
-
-	JIndex firstIndex = 1;
-	{
-	const T& element = ProtectedGetElement(firstIndex);
-	r1 = compare(target, element);
-	if (r1 == JListT::kFirstEqualSecond &&
+	JIndex firstIndex     = 1;
+	const T& element1     = ProtectedGetElement(firstIndex);
+	std::weak_ordering r1 = compare(target, element1);
+	if (r1 == std::weak_ordering::equivalent &&
 		(count == 1 || which != JListT::kLastMatch))
 	{
 		*found = true;
 		return 1;
 	}
-	else if ((sortOrder == JListT::kSortAscending &&
-			  r1 == JListT::kFirstLessSecond) ||
-			 (sortOrder == JListT::kSortDescending &&
-			  r1 == JListT::kFirstGreaterSecond))
+	else if ((sortOrder == JListT::kSortAscending  && r1 == std::weak_ordering::less) ||
+			 (sortOrder == JListT::kSortDescending && r1 == std::weak_ordering::greater))
 	{
 		return 1;
 	}
@@ -825,29 +820,22 @@ JArray<T>::SearchSortedOTI
 	{
 		return 2;
 	}
-	}
 
 	// check last element
 
-	JListT::CompareResult r2;
-
-	JIndex lastIndex = count;
-	{
-	const T& element = ProtectedGetElement(lastIndex);
-	r2 = compare(target, element);
-	if (r2 == JListT::kFirstEqualSecond &&
+	JIndex lastIndex      = count;
+	const T& element2     = ProtectedGetElement(lastIndex);
+	std::weak_ordering r2 = compare(target, element2);
+	if (r2 == std::weak_ordering::equivalent &&
 		(count == 2 || which != JListT::kFirstMatch))
 	{
 		*found = true;
 		return count;
 	}
-	else if ((sortOrder == JListT::kSortAscending &&
-			  r2 == JListT::kFirstGreaterSecond) ||
-			 (sortOrder == JListT::kSortDescending &&
-			  r2 == JListT::kFirstLessSecond))
+	else if ((sortOrder == JListT::kSortAscending  && r2 == std::weak_ordering::greater) ||
+			 (sortOrder == JListT::kSortDescending && r2 == std::weak_ordering::less))
 	{
 		return count+1;
-	}
 	}
 
 	// assert for ascending:  first element <= data <= last element
@@ -864,8 +852,8 @@ JArray<T>::SearchSortedOTI
 						   ((firstIndex & (JIndex) 1) + (lastIndex & (JIndex) 1))/2;
 		const T& element = ProtectedGetElement(i);
 
-		const JListT::CompareResult r = compare(target, element);
-		if (r == JListT::kFirstEqualSecond)
+		const std::weak_ordering r = compare(target, element);
+		if (r == std::weak_ordering::equivalent)
 		{
 			if (which == JListT::kAnyMatch)
 			{
@@ -883,10 +871,8 @@ JArray<T>::SearchSortedOTI
 				r1         = r;
 			}
 		}
-		else if ((sortOrder == JListT::kSortAscending &&
-				  r == JListT::kFirstLessSecond) ||
-				 (sortOrder == JListT::kSortDescending &&
-				  r == JListT::kFirstGreaterSecond))
+		else if ((sortOrder == JListT::kSortAscending  && r == std::weak_ordering::less) ||
+				 (sortOrder == JListT::kSortDescending && r == std::weak_ordering::greater))
 		{
 			lastIndex = i;
 			r2        = r;
@@ -901,8 +887,8 @@ JArray<T>::SearchSortedOTI
 		if (lastIndex == firstIndex+1)
 		{
 			if (which == JListT::kAnyMatch ||
-				(r1 != JListT::kFirstEqualSecond &&
-				 r2 != JListT::kFirstEqualSecond))
+				(r1 != std::weak_ordering::equivalent &&
+				 r2 != std::weak_ordering::equivalent))
 			{
 				// Since we know that target is not equal to either of the
 				// bounding elements, we can give up when there are no elements
@@ -916,13 +902,13 @@ JArray<T>::SearchSortedOTI
 			*found = true;
 			if (which == JListT::kFirstMatch)
 			{
-				assert( r2 == JListT::kFirstEqualSecond );
+				assert( r2 == std::weak_ordering::equivalent );
 				return lastIndex;
 			}
 			else	// which == JListT::kLastMatch
 			{
 				assert( which == JListT::kLastMatch &&
-						r1 == JListT::kFirstEqualSecond );
+						r1 == std::weak_ordering::equivalent );
 				return firstIndex;
 			}
 		}

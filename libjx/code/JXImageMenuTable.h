@@ -17,10 +17,7 @@ class JXImageMenuTable : public JXMenuTable
 {
 public:
 
-	enum
-	{
-		kHilightBorderWidth = kJXDefaultBorderWidth
-	};
+	static const JCoordinate kHilightBorderWidth = kJXDefaultBorderWidth;
 
 public:
 

@@ -315,7 +315,7 @@ private:
 		{ };
 	};
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareShortcuts(const Shortcut& s1, const Shortcut& s2);
 
 	struct ClickInfo

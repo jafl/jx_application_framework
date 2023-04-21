@@ -74,7 +74,7 @@ operator==
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JFileID::Compare
 	(
 	const JFileID& id1,
@@ -83,30 +83,30 @@ JFileID::Compare
 {
 	if (id1.itsValidFlag && !id2.itsValidFlag)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (!id1.itsValidFlag && id2.itsValidFlag)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (id1.itsDevice < id2.itsDevice)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (id1.itsDevice > id2.itsDevice)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (id1.itsINode < id2.itsINode)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (id1.itsINode > id2.itsINode)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::equivalent;
 	}
 }

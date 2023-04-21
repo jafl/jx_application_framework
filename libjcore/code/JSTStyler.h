@@ -113,7 +113,7 @@ private:
 
 	void	ExpandTextRange(JStyledText::TextRange* r1, const JCharacterRange& r2) const;
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareTokenStarts(const TokenData& t1, const TokenData& t2);
 
 	// not allowed

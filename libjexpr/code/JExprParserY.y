@@ -104,6 +104,7 @@ yyprint
 %initial-action
 {
 //	yydebug = 1;
+if (yynerrs) ;	// keep C++20 happy
 }
 
 /* operator associations and precedence */

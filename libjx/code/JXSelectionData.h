@@ -76,7 +76,7 @@ private:
 
 	void	JXSelectionDataX();
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareAtoms(const Atom& atom1, const Atom& atom2);
 
 	// not allowed

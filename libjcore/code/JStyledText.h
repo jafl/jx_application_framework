@@ -383,9 +383,9 @@ public:
 
 	void		SetBlockSizes(const JSize textBlockSize, const JSize styleBlockSize);
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareCharacterIndices(const TextIndex& i, const TextIndex& j);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareByteIndices(const TextIndex& i, const TextIndex& j);
 
 	// JTextEditor

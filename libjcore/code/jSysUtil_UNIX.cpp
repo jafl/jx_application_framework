@@ -81,7 +81,7 @@ struct jUIDInfo
 
 static JArray<jUIDInfo> theUserInfoMap;
 
-static JListT::CompareResult
+static std::weak_ordering
 jCompareUIDs
 	(
 	const jUIDInfo& i1,
@@ -286,7 +286,7 @@ struct jGIDInfo
 
 static JArray<jGIDInfo> groupInfoMap;
 
-static JListT::CompareResult
+static std::weak_ordering
 jCompareGIDs
 	(
 	const jGIDInfo& i1,

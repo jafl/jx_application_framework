@@ -259,7 +259,7 @@ private:
 		{ };
 	};
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareXWindows(const WindowInfo& info1, const WindowInfo& info2);
 
 	struct CursorInfo

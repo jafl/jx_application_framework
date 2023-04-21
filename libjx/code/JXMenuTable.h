@@ -19,12 +19,9 @@ class JXMenuTable : public JXTable
 {
 public:
 
-	enum
-	{
-		kCheckboxColWidth = 20,
-		kSubmenuColWidth  = 15,
-		kMinRowHeight     = 14
-	};
+	static const JCoordinate kCheckboxColWidth = 20;
+	static const JCoordinate kSubmenuColWidth  = 15;
+	static const JCoordinate kMinRowHeight     = 14;
 
 public:
 

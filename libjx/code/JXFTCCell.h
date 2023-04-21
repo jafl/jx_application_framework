@@ -102,9 +102,9 @@ private:
 	JString				Indent(const JSize extra = 0) const;
 	const JUtf8Byte*	GetDirectionName() const;
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareHorizontally(JXFTCCell* const & c1, JXFTCCell* const & c2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareVertically(JXFTCCell* const & c1, JXFTCCell* const & c2);
 };
 

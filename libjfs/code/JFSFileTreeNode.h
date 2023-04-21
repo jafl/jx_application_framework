@@ -45,22 +45,22 @@ public:
 
 protected:
 
-	bool			OKToOpen() const override;
+	bool						OKToOpen() const override;
 	virtual JFSFileTreeNode*	CreateChild(JDirEntry* entry);
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
-	static JListT::CompareResult
-		CompareUserName(JTreeNode * const & e1, JTreeNode * const & e2);
+	static std::weak_ordering
+		CompareUserNames(JTreeNode * const & e1, JTreeNode * const & e2);
 
-	static JListT::CompareResult
-		CompareGroupName(JTreeNode * const & e1, JTreeNode * const & e2);
+	static std::weak_ordering
+		CompareGroupNames(JTreeNode * const & e1, JTreeNode * const & e2);
 
-	static JListT::CompareResult
-		CompareSize(JTreeNode * const & e1, JTreeNode * const & e2);
+	static std::weak_ordering
+		CompareSizes(JTreeNode * const & e1, JTreeNode * const & e2);
 
-	static JListT::CompareResult
-		CompareDate(JTreeNode * const & e1, JTreeNode * const & e2);
+	static std::weak_ordering
+		CompareDates(JTreeNode * const & e1, JTreeNode * const & e2);
 
 private:
 
@@ -69,17 +69,17 @@ private:
 
 private:
 
-	void		BuildChildList();
+	void	BuildChildList();
 	bool	CreateDirInfo();
-	void		UpdateDirInfoSettings(const JDirInfo& info);
+	void	UpdateDirInfoSettings(const JDirInfo& info);
 
-	void		UpdateChildren();
-	void		UpdateAfterGo();
-	void		UpdatePath(const JString& fullName,
-						   const JString& oldPath, const JString& newPath);
+	void	UpdateChildren();
+	void	UpdateAfterGo();
+	void	UpdatePath(const JString& fullName,
+					   const JString& oldPath, const JString& newPath);
 
-	static JListT::CompareResult
-		CompareTypeAndName(JTreeNode * const & e1, JTreeNode * const & e2);
+	static std::weak_ordering
+		CompareTypesAndNames(JTreeNode * const & e1, JTreeNode * const & e2);
 };
 
 /******************************************************************************

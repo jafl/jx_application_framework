@@ -122,7 +122,7 @@ private:
 
 	JProcess(const pid_t pid, const int x);
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		ComparePID(JProcess* const & p1, JProcess* const & p2);
 
 	// not allowed

@@ -999,7 +999,7 @@ JXFTCCell::GetApertureGlobal()
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JXFTCCell::CompareHorizontally
 	(
 	JXFTCCell* const & c1,
@@ -1011,7 +1011,7 @@ JXFTCCell::CompareHorizontally
 		c2->itsFrameG.left);
 }
 
-JListT::CompareResult
+std::weak_ordering
 JXFTCCell::CompareVertically
 	(
 	JXFTCCell* const & c1,

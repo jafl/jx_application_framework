@@ -1102,7 +1102,7 @@ JXFileListTable::ClosestMatch
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JXFileListTable::CompareWrapper
 	(
 	const JPtrArray<JString>&	fileList,
@@ -1123,19 +1123,7 @@ JXFileListTable::CompareWrapper
 		 prefix.GetBytes() :
 		 fileList.GetElement(i2.fileIndex)->GetBytes() + i2.nameIndex-1);
 
-	const int r = JString::Compare(s1, s2, JString::kIgnoreCase);
-	if (r > 0)
-	{
-		return JListT::kFirstGreaterSecond;
-	}
-	else if (r < 0)
-	{
-		return JListT::kFirstLessSecond;
-	}
-	else
-	{
-		return JListT::kFirstEqualSecond;
-	}
+	return JIntToWeakOrdering(JString::Compare(s1, s2, JString::kIgnoreCase));
 }
 
 void

@@ -18,10 +18,7 @@ class JXDocktab : public JXWidget
 {
 public:
 
-	enum
-	{
-		kWidth = 9
-	};
+	static const JCoordinate kWidth = 9;
 
 public:
 

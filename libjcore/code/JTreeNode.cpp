@@ -396,7 +396,7 @@ JTreeNode::InsertSorted
 void
 JTreeNode::SetChildCompareFunction
 	(
-	const std::function<JListT::CompareResult(JTreeNode * const &, JTreeNode * const &)> compare,
+	const std::function<std::weak_ordering(JTreeNode * const &, JTreeNode * const &)> compare,
 
 	const JListT::SortOrder	order,
 	const bool				propagate

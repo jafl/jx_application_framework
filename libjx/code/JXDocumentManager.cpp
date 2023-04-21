@@ -763,13 +763,13 @@ JXDocumentManager::SafetySave
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JXDocumentManager::CompareDocNames
 	(
 	const DocInfo& d1,
 	const DocInfo& d2
 	)
 {
-	return JCompareStringsCaseInsensitive(const_cast<JString*>(&((d1.doc)->GetName())),
-										  const_cast<JString*>(&((d2.doc)->GetName())));
+	return JCompareStringsCaseInsensitive(const_cast<JString*>(&d1.doc->GetName()),
+										  const_cast<JString*>(&d2.doc->GetName()));
 }

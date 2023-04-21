@@ -65,9 +65,9 @@ private:
 							const JFSBinding::CommandType type,
 							const bool singleFile);
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		ComparePatterns(JFSBinding* const & b1, JFSBinding* const & b2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareCommands(JFSBinding* const & b1, JFSBinding* const & b2);
 
 	// not allowed

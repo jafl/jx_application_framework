@@ -32,7 +32,7 @@ JTEST(RGB)
 	JRGB rgb2;
 	input >> rgb2;
 	JAssertEqual(rgb, rgb2);
-	JAssertEqual(JListT::kFirstEqualSecond, JCompareRGBValues(rgb, rgb2));
+	JAssertEqual(std::weak_ordering::equivalent, JCompareRGBValues(rgb, rgb2));
 
 	rgb2.Set(0,0,0);
 	JRGB rgb3 = JBlend(rgb, rgb2, 0.5);
@@ -65,7 +65,7 @@ JTEST(HSB)
 	JHSB hsb2;
 	input >> hsb2;
 	JAssertEqual(hsb, hsb2);
-	JAssertEqual(JListT::kFirstEqualSecond, JCompareHSBValues(hsb, hsb2));
+	JAssertEqual(std::weak_ordering::equivalent, JCompareHSBValues(hsb, hsb2));
 
 	JAssertFalse(hsb != hsb2);
 }

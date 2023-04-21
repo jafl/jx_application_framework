@@ -19,10 +19,7 @@ class JXScrollbar : public JXWidget
 {
 public:
 
-	enum
-	{
-		kMinValue = 0
-	};
+	static const JCoordinate kMinValue = 0;
 
 public:
 
@@ -166,7 +163,7 @@ private:
 						   const JXKeyModifiers& modifiers);
 	void	HandleActionMenu(const JIndex index);
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareScrolltabValues(JXScrolltab* const & t1, JXScrolltab* const & t2);
 
 public:

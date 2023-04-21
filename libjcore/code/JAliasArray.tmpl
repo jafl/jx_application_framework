@@ -33,9 +33,9 @@
 template <class T>
 JAliasArray<T>::JAliasArray
 	(
-	JArray<T>*														data,
-	const std::function<JListT::CompareResult(const T&, const T&)>	compareFn,
-	const JListT::SortOrder											order
+	JArray<T>*													data,
+	const std::function<std::weak_ordering(const T&, const T&)>	compareFn,
+	const JListT::SortOrder										order
 	)
 	:
 	JCollection(),
@@ -243,10 +243,10 @@ JAliasArray<T>::SetElementFromEnd
  ******************************************************************************/
 
 template <class T>
-static JListT::CompareResult
+static std::weak_ordering
 CompareWrapper
 	(
-	const std::function<JListT::CompareResult(const T&, const T&)>& compare,
+	const std::function<std::weak_ordering(const T&, const T&)>& compare,
 
 	const JArray<T>&	data,
 	const JIndex&		i1,
@@ -290,7 +290,7 @@ template <class T>
 void
 JAliasArray<T>::SetCompareFunction
 	(
-	const std::function<JListT::CompareResult(const T&, const T&)> compareFn
+	const std::function<std::weak_ordering(const T&, const T&)> compareFn
 	)
 {
 	assert( itsData != nullptr );

@@ -28,13 +28,13 @@ public:
 	JSize			GetSize() const;
 	const JString&	GetData() const;
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareState(Record * const & r1, Record * const & r2);
-	static JListT::CompareResult
-		CompareFileName(Record * const & r1, Record * const & r2);
-	static JListT::CompareResult
-		CompareSize(Record * const & r1, Record * const & r2);
-	static JListT::CompareResult
+	static std::weak_ordering
+		CompareFileNames(Record * const & r1, Record * const & r2);
+	static std::weak_ordering
+		CompareSizes(Record * const & r1, Record * const & r2);
+	static std::weak_ordering
 		CompareData(Record * const & r1, Record * const & r2);
 
 private:

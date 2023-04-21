@@ -21,10 +21,7 @@ class JXCursorAnimator
 {
 public:
 
-	enum
-	{
-		kmsecPerFrame = 500		// 0.5 seconds
-	};
+	static const JSize kmsecPerFrame = 500;		// 0.5 seconds
 
 public:
 

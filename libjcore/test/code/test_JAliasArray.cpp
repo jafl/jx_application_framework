@@ -40,25 +40,14 @@ JPrintAliasArray
 	return s;
 }
 
-JListT::CompareResult
+std::weak_ordering
 CompareLongs
 	(
 	const long& a,
 	const long& b
 	)
 {
-	if (a < b)
-	{
-		return JListT::kFirstLessSecond;
-	}
-	else if (a == b)
-	{
-		return JListT::kFirstEqualSecond;
-	}
-	else
-	{
-		return JListT::kFirstGreaterSecond;
-	}
+	return JIntToWeakOrdering(a-b);
 }
 
 int

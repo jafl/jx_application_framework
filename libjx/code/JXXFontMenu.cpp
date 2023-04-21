@@ -31,7 +31,7 @@ JXXFontMenu::Create
 	(
 	const JRegex&		regex,
 
-	const std::function<JListT::CompareResult(JString * const &, JString * const &)> compare,
+	const std::function<std::weak_ordering(JString * const &, JString * const &)> compare,
 
 	const JString&		title,
 	JXContainer*		enclosure,
@@ -62,7 +62,7 @@ JXXFontMenu::Create
 	(
 	const JRegex&		regex,
 
-	const std::function<JListT::CompareResult(JString * const &, JString * const &)> compare,
+	const std::function<std::weak_ordering(JString * const &, JString * const &)> compare,
 
 	JXMenu*				owner,
 	const JIndex		itemIndex,

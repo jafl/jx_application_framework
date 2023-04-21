@@ -16,10 +16,8 @@ class JPartition
 {
 public:
 
-	enum
-	{
-		kDragRegionSize = 5		// should be odd so user can find midpoint
-	};
+	// should be odd so user can find midpoint
+	static const JCoordinate kDragRegionSize = 5;
 
 public:
 

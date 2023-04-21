@@ -161,7 +161,7 @@ private:
 
 	void	InstallCompareWrapper(const JString& prefix) const;
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareWrapper(const JPtrArray<JString>& fileList, const JString& prefix,
 					   const VisInfo& i1, const VisInfo& i2);
 

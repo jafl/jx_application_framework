@@ -59,7 +59,7 @@ public:
 	static JFSBinding::CommandType	GetCommandType(const bool shell,
 												   const bool window);
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		ComparePatterns(JFSBinding* const & n1, JFSBinding* const & n2);
 
 private:

@@ -557,7 +557,7 @@ JDirInfo::ShouldApplyWildcardFilterToDirs
 void
 JDirInfo::ChangeSort
 	(
-	std::function<JListT::CompareResult(JDirEntry * const &, JDirEntry * const &)> f,
+	std::function<std::weak_ordering(JDirEntry * const &, JDirEntry * const &)> f,
 
 	const JListT::SortOrder order
 	)

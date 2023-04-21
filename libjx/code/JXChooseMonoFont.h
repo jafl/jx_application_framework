@@ -43,7 +43,7 @@ private:
 	void	PrependOtherMonospaceFonts(JXXFontMenu* menu);
 	void	UpdateMenus(const bool updateSize);
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareFontNames(JString * const &, JString * const &);
 
 public:

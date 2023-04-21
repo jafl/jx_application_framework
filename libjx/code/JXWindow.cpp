@@ -4428,11 +4428,11 @@ JXWindow::IsShortcut
 		const Shortcut s = itsShortcuts->GetElement(i);
 		if (s.widget != nullptr && (s.widget)->WillAcceptShortcut())
 		{
-			(s.widget)->HandleShortcut(s.key, modifiers);
+			s.widget->HandleShortcut(s.key, modifiers);
 		}
 		else if (s.menu != nullptr)
 		{
-			(s.menu)->HandleNMShortcut(s.menuItem, modifiers);
+			s.menu->HandleNMShortcut(s.menuItem, modifiers);
 		}
 	}
 
@@ -4451,7 +4451,7 @@ JXWindow::IsShortcut
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JXWindow::CompareShortcuts
 	(
 	const Shortcut& s1,
@@ -4460,23 +4460,23 @@ JXWindow::CompareShortcuts
 {
 	if (s1.key < s2.key)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (s1.key > s2.key)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (s1.state < s2.state)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (s1.state > s2.state)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::equivalent;
 	}
 }
 

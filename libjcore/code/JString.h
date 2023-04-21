@@ -17,7 +17,6 @@
 #include <string.h>
 #include <unicode/ucasemap.h>
 #include <unicode/ucol.h>
-#include <compare>
 
 class JStringIterator;
 class JRegex;
@@ -30,11 +29,8 @@ class JString
 
 public:
 
-	enum
-	{
-		kPrecisionAsNeeded = -1,
-		kDefSigDigitCount  = 16
-	};
+	static const JInteger kPrecisionAsNeeded = -1;
+	static const JInteger kDefSigDigitCount  = 16;
 
 	enum ExponentDisplay
 	{
@@ -1046,23 +1042,13 @@ operator==
  ******************************************************************************/
 
 inline std::weak_ordering
-jIntToWeakOrdering
-	(
-	const int r
-	)
-{
-	return (r < 0 ? std::weak_ordering::less :
-			r > 0 ? std::weak_ordering::greater : std::weak_ordering::equivalent);
-}
-
-inline std::weak_ordering
 operator<=>
 	(
 	const JString& s1,
 	const JString& s2
 	)
 {
-	return jIntToWeakOrdering(JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), JString::kIgnoreCase));
+	return JIntToWeakOrdering(JString::Compare(s1.GetRawBytes(), s1.GetByteCount(), s2.GetRawBytes(), s2.GetByteCount(), JString::kIgnoreCase));
 }
 
 inline std::weak_ordering
@@ -1072,7 +1058,7 @@ operator<=>
 	const JUtf8Byte*	str
 	)
 {
-	return jIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase));
+	return JIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase));
 }
 
 inline std::weak_ordering
@@ -1082,7 +1068,7 @@ operator<=>
 	const JString&		s
 	)
 {
-	return jIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase));
+	return JIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase));
 }
 
 inline std::weak_ordering
@@ -1092,7 +1078,7 @@ operator<=>
 	const std::string&	str
 	)
 {
-	return jIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase));
+	return JIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase));
 }
 
 inline std::weak_ordering
@@ -1102,7 +1088,7 @@ operator<=>
 	const JString&		s
 	)
 {
-	return jIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase));
+	return JIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase));
 }
 
 /******************************************************************************

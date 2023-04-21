@@ -563,7 +563,7 @@ JXFSBindingManager::SaveBinding
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JXFSBindingManager::ComparePatterns
 	(
 	JFSBinding* const & b1,
@@ -579,7 +579,7 @@ JXFSBindingManager::ComparePatterns
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JXFSBindingManager::CompareCommands
 	(
 	JFSBinding* const & b1,
@@ -591,10 +591,10 @@ JXFSBindingManager::CompareCommands
 	const JString& c1 = b1->GetCommand(&t1, &s1);
 	const JString& c2 = b2->GetCommand(&t2, &s2);
 
-	JListT::CompareResult result =
+	std::weak_ordering result =
 		JCompareStringsCaseSensitive(const_cast<JString*>(&c1),
 									 const_cast<JString*>(&c2));
-	if (result == JListT::kFirstEqualSecond)
+	if (result == std::weak_ordering::equivalent)
 	{
 		result = JCompareIndices(t1, t2);
 	}

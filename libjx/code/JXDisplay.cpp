@@ -1429,7 +1429,7 @@ JXDisplay::FindXWindow
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JXDisplay::CompareXWindows
 	(
 	const WindowInfo& info1,
@@ -1438,15 +1438,15 @@ JXDisplay::CompareXWindows
 {
 	if (info1.xWindow < info2.xWindow)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
-	else if (info1.xWindow == info2.xWindow)
+	else if (info1.xWindow > info2.xWindow)
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::greater;
 	}
 	else
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::equivalent;
 	}
 }
 

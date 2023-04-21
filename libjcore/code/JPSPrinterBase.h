@@ -25,10 +25,7 @@ class JPSPrinterBase
 {
 public:
 
-	enum
-	{
-		kPixelsPerInch = 72
-	};
+	static const JCoordinate kPixelsPerInch = 72;
 
 public:
 

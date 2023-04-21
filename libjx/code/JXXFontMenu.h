@@ -18,7 +18,7 @@ class JXXFontMenu : public JXFontNameMenu
 public:
 
 	static bool Create(const JRegex& regex,
-					   const std::function<JListT::CompareResult(JString * const &, JString * const &)> compare,
+					   const std::function<std::weak_ordering(JString * const &, JString * const &)> compare,
 					   const JString& title, JXContainer* enclosure,
 					   const HSizingOption hSizing, const VSizingOption vSizing,
 					   const JCoordinate x, const JCoordinate y,
@@ -26,7 +26,7 @@ public:
 					   JXXFontMenu** menu);
 
 	static bool Create(const JRegex& regex,
-					   const std::function<JListT::CompareResult(JString * const &, JString * const &)> compare,
+					   const std::function<std::weak_ordering(JString * const &, JString * const &)> compare,
 					   JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure,
 					   JXXFontMenu** menu);
 

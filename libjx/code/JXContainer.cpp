@@ -2741,7 +2741,7 @@ JXContainer::FTCAdjustSize
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JXContainer::FTCCompareHorizontally
 	(
 	JXContainer* const & w1,
@@ -2753,7 +2753,7 @@ JXContainer::FTCCompareHorizontally
 		w2->GetFrameForFTC().left);
 }
 
-JListT::CompareResult
+std::weak_ordering
 JXContainer::FTCCompareVertically
 	(
 	JXContainer* const & w1,

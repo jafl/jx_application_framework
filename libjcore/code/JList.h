@@ -24,13 +24,6 @@ public:
 		kSortDescending
 	};
 
-	enum CompareResult
-	{
-		kFirstLessSecond,
-		kFirstEqualSecond,
-		kFirstGreaterSecond
-	};
-
 	enum SearchReturn
 	{
 		kFirstMatch,
@@ -268,7 +261,7 @@ public:
 
 	// sorting functions -- virtual so they can be optimized for particular storage methods
 
-	void	SetCompareFunction(const std::function<JListT::CompareResult(const T&, const T&)> compareFn);
+	void	SetCompareFunction(const std::function<std::weak_ordering(const T&, const T&)> compareFn);
 	void	CopyCompareFunction(const JList<T>& source);
 	void	ClearCompareFunction();
 
@@ -280,15 +273,15 @@ public:
 protected:
 
 	// asserts that the result is not nullptr
-	std::function<JListT::CompareResult(const T&, const T&)>*	GetCompareFunction() const;
+	std::function<std::weak_ordering(const T&, const T&)>*	GetCompareFunction() const;
 
 	void	ListAssigned(const JList<T>& source);
 	void	NotifyIterators(const JBroadcaster::Message& message);
 
 private:
 
-	JListT::SortOrder											itsSortOrder;
-	std::function<JListT::CompareResult(const T&, const T&)>*	itsCompareFn;	// can be nullptr
+	JListT::SortOrder										itsSortOrder;
+	std::function<std::weak_ordering(const T&, const T&)>*	itsCompareFn;	// can be nullptr
 
 	JListIterator<T>*	itsFirstIterator;	// linked list of active iterators
 

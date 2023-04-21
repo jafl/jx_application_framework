@@ -407,23 +407,23 @@ JProcess::CheckForFinishedChild
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JProcess::ComparePID
 	(
 	JProcess* const & p1,
 	JProcess* const & p2
 	)
 {
-	if (p1->GetPID() > p2->GetPID())
+	if (p1->GetPID() < p2->GetPID())
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::less;
 	}
-	else if (p1->GetPID() < p2->GetPID())
+	else if (p1->GetPID() > p2->GetPID())
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::greater;
 	}
 	else
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::equivalent;
 	}
 }

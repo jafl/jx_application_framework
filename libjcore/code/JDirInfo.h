@@ -46,7 +46,7 @@ public:
 	void	GoToClosest(const JString& dirName);
 	JError	GoTo(const JString& dirName);
 
-	void	ChangeSort(const std::function<JListT::CompareResult(JDirEntry * const &, JDirEntry * const &)> f,
+	void	ChangeSort(const std::function<std::weak_ordering(JDirEntry * const &, JDirEntry * const &)> f,
 					   const JListT::SortOrder order);
 
 	bool	FilesVisible() const;

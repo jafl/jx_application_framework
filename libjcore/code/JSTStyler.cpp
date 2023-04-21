@@ -462,7 +462,7 @@ JSTStyler::GetFirstTokenExtraData()
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JSTStyler::CompareTokenStarts
 	(
 	const TokenData& t1,

@@ -28,6 +28,7 @@
 
 #include "JPrefsManager.h"
 #include "JPrefsFile.h"
+#include "JListUtil.h"
 #include "jFileUtil.h"
 #include "jSysUtil.h"
 #include "jGlobals.h"
@@ -416,23 +417,12 @@ JPrefsManager::DeletePrefsFile
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JPrefsManager::ComparePrefIDs
 	(
 	const PrefItem& p1,
 	const PrefItem& p2
 	)
 {
-	if (p1.id < p2.id)
-	{
-		return JListT::kFirstLessSecond;
-	}
-	else if (p1.id == p2.id)
-	{
-		return JListT::kFirstEqualSecond;
-	}
-	else
-	{
-		return JListT::kFirstGreaterSecond;
-	}
+	return JCompareIndices(p1.id, p2.id);
 }

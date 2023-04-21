@@ -14,7 +14,7 @@
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JCompareIndices
 	(
 	const JIndex& i,
@@ -23,15 +23,15 @@ JCompareIndices
 {
 	if (i < j)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
-	else if (i == j)
+	else if (i > j)
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::greater;
 	}
 	else
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::equivalent;
 	}
 }
 
@@ -40,7 +40,7 @@ JCompareIndices
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JCompareSizes
 	(
 	const JSize& s1,
@@ -49,15 +49,15 @@ JCompareSizes
 {
 	if (s1 < s2)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
-	else if (s1 == s2)
+	else if (s1 > s2)
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::greater;
 	}
 	else
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::equivalent;
 	}
 }
 
@@ -66,7 +66,7 @@ JCompareSizes
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JCompareCoordinates
 	(
 	const JCoordinate& x1,
@@ -75,15 +75,15 @@ JCompareCoordinates
 {
 	if (x1 < x2)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
-	else if (x1 == x2)
+	else if (x1 > x2)
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::greater;
 	}
 	else
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::equivalent;
 	}
 }
 
@@ -92,7 +92,7 @@ JCompareCoordinates
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JCompareUInt64
 	(
 	const JUInt64& i1,
@@ -101,15 +101,15 @@ JCompareUInt64
 {
 	if (i1 < i2)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
-	else if (i1 == i2)
+	else if (i1 > i2)
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::greater;
 	}
 	else
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::equivalent;
 	}
 }
 

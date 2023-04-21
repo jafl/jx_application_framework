@@ -32,7 +32,7 @@ RecordList::RecordList()
 
 	itsAlphaRecords = jnew JPtrArray<Record>(JPtrArrayT::kForgetAll);
 	assert( itsAlphaRecords != nullptr );
-	itsAlphaRecords->SetCompareFunction(Record::CompareFileName);
+	itsAlphaRecords->SetCompareFunction(Record::CompareFileNames);
 }
 
 /******************************************************************************
@@ -116,14 +116,14 @@ RecordList::SetSortColumn
 	}
 	else if (index == kRecordFile || index == kRecordLine)
 	{
-		itsRecords->SetCompareFunction(Record::CompareFileName);
+		itsRecords->SetCompareFunction(Record::CompareFileNames);
 		itsRecords->SetSortOrder(JListT::kSortAscending);
 		itsSortColumn = kRecordFile;
 		changed       = true;
 	}
 	else if (index == kRecordSize)
 	{
-		itsRecords->SetCompareFunction(Record::CompareSize);
+		itsRecords->SetCompareFunction(Record::CompareSizes);
 		itsRecords->SetSortOrder(JListT::kSortDescending);
 		itsSortColumn = kRecordSize;
 		changed       = true;

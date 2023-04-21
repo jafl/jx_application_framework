@@ -20,12 +20,12 @@ class JXTextMenuTable : public JXMenuTable
 {
 public:
 
+	static const JCoordinate kHNMSMarginWidth    = 10;
+	static const JCoordinate kSeparatorHeight    = 10;	// must be even
+	static const JCoordinate kHilightBorderWidth = kJXDefaultBorderWidth;
+
 	enum
 	{
-		kHNMSMarginWidth    = 10,
-		kSeparatorHeight    = 10,						// must be even
-		kHilightBorderWidth = kJXDefaultBorderWidth,
-
 		kCheckboxColumnIndex = 1,
 		kImageColumnIndex,
 		kTextColumnIndex,

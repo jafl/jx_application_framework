@@ -21,10 +21,10 @@ std::ostream& operator<<(std::ostream&, const JStringPtrMap<JString>&);
 bool JSameStrings(const JPtrArray<JString>&, const JPtrArray<JString>&,
 				  const JString::Case caseSensitive);
 
-JListT::CompareResult
+std::weak_ordering
 JCompareStringsCaseSensitive(JString* const &, JString* const &);
 
-JListT::CompareResult
+std::weak_ordering
 JCompareStringsCaseInsensitive(JString* const &, JString* const &);
 
 JString	JStringJoin(const JUtf8Byte* separator, const JPtrArray<JString>& list);

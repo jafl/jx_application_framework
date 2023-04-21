@@ -18,11 +18,7 @@ class JUtf8Character
 
 public:
 
-	enum
-	{
-		kMaxByteCount = 4
-	};
-
+	static const JSize kMaxByteCount = 4;
 	static const JUInt32 kUtf32SubstitutionCharacter;
 	static const JUtf8Character kUtf8SubstitutionCharacter;
 

@@ -10,6 +10,7 @@
 
 #include "JString.h"
 #include <sstream>
+#include <compare>
 #include "jMath.h"
 
 class JTestManager;
@@ -102,6 +103,28 @@ private:
 	JTestManager(const JTestManager&) = delete;
 	JTestManager& operator=(const JTestManager&) = delete;
 };
+
+inline std::ostream&
+operator<<
+	(
+	std::ostream&				output,
+	const std::weak_ordering	v
+	)
+{
+	if (v == std::weak_ordering::less)
+	{
+		output << "less";
+	}
+	else if (v == std::weak_ordering::greater)
+	{
+		output << "greater";
+	}
+	else
+	{
+		output << "equivalent";
+	}
+	return output;
+}
 
 template <class A, class B>
 bool

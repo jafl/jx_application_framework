@@ -197,27 +197,14 @@ JIndex i;
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JCompareStringsCaseSensitive
 	(
 	JString* const & s1,
 	JString* const & s2
 	)
 {
-	const int r = JString::Compare(*s1, *s2, JString::kCompareCase);
-
-	if (r > 0)
-	{
-		return JListT::kFirstGreaterSecond;
-	}
-	else if (r < 0)
-	{
-		return JListT::kFirstLessSecond;
-	}
-	else
-	{
-		return JListT::kFirstEqualSecond;
-	}
+	return JIntToWeakOrdering(JString::Compare(*s1, *s2, JString::kCompareCase));
 }
 
 /******************************************************************************
@@ -225,27 +212,14 @@ JCompareStringsCaseSensitive
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JCompareStringsCaseInsensitive
 	(
 	JString* const & s1,
 	JString* const & s2
 	)
 {
-	const int r = JString::Compare(*s1, *s2, JString::kIgnoreCase);
-
-	if (r > 0)
-	{
-		return JListT::kFirstGreaterSecond;
-	}
-	else if (r < 0)
-	{
-		return JListT::kFirstLessSecond;
-	}
-	else
-	{
-		return JListT::kFirstEqualSecond;
-	}
+	return JIntToWeakOrdering(JString::Compare(*s1, *s2, JString::kIgnoreCase));
 }
 
 /******************************************************************************

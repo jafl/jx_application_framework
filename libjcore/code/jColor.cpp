@@ -50,7 +50,7 @@ operator<<
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JCompareRGBValues
 	(
 	const JRGB& c1,
@@ -59,34 +59,34 @@ JCompareRGBValues
 {
 	if (c1.red < c2.red)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (c1.red > c2.red)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 
 	else if (c1.green < c2.green)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (c1.green > c2.green)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 
 	else if (c1.blue < c2.blue)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (c1.blue > c2.blue)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 
 	else
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::equivalent;
 	}
 }
 
@@ -122,7 +122,7 @@ operator<<
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JCompareHSBValues
 	(
 	const JHSB& c1,
@@ -131,34 +131,34 @@ JCompareHSBValues
 {
 	if (c1.hue < c2.hue)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (c1.hue > c2.hue)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 
 	else if (c1.saturation < c2.saturation)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (c1.saturation > c2.saturation)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 
 	else if (c1.brightness < c2.brightness)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (c1.brightness > c2.brightness)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 
 	else
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::equivalent;
 	}
 }
 

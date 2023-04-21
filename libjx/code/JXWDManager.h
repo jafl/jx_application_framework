@@ -96,7 +96,7 @@ private:
 	static bool	ShortcutUsed(const JArray<WindowInfo>& windowList,
 							 const JInteger shortcutIndex);
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareWindowNames(const WindowInfo& w1, const WindowInfo& w2);
 
 	// not allowed

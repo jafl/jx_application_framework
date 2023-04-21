@@ -21,6 +21,7 @@
 static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 
 // version 4.0.0:
+//	*** Upgraded to C++20
 //	*** UTF-8 support
 //			Completely redesigned JString API.  Introduced JStringIterator.
 //			Replaced JCharacter with JUtf8Byte & JUtf8Character.
@@ -51,6 +52,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			Use GetFirstElement(), GetElement(), GetLastElement() instead
 //	*** Removed JList::GetCompareFunction() because it is useless for lambdas.
 //	*** Removed JElementComparison & JCompareFnWrapper from JList in favor of lambdas.
+//	*** Replaced JListT::CompareResult with std::weak_ordering.
 //	Added support for range-based for loops to JList, etc.
 //	Added move constructor for JArray.
 //	JContainer:

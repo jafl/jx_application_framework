@@ -10,6 +10,7 @@
 #include "Record.h"
 #include <jx-af/jcore/JMemoryManager.h>
 #include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/JListUtil.h>
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -59,7 +60,7 @@ Record::~Record()
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 Record::CompareState
 	(
 	Record * const & r1,
@@ -68,20 +69,20 @@ Record::CompareState
 {
 	if (!r1->itsIsValidFlag && r2->itsIsValidFlag)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (r1->itsIsValidFlag && !r2->itsIsValidFlag)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else
 	{
-		return CompareFileName(r1, r2);
+		return CompareFileNames(r1, r2);
 	}
 }
 
-JListT::CompareResult
-Record::CompareFileName
+std::weak_ordering
+Record::CompareFileNames
 	(
 	Record * const & r1,
 	Record * const & r2
@@ -108,64 +109,41 @@ Record::CompareFileName
 	}
 
 	int result = JString::Compare(s1, s2, JString::kIgnoreCase);
-
 	if (result == 0)
 	{
 		result = r1->itsNewLine - r2->itsNewLine;
 	}
-
-	if (result < 0)
-	{
-		return JListT::kFirstLessSecond;
-	}
-	else if (result > 0)
-	{
-		return JListT::kFirstGreaterSecond;
-	}
-	else
-	{
-		return JListT::kFirstEqualSecond;
-	}
+	return JIntToWeakOrdering(result);
 }
 
-JListT::CompareResult
-Record::CompareSize
+std::weak_ordering
+Record::CompareSizes
 	(
 	Record * const & r1,
 	Record * const & r2
 	)
 {
-	const int result = r1->itsSize - r2->itsSize;
-	if (result < 0)
+	std::weak_ordering result = JCompareSizes(r1->itsSize, r2->itsSize);
+	if (result == std::weak_ordering::equivalent)
 	{
-		return JListT::kFirstLessSecond;
+		result = CompareFileNames(r1, r2);
 	}
-	else if (result > 0)
-	{
-		return JListT::kFirstGreaterSecond;
-	}
-	else
-	{
-		return CompareFileName(r1, r2);
-	}
+	return result;
 }
 
-JListT::CompareResult
+std::weak_ordering
 Record::CompareData
 	(
 	Record * const & r1,
 	Record * const & r2
 	)
 {
-	JListT::CompareResult	result =
+	std::weak_ordering result =
 		JCompareStringsCaseInsensitive(&r1->itsData, &r2->itsData);
 
-	if (result == JListT::kFirstEqualSecond)
+	if (result == std::weak_ordering::equivalent)
 	{
-		return CompareFileName(r1, r2);
+		result = CompareFileNames(r1, r2);
 	}
-	else
-	{
-		return result;
-	}
+	return result;
 }

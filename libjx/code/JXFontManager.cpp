@@ -295,7 +295,7 @@ JXFontManager::GetXFontNames
 	const JRegex&		regex,
 	JPtrArray<JString>*	fontNames,
 
-	const std::function<JListT::CompareResult(JString * const &, JString * const &)>* compare
+	const std::function<std::weak_ordering(JString * const &, JString * const &)>* compare
 	)
 {
 	fontNames->CleanOut();

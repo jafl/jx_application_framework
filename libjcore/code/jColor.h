@@ -68,7 +68,7 @@ struct JRGB
 std::istream& operator>>(std::istream& input, JRGB& color);
 std::ostream& operator<<(std::ostream& output, const JRGB& color);
 
-JListT::CompareResult JCompareRGBValues(const JRGB& c1, const JRGB& c2);
+std::weak_ordering JCompareRGBValues(const JRGB& c1, const JRGB& c2);
 
 inline JRGB
 JBlend
@@ -159,7 +159,7 @@ struct JHSB
 std::istream& operator>>(std::istream& input, JHSB& color);
 std::ostream& operator<<(std::ostream& output, const JHSB& color);
 
-JListT::CompareResult JCompareHSBValues(const JHSB& c1, const JHSB& c2);
+std::weak_ordering JCompareHSBValues(const JHSB& c1, const JHSB& c2);
 
 inline bool
 operator==

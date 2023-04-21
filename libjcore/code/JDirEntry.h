@@ -105,11 +105,11 @@ public:
 	bool	MatchesContentFilter(const JRegex& regex,
 								 const JSize kBlockSize = 1024) const;
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareNames(JDirEntry * const & e1, JDirEntry * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareSizes(JDirEntry * const & e1, JDirEntry * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareModTimes(JDirEntry * const & e1, JDirEntry * const & e2);
 
 private:

@@ -29,7 +29,7 @@ public:
 	bool	IsValid() const;
 	void	SetFileName(const JString& fullName);
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		Compare(const JFileID& id1, const JFileID& id2);
 
 private:

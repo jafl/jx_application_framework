@@ -5341,7 +5341,7 @@ JStyledText::CalcInsertionFont
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JStyledText::CompareCharacterIndices
 	(
 	const TextIndex& i,
@@ -5356,7 +5356,7 @@ JStyledText::CompareCharacterIndices
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JStyledText::CompareByteIndices
 	(
 	const TextIndex& i,

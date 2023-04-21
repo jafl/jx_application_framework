@@ -1371,7 +1371,7 @@ bool		GetNextIncludedFile(const JString& inputFileName, std::istream& input,
 								JString* fileName);
 void		TruncateMakefile(const JString& fileName);
 
-JListT::CompareResult CompareHeaderFiles(const HeaderDep& h1, const HeaderDep& h2);
+std::weak_ordering CompareHeaderFiles(const HeaderDep& h1, const HeaderDep& h2);
 
 /******************************************************************************
  CalcDepend
@@ -1910,25 +1910,12 @@ TruncateMakefile
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 CompareHeaderFiles
 	(
 	const HeaderDep& h1,
 	const HeaderDep& h2
 	)
 {
-	const int r = JString::Compare(*(h1.fileName), *(h2.fileName));
-
-	if (r > 0)
-	{
-		return JListT::kFirstGreaterSecond;
-	}
-	else if (r < 0)
-	{
-		return JListT::kFirstLessSecond;
-	}
-	else
-	{
-		return JListT::kFirstEqualSecond;
-	}
+	return JIntToWeakOrdering(JString::Compare(*h1.fileName, *h2.fileName));
 }

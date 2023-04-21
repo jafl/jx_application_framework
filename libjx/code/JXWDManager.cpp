@@ -451,11 +451,11 @@ JXWDManager::HandleWDMenu
 {
 	if (index == kRaiseAllCmd)
 	{
-		(menu->GetDisplay())->RaiseAllWindows();
+		menu->GetDisplay()->RaiseAllWindows();
 	}
 	else if (index == kCloseAllCmd)
 	{
-		(menu->GetDisplay())->CloseAllOtherWindows(menu->GetWindow());
+		menu->GetDisplay()->CloseAllOtherWindows(menu->GetWindow());
 	}
 	else
 	{
@@ -480,12 +480,12 @@ JXWDManager::ActivateDirector
 	if (itsPermWindowList->IndexValid(index))
 	{
 		const WindowInfo info = itsPermWindowList->GetElement(index);
-		(info.dir)->Activate();
+		info.dir->Activate();
 	}
 	else if (itsWindowList->IndexValid(index - permCount))
 	{
 		const WindowInfo info = itsWindowList->GetElement(index - permCount);
-		(info.dir)->Activate();
+		info.dir->Activate();
 	}
 }
 
@@ -497,13 +497,13 @@ JXWDManager::ActivateDirector
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JXWDManager::CompareWindowNames
 	(
 	const WindowInfo& w1,
 	const WindowInfo& w2
 	)
 {
-	return JCompareStringsCaseInsensitive(const_cast<JString*>(&((w1.dir)->GetName())),
-										  const_cast<JString*>(&((w2.dir)->GetName())));
+	return JCompareStringsCaseInsensitive(const_cast<JString*>(&w1.dir->GetName()),
+										  const_cast<JString*>(&w2.dir->GetName()));
 }

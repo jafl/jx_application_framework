@@ -286,7 +286,7 @@ JFSBinding::GetCommandType
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JFSBinding::ComparePatterns
 	(
 	JFSBinding* const & n1,

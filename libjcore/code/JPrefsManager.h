@@ -83,7 +83,7 @@ private:
 	void	LoadData(JPrefsFile* file);
 	JError	DeletePrefsFile(const JString& fileName) const;
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		ComparePrefIDs(const PrefItem& p1, const PrefItem& p2);
 
 	// not allowed

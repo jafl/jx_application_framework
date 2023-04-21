@@ -571,7 +571,7 @@ JDirEntry::MatchesContentFilter
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JDirEntry::CompareNames
 	(
 	JDirEntry * const & e1,
@@ -581,38 +581,32 @@ JDirEntry::CompareNames
 	return JCompareStringsCaseInsensitive(&(e1->itsName), &(e2->itsName));
 }
 
-JListT::CompareResult
+std::weak_ordering
 JDirEntry::CompareSizes
 	(
 	JDirEntry * const & e1,
 	JDirEntry * const & e2
 	)
 {
-	const JListT::CompareResult result = JCompareSizes(e1->itsSize, e2->itsSize);
-	if (result != JListT::kFirstEqualSecond)
+	std::weak_ordering result = JCompareSizes(e1->itsSize, e2->itsSize);
+	if (result == std::weak_ordering::equivalent)
 	{
-		return result;
+		result = CompareNames(e1, e2);
 	}
-	else
-	{
-		return CompareNames(e1, e2);
-	}
+	return result;
 }
 
-JListT::CompareResult
+std::weak_ordering
 JDirEntry::CompareModTimes
 	(
 	JDirEntry * const & e1,
 	JDirEntry * const & e2
 	)
 {
-	const JListT::CompareResult result = JCompareSizes(e1->itsModTime, e2->itsModTime);
-	if (result != JListT::kFirstEqualSecond)
+	std::weak_ordering result = JCompareSizes(e1->itsModTime, e2->itsModTime);
+	if (result == std::weak_ordering::equivalent)
 	{
-		return result;
+		result = CompareNames(e1, e2);
 	}
-	else
-	{
-		return CompareNames(e1, e2);
-	}
+	return result;
 }

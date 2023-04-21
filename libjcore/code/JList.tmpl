@@ -141,7 +141,7 @@ JList<T>::NotifyIterators
  ******************************************************************************/
 
 template <class T>
-std::function<JListT::CompareResult(const T&, const T&)>*
+std::function<std::weak_ordering(const T&, const T&)>*
 JList<T>::GetCompareFunction()
 	const
 {
@@ -153,7 +153,7 @@ template <class T>
 void
 JList<T>::SetCompareFunction
 	(
-	const std::function<JListT::CompareResult(const T&, const T&)> compareFn
+	const std::function<std::weak_ordering(const T&, const T&)> compareFn
 	)
 {
 	jdelete itsCompareFn;
@@ -241,11 +241,9 @@ JList<T>::IsSorted()
 
 	while (iter->Next(&obj2))
 	{
-		const JListT::CompareResult r = (*itsCompareFn)(obj1, obj2);
-		if ((itsSortOrder == JListT::kSortAscending &&
-			 r == JListT::kFirstGreaterSecond) ||
-			(itsSortOrder == JListT::kSortDescending &&
-			 r == JListT::kFirstLessSecond))
+		const std::weak_ordering r = (*itsCompareFn)(obj1, obj2);
+		if ((itsSortOrder == JListT::kSortAscending  && r == std::weak_ordering::greater) ||
+			(itsSortOrder == JListT::kSortDescending && r == std::weak_ordering::less))
 		{
 			sorted = false;
 			break;

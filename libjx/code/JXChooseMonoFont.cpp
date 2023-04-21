@@ -15,8 +15,9 @@
 #include "JXDisplay.h"
 #include "jXConstants.h"
 #include <jx-af/jcore/JRegex.h>
-#include <stdlib.h>
+#include <jx-af/jcore/JListUtil.h>
 #include <jx-af/jcore/jGlobals.h>
+#include <stdlib.h>
 #include <jx-af/jcore/jAssert.h>
 
 static const JRegex fontRegex = "^[1-9][0-9]*x[1-9][0-9]*$";
@@ -201,7 +202,7 @@ JXChooseMonoFont::PrependOtherMonospaceFonts
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JXChooseMonoFont::CompareFontNames
 	(
 	JString* const & s1,
@@ -214,32 +215,14 @@ JXChooseMonoFont::CompareFontNames
 	JUInt v1 = strtoul(s1->GetBytes(), &endPtr1, 10);
 	JUInt v2 = strtoul(s2->GetBytes(), &endPtr2, 10);
 
-	if (v1 > v2)
-	{
-		return JListT::kFirstGreaterSecond;
-	}
-	else if (v1 < v2)
-	{
-		return JListT::kFirstLessSecond;
-	}
-	else
+	std::weak_ordering result = JCompareUInt64(v1, v2);
+	if (result == std::weak_ordering::equivalent)
 	{
 		// compare the value after the 'x'
 
-		v1 = strtoul(endPtr1+1, &endPtr1, 10);
-		v2 = strtoul(endPtr2+1, &endPtr2, 10);
-
-		if (v1 > v2)
-		{
-			return JListT::kFirstGreaterSecond;
-		}
-		else if (v1 < v2)
-		{
-			return JListT::kFirstLessSecond;
-		}
-		else
-		{
-			return JListT::kFirstEqualSecond;
-		}
+		v1     = strtoul(endPtr1+1, &endPtr1, 10);
+		v2     = strtoul(endPtr2+1, &endPtr2, 10);
+		result = JCompareUInt64(v1, v2);
 	}
+	return result;
 }

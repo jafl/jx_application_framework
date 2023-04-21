@@ -16,7 +16,7 @@ class JAliasArray : public JCollection
 public:
 
 	JAliasArray(JArray<T>* data,
-				const std::function<JListT::CompareResult(const T&, const T&)> compareFn,
+				const std::function<std::weak_ordering(const T&, const T&)> compareFn,
 				const JListT::SortOrder order);
 
 	~JAliasArray() override;
@@ -38,7 +38,7 @@ public:
 
 	// sorting functions -- the reason this class exists
 
-	void	SetCompareFunction(const std::function<JListT::CompareResult(const T&, const T&)> compareFn);
+	void	SetCompareFunction(const std::function<std::weak_ordering(const T&, const T&)> compareFn);
 
 	JListT::SortOrder	GetSortOrder() const;
 	void				SetSortOrder(const JListT::SortOrder order);
@@ -60,7 +60,7 @@ private:
 	JArray<T>*		itsData;		// not owned; die if nullptr
 	JArray<JIndex>*	itsIndexArray;
 
-	const std::function<JListT::CompareResult(const T&, const T&)>*	itsCompareFn;
+	const std::function<std::weak_ordering(const T&, const T&)>*	itsCompareFn;
 
 private:
 

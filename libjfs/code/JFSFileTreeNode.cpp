@@ -575,7 +575,7 @@ JFSFileTreeNode::UpdateChildren()
 	// build updated list of entries
 
 	JPtrArray<JTreeNode> newChildren(JPtrArrayT::kForgetAll);
-	newChildren.SetCompareFunction(CompareTypeAndName);
+	newChildren.SetCompareFunction(CompareTypesAndNames);
 
 	for (const auto* e : *itsDirInfo)
 	{
@@ -614,12 +614,12 @@ JFSFileTreeNode::UpdateChildren()
 }
 
 /******************************************************************************
- CompareTypeAndName (static private)
+ CompareTypesAndNames (static private)
 
  ******************************************************************************/
 
-JListT::CompareResult
-JFSFileTreeNode::CompareTypeAndName
+std::weak_ordering
+JFSFileTreeNode::CompareTypesAndNames
 	(
 	JTreeNode * const & e1,
 	JTreeNode * const & e2
@@ -628,14 +628,13 @@ JFSFileTreeNode::CompareTypeAndName
 	auto* n1 = dynamic_cast<JFSFileTreeNode*>(e1);
 	auto* n2 = dynamic_cast<JFSFileTreeNode*>(e2);
 
-	const long t = n1->itsDirEntry->GetType() - n2->itsDirEntry->GetType();
-	if (t < 0)
+	if (n1->itsDirEntry->GetType() < n2->itsDirEntry->GetType())
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
-	else if (t > 0)
+	else if (n1->itsDirEntry->GetType() > n2->itsDirEntry->GetType())
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else
 	{
@@ -644,12 +643,12 @@ JFSFileTreeNode::CompareTypeAndName
 }
 
 /******************************************************************************
- CompareUserName (static protected)
+ CompareUserNames (static protected)
 
  ******************************************************************************/
 
-JListT::CompareResult
-JFSFileTreeNode::CompareUserName
+std::weak_ordering
+JFSFileTreeNode::CompareUserNames
 	(
 	JTreeNode * const & e1,
 	JTreeNode * const & e2
@@ -660,9 +659,9 @@ JFSFileTreeNode::CompareUserName
 
 	JString u1 = n1->itsDirEntry->GetUserName();
 	JString u2 = n2->itsDirEntry->GetUserName();
-	JListT::CompareResult result = JCompareStringsCaseInsensitive(&u1, &u2);
+	std::weak_ordering result = JCompareStringsCaseInsensitive(&u1, &u2);
 
-	if (result == JListT::kFirstEqualSecond)
+	if (result == std::weak_ordering::equivalent)
 	{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
 	}
@@ -670,12 +669,12 @@ JFSFileTreeNode::CompareUserName
 }
 
 /******************************************************************************
- CompareGroup (static protected)
+ CompareGroups (static protected)
 
  ******************************************************************************/
 
-JListT::CompareResult
-JFSFileTreeNode::CompareGroupName
+std::weak_ordering
+JFSFileTreeNode::CompareGroupNames
 	(
 	JTreeNode * const & e1,
 	JTreeNode * const & e2
@@ -686,10 +685,9 @@ JFSFileTreeNode::CompareGroupName
 
 	JString u1 = n1->itsDirEntry->GetGroupName();
 	JString u2 = n2->itsDirEntry->GetGroupName();
-	JListT::CompareResult result =
-		JCompareStringsCaseInsensitive(&u1, &u2);
+	std::weak_ordering result = JCompareStringsCaseInsensitive(&u1, &u2);
 
-	if (result == JListT::kFirstEqualSecond)
+	if (result == std::weak_ordering::equivalent)
 	{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
 	}
@@ -697,12 +695,12 @@ JFSFileTreeNode::CompareGroupName
 }
 
 /******************************************************************************
- CompareSize (static protected)
+ CompareSizes (static protected)
 
  ******************************************************************************/
 
-JListT::CompareResult
-JFSFileTreeNode::CompareSize
+std::weak_ordering
+JFSFileTreeNode::CompareSizes
 	(
 	JTreeNode * const & e1,
 	JTreeNode * const & e2
@@ -711,26 +709,19 @@ JFSFileTreeNode::CompareSize
 	auto* n1 = dynamic_cast<JFSFileTreeNode*>(e1);
 	auto* n2 = dynamic_cast<JFSFileTreeNode*>(e2);
 
-	JListT::CompareResult result;
-
-	if (n1->IsOpenable() && n2->IsOpenable())
+	if (n1->IsOpenable())
 	{
-		result = JListT::kFirstEqualSecond;
-	}
-	else if (n1->IsOpenable())
-	{
-		result = JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (n2->IsOpenable())
 	{
-		result = JListT::kFirstGreaterSecond;
-	}
-	else
-	{
-		result = JDirEntry::CompareSizes(n1->itsDirEntry, n2->itsDirEntry);
+		return std::weak_ordering::greater;
 	}
 
-	if (result == JListT::kFirstEqualSecond)
+	std::weak_ordering result =
+		JDirEntry::CompareSizes(n1->itsDirEntry, n2->itsDirEntry);
+
+	if (result == std::weak_ordering::equivalent)
 	{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
 	}
@@ -738,12 +729,12 @@ JFSFileTreeNode::CompareSize
 }
 
 /******************************************************************************
- CompareDate (static protected)
+ CompareDates (static protected)
 
  ******************************************************************************/
 
-JListT::CompareResult
-JFSFileTreeNode::CompareDate
+std::weak_ordering
+JFSFileTreeNode::CompareDates
 	(
 	JTreeNode * const & e1,
 	JTreeNode * const & e2
@@ -752,10 +743,10 @@ JFSFileTreeNode::CompareDate
 	auto* n1 = dynamic_cast<JFSFileTreeNode*>(e1);
 	auto* n2 = dynamic_cast<JFSFileTreeNode*>(e2);
 
-	JListT::CompareResult result =
+	std::weak_ordering result =
 		JDirEntry::CompareModTimes(n1->itsDirEntry, n2->itsDirEntry);
 
-	if (result == JListT::kFirstEqualSecond)
+	if (result == std::weak_ordering::equivalent)
 	{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
 	}

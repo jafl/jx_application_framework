@@ -62,7 +62,7 @@ public:
 
 	void	GetXFontNames(const JRegex& regex,
 						  JPtrArray<JString>* fontNames,
-						  const std::function<JListT::CompareResult(JString * const &, JString * const &)>* compare = nullptr);
+						  const std::function<std::weak_ordering(JString * const &, JString * const &)>* compare = nullptr);
 	bool	GetXFont(const JString& xFontStr, JFont** font);
 	XFont	GetXFontInfo(const JFontID id);
 

@@ -140,7 +140,7 @@ private:
 	void	DocumentMenusNeedUpdate();
 	void	UpdateAllDocumentMenus();
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareDocNames(const DocInfo& d1, const DocInfo& d2);
 
 	// not allowed

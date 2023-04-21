@@ -39,6 +39,7 @@
 #include "jXPainterUtil.h"
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/JListUtil.h>
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jAssert.h>
@@ -1038,28 +1039,14 @@ JXScrollbar::StripsSwapped
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JXScrollbar::CompareScrolltabValues
 	(
 	JXScrolltab* const & t1,
 	JXScrolltab* const & t2
 	)
 {
-	const JCoordinate v1 = t1->GetValue();
-	const JCoordinate v2 = t2->GetValue();
-
-	if (v1 < v2)
-	{
-		return JListT::kFirstLessSecond;
-	}
-	else if (v1 == v2)
-	{
-		return JListT::kFirstEqualSecond;
-	}
-	else
-	{
-		return JListT::kFirstGreaterSecond;
-	}
+	return JCompareCoordinates(t1->GetValue(), t2->GetValue());
 }
 
 /******************************************************************************

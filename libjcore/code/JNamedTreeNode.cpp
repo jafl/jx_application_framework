@@ -220,7 +220,7 @@ JNamedTreeNode::GetNamedChild
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JNamedTreeNode::DynamicCastCompareNames
 	(
 	JTreeNode * const & e1,
@@ -236,18 +236,18 @@ JNamedTreeNode::DynamicCastCompareNames
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JNamedTreeNode::CompareNames
 	(
 	JNamedTreeNode * const & e1,
 	JNamedTreeNode * const & e2
 	)
 {
-	JListT::CompareResult result =
+	std::weak_ordering result =
 		JCompareStringsCaseInsensitive(&(e1->itsName), &(e2->itsName));
-	if (result == JListT::kFirstEqualSecond)
+	if (result == std::weak_ordering::equivalent)
 	{
-		result = JCompareStringsCaseSensitive(&(e1->itsName), &(e2->itsName));
+		result = JCompareStringsCaseSensitive(&e1->itsName, &e2->itsName);
 	}
 	return result;
 }
@@ -257,7 +257,7 @@ JNamedTreeNode::CompareNames
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JNamedTreeNode::DynamicCastCompareNamesForIncrSearch
 	(
 	JTreeNode * const & e1,
@@ -273,12 +273,12 @@ JNamedTreeNode::DynamicCastCompareNamesForIncrSearch
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 JNamedTreeNode::CompareNamesForIncrSearch
 	(
 	JNamedTreeNode * const & e1,
 	JNamedTreeNode * const & e2
 	)
 {
-	return JCompareStringsCaseInsensitive(&(e1->itsName), &(e2->itsName));
+	return JCompareStringsCaseInsensitive(&e1->itsName, &e2->itsName);
 }
