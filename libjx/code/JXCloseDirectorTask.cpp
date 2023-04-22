@@ -9,6 +9,7 @@
 
 #include "JXCloseDirectorTask.h"
 #include "JXDirector.h"
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Close (static)

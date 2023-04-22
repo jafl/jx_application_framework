@@ -461,9 +461,4 @@ JHashTable<V>::HashToIndex
 	return hash & itsMaxIndex;
 }
 
-#include "JHashTable.tmpl"
-#include "JHashRecord.tmpl"
-#include "JHashCursor.tmpl"
-#include "JConstHashCursor.tmpl"
-
 #endif

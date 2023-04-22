@@ -86,6 +86,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			to global coordinates to avoid overflow.
 //	JXMenu:
 //		*** Renamed SetItemEnable() to SetItemEnabled().
+//		Added AttachHandlers() to support new JBroadcaster functionality.
 //	JXMenuData:
 //		*** Renamed SetItemEnable() to SetItemEnabled().
 //	*** Renamed JXDialogDirector to JXModalDialogDirector.

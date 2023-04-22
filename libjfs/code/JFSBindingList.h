@@ -10,7 +10,7 @@
 
 #include <jx-af/jcore/JContainer.h>
 #include <jx-af/jcore/JPtrArray-JString.h>
-#include "JFSBinding.h"			// need defn of CommandType
+#include "JFSBinding.h"			// for CommandType
 #include <jx-af/jcore/JError.h>
 
 class JFSBindingList : public JContainer

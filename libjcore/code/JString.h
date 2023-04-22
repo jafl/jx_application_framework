@@ -13,13 +13,13 @@
 #include "JUtf8Character.h"
 #include "JUtf8ByteRange.h"
 #include "JCharacterRange.h"
-#include "JPtrArray.h"	// for Split()
 #include <string.h>
 #include <unicode/ucasemap.h>
 #include <unicode/ucol.h>
 
 class JStringIterator;
 class JRegex;
+template <class T> class JPtrArray;
 
 class JString
 {

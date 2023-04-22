@@ -256,6 +256,10 @@ literal: ${LIB_DEPS}
 code/_testhash
 literal: ${LIB_DEPS}
 
+@test_message
+code/_testmessage
+literal: ${LIB_DEPS}
+
 @test_mutex
 code/_testmutex
 

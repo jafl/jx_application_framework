@@ -194,13 +194,17 @@ TestWidget::TestWidget
 	itsActionsMenu->SetShortcuts(JGetString("ActionsMenuShortcut::TestWidget"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsActionsMenu);
+	itsActionsMenu->AttachHandlers(this,
+		std::bind(&TestWidget::UpdateActionsMenu, this),
+		std::bind(&TestWidget::HandleActionsMenu, this, std::placeholders::_1));
 
 	itsPointMenu = jnew JXTextMenu(itsActionsMenu, kPointMenuCmd, menuBar);
 	assert( itsPointMenu != nullptr );
 	itsPointMenu->SetMenuItems(kPointMenuStr);
 	itsPointMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsPointMenu);
+	itsPointMenu->AttachHandlers(this,
+		std::bind(&TestWidget::UpdatePointMenu, this),
+		std::bind(&TestWidget::HandlePointMenu, this, std::placeholders::_1));
 
 	// This tests the JX response to an empty menu.
 	JXTextMenu* emptyMenu = jnew JXTextMenu(itsActionsMenu, kEmptyMenuCmd, menuBar);
@@ -235,7 +239,16 @@ TestWidget::TestWidget
 	itsSecretMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsSecretMenu->SetToHiddenPopupMenu(true);		// will assert() otherwise
 	itsSecretMenu->Hide();
-	ListenTo(itsSecretMenu);
+	itsSecretMenu->AttachHandlers(this,
+		std::bind(&TestWidget::UpdatePointMenu, this),
+		[](const JIndex& i)
+		{
+			if (i == kSecretMenuDialogCmd)
+			{
+				JGetUserNotification()->DisplayMessage(
+					JGetString("SecretMenuMessage::TestWidget"));
+			}
+		});
 
 	itsSecretSubmenu = jnew JXTextMenu(itsSecretMenu, kSecretSubmenuIndex, this);
 	assert( itsSecretSubmenu != nullptr );
@@ -281,7 +294,22 @@ TestWidget::TestWidget
 						  37,175, 50,30);
 	assert( itsAnimButton != nullptr );
 	itsAnimButton->SetShortcuts(JGetString("AnimationButtonStartShortcut::TestWidget"));
-	ListenTo(itsAnimButton);
+
+	ListenTo(itsAnimButton, std::function([this](const JXButton::Pushed&)
+	{
+		if (GetCursorAnimator() == nullptr)
+		{
+			CreateCursorAnimator();
+			itsAnimButton->SetShortcuts(JGetString("AnimationButtonStopShorcut::TestWidget"));
+			itsAnimButton->SetLabel(JGetString("AnimationButtonStopLabel::TestWidget"));
+		}
+		else
+		{
+			RemoveCursorAnimator();
+			itsAnimButton->SetLabel(JGetString("AnimationButtonStartLabel::TestWidget"));
+			itsAnimButton->SetShortcuts(JGetString("AnimationButtonStartShortcut::TestWidget"));
+		}
+	}));
 
 	if (isMaster)
 	{
@@ -296,7 +324,10 @@ TestWidget::TestWidget
 		itsQuitButton->SetNormalColor(JColorManager::GetCyanColor());
 		itsQuitButton->SetPushedColor(JColorManager::GetBlueColor());
 
-		ListenTo(itsQuitButton);
+		ListenTo(itsQuitButton, std::function([](const JXButton::Pushed&)
+		{
+			JXGetApplication()->Quit();
+		}));
 	}
 	else
 	{
@@ -310,7 +341,11 @@ TestWidget::TestWidget
 	JXWindowIcon* windowIcon;
 	const bool hasIconWindow = GetWindow()->GetIconWidget(&windowIcon);
 	assert( hasIconWindow );
-	ListenTo(windowIcon);
+	ListenTo(windowIcon, std::function([this](const JXWindowIcon::HandleDrop& data)
+	{
+		HandleDNDDrop(JPoint(0,0), data.GetTypeList(), data.GetAction(),
+					  data.GetTime(), data.GetSource());
+	}));
 }
 
 /******************************************************************************
@@ -1467,95 +1502,6 @@ TestWidget::GetNewSize()
 		JCoordinate w,h;
 		dlog->GetNewSize(&w, &h);
 		SetBounds(w,h);
-	}
-}
-
-/******************************************************************************
- Receive (protected)
-
-	Listen for menu selections and button presses.
-
- ******************************************************************************/
-
-void
-TestWidget::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	JXWindow* window         = GetWindow();		// ensure that it isn't const
-	JXWindowIcon* windowIcon = nullptr;
-
-	if (sender == itsAnimButton && message.Is(JXButton::kPushed))
-	{
-		if (GetCursorAnimator() == nullptr)
-		{
-			CreateCursorAnimator();
-			itsAnimButton->SetShortcuts(JGetString("AnimationButtonStopShorcut::TestWidget"));
-			itsAnimButton->SetLabel(JGetString("AnimationButtonStopLabel::TestWidget"));
-		}
-		else
-		{
-			RemoveCursorAnimator();
-			itsAnimButton->SetLabel(JGetString("AnimationButtonStartLabel::TestWidget"));
-			itsAnimButton->SetShortcuts(JGetString("AnimationButtonStartShortcut::TestWidget"));
-		}
-	}
-	else if (sender == itsQuitButton && message.Is(JXButton::kPushed))
-	{
-		JXGetApplication()->Quit();
-	}
-
-	else if (window->GetIconWidget(&windowIcon) &&
-			 sender == windowIcon && message.Is(JXWindowIcon::kHandleDrop))
-	{
-		const JXWindowIcon::HandleDrop* data =
-			dynamic_cast<const JXWindowIcon::HandleDrop*>(&message);
-		assert( data != nullptr );
-		HandleDNDDrop(JPoint(0,0), data->GetTypeList(), data->GetAction(),
-					  data->GetTime(), data->GetSource());
-	}
-
-	else if (sender == itsActionsMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateActionsMenu();
-	}
-	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleActionsMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsPointMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdatePointMenu();
-	}
-	else if (sender == itsPointMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandlePointMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsSecretMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		if (selection->GetIndex() == kSecretMenuDialogCmd)
-		{
-			JGetUserNotification()->DisplayMessage(
-				JGetString("SecretMenuMessage::TestWidget"));
-		}
-	}
-
-	else
-	{
-		JXScrollableWidget::Receive(sender, message);
 	}
 }
 

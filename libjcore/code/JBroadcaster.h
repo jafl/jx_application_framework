@@ -12,9 +12,10 @@
 
 #include "JRTTIBase.h"
 
-class JBroadcasterList;
-class JPointerClearList;
+class JBroadcasterMessageMap;
 class JString;
+template <class T> class JArray;
+template <class T> class JPtrArray;
 
 class JBroadcaster
 {
@@ -42,6 +43,12 @@ public:
 
 	virtual JString	ToString() const;
 
+	// public so objects can standardize attaching handlers to themselves
+
+	template <class T>
+	void	ListenTo(const JBroadcaster* sender,
+					 const std::function<void(const T&)>& f);
+
 protected:
 
 	JBroadcaster(const JBroadcaster& source);
@@ -50,8 +57,13 @@ protected:
 	void	StopListening(const JBroadcaster* sender);
 	void	ClearWhenGoingAway(const JBroadcaster* sender, void* pointerToMember);
 
-	void			Send(JBroadcaster* recipient, const Message& message);
-	void			Broadcast(const Message& message);
+	void	StopListening(const JBroadcaster* sender, const std::type_info& messageType);
+
+	template <class T>
+	void	Send(JBroadcaster* recipient, const T& message);
+	template <class T>
+	void	Broadcast(const T& message);
+
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
 	void			SendWithFeedback(JBroadcaster* recipient, Message* message);
@@ -80,19 +92,30 @@ public:		// ought to be private
 
 private:
 
-	JBroadcasterList*	itsSenders;			// the objects to which we listen
-	JBroadcasterList*	itsRecipients;		// the objects that listen to us
-	JPointerClearList*	itsClearPointers;	// member pointers that need to be cleared
+	JPtrArray<JBroadcaster>*	itsSenders;			// the objects to which we listen
+	JPtrArray<JBroadcaster>*	itsRecipients;		// the objects that listen to us
+	JArray<JBroadcaster::ClearPointer>*	itsClearPointers;	// member pointers that need to be cleared
+
+	JBroadcasterMessageMap*	itsCallSources;
+	JBroadcasterMessageMap*	itsCallTargets;
 
 private:
 
-	void	AddRecipient(JBroadcaster* aRecipient);
-	void	RemoveRecipient(JBroadcaster* aRecipient);
+	void	AddRecipient(JBroadcaster* recipient);
+	void	RemoveRecipient(JBroadcaster* recipient);
 
-	void	AddSender(JBroadcaster* aSender);
-	void	RemoveSender(JBroadcaster* aSender);
+	void	AddSender(JBroadcaster* sender);
+	void	RemoveSender(JBroadcaster* sender);
 
-	void	BroadcastPrivate(const Message& message);
+	template <class T>
+	void	AddCallTarget(JBroadcaster* recipient, const std::function<void(const T&)>& f);
+	void	RemoveCallTarget(JBroadcaster* recipient, const std::type_info& messageType);
+
+	void	AddCallSource(JBroadcaster* sender, const std::type_info& messageType);
+	void	RemoveCallSource(JBroadcaster* sender, const std::type_info& messageType);
+
+	template <class T>
+	void	BroadcastPrivate(const T& message);
 	void	BroadcastWithFeedbackPrivate(Message* message);
 
 	void	ClearGone(JBroadcaster* sender);
@@ -107,20 +130,19 @@ private:
 	message must be derived from JBroadcaster::Message and should contain
 	all the information necessary to process the message.
 
-	We use an iterator because anything could happen while calling Receive().
-
 	By inlining this part of the function, we avoid the overhead of a
 	function call unless somebody is actually listening.
 
  ******************************************************************************/
 
+template <class T>
 inline void
 JBroadcaster::Broadcast
 	(
-	const Message& message
+	const T& message
 	)
 {
-	if (itsRecipients != nullptr)
+	if (itsRecipients != nullptr || itsCallTargets != nullptr)
 	{
 		BroadcastPrivate(message);
 	}
@@ -133,9 +155,6 @@ JBroadcaster::Broadcast
 	is message dependent and therefore stored in the message, so we simply
 	send the message as a non-const object and let the receiver who understands
 	the message deal with it.
-
-	We use an iterator because anything could happen while calling
-	ReceiveWithFeedback().
 
 	By inlining this part of the function, we avoid the overhead of a
 	function call unless somebody is actually listening.

@@ -130,12 +130,9 @@
 
  *****************************************************************************/
 
-//Class Header
 #include "JHashTable.h"
-
 #include <stdlib.h>
-
-#include "jAssert.h"
+// we are included by jAssert.h
 
 /******************************************************************************
  Constructor
@@ -305,7 +302,7 @@ JHashTable<V>::IsOK() const
 
 	for (JUnsignedOffset i=0;i<=itsMaxIndex;i++)
 	{
-		const JHashRecord<V>& thisRecord = itsArray[i];
+		const auto& thisRecord = itsArray[i];
 		if ( !thisRecord.IsEmpty() )
 		{
 			++loadCount;
@@ -354,7 +351,7 @@ JHashTable<V>::Set
 {
 	assert( record.IsFull() );
 
-	JHashRecord<V>& thisRecord = itsArray[index];
+	auto& thisRecord = itsArray[index];
 
 	if ( thisRecord.IsDeleted() )
 	{
@@ -381,7 +378,7 @@ JHashTable<V>::Set
 	const V&         value
 	)
 {
-	JHashRecord<V>& thisRecord = itsArray[index];
+	auto& thisRecord = itsArray[index];
 
 	if ( thisRecord.IsDeleted() )
 	{
@@ -407,7 +404,7 @@ JHashTable<V>::Set
 	const V&    value
 	)
 {
-	JHashRecord<V>& thisRecord = itsArray[index];
+	auto& thisRecord = itsArray[index];
 
 	// HashRecord asserts its state is full, so don't need to check
 
@@ -425,7 +422,7 @@ JHashTable<V>::SetHash
 	const V&    value
 	)
 {
-	JHashRecord<V>& thisRecord = itsArray[index];
+	auto& thisRecord = itsArray[index];
 
 	if ( thisRecord.IsDeleted() )
 	{
@@ -454,7 +451,7 @@ JHashTable<V>::Remove
 	const JSize index
 	)
 {
-	JHashRecord<V>& thisRecord = itsArray[index];
+	auto& thisRecord = itsArray[index];
 
 	if ( thisRecord.IsFull() )
 	{
@@ -486,9 +483,9 @@ JHashTable<V>::MarkEmpty
 	const JSize index
 	)
 {
-	JHashRecord<V>& thisRecord = itsArray[index];
+	auto& thisRecord = itsArray[index];
 
-	JHashRecordT::State oldState = thisRecord.GetState();
+	const auto oldState = thisRecord.GetState();
 	if (oldState != JHashRecordT::kEmpty)
 	{
 		itsArray[index].MarkEmpty();
@@ -588,7 +585,7 @@ JHashTable<V>::TryResizeTable
 
 	// We have to swap the tables so newTable.~JHashTable will delete the old one
 	// Heere is the braain, masster!
-	JHashRecord<V>* swapArray = itsArray;
+	auto* swapArray = itsArray;
 	itsArray = newTable.itsArray;
 	newTable.itsArray = swapArray;
 
@@ -605,8 +602,6 @@ JHashTable<V>::TryResizeTable
 	itsMaxLoadFactor = newTable.itsMaxLoadFactor;
 	itsMinFillFactor = newTable.itsMinFillFactor;
 	itsLgMinTableSize = newTable.itsLgMinTableSize;
-
-	// Already have the equality and hash functions
 
 	assert(GetTableSize() == (1UL << itsLgSize));
 
@@ -815,7 +810,7 @@ JHashTable<V>::TryInsertAll
 	const JHashTable<V>* source
 	)
 {
-	JConstHashCursor<V>* sourceCursor = source->itsCursor;
+	auto* sourceCursor = source->itsCursor;
 	sourceCursor->Reset(true);
 
 	while ( sourceCursor->NextFull() )

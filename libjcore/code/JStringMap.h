@@ -16,7 +16,7 @@
 #include "JStringMapCursor.h"
 #include "JStrValue.h"
 #include "JString.h"
-#include "JPtrArray.h"	// need definition of CleanUpAction, SetElementAction
+#include "JPtrArrayT.h"
 
 struct JStringMapT
 {
@@ -72,10 +72,6 @@ protected:
 	bool RemoveElement(const JString& key,
 					   const JPtrArrayT::SetElementAction action);
 	void RemoveAll(const JPtrArrayT::SetElementAction action);
-
-private:
-
-	void JStringMapX();
 };
 
 

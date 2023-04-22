@@ -292,7 +292,4 @@ private:
 	JList<T>& operator=(const JList<T>& source);
 };
 
-#include "JList.tmpl"
-#include "JListIterator.tmpl"
-
 #endif

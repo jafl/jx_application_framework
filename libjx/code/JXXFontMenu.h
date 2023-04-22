@@ -11,7 +11,7 @@
 #define _H_JXXFontMenu
 
 #include "JXFontNameMenu.h"
-#include "JXFontManager.h"		// need definition of JSortXFontNamesFn
+#include "JXFontManager.h"		// for JSortXFontNamesFn
 
 class JXXFontMenu : public JXFontNameMenu
 {

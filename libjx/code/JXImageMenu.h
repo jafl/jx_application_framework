@@ -9,7 +9,7 @@
 #define _H_JXImageMenu
 
 #include "JXMenu.h"
-#include "JXImageMenuData.h"	// need defn of ItemType
+#include "JXImageMenuData.h"	// for ItemType
 #include "jx-af/jcore/JXPM.h"
 
 class JXImage;

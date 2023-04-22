@@ -20,11 +20,24 @@ class Test : virtual public JBroadcaster
 {
 public:
 
+	template <class T>
 	void
-	Bcast(Message& msg)
-{
+	Bcast(const T& msg)
+	{
 		Broadcast(msg);
+	};
 };
+
+class TestFunction : virtual public JBroadcaster
+{
+public:
+
+	template <class T>
+	void	Sub(const JBroadcaster* sender,
+				const std::function<void(const T&)>& f)
+	{
+		ListenTo(sender, f);
+	}
 };
 
 JTEST(Broadcaster)
@@ -45,6 +58,41 @@ JTEST(Broadcaster)
 
 	JListT::ElementMoved msg2(3, 5);
 	t3.Bcast(msg2);
+}
+
+JTEST(BroadcasterFunctions)
+{
+	Test t3;
+
+	bool t1_1 = false,
+		 t2_1 = false,
+		 t2_2 = false;
+
+	TestFunction t1;
+	t1.Sub(&t3, std::function([&t1_1](const JListT::Sorted& msg)
+	{
+		t1_1 = true;
+	}));
+
+	TestFunction t2;
+	t2.Sub(&t3, std::function([&t2_1](const JListT::Sorted& msg)
+	{
+		t2_1 = true;
+	}));
+	t2.Sub(&t3, std::function([&t2_2](const JListT::ElementMoved& msg)
+	{
+		t2_2 = true;
+	}));
+
+	JListT::Sorted msg1;
+	t3.Bcast(msg1);
+
+	JListT::ElementMoved msg2(3, 5);
+	t3.Bcast(msg2);
+
+	JAssertTrue(t1_1);
+	JAssertTrue(t2_1);
+	JAssertTrue(t2_2);
 }
 
 class A

@@ -8,8 +8,8 @@
 #ifndef _H_JXSharedPrefsManager
 #define _H_JXSharedPrefsManager
 
-#include "JXTEBase.h"	// need defn of PartialWordModifier
-#include "JXMenu.h"		// need defn of Style
+#include "JXTEBase.h"	// for PartialWordModifier
+#include "JXMenu.h"		// for Style
 #include <jx-af/jcore/jTime.h>
 
 class JPrefsFile;

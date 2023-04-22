@@ -10,7 +10,7 @@
 
 #include "JXWidgetSet.h"
 #include <jx-af/jcore/JPrefObject.h>
-#include "JXToolBarButton.h"	// need defn of Type
+#include "JXToolBarButton.h"	// for Type
 
 class JTree;
 class JTreeNode;

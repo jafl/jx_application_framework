@@ -11,7 +11,7 @@
 #define _H_TestImageDirector
 
 #include <jx-af/jx/JXWindowDirector.h>
-#include <jx-af/jcore/JImage.h>		// need definition of FileType
+#include <jx-af/jcore/JImage.h>		// for FileType
 
 class JXTextMenu;
 class JXImageWidget;

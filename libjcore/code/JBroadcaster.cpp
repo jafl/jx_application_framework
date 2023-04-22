@@ -1,12 +1,17 @@
 /******************************************************************************
  JBroadcaster.cpp
 
-	Mixin class to allow objects to send messages to eachother.  A JBroadcaster
+	Mixin class to allow objects to send messages to each other.  A JBroadcaster
 	maintains a list of objects that send it messages (senders) and a list
-	of objects that it sends messages to (recipients).
+	of objects to which it sends messages (recipients).
 
 	To send a message, call Broadcast().  The Receive() method is then called
-	for each recipient.
+	for each recipient that called ListenTo(obj).  For every recipient that
+	called ListenTo(obj,fn), the given function will be invoked.
+
+	*** ListenTo(obj,fn) should only be used in leaf classes.  Base classes
+		should use ListenTo(obj) in case derived classes need to intercept
+		messages in Receive().
 
 	To send a message that requires feedback, call BroadcastWithFeedback().
 	The ReceiveWithFeedback() method is then called for each recipient.
@@ -27,34 +32,10 @@
  ******************************************************************************/
 
 #include "JBroadcaster.h"
-#include "JPtrArray-JString.h"
-#include "JTaskIterator.h"
+#include "JBroadcasterMessageMap.h"
+#include "JString.h"
 #include <sstream>
-#include <typeinfo>
 #include "jAssert.h"
-
-// A derived class is needed because of cross-dependencies between JBroadcaster
-// and JCollection.  Typedefs cannot be forward declared in header files, and
-// JBroadcasterList must be forward declared.
-
-class JBroadcasterList : public JPtrArray<JBroadcaster>
-{
-public:
-
-	JBroadcasterList()
-		:
-		JPtrArray<JBroadcaster>(JPtrArrayT::kForgetAll)
-	{ };
-};
-
-using JBroadcasterIterator = JTaskIterator<JBroadcaster>;
-
-class JPointerClearList : public JArray<JBroadcaster::ClearPointer>
-{
-public:
-
-	JPointerClearList() { };
-};
 
 /******************************************************************************
  Constructor
@@ -65,7 +46,9 @@ JBroadcaster::JBroadcaster()
 	:
 	itsSenders(nullptr),
 	itsRecipients(nullptr),
-	itsClearPointers(nullptr)
+	itsClearPointers(nullptr),
+	itsCallSources(nullptr),
+	itsCallTargets(nullptr)
 {
 }
 
@@ -86,6 +69,8 @@ JBroadcaster::JBroadcaster
 	itsSenders       = nullptr;
 	itsRecipients    = nullptr;
 	itsClearPointers = nullptr;
+	itsCallSources   = nullptr;
+	itsCallTargets   = nullptr;
 }
 
 /******************************************************************************
@@ -101,11 +86,11 @@ JBroadcaster::~JBroadcaster()
 	{
 		while (itsRecipients != nullptr && !itsRecipients->IsEmpty())
 		{
-			JBroadcaster* aRecipient = itsRecipients->GetLastElement();
+			JBroadcaster* recipient = itsRecipients->GetLastElement();
 			itsRecipients->RemoveElement(itsRecipients->GetElementCount());
-			aRecipient->RemoveSender(this);
-			aRecipient->ClearGone(this);
-			aRecipient->ReceiveGoingAway(this);		// do this last in case they die
+			recipient->RemoveSender(this);
+			recipient->ClearGone(this);
+			recipient->ReceiveGoingAway(this);		// do this last in case they die
 		}
 
 		jdelete itsRecipients;
@@ -119,6 +104,20 @@ JBroadcaster::~JBroadcaster()
 		}
 
 		jdelete itsSenders;
+	}
+
+	if (itsCallTargets != nullptr)
+	{
+		
+
+		jdelete itsCallTargets;
+	}
+
+	if (itsCallSources != nullptr)
+	{
+		
+
+		jdelete itsCallSources;
 	}
 
 	jdelete itsClearPointers;
@@ -198,13 +197,13 @@ JBroadcaster::StopListening
 	const JBroadcaster* csender
 	)
 {
-	if (csender == nullptr)
+	if (csender == nullptr || itsSenders == nullptr)
 	{
 		return;
 	}
 
 	auto* sender = const_cast<JBroadcaster*>(csender);
-	if (itsSenders != nullptr && itsSenders->Includes(sender))
+	if (itsSenders->Includes(sender))
 	{
 		RemoveSender(sender);
 		sender->RemoveRecipient(this);
@@ -225,6 +224,33 @@ JBroadcaster::StopListening
 }
 
 /******************************************************************************
+ StopListening (protected)
+
+	Close a connection by removing the given object from this object's
+	sender list, and removing this object from the given objects's
+	recipient list.
+
+ ******************************************************************************/
+
+void
+JBroadcaster::StopListening
+	(
+	const JBroadcaster*		csender,
+	const std::type_info&	messageType
+	)
+{
+	if (csender == nullptr || itsCallSources == nullptr)
+	{
+		return;
+	}
+
+	auto* sender = const_cast<JBroadcaster*>(csender);
+
+	RemoveCallSource(sender, messageType);
+	sender->RemoveCallTarget(this, messageType);
+}
+
+/******************************************************************************
  Sender and Recipient counts
 
  ******************************************************************************/
@@ -240,14 +266,7 @@ JSize
 JBroadcaster::GetSenderCount()
 	const
 {
-	if (itsSenders != nullptr)
-	{
-		return itsSenders->GetElementCount();
-	}
-	else
-	{
-		return 0;
-	}
+	return itsSenders != nullptr ? itsSenders->GetElementCount() : 0;
 }
 
 bool
@@ -261,14 +280,7 @@ JSize
 JBroadcaster::GetRecipientCount()
 	const
 {
-	if (itsRecipients != nullptr)
-	{
-		return itsRecipients->GetElementCount();
-	}
-	else
-	{
-		return 0;
-	}
+	return itsRecipients != nullptr ? itsRecipients->GetElementCount() : 0;
 }
 
 /******************************************************************************
@@ -286,7 +298,7 @@ JBroadcaster::AddRecipient
 {
 	if (itsRecipients == nullptr)
 	{
-		itsRecipients = jnew JBroadcasterList;
+		itsRecipients = jnew JPtrArray<JBroadcaster>(JPtrArrayT::kForgetAll);
 		assert( itsRecipients != nullptr );
 	}
 
@@ -333,7 +345,7 @@ JBroadcaster::AddSender
 {
 	if (itsSenders == nullptr)
 	{
-		itsSenders = jnew JBroadcasterList;
+		itsSenders = jnew JPtrArray<JBroadcaster>(JPtrArrayT::kForgetAll);
 		assert( itsSenders != nullptr );
 	}
 
@@ -365,49 +377,75 @@ JBroadcaster::RemoveSender
 }
 
 /******************************************************************************
- Send (protected)
+ RemoveCallTarget (private)
 
-	Send the given message to the specified recipient.  It is the
-	responsibility of derived classes to implement a set of useful
-	messages. Every message must be derived from JBroadcaster::Message and
-	should contain all the information necessary to process the message.
-
-	This function allows messages to be sent to an object in a way that is
-	safe but that does not require the C++ type safety mechanism of
-	dynamic_cast.  Essentially, this feature is equivalent to the object
-	methods provided by Objective C.
+	Remove the given connection.  Called by ListenTo().
 
  ******************************************************************************/
 
 void
-JBroadcaster::Send
+JBroadcaster::RemoveCallTarget
 	(
-	JBroadcaster*	recipient,
-	const Message&	message
+	JBroadcaster*			recipient,
+	const std::type_info&	messageType
 	)
 {
-	recipient->Receive(this, message);
+	if (itsCallTargets != nullptr)
+	{
+		itsCallTargets->RemoveTuple(messageType, recipient);
+		if (itsCallTargets->IsEmpty())
+		{
+			jdelete itsCallTargets;
+			itsCallTargets = nullptr;
+		}
+	}
 }
 
 /******************************************************************************
- BroadcastPrivate (private)
+ AddCallSource (private)
+
+	Store the given object.  Called by ListenTo().
 
  ******************************************************************************/
 
 void
-JBroadcaster::BroadcastPrivate
+JBroadcaster::AddCallSource
 	(
-	const Message& message
+	JBroadcaster*			sender,
+	const std::type_info&	messageType
 	)
 {
-	assert( itsRecipients != nullptr );
-
-	JBroadcasterIterator	iterator(itsRecipients, kJIteratorStartAtBeginning);
-	JBroadcaster*			recipient;
-
-	while (iterator.Next(&recipient))
+	if (itsCallSources == nullptr)
 	{
-		recipient->Receive(this, message);
+		itsCallSources = jnew JBroadcasterMessageMap;
+		assert( itsCallSources != nullptr );
+	}
+
+	itsCallSources->SetElement(messageType, sender, nullptr);
+}
+
+/******************************************************************************
+ RemoveCallSource (private)
+
+	Remove the given object.  Called by ListenTo().
+
+ ******************************************************************************/
+
+void
+JBroadcaster::RemoveCallSource
+	(
+	JBroadcaster*			sender,
+	const std::type_info&	messageType
+	)
+{
+	if (itsCallSources != nullptr)
+	{
+		itsCallSources->RemoveTuple(messageType, sender);
+		if (itsCallSources->IsEmpty())
+		{
+			jdelete itsCallSources;
+			itsCallSources = nullptr;
+		}
 	}
 }
 
@@ -456,6 +494,9 @@ JBroadcaster::SendWithFeedback
 /******************************************************************************
  BroadcastWithFeedbackPrivate (protected)
 
+	We use an iterator because anything could happen while calling
+	ReceiveWithFeedback().
+
  ******************************************************************************/
 
 void
@@ -466,8 +507,8 @@ JBroadcaster::BroadcastWithFeedbackPrivate
 {
 	assert( itsRecipients != nullptr );
 
-	JBroadcasterIterator	iterator(itsRecipients, kJIteratorStartAtBeginning);
-	JBroadcaster*			recipient;
+	JTaskIterator<JBroadcaster>	iterator(itsRecipients, kJIteratorStartAtBeginning);
+	JBroadcaster*				recipient;
 
 	while (iterator.Next(&recipient))
 	{
@@ -534,7 +575,7 @@ JBroadcaster::ClearWhenGoingAway
 
 	if (itsClearPointers == nullptr)
 	{
-		itsClearPointers = jnew JPointerClearList;
+		itsClearPointers = jnew JArray<JBroadcaster::ClearPointer>;
 		assert( itsClearPointers != nullptr );
 	}
 

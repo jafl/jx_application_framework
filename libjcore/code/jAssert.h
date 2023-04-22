@@ -34,3 +34,32 @@ int JAssert(const char*, const char*, const int, const char* message, const char
 	#define assert_ok(x)		((void) ((x).OK() || JAssert((x).GetMessage().GetBytes(), __FILE__, __LINE__, "", BOOST_CURRENT_FUNCTION)))
 
 #endif
+
+// These templates are intertwined, so the code cannot be included
+// until all the declarations have been processed.
+
+#ifdef _H_JBroadcaster
+#include "JBroadcaster.tmpl"
+#endif
+
+#ifdef _H_JList
+#include "JList.tmpl"
+#include "JListIterator.tmpl"
+#endif
+
+#ifdef _H_JArray
+#include "JArray.tmpl"
+#include "JArrayIterator.tmpl"
+#endif
+
+#ifdef _H_JPtrArray
+#include "JPtrArray.tmpl"
+#include "JPtrArrayIterator.tmpl"
+#endif
+
+#ifdef _H_JHashTable
+#include "JHashTable.tmpl"
+#include "JHashRecord.tmpl"
+#include "JHashCursor.tmpl"
+#include "JConstHashCursor.tmpl"
+#endif

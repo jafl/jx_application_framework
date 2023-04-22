@@ -11,7 +11,7 @@
 #define _H_JTableSelection
 
 #include "JAuxTableData.h"
-#include "JTableSelectionIterator.h"	// need definition of Direction
+#include "JTableSelectionIterator.h"	// for Direction
 
 class JTableSelection : public JAuxTableData<bool>
 {

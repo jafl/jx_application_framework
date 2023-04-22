@@ -71,7 +71,6 @@ protected:
 	bool	HandleClientMessage(const XClientMessageEvent& clientMessage) override;
 
 	void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
-	void	Receive(JBroadcaster* sender, const Message& message) override;
 	void	ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
 
 private:

@@ -12,23 +12,7 @@
 
 #include "JArray.h"
 #include "JArrayIterator.h"
-
-struct JPtrArrayT
-{
-	enum CleanUpAction
-	{
-		kForgetAll,
-		kDeleteAll,
-		kDeleteAllAsArrays
-	};
-
-	enum SetElementAction
-	{
-		kForget,
-		kDelete,
-		kDeleteAsArray
-	};
-};
+#include "JPtrArrayT.h"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Woverloaded-virtual"
@@ -146,8 +130,5 @@ public:
 };
 
 #pragma GCC diagnostic pop
-
-#include "JPtrArray.tmpl"
-#include "JPtrArrayIterator.tmpl"
 
 #endif

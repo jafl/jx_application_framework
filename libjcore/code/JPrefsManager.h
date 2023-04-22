@@ -11,7 +11,7 @@
 #define _H_JPrefsManager
 
 #include "JContainer.h"
-#include "JPrefsFile.h"		// need definition of JPrefID
+#include "JPrefsFile.h"		// for JPrefID
 #include "JArray.h"
 #include "JError.h"
 

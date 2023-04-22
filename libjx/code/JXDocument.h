@@ -11,7 +11,7 @@
 #define _H_JXDocument
 
 #include "JXWindowDirector.h"
-#include "JXDocumentManager.h"	// need definition of SafetySaveReason
+#include "JXDocumentManager.h"	// for SafetySaveReason
 
 class JXDocument : public JXWindowDirector
 {

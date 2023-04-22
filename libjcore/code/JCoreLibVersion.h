@@ -39,6 +39,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Removed JMM_INITIALIZE & JMM_SHRED in favor of MALLOC_PERTURB_.
 //	JBroadcaster:
 //		Added ToString(), which can be overridden by derived classes.
+//		Added version of ListenTo() which takes obj and callback function.
 //	*** Removed using statements from jTypes.h & jFStreamUtil.h
 //			You should use the std:: prefix explicitly.
 //	Converted NULL to nullptr.

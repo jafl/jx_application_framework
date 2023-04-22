@@ -337,7 +337,14 @@ TestDirector::BuildWindow
 
 	itsAnimIconTask = jnew AnimateWindowIconTask(GetWindow());
 	assert( itsAnimIconTask != nullptr );
-	ListenTo(window);		// for icon animation
+	ListenTo(window, std::function([this](const JXWindow::Iconified&)
+	{
+		itsAnimIconTask->Start();
+	}));
+	ListenTo(window, std::function([this](const JXWindow::Deiconified&)
+	{
+		itsAnimIconTask->Stop();
+	}));
 
 	// menus
 
@@ -348,7 +355,9 @@ TestDirector::BuildWindow
 	itsAboutMenu->SetShortcuts(JGetString("AboutMenuShortcut::TestDirector"));
 	itsAboutMenu->SetMenuItems(kAboutMenuStr, "TestDirector");
 	itsAboutMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsAboutMenu);
+	itsAboutMenu->AttachHandlers(this,
+		std::bind(&TestDirector::UpdateAboutMenu, this),
+		std::bind(&TestDirector::HandleAboutMenu, this, std::placeholders::_1));
 
 	itsAnimHelpTask = jnew AnimateHelpMenuTask(itsAboutMenu, kHelpCmd);
 	assert( itsAnimHelpTask != nullptr );
@@ -357,30 +366,40 @@ TestDirector::BuildWindow
 	assert( itsPrintPSMenu != nullptr );
 	itsPrintPSMenu->SetMenuItems(kPrintPSMenuStr);
 	itsPrintPSMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsPrintPSMenu);
+	itsPrintPSMenu->AttachHandlers(this,
+		std::bind(&TestDirector::UpdatePrintPSMenu, this),
+		std::bind(&TestDirector::HandlePrintPSMenu, this, std::placeholders::_1));
 
 	itsTestMenu = menuBar->AppendTextMenu(JGetString("TestMenuTitle::TestDirector"));
 	itsTestMenu->SetMenuItems(kTestMenuStr);
 	itsTestMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsTestMenu);
+	itsTestMenu->AttachHandlers(this,
+		std::bind(&TestDirector::UpdateTestMenu, this),
+		std::bind(&TestDirector::HandleTestMenu, this, std::placeholders::_1));
 
 	itsUNMenu = jnew JXTextMenu(itsTestMenu, kTestUserNotifyMenuCmd, menuBar);
 	assert( itsUNMenu != nullptr );
 	itsUNMenu->SetMenuItems(kUserNotificationMenuStr);
 	itsUNMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsUNMenu);
+	itsUNMenu->AttachHandlers(this,
+		std::bind(&TestDirector::UpdateUNMenu, this),
+		std::bind(&TestDirector::HandleUNMenu, this, std::placeholders::_1));
 
 	itsCSFMenu = jnew JXTextMenu(itsTestMenu, kTestChooseSaveFileMenuCmd, menuBar);
 	assert( itsCSFMenu != nullptr );
 	itsCSFMenu->SetMenuItems(kChooseSaveFileMenuStr);
 	itsCSFMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsCSFMenu);
+	itsCSFMenu->AttachHandlers(this,
+		std::bind(&TestDirector::UpdateCSFMenu, this),
+		std::bind(&TestDirector::HandleCSFMenu, this, std::placeholders::_1));
 
 	itsPGMenu = jnew JXTextMenu(itsTestMenu, kTestPGMenuCmd, menuBar);
 	assert( itsPGMenu != nullptr );
 	itsPGMenu->SetMenuItems(kProgressDisplayMenuStr);
 	itsPGMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsPGMenu);
+	itsPGMenu->AttachHandlers(this,
+		std::bind(&TestDirector::UpdatePGMenu, this),
+		std::bind(&TestDirector::HandlePGMenu, this, std::placeholders::_1));
 
 	if (isMaster)
 	{
@@ -435,12 +454,12 @@ TestDirector::BuildIconMenus
 	JXDisplay* display = window->GetDisplay();
 
 	const JColorID kSmileyColor[] =
-{
+	{
 		JColorManager::GetWhiteColor(),
 		JColorManager::GetRedColor(),
 		JColorManager::GetBlueColor(),
 		JColorManager::GetBlackColor()
-};
+	};
 
 	JXImage* image[kSmileyBitmapCount];
 	for (JUnsignedOffset i=0; i<kSmileyBitmapCount; i++)
@@ -475,7 +494,10 @@ TestDirector::BuildIconMenus
 	}
 
 	itsIconMenuItem = 1;
-	ListenTo(itsIconMenu);
+
+	itsIconMenu->AttachHandlers(this,
+		std::bind(&TestDirector::UpdateIconMenu, this),
+		std::bind(&TestDirector::HandleIconMenu, this, std::placeholders::_1));
 
 	// create 3x5 submenu that has a few unused cells
 
@@ -489,119 +511,6 @@ TestDirector::BuildIconMenus
 		{
 			submenu->AppendItem(i, false);
 		}
-	}
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-TestDirector::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	JXWindow* window = GetWindow();		// ensure that it isn't const
-
-	if (sender == itsAboutMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateAboutMenu();
-	}
-	else if (sender == itsAboutMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleAboutMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsPrintPSMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdatePrintPSMenu();
-	}
-	else if (sender == itsPrintPSMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandlePrintPSMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsTestMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateTestMenu();
-	}
-	else if (sender == itsTestMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleTestMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsUNMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateUNMenu();
-	}
-	else if (sender == itsUNMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleUNMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsCSFMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateCSFMenu();
-	}
-	else if (sender == itsCSFMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleCSFMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsPGMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdatePGMenu();
-	}
-	else if (sender == itsPGMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandlePGMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsIconMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateIconMenu();
-	}
-	else if (sender == itsIconMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleIconMenu(selection->GetIndex());
-	}
-
-	else if (sender == window && message.Is(JXWindow::kIconified))
-	{
-		itsAnimIconTask->Start();
-	}
-	else if (sender == window && message.Is(JXWindow::kDeiconified))
-	{
-		itsAnimIconTask->Stop();
-	}
-
-	else
-	{
-		JXWindowDirector::Receive(sender, message);
 	}
 }
 

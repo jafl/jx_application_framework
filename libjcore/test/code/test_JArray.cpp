@@ -797,11 +797,11 @@ JTEST(TwoIterators)
 	i2->SkipNext();
 	verify("-2 5 4 2 1 -3", a);
 
-{
+	{
 	JListIterator<long>* i3 = a.NewIterator(kJIteratorStartBefore, 4);
 	i3->Insert(-4);
 	jdelete i3;
-}
+	}
 
 	JAssertEqual(4, i1->GetNextElementIndex());
 	JAssertTrue(i1->Next(&j));

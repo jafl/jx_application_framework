@@ -38,8 +38,8 @@ JXTextMenuData::JXTextMenuData
 	)
 	:
 	JXMenuData(),
-	itsMenu( menu ),
-	itsDefaultFont( JFontManager::GetDefaultFont() )
+	itsMenu(menu),
+	itsDefaultFont(JFontManager::GetDefaultFont())
 {
 	itsTextItemData = jnew JArray<TextItemData>;
 	assert( itsTextItemData != nullptr );
@@ -123,7 +123,7 @@ JXTextMenuData::DeleteItem
 
 	JXMenuData::DeleteItem(index);
 
-	(itsMenu->GetWindow())->MenuItemRemoved(itsMenu, index);
+	itsMenu->GetWindow()->MenuItemRemoved(itsMenu, index);
 	itsNeedGeomRecalcFlag = true;
 }
 
@@ -143,7 +143,7 @@ JXTextMenuData::DeleteAll()
 
 	JXMenuData::DeleteAll();
 
-	(itsMenu->GetWindow())->ClearAllMenuShortcuts(itsMenu);
+	itsMenu->GetWindow()->ClearAllMenuShortcuts(itsMenu);
 	itsNeedGeomRecalcFlag = true;
 }
 
@@ -158,10 +158,10 @@ JXTextMenuData::CleanOutTextItem
 	TextItemData* itemData
 	)
 {
-	jdelete (itemData->text);
+	jdelete itemData->text;
 	itemData->text = nullptr;
 
-	jdelete (itemData->nmShortcut);
+	jdelete itemData->nmShortcut;
 	itemData->nmShortcut = nullptr;
 
 	if (itemData->ownsImage)
@@ -204,11 +204,11 @@ JXTextMenuData::SetText
 	)
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
-	*(itemData.text) = str;
+	*itemData.text = str;
 
 	const JString* shortcuts;
 	GetItemShortcuts(index, &shortcuts);
-	itemData.ulIndex = JXWindow::GetULShortcutIndex(*(itemData.text), shortcuts);
+	itemData.ulIndex = JXWindow::GetULShortcutIndex(*itemData.text, shortcuts);
 	itsTextItemData->SetElement(index, itemData);
 
 	itsNeedGeomRecalcFlag = true;
@@ -265,7 +265,7 @@ JXTextMenuData::InsertMenuItems
 	JString itemText, shortcuts, nmShortcut, id, strID, id1;
 	for (JIndex i=1; i<=itemCount; i++)
 	{
-		itemText = *(itemList.GetElement(i));
+		itemText = *itemList.GetElement(i);
 
 		bool isActive, hasSeparator;
 		JXMenu::ItemType type;

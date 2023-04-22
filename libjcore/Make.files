@@ -7,6 +7,7 @@
 .cpp ./code/JBooleanIO
 .cpp ./code/JRTTIBase
 .cpp ./code/JBroadcaster
+.cpp ./code/JBroadcasterMessageMap
 .cpp ./code/JError
 .cpp ./code/JStdError
 .cpp ./code/jGlobals

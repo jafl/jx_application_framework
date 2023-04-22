@@ -11,7 +11,7 @@
 #define _H_JXImageButton
 
 #include "JXButton.h"
-#include "jXConstants.h"		// need definition of kJXTransparentColor
+#include "jXConstants.h"		// for kJXTransparentColor
 #include <jx-af/jcore/JConstBitmap.h>
 #include "jx-af/jcore/JXPM.h"
 

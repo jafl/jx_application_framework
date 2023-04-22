@@ -109,7 +109,4 @@ private:
 	void	ResizeMemoryAllocation(const JSize newSlotCount);
 };
 
-#include "JArray.tmpl"
-#include "JArrayIterator.tmpl"
-
 #endif

@@ -113,6 +113,10 @@ public:
 
 	void	SetShortcuts(const JString& list);
 
+	void	AttachHandlers(JBroadcaster* target,
+						   const std::function<void(void)>& updater,
+						   const std::function<void(const JIndex)>& handler);
+
 	bool	IsEmpty() const;
 	JSize	GetItemCount() const;
 	void	RemoveItem(const JIndex index);

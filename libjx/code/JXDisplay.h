@@ -12,7 +12,7 @@
 
 #include "JXCursor.h"
 #include "jXEventUtil.h"
-#include "JXKeyModifiers.h"	// need defn of kJXKeyModifierMapCount
+#include "JXKeyModifiers.h"	// for kJXKeyModifierMapCount
 #include <jx-af/jcore/JArray.h>
 #include <jx-af/jcore/JRect.h>
 #include <jx-af/jcore/JString.h>

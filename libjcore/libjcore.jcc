@@ -20,6 +20,14 @@ T
 F
 "./code/JBroadcaster.cpp"
 T
+2 "JBroadcasterMessageMap.cpp"
+F
+"./code/JBroadcasterMessageMap.cpp"
+T
+2 "JBroadcasterMessageTarget.h"
+F
+"./code/JBroadcasterMessageTarget.h"
+T
 2 "JError.cpp"
 F
 "./code/JError.cpp"

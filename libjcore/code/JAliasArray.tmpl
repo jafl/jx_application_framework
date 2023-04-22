@@ -275,7 +275,7 @@ JAliasArray<T>::InstallCompareWrapper
 	const T* search
 	)
 {
-	itsIndexArray->SetCompareFunction([=](const JIndex& i1, const JIndex& i2)
+	itsIndexArray->SetCompareFunction([this, search](const JIndex& i1, const JIndex& i2)
 	{
 		return CompareWrapper(*itsCompareFn, *itsData, i1, i2, search);
 	});

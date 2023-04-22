@@ -11,8 +11,8 @@
 #define _H_JXWidget
 
 #include "JXContainer.h"
-#include "JXSelectionManager.h"		// need defn of Data
-#include "JXDNDManager.h"			// need defn of TargetFinder
+#include "JXSelectionManager.h"		// for Data
+#include "JXDNDManager.h"			// for TargetFinder
 #include <jx-af/jcore/jColor.h>
 
 class JString;

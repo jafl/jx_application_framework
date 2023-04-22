@@ -10,7 +10,7 @@
 
 #include "JXWidget.h"
 #include "JXDNDManager.h"
-#include <jx-af/jcore/JPartition.h>		// need defn of kDragRegionSize
+#include <jx-af/jcore/JPartition.h>		// for kDragRegionSize
 
 class JXTextMenu;
 

@@ -11,7 +11,7 @@
 #define _H_JXPSPageSetupDialog
 
 #include "JXModalDialogDirector.h"
-#include <jx-af/jcore/JPSPrinter.h>		// need definition of enums
+#include <jx-af/jcore/JPSPrinter.h>		// for enums
 
 class JXPSPrinter;
 class JXTextButton;

@@ -9,6 +9,7 @@
 
 #include <jx-af/jcore/JTestManager.h>
 #include "TestString.h"
+#include <jx-af/jcore/JPtrArray-JString.h>
 #include <jx-af/jcore/JMinMax.h>
 #include <fstream>
 #include <string>

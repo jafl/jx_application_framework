@@ -8,7 +8,7 @@
 #ifndef _H_JPrefObject
 #define _H_JPrefObject
 
-#include "JPrefsManager.h"	// need definition of JPrefID
+#include "JPrefsManager.h"	// for JPrefID
 
 class JPrefObject
 {

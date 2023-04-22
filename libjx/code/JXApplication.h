@@ -11,7 +11,7 @@
 #define _H_JXApplication
 
 #include "JXDirector.h"
-#include "JXDocumentManager.h"	// need definition of SafetySaveReason
+#include "JXDocumentManager.h"	// for SafetySaveReason
 #include <jx-af/jcore/JPtrArray-JString.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>

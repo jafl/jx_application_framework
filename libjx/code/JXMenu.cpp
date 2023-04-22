@@ -481,6 +481,30 @@ JXMenu::SetToPopupChoice
 }
 
 /******************************************************************************
+ AttachHandlers
+
+ ******************************************************************************/
+
+void
+JXMenu::AttachHandlers
+	(
+	JBroadcaster*								target,
+	const std::function<void(void)>&			updater,
+	const std::function<void(const JIndex)>&	handler
+	)
+{
+	target->ListenTo(this, std::function([updater](const JXMenu::NeedsUpdate&)
+	{
+		updater();
+	}));
+
+	target->ListenTo(this, std::function([handler](const JXMenu::ItemSelected& msg)
+	{
+		handler(msg.GetIndex());
+	}));
+}
+
+/******************************************************************************
  IsEmpty
 
  ******************************************************************************/

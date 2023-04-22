@@ -28,15 +28,6 @@ JStringMap<V>::JStringMap
 	:
 	JHashTable< JStrValue<V> >(lgSize)
 {
-	JStringMapX();
-}
-
-// private
-
-template <class V>
-void
-JStringMap<V>::JStringMapX()
-{
 	JHashTable< JStrValue<V> >::DisallowCursors();
 }
 
@@ -48,7 +39,7 @@ JStringMap<V>::JStringMapX()
 template <class V>
 JStringMap<V>::~JStringMap()
 {
-	RemoveAll();	// lgtm[cpp/virtual-call-in-destructor]
+	RemoveAll();
 }
 
 /******************************************************************************
@@ -67,7 +58,7 @@ JStringMap<V>::Contains
 	)
 	const
 {
-	JConstHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
+	auto* cursor = JHashTable< JStrValue<V> >::GetCursor();
 	// We know the hash value does not depend on V, so this is safe
 	JStrValue<V> hashEntry;
 	hashEntry.key = &key;
@@ -125,7 +116,7 @@ JStringMap<V>::SetElement
 	bool*                              existed
 	)
 {
-	JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
+	auto* cursor = JHashTable< JStrValue<V> >::GetCursor();
 	JStrValue<V> hashEntry(&key, value);
 
 	cursor->ResetKey(hashEntry);
@@ -196,7 +187,7 @@ JStringMap<V>::RemoveElement
 	{
 		PrepareForSet(action);
 
-		JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
+		auto* cursor = JHashTable< JStrValue<V> >::GetCursor();
 		jdelete const_cast<JString*>(cursor->GetValue().key);
 
 		cursor->Remove();
@@ -222,7 +213,7 @@ JStringMap<V>::RemoveAll
 {
 	if (!JHashTable< JStrValue<V> >::IsEmpty())
 	{
-		JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
+		auto* cursor = JHashTable< JStrValue<V> >::GetCursor();
 		cursor->Reset();
 		while ( cursor->NextFull() )
 		{

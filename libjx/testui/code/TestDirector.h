@@ -40,10 +40,6 @@ public:
 
 	void	OpenTextFile(const JString& fileName);
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	const bool		itsIsMasterFlag;	// true if we were the first one created

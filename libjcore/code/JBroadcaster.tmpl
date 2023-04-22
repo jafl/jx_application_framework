@@ -1,0 +1,143 @@
+#ifndef _T_JBroadcaster
+#define _T_JBroadcaster
+
+#include "JBroadcasterMessageMap.h"
+#include "JBroadcasterMessageTarget.h"
+#include "JTaskIterator.h"
+#include "jAssert.h"
+
+/******************************************************************************
+ ListenTo
+
+	Open a connection by adding the given object to this object's sender list,
+	and adding this object & function to the given object's recipient list.
+
+	If the connection already exists, then we replace the previous function.
+
+	NOTE: This cannot be used if you intend to use ReceiveWithFeedback().
+
+ ******************************************************************************/
+
+template <class T>
+void
+JBroadcaster::ListenTo
+	(
+	const JBroadcaster*						csender,
+	const std::function<void(const T&)>&	f
+	)
+{
+	static_assert( std::is_base_of<Message, T>::value );
+	assert( csender != nullptr );
+
+	auto* sender = const_cast<JBroadcaster*>(csender);
+
+	AddCallSource(sender, typeid(T));
+	sender->AddCallTarget(this, f);
+}
+
+/******************************************************************************
+ AddCallTarget (private)
+
+	Store the given connection.  Called by ListenTo().
+
+ ******************************************************************************/
+
+template <class T>
+void
+JBroadcaster::AddCallTarget
+	(
+	JBroadcaster*							recipient,
+	const std::function<void(const T&)>&	f
+	)
+{
+	static_assert( std::is_base_of<Message, T>::value );
+
+	if (itsCallTargets == nullptr)
+	{
+		itsCallTargets = jnew JBroadcasterMessageMap;
+		assert( itsCallTargets != nullptr );
+	}
+
+	auto* fp = jnew std::function(f);
+	assert( fp != nullptr );
+
+	auto* a = jnew boost::any(fp);
+	assert( a != nullptr );
+
+	itsCallTargets->SetElement(typeid(T), recipient, a);
+}
+
+/******************************************************************************
+ Send (protected)
+
+	Send the given message to the specified recipient.  It is the
+	responsibility of derived classes to implement a set of useful
+	messages. Every message must be derived from JBroadcaster::Message and
+	should contain all the information necessary to process the message.
+
+	This function allows messages to be sent to an object in a way that is
+	safe but that does not require the C++ type safety mechanism of
+	dynamic_cast.  Essentially, this feature is equivalent to the object
+	methods provided by Objective C.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JBroadcaster::Send
+	(
+	JBroadcaster*	recipient,
+	const T&		message
+	)
+{
+	static_assert( std::is_base_of<Message, T>::value );
+
+	boost::any* a;
+	if (itsCallTargets != nullptr && itsCallTargets->GetElement(typeid(T), recipient, &a))
+	{
+		(*boost::any_cast<std::function<void(const T&)>*>(*a))(message);
+	}
+	else
+	{
+		recipient->Receive(this, message);
+	}
+}
+
+/******************************************************************************
+ BroadcastPrivate (private)
+
+	We use an iterator because anything could happen while calling Receive().
+
+ ******************************************************************************/
+
+template <class T>
+void
+JBroadcaster::BroadcastPrivate
+	(
+	const T& message
+	)
+{
+	static_assert( std::is_base_of<Message, T>::value );
+
+	if (itsRecipients != nullptr)
+	{
+		JTaskIterator<JBroadcaster> iterator(itsRecipients);
+		JBroadcaster* recipient;
+
+		while (iterator.Next(&recipient))
+		{
+			recipient->Receive(this, message);
+		}
+	}
+
+	JArray<JBroadcasterMessageTuple>* list;
+	if (itsCallTargets != nullptr && itsCallTargets->GetList(typeid(T), &list))
+	{
+		for (auto t : *list)
+		{
+			(*boost::any_cast<std::function<void(const T&)>*>(*t.f))(message);
+		}
+	}
+}
+
+#endif

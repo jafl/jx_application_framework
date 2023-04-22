@@ -12,7 +12,7 @@
 
 #include "JXImage.h"
 #include <jx-af/jcore/JImageMask.h>
-#include "jXConstants.h"		// need definition of kJXTransparentColor
+#include "jXConstants.h"		// for kJXTransparentColor
 
 class JXWindowIcon;
 

@@ -9,7 +9,7 @@
 #define _H_JXFSRunScriptDialog
 
 #include <jx-af/jx/JXModalDialogDirector.h>
-#include "JFSBinding.h"		// need defn of CommandType
+#include "JFSBinding.h"		// for CommandType
 
 class JString;
 class JXInputField;
