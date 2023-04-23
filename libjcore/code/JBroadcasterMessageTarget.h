@@ -38,10 +38,8 @@ struct JBroadcasterMessageTuple
 	void	CleanOut();
 };
 
-class JBroadcasterMessageTarget
+struct JBroadcasterMessageTarget
 {
-public:
-
 	const std::type_info*				type;
 	JArray<JBroadcasterMessageTuple>*	list;
 
@@ -75,7 +73,7 @@ public:
 		return type->hash_code();
 	};
 
-	void	CleanOut();
+	void	CleanOut(const std::function<void(JBroadcaster*, const std::type_info&)>& f);
 };
 
 inline bool

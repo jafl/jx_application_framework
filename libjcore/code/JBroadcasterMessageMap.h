@@ -13,7 +13,7 @@
 #include <typeinfo>
 
 class JBroadcaster;
-class JBroadcasterMessageTarget;
+struct JBroadcasterMessageTarget;
 struct JBroadcasterMessageTuple;
 template <class T> class JArray;
 
@@ -31,8 +31,7 @@ public:
 	bool GetList(const std::type_info& key, JArray<JBroadcasterMessageTuple>** f) const;
 
 	void RemoveTuple(const std::type_info& key, const JBroadcaster* obj);
-	void RemoveType(const std::type_info& key);
-	void RemoveAll();
+	void RemoveAll(const std::function<void(JBroadcaster*, const std::type_info&)>& f);
 };
 
 #endif

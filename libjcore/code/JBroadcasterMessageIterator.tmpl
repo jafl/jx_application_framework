@@ -1,0 +1,77 @@
+#ifndef _T_JBroadcasterMessageIterator
+#define _T_JBroadcasterMessageIterator
+
+/******************************************************************************
+ JBroadcasterMessageIterator.tmpl
+
+	Clone of JTaskIterator for use by JBroadcster.
+
+	Copyright (C) 2023 by John Lindal.
+
+ ******************************************************************************/
+
+#include "JBroadcasterMessageIterator.h"
+#include "jAssert.h"
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JBroadcasterMessageIterator<T>::JBroadcasterMessageIterator
+	(
+	const JArray<T>&		theArray,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	:
+	JArrayIterator<T>(theArray, start, index)
+{
+}
+
+template <class T>
+JBroadcasterMessageIterator<T>::JBroadcasterMessageIterator
+	(
+	JArray<T>*				theArray,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	:
+	JArrayIterator<T>(theArray, start, index)
+{
+}
+
+/******************************************************************************
+ ListChanged (virtual protected)
+
+	When the cursor is at the very front of the list, it must move when
+	items are inserted at the front of the list.  This ensures that the
+	object only receives the next message, not the current one.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JBroadcasterMessageIterator<T>::ListChanged
+	(
+	const JBroadcaster::Message& message
+	)
+{
+	JArrayIterator<T>::ListChanged(message);
+
+	// adjust cursor after base class is finished
+
+	if (message.Is(JListT::kElementsInserted))
+	{
+		const JListT::ElementsInserted* info =
+			dynamic_cast<const JListT::ElementsInserted*>(&message);
+		assert( info != nullptr );
+		if (JListIterator<T>::GetCursor() == 0 && info->GetFirstIndex() == 1)
+		{
+			JListIterator<T>::MoveTo(kJIteratorStartAfter, info->GetCount());
+		}
+	}
+}
+
+#endif

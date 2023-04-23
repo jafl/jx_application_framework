@@ -11,6 +11,7 @@
 #define _H_JBroadcaster
 
 #include "JRTTIBase.h"
+#include <functional>
 
 class JBroadcasterMessageMap;
 class JString;
@@ -92,12 +93,14 @@ public:		// ought to be private
 
 private:
 
-	JPtrArray<JBroadcaster>*	itsSenders;			// the objects to which we listen
-	JPtrArray<JBroadcaster>*	itsRecipients;		// the objects that listen to us
+	JPtrArray<JBroadcaster>*			itsSenders;			// the objects to which we listen
+	JPtrArray<JBroadcaster>*			itsRecipients;		// the objects that listen to us
 	JArray<JBroadcaster::ClearPointer>*	itsClearPointers;	// member pointers that need to be cleared
 
 	JBroadcasterMessageMap*	itsCallSources;
 	JBroadcasterMessageMap*	itsCallTargets;
+
+	bool*	itsDeletedFlag;
 
 private:
 

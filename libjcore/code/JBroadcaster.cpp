@@ -48,7 +48,8 @@ JBroadcaster::JBroadcaster()
 	itsRecipients(nullptr),
 	itsClearPointers(nullptr),
 	itsCallSources(nullptr),
-	itsCallTargets(nullptr)
+	itsCallTargets(nullptr),
+	itsDeletedFlag(nullptr)
 {
 }
 
@@ -71,6 +72,7 @@ JBroadcaster::JBroadcaster
 	itsClearPointers = nullptr;
 	itsCallSources   = nullptr;
 	itsCallTargets   = nullptr;
+	itsDeletedFlag   = nullptr;
 }
 
 /******************************************************************************
@@ -82,6 +84,11 @@ JBroadcaster::JBroadcaster
 
 JBroadcaster::~JBroadcaster()
 {
+	if (itsDeletedFlag != nullptr)
+	{
+		*itsDeletedFlag = true;
+	}
+
 	if (itsRecipients != nullptr)
 	{
 		while (itsRecipients != nullptr && !itsRecipients->IsEmpty())
@@ -108,15 +115,19 @@ JBroadcaster::~JBroadcaster()
 
 	if (itsCallTargets != nullptr)
 	{
-		
-
+		itsCallTargets->RemoveAll([this](JBroadcaster* target, const std::type_info& type)
+		{
+			target->RemoveCallSource(this, type);
+		});
 		jdelete itsCallTargets;
 	}
 
 	if (itsCallSources != nullptr)
 	{
-		
-
+		itsCallSources->RemoveAll([this](JBroadcaster* source, const std::type_info& type)
+		{
+			source->RemoveCallTarget(this, type);
+		});
 		jdelete itsCallSources;
 	}
 

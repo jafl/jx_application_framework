@@ -3,8 +3,9 @@
 
 #include "JBroadcasterMessageMap.h"
 #include "JBroadcasterMessageTarget.h"
+#include "JBroadcasterMessageIterator.h"
 #include "JTaskIterator.h"
-#include "jAssert.h"
+// we are included by jAssert.h
 
 /******************************************************************************
  ListenTo
@@ -119,9 +120,12 @@ JBroadcaster::BroadcastPrivate
 {
 	static_assert( std::is_base_of<Message, T>::value );
 
+	bool deleted   = false;
+	itsDeletedFlag = &deleted;
+
 	if (itsRecipients != nullptr)
 	{
-		JTaskIterator<JBroadcaster> iterator(itsRecipients);
+		JTaskIterator<JBroadcaster> iterator(*itsRecipients);
 		JBroadcaster* recipient;
 
 		while (iterator.Next(&recipient))
@@ -130,13 +134,26 @@ JBroadcaster::BroadcastPrivate
 		}
 	}
 
+	if (deleted)
+	{
+		return;
+	}
+
 	JArray<JBroadcasterMessageTuple>* list;
 	if (itsCallTargets != nullptr && itsCallTargets->GetList(typeid(T), &list))
 	{
-		for (auto t : *list)
+		JBroadcasterMessageIterator<JBroadcasterMessageTuple> iterator(*list);
+		JBroadcasterMessageTuple t;
+
+		while (iterator.Next(&t))
 		{
 			(*boost::any_cast<std::function<void(const T&)>*>(*t.f))(message);
 		}
+	}
+
+	if (!deleted)
+	{
+		itsDeletedFlag = nullptr;
 	}
 }
 

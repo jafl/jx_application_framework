@@ -32,7 +32,7 @@ JBroadcasterMessageMap::JBroadcasterMessageMap()
 
 JBroadcasterMessageMap::~JBroadcasterMessageMap()
 {
-	RemoveAll();
+	assert( IsEmpty() );
 }
 
 /******************************************************************************
@@ -150,7 +150,7 @@ JBroadcasterMessageMap::SetElement
 		bool found = false;
 
 		const JSize count = list->GetElementCount();
-		for (JIndex i=1; i<count; i++)
+		for (JIndex i=1; i<=count; i++)
 		{
 			auto t = list->GetElement(i);
 			if (t.obj == obj)
@@ -199,7 +199,7 @@ JBroadcasterMessageMap::RemoveTuple
 	auto* list   = cursor->GetValue().list;
 
 	const JSize count = list->GetElementCount();
-	for (JIndex i=1; i<count; i++)
+	for (JIndex i=1; i<=count; i++)
 	{
 		auto t = list->GetElement(i);
 		if (t.obj == obj)
@@ -209,29 +209,11 @@ JBroadcasterMessageMap::RemoveTuple
 
 			if (list->IsEmpty())
 			{
-				RemoveType(key);
+				jdelete list;
+				cursor->Remove();
 			}
 			break;
 		}
-	}
-}
-
-/******************************************************************************
- RemoveType
-
- *****************************************************************************/
-
-void
-JBroadcasterMessageMap::RemoveType
-	(
-	const std::type_info& key
-	)
-{
-	if (Contains(key))
-	{
-		auto* cursor = JHashTable<JBroadcasterMessageTarget>::GetCursor();
-		const_cast<JBroadcasterMessageTarget&>(cursor->GetValue()).CleanOut();
-		cursor->Remove();
 	}
 }
 
@@ -241,7 +223,10 @@ JBroadcasterMessageMap::RemoveType
  *****************************************************************************/
 
 void
-JBroadcasterMessageMap::RemoveAll()
+JBroadcasterMessageMap::RemoveAll
+	(
+	const std::function<void(JBroadcaster*, const std::type_info&)>& f
+	)
 {
 	if (!JHashTable<JBroadcasterMessageTarget>::IsEmpty())
 	{
@@ -250,7 +235,7 @@ JBroadcasterMessageMap::RemoveAll()
 		while (cursor->NextFull())
 		{
 			// delete, but don't mark empty to avoid multiple resizing
-			const_cast<JBroadcasterMessageTarget&>(cursor->GetValue()).CleanOut();
+			const_cast<JBroadcasterMessageTarget&>(cursor->GetValue()).CleanOut(f);
 		}
 	}
 
@@ -265,10 +250,14 @@ JBroadcasterMessageMap::RemoveAll()
  *****************************************************************************/
 
 void
-JBroadcasterMessageTarget::CleanOut()
+JBroadcasterMessageTarget::CleanOut
+	(
+	const std::function<void(JBroadcaster*, const std::type_info&)>& f
+	)
 {
 	for (auto item : *list)
 	{
+		f(item.obj, *type);
 		item.CleanOut();
 	}
 	jdelete list;
