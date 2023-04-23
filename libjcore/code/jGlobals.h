@@ -14,6 +14,7 @@
 #include "JUserNotification.h"
 #include "JCreateProgressDisplay.h"
 #include "JStringManager.h"
+#include <functional>
 
 class JFontManager;
 class JWebBrowser;
