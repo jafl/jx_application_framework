@@ -73,7 +73,7 @@ void
 SelectionTableDir::BuildWindow()
 {
 	// Create the window
-	JXWindow* window = jnew JXWindow(this, 300,200, JGetString("WindowTitle::DataTableDir"));
+	JXWindow* window = jnew JXWindow(this, 300,200, JGetString("WindowTitle::SelectionTableDir"));
 	assert( window != nullptr );
 
 	// Set sizing

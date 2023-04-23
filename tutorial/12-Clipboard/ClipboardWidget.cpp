@@ -75,7 +75,10 @@ ClipboardWidget::ClipboardWidget
 	itsEditMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	// Listen for messages from the menu.
-	ListenTo(itsEditMenu);
+	ListenTo(itsEditMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		HandleEditMenu(msg.GetIndex());
+	}));
 
 	// Register the data types that we support.  The atoms that we need
 	// here, namely text atoms, are already defined, so we don't need to
@@ -92,33 +95,6 @@ ClipboardWidget::~ClipboardWidget()
 {
 	// There is nothing to delete.
 	// itsEditMenu is deleted by the menu bar
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
-	Listen for menu selections and deactivated dialog windows.
-
- ******************************************************************************/
-
-void
-ClipboardWidget::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	// Check to see if the a menu item was selected.
-	if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
-	{
-		// Cast the sender so we can access its functions.
-		 const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-
-		// Handle the menu selection
-		HandleEditMenu(selection->GetIndex());
-	}
 }
 
 /******************************************************************************

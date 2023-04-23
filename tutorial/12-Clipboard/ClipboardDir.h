@@ -23,10 +23,6 @@ public:
 
 	~ClipboardDir() override;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	ClipboardWidget*	itsText;

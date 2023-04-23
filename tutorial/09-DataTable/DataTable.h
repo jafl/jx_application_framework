@@ -27,7 +27,6 @@ public:
 protected:
 	
 	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
-	void	Receive(JBroadcaster* sender, const Message& message) override;
 	
 private:
 

@@ -21,10 +21,6 @@ public:
 
 	UndoWidgetDir(JXDirector* supervisor);
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JXTextMenu* itsActionsMenu;

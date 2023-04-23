@@ -34,7 +34,6 @@ protected:
 	
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	void	Receive(JBroadcaster* sender, const Message& message) override;
 	
 private:
 

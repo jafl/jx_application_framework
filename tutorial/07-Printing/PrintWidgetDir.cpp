@@ -33,9 +33,6 @@ PrintWidgetDir::PrintWidgetDir
 	// Create the printer object
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != nullptr );
-
-	// We need to know when a dialog is closed
-	ListenTo(itsPrinter);
 }
 
 /******************************************************************************
@@ -47,36 +44,6 @@ PrintWidgetDir::~PrintWidgetDir()
 {
 	// We need to delete this, the window will jdelete everything else
 	jdelete itsPrinter;
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-PrintWidgetDir::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	// Check if the print button was pressed
-	if (sender == itsPrintButton && message.Is(JXButton::kPushed))
-	{
-		// Start the printing process by opening the dialog
-		if (itsPrinter->ConfirmUserPrintSetup())
-		{
-			// The user didn't cancel, so print
-			itsWidget->Print(*itsPrinter);
-		}
-	}
-
-	else
-	{
-		// Pass the message up the inheritance tree
-		JXWindowDirector::Receive(sender, message);
-	}
 }
 
 /******************************************************************************
@@ -104,7 +71,15 @@ PrintWidgetDir::BuildWindow()
 			0, 0, 300, 20);
 
 	// We need to hear when the button has been pressed
-	ListenTo(itsPrintButton);
+	ListenTo(itsPrintButton, std::function([this](const JXButton::Pushed& msg)
+	{
+		// Start the printing process by opening the dialog
+		if (itsPrinter->ConfirmUserPrintSetup())
+		{
+			// The user didn't cancel, so print
+			itsWidget->Print(*itsPrinter);
+		}
+	}));
 
 	// Create the scrollbar set
 	JXScrollbarSet* scrollbarSet =

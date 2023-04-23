@@ -23,10 +23,6 @@ public:
 
 	~MenuHelloDir() override;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JXStaticText*	itsText;

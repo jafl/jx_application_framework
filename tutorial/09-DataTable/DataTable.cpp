@@ -53,7 +53,28 @@ DataTable::DataTable
 	// The table is now in sync with the data array, but in 
 	// order to hear about changes in the data, we have to listen
 	// for messages from the data.
-	ListenTo(itsData);
+	ListenTo(itsData, std::function([this](const JListT::ElementsInserted& msg)
+	{
+		// For each element inserted, we insert a row
+		InsertRows(msg.GetFirstIndex(), msg.GetCount(), kDefRowHeight);
+	}));
+
+	ListenTo(itsData, std::function([this](const JListT::ElementsRemoved& msg)
+	{
+		// Remove the corresponding table rows. 
+		RemoveNextRows(msg.GetFirstIndex(), msg.GetCount());
+	}));
+
+	ListenTo(itsData, std::function([this](const JListT::ElementsChanged& msg)
+	{
+		// The element changed, so redraw it.
+		// (This would not be necessary if we were using a
+		//  class derived from JTableData.)
+		for (JIndex i=msg.GetFirstIndex(); i<=msg.GetLastIndex(); i++)
+		{
+			TableRefreshCell(i, 1);
+		}
+	}));
 }
 
 /******************************************************************************
@@ -101,74 +122,4 @@ DataTable::TableDrawCell
 
 	// Draw the JString that holds the value. 
 	p.String(rect, cellNumber, JPainter::HAlign::kLeft, JPainter::VAlign::kTop);
-}
-
-/******************************************************************************
- Receive
-
-	We listen to the data array for changes.
-
- ******************************************************************************/
-
-void
-DataTable::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	// Here we check to see what messages we have received.
-
-	// We first check if the sender is our data array
-	if (sender == itsData)
-	{
-		// Our data array sent us a message
-
-		// Was data inserted?
-		if (message.Is(JListT::kElementsInserted))
-		{
-			// cast the message to an ElementsInserted object
-			const JListT::ElementsInserted* info = 
-				dynamic_cast<const JListT::ElementsInserted*>(&message);
-			assert(info != nullptr);
-
-			// For each element inserted, we insert a row
-			InsertRows(info->GetFirstIndex(), info->GetCount(), kDefRowHeight);
-		}
-
-		// Was data removed?
-		else if (message.Is(JListT::kElementsRemoved))
-		{
-			// cast the message to an ElementsRemoved object
-			const JListT::ElementsRemoved* info = 
-				dynamic_cast<const JListT::ElementsRemoved*>(&message);
-			assert(info != nullptr);
-
-			// Remove the corresponding table rows. 
-			RemoveNextRows(info->GetFirstIndex(), info->GetCount());
-		}
-
-		// Was an element changed?
-		else if (message.Is(JListT::kElementsChanged))
-		{
-			// cast the message to an ElementsRemoved object
-			const JListT::ElementsChanged* info =
-				dynamic_cast<const JListT::ElementsChanged*>(&message);
-			assert(info != nullptr);
-
-			// The element changed, so redraw it.
-			// (This would not be necessary if we were using a
-			//  class derived from JTableData.)
-			for (JIndex i=info->GetFirstIndex(); i<=info->GetLastIndex(); i++)
-			{
-				TableRefreshCell(i, 1);
-			}
-		}
-	}
-
-	// pass the message to our base class
-	else
-	{
-		JXTable::Receive(sender, message);
-	}
 }

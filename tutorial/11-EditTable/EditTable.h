@@ -32,7 +32,6 @@ public:
 protected:
 	
 	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
-	void	Receive(JBroadcaster* sender, const Message& message) override;
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 							const JSize clickCount,
 							const JXButtonStates& buttonStates,

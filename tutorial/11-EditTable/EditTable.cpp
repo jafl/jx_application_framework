@@ -91,7 +91,28 @@ EditTable::EditTable
 	// The table is now in sync with the data array, but in
 	// order to hear about changes in the data, we have to listen
 	// for messages from the data.
-	ListenTo(itsData);
+	ListenTo(itsData, std::function([this](const JListT::ElementsInserted& msg)
+	{
+		// For each element inserted, we insert a row
+		InsertRows(msg.GetFirstIndex(), msg.GetCount(), kDefRowHeight);
+	}));
+
+	ListenTo(itsData, std::function([this](const JListT::ElementsRemoved& msg)
+	{
+		// Remove the corresponding table rows. 
+		RemoveNextRows(msg.GetFirstIndex(), msg.GetCount());
+	}));
+
+	ListenTo(itsData, std::function([this](const JListT::ElementsChanged& msg)
+	{
+		// The element changed, so redraw it.
+		// (This would not be necessary if we were using a
+		//  class derived from JTableData.)
+		for (JIndex i=msg.GetFirstIndex(); i<=msg.GetLastIndex(); i++)
+		{
+			TableRefreshRow(i);
+		}
+	}));
 
 	// Attach our menu to the menu bar.
 	itsTableMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::EditTable"));
@@ -103,7 +124,9 @@ EditTable::EditTable
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	// The table needs to listen to the menu for messages.
-	ListenTo(itsTableMenu);
+	itsTableMenu->AttachHandlers(this,
+		std::bind(&EditTable::UpdateTableMenu, this),
+		std::bind(&EditTable::HandleTableMenu, this, std::placeholders::_1));
 
 	// This is nullptr, because we want to make sure we only create one at
 	// a time.
@@ -166,99 +189,6 @@ EditTable::TableDrawCell
 
 	// Draw the JString that holds the value.
 	p.String(r, cellNumber, JPainter::HAlign::kLeft, JPainter::VAlign::kTop);
-}
-
-/******************************************************************************
- Receive
-
-	We listen to the data array for changes.
-
- ******************************************************************************/
-
-void
-EditTable::Receive
-	(
-	JBroadcaster* 	sender,
-	const Message& 	message
-	)
-{
-	// Here we check to see what messages we have received.
-
-	// We first check if the sender is our data array
-	if (sender == itsData)
-	{
-		// Our data array sent us a message
-
-		// Was data inserted?
-		if (message.Is(JListT::kElementsInserted))
-		{
-			// cast the message to an ElementsInserted object
-			const JListT::ElementsInserted* info =
-				dynamic_cast<const JListT::ElementsInserted*>(&message);
-			assert(info != nullptr);
-
-			// For each element inserted, we insert a row
-			InsertRows(info->GetFirstIndex(), info->GetCount(), kDefRowHeight);
-		}
-
-		// Was data removed?
-		else if (message.Is(JListT::kElementsRemoved))
-		{
-			// cast the message to an ElementsRemoved object
-			const JListT::ElementsRemoved* info =
-				dynamic_cast<const JListT::ElementsRemoved*>(&message);
-			assert(info != nullptr);
-
-			// Remove corresponding table rows.
-			RemoveNextRows(info->GetFirstIndex(), info->GetCount());
-		}
-
-		// Was an element changed?
-		else if (message.Is(JListT::kElementsChanged))
-		{
-			// cast the message to an ElementsRemoved object
-			const JListT::ElementsChanged* info =
-				dynamic_cast<const JListT::ElementsChanged*>(&message);
-			assert(info != nullptr);
-
-			// The element changed, so redraw it.
-			// (This would not be necessary if we were using a
-			//  class derived from JTableData.)
-			for (JIndex i=info->GetFirstIndex(); i<=info->GetLastIndex(); i++)
-			{
-				TableRefreshRow(i);
-			}
-		}
-	}
-
-	// Did the Table menu send a message?
-	else if (sender == itsTableMenu)
-	{
-		// Does the menu need an update?
-		if (message.Is(JXMenu::kNeedsUpdate))
-		{
-			UpdateTableMenu();
-		}
-
-		// Has a menu item been selected?
-		else if (message.Is(JXMenu::kItemSelected))
-		{
-			// cast the message to an ItemSelecte object.
-			// This will tell us which item was selected.
-			const JXMenu::ItemSelected* info =
-				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert(info != nullptr);
-
-			// Pass the selected menu item to our menu handler function.
-			HandleTableMenu(info->GetIndex());
-		}
-	}
-
-	// pass the message to our base class
-	else
-	{
-		JXEditTable::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

@@ -85,7 +85,10 @@ ClipboardDir::BuildWindow()
 	itsTextMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	// Listen for messages from the menu.
-	ListenTo(itsTextMenu);
+	ListenTo(itsTextMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		HandleTextMenu(msg.GetIndex());
+	}));
 
 	// Create the object to hold the text.
 	itsText =
@@ -93,39 +96,6 @@ ClipboardDir::BuildWindow()
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			0, kJXDefaultMenuBarHeight, 200, 100-kJXDefaultMenuBarHeight);
 	assert ( itsText != nullptr );
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
-	Listen for menu selections and deactivated dialog windows.
-
- ******************************************************************************/
-
-void
-ClipboardDir::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	// Check to see if the a menu item was selected.
-	if (sender == itsTextMenu && message.Is(JXMenu::kItemSelected))
-	{
-		// Cast the sender so we can access its functions.
-		 const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-
-		// Handle the menu selection
-		HandleTextMenu(selection->GetIndex());
-	}
-
-	// If we don't handle the message, we need to pass it to the base class
-	else
-	{
-		JXWindowDirector::Receive(sender,message);
-	}
 }
 
 /******************************************************************************
