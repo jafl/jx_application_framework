@@ -11,6 +11,7 @@
 #include "JHashTable.h"
 #include <boost/any.hpp>
 #include <typeinfo>
+#include <functional>
 
 class JBroadcaster;
 struct JBroadcasterMessageTarget;
