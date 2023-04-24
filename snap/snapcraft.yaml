@@ -1,6 +1,6 @@
 name: jx-application-framework
 title: JX Application Framework
-base: core20
+base: core22
 version: "3.99.1"
 #source-code: https://github.com/jafl/jx_application_framework
 #issues: https://github.com/jafl/jx_application_framework/issues
