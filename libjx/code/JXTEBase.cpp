@@ -56,9 +56,9 @@
 #include <jx-af/jcore/jAssert.h>
 
 JXTEBase::PartialWordModifier JXTEBase::thePWMod = JXTEBase::kCtrlMetaPWMod;
-bool JXTEBase::theWindowsHomeEndFlag         = true;
-bool JXTEBase::theScrollCaretFlag            = false;
-bool JXTEBase::theMiddleButtonPasteFlag      = true;
+bool JXTEBase::theWindowsHomeEndFlag             = true;
+bool JXTEBase::theScrollCaretFlag                = false;
+bool JXTEBase::theMiddleButtonPasteFlag          = true;
 
 static const JUtf8Byte* kSelectionDataID = "JXTEBase";
 

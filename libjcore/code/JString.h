@@ -13,7 +13,6 @@
 #include "JUtf8Character.h"
 #include "JUtf8ByteRange.h"
 #include "JCharacterRange.h"
-#include <string.h>
 #include <unicode/ucasemap.h>
 #include <unicode/ucol.h>
 
