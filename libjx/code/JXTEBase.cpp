@@ -494,7 +494,7 @@ JXTEBase::HandleMouseDown
 			const bool partialWord = (thePWMod == kCtrlMetaPWMod &&
 				 modifiers.control() && modifiers.meta()) ||
 				(thePWMod != kCtrlMetaPWMod &&
-				 modifiers.GetState(kJXMod2KeyIndex + thePWMod - kMod2PWMod));
+				 modifiers.GetState(int(kJXMod2KeyIndex) + int(thePWMod) - int(kMod2PWMod)));
 			TEHandleMouseDown(pt, clickCount, extendSelection, partialWord);
 		}
 	}
@@ -1188,7 +1188,7 @@ JXTEBase::HandleKeyPress
 		CaretMotion motion = kMoveByCharacter;
 		if ((thePWMod == kCtrlMetaPWMod && controlOn && metaOn) ||
 			(thePWMod != kCtrlMetaPWMod &&
-			 modifiers.GetState(kJXMod2KeyIndex + thePWMod - kMod2PWMod)))
+			 modifiers.GetState(int(kJXMod2KeyIndex) + int(thePWMod) - int(kMod2PWMod))))
 		{
 			motion = kMoveByPartialWord;
 		}
