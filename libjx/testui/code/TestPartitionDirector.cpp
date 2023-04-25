@@ -121,13 +121,17 @@ TestPartitionDirector::BuildWindow()
 	itsHorizMenu->SetShortcuts(JGetString("HorizMenuShortcut::TestPartitionDirector"));
 	itsHorizMenu->SetMenuItems(kHorizMenuStr);
 	itsHorizMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsHorizMenu);
+	itsHorizMenu->AttachHandlers(this,
+		std::bind(&TestPartitionDirector::UpdateHorizMenu, this),
+		std::bind(&TestPartitionDirector::HandleHorizMenu, this, std::placeholders::_1));
 
 	itsVertMenu = menuBar->AppendTextMenu(JGetString("VertMenuTitle::TestPartitionDirector"));
 	itsVertMenu->SetShortcuts(JGetString("VertMenuShortcut::TestPartitionDirector"));
 	itsVertMenu->SetMenuItems(kVertMenuStr);
 	itsVertMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsVertMenu);
+	itsVertMenu->AttachHandlers(this,
+		std::bind(&TestPartitionDirector::UpdateVertMenu, this),
+		std::bind(&TestPartitionDirector::HandleVertMenu, this, std::placeholders::_1));
 
 	for (JIndex i=1; i<=kInitCompartmentCount; i++)
 	{
@@ -252,48 +256,6 @@ TestPartitionDirector::AdjustMinWindowSize()
 {
 	GetWindow()->SetMinSize(itsHorizPartition->GetMinTotalSize(),
 							  kMenuBarHeight + itsVertPartition->GetMinTotalSize());
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-TestPartitionDirector::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsHorizMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateHorizMenu();
-	}
-	else if (sender == itsHorizMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleHorizMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsVertMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateVertMenu();
-	}
-	else if (sender == itsVertMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleVertMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXWindowDirector::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

@@ -71,13 +71,18 @@ JIndex i,j;
 	itsTableMenu = menuBar->AppendTextMenu(JGetString("TableMenuTitle::TestFloatTable"));
 	itsTableMenu->SetMenuItems(kTableMenuStr);
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsTableMenu);
+	itsTableMenu->AttachHandlers(this,
+		std::bind(&TestFloatTable::UpdateTableMenu, this),
+		std::bind(&TestFloatTable::HandleTableMenu, this, std::placeholders::_1));
 
 	itsSizeMenu = jnew JXFontSizeMenu(JFontManager::GetDefaultFontName(), JGetString("SizeMenuTitle::TestFloatTable"),
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsSizeMenu != nullptr );
 	menuBar->AppendMenu(itsSizeMenu);
-	ListenTo(itsSizeMenu);
+	ListenTo(itsSizeMenu, std::function([this](const JXFontSizeMenu::SizeChanged& msg)
+	{
+		SetFont(JFontManager::GetDefaultFontName(), msg.GetSize());
+	}));
 
 	itsStyleMenu =
 		jnew JXStyleTableMenu(this, menuBar,
@@ -217,41 +222,6 @@ TestFloatTable::HandleMouseDown
 	else if (itsMouseAction == kRemoveCol)
 	{
 		data->RemoveCol(cell.x);
-	}
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-TestFloatTable::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsTableMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateTableMenu();
-	}
-	else if (sender == itsTableMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleTableMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged))
-	{
-		SetFont(JFontManager::GetDefaultFontName(), itsSizeMenu->GetFontSize());
-	}
-
-	else
-	{
-		JXFloatTable::Receive(sender, message);
 	}
 }
 

@@ -100,7 +100,9 @@ TestStrTableDirector::BuildWindow()
 	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::TestStrTableDirector"));
 	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestStrTableDirector"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
-	ListenTo(itsFileMenu);
+	itsFileMenu->AttachHandlers(this,
+		std::bind(&TestStrTableDirector::UpdateFileMenu, this),
+		std::bind(&TestStrTableDirector::HandleFileMenu, this, std::placeholders::_1));
 
 	// layout table and headers
 
@@ -132,51 +134,15 @@ TestStrTableDirector::BuildWindow()
 
 	itsTable->TurnOnRowResizing(itsRowHeader);
 	itsColHeader->TurnOnColResizing();
-	ListenTo(itsRowHeader);
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-TestStrTableDirector::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
+	ListenTo(itsRowHeader, std::function([this](const JXRowHeaderWidget::NeedsToBeWidened& msg)
 	{
-		UpdateFileMenu();
-	}
-	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFileMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsRowHeader && message.Is(JXRowHeaderWidget::kNeedsToBeWidened))
-	{
-		const JXRowHeaderWidget::NeedsToBeWidened* info =
-			dynamic_cast<const JXRowHeaderWidget::NeedsToBeWidened*>(&message);
-		assert( info != nullptr );
-
-		const JCoordinate dw = info->GetDeltaWidth();
+		const JCoordinate dw = msg.GetDeltaWidth();
 		itsRowHeader->AdjustSize(dw,0);
 		itsColHeader->Move(dw,0);
 		itsColHeader->AdjustSize(-dw,0);
 		itsTable->Move(dw,0);
 		itsTable->AdjustSize(-dw,0);
-	}
-
-	else
-	{
-		JXWindowDirector::Receive(sender, message);
-	}
+	}));
 }
 
 /******************************************************************************

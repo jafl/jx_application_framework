@@ -33,10 +33,6 @@ public:
 	void				InsertVertCompartment(const JIndex index);
 	void				DeleteVertCompartment(const JIndex index);
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JXVertPartition* itsVertPartition;	// owned by the horiz partition

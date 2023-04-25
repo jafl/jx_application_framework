@@ -296,11 +296,17 @@ TestInputFieldsDialog::BuildWindow()
 
 	itsPathInput->SetBasePath(JGetCurrentDirectory());
 	itsPathInput->GetText()->SetText(JString("~", JString::kNoCopy));
-	ListenTo(itsChoosePathButton);
+	ListenTo(itsChoosePathButton, std::function([this](const JXButton::Pushed&)
+	{
+		itsPathInput->ChoosePath();
+	}));
 
 	itsFileInput->SetBasePath(JGetCurrentDirectory());
 	itsFileInput->GetText()->SetText(JString("./testjx", JString::kNoCopy));
-	ListenTo(itsChooseFileButton);
+	ListenTo(itsChooseFileButton, std::function([this](const JXButton::Pushed&)
+	{
+		itsFileInput->ChooseFile();
+	}));
 
 	charInput->SetCharacter(JUtf8Character("\xC3\xA7"));
 }
@@ -338,31 +344,5 @@ JInteger v1,v2;
 	else
 	{
 		return true;
-	}
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-TestInputFieldsDialog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsChoosePathButton && message.Is(JXButton::kPushed))
-	{
-		itsPathInput->ChoosePath();
-	}
-	else if (sender == itsChooseFileButton && message.Is(JXButton::kPushed))
-	{
-		itsFileInput->ChooseFile();
-	}
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
 	}
 }

@@ -122,43 +122,15 @@ TestImageDirector::BuildWindow()
 	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::TestImageDirector"));
 	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestImageDirector"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
-	ListenTo(itsFileMenu);
+	itsFileMenu->AttachHandlers(this,
+		std::bind(&TestImageDirector::UpdateFileMenu, this),
+		std::bind(&TestImageDirector::HandleFileMenu, this, std::placeholders::_1));
 
 	itsImageWidget =
 		jnew TestImageWidget(this, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsImageWidget != nullptr );
 	itsImageWidget->FitToEnclosure();
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-TestImageDirector::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFileMenu();
-	}
-	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFileMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXWindowDirector::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

@@ -56,26 +56,26 @@ public:
 	static const JUtf8Byte* kPushed;
 
 	class Pushed : public JBroadcaster::Message
+	{
+	public:
+
+		Pushed(const bool on)
+			:
+			JBroadcaster::Message(kPushed),
+			itsState(on)
+		{ };
+
+		bool
+		IsChecked()
+			const
 		{
-		public:
-
-			Pushed(const bool on)
-				:
-				JBroadcaster::Message(kPushed),
-				itsState(on)
-				{ };
-
-			bool
-			IsChecked()
-				const
-			{
-				return itsState;
-			};
-
-		private:
-
-			bool itsState;
+			return itsState;
 		};
+
+	private:
+
+		bool itsState;
+	};
 };
 
 /******************************************************************************

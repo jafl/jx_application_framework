@@ -161,7 +161,17 @@ TestTextEditDocument::BuildWindow
 
 	itsText = jnew JXStyledText(true, true, GetDisplay()->GetFontManager());
 	assert( itsText != nullptr );
-	ListenTo(itsText);
+	ListenTo(itsText, std::function([this](const JStyledText::TextChanged&)
+	{
+		if (itsText->IsAtLastSaveLocation())
+		{
+			DataReverted();
+		}
+		else
+		{
+			DataModified();
+		}
+	}));
 
 	JXContainer* compartment = partition->GetCompartment(1);
 
@@ -198,7 +208,9 @@ TestTextEditDocument::BuildWindow
 	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestTextEditDocument"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFileMenu);
+	itsFileMenu->AttachHandlers(this,
+		std::bind(&TestTextEditDocument::UpdateFileMenu, this),
+		std::bind(&TestTextEditDocument::HandleFileMenu, this, std::placeholders::_1));
 
 	JXDocumentMenu* fileListMenu =
 		jnew JXDocumentMenu(JGetString("FilesMenuTitle::TestTextEditDocument"), menuBar,
@@ -209,63 +221,9 @@ TestTextEditDocument::BuildWindow
 	itsEmulatorMenu = menuBar->AppendTextMenu(JGetString("EmulatorMenuTitle::TestTextEditDocument"));
 	itsEmulatorMenu->SetMenuItems(kEmulatorMenuStr);
 	itsEmulatorMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsEmulatorMenu);
-}
-
-/******************************************************************************
- Receive (protected)
-
-	Listen for menu update requests and menu selections.
-
- ******************************************************************************/
-
-void
-TestTextEditDocument::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFileMenu();
-	}
-	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFileMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsEmulatorMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateEmulatorMenu();
-	}
-	else if (sender == itsEmulatorMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleEmulatorMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsText && message.Is(JStyledText::kTextChanged))
-	{
-		if (itsText->IsAtLastSaveLocation())
-		{
-			DataReverted();
-		}
-		else
-		{
-			DataModified();
-		}
-	}
-
-	else
-	{
-		JXFileDocument::Receive(sender, message);
-	}
+	itsEmulatorMenu->AttachHandlers(this,
+		std::bind(&TestTextEditDocument::UpdateEmulatorMenu, this),
+		std::bind(&TestTextEditDocument::HandleEmulatorMenu, this, std::placeholders::_1));
 }
 
 /******************************************************************************

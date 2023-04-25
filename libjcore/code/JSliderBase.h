@@ -89,25 +89,25 @@ public:
 	static const JUtf8Byte* kMoved;
 
 	class Moved : public JBroadcaster::Message
+	{
+	public:
+
+		Moved(const JFloat value)
+			:
+			JBroadcaster::Message(kMoved),
+			itsValue(value)
+			{ };
+
+		JFloat
+		GetValue() const
 		{
-		public:
-
-			Moved(const JFloat value)
-				:
-				JBroadcaster::Message(kMoved),
-				itsValue(value)
-				{ };
-
-			JFloat
-			GetValue() const
-			{
-				return itsValue;
-			};
-
-		private:
-
-			JFloat	itsValue;
+			return itsValue;
 		};
+
+	private:
+
+		JFloat	itsValue;
+	};
 };
 
 

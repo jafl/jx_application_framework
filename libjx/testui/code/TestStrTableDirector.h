@@ -28,10 +28,6 @@ public:
 
 	~TestStrTableDirector() override;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JXPSPrinter*		itsPrinter;

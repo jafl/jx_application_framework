@@ -105,7 +105,9 @@ TestFileListDirector::BuildWindow()
 	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestFileListDirector"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "TestFileListDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFileMenu);
+	itsFileMenu->AttachHandlers(this,
+		std::bind(&TestFileListDirector::UpdateFileMenu, this),
+		std::bind(&TestFileListDirector::HandleFileMenu, this, std::placeholders::_1));
 
 	itsFileMenu->SetItemImage(kUseWildcardCmd, jx_filter_wildcard);
 	itsFileMenu->SetItemImage(kUseRegexCmd,    jx_filter_regex);
@@ -133,36 +135,6 @@ TestFileListDirector::AddDirectory
 		{
 			table->AddFile(e->GetFullName());
 		}
-	}
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-TestFileListDirector::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFileMenu();
-	}
-	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFileMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXWindowDirector::Receive(sender, message);
 	}
 }
 

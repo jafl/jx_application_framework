@@ -77,35 +77,35 @@ public:
 	static const JUtf8Byte* kSizeChanged;
 
 	class SizeNeedsUpdate : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			SizeNeedsUpdate()
-				:
-				JBroadcaster::Message(kSizeNeedsUpdate)
-				{ };
-		};
+		SizeNeedsUpdate()
+			:
+			JBroadcaster::Message(kSizeNeedsUpdate)
+		{ };
+	};
 
 	class SizeChanged : public JBroadcaster::Message
+	{
+	public:
+
+		SizeChanged(const JSize size)
+			:
+			JBroadcaster::Message(kSizeChanged),
+			itsSize(size)
+		{ };
+
+		JSize
+		GetSize() const
 		{
-		public:
-
-			SizeChanged(const JSize size)
-				:
-				JBroadcaster::Message(kSizeChanged),
-				itsSize(size)
-				{ };
-
-			JSize
-			GetSize() const
-			{
-				return itsSize;
-			};
-
-		private:
-
-			JSize itsSize;
+			return itsSize;
 		};
+
+	private:
+
+		JSize itsSize;
+	};
 };
 
 /******************************************************************************

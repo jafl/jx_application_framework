@@ -41,8 +41,6 @@ protected:
 	TestSaveFileDialog(const SaveFormat saveFormat,
 					   const JString& fileFilter);
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	SaveFormat	itsSaveFormat;

@@ -86,31 +86,52 @@ JIndex i,j;
 	itsTableMenu = menuBar->AppendTextMenu(JGetString("TableMenuTitle::TestStringTable"));
 	itsTableMenu->SetMenuItems(kTableMenuStr);
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsTableMenu);
+	itsTableMenu->AttachHandlers(this,
+		std::bind(&TestStringTable::UpdateTableMenu, this),
+		std::bind(&TestStringTable::HandleTableMenu, this, std::placeholders::_1));
 
 	itsRowBorderMenu = jnew JXTextMenu(itsTableMenu, kChangeRowBorderWidthCmd, menuBar);
 	assert( itsRowBorderMenu != nullptr );
 	itsRowBorderMenu->SetMenuItems(kBorderWidthMenuStr);
 	itsRowBorderMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsRowBorderMenu);
+	itsRowBorderMenu->AttachHandlers(this,
+		std::bind(&TestStringTable::UpdateRowBorderMenu, this),
+		std::bind(&TestStringTable::HandleRowBorderMenu, this, std::placeholders::_1));
 
 	itsColBorderMenu = jnew JXTextMenu(itsTableMenu, kChangeColBorderWidthCmd, menuBar);
 	assert( itsColBorderMenu != nullptr );
 	itsColBorderMenu->SetMenuItems(kBorderWidthMenuStr);
 	itsColBorderMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsColBorderMenu);
+	itsColBorderMenu->AttachHandlers(this,
+		std::bind(&TestStringTable::UpdateColBorderMenu, this),
+		std::bind(&TestStringTable::HandleColBorderMenu, this, std::placeholders::_1));
+
+	std::function f = [this]()
+	{
+		SetFont(itsFontMenu->GetFontName(), itsSizeMenu->GetFontSize());
+		if (itsRowHeader != nullptr)
+		{
+			itsRowHeader->TurnOnRowResizing(GetDefaultRowHeight());
+		}
+	};
 
 	itsFontMenu = jnew JXFontNameMenu(JGetString("FontMenuTitle::TestStringTable"), true,
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsFontMenu != nullptr );
 	menuBar->AppendMenu(itsFontMenu);
-	ListenTo(itsFontMenu);
+	ListenTo(itsFontMenu, std::function([f](const JXFontNameMenu::NameChanged&)
+	{
+		f();
+	}));
 
 	itsSizeMenu = jnew JXFontSizeMenu(itsFontMenu, JGetString("SizeMenuTitle::TestStringTable"), 
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsSizeMenu != nullptr );
 	menuBar->AppendMenu(itsSizeMenu);
-	ListenTo(itsSizeMenu);
+	ListenTo(itsSizeMenu, std::function([f](const JXFontSizeMenu::SizeChanged&)
+	{
+		f();
+	}));
 
 	itsStyleMenu =
 		jnew JXStyleTableMenu(this, menuBar,
@@ -336,79 +357,6 @@ TestStringTable::HandleMouseDrag
 		const bool ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
 		assert( ok );
 		(GetTableSelection()).ExtendSelection(cell);
-	}
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-TestStringTable::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsTableMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateTableMenu();
-	}
-	else if (sender == itsTableMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleTableMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsRowBorderMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateRowBorderMenu();
-	}
-	else if (sender == itsRowBorderMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleRowBorderMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsColBorderMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateColBorderMenu();
-	}
-	else if (sender == itsColBorderMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleColBorderMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsFontMenu && message.Is(JXFontNameMenu::kNameChanged))
-	{
-		const JString fontName = itsFontMenu->GetFontName();
-		SetFont(fontName, itsSizeMenu->GetFontSize());
-		if (itsRowHeader != nullptr)
-		{
-			itsRowHeader->TurnOnRowResizing(GetDefaultRowHeight());
-		}
-	}
-	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged))
-	{
-		const JString fontName = itsFontMenu->GetFontName();
-		SetFont(fontName, itsSizeMenu->GetFontSize());
-		if (itsRowHeader != nullptr)
-		{
-			itsRowHeader->TurnOnRowResizing(GetDefaultRowHeight());
-		}
-	}
-
-	else
-	{
-		JXStringTable::Receive(sender, message);
 	}
 }
 

@@ -267,58 +267,35 @@ TestButtonsDialog::BuildWindow()
 		brb[i]->SetHint(JGetString(kRadioButtonHintID[i]));
 	}
 
-	ListenTo(itsRG1);
-
-	itsEnable1CB->SetState(true);
-	ListenTo(itsEnable1CB);
-	itsEnable2CB->SetState(true);
-	ListenTo(itsEnable2CB);
-	itsEnable3CB->SetState(true);
-	ListenTo(itsEnable3CB);
-
-	JXAtLeastOneCBGroup* cbGroup = jnew JXAtLeastOneCBGroup(3, its1CB, its2CB, its3CB);
-	assert( cbGroup != nullptr );
-}
-
-/******************************************************************************
-Receive (protected)
-
-******************************************************************************/
-
-void
-TestButtonsDialog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsRG1 && message.Is(JXRadioGroup::kSelectionChanged))
+	ListenTo(itsRG1, std::function([](const JXRadioGroup::SelectionChanged& msg)
 	{
-		const JXRadioGroup::SelectionChanged* selection =
-			dynamic_cast<const JXRadioGroup::SelectionChanged*>(&message);
-		assert( selection != nullptr );
-		if (selection->GetID() == 2)
+		if (msg.GetID() == 2)
 		{
 			JGetUserNotification()->DisplayMessage(
 				JGetString("GoodChoice::TestButtonsDialog"));
 		}
-	}
-	else if (sender == itsEnable1CB && message.Is(JXCheckbox::kPushed))
+	}));
+
+	itsEnable1CB->SetState(true);
+	ListenTo(itsEnable1CB, std::function([this](const JXCheckbox::Pushed& msg)
 	{
-		its1CB->SetActive(itsEnable1CB->IsChecked());
-	}
-	else if (sender == itsEnable2CB && message.Is(JXCheckbox::kPushed))
+		its1CB->SetActive(msg.IsChecked());
+	}));
+
+	itsEnable2CB->SetState(true);
+	ListenTo(itsEnable2CB, std::function([this](const JXCheckbox::Pushed& msg)
 	{
-		its2CB->SetActive(itsEnable2CB->IsChecked());
-	}
-	else if (sender == itsEnable3CB && message.Is(JXCheckbox::kPushed))
+		its2CB->SetActive(msg.IsChecked());
+	}));
+
+	itsEnable3CB->SetState(true);
+	ListenTo(itsEnable3CB, std::function([this](const JXCheckbox::Pushed& msg)
 	{
-		its3CB->SetActive(itsEnable3CB->IsChecked());
-	}
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
-	}
+		its3CB->SetActive(msg.IsChecked());
+	}));
+
+	JXAtLeastOneCBGroup* cbGroup = jnew JXAtLeastOneCBGroup(3, its1CB, its2CB, its3CB);
+	assert( cbGroup != nullptr );
 }
 
 /******************************************************************************

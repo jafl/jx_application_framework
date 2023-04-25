@@ -66,26 +66,26 @@ public:
 	static const JUtf8Byte* kNameChanged;
 
 	class NameNeedsUpdate : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			NameNeedsUpdate()
-				:
-				JBroadcaster::Message(kNameNeedsUpdate)
-				{ };
-		};
+		NameNeedsUpdate()
+			:
+			JBroadcaster::Message(kNameNeedsUpdate)
+		{ };
+	};
 
 	class NameChanged : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			NameChanged()
-				:
-				JBroadcaster::Message(kNameChanged)
-				{ };
+		NameChanged()
+			:
+			JBroadcaster::Message(kNameChanged)
+		{ };
 
 		// call broadcaster's GetFont() to get fontName
-		};
+	};
 };
 
 

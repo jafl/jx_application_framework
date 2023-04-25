@@ -83,7 +83,10 @@ TestSliderDirector::BuildWindow()
 	itsMaxSlider->SetRange(1,10);
 	itsMaxSlider->SetValue(itsSlider->GetMaxValue());
 	itsMaxSlider->SetHint(JGetString("VerticalSliderHint::TestSliderDirector"));
-	ListenTo(itsMaxSlider);
+	ListenTo(itsMaxSlider, std::function([this](const JSliderBase::Moved& msg)
+	{
+		itsSlider->SetMaxValue(msg.GetValue());
+	}));
 
 	itsLevel->SetRange(1,10);
 	itsLevel->SetHint(JGetString("HorizontalLevelControlHint::TestSliderDirector"));
@@ -91,33 +94,8 @@ TestSliderDirector::BuildWindow()
 	itsMaxLevel->SetRange(1,10);
 	itsMaxLevel->SetValue(itsLevel->GetMaxValue());
 	itsMaxLevel->SetHint(JGetString("VerticalLevelControlHint::TestSliderDirector"));
-	ListenTo(itsMaxLevel);
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-TestSliderDirector::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsMaxSlider && message.Is(JSliderBase::kMoved))
+	ListenTo(itsMaxLevel, std::function([this](const JSliderBase::Moved& msg)
 	{
-		itsSlider->SetMaxValue(itsMaxSlider->GetValue());
-	}
-
-	else if (sender == itsMaxLevel && message.Is(JSliderBase::kMoved))
-	{
-		itsLevel->SetMaxValue(itsMaxLevel->GetValue());
-	}
-
-	else
-	{
-		JXWindowDirector::Receive(sender, message);
-	}
+		itsLevel->SetMaxValue(msg.GetValue());
+	}));
 }

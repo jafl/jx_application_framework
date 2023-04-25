@@ -78,7 +78,12 @@ TestTabDirector::BuildWindow()
 	assert( itsFontMenu != nullptr );
 	itsFontMenu->SetFontName(itsTabGroup->GetFont().GetName());
 	itsFontMenu->SetToPopupChoice();
-	ListenTo(itsFontMenu);
+	ListenTo(itsFontMenu, std::function([this](const JXFontNameMenu::NameChanged&)
+	{
+		const JString name = itsFontMenu->GetFontName();
+		itsTabGroup->SetFontName(name);
+		itsSizeMenu->SetFontName(name);
+	}));
 
 	const JString fontName = itsFontMenu->GetFontName();
 
@@ -87,7 +92,10 @@ TestTabDirector::BuildWindow()
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 50,30);
 	assert( itsSizeMenu != nullptr );
 	itsSizeMenu->SetToPopupChoice();
-	ListenTo(itsSizeMenu);
+	ListenTo(itsSizeMenu, std::function([this](const JXFontSizeMenu::SizeChanged& msg)
+	{
+		itsTabGroup->SetFontSize(msg.GetSize());
+	}));
 
 	itsEdgeRG = jnew JXRadioGroup(card1, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								 20,100, 100,140);
@@ -118,7 +126,10 @@ TestTabDirector::BuildWindow()
 	assert( rb4 != nullptr );
 
 	itsEdgeRG->SelectItem(itsTabGroup->GetTabEdge());
-	ListenTo(itsEdgeRG);
+	ListenTo(itsEdgeRG, std::function([this](const JXRadioGroup::SelectionChanged& msg)
+	{
+		itsTabGroup->SetTabEdge((JXTabGroup::Edge) msg.GetID());
+	}));
 
 	// card 2
 
@@ -148,7 +159,10 @@ TestTabDirector::BuildWindow()
 		jnew JXChooseMonoFont(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
 							 20, 50, 300, 100);
 	assert( itsMonoFont != nullptr );
-	ListenTo(itsMonoFont);
+	ListenTo(itsMonoFont, std::function([this](const JXChooseMonoFont::FontChanged&)
+	{
+		UpdateFontSample();
+	}));
 
 	UpdateFontSample();
 }
@@ -189,27 +203,6 @@ TestTabDirector::Receive
 			itsTabGroup->ShowTab(2);
 			itsTabGroup->DeleteTab(i);
 		}
-	}
-
-	else if (sender == itsFontMenu && message.Is(JXFontNameMenu::kNameChanged))
-	{
-		const JString name = itsFontMenu->GetFontName();
-		itsTabGroup->SetFontName(name);
-		itsSizeMenu->SetFontName(name);
-	}
-	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged))
-	{
-		itsTabGroup->SetFontSize(itsSizeMenu->GetFontSize());
-	}
-
-	else if (sender == itsEdgeRG && message.Is(JXRadioGroup::kSelectionChanged))
-	{
-		itsTabGroup->SetTabEdge((JXTabGroup::Edge) itsEdgeRG->GetSelectedItem());
-	}
-
-	else if (sender == itsMonoFont && message.Is(JXChooseMonoFont::kFontChanged))
-	{
-		UpdateFontSample();
 	}
 
 	else

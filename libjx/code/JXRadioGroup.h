@@ -58,26 +58,26 @@ public:
 	static const JUtf8Byte* kSelectionChanged;
 
 	class SelectionChanged : public JBroadcaster::Message
+	{
+	public:
+
+		SelectionChanged(const JIndex id)
+			:
+			JBroadcaster::Message(kSelectionChanged),
+			itsID(id)
+		{ };
+
+		JIndex
+		GetID()
+			const
 		{
-		public:
-
-			SelectionChanged(const JIndex id)
-				:
-				JBroadcaster::Message(kSelectionChanged),
-				itsID(id)
-				{ };
-
-			JIndex
-			GetID()
-				const
-			{
-				return itsID;
-			};
-
-		private:
-
-			JIndex itsID;
+			return itsID;
 		};
+
+	private:
+
+		JIndex itsID;
+	};
 };
 
 #endif

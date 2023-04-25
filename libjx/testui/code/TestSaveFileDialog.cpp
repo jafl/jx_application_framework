@@ -227,36 +227,14 @@ TestSaveFileDialog::BuildWindow
 			   homeButton, desktopButton, newDirButton,
 			   showHiddenCB, currPathMenu, startName, message);
 
-	ListenTo(itsFormatRG);
+	ListenTo(itsFormatRG, std::function([this](const JXRadioGroup::SelectionChanged& msg)
+	{
+		HandleFormatChange(msg.GetID());
+	}));
+
 	itsFormatRG->SelectItem(itsSaveFormat);
 
 	HandleFormatChange(itsFormatRG->GetSelectedItem());
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-TestSaveFileDialog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsFormatRG && message.Is(JXRadioGroup::kSelectionChanged))
-	{
-		const JXRadioGroup::SelectionChanged* selection =
-			dynamic_cast<const JXRadioGroup::SelectionChanged*>(&message);
-		assert( selection != nullptr );
-		HandleFormatChange(selection->GetID());
-	}
-
-	else
-	{
-		JXSaveFileDialog::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

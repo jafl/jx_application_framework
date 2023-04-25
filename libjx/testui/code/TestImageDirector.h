@@ -28,10 +28,6 @@ public:
 
 	void	SetFileName(const JString& name);
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JString			itsFileName;

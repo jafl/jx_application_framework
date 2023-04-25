@@ -30,7 +30,6 @@ protected:
 	void	ReadFile(const JString& fileName);
 	void	WriteTextFile(std::ostream& output, const bool safetySave) const override;
 	void	DiscardChanges() override;
-	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
