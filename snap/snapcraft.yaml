@@ -1,6 +1,6 @@
 name: jx-application-framework
 title: JX Application Framework
-base: core22
+base: core20
 version: "3.99.1"
 #source-code: https://github.com/jafl/jx_application_framework
 #issues: https://github.com/jafl/jx_application_framework/issues
@@ -38,7 +38,7 @@ parts:
       - bin/makemake
       - bin/reflex
     build-packages:
-      - g++
+      - g++-10
       - make
       - libx11-dev
       - libxinerama-dev
