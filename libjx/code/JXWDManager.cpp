@@ -344,8 +344,7 @@ JXWDManager::UpdateWDMenu
 {
 	if (menu->IsOpen())
 	{
-		WDMenusNeedUpdate();
-		return;
+		return;		// will update next time it is opened
 	}
 
 	const JXMenu::Style style = JXMenu::GetDefaultStyle();
