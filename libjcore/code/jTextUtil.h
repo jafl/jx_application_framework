@@ -10,6 +10,8 @@
 
 #include "JStyledText.h"
 
+extern const JRegex theUNIXTerminalFormatPattern;
+
 JFont	CalcWSFont(const JFont& prevFont, const JFont& nextFont);
 
 JSize	JAnalyzeWhitespace(const JString& buffer, const JSize tabWidth,

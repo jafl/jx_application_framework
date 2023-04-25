@@ -322,7 +322,7 @@ JReadUNIXManOutput
 
  ******************************************************************************/
 
-static const JRegex theUNIXTerminalFormatPattern = "\033\\[([0-9]+(?:;[0-9]+)*)?m";
+const JRegex theUNIXTerminalFormatPattern = "\033\\[([0-9]+(?:;[0-9]+)*)?m";
 
 JStyledText::TextRange
 JPasteUNIXTerminalOutput
