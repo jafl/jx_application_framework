@@ -26,7 +26,7 @@ parts:
       snapcraftctl pull
       sudo locale-gen en_US.UTF-8
       touch libjexpr/code/JExprParserY.cpp libjexpr/code/JExprParserY.hpp
-      sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
+      sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 10
     build-environment:
       - LC_ALL: en_US.UTF-8
       - LANG: en_US.UTF-8
@@ -39,7 +39,7 @@ parts:
       - bin/makemake
       - bin/reflex
     build-packages:
-      - g++-10
+      - g++-11
       - make
       - libx11-dev
       - libxinerama-dev
