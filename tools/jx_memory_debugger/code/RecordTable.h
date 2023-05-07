@@ -54,8 +54,6 @@ protected:
 	void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight) override;
 	void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight) override;
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	RecordList*		itsRecordList;

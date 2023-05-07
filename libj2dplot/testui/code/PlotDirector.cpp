@@ -8,12 +8,12 @@
  ******************************************************************************/
 
 #include "PlotDirector.h"
+#include <jx-af/j2dplot/JX2DPlotWidget.h>
+#include <jx-af/j2dplot/JX2DPlotEPSPrinter.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
-#include "JX2DPlotWidget.h"
 #include <jx-af/jx/JXPSPrinter.h>
-#include "JX2DPlotEPSPrinter.h"
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -94,50 +94,21 @@ PlotDirector::BuildWindow()
 	assert( itsEPSPrinter != nullptr );
 	itsPlotWidget->SetEPSPrinter(itsEPSPrinter);
 
-	ListenTo(itsPlotWidget);
+	ListenTo(itsPlotWidget, std::function([this](const J2DPlotWidget::TitleChanged&)
+	{
+		GetWindow()->SetTitle(itsPlotWidget->GetTitle());
+	}));
 
 	itsActionsMenu = menuBar->PrependTextMenu(JGetString("ActionsMenuTitle::PlotDirector"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsActionsMenu);
+	itsActionsMenu->AttachHandlers(this,
+		std::bind(&PlotDirector::UpdateActionsMenu, this),
+		std::bind(&PlotDirector::HandleActionsMenu, this, std::placeholders::_1));
 
 	// do this after everything is constructed so Receive() doesn't crash
 
 	itsPlotWidget->SetTitle(JGetString("PlotTitle::PlotDirector"));
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-PlotDirector::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsPlotWidget && message.Is(J2DPlotWidget::kTitleChanged))
-	{
-		GetWindow()->SetTitle(itsPlotWidget->GetTitle());
-	}
-
-	else if (sender == itsActionsMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateActionsMenu();
-	}
-	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleActionsMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXWindowDirector::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

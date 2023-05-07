@@ -95,34 +95,34 @@ public:
 	static const JUtf8Byte* kCardRemoved;
 
 	class CardIndexChanged : public CardIndexBase
-		{
-		public:
+	{
+	public:
 
-			CardIndexChanged(const JIndex cardIndex)
-				:
-				CardIndexBase(kCardIndexChanged, cardIndex)
-				{ };
-		};
+		CardIndexChanged(const JIndex cardIndex)
+			:
+			CardIndexBase(kCardIndexChanged, cardIndex)
+		{ };
+	};
 
 	class CardIndexUpdated : public CardIndexBase
-		{
-		public:
+	{
+	public:
 
-			CardIndexUpdated(const JIndex cardIndex)
-				:
-				CardIndexBase(kCardIndexUpdated, cardIndex)
-				{ };
-		};
+		CardIndexUpdated(const JIndex cardIndex)
+			:
+			CardIndexBase(kCardIndexUpdated, cardIndex)
+		{ };
+	};
 
 	class CardRemoved : public CardIndexBase
-		{
-		public:
+	{
+	public:
 
-			CardRemoved(const JIndex cardIndex)
-				:
-				CardIndexBase(kCardRemoved, cardIndex)
-				{ };
-		};
+		CardRemoved(const JIndex cardIndex)
+			:
+			CardIndexBase(kCardRemoved, cardIndex)
+		{ };
+	};
 };
 
 

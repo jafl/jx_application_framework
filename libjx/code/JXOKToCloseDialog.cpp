@@ -93,31 +93,11 @@ JXOKToCloseDialog::BuildWindow
 
 	window->SetTitle(JGetString("WindowTitle::JXOKToCloseDialog"));
 	SetButtons(saveButton, cancelButton);
-	ListenTo(itsDiscardButton);
-
-	Init(window, text, message, icon, jx_un_warning);
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-JXOKToCloseDialog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsDiscardButton && message.Is(JXButton::kPushed))
+	ListenTo(itsDiscardButton, std::function([this](const JXButton::Pushed&)
 	{
 		itsCloseAction = JUserNotification::kDiscardData;
 		EndDialog(true);
-	}
+	}));
 
-	else
-	{
-		JXUNDialogBase::Receive(sender, message);
-	}
+	Init(window, text, message, icon, jx_un_warning);
 }

@@ -5,9 +5,6 @@ jcc
 	if undo/redo inserts text containing newline,
 		it scrolls to center, even if already visible
 
-	menu of supported text encodings in "open text file" dialog, default autodetect
-	sub-menu of supported text encodings on File menu, just like "file formats"
-
 glove
 	catch NaN during fits: exponential fit to linear data
 

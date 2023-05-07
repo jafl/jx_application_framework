@@ -285,7 +285,7 @@ JXFSRunCommandDialog::Receive
 	}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 	{
-		(JXGetHelpManager())->ShowSection(JGetString("HelpLink::JXFSRunCommandDialog").GetBytes());
+		JXGetHelpManager()->ShowSection(JGetString("HelpLink::JXFSRunCommandDialog").GetBytes());
 	}
 
 	else if (sender == itsPathHistoryMenu && message.Is(JXMenu::kItemSelected))

@@ -53,7 +53,10 @@ JXToolBarEditDialog::JXToolBarEditDialog
 	itsTreeChanged(false)
 {
 	BuildWindow();
-	ListenTo(itsTree);
+	ListenTo(itsTree, std::function([this](const JTree::NodeChanged&)
+	{
+		itsTreeChanged = true;
+	}));
 
 	itsShowToolBarCB->SetState(show);
 	itsUseSmallButtonsCB->SetState(useSmall);
@@ -154,7 +157,6 @@ JXToolBarEditDialog::BuildWindow()
 								0,0,10,10);
 	assert(itsWidget != nullptr);
 	itsWidget->FitToEnclosure();
-	ListenTo(itsWidget);
 }
 
 /******************************************************************************
@@ -194,28 +196,6 @@ JXToolBarEditDialog::WriteSetup
 	os << ' ' << kCurrentPrefsVersion << ' ';
 	GetWindow()->WriteGeometry(os);
 	os << ' ';
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-JXToolBarEditDialog::Receive
-	(
-	JBroadcaster*  sender,
-	const Message& message
-	)
-{
-	if (sender == itsTree && message.Is(JTree::kNodeChanged))
-	{
-		itsTreeChanged = true;
-	}
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

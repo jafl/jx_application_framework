@@ -92,54 +92,33 @@ FilterRecordsDialog::BuildWindow()
 	auto* cbGroup = jnew JXAtLeastOneCBGroup(2, itsSizeCB, itsFileCB);
 	assert( cbGroup != nullptr );
 
-	ListenTo(itsFileCB);
-	ListenTo(itsFileInput);
-
-	ListenTo(itsSizeCB);
-	ListenTo(itsSizeInput);
-	itsSizeInput->SetLowerLimit(0);
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-FilterRecordsDialog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsSizeCB && message.Is(JXCheckbox::kPushed))
+	ListenTo(itsFileCB, std::function([this](const JXCheckbox::Pushed& msg)
 	{
-		if (itsSizeCB->IsChecked())
-		{
-			itsSizeInput->Focus();
-		}
-	}
-	else if (sender == itsSizeInput && message.Is(JStyledText::kTextChanged))
-	{
-		itsSizeCB->SetState(true);
-	}
-
-	else if (sender == itsFileCB && message.Is(JXCheckbox::kPushed))
-	{
-		if (itsFileCB->IsChecked())
+		if (msg.IsChecked())
 		{
 			itsFileInput->Focus();
 		}
-	}
-	else if (sender == itsFileInput && message.Is(JStyledText::kTextChanged))
+	}));
+
+	ListenTo(itsFileInput, std::function([this](const JStyledText::TextChanged&)
 	{
 		itsFileCB->SetState(true);
-	}
+	}));
 
-	else
+	ListenTo(itsSizeCB, std::function([this](const JXCheckbox::Pushed& msg)
 	{
-		JXModalDialogDirector::Receive(sender, message);
-	}
+		if (msg.IsChecked())
+		{
+			itsSizeInput->Focus();
+		}
+	}));
+
+	ListenTo(itsSizeInput, std::function([this](const JStyledText::TextChanged&)
+	{
+		itsSizeCB->SetState(true);
+	}));
+
+	itsSizeInput->SetLowerLimit(0);
 }
 
 /******************************************************************************

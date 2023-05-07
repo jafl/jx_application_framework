@@ -20,10 +20,6 @@ public:
 
 	~AboutDialog() override;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	bool	itsIsUpgradeFlag;

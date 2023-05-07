@@ -123,6 +123,9 @@ jcc
 	PHP: balance <? ?>
 	JXChooseMonoFont: allow "Other..."
 
+	menu of supported text encodings in "open text file" dialog, default autodetect
+	sub-menu of supported text encodings on File menu, just like "file formats"
+
 medic
 	accept connection or switch to gdb:  should stop listening on port
 		need simple example to submit to ACE list

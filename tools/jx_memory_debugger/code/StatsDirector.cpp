@@ -193,7 +193,16 @@ StatsDirector::SetLink
 	assert( itsLink == nullptr );
 	itsLink = link;
 	JMemoryManager::SetProtocol(itsLink);
-	ListenTo(itsLink);
+
+	ListenTo(itsLink, std::function([this](const JMessageProtocolT::MessageReady&)
+	{
+		HandleResponse();
+	}));
+
+	ListenTo(itsLink, std::function([this](const JMessageProtocolT::ReceivedDisconnect&)
+	{
+		CloseLink(false);
+	}));
 
 	DeleteDebugAcceptor();
 
@@ -399,17 +408,34 @@ StatsDirector::BuildWindow()
 	assert( itsAllocatedHisto != nullptr );
 	itsAllocatedHisto->FitToEnclosure();
 
-	ListenTo(itsProgramInput);
+	ListenTo(itsProgramInput, std::function([this](const JStyledText::TextSet&)
+	{
+		UpdateDisplay();
+	}));
 
-	ListenTo(itsChooseProgramButton);
-	ListenTo(itsRunProgramButton);
+	ListenTo(itsProgramInput, std::function([this](const JStyledText::TextChanged&)
+	{
+		UpdateDisplay();
+	}));
+
+	ListenTo(itsChooseProgramButton, std::function([this](const JXButton::Pushed&)
+	{
+		ChooseProgram();
+	}));
+
+	ListenTo(itsRunProgramButton, std::function([this](const JXButton::Pushed&)
+	{
+		RunProgram();
+	}));
 
 	// menus
 
 	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "StatsDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFileMenu);
+	itsFileMenu->AttachHandlers(this,
+		std::bind(&StatsDirector::UpdateFileMenu, this),
+		std::bind(&StatsDirector::HandleFileMenu, this, std::placeholders::_1));
 
 	itsProgramInput->AppendEditMenu(menuBar);
 	itsArgsInput->ShareEditMenu(itsProgramInput);
@@ -426,12 +452,16 @@ StatsDirector::BuildWindow()
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "StatsDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsPrefsMenu);
+	itsPrefsMenu->AttachHandlers(this,
+		std::bind(&StatsDirector::UpdatePrefsMenu, this),
+		std::bind(&StatsDirector::HandlePrefsMenu, this, std::placeholders::_1));
 
 	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "StatsDirector");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsHelpMenu);
+	itsHelpMenu->AttachHandlers(this,
+		std::bind(&StatsDirector::UpdateHelpMenu, this),
+		std::bind(&StatsDirector::HandleHelpMenu, this, std::placeholders::_1));
 
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
@@ -462,91 +492,6 @@ void
 StatsDirector::UpdateDisplay()
 {
 	itsRunProgramButton->SetActive(!itsProgramInput->GetText()->IsEmpty());
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-StatsDirector::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
-	{
-		HandleResponse();
-	}
-	else if (sender == itsLink && message.Is(JMessageProtocolT::kReceivedDisconnect))
-	{
-		CloseLink(false);
-	}
-	else if (sender == itsProcess && message.Is(JProcess::kFinished))
-	{
-		CloseLink(true);
-		ReadExitStats();
-		FinishProgram();
-	}
-
-	else if (sender == itsChooseProgramButton && message.Is(JXButton::kPushed))
-	{
-		ChooseProgram();
-	}
-	else if (sender == itsRunProgramButton && message.Is(JXButton::kPushed))
-	{
-		RunProgram();
-	}
-
-	else if (sender == itsProgramInput &&
-			 (message.Is(JStyledText::kTextSet) ||
-			  message.Is(JStyledText::kTextChanged)))
-	{
-		UpdateDisplay();
-	}
-
-	else if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFileMenu();
-	}
-	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFileMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsPrefsMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdatePrefsMenu();
-	}
-	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandlePrefsMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateHelpMenu();
-	}
-	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleHelpMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXWindowDirector::Receive(sender, message);
-	}
 }
 
 /******************************************************************************
@@ -996,7 +941,7 @@ StatsDirector::HandlePrefsMenu
 {
 	if (index == kPrefsCmd)
 	{
-		(GetPrefsManager())->EditPrefs();
+		GetPrefsManager()->EditPrefs();
 	}
 	else if (index == kEditToolBarCmd)
 	{
@@ -1009,7 +954,7 @@ StatsDirector::HandlePrefsMenu
 
 	else if (index == kSaveWindSizeCmd)
 	{
-		(GetPrefsManager())->SaveWindowSize(kStatsDirectorWindSizeID, GetWindow());
+		GetPrefsManager()->SaveWindowSize(kStatsDirectorWindSizeID, GetWindow());
 	}
 }
 
@@ -1041,24 +986,24 @@ StatsDirector::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 	{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 	}
 	else if (index == kOverviewCmd)
 	{
-		(JXGetHelpManager())->ShowSection("OverviewHelp");
+		JXGetHelpManager()->ShowSection("OverviewHelp");
 	}
 	else if (index == kThisWindowCmd)
 	{
-		(JXGetHelpManager())->ShowSection("MainHelp");
+		JXGetHelpManager()->ShowSection("MainHelp");
 	}
 
 	else if (index == kChangesCmd)
 	{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 	}
 	else if (index == kCreditsCmd)
 	{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 	}
 }
 

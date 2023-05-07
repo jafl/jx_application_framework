@@ -263,12 +263,40 @@ MainDialog::BuildWindow
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 
-	ListenTo(itsCreateButton);
-	ListenTo(itsQuitButton);
-	ListenTo(itsHelpButton);
-	ListenTo(itsChooseProjDirButton);
-	ListenTo(itsChooseTmplDirButton);
-	ListenTo(itsTmplDirHistory);
+	ListenTo(itsCreateButton, std::function([this](const JXButton::Pushed&)
+	{
+		if (WriteTemplate())
+		{
+			JPrefObject::WritePrefs();
+			JXGetApplication()->Quit();
+		}
+	}));
+
+	ListenTo(itsQuitButton, std::function([](const JXButton::Pushed&)
+	{
+		JXGetApplication()->Quit();
+	}));
+
+	ListenTo(itsHelpButton, std::function([](const JXButton::Pushed&)
+	{
+		JXGetHelpManager()->ShowSection("MainHelp");
+	}));
+
+	ListenTo(itsChooseProjDirButton, std::function([this](const JXButton::Pushed&)
+	{
+		itsProjectDir->ChoosePath();
+	}));
+
+	ListenTo(itsChooseTmplDirButton, std::function([this](const JXButton::Pushed&)
+	{
+		itsTemplateDir->ChoosePath();
+	}));
+
+	ListenTo(itsTmplDirHistory, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsTemplateDir->GetText()->SetText(
+			itsTmplDirHistory->JXTextMenu::GetItemText(msg.GetIndex()));
+	}));
 
 	itsDevURL->GetText()->SetText(kDefaultURLText);
 	itsNeedsMDICB->SetState(true);
@@ -297,59 +325,6 @@ MainDialog::BuildWindow
 		itsProjectDir->GetText()->SetText(JString(argv[1], JString::kNoCopy));
 		itsProgramName->GetText()->SetText(JString(argv[2], JString::kNoCopy));
 		itsBinaryName->GetText()->SetText(JString(argv[2], JString::kNoCopy));
-	}
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-MainDialog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsCreateButton && message.Is(JXButton::kPushed))
-	{
-		if (WriteTemplate())
-		{
-			JPrefObject::WritePrefs();
-			JXGetApplication()->Quit();
-		}
-	}
-	else if (sender == itsQuitButton && message.Is(JXButton::kPushed))
-	{
-		JXGetApplication()->Quit();
-	}
-	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
-	{
-		JXGetHelpManager()->ShowSection("MainHelp");
-	}
-
-	else if (sender == itsChooseProjDirButton && message.Is(JXButton::kPushed))
-	{
-		itsProjectDir->ChoosePath(JString::empty);
-	}
-	else if (sender == itsChooseTmplDirButton && message.Is(JXButton::kPushed))
-	{
-		itsTemplateDir->ChoosePath(JString::empty);
-	}
-
-	else if (sender == itsTmplDirHistory && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsTemplateDir->GetText()->SetText(
-			itsTmplDirHistory->JXTextMenu::GetItemText(selection->GetIndex()));
-	}
-
-	else
-	{
-		JXWindowDirector::Receive(sender, message);
 	}
 }
 

@@ -25,10 +25,6 @@ public:
 
 	~RecordDirector() override;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	RecordTable*	itsRecordTable;

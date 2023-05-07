@@ -25,10 +25,6 @@ public:
 
 	bool	ShowAtStartup() const;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JPtrArray<JString>*	itsTipList;

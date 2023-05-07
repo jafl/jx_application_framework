@@ -199,7 +199,9 @@ RecordDirector::BuildWindow
 	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "RecordDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFileMenu);
+	itsFileMenu->AttachHandlers(this,
+		std::bind(&RecordDirector::UpdateFileMenu, this),
+		std::bind(&RecordDirector::HandleFileMenu, this, std::placeholders::_1));
 
 	(itsRecordTable->GetEditMenuHandler())->AppendEditMenu(menuBar);
 
@@ -212,12 +214,16 @@ RecordDirector::BuildWindow
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "RecordDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsPrefsMenu);
+	itsPrefsMenu->AttachHandlers(this,
+		std::bind(&RecordDirector::UpdatePrefsMenu, this),
+		std::bind(&RecordDirector::HandlePrefsMenu, this, std::placeholders::_1));
 
 	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "RecordDirector");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsHelpMenu);
+	itsHelpMenu->AttachHandlers(this,
+		std::bind(&RecordDirector::UpdateHelpMenu, this),
+		std::bind(&RecordDirector::HandleHelpMenu, this, std::placeholders::_1));
 
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
@@ -235,60 +241,6 @@ RecordDirector::BuildWindow
 	}
 
 	(GetDisplay()->GetWDManager())->DirectorCreated(this);
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-RecordDirector::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFileMenu();
-	}
-	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFileMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsPrefsMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdatePrefsMenu();
-	}
-	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandlePrefsMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateHelpMenu();
-	}
-	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleHelpMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXWindowDirector::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

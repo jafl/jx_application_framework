@@ -36,10 +36,6 @@ public:
 	void	ReadSetup(std::istream& is);
 	void	WriteSetup(std::ostream& os) const;
 
-protected:
-
-	void		Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JTree*					itsTree;		// we don't own this

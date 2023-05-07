@@ -63,7 +63,20 @@ RecordTable::RecordTable
 	SetRowBorderInfo(0, JColorManager::GetBlackColor());
 	SetColBorderInfo(0, JColorManager::GetBlackColor());
 
-	ListenTo(itsRecordList);
+	ListenTo(itsRecordList, std::function([this](const RecordList::PrepareForUpdate&)
+	{
+		StopListening(itsSelectedRecord);
+		if (GetSelectedRecord(&itsSelectedRecord))
+		{
+			ClearWhenGoingAway(itsSelectedRecord, &itsSelectedRecord);
+		}
+	}));
+
+	ListenTo(itsRecordList, std::function([this](const RecordList::ListChanged&)
+	{
+		UpdateTable();
+	}));
+
 	UpdateTable();
 }
 
@@ -75,38 +88,6 @@ RecordTable::RecordTable
 RecordTable::~RecordTable()
 {
 	jdelete itsRecordList;
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-RecordTable::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsRecordList && message.Is(RecordList::kPrepareForUpdate))
-	{
-		StopListening(itsSelectedRecord);
-		if (GetSelectedRecord(&itsSelectedRecord))
-		{
-			ClearWhenGoingAway(itsSelectedRecord, &itsSelectedRecord);
-		}
-	}
-
-	else if (sender == itsRecordList && message.Is(RecordList::kListChanged))
-	{
-		UpdateTable();
-	}
-
-	else
-	{
-		JXEditTable::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

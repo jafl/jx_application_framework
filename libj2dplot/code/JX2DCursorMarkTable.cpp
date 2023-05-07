@@ -124,16 +124,9 @@ JX2DCursorMarkTable::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsPlot && message.Is(J2DPlotWidget::kCursorMarked))
-	{
-		JXWindowDirector* dir = GetWindow()->GetDirector();
-		if (!dir->IsActive())
-		{
-			dir->Activate();
-		}
-		AdjustTable();
-	}
-	else if (sender == itsPlot && message.Is(J2DPlotWidget::kMarkRemoved))
+	if (sender == itsPlot &&
+		(message.Is(J2DPlotWidget::kCursorMarked) ||
+		 message.Is(J2DPlotWidget::kMarkRemoved)))
 	{
 		JXWindowDirector* dir = GetWindow()->GetDirector();
 		if (!dir->IsActive())

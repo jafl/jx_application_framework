@@ -25,10 +25,6 @@ public:
 
 	JX2DPlotWidget*	GetPlotWidget() const;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JXTextMenu*	itsActionsMenu;

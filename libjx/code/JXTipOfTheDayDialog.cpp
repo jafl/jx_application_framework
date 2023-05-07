@@ -167,23 +167,7 @@ JXTipOfTheDayDialog::BuildWindow
 	itsShowAtStartupCB->SetVisible(showStartupCB);
 	itsShowAtStartupCB->SetState(showAtStartup);
 
-	ListenTo(itsNextTipButton);
-	ListenTo(itsCloseButton);
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXTipOfTheDayDialog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsNextTipButton && message.Is(JXButton::kPushed))
+	ListenTo(itsNextTipButton, std::function([this](const JXButton::Pushed&)
 	{
 		itsTipIndex++;
 		if (!itsTipList->IndexValid(itsTipIndex))
@@ -191,17 +175,12 @@ JXTipOfTheDayDialog::Receive
 			itsTipIndex = 1;
 		}
 		DisplayTip();
-	}
+	}));
 
-	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
+	ListenTo(itsCloseButton, std::function([this](const JXButton::Pushed&)
 	{
 		EndDialog(true);
-	}
-
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
-	}
+	}));
 }
 
 /******************************************************************************

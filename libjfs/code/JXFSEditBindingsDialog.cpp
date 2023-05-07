@@ -275,7 +275,10 @@ JXFSEditBindingsDialog::BuildWindow()
 	header->FitToEnclosure(true, false);
 
 	itsTable->SetColTitles(header);
-	ListenTo(itsTable);
+	ListenTo(itsTable, std::function([this](const JXFSBindingTable::DataChanged&)
+	{
+		NeedsSave();
+	}));
 
 	// other information
 
@@ -292,10 +295,28 @@ JXFSEditBindingsDialog::BuildWindow()
 
 	Revert(false);
 
-	ListenTo(itsSaveButton);
-	ListenTo(itsRevertButton);
-	ListenTo(itsCloseButton);
-	ListenTo(itsHelpButton);
+	ListenTo(itsSaveButton, std::function([this](const JXButton::Pushed&)
+	{
+		Save(true);
+	}));
+
+	ListenTo(itsRevertButton, std::function([this](const JXButton::Pushed&)
+	{
+		Revert(true);
+	}));
+
+	ListenTo(itsCloseButton, std::function([this](const JXButton::Pushed&)
+	{
+		if (Deactivate())
+		{
+			Close();
+		}
+	}));
+
+	ListenTo(itsHelpButton, std::function([](const JXButton::Pushed&)
+	{
+		JXGetHelpManager()->ShowSection(JGetString("HelpLink::JXFSEditBindingsDialog").GetBytes());
+	}));
 
 	ListenTo(itsUseDefaultCB);
 	ListenTo(itsDefCmd);
@@ -324,33 +345,8 @@ JXFSEditBindingsDialog::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsSaveButton && message.Is(JXButton::kPushed))
-	{
-		Save(true);
-	}
-	else if (sender == itsRevertButton && message.Is(JXButton::kPushed))
-	{
-		Revert(true);
-	}
-	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
-	{
-		if (Deactivate())
-		{
-			Close();
-		}
-	}
-
-	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
-	{
-		JXGetHelpManager()->ShowSection(JGetString("HelpLink::JXFSEditBindingsDialog").GetBytes());
-	}
-
-	else if (sender == itsTable && message.Is(JXFSBindingTable::kDataChanged))
-	{
-		NeedsSave();
-	}
-	else if (message.Is(JStyledText::kTextChanged) ||
-			 message.Is(JXCheckbox::kPushed))
+	if (message.Is(JStyledText::kTextChanged) ||
+		message.Is(JXCheckbox::kPushed))
 	{
 		NeedsSave();
 	}

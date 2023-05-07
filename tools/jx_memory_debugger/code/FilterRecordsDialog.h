@@ -25,10 +25,6 @@ public:
 
 	void	BuildFilter(JMemoryManager::RecordFilter* filter) const;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 // begin JXLayout

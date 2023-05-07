@@ -95,8 +95,24 @@ AboutDialog::BuildWindow
 	window->SetTitle(JGetString("WindowTitle::AboutDialog"));
 	SetButtons(okButton, nullptr);
 
-	ListenTo(itsHelpButton);
-	ListenTo(itsCreditsButton);
+	ListenTo(itsHelpButton, std::function([this](const JXButton::Pushed&)
+	{
+		if (itsIsUpgradeFlag)
+		{
+			JXGetHelpManager()->ShowChangeLog();
+		}
+		else
+		{
+			JXGetHelpManager()->ShowSection("OverviewHelp");
+		}
+		EndDialog(true);
+	}));
+
+	ListenTo(itsCreditsButton, std::function([this](const JXButton::Pushed&)
+	{
+		JXGetHelpManager()->ShowCredits();
+		EndDialog(true);
+	}));
 
 	imageWidget->SetXPM(md_about_icon);
 
@@ -119,44 +135,5 @@ AboutDialog::BuildWindow
 	if (bdh > aph)
 	{
 		window->AdjustSize(0, bdh - aph);	// safe to calculate once bdh > aph
-	}
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
-	Handle itsHelpButton.
-
- ******************************************************************************/
-
-void
-AboutDialog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsHelpButton && message.Is(JXButton::kPushed))
-	{
-		if (itsIsUpgradeFlag)
-		{
-			(JXGetHelpManager())->ShowChangeLog();
-		}
-		else
-		{
-			(JXGetHelpManager())->ShowSection("OverviewHelp");
-		}
-		EndDialog(true);
-	}
-
-	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
-	{
-		(JXGetHelpManager())->ShowCredits();
-		EndDialog(true);
-	}
-
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
 	}
 }

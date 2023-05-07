@@ -25,10 +25,6 @@ public:
 
 	JUserNotification::CloseAction	GetCloseAction() const;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JUserNotification::CloseAction	itsCloseAction;

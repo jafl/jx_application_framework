@@ -47,35 +47,35 @@ public:
 
 	class MessageReady : public JBroadcaster::Message
 	{
-		public:
+	public:
 
-			MessageReady(const JString& msg)
-				:
-				JBroadcaster::Message(kMessageReady),
-				itsMessage(msg)
-				{ };
+		MessageReady(const JString& msg)
+			:
+			JBroadcaster::Message(kMessageReady),
+			itsMessage(msg)
+		{ };
 
-			// This does not remove the message from the input queue.
+		// This does not remove the message from the input queue.
 
-			const JString&
-			PeekMessage() const
-			{
-				return itsMessage;
-			};
+		const JString&
+		PeekMessage() const
+		{
+			return itsMessage;
+		};
 
-		private:
+	private:
 
-			const JString& itsMessage;
+		const JString& itsMessage;
 	};
 
 	class ReceivedDisconnect : public JBroadcaster::Message
 	{
-		public:
+	public:
 
-			ReceivedDisconnect()
-				:
-				JBroadcaster::Message(kReceivedDisconnect)
-				{ };
+		ReceivedDisconnect()
+			:
+			JBroadcaster::Message(kReceivedDisconnect)
+		{ };
 	};
 };
 
