@@ -107,8 +107,6 @@ protected:
 
 	JCoordinate	GetFTCMinContentSize(const bool horizontal) const override;
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JSize	itsMinLength;

@@ -545,36 +545,6 @@ JXInputField::HandleKeyPress
 }
 
 /******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXInputField::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsContextMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateContextMenu();
-	}
-	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleContextMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXTEBase::Receive(sender, message);
-	}
-}
-
-/******************************************************************************
  CreateContextMenu (private)
 
  ******************************************************************************/
@@ -596,7 +566,9 @@ JXInputField::CreateContextMenu()
 		}
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableAll);
 		itsContextMenu->SetToHiddenPopupMenu();
-		ListenTo(itsContextMenu);
+		itsContextMenu->AttachHandlers(this,
+			&JXInputField::UpdateContextMenu,
+			&JXInputField::HandleContextMenu);
 	}
 }
 

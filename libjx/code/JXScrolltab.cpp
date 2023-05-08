@@ -207,36 +207,10 @@ JXScrolltab::OpenActionMenu
 		itsActionMenu->SetToHiddenPopupMenu();
 		itsActionMenu->SetMenuItems(kActionMenuStr);
 		itsActionMenu->SetUpdateAction(JXMenu::kDisableNone);
-		ListenTo(itsActionMenu);
+		itsActionMenu->AttachHandler(this, &JXScrolltab::HandleActionMenu);
 	}
 
 	itsActionMenu->PopUp(this, pt, buttonStates, modifiers);
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-JXScrolltab::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsActionMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleActionMenu(selection->GetIndex());	// can destroy us
-	}
-
-	else
-	{
-		JXWidget::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

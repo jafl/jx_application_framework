@@ -92,10 +92,7 @@ MenuHelloDir::BuildWindow()
 
 	// The director needs to listen to the menu for messages. The message
 	// we care about is JXMenu::ItemSelected.
-	ListenTo(itsTextMenu, std::function([this](const JXMenu::ItemSelected& msg)
-	{
-		HandleTextMenu(msg.GetIndex());
-	}));
+	itsTextMenu->AttachHandler(this, &MenuHelloDir::HandleTextMenu);
 
 	// Create the object to display the text. This time, we need to keep a
 	// pointer to it so we can change the text later.

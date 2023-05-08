@@ -248,13 +248,15 @@ JX2DPlotPrintEPSDialog::BuildWindow
 	itsUnitMenu->SetMenuItems(kUnitMenuStr);
 	itsUnitMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsUnitMenu->SetToPopupChoice(true, unit);
-	ListenTo(itsUnitMenu);
+	itsUnitMenu->AttachHandlers(this,
+		&JX2DPlotPrintEPSDialog::UpdateUnitMenu,
+		&JX2DPlotPrintEPSDialog::HandleUnitMenu);
 
 	// predefined sizes
 
 	itsPredefSizeMenu->SetMenuItems(kPredefSizeMenuStr);
 	itsPredefSizeMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsPredefSizeMenu);
+	itsPredefSizeMenu->AttachHandler(this, &JX2DPlotPrintEPSDialog::HandlePredefSizeMenu);
 
 	// last, because file chooser may open, and that runs FTC
 
@@ -299,44 +301,6 @@ JX2DPlotPrintEPSDialog::OKToDeactivate()
 	else
 	{
 		return true;
-	}
-}
-
-/*******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JX2DPlotPrintEPSDialog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsUnitMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateUnitMenu();
-	}
-	else if (sender == itsUnitMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleUnitMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsPredefSizeMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandlePredefSizeMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXEPSPrintSetupDialog::Receive(sender,message);
 	}
 }
 

@@ -209,8 +209,8 @@ TestTextEditDocument::BuildWindow
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
-		std::bind(&TestTextEditDocument::UpdateFileMenu, this),
-		std::bind(&TestTextEditDocument::HandleFileMenu, this, std::placeholders::_1));
+		&TestTextEditDocument::UpdateFileMenu,
+		&TestTextEditDocument::HandleFileMenu);
 
 	JXDocumentMenu* fileListMenu =
 		jnew JXDocumentMenu(JGetString("FilesMenuTitle::TestTextEditDocument"), menuBar,
@@ -222,8 +222,8 @@ TestTextEditDocument::BuildWindow
 	itsEmulatorMenu->SetMenuItems(kEmulatorMenuStr);
 	itsEmulatorMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsEmulatorMenu->AttachHandlers(this,
-		std::bind(&TestTextEditDocument::UpdateEmulatorMenu, this),
-		std::bind(&TestTextEditDocument::HandleEmulatorMenu, this, std::placeholders::_1));
+		&TestTextEditDocument::UpdateEmulatorMenu,
+		&TestTextEditDocument::HandleEmulatorMenu);
 }
 
 /******************************************************************************

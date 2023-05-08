@@ -112,9 +112,20 @@ JXFSBindingTable::JXFSBindingTable
 
 	// buttons
 
-	ListenTo(itsAddButton);
-	ListenTo(itsRemoveButton);
-	ListenTo(itsDuplicateButton);
+	ListenTo(itsAddButton, std::function([this](const JXButton::Pushed&)
+	{
+		AddPattern();
+	}));
+
+	ListenTo(itsRemoveButton, std::function([this](const JXButton::Pushed&)
+	{
+		RemovePattern();
+	}));
+
+	ListenTo(itsDuplicateButton, std::function([this](const JXButton::Pushed&)
+	{
+		DuplicatePattern();
+	}));
 
 	// type menu
 
@@ -124,7 +135,9 @@ JXFSBindingTable::JXFSBindingTable
 	itsTypeMenu->SetToHiddenPopupMenu(true);
 	itsTypeMenu->SetMenuItems(kTypeMenuStr);
 	itsTypeMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsTypeMenu);
+	itsTypeMenu->AttachHandlers(this,
+		&JXFSBindingTable::UpdateTypeMenu,
+		&JXFSBindingTable::HandleTypeMenu);
 
 	// regex for testing
 
@@ -452,43 +465,16 @@ JXFSBindingTable::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsAddButton && message.Is(JXButton::kPushed))
+	if (sender == &(GetTableSelection()))
 	{
-		AddPattern();
+		UpdateButtons();
 	}
-	else if (sender == itsRemoveButton && message.Is(JXButton::kPushed))
+	else if (message.Is(JStyledText::kTextChanged))
 	{
-		RemovePattern();
-	}
-	else if (sender == itsDuplicateButton && message.Is(JXButton::kPushed))
-	{
-		DuplicatePattern();
+		Broadcast(DataChanged());
 	}
 
-	else if (sender == itsTypeMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateTypeMenu();
-	}
-	else if (sender == itsTypeMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleTypeMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		if (sender == &(GetTableSelection()))
-		{
-			UpdateButtons();
-		}
-		else if (message.Is(JStyledText::kTextChanged))
-		{
-			Broadcast(DataChanged());
-		}
-
-		JXEditTable::Receive(sender, message);
-	}
+	JXEditTable::Receive(sender, message);
 }
 
 /******************************************************************************

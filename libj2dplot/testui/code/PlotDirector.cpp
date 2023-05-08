@@ -103,8 +103,8 @@ PlotDirector::BuildWindow()
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsActionsMenu->AttachHandlers(this,
-		std::bind(&PlotDirector::UpdateActionsMenu, this),
-		std::bind(&PlotDirector::HandleActionsMenu, this, std::placeholders::_1));
+		&PlotDirector::UpdateActionsMenu,
+		&PlotDirector::HandleActionsMenu);
 
 	// do this after everything is constructed so Receive() doesn't crash
 

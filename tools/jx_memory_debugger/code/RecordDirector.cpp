@@ -200,8 +200,8 @@ RecordDirector::BuildWindow
 	itsFileMenu->SetMenuItems(kFileMenuStr, "RecordDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
-		std::bind(&RecordDirector::UpdateFileMenu, this),
-		std::bind(&RecordDirector::HandleFileMenu, this, std::placeholders::_1));
+		&RecordDirector::UpdateFileMenu,
+		&RecordDirector::HandleFileMenu);
 
 	(itsRecordTable->GetEditMenuHandler())->AppendEditMenu(menuBar);
 
@@ -214,16 +214,12 @@ RecordDirector::BuildWindow
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "RecordDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsPrefsMenu->AttachHandlers(this,
-		std::bind(&RecordDirector::UpdatePrefsMenu, this),
-		std::bind(&RecordDirector::HandlePrefsMenu, this, std::placeholders::_1));
+	itsPrefsMenu->AttachHandler(this, &RecordDirector::HandlePrefsMenu);
 
 	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "RecordDirector");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsHelpMenu->AttachHandlers(this,
-		std::bind(&RecordDirector::UpdateHelpMenu, this),
-		std::bind(&RecordDirector::HandleHelpMenu, this, std::placeholders::_1));
+	itsHelpMenu->AttachHandler(this, &RecordDirector::HandleHelpMenu);
 
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
@@ -299,16 +295,6 @@ RecordDirector::HandleFileMenu
 }
 
 /******************************************************************************
- UpdatePrefsMenu (private)
-
- ******************************************************************************/
-
-void
-RecordDirector::UpdatePrefsMenu()
-{
-}
-
-/******************************************************************************
  HandlePrefsMenu (private)
 
  ******************************************************************************/
@@ -336,16 +322,6 @@ RecordDirector::HandlePrefsMenu
 	{
 		(GetPrefsManager())->SaveWindowSize(kRecordDirectorWindSizeID, GetWindow());
 	}
-}
-
-/******************************************************************************
- UpdateHelpMenu (private)
-
- ******************************************************************************/
-
-void
-RecordDirector::UpdateHelpMenu()
-{
 }
 
 /******************************************************************************

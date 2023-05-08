@@ -434,8 +434,8 @@ StatsDirector::BuildWindow()
 	itsFileMenu->SetMenuItems(kFileMenuStr, "StatsDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
-		std::bind(&StatsDirector::UpdateFileMenu, this),
-		std::bind(&StatsDirector::HandleFileMenu, this, std::placeholders::_1));
+		&StatsDirector::UpdateFileMenu,
+		&StatsDirector::HandleFileMenu);
 
 	itsProgramInput->AppendEditMenu(menuBar);
 	itsArgsInput->ShareEditMenu(itsProgramInput);
@@ -452,16 +452,12 @@ StatsDirector::BuildWindow()
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "StatsDirector");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsPrefsMenu->AttachHandlers(this,
-		std::bind(&StatsDirector::UpdatePrefsMenu, this),
-		std::bind(&StatsDirector::HandlePrefsMenu, this, std::placeholders::_1));
+	itsPrefsMenu->AttachHandler(this, &StatsDirector::HandlePrefsMenu);
 
 	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr, "StatsDirector");
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsHelpMenu->AttachHandlers(this,
-		std::bind(&StatsDirector::UpdateHelpMenu, this),
-		std::bind(&StatsDirector::HandleHelpMenu, this, std::placeholders::_1));
+	itsHelpMenu->AttachHandler(this, &StatsDirector::HandleHelpMenu);
 
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
@@ -919,16 +915,6 @@ StatsDirector::HandleFileMenu
 }
 
 /******************************************************************************
- UpdatePrefsMenu (private)
-
- ******************************************************************************/
-
-void
-StatsDirector::UpdatePrefsMenu()
-{
-}
-
-/******************************************************************************
  HandlePrefsMenu (private)
 
  ******************************************************************************/
@@ -956,16 +942,6 @@ StatsDirector::HandlePrefsMenu
 	{
 		GetPrefsManager()->SaveWindowSize(kStatsDirectorWindSizeID, GetWindow());
 	}
-}
-
-/******************************************************************************
- UpdateHelpMenu (private)
-
- ******************************************************************************/
-
-void
-StatsDirector::UpdateHelpMenu()
-{
 }
 
 /******************************************************************************

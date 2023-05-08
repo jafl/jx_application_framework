@@ -201,7 +201,16 @@ JIndex i;
 
 	itsPaperTypeMenu->SetMenuItems(kPaperMenuStr);
 	itsPaperTypeMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsPaperTypeMenu);
+
+	ListenTo(itsPaperTypeMenu, std::function([this](const JXMenu::NeedsUpdate&)
+	{
+		itsPaperTypeMenu->CheckItem(itsPaperType);
+	}));
+
+	ListenTo(itsPaperTypeMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsPaperType = msg.GetIndex();
+	}));
 
 	bool foundType = false;
 	for (i=1; i<=kPaperTypeCount; i++)
@@ -262,34 +271,4 @@ JXPSPageSetupDialog::SetParameters
 	p->SetPaperType(newPaperType);
 	p->SetOrientation(newOrientation);
 	return changed;
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-JXPSPageSetupDialog::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsPaperTypeMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		itsPaperTypeMenu->CheckItem(itsPaperType);
-	}
-	else if (sender == itsPaperTypeMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsPaperType = selection->GetIndex();
-	}
-
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
-	}
 }

@@ -356,8 +356,8 @@ TestDirector::BuildWindow
 	itsAboutMenu->SetMenuItems(kAboutMenuStr, "TestDirector");
 	itsAboutMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsAboutMenu->AttachHandlers(this,
-		std::bind(&TestDirector::UpdateAboutMenu, this),
-		std::bind(&TestDirector::HandleAboutMenu, this, std::placeholders::_1));
+		&TestDirector::UpdateAboutMenu,
+		&TestDirector::HandleAboutMenu);
 
 	itsAnimHelpTask = jnew AnimateHelpMenuTask(itsAboutMenu, kHelpCmd);
 	assert( itsAnimHelpTask != nullptr );
@@ -367,39 +367,39 @@ TestDirector::BuildWindow
 	itsPrintPSMenu->SetMenuItems(kPrintPSMenuStr);
 	itsPrintPSMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrintPSMenu->AttachHandlers(this,
-		std::bind(&TestDirector::UpdatePrintPSMenu, this),
-		std::bind(&TestDirector::HandlePrintPSMenu, this, std::placeholders::_1));
+		&TestDirector::UpdatePrintPSMenu,
+		&TestDirector::HandlePrintPSMenu);
 
 	itsTestMenu = menuBar->AppendTextMenu(JGetString("TestMenuTitle::TestDirector"));
 	itsTestMenu->SetMenuItems(kTestMenuStr);
 	itsTestMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsTestMenu->AttachHandlers(this,
-		std::bind(&TestDirector::UpdateTestMenu, this),
-		std::bind(&TestDirector::HandleTestMenu, this, std::placeholders::_1));
+		&TestDirector::UpdateTestMenu,
+		&TestDirector::HandleTestMenu);
 
 	itsUNMenu = jnew JXTextMenu(itsTestMenu, kTestUserNotifyMenuCmd, menuBar);
 	assert( itsUNMenu != nullptr );
 	itsUNMenu->SetMenuItems(kUserNotificationMenuStr);
 	itsUNMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsUNMenu->AttachHandlers(this,
-		std::bind(&TestDirector::UpdateUNMenu, this),
-		std::bind(&TestDirector::HandleUNMenu, this, std::placeholders::_1));
+		&TestDirector::UpdateUNMenu,
+		&TestDirector::HandleUNMenu);
 
 	itsCSFMenu = jnew JXTextMenu(itsTestMenu, kTestChooseSaveFileMenuCmd, menuBar);
 	assert( itsCSFMenu != nullptr );
 	itsCSFMenu->SetMenuItems(kChooseSaveFileMenuStr);
 	itsCSFMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsCSFMenu->AttachHandlers(this,
-		std::bind(&TestDirector::UpdateCSFMenu, this),
-		std::bind(&TestDirector::HandleCSFMenu, this, std::placeholders::_1));
+		&TestDirector::UpdateCSFMenu,
+		&TestDirector::HandleCSFMenu);
 
 	itsPGMenu = jnew JXTextMenu(itsTestMenu, kTestPGMenuCmd, menuBar);
 	assert( itsPGMenu != nullptr );
 	itsPGMenu->SetMenuItems(kProgressDisplayMenuStr);
 	itsPGMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPGMenu->AttachHandlers(this,
-		std::bind(&TestDirector::UpdatePGMenu, this),
-		std::bind(&TestDirector::HandlePGMenu, this, std::placeholders::_1));
+		&TestDirector::UpdatePGMenu,
+		&TestDirector::HandlePGMenu);
 
 	if (isMaster)
 	{
@@ -496,8 +496,8 @@ TestDirector::BuildIconMenus
 	itsIconMenuItem = 1;
 
 	itsIconMenu->AttachHandlers(this,
-		std::bind(&TestDirector::UpdateIconMenu, this),
-		std::bind(&TestDirector::HandleIconMenu, this, std::placeholders::_1));
+		&TestDirector::UpdateIconMenu,
+		&TestDirector::HandleIconMenu);
 
 	// create 3x5 submenu that has a few unused cells
 

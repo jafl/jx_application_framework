@@ -72,8 +72,8 @@ JIndex i,j;
 	itsTableMenu->SetMenuItems(kTableMenuStr);
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsTableMenu->AttachHandlers(this,
-		std::bind(&TestFloatTable::UpdateTableMenu, this),
-		std::bind(&TestFloatTable::HandleTableMenu, this, std::placeholders::_1));
+		&TestFloatTable::UpdateTableMenu,
+		&TestFloatTable::HandleTableMenu);
 
 	itsSizeMenu = jnew JXFontSizeMenu(JFontManager::GetDefaultFontName(), JGetString("SizeMenuTitle::TestFloatTable"),
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);

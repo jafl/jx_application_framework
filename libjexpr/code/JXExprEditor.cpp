@@ -192,10 +192,12 @@ JXExprEditor::JXExprEditor
 	)
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
-	JExprEditor(varList, JXScrollableWidget::GetFontManager())
+	JExprEditor(varList, JXScrollableWidget::GetFontManager()),
+	itsIsSharingEditMenuFlag(false),
+	itsIsSharingOtherMenusFlag(false)
 {
-	JXExprEditorX();
 	CreateMenus(menuBar, nullptr);
+	JXExprEditorX();
 }
 
 JXExprEditor::JXExprEditor
@@ -214,10 +216,12 @@ JXExprEditor::JXExprEditor
 	)
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
-	JExprEditor(varList, JXScrollableWidget::GetFontManager())
+	JExprEditor(varList, JXScrollableWidget::GetFontManager()),
+	itsIsSharingEditMenuFlag(true),
+	itsIsSharingOtherMenusFlag(false)
 {
-	JXExprEditorX();
 	CreateMenus(menuBar, editMenu);
+	JXExprEditorX();
 }
 
 JXExprEditor::JXExprEditor
@@ -235,24 +239,17 @@ JXExprEditor::JXExprEditor
 	)
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
-	JExprEditor(varList, JXScrollableWidget::GetFontManager())
+	JExprEditor(varList, JXScrollableWidget::GetFontManager()),
+	itsIsSharingEditMenuFlag(true),
+	itsIsSharingOtherMenusFlag(true),
+	itsEditMenu(menuProvider->itsEditMenu),
+	itsMathMenu(menuProvider->itsMathMenu),
+	itsFunctionMenu(menuProvider->itsFunctionMenu),
+	itsFontMenu(menuProvider->itsFontMenu)
 {
 	JXExprEditorX();
-
-	// Listen to the specified menus.  This is safe because
-	// we know that they were created by another ExprWidget.
-
-	itsEditMenu = menuProvider->itsEditMenu;
-	ListenTo(itsEditMenu);
-
-	itsMathMenu = menuProvider->itsMathMenu;
-	ListenTo(itsMathMenu);
-
-	itsFunctionMenu = menuProvider->itsFunctionMenu;
-	ListenTo(itsFunctionMenu);
-
-	itsFontMenu = menuProvider->itsFontMenu;
-	ListenTo(itsFontMenu);
+	menuProvider->itsIsSharingEditMenuFlag = true;
+	menuProvider->itsIsSharingOtherMenusFlag = true;
 }
 
 // private
@@ -267,6 +264,20 @@ JXExprEditor::JXExprEditorX()
 	// (also calls EIPBoundsChanged and EIPAdjustNeedTab)
 
 	ClearFunction();
+
+	itsEditMenu->AttachHandlers(this,
+		&JXExprEditor::UpdateEditMenu,
+		&JXExprEditor::HandleEditMenu);
+
+	itsMathMenu->AttachHandlers(this,
+		&JXExprEditor::UpdateMathMenu,
+		&JXExprEditor::HandleMathMenu);
+
+	itsFunctionMenu->AttachHandler(this, &JXExprEditor::HandleFunctionMenu);
+
+	itsFontMenu->AttachHandlers(this,
+		&JXExprEditor::UpdateFontMenu,
+		&JXExprEditor::HandleFontMenu);
 }
 
 /******************************************************************************
@@ -320,7 +331,6 @@ JXExprEditor::CreateMenus
 		itsEditMenu->SetItemImage(kPasteIndex, jx_edit_paste);
 		itsEditMenu->SetItemImage(kClearIndex, jx_edit_clear);
 	}
-	ListenTo(itsEditMenu);
 
 	itsMathMenu = menuBar->AppendTextMenu(JGetString("MathMenuTitle::JXExprEditor"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
@@ -333,13 +343,11 @@ JXExprEditor::CreateMenus
 		itsMathMenu->SetMenuItems(kWinMathMenuStr);
 	}
 	itsMathMenu->SetUpdateAction(JXMenu::kDisableAll);
-	ListenTo(itsMathMenu);
 
 	itsFunctionMenu = jnew JXTextMenu(itsMathMenu, kApplyFnToSelIndex, menuBar);
 	assert( itsFunctionMenu != nullptr );
 	itsFunctionMenu->SetMenuItems(kFunctionMenuStr);
 	itsFunctionMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFunctionMenu);
 
 	itsFontMenu = menuBar->AppendTextMenu(JGetString("FontMenuTitle::JXExprEditor"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
@@ -351,7 +359,6 @@ JXExprEditor::CreateMenus
 		itsFontMenu->SetShortcuts(JGetString("FontMenuShortcut::JXExprEditor"));
 		itsFontMenu->SetMenuItems(kWinFontMenuStr);
 	}
-	ListenTo(itsFontMenu);
 }
 
 /******************************************************************************
@@ -689,6 +696,11 @@ JXExprEditor::AdjustCursor
 void
 JXExprEditor::UpdateEditMenu()
 {
+	if (itsIsSharingEditMenuFlag && !HasFocus())
+	{
+		return;
+	}
+
 	const JArray<bool> enableFlags = GetCmdStatus(nullptr);
 
 	const JSize count = itsEditMenu->GetItemCount();
@@ -713,6 +725,11 @@ JXExprEditor::HandleEditMenu
 	const JIndex item
 	)
 {
+	if (itsIsSharingEditMenuFlag && !HasFocus())
+	{
+		return;
+	}
+
 	CmdIndex cmd;
 	if (!EditMenuIndexToCmd(item, &cmd))
 	{
@@ -772,6 +789,11 @@ JXExprEditor::HandleEditMenu
 void
 JXExprEditor::UpdateMathMenu()
 {
+	if (itsIsSharingOtherMenusFlag && !HasFocus())
+	{
+		return;
+	}
+
 	JString evalStr;
 
 	const JArray<bool> enableFlags = GetCmdStatus(&evalStr);
@@ -797,7 +819,8 @@ JXExprEditor::HandleMathMenu
 	const JIndex item
 	)
 {
-	if (item > kMathMenuItemCount)
+	if ((itsIsSharingOtherMenusFlag && !HasFocus()) ||
+		item > kMathMenuItemCount)
 	{
 		return;
 	}
@@ -848,16 +871,6 @@ JXExprEditor::HandleMathMenu
 }
 
 /******************************************************************************
- UpdateFunctionMenu (private)
-
- ******************************************************************************/
-
-void
-JXExprEditor::UpdateFunctionMenu()
-{
-}
-
-/******************************************************************************
  HandleFunctionMenu (private)
 
  ******************************************************************************/
@@ -868,6 +881,11 @@ JXExprEditor::HandleFunctionMenu
 	const JIndex item
 	)
 {
+	if (itsIsSharingOtherMenusFlag && !HasFocus())
+	{
+		return;
+	}
+
 	JString fnName;
 	if (itsFunctionMenu->GetItemNMShortcut(item, &fnName))
 	{
@@ -889,6 +907,11 @@ JXExprEditor::HandleFunctionMenu
 void
 JXExprEditor::UpdateFontMenu()
 {
+	if (itsIsSharingOtherMenusFlag && !HasFocus())
+	{
+		return;
+	}
+
 	const JArray<bool> enableFlags = GetCmdStatus(nullptr);
 	JIndex activeIndex = 0;
 	for (JIndex i=1; i<=kFontMenuItemCount; i++)
@@ -919,7 +942,8 @@ JXExprEditor::HandleFontMenu
 	const JIndex item
 	)
 {
-	if (item > kFontMenuItemCount)
+	if ((itsIsSharingOtherMenusFlag && !HasFocus()) ||
+		item > kFontMenuItemCount)
 	{
 		return;
 	}
@@ -949,67 +973,8 @@ JXExprEditor::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsEditMenu && HasFocus() &&
-		message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateEditMenu();
-	}
-	else if (sender == itsEditMenu && HasFocus() &&
-			 message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleEditMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsMathMenu && HasFocus() &&
-			 message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateMathMenu();
-	}
-	else if (sender == itsMathMenu && HasFocus() &&
-			 message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleMathMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsFunctionMenu && HasFocus() &&
-			 message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFunctionMenu();
-	}
-	else if (sender == itsFunctionMenu && HasFocus() &&
-			 message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFunctionMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsFontMenu && HasFocus() &&
-		message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFontMenu();
-	}
-	else if (sender == itsFontMenu && HasFocus() &&
-			 message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFontMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXScrollableWidget::Receive(sender, message);
-		JExprEditor::Receive(sender, message);
-	}
+	JXScrollableWidget::Receive(sender, message);
+	JExprEditor::Receive(sender, message);
 }
 
 /******************************************************************************

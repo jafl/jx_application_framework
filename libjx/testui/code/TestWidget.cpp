@@ -195,16 +195,16 @@ TestWidget::TestWidget
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsActionsMenu->AttachHandlers(this,
-		std::bind(&TestWidget::UpdateActionsMenu, this),
-		std::bind(&TestWidget::HandleActionsMenu, this, std::placeholders::_1));
+		&TestWidget::UpdateActionsMenu,
+		&TestWidget::HandleActionsMenu);
 
 	itsPointMenu = jnew JXTextMenu(itsActionsMenu, kPointMenuCmd, menuBar);
 	assert( itsPointMenu != nullptr );
 	itsPointMenu->SetMenuItems(kPointMenuStr);
 	itsPointMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPointMenu->AttachHandlers(this,
-		std::bind(&TestWidget::UpdatePointMenu, this),
-		std::bind(&TestWidget::HandlePointMenu, this, std::placeholders::_1));
+		&TestWidget::UpdatePointMenu,
+		&TestWidget::HandlePointMenu);
 
 	// This tests the JX response to an empty menu.
 	JXTextMenu* emptyMenu = jnew JXTextMenu(itsActionsMenu, kEmptyMenuCmd, menuBar);

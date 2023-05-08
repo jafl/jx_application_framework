@@ -113,6 +113,8 @@ protected:
 private:
 
 	JXEPSPrinter*	itsEPSPrinter;
+	bool			itsIsSharingEditMenuFlag;
+	bool			itsIsSharingOtherMenusFlag;
 
 	// owned by the menu bar
 
@@ -132,7 +134,6 @@ private:
 	void	UpdateMathMenu();
 	void	HandleMathMenu(const JIndex item);
 
-	void	UpdateFunctionMenu();
 	void	HandleFunctionMenu(const JIndex item);
 
 	void	UpdateFontMenu();

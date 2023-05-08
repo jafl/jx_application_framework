@@ -127,8 +127,6 @@ protected:
 
 	bool	NeedsInternalFTC() const override;
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	struct TabInfo
@@ -195,7 +193,6 @@ private:
 	void	ScrollWait(const JFloat delta) const;
 
 	void	CreateContextMenu();
-	void	UpdateContextMenu();
 	void	HandleContextMenu(const JIndex index);
 
 	void	ScrollUpToTab(const JIndex index);

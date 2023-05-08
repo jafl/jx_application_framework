@@ -123,8 +123,8 @@ TestImageDirector::BuildWindow()
 	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestImageDirector"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->AttachHandlers(this,
-		std::bind(&TestImageDirector::UpdateFileMenu, this),
-		std::bind(&TestImageDirector::HandleFileMenu, this, std::placeholders::_1));
+		&TestImageDirector::UpdateFileMenu,
+		&TestImageDirector::HandleFileMenu);
 
 	itsImageWidget =
 		jnew TestImageWidget(this, scrollbarSet, scrollbarSet->GetScrollEnclosure(),

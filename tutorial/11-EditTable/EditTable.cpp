@@ -125,8 +125,8 @@ EditTable::EditTable
 
 	// The table needs to listen to the menu for messages.
 	itsTableMenu->AttachHandlers(this,
-		std::bind(&EditTable::UpdateTableMenu, this),
-		std::bind(&EditTable::HandleTableMenu, this, std::placeholders::_1));
+		&EditTable::UpdateTableMenu,
+		&EditTable::HandleTableMenu);
 
 	// This is nullptr, because we want to make sure we only create one at
 	// a time.

@@ -138,39 +138,33 @@ JX2DPlotWidget::JX2DPlotWidget
 	J2DPlotWidget(JColorManager::GetBlackColor(),
 				  JColorManager::GetWhiteColor(),
 				  JColorManager::GetGrayColor(70),
-				  JColorManager::GetRedColor())
+				  JColorManager::GetRedColor()),
+	itsIsSharingMenusFlag(false)
 {
-	JX2DPlotWidgetX();
-
 	itsOptionsMenu = menuBar->AppendTextMenu(JGetString("OptionsMenuTitle::JX2DPlotWidget"));
 	assert( itsOptionsMenu != nullptr );
 	itsOptionsMenu->SetMenuItems(kOptionsMenuStr);
 	itsOptionsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsOptionsMenu);
 
 	itsRemoveCurveMenu = jnew JXTextMenu(itsOptionsMenu, kRemoveCurveCmd, menuBar);
 	assert( itsRemoveCurveMenu != nullptr );
 	itsRemoveCurveMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsRemoveCurveMenu);
 
 	itsCursorMenu = menuBar->AppendTextMenu(JGetString("CursorMenuTitle::JX2DPlotWidget"));
 	itsCursorMenu->SetMenuItems(kCursorMenuStr);
 	itsCursorMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsCursorMenu);
 
 	itsMarkMenu = jnew JXTextMenu(itsCursorMenu, kRemoveMarkIndex, menuBar);
 	assert( itsMarkMenu != nullptr );
 	itsMarkMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsMarkMenu);
 
 	itsCurveOptionsMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsCurveOptionsMenu != nullptr );
 	itsCurveOptionsMenu->SetToHiddenPopupMenu();
 	itsCurveOptionsMenu->SetMenuItems(kCurveOptionsMenuStr);
 	itsCurveOptionsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsCurveOptionsMenu);
 
-	itsIsSharingMenusFlag = false;
+	JX2DPlotWidgetX();
 }
 
 JX2DPlotWidget::JX2DPlotWidget
@@ -189,26 +183,15 @@ JX2DPlotWidget::JX2DPlotWidget
 	J2DPlotWidget(JColorManager::GetBlackColor(),
 				  JColorManager::GetWhiteColor(),
 				  JColorManager::GetGrayColor(50),
-				  JColorManager::GetRedColor())
+				  JColorManager::GetRedColor()),
+	itsOptionsMenu(plot->itsOptionsMenu),
+	itsRemoveCurveMenu(plot->itsRemoveCurveMenu),
+	itsCursorMenu(plot->itsCursorMenu),
+	itsMarkMenu(plot->itsMarkMenu),
+	itsIsSharingMenusFlag(true),
+	itsCurveOptionsMenu(plot->itsCurveOptionsMenu)
 {
 	JX2DPlotWidgetX();
-
-	itsOptionsMenu	= plot->itsOptionsMenu;
-	ListenTo(itsOptionsMenu);
-
-	itsRemoveCurveMenu	= plot->itsRemoveCurveMenu;
-	ListenTo(itsRemoveCurveMenu);
-
-	itsCursorMenu	= plot->itsCursorMenu;
-	ListenTo(itsCursorMenu);
-
-	itsMarkMenu	= plot->itsMarkMenu;
-	ListenTo(itsMarkMenu);
-
-	itsCurveOptionsMenu	= plot->itsCurveOptionsMenu;
-	ListenTo(itsCurveOptionsMenu);
-
-	itsIsSharingMenusFlag       = true;
 	plot->itsIsSharingMenusFlag = true;
 }
 
@@ -237,6 +220,26 @@ JX2DPlotWidget::JX2DPlotWidgetX()
 
 	WantInput(true, true);
 	ListenTo(this);		// update "Remove mark" menu
+
+	itsOptionsMenu->AttachHandlers(this,
+		&JX2DPlotWidget::UpdateOptionsMenu,
+		&JX2DPlotWidget::HandleOptionsMenu);
+
+	itsRemoveCurveMenu->AttachHandlers(this,
+		&JX2DPlotWidget::UpdateRemoveCurveMenu,
+		&JX2DPlotWidget::HandleRemoveCurveMenu);
+
+	itsCursorMenu->AttachHandlers(this,
+		&JX2DPlotWidget::UpdateCursorMenu,
+		&JX2DPlotWidget::HandleCursorMenu);
+
+	itsMarkMenu->AttachHandlers(this,
+		&JX2DPlotWidget::UpdateMarkMenu,
+		&JX2DPlotWidget::HandleMarkMenu);
+
+	itsCurveOptionsMenu->AttachHandlers(this,
+		&JX2DPlotWidget::UpdateCurveOptionsMenu,
+		&JX2DPlotWidget::HandleCurveOptionsMenu);
 }
 
 /*******************************************************************************
@@ -410,80 +413,17 @@ JX2DPlotWidget::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsOptionsMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateOptionsMenu();
-	}
-	else if (sender == itsOptionsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleOptionsMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsRemoveCurveMenu && message.Is(JXMenu::kNeedsUpdate))
+	if (sender == this && message.Is(kCurveAdded))
 	{
 		UpdateRemoveCurveMenu();
 	}
-	else if (sender == itsRemoveCurveMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleRemoveCurveMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsCursorMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateCursorMenu();
-	}
-	else if (sender == itsCursorMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleCursorMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsMarkMenu && message.Is(JXMenu::kNeedsUpdate))
+	else if (sender == this && message.Is(kCursorMarked))
 	{
 		UpdateMarkMenu();
 	}
-	else if (sender == itsMarkMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleMarkMenu(selection->GetIndex());
-	}
 
-	else if (sender == itsCurveOptionsMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateCurveOptionsMenu();
-	}
-	else if (sender == itsCurveOptionsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleCurveOptionsMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		if (sender == this && message.Is(kCurveAdded))
-		{
-			UpdateRemoveCurveMenu();
-		}
-		else if (sender == this && message.Is(kCursorMarked))
-		{
-			UpdateMarkMenu();
-		}
-
-		J2DPlotWidget::Receive(sender,message);
-		JXWidget::Receive(sender, message);
-	}
+	J2DPlotWidget::Receive(sender,message);
+	JXWidget::Receive(sender, message);
 }
 
 /*******************************************************************************

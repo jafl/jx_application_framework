@@ -113,6 +113,15 @@ public:
 
 	void	SetShortcuts(const JString& list);
 
+	template <class T>
+	void	AttachHandler(T* target,
+						  void(T::*handler)(const JIndex i));
+
+	template <class T>
+	void	AttachHandlers(T* target,
+						   void(T::*updater)(),
+						   void(T::*handler)(const JIndex i));
+
 	void	AttachHandlers(JBroadcaster* target,
 						   const std::function<void(void)>& updater,
 						   const std::function<void(const JIndex)>& handler);
@@ -261,6 +270,8 @@ private:
 
 	void	PrivateActivate();
 	void	PrivateDeactivate();
+
+	void	noopUpdater();
 
 	// called by JXMenuBar
 
@@ -561,5 +572,37 @@ JXMenu::SetDisplayStyle
 {
 	theDisplayStyle = style;
 }
+
+/******************************************************************************
+ AttachHandler(s)
+
+ ******************************************************************************/
+
+template <class T>
+inline void
+JXMenu::AttachHandler
+	(
+	T* target,
+	void(T::*handler)(const JIndex i)
+	)
+{
+	AttachHandlers(target,
+		std::bind(&JXMenu::noopUpdater, this),
+		std::bind(handler, target, std::placeholders::_1));
+};
+
+template <class T>
+inline void
+JXMenu::AttachHandlers
+	(
+	T* target,
+	void(T::*updater)(),
+	void(T::*handler)(const JIndex i)
+	)
+{
+	AttachHandlers(target,
+		std::bind(updater, target),
+		std::bind(handler, target, std::placeholders::_1));
+};
 
 #endif

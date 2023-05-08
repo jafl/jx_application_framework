@@ -85,8 +85,8 @@ UndoWidgetDir::BuildWindow()
 	// The director needs to listen to the menu for messages. The message
 	// we care about is JXMenu::kItemSelected.
 	itsActionsMenu->AttachHandlers(this,
-		std::bind(&UndoWidgetDir::UpdateActionsMenu, this),
-		std::bind(&UndoWidgetDir::HandleActionsMenu, this, std::placeholders::_1));
+		&UndoWidgetDir::UpdateActionsMenu,
+		&UndoWidgetDir::HandleActionsMenu);
 
 	// Create the scrollbar set
 	JXScrollbarSet* scrollbarSet =

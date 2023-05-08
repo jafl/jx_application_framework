@@ -75,10 +75,7 @@ ClipboardWidget::ClipboardWidget
 	itsEditMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	// Listen for messages from the menu.
-	ListenTo(itsEditMenu, std::function([this](const JXMenu::ItemSelected& msg)
-	{
-		HandleEditMenu(msg.GetIndex());
-	}));
+	itsEditMenu->AttachHandler(this, &ClipboardWidget::HandleEditMenu);
 
 	// Register the data types that we support.  The atoms that we need
 	// here, namely text atoms, are already defined, so we don't need to

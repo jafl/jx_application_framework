@@ -85,10 +85,7 @@ ClipboardDir::BuildWindow()
 	itsTextMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	// Listen for messages from the menu.
-	ListenTo(itsTextMenu, std::function([this](const JXMenu::ItemSelected& msg)
-	{
-		HandleTextMenu(msg.GetIndex());
-	}));
+	itsTextMenu->AttachHandler(this, &ClipboardDir::HandleTextMenu);
 
 	// Create the object to hold the text.
 	itsText =

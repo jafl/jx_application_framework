@@ -87,24 +87,24 @@ JIndex i,j;
 	itsTableMenu->SetMenuItems(kTableMenuStr);
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsTableMenu->AttachHandlers(this,
-		std::bind(&TestStringTable::UpdateTableMenu, this),
-		std::bind(&TestStringTable::HandleTableMenu, this, std::placeholders::_1));
+		&TestStringTable::UpdateTableMenu,
+		&TestStringTable::HandleTableMenu);
 
 	itsRowBorderMenu = jnew JXTextMenu(itsTableMenu, kChangeRowBorderWidthCmd, menuBar);
 	assert( itsRowBorderMenu != nullptr );
 	itsRowBorderMenu->SetMenuItems(kBorderWidthMenuStr);
 	itsRowBorderMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsRowBorderMenu->AttachHandlers(this,
-		std::bind(&TestStringTable::UpdateRowBorderMenu, this),
-		std::bind(&TestStringTable::HandleRowBorderMenu, this, std::placeholders::_1));
+		&TestStringTable::UpdateRowBorderMenu,
+		&TestStringTable::HandleRowBorderMenu);
 
 	itsColBorderMenu = jnew JXTextMenu(itsTableMenu, kChangeColBorderWidthCmd, menuBar);
 	assert( itsColBorderMenu != nullptr );
 	itsColBorderMenu->SetMenuItems(kBorderWidthMenuStr);
 	itsColBorderMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsColBorderMenu->AttachHandlers(this,
-		std::bind(&TestStringTable::UpdateColBorderMenu, this),
-		std::bind(&TestStringTable::HandleColBorderMenu, this, std::placeholders::_1));
+		&TestStringTable::UpdateColBorderMenu,
+		&TestStringTable::HandleColBorderMenu);
 
 	std::function f = [this]()
 	{

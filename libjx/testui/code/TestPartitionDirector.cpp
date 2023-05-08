@@ -122,16 +122,16 @@ TestPartitionDirector::BuildWindow()
 	itsHorizMenu->SetMenuItems(kHorizMenuStr);
 	itsHorizMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsHorizMenu->AttachHandlers(this,
-		std::bind(&TestPartitionDirector::UpdateHorizMenu, this),
-		std::bind(&TestPartitionDirector::HandleHorizMenu, this, std::placeholders::_1));
+		&TestPartitionDirector::UpdateHorizMenu,
+		&TestPartitionDirector::HandleHorizMenu);
 
 	itsVertMenu = menuBar->AppendTextMenu(JGetString("VertMenuTitle::TestPartitionDirector"));
 	itsVertMenu->SetShortcuts(JGetString("VertMenuShortcut::TestPartitionDirector"));
 	itsVertMenu->SetMenuItems(kVertMenuStr);
 	itsVertMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsVertMenu->AttachHandlers(this,
-		std::bind(&TestPartitionDirector::UpdateVertMenu, this),
-		std::bind(&TestPartitionDirector::HandleVertMenu, this, std::placeholders::_1));
+		&TestPartitionDirector::UpdateVertMenu,
+		&TestPartitionDirector::HandleVertMenu);
 
 	for (JIndex i=1; i<=kInitCompartmentCount; i++)
 	{

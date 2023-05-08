@@ -106,8 +106,8 @@ TestFileListDirector::BuildWindow()
 	itsFileMenu->SetMenuItems(kFileMenuStr, "TestFileListDirector");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
-		std::bind(&TestFileListDirector::UpdateFileMenu, this),
-		std::bind(&TestFileListDirector::HandleFileMenu, this, std::placeholders::_1));
+		&TestFileListDirector::UpdateFileMenu,
+		&TestFileListDirector::HandleFileMenu);
 
 	itsFileMenu->SetItemImage(kUseWildcardCmd, jx_filter_wildcard);
 	itsFileMenu->SetItemImage(kUseRegexCmd,    jx_filter_regex);

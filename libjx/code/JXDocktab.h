@@ -43,8 +43,6 @@ protected:
 						 const JXButtonStates& buttonStates,
 						 const JXKeyModifiers& modifiers) override;
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	class DockFinder : public JXDNDManager::TargetFinder

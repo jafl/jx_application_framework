@@ -327,7 +327,9 @@ JXVertDockPartition::HandleMouseDown
 			itsDockMenu->SetToHiddenPopupMenu();
 			itsDockMenu->SetMenuItems(kDockMenuStr);
 			itsDockMenu->SetUpdateAction(JXMenu::kDisableNone);
-			ListenTo(itsDockMenu);
+			itsDockMenu->AttachHandlers(this,
+				&JXVertDockPartition::UpdateDockMenu,
+				&JXVertDockPartition::HandleDockMenu);
 		}
 
 		itsDockMenu->PopUp(this, pt, buttonStates, modifiers);
@@ -335,36 +337,6 @@ JXVertDockPartition::HandleMouseDown
 	else
 	{
 		JXVertPartition::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
-	}
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXVertDockPartition::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsDockMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateDockMenu();
-	}
-	else if (sender == itsDockMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleDockMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXVertPartition::Receive(sender, message);
 	}
 }
 

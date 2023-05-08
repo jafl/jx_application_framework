@@ -1266,17 +1266,15 @@ JXFileListTable::Receive
 void
 JXFileListTable::UpdateEditMenu()
 {
-bool ok;
-JIndex index;
-
+	JIndex index;
 	if (HasSelection())
 	{
-		ok = itsEditMenuProvider->EditMenuCmdToIndex(JTextEditor::kCopyCmd, &index);
+		const bool ok = itsEditMenuProvider->EditMenuCmdToIndex(JTextEditor::kCopyCmd, &index);
 		assert( ok );
 		itsEditMenu->EnableItem(index);
 	}
 
-	ok = itsEditMenuProvider->EditMenuCmdToIndex(JTextEditor::kSelectAllCmd, &index);
+	const bool ok = itsEditMenuProvider->EditMenuCmdToIndex(JTextEditor::kSelectAllCmd, &index);
 	assert( ok );
 	itsEditMenu->EnableItem(index);
 }

@@ -116,8 +116,8 @@ TestFloatTableDirector::BuildWindow()
 	itsFileMenu->SetShortcuts(JGetString("FileMenuShorcut::TestFloatTableDirector"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->AttachHandlers(this,
-		std::bind(&TestFloatTableDirector::UpdateFileMenu, this),
-		std::bind(&TestFloatTableDirector::HandleFileMenu, this, std::placeholders::_1));
+		&TestFloatTableDirector::UpdateFileMenu,
+		&TestFloatTableDirector::HandleFileMenu);
 
 	// layout table and headers
 

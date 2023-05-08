@@ -1157,36 +1157,10 @@ JXScrollbar::OpenActionMenu
 		itsActionMenu->SetToHiddenPopupMenu(true);
 		itsActionMenu->SetMenuItems(kActionMenuStr);
 		itsActionMenu->SetUpdateAction(JXMenu::kDisableNone);
-		ListenTo(itsActionMenu);
+		itsActionMenu->AttachHandler(this, &JXScrollbar::HandleActionMenu);
 	}
 
 	itsActionMenu->PopUp(this, pt, buttonStates, modifiers);
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-JXScrollbar::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsActionMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleActionMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXWidget::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

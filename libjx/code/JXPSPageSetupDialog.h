@@ -41,8 +41,6 @@ protected:
 					   JXImageRadioButton* landscapeRB,
 					   const JPSPrinter::ImageOrientation orient);
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JIndex	itsPaperType;

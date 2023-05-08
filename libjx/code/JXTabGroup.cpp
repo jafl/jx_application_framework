@@ -1673,36 +1673,6 @@ JXTabGroup::Activate()
 }
 
 /******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXTabGroup::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsContextMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateContextMenu();
-	}
-	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleContextMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXWidget::Receive(sender, message);
-	}
-}
-
-/******************************************************************************
  CreateContextMenu (private)
 
  ******************************************************************************/
@@ -1717,18 +1687,8 @@ JXTabGroup::CreateContextMenu()
 		itsContextMenu->SetMenuItems(kContextMenuStr, "JXTabGroup");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();
-		ListenTo(itsContextMenu);
+		itsContextMenu->AttachHandler(this, &JXTabGroup::HandleContextMenu);
 	}
-}
-
-/******************************************************************************
- UpdateContextMenu (private)
-
- ******************************************************************************/
-
-void
-JXTabGroup::UpdateContextMenu()
-{
 }
 
 /******************************************************************************

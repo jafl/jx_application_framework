@@ -101,8 +101,8 @@ TestStrTableDirector::BuildWindow()
 	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestStrTableDirector"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->AttachHandlers(this,
-		std::bind(&TestStrTableDirector::UpdateFileMenu, this),
-		std::bind(&TestStrTableDirector::HandleFileMenu, this, std::placeholders::_1));
+		&TestStrTableDirector::UpdateFileMenu,
+		&TestStrTableDirector::HandleFileMenu);
 
 	// layout table and headers
 

@@ -27,8 +27,6 @@ protected:
 	void	ReadPrefs(std::istream& input) override;
 	void	WritePrefs(std::ostream& output) const override;
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JXTextMenu*	itsFileMenu;
@@ -48,10 +46,8 @@ private:
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);
 
-	void	UpdatePrefsMenu();
 	void	HandlePrefsMenu(const JIndex index);
 
-	void	UpdateHelpMenu();
 	void	HandleHelpMenu(const JIndex index);
 };
 

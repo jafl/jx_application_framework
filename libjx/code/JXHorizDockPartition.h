@@ -60,8 +60,6 @@ protected:
 									  const JCoordinate size) override;
 	bool			SaveGeometryForLater(const JArray<JCoordinate>& sizes) override;
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JXDockDirector*				itsDirector;

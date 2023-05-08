@@ -160,36 +160,6 @@ JXDockTabGroup::HandleMouseDown
 }
 
 /******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXDockTabGroup::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsDockContextMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateDockContextMenu();
-	}
-	else if (sender == itsDockContextMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleDockContextMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXTabGroup::Receive(sender, message);
-	}
-}
-
-/******************************************************************************
  CreateDockContextMenu (private)
 
  ******************************************************************************/
@@ -204,7 +174,9 @@ JXDockTabGroup::CreateDockContextMenu()
 		itsDockContextMenu->SetMenuItems(kContextMenuStr, "JXDockTabGroup");
 		itsDockContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsDockContextMenu->SetToHiddenPopupMenu();
-		ListenTo(itsDockContextMenu);
+		itsDockContextMenu->AttachHandlers(this,
+			&JXDockTabGroup::UpdateDockContextMenu,
+			&JXDockTabGroup::HandleDockContextMenu);
 	}
 }
 
