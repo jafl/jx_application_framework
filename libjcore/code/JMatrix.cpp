@@ -937,12 +937,12 @@ operator==
 		{
 			if (mx1.GetElement(i,j) != mx2.GetElement(i,j))
 			{
-				return 0;
+				return false;
 			}
 		}
 	}
 
-	return 1;
+	return true;
 }
 
 /******************************************************************************

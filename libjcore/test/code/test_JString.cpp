@@ -956,6 +956,9 @@ JTEST(Compare)
 	JAssertEqual(0, JString::Compare("\x6F\xCC\x88", "\xC3\xB6", JString::kIgnoreCase));
 	JAssertEqual(0, JString::Compare("\x4F\xCC\x88", "\xC3\xB6", JString::kIgnoreCase));
 	JAssertEqual(0, JString::CompareMaxNBytes("\xC3\xB6", "\x6F\xCC\x88", 3, JString::kIgnoreCase));
+
+	JAssertTrue(JString("foo", false) == "foo");
+	JAssertTrue("foo" == JString("foo", false));
 }
 
 JTEST(MemoryStreaming)

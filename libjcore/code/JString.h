@@ -1004,28 +1004,8 @@ operator==
 inline bool
 operator==
 	(
-	const JUtf8Byte*	str,
-	const JString&		s
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str)) == 0);
-}
-
-inline bool
-operator==
-	(
 	const JString&		s,
 	const std::string&	str
-	)
-{
-	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length()) == 0);
-}
-
-inline bool
-operator==
-	(
-	const std::string&	str,
-	const JString&		s
 	)
 {
 	return (JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length()) == 0);
@@ -1063,28 +1043,8 @@ operator<=>
 inline std::weak_ordering
 operator<=>
 	(
-	const JUtf8Byte*	str,
-	const JString&		s
-	)
-{
-	return JIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str, strlen(str), JString::kIgnoreCase));
-}
-
-inline std::weak_ordering
-operator<=>
-	(
 	const JString&		s,
 	const std::string&	str
-	)
-{
-	return JIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase));
-}
-
-inline std::weak_ordering
-operator<=>
-	(
-	const std::string&	str,
-	const JString&		s
 	)
 {
 	return JIntToWeakOrdering(JString::Compare(s.GetRawBytes(), s.GetByteCount(), str.data(), str.length(), JString::kIgnoreCase));

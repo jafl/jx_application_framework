@@ -129,7 +129,7 @@ JXSplashWindow::BuildWindow
 
 	// close after specified time interval
 
-	JXFunctionTask* task = jnew JXFunctionTask(displayInterval * 1000, std::bind(&JXSplashWindow::Close, this), true);
+	auto* task = jnew JXFunctionTask(displayInterval * 1000, std::bind(&JXSplashWindow::Close, this), true);
 	assert( task != nullptr );
 	task->Start();
 
