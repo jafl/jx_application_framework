@@ -10,6 +10,10 @@
 
 #include <jx-af/jx/JXApplication.h>
 
+class JXMenuBar;
+class JXTextMenu;
+class JXToolBar;
+
 class App : public JXApplication
 {
 public:

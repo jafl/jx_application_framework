@@ -79,7 +79,6 @@ F
 "make -k all"
 # search paths
 T "./code" T
-T "<JX_PATH>/include" T
 T "<JX_PATH>/include/jx-af/jcore" T
 T "<JX_PATH>/include/jx-af/jx" T
 F
