@@ -12,7 +12,6 @@
 #include "actionDefs.h"
 #include <jx-af/jx/JXWebBrowser.h>
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
-#include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
@@ -50,26 +49,6 @@ enum
 	kWebBrowserCmd,
 	kEditMacWinPrefsCmd,
 	kSaveWindSizeCmd
-};
-
-// Help menu
-
-static const JUtf8Byte* kHelpMenuStr =
-	"    About"
-	"%l| Table of Contents       %i" kJXHelpTOCAction
-	"  | Overview"
-	"  | This window       %k F1 %i" kJXHelpSpecificAction
-	"%l| Changes"
-	"  | Credits";
-
-enum
-{
-	kAboutCmd = 1,
-	kTOCCmd,
-	kOverviewCmd,
-	kThisWindowCmd,
-	kChangesCmd,
-	kCreditsCmd
 };
 
 // preferences
@@ -118,8 +97,6 @@ MainDirector::~MainDirector()
  ******************************************************************************/
 
 #include "main_window_icon.xpm"
-#include <jx-af/image/jx/jx_help_specific.xpm>
-#include <jx-af/image/jx/jx_help_toc.xpm>
 
 void
 MainDirector::BuildWindow()
@@ -180,13 +157,7 @@ MainDirector::BuildWindow()
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &MainDirector::HandlePrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
-	itsHelpMenu->SetMenuItems(kHelpMenuStr, "MainDirector");
-	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsHelpMenu->AttachHandler(this, &MainDirector::HandleHelpMenu);
-
-	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
-	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
+	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "MainDirector", "MainHelp");
 
 	// must be done after creating widgets
 
@@ -196,9 +167,7 @@ MainDirector::BuildWindow()
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFileMenu, kQuitCmd);
-		itsToolBar->NewGroup();
-		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
-		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
+		GetApplication()->AppendHelpMenuToToolBar(itsToolBar, helpMenu);
 	}
 }
 
@@ -260,45 +229,6 @@ MainDirector::HandlePrefsMenu
 	else if (index == kSaveWindSizeCmd)
 	{
 		GetPrefsManager()->SaveWindowSize(kMainDirectorWindSizeID, GetWindow());
-	}
-}
-
-/******************************************************************************
- HandleHelpMenu (private)
-
- ******************************************************************************/
-
-void
-MainDirector::HandleHelpMenu
-	(
-	const JIndex index
-	)
-{
-	if (index == kAboutCmd)
-	{
-		GetApplication()->DisplayAbout();
-	}
-
-	else if (index == kTOCCmd)
-	{
-		JXGetHelpManager()->ShowTOC();
-	}
-	else if (index == kOverviewCmd)
-	{
-		JXGetHelpManager()->ShowSection("OverviewHelp");
-	}
-	else if (index == kThisWindowCmd)
-	{
-		JXGetHelpManager()->ShowSection("MainHelp");
-	}
-
-	else if (index == kChangesCmd)
-	{
-		JXGetHelpManager()->ShowChangeLog();
-	}
-	else if (index == kCreditsCmd)
-	{
-		JXGetHelpManager()->ShowCredits();
 	}
 }
 

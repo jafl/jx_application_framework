@@ -1266,6 +1266,11 @@ JXFileListTable::Receive
 void
 JXFileListTable::UpdateEditMenu()
 {
+	if (!HasFocus())
+	{
+		return;
+	}
+
 	JIndex index;
 	if (HasSelection())
 	{
@@ -1291,16 +1296,18 @@ JXFileListTable::HandleEditMenu
 	)
 {
 	JTextEditor::CmdIndex cmd;
-	if (itsEditMenuProvider->EditMenuIndexToCmd(index, &cmd))
+	if (!HasFocus() || !itsEditMenuProvider->EditMenuIndexToCmd(index, &cmd))
 	{
-		if (cmd == JTextEditor::kCopyCmd)
-		{
-			CopySelectedFileNames();
-		}
-		else if (cmd == JTextEditor::kSelectAllCmd)
-		{
-			SelectAll();
-		}
+		return;
+	}
+
+	if (cmd == JTextEditor::kCopyCmd)
+	{
+		CopySelectedFileNames();
+	}
+	else if (cmd == JTextEditor::kSelectAllCmd)
+	{
+		SelectAll();
 	}
 }
 

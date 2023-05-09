@@ -44,7 +44,23 @@ JXFLInputBase::JXFLInputBase
 	const JFont& font = JFontManager::GetDefaultMonospaceFont();
 	SetFont(font);
 	itsHistoryMenu->SetDefaultFont(font, true);
-	ListenTo(itsHistoryMenu);
+	ListenTo(itsHistoryMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		const JString origStr = GetText()->GetText();
+		const JString& newStr = itsHistoryMenu->GetItemText(msg);
+		GetText()->SetText(newStr);
+
+		const JError err = Apply();
+		if (err.OK())
+		{
+			itsHistoryMenu->AddString(newStr);
+		}
+		else
+		{
+			GetText()->SetText(origStr);
+			err.ReportIfError();
+		}
+	}));
 }
 
 /******************************************************************************
@@ -115,41 +131,5 @@ JXFLInputBase::OKToUnfocus()
 	{
 		err.ReportIfError();
 		return false;
-	}
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-JXFLInputBase::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsHistoryMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JString origStr = GetText()->GetText();
-		const JString newStr  = itsHistoryMenu->GetItemText(message);
-		GetText()->SetText(newStr);
-
-		const JError err = Apply();
-		if (err.OK())
-		{
-			itsHistoryMenu->AddString(newStr);
-		}
-		else
-		{
-			GetText()->SetText(origStr);
-			err.ReportIfError();
-		}
-	}
-
-	else
-	{
-		JXInputField::Receive(sender, message);
 	}
 }

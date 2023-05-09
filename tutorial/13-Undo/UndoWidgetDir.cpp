@@ -82,8 +82,7 @@ UndoWidgetDir::BuildWindow()
 	// Set the menu to never disable the menu items.
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 
-	// The director needs to listen to the menu for messages. The message
-	// we care about is JXMenu::kItemSelected.
+	// The director needs to listen to the menu for messages.
 	itsActionsMenu->AttachHandlers(this,
 		&UndoWidgetDir::UpdateActionsMenu,
 		&UndoWidgetDir::HandleActionsMenu);

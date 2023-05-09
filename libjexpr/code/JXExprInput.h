@@ -34,10 +34,6 @@ public:
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 						   const JXKeyModifiers& modifiers) override;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JXTextMenu*	itsFontMenu;	// can be nullptr

@@ -4506,7 +4506,7 @@ JXWindow::HandleMapNotify
 	const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
 	if (!b.desktopMapsWindowsFlag && itsFocusWhenShowFlag)
 	{
-		(itsDisplay->GetMenuManager())->CloseCurrentMenus();	// avoid deadlock
+		itsDisplay->GetMenuManager()->CloseCurrentMenus();	// avoid deadlock
 		RequestFocus();
 	}
 

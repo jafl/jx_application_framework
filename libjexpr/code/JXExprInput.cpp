@@ -129,40 +129,12 @@ JXExprInput::SetFontMenu
 	JXTextMenu* menu
 	)
 {
+	assert( itsFontMenu == nullptr );
+
 	itsFontMenu = menu;
-	ListenTo(itsFontMenu);
-}
-
-/******************************************************************************
- Receive (protected)
-
- ******************************************************************************/
-
-void
-JXExprInput::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsFontMenu && HasFocus() &&
-		message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFontMenu();
-	}
-	else if (sender == itsFontMenu && HasFocus() &&
-			 message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFontMenu(selection->GetIndex());
-	}
-
-	else
-	{
-		JXInputField::Receive(sender, message);
-	}
+	itsFontMenu->AttachHandlers(this,
+		&JXExprInput::UpdateFontMenu,
+		&JXExprInput::HandleFontMenu);
 }
 
 /******************************************************************************
@@ -173,7 +145,10 @@ JXExprInput::Receive
 void
 JXExprInput::UpdateFontMenu()
 {
-	itsFontMenu->CheckItem(itsGreekFlag ? kGreekFontCmd : kNormalFontCmd);
+	if (HasFocus())
+	{
+		itsFontMenu->CheckItem(itsGreekFlag ? kGreekFontCmd : kNormalFontCmd);
+	}
 }
 
 /******************************************************************************
@@ -187,6 +162,11 @@ JXExprInput::HandleFontMenu
 	const JIndex item
 	)
 {
+	if (!HasFocus())
+	{
+		return;
+	}
+
 	if (item == kNormalFontCmd)
 	{
 		itsGreekFlag = false;

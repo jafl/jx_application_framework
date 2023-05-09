@@ -285,7 +285,7 @@ JXDisplay::Close()
 	while (!itsWindowList->IsEmpty())
 	{
 		WindowInfo info = itsWindowList->GetLastElement();
-		if (!((info.window)->GetDirector())->Close())
+		if (!info.window->GetDirector()->Close())
 		{
 			return false;
 		}
@@ -406,7 +406,7 @@ JXDisplay::CloseAllOtherWindows
 	{
 		if (info.window != window)
 		{
-			(info.window)->Close();
+			info.window->Close();
 		}
 	}
 }

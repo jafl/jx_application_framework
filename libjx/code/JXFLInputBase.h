@@ -36,7 +36,6 @@ public:
 protected:
 
 	bool	OKToUnfocus() override;
-	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
