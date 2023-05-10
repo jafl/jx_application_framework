@@ -13,6 +13,7 @@
 #include <jx-af/jcore/JBroadcastTester.h>
 #include <algorithm>
 #include <numeric>
+#include <ranges>
 #include <jx-af/jcore/jAssert.h>
 
 int main()
@@ -490,6 +491,8 @@ JTEST(SearchSortedOTIEdgeCases)
 	}
 }
 
+static_assert(std::ranges::input_range<JArray<long>>);
+
 JTEST(RangeBasedForLoop)
 {
 	JArray<long> a;
@@ -507,6 +510,16 @@ JTEST(RangeBasedForLoop)
 	JAssertEqual(3, b[0]);
 	JAssertEqual(2, b[1]);
 	JAssertEqual(5, b[2]);
+
+	j = 0;
+	for (long i : std::views::reverse(a))
+	{
+		b[j++] = i;
+	}
+
+	JAssertEqual(5, b[0]);
+	JAssertEqual(2, b[1]);
+	JAssertEqual(3, b[2]);
 }
 
 JTEST(FunctionalProgramming)

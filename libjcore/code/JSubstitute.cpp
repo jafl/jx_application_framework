@@ -504,7 +504,7 @@ JSubstitute::UndefineVariable
 	for (JIndex i=count; i>=1; i--)
 	{
 		VarInfo info = itsVarList->GetElement(i);
-		if (*(info.name) == name)
+		if (*info.name == name)
 		{
 			jdelete info.name;
 			jdelete info.regex;

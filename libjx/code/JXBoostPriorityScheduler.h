@@ -78,7 +78,7 @@ public:
 		// with that same priority. In other words: search for the first fiber
 		// in the queue with LOWER priority, and insert before that one.
 
-		auto i(std::find_if(itsReadyQ.begin(), itsReadyQ.end(),
+		auto i(std::ranges::find_if(itsReadyQ.begin(), itsReadyQ.end(),
 				[this, p](boost::fibers::context& c)
 				{
 					return properties(&c).GetPriority() < p;

@@ -9,6 +9,7 @@
 #define _H_JUtf8ByteBuffer
 
 #include "JArray.h"
+#include <span>
 
 class JUtf8ByteBuffer : public JArray<JUtf8Byte>
 {
@@ -18,7 +19,7 @@ public:
 
 	~JUtf8ByteBuffer() override;
 
-	void	Append(const JUtf8Byte* data, const JSize count);
+	void	Append(const std::span<const JUtf8Byte>& data);
 	JString	ExtractCharacters();
 };
 

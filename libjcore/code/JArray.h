@@ -85,6 +85,11 @@ public:
 
 	void	QuickSort(int (*compare)(const void*, const void*));
 
+	// std::ranges support
+
+	const T* begin() const { return itsElements; };
+	const T* end() const   { return (itsElements + this->GetElementCount()); };
+
 protected:
 
 	const T&	ProtectedGetElement(const JIndex index) const;

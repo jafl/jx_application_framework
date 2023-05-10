@@ -391,7 +391,7 @@ JMDIServer::ReceiveLine
 		}
 		else if (result == 1)
 		{
-			buf.Append(&c, 1);
+			buf.Append(std::span(&c, 1));
 		}
 	}
 

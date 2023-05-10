@@ -56,8 +56,9 @@ bool
 JXButtonStates::AllOff()
 	const
 {
-	return std::all_of(std::begin(itsState), std::end(itsState),
-						[] (const bool v) { return !v; });
+	return std::ranges::all_of(
+		std::begin(itsState), std::end(itsState),
+		[] (const bool v) { return !v; });
 }
 
 /******************************************************************************
@@ -128,7 +129,7 @@ JXButtonStates::SetState
 void
 JXButtonStates::Clear()
 {
-	std::fill(std::begin(itsState), std::end(itsState), false);
+	std::ranges::fill(std::begin(itsState), std::end(itsState), false);
 }
 
 /******************************************************************************

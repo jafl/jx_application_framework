@@ -42,13 +42,12 @@ JUtf8ByteBuffer::~JUtf8ByteBuffer()
 void
 JUtf8ByteBuffer::Append
 	(
-	const JUtf8Byte*	data,
-	const JSize			count
+	const std::span<const JUtf8Byte>& data
 	)
 {
-	for (JUnsignedOffset i=0; i<count; i++)
+	for (auto c: data)
 	{
-		AppendElement(data[i]);
+		AppendElement(c);
 	}
 }
 

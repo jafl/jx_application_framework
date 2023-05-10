@@ -801,7 +801,7 @@ JReadAll
 
 		if (byteCount > 0)
 		{
-			byteBuf.Append(readBuf, byteCount);
+			byteBuf.Append(std::span(readBuf, byteCount));
 		}
 
 		if (result == -1)
@@ -914,7 +914,7 @@ JReadUntil
 			}
 		}
 
-		byteBuf.Append(&c, 1);
+		byteBuf.Append(std::span(&c, 1));
 	}
 done:
 	str->Set(byteBuf.GetCArray(), byteBuf.GetElementCount());

@@ -462,7 +462,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 		return 0;
 	}
 
-	itsByteBuffer.Append(itsRecvBuffer, count);
+	itsByteBuffer.Append(std::span(itsRecvBuffer, count));
 	itsRecvData.Append(itsByteBuffer.ExtractCharacters());
 
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
