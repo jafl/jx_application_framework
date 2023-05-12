@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SONAR_SCANNER_VERSION: 4.4.0.2170
-      SONAR_SERVER_URL: https://sonarcloud.io
       BUILD_WRAPPER_OUT_DIR: sonar_output
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
