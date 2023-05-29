@@ -418,6 +418,24 @@ JXFileDocument::HandleFileModifiedByOthers
 }
 
 /******************************************************************************
+ AskOverwriteFileModifiedByOthers (virtual protected)
+
+ ******************************************************************************/
+
+bool
+JXFileDocument::AskOverwriteFileModifiedByOthers()
+	const
+{
+	const JUtf8Byte* map[] =
+	{
+		"name", itsFileName.GetBytes()
+	};
+	const JString msg = JGetString("OverwriteChangedFilePrompt::JXFileDocument",
+								   map, sizeof(map));
+	return JGetUserNotification()->AskUserNo(msg);
+}
+
+/******************************************************************************
  FileModifiedByOthers
 
 	Returns true if the file exists and has been modified behind our back.
@@ -728,97 +746,87 @@ JXFileDocument::SaveInCurrentFile()
 			JGetString("DirWriteProtectNoSaveError::JXFileDocument"));
 		return false;
 	}
-	else
+
+	if (itsCheckModTimeFlag && FileModifiedByOthers() &&
+		!AskOverwriteFileModifiedByOthers())
 	{
-		if (itsCheckModTimeFlag && FileModifiedByOthers())
+		return false;
+	}
+
+	mode_t filePerms = 0;
+	auto ownerID    = (uid_t) -1;
+	auto groupID    = (gid_t) -1;
+	if (itsMakeBackupFileFlag)
+	{
+		const JString backupName  = fullName + kBackupFileSuffix;
+		const bool makeBackup = !JFileExists(backupName) ||
+			(itsIsFirstSaveFlag && itsWantNewBackupEveryOpenFlag);
+		if (makeBackup && dirWritable)
 		{
-			const JUtf8Byte* map[] =
+			JRemoveFile(backupName);
+			const JError err = JRenameFile(fullName, backupName);
+			if (err.OK())
 			{
-				"name", itsFileName.GetBytes()
-			};
-			const JString msg = JGetString("OverwriteChangedFilePrompt::JXFileDocument",
-										   map, sizeof(map));
-			if (!JGetUserNotification()->AskUserNo(msg))
+				JGetPermissions(backupName, &filePerms);
+				JGetOwnerID(backupName, &ownerID);
+				JGetOwnerGroup(backupName, &groupID);
+			}
+			else
 			{
-				return false;
+				const JUtf8Byte* map[] =
+				{
+					"err", err.GetMessage().GetBytes()
+				};
+				const JString msg = JGetString("NoBackupError::JXFileDocument", map, sizeof(map));
+				if (!JGetUserNotification()->AskUserNo(msg))
+				{
+					return false;
+				}
 			}
 		}
-
-		mode_t filePerms = 0;
-		auto ownerID    = (uid_t) -1;
-		auto groupID    = (gid_t) -1;
-		if (itsMakeBackupFileFlag)
+		else if (makeBackup &&
+				 !JGetUserNotification()->AskUserNo(
+						JGetString("NoBackupDirWriteProtectError::JXFileDocument")))
 		{
-			const JString backupName  = fullName + kBackupFileSuffix;
-			const bool makeBackup = !JFileExists(backupName) ||
-				(itsIsFirstSaveFlag && itsWantNewBackupEveryOpenFlag);
-			if (makeBackup && dirWritable)
-			{
-				JRemoveFile(backupName);
-				const JError err = JRenameFile(fullName, backupName);
-				if (err.OK())
-				{
-					JGetPermissions(backupName, &filePerms);
-					JGetOwnerID(backupName, &ownerID);
-					JGetOwnerGroup(backupName, &groupID);
-				}
-				else
-				{
-					const JUtf8Byte* map[] =
-					{
-						"err", err.GetMessage().GetBytes()
-					};
-					const JString msg = JGetString("NoBackupError::JXFileDocument", map, sizeof(map));
-					if (!JGetUserNotification()->AskUserNo(msg))
-					{
-						return false;
-					}
-				}
-			}
-			else if (makeBackup &&
-					 !JGetUserNotification()->AskUserNo(
-							JGetString("NoBackupDirWriteProtectError::JXFileDocument")))
-			{
-				return false;
-			}
-		}
-		itsMakeBackupFileFlag = false;
-
-		const JError err = WriteFile(fullName, false);
-		if (err.OK())
-		{
-			itsSavedFlag       = true;
-			itsIsFirstSaveFlag = false;
-			RemoveSafetySaveFile();
-			AdjustWindowTitle();
-
-			if (filePerms != 0)
-			{
-				const JError err = JSetPermissions(fullName, filePerms);
-				if (!err.OK())
-				{
-					JGetStringManager()->ReportError("NoRestoreFilePermsError::JXFileDocument", err);
-				}
-			}
-
-			if (ownerID != (uid_t) -1 || groupID != (gid_t) -1)
-			{
-				const JError err = JSetOwner(fullName, ownerID, groupID);
-				if (!err.OK())
-				{
-					JGetStringManager()->ReportError("NoRestoreFileOwnerError::JXFileDocument", err);
-				}
-			}
-
-			itsCheckModTimeFlag = JGetModificationTime(fullName, &itsFileModTime).OK();
-			itsCheckPermsFlag   = JGetPermissions(fullName, &itsFilePerms).OK();
-			return true;
-		}
-		else
-		{
-			err.ReportIfError();
 			return false;
 		}
+	}
+	itsMakeBackupFileFlag = false;
+
+	const JError err = WriteFile(fullName, false);
+	if (err.OK())
+	{
+		itsSavedFlag       = true;
+		itsIsFirstSaveFlag = false;
+		RemoveSafetySaveFile();
+		AdjustWindowTitle();
+
+		if (filePerms != 0)
+		{
+			const JError err = JSetPermissions(fullName, filePerms);
+			if (!err.OK())
+			{
+				JGetStringManager()->ReportError("NoRestoreFilePermsError::JXFileDocument", err);
+			}
+		}
+
+		if (ownerID != (uid_t) -1 || groupID != (gid_t) -1)
+		{
+			const JError err = JSetOwner(fullName, ownerID, groupID);
+			if (!err.OK())
+			{
+				JGetStringManager()->ReportError("NoRestoreFileOwnerError::JXFileDocument", err);
+			}
+		}
+
+		itsCheckModTimeFlag = JGetModificationTime(fullName, &itsFileModTime).OK();
+		itsCheckPermsFlag   = JGetPermissions(fullName, &itsFilePerms).OK();
+		return true;
+	}
+	else
+	{
+		err.ReportIfError();
+		return false;
 	}
 }
 

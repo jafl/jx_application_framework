@@ -1,7 +1,4 @@
 jcc
-	if modified separately in memory and on disk, offer to show diff
-		if window closed, deactivate "Redo diff" button
-
 	JXDocumentMenu - show partial paths for repeated file names
 
 	include partial path in symbol search results when display duplicate file name?

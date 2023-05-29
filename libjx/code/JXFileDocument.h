@@ -99,6 +99,7 @@ protected:
 	bool			CanRevert() override;
 	virtual void	HandleFileModifiedByOthers(const bool modTimeChanged,
 											   const bool permsChanged);
+	virtual bool	AskOverwriteFileModifiedByOthers() const;
 	virtual JError	WriteFile(const JString& fullName, const bool safetySave) const;
 	virtual void	WriteTextFile(std::ostream& output, const bool safetySave) const;
 

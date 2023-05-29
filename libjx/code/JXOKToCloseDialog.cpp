@@ -1,9 +1,6 @@
 /******************************************************************************
  JXOKToCloseDialog.cpp
 
-	Since this dialog has three possible responses, clients should listen
-	for GotResponse() instead of Deactivated().
-
 	BASE CLASS = JXUNDialogBase
 
 	Copyright (C) 1996 by John Lindal.
