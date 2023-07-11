@@ -473,7 +473,7 @@ JTextEditor::Receive
 		const auto* info =
 			dynamic_cast<const JStyledText::UndoFinished*>(&message);
 		assert( info != nullptr );
-		const TextRange r = info->GetRange();
+		const TextRange& r = info->GetRange();
 		if (itsActiveFlag && !r.IsEmpty())
 		{
 			SetSelection(r);
@@ -1080,7 +1080,7 @@ JTextEditor::SetSelection
 	assert( itsText->GetText().ByteIndexValid(range.byteRange.last) );
 	assert( JString::CountCharacters(itsText->GetText().GetRawBytes(), range.byteRange) == range.charRange.GetCount() );	// TODO: debugging
 
-	const bool hadSelection            = !itsSelection.IsEmpty();
+	const bool hadSelection                = !itsSelection.IsEmpty();
 	const CaretLocation origCaretLoc       = itsCaret;
 	const JUtf8ByteRange origByteSelection = itsSelection.byteRange;
 
@@ -3330,7 +3330,7 @@ JTextEditor::TEScrollToSelection
 		else
 		{
 			r.left  = 0;
-			r.right = itsLeftMarginWidth + itsWidth + kRightMarginWidth;
+			r.right = 1;	// width doesn't matter
 		}
 
 		return TEScrollToRect(r, centerInDisplay);

@@ -1,31 +1,6 @@
 JStyledText
 	CleanRightMargin
 
-jcc
-	if undo/redo inserts text containing newline,
-		it scrolls to center, even if already visible
-
-glove
-	catch NaN during fits: exponential fit to linear data
-
-	test every usage of:
-		JStringIterator
-		JRegex::Match
-		JRunArrayIterator
-		Split
-
-	edit toolbar in datadoc, plot, fit windows
-	fit window:
-		show which plot has focus, and therefore applies to menus
-		show only data curves in "Curves" list, not existing fit curves
-
-	help for PolyFitDialog
-	fit & polyfitdialog:
-		display function as read-only, no menus
-
-	generate column with uniform or gaussian noise
-	test on 1000, 10000 rows: run fit in thread?
-
 -----
 
 unit test

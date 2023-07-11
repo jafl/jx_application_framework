@@ -8,6 +8,23 @@ jcc
 medic
 	when kill program, doesn't clear current source line marker
 
+glove
+	edit toolbar in datadoc, plot, fit windows
+	fit window:
+		show which plot has focus, and therefore applies to menus
+		show only data curves in "Curves" list, not existing fit curves
+
+	help for PolyFitDialog
+	fit & polyfitdialog:
+		display function as read-only, no menus
+
+	generate column with uniform or gaussian noise
+	test on 1000, 10000 rows: run fit in thread?
+
+	transform: crashes if specify column outside existing range
+
+	catch NaN during fits: exponential fit to linear data
+
 -----
 
 medic for go: delve back-end
