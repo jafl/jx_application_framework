@@ -45,9 +45,9 @@ JXStaticText::JXStaticText
 JXStaticText::JXStaticText
 	(
 	const JString&		text,
-	const bool		wordWrap,
-	const bool		selectable,
-	const bool		allowStyles,
+	const bool			wordWrap,
+	const bool			selectable,
+	const bool			allowStyles,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,

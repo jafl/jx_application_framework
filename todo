@@ -9,6 +9,8 @@ medic
 	when kill program, doesn't clear current source line marker
 
 glove
+	undo transform create column: puts values back in inverted order
+
 	edit toolbar in datadoc, plot, fit windows
 	fit window:
 		show which plot has focus, and therefore applies to menus
@@ -20,8 +22,6 @@ glove
 
 	generate column with uniform or gaussian noise
 	test on 1000, 10000 rows: run fit in thread?
-
-	transform: crashes if specify column outside existing range
 
 	catch NaN during fits: exponential fit to linear data
 
