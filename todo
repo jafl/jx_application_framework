@@ -9,9 +9,10 @@ medic
 	when kill program, doesn't clear current source line marker
 
 glove
-	undo transform create column: puts values back in inverted order
+	undo then redo "transform creates column": puts values back in inverted order
 
-	edit toolbar in datadoc, plot, fit windows
+	remember open documents and restore when start
+
 	fit window:
 		show which plot has focus, and therefore applies to menus
 		show only data curves in "Curves" list, not existing fit curves
