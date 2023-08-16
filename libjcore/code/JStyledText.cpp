@@ -1045,16 +1045,16 @@ JStyledText::ReplaceAllInRange
 	pg.ProcessFinished();
 
 	if (changed)
-{
+	{
 		Paste(range, text, &styles);	// handles undo
 
 		return TextRange(range.GetFirst(),
 			TextCount(text.GetCharacterCount(), text.GetByteCount()));
-}
+	}
 	else
-{
+	{
 		return TextRange();
-}
+	}
 }
 
 /******************************************************************************

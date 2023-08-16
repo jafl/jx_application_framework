@@ -25,8 +25,8 @@
 
 JXStyledText::JXStyledText
 	(
-	const bool	useMultipleUndo,
-	const bool	pasteStyledText,
+	const bool		useMultipleUndo,
+	const bool		pasteStyledText,
 	JFontManager*	fontManager
 	)
 	:
