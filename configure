@@ -3,7 +3,7 @@
 set -e;
 
 export ACE_VERSION=7.1.0
-export REFLEX_VERSION=3.3.2
+export REFLEX_VERSION=3.3.7
 
 #
 # functions

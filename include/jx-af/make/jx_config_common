@@ -36,7 +36,8 @@ LFLAGS :=
 %.c : %.l
 
 %.cpp : %.l
-	${LEX} ${LFLAGS} --outfile=$@ --header-file=$(subst .l,.h,$<) $<
+	${LEX} ${LFLAGS} --outfile=$@ --header-file=$(notdir $(subst .l,.h,$<)) $<
+	@mv $(notdir $(subst .l,.h,$<)) $(subst .l,.h,$<)
 
 #
 # bison
