@@ -1,8 +1,3 @@
-JStyledText
-	CleanRightMargin
-
------
-
 unit test
 	JStyledText - every usage of JRunArrayIterator
 		SetFont(range)

@@ -2107,6 +2107,182 @@ JTEST(AdjustTextIndex)
 	JAssertEqual(4, index.byteIndex);
 }
 
+JTEST(CleanRightMargin)
+{
+	StyledText text;
+
+	JStyledText::CRMRuleList rules;
+	rules.AppendElement(JStyledText::CRMRule(
+		JString("([[:space:]]*)/(\\*+[[:space:]]*)+", JString::kNoCopy),
+		JString("[[:space:]]*(\\*+/?[[:space:]]*)+", JString::kNoCopy),
+		JString("$1 * ", JString::kNoCopy)));
+	rules.AppendElement(JStyledText::CRMRule(
+		JString("[[:space:]]*(\\*+[[:space:]]*)+", JString::kNoCopy),
+		JString("[[:space:]]*(\\*+/?[[:space:]]*)+", JString::kNoCopy),
+		JString("$0", JString::kNoCopy)));
+	rules.AppendElement(JStyledText::CRMRule(
+		JString("[[:space:]]*//+[[:space:]]*", JString::kNoCopy),
+		JString("[[:space:]]*//+[[:space:]]*", JString::kNoCopy),
+		JString("$0", JString::kNoCopy)));
+
+	text.SetCRMRuleList(&rules, false);
+	text.SetCRMLineWidth(10);
+	text.SetCRMTabCharCount(4);
+
+	// single line
+
+	text.SetText(JString("Thé quìck bröwn føx  jümpèd ǫvęr  thë   læzy dǫg.", JString::kNoCopy));
+	TextIndex caret(1, 1);
+	TextRange selection;
+	bool changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(1, caret.charIndex);
+	JAssertEqual(1, caret.byteIndex);
+	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr  thë\nlæzy dǫg.", text.GetText());
+
+	text.SetText(JString("Thé quìck bröwn føx jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
+	caret.Set(14, 17);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(14, caret.charIndex);
+	JAssertEqual(17, caret.byteIndex);
+	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr thë\nlæzy dǫg.", text.GetText());
+
+	text.SetText(JString("Thé quìck bröwn føx abcdefghijklmnop jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
+	caret.Set(14, 17);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(14, caret.charIndex);
+	JAssertEqual(17, caret.byteIndex);
+	JAssertStringsEqual("Thé quìck\nbröwn føx\nabcdefghijklmnop\njümpèd\nǫvęr thë\nlæzy dǫg.", text.GetText());
+
+	text.SetText(JString("abcd\n\nThé quìck bröwn føx jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
+	caret.Set(7, 7);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(7, caret.charIndex);
+	JAssertEqual(7, caret.byteIndex);
+	JAssertStringsEqual("abcd\n\nThé quìck\nbröwn føx\njümpèd\nǫvęr thë\nlæzy dǫg.", text.GetText());
+
+	text.SetText(JString("abcd\n\nThé quìck   bröwn føx jümpèd ǫvęr.   thë læzy dǫg.\n\nfoobar", JString::kNoCopy));
+	caret.Set(25, 27);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(23, caret.charIndex);
+	JAssertEqual(25, caret.byteIndex);
+	JAssertStringsEqual("abcd\n\nThé quìck\nbröwn føx\njümpèd\nǫvęr.\nthë læzy\ndǫg.\n\nfoobar", text.GetText());
+
+	text.SetText(JString("abcd\n\n\tThé quìck bröwn føx jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
+	caret.Set(12, 13);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(13, caret.charIndex);
+	JAssertEqual(14, caret.byteIndex);
+	JAssertStringsEqual("abcd\n\n\tThé\n\tquìck\n\tbröwn\n\tføx\n\tjümpèd\n\tǫvęr\n\tthë\n\tlæzy\n\tdǫg.", text.GetText());
+
+	text.SetText(JString("abcd\n\n        Thé quìck bröwn føx jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
+	caret.Set(20, 21);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(28, caret.charIndex);
+	JAssertEqual(29, caret.byteIndex);
+	JAssertStringsEqual("abcd\n\n        Thé\n        quìck\n        bröwn\n        føx\n        jümpèd\n        ǫvęr\n        thë\n        læzy\n        dǫg.", text.GetText());
+
+	text.SetText(JString("abcd\n\n // Thé quìck bröwn føx jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
+	caret.Set(21, 23);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(29, caret.charIndex);
+	JAssertEqual(31, caret.byteIndex);
+	JAssertStringsEqual("abcd\n\n // Thé\n // quìck\n // bröwn\n // føx\n // jümpèd\n // ǫvęr\n // thë\n // læzy\n // dǫg.", text.GetText());
+
+	text.SetText(JString("abcd\n\n /** Thé quìck bröwn føx jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
+	caret.Set(22, 24);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(30, caret.charIndex);
+	JAssertEqual(32, caret.byteIndex);
+	JAssertStringsEqual("abcd\n\n /** Thé\n  * quìck\n  * bröwn\n  * føx\n  * jümpèd\n  * ǫvęr\n  * thë\n  * læzy\n  * dǫg.", text.GetText());
+
+	// multiple lines
+
+	text.SetText(JString("Thé\nquìck\nbröwn\nføx\njümpèd\nǫvęr\nthë\nlæzy\ndǫg.", JString::kNoCopy));
+	caret.Set(14, 17);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(14, caret.charIndex);
+	JAssertEqual(17, caret.byteIndex);
+	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr thë\nlæzy dǫg.", text.GetText());
+
+	text.SetText(JString("abcd\n\n // Thé quìck bröwn føx\n//jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
+	caret.Set(21, 23);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(29, caret.charIndex);
+	JAssertEqual(31, caret.byteIndex);
+	JAssertStringsEqual("abcd\n\n // Thé\n // quìck\n // bröwn\n // føx\n//jümpèd ǫvęr thë læzy dǫg.", text.GetText());
+
+	text.SetText(JString("abcd\n\n // Thé quìck bröwn føx\n // jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
+	caret.Set(21, 23);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(29, caret.charIndex);
+	JAssertEqual(31, caret.byteIndex);
+	JAssertStringsEqual("abcd\n\n // Thé\n // quìck\n // bröwn\n // føx\n // jümpèd\n // ǫvęr\n // thë\n // læzy\n // dǫg.", text.GetText());
+
+	text.SetText(JString("abcd\n\n // Thé quìck bröwn føx\n // jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
+	caret.Set(38, 43);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(50, caret.charIndex);
+	JAssertEqual(55, caret.byteIndex);
+	JAssertStringsEqual("abcd\n\n // Thé\n // quìck\n // bröwn\n // føx\n // jümpèd\n // ǫvęr\n // thë\n // læzy\n // dǫg.", text.GetText());
+
+	text.SetText(JString("abcd\n\n /* Thé quìck bröwn føx\n  * jümpèd ǫvęr thë læzy dǫg. */\nabcd", JString::kNoCopy));
+	caret.Set(21, 23);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(29, caret.charIndex);
+	JAssertEqual(31, caret.byteIndex);
+	JAssertStringsEqual("abcd\n\n /* Thé\n  * quìck\n  * bröwn\n  * føx\n  * jümpèd\n  * ǫvęr\n  * thë\n  * læzy\n  * dǫg.\n  * */\nabcd", text.GetText());
+
+	text.SetText(JString("abcd\n\n /* Thé quìck bröwn føx\n  * jümpèd ǫvęr thë læzy dǫg. */\nabcd", JString::kNoCopy));
+	caret.Set(38, 43);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(50, caret.charIndex);
+	JAssertEqual(55, caret.byteIndex);
+	JAssertStringsEqual("abcd\n\n /* Thé\n  * quìck\n  * bröwn\n  * føx\n  * jümpèd\n  * ǫvęr\n  * thë\n  * læzy\n  * dǫg.\n  * */\nabcd", text.GetText());
+
+	text.SetText(JString("Thé\nquìck\nbröwn\nføx\njümpèd\nǫvęr\n\nthë\nlæzy\ndǫg.", JString::kNoCopy));
+	caret.Set(14, 17);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(14, caret.charIndex);
+	JAssertEqual(17, caret.byteIndex);
+	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr\n\nthë\nlæzy\ndǫg.", text.GetText());
+
+	// selection
+
+	text.SetText(JString("Thé\nquìck\nbröwn\nføx\njümpèd\nǫvęr\n\nthë\nlæzy\ndǫg.", JString::kNoCopy));
+	caret.Set(1, 1);
+	selection.Set(JCharacterRange(18, 35), JUtf8ByteRange(21, 43));
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(18, caret.charIndex);
+	JAssertEqual(21, caret.byteIndex);
+	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr\n\nthë læzy\ndǫg.", text.GetText());
+
+	text.SetText(JString("Thé\nquìck\nbröwn\nføx\njümpèd\nǫvęr\n \nthë\nlæzy\ndǫg.", JString::kNoCopy));
+	caret.Set(1, 1);
+	selection.Set(JCharacterRange(18, 35), JUtf8ByteRange(21, 43));
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(18, caret.charIndex);
+	JAssertEqual(21, caret.byteIndex);
+	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr\n \nthë læzy\ndǫg.", text.GetText());
+}
+
 // generates link errors - prevents accidentally writing out JStyledText* instead of JString
 /*
 JTEST(Streaming)

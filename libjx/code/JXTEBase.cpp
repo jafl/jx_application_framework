@@ -2444,11 +2444,11 @@ JXTEBase::HandleEditMenu
 
 	else if (cmd == kCleanRightMarginCmd)
 	{
-		GetText()->CleanRightMargin(false);
+		CleanRightMargin(false);
 	}
 	else if (cmd == kCoerceRightMarginCmd)
 	{
-		GetText()->CleanRightMargin(true);
+		CleanRightMargin(true);
 	}
 	else if (cmd == kShiftSelLeftCmd)
 	{

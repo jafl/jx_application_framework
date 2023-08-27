@@ -2771,7 +2771,7 @@ JStyledText::MoveText
 
 	NewUndo(undo, isNew);
 
-	*newRange = TextRange(destIndex, insertCount);
+	newRange->Set(destIndex, insertCount);
 	BroadcastTextChanged(*newRange, insertCount.charCount, insertCount.byteCount, false);
 
 	return true;
@@ -2986,10 +2986,6 @@ JStyledText::CleanWhitespace
 /******************************************************************************
  CleanRightMargin
 
-	If there is a selection, cleans up the right margin of each paragraph
-	touched by the selection.  Otherwise, cleans up the right margin of the
-	paragraph containing the caret and maintains the caret position.
-
 	If coerce, paragraphs are detected by looking only for blank lines.
 	Otherwise, they are detected by blank lines or a change in the line prefix.
 
@@ -2997,77 +2993,86 @@ JStyledText::CleanWhitespace
 
  ******************************************************************************/
 
-void
+bool
 JStyledText::CleanRightMargin
 	(
-	const bool coerce
+	TextIndex*			caretIndex,
+	const TextRange&	selectionRange,
+	const bool			coerce
 	)
 {
-/*
-	if (TEIsDragging())
-	{
-		return false;
-	}
-
 	bool changed = false;
-	JIndexRange origTextRange;
+	TextRange origTextRange;
 	JString newText;
 	JRunArray<JFont> newStyles(itsStyles->GetBlockSize());
-	JIndex newCaretIndex;
-	if (itsSelection.IsEmpty())
+
+	TextIndex newCaretIndex;
+	if (selectionRange.IsEmpty())
 	{
-		changed = PrivateCleanRightMargin(coerce, &origTextRange, &newText,
+		changed = PrivateCleanRightMargin(*caretIndex, coerce,
+										  &origTextRange, &newText,
 										  &newStyles, &newCaretIndex);
 	}
 	else
 	{
-		const JIndex endChar = GetParagraphEnd(itsSelection.last) - 1;
+		const TextIndex end = AdjustTextIndex(
+			GetParagraphEnd(selectionRange.GetLast(*this)), -1);
 
-		JIndexRange range;
+		TextRange range;
 		JString text;
 		JRunArray<JFont> styles(itsStyles->GetBlockSize());
-		JIndex caretIndex;
+		*caretIndex = selectionRange.GetFirst();
+		TextIndex tmpCaretIndex;
 		bool first = true;
 		while (true)
 		{
-			if (PrivateCleanRightMargin(coerce, &range, &text, &styles, &caretIndex))
+			if (PrivateCleanRightMargin(*caretIndex, coerce,
+										&range, &text, &styles, &tmpCaretIndex))
 			{
+				*caretIndex    = tmpCaretIndex;
 				origTextRange += range;
 				newText       += text;
-				newStyles.InsertElementsAtIndex(newStyles.GetElementCount()+1,
-												styles, 1, styles.GetElementCount());
-				if (range.last < endChar)
+				newStyles.AppendSlice(styles, JIndexRange(1, styles.GetElementCount()));
+				if (range.charRange.last < end.charIndex)
 				{
-					(range.last)++;
-					(origTextRange.last)++;
-					newText.AppendCharacter('\n');
+					range.charRange.last++;
+					range.byteRange.last++;			// ascii
+					origTextRange.charRange.last++;
+					origTextRange.byteRange.last++;	// ascii
+					newText.Append("\n");
 					newStyles.AppendElement(newStyles.GetLastElement());
 				}
 			}
 			else
 			{
-				caretIndex = GetInsertionIndex();
-				range.Set(GetParagraphStart(caretIndex),
-						  GetParagraphEnd(caretIndex));
+				range.Set(GetParagraphStart(*caretIndex),
+						  AdjustTextIndex(GetParagraphEnd(*caretIndex), +1));
 
 				assert( newText.IsEmpty() ||
-						range.first == origTextRange.last + 1 );
+						range.charRange.first == origTextRange.charRange.last + 1 );
 
 				origTextRange += range;
-				newText       += itsText->GetSubstring(range);
-				newStyles.InsertElementsAtIndex(newStyles.GetElementCount()+1,
-												*itsStyles, range.first, range.GetLength());
+
+				JStringIterator iter(itsText);
+				const TextIndex after = range.GetAfter();
+				iter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+				iter.BeginMatch();
+				iter.UnsafeMoveTo(kJIteratorStartBefore, after.charIndex, after.byteIndex);
+				iter.FinishMatch();
+				newText += iter.GetLastMatch().GetString();
+
+				newStyles.AppendSlice(*itsStyles, range.charRange);
 			}
 
 			if (first)
 			{
-				newCaretIndex = caretIndex;
+				newCaretIndex = *caretIndex;
 				first         = false;
 			}
 
-			if (range.last < endChar && IndexValid(range.last + 1))
+			if (range.charRange.last < end.charIndex && itsText.CharacterIndexValid(range.charRange.last + 1))
 			{
-				SetCaretLocation(range.last + 1);
+				*caretIndex = range.GetAfter();
 			}
 			else
 			{
@@ -3080,19 +3085,14 @@ JStyledText::CleanRightMargin
 
 	if (changed)
 	{
-		SetSelection(origTextRange, false);
-		Paste(newText, &newStyles);		// handles undo
-		SetCaretLocation(newCaretIndex);
-
-		reformatRange->SetFirstAndLength(origTextRange.first, newText.GetLength());
+		Paste(origTextRange, newText, &newStyles);		// handles undo
+		*caretIndex = newCaretIndex;
 		return true;
 	}
 	else
 	{
-		reformatRange->SetToNothing();
 		return false;
 	}
-*/
 }
 
 /******************************************************************************
@@ -3113,6 +3113,7 @@ JStyledText::CleanRightMargin
 bool
 JStyledText::PrivateCleanRightMargin
 	(
+	const TextIndex&	start,
 	const bool			coerce,
 	TextRange*			origTextRange,
 	JString*			newText,
@@ -3121,105 +3122,95 @@ JStyledText::PrivateCleanRightMargin
 	)
 	const
 {
-/*
 	origTextRange->SetToNothing();
 	newText->Clear();
 	newStyles->RemoveAll();
-	*newCaretIndex = 0;
+	newCaretIndex->charIndex = newCaretIndex->byteIndex = 0;
 
-	if (itsBuffer->IsEmpty())
+	if (itsText.IsEmpty() ||
+		(start.charIndex == itsText.GetCharacterCount()+1 && EndsWithNewline()))
 	{
 		return false;
 	}
 
-	const JIndex caretChar = GetInsertionIndex();
-	if (caretChar == itsBuffer->GetLength()+1 && EndsWithNewline())
-	{
-		return false;
-	}
-
-	JIndex charIndex, ruleIndex;
+	TextIndex index;
+	JIndex ruleIndex;
 	JString firstLinePrefix, restLinePrefix;
 	JSize firstPrefixLength, restPrefixLength;
-	if (!CRMGetRange(caretChar, coerce, origTextRange, &charIndex,
+	if (!CRMGetRange(start, coerce, origTextRange, &index,
 					 &firstLinePrefix, &firstPrefixLength,
 					 &restLinePrefix, &restPrefixLength, &ruleIndex))
 	{
 		return false;
 	}
 
-	if (caretChar <= charIndex)
+	if (start.charIndex <= index.charIndex)
 	{
-		*newCaretIndex = caretChar;
+		*newCaretIndex = start;
 	}
 
 	// read in each word, convert it, write it out
 
-	JSize currentLineWidth = 0;
-	bool requireSpace  = false;
+	JSize currentCharCount = 0;
+	bool requireSpace      = false;
 
 	JString wordBuffer, spaceBuffer;
 	JRunArray<JFont> wordStyles(itsStyles->GetBlockSize());
-	while (charIndex <= origTextRange->last)
+	while (index.charIndex <= origTextRange->charRange.last)
 	{
 		JSize spaceCount;
-		JIndex rnwCaretIndex = 0;
+		bool hasCount = false;
+		TextCount rnwCount;
 		const CRMStatus status =
-			CRMReadNextWord(&charIndex, origTextRange->last,
+			CRMReadNextWord(&index, origTextRange->charRange.last,
 							&spaceBuffer, &spaceCount, &wordBuffer, &wordStyles,
-							currentLineWidth, caretChar, &rnwCaretIndex,
+							currentCharCount, start, &hasCount, &rnwCount,
 							*newText, requireSpace);
 		requireSpace = true;
 
 		if (status == kFinished)
 		{
-			assert( charIndex == origTextRange->last+1 );
+			assert( index.charIndex == origTextRange->charRange.last+1 );
 			break;
 		}
 		else if (status == kFoundWord)
 		{
-			if (newText->IsEmpty())
-			{
-				CRMAppendWord(newText, newStyles, &currentLineWidth, &rnwCaretIndex,
-							  spaceBuffer, spaceCount, wordBuffer, wordStyles,
-							  firstLinePrefix, firstPrefixLength);
-			}
-			else
-			{
-				CRMAppendWord(newText, newStyles, &currentLineWidth, &rnwCaretIndex,
-							  spaceBuffer, spaceCount, wordBuffer, wordStyles,
-							  restLinePrefix, restPrefixLength);
-			}
+			CRMAppendWord(newText, newStyles, &currentCharCount, &hasCount, &rnwCount,
+						  spaceBuffer, spaceCount, wordBuffer, wordStyles,
+						  newText->IsEmpty() ? firstLinePrefix : restLinePrefix,
+						  newText->IsEmpty() ? firstPrefixLength : restPrefixLength);
 
-			if (rnwCaretIndex > 0)
+			if (hasCount)
 			{
-				*newCaretIndex = origTextRange->first + rnwCaretIndex - 1;
+				*newCaretIndex = origTextRange->GetFirst() + rnwCount;
 			}
 		}
 		else
 		{
 			assert( status == kFoundNewLine );
 
-			CRMTossLinePrefix(&charIndex, origTextRange->last, ruleIndex);
+			CRMTossLinePrefix(&index, origTextRange->GetAfter(), ruleIndex);
 
 			// CRMGetRange() ensures this is strictly *inside* the text,
-			// so caretChar == charIndex will be caught elsewhere.
+			// so start == index will be caught elsewhere.
 
-			if (*newCaretIndex == 0 && caretChar < charIndex)
+			if (newCaretIndex->charIndex == 0 && start.charIndex < index.charIndex)
 			{
-				*newCaretIndex = origTextRange->first + newText->GetLength();
+				*newCaretIndex  = origTextRange->GetFirst();
+				*newCaretIndex += TextCount(newText->GetCharacterCount(), newText->GetByteCount());
 			}
 		}
 	}
 
-	if (caretChar == origTextRange->last+1)
+	if (start.charIndex == origTextRange->charRange.last+1)
 	{
-		*newCaretIndex = origTextRange->first + newText->GetLength();
+		*newCaretIndex  = origTextRange->GetFirst();
+		*newCaretIndex += TextCount(newText->GetCharacterCount(), newText->GetByteCount());
 	}
 
-	assert( *newCaretIndex != 0 );
-	assert( newText->GetLength() == newStyles->GetElementCount() );
-*/
+	assert( newCaretIndex->charIndex > 0 );
+	assert( newText->GetCharacterCount() == newStyles->GetElementCount() );
+
 	return true;
 }
 
@@ -3229,7 +3220,7 @@ JStyledText::PrivateCleanRightMargin
 	Returns the range of characters to reformat.
 	Returns false if the caret is not in a paragraph.
 
-	caretChar is the current location of the caret.
+	caretIndex is the current location of the caret.
 
 	If coerce, we search forward and backward from the caret location
 	for blank lines and include all the text between these blank lines.
@@ -3247,7 +3238,7 @@ JStyledText::PrivateCleanRightMargin
 bool
 JStyledText::CRMGetRange
 	(
-	const TextIndex&	caretChar,
+	const TextIndex&	caretIndex,
 	const bool			coerce,
 	TextRange*			range,
 	TextIndex*			textStartIndex,
@@ -3259,21 +3250,29 @@ JStyledText::CRMGetRange
 	)
 	const
 {
-/*
-	range->Set(GetParagraphStart(caretChar), GetParagraphEnd(caretChar));
-	while (range->last > 0 && itsBuffer->GetCharacter(range->last) == '\n')
+	range->Set(GetParagraphStart(caretIndex), GetParagraphEnd(caretIndex));
+	if (range->IsEmpty())
 	{
-		range->last--;
+		return false;
+	}
+
+	JStringIterator iter(itsText);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, range->charRange.last+1, range->byteRange.last+1);
+
+	JUtf8Character c;
+	while (iter.Prev(&c) && c == '\n')
+	{
+		// keep going
 	}
 
 	// If the line we are on is empty, quit immediately.
 
-	JIndex tempStart = range->first;
+	TextIndex tempStart = range->GetFirst();
 	JString origLinePrefix;
 	JSize prefixLength;
 	JIndex ruleIndex = 0;
 	if (range->IsEmpty() ||
-		!CRMGetPrefix(&tempStart, range->last,
+		!CRMGetPrefix(&tempStart, range->GetAfter(),
 					  &origLinePrefix, &prefixLength, &ruleIndex) ||
 		CRMLineMatchesRest(*range))
 	{
@@ -3281,68 +3280,75 @@ JStyledText::CRMGetRange
 	}
 
 	// search backward for a blank line or a change in the prefix (if !coerce)
-	// (If range->first==2, the line above us is blank.)
+	// (If range->charRange.first==2, the line above us is blank.)
 
 	JString currLinePrefix, nextLinePrefix = origLinePrefix;
-	while (range->first > 2)
+	while (range->charRange.first > 2)
 	{
-		const JIndex newStart = GetParagraphStart(range->first - 1);
-		tempStart             = newStart;
-		ruleIndex             = 0;
-		if (tempStart >= range->first - 1 ||
-			!CRMGetPrefix(&tempStart, range->first - 2,
+		const TextIndex newStart      = GetParagraphStart(AdjustTextIndex(range->GetFirst(), -1));
+		const TextIndex tempBeyondEnd = AdjustTextIndex(range->GetFirst(), -1);
+		tempStart                     = newStart;
+		ruleIndex                     = 0;
+		if (tempStart.charIndex >= range->charRange.first - 1 ||
+			!CRMGetPrefix(&tempStart, tempBeyondEnd,
 						  &currLinePrefix, &prefixLength, &ruleIndex) ||
-			CRMLineMatchesRest(JIndexRange(newStart, range->first - 2)) ||
+			CRMLineMatchesRest(TextRange(newStart, tempBeyondEnd)) ||
 			(!coerce &&
 			 CRMBuildRestPrefix(currLinePrefix, ruleIndex, &prefixLength) != nextLinePrefix))
 		{
 			break;
 		}
-		range->first   = newStart;
-		nextLinePrefix = currLinePrefix;
-		ruleIndex      = 0;
+		range->charRange.first = newStart.charIndex;
+		range->byteRange.first = newStart.byteIndex;
+		nextLinePrefix         = currLinePrefix;
+		ruleIndex              = 0;
 	}
 
 	// search forward for a blank line or a change in the prefix (if !coerce)
-	// (If range->last==bufLength-1, the text ends with a newline.)
+	// (If range->charRange.last==bufLength-1, the text ends with a newline.)
 
-	*textStartIndex  = range->first;
+	*textStartIndex  = range->GetFirst();
 	*returnRuleIndex = 0;
 	const bool hasText =
-		CRMGetPrefix(textStartIndex, range->last,
+		CRMGetPrefix(textStartIndex, range->GetAfter(),
 					 firstLinePrefix, firstPrefixLength, returnRuleIndex);
 	assert( hasText );
 
 	*restLinePrefix = CRMBuildRestPrefix(*firstLinePrefix, *returnRuleIndex,
 										 restPrefixLength);
 
-	while (range->last < itsBuffer->GetLength()-1)
+	while (range->charRange.last < itsText.GetCharacterCount()-1)
 	{
-		tempStart     = range->last + 2;
-		JIndex newEnd = GetParagraphEnd(tempStart);
-		if (itsBuffer->GetCharacter(newEnd) == '\n')	// could hit end of text instead
+		tempStart        = AdjustTextIndex(range->GetAfter(), +1);
+		TextIndex newEnd = GetParagraphEnd(tempStart);
+
+		iter.UnsafeMoveTo(kJIteratorStartBefore, newEnd.charIndex, newEnd.byteIndex);
+		if (iter.Next(&c) && c == '\n')	// could hit end of text instead
 		{
-			newEnd--;
+			newEnd = AdjustTextIndex(newEnd, -1);
 		}
 
+		const TextIndex afterNewEnd = AdjustTextIndex(newEnd, +1);
+
 		JIndex tempRuleIndex = *returnRuleIndex;
-		if (newEnd < tempStart ||
-			!CRMGetPrefix(&tempStart, newEnd,
+		if (newEnd.charIndex < tempStart.charIndex ||
+			!CRMGetPrefix(&tempStart, afterNewEnd,
 						  &currLinePrefix, &prefixLength, &tempRuleIndex) ||
 			(!coerce && currLinePrefix != *restLinePrefix))
 		{
 			break;
 		}
-		range->last = newEnd;
+		range->charRange.last = afterNewEnd.charIndex - 1;
+		range->byteRange.last = afterNewEnd.byteIndex - 1;
 	}
-*/
+
 	return true;
 }
 
 /*******************************************************************************
  CRMGetPrefix
 
-	Returns the prefix to be used for each line and updates *startChar to point
+	Returns the prefix to be used for each line and updates *startIndex to point
 	to the first character after the prefix.
 
 	*columnCount can be greater than linePrefix->GetCharacterCount() because of tabs.
@@ -3354,8 +3360,8 @@ JStyledText::CRMGetRange
 bool
 JStyledText::CRMGetPrefix
 	(
-	TextIndex*			startChar,
-	const TextIndex&	beyondEndChar,
+	TextIndex*			startIndex,
+	const TextIndex&	beyondEndIndex,
 	JString*			linePrefix,
 	JSize*				columnCount,
 	JIndex*				ruleIndex
@@ -3363,17 +3369,17 @@ JStyledText::CRMGetPrefix
 	const
 {
 	const TextRange prefixRange =
-		CRMMatchPrefix(TextRange(*startChar, beyondEndChar), ruleIndex);
+		CRMMatchPrefix(TextRange(*startIndex, beyondEndIndex), ruleIndex);
 
 	linePrefix->Set(itsText.GetBytes(), prefixRange.byteRange);
 
-	*startChar   = prefixRange.GetAfter();
+	*startIndex   = prefixRange.GetAfter();
 	*columnCount = CRMCalcColumnCount(*linePrefix);
-	return startChar->charIndex < beyondEndChar.charIndex;
+	return startIndex->charIndex < beyondEndIndex.charIndex;
 }
 
 /*******************************************************************************
- CRMMatchPrefix
+ CRMMatchPrefix (private)
 
 	Returns the range of characters that qualifies as a prefix.
 
@@ -3407,7 +3413,7 @@ JStyledText::CRMMatchPrefix
 		const JStringMatch m = rule.rest->Match(prefix, JRegex::kIgnoreSubmatches);
 		if (!m.IsEmpty() && m.GetUtf8ByteRange().first == 1)
 		{
-			matchRange = TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange());
+			matchRange.Set(m.GetCharacterRange(), m.GetUtf8ByteRange());
 		}
 	}
 
@@ -3424,7 +3430,7 @@ JStyledText::CRMMatchPrefix
 					m.GetUtf8ByteRange().first == 1 &&
 					m.GetUtf8ByteRange().GetCount() > matchRange.byteRange.GetCount())
 				{
-					matchRange = TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange());
+					matchRange.Set(m.GetCharacterRange(), m.GetUtf8ByteRange());
 					*ruleIndex = i;
 				}
 			}
@@ -3435,7 +3441,7 @@ JStyledText::CRMMatchPrefix
 		const JStringMatch m = defaultCRMPrefixRegex.Match(prefix, JRegex::kIgnoreSubmatches);
 		if (m.GetUtf8ByteRange().GetCount() >= matchRange.byteRange.GetCount() || itsCRMRuleList == nullptr)
 		{
-			matchRange = TextRange(m.GetCharacterRange(), m.GetUtf8ByteRange());
+			matchRange.Set(m.GetCharacterRange(), m.GetUtf8ByteRange());
 			*ruleIndex = 0;
 		}
 	}
@@ -3450,7 +3456,6 @@ JStyledText::CRMMatchPrefix
  CRMLineMatchesRest
 
 	Returns true if the given range is matched by any "rest" pattern.
-	Used at beginning of CRMGetRange as part of check if line is empty.
 
  ******************************************************************************/
 
@@ -3576,7 +3581,7 @@ JStyledText::CRMTossLinePrefix
  CRMReadNextWord (private)
 
 	Read one block of { spaces + word (non-spaces) } from itsBuffer, starting
-	at *charIndex, stopping if we get as far as endIndex.  *spaceBuffer
+	at *charIndex, stopping if we get as far as endCharIndex.  *spaceBuffer
 	contains the whitespace (spaces + tabs) that was found.  *spaceCount is
 	the equivalent number of spaces.  *wordBuffer contains the word.
 	*charIndex is incremented to point to the next character to read.
@@ -3586,9 +3591,9 @@ JStyledText::CRMTossLinePrefix
 	is encountered while reading a word, we leave it for the next time, when
 	we immediately return kFoundNewLine.
 
-	When we pass the position origCaretIndex, we set *newCaretIndex to be
+	When we pass the position origCaretIndex, we set *totalCount to be
 	the index into *spaceBuffer+*wordBuffer.  Otherwise, we do not change
-	*newCaretIndex.
+	*totalCount.
 
  ******************************************************************************/
 
@@ -3605,58 +3610,66 @@ JStyledText::CRMStatus
 JStyledText::CRMReadNextWord
 	(
 	TextIndex*			charIndex,
-	const TextIndex&	endIndex,
+	const JIndex		endCharIndex,
 	JString*			spaceBuffer,
 	JSize*				spaceCount,
 	JString*			wordBuffer,
 	JRunArray<JFont>*	wordStyles,
-	const JSize			currentLineWidth,
+	const JSize			currentCharCount,
 	const TextIndex&	origCaretIndex,
-	TextIndex*			newCaretIndex,
+	bool*				hasTotalCount,
+	TextCount*			totalCount,
 	const JString&		newText,
 	const bool			requireSpace
 	)
 	const
 {
 	// read the whitespace
-/*
+
 	spaceBuffer->Clear();
 	*spaceCount = 0;
 
-	while (*charIndex <= endIndex)
+	JStringIterator iter(itsText);
+	iter.UnsafeMoveTo(kJIteratorStartBefore, charIndex->charIndex, charIndex->byteIndex);
+
+	JUtf8Character c;
+	JIndex i;
+	while (iter.GetNextCharacterIndex(&i) && i <= endCharIndex)
 	{
-		if (*charIndex == origCaretIndex)
+		if (i == origCaretIndex.charIndex)
 		{
-			*newCaretIndex = spaceBuffer->GetLength() + 1;
+			assert( spaceBuffer->GetCharacterCount() == spaceBuffer->GetByteCount() );
+			*hasTotalCount = true;
+			totalCount->Set(spaceBuffer->GetCharacterCount(), spaceBuffer->GetByteCount());	// ascii
 		}
 
-		const JCharacter c = itsBuffer->GetCharacter(*charIndex);
+		iter.Next(&c);
 		if (c == ' ')
 		{
-			*charIndex++;
-			spaceBuffer->AppendCharacter(c);
-			*spaceCount++;
+			spaceBuffer->Append(c);
+			(*spaceCount)++;
 		}
 		else if (c == '\t')
 		{
-			*charIndex++;
-			spaceBuffer->AppendCharacter(c);
-			*spaceCount += CRMGetTabWidth(currentLineWidth + *spaceCount);
+			spaceBuffer->Append(c);
+			*spaceCount += CRMGetTabWidth(currentCharCount + *spaceCount);
 		}
 		else if (c == '\n')			// we can ignore the spaces
 		{
-			*charIndex++;
 			spaceBuffer->Clear();
 			*spaceCount = 0;
+			charIndex->charIndex = i+1;
+			charIndex->byteIndex = iter.GetPrevByteIndex()+1;
 			return kFoundNewLine;
 		}
 		else						// found beginning of word
 		{
+			iter.SkipPrev();
 			break;
 		}
 	}
 
-	if (*charIndex == endIndex+1)	// we can ignore the spaces
+	if (iter.GetNextCharacterIndex(&i) && i >= endCharIndex)	// we can ignore the spaces
 	{
 		return kFinished;
 	}
@@ -3665,26 +3678,41 @@ JStyledText::CRMReadNextWord
 
 	wordBuffer->Clear();
 
-	const JIndex wordStart = *charIndex;
-	while (*charIndex <= endIndex)
+	const TextIndex wordStart(iter.GetNextCharacterIndex(), iter.GetNextByteIndex());
+	while (iter.GetNextCharacterIndex(&i) && i <= endCharIndex)
 	{
-		if (*charIndex == origCaretIndex)
+		if (i == origCaretIndex.charIndex)
 		{
-			*newCaretIndex = spaceBuffer->GetLength() + wordBuffer->GetLength() + 1;
+			*hasTotalCount = true;
+			totalCount->Set(
+				spaceBuffer->GetCharacterCount() + wordBuffer->GetCharacterCount(),
+				spaceBuffer->GetByteCount() + wordBuffer->GetByteCount());
 		}
 
-		const JCharacter c = itsBuffer->GetCharacter(*charIndex);
+		iter.Next(&c);
 		if (c == ' ' || c == '\t' || c == '\n')
 		{
+			iter.SkipPrev();
 			break;
 		}
 
-		wordBuffer->AppendCharacter(c);
-		(*charIndex)++;
+		wordBuffer->Append(c);
+	}
+
+	if (!iter.AtEnd())
+	{
+		charIndex->charIndex = iter.GetNextCharacterIndex();
+		charIndex->byteIndex = iter.GetNextByteIndex();
+	}
+	else
+	{
+		*charIndex = GetBeyondEnd();
 	}
 
 	wordStyles->RemoveAll();
-	wordStyles->InsertElementsAtIndex(1, *itsStyles, wordStart, wordBuffer->GetLength());
+	wordStyles->AppendSlice(*itsStyles, JIndexRange(wordStart.charIndex, wordStart.charIndex + wordBuffer->GetCharacterCount() - 1));
+
+	iter.Invalidate();
 
 	// After a newline, the whitespace may have been tossed
 	// as belonging to the prefix, but we still need some space.
@@ -3694,14 +3722,14 @@ JStyledText::CRMReadNextWord
 
 	if (*spaceCount == 0 && requireSpace)
 	{
-		JCharacter c1 = newText.GetLastCharacter();
-		JCharacter c2 = '\0';
-		if (newText.GetLength() > 1)
-		{
-			c2 = newText.GetCharacter(newText.GetLength()-1);
-		}
+		JStringIterator iter2(newText, kJIteratorStartAtEnd);
+
+		JUtf8Character c1, c2;
+		iter2.Prev(&c1);
+		iter2.Prev(&c2);
+
 		if ((jCRMIsEOS(c1) || (jCRMIsEOS(c2) && c1 =='\"')) &&
-			!JIsLower(wordBuffer->GetFirstCharacter()))
+			!wordBuffer->GetFirstCharacter().IsLower())
 		{
 			*spaceBuffer = "  ";
 		}
@@ -3710,13 +3738,13 @@ JStyledText::CRMReadNextWord
 			*spaceBuffer = " ";
 		}
 
-		*spaceCount = spaceBuffer->GetLength();
-		if (*newCaretIndex > 0)
+		*spaceCount = spaceBuffer->GetCharacterCount();
+		if (*hasTotalCount)
 		{
-			*newCaretIndex += *spaceCount;
+			*totalCount += TextCount(*spaceCount, *spaceCount);	// ascii
 		}
 	}
-*/
+
 	return kFoundWord;
 }
 
@@ -3725,8 +3753,8 @@ JStyledText::CRMReadNextWord
 
 	Add the spaces and word to new text, maintaining the required line width.
 
-	If *newCaretIndex>0, we convert it from an index in spaceBuffer+wordBuffer
-	to an index in newText.
+	If *hasTotalCount, we convert *totalCount from spaceBuffer+wordBuffer to
+	newText.
 
  ******************************************************************************/
 
@@ -3735,8 +3763,9 @@ JStyledText::CRMAppendWord
 	(
 	JString*				newText,
 	JRunArray<JFont>*		newStyles,
-	JSize*					currentLineWidth,
-	TextIndex*				newCaretIndex,
+	JSize*					currentCharCount,
+	bool*					hasTotalCount,
+	TextCount*				totalCount,
 	const JString&			spaceBuffer,
 	const JSize				spaceCount,
 	const JString&			wordBuffer,
@@ -3746,9 +3775,8 @@ JStyledText::CRMAppendWord
 	)
 	const
 {
-/*
-	const JSize newLineWidth = *currentLineWidth + spaceCount + wordBuffer.GetLength();
-	if (*currentLineWidth == 0 || newLineWidth > itsCRMLineWidth)
+	const JSize newLineWidth = *currentCharCount + spaceCount + wordBuffer.GetCharacterCount();
+	if (*currentCharCount == 0 || newLineWidth > itsCRMLineWidth)
 	{
 		// calculate prefix font
 
@@ -3759,63 +3787,61 @@ JStyledText::CRMAppendWord
 
 		if (!newText->IsEmpty())
 		{
-			newText->AppendCharacter('\n');
+			newText->Append("\n");
 			newStyles->AppendElement(prefixFont);
 		}
+
 		if (!linePrefix.IsEmpty())
 		{
 			*newText += linePrefix;
-			newStyles->AppendElements(prefixFont, linePrefix.GetLength());
+			newStyles->AppendElements(prefixFont, linePrefix.GetCharacterCount());
 		}
 
 		// write word
 
-		if (*newCaretIndex > 0)
+		if (*hasTotalCount)
 		{
-			if (*newCaretIndex <= spaceCount)
+			if (totalCount->charCount <= spaceCount)
 			{
-				*newCaretIndex = 1;				// in spaces that we toss
+				totalCount->Set(0, 0);	// in spaces that we toss
 			}
 			else
 			{
-				*newCaretIndex -= spaceCount;	// in word
+				*totalCount -= TextCount(spaceCount, spaceCount);	// ascii
 			}
 
-			*newCaretIndex += newText->GetLength();
+			*totalCount += TextCount(newText->GetCharacterCount(), newText->GetByteCount());
 		}
 
 		*newText += wordBuffer;
-		newStyles->InsertElementsAtIndex(newStyles->GetElementCount()+1,
-										 wordStyles, 1, wordStyles.GetElementCount());
-		*currentLineWidth = prefixLength + wordBuffer.GetLength();
+		newStyles->AppendSlice(wordStyles, JIndexRange(1, wordStyles.GetElementCount()));
+		*currentCharCount = prefixLength + wordBuffer.GetCharacterCount();
 	}
 	else	// newLineWidth <= itsCRMLineWidth
 	{
 		// append spaces + word at end of line
 
-		if (*newCaretIndex > 0)
+		if (*hasTotalCount)
 		{
-			*newCaretIndex += newText->GetLength();
+			*totalCount += TextCount(newText->GetCharacterCount(), newText->GetByteCount());
 		}
 
 		*newText += spaceBuffer;
 		newStyles->AppendElements(JCalcWSFont(newStyles->GetLastElement(),
 											  wordStyles.GetFirstElement()),
-								  spaceBuffer.GetLength());
+								  spaceBuffer.GetCharacterCount());
 		*newText += wordBuffer;
-		newStyles->InsertElementsAtIndex(newStyles->GetElementCount()+1,
-										 wordStyles, 1, wordStyles.GetElementCount());
+		newStyles->AppendSlice(wordStyles, JIndexRange(1, wordStyles.GetElementCount()));
 
 		if (newLineWidth < itsCRMLineWidth)
 		{
-			*currentLineWidth = newLineWidth;
+			*currentCharCount = newLineWidth;
 		}
 		else	// newLineWidth == itsCRMLineWidth
 		{
-			*currentLineWidth = 0;
+			*currentCharCount = 0;
 		}
 	}
-*/
 }
 
 /******************************************************************************
@@ -3944,9 +3970,7 @@ JStyledText::CRMRuleList::CRMRuleList	// lgtm[cpp/rule-of-two]
 			CRMRule(r.first->GetPattern(), r.rest->GetPattern(), *r.replace));
 	}
 
-	itsInterpolator = jnew JInterpolate;
-	assert( itsInterpolator != nullptr );
-	itsInterpolator->SetWhitespaceEscapes();
+	itsInterpolator = CRMRule::CreateInterpolator();
 }
 
 JStyledText::CRMRuleList::~CRMRuleList()
@@ -5364,4 +5388,22 @@ JStyledText::CompareByteIndices
 	)
 {
 	return JCompareIndices(i.byteIndex, j.byteIndex);
+}
+
+/******************************************************************************
+ TextCount operators
+
+ ******************************************************************************/
+
+JStyledText::TextCount&
+JStyledText::TextCount::operator-=
+	(
+	const JStyledText::TextCount& c
+	)
+{
+	assert( charCount >= c.charCount && byteCount >= c.byteCount );
+
+	charCount -= c.charCount;
+	byteCount -= c.byteCount;
+	return *this;
 }

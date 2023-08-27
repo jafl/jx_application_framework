@@ -1282,6 +1282,38 @@ JTextEditor::CleanSelectedWhitespace
 }
 
 /******************************************************************************
+ CleanRightMargin
+
+	If there is a selection, cleans up the right margin of each paragraph
+	touched by the selection.  Otherwise, cleans up the right margin of the
+	paragraph containing the caret and maintain the caret position.
+
+ ******************************************************************************/
+
+bool
+JTextEditor::CleanRightMargin
+	(
+	const bool coerce
+	)
+{
+	if (TEIsDragging())
+	{
+		return false;
+	}
+
+	TextIndex caretIndex = itsCaret.location;
+	if (itsText->CleanRightMargin(&caretIndex, itsSelection, coerce))
+	{
+		SetCaretLocation(caretIndex);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+/******************************************************************************
  Paginate (protected)
 
 	Returns breakpoints for cutting text into pages.  The first breakpoint
@@ -2624,7 +2656,7 @@ JTextEditor::TEGetDoubleClickSelection
 		 ((origIndex.charIndex == endIndex.charIndex+1 && itsText->GetText().CharacterIndexValid(endIndex.charIndex+1)) ||
 		  (origIndex.charIndex == textLength+1 && endIndex.charIndex == textLength))) )
 	{
-		*range = TextRange(startIndex, itsText->AdjustTextIndex(endIndex, +1));
+		range->Set(startIndex, itsText->AdjustTextIndex(endIndex, +1));
 	}
 
 	// Otherwise, we select the character that was clicked on
@@ -2662,7 +2694,7 @@ JTextEditor::TEGetDoubleClickSelection
 			b2 = iter->GetNextByteIndex();
 		}
 
-		*range = TextRange(
+		range->Set(
 			TextIndex(iter->GetPrevCharacterIndex(), b1),
 			TextCount(1, b2-b1));
 

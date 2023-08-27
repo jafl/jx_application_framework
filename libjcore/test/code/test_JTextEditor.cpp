@@ -1277,7 +1277,7 @@ JTEST(AutoIndent)
 	rules.AppendElement(JStyledText::CRMRule(
 		JString("([[:space:]]*)/(\\*+[[:space:]]*)+", JString::kNoCopy),
 		JString("[[:space:]]*(\\*+/?[[:space:]]*)+", JString::kNoCopy),
-		JString("$1 *", JString::kNoCopy)));
+		JString("$1 * ", JString::kNoCopy)));
 	rules.AppendElement(JStyledText::CRMRule(
 		JString("[[:space:]]*(\\*+[[:space:]]*)+", JString::kNoCopy),
 		JString("[[:space:]]*(\\*+/?[[:space:]]*)+", JString::kNoCopy),
@@ -1292,7 +1292,8 @@ JTEST(AutoIndent)
 	te.HandleKeyPress(JUtf8Character('/'), false, JTextEditor::kMoveByCharacter, false);
 	te.HandleKeyPress(JUtf8Character('*'), false, JTextEditor::kMoveByCharacter, false);
 	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
-	JAssertStringsEqual("/*\n *", text.GetText());
+	JAssertStringsEqual("/*\n * ", text.GetText());
+	te.HandleKeyPress(JUtf8Character('\b'), false, JTextEditor::kMoveByCharacter, false);
 	te.HandleKeyPress(JUtf8Character('*'), false, JTextEditor::kMoveByCharacter, false);
 	te.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
 	te.HandleKeyPress(JUtf8Character('x'), false, JTextEditor::kMoveByCharacter, false);

@@ -241,7 +241,7 @@ JTEDefaultKeyHandler::HandleKeyPress
 		TextRange r;
 		if (!te->GetSelection(&r))
 		{
-			r = TextRange(te->GetInsertionIndex(), TextCount());
+			r.Set(te->GetInsertionIndex(), TextCount());
 		}
 		r = st->InsertSpacesForTab(te->GetLineStart(te->GetLineForChar(r.charRange.first)), r);
 		te->SetCaretLocation(r.GetAfter());

@@ -166,6 +166,8 @@ public:
 	void	SetCurrentFontStyle(const JFontStyle& style);
 	void	SetCurrentFont(const JFont& font);
 
+	bool	CleanRightMargin(const bool coerce);
+
 	JCoordinate	GetDefaultTabWidth() const;
 	void		SetDefaultTabWidth(const JCoordinate width);
 	void		TabSelectionLeft(const JSize tabCount = 1,

@@ -550,7 +550,7 @@ JSTStyler::ExpandTextRange
 	const TextIndex after =
 		itsST->AdjustTextIndex(r1->GetAfter(), cr.last - r1->charRange.last);
 
-	*r1 = TextRange(start, after);
+	r1->Set(start, after);
 }
 
 /******************************************************************************

@@ -57,7 +57,15 @@ public:
 			byteCount(byte)
 			{ };
 
+		void
+		Set(const JSize ch, const JSize byte)
+		{
+			charCount = ch;
+			byteCount = byte;
+		}
+
 		TextCount& operator+=(const TextCount& c);
+		TextCount& operator-=(const TextCount& c);
 	};
 
 	struct TextIndex
@@ -76,6 +84,13 @@ public:
 			charIndex(ch),
 			byteIndex(byte)
 			{ };
+
+		void
+		Set(const JIndex ch, const JIndex byte)
+		{
+			charIndex = ch;
+			byteIndex = byte;
+		}
 
 		TextIndex& operator+=(const TextCount& c);
 	};
@@ -102,14 +117,12 @@ public:
 
 		TextRange(const TextIndex& first, const TextIndex& beyondLast)
 		{
-			charRange.Set(first.charIndex, beyondLast.charIndex-1);
-			byteRange.Set(first.byteIndex, beyondLast.byteIndex-1);
+			Set(first, beyondLast);
 		};
 
 		TextRange(const TextIndex& i, const TextCount& c)
 		{
-			charRange.SetFirstAndCount(i.charIndex, c.charCount);
-			byteRange.SetFirstAndCount(i.byteIndex, c.byteCount);
+			Set(i, c);
 		};
 
 		bool
@@ -124,6 +137,27 @@ public:
 			charRange.SetToNothing();
 			byteRange.SetToNothing();
 		};
+
+		void
+		Set(const JCharacterRange& cr, const JUtf8ByteRange& br)
+		{
+			charRange = cr;
+			byteRange = br;
+		}
+
+		void
+		Set(const TextIndex& first, const TextIndex& beyondLast)
+		{
+			charRange.Set(first.charIndex, beyondLast.charIndex-1);
+			byteRange.Set(first.byteIndex, beyondLast.byteIndex-1);
+		}
+
+		void
+		Set(const TextIndex& i, const TextCount& c)
+		{
+			charRange.SetFirstAndCount(i.charIndex, c.charCount);
+			byteRange.SetFirstAndCount(i.byteIndex, c.byteCount);
+		}
 
 		TextIndex
 		GetFirst() const
@@ -155,6 +189,8 @@ public:
 			charRange.SetFirstAndCount(charRange.first, c.charCount);
 			byteRange.SetFirstAndCount(byteRange.first, c.byteCount);
 		};
+
+		TextRange& operator+=(const TextRange& r);
 	};
 
 	struct CRMRule
@@ -362,7 +398,9 @@ public:
 	static bool	ContainsIllegalChars(const JString& text);
 	static bool	RemoveIllegalChars(JString* text, JRunArray<JFont>* style = nullptr);
 
-	void	CleanRightMargin(const bool coerce);
+	bool	CleanRightMargin(TextIndex* caretIndex,
+							 const TextRange& selectionRange,
+							 const bool coerce);
 
 	JSize	GetCRMLineWidth() const;
 	void	SetCRMLineWidth(const JSize charCount);
@@ -390,11 +428,10 @@ public:
 
 	// JTextEditor
 
-	bool		CRMGetPrefix(TextIndex* startChar, const TextIndex& endChar,
-							 JString* linePrefix, JSize* columnCount,
-							 JIndex* ruleIndex) const;
-	TextRange	CRMMatchPrefix(const TextRange& textRange, JIndex* ruleIndex) const;
-	bool		CRMLineMatchesRest(const TextRange& range) const;
+	bool	CRMGetPrefix(TextIndex* startIndex, const TextIndex& beyondEndIndex,
+						 JString* linePrefix, JSize* columnCount,
+						 JIndex* ruleIndex) const;
+	bool	CRMLineMatchesRest(const TextRange& range) const;
 
 protected:
 
@@ -506,28 +543,30 @@ private:
 	void	AutoIndent(JSTUndoTyping* typingUndo, const TextIndex& insertIndex,
 					   TextCount* count);
 
-	bool			PrivateCleanRightMargin(const bool coerce,
+	bool			PrivateCleanRightMargin(const TextIndex& start, const bool coerce,
 											TextRange* textRange,
 											JString* newText, JRunArray<JFont>* newStyles,
 											TextIndex* newCaretIndex) const;
-	bool		CRMGetRange(const TextIndex& caretChar, const bool coerce,
+	bool		CRMGetRange(const TextIndex& caretIndex, const bool coerce,
 							TextRange* range, TextIndex* textStartIndex,
 							JString* firstLinePrefix, JSize* firstPrefixLength,
 							JString* restLinePrefix, JSize* restPrefixLength,
 							JIndex* returnRuleIndex) const;
+	TextRange	CRMMatchPrefix(const TextRange& textRange, JIndex* ruleIndex) const;
 	JSize		CRMCalcColumnCount(const JString& linePrefix) const;
 	JString		CRMBuildRestPrefix(const JString& firstLinePrefix,
 								   const JIndex ruleIndex, JSize* columnCount) const;
-	void		CRMTossLinePrefix(TextIndex* charIndex, const TextIndex& endChar,
+	void		CRMTossLinePrefix(TextIndex* charIndex, const TextIndex& beyondEndIndex,
 								  const JIndex ruleIndex) const;
-	CRMStatus	CRMReadNextWord(TextIndex* charIndex, const TextIndex& endIndex,
+	CRMStatus	CRMReadNextWord(TextIndex* charIndex, const JIndex endCharIndex,
 								JString* spaceBuffer, JSize* spaceCount,
 								JString* wordBuffer, JRunArray<JFont>* wordStyles,
-								const JSize currentLineWidth,
-								const TextIndex& origCaretIndex, TextIndex* newCaretIndex,
+								const JSize currentCharCount, const TextIndex& origCaretIndex,
+								bool* hasTotalCount, TextCount* totalCount,
 								const JString& newText, const bool requireSpace) const;
 	void		CRMAppendWord(JString* newText, JRunArray<JFont>* newStyles,
-							  JSize* currentLineWidth, TextIndex* newCaretIndex,
+							  JSize* currentCharCount,
+							  bool* hasTotalCount, TextCount* totalCount,
 							  const JString& spaceBuffer, const JSize spaceCount,
 							  const JString& wordBuffer, const JRunArray<JFont>& wordStyles,
 							  const JString& linePrefix, const JSize prefixLength) const;
@@ -1033,6 +1072,22 @@ JStyledText::TextCount::operator+=
 {
 	charCount += c.charCount;
 	byteCount += c.byteCount;
+	return *this;
+}
+
+/******************************************************************************
+ TextRange operators
+
+ ******************************************************************************/
+
+inline JStyledText::TextRange&
+JStyledText::TextRange::operator+=
+	(
+	const JStyledText::TextRange& r
+	)
+{
+	charRange += r.charRange;
+	byteRange += r.byteRange;
 	return *this;
 }
 
