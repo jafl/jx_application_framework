@@ -160,6 +160,11 @@ JRunArray<T>::PrependSlice
 	const JIndexRange&	range
 	)
 {
+	if (range.IsEmpty())
+	{
+		return;
+	}
+
 	JIndex runIndex = 1, firstIndexInRun = 1;
 	IteratorInsertSlice(1, source, range, &runIndex, &firstIndexInRun);
 }
@@ -215,6 +220,11 @@ JRunArray<T>::AppendSlice
 	const JIndexRange&	range
 	)
 {
+	if (range.IsEmpty())
+	{
+		return;
+	}
+
 	const JSize totalCount = this->GetElementCount();
 
 	JIndex runIndex, firstIndexInRun;
