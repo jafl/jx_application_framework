@@ -194,8 +194,8 @@ inline bool
 JStringIterator::AtEnd()
 	const
 {
-	return itsConstString == nullptr ||
-				 itsByteOffset >= itsConstString->GetByteCount();
+	return (itsConstString == nullptr ||
+			itsByteOffset >= itsConstString->GetByteCount());
 }
 
 /******************************************************************************
@@ -213,10 +213,10 @@ JStringIterator::GetPrevCharacterIndex
 	const
 {
 	if (AtBeginning())
-		{
+	{
 		*i = 0;
 		return false;
-		}
+	}
 
 	*i = itsCharacterOffset;
 	return true;
@@ -261,10 +261,10 @@ JStringIterator::GetPrevByteIndex
 	const
 {
 	if (AtBeginning())
-		{
+	{
 		*i = 0;
 		return false;
-		}
+	}
 
 	*i = itsByteOffset;
 	return true;
@@ -285,10 +285,10 @@ JStringIterator::GetNextByteIndex
 	const
 {
 	if (AtEnd())
-		{
+	{
 		*i = 0;
 		return false;
-		}
+	}
 
 	*i = itsByteOffset + 1;
 	return true;

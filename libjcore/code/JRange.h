@@ -145,7 +145,7 @@ public:
 template <class T> std::istream& operator>>(std::istream& input, JRange<T>& range);
 template <class T> std::ostream& operator<<(std::ostream& output, const JRange<T>& range);
 
-template <class T> bool		JIntersection(const JRange<T>& r1, const JRange<T>& r2, JRange<T>* result);
+template <class T> bool			JIntersection(const JRange<T>& r1, const JRange<T>& r2, JRange<T>* result);
 template <class T> JRange<T>	JCovering(const JRange<T>& r1, const JRange<T>& r2);
 
 template <class T>
