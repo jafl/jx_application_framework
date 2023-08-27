@@ -295,7 +295,7 @@ void
 JStringMatch::ComputeCharacterRange()
 	const
 {
-	if (itsByteRange.IsEmpty())
+	if (itsByteRange.IsNothing())
 	{
 		return;
 	}
