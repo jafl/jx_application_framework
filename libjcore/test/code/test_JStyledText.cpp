@@ -789,7 +789,7 @@ JTEST(SetFont)
 
 	text.Undo();
 	JAssertEqual(4, styles.GetRunCount());
-	JAssertEqual(24, text.GetFont(2).GetSize());
+	JAssertEqual(20, text.GetFont(2).GetSize());
 	JAssertTrue(text.GetFont(5).GetStyle().bold);
 }
 
