@@ -14,6 +14,7 @@
 #include <jx-af/jcore/JInterpolate.h>
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jFStreamUtil.h>
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jGlobals.h>
@@ -746,15 +747,15 @@ JTEST(SetAllFontNameAndSize)
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[&text] (const JBroadcaster::Message& m)
 	{
-			const auto* tc =
-				dynamic_cast<const JStyledText::TextChanged*>(&m);
-			JAssertNotNull(tc);
-			JAssertEqual(1, tc->GetRange().charRange.first);
-			JAssertEqual(text.GetText().GetCharacterCount(), tc->GetRange().charRange.last);
-			JAssertEqual(1, tc->GetRange().byteRange.first);
-			JAssertEqual(text.GetText().GetByteCount(), tc->GetRange().byteRange.last);
-			JAssertEqual(0, tc->GetCharDelta());
-			JAssertEqual(0, tc->GetByteDelta());
+		const auto* tc =
+			dynamic_cast<const JStyledText::TextChanged*>(&m);
+		JAssertNotNull(tc);
+		JAssertEqual(1, tc->GetRange().charRange.first);
+		JAssertEqual(text.GetText().GetCharacterCount(), tc->GetRange().charRange.last);
+		JAssertEqual(1, tc->GetRange().byteRange.first);
+		JAssertEqual(text.GetText().GetByteCount(), tc->GetRange().byteRange.last);
+		JAssertEqual(0, tc->GetCharDelta());
+		JAssertEqual(0, tc->GetByteDelta());
 	});
 
 	text.SetAllFontNameAndSize(JString("foo", JString::kNoCopy), 24, false);
@@ -764,6 +765,32 @@ JTEST(SetAllFontNameAndSize)
 	JAssertTrue(text.GetFont(5).GetStyle().bold);
 	JAssertFalse(text.GetFont(10).GetStyle().bold);
 	JAssertEqual(2, text.GetFont(16).GetStyle().underlineCount);
+}
+
+JTEST(SetFont)
+{
+	StyledText text;
+	text.SetText(JString("b" "\xC3\xAE" "g" "b" "\xC3\xB8" "ld" "normal" "double underline", JString::kNoCopy));
+	text.SetFontSize(TextRange(JCharacterRange(1,3), JUtf8ByteRange(1,4)), 20, false);
+	text.SetFontBold(TextRange(JCharacterRange(4,7), JUtf8ByteRange(5,9)), true, false);
+	text.SetFontUnderline(TextRange(JCharacterRange(14,29), JUtf8ByteRange(16,31)), 2, false);
+
+	const JRunArray<JFont>& styles = text.GetStyles();
+	JAssertEqual(4, styles.GetRunCount());
+
+	text.SetFont(
+		TextRange(JCharacterRange(1,7), JUtf8ByteRange(1,9)),
+		JFontManager::GetFont(JFontManager::GetDefaultMonospaceFontName(), 35, JFontStyle(JColorManager::GetGrayColor(73))),
+		false);
+
+	JAssertEqual(3, styles.GetRunCount());
+	JAssertEqual(35, text.GetFont(2).GetSize());
+	JAssertFalse(text.GetFont(5).GetStyle().bold);
+
+	text.Undo();
+	JAssertEqual(4, styles.GetRunCount());
+	JAssertEqual(24, text.GetFont(2).GetSize());
+	JAssertTrue(text.GetFont(5).GetStyle().bold);
 }
 
 JTEST(CalcInsertionFont)
@@ -2129,24 +2156,43 @@ JTEST(CleanRightMargin)
 	text.SetCRMLineWidth(10);
 	text.SetCRMTabCharCount(4);
 
-	// single line
+	// empty
 
-	text.SetText(JString("Thé quìck bröwn føx  jümpèd ǫvęr  thë   læzy dǫg.", JString::kNoCopy));
 	TextIndex caret(1, 1);
 	TextRange selection;
 	bool changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertFalse(changed);
+	JAssertEqual(1, caret.charIndex);
+	JAssertEqual(1, caret.byteIndex);
+	JAssertStringsEqual("", text.GetText());
+
+	// single line
+
+	text.SetText(JString("Thé quìck bröwn føx  jümpèd ǫvęr  thë   læzy dǫg.", JString::kNoCopy));
+	caret.Set(1, 1);
+	changed = text.CleanRightMargin(&caret, selection, false);
 	JAssertTrue(changed);
 	JAssertEqual(1, caret.charIndex);
 	JAssertEqual(1, caret.byteIndex);
 	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr  thë\nlæzy dǫg.", text.GetText());
 
-	text.SetText(JString("Thé quìck bröwn føx jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(1, caret.charIndex);
+	JAssertEqual(1, caret.byteIndex);
+	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr  thë\nlæzy dǫg.", text.GetText());
+
+	text.SetText(JString("Thé quìck bröwn føx jümpèd ǫvęr thë læzy dǫg.\n", JString::kNoCopy));
+	caret.Set(47, 58);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertFalse(changed);
+
 	caret.Set(14, 17);
 	changed = text.CleanRightMargin(&caret, selection, false);
 	JAssertTrue(changed);
 	JAssertEqual(14, caret.charIndex);
 	JAssertEqual(17, caret.byteIndex);
-	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr thë\nlæzy dǫg.", text.GetText());
+	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr thë\nlæzy dǫg.\n", text.GetText());
 
 	text.SetText(JString("Thé quìck bröwn føx abcdefghijklmnop jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
 	caret.Set(14, 17);
@@ -2164,13 +2210,21 @@ JTEST(CleanRightMargin)
 	JAssertEqual(7, caret.byteIndex);
 	JAssertStringsEqual("abcd\n\nThé quìck\nbröwn føx\njümpèd\nǫvęr thë\nlæzy dǫg.", text.GetText());
 
-	text.SetText(JString("abcd\n\nThé quìck   bröwn føx jümpèd ǫvęr.   thë læzy dǫg.\n\nfoobar", JString::kNoCopy));
+	text.SetText(JString("abcd\n\nThé quìck   bröwn føx jümpèd ǫvęr.   thë læzy dǫg.   \n\nfoobar", JString::kNoCopy));
 	caret.Set(25, 27);
 	changed = text.CleanRightMargin(&caret, selection, false);
 	JAssertTrue(changed);
 	JAssertEqual(23, caret.charIndex);
 	JAssertEqual(25, caret.byteIndex);
 	JAssertStringsEqual("abcd\n\nThé quìck\nbröwn føx\njümpèd\nǫvęr.\nthë læzy\ndǫg.\n\nfoobar", text.GetText());
+
+	text.SetText(JString("abcd\n\nThé\tquìck\tbröwn\tføx\tjümpèd\tǫvęr\tthë\tlæzy\tdǫg.\t\n\nfoobar", JString::kNoCopy));
+	caret.Set(25, 27);
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(24, caret.charIndex);
+	JAssertEqual(26, caret.byteIndex);
+	JAssertStringsEqual("abcd\n\nThé\tquìck\nbröwn\nføx\tjümpèd\nǫvęr\nthë\tlæzy\ndǫg.\n\nfoobar", text.GetText());
 
 	text.SetText(JString("abcd\n\n\tThé quìck bröwn føx jümpèd ǫvęr thë læzy dǫg.", JString::kNoCopy));
 	caret.Set(12, 13);

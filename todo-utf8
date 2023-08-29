@@ -1,12 +1,4 @@
 unit test
-	JStyledText - every usage of JRunArrayIterator
-		SetFont(range)
-		JSTUndoStyle calls SetFont
-		RemoveIllegalChars
-
-	JTextEditor - every usage of JRunArrayIterator
-		Paginate
-
 	JTable - especially JRunArrayIterator
 	JTableSelection - especially JRunArrayIterator
 	JStringTableData

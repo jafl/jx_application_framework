@@ -585,7 +585,7 @@ JStyledText::ReadPrivateFormat
 		fStyle.color = colorList.GetElement(colorIndex);
 
 		style->AppendElements(
-			JFontManager::GetFont(*(fontNameList.GetElement(fontIndex)), size, fStyle),
+			JFontManager::GetFont(*fontNameList.GetElement(fontIndex), size, fStyle),
 			charCount);
 	}
 
@@ -3170,7 +3170,6 @@ JStyledText::PrivateCleanRightMargin
 
 		if (status == kFinished)
 		{
-			assert( index.charIndex == origTextRange->charRange.last+1 );
 			break;
 		}
 		else if (status == kFoundWord)
@@ -3652,7 +3651,7 @@ JStyledText::CRMReadNextWord
 		else if (c == '\t')
 		{
 			spaceBuffer->Append(c);
-			*spaceCount += CRMGetTabWidth(currentCharCount + *spaceCount);
+			*spaceCount += CRMGetTabWidth(currentCharCount + *spaceCount + 1);
 		}
 		else if (c == '\n')			// we can ignore the spaces
 		{
@@ -3669,7 +3668,7 @@ JStyledText::CRMReadNextWord
 		}
 	}
 
-	if (iter.GetNextCharacterIndex(&i) && i >= endCharIndex)	// we can ignore the spaces
+	if (i > endCharIndex)	// we can ignore the spaces
 	{
 		return kFinished;
 	}
