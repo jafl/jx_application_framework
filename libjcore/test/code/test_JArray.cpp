@@ -75,12 +75,12 @@ JTEST(Prepend)
 		snoop.Expect(JListT::kElementsInserted,
 			[] (const JBroadcaster::Message& m)
 		{
-				const auto* ei =
-					dynamic_cast<const JListT::ElementsInserted*>(&m);
-				JAssertNotNull(ei);
-				JAssertEqual(1, ei->GetFirstIndex());
-				JAssertEqual(1, ei->GetLastIndex());
-				JAssertEqual(1, ei->GetCount());
+			const auto* ei =
+				dynamic_cast<const JListT::ElementsInserted*>(&m);
+			JAssertNotNull(ei);
+			JAssertEqual(1, ei->GetFirstIndex());
+			JAssertEqual(1, ei->GetLastIndex());
+			JAssertEqual(1, ei->GetCount());
 		});
 
 		a.PrependElement(j);
@@ -104,27 +104,27 @@ JTEST(Append)
 		snoop.Expect(JListT::kElementsInserted,
 			[j] (const JBroadcaster::Message& m)
 		{
-				const auto* ei =
-					dynamic_cast<const JListT::ElementsInserted*>(&m);
-				JAssertNotNull(ei);
-				JAssertEqual(j, ei->GetFirstIndex());
-				JAssertEqual(j, ei->GetLastIndex());
-				JAssertEqual(1, ei->GetCount());
-				JAssertFalse(ei->Contains(j-1));
-				JAssertTrue(ei->Contains(j));
-				JAssertFalse(ei->Contains(j+1));
+			const auto* ei =
+				dynamic_cast<const JListT::ElementsInserted*>(&m);
+			JAssertNotNull(ei);
+			JAssertEqual(j, ei->GetFirstIndex());
+			JAssertEqual(j, ei->GetLastIndex());
+			JAssertEqual(1, ei->GetCount());
+			JAssertFalse(ei->Contains(j-1));
+			JAssertTrue(ei->Contains(j));
+			JAssertFalse(ei->Contains(j+1));
 
-				JIndex k = j-1;
-				ei->AdjustIndex(&k);
-				JAssertEqual(j-1, k);
+			JIndex k = j-1;
+			ei->AdjustIndex(&k);
+			JAssertEqual(j-1, k);
 
-				k = j;
-				ei->AdjustIndex(&k);
-				JAssertEqual(j+1, k);
+			k = j;
+			ei->AdjustIndex(&k);
+			JAssertEqual(j+1, k);
 
-				k = j+1;
-				ei->AdjustIndex(&k);
-				JAssertEqual(j+2, k);
+			k = j+1;
+			ei->AdjustIndex(&k);
+			JAssertEqual(j+2, k);
 		});
 
 		a.AppendElement(j);
@@ -170,27 +170,27 @@ JTEST(Remove)
 	snoop.Expect(JListT::kElementsRemoved,
 		[] (const JBroadcaster::Message& m)
 	{
-			const auto* er =
-				dynamic_cast<const JListT::ElementsRemoved*>(&m);
-			JAssertNotNull(er);
-			JAssertEqual(7, er->GetFirstIndex());
-			JAssertEqual(7, er->GetLastIndex());
-			JAssertEqual(1, er->GetCount());
-			JAssertFalse(er->Contains(6));
-			JAssertTrue(er->Contains(7));
-			JAssertFalse(er->Contains(8));
+		const auto* er =
+			dynamic_cast<const JListT::ElementsRemoved*>(&m);
+		JAssertNotNull(er);
+		JAssertEqual(7, er->GetFirstIndex());
+		JAssertEqual(7, er->GetLastIndex());
+		JAssertEqual(1, er->GetCount());
+		JAssertFalse(er->Contains(6));
+		JAssertTrue(er->Contains(7));
+		JAssertFalse(er->Contains(8));
 
-			JIndex k = 6;
-			er->AdjustIndex(&k);
-			JAssertEqual(6, k);
+		JIndex k = 6;
+		er->AdjustIndex(&k);
+		JAssertEqual(6, k);
 
-			k = 7;
-			er->AdjustIndex(&k);
-			JAssertEqual(0, k);
+		k = 7;
+		er->AdjustIndex(&k);
+		JAssertEqual(0, k);
 
-			k = 8;
-			er->AdjustIndex(&k);
-			JAssertEqual(7, k);
+		k = 8;
+		er->AdjustIndex(&k);
+		JAssertEqual(7, k);
 	});
 	a.RemoveElement(7);
 	verify("1 2 3 4 5 6 8 9 10 11 12 13 14 15", a);
@@ -206,27 +206,27 @@ JTEST(Remove)
 	snoop.Expect(JListT::kElementsRemoved,
 		[] (const JBroadcaster::Message& m)
 	{
-			const auto* er =
-				dynamic_cast<const JListT::ElementsRemoved*>(&m);
-			JAssertNotNull(er);
-			JAssertEqual(8, er->GetFirstIndex());
-			JAssertEqual(10, er->GetLastIndex());
-			JAssertEqual(3, er->GetCount());
-			JAssertFalse(er->Contains(7));
-			JAssertTrue(er->Contains(9));
-			JAssertFalse(er->Contains(11));
+		const auto* er =
+			dynamic_cast<const JListT::ElementsRemoved*>(&m);
+		JAssertNotNull(er);
+		JAssertEqual(8, er->GetFirstIndex());
+		JAssertEqual(10, er->GetLastIndex());
+		JAssertEqual(3, er->GetCount());
+		JAssertFalse(er->Contains(7));
+		JAssertTrue(er->Contains(9));
+		JAssertFalse(er->Contains(11));
 
-			JIndex k = 7;
-			er->AdjustIndex(&k);
-			JAssertEqual(7, k);
+		JIndex k = 7;
+		er->AdjustIndex(&k);
+		JAssertEqual(7, k);
 
-			k = 9;
-			er->AdjustIndex(&k);
-			JAssertEqual(0, k);
+		k = 9;
+		er->AdjustIndex(&k);
+		JAssertEqual(0, k);
 
-			k = 11;
-			er->AdjustIndex(&k);
-			JAssertEqual(8, k);
+		k = 11;
+		er->AdjustIndex(&k);
+		JAssertEqual(8, k);
 	});
 	a.RemoveNextElements(8, 3);
 	verify("2 3 4 5 6 8 9 13 14", a);
@@ -249,23 +249,23 @@ JTEST(Move)
 	snoop.Expect(JListT::kElementMoved,
 		[] (const JBroadcaster::Message& m)
 	{
-			const auto* em =
-				dynamic_cast<const JListT::ElementMoved*>(&m);
-			JAssertNotNull(em);
-			JAssertEqual(3, em->GetOrigIndex());
-			JAssertEqual(5, em->GetNewIndex());
+		const auto* em =
+			dynamic_cast<const JListT::ElementMoved*>(&m);
+		JAssertNotNull(em);
+		JAssertEqual(3, em->GetOrigIndex());
+		JAssertEqual(5, em->GetNewIndex());
 
-			JIndex k = 2;
-			em->AdjustIndex(&k);
-			JAssertEqual(2, k);
+		JIndex k = 2;
+		em->AdjustIndex(&k);
+		JAssertEqual(2, k);
 
-			k = 3;
-			em->AdjustIndex(&k);
-			JAssertEqual(5, k);
+		k = 3;
+		em->AdjustIndex(&k);
+		JAssertEqual(5, k);
 
-			k = 4;
-			em->AdjustIndex(&k);
-			JAssertEqual(3, k);
+		k = 4;
+		em->AdjustIndex(&k);
+		JAssertEqual(3, k);
 	});
 	a.MoveElementToIndex(3, a.GetIndexFromEnd(1));
 	verify("1 2 4 5 3", a);
@@ -288,23 +288,23 @@ JTEST(Swap)
 	snoop.Expect(JListT::kElementsSwapped,
 		[] (const JBroadcaster::Message& m)
 	{
-			const auto* es =
-				dynamic_cast<const JListT::ElementsSwapped*>(&m);
-			JAssertNotNull(es);
-			JAssertEqual(2, es->GetIndex1());
-			JAssertEqual(5, es->GetIndex2());
+		const auto* es =
+			dynamic_cast<const JListT::ElementsSwapped*>(&m);
+		JAssertNotNull(es);
+		JAssertEqual(2, es->GetIndex1());
+		JAssertEqual(5, es->GetIndex2());
 
-			JIndex k = 2;
-			es->AdjustIndex(&k);
-			JAssertEqual(5, k);
+		JIndex k = 2;
+		es->AdjustIndex(&k);
+		JAssertEqual(5, k);
 
-			k = 3;
-			es->AdjustIndex(&k);
-			JAssertEqual(3, k);
+		k = 3;
+		es->AdjustIndex(&k);
+		JAssertEqual(3, k);
 
-			k = 5;
-			es->AdjustIndex(&k);
-			JAssertEqual(2, k);
+		k = 5;
+		es->AdjustIndex(&k);
+		JAssertEqual(2, k);
 	});
 
 	a.SwapElements(2,5);

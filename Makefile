@@ -108,6 +108,7 @@ analyze_coverage: initial_build_makemake
          J_GCC_LIBS="${J_GCC_LIBS} -coverage" \
          J_COMPILER_DEPEND_FLAGS="${J_COMPILER_DEPEND_FLAGS} -coverage" \
          COMPILE_STRINGS=0
+	@ls -lR libjcore
 	@${RM} libjcore/test/code/*.gcno libjcore/test/code/*.gcda;
 	@cd libjcore; p=`pwd`; \
      for f in `find . -name '*.gcno'`; do \
