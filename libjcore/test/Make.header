@@ -6,7 +6,7 @@ JX_ROOT := ../..
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
-SEARCHDIRS := -I./code ${SEARCHDIRS}
+SEARCHDIRS := -I./code -I../code ${SEARCHDIRS}
 
 # makemake variables
 

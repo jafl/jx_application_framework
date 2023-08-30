@@ -111,8 +111,6 @@ analyze_coverage: initial_build_makemake
 	@cd libjcore; gcov -lp code/*.o; mv code\#* code; \
      cd test; gcov -lp code/*.o; mv code\#* code
 
-#  &> /dev/null
-
 #
 # build all layouts
 #
