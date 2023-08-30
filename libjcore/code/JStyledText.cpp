@@ -3956,7 +3956,7 @@ JStyledText::CRMRuleList::CRMRuleList()
 	itsInterpolator = CRMRule::CreateInterpolator();
 }
 
-JStyledText::CRMRuleList::CRMRuleList	// lgtm[cpp/rule-of-two]
+JStyledText::CRMRuleList::CRMRuleList
 	(
 	const CRMRuleList& source
 	)
