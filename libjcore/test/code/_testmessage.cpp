@@ -1,4 +1,4 @@
-#include <jx-af/jcore/JStdError.h>
+#include "JStdError.h"
 #include <boost/any.hpp>
 
 class ItemSelected : public JBroadcaster::Message

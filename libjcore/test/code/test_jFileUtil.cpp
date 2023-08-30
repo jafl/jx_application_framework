@@ -7,12 +7,12 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/jFileUtil.h>
-#include <jx-af/jcore/jDirUtil.h>
-#include <jx-af/jcore/jFStreamUtil.h>
-#include <jx-af/jcore/JPtrArray-JString.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTestManager.h"
+#include "jFileUtil.h"
+#include "jDirUtil.h"
+#include "jFStreamUtil.h"
+#include "JPtrArray-JString.h"
+#include "jAssert.h"
 
 int main()
 {

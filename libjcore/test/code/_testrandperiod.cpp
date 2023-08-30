@@ -9,9 +9,9 @@
 
  *****************************************************************************/
 
-#include <jx-af/jcore/jRand.h>
+#include "jRand.h"
 #include <time.h>
-#include <jx-af/jcore/jAssert.h>
+#include "jAssert.h"
 
 	const unsigned long callibrationCycles = 10000000UL;
 

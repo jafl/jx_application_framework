@@ -7,14 +7,14 @@
 
  *****************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/jTextUtil.h>
-#include <jx-af/jcore/JStyledText.h>
-#include <jx-af/jcore/JFontManager.h>
-#include <jx-af/jcore/JColorManager.h>
-#include <jx-af/jcore/jFStreamUtil.h>
-#include <jx-af/jcore/jGlobals.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTestManager.h"
+#include "jTextUtil.h"
+#include "JStyledText.h"
+#include "JFontManager.h"
+#include "JColorManager.h"
+#include "jFStreamUtil.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 int main()
 {

@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/JFileArray.h>
-#include <jx-af/jcore/JBroadcastTester.h>
-#include <jx-af/jcore/jFileUtil.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTestManager.h"
+#include "JFileArray.h"
+#include "JBroadcastTester.h"
+#include "jFileUtil.h"
+#include "jAssert.h"
 
 const JFileVersion	kVersionOfExistingFile = 5;
 const JFAID_t		kEmbeddedFileID        = 10;

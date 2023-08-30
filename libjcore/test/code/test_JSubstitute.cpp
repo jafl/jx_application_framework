@@ -7,10 +7,10 @@
 
  *****************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/JSubstitute.h>
-#include <jx-af/jcore/JString.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTestManager.h"
+#include "JSubstitute.h"
+#include "JString.h"
+#include "jAssert.h"
 
 int main()
 {

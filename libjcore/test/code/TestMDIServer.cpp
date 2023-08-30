@@ -8,9 +8,9 @@
  ******************************************************************************/
 
 #include "TestMDIServer.h"
-#include <jx-af/jcore/JString.h>
+#include "JString.h"
 #include <ace/Reactor.h>
-#include <jx-af/jcore/jAssert.h>
+#include "jAssert.h"
 
 /******************************************************************************
  Constructor

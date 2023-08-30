@@ -8,8 +8,8 @@
 #ifndef _H_TestPTPrinter
 #define _H_TestPTPrinter
 
-#include <jx-af/jcore/JPTPrinter.h>
-#include <jx-af/jcore/JString.h>
+#include "JPTPrinter.h"
+#include "JString.h"
 
 class TestPTPrinter : public JPTPrinter
 {

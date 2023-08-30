@@ -1,4 +1,4 @@
-#include <jx-af/jcore/jAssert.h>
+#include "jAssert.h"
 
 int
 main

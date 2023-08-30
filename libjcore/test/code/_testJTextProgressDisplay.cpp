@@ -1,9 +1,9 @@
-#include <jx-af/jcore/JTextProgressDisplay.h>
-#include <jx-af/jcore/JStopWatch.h>
-#include <jx-af/jcore/jTime.h>
-#include <jx-af/jcore/JString.h>
-#include <jx-af/jcore/jCommandLine.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTextProgressDisplay.h"
+#include "JStopWatch.h"
+#include "jTime.h"
+#include "JString.h"
+#include "jCommandLine.h"
+#include "jAssert.h"
 
 int
 main

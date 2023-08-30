@@ -8,7 +8,7 @@
 #ifndef _H_TestMDIServer
 #define _H_TestMDIServer
 
-#include <jx-af/jcore/JMDIServer.h>
+#include "JMDIServer.h"
 
 class TestMDIServer : public JMDIServer
 {

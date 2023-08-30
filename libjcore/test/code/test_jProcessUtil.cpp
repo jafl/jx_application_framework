@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/jProcessUtil.h>
-#include <jx-af/jcore/JMinMax.h>
+#include "JTestManager.h"
+#include "jProcessUtil.h"
+#include "JMinMax.h"
 #include <stdarg.h>
-#include <jx-af/jcore/jAssert.h>
+#include "jAssert.h"
 
 extern void JCleanArg(JString* arg);
 

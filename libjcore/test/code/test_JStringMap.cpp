@@ -7,9 +7,9 @@
 
  *****************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/JStringMap.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTestManager.h"
+#include "JStringMap.h"
+#include "jAssert.h"
 
 int main()
 {

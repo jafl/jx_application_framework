@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
+#include "JTestManager.h"
 #include "TestMDIServer.h"
-#include <jx-af/jcore/JThisProcess.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JThisProcess.h"
+#include "jAssert.h"
 
 static const JUtf8Byte* kSignature = "test-jmdiserver";
 

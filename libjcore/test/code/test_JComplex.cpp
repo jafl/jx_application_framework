@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/JComplex.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTestManager.h"
+#include "JComplex.h"
+#include "jAssert.h"
 
 int main()
 {

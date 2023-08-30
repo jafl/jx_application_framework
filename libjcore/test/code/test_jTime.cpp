@@ -7,9 +7,9 @@
 
  *****************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/jTime.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTestManager.h"
+#include "jTime.h"
+#include "jAssert.h"
 
 int main()
 {

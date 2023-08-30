@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/JRect.h>
+#include "JTestManager.h"
+#include "JRect.h"
 #include <sstream>
-#include <jx-af/jcore/jAssert.h>
+#include "jAssert.h"
 
 int main()
 {

@@ -8,8 +8,8 @@
  ******************************************************************************/
 
 #include "TestPrefObject.h"
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTestManager.h"
+#include "jAssert.h"
 
 static const JUtf8Byte* kText = "foobar";
 

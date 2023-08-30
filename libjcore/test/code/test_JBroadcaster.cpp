@@ -7,9 +7,9 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/JBroadcastTester.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTestManager.h"
+#include "JBroadcastTester.h"
+#include "jAssert.h"
 
 int main()
 {

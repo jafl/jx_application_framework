@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/JStringMatch.h>
+#include "JTestManager.h"
+#include "JStringMatch.h"
 #include <locale.h>
-#include <jx-af/jcore/jAssert.h>
+#include "jAssert.h"
 
 class JStringMatchTest : public JStringMatch
 {

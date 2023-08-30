@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
+#include "JTestManager.h"
 #include <ace/Reactor.h>
 #include <ace/Acceptor.h>
 #include <ace/LSOCK_Acceptor.h>
@@ -15,10 +15,10 @@
 #include <ace/LSOCK_Connector.h>
 #include <ace/UNIX_Addr.h>
 #include <ace/LSOCK_Stream.h>
-#include <jx-af/jcore/JMessageProtocol.h>
-#include <jx-af/jcore/JArray.h>
-#include <jx-af/jcore/jTime.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JMessageProtocol.h"
+#include "JArray.h"
+#include "jTime.h"
+#include "jAssert.h"
 
 int main()
 {

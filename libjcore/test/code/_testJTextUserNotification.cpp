@@ -1,7 +1,7 @@
-#include <jx-af/jcore/JTextUserNotification.h>
-#include <jx-af/jcore/jCommandLine.h>
-#include <jx-af/jcore/jGlobals.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTextUserNotification.h"
+#include "jCommandLine.h"
+#include "jGlobals.h"
+#include "jAssert.h"
 
 int
 main

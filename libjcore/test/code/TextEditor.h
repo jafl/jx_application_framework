@@ -8,7 +8,7 @@
 #ifndef _H_TextEditor
 #define _H_TextEditor
 
-#include <jx-af/jcore/JTextEditor.h>
+#include "JTextEditor.h"
 
 class TextEditor : public JTextEditor
 {

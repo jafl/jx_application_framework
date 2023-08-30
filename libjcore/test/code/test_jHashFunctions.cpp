@@ -7,9 +7,9 @@
 
  *****************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/jHashFunctions.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTestManager.h"
+#include "jHashFunctions.h"
+#include "jAssert.h"
 
 const JHashValue dualHashArg[] =
 {

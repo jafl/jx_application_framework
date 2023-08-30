@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/jColor.h>
+#include "JTestManager.h"
+#include "jColor.h"
 #include <sstream>
-#include <jx-af/jcore/jAssert.h>
+#include "jAssert.h"
 
 int main()
 {

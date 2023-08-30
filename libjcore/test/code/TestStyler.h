@@ -8,7 +8,7 @@
 #ifndef _H_TestStyler
 #define _H_TestStyler
 
-#include <jx-af/jcore/JSTStyler.h>
+#include "JSTStyler.h"
 
 class TestStyler : public JSTStyler
 {

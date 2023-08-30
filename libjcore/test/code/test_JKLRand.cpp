@@ -7,9 +7,9 @@
 
  *****************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/JKLRand.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTestManager.h"
+#include "JKLRand.h"
+#include "jAssert.h"
 
 	JUInt32 jKLUInt32List[] =
 	{

@@ -9,10 +9,10 @@
 #define _H_jListTestUtil
 
 #include "jListTestUtil.h"
-#include "jx-af/jcore/JList.h"
-#include "jx-af/jcore/JString.h"
+#include "JList.h"
+#include "JString.h"
 #include <sstream>
-#include "jx-af/jcore/jAssert.h"
+#include "jAssert.h"
 
 #define verify(str, list)	JAssertStringsEqual(str, JPrintList(list));
 

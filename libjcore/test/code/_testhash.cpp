@@ -10,10 +10,10 @@
  *****************************************************************************/
 
 #include <unistd.h>
-#include <jx-af/jcore/JStrValue.h>
-#include <jx-af/jcore/JMMRecord.h>
+#include "JStrValue.h"
+#include "JMMRecord.h"
 #include <JHashRecord.tmpl>
-#include <jx-af/jcore/jAssert.h>
+#include "jAssert.h"
 
 /******************************************************************************
  main

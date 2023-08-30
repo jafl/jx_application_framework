@@ -7,14 +7,14 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
+#include "JTestManager.h"
 #include "jListTestUtil.h"
-#include <jx-af/jcore/JArray.h>
-#include <jx-af/jcore/JBroadcastTester.h>
+#include "JArray.h"
+#include "JBroadcastTester.h"
 #include <algorithm>
 #include <numeric>
 #include <ranges>
-#include <jx-af/jcore/jAssert.h>
+#include "jAssert.h"
 
 int main()
 {

@@ -7,11 +7,11 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/JPrefsFile.h>
-#include <jx-af/jcore/jFileUtil.h>
+#include "JTestManager.h"
+#include "JPrefsFile.h"
+#include "jFileUtil.h"
 #include <sstream>
-#include <jx-af/jcore/jAssert.h>
+#include "jAssert.h"
 
 const JFileVersion kVersionOfExistingFile = 5;
 

@@ -7,15 +7,15 @@
 
  ******************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
+#include "JTestManager.h"
 #include "TestString.h"
-#include <jx-af/jcore/JPtrArray-JString.h>
-#include <jx-af/jcore/JMinMax.h>
+#include "JPtrArray-JString.h"
+#include "JMinMax.h"
 #include <fstream>
 #include <string>
 #include <locale.h>
 #include <stdlib.h>
-#include <jx-af/jcore/jAssert.h>
+#include "jAssert.h"
 
 int main()
 {

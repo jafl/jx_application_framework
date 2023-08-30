@@ -7,11 +7,11 @@
 
  *****************************************************************************/
 
-#include <jx-af/jcore/JTestManager.h>
-#include <jx-af/jcore/JHashTable.h>
-#include <jx-af/jcore/JKLRand.h>
-#include <jx-af/jcore/JStrValue.h>
-#include <jx-af/jcore/jAssert.h>
+#include "JTestManager.h"
+#include "JHashTable.h"
+#include "JKLRand.h"
+#include "JStrValue.h"
+#include "jAssert.h"
 
 	struct TableState {
 		JHashTable< JStrValue<int> >* table;
