@@ -108,15 +108,10 @@ analyze_coverage: initial_build_makemake
          J_GCC_LIBS="${J_GCC_LIBS} -coverage" \
          J_COMPILER_DEPEND_FLAGS="${J_COMPILER_DEPEND_FLAGS} -coverage" \
          COMPILE_STRINGS=0
-	@ls -lR libjcore
-	@${RM} libjcore/test/code/*.gcno libjcore/test/code/*.gcda;
-	@cd libjcore; p=`pwd`; \
-     for f in `find . -name '*.gcno'`; do \
-         root=$$p/$${f%/*}; \
-         gcov -lp --object-directory $$root $$p/$${f%.*}.o; \
-         mv -f *.gcov $$root; \
-     done; \
-     true
+	@cd libjcore; \
+     gcov -lp code/*.o test/code/*.o; \
+     mv code\#* code; \
+     mv test\#* test/code;
 
 #  &> /dev/null
 

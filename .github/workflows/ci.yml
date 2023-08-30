@@ -184,11 +184,11 @@ jobs:
         run: |
           make coverage
 
-      - name: Upload code coverage
-        run: |
-          curl -sSLO https://uploader.codecov.io/latest/linux/codecov
-          chmod +x codecov
-          ./codecov -s libjcore/code -F unittests
+      - uses: codecov/codecov-action@v3
+        with:
+          flags: unittests
+          fail_ci_if_error: true
+          verbose: true
 
   build-apps:
     name: Build apps
