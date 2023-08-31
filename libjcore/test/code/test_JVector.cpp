@@ -10,6 +10,7 @@
 #include "JTestManager.h"
 #include "JVector.h"
 #include "JMatrix.h"
+#include <sstream>
 #include "jAssert.h"
 
 int main()
@@ -101,8 +102,49 @@ JTEST(Exercise)
 	JAssertEqual(3.0, v6.GetElement(2));
 	JAssertEqual(0.0, v6.GetElement(3));
 
+	v6.IncrementElement(2, 3.0);
+	JAssertEqual(0.0, v6.GetElement(1));
+	JAssertEqual(6.0, v6.GetElement(2));
+	JAssertEqual(0.0, v6.GetElement(3));
+
+	v6.IncrementElement(2, -3.0);
+
 	JMatrix v6t = v6.Transpose();
 	JAssertEqual(0.0, v6t.GetElement(1, 1));
 	JAssertEqual(3.0, v6t.GetElement(1, 2));
 	JAssertEqual(0.0, v6t.GetElement(1, 3));
+
+	v6.SetAllElements(2.5);
+	JAssertEqual(2.5, v6.GetElement(1));
+	JAssertEqual(2.5, v6.GetElement(2));
+	JAssertEqual(2.5, v6.GetElement(3));
+
+	JFloat v6e[] = { 3.0, 2.0, 1.0 };
+	v6.Set(v6e);
+	JAssertEqual(3.0, v6.GetElement(1));
+	JAssertEqual(2.0, v6.GetElement(2));
+	JAssertEqual(1.0, v6.GetElement(3));
+
+	v6.Set(1.0, 2.0, 3.0);
+	JAssertEqual(1.0, v6.GetElement(1));
+	JAssertEqual(2.0, v6.GetElement(2));
+	JAssertEqual(3.0, v6.GetElement(3));
+
+	v6 = v6 * 1.5;
+
+	JIndex i;
+	JAssertEqual(1.5, v6.GetMinElement(&i));
+	JAssertEqual(1, i);
+
+	JAssertEqual(4.5, v6.GetMaxElement(&i));
+	JAssertEqual(3, i);
+
+	JAssertEqual(JVector(3, -3.0,6.0,-3.0), JCrossProduct(JVector(3, 2.0,3.0,4.0), JVector(3, 5.0,6.0,7.0)));
+
+	std::stringstream s;
+	s << v6;
+	s.seekg(0);
+	JVector v7(3);
+	s >> v7;
+	JAssertEqual(v6, v7);
 }

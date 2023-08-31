@@ -17,9 +17,12 @@ int main()
 	return JTestManager::Execute();
 }
 
-JTEST(Exercise)
+void
+ValidateRect
+	(
+	const JRect& r
+	)
 {
-	JRect r(20,20,40,60);
 	JAssertEqual(40, r.width());
 	JAssertEqual(20, r.height());
 	JAssertEqual(800, r.area());
@@ -29,6 +32,15 @@ JTEST(Exercise)
 	JAssertEqual(JPoint(20,40), r.bottomLeft());
 	JAssertEqual(JPoint(60,20), r.topRight());
 	JAssertEqual(JPoint(60,40), r.bottomRight());
+}
+
+JTEST(Exercise)
+{
+	JRect r(20,20,40,60);
+	ValidateRect(r);
+
+	JRect r_pt(JPoint(20,39), JPoint(59,20));
+	ValidateRect(r_pt);
 
 	r.SetSize(20,40);
 	JAssertEqual(JRect(20,20,60,40), r);

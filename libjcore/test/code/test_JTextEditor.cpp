@@ -52,6 +52,7 @@ JTEST(LayoutBreakCROnly)
 	JAssertEqual(2, te.GetLineForChar(50));
 	JAssertEqual(21, te.GetLineTop(4));
 	JAssertEqual(7, te.GetLineHeight(4));
+	JAssertEqual(7, te.GetLineHeight(6));	// ends with newline
 	JAssertEqual(3, te.CRLineIndexToVisualLineIndex(3));
 	JAssertEqual(4, te.VisualLineIndexToCRLineIndex(4));
 	JAssertEqual(8, te.GetColumnForChar(8));

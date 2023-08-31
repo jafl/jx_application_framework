@@ -10,6 +10,7 @@
 #include "JTestManager.h"
 #include "JMatrix.h"
 #include "JVector.h"
+#include <sstream>
 #include "jAssert.h"
 
 int main()
@@ -43,6 +44,35 @@ JTEST(Exercise)
 	JAssertEqual(1.0, mx2.GetElement(1, 2));
 	JAssertEqual(1.0, mx2.GetElement(2, 1));
 	JAssertEqual(0.0, mx2.GetElement(2, 2));
+
+	JMatrix mx2_1 = mx2;
+	mx2_1 *= 3.7;
+	mx2_1 /= 3.7;
+	JAssertEqual(mx2, mx2_1);
+
+	mx2_1.SetRowVector(2, JVector(2, 5.0,-3.0));
+	JAssertEqual(0.0, mx2_1.GetElement(1, 1));
+	JAssertEqual(1.0, mx2_1.GetElement(1, 2));
+	JAssertEqual(5.0, mx2_1.GetElement(2, 1));
+	JAssertEqual(-3.0, mx2_1.GetElement(2, 2));
+
+	mx2_1.SetRow(1, 3.0,-5.0);
+	JAssertEqual(3.0, mx2_1.GetElement(1, 1));
+	JAssertEqual(-5.0, mx2_1.GetElement(1, 2));
+	JAssertEqual(5.0, mx2_1.GetElement(2, 1));
+	JAssertEqual(-3.0, mx2_1.GetElement(2, 2));
+
+	mx2_1.SetCol(2, 7.0,-7.0);
+	JAssertEqual(3.0, mx2_1.GetElement(1, 1));
+	JAssertEqual(7.0, mx2_1.GetElement(1, 2));
+	JAssertEqual(5.0, mx2_1.GetElement(2, 1));
+	JAssertEqual(-7.0, mx2_1.GetElement(2, 2));
+
+	mx2_1.SetElements(1.0,2.0,3.0,4.0);
+	JAssertEqual(1.0, mx2_1.GetElement(1, 1));
+	JAssertEqual(2.0, mx2_1.GetElement(1, 2));
+	JAssertEqual(3.0, mx2_1.GetElement(2, 1));
+	JAssertEqual(4.0, mx2_1.GetElement(2, 2));
 
 	JMatrix mx3 = -mx2;
 	JAssertEqual( 0.0, mx3.GetElement(1, 1));
@@ -192,6 +222,22 @@ JTEST(Exercise)
 	mx6.SetElement(3,1, 5.0);
 	mx6.SetElement(3,2, 0.0);
 	mx6.SetElement(3,3, -2.0);
+
+	std::stringstream s;
+	s << mx6;
+	s.seekg(0);
+	JMatrix mx8(3,3);
+	s >> mx8;
+	JAssertEqual(mx6, mx8);
+
+	mx8 = mx6 + mx6;
+	mx8 = mx8 - mx6;
+	JAssertEqual(mx6, mx8);
+
+	mx8 = mx6 * 2;
+	mx8 = 2 * mx8;
+	mx8 = mx8 / 4;
+	JAssertEqual(mx6, mx8);
 
 	JVector b(3, 3.0, 13.0, -1.0);
 	JVector x(3);

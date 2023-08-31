@@ -68,6 +68,10 @@ literal: ${LIB_DEPS}
 code/test_JListUtil
 literal: ${LIB_DEPS}
 
+@test_jMath
+code/test_jMath
+literal: ${LIB_DEPS}
+
 @test_JMatrix
 code/test_JMatrix
 literal: ${LIB_DEPS}

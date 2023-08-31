@@ -31,7 +31,7 @@ TESTS := \
   test_JUtf8Character test_JString \
   test_JStringMatch test_JStringIterator test_JRegex \
   test_JSubstitute test_JInterpolate \
-  test_JBroadcaster test_JComplex \
+  test_JBroadcaster test_jMath test_JComplex \
   test_JArray test_JLinkedList test_JPtrArray test_JRunArray \
   test_JStack test_JQueue test_JVector test_JMatrix \
   test_JAliasArray test_JListUtil test_JPtrArrayJString \

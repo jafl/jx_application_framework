@@ -16,6 +16,21 @@ int main()
 	return JTestManager::Execute();
 }
 
+JTEST(Compare)
+{
+	JAssertTrue(JCompareIndices(1,3) < 0);
+	JAssertTrue(JCompareIndices(3,3) == 0);
+	JAssertTrue(JCompareIndices(5,3) > 0);
+
+	JAssertTrue(JCompareSizes(1,3) < 0);
+	JAssertTrue(JCompareSizes(3,3) == 0);
+	JAssertTrue(JCompareSizes(5,3) > 0);
+
+	JAssertTrue(JCompareCoordinates(1,3) < 0);
+	JAssertTrue(JCompareCoordinates(3,3) == 0);
+	JAssertTrue(JCompareCoordinates(5,3) > 0);
+}
+
 JTEST(AdjustIndexAfterInsert)
 {
 	JIndex i;
