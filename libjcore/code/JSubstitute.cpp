@@ -725,7 +725,7 @@ JSubstitute::Substitute
 
 		else if (opChar == '$')
 		{
-			bool ok = iter.Next(&c, kJIteratorStay);
+			bool ok = iter.Next(&c, JStringIterator::kStay);
 			assert( ok );
 
 			if (c == '$')	// Special treatment for $$ (\$ cannot be used in input files for compile_jstrings)
@@ -746,9 +746,9 @@ JSubstitute::Substitute
 				const JIndex endCharIndex = iter.GetPrevCharacterIndex(),
 							 endByteIndex = iter.GetPrevByteIndex();
 
-				iter.UnsafeMoveTo(kJIteratorStartBefore, startCharIndex, startByteIndex);
+				iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, startCharIndex, startByteIndex);
 				iter.BeginMatch();
-				iter.UnsafeMoveTo(kJIteratorStartAfter, endCharIndex, endByteIndex);
+				iter.UnsafeMoveTo(JStringIterator::kStartAfterChar, endCharIndex, endByteIndex);
 				iter.FinishMatch();
 				iter.ReplaceLastMatch(varValue);
 			}

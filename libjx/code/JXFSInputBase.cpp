@@ -563,7 +563,7 @@ JXFSInputBase::Complete
 		const JSize matchLength = JString::CalcCharacterMatchLength(maxPrefix, entryName);
 		if (matchLength < maxPrefix.GetCharacterCount())
 		{
-			iter.MoveTo(kJIteratorStartAfter, matchLength);
+			iter.MoveTo(JStringIterator::kStartAfterChar, matchLength);
 			iter.RemoveAllNext();
 		}
 	}
@@ -573,7 +573,7 @@ JXFSInputBase::Complete
 	if (matchCount > 0 &&
 		maxPrefix.GetCharacterCount() > fullName.GetCharacterCount())
 	{
-		iter.MoveTo(kJIteratorStartAfter, fullName.GetCharacterCount());
+		iter.MoveTo(JStringIterator::kStartAfterChar, fullName.GetCharacterCount());
 		iter.RemoveAllPrev();
 		if (matchCount == 1 && (completer->GetEntry(1)).IsDirectory())
 		{

@@ -83,25 +83,6 @@ const JUtf8Byte kJUtf8ByteMax				= CHAR_MAX;
 
 using JCursorPosition = unsigned long;
 
-enum JIteratorPosition
-{
-	kJIteratorStartAtBeginning,	// absolute
-	kJIteratorStartAtEnd,		// absolute
-	kJIteratorStartBefore,		// relative to given index
-	kJIteratorStartAfter,		// relative to given index
-
-	// strings only - use with caution - must be character aligned!
-
-	kJIteratorStartBeforeByte,	// relative to given byte offset
-	kJIteratorStartAfterByte	// relative to given byte offset
-};
-
-enum JIteratorAction
-{
-	kJIteratorStay = 0,
-	kJIteratorMove = 1
-};
-
 	// boolean utilities
 
 struct JBoolRefHolder

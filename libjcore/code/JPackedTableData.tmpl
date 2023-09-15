@@ -127,7 +127,7 @@ JPackedTableData<T>::GetElement
 
 	const JIndex index = RCToI(row,col);
 
-	JRunArrayIterator<T> iter(itsData, kJIteratorStartBefore, index);
+	JRunArrayIterator<T> iter(itsData, JListT::kStartBefore, index);
 	T element;
 	iter.Next(&element);
 
@@ -167,9 +167,9 @@ JPackedTableData<T>::SetElement
 	assert( RowIndexValid(row) && ColIndexValid(col) );
 	const JIndex index = RCToI(row,col);
 
-	JRunArrayIterator<T> iter(itsData, kJIteratorStartBefore, index);
+	JRunArrayIterator<T> iter(itsData, JListT::kStartBefore, index);
 	T origData;
-	iter.Next(&origData, kJIteratorStay);
+	iter.Next(&origData, JListT::kStay);
 
 	if (data != origData)
 	{
@@ -275,7 +275,7 @@ JPackedTableData<T>::SetPartialRow
 
 	for (JIndex i=firstColIndex; i<=lastColIndex; i++)
 	{
-		iter.MoveTo(kJIteratorStartBefore, RCToI(rowIndex,i));
+		iter.MoveTo(JListT::kStartBefore, RCToI(rowIndex,i));
 		iter.SetNext(data);
 	}
 
@@ -401,7 +401,7 @@ JPackedTableData<T>::SetRect
 
 	for (JIndex j=x; j<=x2; j++)
 	{
-		iter.MoveTo(kJIteratorStartBefore, RCToI(y,j));
+		iter.MoveTo(JListT::kStartBefore, RCToI(y,j));
 		for (JIndex i=y; i<=y2; i++)
 		{
 			iter.SetNext(data);
@@ -456,8 +456,8 @@ JPackedTableData<T>::ApplyToRect
 	{
 		for (JIndex i=y; i<=y2; i++)
 		{
-			iter.MoveTo(kJIteratorStartBefore, RCToI(i,j));
-			iter.Next(&element, kJIteratorStay);
+			iter.MoveTo(JListT::kStartBefore, RCToI(i,j));
+			iter.Next(&element, JListT::kStay);
 			iter.SetNext(f(element));
 		}
 	}
@@ -490,7 +490,7 @@ JPackedTableData<T>::InsertRows
 		JListIterator<T>* initIter = nullptr;
 		if (initData != nullptr)
 		{
-			initIter = initData->NewIterator(kJIteratorStartAtEnd);
+			initIter = initData->NewIterator(JListT::kStartAtEnd);
 		}
 
 		T v = itsDefValue;
@@ -502,7 +502,7 @@ JPackedTableData<T>::InsertRows
 				assert( ok );
 			}
 
-			iter.MoveTo(kJIteratorStartBefore, RCToI(trueIndex, i));
+			iter.MoveTo(JListT::kStartBefore, RCToI(trueIndex, i));
 			iter.Insert(v, count);
 		}
 
@@ -562,10 +562,10 @@ JPackedTableData<T>::DuplicateRow
 	T element;
 	for (JIndex i=GetColCount(); i>=1; i--)
 	{
-		iter.MoveTo(kJIteratorStartBefore, RCToI(origIndex,i));
+		iter.MoveTo(JListT::kStartBefore, RCToI(origIndex,i));
 		iter.Next(&element);
 
-		iter.MoveTo(kJIteratorStartBefore, RCToI(trueIndex,i));
+		iter.MoveTo(JListT::kStartBefore, RCToI(trueIndex,i));
 		iter.Insert(element);
 	}
 
@@ -611,7 +611,7 @@ JPackedTableData<T>::RemoveNextRows
 
 		for (JIndex i=GetColCount(); i>=1; i--)
 		{
-			iter.MoveTo(kJIteratorStartBefore, RCToI(firstIndex,i));
+			iter.MoveTo(JListT::kStartBefore, RCToI(firstIndex,i));
 			iter.RemoveNext(count);
 		}
 
@@ -676,11 +676,11 @@ JPackedTableData<T>::MoveRow
 			const JIndex origDataIndex = RCToI(origIndex, i),
 						 newDataIndex  = RCToI(newIndex, i);
 
-			iter.MoveTo(kJIteratorStartBefore, origDataIndex);
+			iter.MoveTo(JListT::kStartBefore, origDataIndex);
 			iter.Next(&element);
 			iter.RemovePrev();
 
-			iter.MoveTo(kJIteratorStartBefore,
+			iter.MoveTo(JListT::kStartBefore,
 				newDataIndex <= origDataIndex ? newDataIndex : newDataIndex-1);
 			iter.Insert(element);
 		}
@@ -710,7 +710,7 @@ JPackedTableData<T>::InsertCols
 	{
 		const JIndex trueIndex = JMin(index, GetColCount()+1);
 
-		JRunArrayIterator<T> iter(itsData, kJIteratorStartBefore, RCToI(1,trueIndex));
+		JRunArrayIterator<T> iter(itsData, JListT::kStartBefore, RCToI(1,trueIndex));
 
 		if (initData != nullptr)
 		{
@@ -718,7 +718,7 @@ JPackedTableData<T>::InsertCols
 			T element;
 			for (JIndex j=1; j<=count; j++)
 			{
-				initIter->MoveTo(kJIteratorStartAtBeginning, 0);
+				initIter->MoveTo(JListT::kStartAtBeginning, 0);
 				while (initIter->Next(&element))
 				{
 					iter.Insert(element);
@@ -785,11 +785,11 @@ JPackedTableData<T>::DuplicateCol
 	const JIndex rowCount = GetRowCount();
 	if (rowCount > 0)
 	{
-		JRunArrayIterator<T> newIter(itsData, kJIteratorStartBefore, RCToI(1,trueIndex));
+		JRunArrayIterator<T> newIter(itsData, JListT::kStartBefore, RCToI(1,trueIndex));
 		newIter.Insert(itsDefValue, rowCount);
 		ColsAdded(1);
 
-		JRunArrayIterator<T> origIter(*itsData, kJIteratorStartBefore,
+		JRunArrayIterator<T> origIter(*itsData, JListT::kStartBefore,
 			RCToI(1, origIndex >= trueIndex ? origIndex+1 : origIndex));
 
 		T element;
@@ -835,7 +835,7 @@ JPackedTableData<T>::RemoveNextCols
 	const JSize		count
 	)
 {
-	JRunArrayIterator<T> iter(itsData, kJIteratorStartBefore, RCToI(1, firstIndex));
+	JRunArrayIterator<T> iter(itsData, JListT::kStartBefore, RCToI(1, firstIndex));
 	iter.RemoveNext(GetRowCount() * count);
 
 	ColsDeleted(count);
@@ -896,8 +896,8 @@ JPackedTableData<T>::MoveCol
 	const JIndex rowCount = GetRowCount();
 	if (rowCount > 0)
 	{
-		JRunArrayIterator<T> origIter(itsData, kJIteratorStartBefore, RCToI(1,origIndex)),
-							 newIter(itsData, kJIteratorStartBefore, RCToI(1,newIndex));
+		JRunArrayIterator<T> origIter(itsData, JListT::kStartBefore, RCToI(1,origIndex)),
+							 newIter (itsData, JListT::kStartBefore, RCToI(1,newIndex));
 
 		T element;
 		for (JIndex i=1; i<=rowCount; i++)

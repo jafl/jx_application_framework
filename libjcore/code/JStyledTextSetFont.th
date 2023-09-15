@@ -31,11 +31,11 @@ else
 
 JFont f = itsDefaultFont;
 bool changed = false;
-FontIterator iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+FontIterator iter(itsStyles, JListT::kStartBefore, range.charRange.first);
 JIndex i;
 while (iter.GetNextElementIndex(&i) && i <= range.charRange.last)
 {
-	const bool ok = iter.Next(&f, kJIteratorStay);
+	const bool ok = iter.Next(&f, JListT::kStay);
 	assert( ok );
 
 	if (LocalVarName != f.GetElementName)

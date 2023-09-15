@@ -24,7 +24,7 @@ template <class T>
 JPtrArrayIterator<T>::JPtrArrayIterator
 	(
 	const JPtrArray<T>&		theArray,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	:
@@ -36,7 +36,7 @@ template <class T>
 JPtrArrayIterator<T>::JPtrArrayIterator
 	(
 	JPtrArray<T>*			theArray,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	:
@@ -58,7 +58,7 @@ JPtrArrayIterator<T>::SetPrev
 	(
 	T*									dataPtr,
 	const JPtrArrayT::SetElementAction	action,
-	const JIteratorAction				move
+	const JListT::Action				move
 	)
 {
 	JList<T*>* obj;
@@ -94,7 +94,7 @@ JPtrArrayIterator<T>::SetNext
 	(
 	T*									dataPtr,
 	const JPtrArrayT::SetElementAction	action,
-	const JIteratorAction				move
+	const JListT::Action				move
 	)
 {
 	JList<T*>* obj;

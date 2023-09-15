@@ -53,7 +53,7 @@ JPrepArgForExec
 	JString str    = arg;
 	bool quote = false;
 
-	JStringIterator iter(&str, kJIteratorStartAtEnd);
+	JStringIterator iter(&str, JStringIterator::kStartAtEnd);
 	JUtf8Character c;
 	while (iter.Prev(&c))
 	{
@@ -148,7 +148,7 @@ JParseArgsForExec
 
 	// catch last argument
 
-	iter.MoveTo(kJIteratorStartAtEnd, 0);
+	iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 	const JStringMatch& m = iter.FinishMatch();
 	if (!m.IsEmpty())
 	{

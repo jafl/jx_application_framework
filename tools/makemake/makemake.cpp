@@ -291,7 +291,7 @@ main
 
 			// raw text
 
-			fnIter.MoveTo(kJIteratorStartAtBeginning, 0);
+			fnIter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 			if (fnIter.Next(kDontInterpretFlag))
 			{
 				fnIter.RemoveAllPrev();
@@ -305,7 +305,7 @@ main
 
 			// analyze 
 
-			fnIter.MoveTo(kJIteratorStartAtBeginning, 0);
+			fnIter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 
 			JString* targetName    = nullptr;
 			JString* suffixName    = nullptr;
@@ -1056,7 +1056,7 @@ GetOptions
 			JCheckForValues(1, &index, argc, argv);
 
 			JString p = noParseFileSuffix.GetPattern();
-			JStringIterator iter1(&p, kJIteratorStartAtEnd);
+			JStringIterator iter1(&p, JStringIterator::kStartAtEnd);
 			iter1.SkipPrev(2);
 
 			JStringIterator iter2(JString(argv[index], JString::kNoCopy));

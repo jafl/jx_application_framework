@@ -2155,7 +2155,7 @@ JXContainer::FTCBuildLayout
 				<< "; exact: " << JBoolToString(exact) << ")" << std::endl;
 		}
 
-		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		iter.MoveTo(JListT::kStartAtBeginning, 0);
 		while (iter.Next(&obj))
 		{
 			if (theDebugFTCFlag)
@@ -2412,7 +2412,7 @@ JXContainer::FTCGroupAlignedObjects
 
 	// compute coverage and reparent cells to container
 
-	cellIter.MoveTo(kJIteratorStartAtBeginning, 0);
+	cellIter.MoveTo(JListT::kStartAtBeginning, 0);
 	while (cellIter.Next(&cell))
 	{
 		covering = JCovering(covering, cell->GetFrameForFTC());

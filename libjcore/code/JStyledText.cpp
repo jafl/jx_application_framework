@@ -686,7 +686,7 @@ JStyledText::WritePrivateFormat
 	JArray<JColorID> colorList;
 	colorList.SetCompareFunction(JCompareUInt64);
 
-	FontIterator iter(style, kJIteratorStartBefore, range.charRange.first);
+	FontIterator iter(style, JListT::kStartBefore, range.charRange.first);
 	do
 	{
 		const JFont f           = iter.GetRunData();
@@ -734,7 +734,7 @@ JStyledText::WritePrivateFormat
 
 	output << ' ' << styleRunCount;
 
-	iter.MoveTo(kJIteratorStartBefore, range.charRange.first);
+	iter.MoveTo(JListT::kStartBefore, range.charRange.first);
 	bool keepGoing = true;
 	while (keepGoing)
 	{
@@ -808,7 +808,7 @@ JStyledText::SearchForward
 	}
 
 	JStringIterator iter(itsText);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, i.charIndex, i.byteIndex);
 
 	while (true)
 	{
@@ -823,7 +823,7 @@ JStyledText::SearchForward
 
 		if (iter.AtEnd() && wrapSearch && !(*wrapped) && startIndex.charIndex > 1)
 		{
-			iter.MoveTo(kJIteratorStartAtBeginning, 0);
+			iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 			*wrapped  = true;
 		}
 		else if (iter.AtEnd() || (*wrapped && iter.GetNextCharacterIndex() >= startIndex.charIndex))
@@ -868,7 +868,7 @@ JStyledText::SearchBackward
 	}
 
 	JStringIterator iter(itsText);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, i.charIndex, i.byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, i.charIndex, i.byteIndex);
 
 	while (true)
 	{
@@ -884,7 +884,7 @@ JStyledText::SearchBackward
 		if (iter.AtBeginning() && wrapSearch && !(*wrapped) &&
 			startIndex.charIndex < itsText.GetCharacterCount())
 		{
-			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 			*wrapped = true;
 		}
 		else if (iter.AtBeginning() ||
@@ -1020,9 +1020,9 @@ JStyledText::ReplaceAllInRange
 
 		const JString s(text, JString::kNoCopy);
 		JStringIterator textIter2(s);
-		textIter2.UnsafeMoveTo(kJIteratorStartBefore, match.GetCharacterRange().first, match.GetUtf8ByteRange().first);
+		textIter2.UnsafeMoveTo(JStringIterator::kStartBeforeChar, match.GetCharacterRange().first, match.GetUtf8ByteRange().first);
 
-		styleIter.MoveTo(kJIteratorStartBefore, match.GetCharacterRange().first);
+		styleIter.MoveTo(JListT::kStartBefore, match.GetCharacterRange().first);
 
 		newStyles.RemoveAll();
 		newStyles.AppendElements(CalcInsertionFont(textIter2, styleIter),
@@ -1079,7 +1079,7 @@ JStyledText::IsEntireWord
 
 	if (range.charRange.first > 1)
 	{
-		iter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+		iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, range.charRange.first, range.byteRange.first);
 		if (iter.Prev(&c) && IsCharacterInWord(c))
 		{
 			return false;
@@ -1088,14 +1088,14 @@ JStyledText::IsEntireWord
 
 	if (range.charRange.last < text.GetCharacterCount())
 	{
-		iter.UnsafeMoveTo(kJIteratorStartAfter, range.charRange.last, range.byteRange.last);
+		iter.UnsafeMoveTo(JStringIterator::kStartAfterChar, range.charRange.last, range.byteRange.last);
 		if (iter.Next(&c) && IsCharacterInWord(c))
 		{
 			return false;
 		}
 	}
 
-	iter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, range.charRange.first, range.byteRange.first);
 	while (iter.Next(&c))
 	{
 		if (!IsCharacterInWord(c))
@@ -1165,7 +1165,7 @@ JStyledText::SearchForward
 	*wrapped = false;
 	range->SetToNothing();
 
-	FontIterator iter(*itsStyles, kJIteratorStartBefore, start.charIndex);
+	FontIterator iter(*itsStyles, JListT::kStartBefore, start.charIndex);
 	if (!iter.AtEnd() && iter.GetRemainingInRun() < iter.GetRunLength())
 	{
 		iter.NextRun();
@@ -1177,7 +1177,7 @@ JStyledText::SearchForward
 		{
 			return false;
 		}
-		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		iter.MoveTo(JListT::kStartAtBeginning, 0);
 		*wrapped = true;
 	}
 
@@ -1198,7 +1198,7 @@ JStyledText::SearchForward
 		return false;
 	}
 
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	iter.MoveTo(JListT::kStartAtBeginning, 0);
 	*wrapped = true;
 
 	do
@@ -1276,7 +1276,7 @@ JStyledText::SearchBackward
 	*wrapped = false;
 	range->SetToNothing();
 
-	FontIterator iter(*itsStyles, kJIteratorStartBefore, start.charIndex);
+	FontIterator iter(*itsStyles, JListT::kStartBefore, start.charIndex);
 	if (!iter.AtBeginning() && iter.GetRemainingInRun() < iter.GetRunLength())
 	{
 		iter.SkipPrev(iter.GetRunLength() - iter.GetRemainingInRun());
@@ -1288,7 +1288,7 @@ JStyledText::SearchBackward
 		{
 			return false;
 		}
-		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.MoveTo(JListT::kStartAtEnd, 0);
 		*wrapped = true;
 	}
 
@@ -1308,7 +1308,7 @@ JStyledText::SearchBackward
 		return false;
 	}
 
-	iter.MoveTo(kJIteratorStartAtEnd, 0);
+	iter.MoveTo(JListT::kStartAtEnd, 0);
 	iter.PrevRun();
 	*wrapped = true;
 
@@ -1358,11 +1358,11 @@ JStyledText::SetFontName
 
 	JFont f1 = itsDefaultFont, f2 = itsDefaultFont;
 	bool changed = false;
-	FontIterator iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	FontIterator iter(itsStyles, JListT::kStartBefore, range.charRange.first);
 	JIndex i;
 	while (iter.GetNextElementIndex(&i) && i <= range.charRange.last)
 	{
-		const bool ok = iter.Next(&f1, kJIteratorStay);
+		const bool ok = iter.Next(&f1, JListT::kStay);
 		assert( ok );
 
 		f2 = f1;
@@ -1536,7 +1536,7 @@ JStyledText::SetFont
 		undo = GetStyleUndo(range, &isNew);
 	}
 
-	FontIterator iter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	FontIterator iter(itsStyles, JListT::kStartBefore, range.charRange.first);
 	iter.SetNext(f, range.charRange.GetCount());
 
 	AdjustFontToDisplayGlyphs(range, itsText, itsStyles);
@@ -1561,7 +1561,7 @@ JStyledText::SetFont
 
 	JFont f = itsDefaultFont;
 	FontIterator fIter(fontList);
-	FontIterator sIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	FontIterator sIter(itsStyles, JListT::kStartBefore, range.charRange.first);
 
 	while (fIter.Next(&f) && sIter.SetNext(f)) { /* copy to itsStyles */ }
 
@@ -1771,9 +1771,9 @@ JStyledText::InsertText
 	)
 {
 	JStringIterator textIter(&itsText);
-	textIter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+	textIter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, index.charIndex, index.byteIndex);
 
-	FontIterator styleIter(itsStyles, kJIteratorStartBefore, index.charIndex);
+	FontIterator styleIter(itsStyles, JListT::kStartBefore, index.charIndex);
 
 	return InsertText(&textIter, &styleIter, text, style);
 }
@@ -2008,7 +2008,7 @@ JStyledText::RemoveIllegalChars
 
 		if (styleIter != nullptr)
 		{
-			styleIter->MoveTo(kJIteratorStartBefore, m.GetCharacterRange().first);
+			styleIter->MoveTo(JListT::kStartBefore, m.GetCharacterRange().first);
 			styleIter->RemoveNext(m.GetCharacterRange().GetCount());
 		}
 		textIter.RemoveLastMatch();		// invalidates m
@@ -2130,9 +2130,9 @@ JStyledText::PrivateDeleteText
 	)
 {
 	JStringIterator textIter(&itsText);
-	textIter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+	textIter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, range.charRange.first, range.byteRange.first);
 
-	FontIterator styleIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	FontIterator styleIter(itsStyles, JListT::kStartBefore, range.charRange.first);
 
 	PrivateDeleteText(&textIter, &styleIter, range.charRange.GetCount());
 }
@@ -2164,9 +2164,9 @@ JStyledText::InsertCharacter
 	)
 {
 	JStringIterator textIter(&itsText);
-	textIter.UnsafeMoveTo(kJIteratorStartBefore, replaceRange.charRange.first, replaceRange.byteRange.first);
+	textIter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, replaceRange.charRange.first, replaceRange.byteRange.first);
 
-	FontIterator styleIter(itsStyles, kJIteratorStartBefore, replaceRange.charRange.first);
+	FontIterator styleIter(itsStyles, JListT::kStartBefore, replaceRange.charRange.first);
 
 	bool isNew = true;
 	JSTUndoTyping* typingUndo;
@@ -2245,12 +2245,12 @@ JStyledText::BackwardDelete
 	}
 
 	JStringIterator iter(&itsText);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, caretIndex.charIndex, caretIndex.byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, caretIndex.charIndex, caretIndex.byteIndex);
 
 	iter.BeginMatch();
 
 	JUtf8Character c;
-	if (deleteToTabStop && iter.Prev(&c, kJIteratorStay) && isWhitespace(c))
+	if (deleteToTabStop && iter.Prev(&c, JStringIterator::kStay) && isWhitespace(c))
 	{
 		const JIndex textColumn = GetColumnForChar(lineStart, caretIndex);
 		if ((textColumn-1) % itsCRMTabCharCount == 0)
@@ -2275,7 +2275,7 @@ JStyledText::BackwardDelete
 				}
 				else	// normal delete when close to text
 				{
-					iter.UnsafeMoveTo(kJIteratorStartBefore, caretIndex.charIndex, caretIndex.byteIndex);
+					iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, caretIndex.charIndex, caretIndex.byteIndex);
 					iter.Prev(&c);
 					break;
 				}
@@ -2311,7 +2311,7 @@ JStyledText::BackwardDelete
 	const JInteger charDelta = - (JInteger) r.GetCount(),
 				   byteDelta = - (JInteger) match.GetUtf8ByteRange().GetCount();
 
-	FontIterator styleIter(itsStyles, kJIteratorStartBefore, r.first);
+	FontIterator styleIter(itsStyles, JListT::kStartBefore, r.first);
 	styleIter.RemoveNext(r.GetCount());
 
 	iter.RemoveLastMatch();		// invalidates match
@@ -2370,11 +2370,11 @@ JStyledText::ForwardDelete
 	}
 
 	JStringIterator iter(&itsText);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, caretIndex.charIndex, caretIndex.byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, caretIndex.charIndex, caretIndex.byteIndex);
 	iter.BeginMatch();
 
 	JUtf8Character c;
-	if (deleteToTabStop && iter.Next(&c, kJIteratorStay) && isWhitespace(c))
+	if (deleteToTabStop && iter.Next(&c, JStringIterator::kStay) && isWhitespace(c))
 	{
 		const JIndex textColumn = GetColumnForChar(lineStart, caretIndex);
 		if ((textColumn-1) % itsCRMTabCharCount == 0)
@@ -2388,7 +2388,7 @@ JStyledText::ForwardDelete
 				}
 				else if (c != ' ')	// normal delete when close to text
 				{
-					iter.UnsafeMoveTo(kJIteratorStartBefore, caretIndex.charIndex, caretIndex.byteIndex);
+					iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, caretIndex.charIndex, caretIndex.byteIndex);
 					iter.Next(&c);
 					break;
 				}
@@ -2426,7 +2426,7 @@ JStyledText::ForwardDelete
 	const JInteger charDelta = - (JInteger) r.GetCount(),
 				   byteDelta = - (JInteger) match.GetUtf8ByteRange().GetCount();
 
-	FontIterator styleIter(itsStyles, kJIteratorStartBefore, r.first);
+	FontIterator styleIter(itsStyles, JListT::kStartBefore, r.first);
 	styleIter.RemoveNext(r.GetCount());
 
 	iter.RemoveLastMatch();		// invalidates match
@@ -2473,13 +2473,13 @@ JStyledText::Outdent
 	bool firstNonemptyLine = true;
 
 	JStringIterator textIter(&itsText);
-	textIter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+	textIter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, range.charRange.first, range.byteRange.first);
 	JIndex i;
 	do
 	{
 		JUtf8Character c;
-		if ((!textIter.Prev(&c, kJIteratorStay) || c == '\n') &&
-			textIter.Next(&c, kJIteratorStay) && c != '\n')
+		if ((!textIter.Prev(&c, JStringIterator::kStay) || c == '\n') &&
+			textIter.Next(&c, JStringIterator::kStay) && c != '\n')
 		{
 			for (JIndex j=1; j<=tabCount; j++)
 			{
@@ -2543,8 +2543,8 @@ JStyledText::Outdent
 	bool isNew;
 	JSTUndoTabShift* undo = GetTabShiftUndo(range, &isNew);
 
-	textIter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
-	FontIterator styleIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	textIter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, range.charRange.first, range.byteRange.first);
+	FontIterator styleIter(itsStyles, JListT::kStartBefore, range.charRange.first);
 
 	JCharacterRange cr = range.charRange;
 
@@ -2552,8 +2552,8 @@ JStyledText::Outdent
 	do
 	{
 		JUtf8Character c;
-		if ((!textIter.Prev(&c, kJIteratorStay) || c == '\n') &&
-			textIter.Next(&c, kJIteratorStay) && c != '\n')
+		if ((!textIter.Prev(&c, JStringIterator::kStay) || c == '\n') &&
+			textIter.Next(&c, JStringIterator::kStay) && c != '\n')
 		{
 			for (JIndex j=1; j<=tabCount; j++)
 			{
@@ -2564,11 +2564,11 @@ JStyledText::Outdent
 				// accept fewer spaces in front of tab
 
 				JSize spaceCount = 0;
-				while (textIter.Next(&c, kJIteratorStay) && c == ' ' &&
+				while (textIter.Next(&c, JStringIterator::kStay) && c == ' ' &&
 					   spaceCount < tabCharCount)
 				{
 					spaceCount++;
-					styleIter.MoveTo(kJIteratorStartBefore, textIter.GetNextCharacterIndex());
+					styleIter.MoveTo(JListT::kStartBefore, textIter.GetNextCharacterIndex());
 					PrivateDeleteText(&textIter, &styleIter, 1);
 					deleteCount++;
 					cr.last--;
@@ -2589,7 +2589,7 @@ JStyledText::Outdent
 				{
 					break;
 				}
-				styleIter.MoveTo(kJIteratorStartBefore, textIter.GetNextCharacterIndex());
+				styleIter.MoveTo(JListT::kStartBefore, textIter.GetNextCharacterIndex());
 				PrivateDeleteText(&textIter, &styleIter, 1);
 				deleteCount++;
 				cr.last--;
@@ -2660,9 +2660,9 @@ JStyledText::Indent
 	JRunArray<JFont> style(itsStyles->GetBlockSize());
 
 	JStringIterator textIter(&itsText);
-	textIter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+	textIter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, range.charRange.first, range.byteRange.first);
 
-	FontIterator styleIter(itsStyles, kJIteratorStartBefore, range.charRange.first);
+	FontIterator styleIter(itsStyles, JListT::kStartBefore, range.charRange.first);
 
 	JCharacterRange cr = range.charRange;
 
@@ -2671,10 +2671,10 @@ JStyledText::Indent
 	do
 	{
 		JUtf8Character c;
-		if ((!textIter.Prev(&c, kJIteratorStay) || c == '\n') &&
-			textIter.Next(&c, kJIteratorStay) && c != '\n')
+		if ((!textIter.Prev(&c, JStringIterator::kStay) || c == '\n') &&
+			textIter.Next(&c, JStringIterator::kStay) && c != '\n')
 		{
-			styleIter.MoveTo(kJIteratorStartBefore, textIter.GetNextCharacterIndex());
+			styleIter.MoveTo(JListT::kStartBefore, textIter.GetNextCharacterIndex());
 
 			style.RemoveAll();
 			style.AppendElements(CalcInsertionFont(textIter, styleIter),
@@ -2790,7 +2790,7 @@ JStyledText::MoveText
 #define CLEAN_WS_ALIGNMENT \
 	textIter.SkipPrev(); \
 	const JCharacterRange r = textIter.FinishMatch().GetCharacterRange(); \
-	styleIter.MoveTo(kJIteratorStartBefore, r.first); \
+	styleIter.MoveTo(JListT::kStartBefore, r.first); \
 	styleIter.RemoveNext(r.GetCount()); \
 	textIter.RemoveLastMatch(); // invalidates m
 
@@ -2826,7 +2826,7 @@ JStyledText::CleanWhitespace
 
 		JUtf8Character c;
 		JSize count = 0;
-		while (textIter.Prev(&c, kJIteratorStay) && isWhitespace(c))
+		while (textIter.Prev(&c, JStringIterator::kStay) && isWhitespace(c))
 		{
 			textIter.RemovePrev();
 			count++;
@@ -2834,7 +2834,7 @@ JStyledText::CleanWhitespace
 
 		if (count > 0)
 		{
-			styleIter.MoveTo(kJIteratorStartBefore, textIter.GetNextCharacterIndex());
+			styleIter.MoveTo(JListT::kStartBefore, textIter.GetNextCharacterIndex());
 			styleIter.RemoveNext(count);
 		}
 
@@ -2844,8 +2844,8 @@ JStyledText::CleanWhitespace
 
 	// clean indenting whitespace
 
-	textIter.MoveTo(kJIteratorStartAtBeginning, 0);
-	styleIter.MoveTo(kJIteratorStartAtBeginning, 0);
+	textIter.MoveTo(JStringIterator::kStartAtBeginning, 0);
+	styleIter.MoveTo(JListT::kStartAtBeginning, 0);
 	JString fill;
 	JFont f;
 	do
@@ -2878,7 +2878,7 @@ JStyledText::CleanWhitespace
 						fill += " ";
 					}
 
-					styleIter.MoveTo(kJIteratorStartBefore, textIter.GetPrevCharacterIndex());
+					styleIter.MoveTo(JListT::kStartBefore, textIter.GetPrevCharacterIndex());
 					styleIter.Next(&f);
 					styleIter.Insert(f, count-1);
 
@@ -2906,7 +2906,7 @@ JStyledText::CleanWhitespace
 					fill += " ";
 				}
 
-				styleIter.MoveTo(kJIteratorStartBefore, textIter.GetPrevCharacterIndex());
+				styleIter.MoveTo(JListT::kStartBefore, textIter.GetPrevCharacterIndex());
 				styleIter.Next(&f);
 				styleIter.Insert(f, count);
 
@@ -2927,7 +2927,7 @@ JStyledText::CleanWhitespace
 						const JStringMatch& m = textIter.FinishMatch();
 
 						const JCharacterRange r = m.GetCharacterRange();
-						styleIter.MoveTo(kJIteratorStartBefore, r.first);
+						styleIter.MoveTo(JListT::kStartBefore, r.first);
 						styleIter.RemoveNext(r.GetCount()-1);
 
 						textIter.ReplaceLastMatch("\t");	// invalidates m
@@ -2943,7 +2943,7 @@ JStyledText::CleanWhitespace
 					if (!m.IsEmpty())	// remove useless preceding spaces
 					{
 						const JCharacterRange r = m.GetCharacterRange();
-						styleIter.MoveTo(kJIteratorStartBefore, r.first);
+						styleIter.MoveTo(JListT::kStartBefore, r.first);
 						styleIter.RemoveNext(r.GetCount());
 						textIter.RemoveLastMatch();		// invalidates m
 					}
@@ -2963,7 +2963,7 @@ JStyledText::CleanWhitespace
 				textIter.SkipPrev();
 				const JCharacterRange r = textIter.FinishMatch().GetCharacterRange();
 
-				styleIter.MoveTo(kJIteratorStartBefore, r.first+1);
+				styleIter.MoveTo(JListT::kStartBefore, r.first+1);
 				styleIter.RemoveNext(r.GetCount()-1);
 
 				textIter.ReplaceLastMatch("\t");	// invalidates m
@@ -3055,9 +3055,9 @@ JStyledText::CleanRightMargin
 
 				JStringIterator iter(itsText);
 				const TextIndex after = range.GetAfter();
-				iter.UnsafeMoveTo(kJIteratorStartBefore, range.charRange.first, range.byteRange.first);
+				iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, range.charRange.first, range.byteRange.first);
 				iter.BeginMatch();
-				iter.UnsafeMoveTo(kJIteratorStartBefore, after.charIndex, after.byteIndex);
+				iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, after.charIndex, after.byteIndex);
 				iter.FinishMatch();
 				newText += iter.GetLastMatch().GetString();
 
@@ -3256,7 +3256,7 @@ JStyledText::CRMGetRange
 	}
 
 	JStringIterator iter(itsText);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, range->charRange.last+1, range->byteRange.last+1);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, range->charRange.last+1, range->byteRange.last+1);
 
 	JUtf8Character c;
 	while (iter.Prev(&c) && c == '\n')
@@ -3321,7 +3321,7 @@ JStyledText::CRMGetRange
 		tempStart        = AdjustTextIndex(range->GetAfter(), +1);
 		TextIndex newEnd = GetParagraphEnd(tempStart);
 
-		iter.UnsafeMoveTo(kJIteratorStartBefore, newEnd.charIndex, newEnd.byteIndex);
+		iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, newEnd.charIndex, newEnd.byteIndex);
 		if (iter.Next(&c) && c == '\n')	// could hit end of text instead
 		{
 			newEnd = AdjustTextIndex(newEnd, -1);
@@ -3629,7 +3629,7 @@ JStyledText::CRMReadNextWord
 	*spaceCount = 0;
 
 	JStringIterator iter(itsText);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, charIndex->charIndex, charIndex->byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, charIndex->charIndex, charIndex->byteIndex);
 
 	JUtf8Character c;
 	JIndex i;
@@ -3721,7 +3721,7 @@ JStyledText::CRMReadNextWord
 
 	if (*spaceCount == 0 && requireSpace)
 	{
-		JStringIterator iter2(newText, kJIteratorStartAtEnd);
+		JStringIterator iter2(newText, JStringIterator::kStartAtEnd);
 
 		JUtf8Character c1, c2;
 		iter2.Prev(&c1);
@@ -4568,11 +4568,11 @@ JStyledText::AutoIndent
 
 	// check the initial whitespace range on the previous line
 
-	JStringIterator* iter = GetConstIterator(kJIteratorStartBefore, prevLineStart);
+	JStringIterator* iter = GetConstIterator(JStringIterator::kStartBeforeChar, prevLineStart);
 	JUtf8Character c;
 
 	iter->BeginMatch();
-	while (iter->Next(&c, kJIteratorStay))
+	while (iter->Next(&c, JStringIterator::kStay))
 	{
 		if (iter->GetNextCharacterIndex() == prevLineEnd.charIndex)
 		{
@@ -4755,10 +4755,10 @@ JStyledText::GetWordStart
 	// create separate object on which to iterate, without copying
 	const JString s(itsText, JString::kNoCopy);
 	JStringIterator iter(s);
-	iter.UnsafeMoveTo(kJIteratorStartAfter, charIndex, byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartAfterChar, charIndex, byteIndex);
 
 	JUtf8Character c;
-	if (iter.Prev(&c, kJIteratorStay) && !IsCharacterInWord(c))
+	if (iter.Prev(&c, JStringIterator::kStay) && !IsCharacterInWord(c))
 	{
 		while (iter.Prev(&c) && !IsCharacterInWord(c))
 		{
@@ -4807,10 +4807,10 @@ JStyledText::GetWordEnd
 	// create separate object on which to iterate, without copying
 	const JString s(itsText, JString::kNoCopy);
 	JStringIterator iter(s);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, index.charIndex, index.byteIndex);
 
 	JUtf8Character c;
-	if (iter.Next(&c, kJIteratorStay) && !IsCharacterInWord(c))
+	if (iter.Next(&c, JStringIterator::kStay) && !IsCharacterInWord(c))
 	{
 		while (iter.Next(&c) && !IsCharacterInWord(c))
 		{
@@ -4914,10 +4914,10 @@ JStyledText::GetPartialWordStart
 	// create separate object on which to iterate, without copying
 	const JString s(itsText, JString::kNoCopy);
 	JStringIterator iter(s);
-	iter.UnsafeMoveTo(kJIteratorStartAfter, charIndex, byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartAfterChar, charIndex, byteIndex);
 
 	JUtf8Character c;
-	if (iter.Prev(&c, kJIteratorStay) && !c.IsAlnum())
+	if (iter.Prev(&c, JStringIterator::kStay) && !c.IsAlnum())
 	{
 		while (iter.Prev(&c) && !c.IsAlnum())
 		{
@@ -4981,10 +4981,10 @@ JStyledText::GetPartialWordEnd
 	// create separate object on which to iterate, without copying
 	const JString s(itsText, JString::kNoCopy);
 	JStringIterator iter(s);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, index.charIndex, index.byteIndex);
 
 	JUtf8Character c;
-	if (iter.Next(&c, kJIteratorStay) && !c.IsAlnum())
+	if (iter.Next(&c, JStringIterator::kStay) && !c.IsAlnum())
 	{
 		while (iter.Next(&c) && !c.IsAlnum())
 		{
@@ -5003,7 +5003,7 @@ JStyledText::GetPartialWordEnd
 			(prev.IsLower() && c.IsUpper()) ||
 			(prev.IsAlpha() && c.IsDigit()) ||
 			(prev.IsDigit() && c.IsAlpha()) ||
-			(iter.Next(&c2, kJIteratorStay) &&
+			(iter.Next(&c2, JStringIterator::kStay) &&
 			 prev.IsUpper() && c.IsUpper() && c2.IsLower()))
 		{
 			iter.SkipPrev();
@@ -5041,10 +5041,10 @@ JStyledText::GetParagraphStart
 	// create separate object on which to iterate, without copying
 	const JString s(itsText, JString::kNoCopy);
 	JStringIterator iter(s);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, index.charIndex, index.byteIndex);
 
 	JUtf8Character c;
-	while (iter.Prev(&c, kJIteratorStay) && c != '\n')
+	while (iter.Prev(&c, JStringIterator::kStay) && c != '\n')
 	{
 		iter.SkipPrev();
 	}
@@ -5082,7 +5082,7 @@ JStyledText::GetParagraphEnd
 	// create separate object on which to iterate, without copying
 	const JString s(itsText, JString::kNoCopy);
 	JStringIterator iter(s);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, index.charIndex, index.byteIndex);
 
 	JUtf8Character c;
 	while (iter.Next(&c) && c != '\n')
@@ -5122,7 +5122,7 @@ JStyledText::GetColumnForChar
 	// create separate object on which to iterate, without copying
 	const JString s(itsText, JString::kNoCopy);
 	JStringIterator iter(s);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, lineStart.charIndex, lineStart.byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, lineStart.charIndex, lineStart.byteIndex);
 
 	JIndex col = 1, charIndex;
 	JUtf8Character c;
@@ -5157,7 +5157,7 @@ JStyledText::AdjustTextIndex
 
 	const JString s(itsText, JString::kNoCopy);
 	JStringIterator iter(s);
-	iter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, index.charIndex, index.byteIndex);
 
 	if (charDelta > 0)
 	{
@@ -5186,8 +5186,8 @@ JStyledText::AdjustTextIndex
 JStringIterator*
 JStyledText::GetConstIterator
 	(
-	const JIteratorPosition	pos,
-	const TextIndex&		index
+	const JStringIterator::Position	pos,
+	const TextIndex&				index
 	)
 	const
 {
@@ -5246,7 +5246,7 @@ JStyledText::CharToTextRange
 	JStringIterator iter(s);
 	if (lineStart != nullptr)
 	{
-		iter.UnsafeMoveTo(kJIteratorStartBefore, lineStart->charIndex, lineStart->byteIndex);
+		iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, lineStart->charIndex, lineStart->byteIndex);
 	}
 
 	return CharToTextRange(charRange, &iter);
@@ -5275,23 +5275,23 @@ JStyledText::CharToTextRange
 		const JSize d2   = s.GetCharacterCount() - charRange.last;
 		if (d2 < d1)
 		{
-			iter->MoveTo(kJIteratorStartAtEnd, 0);
+			iter->MoveTo(JStringIterator::kStartAtEnd, 0);
 		}
 	}
 
 	JIndex i1, i2;
 	if (iter->AtEnd())
 	{
-		iter->MoveTo(kJIteratorStartAfter, charRange.last);
+		iter->MoveTo(JStringIterator::kStartAfterChar, charRange.last);
 		i2 = iter->GetPrevByteIndex();
-		iter->MoveTo(kJIteratorStartBefore, charRange.first);
+		iter->MoveTo(JStringIterator::kStartBeforeChar, charRange.first);
 		i1 = iter->GetNextByteIndex();
 	}
 	else
 	{
-		iter->MoveTo(kJIteratorStartBefore, charRange.first);
+		iter->MoveTo(JStringIterator::kStartBeforeChar, charRange.first);
 		i1 = iter->GetNextByteIndex();
-		iter->MoveTo(kJIteratorStartAfter, charRange.last);
+		iter->MoveTo(JStringIterator::kStartAfterChar, charRange.last);
 		i2 = iter->GetPrevByteIndex();
 	}
 
@@ -5315,9 +5315,9 @@ JStyledText::CalcInsertionFont
 	// create separate object on which to iterate, without copying
 	const JString s(itsText, JString::kNoCopy);
 	JStringIterator textIter(s);
-	textIter.UnsafeMoveTo(kJIteratorStartBefore, index.charIndex, index.byteIndex);
+	textIter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, index.charIndex, index.byteIndex);
 
-	FontIterator styleIter(*itsStyles, kJIteratorStartBefore, index.charIndex);
+	FontIterator styleIter(*itsStyles, JListT::kStartBefore, index.charIndex);
 
 	return CalcInsertionFont(textIter, styleIter);
 }
@@ -5333,7 +5333,7 @@ JStyledText::CalcInsertionFont
 	const
 {
 	JUtf8Character c;
-	if (textIter.Prev(&c, kJIteratorStay) && c == '\n' && !textIter.AtEnd())
+	if (textIter.Prev(&c, JStringIterator::kStay) && c == '\n' && !textIter.AtEnd())
 	{
 		JFont f;
 		const bool ok = styleIter.Next(&f);

@@ -310,7 +310,7 @@ JStripTrailingDirSeparator
 {
 	assert( !dirName->IsEmpty() );
 
-	JStringIterator iter(dirName, kJIteratorStartAtEnd);
+	JStringIterator iter(dirName, JStringIterator::kStartAtEnd);
 	JUtf8Character c;
 	while (iter.Prev(&c))
 	{

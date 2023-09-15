@@ -241,8 +241,8 @@ JXTreeListWidget::OpenSelectedNodes
 	const bool openDescendants
 	)
 {
-	JTableSelectionIterator iter(&(GetTableSelection()));
-	iter.MoveTo(kJIteratorStartAtEnd, 0,0);
+	JTableSelectionIterator iter(&GetTableSelection());
+	iter.MoveTo(JTableSelectionIterator::kStartAtEnd, 0,0);
 	JPoint cell, lastCell;
 	while (iter.Prev(&cell))
 	{

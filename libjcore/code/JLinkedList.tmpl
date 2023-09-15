@@ -549,7 +549,7 @@ template <class T>
 JListIterator<T>*
 JLinkedList<T>::NewIterator
 	(
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 {
@@ -562,7 +562,7 @@ template <class T>
 JListIterator<T>*
 JLinkedList<T>::NewIterator
 	(
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	const
@@ -584,7 +584,7 @@ begin
 	const JLinkedList<T>& list
 	)
 {
-	return JLinkedListIterator<T>(list, kJIteratorStartAtBeginning);
+	return JLinkedListIterator<T>(list, JListT::kStartAtBeginning);
 }
 
 template <class T>
@@ -594,7 +594,7 @@ end
 	const JLinkedList<T>& list
 	)
 {
-	return JLinkedListIterator<T>(list, kJIteratorStartAtEnd);
+	return JLinkedListIterator<T>(list, JListT::kStartAtEnd);
 }
 
 #endif

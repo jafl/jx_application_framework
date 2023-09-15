@@ -293,7 +293,7 @@ JXMenu::SetTitle
 		{
 			iter.RemoveLastMatch();
 			iter.BeginMatch();
-			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 
 			JString shortcuts = iter.FinishMatch().GetString();
 			shortcuts.TrimWhitespace();

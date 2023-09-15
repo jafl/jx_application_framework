@@ -16,10 +16,10 @@ class JBroadcasterMessageIterator : public JArrayIterator<T>
 public:
 
 	JBroadcasterMessageIterator(const JArray<T>& theArray,
-								const JIteratorPosition start = kJIteratorStartAtBeginning,
+								const JListT::Position start = JListT::kStartAtBeginning,
 								const JIndex index = 0);
 	JBroadcasterMessageIterator(JArray<T>* theArray,
-								const JIteratorPosition start = kJIteratorStartAtBeginning,
+								const JListT::Position start = JListT::kStartAtBeginning,
 								const JIndex index = 0);
 
 protected:

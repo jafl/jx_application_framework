@@ -520,7 +520,7 @@ MainDialog::CopyAndAdjustTemplateFiles
 			JStringIterator iter(&data);
 			for (JIndex j=1; j<=kTagCount; j++)
 			{
-				iter.MoveTo(kJIteratorStartAtBeginning, 0);
+				iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 				while (iter.Next(kTag[j-1]))
 				{
 					iter.ReplaceLastMatch(*value.GetElement(j));

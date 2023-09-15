@@ -25,11 +25,19 @@ public:
 		kIterateByCol
 	};
 
+	enum Position
+	{
+		kStartAtBeginning,	// absolute
+		kStartAtEnd,		// absolute
+		kStartBefore,		// relative to given index
+		kStartAfter,		// relative to given index
+	};
+
 public:
 
 	JTableSelectionIterator(const JTableSelection* tableSelection,
 							const Direction d = kIterateByCol,
-							const JIteratorPosition start = kJIteratorStartAtBeginning,
+							const Position start = kStartAtBeginning,
 							const JIndex row = 0, const JIndex col = 0);
 	JTableSelectionIterator(const JTableSelectionIterator& source);
 
@@ -44,8 +52,8 @@ public:
 	bool	Next(JPoint* cell);
 	bool	Next(JIndex* row, JIndex* col);
 
-	void	MoveTo(const JIteratorPosition newPosition, const JPoint& cell);
-	void	MoveTo(const JIteratorPosition newPosition,
+	void	MoveTo(const Position newPosition, const JPoint& cell);
+	void	MoveTo(const Position newPosition,
 				   const JIndex row, const JIndex col);
 
 	bool	AtBeginning() const;
@@ -105,9 +113,9 @@ JTableSelectionIterator::SetDirection
 inline void
 JTableSelectionIterator::MoveTo
 	(
-	const JIteratorPosition	newPosition,
-	const JIndex			row,
-	const JIndex			col
+	const Position	newPosition,
+	const JIndex	row,
+	const JIndex	col
 	)
 {
 	MoveTo(newPosition, JPoint(col,row));

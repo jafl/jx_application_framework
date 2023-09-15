@@ -25,7 +25,7 @@ template <class T>
 JArrayIterator<T>::JArrayIterator
 	(
 	const JArray<T>&		theArray,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	:
@@ -38,7 +38,7 @@ template <class T>
 JArrayIterator<T>::JArrayIterator
 	(
 	JArray<T>*				theArray,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	:
@@ -71,7 +71,7 @@ bool
 JArrayIterator<T>::Prev
 	(
 	T*						data,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	if (this->AtBeginning())
@@ -104,7 +104,7 @@ bool
 JArrayIterator<T>::Next
 	(
 	T*						data,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	if (this->AtEnd())
@@ -168,7 +168,7 @@ bool
 JArrayIterator<T>::SetPrev
 	(
 	const T&				data,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	JList<T>* obj;
@@ -200,7 +200,7 @@ bool
 JArrayIterator<T>::SetNext
 	(
 	const T&				data,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	JList<T>* obj;

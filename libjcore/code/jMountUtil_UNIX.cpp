@@ -941,7 +941,7 @@ jGetFullHostName
 		{
 			iter.SkipPrev();	// include dot
 			iter.BeginMatch();
-			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 			*host += iter.FinishMatch().GetString();
 		}
 	}
@@ -994,13 +994,13 @@ jCalledByTranslateLocalToRemote
 
 		iter.SkipPrev();	// include leading slash
 		iter.BeginMatch();
-		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 		*remotePath = iter.FinishMatch().GetString();
 		JAppendDirSeparator(remotePath);
 
-		JStringIterator iter2(localPath, kJIteratorStartAfter, dir.GetCharacterCount());
+		JStringIterator iter2(localPath, JStringIterator::kStartAfterChar, dir.GetCharacterCount());
 		iter2.BeginMatch();
-		iter2.MoveTo(kJIteratorStartAtEnd, 0);
+		iter2.MoveTo(JStringIterator::kStartAtEnd, 0);
 		*remotePath += iter2.FinishMatch().GetString();
 		JCleanPath(remotePath);
 
@@ -1147,7 +1147,7 @@ jCalledByTranslateRemoteToLocal
 
 		iter.SkipPrev();	// include leading slash
 		iter.BeginMatch();
-		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 		JString p = iter.FinishMatch().GetString();
 		JAppendDirSeparator(&p);		// force complete name when check StartsWith()
 
@@ -1157,7 +1157,7 @@ jCalledByTranslateRemoteToLocal
 
 			JStringIterator iter2(localPath);
 			iter2.BeginMatch();
-			iter2.MoveTo(kJIteratorStartBefore, p.GetCharacterCount());
+			iter2.MoveTo(JStringIterator::kStartBeforeChar, p.GetCharacterCount());
 			iter2.FinishMatch();
 			iter2.ReplaceLastMatch(JString(mountDir, JString::kNoCopy));
 

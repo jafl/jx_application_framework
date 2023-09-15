@@ -266,11 +266,11 @@ JReadUNIXManOutput
 				(styles.IsEmpty() ||
 				 styles.GetLastElement() != ulFont))
 			{
-				siter.SetPrev(defFont, kJIteratorStay);
+				siter.SetPrev(defFont, JListT::kStay);
 			}
 			else
 			{
-				siter.SetPrev(ulFont, kJIteratorStay);
+				siter.SetPrev(ulFont, JListT::kStay);
 			}
 			prev = '\0';
 		}
@@ -282,7 +282,7 @@ JReadUNIXManOutput
 			if (c == prev)
 			{
 				citer.RemovePrev();	// toss duplicate
-				siter.SetPrev(boldFont, kJIteratorStay);
+				siter.SetPrev(boldFont, JListT::kStay);
 			}
 			else
 			{
@@ -298,12 +298,12 @@ JReadUNIXManOutput
 		}
 	}
 
-	citer.MoveTo(kJIteratorStartAtBeginning, 0);
-	siter.MoveTo(kJIteratorStartAtBeginning, 0);
+	citer.MoveTo(JStringIterator::kStartAtBeginning, 0);
+	siter.MoveTo(JListT::kStartAtBeginning, 0);
 	while (citer.Next(theExtraLinesPattern))
 	{
 		const JCharacterRange r = citer.GetLastMatch().GetCharacterRange();
-		siter.MoveTo(kJIteratorStartBefore, r.first + 2);
+		siter.MoveTo(JListT::kStartBefore, r.first + 2);
 		siter.RemoveNext(r.GetCount() - 2);
 
 		citer.ReplaceLastMatch("\n\n");
@@ -461,14 +461,14 @@ jReplaceMarkdownPattern
 {
 	JRunArrayIterator<JFont> siter(styles);
 
-	citer->MoveTo(kJIteratorStartAtBeginning, 0);
+	citer->MoveTo(JStringIterator::kStartAtBeginning, 0);
 	while (citer->Next(pattern))
 	{
 		const JStringMatch& m = citer->GetLastMatch();
 		const JString s       = m.GetSubstring(1);
 
 		const JCharacterRange r(m.GetCharacterRange());
-		siter.MoveTo(kJIteratorStartBefore, r.first);
+		siter.MoveTo(JListT::kStartBefore, r.first);
 		siter.RemoveNext(r.GetCount());
 		siter.Insert(f, s.GetCharacterCount());
 

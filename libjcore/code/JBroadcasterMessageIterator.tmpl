@@ -22,7 +22,7 @@ template <class T>
 JBroadcasterMessageIterator<T>::JBroadcasterMessageIterator
 	(
 	const JArray<T>&		theArray,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	:
@@ -34,7 +34,7 @@ template <class T>
 JBroadcasterMessageIterator<T>::JBroadcasterMessageIterator
 	(
 	JArray<T>*				theArray,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	:
@@ -69,7 +69,7 @@ JBroadcasterMessageIterator<T>::ListChanged
 		assert( info != nullptr );
 		if (JListIterator<T>::GetCursor() == 0 && info->GetFirstIndex() == 1)
 		{
-			JListIterator<T>::MoveTo(kJIteratorStartAfter, info->GetCount());
+			JListIterator<T>::MoveTo(JListT::kStartAfter, info->GetCount());
 		}
 	}
 }

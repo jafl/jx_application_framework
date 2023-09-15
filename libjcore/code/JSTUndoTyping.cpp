@@ -100,7 +100,7 @@ JSTUndoTyping::HandleDelete
 	}
 
 	const JString s(GetText()->GetText().GetBytes(), match.GetUtf8ByteRange(), JString::kNoCopy);
-	JStringIterator iter(s, kJIteratorStartAtEnd);
+	JStringIterator iter(s, JStringIterator::kStartAtEnd);
 
 	const JIndex firstCharIndex = match.GetCharacterRange().first;
 
@@ -151,7 +151,7 @@ JSTUndoTyping::HandleFwdDelete
 	assert( IsActive() );
 
 	const JString s(GetText()->GetText().GetBytes(), match.GetUtf8ByteRange(), JString::kNoCopy);
-	JStringIterator iter(s, kJIteratorStartAtBeginning);
+	JStringIterator iter(s);
 
 	const JIndex firstCharIndex = match.GetCharacterRange().first;
 

@@ -613,7 +613,7 @@ JTextEditor::SelectionMatches
 	// We cannot use GetConstIterator() because it uses a temporary string
 
 	JStringIterator iter(GetText()->GetText());
-	iter.UnsafeMoveTo(kJIteratorStartBefore, itsSelection.charRange.first, itsSelection.byteRange.first);
+	iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, itsSelection.charRange.first, itsSelection.byteRange.first);
 	if (iter.Next(regex))
 	{
 		const JStringMatch& m = iter.GetLastMatch();
@@ -1032,7 +1032,7 @@ JTextEditor::Paste
 		if (hadSelection)
 		{
 			FontIterator iter(
-				itsText->GetStyles(), kJIteratorStartBefore, range.charRange.first);
+				itsText->GetStyles(), JListT::kStartBefore, range.charRange.first);
 			iter.Next(&f);
 		}
 
@@ -1735,10 +1735,10 @@ JTextEditor::TEDrawText
 
 	// draw text, one line at a time
 
-	JStringIterator* textIter = itsText->GetConstIterator(kJIteratorStartBefore, GetLineStart(startLine));
-	FontIterator styleIter(itsText->GetStyles(), kJIteratorStartBefore, GetLineStart(startLine).charIndex);
+	JStringIterator* textIter = itsText->GetConstIterator(JStringIterator::kStartBeforeChar, GetLineStart(startLine));
+	FontIterator styleIter(itsText->GetStyles(), JListT::kStartBefore, GetLineStart(startLine).charIndex);
 
-	GeometryIterator geomIter(itsLineGeom, kJIteratorStartBefore, startLine);
+	GeometryIterator geomIter(itsLineGeom, JListT::kStartBefore, startLine);
 	LineGeometry geom;
 	for (JIndex i=startLine; i<=lineCount; i++)
 	{
@@ -1807,8 +1807,8 @@ teDrawSpaces
 		}
 	}
 
-	textIter->UnsafeMoveTo(kJIteratorStartBefore, charIndex, byteIndex);
-	styleIter->MoveTo(kJIteratorStartBefore, charIndex);
+	textIter->UnsafeMoveTo(JStringIterator::kStartBeforeChar, charIndex, byteIndex);
+	styleIter->MoveTo(JListT::kStartBefore, charIndex);
 }
 
 void
@@ -1896,7 +1896,7 @@ JTextEditor::TEDrawLine
 		const JStringMatch& m = textIter->FinishMatch();
 		if (!m.IsEmpty())
 		{
-			styleIter->MoveTo(kJIteratorStartBefore, textIter->GetPrevCharacterIndex());
+			styleIter->MoveTo(JListT::kStartBefore, textIter->GetPrevCharacterIndex());
 			styleIter->Next(&f);
 			p.SetFont(f);
 
@@ -2087,7 +2087,7 @@ JTextEditor::TEDrawSelection
 
 	const JCoordinate xmax = JMax(itsGUIWidth, itsWidth);
 
-	GeometryIterator iter(itsLineGeom, kJIteratorStartBefore, startLine);
+	GeometryIterator iter(itsLineGeom, JListT::kStartBefore, startLine);
 	LineGeometry geom;
 	for (JIndex i=startLine; i<=endLine; i++)
 	{
@@ -2206,7 +2206,7 @@ JTextEditor::TEDrawCaret
 			}
 			else if (c != '\n')
 			{
-				FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, caretLoc.location.charIndex);
+				FontIterator iter(itsText->GetStyles(), JListT::kStartBefore, caretLoc.location.charIndex);
 				JFont f;
 				iter.Next(&f);
 				w = f.GetCharWidth(itsFontManager, c);
@@ -2666,13 +2666,13 @@ JTextEditor::TEGetDoubleClickSelection
 		TextIndex i(JMin(origIndex.charIndex, textLength),
 					JMin(origIndex.byteIndex, itsText->GetText().GetByteCount()));
 
-		JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, i);
+		JStringIterator* iter = itsText->GetConstIterator(JStringIterator::kStartBeforeChar, i);
 
 		if (!iter->AtBeginning())
 		{
 			JUtf8Character c1, c2;
-			const bool ok1 = iter->Prev(&c1, kJIteratorStay);
-			const bool ok2 = iter->Next(&c2, kJIteratorStay);
+			const bool ok1 = iter->Prev(&c1, JStringIterator::kStay);
+			const bool ok2 = iter->Next(&c2, JStringIterator::kStay);
 			assert( ok1 && ok2 );
 
 			if (c1 != '\n' && c2 == '\n')
@@ -2807,7 +2807,7 @@ JTextEditor::InsertCharacter
 	const bool hadSelection = !itsSelection.IsEmpty();
 	if (hadSelection)
 	{
-		FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, itsSelection.charRange.first);
+		FontIterator iter(itsText->GetStyles(), JListT::kStartBefore, itsSelection.charRange.first);
 		iter.Next(&itsInsertionFont);
 
 		itsCaret = CalcCaretLocation(itsSelection.GetFirst());
@@ -2853,7 +2853,7 @@ JTextEditor::BackwardDelete
 	bool setFont = false;
 	if (i.charIndex > 1)
 	{
-		FontIterator iter(itsText->GetStyles(), kJIteratorStartBefore, i.charIndex);
+		FontIterator iter(itsText->GetStyles(), JListT::kStartBefore, i.charIndex);
 		iter.Prev(&f);
 		setFont = true;
 	}
@@ -3008,7 +3008,7 @@ JTextEditor::GoToColumn
 		const TextIndex end = GetLineEnd(lineIndex);
 		JIndex col          = 1;
 
-		JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, GetLineStart(lineIndex));
+		JStringIterator* iter = itsText->GetConstIterator(JStringIterator::kStartBeforeChar, GetLineStart(lineIndex));
 		JUtf8Character c;
 		JIndex charIndex;
 		while (col < columnIndex && iter->GetNextCharacterIndex(&charIndex) &&
@@ -3264,7 +3264,7 @@ JTextEditor::VisualLineIndexToCRLineIndex
 	JSize crLineIndex        = 1;
 	const TextIndex endIndex = GetLineStart(visualLineIndex);
 
-	JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, TextIndex(1,1));
+	JStringIterator* iter = itsText->GetConstIterator(JStringIterator::kStartBeforeChar, TextIndex(1,1));
 	JUtf8Character c;
 	while (iter->GetNextCharacterIndex() < endIndex.charIndex && iter->Next(&c))
 	{
@@ -3664,12 +3664,12 @@ JTextEditor::GetStringWidth
 	{
 		allocatedStyleIter = true;
 
-		styleIter = jnew FontIterator(itsText->GetStyles(), kJIteratorStartBefore, origStart.charIndex);
+		styleIter = jnew FontIterator(itsText->GetStyles(), JListT::kStartBefore, origStart.charIndex);
 		assert( styleIter != nullptr );
 	}
 	else
 	{
-		styleIter->MoveTo(kJIteratorStartBefore, origStart.charIndex);
+		styleIter->MoveTo(JListT::kStartBefore, origStart.charIndex);
 	}
 
 	// preWidth stores the width of the characters preceding origStartIndex
@@ -3715,7 +3715,7 @@ JTextEditor::GetStringWidth
 		}
 
 		start = itsText->AdjustTextIndex(start, endCharIndex - start.charIndex + 1);
-		styleIter->MoveTo(kJIteratorStartAfter, endCharIndex);
+		styleIter->MoveTo(JListT::kStartAfter, endCharIndex);
 	}
 
 	if (allocatedStyleIter)
@@ -3744,7 +3744,7 @@ JTextEditor::LocateTab
 	)
 	const
 {
-	JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, start);
+	JStringIterator* iter = itsText->GetConstIterator(JStringIterator::kStartBeforeChar, start);
 
 	JUtf8Character c;
 	JIndex i = start.charIndex;
@@ -3986,15 +3986,15 @@ JTextEditor::RecalcRange
 		lineIndex--;
 	}
 
-	JStringIterator* textIter = itsText->GetConstIterator(kJIteratorStartBefore, GetLineStart(lineIndex));
+	JStringIterator* textIter = itsText->GetConstIterator(JStringIterator::kStartBeforeChar, GetLineStart(lineIndex));
 	const TextIndex& end      = range.GetAfter();
 	*firstLineIndex           = lineIndex;
 
 	const TextCount textLength(itsText->GetText().GetCharacterCount(),
 							   itsText->GetText().GetByteCount());
 
-	FontIterator styleIter(itsText->GetStyles(), kJIteratorStartBefore, textIter->GetNextCharacterIndex());
-	GeometryIterator geomIter(itsLineGeom, kJIteratorStartBefore, lineIndex);
+	FontIterator styleIter(itsText->GetStyles(), JListT::kStartBefore, textIter->GetNextCharacterIndex());
+	GeometryIterator geomIter(itsLineGeom, JListT::kStartBefore, lineIndex);
 
 	*maxLineWidth = itsWidth;
 	while (true)
@@ -4163,15 +4163,15 @@ JTextEditor::RecalcLine
 				{
 					// this word goes on the next line
 
-					textIter->UnsafeMoveTo(kJIteratorStartBefore, r.charRange.first, r.byteRange.first);
-					styleIter->MoveTo(kJIteratorStartBefore, r.charRange.first);
+					textIter->UnsafeMoveTo(JStringIterator::kStartBeforeChar, r.charRange.first, r.byteRange.first);
+					styleIter->MoveTo(JListT::kStartBefore, r.charRange.first);
 				}
 				else
 				{
 					// put as much of this word as possible on the line
 
-					textIter->UnsafeMoveTo(kJIteratorStartBefore, first.charIndex, first.byteIndex);
-					styleIter->MoveTo(kJIteratorStartBefore, first.charIndex);
+					textIter->UnsafeMoveTo(JStringIterator::kStartBeforeChar, first.charIndex, first.byteIndex);
+					styleIter->MoveTo(JListT::kStartBefore, first.charIndex);
 
 					assert( *lineWidth == 0 );
 					GetSubwordForLine(textIter, styleIter, lineIndex, lineWidth);
@@ -4191,7 +4191,7 @@ JTextEditor::RecalcLine
 
 	// update geometry for this line
 
-	styleIter->MoveTo(kJIteratorStartBefore, first.charIndex);
+	styleIter->MoveTo(JListT::kStartBefore, first.charIndex);
 	const JSize lastChar = textIter->GetPrevCharacterIndex();
 
 	JCoordinate maxAscent=0, maxDescent=0;
@@ -4207,7 +4207,7 @@ JTextEditor::RecalcLine
 		styleIter->NextRun();
 	}
 
-	styleIter->MoveTo(kJIteratorStartAfter, lastChar);
+	styleIter->MoveTo(JListT::kStartAfter, lastChar);
 
 	const LineGeometry geom(maxAscent+maxDescent, maxAscent);
 	if (geomIter->AtEnd())
@@ -4300,14 +4300,14 @@ JTextEditor::IncludeWhitespaceOnLine
 	JIndex endCharIndex;
 	if (textIter->GetPrevCharacterIndex(&endCharIndex) && endCharIndex >= first.charIndex)
 	{
-		styleIter->MoveTo(kJIteratorStartBefore, first.charIndex);
+		styleIter->MoveTo(JListT::kStartBefore, first.charIndex);
 
 		const TextIndex last(endCharIndex, textIter->GetPrevByteIndex());
 		*lineWidth += GetStringWidth(first, last, styleIter);
 	}
 	else
 	{
-		styleIter->MoveTo(kJIteratorStartBefore, textIter->GetNextCharacterIndex());
+		styleIter->MoveTo(JListT::kStartBefore, textIter->GetNextCharacterIndex());
 	}
 }
 
@@ -4337,7 +4337,7 @@ JTextEditor::GetSubwordForLine
 	JUtf8Character c;
 	JFont f;
 	bool first = true;
-	while (textIter->Next(&c, kJIteratorStay))
+	while (textIter->Next(&c, JStringIterator::kStay))
 	{
 		JCoordinate dw;
 		if (c == '\t')
@@ -4346,7 +4346,7 @@ JTextEditor::GetSubwordForLine
 		}
 		else
 		{
-			styleIter->Next(&f, kJIteratorStay);
+			styleIter->Next(&f, JListT::kStay);
 			dw = f.GetCharWidth(itsFontManager, c);
 		}
 
@@ -4384,7 +4384,7 @@ JTextEditor::NoPrevWhitespaceOnLine
 {
 	const TextIndex start = GetLineStart(GetLineForChar(index.charIndex));
 
-	JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, index);
+	JStringIterator* iter = itsText->GetConstIterator(JStringIterator::kStartBeforeChar, index);
 	JUtf8Character c;
 	while (!iter->AtBeginning() &&
 		   iter->GetPrevCharacterIndex() >= start.charIndex &&
@@ -4465,10 +4465,10 @@ JTextEditor::CalcCaretLocation
 	JCoordinate x     = 0;
 	JCoordinate prevD = pt.x;
 
-	FontIterator fiter(itsText->GetStyles(), kJIteratorStartBefore, lineStart.charIndex);
+	FontIterator fiter(itsText->GetStyles(), JListT::kStartBefore, lineStart.charIndex);
 	JFont f;
 
-	JStringIterator* iter = itsText->GetConstIterator(kJIteratorStartBefore, lineStart);
+	JStringIterator* iter = itsText->GetConstIterator(JStringIterator::kStartBeforeChar, lineStart);
 	JUtf8Character c;
 	JIndex charIndex;
 	while (iter->GetNextCharacterIndex(&charIndex) && charIndex <= lineEnd.charIndex &&

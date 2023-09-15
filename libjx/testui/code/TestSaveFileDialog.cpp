@@ -256,7 +256,7 @@ TestSaveFileDialog::HandleFormatChange
 		return;
 	}
 
-	JStringIterator iter(&fileName, kJIteratorStartAtEnd);
+	JStringIterator iter(&fileName, JStringIterator::kStartAtEnd);
 	if (iter.Prev("."))
 	{
 		iter.RemoveAllNext();

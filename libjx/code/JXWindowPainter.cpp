@@ -411,7 +411,7 @@ JXWindowPainter::String
 
 		JStringIterator iter(str);
 		iter.BeginMatch();
-		iter.MoveTo(kJIteratorStartBefore, uIndex);
+		iter.MoveTo(JStringIterator::kStartBeforeChar, uIndex);
 
 		if (uIndex > 1)
 		{

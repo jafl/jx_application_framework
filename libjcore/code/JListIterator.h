@@ -25,10 +25,10 @@ class JListIterator
 public:
 
 	JListIterator(const JList<T>& theList,
-				  const JIteratorPosition start = kJIteratorStartAtBeginning,
+				  const JListT::Position start = JListT::kStartAtBeginning,
 				  const JIndex index = 0);
 	JListIterator(JList<T>* theList,
-				  const JIteratorPosition start = kJIteratorStartAtBeginning,
+				  const JListT::Position start = JListT::kStartAtBeginning,
 				  const JIndex index = 0);
 
 	virtual ~JListIterator();
@@ -36,8 +36,8 @@ public:
 	const JList<T>*	GetList() const;
 	bool			GetList(JList<T>** obj) const;
 
-	virtual bool	Prev(T* data, const JIteratorAction move = kJIteratorMove) = 0;
-	virtual bool	Next(T* data, const JIteratorAction move = kJIteratorMove) = 0;
+	virtual bool	Prev(T* data, const JListT::Action move = JListT::kMove) = 0;
+	virtual bool	Next(T* data, const JListT::Action move = JListT::kMove) = 0;
 
 	bool			Prev(std::function<bool(const T&)> match, T* item);
 	bool			Next(std::function<bool(const T&)> match, T* item);
@@ -45,7 +45,7 @@ public:
 	virtual void	SkipPrev(const JSize count = 1) = 0;
 	virtual void	SkipNext(const JSize count = 1) = 0;
 
-	virtual void	MoveTo(const JIteratorPosition newPosition, const JIndex index);
+	virtual void	MoveTo(const JListT::Position newPosition, const JIndex index);
 	bool			AtBeginning() const;
 	bool			AtEnd() const;
 	JIndex			GetPrevElementIndex() const;		// asserts
@@ -55,8 +55,8 @@ public:
 
 	// only allowed if constructed from non-const JList<T>*
 
-	virtual bool	SetPrev(const T& data, const JIteratorAction move = kJIteratorMove) = 0;
-	virtual bool	SetNext(const T& data, const JIteratorAction move = kJIteratorMove) = 0;
+	virtual bool	SetPrev(const T& data, const JListT::Action move = JListT::kMove) = 0;
+	virtual bool	SetNext(const T& data, const JListT::Action move = JListT::kMove) = 0;
 
 	virtual bool	RemovePrev(const JSize count = 1) = 0;
 	virtual bool	RemoveNext(const JSize count = 1) = 0;
@@ -88,7 +88,7 @@ private:
 
 private:
 
-	void	JListIteratorX(const JIteratorPosition start, const JIndex index);
+	void	JListIteratorX(const JListT::Position start, const JIndex index);
 
 	void	AddToIteratorList();
 	void	RemoveFromIteratorList();

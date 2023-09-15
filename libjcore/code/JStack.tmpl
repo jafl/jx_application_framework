@@ -283,7 +283,7 @@ template <class T, class S>
 JListIterator<T>*
 JStack<T,S>::NewIterator()
 {
-	return itsElements->NewIterator(kJIteratorStartAtEnd);
+	return itsElements->NewIterator(JListT::kStartAtEnd);
 }
 
 template <class T, class S>
@@ -291,7 +291,7 @@ JListIterator<T>*
 JStack<T,S>::NewIterator()
 	const
 {
-	return itsElements->NewIterator(kJIteratorStartAtEnd);
+	return itsElements->NewIterator(JListT::kStartAtEnd);
 }
 
 #endif

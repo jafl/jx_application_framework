@@ -320,7 +320,7 @@ jGetOpValue
 	JStringIterator iter(op);
 	iter.SkipNext();
 	iter.BeginMatch();
-	iter.MoveTo(kJIteratorStartAtEnd, 0);
+	iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 	JString result = iter.FinishMatch().GetString();
 	result.TrimWhitespace();
 	return result;
@@ -926,14 +926,14 @@ JXTextMenuData::ParseNMShortcut
 
 		for (JUnsignedOffset i=0; i<kMacOSModifierCount; i++)
 		{
-			iter.MoveTo(kJIteratorStartAtBeginning, 0);
+			iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 			while (iter.Next(kNMModConv[i].str))
 			{
 				iter.RemoveLastMatch();
 			}
 		}
 
-		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 		const bool ok = iter.Next(keyStr);
 		assert( ok );
 		iter.RemoveLastMatch();

@@ -503,7 +503,7 @@ JCreateDirectory
 	JCleanPath(&path);
 	JAppendDirSeparator(&path);
 
-	JStringIterator iter(path, kJIteratorStartAfter, 1);
+	JStringIterator iter(path, JStringIterator::kStartAfterChar, 1);
 	JString dir;
 	while (iter.Next("/"))
 	{
@@ -1287,13 +1287,13 @@ JCleanPath
 		iter.ReplaceLastMatch("/");
 	}
 
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 	while (iter.Next("/./"))
 	{
 		iter.ReplaceLastMatch("/");
 	}
 
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 	if (iter.Next(trailingDotPattern))		// max 1 match
 	{
 		iter.RemoveLastMatch();
@@ -1446,11 +1446,11 @@ JConvertToRelativePath
 	JStringIterator pathIter(&path);
 	if (!hadTDS)
 	{
-		pathIter.MoveTo(kJIteratorStartAtEnd, 0);
+		pathIter.MoveTo(JStringIterator::kStartAtEnd, 0);
 		pathIter.RemovePrev();
 	}
 
-	JStringIterator baseIter(&base, kJIteratorStartAfter, matchLength);
+	JStringIterator baseIter(&base, JStringIterator::kStartAfterChar, matchLength);
 	const bool found = baseIter.Prev("/");
 	assert( found );
 	if (baseIter.AtBeginning())
@@ -1462,7 +1462,7 @@ JConvertToRelativePath
 	baseIter.RemoveAllPrev();
 	baseIter.RemoveNext();
 
-	pathIter.MoveTo(kJIteratorStartAtBeginning, 0);
+	pathIter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 	pathIter.SkipNext(matchLength);
 	pathIter.RemoveAllPrev();
 	pathIter.Invalidate();
@@ -1476,7 +1476,7 @@ JConvertToRelativePath
 	// The number of remaining directory separators in base
 	// is the number of levels to go up.
 
-	baseIter.MoveTo(kJIteratorStartAtBeginning, 0);
+	baseIter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 	while (baseIter.Next("/"))
 	{
 		path.Prepend("../");
@@ -1544,14 +1544,14 @@ JExpandHomeDirShortcut
 			JStringIterator iter(path);
 			iter.SkipNext(2);
 			iter.BeginMatch();
-			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 			const JStringMatch& m = iter.FinishMatch();
 			*result = JCombinePathAndName(*result, m.GetString());
 		}
 	}
 	else if (path.StartsWith("~"))
 	{
-		JStringIterator iter(path, kJIteratorStartAfter, 1);
+		JStringIterator iter(path, JStringIterator::kStartAfterChar, 1);
 		iter.BeginMatch();
 		iter.Next("/");
 		const JString userName = iter.FinishMatch().GetString();
@@ -1568,7 +1568,7 @@ JExpandHomeDirShortcut
 		if (ok && !iter.AtEnd())
 		{
 			iter.BeginMatch();
-			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 			*result = JCombinePathAndName(*result, iter.FinishMatch().GetString());
 		}
 	}

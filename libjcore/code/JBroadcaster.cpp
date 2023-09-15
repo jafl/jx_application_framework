@@ -518,7 +518,7 @@ JBroadcaster::BroadcastWithFeedbackPrivate
 {
 	assert( itsRecipients != nullptr );
 
-	JTaskIterator<JBroadcaster>	iterator(itsRecipients, kJIteratorStartAtBeginning);
+	JTaskIterator<JBroadcaster>	iterator(itsRecipients);
 	JBroadcaster*				recipient;
 
 	while (iterator.Next(&recipient))

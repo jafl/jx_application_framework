@@ -136,7 +136,7 @@ main
 
 	if (!outputFileName.IsEmpty())
 	{
-		JStringIterator iter(&data1Str, kJIteratorStartAtEnd);
+		JStringIterator iter(&data1Str, JStringIterator::kStartAtEnd);
 		JUtf8Character c;
 		while (iter.Prev(&c))
 		{
@@ -146,7 +146,7 @@ main
 			}
 			else if (c == "\n")
 			{
-				iter.SetNext(JUtf8Character('n'), kJIteratorStay);
+				iter.SetNext(JUtf8Character('n'), JStringIterator::kStay);
 				iter.Insert("\\");
 			}
 		}
@@ -161,7 +161,7 @@ main
 		// and cannot compile string constant more than 2048 characters!
 		// (2040 / 4bytes = 510 characters)
 
-		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 		iter.BeginMatch();
 		while (!iter.AtEnd())
 		{

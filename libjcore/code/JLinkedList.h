@@ -53,10 +53,10 @@ public:
 	void	RemoveAll() override;
 
 	JListIterator<T>*
-		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
+		NewIterator(const JListT::Position start = JListT::kStartAtBeginning,
 					const JIndex index = 0) override;
 	JListIterator<T>*
-		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
+		NewIterator(const JListT::Position start = JListT::kStartAtBeginning,
 					const JIndex index = 0) const override;
 
 private:

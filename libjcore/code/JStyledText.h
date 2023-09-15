@@ -12,6 +12,7 @@
 #include "JFont.h"
 #include "JRunArray.h"
 #include "JPtrArray-JString.h"
+#include "JStringIterator.h"
 #include "JStringMatch.h"
 
 class JRegex;
@@ -269,7 +270,7 @@ public:
 	JIndex		GetColumnForChar(const TextIndex& lineStart, const TextIndex& location) const;
 	TextIndex	AdjustTextIndex(const TextIndex& index, const JInteger charDelta) const;
 
-	JStringIterator*	GetConstIterator(const JIteratorPosition pos, const TextIndex& index) const;
+	JStringIterator*	GetConstIterator(const JStringIterator::Position pos, const TextIndex& index) const;
 	void				DisposeConstIterator(JStringIterator* iter) const;
 
 	bool	ReadPlainText(const JString& fileName, PlainTextFormat* format,
@@ -937,7 +938,7 @@ JStyledText::GetFont
 	)
 	const
 {
-	JRunArrayIterator iter(*itsStyles, kJIteratorStartBefore, charIndex);
+	JRunArrayIterator iter(*itsStyles, JListT::kStartBefore, charIndex);
 	JFont f;
 	iter.Next(&f);
 	return f;

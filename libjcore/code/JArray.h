@@ -37,8 +37,8 @@ public:
 	T		GetElementFromEnd(const JIndex index) const;
 	void	SetElementFromEnd(const JIndex index, const T& data);
 
-	T	GetFirstElement() const override;
-	T	GetLastElement() const override;
+	T		GetFirstElement() const override;
+	T		GetLastElement() const override;
 
 	void	InsertElementAtIndex(const JIndex index, const T& data);
 	void	PrependElement(const T& data) override;
@@ -57,10 +57,10 @@ public:
 	void	SwapElements(const JListT::ElementsSwapped& info);
 
 	JListIterator<T>*
-		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
+		NewIterator(const JListT::Position start = JListT::kStartAtBeginning,
 					const JIndex index = 0) override;
 	JListIterator<T>*
-		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
+		NewIterator(const JListT::Position start = JListT::kStartAtBeginning,
 					const JIndex index = 0) const override;
 
 	JSize	GetBlockSize() const;

@@ -53,9 +53,9 @@
 
 JStringIterator::JStringIterator
 	(
-	const JString&			s,
-	const JIteratorPosition	start,
-	const JIndex			index
+	const JString&	s,
+	const Position	start,
+	const JIndex	index
 	)
 	:
 	itsConstString(&s),
@@ -68,9 +68,9 @@ JStringIterator::JStringIterator
 
 JStringIterator::JStringIterator
 	(
-	JString*				s,
-	const JIteratorPosition	start,
-	const JIndex			index
+	JString*		s,
+	const Position	start,
+	const JIndex	index
 	)
 	:
 	itsConstString(s),
@@ -207,8 +207,8 @@ JStringIterator::GetNextByteIndex()
 void
 JStringIterator::MoveTo
 	(
-	const JIteratorPosition	newPosition,
-	const JIndex			index
+	const Position	newPosition,
+	const JIndex	index
 	)
 {
 	if (itsConstString == nullptr)
@@ -216,17 +216,17 @@ JStringIterator::MoveTo
 		return;
 	}
 
-	if (newPosition == kJIteratorStartAtBeginning)
+	if (newPosition == kStartAtBeginning)
 	{
 		itsByteOffset      = 0;
 		itsCharacterOffset = 0;
 	}
-	else if (newPosition == kJIteratorStartAtEnd)
+	else if (newPosition == kStartAtEnd)
 	{
 		itsByteOffset      = itsConstString->GetByteCount();
 		itsCharacterOffset = itsConstString->GetCharacterCount();
 	}
-	else if (newPosition == kJIteratorStartBeforeByte)
+	else if (newPosition == kStartBeforeByte)
 	{
 		assert( (itsConstString->IsEmpty() && index == 1) ||
 				index == itsConstString->GetByteCount()+1 ||
@@ -235,13 +235,13 @@ JStringIterator::MoveTo
 		itsByteOffset      = index-1;
 		itsCharacterOffset = JString::CountCharacters(itsConstString->GetRawBytes(), itsByteOffset);
 	}
-	else if (newPosition == kJIteratorStartAfterByte)
+	else if (newPosition == kStartAfterByte)
 	{
 		assert( itsConstString->ByteIndexValid(index) );
 		itsByteOffset      = index;
 		itsCharacterOffset = JString::CountCharacters(itsConstString->GetRawBytes(), itsByteOffset);
 	}
-	else if (newPosition == kJIteratorStartBefore)
+	else if (newPosition == kStartBeforeChar)
 	{
 		assert( (itsConstString->IsEmpty() && index == 1) ||
 				index == itsConstString->GetCharacterCount()+1 ||
@@ -253,7 +253,7 @@ JStringIterator::MoveTo
 	}
 	else
 	{
-		assert( newPosition == kJIteratorStartAfter );
+		assert( newPosition == kStartAfterChar );
 		assert( itsConstString->CharacterIndexValid(index) );
 		JUtf8ByteRange r   = itsConstString->CharacterToUtf8ByteRange(JCharacterRange(1, index));
 		itsByteOffset      = r.last;
@@ -276,9 +276,9 @@ JStringIterator::MoveTo
 void
 JStringIterator::UnsafeMoveTo
 	(
-	const JIteratorPosition	newPosition,
-	const JIndex			characterIndex,
-	const JIndex			byteIndex
+	const Position	newPosition,
+	const JIndex	characterIndex,
+	const JIndex	byteIndex
 	)
 {
 	if (itsConstString == nullptr)
@@ -286,7 +286,7 @@ JStringIterator::UnsafeMoveTo
 		return;
 	}
 
-	if (newPosition == kJIteratorStartBefore)
+	if (newPosition == kStartBeforeChar)
 	{
 		assert( (itsConstString->IsEmpty() && characterIndex == 1) ||
 				characterIndex == itsConstString->GetCharacterCount()+1 ||
@@ -404,8 +404,8 @@ JStringIterator::SkipNext
 bool
 JStringIterator::Prev
 	(
-	JUtf8Character*			c,
-	const JIteratorAction	move
+	JUtf8Character*	c,
+	const Action	move
 	)
 {
 	const JUtf8Byte* ptr = itsConstString->GetRawBytes() + itsByteOffset - 1;
@@ -433,8 +433,8 @@ JStringIterator::Prev
 bool
 JStringIterator::Next
 	(
-	JUtf8Character*			c,
-	const JIteratorAction	move
+	JUtf8Character*	c,
+	const Action	move
 	)
 {
 	const JUtf8Byte* ptr = itsConstString->GetRawBytes() + itsByteOffset;
@@ -672,19 +672,29 @@ JStringIterator::FinishMatch
 	if (!includeLastMatch && itsLastMatch != nullptr)
 	{
 		const JSize ignoreCount = itsLastMatch->GetByteCount();
-		if (pos < itsMatchStartByte)
+		if (pos < itsMatchStartByte && itsLastMatch->GetUtf8ByteRange().first == pos+1)
 		{
 			pos += ignoreCount;
 			pos  = JMin(pos, itsMatchStartByte);
 		}
-		else if (itsMatchStartByte < pos && ignoreCount <= pos)
+		else if (itsMatchStartByte < pos && itsLastMatch->GetUtf8ByteRange().last == pos)
 		{
+			assert( ignoreCount <= pos );
 			pos -= ignoreCount;
 			pos  = JMax(pos, itsMatchStartByte);
 		}
-		else if (itsMatchStartByte < pos)
+	}
+	else if (includeLastMatch && itsLastMatch != nullptr)
+	{
+		const JSize includeCount = itsLastMatch->GetByteCount();
+		if (pos < itsMatchStartByte && itsLastMatch->GetUtf8ByteRange().last == pos)
 		{
-			pos = itsMatchStartByte;
+			pos -= includeCount;
+		}
+		else if (itsMatchStartByte < pos && itsLastMatch->GetUtf8ByteRange().first == pos+1)
+		{
+			assert( pos + includeCount <= itsConstString->GetByteCount() );
+			pos += includeCount;
 		}
 	}
 
@@ -723,7 +733,7 @@ bool
 JStringIterator::SetPrev
 	(
 	const JUtf8Character&	c,
-	const JIteratorAction	move
+	const Action			move
 	)
 {
 	assert( itsString != nullptr );
@@ -757,7 +767,7 @@ bool
 JStringIterator::SetNext
 	(
 	const JUtf8Character&	c,
-	const JIteratorAction	move
+	const Action			move
 	)
 {
 	assert( itsString != nullptr );

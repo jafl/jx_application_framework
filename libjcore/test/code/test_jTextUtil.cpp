@@ -340,35 +340,35 @@ JTEST(Markdown)
 	JRunArrayIterator<JFont> iter(st.GetStyles());
 	JFont f;
 
-	iter.MoveTo(kJIteratorStartBefore, 8);
+	iter.MoveTo(JListT::kStartBefore, 8);
 	iter.Next(&f);
 	JAssertTrue(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 	JAssertStringsEqual(JFontManager::GetDefaultFontName(), f.GetName());
 
-	iter.MoveTo(kJIteratorStartBefore, 15);
+	iter.MoveTo(JListT::kStartBefore, 15);
 	iter.Next(&f);
 	JAssertFalse(f.GetStyle().bold);
 	JAssertTrue(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 	JAssertStringsEqual(JFontManager::GetDefaultFontName(), f.GetName());
 
-	iter.MoveTo(kJIteratorStartBefore, 21);
+	iter.MoveTo(JListT::kStartBefore, 21);
 	iter.Next(&f);
 	JAssertFalse(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);
 	JAssertEqual(1, f.GetStyle().underlineCount);
 	JAssertStringsEqual(JFontManager::GetDefaultFontName(), f.GetName());
 
-	iter.MoveTo(kJIteratorStartBefore, 27);
+	iter.MoveTo(JListT::kStartBefore, 27);
 	iter.Next(&f);
 	JAssertFalse(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 	JAssertStringsEqual(JFontManager::GetDefaultMonospaceFontName(), f.GetName());
 
-	iter.MoveTo(kJIteratorStartBefore, 42);
+	iter.MoveTo(JListT::kStartBefore, 42);
 	iter.Next(&f);
 	JAssertFalse(f.GetStyle().bold);
 	JAssertFalse(f.GetStyle().italic);

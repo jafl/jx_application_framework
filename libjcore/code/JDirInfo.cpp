@@ -1128,7 +1128,7 @@ JDirInfo::AppendRegex
 	// Convert wildcard multiples (*) to regex multiples (.*)
 	// and wildcard singles (?) to regex singles (.)
 
-	JStringIterator iter(&str, kJIteratorStartAtEnd);
+	JStringIterator iter(&str, JStringIterator::kStartAtEnd);
 	JUtf8Character c;
 	while (iter.Prev(&c))
 	{
@@ -1138,7 +1138,7 @@ JDirInfo::AppendRegex
 		}
 		else if (c == '?')
 		{
-			iter.SetNext(JUtf8Character('.'), kJIteratorStay);
+			iter.SetNext(JUtf8Character('.'), JStringIterator::kStay);
 		}
 		else if (JRegex::NeedsBackslashToBeLiteral(c))
 		{

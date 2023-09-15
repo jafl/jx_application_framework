@@ -34,7 +34,7 @@
 				+-----+-----+-----+-----+-----+-----+
 		cursor	0     1     2     3     4     5     6
 
-	JIteratorPosition lets you specify an initial (or changed) cursor position.
+	Position lets you specify an initial (or changed) cursor position.
 	kJIteratorStartBefore puts the cursor just before the specified item
 	(so Next() will fetch the item) while kJIteratorStartAfter puts it just after
 	(so Prev() will fetch the item).
@@ -86,7 +86,7 @@ template <class T>
 JListIterator<T>::JListIterator
 	(
 	const JList<T>&			theList,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 {
@@ -100,7 +100,7 @@ template <class T>
 JListIterator<T>::JListIterator
 	(
 	JList<T>*				theList,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 {
@@ -116,7 +116,7 @@ template <class T>
 void
 JListIterator<T>::JListIteratorX
 	(
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 {
@@ -247,7 +247,7 @@ template <class T>
 void
 JListIterator<T>::MoveTo
 	(
-	const JIteratorPosition	newPosition,
+	const JListT::Position	newPosition,
 	const JIndex			index
 	)
 {
@@ -256,15 +256,15 @@ JListIterator<T>::MoveTo
 		return;
 	}
 
-	if (newPosition == kJIteratorStartAtBeginning)
+	if (newPosition == JListT::kStartAtBeginning)
 	{
 		itsCursorPosition = 0;
 	}
-	else if (newPosition == kJIteratorStartAtEnd)
+	else if (newPosition == JListT::kStartAtEnd)
 	{
 		itsCursorPosition = itsConstList->GetElementCount();
 	}
-	else if (newPosition == kJIteratorStartBefore)
+	else if (newPosition == JListT::kStartBefore)
 	{
 		assert( (itsConstList->IsEmpty() && index == 1) ||
 				index == itsConstList->GetElementCount()+1 ||
@@ -274,7 +274,7 @@ JListIterator<T>::MoveTo
 	}
 	else
 	{
-		assert( newPosition == kJIteratorStartAfter );
+		assert( newPosition == JListT::kStartAfter );
 		assert( itsConstList->IndexValid(index) );
 
 		itsCursorPosition = index;

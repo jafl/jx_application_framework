@@ -409,7 +409,7 @@ JXHorizPartition::RunInternalFTC
 			h = JMax(h, h1);
 		}
 
-		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		iter.MoveTo(JListT::kStartAtBeginning, 0);
 		while (iter.Next(&obj))
 		{
 			obj->AdjustSize(0, h - obj->GetApertureHeight());

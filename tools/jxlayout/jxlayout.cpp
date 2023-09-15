@@ -253,7 +253,7 @@ main
 			fnIter.RemoveLastMatch();
 
 			fnIter.BeginMatch();
-			fnIter.MoveTo(kJIteratorStartAtEnd, 0);
+			fnIter.MoveTo(JStringIterator::kStartAtEnd, 0);
 			tagName = fnIter.FinishMatch().GetString();
 
 			fnIter.RemoveLastMatch();
@@ -266,7 +266,7 @@ main
 				tnIter.RemoveLastMatch();
 
 				tnIter.BeginMatch();
-				tnIter.MoveTo(kJIteratorStartAtEnd, 0);
+				tnIter.MoveTo(JStringIterator::kStartAtEnd, 0);
 				enclName = tnIter.FinishMatch().GetString();
 
 				tnIter.RemoveLastMatch();
@@ -723,7 +723,7 @@ JIndex i;
 			JStringIterator iter(varName);
 			iter.SkipNext();
 			iter.RemoveAllPrev();
-			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 			iter.SkipPrev();
 			iter.RemoveAllNext();
 		}

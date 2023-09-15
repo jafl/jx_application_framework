@@ -9,7 +9,6 @@
 #define _H_JList
 
 #include "JCollection.h"
-#include "JListIterator.h"
 #include "JRange.h"
 
 // namespace to own JBroadcaster messages, etc (template is unnecessary)
@@ -29,6 +28,20 @@ public:
 		kFirstMatch,
 		kLastMatch,
 		kAnyMatch
+	};
+
+	enum Position
+	{
+		kStartAtBeginning,	// absolute
+		kStartAtEnd,		// absolute
+		kStartBefore,		// relative to given index
+		kStartAfter,		// relative to given index
+	};
+
+	enum Action
+	{
+		kStay = 0,
+		kMove = 1
 	};
 
 public:
@@ -231,6 +244,7 @@ public:
 	};
 };
 
+#include "JListIterator.h"
 
 template <class T>
 class JList : public JCollection
@@ -253,10 +267,10 @@ public:
 	virtual void	RemoveAll() = 0;
 
 	virtual JListIterator<T>*
-		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
+		NewIterator(const JListT::Position start = JListT::kStartAtBeginning,
 					const JIndex index = 0) = 0;
 	virtual JListIterator<T>*
-		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
+		NewIterator(const JListT::Position start = JListT::kStartAtBeginning,
 					const JIndex index = 0) const = 0;
 
 	// sorting functions -- virtual so they can be optimized for particular storage methods

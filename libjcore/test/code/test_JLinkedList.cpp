@@ -156,7 +156,7 @@ JTEST(Iterator)
 	JLinkedList<long> a;
 	JSetList("5 4 3 2 1", &a);
 
-	JListIterator<long>* iter = a.NewIterator(kJIteratorStartAtEnd);
+	JListIterator<long>* iter = a.NewIterator(JListT::kStartAtEnd);
 	JAssertFalse(iter->AtBeginning());
 	JAssertTrue(iter->AtEnd());
 
@@ -168,7 +168,7 @@ JTEST(Iterator)
 	JAssertTrue(iter->GetPrevElementIndex(&i));
 	JAssertEqual(5, i);
 
-	JAssertTrue(iter->Prev(&j, kJIteratorStay));
+	JAssertTrue(iter->Prev(&j, JListT::kStay));
 	JAssertEqual(1, j);
 	JAssertTrue(iter->Prev(&j));
 	JAssertEqual(1, j);
@@ -193,7 +193,7 @@ JTEST(Iterator)
 	JAssertTrue(iter->GetNextElementIndex(&i));
 	JAssertEqual(1, i);
 
-	JAssertTrue(iter->Next(&j, kJIteratorStay));
+	JAssertTrue(iter->Next(&j, JListT::kStay));
 	JAssertEqual(5, j);
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(5, j);
@@ -229,7 +229,7 @@ JTEST(IteratorConst)
 
 	const JLinkedList<long>& b = a;
 
-	JListIterator<long>* iter = b.NewIterator(kJIteratorStartAfter, 2);
+	JListIterator<long>* iter = b.NewIterator(JListT::kStartAfter, 2);
 
 	JAssertFalse(iter->SetPrev(1));
 	JAssertFalse(iter->SetNext(1));
@@ -264,7 +264,7 @@ JTEST(IteratorModification)
 	JAssertEqual(5, j);
 	verify("-2 -1 5 4 3 2 1", a);
 
-	iter->MoveTo(kJIteratorStartAfter, 4);
+	iter->MoveTo(JListT::kStartAfter, 4);
 	a.AppendElement(-3);
 	JAssertEqual(5, iter->GetNextElementIndex());
 	JAssertTrue(iter->Next(&j));
@@ -273,7 +273,7 @@ JTEST(IteratorModification)
 	verify("-2 -1 5 4 3 2 1 -3", a);
 
 {
-	JListIterator<long>* i2 = a.NewIterator(kJIteratorStartBefore, 2);
+	JListIterator<long>* i2 = a.NewIterator(JListT::kStartBefore, 2);
 	i2->Insert(-4);
 	jdelete i2;
 }
@@ -284,8 +284,8 @@ JTEST(IteratorModification)
 	iter->SkipPrev();
 	verify("-2 -4 -1 5 4 3 2 1 -3", a);
 
-	iter->SetPrev(-4, kJIteratorStay);
-	iter->SetNext(-3, kJIteratorStay);
+	iter->SetPrev(-4, JListT::kStay);
+	iter->SetNext(-3, JListT::kStay);
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(-3, j);
 	iter->SkipPrev();
@@ -306,17 +306,17 @@ JTEST(IteratorModification)
 	iter->SkipPrev();
 	verify("-2 -4 -1 7 2 1 -3", a);
 
-	iter->MoveTo(kJIteratorStartAtEnd, 0);
+	iter->MoveTo(JListT::kStartAtEnd, 0);
 	iter->RemovePrev(2);
 	iter->RemoveNext();
 	verify("-2 -4 -1 7 2", a);
 
-	iter->MoveTo(kJIteratorStartAfter, 2);
+	iter->MoveTo(JListT::kStartAfter, 2);
 	iter->RemovePrev(3);
 	iter->RemoveNext();
 	verify("7 2", a);
 
-	iter->MoveTo(kJIteratorStartAtBeginning, 0);
+	iter->MoveTo(JListT::kStartAtBeginning, 0);
 	iter->SetNext(5);
 	iter->SetNext(4);
 	verify("5 4", a);
@@ -346,8 +346,8 @@ JTEST(TwoIterators)
 	JLinkedList<long> a;
 	JSetList("5 4 3 2 1", &a);
 
-	JListIterator<long>* i1 = a.NewIterator(kJIteratorStartBefore, 3);
-	JListIterator<long>* i2 = a.NewIterator(kJIteratorStartAtEnd);
+	JListIterator<long>* i1 = a.NewIterator(JListT::kStartBefore, 3);
+	JListIterator<long>* i2 = a.NewIterator(JListT::kStartAtEnd);
 
 	long j;
 
@@ -396,7 +396,7 @@ JTEST(TwoIterators)
 	verify("-3 5 4 2 1 -2", a);
 
 {
-	JListIterator<long>* i3 = a.NewIterator(kJIteratorStartBefore, 4);
+	JListIterator<long>* i3 = a.NewIterator(JListT::kStartBefore, 4);
 	i3->Insert(-4);
 	jdelete i3;
 }

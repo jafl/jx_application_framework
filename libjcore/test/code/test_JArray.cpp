@@ -569,7 +569,7 @@ JTEST(Iterator)
 	JArray<long> a;
 	JSetList("5 4 3 2 1", &a);
 
-	JListIterator<long>* iter = a.NewIterator(kJIteratorStartAtEnd);
+	JListIterator<long>* iter = a.NewIterator(JListT::kStartAtEnd);
 	JAssertFalse(iter->AtBeginning());
 	JAssertTrue(iter->AtEnd());
 
@@ -628,7 +628,7 @@ JTEST(Iterator)
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(2, j);
 
-	iter->MoveTo(kJIteratorStartAtBeginning, 0);
+	iter->MoveTo(JListT::kStartAtBeginning, 0);
 	JAssertTrue(iter->Next(matchGreater, &j));
 	JAssertEqual(5, j);
 	JAssertTrue(iter->Next(matchGreater, &j));
@@ -657,7 +657,7 @@ JTEST(IteratorConst)
 
 	const JArray<long>& b = a;
 
-	JListIterator<long>* iter = b.NewIterator(kJIteratorStartAfter, 2);
+	JListIterator<long>* iter = b.NewIterator(JListT::kStartAfter, 2);
 
 	JAssertFalse(iter->SetPrev(1));
 	JAssertFalse(iter->SetNext(1));
@@ -692,7 +692,7 @@ JTEST(IteratorModification)
 	JAssertEqual(5, j);
 	verify("-2 -1 5 4 3 2 1", a);
 
-	iter->MoveTo(kJIteratorStartAfter, 4);
+	iter->MoveTo(JListT::kStartAfter, 4);
 	a.AppendElement(-3);
 	JAssertEqual(5, iter->GetNextElementIndex());
 	JAssertTrue(iter->Next(&j));
@@ -707,8 +707,8 @@ JTEST(IteratorModification)
 	iter->SkipPrev();
 	verify("-2 -4 -1 5 4 3 2 1 -3", a);
 
-	iter->SetPrev(-4, kJIteratorStay);
-	iter->SetNext(-3, kJIteratorStay);
+	iter->SetPrev(-4, JListT::kStay);
+	iter->SetNext(-3, JListT::kStay);
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(-3, j);
 	iter->SkipPrev();
@@ -750,8 +750,8 @@ JTEST(TwoIterators)
 	JArray<long> a;
 	JSetList("5 4 3 2 1", &a);
 
-	JListIterator<long>* i1 = a.NewIterator(kJIteratorStartBefore, 3);
-	JListIterator<long>* i2 = a.NewIterator(kJIteratorStartAtEnd);
+	JListIterator<long>* i1 = a.NewIterator(JListT::kStartBefore, 3);
+	JListIterator<long>* i2 = a.NewIterator(JListT::kStartAtEnd);
 
 	long j;
 
@@ -811,7 +811,7 @@ JTEST(TwoIterators)
 	verify("-2 5 4 2 1 -3", a);
 
 	{
-	JListIterator<long>* i3 = a.NewIterator(kJIteratorStartBefore, 4);
+	JListIterator<long>* i3 = a.NewIterator(JListT::kStartBefore, 4);
 	i3->Insert(-4);
 	jdelete i3;
 	}

@@ -23,7 +23,7 @@ template <class T>
 JLinkedListIterator<T>::JLinkedListIterator
 	(
 	const JLinkedList<T>&	theLinkedList,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	:
@@ -42,7 +42,7 @@ template <class T>
 JLinkedListIterator<T>::JLinkedListIterator
 	(
 	JLinkedList<T>*			theLinkedList,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	:
@@ -99,7 +99,7 @@ bool
 JLinkedListIterator<T>::Prev
 	(
 	T*						item,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	if (itsLinkedList == nullptr || this->AtBeginning())
@@ -136,7 +136,7 @@ bool
 JLinkedListIterator<T>::Next
 	(
 	T*						item,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	if (itsLinkedList == nullptr || this->AtEnd())
@@ -238,7 +238,7 @@ bool
 JLinkedListIterator<T>::SetPrev
 	(
 	const T&				data,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	JList<T>* obj;
@@ -276,7 +276,7 @@ bool
 JLinkedListIterator<T>::SetNext
 	(
 	const T&				data,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	JList<T>* obj;
@@ -438,7 +438,7 @@ template <class T>
 void
 JLinkedListIterator<T>::MoveTo
 	(
-	const JIteratorPosition	newPosition,
+	const JListT::Position	newPosition,
 	const JIndex			index
 	)
 {

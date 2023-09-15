@@ -408,7 +408,7 @@ JXFileListTable::FilterFile
 	)
 {
 	const JString* fullName = itsFileList->GetElement(fileIndex);
-	JStringIterator iter(*fullName, kJIteratorStartAtEnd);
+	JStringIterator iter(*fullName, JStringIterator::kStartAtEnd);
 
 	VisInfo info;
 	if (iter.Prev(ACE_DIRECTORY_SEPARATOR_STR))
@@ -510,7 +510,7 @@ JIndex i;
 
 	// back up so drawing starts at the beginning of a directory name
 
-	JStringIterator iter(*firstFile, kJIteratorStartAfter, minLength);
+	JStringIterator iter(*firstFile, JStringIterator::kStartAfterChar, minLength);
 	JUtf8Character c;
 	while (iter.Prev(&c) && c != ACE_DIRECTORY_SEPARATOR_CHAR)
 	{

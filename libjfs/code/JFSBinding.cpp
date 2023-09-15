@@ -248,7 +248,7 @@ JFSBinding::ConvertCommand
 		iter.ReplaceLastMatch("$q");
 	}
 
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 	while (iter.Next("$f"))
 	{
 		iter.ReplaceLastMatch("$u");

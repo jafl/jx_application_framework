@@ -376,7 +376,7 @@ JTable::TableDraw
 		for (JIndex i=firstRow; i<=lastRow; i++)
 		{
 			TablePrepareToDrawRow(i, firstCol, lastCol);
-			iter.MoveTo(kJIteratorStartAfter, firstCol);
+			iter.MoveTo(JListT::kStartAfter, firstCol);
 
 			JRect cellRect = GetCellRect(JPoint(firstCol, i));
 			for (JIndex j=firstCol; j<=lastCol; j++)
@@ -405,7 +405,7 @@ JTable::TableDraw
 		for (JIndex j=firstCol; j<=lastCol; j++)
 		{
 			TablePrepareToDrawCol(j, firstRow, lastRow);
-			iter.MoveTo(kJIteratorStartAfter, firstRow);
+			iter.MoveTo(JListT::kStartAfter, firstRow);
 
 			JRect cellRect = GetCellRect(JPoint(j, firstRow));
 			for (JIndex i=firstRow; i<=lastRow; i++)
@@ -460,7 +460,7 @@ JTable::TableDrawRowBorders
 	p.SetLineWidth(itsRowBorderInfo.width);
 	p.SetPenColor(itsRowBorderInfo.color);
 
-	JRunArrayIterator<JCoordinate> iter(itsRowHeights, kJIteratorStartBefore, firstRow);
+	JRunArrayIterator<JCoordinate> iter(itsRowHeights, JListT::kStartBefore, firstRow);
 
 	const JSize rowCount = GetRowCount();
 	sBorderWidth         = itsRowBorderInfo.width;
@@ -506,7 +506,7 @@ JTable::TableDrawColBorders
 	p.SetLineWidth(itsColBorderInfo.width);
 	p.SetPenColor(itsColBorderInfo.color);
 
-	JRunArrayIterator<JCoordinate> iter(itsColWidths, kJIteratorStartBefore, firstCol);
+	JRunArrayIterator<JCoordinate> iter(itsColWidths, JListT::kStartBefore, firstCol);
 
 	const JSize colCount = GetColCount();
 	sBorderWidth         = itsColBorderInfo.width;
@@ -1144,11 +1144,11 @@ JTable::InsertRows
 	}
 	else if (rowHeight <= 0)
 	{
-		iter.MoveTo(kJIteratorStartBefore, trueIndex-1);
+		iter.MoveTo(JListT::kStartBefore, trueIndex-1);
 		iter.Next(&h);
 	}
 
-	iter.MoveTo(kJIteratorStartBefore, trueIndex);
+	iter.MoveTo(JListT::kStartBefore, trueIndex);
 	iter.Insert(h, count);
 
 	RowsInserted msg(trueIndex, count, h);
@@ -1223,10 +1223,10 @@ JTable::SetRowHeight
 {
 	assert( rowHeight > 0 );
 
-	JRunArrayIterator<JCoordinate> iter(itsRowHeights, kJIteratorStartBefore, index);
+	JRunArrayIterator<JCoordinate> iter(itsRowHeights, JListT::kStartBefore, index);
 
 	JCoordinate oldHeight;
-	iter.Next(&oldHeight, kJIteratorStay);
+	iter.Next(&oldHeight, JListT::kStay);
 
 	if (rowHeight != oldHeight)
 	{
@@ -1318,7 +1318,7 @@ JTable::RemoveNextRows
 	const JCoordinate removedY      = GetRowTop(firstIndex);
 	const JCoordinate removedHeight = itsRowHeights->SumElements(firstIndex, firstIndex+count-1, GetCellSize);
 
-	JRunArrayIterator<JCoordinate> iter(itsRowHeights, kJIteratorStartBefore, firstIndex);
+	JRunArrayIterator<JCoordinate> iter(itsRowHeights, JListT::kStartBefore, firstIndex);
 	iter.RemoveNext(count);
 
 	TableHeightChanged(removedY, -removedHeight);
@@ -1399,7 +1399,7 @@ JTable::MoveRow
 		Broadcast(PrepareForTableDataMessage(auxMessage));
 	}
 
-	JRunArrayIterator<JCoordinate> iter(itsRowHeights, kJIteratorStartBefore, origIndex);
+	JRunArrayIterator<JCoordinate> iter(itsRowHeights, JListT::kStartBefore, origIndex);
 
 	JCoordinate h;
 	iter.Next(&h);
@@ -1409,7 +1409,7 @@ JTable::MoveRow
 				  GetRowTop(newIndex));
 
 	iter.RemovePrev();
-	iter.MoveTo(kJIteratorStartBefore, newIndex <= origIndex ? newIndex : newIndex-1);
+	iter.MoveTo(JListT::kStartBefore, newIndex <= origIndex ? newIndex : newIndex-1);
 	iter.Insert(h);
 
 	JRect cellRect(JPoint(1, origIndex), JPoint(GetColCount(), newIndex));
@@ -1480,11 +1480,11 @@ JTable::InsertCols
 	}
 	else if (colWidth <= 0)
 	{
-		iter.MoveTo(kJIteratorStartBefore, trueIndex-1);
+		iter.MoveTo(JListT::kStartBefore, trueIndex-1);
 		iter.Next(&w);
 	}
 
-	iter.MoveTo(kJIteratorStartBefore, trueIndex);
+	iter.MoveTo(JListT::kStartBefore, trueIndex);
 	iter.Insert(w, count);
 
 	ColsInserted msg(trueIndex, count, w);
@@ -1530,10 +1530,10 @@ JTable::SetColWidth
 {
 	assert( colWidth > 0 );
 
-	JRunArrayIterator<JCoordinate> iter(itsColWidths, kJIteratorStartBefore, index);
+	JRunArrayIterator<JCoordinate> iter(itsColWidths, JListT::kStartBefore, index);
 
 	JCoordinate oldWidth;
-	iter.Next(&oldWidth, kJIteratorStay);
+	iter.Next(&oldWidth, JListT::kStay);
 
 	if (colWidth != oldWidth)
 	{
@@ -1625,7 +1625,7 @@ JTable::RemoveNextCols
 	const JCoordinate removedX     = GetColLeft(firstIndex);
 	const JCoordinate removedWidth = itsColWidths->SumElements(firstIndex, firstIndex+count-1, GetCellSize);
 
-	JRunArrayIterator<JCoordinate> iter(itsColWidths, kJIteratorStartBefore, firstIndex);
+	JRunArrayIterator<JCoordinate> iter(itsColWidths, JListT::kStartBefore, firstIndex);
 	iter.RemoveNext(count);
 
 	TableWidthChanged(removedX, -removedWidth);
@@ -1706,7 +1706,7 @@ JTable::MoveCol
 		Broadcast(PrepareForTableDataMessage(auxMessage));
 	}
 
-	JRunArrayIterator<JCoordinate> iter(itsColWidths, kJIteratorStartBefore, origIndex);
+	JRunArrayIterator<JCoordinate> iter(itsColWidths, JListT::kStartBefore, origIndex);
 
 	JCoordinate w;
 	iter.Next(&w);
@@ -1716,7 +1716,7 @@ JTable::MoveCol
 				  GetColLeft(newIndex));
 
 	iter.RemovePrev();
-	iter.MoveTo(kJIteratorStartBefore, newIndex <= origIndex ? newIndex : newIndex-1);
+	iter.MoveTo(JListT::kStartBefore, newIndex <= origIndex ? newIndex : newIndex-1);
 	iter.Insert(w);
 
 	JRect cellRect(JPoint(origIndex, 1), JPoint(newIndex, GetRowCount()));
@@ -1923,7 +1923,7 @@ JTable::GetCellBoundaries
 	)
 	const
 {
-	JRunArrayIterator iter(lengths, kJIteratorStartBefore, index);
+	JRunArrayIterator iter(lengths, JListT::kStartBefore, index);
 	JCoordinate v;
 	iter.Next(&v);
 

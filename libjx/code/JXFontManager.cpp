@@ -1039,7 +1039,7 @@ JXFontManager::ConvertToPSFontName
 	{
 		if (prev.GetByteCount() == 0 || prev.IsSpace())
 		{
-			iter.SetPrev(c.ToUpper(), kJIteratorStay);
+			iter.SetPrev(c.ToUpper(), JStringIterator::kStay);
 		}
 		prev = c;
 	}

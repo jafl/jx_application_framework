@@ -375,7 +375,7 @@ JXVertPartition::RunInternalFTC
 			w = JMax(w, w1);
 		}
 
-		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		iter.MoveTo(JListT::kStartAtBeginning, 0);
 		while (iter.Next(&obj))
 		{
 			obj->AdjustSize(w - obj->GetApertureWidth(), 0);

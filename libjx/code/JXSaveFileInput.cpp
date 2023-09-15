@@ -141,11 +141,11 @@ JXSaveFileInput::StyledText::FilterText
 	{
 		if (c == ACE_DIRECTORY_SEPARATOR_CHAR)
 		{
-			iter.SetPrev(JUtf8Character('-'), kJIteratorStay);
+			iter.SetPrev(JUtf8Character('-'), JStringIterator::kStay);
 		}
 		else if (!theAllowSpaceFlag && c.IsSpace())
 		{
-			iter.SetPrev(JUtf8Character('_'), kJIteratorStay);
+			iter.SetPrev(JUtf8Character('_'), JStringIterator::kStay);
 		}
 	}
 

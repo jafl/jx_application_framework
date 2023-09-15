@@ -22,30 +22,30 @@ class JRunArrayIterator : public JListIterator<T>
 public:
 
 	JRunArrayIterator(const JRunArray<T>& theRunArray,
-					  const JIteratorPosition start = kJIteratorStartAtBeginning,
+					  const JListT::Position start = JListT::kStartAtBeginning,
 					  const JIndex index = 0);
 	JRunArrayIterator(JRunArray<T>* theRunArray,
-					  const JIteratorPosition start = kJIteratorStartAtBeginning,
+					  const JListT::Position start = JListT::kStartAtBeginning,
 					  const JIndex index = 0);
 	JRunArrayIterator(const JRunArrayIterator<T>& source);
 
 	~JRunArrayIterator() override;
 
-	bool	Prev(T* item, const JIteratorAction move = kJIteratorMove) override;
-	bool	Next(T* item, const JIteratorAction move = kJIteratorMove) override;
+	bool	Prev(T* item, const JListT::Action move = JListT::kMove) override;
+	bool	Next(T* item, const JListT::Action move = JListT::kMove) override;
 
 	void	SkipPrev(const JSize count = 1) override;
 	void	SkipNext(const JSize count = 1) override;
 
-	void	MoveTo(const JIteratorPosition newPosition, const JIndex index) override;
+	void	MoveTo(const JListT::Position newPosition, const JIndex index) override;
 
 	// only allowed if constructed from non-const JList<T>*
 
-	bool	SetPrev(const T& data, const JIteratorAction move = kJIteratorMove) override;
-	bool	SetNext(const T& data, const JIteratorAction move = kJIteratorMove) override;
+	bool	SetPrev(const T& data, const JListT::Action move = JListT::kMove) override;
+	bool	SetNext(const T& data, const JListT::Action move = JListT::kMove) override;
 
-	bool	SetPrev(const T& data, const JSize count, const JIteratorAction move = kJIteratorMove);
-	bool	SetNext(const T& data, const JSize count, const JIteratorAction move = kJIteratorMove);
+	bool	SetPrev(const T& data, const JSize count, const JListT::Action move = JListT::kMove);
+	bool	SetNext(const T& data, const JSize count, const JListT::Action move = JListT::kMove);
 
 	bool	RemovePrev(const JSize count = 1) override;
 	bool	RemoveNext(const JSize count = 1) override;
@@ -80,7 +80,7 @@ private:
 private:
 
 	void	PrivateMoveTo(const JCursorPosition origPosition,
-						  const JIteratorPosition newPosition, const JIndex index,
+						  const JListT::Position newPosition, const JIndex index,
 						  const bool wasAtLimit);
 };
 

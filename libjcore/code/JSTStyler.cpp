@@ -173,17 +173,17 @@ JSTStyler::UpdateStyles
 			lastIndex = textLength;
 		}
 
-		itsIterator->MoveTo(kJIteratorStartBefore, JMax(lastIndex, (JIndex) 1));		// range can be (1,0)
+		itsIterator->MoveTo(JListT::kStartBefore, JMax(lastIndex, (JIndex) 1));		// range can be (1,0)
 		const JIndex endIndex = itsIterator->GetRunEnd();
 
-		itsIterator->MoveTo(kJIteratorStartBefore, firstIndex);		// see below; faster to start here
+		itsIterator->MoveTo(JListT::kStartBefore, firstIndex);		// see below; faster to start here
 		itsCheckRange.charRange.Set(itsIterator->GetRunStart(), endIndex);
 		{
 		JStringIterator iter(text);
-		iter.UnsafeMoveTo(kJIteratorStartBefore, recalcRange->charRange.first, recalcRange->byteRange.first);
-		iter.MoveTo(kJIteratorStartBefore, itsIterator->GetRunStart());
+		iter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, recalcRange->charRange.first, recalcRange->byteRange.first);
+		iter.MoveTo(JStringIterator::kStartBeforeChar, itsIterator->GetRunStart());
 		itsCheckRange.byteRange.first = iter.GetNextByteIndex();
-		iter.MoveTo(kJIteratorStartAfter, endIndex);
+		iter.MoveTo(JStringIterator::kStartAfterChar, endIndex);
 		itsCheckRange.byteRange.last = iter.GetPrevByteIndex();
 		}
 
@@ -229,7 +229,7 @@ JSTStyler::UpdateStyles
 	itsTokenStartList    = tokenStartList;
 	itsTokenStartCounter = 0;
 
-	itsIterator->MoveTo(kJIteratorStartBefore, tokenData.startIndex.charIndex);
+	itsIterator->MoveTo(JListT::kStartBefore, tokenData.startIndex.charIndex);
 
 	// scan the text and adjust the styles
 
@@ -308,8 +308,8 @@ JSTStyler::ExtendCheckRange
 	if (itsCheckRange.charRange.last < newEndCharIndex)
 	{
 		JStringIterator iter(*itsText);
-		iter.UnsafeMoveTo(kJIteratorStartAfter, itsCheckRange.charRange.last, itsCheckRange.byteRange.last);
-		iter.MoveTo(kJIteratorStartAfter, JMin(newEndCharIndex, itsText->GetCharacterCount()));
+		iter.UnsafeMoveTo(JStringIterator::kStartAfterChar, itsCheckRange.charRange.last, itsCheckRange.byteRange.last);
+		iter.MoveTo(JStringIterator::kStartAfterChar, JMin(newEndCharIndex, itsText->GetCharacterCount()));
 		itsCheckRange.charRange.last = iter.GetPrevCharacterIndex();
 		itsCheckRange.byteRange.last = iter.GetPrevByteIndex();
 	}
@@ -368,7 +368,7 @@ JSTStyler::SetStyle
 			if (beyondCurrentRun || styleExtendsBeyondToken)
 			{
 				JRunArrayIterator<JFont> iter(*itsIterator);
-				iter.MoveTo(kJIteratorStartBefore, range.last);
+				iter.MoveTo(JListT::kStartBefore, range.last);
 				ExtendCheckRange(iter.GetRunEnd()+1);
 			}
 
@@ -400,7 +400,7 @@ JSTStyler::SetStyle
 		}
 	}
 
-	itsIterator->MoveTo(kJIteratorStartAfter, range.last);
+	itsIterator->MoveTo(JListT::kStartAfter, range.last);
 	return range.last < itsCheckRange.charRange.last;
 }
 
@@ -495,7 +495,7 @@ JSTStyler::AdjustStyle
 	// adjust the styles
 
 	JRunArrayIterator<JFont> iter(*itsIterator);
-	iter.MoveTo(kJIteratorStartAfter, range.first);
+	iter.MoveTo(JListT::kStartAfter, range.first);
 
 	JFont f;
 	const bool ok = iter.Prev(&f);

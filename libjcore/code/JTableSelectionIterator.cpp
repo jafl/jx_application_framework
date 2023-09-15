@@ -31,7 +31,7 @@ JTableSelectionIterator::JTableSelectionIterator
 	(
 	const JTableSelection*	tableSelection,
 	const Direction			d,
-	const JIteratorPosition	start,
+	const Position			start,
 	const JIndex			row,
 	const JIndex			col
 	)
@@ -292,8 +292,8 @@ JTableSelectionIterator::NextCell()
 void
 JTableSelectionIterator::MoveTo
 	(
-	const JIteratorPosition	newPosition,
-	const JPoint&			cell
+	const Position	newPosition,
+	const JPoint&	cell
 	)
 {
 	if (itsTableSelection == nullptr)
@@ -306,20 +306,20 @@ JTableSelectionIterator::MoveTo
 
 	itsAtEndFlag = false;
 
-	if (newPosition == kJIteratorStartAtBeginning)
+	if (newPosition == kStartAtBeginning)
 	{
 		itsCursor.x = 1;
 		itsCursor.y = 1;
 	}
 
-	else if (newPosition == kJIteratorStartAtEnd)
+	else if (newPosition == kStartAtEnd)
 	{
 		itsCursor.x  = JMax((JSize) 1, colCount);
 		itsCursor.y  = JMax((JSize) 1, rowCount);
 		itsAtEndFlag = true;
 	}
 
-	else if (newPosition == kJIteratorStartBefore)
+	else if (newPosition == kStartBefore)
 	{
 		assert( itsTableSelection->CellValid(cell) );
 		itsCursor = cell;
@@ -327,7 +327,7 @@ JTableSelectionIterator::MoveTo
 
 	else
 	{
-		assert( newPosition == kJIteratorStartAfter );
+		assert( newPosition == kStartAfter );
 		assert( itsTableSelection->CellValid(cell) );
 		itsCursor = cell;
 		NextCell();
@@ -425,7 +425,7 @@ JTableSelectionIterator::Receive
 		}
 		else if (itsDirection == kIterateByRow)
 		{
-			MoveTo(kJIteratorStartAtEnd, 0,0);
+			MoveTo(kStartAtEnd, 0,0);
 		}
 		else if (itsDirection == kIterateByCol &&
 				 (JIndex) itsCursor.y > rowCount)
@@ -470,7 +470,7 @@ JTableSelectionIterator::Receive
 		}
 		else if (itsDirection == kIterateByCol)
 		{
-			MoveTo(kJIteratorStartAtEnd, 0,0);
+			MoveTo(kStartAtEnd, 0,0);
 		}
 		else if (itsDirection == kIterateByRow &&
 				 (JIndex) itsCursor.x > colCount)

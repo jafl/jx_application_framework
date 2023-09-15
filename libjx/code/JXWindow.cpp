@@ -4266,7 +4266,7 @@ JXWindow::GetULShortcutIndex
 
 	JIndex bdryIndex = 0, anyIndex = 0;
 
-	JStringIterator labelIter(s, kJIteratorStartAfter, 1);
+	JStringIterator labelIter(s, JStringIterator::kStartAfterChar, 1);
 	JUtf8Character c1;
 	while (labelIter.Next(&c1))
 	{

@@ -144,6 +144,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JHashTable:
 //		*** Removed Get/SetKeyComparison() & Get/SetHashFunction() in favor of
 //			requiring the template class to provide Hash() & operator==.
+//	*** Replaced JIteratorPosition with JListT::Position and
+//		JTableSelectionIterator::Position because JStringIterator needs
+//		a separate, more complex Position enum.
 
 // version 3.2.0:
 //	jMountUtil:

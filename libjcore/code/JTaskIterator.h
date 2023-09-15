@@ -16,10 +16,10 @@ class JTaskIterator : public JPtrArrayIterator<T>
 public:
 
 	JTaskIterator(const JPtrArray<T>& theArray,
-				  const JIteratorPosition start = kJIteratorStartAtBeginning,
+				  const JListT::Position start = JListT::kStartAtBeginning,
 				  const JIndex index = 0);
 	JTaskIterator(JPtrArray<T>* theArray,
-				  const JIteratorPosition start = kJIteratorStartAtBeginning,
+				  const JListT::Position start = JListT::kStartAtBeginning,
 				  const JIndex index = 0);
 
 protected:

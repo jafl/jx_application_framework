@@ -215,7 +215,7 @@ JRegex::BackslashForLiteral
 	const JUtf8Character backslash("\\");
 
 	JString s = text;
-	JStringIterator iter(&s, kJIteratorStartAtEnd);
+	JStringIterator iter(&s, JStringIterator::kStartAtEnd);
 	JUtf8Character c;
 	while (iter.Prev(&c))
 	{
@@ -373,7 +373,7 @@ JRegex::MatchBackward
 	bool done = false;
 	while (!done)
 	{
-		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 		iter.SkipPrev(decrement);
 		done = iter.AtBeginning();
 

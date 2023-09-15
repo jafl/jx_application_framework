@@ -11,7 +11,7 @@
 #define _H_JQueue
 
 #include "JContainer.h"
-#include "JListIterator.h"	// template
+#include "JList.h"	// template
 
 template <class T, class S>
 class JQueue : public JContainer

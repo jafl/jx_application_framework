@@ -306,7 +306,7 @@ JTableSelection::GetFirstSelectedCell
 	)
 	const
 {
-	JTableSelectionIterator iter(this, d, kJIteratorStartAtBeginning);
+	JTableSelectionIterator iter(this, d, JTableSelectionIterator::kStartAtBeginning);
 	return iter.Next(cell);
 }
 
@@ -326,7 +326,7 @@ JTableSelection::GetLastSelectedCell
 	)
 	const
 {
-	JTableSelectionIterator iter(this, d, kJIteratorStartAtEnd);
+	JTableSelectionIterator iter(this, d, JTableSelectionIterator::kStartAtEnd);
 	return iter.Prev(cell);
 }
 

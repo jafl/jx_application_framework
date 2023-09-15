@@ -550,6 +550,51 @@ F
 "./code/JNamedTreeNode.cpp"
 F
 T
+1 "widgets"
+T
+2 "JPartition.cpp"
+F
+"./code/JPartition.cpp"
+T
+2 "JSliderBase.cpp"
+F
+"./code/JSliderBase.cpp"
+F
+T
+1 "user notification"
+T
+2 "JUserNotification.cpp"
+F
+"./code/JUserNotification.cpp"
+T
+2 "JTextUserNotification.cpp"
+F
+"./code/JTextUserNotification.cpp"
+F
+T
+1 "progress display"
+T
+2 "JProgressDisplay.cpp"
+F
+"./code/JProgressDisplay.cpp"
+T
+2 "JLatentPG.cpp"
+F
+"./code/JLatentPG.cpp"
+T
+2 "JTextProgressDisplay.cpp"
+F
+"./code/JTextProgressDisplay.cpp"
+T
+2 "JCreateProgressDisplay.cpp"
+F
+"./code/JCreateProgressDisplay.cpp"
+T
+2 "JCreateTextPG.cpp"
+F
+"./code/JCreateTextPG.cpp"
+F
+T
 1 "text editor"
 T
 2 "JTextEditor.cpp"
@@ -611,51 +656,6 @@ T
 2 "jTextUtil.cpp"
 F
 "./code/jTextUtil.cpp"
-F
-T
-1 "widgets"
-T
-2 "JPartition.cpp"
-F
-"./code/JPartition.cpp"
-T
-2 "JSliderBase.cpp"
-F
-"./code/JSliderBase.cpp"
-F
-T
-1 "user notification"
-T
-2 "JUserNotification.cpp"
-F
-"./code/JUserNotification.cpp"
-T
-2 "JTextUserNotification.cpp"
-F
-"./code/JTextUserNotification.cpp"
-F
-T
-1 "progress display"
-T
-2 "JProgressDisplay.cpp"
-F
-"./code/JProgressDisplay.cpp"
-T
-2 "JLatentPG.cpp"
-F
-"./code/JLatentPG.cpp"
-T
-2 "JTextProgressDisplay.cpp"
-F
-"./code/JTextProgressDisplay.cpp"
-T
-2 "JCreateProgressDisplay.cpp"
-F
-"./code/JCreateProgressDisplay.cpp"
-T
-2 "JCreateTextPG.cpp"
-F
-"./code/JCreateTextPG.cpp"
 F
 T
 1 "memory manager"

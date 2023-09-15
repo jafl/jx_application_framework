@@ -41,6 +41,9 @@ libjexpr write to mathml
 	http://www.w3.org/TR/MathML/
 	http://www.w3.org/TR/MathML2/
 
+cscope -L#<sym>
+	https://cscope.sourceforge.net/cscope_man_page.html
+
 -----
 
 jx_memory_debugger:  filtered histogram of allocation sizes
@@ -116,6 +119,10 @@ xdebug
 jcc
 	shell window doesn't work on ubuntu or fedora -- bash process is stopped
 		use -s instead of -i?
+
+	D tree
+		must remember all imported packages, to resolve parents after full parse
+		imports are scoped to block
 
 	execute selected text by passing to interpreter running in command window
 		perl/php -- executes only after closing pipe, wrap php in <? ... ?> if not already there
@@ -230,6 +237,9 @@ JKeyHandler
 		JKeyHandlerStack extends JKeyHandler
 			to combine different key handlers, can construct a stack
 			if one returns kJFalse, the next one gets it
+
+JXFontManager
+	some characters extend above line height
 
 JTextEditor::DrawInMargin
 	line #'s

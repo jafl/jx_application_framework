@@ -11,7 +11,7 @@
 #define _H_JStack
 
 #include "JContainer.h"
-#include "JListIterator.h"	// template
+#include "JList.h"	// template
 
 template <class T, class S>
 class JStack : public JContainer

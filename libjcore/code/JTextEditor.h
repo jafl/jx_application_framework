@@ -1163,7 +1163,7 @@ inline JStringIterator*
 JTextEditor::GetConstIteratorAtInsertionIndex()
 	const
 {
-	return itsText->GetConstIterator(kJIteratorStartBefore, GetInsertionIndex());
+	return itsText->GetConstIterator(JStringIterator::kStartBeforeChar, GetInsertionIndex());
 }
 
 /******************************************************************************
@@ -1283,7 +1283,7 @@ JTextEditor::GetLineHeight
 		}
 	else
 		{
-		JRunArrayIterator iter(*itsLineGeom, kJIteratorStartBefore, lineIndex);
+		JRunArrayIterator iter(*itsLineGeom, JListT::kStartBefore, lineIndex);
 		LineGeometry geom;
 		iter.Next(&geom);
 		return geom.height;
@@ -1502,7 +1502,7 @@ JTextEditor::GetCurrentFont()
 {
 	if (!itsSelection.IsEmpty())
 		{
-		JRunArrayIterator iter(itsText->GetStyles(), kJIteratorStartBefore, itsSelection.charRange.first);
+		JRunArrayIterator iter(itsText->GetStyles(), JListT::kStartBefore, itsSelection.charRange.first);
 		JFont f;
 		iter.Next(&f);
 		return f;

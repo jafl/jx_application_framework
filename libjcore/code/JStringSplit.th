@@ -49,7 +49,7 @@ JString::Split
 		count++;
 		if (limit > 0 && count >= limit)
 		{
-			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 			break;
 		}
 	}

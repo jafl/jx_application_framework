@@ -342,7 +342,7 @@ JWebBrowser::ConvertVarNames
 
 	// escape existing dollars
 
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 	while (iter.Next("$"))
 	{
 		iter.ReplaceLastMatch("\\$");
@@ -350,7 +350,7 @@ JWebBrowser::ConvertVarNames
 
 	// convert % to $ if followed by a variable name
 
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 	JUtf8Character c;
 	while (iter.Next("%") && iter.Next(&c))
 	{

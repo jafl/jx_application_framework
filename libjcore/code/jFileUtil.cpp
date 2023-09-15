@@ -100,7 +100,7 @@ JSplitPathAndName
 		return false;
 	}
 
-	JStringIterator iter(pathAndName, kJIteratorStartAtEnd);
+	JStringIterator iter(pathAndName, JStringIterator::kStartAtEnd);
 	iter.BeginMatch();
 	if (iter.Prev(ACE_DIRECTORY_SEPARATOR_STR))
 	{
@@ -108,7 +108,7 @@ JSplitPathAndName
 
 		iter.SkipNext();	// include separator
 		iter.BeginMatch();
-		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 		*path = iter.FinishMatch().GetString();
 
 		JCleanPath(path);
@@ -280,7 +280,7 @@ JSplitRootAndSuffix
 	*root = name;
 	suffix->Clear();
 
-	JStringIterator iter(root, kJIteratorStartAtEnd);
+	JStringIterator iter(root, JStringIterator::kStartAtEnd);
 	if (iter.Prev(suffixPattern) && !iter.AtBeginning())
 	{
 		const JStringMatch& m = iter.GetLastMatch();
@@ -346,7 +346,7 @@ JURLToFileName
 
 		iter.SkipPrev();
 		iter.BeginMatch();
-		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 		const JStringMatch& m2    = iter.FinishMatch();
 		const JString urlFileName = m2.GetString();
 

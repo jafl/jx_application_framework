@@ -30,7 +30,7 @@ template <class T>
 JTaskIterator<T>::JTaskIterator
 	(
 	const JPtrArray<T>&		theArray,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	:
@@ -42,7 +42,7 @@ template <class T>
 JTaskIterator<T>::JTaskIterator
 	(
 	JPtrArray<T>*			theArray,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	:
@@ -77,7 +77,7 @@ JTaskIterator<T>::ListChanged
 		assert( info != nullptr );
 		if (JListIterator<T*>::GetCursor() == 0 && info->GetFirstIndex() == 1)
 		{
-			JListIterator<T*>::MoveTo(kJIteratorStartAfter, info->GetCount());
+			JListIterator<T*>::MoveTo(JListT::kStartAfter, info->GetCount());
 		}
 	}
 }

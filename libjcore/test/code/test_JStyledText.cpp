@@ -1066,7 +1066,7 @@ JTEST(DeleteText)
 	JAssertStringsEqual("b" "ld\n" "\t   nble underline", text.GetText());
 
 	JRunArrayIterator<JFont> iter(text.GetStyles());
-	iter.MoveTo(kJIteratorStartBefore, 13);
+	iter.MoveTo(JListT::kStartBefore, 13);
 	JFont f;
 	iter.Next(&f);
 	JAssertEqual(2, f.GetStyle().underlineCount);
@@ -1121,15 +1121,15 @@ JTEST(DeleteText)
 	JAssertFalse(canUndo);
 	JAssertTrue(canRedo);
 
-	iter.MoveTo(kJIteratorStartBefore, 2);
+	iter.MoveTo(JListT::kStartBefore, 2);
 	iter.Next(&f);
 	JAssertEqual(20, f.GetSize());
 
-	iter.MoveTo(kJIteratorStartBefore, 6);
+	iter.MoveTo(JListT::kStartBefore, 6);
 	iter.Next(&f);
 	JAssertTrue(f.GetStyle().bold);
 
-	iter.MoveTo(kJIteratorStartBefore, 21);
+	iter.MoveTo(JListT::kStartBefore, 21);
 	iter.Next(&f);
 	JAssertEqual(2, f.GetStyle().underlineCount);
 }

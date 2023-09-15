@@ -127,7 +127,7 @@ JInterpolate::GetValue
 		JString s = name;
 		JStringIterator iter(&s);
 		iter.RemoveNext();
-		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 		iter.RemovePrev();
 
 		*value = itsMatch->GetSubstring(s);

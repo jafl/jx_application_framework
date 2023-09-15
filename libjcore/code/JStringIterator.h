@@ -18,11 +18,32 @@ class JStringIterator
 {
 public:
 
+	enum Position
+	{
+		kStartAtBeginning,	// absolute
+		kStartAtEnd,		// absolute
+		kStartBeforeChar,	// relative to given index
+		kStartAfterChar,	// relative to given index
+
+		// use with caution - must be character aligned!
+
+		kStartBeforeByte,	// relative to given byte index
+		kStartAfterByte		// relative to given byte index
+	};
+
+	enum Action
+	{
+		kStay = 0,
+		kMove = 1
+	};
+
+public:
+
 	JStringIterator(const JString& s,
-					const JIteratorPosition start = kJIteratorStartAtBeginning,
+					const Position start = kStartAtBeginning,
 					const JIndex index = 0);
 	JStringIterator(JString* s,
-					const JIteratorPosition start = kJIteratorStartAtBeginning,
+					const Position start = kStartAtBeginning,
 					const JIndex index = 0);
 
 	~JStringIterator();
@@ -39,17 +60,17 @@ public:
 
 	// move
 
-	void	MoveTo(const JIteratorPosition newPosition, const JIndex characterIndex);
+	void	MoveTo(const Position newPosition, const JIndex characterIndex);
 	bool	SkipPrev(const JSize characterCount = 1);
 	bool	SkipNext(const JSize characterCount = 1);
 
-	void	UnsafeMoveTo(const JIteratorPosition newPosition,
+	void	UnsafeMoveTo(const Position newPosition,
 						 const JIndex characterIndex, const JIndex byteIndex);
 
 	// retrieve & move
 
-	bool	Prev(JUtf8Character* c, const JIteratorAction move = kJIteratorMove);
-	bool	Next(JUtf8Character* c, const JIteratorAction move = kJIteratorMove);
+	bool	Prev(JUtf8Character* c, const Action move = kMove);
+	bool	Next(JUtf8Character* c, const Action move = kMove);
 
 	// search & move
 
@@ -77,8 +98,8 @@ public:
 	// modify - only allowed if constructed from non-const JString*
 	// (invalidates last match)
 
-	bool	SetPrev(const JUtf8Character& c, const JIteratorAction move = kJIteratorMove);
-	bool	SetNext(const JUtf8Character& c, const JIteratorAction move = kJIteratorMove);
+	bool	SetPrev(const JUtf8Character& c, const Action move = kMove);
+	bool	SetNext(const JUtf8Character& c, const Action move = kMove);
 
 	bool	RemovePrev(const JSize characterCount = 1);
 	bool	RemoveNext(const JSize characterCount = 1);

@@ -29,7 +29,7 @@ template <class T>
 JRunArrayIterator<T>::JRunArrayIterator
 	(
 	const JRunArray<T>&		theRunArray,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	:
@@ -49,7 +49,7 @@ template <class T>
 JRunArrayIterator<T>::JRunArrayIterator
 	(
 	JRunArray<T>*			theRunArray,
-	const JIteratorPosition	start,
+	const JListT::Position	start,
 	const JIndex			index
 	)
 	:
@@ -138,12 +138,12 @@ JRunArrayIterator<T>::PrevRun()
 	}
 	else if (itsRunIndex <= 2)
 	{
-		MoveTo(kJIteratorStartAtBeginning, 0);
+		MoveTo(JListT::kStartAtBeginning, 0);
 		return false;
 	}
 	else
 	{
-		MoveTo(kJIteratorStartAfter,
+		MoveTo(JListT::kStartAfter,
 			this->GetCursor() - itsOffsetInRun - itsRunArray->GetRunLength(itsRunIndex-1));
 
 		return true;
@@ -168,12 +168,12 @@ JRunArrayIterator<T>::NextRun()
 	}
 	else if (itsRunIndex >= itsRunArray->GetRunCount())
 	{
-		MoveTo(kJIteratorStartAtEnd, 0);
+		MoveTo(JListT::kStartAtEnd, 0);
 		return false;
 	}
 	else
 	{
-		MoveTo(kJIteratorStartAfter,
+		MoveTo(JListT::kStartAfter,
 			this->GetCursor() - itsOffsetInRun + itsRunArray->GetRunLength(itsRunIndex));
 
 		return true;
@@ -259,7 +259,7 @@ bool
 JRunArrayIterator<T>::Prev
 	(
 	T*						item,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	if (itsRunArray == nullptr || this->AtBeginning())
@@ -305,7 +305,7 @@ bool
 JRunArrayIterator<T>::Next
 	(
 	T*						item,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	if (itsRunArray == nullptr || this->AtEnd())
@@ -429,7 +429,7 @@ bool
 JRunArrayIterator<T>::SetPrev
 	(
 	const T&				data,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	JList<T>* obj;
@@ -439,7 +439,7 @@ JRunArrayIterator<T>::SetPrev
 	}
 
 	SkipPrev();
-	SetNext(data, move ? kJIteratorStay : kJIteratorMove);
+	SetNext(data, move ? JListT::kStay : JListT::kMove);
 	return true;
 }
 
@@ -456,7 +456,7 @@ bool
 JRunArrayIterator<T>::SetNext
 	(
 	const T&				data,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	JList<T>* obj;
@@ -495,7 +495,7 @@ JRunArrayIterator<T>::SetPrev
 	(
 	const T&				data,
 	const JSize				count,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	assert( count > 0 );
@@ -507,7 +507,7 @@ JRunArrayIterator<T>::SetPrev
 	}
 
 	SkipPrev(count);
-	SetNext(data, count, move ? kJIteratorStay : kJIteratorMove);
+	SetNext(data, count, move ? JListT::kStay : JListT::kMove);
 	return true;
 }
 
@@ -525,7 +525,7 @@ JRunArrayIterator<T>::SetNext
 	(
 	const T&				data,
 	const JSize				count,
-	const JIteratorAction	move
+	const JListT::Action	move
 	)
 {
 	assert( count > 0 );
@@ -741,12 +741,12 @@ template <class T>
 void
 JRunArrayIterator<T>::MoveTo
 	(
-	const JIteratorPosition	newPosition,
+	const JListT::Position	newPosition,
 	const JIndex			index
 	)
 {
 	const JCursorPosition origPosition = this->GetCursor();
-	const bool wasAtLimit          = this->AtBeginning() || this->AtEnd();
+	const bool wasAtLimit              = this->AtBeginning() || this->AtEnd();
 
 	JListIterator<T>::MoveTo(newPosition, index);
 
@@ -762,7 +762,7 @@ void
 JRunArrayIterator<T>::PrivateMoveTo
 	(
 	const JCursorPosition	origPosition,
-	const JIteratorPosition	newPosition,
+	const JListT::Position	newPosition,
 	const JIndex			index,
 	const bool				wasAtLimit
 	)

@@ -21,27 +21,27 @@ class JLinkedListIterator : public JListIterator<T>
 public:
 
 	JLinkedListIterator(const JLinkedList<T>& theLinkedList,
-						const JIteratorPosition start = kJIteratorStartAtBeginning,
+						const JListT::Position start = JListT::kStartAtBeginning,
 						const JIndex index = 0);
 	JLinkedListIterator(JLinkedList<T>* theLinkedList,
-						const JIteratorPosition start = kJIteratorStartAtBeginning,
+						const JListT::Position start = JListT::kStartAtBeginning,
 						const JIndex index = 0);
 	JLinkedListIterator(const JLinkedListIterator<T>& source);
 
 	~JLinkedListIterator() override;
 
-	bool	Prev(T* item, const JIteratorAction move = kJIteratorMove) override;
-	bool	Next(T* item, const JIteratorAction move = kJIteratorMove) override;
+	bool	Prev(T* item, const JListT::Action move = JListT::kMove) override;
+	bool	Next(T* item, const JListT::Action move = JListT::kMove) override;
 
 	void	SkipPrev(const JSize count = 1) override;
 	void	SkipNext(const JSize count = 1) override;
 
-	void	MoveTo(const JIteratorPosition newPosition, const JIndex index) override;
+	void	MoveTo(const JListT::Position newPosition, const JIndex index) override;
 
 	// only allowed if constructed from non-const JList<T>*
 
-	bool	SetPrev(const T& data, const JIteratorAction move = kJIteratorMove) override;
-	bool	SetNext(const T& data, const JIteratorAction move = kJIteratorMove) override;
+	bool	SetPrev(const T& data, const JListT::Action move = JListT::kMove) override;
+	bool	SetNext(const T& data, const JListT::Action move = JListT::kMove) override;
 
 	bool	RemovePrev(const JSize count = 1) override;
 	bool	RemoveNext(const JSize count = 1) override;

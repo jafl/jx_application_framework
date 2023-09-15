@@ -325,7 +325,7 @@ JPTPrinter::InvertPageOrder
 	)
 	const
 {
-	JStringIterator iter(text, kJIteratorStartAtEnd);
+	JStringIterator iter(text, JStringIterator::kStartAtEnd);
 	iter.BeginMatch();
 	while (iter.Prev(kPageSeparatorStr, kPageSeparatorStrLength))
 	{

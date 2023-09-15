@@ -950,28 +950,28 @@ JTEST(SetAllFontNameAndSize)
 	JRunArrayIterator<JFont> iter(text.GetStyles());
 	JFont f;
 
-	iter.MoveTo(kJIteratorStartBefore, 2);
+	iter.MoveTo(JListT::kStartBefore, 2);
 	iter.Next(&f);
 	JAssertStringsEqual("foobar", f.GetName());
 	JAssertEqual(15, f.GetSize());
 	JAssertFalse(f.GetStyle().bold);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 
-	iter.MoveTo(kJIteratorStartBefore, 5);
+	iter.MoveTo(JListT::kStartBefore, 5);
 	iter.Next(&f);
 	JAssertStringsEqual("foobar", f.GetName());
 	JAssertEqual(15, f.GetSize());
 	JAssertTrue(f.GetStyle().bold);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 
-	iter.MoveTo(kJIteratorStartBefore, 10);
+	iter.MoveTo(JListT::kStartBefore, 10);
 	iter.Next(&f);
 	JAssertStringsEqual("foobar", f.GetName());
 	JAssertEqual(15, f.GetSize());
 	JAssertFalse(f.GetStyle().bold);
 	JAssertEqual(0, f.GetStyle().underlineCount);
 
-	iter.MoveTo(kJIteratorStartBefore, 17);
+	iter.MoveTo(JListT::kStartBefore, 17);
 	iter.Next(&f);
 	JAssertStringsEqual("foobar", f.GetName());
 	JAssertEqual(15, f.GetSize());

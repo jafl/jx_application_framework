@@ -1,3 +1,7 @@
+medic: test with gdb
+	analyze core
+	init args from .gdbinit
+
 unit test
 	JTable - especially JRunArrayIterator
 	JTableSelection - especially JRunArrayIterator
@@ -5,12 +9,6 @@ unit test
 	JFloatTableData
 	JPTPrinter - send to file
 	JVIKeyHandler:  split into multiple tests covering all options
-
------
-
-medic: test with gdb
-	analyze core
-	init args from .gdbinit
 
 jcc
 	HTML styler
@@ -20,25 +18,10 @@ jcc
 
 	shell doc doesn't work at all
 
-	slow when typing at end of 30M csv file
-
 	test with old project formats in code_crusader/test-manual/*.jcc
-
-D tree
-	must remember all imported packages, to resolve parents after full parse
-	imports are scoped to block
-
------
 
 JTextEditor:
 	need smarter update during indent/outdent, to maintain caret location
 		when caret in another view is inside the affected range
 
 	don't change insertion font while typing when glyphs are rendered with fallback font
-
-JXFontManager
-	some characters extend above line height
-
------
-
-https://en.wikibooks.org/wiki/Unicode/Character_reference/21000-21FFF

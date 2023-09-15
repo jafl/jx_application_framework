@@ -109,18 +109,18 @@ class JPtrArrayIterator : public JArrayIterator<T*>
 public:
 
 	JPtrArrayIterator(const JPtrArray<T>& theArray,
-					  const JIteratorPosition start = kJIteratorStartAtBeginning,
+					  const JListT::Position start = JListT::kStartAtBeginning,
 					  const JIndex index = 0);
 	JPtrArrayIterator(JPtrArray<T>* theArray,
-					  const JIteratorPosition start = kJIteratorStartAtBeginning,
+					  const JListT::Position start = JListT::kStartAtBeginning,
 					  const JIndex index = 0);
 
 	// only allowed if constructed from non-const JList<T>*
 
 	bool	SetPrev(T* dataPtr, const JPtrArrayT::SetElementAction action,
-					const JIteratorAction move = kJIteratorMove);
+					const JListT::Action move = JListT::kMove);
 	bool	SetNext(T* dataPtr, const JPtrArrayT::SetElementAction action,
-					const JIteratorAction move = kJIteratorMove);
+					const JListT::Action move = JListT::kMove);
 
 	bool	DeletePrev();
 	bool	DeleteNext();

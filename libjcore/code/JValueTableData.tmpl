@@ -298,7 +298,7 @@ JValueTableData<S,T>::InsertRows
 		{
 			if (iter != nullptr)
 			{
-				iter->MoveTo(kJIteratorStartAtBeginning, 0);
+				iter->MoveTo(JListT::kStartAtBeginning, 0);
 			}
 
 			for (JIndex i=1; i<=colCount; i++)
@@ -510,7 +510,7 @@ JValueTableData<S,T>::InsertCols
 			const JSize rowCount = GetRowCount();
 			if (iter != nullptr)
 			{
-				iter->MoveTo(kJIteratorStartAtBeginning, 0);
+				iter->MoveTo(JListT::kStartAtBeginning, 0);
 				T data;
 				for (JIndex i=1; i<=rowCount; i++)
 				{

@@ -1189,7 +1189,7 @@ J2DPlotWidget::GetDecPlaces
 		dotIndex = iter.GetPrevCharacterIndex();
 	}
 
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 
 	if (iter.Next(exponentPattern))
 	{
