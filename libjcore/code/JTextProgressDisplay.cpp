@@ -78,7 +78,7 @@ JTextProgressDisplay::ProcessBeginning
 	std::cout << std::endl << std::endl << message << std::endl;
 	if (allowCancel)
 	{
-		#if defined _J_UNIX
+		#ifdef _J_UNIX
 			std::cout << "(Press ctrl-C to cancel)";
 		#else
 			figure out what to say!

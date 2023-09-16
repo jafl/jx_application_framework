@@ -153,6 +153,8 @@ JCheckForNewerVersion
 	const JPrefID&	prefID
 	)
 {
+#ifndef _J_EVERGREEN_INSTALL
+
 	auto* updater = jnew JUpdateChecker(prefsMgr, prefID);
 	assert( updater != nullptr );
 
@@ -174,4 +176,6 @@ JCheckForNewerVersion
 	}
 
 	updater->CheckForNewerVersion();
+
+#endif
 }

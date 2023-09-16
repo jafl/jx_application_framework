@@ -1,7 +1,3 @@
-medic: test with gdb
-	analyze core
-	init args from .gdbinit
-
 unit test
 	JTable - especially JRunArrayIterator
 	JTableSelection - especially JRunArrayIterator
