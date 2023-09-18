@@ -1,0 +1,152 @@
+ 1       "I HAVE A DREAM ..." (Copyright 1963, MARTIN LUTHER KING, JR.)
+ 2  
+ 3  I am happy to join with you today in what will go down in history as the gre
+ 4  atest demonstration for freedom in the history of our nation.
+ 5  
+ 6  Five score years ago, a great American, in whose symbolic shadow we stand to
+ 7  day, signed the Emancipation Proclamation. This momentous decree came as a g
+ 8  reat beacon light of hope to millions of Negro slaves who had been seared in
+ 9   the flames of withering injustice. It came as a joyous daybreak to end the 
+10  long night of their captivity.
+11  
+12  But one hundred years later, the Negro still is not free. One hundred years 
+13  later, the life of the Negro is still sadly crippled by the manacles of segr
+14  egation and the chains of discrimination. One hundred years later, the Negro
+15   lives on a lonely island of poverty in the midst of a vast ocean of materia
+16  l prosperity. One hundred years later, the Negro is still languished in the 
+17  corners of American society and finds himself in exile in his own land. And 
+18  so we’ve come here today to dramatize a shameful condition.
+19  
+20  In a sense we’ve come to our nation’s capital to cash a check. When the arch
+21  itects of our republic wrote the magnificent words of the Constitution and t
+22  he Declaration of Independence, they were signing a promissory note to which
+23   every American was to fall heir. This note was a promise that all men, yes,
+24   black men as well as white men, would be guaranteed the unalienable rights 
+25  of life, liberty, and the pursuit of happiness. It is obvious today that Ame
+26  rica has defaulted on this promissory note insofar as her citizens of color 
+27  are concerned. Instead of honoring this sacred obligation, America has given
+28   the Negro people a bad check, a check which has come back marked insufficie
+29  nt funds.
+30  
+31  But we refuse to believe that the bank of justice is bankrupt. We refuse to 
+32  believe that there are insufficient funds in the great vaults of opportunity
+33   of this nation. And so we’ve come to cash this check, a check that will giv
+34  e us upon demand the riches of freedom and the security of justice.
+35  
+36  We have also come to this hallowed spot to remind America of the fierce urge
+37  ncy of now. This is no time to engage in the luxury of cooling off or to tak
+38  e the tranquilizing drug of gradualism. Now is the time to make real the pro
+39  mises of democracy. Now is the time to rise from the dark and desolate valle
+40  y of segregation to the sunlit path of racial justice. Now is the time to li
+41  ft our nation from the quicksands of racial injustice to the solid rock of b
+42  rotherhood. Now is the time to make justice a reality for all of God’s child
+43  ren.
+44  
+45  It would be fatal for the nation to overlook the urgency of the moment. This
+46   sweltering summer of the Negro’s legitimate discontent will not pass until 
+47  there is an invigorating autumn of freedom and equality. 1963 is not an end,
+48   but a beginning. And those who hope that the Negro needed to blow off steam
+49   and will now be content will have a rude awakening if the nation returns to
+50   business as usual. There will be neither rest nor tranquility in America un
+51  til the Negro is granted his citizenship rights. The whirlwinds of revolt wi
+52  ll continue to shake the foundations of our nation until the bright day of j
+53  ustice emerges.
+54  
+55  But there is something that I must say to my people, who stand on the warm t
+56  hreshold which leads into the palace of justice: in the process of gaining o
+57  ur rightful place, we must not be guilty of wrongful deeds. Let us not seek 
+58  to satisfy our thirst for freedom by drinking from the cup of bitterness and
+59   hatred. We must forever conduct our struggle on the high plane of dignity a
+60  nd discipline. We must not allow our creative protest to degenerate into phy
+ 61  sical violence. Again and again, we must rise to the majestic heights of me
+ 62  eting physical force with soul force. The marvelous new militancy which has
+ 63   engulfed the Negro community must not lead us to a distrust of all white p
+ 64  eople, for many of our white brothers, as evidenced by their presence here 
+ 65  today, have come to realize that their destiny is tied up with our destiny,
+ 66   and they have come to realize that their freedom is inextricably bound to 
+ 67  our freedom. We cannot walk alone.
+ 68  
+ 69  And as we walk, we must make the pledge that we shall always march ahead. W
+ 70  e cannot turn back. There are those who are asking the devotees of civil ri
+ 71  ghts, “When will you be satisfied?” We can never be satisfied as long as th
+ 72  e Negro is the victim of the unspeakable horrors of police brutality. We ca
+ 73  n never be satisfied as long as our bodies, heavy with the fatigue of trave
+ 74  l, cannot gain lodging in the motels of the highways and the hotels of the 
+ 75  cities. We cannot be satisfied as long as the Negro’s basic mobility is fro
+ 76  m a smaller ghetto to a larger one. We can never be satisfied as long as ou
+ 77  r children are stripped of their selfhood and robbed of their dignity by si
+ 78  gns stating for whites only. We cannot be satisfied as long as a Negro in M
+ 79  ississippi cannot vote and a Negro in New York believes he has nothing for 
+ 80  which to vote. No, no, we are not satisfied and we will not be satisfied un
+ 81  til justice rolls down like waters and righteousness like a mighty stream.
+ 82  
+ 83  I am not unmindful that some of you have come here out of great trials and 
+ 84  tribulations. Some of you have come fresh from narrow jail cells. Some of y
+ 85  ou have come from areas where your quest for freedom left you battered by t
+ 86  he storms of persecution and staggered by the winds of police brutality. Yo
+ 87  u have been the veterans of creative suffering. Continue to work with the f
+ 88  aith that unearned suffering is redemptive. Go back to Mississippi, go back
+ 89   to Alabama, go back to South Carolina, go back to Georgia, go back to Loui
+ 90  siana, go back to the slums and ghettos of our northern cities, knowing tha
+ 91  t somehow this situation can and will be changed. Let us not wallow in the 
+ 92  valley of despair.
+ 93  
+ 94  I say to you today, my friends, so even though we face the difficulties of 
+ 95  today and tomorrow, I still have a dream. It is a dream deeply rooted in th
+ 96  e American dream.
+ 97  
+ 98  I have a dream that one day this nation will rise up and live out the true 
+ 99  meaning of its creed: “We hold these truths to be self-evident, that all me
+100  n are created equal.”
+101  
+102  I have a dream that one day on the red hills of Georgia, the sons of former
+103   slaves and the sons of former slave owners will be able to sit down togeth
+104  er at the table of brotherhood.
+105  
+106  I have a dream that one day even the state of Mississippi, a state swelteri
+107  ng with the heat of injustice, sweltering with the heat of oppression, will
+108   be transformed into an oasis of freedom and justice.
+109  
+110  I have a dream that my four little children will one day live in a nation w
+111  here they will not be judged by the color of their skin but by the content 
+112  of their character. I have a dream today.
+113  
+114  I have a dream that one day down in Alabama, with its vicious racists, with
+115   its governor having his lips dripping with the words of “interposition” an
+116  d “nullification”, one day right there in Alabama little black boys and bla
+117  ck girls will be able to join hands with little white boys and white girls 
+118  as sisters and brothers. I have a dream today.
+119  
+120  I have a dream that one day every valley shall be exalted, every hill and m
+121  ountain shall be made low, the rough places will be made plain, and the cro
+122  oked places will be made straight, and the glory of the Lord shall be revea
+123  led, and all flesh shall see it together.
+124  
+125  This is our hope. This is the faith that I go back to the South with. With 
+126  this faith we will be able to hew out of the mountain of despair a stone of
+127   hope. With this faith we will be able to transform the jangling discords o
+128  f our nation into a beautiful symphony of brotherhood. With this faith we w
+129  ill be able to work together, to pray together, to struggle together, to go
+130   to jail together, to stand up for freedom together, knowing that we will b
+131  e free one day.
+132  
+133  This will be the day, this will be the day when all of God’s children will 
+134  be able to sing with new meaning: “My country, ‘tis of thee, sweet land of 
+135  liberty, of thee I sing. Land where my fathers died, land of the pilgrim’s 
+136  pride, from every mountainside, let freedom ring!”
+137  
+138  And if America is to be a great nation, this must become true. So let freed
+139  om ring from the prodigious hilltops of New Hampshire. Let freedom ring fro
+140  m the mighty mountains of New York. Let freedom ring from the heightening A
+141  lleghenies of Pennsylvania. Let freedom ring from the snow-capped Rockies o
+142  f Colorado. Let freedom ring from the curvaceous slopes of California. But 
+143  not only that: Let freedom ring from Stone Mountain of Georgia. Let freedom
+144   ring from Lookout Mountain of Tennessee. Let freedom ring from every hill 
+145  and molehill of Mississippi. From every mountainside, let freedom ring.
+146  
+147  And when this happens, and when we allow freedom ring, when we let it ring 
+148  from every village and every hamlet, from every state and every city, we wi
+149  ll be able to speed up that day when all of God’s children, black men and w
+150  hite men, Jews and Gentiles, Protestants and Catholics, will be able to joi
+151  n hands and sing in the words of the old Negro spiritual: “Free at last! Fr
+152  ee at last! Thank God Almighty, we are free at last!”

@@ -1,9 +1,8 @@
 unit test
 	JTable - especially JRunArrayIterator
-	JTableSelection - especially JRunArrayIterator
+	JTableSelection/JTableSelectionIterator
 	JStringTableData
 	JFloatTableData
-	JPTPrinter - send to file
 	JVIKeyHandler:  split into multiple tests covering all options
 
 jcc

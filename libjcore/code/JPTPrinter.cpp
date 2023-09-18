@@ -186,8 +186,7 @@ JPTPrinter::Print
 		{
 			iter.Prev(&c);	// back up for pageWidth loop
 
-			JSize col = 0;
-
+			JSize margin = 0;
 			if (itsPrintLineNumberFlag)
 			{
 				const JString lineNumberStr(textLineCount+1, 0);
@@ -199,15 +198,16 @@ JPTPrinter::Print
 				lineNumberStr.Print(*output);
 				*output << kLineNumberMarginStr;
 
-				col += lineNumberWidth + kLineNumberMarginWidth;
+				margin = lineNumberWidth + kLineNumberMarginWidth;
 			}
 
-			if (col >= itsPageWidth)	// ensures progress, even in ludicrous boundary case
+			if (margin >= itsPageWidth)	// ensures progress, even in ludicrous boundary case
 			{
-				col = itsPageWidth - 1;
+				margin = itsPageWidth - 1;
 			}
 
-			while (col < itsPageWidth && iter.Next(&c) && c != '\n')
+			JSize col = 0;
+			while (col < itsPageWidth - margin && iter.Next(&c) && c != '\n')
 			{
 				if (c == '\t')
 				{

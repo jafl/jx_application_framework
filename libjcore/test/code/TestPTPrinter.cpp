@@ -25,6 +25,7 @@ TestPTPrinter::TestPTPrinter
 	JPTPrinter(),
 	itsFileName(fileName)
 {
+	SetTabWidth(5);
 }
 
 /******************************************************************************
