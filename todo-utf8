@@ -3,7 +3,6 @@ unit test
 	JTableSelection/JTableSelectionIterator
 	JStringTableData
 	JFloatTableData
-	JVIKeyHandler:  split into multiple tests covering all options
 
 jcc
 	HTML styler

@@ -824,7 +824,7 @@ inline void
 JTextEditor::SetSelection
 	(
 	const JCharacterRange&	range,
-	const bool			needCaretBcast
+	const bool				needCaretBcast
 	)
 {
 	SetSelection(itsText->CharToTextRange(nullptr, range), needCaretBcast);

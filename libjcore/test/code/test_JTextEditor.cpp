@@ -1046,65 +1046,65 @@ JTEST(DefaultKeyHandler)
 	text.SetCRMTabCharCount(4);
 
 	te1.Activate();
-	te1.HandleKeyPress(JUtf8Character('c'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('t'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type("c");
+	te1.Type("a");
+	te1.Type("t");
 	JAssertStringsEqual("cat", text.GetText());
 
 	te2.Activate();
-	te2.HandleKeyPress(JUtf8Character('s'), false, JTextEditor::kMoveByCharacter, false);
+	te2.Type("s");
 	JAssertStringsEqual("cats", text.GetText());
 
 	te2.SetCaretLocation(1);
-	te2.HandleKeyPress(JUtf8Character('z'), false, JTextEditor::kMoveByCharacter, false);
+	te2.Type("z");
 	JAssertStringsEqual("zcats", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type("a");
 	JAssertStringsEqual("zcatsa", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJDeleteKey), false, JTextEditor::kMoveByCharacter, false);
+	te2.Type(kJDeleteKey);
 	JAssertStringsEqual("catsa", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJDeleteKey), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type(kJDeleteKey);
 	JAssertStringsEqual("cats", text.GetText());
 
 	te1.Paste(JString("Dog", JString::kNoCopy));
-	te1.HandleKeyPress(JUtf8Character('s'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type("s");
 	JAssertStringsEqual("catsDogs", text.GetText());
 
 	te2.GoToEndOfLine();
 	text.Undo();
 	JAssertStringsEqual("catsDog", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJLeftArrow), false, JTextEditor::kMoveByWord, false);
+	te2.Type(kJLeftArrow, false, JTextEditor::kMoveByWord);
 	JIndex i;
 	JAssertTrue(te2.GetCaretLocation(&i));
 	JAssertEqual(1, i);
 
-	te2.HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByPartialWord, false);
+	te2.Type(kJRightArrow, false, JTextEditor::kMoveByPartialWord);
 	JAssertTrue(te2.GetCaretLocation(&i));
 	JAssertEqual(5, i);
 
-	te1.HandleKeyPress(JUtf8Character(kJLeftArrow), true, JTextEditor::kMoveByPartialWord, false);
+	te1.Type(kJLeftArrow, true, JTextEditor::kMoveByPartialWord);
 	JCharacterRange r;
 	JAssertTrue(te1.GetSelection(&r));
 	JAssertEqual(JCharacterRange(5,7), r);
 
-	te1.HandleKeyPress(JUtf8Character('!'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type("!");
 	JAssertStringsEqual("cats!", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJTabKey), false, JTextEditor::kMoveByCharacter, false);
-	te2.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
+	te2.Type(kJTabKey);
+	te2.Type(" ");
 	JAssertStringsEqual("cats     !", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJDeleteKey), false, JTextEditor::kMoveByCharacter, true);
+	te2.Type(kJDeleteKey, false, JTextEditor::kMoveByCharacter, true);
 	JAssertStringsEqual("cats    !", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJDeleteKey), false, JTextEditor::kMoveByCharacter, true);
+	te2.Type(kJDeleteKey, false, JTextEditor::kMoveByCharacter, true);
 	JAssertStringsEqual("cats!", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJLeftArrow), true, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJForwardDeleteKey), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type(kJLeftArrow, true);
+	te1.Type(kJForwardDeleteKey);
 	JAssertStringsEqual("cats", text.GetText());
 }
 
@@ -1121,125 +1121,225 @@ JTEST(VIKeyHandler)
 	te2.SetKeyHandler(jnew JVIKeyHandler);
 
 	te1.Activate();
-	te1.HandleKeyPress(JUtf8Character('i'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('c'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('t'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type("i");
+	te1.Type("c");
+	te1.Type("a");
+	te1.Type("t");
 	JAssertStringsEqual("cat", text.GetText());
 
 	te2.Activate();
-	te2.HandleKeyPress(JUtf8Character('i'), false, JTextEditor::kMoveByCharacter, false);
-	te2.HandleKeyPress(JUtf8Character('s'), false, JTextEditor::kMoveByCharacter, false);
+	te2.Type("i");
+	te2.Type("s");
 	JAssertStringsEqual("cats", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
-	te2.HandleKeyPress(JUtf8Character('0'), false, JTextEditor::kMoveByCharacter, false);
-	te2.HandleKeyPress(JUtf8Character('i'), false, JTextEditor::kMoveByCharacter, false);
-	te2.HandleKeyPress(JUtf8Character('z'), false, JTextEditor::kMoveByCharacter, false);
+	te2.Type(kJEscapeKey);
+	te2.Type("0");
+	te2.Type("i");
+	te2.Type("z");
 	JAssertStringsEqual("zcats", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type("a");
 	JAssertStringsEqual("zcatsa", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
-	te2.HandleKeyPress(JUtf8Character('x'), false, JTextEditor::kMoveByCharacter, false);
+	te2.Type(kJEscapeKey);
+	te2.Type("x");
 	JAssertStringsEqual("catsa", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('x'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type(kJEscapeKey);
+	te1.Type("x");
 	JAssertStringsEqual("cats", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character('I'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('z'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type("I");
+	te1.Type("z");
 	JAssertStringsEqual("zcats", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJLeftArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('A'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type(kJEscapeKey);
+	te1.Type(kJRightArrow);
+	te1.Type("a");
+	te1.Type("a");
+	te1.Type(kJLeftArrow);
+	te1.Type(kJEscapeKey);
+	te1.Type("A");
+	te1.Type("a");
 	JAssertStringsEqual("zcaatsa", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('O'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('1'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJDownArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('o'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('2'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type(kJEscapeKey);
+	te1.Type("O");
+	te1.Type("1");
+	te1.Type(kJEscapeKey);
+	te1.Type(kJDownArrow);
+	te1.Type("o");
+	te1.Type("2");
 	JAssertStringsEqual("1\nzcaatsa\n2", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type(kJEscapeKey);
+	te1.Type(kJUpArrow);
+	te1.Type(kJUpArrow);
 
 	JIndex i;
 	JAssertTrue(te1.GetCaretLocation(&i));
 	JAssertEqual(1, i);
 
-	te1.HandleKeyPress(JUtf8Character('G'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type("\n");
+	JAssertTrue(te1.GetCaretLocation(&i));
+	JAssertEqual(3, i);
+
+	te1.Type("G");
 
 	JAssertTrue(te1.GetCaretLocation(&i));
 	JAssertEqual(12, i);
 
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('x'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('X'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type(kJUpArrow);
+	te1.Type(kJRightArrow);
+	te1.Type(kJRightArrow);
+	te1.Type(kJRightArrow);
+	te1.Type("x");
+	te1.Type("X");
 	JAssertStringsEqual("1\nzcasa\n2", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character('G'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('P'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type("G");
+	te1.Type("P");
 	JAssertStringsEqual("1\nzcasa\n2a", text.GetText());
 
 	te1.Paste(JString("\n3\n4\n5\n6\n7\n8\n9", JString::kNoCopy));
-	te1.HandleKeyPress(JUtf8Character(kJEscapeKey), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('3'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('d'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('d'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type(kJEscapeKey);
+	te1.Type(kJUpArrow);
+	te1.Type(kJUpArrow);
+	te1.Type(kJUpArrow);
+	te1.Type(kJUpArrow);
+	te1.Type(kJUpArrow);
+	te1.Type(kJUpArrow);
+	te1.Type(kJUpArrow);
+	te1.Type("3");
+	te1.Type("d");
+	te1.Type("d");
 	JAssertStringsEqual("1\nzcasa\n5\n6\n7\n8\n9", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character('G'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('p'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type("G");
+	te1.Type("p");
 	JAssertStringsEqual("1\nzcasa\n5\n6\n7\n8\n2a\n3\n4\n9", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character('u'), false, JTextEditor::kMoveByCharacter, false);
-	te2.HandleKeyPress(JUtf8Character('u'), false, JTextEditor::kMoveByCharacter, false);
+	te2.Type("u");
+	te2.Type("u");
 	JAssertStringsEqual("1\nzcasa\n2a\n3\n4\n5\n6\n7\n8\n9", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character(kJUpArrow), false, JTextEditor::kMoveByLine, false);
-	te1.HandleKeyPress(JUtf8Character(kJDownArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('D'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type(kJUpArrow, false, JTextEditor::kMoveByLine);
+	te1.Type(kJDownArrow);
+	te1.Type(kJRightArrow);
+	te1.Type("D");
 	JAssertStringsEqual("1\nz\n2a\n3\n4\n5\n6\n7\n8\n9", text.GetText());
 
-	te2.HandleKeyPress(JUtf8Character('u'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJDownArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character(kJDownArrow), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('3'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('"'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('q'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('d'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('d'), false, JTextEditor::kMoveByCharacter, false);
+	te2.Type("u");
+	te1.Type(kJDownArrow);
+	te1.Type(kJDownArrow);
+	te1.Type("3");
+	te1.Type("\"");
+	te1.Type("q");
+	te1.Type("d");
+	te1.Type("d");
 	JAssertStringsEqual("1\nzcasa\n5\n6\n7\n8\n9", text.GetText());
 
-	te1.HandleKeyPress(JUtf8Character('G'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('"'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('q'), false, JTextEditor::kMoveByCharacter, false);
-	te1.HandleKeyPress(JUtf8Character('p'), false, JTextEditor::kMoveByCharacter, false);
+	te1.Type("G");
+	te1.Type("\"");
+	te1.Type("q");
+	te1.Type("p");
 	JAssertStringsEqual("1\nzcasa\n5\n6\n7\n8\n2a\n3\n4\n9", text.GetText());
+}
+
+JTEST(VIMoveByWord)
+{
+	StyledText text(true);
+	TextEditor te(&text, true, 50);
+	text.SetText(JString("abc a abcef abcd", JString::kNoCopy));
+	te.SetKeyHandler(jnew JVIKeyHandler);
+	te.Activate();
+
+	JIndex i;
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(1, i);
+
+	te.Type("w");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(5, i);
+
+	te.Type(kJLeftArrow);
+	te.Type("w");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(5, i);
+
+	te.Type(kJLeftArrow);
+	te.Type(kJLeftArrow);
+	te.Type("w");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(5, i);
+
+	te.Type(kJLeftArrow);
+	te.Type(kJLeftArrow);
+	te.Type(kJLeftArrow);
+	te.Type("w");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(5, i);
+
+	te.Type(kJRightArrow);
+	te.Type("w");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(7, i);
+
+	te.Type("w");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(13, i);
+
+	te.Type("2");
+	te.Type("b");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(5, i);
+
+	te.Type(kJLeftArrow);
+	te.Type("w");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(5, i);
+
+	te.Type(kJLeftArrow);
+	te.Type(kJLeftArrow);
+	te.Type("w");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(5, i);
+
+	te.Type("e");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(11, i);
+
+	te.Type("b");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(7, i);
+
+	te.Type(kJLeftArrow);
+	te.Type(kJLeftArrow);
+	te.Type("e");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(11, i);
+
+	te.Type("b");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(7, i);
+
+	te.Type("$");
+
+	JAssertTrue(te.GetCaretLocation(&i));
+	JAssertEqual(17, i);
 }
 
 JTEST(AutoIndent)
@@ -1251,25 +1351,25 @@ JTEST(AutoIndent)
 	TextEditor te(&text, true, 50);
 
 	te.Activate();
-	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('\t'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	te.Type("\n");
+	te.Type("\n");
+	te.Type("\t");
+	te.Type("\n");
 	JAssertStringsEqual("\n\n\n\t", text.GetText());
 
-	te.HandleKeyPress(JUtf8Character('\t'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	te.Type("\t");
+	te.Type("a");
+	te.Type("\n");
 	JAssertStringsEqual("\n\n\n\t\ta\n\t\t", text.GetText());
 
-	te.HandleKeyPress(JUtf8Character('\b'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('\b'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('\t'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('a'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	te.Type(kJDeleteKey);
+	te.Type(kJDeleteKey);
+	te.Type(" ");
+	te.Type(" ");
+	te.Type("\t");
+	te.Type(" ");
+	te.Type("a");
+	te.Type("\n");
 	JAssertStringsEqual("\n\n\n\t\ta\n  \t a\n  \t ", text.GetText());
 
 	text.SetText(JString::empty);
@@ -1290,30 +1390,30 @@ JTEST(AutoIndent)
 
 	text.SetCRMRuleList(&rules, false);
 
-	te.HandleKeyPress(JUtf8Character('/'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('*'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	te.Type("/");
+	te.Type("*");
+	te.Type("\n");
 	JAssertStringsEqual("/*\n * ", text.GetText());
-	te.HandleKeyPress(JUtf8Character('\b'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('*'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('x'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	te.Type(kJDeleteKey);
+	te.Type("*");
+	te.Type(" ");
+	te.Type("x");
+	te.Type("\n");
 	JAssertStringsEqual("/*\n ** x\n ** ", text.GetText());
-	te.HandleKeyPress(JUtf8Character('\b'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('/'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	te.Type(kJDeleteKey);
+	te.Type("/");
+	te.Type("\n");
 	JAssertStringsEqual("/*\n ** x\n **/\n ", text.GetText());
 
-	te.HandleKeyPress(JUtf8Character('\t'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('/'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('/'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	te.Type("\t");
+	te.Type("/");
+	te.Type("/");
+	te.Type("\n");
 	JAssertStringsEqual("/*\n ** x\n **/\n \t//\n \t//", text.GetText());
-	te.HandleKeyPress(JUtf8Character(' '), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('x'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('y'), false, JTextEditor::kMoveByCharacter, false);
-	te.HandleKeyPress(JUtf8Character('\n'), false, JTextEditor::kMoveByCharacter, false);
+	te.Type(" ");
+	te.Type("x");
+	te.Type("y");
+	te.Type("\n");
 	JAssertStringsEqual("/*\n ** x\n **/\n \t//\n \t// xy\n \t// ", text.GetText());
 
 	rules.DeleteAll();

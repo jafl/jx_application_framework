@@ -4850,7 +4850,7 @@ JStyledText::SetCharacterInWordFunction
 }
 
 /******************************************************************************
- IsCharacterInWord (private)
+ IsCharacterInWord
 
 	Returns true if the given character should be considered part of a word.
 

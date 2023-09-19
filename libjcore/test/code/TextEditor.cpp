@@ -381,25 +381,6 @@ TextEditor::GetDoubleClickSelection
 }
 
 /******************************************************************************
- HandleKeyPress
-
-	Returns true if the key was processed.
-
- ******************************************************************************/
-
-bool
-TextEditor::HandleKeyPress
-	(
-	const JUtf8Character&	c,
-	const bool				selectText,
-	const CaretMotion		motion,
-	const bool				deleteToTabStop
-	)
-{
-	return TEHandleKeyPress(c, selectText, motion, deleteToTabStop);
-}
-
-/******************************************************************************
  Receive (virtual protected)
 
 	Validate messages

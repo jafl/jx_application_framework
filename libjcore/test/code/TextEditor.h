@@ -50,8 +50,12 @@ public:
 									const bool dragging,
 									JStyledText::TextRange* range);
 
-	bool	HandleKeyPress(const JUtf8Character& key, const bool selectText,
-						   const CaretMotion motion, const bool deleteToTabStop);
+	void	Type(const char key, const bool selectText = false,
+				 const CaretMotion motion = kMoveByCharacter,
+				 const bool deleteToTabStop = false);
+	void	Type(const char* key, const bool selectText = false,
+				 const CaretMotion motion = kMoveByCharacter,
+				 const bool deleteToTabStop = false);
 
 protected:
 
@@ -210,6 +214,36 @@ TextEditor::TestMoveCaretVert
 	)
 {
 	MoveCaretVert(deltaLines);
+}
+
+/******************************************************************************
+ Type
+
+ ******************************************************************************/
+
+inline void
+TextEditor::Type
+	(
+	const char			key,
+	const bool			selectText,
+	const CaretMotion	motion,
+	const bool			deleteToTabStop
+	)
+{
+	const char s[] = { key, 0 };
+	Type(s, selectText, motion, deleteToTabStop);
+}
+
+inline void
+TextEditor::Type
+	(
+	const char*			key,
+	const bool			selectText,
+	const CaretMotion	motion,
+	const bool			deleteToTabStop
+	)
+{
+	TEHandleKeyPress(JUtf8Character(key), selectText, motion, deleteToTabStop);
 }
 
 #endif

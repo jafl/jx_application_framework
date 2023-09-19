@@ -80,6 +80,8 @@ protected:
 	CutBuffer*	GetCutBuffer(const JRegex& r) const;
 	CutBuffer*	GetCutBuffer(const JRegex& r, const JStringMatch& match) const;
 
+	bool	IsEndCharacterInWord() const;
+
 private:
 
 	Mode	itsMode;

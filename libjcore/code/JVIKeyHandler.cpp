@@ -249,29 +249,40 @@ JVIKeyHandler::HandleKeyPress
 
 	else if (key == 'w')	// beginning of next word
 	{
-		const JSize count = GetOperationCount();
+		JSize count = GetOperationCount();
+		if (IsEndCharacterInWord())
+		{
+			count++;
+		}
+
 		for (JIndex i=1; i<=count; i++)
 		{
 			itsDefKeyHandler->HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByWord, false);
 		}
 		itsDefKeyHandler->HandleKeyPress(JUtf8Character(kJLeftArrow), false, JTextEditor::kMoveByWord, false);
 	}
-	else if (key == 'e')	// end of next word
-	{
-		const JSize count = GetOperationCount();
-		for (JIndex i=1; i<=count; i++)
-		{
-			itsDefKeyHandler->HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByWord, false);
-		}
-		itsDefKeyHandler->HandleKeyPress(JUtf8Character(kJLeftArrow), false, JTextEditor::kMoveByCharacter, false);
-	}
-	else if (key == 'b')	// beginning of previous word
+
+	else if (key == 'b')	// beginning of word
 	{
 		const JSize count = GetOperationCount();
 		for (JIndex i=1; i<=count; i++)
 		{
 			itsDefKeyHandler->HandleKeyPress(JUtf8Character(kJLeftArrow), false, JTextEditor::kMoveByWord, false);
 		}
+	}
+	else if (key == 'e')	// end of word
+	{
+		JSize count = GetOperationCount();
+		if (IsEndCharacterInWord())
+		{
+			count++;
+		}
+
+		for (JIndex i=1; i<=count; i++)
+		{
+			itsDefKeyHandler->HandleKeyPress(JUtf8Character(kJRightArrow), false, JTextEditor::kMoveByWord, false);
+		}
+		itsDefKeyHandler->HandleKeyPress(JUtf8Character(kJLeftArrow), false, JTextEditor::kMoveByCharacter, false);
 	}
 
 	else if (key.IsDigit())				// operation count; must be after 0 => beginning of line
@@ -393,6 +404,24 @@ JVIKeyHandler::HandleKeyPress
 		ClearKeyBuffers();
 	}
 	return true;
+}
+
+/******************************************************************************
+ IsEndCharacterInWord (protected)
+
+ ******************************************************************************/
+
+bool
+JVIKeyHandler::IsEndCharacterInWord()
+	const
+{
+	JTextEditor* te = GetTE();
+	JStyledText::TextRange r;
+
+	const JStyledText::TextIndex i =
+		te->GetSelection(&r) ? r.GetLast(*te->GetText()) : te->GetInsertionIndex();
+
+	return te->GetText()->IsCharacterInWord(te->GetCharacter(i));
 }
 
 /******************************************************************************
