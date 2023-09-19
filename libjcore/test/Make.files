@@ -168,6 +168,10 @@ literal: ${LIB_DEPS}
 code/test_JStringIterator
 literal: ${LIB_DEPS}
 
+@test_JStringManager
+code/test_JStringManager
+literal: ${LIB_DEPS}
+
 @test_JStringMap
 code/test_JStringMap
 literal: ${LIB_DEPS}

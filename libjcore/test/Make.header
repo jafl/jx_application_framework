@@ -30,7 +30,7 @@ TESTS := \
   test_JPoint test_JRect \
   test_JUtf8Character test_JString \
   test_JStringMatch test_JStringIterator test_JRegex \
-  test_JSubstitute test_JInterpolate \
+  test_JSubstitute test_JInterpolate test_JStringManager \
   test_JBroadcaster test_jMath test_JComplex \
   test_JArray test_JLinkedList test_JPtrArray test_JRunArray \
   test_JStack test_JQueue test_JVector test_JMatrix \

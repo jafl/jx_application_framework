@@ -1,5 +1,6 @@
 unit test
 	JTable - especially JRunArrayIterator
+		validate expected broadcast messages
 	JTableSelection/JTableSelectionIterator
 	JStringTableData
 	JFloatTableData

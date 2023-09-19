@@ -121,7 +121,7 @@ JStringManager::Get
 		{
 			"s", id
 		};
-		s = jnew JString(JGetString(theMissingStringKey, map, sizeof(map)));
+		s = jnew JString(Get(theMissingStringKey, map, sizeof(map)));
 		assert( s != nullptr );
 	}
 	else
@@ -263,7 +263,7 @@ JStringManager::Register
 		return;
 	}
 
-{
+	{
 	std::ofstream tempFile(tempFileName.GetBytes());
 
 	JIndex i = 0;
@@ -272,7 +272,7 @@ JStringManager::Register
 		tempFile.write(defaultData[i], strlen(defaultData[i]));
 		i++;
 	}
-}
+	}
 	MergeFile(tempFileName);
 	JRemoveFile(tempFileName);
 
@@ -526,8 +526,6 @@ static const Pseudotranslation kPseudotranslateList[] =
 { 'r', "\xD1\x8F" },
 { 'S', "\xC5\xA0" },
 { 's', "\xC5\xA1" },
-{ 'U', "\xC3\x9C" },
-{ 'u', "\xC3\xBC" },
 { 'W', "\xE1\xBA\x80" },
 { 'w', "\xE1\xBA\x81" },
 { '$', "\xC2\xA4" },
