@@ -267,7 +267,7 @@ bool
 JXTable::TableScrollToCellRect
 	(
 	const JRect&	cellRect,
-	const bool	centerInDisplay
+	const bool		centerInDisplay
 	)
 {
 	if (centerInDisplay)
@@ -323,7 +323,7 @@ JXTable::BeginSelectionDrag
 }
 
 /******************************************************************************
- HandleMouseDrag (virtual protected)
+ ContinueSelectionDrag (virtual protected)
 
 	This is a convenience to perform the default action.
 

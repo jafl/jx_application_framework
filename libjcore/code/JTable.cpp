@@ -639,12 +639,12 @@ JTable::Paginate
 	(
 	const JCoordinate		origPageWidth,
 	const JCoordinate		origPageHeight,
-	const bool			userPrintRowHeader,
+	const bool				userPrintRowHeader,
 	JArray<JCoordinate>*	rowBreakpts,
-	bool*				printRowHeader,
-	const bool			userPrintColHeader,
+	bool*					printRowHeader,
+	const bool				userPrintColHeader,
 	JArray<JCoordinate>*	colBreakpts,
-	bool*				printColHeader
+	bool*					printColHeader
 	)
 	const
 {

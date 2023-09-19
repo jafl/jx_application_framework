@@ -195,6 +195,11 @@ literal: ${LIB_DEPS}
 code/test_JSubstitute
 literal: ${LIB_DEPS}
 
+@test_JTable
+code/test_JTable
+code/TestTable
+literal: ${LIB_DEPS}
+
 @test_JTextEditor
 code/test_JTextEditor
 code/TextEditor
