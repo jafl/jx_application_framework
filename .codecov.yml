@@ -1,2 +1,4 @@
 ignore:
   - libjcore/test
+  - libjcore/code/JTestManager.cpp
+  - libjcore/code/JTestManager.h
