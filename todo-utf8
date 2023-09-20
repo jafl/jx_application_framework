@@ -7,7 +7,21 @@ unit test
 		GetNextSelectableCell (override IsSelectable)
 		SelectSingleCell
 
-	JTableSelection/JTableSelectionIterator
+	JTableSelection
+		SelectCell
+		InvertCell
+		IsSelected
+		GetSelectedCellCount
+		SelectRow
+		InvertRow
+		SelectCol
+		InvertCol
+		SelectRect
+		boat/anchor
+		ExtendSelection
+		GetSingleSelectedCell
+		GetFirstSelectedCell
+		GetLastSelectedCell
 
 jcc
 	HTML styler

@@ -10,6 +10,7 @@
 #include "JTestManager.h"
 #include "TestTable.h"
 #include "JFloatTableData.h"
+#include "JTableSelection.h"
 #include "jAssert.h"
 
 int main()
@@ -20,9 +21,20 @@ int main()
 JTEST(Table)
 {
 	TestTable t(10, 50);
+	JTableSelection& s = t.GetTableSelection();
+	JTableSelectionIterator ir(&s, JTableSelectionIterator::kIterateByRow);
+	JTableSelectionIterator ic(&s);
+
+	JAssertFalse(s.HasSelection());
 
 	t.TestAppendRows(3);
 	t.TestAppendCols(3);
+	s.SelectAll();
+
+	JAssertTrue(s.HasSelection());
+
+	ir.MoveTo(JTableSelectionIterator::kStartBefore, 2,2);
+	ic.MoveTo(JTableSelectionIterator::kStartBefore, 2,2);
 
 	t.TestInsertRows(3, 1, 20);
 	t.TestMoveRow(3, 2);
@@ -101,6 +113,135 @@ JTEST(Table)
 	JAssertEqual(50, t.GetColWidth(3));
 	JAssertEqual(50, t.GetColWidth(4));
 	JAssertEqual(50, t.GetColWidth(5));
+
+	// F F F F F
+	// F T F T T
+	// F F F F F
+	// F T F T T
+	// F T F T T
+
+	JAssertTrue(s.HasSelection());
+
+	JIndex row, col;
+	JAssertTrue(ir.Next(&row, &col));
+	JAssertEqual(4, row);
+	JAssertEqual(2, col);
+
+	ir.MoveTo(JTableSelectionIterator::kStartAfter, 5,2);
+
+	JAssertTrue(ir.Prev(&row, &col));
+	JAssertEqual(5, row);
+	JAssertEqual(2, col);
+
+	JAssertTrue(ic.Next(&row, &col));
+	JAssertEqual(2, row);
+	JAssertEqual(4, col);
+
+	ic.MoveTo(JTableSelectionIterator::kStartAfter, 5,2);
+
+	JAssertTrue(ic.Prev(&row, &col));
+	JAssertEqual(5, row);
+	JAssertEqual(2, col);
+
+	s.InvertRect(2,2, 3,3);
+
+	// F F F F F
+	// F F T F T
+	// F T T T F
+	// F F T F T
+	// F T F T T
+
+	ir.MoveTo(JTableSelectionIterator::kStartAtBeginning, 0,0);
+	JAssertTrue(ir.AtBeginning());
+
+	JAssertTrue(ir.Next(&row, &col));
+	JAssertEqual(2, row);
+	JAssertEqual(3, col);
+
+	JAssertTrue(ir.Next(&row, &col));
+	JAssertEqual(2, row);
+	JAssertEqual(5, col);
+
+	JAssertTrue(ir.Next(&row, &col));
+	JAssertEqual(3, row);
+	JAssertEqual(2, col);
+
+	JAssertTrue(ir.Next(&row, &col));
+	JAssertEqual(3, row);
+	JAssertEqual(3, col);
+
+	JAssertTrue(ir.Next(&row, &col));
+	JAssertEqual(3, row);
+	JAssertEqual(4, col);
+
+	JAssertTrue(ir.Next(&row, &col));
+	JAssertEqual(4, row);
+	JAssertEqual(3, col);
+
+	JAssertTrue(ir.Next(&row, &col));
+	JAssertEqual(4, row);
+	JAssertEqual(5, col);
+
+	JAssertTrue(ir.Next(&row, &col));
+	JAssertEqual(5, row);
+	JAssertEqual(2, col);
+
+	JAssertTrue(ir.Next(&row, &col));
+	JAssertEqual(5, row);
+	JAssertEqual(4, col);
+
+	JAssertTrue(ir.Next(&row, &col));
+	JAssertEqual(5, row);
+	JAssertEqual(5, col);
+
+	JAssertFalse(ir.Next(&row, &col));
+	JAssertTrue(ir.AtEnd());
+
+	ic.MoveTo(JTableSelectionIterator::kStartAtEnd, 0,0);
+	JAssertTrue(ic.AtEnd());
+
+	JAssertTrue(ic.Prev(&row, &col));
+	JAssertEqual(5, row);
+	JAssertEqual(5, col);
+
+	JAssertTrue(ic.Prev(&row, &col));
+	JAssertEqual(4, row);
+	JAssertEqual(5, col);
+
+	JAssertTrue(ic.Prev(&row, &col));
+	JAssertEqual(2, row);
+	JAssertEqual(5, col);
+
+	JAssertTrue(ic.Prev(&row, &col));
+	JAssertEqual(5, row);
+	JAssertEqual(4, col);
+
+	JAssertTrue(ic.Prev(&row, &col));
+	JAssertEqual(3, row);
+	JAssertEqual(4, col);
+
+	JAssertTrue(ic.Prev(&row, &col));
+	JAssertEqual(4, row);
+	JAssertEqual(3, col);
+
+	JAssertTrue(ic.Prev(&row, &col));
+	JAssertEqual(3, row);
+	JAssertEqual(3, col);
+
+	JAssertTrue(ic.Prev(&row, &col));
+	JAssertEqual(2, row);
+	JAssertEqual(3, col);
+
+	JAssertTrue(ic.Prev(&row, &col));
+	JAssertEqual(5, row);
+	JAssertEqual(2, col);
+
+	JAssertTrue(ic.Prev(&row, &col));
+	JAssertEqual(3, row);
+	JAssertEqual(2, col);
+
+	JAssertFalse(ic.Prev(&row, &col));
+	JAssertTrue(ic.AtBeginning());
 
 	t.TestRemoveRow(5);
 	t.TestRemoveNextRows(3, 2);
