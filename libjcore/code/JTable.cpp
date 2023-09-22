@@ -2527,7 +2527,7 @@ void
 JTable::SelectSingleCell
 	(
 	const JPoint&	cell,
-	const bool	scroll
+	const bool		scroll
 	)
 {
 	itsTableSelection->ClearSelection();

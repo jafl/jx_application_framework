@@ -112,7 +112,7 @@ inline void
 JTableSelection::SelectCell
 	(
 	const JPoint&	cell,
-	const bool	on
+	const bool		on
 	)
 {
 	SetElement(cell.y, cell.x, on);
@@ -123,7 +123,7 @@ JTableSelection::SelectCell
 	(
 	const JIndex	row,
 	const JIndex	col,
-	const bool	on
+	const bool		on
 	)
 {
 	SetElement(row,col, on);
@@ -274,7 +274,7 @@ JTableSelection::SelectRect
 	const JCoordinate	y,
 	const JCoordinate	w,
 	const JCoordinate	h,
-	const bool		on
+	const bool			on
 	)
 {
 	SetRect(x,y,w,h, on);
@@ -284,7 +284,7 @@ inline void
 JTableSelection::SelectRect
 	(
 	const JRect&	rect,
-	const bool	on
+	const bool		on
 	)
 {
 	SetRect(rect, on);
@@ -295,7 +295,7 @@ JTableSelection::SelectRect
 	(
 	const JPoint&	cell1,
 	const JPoint&	cell2,
-	const bool	on
+	const bool		on
 	)
 {
 	SelectRect(JRect(cell1, cell2), on);

@@ -190,12 +190,13 @@ JTEST(Table)
 	JAssertEqual(5, row);
 	JAssertEqual(4, col);
 
-	JAssertTrue(ir.Next(&row, &col));
-	JAssertEqual(5, row);
-	JAssertEqual(5, col);
+	JAssertTrue(ir.Next(&cell));
+	JAssertEqual(5, cell.y);
+	JAssertEqual(5, cell.x);
 
 	JAssertFalse(ir.Next(&row, &col));
 	JAssertTrue(ir.AtEnd());
+	JAssertFalse(ir.Next(&row, &col));
 
 	ic.MoveTo(JTableSelectionIterator::kStartAtEnd, 0,0);
 	JAssertTrue(ic.AtEnd());
@@ -236,12 +237,65 @@ JTEST(Table)
 	JAssertEqual(5, row);
 	JAssertEqual(2, col);
 
-	JAssertTrue(ic.Prev(&row, &col));
-	JAssertEqual(3, row);
-	JAssertEqual(2, col);
+	JAssertTrue(ic.Prev(&cell));
+	JAssertEqual(3, cell.y);
+	JAssertEqual(2, cell.x);
 
 	JAssertFalse(ic.Prev(&row, &col));
 	JAssertTrue(ic.AtBeginning());
+	JAssertFalse(ic.Prev(&row, &col));
+
+	JAssertEqual(10, s.GetSelectedCellCount());
+
+	s.InvertRow(5);
+	s.InvertCol(5);
+
+	JAssertEqual(10, s.GetSelectedCellCount());
+
+	s.SelectRow(5);
+	s.SelectCol(5);
+
+	JAssertEqual(14, s.GetSelectedCellCount());
+
+	s.SelectRect(JPoint(4,4), JPoint(5,5));
+
+	JAssertEqual(15, s.GetSelectedCellCount());
+
+	s.SelectRect(JRect(4,4,6,6), false);
+
+	JAssertEqual(11, s.GetSelectedCellCount());
+
+	s.SelectCell(1,3);
+	s.SelectCell(JPoint(4,1));
+	s.InvertCell(3,1);
+	s.InvertCell(JPoint(1,4));
+
+	JAssertTrue(s.IsSelected(1,4));
+	JAssertTrue(s.IsSelected(JPoint(1,4)));
+
+	JAssertTrue(s.GetFirstSelectedCell(&cell, JTableSelectionIterator::kIterateByRow));
+	JAssertEqual(1, cell.y);
+	JAssertEqual(3, cell.x);
+
+	JAssertTrue(s.GetFirstSelectedCell(&cell, JTableSelectionIterator::kIterateByCol));
+	JAssertEqual(3, cell.y);
+	JAssertEqual(1, cell.x);
+
+	JAssertTrue(s.GetLastSelectedCell(&cell, JTableSelectionIterator::kIterateByRow));
+	JAssertEqual(5, cell.y);
+	JAssertEqual(3, cell.x);
+
+	JAssertTrue(s.GetLastSelectedCell(&cell, JTableSelectionIterator::kIterateByCol));
+	JAssertEqual(3, cell.y);
+	JAssertEqual(5, cell.x);
+
+	JAssertFalse(s.GetSingleSelectedCell(&cell));
+
+	t.SelectSingleCell(JPoint(3,2));
+
+	JAssertTrue(s.GetSingleSelectedCell(&cell));
+	JAssertEqual(2, cell.y);
+	JAssertEqual(3, cell.x);
 
 	t.TestRemoveRow(5);
 	t.TestRemoveNextRows(3, 2);
