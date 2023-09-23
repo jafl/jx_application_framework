@@ -204,6 +204,30 @@ TestTable::TestMoveCol
 }
 
 /******************************************************************************
+ TestPaginate
+
+ ******************************************************************************/
+
+bool
+TestTable::TestPaginate
+	(
+	const JCoordinate		origPageWidth,
+	const JCoordinate		origPageHeight,
+	const bool				userPrintRowHeader,
+	JArray<JCoordinate>*	rowBreakpts,
+	bool*					printRowHeader,
+	const bool				userPrintColHeader,
+	JArray<JCoordinate>*	colBreakpts,
+	bool*					printColHeader
+	)
+	const
+{
+	return Paginate(origPageWidth, origPageHeight,
+					userPrintRowHeader, rowBreakpts, printRowHeader,
+					userPrintColHeader, colBreakpts, printColHeader);
+}
+
+/******************************************************************************
  TableRefresh (virtual protected)
 
  ******************************************************************************/

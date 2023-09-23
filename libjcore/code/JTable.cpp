@@ -782,8 +782,8 @@ void
 JTable::Print
 	(
 	JPagePrinter&	p,
-	const bool	userPrintRowHeader,
-	const bool	userPrintColHeader
+	const bool		userPrintRowHeader,
+	const bool		userPrintColHeader
 	)
 {
 	assert( !itsIsEditingFlag );

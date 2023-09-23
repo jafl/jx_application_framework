@@ -1,4 +1,11 @@
 jcc
+	json styler
+	raku (perl6)
+
+systemg
+	report "file too large" error when copying to usb
+
+jcc
 	JXDocumentMenu - show partial paths for repeated file names
 
 	include partial path in symbol search results when display duplicate file name?

@@ -36,6 +36,12 @@ public:
 	void	TestRemoveAllCols();
 	void	TestMoveCol(const JIndex origIndex, const JIndex newIndex);
 
+	bool	TestPaginate(const JCoordinate pageWidth, const JCoordinate pageHeight,
+						 const bool userPrintRowHeader,
+						 JArray<JCoordinate>* rowBreakpts, bool* printRowHeader,
+						 const bool userPrintColHeader,
+						 JArray<JCoordinate>* colBreakpts, bool* printColHeader) const;
+
 protected:
 
 	void	TableRefresh() override;

@@ -411,3 +411,34 @@ JTEST(TableData)
 	JAssertEqual(0, t.GetColCount());
 	JAssertEqual(0, d.GetColCount());
 }
+
+JTEST(Pagination)
+{
+	TestTable t(10, 20);
+	t.TestAppendRows(100);
+	t.TestAppendCols(100);
+
+	JArray<JCoordinate> rows, cols;
+	bool printRowHdr, printColHdr;
+	JAssertTrue(t.TestPaginate(45, 25, true, &rows, &printRowHdr, true, &cols, &printColHdr));
+	JAssertFalse(printRowHdr);
+	JAssertFalse(printColHdr);
+
+	JAssertEqual(51, rows.GetElementCount());
+	JAssertEqual(0, rows.GetElement(1));
+	JAssertEqual(22, rows.GetElement(2));
+	JAssertEqual(44, rows.GetElement(3));
+	JAssertEqual(66, rows.GetElement(4));
+	JAssertEqual(88, rows.GetElement(5));
+	JAssertEqual(110, rows.GetElement(6));
+	JAssertEqual(1100, rows.GetElement(51));
+
+	JAssertEqual(51, cols.GetElementCount());
+	JAssertEqual(0, cols.GetElement(1));
+	JAssertEqual(42, cols.GetElement(2));
+	JAssertEqual(84, cols.GetElement(3));
+	JAssertEqual(126, cols.GetElement(4));
+	JAssertEqual(168, cols.GetElement(5));
+	JAssertEqual(210, cols.GetElement(6));
+	JAssertEqual(2100, cols.GetElement(51));
+}
