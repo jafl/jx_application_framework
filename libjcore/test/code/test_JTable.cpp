@@ -1,7 +1,7 @@
 /******************************************************************************
- test_jTime.cpp
+ test_JTable.cpp
 
-	Program to test jTime.
+	Program to test JTable.
 
 	Written by John Lindal.
 
@@ -11,6 +11,7 @@
 #include "TestTable.h"
 #include "JFloatTableData.h"
 #include "JTableSelection.h"
+#include "jASCIIConstants.h"
 #include "jAssert.h"
 
 int main()
@@ -441,4 +442,237 @@ JTEST(Pagination)
 	JAssertEqual(168, cols.GetElement(5));
 	JAssertEqual(210, cols.GetElement(6));
 	JAssertEqual(2100, cols.GetElement(51));
+
+	JCoordinate lineWidth;
+	JColorID color;
+	t.GetRowBorderInfo(&lineWidth, &color);
+	JAssertEqual(1, lineWidth);
+	t.SetRowBorderInfo(2, color);
+
+	t.GetColBorderInfo(&lineWidth, &color);
+	JAssertEqual(1, lineWidth);
+	t.SetColBorderInfo(2, color);
+
+	JAssertTrue(t.TestPaginate(45, 25, true, &rows, &printRowHdr, true, &cols, &printColHdr));
+	JAssertFalse(printRowHdr);
+	JAssertFalse(printColHdr);
+
+	JAssertEqual(51, rows.GetElementCount());
+	JAssertEqual(0, rows.GetElement(1));
+	JAssertEqual(24, rows.GetElement(2));
+	JAssertEqual(48, rows.GetElement(3));
+	JAssertEqual(72, rows.GetElement(4));
+	JAssertEqual(96, rows.GetElement(5));
+	JAssertEqual(120, rows.GetElement(6));
+	JAssertEqual(1199, rows.GetElement(51));
+
+	JAssertEqual(51, cols.GetElementCount());
+	JAssertEqual(0, cols.GetElement(1));
+	JAssertEqual(44, cols.GetElement(2));
+	JAssertEqual(88, cols.GetElement(3));
+	JAssertEqual(132, cols.GetElement(4));
+	JAssertEqual(176, cols.GetElement(5));
+	JAssertEqual(220, cols.GetElement(6));
+	JAssertEqual(2199, cols.GetElement(51));
+}
+
+JTEST(Selection)
+{
+	TestTable t(10, 20);
+	t.TestAppendRows(10);
+	t.TestAppendCols(10);
+
+	JTableSelection& s = t.GetTableSelection();
+
+	JAssertFalse(t.TestIsDraggingSelection());
+
+// no extend, no discont
+
+	t.TestSetSelectionBehavior(false, false);
+
+	t.TestBeginSelectionDrag(JPoint(3,3), false, false);
+
+	JAssertTrue(t.TestIsDraggingSelection());
+
+	t.TestContinueSelectionDrag(JPoint(5,7));
+
+	JAssertTrue(t.TestIsDraggingSelection());
+
+	t.TestFinishSelectionDrag();
+
+	JAssertFalse(t.TestIsDraggingSelection());
+
+	JPoint cell;
+	JAssertTrue(s.GetFirstSelectedCell(&cell));
+	JAssertEqual(5, cell.x);
+	JAssertEqual(7, cell.y);
+
+	JAssertTrue(s.GetLastSelectedCell(&cell));
+	JAssertEqual(5, cell.x);
+	JAssertEqual(7, cell.y);
+
+// extend, no discont
+
+	t.TestSetSelectionBehavior(true, false);
+
+	t.TestBeginSelectionDrag(JPoint(3,3), false, false);
+
+	JAssertTrue(t.TestIsDraggingSelection());
+
+	t.TestContinueSelectionDrag(JPoint(5,7));
+
+	JAssertTrue(t.TestIsDraggingSelection());
+
+	t.TestFinishSelectionDrag();
+
+	JAssertFalse(t.TestIsDraggingSelection());
+
+	JAssertTrue(s.GetFirstSelectedCell(&cell));
+	JAssertEqual(3, cell.x);
+	JAssertEqual(3, cell.y);
+
+	JAssertTrue(s.GetLastSelectedCell(&cell));
+	JAssertEqual(5, cell.x);
+	JAssertEqual(7, cell.y);
+
+	// extend
+
+	t.TestBeginSelectionDrag(JPoint(7,5), true, false);
+
+	JAssertTrue(t.TestIsDraggingSelection());
+
+	t.TestContinueSelectionDrag(JPoint(2,8));
+
+	JAssertTrue(t.TestIsDraggingSelection());
+
+	t.TestFinishSelectionDrag();
+
+	JAssertFalse(t.TestIsDraggingSelection());
+
+	JAssertTrue(s.GetFirstSelectedCell(&cell));
+	JAssertEqual(2, cell.x);
+	JAssertEqual(3, cell.y);
+
+	JAssertTrue(s.GetLastSelectedCell(&cell));
+	JAssertEqual(3, cell.x);
+	JAssertEqual(8, cell.y);
+
+	// extend - key
+
+	t.TestHandleSelectionKeyPress(kJUpArrow, true);
+
+	JAssertTrue(s.GetFirstSelectedCell(&cell));
+	JAssertEqual(2, cell.x);
+	JAssertEqual(3, cell.y);
+
+	JAssertTrue(s.GetLastSelectedCell(&cell));
+	JAssertEqual(3, cell.x);
+	JAssertEqual(7, cell.y);
+
+	t.TestHandleSelectionKeyPress(kJLeftArrow, true);
+
+	JAssertTrue(s.GetFirstSelectedCell(&cell));
+	JAssertEqual(1, cell.x);
+	JAssertEqual(3, cell.y);
+
+	JAssertTrue(s.GetLastSelectedCell(&cell));
+	JAssertEqual(3, cell.x);
+	JAssertEqual(7, cell.y);
+
+	t.TestHandleSelectionKeyPress(kJRightArrow, false);
+
+	JAssertTrue(s.GetSingleSelectedCell(&cell));
+	JAssertEqual(2, cell.x);
+	JAssertEqual(3, cell.y);
+
+	t.TestHandleSelectionKeyPress(kJDownArrow, false);
+
+	JAssertTrue(s.GetSingleSelectedCell(&cell));
+	JAssertEqual(2, cell.x);
+	JAssertEqual(4, cell.y);
+
+// extend, discont
+
+	t.TestSetSelectionBehavior(true, true);
+
+	t.TestBeginSelectionDrag(JPoint(3,3), false, false);
+
+	JAssertTrue(t.TestIsDraggingSelection());
+
+	t.TestContinueSelectionDrag(JPoint(5,7));
+
+	JAssertTrue(t.TestIsDraggingSelection());
+
+	t.TestFinishSelectionDrag();
+
+	JAssertFalse(t.TestIsDraggingSelection());
+
+	JAssertTrue(s.GetFirstSelectedCell(&cell));
+	JAssertEqual(3, cell.x);
+	JAssertEqual(3, cell.y);
+
+	JAssertTrue(s.GetLastSelectedCell(&cell));
+	JAssertEqual(5, cell.x);
+	JAssertEqual(7, cell.y);
+
+	// discont
+
+	t.TestBeginSelectionDrag(JPoint(7,5), false, true);
+
+	JAssertTrue(t.TestIsDraggingSelection());
+
+	t.TestContinueSelectionDrag(JPoint(2,8));
+
+	JAssertTrue(t.TestIsDraggingSelection());
+
+	t.TestFinishSelectionDrag();
+
+	JAssertFalse(t.TestIsDraggingSelection());
+
+	JAssertTrue(s.GetFirstSelectedCell(&cell));
+	JAssertEqual(2, cell.x);
+	JAssertEqual(8, cell.y);
+
+	JAssertTrue(s.GetLastSelectedCell(&cell));
+	JAssertEqual(7, cell.x);
+	JAssertEqual(5, cell.y);
+
+	JAssertTrue(s.GetFirstSelectedCell(&cell, JTableSelectionIterator::kIterateByRow));
+	JAssertEqual(3, cell.x);
+	JAssertEqual(3, cell.y);
+
+	JAssertTrue(s.GetLastSelectedCell(&cell, JTableSelectionIterator::kIterateByRow));
+	JAssertEqual(2, cell.x);
+	JAssertEqual(8, cell.y);
+
+	// discont - deselect
+
+	t.TestBeginSelectionDrag(JPoint(3,3), false, true);
+
+	JAssertTrue(t.TestIsDraggingSelection());
+
+	t.TestContinueSelectionDrag(JPoint(5,7));
+	t.TestContinueSelectionDrag(JPoint(2,8));
+
+	JAssertTrue(t.TestIsDraggingSelection());
+
+	t.TestFinishSelectionDrag();
+
+	JAssertFalse(t.TestIsDraggingSelection());
+
+	JAssertTrue(s.GetFirstSelectedCell(&cell));
+	JAssertEqual(3, cell.x);
+	JAssertEqual(4, cell.y);
+
+	JAssertTrue(s.GetLastSelectedCell(&cell));
+	JAssertEqual(7, cell.x);
+	JAssertEqual(5, cell.y);
+
+	JAssertTrue(s.GetFirstSelectedCell(&cell, JTableSelectionIterator::kIterateByRow));
+	JAssertEqual(4, cell.x);
+	JAssertEqual(3, cell.y);
+
+	JAssertTrue(s.GetLastSelectedCell(&cell, JTableSelectionIterator::kIterateByRow));
+	JAssertEqual(4, cell.x);
+	JAssertEqual(7, cell.y);
 }

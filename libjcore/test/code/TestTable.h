@@ -42,6 +42,16 @@ public:
 						 const bool userPrintColHeader,
 						 JArray<JCoordinate>* colBreakpts, bool* printColHeader) const;
 
+	bool	TestIsDraggingSelection() const;
+	void	TestSetSelectionBehavior(const bool allowMultiple,
+									 const bool allowDiscont);
+	void	TestBeginSelectionDrag(const JPoint& cell, const bool extendSelection,
+								   const bool selectDiscont);
+	void	TestContinueSelectionDrag(const JPoint& cell);
+	void	TestFinishSelectionDrag();
+	bool	TestHandleSelectionKeyPress(const char key,
+										const bool extendSelection);
+
 protected:
 
 	void	TableRefresh() override;

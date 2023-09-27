@@ -71,7 +71,7 @@ private:
 	const JTableSelection*	itsTableSelection;	// JTableSelection that is being iterated over
 	Direction				itsDirection;		// By row or by column
 	JPoint					itsCursor;			// Current iterator position
-	bool				itsAtEndFlag;
+	bool					itsAtEndFlag;
 
 private:
 

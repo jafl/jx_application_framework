@@ -1758,7 +1758,7 @@ void
 JTable::SetRowBorderInfo
 	(
 	const JCoordinate	lineWidth,
-	const JColorID	color
+	const JColorID		color
 	)
 {
 	itsRowBorderInfo.color = color;
@@ -1792,7 +1792,7 @@ void
 JTable::SetColBorderInfo
 	(
 	const JCoordinate	lineWidth,
-	const JColorID	color
+	const JColorID		color
 	)
 {
 	itsColBorderInfo.color = color;
@@ -2296,8 +2296,8 @@ void
 JTable::BeginSelectionDrag
 	(
 	const JPoint&	cell,
-	const bool	extendSelection,
-	const bool	selectDiscont
+	const bool		extendSelection,
+	const bool		selectDiscont
 	)
 {
 	itsSelDragType = kInvalidDrag;
@@ -2404,7 +2404,7 @@ bool
 JTable::HandleSelectionKeyPress
 	(
 	const JUtf8Character&	key,
-	const bool			extendSelection
+	const bool				extendSelection
 	)
 {
 	JPoint delta;
@@ -2478,7 +2478,7 @@ JTable::GetNextSelectableCell
 	(
 	JPoint*			cell,
 	const JPoint&	delta,
-	const bool	forExtend
+	const bool		forExtend
 	)
 	const
 {
@@ -2508,7 +2508,7 @@ bool
 JTable::IsSelectable
 	(
 	const JPoint&	cell,
-	const bool	forExtend
+	const bool		forExtend
 	)
 	const
 {

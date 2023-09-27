@@ -1,14 +1,6 @@
 unit test
-	JTable - especially JRunArrayIterator
+	JTable
 		validate expected broadcast messages
-		Paginate
-		selection drag
-		HandleSelectionKeyPress
-		GetNextSelectableCell (override IsSelectable)
-
-	JTableSelection
-		boat/anchor
-		ExtendSelection
 
 jcc
 	HTML styler

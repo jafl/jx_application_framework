@@ -228,6 +228,89 @@ TestTable::TestPaginate
 }
 
 /******************************************************************************
+ IsDraggingSelection
+
+ ******************************************************************************/
+
+bool
+TestTable::TestIsDraggingSelection()
+	const
+{
+	return IsDraggingSelection();
+}
+
+/******************************************************************************
+ SetSelectionBehavior
+
+ ******************************************************************************/
+
+void
+TestTable::TestSetSelectionBehavior
+	(
+	const bool allowMultiple,
+	const bool allowDiscont
+	)
+{
+	SetSelectionBehavior(allowMultiple, allowDiscont);
+}
+
+/******************************************************************************
+ TestBeginSelectionDrag
+
+ ******************************************************************************/
+
+void
+TestTable::TestBeginSelectionDrag
+	(
+	const JPoint&	cell,
+	const bool		extendSelection,
+	const bool		selectDiscont
+	)
+{
+	BeginSelectionDrag(cell, extendSelection, selectDiscont);
+}
+
+/******************************************************************************
+ TestContinueSelectionDrag
+
+ ******************************************************************************/
+
+void
+TestTable::TestContinueSelectionDrag
+	(
+	const JPoint& cell
+	)
+{
+	ContinueSelectionDrag(cell);
+}
+
+/******************************************************************************
+ TestFinishSelectionDrag
+
+ ******************************************************************************/
+
+void
+TestTable::TestFinishSelectionDrag()
+{
+	FinishSelectionDrag();
+}
+
+/******************************************************************************
+ TestHandleSelectionKeyPress
+
+ ******************************************************************************/
+
+bool
+TestTable::TestHandleSelectionKeyPress
+	(
+	const char	key,
+	const bool	extendSelection
+	)
+{
+	return HandleSelectionKeyPress(JUtf8Character(key), extendSelection);
+}
+
+/******************************************************************************
  TableRefresh (virtual protected)
 
  ******************************************************************************/
