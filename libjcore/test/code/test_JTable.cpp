@@ -10,6 +10,7 @@
 #include "JTestManager.h"
 #include "TestTable.h"
 #include "JFloatTableData.h"
+#include "JFloatBufferTableData.h"
 #include "JTableSelection.h"
 #include "jASCIIConstants.h"
 #include "jAssert.h"
@@ -314,6 +315,7 @@ JTEST(Table)
 JTEST(TableData)
 {
 	JFloatTableData d(0.0);
+	JFloatBufferTableData b(&d, 2);
 
 	JAssertTrue(d.IsEmpty());
 
@@ -323,7 +325,7 @@ JTEST(TableData)
 	JAssertFalse(d.IsEmpty());
 
 	TestTable t(10, 50);
-	t.SetTableData(&d);
+	t.SetTableData(&b);
 
 	d.InsertCols(3, 1);
 	d.InsertRows(3, 1);
