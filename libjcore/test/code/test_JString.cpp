@@ -117,6 +117,9 @@ JTEST(Construction)
 	JAssertEqual(14, s8.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s8);
 
+	s8.Set("foo");
+	JAssertStringsEqual("foo", s8);
+
 	JString s10(s2, JCharacterRange(10,12));
 	JAssertEqual(5, s10.GetByteCount());
 	JAssertEqual(3, s10.GetCharacterCount());
@@ -496,6 +499,13 @@ JTEST(FloatConversion)
 
 	JString s15(9.995, 2);
 	JAssertStringsEqual("10.00", s15);
+
+	JString s16("abc");
+	JAssertFalse(s16.ConvertToFloat(&f));
+	JAssertEqual(0.0, f);
+
+	JString s17(0.002, 0);
+	JAssertStringsEqual("0", s17);
 }
 
 JTEST(Concatenate)
@@ -927,6 +937,16 @@ JTEST(Base64)
 	e = s.EncodeBase64();
 	JAssertTrue(e.DecodeBase64(&d));
 	JAssertStringsEqual(s, d);
+}
+
+JTEST(PrintHex)
+{
+	JString s("!#");
+
+	std::ostringstream str;
+	s.PrintHex(str);
+
+	JAssertStringsEqual("21 23 ", str.str().c_str());
 }
 
 JTEST(Compare)

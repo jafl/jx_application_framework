@@ -28,6 +28,10 @@ literal: ${LIB_DEPS}
 code/test_JDirInfo
 literal: ${LIB_DEPS}
 
+@test_JError
+code/test_JError
+literal: ${LIB_DEPS}
+
 @test_JFileArray
 code/test_JFileArray
 literal: ${LIB_DEPS}

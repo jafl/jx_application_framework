@@ -239,3 +239,48 @@ JTEST(ContainsError)
 	JAssertStringsEqual(JSubstitute::kIllegalControlChar, err.GetType());
 	JAssertEqual(JCharacterRange(5,7), r);
 }
+
+JTEST(CopyConstructor)
+{
+	JSubstitute s1;
+
+	const JString* v;
+	JAssertFalse(s1.GetEscape('a', &v));
+	JAssertFalse(s1.GetEscape('r', &v));
+	JAssertFalse(s1.GetEscape('"', &v));
+	JAssertFalse(s1.GetEscape('w', &v));
+
+	s1.SetNonprintingEscapes();
+	s1.SetWhitespaceEscapes();
+	s1.SetCEscapes();
+	s1.SetRegexExtensions();
+
+	JAssertTrue(s1.GetEscape('a', &v));
+	JAssertTrue(s1.GetEscape('r', &v));
+	JAssertTrue(s1.GetEscape('"', &v));
+	JAssertTrue(s1.GetEscape('w', &v));
+
+	JSubstitute s2(s1);
+
+	JAssertTrue(s2.GetEscape('a', &v));
+	JAssertTrue(s2.GetEscape('r', &v));
+	JAssertTrue(s2.GetEscape('"', &v));
+	JAssertTrue(s2.GetEscape('w', &v));
+
+	s1.ClearNonprintingEscapes();
+	s1.ClearWhitespaceEscapes();
+	s1.ClearCEscapes();
+	s1.ClearRegexExtensions();
+
+	JAssertFalse(s1.GetEscape('a', &v));
+	JAssertFalse(s1.GetEscape('r', &v));
+	JAssertFalse(s1.GetEscape('"', &v));
+	JAssertFalse(s1.GetEscape('w', &v));
+
+	s2 = s1;
+
+	JAssertFalse(s2.GetEscape('a', &v));
+	JAssertFalse(s2.GetEscape('r', &v));
+	JAssertFalse(s2.GetEscape('"', &v));
+	JAssertFalse(s2.GetEscape('w', &v));
+}
