@@ -752,9 +752,9 @@ JXMenuTable::HandleKeyPress
 void
 JXMenuTable::GrabKeyboard()
 {
-	XUngrabKeyboard(*(GetDisplay()), CurrentTime);
+	XUngrabKeyboard(*GetDisplay(), CurrentTime);
 
-	XGrabKeyboard(*(GetDisplay()), GetWindow()->GetXWindow(), False,
+	XGrabKeyboard(*GetDisplay(), GetWindow()->GetXWindow(), False,
 				  GrabModeAsync, GrabModeAsync, CurrentTime);
 
 	GetDisplay()->SetKeyboardGrabber(GetWindow());

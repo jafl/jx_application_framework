@@ -1132,7 +1132,7 @@ JXMenu::Open
 
 	if (itsIsHiddenPopupMenuFlag)
 	{
-		(itsMenuDirector->GetWindow())->SetWMWindowType(JXWindow::kWMPopupMenuType);
+		itsMenuDirector->GetWindow()->SetWMWindowType(JXWindow::kWMPopupMenuType);
 	}
 
 	itsMenuDirector->Activate();
@@ -1408,7 +1408,7 @@ void
 JXMenu::Activate()
 {
 	itsShouldBeActiveFlag = true;
-	if ((itsBaseItemData->GetList())->IsEmpty())
+	if (itsBaseItemData->GetList()->IsEmpty())
 	{
 		return;
 	}
@@ -1435,6 +1435,11 @@ JXMenu::Deactivate()
 	}
 
 	const bool wasActive = IsActive();
+	if (wasActive)
+	{
+		GetMenuManager()->CloseCurrentMenus();
+	}
+
 	JXWidget::Deactivate();
 	if (wasActive && !IsActive())
 	{
@@ -1491,7 +1496,7 @@ JXMenu::PrivateActivate()
 {
 	JIndex ownerItemIndex;
 	if (itsOwner != nullptr &&
-		!(itsBaseItemData->GetList())->IsEmpty() &&
+		!itsBaseItemData->GetList()->IsEmpty() &&
 		itsOwner->itsBaseItemData->FindSubmenu(this, &ownerItemIndex))
 	{
 		itsOwner->EnableItem(ownerItemIndex);

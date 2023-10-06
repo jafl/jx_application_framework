@@ -1,14 +1,8 @@
-unit test
-	JTable
-		validate expected broadcast messages
-
 jcc
 	HTML styler
 		unit test for CDATA - can contain php or jsp
 		tag, attribute value, script, char escapes
 		javascript regex, incl char class - can contain php or jsp
-
-	shell doc doesn't work at all
 
 	test with old project formats in code_crusader/test-manual/*.jcc
 
