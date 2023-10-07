@@ -145,11 +145,11 @@ public:
 	// useful for Drag-And-Drop, and for Menu objects
 
 	bool	FindMouseContainer(JXContainer** obj, Window* xWindow = nullptr,
-								   JPoint* ptG = nullptr, JPoint* ptR = nullptr) const;
+							   JPoint* ptG = nullptr, JPoint* ptR = nullptr) const;
 	bool	FindMouseContainer(const JXContainer* coordOwner,
-								   const JPoint& pt, JXContainer** obj,
-								   Window* xWindow = nullptr,
-								   JPoint* ptG = nullptr, JPoint* ptR = nullptr) const;
+							   const JPoint& pt, JXContainer** obj,
+							   Window* xWindow = nullptr,
+							   JPoint* ptG = nullptr, JPoint* ptR = nullptr) const;
 
 	// called by JXApplication
 
@@ -169,14 +169,14 @@ public:
 	void	WindowNeedsUpdate(JXWindow* window);
 
 	bool	GetMouseContainer(JXWindow** window) const;
-	void		SetMouseContainer(JXWindow* window);
+	void	SetMouseContainer(JXWindow* window);
 	bool	GetMouseGrabber(JXWindow** window) const;
-	void		SetMouseGrabber(JXWindow* window);
+	void	SetMouseGrabber(JXWindow* window);
 
-	Cursor		GetXCursorID(const JCursorIndex index) const;
+	Cursor	GetXCursorID(const JCursorIndex index) const;
 
 	static bool	WindowExists(JXDisplay* display, const Display* xDisplay,
-								 const Window xWindow);
+							 const Window xWindow);
 
 	Atom	GetWMProtocolsXAtom() const;
 	Atom	GetWMClientMachineXAtom() const;
@@ -198,12 +198,12 @@ public:
 	// called by Menu objects
 
 	bool	SwitchDrag(JXContainer* fromObj, const JPoint& fromObjPt,
-						   const JXButtonStates& buttonStates,
-						   const JXKeyModifiers& modifiers,
-						   JXContainer* toObj);
+					   const JXButtonStates& buttonStates,
+					   const JXKeyModifiers& modifiers,
+					   JXContainer* toObj);
 
 	bool	GetKeyboardGrabber(JXWindow** window) const;
-	void		SetKeyboardGrabber(JXWindow* window);
+	void	SetKeyboardGrabber(JXWindow* window);
 
 	// called by JXWDManager, etc.
 
@@ -288,9 +288,9 @@ private:
 	mutable JArray<JRect>*	itsBounds;
 	JSize					itsShrinkDisplayToScreenRefCount;
 
-	Time		itsLastEventTime;
-	Time		itsLastIdleTime;
-	Time		itsLastMotionNotifyTime;
+	Time	itsLastEventTime;
+	Time	itsLastIdleTime;
+	Time	itsLastMotionNotifyTime;
 
 	JPoint				itsLatestMouseLocation;
 	JXButtonStates		itsLatestButtonStates;
@@ -303,7 +303,7 @@ private:
 	JXGC*				itsDefaultGC;
 
 	JArray<WindowInfo>*	itsWindowList;
-	bool			itsNeedsUpdateFlag;
+	bool				itsNeedsUpdateFlag;
 	JXWindow*			itsMouseContainer;		// can be nullptr
 	JXWindow*			itsMouseGrabber;		// usually nullptr
 	JXWindow*			itsKeyboardGrabber;		// usually nullptr
@@ -322,10 +322,10 @@ private:
 private:
 
 	bool	FindMouseContainer(const Window rootWindow,
-								   const JCoordinate xRoot, const JCoordinate yRoot,
-								   const Window origChildWindow,
-								   JXContainer** obj, Window* xWindow = nullptr,
-								   JPoint* ptG = nullptr, JPoint* ptR = nullptr) const;
+							   const JCoordinate xRoot, const JCoordinate yRoot,
+							   const Window origChildWindow,
+							   JXContainer** obj, Window* xWindow = nullptr,
+							   JPoint* ptG = nullptr, JPoint* ptR = nullptr) const;
 
 	Cursor	CreateCustomXCursor(const JXCursor& cursor) const;
 	void	UpdateModifierMapping();
@@ -374,7 +374,7 @@ public:
 		private:
 
 			const XEvent&	itsXEvent;
-			bool		itsProcessedFlag;
+			bool			itsProcessedFlag;
 		};
 
 	class XError : public JBroadcaster::Message
@@ -421,7 +421,7 @@ public:
 		private:
 
 			const XErrorEvent&	itsXError;
-			bool			itsCaughtFlag;
+			bool				itsCaughtFlag;
 		};
 };
 

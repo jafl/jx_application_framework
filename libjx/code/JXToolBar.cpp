@@ -978,7 +978,7 @@ JXToolBar::UpdateButtons()
 {
 	for (auto* menu : *itsMenus)
 	{
-		if (menu->IsActive())
+		if (menu->IsActive() && !menu->IsOpen())
 		{
 			menu->PrepareToOpenMenu(true);
 		}

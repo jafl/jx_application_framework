@@ -1435,11 +1435,6 @@ JXMenu::Deactivate()
 	}
 
 	const bool wasActive = IsActive();
-	if (wasActive)
-	{
-		GetMenuManager()->CloseCurrentMenus();
-	}
-
 	JXWidget::Deactivate();
 	if (wasActive && !IsActive())
 	{

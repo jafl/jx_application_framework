@@ -1,4 +1,6 @@
 jcc
+	cmd window sometimes loses last chunk of program output
+
 	HTML styler
 		unit test for CDATA - can contain php or jsp
 		tag, attribute value, script, char escapes

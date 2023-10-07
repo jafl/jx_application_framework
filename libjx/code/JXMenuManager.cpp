@@ -51,7 +51,7 @@ JXMenuManager::CloseCurrentMenus()
 {
 	if (!itsOpenMenuList->IsEmpty())
 	{
-		(itsOpenMenuList->GetFirstElement())->Close();
+		itsOpenMenuList->GetFirstElement()->Close();
 		assert( itsOpenMenuList->IsEmpty() && itsOpenWindowList->IsEmpty() );
 	}
 }

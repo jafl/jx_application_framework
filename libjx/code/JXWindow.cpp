@@ -432,7 +432,7 @@ JXWindow::DispatchMouse()
 	int root_x, root_y, x,y;
 	unsigned int state;
 	JXWindow* window;
-	if (IsVisible() &&
+	if (IsVisible() && !itsDisplay->GetMouseGrabber(&window) &&
 		XQueryPointer(*itsDisplay, itsXWindow, &rootWindow, &childWindow,
 					  &root_x, &root_y, &x, &y, &state) &&
 		itsDisplay->GetMouseContainer(&window) &&

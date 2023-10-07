@@ -588,8 +588,7 @@ JXDocumentManager::UpdateDocumentMenu
 {
 	if (menu->IsOpen())
 	{
-		DocumentMenusNeedUpdate();
-		return;
+		return;		// will update next time it is opened
 	}
 
 	menu->RemoveAllItems();
