@@ -255,12 +255,6 @@ JGetUserMountPointList
 			}
 
 			JFileSystemType fsType = kOtherFSType;
-			if (options.Contains("vfat"))
-			{
-				fsType = kVFATType;
-			}
-
-			JFileSystemType fsType = kOtherFSType;
 			if (JString::Compare(info->fs_vfstype, "vfat", JString::kIgnoreCase) == 0)
 			{
 				fsType = kVFATType;
@@ -639,8 +633,9 @@ JIsMounted
 			if (fsType != nullptr)
 			{
 				*fsType = kOtherFSType;
-				if (JString::Compare(info[i].f_fstypename, "vfat", JString::kIgnoreCase) == 0 ||	// UNIX
+				if (JString::Compare(info[i].f_fstypename, "vfat", JString::kIgnoreCase) == 0  ||	// UNIX
 					JString::Compare(info[i].f_fstypename, "msdos", JString::kIgnoreCase) == 0 ||	// macOS
+					JString::Compare(info[i].f_fstypename, "exfat", JString::kIgnoreCase) == 0 ||	// macOS
 					JString::CompareMaxNBytes(info[i].f_mntfromname, "msdos:", 6) == 0 ||			// macOS
 					JString::CompareMaxNBytes(info[i].f_mntfromname, "exfat:", 6) == 0)				// macOS
 				{
