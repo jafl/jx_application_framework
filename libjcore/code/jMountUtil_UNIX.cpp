@@ -87,6 +87,7 @@ static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 
 		/dev/disk1 on / (hfs, local, journaled)
 		/dev/disk3s1 on /Volumes/XFER (msdos, local, nodev, nosuid, noowners)
+		ntfs://disk4s1/NTFS on /Volumes/NTFS (lifs, local, nodev, nosuid, read-only, noowners, noatime)
 
 	Unless the current uid is zero (root), opts must include "user" or
 	"users".  The other possibility is that the *device* must be owned by
@@ -102,7 +103,7 @@ static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 
 #if defined JMOUNT_MACOS
 
-static const JRegex theLinePattern = "^((?:msdos|exfat):/)?(/[^\\s]+)\\s+on\\s+(/[^)]+?)\\s+\\((.+)\\)";
+static const JRegex theLinePattern = "^((?:msdos|exfat|ntfs):/)?(/[^\\s]+)\\s+on\\s+(/[^)]+?)\\s+\\((.+)\\)";
 
 bool
 JGetUserMountPointList
