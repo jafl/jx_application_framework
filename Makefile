@@ -182,15 +182,15 @@ build_release:
 	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
                     --define 'pkg_version ${JX_VERSION}' \
                     --define 'pkg_name ${SOURCE_TAR_NAME}' \
-                    ./release/pkg/jx_application_framework.spec
-	@${SUDO} mv ${RPM_BIN_DIR}/*/jx_application_framework-*.rpm ../${RPM_PKG_NAME}
+                    ./release/pkg/jx-application-framework.spec
+	@${SUDO} mv ${RPM_BIN_DIR}/*/jx-application-framework-*.rpm ../${RPM_PKG_NAME}
 	@${SUDO} chown ${USER}. ../*.rpm
 	@${SUDO} ./release/pkg/uninstall ${RPM_BUILD_ROOT}/usr/local
   endif
 
   ifeq (${HAS_DEB},1)
 	@cd ${PKG_PATH}; mkdir -p usr/local DEBIAN; mv bin lib include usr/local;
-	@cp release/pkg/jx_application_framework.debctrl ${PKG_PATH}/DEBIAN/control
+	@cp release/pkg/jx-application-framework.debctrl ${PKG_PATH}/DEBIAN/control
 	@perl -pi -e 's/%VERSION%/${JX_VERSION}/' ${PKG_PATH}/DEBIAN/control;
 	@perl -pi -e 's/%ARCH%/${SYS_ARCH}/' ${PKG_PATH}/DEBIAN/control
 	@dpkg-deb --build ${PKG_PATH}
