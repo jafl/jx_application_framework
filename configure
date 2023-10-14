@@ -18,7 +18,7 @@ function get_ace
 	pushd ACE;
 
 	if [[ ! -f ACE.tgz ]]; then
-		curl -o ACE.tgz https://github.com/DOCGroup/ACE_TAO/releases/download/ACE%2BTAO-${ACE_VERSION//./_}/ACE-${ACE_VERSION}.tar.gz;
+		curl -L -o ACE.tgz https://github.com/DOCGroup/ACE_TAO/releases/download/ACE%2BTAO-${ACE_VERSION//./_}/ACE-${ACE_VERSION}.tar.gz;
 	fi
 
 	tar -xzf ACE.tgz;
