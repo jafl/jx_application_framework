@@ -1,0 +1,71 @@
+#!/bin/bash
+
+set -e;
+
+if [[ ! -d libjcore ]]; then
+	echo must be run in JX directory;
+	exit 1;
+fi
+
+function clean_snaps()
+{
+	rm -f $1*.snap $1*.txt;
+}
+
+function upload_snaps()
+{
+	clean_snaps $1;
+
+	snapcraft remote-build --launchpad-accept-public-upload;
+
+	for f in *.snap; do
+		snapcraft upload --release=stable $f;
+	done
+
+	clean_snaps $1;
+}
+
+if ! snapcraft whoami &> /dev/null; then
+	snapcraft login;
+fi
+
+git pull;
+
+# create symlink targets to keep snapcraft happy
+for f in lib/*.a; do
+	f=${f#lib/};
+	d=${f%.a};
+	touch $d/$f;
+done
+
+#upload_snaps jx-application-framework;
+
+cd ..;
+
+if [[ $# > 0 ]]; then
+	pkgs="$*";
+else
+	pkgs="drakon glove jx-ide leibnitz ssh-askpass subversion_client";
+fi
+
+declare -A pkg_map=(
+	["drakon"]="nps-drakon"
+	["glove"]="glove"
+	["jx-ide"]="jx-ide"
+	["leibnitz"]="leibnitz"
+	["ssh-askpass"]="nps-ssh-askpass"
+	["subversion_client"]="nps-svn-client"
+);
+
+for d in $pkgs; do
+	if [[ ! -d $d ]]; then
+		git clone git@github.com:jafl/$d.git;
+		pushd $d;
+	else
+		pushd $d;
+		git pull;
+	fi
+
+	upload_snaps ${pkg_map[$d]};
+	popd;
+done
