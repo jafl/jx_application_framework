@@ -151,6 +151,7 @@ uninstall:
 
 PKG_PATH        := jx-application-framework-${JX_VERSION}
 SOURCE_TAR_NAME := jx-application-framework_${JX_VERSION}_${SYS_NAME}_${SYS_ARCH}.tar
+RPM_PKG_NAME    := jx-application-framework-${JX_VERSION}.${SYS_NAME}.${SYS_ARCH}.rpm
 DEB_PKG_NAME    := jx-application-framework_${JX_VERSION}_${SYS_NAME}_${SYS_ARCH}.deb
 REFLEX_DEB_NAME := re-flex_${REFLEX_VERSION}_${SYS_ARCH}.deb
 
@@ -176,6 +177,15 @@ build_release:
 
   ifeq (${HAS_RPM},1)
 	@${SUDO} mkdir -p -m 755 ${RPM_BUILD_DIR} ${RPM_SRC_DIR} ${RPM_SPEC_DIR} ${RPM_BIN_DIR} ${RPM_SRPM_DIR}
+	@${SUDO} ./release/pkg/uninstall ${RPM_BUILD_ROOT}/usr/local
+	@${SUDO} cp ../${SOURCE_TAR_NAME} ${RPM_SRC_DIR}/${SOURCE_TAR_NAME}
+	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
+                    --define 'pkg_version ${JX_VERSION}' \
+                    --define 'pkg_name ${SOURCE_TAR_NAME}' \
+                    ./release/pkg/jx-application-framework.spec
+	@${SUDO} mv ${RPM_BIN_DIR}/*/jx-application-framework-*.rpm ../${RPM_PKG_NAME}
+	@${SUDO} chown ${USER}. ../*.rpm
+	@${SUDO} ./release/pkg/uninstall ${RPM_BUILD_ROOT}/usr/local
   endif
 
   ifeq (${HAS_DEB},1)
