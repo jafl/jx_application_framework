@@ -39,13 +39,13 @@ public:
 	void						SetMinCompartmentSizes(const JArray<JCoordinate>& sizes);
 
 	bool	GetElasticIndex(JIndex* index) const;
-	void		SetElasticIndex(const JIndex index);
+	void	SetElasticIndex(const JIndex index);
 
 	bool	FindCompartment(const JCoordinate coord, JIndex* index) const;
-	void		DeleteCompartment(const JIndex index);
+	void	DeleteCompartment(const JIndex index);
 
-	void		ReadGeometry(std::istream& input);
-	void		WriteGeometry(std::ostream& output) const;
+	void	ReadGeometry(std::istream& input);
+	void	WriteGeometry(std::ostream& output) const;
 
 protected:
 
@@ -69,7 +69,7 @@ protected:
 
 	virtual JCoordinate	GetTotalSize() const = 0;
 	virtual void		UpdateCompartmentSizes() = 0;
-	virtual bool	SaveGeometryForLater(const JArray<JCoordinate>& sizes) = 0;
+	virtual bool		SaveGeometryForLater(const JArray<JCoordinate>& sizes) = 0;
 
 	virtual void		CreateCompartmentObject(const JIndex index,
 												const JCoordinate position,
@@ -96,9 +96,9 @@ private:
 							const JCoordinate reqSize, const JCoordinate minSize,
 							JArray<JCoordinate>* newSizes,
 							JCoordinate* newSpace) const;
-	void		FillSpace(const JArray<JCoordinate>& origSizes,
-						  const JIndex elasticIndex, const JCoordinate fillSize,
-						  JArray<JCoordinate>* newSizes) const;
+	void	FillSpace(const JArray<JCoordinate>& origSizes,
+					  const JIndex elasticIndex, const JCoordinate fillSize,
+					  JArray<JCoordinate>* newSizes) const;
 
 	// not allowed
 

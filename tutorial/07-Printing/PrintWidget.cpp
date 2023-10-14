@@ -72,7 +72,7 @@ PrintWidget::Print
 	)
 {
 	// Calculate the height needed for the header
-	const JCoordinate headerHeight = p.JPainter::GetLineHeight();
+	const JCoordinate headerHeight = p.GetLineHeight();
 
 	// Start the print document
 	p.OpenDocument();
@@ -113,8 +113,8 @@ PrintWidget::Draw
 {
 	// This needs to be out of the main drawing routing, because
 	// we don't want this to print
-	p.JPainter::String(10, 10, JGetString("Instructions::PrintWidget"), 200, 
-					   JPainter::HAlign::kLeft, p.GetLineHeight());
+	p.String(10, 10, JGetString("Instructions::PrintWidget"), 200,
+			 JPainter::HAlign::kLeft, p.GetLineHeight());
 
 	// Call the generic drawing routing (same for printing)
 	DrawStuff(p);

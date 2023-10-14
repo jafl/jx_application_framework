@@ -933,7 +933,7 @@ JXDNDManager::SendDNDHere
 	const JXKeyModifiers&	modifiers
 	)
 {
-	const JPoint ptG1 = itsDragger->JXContainer::LocalToGlobal(pt1);
+	const JPoint ptG1 = itsDragger->LocalToGlobal(pt1);
 	const JPoint ptR  = (itsDragger->GetWindow())->GlobalToRoot(ptG1);
 
 	const bool shouldSendMessage = itsMouseWindowIsAware &&

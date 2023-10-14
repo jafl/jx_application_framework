@@ -88,7 +88,7 @@ JXButton::DrawBorder
 		JRect frame = origFrame;
 		if (itsIsReturnButtonFlag)
 		{
-			p.JPainter::Rect(frame);
+			p.Rect(frame);
 			frame.Shrink(1,1);
 			borderWidth--;
 		}

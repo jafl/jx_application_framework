@@ -114,7 +114,7 @@ JXToolBarButton::Draw
 	else if (itsType == kText || itsImage == nullptr)
 	{
 		p.SetFont(GetLabelFont());
-		p.JPainter::String(bounds, itsLabel,
+		p.String(bounds, itsLabel,
 						   JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 	}
 	else
@@ -129,7 +129,7 @@ JXToolBarButton::Draw
 		rt.left  = ri.right;
 		rt.right = bounds.right - kDualBuffer;
 		p.SetFont(GetLabelFont());
-		p.JPainter::String(rt, itsLabel,
+		p.String(rt, itsLabel,
 						   JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 	}
 }

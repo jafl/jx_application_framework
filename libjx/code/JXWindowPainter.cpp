@@ -551,12 +551,12 @@ JXWindowPainter::String
 	}
 
 	// draw the string
-{
+	{
 	JXImagePainter* p = tempImage->CreatePainter();
 	p->SetFont(GetFont());
-	p->JPainter::String(0,0, str);
+	p->String(0,0, str);
 	jdelete p;
-}
+	}
 
 	// transfer the result
 

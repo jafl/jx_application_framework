@@ -442,7 +442,7 @@ TestImageDirector::PrintPS()
 		itsPSPrinter->OpenDocument() &&
 		itsPSPrinter->NewPage())
 	{
-		itsPSPrinter->JPainter::Image(*image, image->GetBounds(), 0,0);
+		itsPSPrinter->Image(*image, image->GetBounds(), 0,0);
 		itsPSPrinter->CloseDocument();
 	}
 }

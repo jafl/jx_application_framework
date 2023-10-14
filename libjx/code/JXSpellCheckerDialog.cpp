@@ -466,7 +466,7 @@ JXSpellCheckerDialog::ChangeAll()
 
 	bool wrapped;
 	JCharacterRange r;
-	while (!itsEditor->JTextEditor::SearchForward(pattern, true, false, &wrapped).IsEmpty() &&
+	while (!itsEditor->SearchForward(pattern, true, false, &wrapped).IsEmpty() &&
 		   itsEditor->GetSelection(&r) && r.first <= itsCheckRange.charRange.last)
 	{
 		itsEditor->Paste(newWord);

@@ -390,7 +390,7 @@ JXWDManager::CalledByUpdateWDMenu
 
 	for (const auto& info : windowList)
 	{
-		const JString& name = (info.dir)->GetName();
+		const JString& name = info.dir->GetName();
 
 		menu->AppendItem(name);
 		const JIndex menuIndex = menu->GetItemCount();
@@ -400,13 +400,13 @@ JXWDManager::CalledByUpdateWDMenu
 			menu->SetItemID(menuIndex, *(info.itemID));
 		}
 
-		if ((info.dir)->NeedsSave())
+		if (info.dir->NeedsSave())
 		{
 			menu->SetItemFontStyle(menuIndex, JColorManager::GetDarkRedColor());
 		}
 
 		const JXImage* icon;
-		if ((info.dir)->GetMenuIcon(&icon) &&
+		if (info.dir->GetMenuIcon(&icon) &&
 			icon->GetDisplay() == menu->GetDisplay())
 		{
 			menu->SetItemImage(menuIndex, const_cast<JXImage*>(icon), false);

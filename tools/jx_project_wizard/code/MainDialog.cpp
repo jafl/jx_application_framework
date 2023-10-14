@@ -295,7 +295,7 @@ MainDialog::BuildWindow
 	ListenTo(itsTmplDirHistory, std::function([this](const JXMenu::ItemSelected& msg)
 	{
 		itsTemplateDir->GetText()->SetText(
-			itsTmplDirHistory->JXTextMenu::GetItemText(msg.GetIndex()));
+			itsTmplDirHistory->GetItemText(msg.GetIndex()));
 	}));
 
 	itsDevURL->GetText()->SetText(kDefaultURLText);

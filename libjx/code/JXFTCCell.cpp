@@ -614,10 +614,10 @@ JXFTCCell::DrawBackground
 	const JColorID color = colorList[ depth % (sizeof(colorList)/sizeof(JColorID)) ];
 
 	p.SetPenColor(color);
-	p.JPainter::Rect(r);
+	p.Rect(r);
 
-	p.JPainter::Line(frame.topLeft(), frame.bottomRight());
-	p.JPainter::Line(frame.topRight(), frame.bottomLeft());
+	p.Line(frame.topLeft(), frame.bottomRight());
+	p.Line(frame.topRight(), frame.bottomLeft());
 }
 
 /******************************************************************************

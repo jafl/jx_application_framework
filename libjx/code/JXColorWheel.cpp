@@ -156,7 +156,7 @@ JXColorWheel::Draw
 		itsImage->ConvertToRemoteStorage();
 	}
 
-	p.JPainter::Image(*itsImage, itsImage->GetBounds(), 0,0);
+	p.Image(*itsImage, itsImage->GetBounds(), 0,0);
 
 	const JFloat r = (itsColor.saturation / kJMaxHSBValueF) * size/2;
 	const JFloat a = ((itsColor.hue / kJMaxHSBValueF) - 0.5) * 2.0 * kJPi;
@@ -168,10 +168,10 @@ JXColorWheel::Draw
 
 	p.SetPenColor(JColorManager::GetWhiteColor());
 	p.SetFilling(true);
-	p.JPainter::Rect(mark);
+	p.Rect(mark);
 	p.SetFilling(false);
 	p.SetPenColor(black);
-	p.JPainter::Rect(mark);
+	p.Rect(mark);
 }
 
 /******************************************************************************

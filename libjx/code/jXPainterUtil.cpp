@@ -1485,7 +1485,7 @@ JXDrawDNDBorder
 
 		p.SetLineWidth(width);
 		p.SetPenColor(JColorManager::GetDefaultDNDBorderColor());
-		p.JPainter::Rect(r);
+		p.Rect(r);
 		p.SetLineWidth(1);
 	}
 }

@@ -111,6 +111,9 @@ public:
 	bool		SearchReplaceMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
 	bool		SearchReplaceMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
 
+	using JTextEditor::SearchForward;
+	using JTextEditor::SearchBackward;
+
 	bool	SearchForward(const bool reportNotFound = true);
 	bool	SearchBackward();
 	bool	EnterSearchSelection();

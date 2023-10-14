@@ -55,5 +55,5 @@ JXBorderRect::DrawBorder
 	const JRect&		frame
 	)
 {
-	p.JPainter::Rect(frame);
+	p.Rect(frame);
 }

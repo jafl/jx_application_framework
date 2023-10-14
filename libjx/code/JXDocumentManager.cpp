@@ -605,16 +605,16 @@ JXDocumentManager::UpdateDocumentMenu
 	for (JIndex i=1; i<=count; i++)
 	{
 		DocInfo info        = itsDocList->GetElement(i);
-		const JString& name = (info.doc)->GetName();
+		const JString& name = info.doc->GetName();
 
 		menu->AppendItem(name);
-		if ((info.doc)->NeedsSave())
+		if (info.doc->NeedsSave())
 		{
 			menu->SetItemFontStyle(i, JColorManager::GetDarkRedColor());
 		}
 
 		const JXImage* icon;
-		if ((info.doc)->GetMenuIcon(&icon) &&
+		if (info.doc->GetMenuIcon(&icon) &&
 			icon->GetDisplay() == menu->GetDisplay())
 		{
 			menu->SetItemImage(i, const_cast<JXImage*>(icon), false);

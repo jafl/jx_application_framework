@@ -178,7 +178,7 @@ TestPartitionDirector::DeleteHorizCompartment
 	const JIndex index
 	)
 {
-	itsHorizPartition->JPartition::DeleteCompartment(index);
+	itsHorizPartition->DeleteCompartment(index);
 }
 
 /******************************************************************************
@@ -218,7 +218,7 @@ TestPartitionDirector::DeleteVertCompartment
 {
 	if (itsVertPartition->GetCompartmentCount() > 1)
 	{
-		itsVertPartition->JPartition::DeleteCompartment(index);
+		itsVertPartition->DeleteCompartment(index);
 	}
 	else
 	{

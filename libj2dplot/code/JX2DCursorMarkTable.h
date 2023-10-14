@@ -27,6 +27,8 @@ public:
 
 	~JX2DCursorMarkTable() override;
 
+	using JTable::Print;
+
 	bool	Print(JPagePrinter&	p, const bool putOnSamePage,
 				  const JRect& partialPageRect);
 	void	TableDrawCells(JPainter& p, const JRect& cellRect,

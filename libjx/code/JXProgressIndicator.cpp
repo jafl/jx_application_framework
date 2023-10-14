@@ -155,5 +155,5 @@ JXProgressIndicator::Draw
 
 	p.SetFilling(true);
 	p.SetPenColor(itsForeColor);
-	p.JPainter::Rect(fillRect);
+	p.Rect(fillRect);
 }

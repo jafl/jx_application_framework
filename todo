@@ -1,3 +1,9 @@
+JTextEditor:
+	need smarter update during indent/outdent, to maintain caret location
+		when caret in another view is inside the affected range
+
+	don't change insertion font while typing when glyphs are rendered with fallback font
+
 jcc
 	json styler
 	raku (perl6)

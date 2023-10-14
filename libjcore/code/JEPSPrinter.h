@@ -46,6 +46,15 @@ public:
 	JRect	SetClipRect(const JRect& r) override;
 	void	SetDashList(const JArray<JSize>& dashList, const JSize dashOffset = 0) override;
 
+	using JPainter::String;
+	using JPainter::Point;
+	using JPainter::Line;
+	using JPainter::Rect;
+	using JPainter::Ellipse;
+	using JPainter::Arc;
+	using JPainter::Polygon;
+	using JPainter::Image;
+
 	void	StringNoSubstitutions(const JCoordinate left, const JCoordinate top,
 								  const JString& str) override;
 	void	String(const JFloat angle, const JCoordinate left,

@@ -583,14 +583,14 @@ JXTabGroup::Draw
 			{
 				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(true);
-				p.JPainter::Rect(r);
+				p.Rect(r);
 				p.SetFilling(false);
 			}
 			else
 			{
 				DrawTabBorder(p, r, false);
 			}
-			p.JPainter::String(titlePt, *title);
+			p.String(titlePt, *title);
 
 			itsTabRects->AppendElement(r);
 			if (isSel)
@@ -654,14 +654,14 @@ JXTabGroup::Draw
 			{
 				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(true);
-				p.JPainter::Rect(r);
+				p.Rect(r);
 				p.SetFilling(false);
 			}
 			else
 			{
 				DrawTabBorder(p, r, false);
 			}
-			p.JPainter::String(90, titlePt, *title);
+			p.String(90, titlePt, *title);
 
 			itsTabRects->AppendElement(r);
 			if (isSel)
@@ -725,14 +725,14 @@ JXTabGroup::Draw
 			{
 				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(true);
-				p.JPainter::Rect(r);
+				p.Rect(r);
 				p.SetFilling(false);
 			}
 			else
 			{
 				DrawTabBorder(p, r, false);
 			}
-			p.JPainter::String(titlePt, *title);
+			p.String(titlePt, *title);
 
 			itsTabRects->AppendElement(r);
 			if (isSel)
@@ -796,14 +796,14 @@ JXTabGroup::Draw
 			{
 				p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(true);
-				p.JPainter::Rect(r);
+				p.Rect(r);
 				p.SetFilling(false);
 			}
 			else
 			{
 				DrawTabBorder(p, r, false);
 			}
-			p.JPainter::String(-90, titlePt, *title);
+			p.String(-90, titlePt, *title);
 
 			itsTabRects->AppendElement(r);
 			if (isSel)
@@ -937,58 +937,58 @@ JXTabGroup::DrawTabBorder
 	if (itsEdge == kTop)
 	{
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
-		p.JPainter::Point(rect.topLeft());
-		p.JPainter::Point(rect.topRight() + JPoint(-1,0));
-		p.JPainter::Point(rect.topRight() + JPoint(-2,0));
-		p.JPainter::Point(rect.topRight() + JPoint(-1,1));
-		p.JPainter::Point(rect.topRight() + JPoint(-1,2));
+		p.Point(rect.topLeft());
+		p.Point(rect.topRight() + JPoint(-1,0));
+		p.Point(rect.topRight() + JPoint(-2,0));
+		p.Point(rect.topRight() + JPoint(-1,1));
+		p.Point(rect.topRight() + JPoint(-1,2));
 		p.SetPenColor(JColorManager::Get3DLightColor());
-		p.JPainter::Point(rect.topLeft() + JPoint(kBorderWidth, kBorderWidth));
+		p.Point(rect.topLeft() + JPoint(kBorderWidth, kBorderWidth));
 		p.SetPenColor(JColorManager::Get3DShadeColor());
-		p.JPainter::Point(rect.topRight() + JPoint(-kBorderWidth-1, kBorderWidth));
+		p.Point(rect.topRight() + JPoint(-kBorderWidth-1, kBorderWidth));
 
 		if (isSelected)
 		{
 			JRect r(rect.bottom - kBorderWidth, rect.left  + kBorderWidth,
 					rect.bottom,                rect.right - kBorderWidth);
 			p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
-			p.JPainter::Rect(r);
-			p.JPainter::Point(rect.topLeft() + JPoint(-1,kSelMargin+kBorderWidth));
+			p.Rect(r);
+			p.Point(rect.topLeft() + JPoint(-1,kSelMargin+kBorderWidth));
 			p.SetPenColor(JColorManager::Get3DLightColor());
-			p.JPainter::Point(rect.bottomLeft()  + JPoint(1,-1));
-			p.JPainter::Point(rect.bottomRight() + JPoint(-2,-1));
-			p.JPainter::Point(rect.bottomRight() + JPoint(-1,-2));
-			p.JPainter::Point(rect.bottomRight() + JPoint(-1,-1));
+			p.Point(rect.bottomLeft()  + JPoint(1,-1));
+			p.Point(rect.bottomRight() + JPoint(-2,-1));
+			p.Point(rect.bottomRight() + JPoint(-1,-2));
+			p.Point(rect.bottomRight() + JPoint(-1,-1));
 		}
 	}
 
 	else if (itsEdge == kLeft)
 	{
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
-		p.JPainter::Point(rect.topLeft());
-		p.JPainter::Point(rect.bottomLeft() + JPoint(0,-1));
-		p.JPainter::Point(rect.bottomLeft() + JPoint(0,-2));
-		p.JPainter::Point(rect.bottomLeft() + JPoint(1,-1));
-		p.JPainter::Point(rect.bottomLeft() + JPoint(2,-1));
+		p.Point(rect.topLeft());
+		p.Point(rect.bottomLeft() + JPoint(0,-1));
+		p.Point(rect.bottomLeft() + JPoint(0,-2));
+		p.Point(rect.bottomLeft() + JPoint(1,-1));
+		p.Point(rect.bottomLeft() + JPoint(2,-1));
 		p.SetPenColor(JColorManager::Get3DLightColor());
-		p.JPainter::Point(rect.topLeft() + JPoint(kBorderWidth, kBorderWidth));
+		p.Point(rect.topLeft() + JPoint(kBorderWidth, kBorderWidth));
 		p.SetPenColor(JColorManager::Get3DShadeColor());
-		p.JPainter::Point(rect.bottomLeft() + JPoint(kBorderWidth, -kBorderWidth-1));
+		p.Point(rect.bottomLeft() + JPoint(kBorderWidth, -kBorderWidth-1));
 
 		if (isSelected)
 		{
 			JRect r(rect.top    + kBorderWidth, rect.right - kBorderWidth,
 					rect.bottom - kBorderWidth, rect.right);
 			p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
-			p.JPainter::Rect(r);
-			p.JPainter::Point(rect.topLeft() + JPoint(kSelMargin+kBorderWidth,-1));
+			p.Rect(r);
+			p.Point(rect.topLeft() + JPoint(kSelMargin+kBorderWidth,-1));
 			p.SetPenColor(JColorManager::Get3DLightColor());
-			p.JPainter::Point(rect.topRight() + JPoint(-1,1));
+			p.Point(rect.topRight() + JPoint(-1,1));
 			if (rect.bottom < (GetAperture()).bottom)
 			{
-				p.JPainter::Point(rect.bottomRight() + JPoint(-1,-1));
-				p.JPainter::Point(rect.bottomRight() + JPoint(-2,-1));
-				p.JPainter::Point(rect.bottomRight() + JPoint(-1,-2));
+				p.Point(rect.bottomRight() + JPoint(-1,-1));
+				p.Point(rect.bottomRight() + JPoint(-2,-1));
+				p.Point(rect.bottomRight() + JPoint(-1,-2));
 			}
 		}
 	}
@@ -996,60 +996,60 @@ JXTabGroup::DrawTabBorder
 	else if (itsEdge == kBottom)
 	{
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
-		p.JPainter::Point(rect.bottomLeft()  + JPoint(0,-1));
-		p.JPainter::Point(rect.bottomLeft()  + JPoint(0,-2));
-		p.JPainter::Point(rect.bottomLeft()  + JPoint(1,-1));
-		p.JPainter::Point(rect.bottomLeft()  + JPoint(2,-1));
-		p.JPainter::Point(rect.bottomRight() + JPoint(-1,-1));
+		p.Point(rect.bottomLeft()  + JPoint(0,-1));
+		p.Point(rect.bottomLeft()  + JPoint(0,-2));
+		p.Point(rect.bottomLeft()  + JPoint(1,-1));
+		p.Point(rect.bottomLeft()  + JPoint(2,-1));
+		p.Point(rect.bottomRight() + JPoint(-1,-1));
 		p.SetPenColor(JColorManager::Get3DLightColor());
-		p.JPainter::Point(rect.bottomLeft() + JPoint(kBorderWidth, -kBorderWidth-1));
+		p.Point(rect.bottomLeft() + JPoint(kBorderWidth, -kBorderWidth-1));
 		p.SetPenColor(JColorManager::Get3DShadeColor());
-		p.JPainter::Point(rect.bottomRight() + JPoint(-kBorderWidth-1, -kBorderWidth-1));
+		p.Point(rect.bottomRight() + JPoint(-kBorderWidth-1, -kBorderWidth-1));
 
 		if (isSelected)
 		{
 			JRect r(rect.top,                rect.left  + kBorderWidth,
 					rect.top + kBorderWidth, rect.right - kBorderWidth);
 			p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
-			p.JPainter::Rect(r);
+			p.Rect(r);
 			p.SetPenColor(JColorManager::Get3DShadeColor());
 			if (rect.left > (GetAperture()).left)
 			{
-				p.JPainter::Point(rect.topLeft());
+				p.Point(rect.topLeft());
 			}
-			p.JPainter::Point(rect.topRight() + JPoint(-1,0));
-			p.JPainter::Point(rect.topRight() + JPoint(-2,0));
-			p.JPainter::Point(rect.topRight() + JPoint(-2,1));
+			p.Point(rect.topRight() + JPoint(-1,0));
+			p.Point(rect.topRight() + JPoint(-2,0));
+			p.Point(rect.topRight() + JPoint(-2,1));
 		}
 	}
 
 	else if (itsEdge == kRight)
 	{
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
-		p.JPainter::Point(rect.topRight() + JPoint(-1,0));
-		p.JPainter::Point(rect.topRight() + JPoint(-2,0));
-		p.JPainter::Point(rect.topRight() + JPoint(-1,1));
-		p.JPainter::Point(rect.topRight() + JPoint(-1,2));
-		p.JPainter::Point(rect.bottomRight() + JPoint(-1,-1));
+		p.Point(rect.topRight() + JPoint(-1,0));
+		p.Point(rect.topRight() + JPoint(-2,0));
+		p.Point(rect.topRight() + JPoint(-1,1));
+		p.Point(rect.topRight() + JPoint(-1,2));
+		p.Point(rect.bottomRight() + JPoint(-1,-1));
 		p.SetPenColor(JColorManager::Get3DLightColor());
-		p.JPainter::Point(rect.topRight() + JPoint(-kBorderWidth-1, kBorderWidth));
+		p.Point(rect.topRight() + JPoint(-kBorderWidth-1, kBorderWidth));
 		p.SetPenColor(JColorManager::Get3DShadeColor());
-		p.JPainter::Point(rect.bottomRight() + JPoint(-kBorderWidth-1, -kBorderWidth-1));
+		p.Point(rect.bottomRight() + JPoint(-kBorderWidth-1, -kBorderWidth-1));
 
 		if (isSelected)
 		{
 			JRect r(rect.top    + kBorderWidth, rect.left,
 					rect.bottom - kBorderWidth, rect.left + kBorderWidth);
 			p.SetPenColor(JColorManager::GetGrayColor(kSelGrayPercentage));
-			p.JPainter::Rect(r);
+			p.Rect(r);
 			p.SetPenColor(JColorManager::Get3DShadeColor());
 			if (rect.top > (GetAperture()).top)
 			{
-				p.JPainter::Point(rect.topLeft());
+				p.Point(rect.topLeft());
 			}
-			p.JPainter::Point(rect.bottomLeft() + JPoint(0,-1));
-			p.JPainter::Point(rect.bottomLeft() + JPoint(0,-2));
-			p.JPainter::Point(rect.bottomLeft() + JPoint(1,-2));
+			p.Point(rect.bottomLeft() + JPoint(0,-1));
+			p.Point(rect.bottomLeft() + JPoint(0,-2));
+			p.Point(rect.bottomLeft() + JPoint(1,-2));
 		}
 	}
 }
@@ -1083,7 +1083,7 @@ JXTabGroup::DrawScrollButtons
 
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.SetFilling(true);
-		p.JPainter::Rect(r);
+		p.Rect(r);
 		p.SetFilling(false);
 
 		r.Shrink(kBorderWidth, 0);
@@ -1130,7 +1130,7 @@ JXTabGroup::DrawScrollButtons
 
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.SetFilling(true);
-		p.JPainter::Rect(r);
+		p.Rect(r);
 		p.SetFilling(false);
 
 		r.Shrink(0, kBorderWidth);
@@ -1177,7 +1177,7 @@ JXTabGroup::DrawScrollButtons
 
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.SetFilling(true);
-		p.JPainter::Rect(r);
+		p.Rect(r);
 		p.SetFilling(false);
 
 		r.Shrink(kBorderWidth, 0);
@@ -1224,7 +1224,7 @@ JXTabGroup::DrawScrollButtons
 
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
 		p.SetFilling(true);
-		p.JPainter::Rect(r);
+		p.Rect(r);
 		p.SetFilling(false);
 
 		r.Shrink(0, kBorderWidth);

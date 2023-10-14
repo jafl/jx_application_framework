@@ -338,7 +338,7 @@ JXRowHeaderWidget::HandleMouseDrag
 			// scroll, if necessary
 
 			const JPoint ptG    = JXContainer::LocalToGlobal(pt);
-			const JPoint ptT    = JPinInRect(itsTable->JXContainer::GlobalToLocal(ptG),
+			const JPoint ptT    = JPinInRect(itsTable->GlobalToLocal(ptG),
 											 itsTable->GetBounds());
 			const JRect tableAp = itsTable->GetAperture();
 			const JCoordinate x = tableAp.xcenter();

@@ -1215,7 +1215,7 @@ JXWindow::DrawBackground
 {
 	p.SetPenColor(itsBackColor);
 	p.SetFilling(true);
-	p.JPainter::Rect(itsBounds);
+	p.Rect(itsBounds);
 }
 
 /******************************************************************************
@@ -4738,7 +4738,7 @@ JXWindow::GetDockWindow
 {
 	if (itsDockWidget != nullptr)
 	{
-		*window = itsDockWidget->JXContainer::GetWindow();
+		*window = itsDockWidget->GetWindow();
 		return true;
 	}
 	else

@@ -377,7 +377,7 @@ TestWidget::Print
 		return;
 	}
 
-	const JCoordinate headerHeight = p.JPainter::GetLineHeight();
+	const JCoordinate headerHeight = p.GetLineHeight();
 	const JCoordinate footerHeight = JRound(1.5 * headerHeight);
 
 	const JString dateStr = JGetTimeStamp();
@@ -465,7 +465,7 @@ TestWidget::Draw
 {
 	if (itsImageBuffer != nullptr)
 	{
-		p.JPainter::Image(*itsImageBuffer, itsImageBuffer->GetBounds(), 0,0);
+		p.Image(*itsImageBuffer, itsImageBuffer->GetBounds(), 0,0);
 	}
 	else
 	{

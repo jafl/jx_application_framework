@@ -87,7 +87,7 @@ DNDWidget::Draw
 	)
 {
 	// Draw some instructional text
-	p.JPainter::String(10,10,JGetString("Instructions::DNDWidget"));
+	p.String(10,10,JGetString("Instructions::DNDWidget"));
 
 	// Set pen color
 	p.SetPenColor(JColorManager::GetBlackColor());
@@ -101,7 +101,7 @@ DNDWidget::Draw
 	{
 		// We need to specify that this is a JPainter function because
 		// JXWindowPainter has this function in a different form
-		p.JPainter::Line(itsPoints->GetElement(i), itsPoints->GetElement(i+1));
+		p.Line(itsPoints->GetElement(i), itsPoints->GetElement(i+1));
 	}
 }
 

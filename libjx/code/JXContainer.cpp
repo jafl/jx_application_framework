@@ -348,7 +348,7 @@ JXContainer::DrawAll
 		}
 		else
 		{
-			p.JPainter::Reset(apClipRectG);
+			p.Reset(apClipRectG);
 		}
 
 		const JRect apLocal = GetAperture();

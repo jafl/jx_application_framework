@@ -101,6 +101,9 @@ public:
 	void	RequestFocus();
 	bool	HasFocus() const;
 
+	using JXContainer::GlobalToLocal;
+	using JXContainer::LocalToGlobal;
+
 	JPoint	GlobalToLocal(const JCoordinate x, const JCoordinate y) const override;
 	JPoint	LocalToGlobal(const JCoordinate x, const JCoordinate y) const override;
 

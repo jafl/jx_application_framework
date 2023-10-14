@@ -187,7 +187,7 @@ RecordTable::TableDrawCell
 
 	JRect r = rect;
 	r.Shrink(kHMarginWidth, 0);
-	p.JPainter::String(r, str, halign, JPainter::VAlign::kCenter);
+	p.String(r, str, halign, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

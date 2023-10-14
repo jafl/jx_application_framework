@@ -49,8 +49,8 @@ public:
 
 	virtual bool	OpenDocument() = 0;
 	virtual bool	NewPage() = 0;
-	virtual void		CloseDocument() = 0;
-	virtual void		CancelDocument() = 0;
+	virtual void	CloseDocument() = 0;
+	virtual void	CancelDocument() = 0;
 
 	// page header and footer
 

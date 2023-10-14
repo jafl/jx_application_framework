@@ -43,6 +43,8 @@ public:
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;
 
+	using JXTextMenu::GetItemText;
+
 	const JString&	GetItemText(const Message& message) const;
 	void			UpdateInputField(const Message& message, JXInputField* input) const;
 

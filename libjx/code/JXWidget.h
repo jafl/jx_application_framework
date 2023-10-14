@@ -67,6 +67,9 @@ public:
 	virtual void	HandleShortcut(const int key,					// must call inherited
 								   const JXKeyModifiers& modifiers);
 
+	using JXContainer::GlobalToLocal;
+	using JXContainer::LocalToGlobal;
+
 	JPoint	GlobalToLocal(const JCoordinate x, const JCoordinate y) const override;
 	JPoint	LocalToGlobal(const JCoordinate x, const JCoordinate y) const override;
 

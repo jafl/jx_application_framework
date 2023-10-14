@@ -40,6 +40,8 @@ public:
 	bool	GetElasticCompartment(JXContainer** compartment) const;
 	void	SetElasticCompartment(JXContainer* compartment);
 
+	using JPartition::DeleteCompartment;
+
 	void	DeleteCompartment(JXContainer* compartment);
 
 protected:
@@ -54,8 +56,8 @@ protected:
 	JPtrArray<JXContainer>*	GetCompartments();
 
 	void	CreateCompartmentObject(const JIndex index,
-											const JCoordinate position,
-											const JCoordinate size) override;
+									const JCoordinate position,
+									const JCoordinate size) override;
 	void	DeleteCompartmentObject(const JIndex index) override;
 
 	virtual JXWidgetSet*	CreateCompartment(const JIndex index,

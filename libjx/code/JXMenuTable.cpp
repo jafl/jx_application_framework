@@ -435,7 +435,7 @@ JXMenuTable::MenuHandleMouseAction
 		itsOpenSubmenu->itsMenuDirector != nullptr)
 	{
 		JXWindow* w          = GetWindow();
-		const JPoint currPtR = w->GlobalToRoot(w->JXContainer::LocalToGlobal(itsCurrPt));
+		const JPoint currPtR = w->GlobalToRoot(w->LocalToGlobal(itsCurrPt));
 
 		JXWindow* subw   = (itsOpenSubmenu->itsMenuDirector)->GetWindow();
 		const JRect subr = subw->GlobalToRoot(subw->GetBoundsGlobal());

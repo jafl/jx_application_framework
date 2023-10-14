@@ -1274,7 +1274,7 @@ JX2DPlotWidget::PrintMarksEPS()
 	if (itsEPSPrinter->ConfirmUserPrintSetup())
 	{
 		itsEPSMarksName = itsEPSPrinter->GetOutputFileName();
-		itsMarkDir->GetTable()->JTable::Print(*itsEPSPrinter);
+		itsMarkDir->GetTable()->Print(*itsEPSPrinter);
 	}
 }
 

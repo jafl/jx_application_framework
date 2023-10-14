@@ -182,7 +182,7 @@ bool
 JX2DCursorMarkTable::Print
 	(
 	JPagePrinter&	p,
-	const bool	putOnSamePage,
+	const bool		putOnSamePage,
 	const JRect&	partialPageRect
 	)
 {

@@ -19,8 +19,8 @@ JXToolBarNode::JXToolBarNode
 	(
 	JXTextMenu*		menu,
 	const JIndex	index,
-	const bool	hasSeparator,
-	const bool	checked,
+	const bool		hasSeparator,
+	const bool		checked,
 	JTree*			tree,
 	JNamedTreeNode*	parent,
 	const JString&	name
@@ -59,6 +59,6 @@ JXToolBarNode::ToggleChecked()
 	JTree* tree;
 	if (GetTree(&tree))
 	{
-		tree->JTree::BroadcastChange(this);
+		tree->BroadcastChange(this);
 	}
 }

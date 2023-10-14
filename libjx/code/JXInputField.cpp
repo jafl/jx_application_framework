@@ -355,7 +355,7 @@ JXInputField::DrawBorder
 		{
 			p.SetPenColor(JColorManager::GetBlackColor());
 		}
-		p.JPainter::Rect(frame);
+		p.Rect(frame);
 	}
 	else
 	{

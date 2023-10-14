@@ -194,7 +194,7 @@ JXTextButton::DrawBackground
 	{
 		p.SetPenColor(itsPushedColor);
 		p.SetFilling(true);
-		p.JPainter::Rect(frame);
+		p.Rect(frame);
 		p.SetPenColor(JColorManager::GetBlackColor());
 		p.SetFilling(false);
 	}

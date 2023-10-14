@@ -112,13 +112,13 @@ JXPasswordInput::Draw
 	{
 		p.SetPenColor(GetSelectionColor());
 		p.SetFilling(true);
-		p.JPainter::Rect(r);
+		p.Rect(r);
 		p.SetFilling(false);
 	}
 	else if (active && hasSel)
 	{
 		p.SetPenColor(GetSelectionOutlineColor());
-		p.JPainter::Rect(r);
+		p.Rect(r);
 	}
 
 	// fake text
@@ -136,7 +136,7 @@ JXPasswordInput::Draw
 	const JSize textLength = GetText()->GetText().GetCharacterCount();
 	for (JIndex i=1; i<=textLength; i++)
 	{
-		p.JPainter::Ellipse(r);
+		p.Ellipse(r);
 		r.Shift(kDotDiameter + kDotMargin, 0);
 	}
 
@@ -159,7 +159,7 @@ JXPasswordInput::Draw
 	if ((GetDisplay()->GetLatestKeyModifiers()).shiftLock())
 	{
 		JXImage* img = (GetDisplay()->GetImageCache())->GetImage(jx_caps_lock_on);
-		p.JPainter::Image(*img, img->GetBounds(),
+		p.Image(*img, img->GetBounds(),
 						  b.right - img->GetWidth() - 1,
 						  b.ycenter() - img->GetHeight()/2);
 	}

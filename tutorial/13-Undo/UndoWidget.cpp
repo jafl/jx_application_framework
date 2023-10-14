@@ -98,7 +98,7 @@ UndoWidget::Draw
 	{
 		// We need to specify that this is a JPainter function because
 		// JXWindowPainter has this function in a different form
-		p.JPainter::Line(itsPoints->GetElement(i), itsPoints->GetElement(i+1));
+		p.Line(itsPoints->GetElement(i), itsPoints->GetElement(i+1));
 	}
 }
 

@@ -158,7 +158,7 @@ JXTextCheckbox::Draw
 		{
 			p.SetPenColor(itsNormalColor);
 		}
-		p.JPainter::Rect(boxRect);
+		p.Rect(boxRect);
 		p.SetFilling(false);
 
 		p.SetLineWidth(kJXDefaultBorderWidth);

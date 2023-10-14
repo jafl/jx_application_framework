@@ -222,7 +222,7 @@ JXWidget::DrawBackground
 {
 	p.SetPenColor(GetCurrBackColor());
 	p.SetFilling(true);
-	p.JPainter::Rect(frame);
+	p.Rect(frame);
 }
 
 /******************************************************************************

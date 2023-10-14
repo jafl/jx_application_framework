@@ -44,6 +44,8 @@ public:
 	bool	HasWindows() const;
 	bool	CloseAllWindows();		// recursive
 
+	using JXContainer::GetWindow;
+
 	JSize	GetWindowCount() const;
 	bool	GetWindow(const JIndex index, JXWindow** window);
 	void	ShowPreviousWindow();

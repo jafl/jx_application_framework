@@ -109,7 +109,7 @@ JXDocktab::Draw
 	{
 		p.SetPenColor(itsFocusColor);
 		p.SetFilling(true);
-		p.JPainter::Rect(rect);
+		p.Rect(rect);
 		p.SetPenColor(JColorManager::GetBlackColor());
 		p.SetFilling(false);
 
@@ -395,7 +395,7 @@ JXDocktab::DockFinder::FindTarget
 		if (((**target).GetWindow())->GetDockWidget(&dock))
 		{
 			*target  = dock;
-			*xWindow = (dock->JXContainer::GetWindow())->GetXWindow();
+			*xWindow = dock->GetWindow()->GetXWindow();
 		}
 
 		return GetDNDManager()->IsDNDAware(*xWindow, msgWindow, vers);
