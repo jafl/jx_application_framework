@@ -19,6 +19,8 @@ J_DEBUG_OPTIMIZATION_LEVEL := 0
 J_STRIP_DEBUG := strip -S
 
 # Adjust these until everything compiles
+#
+# Unknown options are ignored because of #pragmas required for g++.
 
 J_RAW_SYSTEM_STUFF := \
   -D_J_MACOS \
@@ -26,7 +28,8 @@ J_RAW_SYSTEM_STUFF := \
   -D_J_LLDB_HAS_SBVALUE_GETSUMMARY \
   -D_J_HAS_SYSCTL -D_XFT_NO_COMPAT_ \
   -DACE_LACKS_VSPRINTF -DACE_DISABLE_MKTEMP \
-  -D_GNU_SOURCE=1
+  -D_GNU_SOURCE=1 \
+  -Wno-unknown-warning-option
 
 SEARCHDIRS += -I${BREW_ROOT}/include -I${BREW_ROOT}/include/freetype2
 

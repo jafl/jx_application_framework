@@ -155,6 +155,10 @@ JArrayIterator<T>::SkipNext
 	this->SetCursor(JMin(itsArray->GetElementCount(), cursorPos + count));
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+// JPtrArrayIterator hides these functions
+
 /******************************************************************************
  SetPrev (virtual)
 
@@ -218,6 +222,8 @@ JArrayIterator<T>::SetNext
 	}
 	return true;
 }
+
+#pragma GCC diagnostic pop
 
 /******************************************************************************
  RemovePrev (virtual)

@@ -120,8 +120,13 @@ JBroadcaster::BroadcastPrivate
 {
 	static_assert( std::is_base_of<Message, T>::value );
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdangling-pointer"
+
 	bool deleted   = false;
 	itsDeletedFlag = &deleted;
+
+#pragma GCC diagnostic pop
 
 	if (itsRecipients != nullptr)
 	{
