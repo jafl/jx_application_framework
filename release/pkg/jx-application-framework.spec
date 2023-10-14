@@ -19,6 +19,7 @@ JX Application Framework is a UI library for the X Window System.
 
 %files
 
-/usr/local/bin
-/usr/local/include
 /usr/local/lib
+/usr/local/include
+/usr/local/bin
+/usr/local/share

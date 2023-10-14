@@ -184,7 +184,7 @@ build_release:
                     --define 'pkg_name ${SOURCE_TAR_NAME}' \
                     ./release/pkg/jx-application-framework.spec
 	@${SUDO} mv ${RPM_BIN_DIR}/*/jx-application-framework-*.rpm ../${RPM_PKG_NAME}
-	@${SUDO} chown ${USER}. ../*.rpm
+	@${SUDO} chown ${USER}: ../*.rpm
 	@${SUDO} ./release/pkg/uninstall ${RPM_BUILD_ROOT}/usr/local
   endif
 
