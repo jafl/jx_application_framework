@@ -27,5 +27,5 @@ rm -f $LIB/libjcore.a \
 
 rm -rf $INC/jx-af;
 
-rm -rf $SHR/jx_project_wizard;
-rm -rf $SHR/jxlayout;
+rm -rf $SHR/jx_project_wizard \
+       $SHR/jxlayout;

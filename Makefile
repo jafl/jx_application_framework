@@ -177,14 +177,14 @@ build_release:
 
   ifeq (${HAS_RPM},1)
 	@${SUDO} mkdir -p -m 755 ${RPM_BUILD_DIR} ${RPM_SRC_DIR} ${RPM_SPEC_DIR} ${RPM_BIN_DIR} ${RPM_SRPM_DIR}
-	@${SUDO} ./release/pkg/uninstall ${RPM_BUILD_ROOT}/usr/local
+	@${SUDO} ./release/pkg/uninstall
 	@${SUDO} cp ../${SOURCE_TAR_NAME} ${RPM_SRC_DIR}/${SOURCE_TAR_NAME}
 	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
                     --define 'pkg_version ${JX_VERSION}' \
                     --define 'pkg_name ${SOURCE_TAR_NAME}' \
                     ./release/pkg/jx-application-framework.spec
 	@${SUDO} mv ${RPM_BIN_DIR}/*/jx-application-framework-*.rpm ../${RPM_PKG_NAME}
-	@${SUDO} ./release/pkg/uninstall ${RPM_BUILD_ROOT}/usr/local
+	@${SUDO} ./release/pkg/uninstall
 
 	@rm -rf ${RPM_BUILD_ROOT}/usr/local; mkdir -p ${RPM_BUILD_ROOT}/usr/local/lib ${RPM_BUILD_ROOT}/usr/local/include ${RPM_BUILD_ROOT}/usr/local/bin
 	@cp /usr/local/lib/libreflex.* ${RPM_BUILD_ROOT}/usr/local/lib
