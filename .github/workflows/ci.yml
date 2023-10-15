@@ -98,7 +98,7 @@ jobs:
       LANG: en_US.utf8
     steps:
       - name: Install git
-        run: dnf install git
+        run: dnf install -y git
 
       - uses: actions/checkout@v3
         with:
