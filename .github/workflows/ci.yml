@@ -15,8 +15,8 @@ jobs:
       LANG: en_US.UTF-8
       CXX: g++-12
     steps:
-     - uses: actions/checkout@v3
-       with:
+      - uses: actions/checkout@v3
+        with:
           fetch-depth: 0
 
       - name: Set environment variables
