@@ -8,6 +8,7 @@ fi
 BIN=$PRE/bin;
 LIB=$PRE/lib;
 INC=$PRE/include;
+SHR=$PRE/share;
 
 rm -f $BIN/compile_jstrings \
       $BIN/jx_memory_debugger \
@@ -25,3 +26,6 @@ rm -f $LIB/libjcore.a \
       $LIB/libj2dplot.a;
 
 rm -rf $INC/jx-af;
+
+rm -rf $SHR/jx_project_wizard;
+rm -rf $SHR/jxlayout;

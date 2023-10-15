@@ -10,6 +10,7 @@ fi
 BIN=$PRE/bin;
 LIB=$PRE/lib;
 INC=$PRE/include;
+SHR=$PRE/share;
 
 mkdir -p $BIN;
 pushd bin;
@@ -23,5 +24,8 @@ cp lib/* $LIB;
 
 mkdir -p $INC;
 cp -r include/* $INC;
+
+mkdir -p $SHR;
+cp -r share/* $SHR;
 
 ./configure package;
