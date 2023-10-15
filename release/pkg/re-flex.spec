@@ -4,6 +4,7 @@ Version: %pkg_version
 Release: 1
 License: GPL
 Group: System/Monitoring
+Source: usr/local
 
 %description
 Package to support JX Application Framework ci.
