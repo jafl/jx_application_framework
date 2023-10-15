@@ -555,6 +555,11 @@ JListIterator<T>::ListChanged
 
  ******************************************************************************/
 
+#pragma GCC diagnostic push
+#if defined __GNUG__ && ! defined __clang__
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
+
 template <class T>
 T
 JListIterator<T>::operator*()
@@ -568,6 +573,8 @@ JListIterator<T>::operator*()
 	self->SkipPrev();		// back to original position
 	return v;
 }
+
+#pragma GCC diagnostic pop
 
 template <class T>
 JListIterator<T>&

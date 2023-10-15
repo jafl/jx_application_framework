@@ -121,7 +121,9 @@ JBroadcaster::BroadcastPrivate
 	static_assert( std::is_base_of<Message, T>::value );
 
 #pragma GCC diagnostic push
+#if defined __GNUG__ && ! defined __clang__
 #pragma GCC diagnostic ignored "-Wdangling-pointer"
+#endif
 
 	bool deleted   = false;
 	itsDeletedFlag = &deleted;
