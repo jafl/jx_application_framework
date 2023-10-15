@@ -75,7 +75,7 @@ JXFSEditBindingsDialog::OKToDeactivate()
 		return false;
 	}
 
-	if (itsNeedsSaveFlag)
+	if (itsSaveNeededFlag)
 	{
 		const JUserNotification::CloseAction action =
 			JGetUserNotification()->OKToClose(JGetString("OKToClose::JXFSEditBindingsDialog"));
@@ -277,7 +277,7 @@ JXFSEditBindingsDialog::BuildWindow()
 	itsTable->SetColTitles(header);
 	ListenTo(itsTable, std::function([this](const JXFSBindingTable::DataChanged&)
 	{
-		NeedsSave();
+		SaveNeeded();
 	}));
 
 	// other information
@@ -348,7 +348,7 @@ JXFSEditBindingsDialog::Receive
 	if (message.Is(JStyledText::kTextChanged) ||
 		message.Is(JXCheckbox::kPushed))
 	{
-		NeedsSave();
+		SaveNeeded();
 	}
 
 	else
@@ -358,14 +358,14 @@ JXFSEditBindingsDialog::Receive
 }
 
 /******************************************************************************
- NeedsSave (private)
+ SaveNeeded (private)
 
  ******************************************************************************/
 
 void
-JXFSEditBindingsDialog::NeedsSave()
+JXFSEditBindingsDialog::SaveNeeded()
 {
-	itsNeedsSaveFlag = true;
+	itsSaveNeededFlag = true;
 	itsSaveButton->Activate();
 	itsRevertButton->Activate();
 }
@@ -378,7 +378,7 @@ JXFSEditBindingsDialog::NeedsSave()
 void
 JXFSEditBindingsDialog::DataReverted()
 {
-	itsNeedsSaveFlag = false;
+	itsSaveNeededFlag = false;
 	itsSaveButton->Deactivate();
 	itsRevertButton->Deactivate();
 }
@@ -440,7 +440,7 @@ JXFSEditBindingsDialog::AddBinding
 	const bool					singleFile
 	)
 {
-	if (itsNeedsSaveFlag)
+	if (itsSaveNeededFlag)
 	{
 		itsBindingList->SetCommand(suffix, cmd, type, singleFile);
 		itsTable->SyncWithBindingList();
@@ -459,7 +459,7 @@ JXFSEditBindingsDialog::AddBinding
 void
 JXFSEditBindingsDialog::CheckIfNeedRevert()
 {
-	if (itsBindingList->NeedsRevert() && !itsNeedsSaveFlag)
+	if (itsBindingList->NeedsRevert() && !itsSaveNeededFlag)
 	{
 		Revert(true);
 	}

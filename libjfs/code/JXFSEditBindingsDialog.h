@@ -17,9 +17,6 @@ class JXInputField;
 class JFSBindingList;
 class JXFSBindingTable;
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Woverloaded-virtual"
-
 class JXFSEditBindingsDialog : public JXWindowDirector
 {
 public:
@@ -42,7 +39,7 @@ private:
 
 	JXFSBindingTable*	itsTable;
 	JFSBindingList*		itsBindingList;
-	bool				itsNeedsSaveFlag;
+	bool				itsSaveNeededFlag;
 	JFSBindingList*		itsOrigBindingList;		// not owned
 
 // begin JXLayout
@@ -65,7 +62,7 @@ private:
 private:
 
 	void	BuildWindow();
-	void	NeedsSave();
+	void	SaveNeeded();
 	void	DataReverted();
 	bool	Save(const bool askReplace);
 	void	Revert(const bool updateList);
@@ -77,7 +74,5 @@ private:
 	void	ReadSetup(std::istream& input);
 	void	WriteSetup(std::ostream& output) const;
 };
-
-#pragma GCC diagnostic pop
 
 #endif

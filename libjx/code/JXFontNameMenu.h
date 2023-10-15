@@ -30,12 +30,9 @@ public:
 	JString	GetFontName() const;
 	bool	SetFontName(const JString& name);
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+	using JXTextMenu::SetToPopupChoice;
 
 	void	SetToPopupChoice(const bool isPopup = true);
-
-#pragma GCC diagnostic pop
 
 	JSize	GetHistoryCount() const;
 

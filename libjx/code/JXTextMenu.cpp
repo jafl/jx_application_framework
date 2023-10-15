@@ -501,7 +501,7 @@ JXTextMenu::CreateMenuWindow
 void
 JXTextMenu::SetToPopupChoice
 	(
-	const bool	isPopup,
+	const bool		isPopup,
 	const JIndex	initialChoice
 	)
 {

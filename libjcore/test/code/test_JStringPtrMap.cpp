@@ -52,7 +52,7 @@ JTEST(Exercise)
 		JUtf8Byte* cursorValue = cursor.GetValue();
 		JAssertStringsEqual(cursorValue, thisKey);
 
-		JUtf8Byte* mapValue;
+		JUtf8Byte* mapValue = nullptr;
 		JAssertTrue(ptrMap.GetElement(thisKey, &mapValue));
 		JAssertStringsEqual(mapValue, cursorValue);
 		++count;
