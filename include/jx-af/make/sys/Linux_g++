@@ -26,17 +26,23 @@ J_HAS_XINERAMA  := -D_J_HAS_XINERAMA
 J_XINERAMA_LIBS := -lXinerama
 
 # Adjust these until everything compiles
-#
-# Converts certain issues into warnings so they can be turned off in certain situations.
 
 J_RAW_SYSTEM_STUFF := \
   -D_J_HAS_PROC -Wno-mismatched-new-delete \
   -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED \
   -D_XFT_NO_COMPAT_ -D_GNU_SOURCE=1 \
-  ${shell getconf LFS_CFLAGS} \
-  -Wno-error=dangling-pointer \
+  ${shell getconf LFS_CFLAGS}
+
+# Convert certain issues into warnings so they can be turned off in certain situations.
+
+J_RAW_SYSTEM_STUFF += \
   -Wno-error=overloaded-virtual \
   -Wno-error=maybe-uninitialized
+
+ifeq ($(shell expr `gcc -dumpversion | cut -f1 -d.` \>= 12),1)
+  J_RAW_SYSTEM_STUFF += \
+    -Wno-error=dangling-pointer
+endif
 
 SEARCHDIRS += -I/usr/include/freetype2
 
