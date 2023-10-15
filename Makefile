@@ -193,8 +193,8 @@ build_release:
 	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
                     --define 'pkg_version ${REFLEX_VERSION}' \
                     ./release/pkg/re-flex.spec
-	@${SUDO} mv ${RPM_BIN_DIR}/*/re-flex-*.rpm ../${RPM_PKG_NAME}
-	@rm -rf ${RPM_SRC_DIR}/usr/local
+	@${SUDO} mv ${RPM_BIN_DIR}/*/re-flex-*.rpm ../re-flex-${REFLEX_VERSION}.${SYS_NAME}.${SYS_ARCH}.rpm
+	@rm -rf ${RPM_SRC_DIR}/usr
 
 	@${SUDO} chown ${USER}: ../*.rpm
   endif
