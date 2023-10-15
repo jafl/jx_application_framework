@@ -17,6 +17,7 @@ jobs:
       - name: g++ version
         run: |
           g++ --version
+          ls /usr/bin/g++*
           sudo update-alternatives --display g++
 
       - uses: actions/checkout@v3
