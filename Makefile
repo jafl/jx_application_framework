@@ -186,15 +186,15 @@ build_release:
 	@${SUDO} mv ${RPM_BIN_DIR}/*/jx-application-framework-*.rpm ../${RPM_PKG_NAME}
 	@${SUDO} ./release/pkg/uninstall
 
-	@rm -rf ${RPM_BUILD_ROOT}/usr/local; mkdir -p ${RPM_BUILD_ROOT}/usr/local/lib ${RPM_BUILD_ROOT}/usr/local/include ${RPM_BUILD_ROOT}/usr/local/bin
-	@cp /usr/local/lib/libreflex.* ${RPM_BUILD_ROOT}/usr/local/lib
-	@cp -RL /usr/local/include/reflex ${RPM_BUILD_ROOT}/usr/local/include
-	@cp /usr/local/bin/reflex ${RPM_BUILD_ROOT}/usr/local/bin
+	@rm -rf ${RPM_SRC_ROOT}/usr/local; mkdir -p ${RPM_SRC_ROOT}/usr/local/lib ${RPM_SRC_ROOT}/usr/local/include ${RPM_SRC_ROOT}/usr/local/bin
+	@cp /usr/local/lib/libreflex.* ${RPM_SRC_ROOT}/usr/local/lib
+	@cp -RL /usr/local/include/reflex ${RPM_SRC_ROOT}/usr/local/include
+	@cp /usr/local/bin/reflex ${RPM_SRC_ROOT}/usr/local/bin
 	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
                     --define 'pkg_version ${REFLEX_VERSION}' \
                     ./release/pkg/re-flex.spec
 	@${SUDO} mv ${RPM_BIN_DIR}/*/re-flex-*.rpm ../${RPM_PKG_NAME}
-	@rm -rf ${RPM_BUILD_ROOT}/usr/local
+	@rm -rf ${RPM_SRC_ROOT}/usr/local
 
 	@${SUDO} chown ${USER}: ../*.rpm
   endif
