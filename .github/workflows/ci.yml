@@ -16,7 +16,7 @@ jobs:
       CXX: g++-12
     steps:
      - uses: actions/checkout@v3
-        with:
+       with:
           fetch-depth: 0
 
       - name: Set environment variables
