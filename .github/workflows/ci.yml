@@ -103,6 +103,7 @@ jobs:
 
       - name: Set environment variables
         run: |
+          echo ACE_VERSION=`cat .ace-version` >> $GITHUB_ENV
           echo REFLEX_VERSION=`cat .reflex-version` >> $GITHUB_ENV
 
       - name: RE/flex cache
@@ -111,6 +112,13 @@ jobs:
         with:
           path: misc/reflex
           key: fedora-reflex-${{ env.REFLEX_VERSION }}
+
+      - name: ACE cache
+        id: cache-ace
+        uses: actions/cache@v3
+        with:
+          path: ACE/ACE_wrappers
+          key: fedora-ace-${{ env.ACE_VERSION }}
 
       - name: Configure
         run: ./configure release

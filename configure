@@ -2,7 +2,7 @@
 
 set -e;
 
-export ACE_VERSION=7.1.0
+export ACE_VERSION=`cat .ace-version`
 export REFLEX_VERSION=`cat .reflex-version`
 
 #
