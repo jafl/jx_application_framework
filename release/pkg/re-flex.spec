@@ -9,7 +9,7 @@ Group: System/Monitoring
 Package to support JX Application Framework ci.
 
 %prep
-cp -R %{_sourcedir}/* %{buildroot}
+cp -R %{_sourcedir} %{buildroot}
 
 %files
 

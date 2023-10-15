@@ -21,7 +21,7 @@ jobs:
       - name: Set environment variables
         run: |
           echo SONAR_CACHE_PATH=$HOME/$BUILD_WRAPPER_OUT_DIR >> $GITHUB_ENV
-          echo REFLEX_VERSION=`make -f Makefile-versions reflex` >> $GITHUB_ENV
+          echo REFLEX_VERSION=`cat .reflex-version` >> $GITHUB_ENV
           echo FORCE_CACHE_UPDATE=${RANDOM}${RANDOM} >> $GITHUB_ENV
 
       - name: Sonar data cache
@@ -84,10 +84,64 @@ jobs:
 
       - name: Save release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: release
           path: jx-application-framework_*
+
+  build-fedora:
+    name: Build & Package Fedora
+    runs-on: ubuntu-latest
+    container: fedora:latest
+    env:
+      LC_ALL: en_US.utf8
+      LANG: en_US.utf8
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set environment variables
+        run: |
+          echo REFLEX_VERSION=`cat .reflex-version` >> $GITHUB_ENV
+
+      - name: RE/flex cache
+        id: cache-reflex
+        uses: actions/cache@v3
+        with:
+          path: misc/reflex
+          key: fedora-reflex-${{ env.REFLEX_VERSION }}
+
+      - name: Configure
+        run: ./configure release
+
+      - name: Build
+        run: |
+          touch libjexpr/code/JExprParserY.cpp libjexpr/code/JExprParserY.hpp
+          make
+
+      - name: Build & save CI packages
+        run: |
+          make JX_VERSION=1ci REFLEX_VERSION=1ci release
+          echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
+          chmod 0600 sourceforge_key
+          scp -o StrictHostKeyChecking=no -i sourceforge_key ../jx-application-framework.1ci.*.rpm jafl,libjx@web.sourceforge.net:htdocs/ci/jx-application-framework-fedora.rpm
+          scp -o StrictHostKeyChecking=no -i sourceforge_key ../re-flex.1ci.*.rpm jafl,libjx@web.sourceforge.net:htdocs/ci/re-flex-fedora.rpm
+          scp -o StrictHostKeyChecking=no -i sourceforge_key ../re-flex.1ci.*.rpm jafl,libjx@web.sourceforge.net:htdocs/release/re-flex-fedora.rpm
+          rm  -f ../jx-application-framework.1ci.* ../re-flex.1ci.*
+
+      - name: Build release packages
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          make release
+          mv ../jx-application-framework*.* ../re-flex*.* .
+
+      - name: Save release packages
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: release
+          path: jx-application-framework*.* re-flex*.*
 
   build-macos:
     name: Build & Package MacOS
@@ -130,7 +184,7 @@ jobs:
 
       - name: Save release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: release
           path: |
@@ -142,7 +196,7 @@ jobs:
     needs: [ build-ubuntu, build-macos ]
     if: ${{ startsWith(github.ref, 'refs/tags/') }}
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: release
 
@@ -167,7 +221,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo REFLEX_VERSION=`make -f Makefile-versions reflex` >> $GITHUB_ENV
+          echo REFLEX_VERSION=`cat .reflex-version` >> $GITHUB_ENV
 
       - name: RE/flex cache
         id: cache-reflex
