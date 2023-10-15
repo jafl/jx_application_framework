@@ -13,14 +13,9 @@ jobs:
       BUILD_WRAPPER_OUT_DIR: sonar_output
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
+      CXX: g++-12
     steps:
-      - name: g++ version
-        run: |
-          g++ --version
-          ls /usr/bin/g++*
-          sudo update-alternatives --display g++
-
-      - uses: actions/checkout@v3
+     - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
