@@ -42,9 +42,9 @@ default:
      ${END_ACE_CMD}
 
 .PHONY : install
-install: default
+install:
 	@${BEGIN_ACE_CMD} \
-       echo Please authorize sudo access for building ACE...; \
+       echo Please authorize sudo access for installing ACE...; \
        ${SUDO} echo sudo access authorized...; \
        cd ACE_wrappers/ace; \
        ${SUDO} ${BEGIN_ACE_MAKE} INSTALL_PREFIX=/usr/local install; \

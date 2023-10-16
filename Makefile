@@ -55,8 +55,14 @@ initial_build_makemake:
          ${SUDO} ./allinstall.sh; \
        fi; \
      fi
-	@if [[ ! -h ACE/ACE_wrappers && ! -e ACE/ACE_wrappers/ace/libACE.a ]]; then \
-       cd ACE; ${JMAKE} install; \
+	@if [[ ! -h ACE/ACE_wrappers ]]; then \
+       cd ACE; \
+       if [[ ! -e ACE_wrappers/ace/libACE.a ]]; then \
+           ${JMAKE}; \
+       fi; \
+       if [[ ! -f /usr/local/lib/libACE.a ]]; then \
+	       ${JMAKE} install; \
+	   fi; \
      fi
 	@if [[ ! -x tools/makemake/makemake ]]; then \
        cd tools/makemake; \

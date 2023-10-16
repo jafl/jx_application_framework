@@ -140,7 +140,7 @@ elif command -v dnf; then
 		libXpm-devel libjpeg-devel libpng-devel gd-devel \
 		libicu-devel pcre-devel libxml2-devel \
 		boost-devel expat-devel libdrm-devel \
-		xforms-devel aspell aspell-en glibc-langpack-en which;
+		xforms-devel aspell aspell-en;
 
 	if [[ $1 != package ]]; then
 		get_ace;
