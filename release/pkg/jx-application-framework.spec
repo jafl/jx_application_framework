@@ -3,7 +3,7 @@ Name: jx-application-framework
 Version: %pkg_version
 Release: 1
 License: GPL
-Group: System/Monitoring
+Group: Development/Libraries/C and C++
 Source: %pkg_name
 Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre, boost-devel, curl
 

@@ -10,6 +10,10 @@ default:
 	@mkdir -p ${JX_INSTALL_BIN}
 	@${JMAKE} initial_build
 
+.PHONY : github_release
+github_release:
+	@git tag -a -m ${JX_VERSION} v${JX_VERSION}; git push origin v${JX_VERSION}
+
 .PHONY : release
 release:
 	@${JMAKE} build_release
@@ -176,17 +180,26 @@ build_release:
 	@${TAR} -chf ../${SOURCE_TAR_NAME} ${PKG_PATH}
 
   ifeq (${HAS_RPM},1)
+	@${SUDO} rm -rf ${RPM_SRC_ROOT};
+
 	@${SUDO} mkdir -p -m 755 ${RPM_BUILD_DIR} ${RPM_SRC_DIR} ${RPM_SPEC_DIR} ${RPM_BIN_DIR} ${RPM_SRPM_DIR}
-	@${SUDO} ./release/pkg/uninstall
 	@${SUDO} cp ../${SOURCE_TAR_NAME} ${RPM_SRC_DIR}/${SOURCE_TAR_NAME}
 	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
                     --define 'pkg_version ${JX_VERSION}' \
                     --define 'pkg_name ${SOURCE_TAR_NAME}' \
                     ./release/pkg/jx-application-framework.spec
 	@${SUDO} mv ${RPM_BIN_DIR}/*/jx-application-framework-*.rpm ../${RPM_PKG_NAME}
-	@${SUDO} ./release/pkg/uninstall
 
-	@rm -rf ${RPM_SRC_DIR}/usr/local; mkdir -p ${RPM_SRC_DIR}/usr/local/lib ${RPM_SRC_DIR}/usr/local/include ${RPM_SRC_DIR}/usr/local/bin
+	@rm -rf ${RPM_SRC_ROOT}; mkdir -p ${RPM_SRC_DIR}/usr/local/lib/pkgconfig ${RPM_SRC_DIR}/usr/local/include
+	@cp /usr/local/lib/libACE.* ${RPM_SRC_DIR}/usr/local/lib
+	@cp /usr/local/lib/pkgconfig/ACE.* ${RPM_SRC_DIR}/usr/local/lib/pkgconfig
+	@cp -RL /usr/local/include/ace ${RPM_SRC_DIR}/usr/local/include
+	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
+                    --define 'pkg_version ${ACE_VERSION}' \
+                    ./release/pkg/ace.spec
+	@${SUDO} mv ${RPM_BIN_DIR}/*/ace-*.rpm ../ace-${ACE_VERSION}.${SYS_NAME}.${SYS_ARCH}.rpm
+
+	@rm -rf ${RPM_SRC_ROOT}; mkdir -p ${RPM_SRC_DIR}/usr/local/lib ${RPM_SRC_DIR}/usr/local/include ${RPM_SRC_DIR}/usr/local/bin
 	@cp /usr/local/lib/libreflex.* ${RPM_SRC_DIR}/usr/local/lib
 	@cp -RL /usr/local/include/reflex ${RPM_SRC_DIR}/usr/local/include
 	@cp /usr/local/bin/reflex ${RPM_SRC_DIR}/usr/local/bin
@@ -194,9 +207,9 @@ build_release:
                     --define 'pkg_version ${REFLEX_VERSION}' \
                     ./release/pkg/re-flex.spec
 	@${SUDO} mv ${RPM_BIN_DIR}/*/re-flex-*.rpm ../re-flex-${REFLEX_VERSION}.${SYS_NAME}.${SYS_ARCH}.rpm
-	@rm -rf ${RPM_SRC_DIR}/usr
 
 	@${SUDO} chown ${USER}: ../*.rpm
+	@${SUDO} rm -rf ${RPM_SRC_ROOT};
   endif
 
   ifeq (${HAS_DEB},1)

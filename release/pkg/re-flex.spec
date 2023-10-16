@@ -1,9 +1,9 @@
-Summary: Package to support JX Application Framework ci.
+Summary: RE/flex regular expression library
 Name: re-flex
 Version: %pkg_version
 Release: 1
 License: GPL
-Group: System/Monitoring
+Group: Development/Libraries/C and C++
 
 %description
 Package to support JX Application Framework ci.

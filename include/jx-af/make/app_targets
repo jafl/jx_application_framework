@@ -184,8 +184,9 @@ release: _pre_build_pkgs default menu_strings
 	@mv ${SOURCE_TAR_NAME} ../
 
   ifeq (${HAS_RPM},1)
+	@${SUDO} rm -rf ${RPM_SRC_ROOT};
+
 	@${SUDO} mkdir -p -m 755 ${RPM_BUILD_DIR} ${RPM_SRC_DIR} ${RPM_SPEC_DIR} ${RPM_BIN_DIR} ${RPM_SRPM_DIR}
-	@${SUDO} ./release/pkg/uninstall
 	@${SUDO} cp ../${SOURCE_TAR_NAME} ${RPM_SRC_DIR}/${SOURCE_TAR_NAME}
 	@${SUDO} ${RPM} --define '_topdir ${RPM_SRC_ROOT}' \
                     --define 'app_name ${APP_NAME}' \
@@ -194,7 +195,8 @@ release: _pre_build_pkgs default menu_strings
                     ./release/pkg/${APP_NAME}.spec
 	@${SUDO} mv ${RPM_BIN_DIR}/*/${APP_NAME}-*.rpm ../${RPM_PKG_NAME}
 	@${SUDO} chown ${USER}. ../*.rpm
-	@${SUDO} ./release/pkg/uninstall
+
+	@${SUDO} rm -rf ${RPM_SRC_ROOT};
   endif
 
   ifeq (${HAS_DEB},1)
