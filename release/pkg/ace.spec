@@ -1,5 +1,5 @@
 Summary: The ADAPTIVE Communication Environment (ACE)
-Name:    ace-static
+Name:    ace
 Version: %pkg_version
 Release: 1.0
 Group:   Development/Libraries/C and C++

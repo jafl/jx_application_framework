@@ -26,7 +26,6 @@ jobs:
           echo FORCE_CACHE_UPDATE=${RANDOM}${RANDOM} >> $GITHUB_ENV
 
       - name: Sonar data cache
-        id: cache-sonar-data
         uses: actions/cache@v3
         with:
           path: ${{ env.SONAR_CACHE_PATH }}
@@ -35,7 +34,6 @@ jobs:
             ${{ runner.os }}-sonar-cache-
 
       - name: RE/flex cache
-        id: cache-reflex
         uses: actions/cache@v3
         with:
           path: misc/reflex
@@ -99,7 +97,7 @@ jobs:
       LANG: en_US.utf8
     steps:
       - name: Install git
-        run: dnf install -y git
+        run: dnf install -y git zstd
 
       - uses: actions/checkout@v3
         with:
@@ -111,14 +109,12 @@ jobs:
           echo REFLEX_VERSION=`cat .reflex-version` >> $GITHUB_ENV
 
       - name: RE/flex cache
-        id: cache-reflex
         uses: actions/cache@v3
         with:
           path: misc/reflex
           key: fedora-reflex-${{ env.REFLEX_VERSION }}
 
       - name: ACE cache
-        id: cache-ace
         uses: actions/cache@v3
         with:
           path: ACE/ACE_wrappers
@@ -238,7 +234,6 @@ jobs:
           echo REFLEX_VERSION=`cat .reflex-version` >> $GITHUB_ENV
 
       - name: RE/flex cache
-        id: cache-reflex
         uses: actions/cache@v3
         with:
           path: misc/reflex
