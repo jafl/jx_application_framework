@@ -53,10 +53,10 @@ SEARCHDIRS += -I/usr/include/freetype2
 SYS_NAME := $(shell source /etc/os-release; echo $$ID$${VERSION_ID%%.*})
 SYS_ARCH := $(shell uname -m)
 
-ifneq (${shell command dpkg-deb 2> /dev/null},)
+ifneq (${shell command -v dpkg-deb 2> /dev/null},)
   HAS_DEB  := 1
   SYS_ARCH := $(shell dpkg --print-architecture)
-else ifneq (${shell command rpm 2> /dev/null},)
+else ifneq (${shell command -v rpm 2> /dev/null},)
   HAS_RPM := 1
 endif
 

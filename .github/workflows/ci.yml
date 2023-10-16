@@ -128,7 +128,7 @@ jobs:
 
       - name: Build & save CI packages
         run: |
-          make JX_VERSION=1ci REFLEX_VERSION=1ci release
+          make JX_VERSION=1ci ACE_VERSION=1ci REFLEX_VERSION=1ci release
           echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
           chmod 0600 sourceforge_key
           scp -o StrictHostKeyChecking=no -i sourceforge_key ../jx-application-framework-1ci.*.rpm jafl,libjx@web.sourceforge.net:htdocs/ci/jx-application-framework-fedora.rpm
