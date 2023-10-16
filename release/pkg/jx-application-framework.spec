@@ -5,7 +5,7 @@ Release: 1
 License: GPL
 Group: Development/Libraries/C and C++
 Source: %pkg_name
-Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre, boost-devel, curl
+Requires: git, findutils, curl, perl, python-libxml2, gcc-c++, bison, make, rpm-build, imake, libtool, libX11-devel, libXinerama-devel, libXft-devel, libXmu-devel, libXi-devel, xorg-x11-proto-devel, xorg-x11-server-devel, libXdamage-devel, libXpm-devel, libjpeg-devel, libpng-devel, gd-devel, libicu-devel, pcre-devel, libxml2-devel, boost-devel, expat-devel, libdrm-devel, xforms-devel, aspell, aspell-en, glibc-langpack-en
 
 %description
 JX Application Framework is a UI library for the X Window System.
