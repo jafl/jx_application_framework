@@ -1,13 +1,13 @@
-[![Github CI](https://github.com/jafl/jx_application_framework/actions/workflows/ci.yml/badge.svg?branch=utf8)](https://github.com/jafl/jx_application_framework/actions/workflows/ci.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=utf8&project=jafl_jx_application_framework&metric=alert_status)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework&branch=utf8)
+[![Github CI](https://github.com/jafl/jx_application_framework/actions/workflows/ci.yml/badge.svg)](https://github.com/jafl/jx_application_framework/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jafl_jx_application_framework&metric=alert_status)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework)
 
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?branch=utf8&project=jafl_jx_application_framework&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework&branch=utf8)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?branch=utf8&project=jafl_jx_application_framework&metric=security_rating)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework&branch=utf8)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?branch=utf8&project=jafl_jx_application_framework&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework&branch=utf8)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=jafl_jx_application_framework&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=jafl_jx_application_framework&metric=security_rating)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=jafl_jx_application_framework&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework)
 
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?branch=utf8&project=jafl_jx_application_framework&metric=ncloc)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework&branch=utf8)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=jafl_jx_application_framework&metric=ncloc)](https://sonarcloud.io/dashboard?id=jafl_jx_application_framework)
 
-libjcore: [![Coverage](https://codecov.io/gh/jafl/jx_application_framework/branch/utf8/graph/badge.svg)](https://codecov.io/gh/jafl/jx_application_framework)
+libjcore: [![Coverage](https://codecov.io/gh/jafl/jx_application_framework/graph/badge.svg)](https://codecov.io/gh/jafl/jx_application_framework)
 
 # JX Application Framework
 

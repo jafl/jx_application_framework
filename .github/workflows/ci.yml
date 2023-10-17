@@ -149,7 +149,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: release
-          path: jx-application-framework*.* ace*.* re-flex*.*
+          path: jx-application-framework* ace* re-flex*
 
   build-macos:
     name: Build & Package MacOS
@@ -219,6 +219,7 @@ jobs:
   coverage:
     name: Coverage
     runs-on: ubuntu-latest
+    if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
     env:
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
