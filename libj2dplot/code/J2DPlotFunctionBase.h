@@ -25,6 +25,8 @@ public:
 
 	~J2DPlotFunctionBase() override;
 
+	using J2DPlotDataBase::GetElement;
+
 	bool	IsFunction() const override;
 	void	GetElement(const JIndex index, J2DDataPoint* data) const override;
 
