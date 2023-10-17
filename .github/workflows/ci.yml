@@ -142,14 +142,15 @@ jobs:
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: |
           make release
-          mv ../jx-application-framework*.* ../ace*.* ../re-flex*.* .
+          mv ../jx-application-framework-* .
+          ls -l
 
       - name: Save release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         uses: actions/upload-artifact@v3
         with:
           name: release
-          path: jx-application-framework* ace* re-flex*
+          path: jx-application-framework-*
 
   build-macos:
     name: Build & Package MacOS
