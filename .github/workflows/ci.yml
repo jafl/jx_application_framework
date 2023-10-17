@@ -245,7 +245,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: jx-application-framework_*
+          file: jx-application-framework*
           tag: ${{ github.ref }}
           file_glob: true
 
