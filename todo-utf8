@@ -1,9 +1,0 @@
-jcc
-	cmd window sometimes loses last chunk of program output
-
-	HTML styler
-		unit test for CDATA - can contain php or jsp
-		tag, attribute value, script, char escapes
-		javascript regex, incl char class - can contain php or jsp
-
-	test with old project formats in code_crusader/test-manual/*.jcc

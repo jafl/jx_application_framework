@@ -1,22 +1,21 @@
-JTextEditor:
-	need smarter update during indent/outdent, to maintain caret location
-		when caret in another view is inside the affected range
-
-	don't change insertion font while typing when glyphs are rendered with fallback font
-
 jcc
 	json styler
 	raku (perl6)
 
-systemg
-	report "file too large" error when copying to usb
-
-jcc
 	JXDocumentMenu - show partial paths for repeated file names
 
 	include partial path in symbol search results when display duplicate file name?
 		/Users/jolindal/projects/vendomatic/src/main/webapp/public/sso.php
 		validateLogin
+
+	cmd window sometimes loses last chunk of program output
+
+	HTML styler
+		unit test for CDATA - can contain php or jsp
+		tag, attribute value, script, char escapes
+		javascript regex, incl char class - can contain php or jsp
+
+	test with old project formats in code_crusader/test-manual/*.jcc
 
 medic
 	when kill program, doesn't clear current source line marker
@@ -38,6 +37,12 @@ glove
 	test on 1000, 10000 rows: run fit in thread?
 
 	catch NaN during fits: exponential fit to linear data
+
+JTextEditor:
+	need smarter update during indent/outdent, to maintain caret location
+		when caret in another view is inside the affected range
+
+	don't change insertion font while typing when glyphs are rendered with fallback font
 
 -----
 

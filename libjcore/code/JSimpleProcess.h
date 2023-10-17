@@ -58,6 +58,7 @@ public:
 
 	~JSimpleProcess() override;
 
+	void	SetMaxReportInterval(const time_t delta);
 	void	ReportError(const bool success);
 
 protected:
@@ -70,8 +71,24 @@ private:
 
 private:
 
-	ProcessLink*	itsLink;			// keeps pipe from filling up and blocking
-	const time_t	itsStartTime;		// time when process was created
+	ProcessLink*	itsLink;				// keeps pipe from filling up and blocking
+	const time_t	itsStartTime;			// time when process was created
+	time_t			itsMaxReportInterval;	// seconds
 };
+
+
+/******************************************************************************
+ SetMaxReportInterval
+
+ ******************************************************************************/
+
+inline void
+JSimpleProcess::SetMaxReportInterval
+	(
+	const time_t delta
+	)
+{
+	itsMaxReportInterval = delta;
+}
 
 #endif

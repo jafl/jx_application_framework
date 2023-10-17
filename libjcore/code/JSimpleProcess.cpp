@@ -317,7 +317,8 @@ JSimpleProcess::JSimpleProcess
 	)
 	:
 	JProcess(pid),
-	itsStartTime(time(nullptr))
+	itsStartTime(time(nullptr)),
+	itsMaxReportInterval(kMaxReportInverval)
 {
 	itsLink = new ProcessLink(fd);
 	assert( itsLink != nullptr );
@@ -382,7 +383,7 @@ JSimpleProcess::ReportError
 	const bool hasPartialLine = itsLink->PeekPartialMessage(&lastLine);
 
 	if ((itsLink->HasMessages() || hasPartialLine) &&
-		time(nullptr) < itsStartTime + kMaxReportInverval)
+		time(nullptr) < itsStartTime + itsMaxReportInterval)
 	{
 		JString text, line;
 		while (itsLink->GetNextMessage(&line))
