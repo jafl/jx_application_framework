@@ -39,22 +39,26 @@ jobs:
           key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
 
       - name: Install sonar-scanner and build-wrapper
+        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
         uses: sonarsource/sonarcloud-github-c-cpp@v1
 
       - name: Initialize CodeQL
+        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
         uses: github/codeql-action/init@v2
         with:
           languages: cpp
 
       - name: Configure
-        run: ./configure release
-
-      - name: Build
         run: |
+          ./configure release
           touch libjexpr/code/JExprParserY.cpp libjexpr/code/JExprParserY.hpp
-          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
+
+      - name: Build with Sonar Analysis
+        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
+        run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
 
       - name: Run sonar-scanner
+        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -62,9 +66,11 @@ jobs:
           sonar-scanner --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
 
       - name: Perform CodeQL analysis
+        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
         uses: github/codeql-action/analyze@v2
 
       - name: Build & save CI packages
+        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
         run: |
           make JX_VERSION=1ci REFLEX_VERSION=1ci release
           echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
@@ -73,6 +79,10 @@ jobs:
           scp -o StrictHostKeyChecking=no -i sourceforge_key ../re-flex_1ci_*.deb jafl,libjx@web.sourceforge.net:htdocs/ci/re-flex.deb
           scp -o StrictHostKeyChecking=no -i sourceforge_key ../re-flex_1ci_*.deb jafl,libjx@web.sourceforge.net:htdocs/release/re-flex.deb
           rm  -f ../jx-application-framework_1ci_* ../re-flex_1ci_*
+
+      - name: Build without Sonar Analysis
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        run: make
 
       - name: Build release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
@@ -127,6 +137,7 @@ jobs:
           make
 
       - name: Build & save CI packages
+        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
         run: |
           make JX_VERSION=1ci ACE_VERSION=1ci REFLEX_VERSION=1ci release
           echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
@@ -178,6 +189,7 @@ jobs:
         run: make
 
       - name: Build & save CI packages
+        if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
         run: |
           make JX_VERSION=1ci release
           echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
