@@ -1,6 +1,6 @@
 name: jx-application-framework
 title: JX Application Framework
-base: core20
+base: core22
 version: "4.0.0"
 #source-code: https://github.com/jafl/jx_application_framework
 #issues: https://github.com/jafl/jx_application_framework/issues
@@ -14,9 +14,7 @@ confinement: strict
 
 architectures:
   - build-on: amd64
-  - build-on: arm64
   - build-on: ppc64el
-  - build-on: s390x
 
 parts:
   jx-application-framework:

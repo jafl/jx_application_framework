@@ -72,7 +72,6 @@ jobs:
           chmod 0600 sourceforge_key
           scp -o StrictHostKeyChecking=no -i sourceforge_key ../jx-application-framework_1ci_*.deb jafl,libjx@web.sourceforge.net:htdocs/ci/jx-application-framework.deb
           scp -o StrictHostKeyChecking=no -i sourceforge_key ../re-flex_1ci_*.deb jafl,libjx@web.sourceforge.net:htdocs/ci/re-flex.deb
-          scp -o StrictHostKeyChecking=no -i sourceforge_key ../re-flex_1ci_*.deb jafl,libjx@web.sourceforge.net:htdocs/release/re-flex.deb
           rm  -f ../jx-application-framework_1ci_* ../re-flex_1ci_*
 
   build-ubuntu-release:
@@ -163,9 +162,7 @@ jobs:
           chmod 0600 sourceforge_key
           scp -o StrictHostKeyChecking=no -i sourceforge_key ../jx-application-framework-1ci.*.rpm jafl,libjx@web.sourceforge.net:htdocs/ci/jx-application-framework-fedora.rpm
           scp -o StrictHostKeyChecking=no -i sourceforge_key ../ace-1ci.*.rpm jafl,libjx@web.sourceforge.net:htdocs/ci/ace-fedora.rpm
-          scp -o StrictHostKeyChecking=no -i sourceforge_key ../ace-1ci.*.rpm jafl,libjx@web.sourceforge.net:htdocs/release/ace-fedora.rpm
           scp -o StrictHostKeyChecking=no -i sourceforge_key ../re-flex-1ci.*.rpm jafl,libjx@web.sourceforge.net:htdocs/ci/re-flex-fedora.rpm
-          scp -o StrictHostKeyChecking=no -i sourceforge_key ../re-flex-1ci.*.rpm jafl,libjx@web.sourceforge.net:htdocs/release/re-flex-fedora.rpm
           rm  -f ../jx-application-framework-1ci.* ../ace-1ci.* ../re-flex-1ci.*
 
       - name: Build release packages

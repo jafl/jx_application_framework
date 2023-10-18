@@ -263,13 +263,13 @@ upload_release_file:
 mirror_sourceforge:
 	@R=`curl https://api.github.com/repos/jafl/${REPO_NAME}/releases/latest`; \
      V=`echo $$R | jq -r '.tag_name'`; V=$${V#v}; V=$${V%.0}; \
-     echo "mkdir /home/frs/project/${FORGE_NAME}/$$V" | sftp -b - jafl@frs.sourceforge.net; \
+     echo "mkdir /home/frs/project/${FORGE_NAME}/v$$V" | sftp -b - jafl@frs.sourceforge.net; \
      for url in `echo $$R | jq -r '.assets[].browser_download_url'`; do \
          f=$${url##*/}; \
          curl -L -O $$url; \
          scp $$f jafl@frs.sourceforge.net:/home/frs/project/${FORGE_NAME}/$$V/; \
          rm -f $$f; \
          if [[ $$url == *macos* ]]; then \
-             curl -H "Accept: application/json" -X PUT -d "default=mac" -d "api_key="`cat ~/.ssh/FORGE_API_KEY` https://sourceforge.net/projects/${FORGE_NAME}/files/$$V/$$f; \
+             curl -H "Accept: application/json" -X PUT -d "default=mac" -d "api_key="`cat ~/.ssh/FORGE_API_KEY` https://sourceforge.net/projects/${FORGE_NAME}/files/v$$V/$$f; \
          fi; \
      done
