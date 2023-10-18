@@ -235,7 +235,7 @@ _build_deb_sub:
 	@${RM} -r debian/${SOURCE_TAR_NAME} ${DEB_INSTALL_SCRIPT_PATH}
 
 #
-# Uploading packages - deprecated
+# Uploading packages
 #
 
 .PHONY : upload_release

@@ -15,15 +15,15 @@ on:
 
 jobs:
   set-defaults:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Set MacOS default download
-      run: |
-        sleep 30
-        R=`curl https://api.github.com/repos/jafl/${{ inputs.repo-name }}/releases/latest`
-        V=`echo $R | jq -r '.tag_name'`; V=${V#v}; V=${V%.0}
-        for url in `echo $R | jq -r '.assets[].browser_download_url'`; do
-          if [[ $url == *macos* ]]; then
-            curl -H "Accept: application/json" -X PUT -d default=mac -d api_key=${{ secrets.api-key }} https://sourceforge.net/projects/${{ inputs.forge-name }}/files/$V/${url##*/};
-          fi;
-        done
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set MacOS default download
+        run: |
+          sleep 30
+          R=`curl https://api.github.com/repos/jafl/${{ inputs.repo-name }}/releases/latest`
+          V=`echo $R | jq -r '.tag_name'`; V=${V#v}; V=${V%.0}
+          for url in `echo $R | jq -r '.assets[].browser_download_url'`; do
+            if [[ $url == *macos* ]]; then
+              curl -H "Accept: application/json" -X PUT -d default=mac -d api_key=${{ secrets.api-key }} https://sourceforge.net/projects/${{ inputs.forge-name }}/files/$V/${url##*/};
+            fi;
+          done
