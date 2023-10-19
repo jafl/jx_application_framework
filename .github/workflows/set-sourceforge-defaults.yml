@@ -16,6 +16,8 @@ on:
     secrets:
       api-key:
         required: true
+      ssh-key:
+        required: true
 
 jobs:
   set-defaults:
@@ -24,13 +26,14 @@ jobs:
       - name: Mirror release to sourceforge
         run: |
           sleep 30
+          echo "${{ secrets.ssh-key }}" > ssh-key
           R=`curl https://api.github.com/repos/jafl/${{ inputs.repo-name }}/releases/latest`
           V=`echo $R | jq -r '.tag_name'`; V=${V#v}; V=${V%.0}
           for url in `echo $R | jq -r '.assets[].browser_download_url'`; do
             f=${url##*/};
             if [[ $f == ${{ inputs.filter }} ]]; then
               curl -L -O $url;
-              scp $f jafl@frs.sourceforge.net:/home/frs/project/${{ inputs.forge-name }}/$V/;
+              scp -o StrictHostKeyChecking=no -i ssh-key $f jafl@frs.sourceforge.net:/home/frs/project/${{ inputs.forge-name }}/$V/;
               if [[ $url == *macos* ]]; then
                 curl -H "Accept: application/json" -X PUT -d default=mac -d api_key=${{ secrets.api-key }} https://sourceforge.net/projects/${{ inputs.forge-name }}/files/$V/$f;
               fi;
