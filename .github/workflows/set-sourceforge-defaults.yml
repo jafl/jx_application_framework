@@ -32,8 +32,11 @@ jobs:
           V=`echo $R | jq -r '.tag_name'`; V=${V#v}; V=${V%.0}
           for url in `echo $R | jq -r '.assets[].browser_download_url'`; do
             f=${url##*/};
+            echo $f;
             if [[ $f == ${{ inputs.filter }} ]]; then
               curl -L -O $url;
+              ls -l $f;
+              echo scp -o StrictHostKeyChecking=no -i ssh-key $f jafl@frs.sourceforge.net:/home/frs/project/${{ inputs.forge-name }}/$V/;
               scp -o StrictHostKeyChecking=no -i ssh-key $f jafl@frs.sourceforge.net:/home/frs/project/${{ inputs.forge-name }}/$V/;
               if [[ $url == *macos* ]]; then
                 curl -H "Accept: application/json" -X PUT -d default=mac -d api_key=${{ secrets.api-key }} https://sourceforge.net/projects/${{ inputs.forge-name }}/files/$V/$f;
