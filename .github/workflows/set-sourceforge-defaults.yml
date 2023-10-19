@@ -27,6 +27,7 @@ jobs:
         run: |
           sleep 30
           echo "${{ secrets.ssh-key }}" > ssh-key
+          chmod 0600 ssh-key
           R=`curl https://api.github.com/repos/jafl/${{ inputs.repo-name }}/releases/latest`
           V=`echo $R | jq -r '.tag_name'`; V=${V#v}; V=${V%.0}
           for url in `echo $R | jq -r '.assets[].browser_download_url'`; do
