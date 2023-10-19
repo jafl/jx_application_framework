@@ -9,6 +9,10 @@ on:
       forge-name:
         type: string
         required: true
+      filter:
+        type: string
+        required: false
+        default: "*"
     secrets:
       api-key:
         required: true
@@ -23,7 +27,12 @@ jobs:
           R=`curl https://api.github.com/repos/jafl/${{ inputs.repo-name }}/releases/latest`
           V=`echo $R | jq -r '.tag_name'`; V=${V#v}; V=${V%.0}
           for url in `echo $R | jq -r '.assets[].browser_download_url'`; do
-            if [[ $url == *macos* ]]; then
-              curl -H "Accept: application/json" -X PUT -d default=mac -d api_key=${{ secrets.api-key }} https://sourceforge.net/projects/${{ inputs.forge-name }}/files/$V/${url##*/};
+            f=${url##*/};
+            if [[ $f == ${{ inputs.filter }} ]]; then
+              curl -L -O $url;
+              scp $f jafl@frs.sourceforge.net:/home/frs/project/${{ inputs.forge-name }}/$V/;
+              if [[ $url == *macos* ]]; then
+                curl -H "Accept: application/json" -X PUT -d default=mac -d api_key=${{ secrets.api-key }} https://sourceforge.net/projects/${{ inputs.forge-name }}/files/$V/$f;
+              fi;
             fi;
           done
