@@ -1,10 +1,12 @@
 name: jx-application-framework
 title: JX Application Framework
-base: core22
+# core22 build hangs on amd64
+# https://forum.snapcraft.io/t/snapcraft-io-build-using-core22-gets-stuck-on-amd64/37363
+base: core20
 version: "4.0.0"
-#source-code: https://github.com/jafl/jx_application_framework
-#issues: https://github.com/jafl/jx_application_framework/issues
-#contact: https://johnlindal.wixsite.com/aboutme/contact-me
+source-code: https://github.com/jafl/jx_application_framework
+issues: https://github.com/jafl/jx_application_framework/issues
+contact: https://johnlindal.wixsite.com/aboutme/contact-me
 summary: JX is an application framework for use with the X Window System.
 description: |
   JX is a full-featured C++ application framework and widget library (SDK) for use with the X Window System.
@@ -24,6 +26,8 @@ parts:
       snapcraftctl pull
       sudo locale-gen en_US.UTF-8
       touch libjexpr/code/JExprParserY.cpp libjexpr/code/JExprParserY.hpp
+      sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 100
+      g++ --version
     build-environment:
       - LC_ALL: en_US.UTF-8
       - LANG: en_US.UTF-8
@@ -36,6 +40,7 @@ parts:
       - bin/makemake
       - bin/reflex
     build-packages:
+      - g++-11
       - make
       - libx11-dev
       - libxinerama-dev
@@ -58,3 +63,7 @@ parts:
       - libdrm-dev
       - aspell
       - locales
+
+package-repositories:
+  - type: apt
+    ppa: ubuntu-toolchain-r/test
