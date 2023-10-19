@@ -72,7 +72,7 @@ test_snap:
 check_version:
 	@echo -n "local:    "; cat release/VERSION; echo
 	@echo -n "released: "
-	@curl https://${FORGE_NAME}.sourceforge.net/VERSION; echo
+	@curl https://${FORGE_NAME}.sourceforge.io/VERSION; echo
 
 #
 # Core dumps on macOS
