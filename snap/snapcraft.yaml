@@ -16,6 +16,7 @@ confinement: strict
 
 architectures:
   - build-on: amd64
+  - build-on: arm64
   - build-on: ppc64el
 
 parts:
@@ -27,7 +28,6 @@ parts:
       sudo locale-gen en_US.UTF-8
       touch libjexpr/code/JExprParserY.cpp libjexpr/code/JExprParserY.hpp
       sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 100
-      g++ --version
     build-environment:
       - LC_ALL: en_US.UTF-8
       - LANG: en_US.UTF-8

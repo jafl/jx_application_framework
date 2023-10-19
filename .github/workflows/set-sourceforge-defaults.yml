@@ -1,4 +1,4 @@
-name: Set SourceForge default downloads
+name: Mirror release to sourceforge
 
 on:
   workflow_call:
@@ -21,7 +21,7 @@ jobs:
   set-defaults:
     runs-on: ubuntu-latest
     steps:
-      - name: Set MacOS default download
+      - name: Mirror release to sourceforge
         run: |
           sleep 30
           R=`curl https://api.github.com/repos/jafl/${{ inputs.repo-name }}/releases/latest`
