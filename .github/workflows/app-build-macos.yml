@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-macos:
-    name: Build macOS
+    name: Build
     runs-on: macos-13
     env:
       PKG_CONFIG_PATH: /usr/local/opt/icu4c/lib/pkgconfig

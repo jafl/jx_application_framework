@@ -15,7 +15,7 @@ on:
 
 jobs:
   upload-release-pkgs:
-    name: Release packages
+    name: Upload
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3

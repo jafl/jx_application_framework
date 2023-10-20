@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-ubuntu:
-    name: Analyze on Ubuntu
+    name: Analyze
     runs-on: ubuntu-latest
     env:
       SONAR_SCANNER_VERSION: 4.4.0.2170
