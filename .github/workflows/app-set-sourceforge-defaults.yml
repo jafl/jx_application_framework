@@ -1,11 +1,6 @@
-name: Mirror release to sourceforge
-
 on:
   workflow_call:
     inputs:
-      repo-name:
-        type: string
-        required: true
       forge-name:
         type: string
         required: true
@@ -21,6 +16,7 @@ on:
 
 jobs:
   set-defaults:
+    name: Mirror release to sourceforge
     runs-on: ubuntu-latest
     steps:
       - name: Mirror release to sourceforge
@@ -28,7 +24,7 @@ jobs:
           sleep 30
           echo "${{ secrets.ssh-key }}" > ssh-key
           chmod 0600 ssh-key
-          R=`curl https://api.github.com/repos/jafl/${{ inputs.repo-name }}/releases/latest`
+          R=`curl https://api.github.com/repos/${{ github.repository }}/releases/latest`
           V=`echo $R | jq -r '.tag_name'`; V=${V#v}; V=${V%.0}
           for url in `echo $R | jq -r '.assets[].browser_download_url'`; do
             f=${url##*/};

@@ -1,0 +1,35 @@
+on:
+  workflow_call:
+    inputs:
+      pkg-name:
+        type: string
+        required: true
+
+jobs:
+  build-ubuntu-release:
+    name: Build & Package Ubuntu
+    runs-on: ubuntu-latest
+    env:
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure
+        run: ./configure ci
+
+      - name: Build
+        run: make
+
+      - name: Build release packages
+        run: |
+          make release
+          mv ../$${ inputs.pkg-name }}_* .
+
+      - name: Save release packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: release
+          path: $${ inputs.pkg-name }}_*

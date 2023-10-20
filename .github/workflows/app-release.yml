@@ -1,0 +1,41 @@
+on:
+  workflow_call:
+    inputs:
+      pkg-name:
+        type: string
+        required: true
+      forge-name:
+        type: string
+        required: true
+    secrets:
+      api-key:
+        required: true
+      ssh-key:
+        required: true
+
+jobs:
+  upload-release-pkgs:
+    name: Upload release packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: release
+
+      - name: Save release packages
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+          file: ${{ inputs.pkg-name }}?*.*
+          file_glob: true
+
+  update-sourceforge:
+    name: Update SourceForge
+    needs: [ upload-release-pkgs ]
+    uses: app-set-sourceforge-defaults.yml@main
+    with:
+      forge-name: ${{ inputs.forge-name }}
+    secrets:
+      api-key: ${{ secrets.api-key }}
+      ssh-key: ${{ secrets.ssh-key }}

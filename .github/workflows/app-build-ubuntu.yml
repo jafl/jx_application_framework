@@ -1,0 +1,55 @@
+on:
+  workflow_call:
+    secrets:
+      sonar-token:
+        required: true
+
+jobs:
+  build-ubuntu:
+    name: Build & Analyze Ubuntu
+    runs-on: ubuntu-latest
+    env:
+      SONAR_SCANNER_VERSION: 4.4.0.2170
+      BUILD_WRAPPER_OUT_DIR: sonar_output
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set environment variables
+        run: |
+          echo SONAR_CACHE_PATH=$HOME/$BUILD_WRAPPER_OUT_DIR >> $GITHUB_ENV
+          echo FORCE_CACHE_UPDATE=${RANDOM}${RANDOM} >> $GITHUB_ENV
+
+      - name: Sonar data cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.SONAR_CACHE_PATH }}
+          key: ${{ runner.os }}-sonar-cache-${{ env.FORCE_CACHE_UPDATE }}
+          restore-keys: |
+            ${{ runner.os }}-sonar-cache-
+
+      - name: Install sonar-scanner and build-wrapper
+        uses: sonarsource/sonarcloud-github-c-cpp@v1
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: cpp
+
+      - name: Configure
+        run: ./configure ci
+
+      - name: Build
+        run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
+
+      - name: Run sonar-scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: sonar-scanner --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v2
