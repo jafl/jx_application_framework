@@ -42,11 +42,11 @@ jobs:
         run: |
           export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
           make release
-          mv ../$${{ inputs.pkg-name }}_* .
+          mv ../${{ inputs.pkg-name }}_* .
 
       - name: Save release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         uses: actions/upload-artifact@v3
         with:
           name: release
-          path: $${{ inputs.pkg-name }}_*
+          path: ${{ inputs.pkg-name }}_*

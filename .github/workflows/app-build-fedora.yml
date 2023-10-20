@@ -33,7 +33,7 @@ jobs:
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: |
           make release
-          mv ../$${{ inputs.pkg-name }}_* ../$${{ inputs.pkg-name }}-* .
+          mv ../${{ inputs.pkg-name }}_* ../${{ inputs.pkg-name }}-* .
 
       - name: Save release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
@@ -41,5 +41,5 @@ jobs:
         with:
           name: release
           path: |
-            $${{ inputs.pkg-name }}_*
-            $${{ inputs.pkg-name }}-*
+            ${{ inputs.pkg-name }}_*
+            ${{ inputs.pkg-name }}-*

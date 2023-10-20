@@ -16,10 +16,9 @@ on:
 
 jobs:
   set-defaults:
-    name: Mirror release to sourceforge
+    name: Mirror to sourceforge
     runs-on: ubuntu-latest
     steps:
-      - name: Mirror release to sourceforge
         run: |
           sleep 30
           echo "${{ secrets.ssh-key }}" > ssh-key

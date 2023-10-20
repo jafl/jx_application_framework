@@ -194,7 +194,7 @@ release: _pre_build_pkgs default menu_strings
                     --define 'pkg_name ${SOURCE_TAR_NAME}' \
                     ./release/pkg/${APP_NAME}.spec
 	@${SUDO} mv ${RPM_BIN_DIR}/*/${APP_NAME}-*.rpm ../${RPM_PKG_NAME}
-	@${SUDO} chown ${USER}. ../*.rpm
+	@${SUDO} chown ${USER}: ../*.rpm
 
 	@${SUDO} rm -rf ${RPM_SRC_ROOT};
   endif
