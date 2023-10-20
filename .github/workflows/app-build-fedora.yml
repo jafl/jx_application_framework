@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-fedora:
-    name: Build & Package Fedora
+    name: Build Fedora
     runs-on: ubuntu-latest
     container: fedora:latest
     steps:

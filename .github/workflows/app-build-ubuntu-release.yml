@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-ubuntu-release:
-    name: Build & Package Ubuntu
+    name: Build Ubuntu
     runs-on: ubuntu-latest
     env:
       LC_ALL: en_US.UTF-8

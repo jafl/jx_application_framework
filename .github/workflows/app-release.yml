@@ -15,7 +15,7 @@ on:
 
 jobs:
   upload-release-pkgs:
-    name: Upload release packages
+    name: Release packages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
@@ -31,7 +31,7 @@ jobs:
           file_glob: true
 
   update-sourceforge:
-    name: Update SourceForge
+    name: "-"
     needs: [ upload-release-pkgs ]
     uses: ./.github/workflows/app-set-sourceforge-defaults.yml
     with:
