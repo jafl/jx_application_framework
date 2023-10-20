@@ -33,7 +33,7 @@ jobs:
   update-sourceforge:
     name: Update SourceForge
     needs: [ upload-release-pkgs ]
-    uses: .github/workflows/app-set-sourceforge-defaults.yml@main
+    uses: ./.github/workflows/app-set-sourceforge-defaults.yml@main
     with:
       forge-name: ${{ inputs.forge-name }}
     secrets:
