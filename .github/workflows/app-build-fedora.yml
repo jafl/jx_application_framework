@@ -4,6 +4,10 @@ on:
       pkg-name:
         type: string
         required: true
+      build-cmd:
+        type: string
+        required: false
+        default: make
 
 jobs:
   build-fedora:
@@ -27,7 +31,7 @@ jobs:
         run: ./configure ci
 
       - name: Build
-        run: make
+        run: ${{ inputs.build-cmd }}
 
       - name: Build release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}

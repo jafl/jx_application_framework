@@ -4,6 +4,10 @@ on:
       pkg-name:
         type: string
         required: true
+      build-cmd:
+        type: string
+        required: false
+        default: make
 
 jobs:
   build-macos:
@@ -35,7 +39,7 @@ jobs:
           makemake
 
       - name: Build
-        run: make
+        run: ${{ inputs.build-cmd }}
 
       - name: Build release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
