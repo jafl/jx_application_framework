@@ -262,7 +262,7 @@ upload_release_file:
 .PHONY : mirror_sourceforge
 mirror_sourceforge:
 	@R=`curl https://api.github.com/repos/jafl/${REPO_NAME}/releases/latest`; \
-     V=`echo $$R | jq -r '.tag_name'`; V=$${V#v}; V=$${V%.0}; \
+     V=`echo $$R | jq -r '.tag_name'`; V=$${V#v}; \
      echo "mkdir /home/frs/project/${FORGE_NAME}/v$$V" | sftp -b - jafl@frs.sourceforge.net; \
      for url in `echo $$R | jq -r '.assets[].browser_download_url'`; do \
          f=$${url##*/}; \
