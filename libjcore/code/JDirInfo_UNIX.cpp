@@ -35,7 +35,10 @@ JDirInfo::CalledByBuildInfo
 	// scan directory
 
 	DIR* dir = opendir(".");
-	assert( dir != nullptr );
+	if (dir == nullptr)		// snaps are sandboxed
+	{
+		return;
+	}
 
 	struct dirent* direntry;
 	while ((direntry = readdir(dir)) != nullptr)
