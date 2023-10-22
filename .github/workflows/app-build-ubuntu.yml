@@ -30,7 +30,7 @@ jobs:
       - name: Build release packages
         run: |
           make release
-          mv ../${{ inputs.pkg-name }}_* .
+          mv ../${{ inputs.pkg-name }}_* . || true
 
       - name: Save release packages
         uses: actions/upload-artifact@v3
