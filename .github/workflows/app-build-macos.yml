@@ -36,7 +36,6 @@ jobs:
           ./configure ci
           brew install cask
           brew install --cask xquartz
-          makemake
 
       - name: Build
         run: ${{ inputs.build-cmd }}
