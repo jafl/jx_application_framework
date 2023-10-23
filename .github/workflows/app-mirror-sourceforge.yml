@@ -25,7 +25,7 @@ jobs:
           chmod 0600 ssh-key
           R=`curl https://api.github.com/repos/${{ github.repository }}/releases/latest`
           V=`echo $R | jq -r '.tag_name'`; V=${V#v}
-          echo "mkdir /home/frs/project/${{ inputs.forge-name }}/v$V" | sftp  -o StrictHostKeyChecking=no -i ssh-key -b - jafl@frs.sourceforge.net
+          echo "mkdir /home/frs/project/${{ inputs.forge-name }}/v$V" | sftp  -o StrictHostKeyChecking=no -i ssh-key -b - jafl@frs.sourceforge.net || true
           for url in `echo $R | jq -r '.assets[].browser_download_url'`; do
             f=${url##*/};
             echo $f;
