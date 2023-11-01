@@ -84,7 +84,7 @@ public:
 	~JString();
 
 	void* operator new(size_t sz) noexcept;
-	void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line) noexcept;
+	void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line, const int type) noexcept;
 	void* operator new(size_t sz, const bool forceShallow) noexcept;
 	void  operator delete(void* memory) noexcept;
 
@@ -311,6 +311,7 @@ private:
 
 private:
 
+	void	SetAllocCount(const JSize byteCount);
 	void	CopyToPrivateBuffer(const JUtf8Byte* str, const JSize byteCount,
 								const bool invalidateIterator = true);
 	void	FoldCase(const bool upper);
@@ -1518,6 +1519,20 @@ JString::GetUnterminatedBytes()
 	const
 {
 	return itsBytes;
+}
+
+/******************************************************************************
+ GetUnterminatedBytes (private)
+
+ ******************************************************************************/
+
+inline void
+JString::SetAllocCount
+	(
+	const JSize byteCount
+	)
+{
+	itsAllocCount = byteCount <= itsBlockSize ? itsBlockSize : byteCount + itsBlockSize;
 }
 
 #endif

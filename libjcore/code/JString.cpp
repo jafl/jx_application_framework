@@ -37,7 +37,7 @@
 #include "jErrno.h"
 #include "jAssert.h"
 
-JSize JString::theDefaultBlockSize = 1024;
+JSize JString::theDefaultBlockSize = 1023;	// not including null terminator
 const JString JString::empty("", JString::kNoCopy);
 const JString JString::newline("\n", JString::kNoCopy);
 
@@ -294,8 +294,8 @@ JString::JString
 	itsNormalizeFlag(true),
 	itsByteCount(0),
 	itsCharacterCount(0),
-	itsAllocCount(theDefaultBlockSize),
-	itsBlockSize(theDefaultBlockSize),
+	itsAllocCount(127),
+	itsBlockSize(127),
 	itsUCaseMap(nullptr),
 	itsIterator(nullptr)
 {
@@ -350,7 +350,7 @@ JString::operator new
 	)
 	noexcept
 {
-	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, false);
+	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, JMMRecord::kApp, false);
 	theCurrentlyConstructingObject = static_cast<JString*>(memory);
 	return memory;
 }
@@ -360,11 +360,12 @@ JString::operator new
 	(
 	std::size_t			sz,
 	const JUtf8Byte*	file,
-	const JUInt32		line
+	const JUInt32		line,
+	const int			type
 	)
 	noexcept
 {
-	void* memory = JMemoryManager::New(sz, file, line, false);
+	void* memory = JMemoryManager::New(sz, file, line, type, false);
 	theCurrentlyConstructingObject = static_cast<JString*>(memory);
 	return memory;
 }
@@ -377,7 +378,7 @@ JString::operator new
 	)
 	noexcept
 {
-	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, false);
+	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, JMMRecord::kLibrary, false);
 	theCurrentlyConstructingObject = forceShallow ? nullptr : static_cast<JString*>(memory);
 	return memory;
 }
@@ -470,9 +471,9 @@ JString::CopyToPrivateBuffer
 
 	// ensure sufficient space
 
-	if (!itsOwnerFlag || itsAllocCount <= byteCount || itsAllocCount == 0)
+	if (!itsOwnerFlag || itsAllocCount < byteCount || itsAllocCount == 0)
 	{
-		itsAllocCount = byteCount + itsBlockSize;
+		SetAllocCount(byteCount);
 
 		auto* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
 		assert( newString != nullptr );
@@ -701,7 +702,7 @@ JString::ReplaceBytes
 
 	// If we don't have space, or would use too much space, reallocate.
 
-	if (!itsOwnerFlag || itsAllocCount <= newCount || itsAllocCount > newCount + itsBlockSize)
+	if (!itsOwnerFlag || itsAllocCount < newCount || itsAllocCount > newCount + itsBlockSize)
 	{
 		itsAllocCount = newCount + itsBlockSize;
 
@@ -865,7 +866,7 @@ JString::TrimWhitespace()
 
 	if (!itsOwnerFlag || itsAllocCount > newLength + itsBlockSize)
 	{
-		itsAllocCount = newLength + itsBlockSize;
+		SetAllocCount(newLength);
 
 		// allocate space for the new string + termination
 
@@ -968,7 +969,7 @@ JString::FoldCase
 	}
 	assert( err == U_BUFFER_OVERFLOW_ERROR );
 
-	itsAllocCount = newLength + itsBlockSize;
+	SetAllocCount(newLength);
 
 	// allocate space for the result
 
@@ -1492,9 +1493,9 @@ JString::Read
 	)
 {
 	const JSize maxByteCount = JUtf8Character::kMaxByteCount * count;
-	if (!itsOwnerFlag || itsAllocCount <= maxByteCount || itsAllocCount == 0)
+	if (!itsOwnerFlag || itsAllocCount < maxByteCount || itsAllocCount == 0)
 	{
-		itsAllocCount = maxByteCount + itsBlockSize;
+		SetAllocCount(maxByteCount);
 
 		// We allocate the new memory first.
 		// If new fails, we still have the old string data.
