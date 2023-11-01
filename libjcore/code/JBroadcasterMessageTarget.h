@@ -18,8 +18,9 @@ template <class T> class JArray;
 
 struct JBroadcasterMessageTuple
 {
-	JBroadcaster*	obj;
-	boost::any*		f;
+	JBroadcaster*			obj;
+	boost::any*				f;
+	std::function<void()>*	d_f;
 
 	JBroadcasterMessageTuple()
 		:
@@ -28,11 +29,12 @@ struct JBroadcasterMessageTuple
 
 	JBroadcasterMessageTuple
 		(
-		JBroadcaster*	_obj,
-		boost::any*		_f
+		JBroadcaster*			_obj,
+		boost::any*				_f,
+		std::function<void()>*	_d
 		)
 		:
-		obj(_obj), f(_f)
+		obj(_obj), f(_f), d_f(_d)
 	{ };
 
 	void	CleanOut();

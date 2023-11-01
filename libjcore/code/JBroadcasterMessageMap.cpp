@@ -135,7 +135,8 @@ JBroadcasterMessageMap::SetElement
 	(
 	const std::type_info&	key,
 	JBroadcaster*			obj,
-	boost::any*				f
+	boost::any*				f,
+	std::function<void()>*	d
 	)
 {
 	auto* cursor = JHashTable<JBroadcasterMessageTarget>::GetCursor();
@@ -155,7 +156,10 @@ JBroadcasterMessageMap::SetElement
 			auto t = list->GetElement(i);
 			if (t.obj == obj)
 			{
-				t.f = f;
+				t.CleanOut();
+
+				t.f   = f;
+				t.d_f = d;
 				list->SetElement(i, t);
 				found = true;
 				break;
@@ -164,7 +168,7 @@ JBroadcasterMessageMap::SetElement
 
 		if (!found)
 		{
-			list->PrependElement(JBroadcasterMessageTuple(obj, f));
+			list->PrependElement(JBroadcasterMessageTuple(obj, f, d));
 		}
 	}
 	else
@@ -172,7 +176,7 @@ JBroadcasterMessageMap::SetElement
 		hashEntry.list = jnew JArray<JBroadcasterMessageTuple>;
 		assert( hashEntry.list != nullptr );
 
-		hashEntry.list->PrependElement(JBroadcasterMessageTuple(obj, f));
+		hashEntry.list->PrependElement(JBroadcasterMessageTuple(obj, f, d));
 
 		cursor->Set(cursor->GetCursorHashValue(), hashEntry);
 	}
@@ -273,6 +277,12 @@ JBroadcasterMessageTarget::CleanOut
 void
 JBroadcasterMessageTuple::CleanOut()
 {
+	if (d_f != nullptr)
+	{
+		(*d_f)();
+		jdelete d_f;
+	}
+
 	jdelete f;
 }
 

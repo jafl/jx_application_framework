@@ -432,7 +432,7 @@ JBroadcaster::AddCallSource
 		assert( itsCallSources != nullptr );
 	}
 
-	itsCallSources->SetElement(messageType, sender, nullptr);
+	itsCallSources->SetElement(messageType, sender, nullptr, nullptr);
 }
 
 /******************************************************************************

@@ -62,10 +62,15 @@ JBroadcaster::AddCallTarget
 	auto* fp = jnew std::function(f);
 	assert( fp != nullptr );
 
+	auto* d = jnew std::function([fp]()
+	{
+		jdelete fp;
+	});
+
 	auto* a = jnew boost::any(fp);
 	assert( a != nullptr );
 
-	itsCallTargets->SetElement(typeid(T), recipient, a);
+	itsCallTargets->SetElement(typeid(T), recipient, a, d);
 }
 
 /******************************************************************************
