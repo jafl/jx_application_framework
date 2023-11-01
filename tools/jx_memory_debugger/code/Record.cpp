@@ -31,7 +31,7 @@ Record::Record
 	)
 {
 	input >> JBoolFromString(itsIsValidFlag) >> JBoolFromString(itsIsArrayNewFlag);
-	input >> itsNewFile >> itsNewLine;
+	input >> itsBucketIndex >> itsNewFile >> itsNewLine;
 	input >> itsSize >> itsData;
 }
 

@@ -53,10 +53,14 @@ JMMRecord::JMMRecord()
 	itsNewLine = 0;
 	itsDeleteLine = 0;
 
-	itsMark = 0;
-	itsArrayNewFlag = false;
+	itsArrayNewFlag = 0;
 	itsArrayDeleteFlag = 0;
-	itsManagerMemoryFlag = false;
+	itsManagerMemoryFlag = 0;
+	itsLibraryMemoryFlag = 0;
+	itsAppMemoryFlag     = 0;
+	itsBucket1MemoryFlag = 0;
+	itsBucket2MemoryFlag = 0;
+	itsBucket3MemoryFlag = 0;
 }
 
 JMMRecord::JMMRecord
@@ -66,10 +70,12 @@ JMMRecord::JMMRecord
 	const size_t     size,
 	const JUtf8Byte* file,
 	const JUInt32    lineNumber,
-	const bool   array,
-	const bool   managerMemory
+	const bool       array,
+	const int        type
 	)
 {
+	assert( kManager <= type && type <= kBucket3 );
+
 	// Defined but not initialized in JMMRecordData
 	itsAddress = address;
 	itsNewFile = file;
@@ -80,10 +86,14 @@ JMMRecord::JMMRecord
 	itsNewLine = lineNumber;
 	itsDeleteLine = 0;
 
-	itsMark = 0;
 	itsArrayNewFlag = array;
 	itsArrayDeleteFlag = 0;
-	itsManagerMemoryFlag = managerMemory;
+	itsManagerMemoryFlag = type == kManager;
+	itsLibraryMemoryFlag = type == kLibrary;
+	itsAppMemoryFlag = type == kApp;
+	itsBucket1MemoryFlag = type == kBucket1;
+	itsBucket2MemoryFlag = type == kBucket2;
+	itsBucket3MemoryFlag = type == kBucket3;
 
 	// These values are only allowed in a default constructor, and may only
 	// be changed in a copy constructor!
@@ -117,7 +127,7 @@ JMMRecord::SetDeleteLocation
 	(
 	const JUtf8Byte* deleteFile,
 	const JSize      deleteLine,
-	const bool   arrayDelete
+	const bool       arrayDelete
 	)
 {
 	assert(itsDeleteFile == nullptr);
@@ -167,7 +177,7 @@ JMMRecord::TypeName
 /******************************************************************************
  StreamForDebug
 
-	Dual function is MDRecord constructor.
+	Dual function is jx_memory_debugger Record constructor.
 
  *****************************************************************************/
 
@@ -178,12 +188,21 @@ JMMRecord::StreamForDebug
 	)
 	const
 {
+	auto* s     = (JUtf8Byte*) itsAddress;
+	JSize count = 0;
+	while (isprint(*s) && count < 1024)
+	{
+		s++;
+		count++;
+	}
+
 	output << JBoolToString(! IsDeleted())
-		   << JBoolToString(ArrayNew());
+		   << JBoolToString(IsArrayNew());
+	output << ' ' << GetMemoryBucket();
 	output << ' ' << JString(itsNewFile, JString::kNoCopy);
 	output << ' ' << itsNewLine;
 	output << ' ' << itsSize;
-	output << ' ' << JString((JUtf8Byte*) itsAddress, JString::kNoCopy);
+	output << ' ' << (count > 0 ? JString((JUtf8Byte*) itsAddress, count, JString::kNoCopy) : JString::empty);
 }
 
 /******************************************************************************

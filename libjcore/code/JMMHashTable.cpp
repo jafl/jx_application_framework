@@ -27,7 +27,7 @@
 JMMHashTable::JMMHashTable
 	(
 	JMemoryManager* manager,
-	const bool  recordDelete
+	const bool      recordDelete
 	)
 	:
 	JMMTable(manager),
@@ -121,6 +121,7 @@ JMMHashTable::GetTotalCount() const
 void
 JMMHashTable::PrintAllocated
 	(
+	const bool printLibrary,
 	const bool printInternal // = false
 	)
 	const
@@ -129,12 +130,19 @@ JMMHashTable::PrintAllocated
 
 	std::cout << "\nAllocated user memory:" << std::endl;
 
+	JMemoryManager::RecordFilter filter;
+	filter.includeApp     = true;
+	filter.includeBucket1 = true;
+	filter.includeBucket2 = true;
+	filter.includeBucket3 = true;
+	filter.includeLibrary = printLibrary;
+
 	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
 	JSize totalSize = 0;
 	while ( cursor.NextFull() )
 	{
 		const JMMRecord thisRecord = cursor.GetValue();
-		if ( !thisRecord.IsManagerMemory() )
+		if (filter.Match(thisRecord))
 		{
 			PrintAllocatedRecord(thisRecord);
 			totalSize += thisRecord.GetSize();
@@ -197,7 +205,8 @@ JMMHashTable::StreamAllocatedForDebug
 void
 JMMHashTable::StreamAllocationSizeHistogram
 	(
-	std::ostream& output
+	std::ostream&						output,
+	const JMemoryManager::RecordFilter&	filter
 	)
 	const
 {
@@ -207,7 +216,11 @@ JMMHashTable::StreamAllocationSizeHistogram
 	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
 	while ( cursor.NextFull() )
 	{
-		AddToHistogram(cursor.GetValue(), histo);
+		const JMMRecord thisRecord = cursor.GetValue();
+		if (filter.Match(thisRecord))
+		{
+			AddToHistogram(thisRecord, histo);
+		}
 	}
 
 	StreamHistogram(output, histo);
@@ -277,11 +290,11 @@ JMMHashTable::_SetRecordDeleted
 		thisRecord.SetDeleteLocation(file, line, isArray);
 		itsAllocatedBytes -= thisRecord.GetSize();
 
-		if (!thisRecord.ArrayNew() && isArray)
+		if (!thisRecord.IsArrayNew() && isArray)
 		{
 			NotifyObjectDeletedAsArray(thisRecord);
 		}
-		else if (thisRecord.ArrayNew() && !isArray)
+		else if (thisRecord.IsArrayNew() && !isArray)
 		{
 			NotifyArrayDeletedAsObject(thisRecord);
 		}

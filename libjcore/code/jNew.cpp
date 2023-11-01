@@ -27,7 +27,7 @@ operator new
 	size_t size
 	)
 {
-	return operator new(size, JMemoryManager::kUnknownFile, 0);
+	return operator new(size, JMemoryManager::kUnknownFile, 0, JMMRecord::kLibrary);
 }
 
 void*
@@ -38,7 +38,7 @@ operator new
 	)
 	noexcept
 {
-	return operator new(size, JMemoryManager::kUnknownFile, 0);
+	return operator new(size, JMemoryManager::kUnknownFile, 0, JMMRecord::kLibrary);
 }
 
 /******************************************************************************
@@ -51,11 +51,12 @@ operator new
 	(
 	size_t           size,
 	const JUtf8Byte* file,
-	const JUInt32    line
+	const JUInt32    line,
+	const int        type
 	)
 	noexcept
 {
-	return JMemoryManager::New(size, file, line, false);
+	return JMemoryManager::New(size, file, line, type, false);
 }
 
 /******************************************************************************
@@ -69,7 +70,7 @@ operator new[]
 	size_t size
 	)
 {
-	return operator new[](size, JMemoryManager::kUnknownFile, 0);
+	return operator new[](size, JMemoryManager::kUnknownFile, 0, JMMRecord::kLibrary);
 }
 
 void*
@@ -80,7 +81,7 @@ operator new[]
 	)
 	noexcept
 {
-	return operator new[](size, JMemoryManager::kUnknownFile, 0);
+	return operator new[](size, JMemoryManager::kUnknownFile, 0, JMMRecord::kLibrary);
 }
 
 /******************************************************************************
@@ -93,11 +94,12 @@ operator new[]
 	(
 	size_t           size,
 	const JUtf8Byte* file,
-	const JUInt32    line
+	const JUInt32    line,
+	const int        type
 	)
 	noexcept
 {
-	return JMemoryManager::New(size, file, line, true);
+	return JMemoryManager::New(size, file, line, type, true);
 }
 
 /******************************************************************************

@@ -171,7 +171,7 @@ JMMTable::NotifyUnallocatedDeletion
 	(
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const bool   isArray
+	const bool       isArray
 	)
 {
 	itsManager->HandleUnallocatedDeletion(file, line, isArray);
@@ -188,7 +188,7 @@ JMMTable::NotifyMultipleDeletion
 	const JMMRecord& firstRecord,
 	const JUtf8Byte* file,
 	const JUInt32    line,
-	const bool   isArray
+	const bool       isArray
 	)
 {
 	itsManager->HandleMultipleDeletion(firstRecord, file, line, isArray);

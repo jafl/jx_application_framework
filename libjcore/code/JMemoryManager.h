@@ -27,7 +27,9 @@
 	class JMMErrorPrinter;
 	class JMMDebugErrorStream;
 
-const JFileVersion kJMemoryManagerDebugVersion = 0;
+const JFileVersion kJMemoryManagerDebugVersion = 1;
+
+// version  1 adds includeBucket*, includeLibrary, includeUnknown to RecordFilter and filter to "running stats" message
 
 class JMemoryManager : virtual public JBroadcaster
 {
@@ -56,12 +58,21 @@ public:
 	struct RecordFilter
 	{
 		bool		includeInternal;
+		bool		includeLibrary;
+		bool		includeApp;
+		bool		includeBucket1;
+		bool		includeBucket2;
+		bool		includeBucket3;
+		bool		includeUnknown;
 		JSize		minSize;
 		JString*	fileName;
 
 		RecordFilter()
 			:
-			includeInternal(false), minSize(0), fileName(nullptr)
+			includeInternal(false), includeLibrary(false),
+			includeApp(false), includeBucket1(false),
+			includeBucket2(false), includeBucket3(false),
+			includeUnknown(false), minSize(0), fileName(nullptr)
 			{ };
 
 		~RecordFilter()
@@ -84,7 +95,7 @@ public:
 	static JMemoryManager* Instance();
 
 	static void* New(const size_t size, const JUtf8Byte* file,
-					 const JUInt32 line,  const bool isArray);
+					 const JUInt32 line, const int type, const bool isArray);
 
 	void  Delete(void* memory, bool isArray);
 
@@ -100,26 +111,29 @@ public:
 	void PrintMemoryStats();
 
 	bool GetPrintExitStats() const;
-	void     SetPrintExitStats(const bool yesNo);
+	void SetPrintExitStats(const bool yesNo);
+
+	bool GetPrintLibraryStats() const;
+	void SetPrintLibraryStats(const bool yesNo);
 
 	bool GetPrintInternalStats() const;
-	void     SetPrintInternalStats(const bool yesNo);
+	void SetPrintInternalStats(const bool yesNo);
 
 	void PrintAllocated() const;
 
 // Error notification
 
 	bool GetBroadcastErrors() const;
-	void     SetBroadcastErrors(const bool broadcast);
+	void SetBroadcastErrors(const bool broadcast);
 
 	bool GetCheckDoubleAllocation() const;
-	void     SetCheckDoubleAllocation(const bool yesNo);
+	void SetCheckDoubleAllocation(const bool yesNo);
 
 	static bool GetAbortUnknownAlloc();
-	static void     SetAbortUnknownAlloc(const bool yesNo);
+	static void SetAbortUnknownAlloc(const bool yesNo);
 
 	bool GetPrintErrors() const;
-	void     SetPrintErrors(const bool print);
+	void SetPrintErrors(const bool print);
 
 // Debug link
 
@@ -152,7 +166,7 @@ private:
 		void*            address;
 		const JUtf8Byte* file;
 		JUInt32          line;
-		bool         array;
+		bool             array;
 	};
 
 // Static data
@@ -183,6 +197,7 @@ private:
 	bool itsBroadcastErrorsFlag;
 
 	bool itsPrintExitStatsFlag;
+	bool itsPrintLibraryStatsFlag;
 	bool itsPrintInternalStatsFlag;
 
 	// Error notification
@@ -194,8 +209,8 @@ private:
 	void	ConnectToDebugger(const JUtf8Byte* socketName);
 	void	HandleDebugRequest() const;
 	void	SendDebugMessage(std::ostringstream& data) const;
-	void	SendRunningStats() const;
-	void	WriteRunningStats(std::ostream& output) const;
+	void	SendRunningStats(std::istream& input) const;
+	void	WriteRunningStats(std::ostream& output, const RecordFilter& filter) const;
 	void	SendRecords(std::istream& input) const;
 	void	WriteRecords(std::ostream& output, const RecordFilter& filter) const;
 	void	SendExitStats() const;
@@ -412,6 +427,36 @@ JMemoryManager::SetPrintExitStats
 	)
 {
 	itsPrintExitStatsFlag = yesNo;
+}
+
+/******************************************************************************
+ GetPrintLibraryStats
+
+ *****************************************************************************/
+
+inline bool
+JMemoryManager::GetPrintLibraryStats() const
+{
+	return itsPrintLibraryStatsFlag;
+}
+
+/******************************************************************************
+ SetPrintInternalStats
+
+	Sets whether memory usage stats for the libraries will be printed
+	whenever regular memory allocation stats are printed (such as at
+	program exit).  Values set by this function override that set with the
+	environment variable JMM_PRINT_LIBRARY_STATS.
+
+ *****************************************************************************/
+
+inline void
+JMemoryManager::SetPrintLibraryStats
+	(
+	const bool yesNo
+	)
+{
+	itsPrintLibraryStatsFlag = yesNo;
 }
 
 /******************************************************************************

@@ -9,6 +9,8 @@
 
 INCLUDE_INSTALL_NAME := $(subst lib,,${LIB_NAME_ROOT})
 
+J_RAW_SYSTEM_STUFF += -D_J_MEMORY_BUCKET=-1
+
 .PHONY : default
 default: ${LIB_NAME_ROOT}.a
   ifneq (${jx.test.skip},true)

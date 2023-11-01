@@ -39,11 +39,13 @@ protected:
 	void	ReadPrefs(std::istream& input) override;
 	void	WritePrefs(std::ostream& output) const override;
 
+	void	Receive(JBroadcaster* sender, const Message& message) override;
+
 private:
 
-	JXTextMenu*		itsFileMenu;
-	JXTextMenu*		itsPrefsMenu;
-	JXTextMenu*		itsHelpMenu;
+	JXTextMenu*	itsFileMenu;
+	JXTextMenu*	itsPrefsMenu;
+	JXTextMenu*	itsHelpMenu;
 
 	JString						itsSocketName;
 	LinkAcceptor*				itsAcceptor;
@@ -53,7 +55,7 @@ private:
 	JXPGMessageDirector*		itsMessageDir;
 	JString						itsExitStatsFile;
 
-	SizeHistogram*			itsAllocatedHisto;
+	SizeHistogram*	itsAllocatedHisto;
 
 // begin JXLayout
 
@@ -80,7 +82,7 @@ private:
 
 	void	OpenDebugAcceptor();
 	void	DeleteDebugAcceptor();
-	void	CloseLink(const bool deleteProcess);
+	void	CloseLink();
 	void	SendRequest(std::ostringstream& data);
 	void	HandleResponse();
 

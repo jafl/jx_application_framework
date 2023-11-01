@@ -105,7 +105,7 @@ RecordDirector::RecordDirector
 	JPoint desktopLoc;
 	JCoordinate w,h;
 	if (GetPrefsManager()->GetWindowSize(kRecordDirectorWindSizeID,
-											&desktopLoc, &w, &h))
+										 &desktopLoc, &w, &h))
 	{
 		JXWindow* window = GetWindow();
 		window->Place(desktopLoc.x, desktopLoc.y);

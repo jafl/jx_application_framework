@@ -43,20 +43,36 @@ struct JMMRecordData
 	JUInt32  itsNewLine;
 	JUInt32  itsDeleteLine;
 
-	unsigned itsMark              :1;
 	unsigned itsArrayNewFlag      :1;
 	unsigned itsArrayDeleteFlag   :1;
 	unsigned itsManagerMemoryFlag :1;
+	unsigned itsLibraryMemoryFlag :1;
+	unsigned itsAppMemoryFlag     :1;
+	unsigned itsBucket1MemoryFlag :1;
+	unsigned itsBucket2MemoryFlag :1;
+	unsigned itsBucket3MemoryFlag :1;
 };
 
 class JMMRecord : private JMMRecordData
 {
 public:
 
+	enum Type
+	{
+		kManager = -2,
+		kLibrary = -1,
+		kApp     = 0,
+		kBucket1 = 1,
+		kBucket2 = 2,
+		kBucket3 = 3
+	};
+
+public:
+
 	JMMRecord();
 	JMMRecord(const JUInt32 id, const void* address, const size_t size,
 			  const JUtf8Byte* file, const JUInt32 lineNumber,
-			  const bool array, const bool managerMemory);
+			  const bool array, const int type);
 	// Save 4 bytes (on many architectures) by having no virtuals, even the destructor
 	// ~JMMRecord() override; // Warning: not virtual!
 
@@ -81,11 +97,8 @@ public:
 
 	bool IsDeleted() const;
 
-	bool IsMarked() const;
-	void     SetMarked(const bool yesNo);
-
-	bool ArrayNew() const;
-	bool ArrayDelete() const;
+	bool IsArrayNew() const;
+	bool IsArrayDelete() const;
 
 	const JUtf8Byte* NewTypeName() const;
 	const JUtf8Byte* DeleteTypeName() const;
@@ -93,6 +106,9 @@ public:
 	static const JUtf8Byte* TypeName(const unsigned isArray);
 
 	bool    IsManagerMemory() const;
+	bool    IsLibraryMemory() const;
+	bool    IsAppMemory() const;
+	int		GetMemoryBucket() const;
 
 	void	StreamForDebug(std::ostream& output) const;
 	void	PrintLayout() const;
@@ -187,48 +203,23 @@ JMMRecord::IsDeleted() const
 }
 
 /******************************************************************************
- IsMarked
+ IsArrayNew
 
  *****************************************************************************/
 
 inline bool
-JMMRecord::IsMarked() const
-{
-	return itsMark;
-}
-
-/******************************************************************************
- SetMarked
-
- *****************************************************************************/
-
-inline void
-JMMRecord::SetMarked
-	(
-	const bool yesNo
-	)
-{
-	itsMark = yesNo;
-}
-
-/******************************************************************************
- ArrayNew
-
- *****************************************************************************/
-
-inline bool
-JMMRecord::ArrayNew() const
+JMMRecord::IsArrayNew() const
 {
 	return itsArrayNewFlag;
 }
 
 /******************************************************************************
- ArrayDelete
+ IsArrayDelete
 
  *****************************************************************************/
 
 inline bool
-JMMRecord::ArrayDelete() const
+JMMRecord::IsArrayDelete() const
 {
 	return itsArrayDeleteFlag;
 }
@@ -242,6 +233,43 @@ inline bool
 JMMRecord::IsManagerMemory() const
 {
 	return itsManagerMemoryFlag;
+}
+
+/******************************************************************************
+ IsLibraryMemory
+
+ *****************************************************************************/
+
+inline bool
+JMMRecord::IsLibraryMemory() const
+{
+	return itsLibraryMemoryFlag;
+}
+
+/******************************************************************************
+ IsAppMemory
+
+ *****************************************************************************/
+
+inline bool
+JMMRecord::IsAppMemory() const
+{
+	return itsAppMemoryFlag;
+}
+
+/******************************************************************************
+ GetMemoryBucket
+
+ *****************************************************************************/
+
+inline int
+JMMRecord::GetMemoryBucket() const
+{
+	return (itsLibraryMemoryFlag ? -1 :
+			itsAppMemoryFlag     ? 0  :
+			itsBucket1MemoryFlag ? 1  :
+			itsBucket2MemoryFlag ? 2  :
+			itsBucket3MemoryFlag ? 3  : -2);
 }
 
 #endif

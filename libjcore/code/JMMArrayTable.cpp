@@ -26,7 +26,7 @@
 JMMArrayTable::JMMArrayTable
 	(
 	JMemoryManager* manager,
-	const bool  recordDelete
+	const bool      recordDelete
 	)
 	:
 	JMMTable(manager),
@@ -120,6 +120,7 @@ JMMArrayTable::GetTotalCount() const
 void
 JMMArrayTable::PrintAllocated
 	(
+	const bool printLibrary,
 	const bool printInternal // = false
 	)
 	const
@@ -128,9 +129,16 @@ JMMArrayTable::PrintAllocated
 
 	std::cout << "\nAllocated user memory:" << std::endl;
 
+	JMemoryManager::RecordFilter filter;
+	filter.includeApp     = true;
+	filter.includeBucket1 = true;
+	filter.includeBucket2 = true;
+	filter.includeBucket3 = true;
+	filter.includeLibrary = printLibrary;
+
 	for (const auto& thisRecord : *itsAllocatedTable)
 	{
-		if ( !thisRecord.IsManagerMemory() )
+		if (filter.Match(thisRecord))
 		{
 			PrintAllocatedRecord(thisRecord);
 		}
@@ -160,7 +168,7 @@ JMMArrayTable::PrintAllocated
 void
 JMMArrayTable::StreamAllocatedForDebug
 	(
-	std::ostream&							output,
+	std::ostream&						output,
 	const JMemoryManager::RecordFilter&	filter
 	)
 	const
@@ -188,7 +196,8 @@ JMMArrayTable::StreamAllocatedForDebug
 void
 JMMArrayTable::StreamAllocationSizeHistogram
 	(
-	std::ostream& output
+	std::ostream&						output,
+	const JMemoryManager::RecordFilter&	filter
 	)
 	const
 {
@@ -198,7 +207,11 @@ JMMArrayTable::StreamAllocationSizeHistogram
 	const JSize count = itsAllocatedTable->GetElementCount();
 	for (JIndex i=1;i<=count;i++)
 	{
-		AddToHistogram(itsAllocatedTable->GetElement(i), histo);
+		const JMMRecord thisRecord = itsAllocatedTable->GetElement(i);
+		if (filter.Match(thisRecord))
+		{
+			AddToHistogram(thisRecord, histo);
+		}
 	}
 
 	StreamHistogram(output, histo);
@@ -271,11 +284,11 @@ JMMArrayTable::_SetRecordDeleted
 		thisRecord.SetDeleteLocation(file, line, isArray);
 		itsAllocatedBytes -= thisRecord.GetSize();
 
-		if (!thisRecord.ArrayNew() && isArray)
+		if (!thisRecord.IsArrayNew() && isArray)
 		{
 			NotifyObjectDeletedAsArray(thisRecord);
 		}
-		else if (thisRecord.ArrayNew() && !isArray)
+		else if (thisRecord.IsArrayNew() && !isArray)
 		{
 			NotifyArrayDeletedAsObject(thisRecord);
 		}

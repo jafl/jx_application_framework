@@ -131,7 +131,7 @@ private:
 
 int DebugLink::open(void* data)
 {
-	(((LinkAcceptor*) data)->GetDirector())->SetLink(this);
+	((LinkAcceptor*) data)->GetDirector()->SetLink(this);
 	return JMemoryManager::DebugLink::open(data);
 };
 
@@ -175,7 +175,7 @@ StatsDirector::~StatsDirector()
 {
 	JPrefObject::WritePrefs();
 
-	CloseLink(true);
+	CloseLink();
 	DeleteDebugAcceptor();
 }
 
@@ -193,17 +193,7 @@ StatsDirector::SetLink
 	assert( itsLink == nullptr );
 	itsLink = link;
 	JMemoryManager::SetProtocol(itsLink);
-
-	ListenTo(itsLink, std::function([this](const JMessageProtocolT::MessageReady&)
-	{
-		HandleResponse();
-	}));
-
-	ListenTo(itsLink, std::function([this](const JMessageProtocolT::ReceivedDisconnect&)
-	{
-		CloseLink(false);
-	}));
-
+	ListenTo(itsLink);
 	DeleteDebugAcceptor();
 
 	itsPingTask = jnew JXFunctionTask(kRefreshInterval, std::bind(&StatsDirector::RequestRunningStats, this));
@@ -217,22 +207,18 @@ StatsDirector::SetLink
  *****************************************************************************/
 
 void
-StatsDirector::CloseLink
-	(
-	const bool deleteProcess
-	)
+StatsDirector::CloseLink()
 {
 	jdelete itsLink;
 	itsLink = nullptr;
 
-	if (deleteProcess)
-	{
-		jdelete itsProcess;
-		itsProcess = nullptr;
-	}
+	jdelete itsProcess;
+	itsProcess = nullptr;
 
 	jdelete itsPingTask;
 	itsPingTask = nullptr;
+
+	FinishProgram();
 }
 
 /******************************************************************************
@@ -408,12 +394,12 @@ StatsDirector::BuildWindow()
 	assert( itsAllocatedHisto != nullptr );
 	itsAllocatedHisto->FitToEnclosure();
 
-	ListenTo(itsProgramInput, std::function([this](const JStyledText::TextSet&)
+	ListenTo(itsProgramInput->GetText(), std::function([this](const JStyledText::TextSet&)
 	{
 		UpdateDisplay();
 	}));
 
-	ListenTo(itsProgramInput, std::function([this](const JStyledText::TextChanged&)
+	ListenTo(itsProgramInput->GetText(), std::function([this](const JStyledText::TextChanged&)
 	{
 		UpdateDisplay();
 	}));
@@ -591,6 +577,32 @@ StatsDirector::FinishProgram()
 }
 
 /******************************************************************************
+ Receive (virtual protected)
+
+ ******************************************************************************/
+
+void
+StatsDirector::Receive
+	(
+	JBroadcaster*	sender,
+	const Message&	message
+	)
+{
+	if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
+	{
+		HandleResponse();
+	}
+	else if (sender == itsLink && message.Is(JMessageProtocolT::kReceivedDisconnect))
+	{
+		CloseLink();
+	}
+	else
+	{
+		JBroadcaster::Receive(sender, message);
+	}
+}
+
+/******************************************************************************
  SendRequest (private)
 
  ******************************************************************************/
@@ -660,9 +672,18 @@ StatsDirector::HandleResponse()
 void
 StatsDirector::RequestRunningStats()
 {
+	JMemoryManager::RecordFilter filter;
+	filter.includeLibrary = true;
+	filter.includeApp     = true;
+	filter.includeBucket1 = true;
+	filter.includeBucket2 = true;
+	filter.includeBucket3 = true;
+
 	std::ostringstream output;
 	output << kJMemoryManagerDebugVersion;
 	output << ' ' << JMemoryManager::kRunningStatsMessage;
+	output << ' ';
+	filter.Write(output);
 
 	SendRequest(output);
 }
@@ -904,6 +925,12 @@ StatsDirector::HandleFileMenu
 		{
 			JMemoryManager::RecordFilter filter;
 			dlog->BuildFilter(&filter);
+
+			filter.includeLibrary = true;
+			filter.includeApp     = true;
+			filter.includeBucket1 = true;
+			filter.includeBucket2 = true;
+			filter.includeBucket3 = true;
 			RequestRecords(filter);
 		}
 	}

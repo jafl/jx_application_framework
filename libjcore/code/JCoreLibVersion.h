@@ -14,11 +14,21 @@
 
 #define CURRENT_JCORE_MAJOR_VERSION	4
 #define CURRENT_JCORE_MINOR_VERSION	0
-#define CURRENT_JCORE_PATCH_VERSION	0
+#define CURRENT_JCORE_PATCH_VERSION	1
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJCoreLibVersionStr = "4.0.0";
+static const char* kCurrentJCoreLibVersionStr = "4.0.1";
+
+// version 4.0.1:
+//	JMemoryManager:
+//		Added JMM_PRINT_LIBRARY_STATS environment variable.  By default, library
+//		allocations are no longer included, so you can focus on your app.
+//	JMMRecord:
+//		Removed unused mark flag.
+//		Added option to categorize record as library, app, or buckets 1-3
+//	JBroadcaster:
+//		Fixed memory leak in typesafe ListenTo().
 
 // version 4.0.0:
 //	*** Upgraded to C++20

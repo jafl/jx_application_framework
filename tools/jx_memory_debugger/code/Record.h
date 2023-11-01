@@ -23,6 +23,7 @@ public:
 
 	bool			IsValid() const;
 	bool			IsArrayNew() const;
+	int				GetBucketIndex() const;
 	const JString&	GetNewFile() const;
 	JIndex			GetNewLine() const;
 	JSize			GetSize() const;
@@ -41,6 +42,7 @@ private:
 
 	bool	itsIsValidFlag;
 	bool	itsIsArrayNewFlag;
+	int		itsBucketIndex;
 	JString	itsNewFile;
 	JIndex	itsNewLine;
 	JSize	itsSize;
@@ -77,6 +79,18 @@ Record::IsArrayNew()
 	const
 {
 	return itsIsArrayNewFlag;
+}
+
+/******************************************************************************
+ GetBucketIndex
+
+ ******************************************************************************/
+
+inline int
+Record::GetBucketIndex()
+	const
+{
+	return itsBucketIndex;
 }
 
 /******************************************************************************

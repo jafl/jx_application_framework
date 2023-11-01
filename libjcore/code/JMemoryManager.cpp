@@ -82,11 +82,17 @@
 #		                       when the program finishes.  The SetPrintExitStats
 #		                       method overrides the environment variable setting.
 
+#		JMM_PRINT_LIBRARY_STATS  If this environment variable is set to "yes"
+#		                       then whenever allocation stats are printed (such as
+#		                       at program exit) the manager will also print stats
+#		                       on the library code.  The SetPrintLibraryStats
+#		                       method overrides the environment variable setting.
+
 #		JMM_PRINT_INTERNAL_STATS  If this environment variable is set to "yes"
 #		                       then whenever allocation stats are printed (such as
 #		                       at program exit) the manager will also print stats
 #		                       on its internal state, such as the memory it has
-#		                       allocated for its own use.  The SetInternalExitStats
+#		                       allocated for its own use.  The SetPrintInternalStats
 #		                       method overrides the environment variable setting.
 
 #		JMM_ABORT_UNKNOWN_ALLOC If set to "yes", the process will abort if memory
@@ -234,6 +240,7 @@ JMemoryManager::JMemoryManager()
 	itsExitStatsStream(nullptr),
 	itsBroadcastErrorsFlag(false),
 	itsPrintExitStatsFlag(false),
+	itsPrintLibraryStatsFlag(false),
 	itsPrintInternalStatsFlag(false),
 	itsCheckDoubleAllocationFlag(false)
 {
@@ -259,6 +266,12 @@ JMemoryManager::JMemoryManager()
 	if (printExitStats != nullptr && JString::Compare(printExitStats, "yes", JString::kIgnoreCase) == 0)
 	{
 		itsPrintExitStatsFlag = true;
+	}
+
+	const JUtf8Byte* printLibraryStats = getenv("JMM_PRINT_LIBRARY_STATS");
+	if (printLibraryStats != nullptr && JString::Compare(printLibraryStats, "yes", JString::kIgnoreCase) == 0)
+	{
+		itsPrintLibraryStatsFlag = true;
 	}
 
 	const JUtf8Byte* printInternalStats = getenv("JMM_PRINT_INTERNAL_STATS");
@@ -387,6 +400,7 @@ JMemoryManager::New
 	const size_t     size,
 	const JUtf8Byte* file,
 	const JUInt32    line,
+	const int        type,
 	const bool       isArray
 	)
 {
@@ -412,7 +426,7 @@ JMemoryManager::New
 
 	const bool useStack  = theConstructingFlag || theRecursionDepth > 0;
 	const bool isManager = useStack || theInternalFlag;
-	JMMRecord newRecord(GetNewID(), newBlock, trueSize, file, line, isArray, isManager);
+	JMMRecord newRecord(GetNewID(), newBlock, trueSize, file, line, isArray, isManager ? JMMRecord::kManager : type);
 
 	if (useStack)
 	{
@@ -506,7 +520,7 @@ JMemoryManager::PrintAllocated() const
 	if (itsMemoryTable != nullptr)
 	{
 		std::lock_guard lock(*itsMutex);
-		itsMemoryTable->PrintAllocated(itsPrintInternalStatsFlag);
+		itsMemoryTable->PrintAllocated(itsPrintLibraryStatsFlag, itsPrintInternalStatsFlag);
 	}
 }
 
@@ -597,10 +611,10 @@ JMemoryManager::BeginRecursiveBlock()
 {
 	theRecursionDepth++;
 	if (theRecursionDepth > 1)
-{
+	{
 		std::cout << "Unusual (but probably safe) memory manager behavior: JMM recursing at depth "
 			 << theRecursionDepth << ".  Please notify the author." << std::endl;
-}
+	}
 }
 
 /******************************************************************************
@@ -832,7 +846,7 @@ JMemoryManager::HandleDebugRequest()
 
 	if (type == kRunningStatsMessage)
 	{
-		SendRunningStats();
+		SendRunningStats(input);
 	}
 	else if (type == kRecordsMessage)
 	{
@@ -846,13 +860,19 @@ JMemoryManager::HandleDebugRequest()
  ******************************************************************************/
 
 void
-JMemoryManager::SendRunningStats()
+JMemoryManager::SendRunningStats
+	(
+	std::istream& input
+	)
 	const
 {
+	RecordFilter filter;
+	filter.Read(input);
+
 	std::ostringstream output;
 	output << kJMemoryManagerDebugVersion;
 	output << ' ';
-	WriteRunningStats(output);
+	WriteRunningStats(output, filter);
 
 	SendDebugMessage(output);
 }
@@ -865,7 +885,8 @@ JMemoryManager::SendRunningStats()
 void
 JMemoryManager::WriteRunningStats
 	(
-	std::ostream& output
+	std::ostream&		output,
+	const RecordFilter&	filter
 	)
 	const
 {
@@ -876,7 +897,7 @@ JMemoryManager::WriteRunningStats
 	output << ' ' << itsMemoryTable->GetAllocatedBytes();
 	output << ' ' << itsMemoryTable->GetDeletedCount();
 	output << ' ';
-	itsMemoryTable->StreamAllocationSizeHistogram(output);
+	itsMemoryTable->StreamAllocationSizeHistogram(output, filter);
 }
 
 /******************************************************************************
@@ -893,6 +914,7 @@ JMemoryManager::SendRecords
 {
 	RecordFilter filter;
 	filter.Read(input);
+	const_cast<JMemoryManager*>(this)->itsPrintLibraryStatsFlag = filter.includeLibrary;
 
 	std::ostringstream output;
 	output << kJMemoryManagerDebugVersion;
@@ -968,10 +990,16 @@ JMemoryManager::WriteExitStats()
 		return;
 	}
 
-	*itsExitStatsStream << ' ';
-	WriteRunningStats(*itsExitStatsStream);
-
 	RecordFilter filter;
+	filter.includeApp     = true;
+	filter.includeBucket1 = true;
+	filter.includeBucket2 = true;
+	filter.includeBucket3 = true;
+	filter.includeLibrary = itsPrintLibraryStatsFlag;
+
+	*itsExitStatsStream << ' ';
+	WriteRunningStats(*itsExitStatsStream, filter);
+
 	*itsExitStatsStream << ' ';
 	WriteRecords(*itsExitStatsStream, filter);
 
@@ -1199,7 +1227,14 @@ JMemoryManager::RecordFilter::Match
 {
 	bool match = true;
 
-	if (!includeInternal && record.IsManagerMemory())
+	const int bucket = record.GetMemoryBucket();
+	if ((!includeApp      && bucket == JMMRecord::kApp)     ||
+		(!includeBucket1  && bucket == JMMRecord::kBucket1) ||
+		(!includeBucket2  && bucket == JMMRecord::kBucket2) ||
+		(!includeBucket3  && bucket == JMMRecord::kBucket3) ||
+		(!includeInternal && record.IsManagerMemory())      ||
+		(!includeLibrary  && record.IsLibraryMemory())      ||
+		(!includeUnknown  && JString::Compare(record.GetNewFile(), kUnknownFile) == 0))
 	{
 		match = false;
 	}
@@ -1253,6 +1288,12 @@ JMemoryManager::RecordFilter::Read
 	)
 {
 	input >> JBoolFromString(includeInternal);
+	input >> JBoolFromString(includeLibrary);
+	input >> JBoolFromString(includeApp);
+	input >> JBoolFromString(includeBucket1);
+	input >> JBoolFromString(includeBucket2);
+	input >> JBoolFromString(includeBucket3);
+	input >> JBoolFromString(includeUnknown);
 	input >> minSize;
 
 	bool hasFile;
@@ -1278,6 +1319,12 @@ JMemoryManager::RecordFilter::Write
 	const
 {
 	output << JBoolToString(includeInternal);
+	output << JBoolToString(includeLibrary);
+	output << JBoolToString(includeApp);
+	output << JBoolToString(includeBucket1);
+	output << JBoolToString(includeBucket2);
+	output << JBoolToString(includeBucket3);
+	output << JBoolToString(includeUnknown);
 	output << ' ' << minSize;
 
 	const bool hasFile = fileName != nullptr && !fileName->IsEmpty();
