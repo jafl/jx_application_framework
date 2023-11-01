@@ -14,11 +14,15 @@
 
 #define CURRENT_JX_MAJOR_VERSION	4
 #define CURRENT_JX_MINOR_VERSION	0
-#define CURRENT_JX_PATCH_VERSION	0
+#define CURRENT_JX_PATCH_VERSION	1
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJXLibVersionStr = "4.0.0";
+static const char* kCurrentJXLibVersionStr = "4.0.1";
+
+// version 4.0.1:
+//	JXStringCompletionMenu:
+//		Reverted regression that caused infinite loop with backtick.
 
 // version 4.0.0:
 //	Supports utf-8
