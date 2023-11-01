@@ -61,11 +61,11 @@ bool	JSearchSubdirs(const JString& startPath, const JString& name,
 					   JProgressDisplay* pg = nullptr,
 					   bool* userCancelled = nullptr);
 
-JString		JGetUniqueDirEntryName(const JString& path, const JString& namePrefix,
-								   const JUtf8Byte* nameSuffix = nullptr,
-								   const JIndex startIndex = 1);
-JError		JCreateTempDirectory(const JString* path, const JString* prefix,
-								 JString* fullName);
+JString	JGetUniqueDirEntryName(const JString& path, const JString& namePrefix,
+							   const JUtf8Byte* nameSuffix = nullptr,
+							   const JIndex startIndex = 1);
+JError	JCreateTempDirectory(const JString* path, const JString* prefix,
+							 JString* fullName);
 
 JString	JCombinePathAndName(const JString& path, const JString& name);
 bool	JSplitPathAndName(const JString& fullName, JString* path, JString* name);

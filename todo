@@ -1,11 +1,26 @@
+jx_memory_debugger:
+	options to print library, app, buckets
+
+	filtered histogram of allocation sizes
+		would "static string" optimzation help?
+
 jcc
-	json styler
-	raku (perl6)
+	EditTasksDialog: top partition gets larger every time it is opened
+		ftc for dialogs containing partition show bottom buttons off by several pixels
+
+medic
+	lldb: disassembly is empty
+	when kill program, doesn't clear current source line marker
+
+-----
+
+jcc
+	json styler: key vs value
 
 	JXDocumentMenu - show partial paths for repeated file names
 
-	include partial path in symbol search results when display duplicate file name?
-		/Users/jolindal/projects/vendomatic/src/main/webapp/public/sso.php
+	include partial path in symbol search results when display duplicate file name
+		/Users/john.lindal/projects/vendomatic/src/main/webapp/public/sso.php
 		validateLogin
 
 	cmd window sometimes loses last chunk of program output
@@ -16,9 +31,6 @@ jcc
 		javascript regex, incl char class - can contain php or jsp
 
 	test with old project formats in code_crusader/test-manual/*.jcc
-
-medic
-	when kill program, doesn't clear current source line marker
 
 glove
 	undo then redo "transform creates column": puts values back in inverted order
@@ -46,6 +58,9 @@ JTextEditor:
 
 -----
 
+jcc
+	raku (perl6)
+
 medic for go: delve back-end
 	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
 
@@ -64,12 +79,7 @@ cscope -L#<sym>
 
 -----
 
-jx_memory_debugger:  filtered histogram of allocation sizes
-	would "static string" optimzation help?
-
 jcc
-	EditTasksDialog: top partition gets larger every time it is opened
-
 	vi emulator
 		dd doesn't work on last line of file
 		Ndd doesn't include last line of file even if it should be included
@@ -93,8 +103,6 @@ When g++/clang++ both support stringstream::view
 	fix JString::Encode/DecodeBase64
 
 -----
-
-option to turn memory manager off for libraries, to focus on app code
 
 medic - java
 	selected stack frame
@@ -213,10 +221,6 @@ memory analyzer
 		show info about query in window title
 
 drakon
-	FreeBSD missing
-		size, resident, share
-		utime, stime always zero
-
 	filter input, like jcc file list
 
 	re-nice dialog: slider

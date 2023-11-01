@@ -133,9 +133,9 @@ private:
 	JString				itsRecvData;		// buffer containing unprocessed characters
 	JPtrArray<JString>	itsMessageList;		// complete messages
 
-	JString		itsSeparatorStr;			// sent between messages
-	JString		itsDisconnectStr;			// can be empty; sent to terminate connection
-	JRegex		itsTokenPattern;			// separator or disconnect
+	JString	itsSeparatorStr;				// sent between messages
+	JString	itsDisconnectStr;				// can be empty; sent to terminate connection
+	JRegex	itsTokenPattern;				// separator or disconnect
 
 	bool	itsWantsBlankMessagesFlag;
 	bool	itsSentDisconnectFlag;			// true => we are finished

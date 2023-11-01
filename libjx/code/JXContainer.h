@@ -366,13 +366,13 @@ JXContainer::SetVisible
 	)
 {
 	if (vis && !WouldBeVisible())
-		{
+	{
 		Show();
-		}
+	}
 	else if (!vis && WouldBeVisible())
-		{
+	{
 		Hide();
-		}
+	}
 }
 
 /******************************************************************************
@@ -399,13 +399,13 @@ JXContainer::SetActive
 	)
 {
 	if (active && !WouldBeActive())
-		{
+	{
 		Activate();
-		}
+	}
 	else if (!active && WouldBeActive())
-		{
+	{
 		Deactivate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -516,14 +516,14 @@ inline JCoordinate
 JXContainer::GetBoundsWidth()
 	const
 {
-	return (GetBoundsGlobal()).width();
+	return GetBoundsGlobal().width();
 }
 
 inline JCoordinate
 JXContainer::GetBoundsHeight()
 	const
 {
-	return (GetBoundsGlobal()).height();
+	return GetBoundsGlobal().height();
 }
 
 /******************************************************************************
@@ -536,13 +536,13 @@ JXContainer::GetFrame()		// enclosure coordinates
 	const
 {
 	if (itsEnclosure != nullptr)
-		{
+	{
 		return (itsEnclosure->GlobalToLocal(GetFrameGlobal()));
-		}
+	}
 	else
-		{
+	{
 		return GetFrameGlobal();
-		}
+	}
 }
 
 inline JRect
@@ -556,14 +556,14 @@ inline JCoordinate
 JXContainer::GetFrameWidth()
 	const
 {
-	return (GetFrameGlobal()).width();
+	return GetFrameGlobal().width();
 }
 
 inline JCoordinate
 JXContainer::GetFrameHeight()
 	const
 {
-	return (GetFrameGlobal()).height();
+	return GetFrameGlobal().height();
 }
 
 /******************************************************************************
@@ -584,14 +584,14 @@ inline JCoordinate
 JXContainer::GetApertureWidth()
 	const
 {
-	return (GetApertureGlobal()).width();
+	return GetApertureGlobal().width();
 }
 
 inline JCoordinate
 JXContainer::GetApertureHeight()
 	const
 {
-	return (GetApertureGlobal()).height();
+	return GetApertureGlobal().height();
 }
 
 /******************************************************************************

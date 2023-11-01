@@ -320,9 +320,7 @@ JXFontManager::GetXFontNames
 			const JIndex index = fontNames->GetInsertionSortIndex(&name, &isDuplicate);
 			if (!isDuplicate)
 			{
-				auto* n = jnew JString(name);
-				assert( n != nullptr );
-				fontNames->InsertAtIndex(index, n);
+				fontNames->InsertAtIndex(index, name);
 			}
 		}
 	}

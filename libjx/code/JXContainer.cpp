@@ -2512,8 +2512,8 @@ JXContainer::FTCTrimBlockedMatches
 	const JXContainer*				target,
 	const JPtrArray<JXContainer>&	fullObjList,
 	const JPtrArray<JXContainer>&	matchedList,
-	const bool					horizontal,
-	const bool					deleteBlockedWidgetCells,
+	const bool						horizontal,
+	const bool						deleteBlockedWidgetCells,
 	JPtrArray<JXFTCCell>*			cellList
 	)
 	const
@@ -2642,7 +2642,7 @@ JXContainer::NeedsInternalFTC()
 bool
 JXContainer::RunInternalFTC
 	(
-	const bool	horizontal,
+	const bool		horizontal,
 	JCoordinate*	newSize
 	)
 {

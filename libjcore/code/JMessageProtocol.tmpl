@@ -15,6 +15,9 @@
 	separator to "\r\n".  In general, the separator must not contain the
 	terminator, and visa versa.
 
+	*** You cannot use the std::function version of ListenTo() because
+		the way this class broadcasts confuses the type inference.
+
 	BASE CLASS = JNetworkProtocolBase, virtual JBroadcaster
 
 	Copyright (C) 1998-2000 by John Lindal.
