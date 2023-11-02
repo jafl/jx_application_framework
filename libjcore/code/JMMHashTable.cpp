@@ -121,8 +121,7 @@ JMMHashTable::GetTotalCount() const
 void
 JMMHashTable::PrintAllocated
 	(
-	const bool printLibrary,
-	const bool printInternal // = false
+	const JMemoryManager::RecordFilter& filter
 	)
 	const
 {
@@ -130,19 +129,15 @@ JMMHashTable::PrintAllocated
 
 	std::cout << "\nAllocated user memory:" << std::endl;
 
-	JMemoryManager::RecordFilter filter;
-	filter.includeApp     = true;
-	filter.includeBucket1 = true;
-	filter.includeBucket2 = true;
-	filter.includeBucket3 = true;
-	filter.includeLibrary = printLibrary;
+	JMemoryManager::RecordFilter f(filter);
+	f.includeInternal = false;
 
 	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
 	JSize totalSize = 0;
 	while ( cursor.NextFull() )
 	{
 		const JMMRecord thisRecord = cursor.GetValue();
-		if (filter.Match(thisRecord))
+		if (f.Match(thisRecord))
 		{
 			PrintAllocatedRecord(thisRecord);
 			totalSize += thisRecord.GetSize();
@@ -151,7 +146,7 @@ JMMHashTable::PrintAllocated
 
 	std::cout << "\nTotal allocated memory:  " << totalSize << " bytes" << std::endl;
 
-	if (printInternal)
+	if (filter.includeInternal)
 	{
 		std::cout << "\nThe following blocks are probably owned by the memory manager"
 				  << "\nand *should* still be allocated--please report all cases of user"

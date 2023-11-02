@@ -180,7 +180,7 @@ private:
 	static DeleteRequest theDeallocStack[];
 	static JSize         theDeallocStackSize;
 
-	static bool      theAbortUnknownAllocFlag;
+	static bool theAbortUnknownAllocFlag;
 
 // Member data
 
@@ -190,15 +190,13 @@ private:
 	JMMDebugErrorStream*	itsErrorStream;
 	JString*				itsExitStatsFileName;
 	mutable std::ofstream*	itsExitStatsStream;
+	mutable RecordFilter	itsRecordFilter;
 	std::recursive_mutex*	itsMutex;
 
 	// Statistics
 
 	bool itsBroadcastErrorsFlag;
-
 	bool itsPrintExitStatsFlag;
-	bool itsPrintLibraryStatsFlag;
-	bool itsPrintInternalStatsFlag;
 
 	// Error notification
 
@@ -206,15 +204,15 @@ private:
 
 private:
 
-	void	ConnectToDebugger(const JUtf8Byte* socketName);
-	void	HandleDebugRequest() const;
-	void	SendDebugMessage(std::ostringstream& data) const;
-	void	SendRunningStats(std::istream& input) const;
-	void	WriteRunningStats(std::ostream& output, const RecordFilter& filter) const;
-	void	SendRecords(std::istream& input) const;
-	void	WriteRecords(std::ostream& output, const RecordFilter& filter) const;
-	void	SendExitStats() const;
-	void	WriteExitStats() const;
+	void ConnectToDebugger(const JUtf8Byte* socketName);
+	void HandleDebugRequest() const;
+	void SendDebugMessage(std::ostringstream& data) const;
+	void SendRunningStats(std::istream& input) const;
+	void WriteRunningStats(std::ostream& output) const;
+	void SendRecords(std::istream& input) const;
+	void WriteRecords(std::ostream& output) const;
+	void SendExitStats() const;
+	void WriteExitStats() const;
 
 	void AddNewRecord(const JMMRecord& record);
 	void DeleteRecord(void* block, const JUtf8Byte* file, const JUInt32 line, const bool isArray);
@@ -251,21 +249,21 @@ public:
 
 	static const JUtf8Byte* kObjectDeletedAsArray;
 	class ObjectDeletedAsArray : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			ObjectDeletedAsArray(const JMMRecord& record)
-				:
-				Message(kObjectDeletedAsArray),
-				itsRecord(record)
-				{ };
+		ObjectDeletedAsArray(const JMMRecord& record)
+			:
+			Message(kObjectDeletedAsArray),
+			itsRecord(record)
+			{ };
 
-			const JMMRecord&  GetRecord() const { return itsRecord; };
+		const JMMRecord&  GetRecord() const { return itsRecord; };
 
-		private:
+	private:
 
-			const JMMRecord&  itsRecord;
-		};
+		const JMMRecord&  itsRecord;
+	};
 
 	/******************************************************************************
 	 ArrayDeletedAsObject
@@ -276,21 +274,21 @@ public:
 
 	static const JUtf8Byte* kArrayDeletedAsObject;
 	class ArrayDeletedAsObject : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			ArrayDeletedAsObject(const JMMRecord& record)
-				:
-				Message(kArrayDeletedAsObject),
-				itsRecord(record)
-				{ };
+		ArrayDeletedAsObject(const JMMRecord& record)
+			:
+			Message(kArrayDeletedAsObject),
+			itsRecord(record)
+			{ };
 
-			const JMMRecord&  GetRecord() const { return itsRecord; };
+		const JMMRecord&  GetRecord() const { return itsRecord; };
 
-		private:
+	private:
 
-			const JMMRecord&  itsRecord;
-		};
+		const JMMRecord&  itsRecord;
+	};
 
 	/******************************************************************************
 	 UnallocatedDeletion
@@ -301,28 +299,28 @@ public:
 
 	static const JUtf8Byte* kUnallocatedDeletion;
 	class UnallocatedDeletion : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			UnallocatedDeletion(const JUtf8Byte* file, const JUInt32 line,
-								const bool isArray)
-				:
-				Message(kUnallocatedDeletion),
-				itsFile(file),
-				itsLine(line),
-				itsArrayFlag(isArray)
-				{ };
+		UnallocatedDeletion(const JUtf8Byte* file, const JUInt32 line,
+							const bool isArray)
+			:
+			Message(kUnallocatedDeletion),
+			itsFile(file),
+			itsLine(line),
+			itsArrayFlag(isArray)
+			{ };
 
-			const JUtf8Byte* GetFile() const { return itsFile; };
-			JUInt32          GetLine() const { return itsLine; };
-			bool         IsArray() const { return itsArrayFlag; };
+		const JUtf8Byte* GetFile() const { return itsFile; };
+		JUInt32          GetLine() const { return itsLine; };
+		bool         IsArray() const { return itsArrayFlag; };
 
-		private:
+	private:
 
-			const JUtf8Byte* itsFile;
-			const JUInt32    itsLine;
-			const bool   itsArrayFlag;
-		};
+		const JUtf8Byte* itsFile;
+		const JUInt32    itsLine;
+		const bool   itsArrayFlag;
+	};
 
 	/******************************************************************************
 	 MultipleDeletion
@@ -333,31 +331,31 @@ public:
 
 	static const JUtf8Byte* kMultipleDeletion;
 	class MultipleDeletion : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			MultipleDeletion(const JMMRecord& record, const JUtf8Byte* file,
-							 const JUInt32 line, const bool isArray)
-				:
-				Message(kMultipleDeletion),
-				itsRecord(record),
-				itsFile(file),
-				itsLine(line),
-				itsArrayFlag(isArray)
-				{ };
+		MultipleDeletion(const JMMRecord& record, const JUtf8Byte* file,
+						 const JUInt32 line, const bool isArray)
+			:
+			Message(kMultipleDeletion),
+			itsRecord(record),
+			itsFile(file),
+			itsLine(line),
+			itsArrayFlag(isArray)
+			{ };
 
-			const JMMRecord& GetRecord() const { return itsRecord; };
-			const JUtf8Byte* GetFile() const { return itsFile; };
-			JUInt32          GetLine() const { return itsLine; };
-			bool         IsArray() const { return itsArrayFlag; };
+		const JMMRecord& GetRecord() const { return itsRecord; };
+		const JUtf8Byte* GetFile() const { return itsFile; };
+		JUInt32          GetLine() const { return itsLine; };
+		bool         IsArray() const { return itsArrayFlag; };
 
-		private:
+	private:
 
-			const JMMRecord& itsRecord;
-			const JUtf8Byte* itsFile;
-			const JUInt32    itsLine;
-			const bool   itsArrayFlag;
-		};
+		const JMMRecord& itsRecord;
+		const JUtf8Byte* itsFile;
+		const JUInt32    itsLine;
+		const bool   itsArrayFlag;
+	};
 
 	/******************************************************************************
 	 MultipleAllocation
@@ -368,25 +366,25 @@ public:
 
 	static const JUtf8Byte* kMultipleAllocation;
 	class MultipleAllocation : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			MultipleAllocation(const JMMRecord& thisRecord,
-							   const JMMRecord& firstRecord)
-				:
-				Message(kMultipleAllocation),
-				itsThisRecord(thisRecord),
-				itsFirstRecord(firstRecord)
-				{ };
+		MultipleAllocation(const JMMRecord& thisRecord,
+						   const JMMRecord& firstRecord)
+			:
+			Message(kMultipleAllocation),
+			itsThisRecord(thisRecord),
+			itsFirstRecord(firstRecord)
+			{ };
 
-			const JMMRecord&  GetThisRecord() const { return itsThisRecord; };
-			const JMMRecord&  GetFirstRecord() const { return itsFirstRecord; };
+		const JMMRecord&  GetThisRecord() const { return itsThisRecord; };
+		const JMMRecord&  GetFirstRecord() const { return itsFirstRecord; };
 
-		private:
+	private:
 
-			const JMMRecord&  itsThisRecord;
-			const JMMRecord&  itsFirstRecord;
-		};
+		const JMMRecord&  itsThisRecord;
+		const JMMRecord&  itsFirstRecord;
+	};
 };
 
 /******************************************************************************
@@ -437,11 +435,11 @@ JMemoryManager::SetPrintExitStats
 inline bool
 JMemoryManager::GetPrintLibraryStats() const
 {
-	return itsPrintLibraryStatsFlag;
+	return itsRecordFilter.includeLibrary;
 }
 
 /******************************************************************************
- SetPrintInternalStats
+ SetPrintLibraryStats
 
 	Sets whether memory usage stats for the libraries will be printed
 	whenever regular memory allocation stats are printed (such as at
@@ -456,7 +454,7 @@ JMemoryManager::SetPrintLibraryStats
 	const bool yesNo
 	)
 {
-	itsPrintLibraryStatsFlag = yesNo;
+	itsRecordFilter.includeLibrary = yesNo;
 }
 
 /******************************************************************************
@@ -467,7 +465,7 @@ JMemoryManager::SetPrintLibraryStats
 inline bool
 JMemoryManager::GetPrintInternalStats() const
 {
-	return itsPrintInternalStatsFlag;
+	return itsRecordFilter.includeInternal;
 }
 
 /******************************************************************************
@@ -486,7 +484,7 @@ JMemoryManager::SetPrintInternalStats
 	const bool yesNo
 	)
 {
-	itsPrintInternalStatsFlag = yesNo;
+	itsRecordFilter.includeInternal = yesNo;
 }
 
 /******************************************************************************

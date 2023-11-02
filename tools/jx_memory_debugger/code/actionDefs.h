@@ -14,7 +14,14 @@
 
 #include <jx-af/jx/jXActionDefs.h>	// for convenience
 
-#define kGetRecords		"GetRecords::MDStatsDirector"
+#define kGetRecordsAction			"GetRecords::MDStatsDirector"
+#define kShowAppRecordsAction		"ShowAppRecordsAction::MDStatsDirector"
+#define kShowBucket1RecordsAction	"ShowBucket1RecordsAction::MDStatsDirector"
+#define kShowBucket2RecordsAction	"ShowBucket2RecordsAction::MDStatsDirector"
+#define kShowBucket3RecordsAction	"ShowBucket3RecordsAction::MDStatsDirector"
+#define kShowLibraryRecordsAction	"ShowLibraryRecordsAction::MDStatsDirector"
+#define kShowInternalRecordsAction	"ShowInternalRecordsAction::MDStatsDirector"
+#define kShowUnknownRecordsAction	"ShowUnknownRecordsAction::MDStatsDirector"
 
 #define kOpenFilesAction	"OpenFiles::MDRecordDirector"
 

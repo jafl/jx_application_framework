@@ -51,11 +51,13 @@
 
 <p>The histogram displays the number of blocks in each size range.  Each size range includes values larger than the next lower "Max Size" and at most equal to the range's "Max Size".  The last bucket is open ended.  Note that the histogram is logarithmic.</p>
 
+<p>You can filter the histogram by changing the options on the Data menu.</p>
+
 
 <hr>
 <h2><a name="RecordHelp">Query Results / Leftovers</a></h2>
 
-<p>When you select "Get allocated records" from the File menu in the <a href="#MainHelp">Live Stats window</a>, you can set the filter criteria for which records will be returned.  You can enter a file name to restrict the results to everything allocated in a single source file.  You can also enter a minimum allocation size.  The matching records (at the time of the query) are displayed in a Query Results window.  When the program exits, a Leftovers window opens automatically to show the blocks that were never deallocated.</p>
+<p>When you select "Get allocated records" from the Data menu in the <a href="#MainHelp">Live Stats window</a>, you can set the filter criteria for which records will be returned.  You can enter a file name to restrict the results to everything allocated in a single source file.  You can also enter a minimum allocation size.  The matching records (at the time of the query) are displayed in a Query Results window.  When the program exits, a Leftovers window opens automatically to show the blocks that were never deallocated.</p>
 
 <p>The first column indicates if there is an error in the allocation.  The next two columns display the file name and line number.  The size of the block is in column four.  If the block was allocated via <code>jnew[]</code>, column five displays <code>[]</code>.  The last column displays the data, rendered as a string.  This is useless for binary data, but very useful for string data.</p>
 

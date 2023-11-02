@@ -120,8 +120,7 @@ JMMArrayTable::GetTotalCount() const
 void
 JMMArrayTable::PrintAllocated
 	(
-	const bool printLibrary,
-	const bool printInternal // = false
+	const JMemoryManager::RecordFilter& filter
 	)
 	const
 {
@@ -129,22 +128,18 @@ JMMArrayTable::PrintAllocated
 
 	std::cout << "\nAllocated user memory:" << std::endl;
 
-	JMemoryManager::RecordFilter filter;
-	filter.includeApp     = true;
-	filter.includeBucket1 = true;
-	filter.includeBucket2 = true;
-	filter.includeBucket3 = true;
-	filter.includeLibrary = printLibrary;
+	JMemoryManager::RecordFilter f(filter);
+	f.includeInternal = false;
 
 	for (const auto& thisRecord : *itsAllocatedTable)
 	{
-		if (filter.Match(thisRecord))
+		if (f.Match(thisRecord))
 		{
 			PrintAllocatedRecord(thisRecord);
 		}
 	}
 
-	if (printInternal)
+	if (filter.includeInternal)
 	{
 		std::cout << "\nThe following blocks are probably owned by the memory manager"
 			 << "\nand *should* still be allocated--please report all cases of user"

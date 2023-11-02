@@ -19,7 +19,7 @@ class FilterRecordsDialog : public JXModalDialogDirector
 {
 public:
 
-	FilterRecordsDialog();
+	FilterRecordsDialog(const JMemoryManager::RecordFilter& filter);
 
 	~FilterRecordsDialog() override;
 
@@ -38,7 +38,7 @@ private:
 
 private:
 
-	void	BuildWindow();
+	void	BuildWindow(const JMemoryManager::RecordFilter& filter);
 };
 
 #endif

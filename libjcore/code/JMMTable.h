@@ -35,7 +35,7 @@ public:
 	virtual JSize GetDeletedCount() const = 0;
 	virtual JSize GetTotalCount() const = 0;
 
-	virtual void PrintAllocated(const bool printLibrary, const bool printInternal = false) const = 0;
+	virtual void PrintAllocated(const JMemoryManager::RecordFilter& filter) const = 0;
 	virtual void StreamAllocatedForDebug(std::ostream& output, const JMemoryManager::RecordFilter& filter) const = 0;
 	virtual void StreamAllocationSizeHistogram(std::ostream& output, const JMemoryManager::RecordFilter& filter) const = 0;
 

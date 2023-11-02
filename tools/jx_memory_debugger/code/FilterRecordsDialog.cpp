@@ -14,7 +14,6 @@
 #include <jx-af/jx/JXTextCheckbox.h>
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXIntegerInput.h>
-#include <jx-af/jx/JXAtLeastOneCBGroup.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -22,11 +21,14 @@
 
  ******************************************************************************/
 
-FilterRecordsDialog::FilterRecordsDialog()
+FilterRecordsDialog::FilterRecordsDialog
+	(
+	const JMemoryManager::RecordFilter& filter
+	)
 	:
 	JXModalDialogDirector()
 {
-	BuildWindow();
+	BuildWindow(filter);
 }
 
 /******************************************************************************
@@ -44,7 +46,10 @@ FilterRecordsDialog::~FilterRecordsDialog()
  ******************************************************************************/
 
 void
-FilterRecordsDialog::BuildWindow()
+FilterRecordsDialog::BuildWindow
+	(
+	const JMemoryManager::RecordFilter& filter
+	)
 {
 // begin JXLayout
 
@@ -89,8 +94,17 @@ FilterRecordsDialog::BuildWindow()
 	window->SetTitle(JGetString("WindowTitle::FilterRecordsDialog"));
 	SetButtons(okButton, cancelButton);
 
-	auto* cbGroup = jnew JXAtLeastOneCBGroup(2, itsSizeCB, itsFileCB);
-	assert( cbGroup != nullptr );
+	if (filter.fileName != nullptr)
+	{
+		itsFileCB->SetState(true);
+		itsFileInput->GetText()->SetText(*filter.fileName);
+	}
+
+	if (filter.minSize > 0)
+	{
+		itsSizeCB->SetState(true);
+		itsSizeInput->GetText()->SetText(JString((JUInt64) filter.minSize));
+	}
 
 	ListenTo(itsFileCB, std::function([this](const JXCheckbox::Pushed& msg)
 	{
@@ -133,6 +147,8 @@ FilterRecordsDialog::BuildFilter
 	)
 	const
 {
+	filter->minSize = 0;
+
 	if (itsSizeCB->IsChecked())
 	{
 		JInteger minSize;
@@ -141,9 +157,11 @@ FilterRecordsDialog::BuildFilter
 		filter->minSize = minSize;
 	}
 
+	jdelete filter->fileName;
+	filter->fileName = nullptr;
+
 	if (itsFileCB->IsChecked())
 	{
-		jdelete filter->fileName;
 		filter->fileName = jnew JString(itsFileInput->GetText()->GetText());
 		assert( filter->fileName != nullptr );
 	}

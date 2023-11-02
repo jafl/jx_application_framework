@@ -1,8 +1,9 @@
-jx_memory_debugger:
-	options to print library, app, buckets
+jx_memory_debugger
+	take snapshot (save all record id's) then do diff later and show only new record id's
+jcc,medic:
+	test for memory leaks
 
-	filtered histogram of allocation sizes
-		would "static string" optimzation help?
+need exponential allocation for JRunArray in JTextEditor?
 
 jcc
 	EditTasksDialog: top partition gets larger every time it is opened

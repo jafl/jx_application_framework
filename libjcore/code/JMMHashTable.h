@@ -27,7 +27,7 @@ public:
 	JSize GetDeletedCount() const override;
 	JSize GetTotalCount() const override;
 
-	void PrintAllocated(const bool printLibrary, const bool printInternal = false) const override;
+	void PrintAllocated(const JMemoryManager::RecordFilter& filter) const override;
 	void StreamAllocatedForDebug(std::ostream& output, const JMemoryManager::RecordFilter& filter) const override;
 	void StreamAllocationSizeHistogram(std::ostream& output, const JMemoryManager::RecordFilter& filter) const override;
 

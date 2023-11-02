@@ -46,13 +46,35 @@ const JSize kRefreshInterval = 1000;	// 1 second (ms)
 // File menu
 
 static const JUtf8Byte* kFileMenuStr =
-	"    Get allocated records           %i" kGetRecords
-	"%l| Quit                  %k Meta-Q %i" kJXQuitAction;
+	"Quit %k Meta-Q %i" kJXQuitAction;
+
+enum
+{
+	kQuitCmd = 1
+};
+
+// Data menu
+
+static const JUtf8Byte* kDataMenuStr =
+	"    Get allocated records       %i" kGetRecordsAction
+	"%l| Show application records %b %i" kShowAppRecordsAction
+	"  | Show bucket #1 records   %b %i" kShowBucket1RecordsAction
+	"  | Show bucket #2 records   %b %i" kShowBucket2RecordsAction
+	"  | Show bucket #3 records   %b %i" kShowBucket3RecordsAction
+	"%l| Show library records     %b %i" kShowLibraryRecordsAction
+	"%l| Show internal records    %b %i" kShowInternalRecordsAction
+	"  | Show unknown records     %b %i" kShowUnknownRecordsAction;
 
 enum
 {
 	kGetRecordsCmd = 1,
-	kQuitCmd
+	kShowAppRecordsCmd,
+	kShowBucket1RecordsCmd,
+	kShowBucket2RecordsCmd,
+	kShowBucket3RecordsCmd,
+	kShowLibraryRecordsCmd,
+	kShowIntervalRecordsCmd,
+	kShowUnknownRecordsCmd
 };
 
 // Preferences menu
@@ -153,6 +175,11 @@ StatsDirector::StatsDirector
 	itsPingTask(nullptr),
 	itsMessageDir(nullptr)
 {
+	itsDataFilter.includeApp     = true;
+	itsDataFilter.includeBucket1 = true;
+	itsDataFilter.includeBucket2 = true;
+	itsDataFilter.includeBucket3 = true;
+
 	BuildWindow();
 
 	JPoint desktopLoc;
@@ -423,11 +450,21 @@ StatsDirector::BuildWindow()
 		&StatsDirector::UpdateFileMenu,
 		&StatsDirector::HandleFileMenu);
 
+	itsDataMenu = menuBar->AppendTextMenu(JGetString("DataMenuTitle::StatsDirector"));
+	itsDataMenu->SetMenuItems(kDataMenuStr, "StatsDirector");
+	itsDataMenu->SetUpdateAction(JXMenu::kDisableNone);
+	itsDataMenu->AttachHandlers(this,
+		&StatsDirector::UpdateDataMenu,
+		&StatsDirector::HandleDataMenu);
+
 	itsProgramInput->AppendEditMenu(menuBar);
 	itsArgsInput->ShareEditMenu(itsProgramInput);
 	itsAllocatedBlocksDisplay->ShareEditMenu(itsProgramInput);
 	itsAllocatedBytesDisplay->ShareEditMenu(itsProgramInput);
 	itsDeallocatedBlocksDisplay->ShareEditMenu(itsProgramInput);
+
+	itsProgramInput->ShouldRequireWritable(false);
+	itsProgramInput->ShouldRequireExecutable(true);
 
 	auto* windowsMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
@@ -499,9 +536,16 @@ StatsDirector::ChooseProgram()
 void
 StatsDirector::RunProgram()
 {
-	if (itsProgramInput->GetText()->IsEmpty())
+	JString fullName;
+	if (!itsProgramInput->GetFile(&fullName))
 	{
 		return;
+	}
+
+	JString path, name;
+	if (JSplitPathAndName(fullName, &path, &name))
+	{
+		JChangeDirectory(path);
 	}
 
 	OpenDebugAcceptor();
@@ -524,7 +568,7 @@ StatsDirector::RunProgram()
 		setenv("JMM_SHRED", "default", 1);
 	}
 
-	JString cmd = itsProgramInput->GetText()->GetText();
+	JString cmd = fullName;
 	cmd        += " ";
 	cmd        += itsArgsInput->GetText()->GetText();
 
@@ -656,7 +700,7 @@ StatsDirector::HandleResponse()
 	}
 	else if (type == JMemoryManager::kRecordsMessage)
 	{
-		ReceiveRecords(input, JGetString("QueryRecordsWindowTitle::StatsDirector"));
+		ReceiveRecords(input, JGetString("QueryRecordsWindowTitle::StatsDirector"), true);
 	}
 	else if (type == JMemoryManager::kErrorMessage)
 	{
@@ -672,18 +716,11 @@ StatsDirector::HandleResponse()
 void
 StatsDirector::RequestRunningStats()
 {
-	JMemoryManager::RecordFilter filter;
-	filter.includeLibrary = true;
-	filter.includeApp     = true;
-	filter.includeBucket1 = true;
-	filter.includeBucket2 = true;
-	filter.includeBucket3 = true;
-
 	std::ostringstream output;
 	output << kJMemoryManagerDebugVersion;
 	output << ' ' << JMemoryManager::kRunningStatsMessage;
 	output << ' ';
-	filter.Write(output);
+	itsDataFilter.Write(output);
 
 	SendRequest(output);
 }
@@ -759,46 +796,30 @@ StatsDirector::ReceiveExitStats
 	std::istream& input
 	)
 {
-	input >> itsExitStatsFile;
-}
+	JString fileName;
+	input >> fileName;
 
-/******************************************************************************
- ReadExitStats (private)
-
-	We don't need to check any version number because we already received
-	itsExitStatsFile.
-
- ******************************************************************************/
-
-void
-StatsDirector::ReadExitStats()
-{
-	if (itsExitStatsFile.IsEmpty())
-	{
-		return;
-	}
-
-	std::ifstream input(itsExitStatsFile.GetBytes());
+	std::ifstream input2(fileName.GetBytes());
 
 	while (true)
 	{
 		long type;
-		input >> type;
-		if (input.eof() || !input.good())
+		input2 >> type;
+		if (input2.eof() || !input2.good())
 		{
 			break;
 		}
 		else if (type == JMemoryManager::kErrorMessage)
 		{
-			ReceiveErrorMessage(input);
+			ReceiveErrorMessage(input2);
 		}
 		else if (type == JMemoryManager::kRunningStatsMessage)
 		{
-			ReceiveRunningStats(input);
+			ReceiveRunningStats(input2);
 		}
 		else if (type == JMemoryManager::kRecordsMessage)
 		{
-			ReceiveRecords(input, JGetString("ExitRecordsWindowTitle::StatsDirector"));
+			ReceiveRecords(input2, JGetString("ExitRecordsWindowTitle::StatsDirector"), false);
 			GetWindow()->SetTitle(JGetString("ExitWindowTitle::StatsDirector"));
 		}
 		else
@@ -807,9 +828,8 @@ StatsDirector::ReadExitStats()
 		}
 	}
 
-	input.close();
-	JRemoveFile(itsExitStatsFile);
-	itsExitStatsFile.Clear();
+	input2.close();
+	JRemoveFile(fileName);
 
 	if (itsMessageDir != nullptr)
 	{
@@ -823,16 +843,13 @@ StatsDirector::ReadExitStats()
  ******************************************************************************/
 
 void
-StatsDirector::RequestRecords
-	(
-	const JMemoryManager::RecordFilter& filter
-	)
+StatsDirector::RequestRecords()
 {
 	std::ostringstream output;
 	output << kJMemoryManagerDebugVersion;
 	output << ' ' << JMemoryManager::kRecordsMessage;
 	output << ' ';
-	filter.Write(output);
+	itsDataFilter.Write(output);
 
 	SendRequest(output);
 }
@@ -846,7 +863,8 @@ void
 StatsDirector::ReceiveRecords
 	(
 	std::istream&	input,
-	const JString&	windowTitle
+	const JString&	windowTitle,
+	const bool		showIfEmpty
 	)
 {
 	auto* list = jnew RecordList;
@@ -866,9 +884,12 @@ StatsDirector::ReceiveRecords
 		list->AddRecord(record);
 	}
 
-	auto* dir = jnew RecordDirector(this, list, windowTitle);
-	assert( dir != nullptr );
-	dir->Activate();
+	if (!list->IsEmpty() || showIfEmpty)
+	{
+		auto* dir = jnew RecordDirector(this, list, windowTitle);
+		assert( dir != nullptr );
+		dir->Activate();
+	}
 }
 
 /******************************************************************************
@@ -903,7 +924,6 @@ StatsDirector::ReceiveErrorMessage
 void
 StatsDirector::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnabled(kGetRecordsCmd, itsProcess != nullptr);
 }
 
 /******************************************************************************
@@ -917,27 +937,113 @@ StatsDirector::HandleFileMenu
 	const JIndex index
 	)
 {
+	if (index == kQuitCmd)
+	{
+		GetApplication()->Quit();
+	}
+}
+
+/******************************************************************************
+ UpdateDataMenu (private)
+
+ ******************************************************************************/
+
+void
+StatsDirector::UpdateDataMenu()
+{
+	itsDataMenu->SetItemEnabled(kGetRecordsCmd, itsProcess != nullptr);
+
+	if (itsDataFilter.includeApp)
+	{
+		itsDataMenu->CheckItem(kShowAppRecordsCmd);
+	}
+
+	if (itsDataFilter.includeBucket1)
+	{
+		itsDataMenu->CheckItem(kShowBucket1RecordsCmd);
+	}
+
+	if (itsDataFilter.includeBucket2)
+	{
+		itsDataMenu->CheckItem(kShowBucket2RecordsCmd);
+	}
+
+	if (itsDataFilter.includeBucket3)
+	{
+		itsDataMenu->CheckItem(kShowBucket3RecordsCmd);
+	}
+
+	if (itsDataFilter.includeLibrary)
+	{
+		itsDataMenu->CheckItem(kShowLibraryRecordsCmd);
+	}
+
+	if (itsDataFilter.includeInternal)
+	{
+		itsDataMenu->CheckItem(kShowIntervalRecordsCmd);
+	}
+
+	if (itsDataFilter.includeUnknown)
+	{
+		itsDataMenu->CheckItem(kShowUnknownRecordsCmd);
+	}
+}
+
+/******************************************************************************
+ HandleDataMenu (private)
+
+ ******************************************************************************/
+
+void
+StatsDirector::HandleDataMenu
+	(
+	const JIndex index
+	)
+{
 	if (index == kGetRecordsCmd)
 	{
-		auto* dlog = jnew FilterRecordsDialog();
+		auto* dlog = jnew FilterRecordsDialog(itsDataFilter);
 		assert( dlog != nullptr );
 		if (dlog->DoDialog())
 		{
-			JMemoryManager::RecordFilter filter;
-			dlog->BuildFilter(&filter);
-
-			filter.includeLibrary = true;
-			filter.includeApp     = true;
-			filter.includeBucket1 = true;
-			filter.includeBucket2 = true;
-			filter.includeBucket3 = true;
-			RequestRecords(filter);
+			dlog->BuildFilter(&itsDataFilter);
+			RequestRecords();
 		}
 	}
 
-	else if (index == kQuitCmd)
+	else if (index == kShowAppRecordsCmd)
 	{
-		GetApplication()->Quit();
+		itsDataFilter.includeApp = !itsDataFilter.includeApp;
+	}
+
+	else if (index == kShowBucket1RecordsCmd)
+	{
+		itsDataFilter.includeBucket1 = !itsDataFilter.includeBucket1;
+	}
+
+	else if (index == kShowBucket2RecordsCmd)
+	{
+		itsDataFilter.includeBucket2 = !itsDataFilter.includeBucket2;
+	}
+
+	else if (index == kShowBucket3RecordsCmd)
+	{
+		itsDataFilter.includeBucket3 = !itsDataFilter.includeBucket3;
+	}
+
+	else if (index == kShowLibraryRecordsCmd)
+	{
+		itsDataFilter.includeLibrary = !itsDataFilter.includeLibrary;
+	}
+
+	else if (index == kShowIntervalRecordsCmd)
+	{
+		itsDataFilter.includeInternal = !itsDataFilter.includeInternal;
+	}
+
+	else if (index == kShowUnknownRecordsCmd)
+	{
+		itsDataFilter.includeUnknown = !itsDataFilter.includeUnknown;
 	}
 }
 

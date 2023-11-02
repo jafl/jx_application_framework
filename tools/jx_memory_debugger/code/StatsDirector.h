@@ -44,6 +44,7 @@ protected:
 private:
 
 	JXTextMenu*	itsFileMenu;
+	JXTextMenu*	itsDataMenu;
 	JXTextMenu*	itsPrefsMenu;
 	JXTextMenu*	itsHelpMenu;
 
@@ -53,9 +54,10 @@ private:
 	JProcess*					itsProcess;
 	JXFunctionTask*				itsPingTask;
 	JXPGMessageDirector*		itsMessageDir;
-	JString						itsExitStatsFile;
 
 	SizeHistogram*	itsAllocatedHisto;
+
+	JMemoryManager::RecordFilter	itsDataFilter;
 
 // begin JXLayout
 
@@ -94,12 +96,16 @@ private:
 	void	ReceiveRunningStats(std::istream& input);
 	void	ReceiveExitStats(std::istream& input);
 	void	ReadExitStats();
-	void	RequestRecords(const JMemoryManager::RecordFilter& filter);
-	void	ReceiveRecords(std::istream& input, const JString& windowTitle);
+	void	RequestRecords();
+	void	ReceiveRecords(std::istream& input, const JString& windowTitle,
+						   const bool showIfEmpty);
 	void	ReceiveErrorMessage(std::istream& input);
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);
+
+	void	UpdateDataMenu();
+	void	HandleDataMenu(const JIndex index);
 
 	void	HandlePrefsMenu(const JIndex index);
 

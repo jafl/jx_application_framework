@@ -240,12 +240,15 @@ JMemoryManager::JMemoryManager()
 	itsExitStatsStream(nullptr),
 	itsBroadcastErrorsFlag(false),
 	itsPrintExitStatsFlag(false),
-	itsPrintLibraryStatsFlag(false),
-	itsPrintInternalStatsFlag(false),
 	itsCheckDoubleAllocationFlag(false)
 {
 	itsMutex = new std::recursive_mutex;
 	assert( itsMutex != nullptr );
+
+	itsRecordFilter.includeApp     = true;
+	itsRecordFilter.includeBucket1 = true;
+	itsRecordFilter.includeBucket2 = true;
+	itsRecordFilter.includeBucket3 = true;
 
 	// Instance() must set the flag
 	assert(theConstructingFlag == true);
@@ -271,13 +274,13 @@ JMemoryManager::JMemoryManager()
 	const JUtf8Byte* printLibraryStats = getenv("JMM_PRINT_LIBRARY_STATS");
 	if (printLibraryStats != nullptr && JString::Compare(printLibraryStats, "yes", JString::kIgnoreCase) == 0)
 	{
-		itsPrintLibraryStatsFlag = true;
+		itsRecordFilter.includeLibrary = true;
 	}
 
 	const JUtf8Byte* printInternalStats = getenv("JMM_PRINT_INTERNAL_STATS");
 	if (printInternalStats != nullptr && JString::Compare(printInternalStats, "yes", JString::kIgnoreCase) == 0)
 	{
-		itsPrintInternalStatsFlag = true;
+		itsRecordFilter.includeInternal = true;
 	}
 
 	const JUtf8Byte* checkDoubleAllocation = getenv("JMM_CHECK_DOUBLE_ALLOCATION");
@@ -520,7 +523,7 @@ JMemoryManager::PrintAllocated() const
 	if (itsMemoryTable != nullptr)
 	{
 		std::lock_guard lock(*itsMutex);
-		itsMemoryTable->PrintAllocated(itsPrintLibraryStatsFlag, itsPrintInternalStatsFlag);
+		itsMemoryTable->PrintAllocated(itsRecordFilter);
 	}
 }
 
@@ -866,13 +869,12 @@ JMemoryManager::SendRunningStats
 	)
 	const
 {
-	RecordFilter filter;
-	filter.Read(input);
+	itsRecordFilter.Read(input);
 
 	std::ostringstream output;
 	output << kJMemoryManagerDebugVersion;
 	output << ' ';
-	WriteRunningStats(output, filter);
+	WriteRunningStats(output);
 
 	SendDebugMessage(output);
 }
@@ -885,8 +887,7 @@ JMemoryManager::SendRunningStats
 void
 JMemoryManager::WriteRunningStats
 	(
-	std::ostream&		output,
-	const RecordFilter&	filter
+	std::ostream& output
 	)
 	const
 {
@@ -897,7 +898,7 @@ JMemoryManager::WriteRunningStats
 	output << ' ' << itsMemoryTable->GetAllocatedBytes();
 	output << ' ' << itsMemoryTable->GetDeletedCount();
 	output << ' ';
-	itsMemoryTable->StreamAllocationSizeHistogram(output, filter);
+	itsMemoryTable->StreamAllocationSizeHistogram(output, itsRecordFilter);
 }
 
 /******************************************************************************
@@ -912,14 +913,12 @@ JMemoryManager::SendRecords
 	)
 	const
 {
-	RecordFilter filter;
-	filter.Read(input);
-	const_cast<JMemoryManager*>(this)->itsPrintLibraryStatsFlag = filter.includeLibrary;
+	itsRecordFilter.Read(input);
 
 	std::ostringstream output;
 	output << kJMemoryManagerDebugVersion;
 	output << ' ';
-	WriteRecords(output, filter);
+	WriteRecords(output);
 
 	SendDebugMessage(output);
 }
@@ -932,8 +931,7 @@ JMemoryManager::SendRecords
 void
 JMemoryManager::WriteRecords
 	(
-	std::ostream&		output,
-	const RecordFilter&	filter
+	std::ostream& output
 	)
 	const
 {
@@ -941,7 +939,7 @@ JMemoryManager::WriteRecords
 
 	output << kRecordsMessage;
 	output << ' ';
-	itsMemoryTable->StreamAllocatedForDebug(output, filter);
+	itsMemoryTable->StreamAllocatedForDebug(output, itsRecordFilter);
 }
 
 /******************************************************************************
@@ -985,26 +983,17 @@ void
 JMemoryManager::WriteExitStats()
 	const
 {
-	if (itsExitStatsStream == nullptr)
+	if (itsExitStatsStream != nullptr)
 	{
-		return;
+		*itsExitStatsStream << ' ';
+		WriteRunningStats(*itsExitStatsStream);
+
+		*itsExitStatsStream << ' ';
+		WriteRecords(*itsExitStatsStream);
+
+		delete itsExitStatsStream;
+		itsExitStatsStream = nullptr;
 	}
-
-	RecordFilter filter;
-	filter.includeApp     = true;
-	filter.includeBucket1 = true;
-	filter.includeBucket2 = true;
-	filter.includeBucket3 = true;
-	filter.includeLibrary = itsPrintLibraryStatsFlag;
-
-	*itsExitStatsStream << ' ';
-	WriteRunningStats(*itsExitStatsStream, filter);
-
-	*itsExitStatsStream << ' ';
-	WriteRecords(*itsExitStatsStream, filter);
-
-	delete itsExitStatsStream;
-	itsExitStatsStream = nullptr;
 }
 
 /******************************************************************************
