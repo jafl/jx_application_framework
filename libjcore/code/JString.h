@@ -163,8 +163,8 @@ public:
 	void	Print(std::ostream& output) const;
 	void	PrintHex(std::ostream& output) const;
 
-	JSize	GetBlockSize() const;
-	void	SetBlockSize(const JSize blockSize);
+	JSize	GetMinLgSize() const;
+	void	SetMinLgSize(const JSize lgSize);
 
 	// modify - do not require an iterator
 
@@ -273,9 +273,6 @@ public:
 	static JSize	CopyNormalizedBytes(const JUtf8Byte* source, const JSize maxBytes,
 										JUtf8Byte* destination, const JSize capacity);
 
-	static JSize	GetDefaultBlockSize();
-	static void		SetDefaultBlockSize(const JSize blockSize);
-
 protected:
 
 	const JUtf8Byte*	GetUnterminatedBytes() const;
@@ -301,17 +298,19 @@ private:
 	JUtf8Byte*	itsBytes;			// characters
 	JSize		itsByteCount;		// number of bytes used
 	JSize		itsCharacterCount;	// number of characters
-	JSize		itsAllocCount;		// number of bytes we have space for
-	JSize		itsBlockSize;		// size by which to shrink and grow allocation
+	JSize		itsLgSize;			// number of bytes we have space for = (2^itsLgSize)-1
+	JSize		itsMinLgSize;		// smallest allowed allocation, for optimization
 
 	UCaseMap*			itsUCaseMap;
 	JStringIterator*	itsIterator;	// only one iterator allowed at a time
 
-	static JSize theDefaultBlockSize;
+public:		// only for testing!
+
+	static JSize	theDefaultMinLgSize;
 
 private:
 
-	void	SetAllocCount(const JSize byteCount);
+	bool	NeedsRealloc(const JSize byteCount);
 	void	CopyToPrivateBuffer(const JUtf8Byte* str, const JSize byteCount,
 								const bool invalidateIterator = true);
 	void	FoldCase(const bool upper);
@@ -1207,9 +1206,6 @@ JString::Set
 /******************************************************************************
  Assignment operator
 
-	We do not copy itsBlockSize because we assume the client has set it
-	appropriately.
-
  ******************************************************************************/
 
 inline JString&
@@ -1469,44 +1465,24 @@ JString::Split
 }
 
 /******************************************************************************
- Block size
+ Minimum allocation size
 
  ******************************************************************************/
 
 inline JSize
-JString::GetBlockSize()
+JString::GetMinLgSize()
 	const
 {
-	return itsBlockSize;
+	return itsLgSize;
 }
 
 inline void
-JString::SetBlockSize
+JString::SetMinLgSize
 	(
-	const JSize blockSize
+	const JSize lgSize
 	)
 {
-	itsBlockSize = blockSize;
-}
-
-/******************************************************************************
- Default block size (static)
-
- ******************************************************************************/
-
-inline JSize
-JString::GetDefaultBlockSize()
-{
-	return theDefaultBlockSize;
-}
-
-inline void
-JString::SetDefaultBlockSize
-	(
-	const JSize blockSize
-	)
-{
-	theDefaultBlockSize = blockSize;
+	itsLgSize = JMax(theDefaultMinLgSize, lgSize);
 }
 
 /******************************************************************************
@@ -1519,20 +1495,6 @@ JString::GetUnterminatedBytes()
 	const
 {
 	return itsBytes;
-}
-
-/******************************************************************************
- GetUnterminatedBytes (private)
-
- ******************************************************************************/
-
-inline void
-JString::SetAllocCount
-	(
-	const JSize byteCount
-	)
-{
-	itsAllocCount = byteCount <= itsBlockSize ? itsBlockSize : byteCount + itsBlockSize;
 }
 
 #endif

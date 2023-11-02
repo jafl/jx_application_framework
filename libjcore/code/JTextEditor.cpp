@@ -234,7 +234,7 @@ JTextEditor::JTextEditor
 
 	if (type == kFullEditor)
 	{
-		itsText->SetBlockSizes(4096, 128);
+		itsText->SetBlockSizes(12, 128);	// 12 = 4KB
 		itsLineStarts->SetBlockSize(128);
 		itsLineGeom->SetBlockSize(128);
 	}

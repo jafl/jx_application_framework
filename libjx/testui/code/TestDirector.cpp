@@ -893,7 +893,6 @@ TestDirector::TestFontSubstitutionTiming()
 	JFontManager* fontMgr = GetDisplay()->GetFontManager();
 
 	JString s;
-	s.SetBlockSize(size);
 	for (JIndex i=1; i<=size; i++)
 	{
 		s.Append(JUtf8Character(r.UniformLong(32, 126)));
@@ -908,7 +907,7 @@ TestDirector::TestFontSubstitutionTiming()
 
 	w.StopTimer();
 	std::cout << "check ascii glyphs: " << JBoolToString(hasGlyphs) << ' ' << w.PrintTimeInterval() << std::endl;
-{
+	{
 	JStringIterator iter(s);
 	JUtf8Character c;
 
@@ -919,11 +918,10 @@ TestDirector::TestFontSubstitutionTiming()
 		JFont f1 = f;
 		f1.SubstituteToDisplayGlyph(fontMgr, c);
 	}
-}
+	}
 	w.StopTimer();
 	std::cout << "substitute ascii glyphs: " << w.PrintTimeInterval() << std::endl;
 
-	s.SetBlockSize(4*size);
 	s.Clear();
 	for (JIndex i=1; i<=size; i++)
 	{
@@ -936,7 +934,7 @@ TestDirector::TestFontSubstitutionTiming()
 
 	w.StopTimer();
 	std::cout << "check korean glyphs: " << JBoolToString(hasGlyphs) << ' ' << w.PrintTimeInterval() << std::endl;
-{
+	{
 	JStringIterator iter(s);
 	JUtf8Character c;
 
@@ -947,7 +945,7 @@ TestDirector::TestFontSubstitutionTiming()
 		JFont f1 = f;
 		f1.SubstituteToDisplayGlyph(fontMgr, c);
 	}
-}
+	}
 	w.StopTimer();
 	std::cout << "substitute korean glyphs: " << w.PrintTimeInterval() << std::endl;
 }

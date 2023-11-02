@@ -1887,7 +1887,7 @@ JStyledText::CleanText
 		COPY_FOR_CLEAN_TEXT
 
 		JString tmpText;
-		tmpText.SetBlockSize((**cleanText).GetByteCount()+256);
+		tmpText.SetMinLgSize(JLCeil(std::log2((**cleanText).GetByteCount()+256)));
 
 		JRunArray<JFont> tmpStyle((**cleanStyle).GetRunCount()+16);
 

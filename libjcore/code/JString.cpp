@@ -30,14 +30,13 @@
 #include "JStringMatch.h"
 #include "jStreamUtil.h"
 #include "jMath.h"
-#include "JMinMax.h"
 #include <stdlib.h>
 #include <sstream>
 #include <iomanip>
 #include "jErrno.h"
 #include "jAssert.h"
 
-JSize JString::theDefaultBlockSize = 1023;	// not including null terminator
+JSize JString::theDefaultMinLgSize = 5;	// 2^5 = 32 bytes
 const JString JString::empty("", JString::kNoCopy);
 const JString JString::newline("\n", JString::kNoCopy);
 
@@ -49,6 +48,18 @@ static thread_local UCollator*	theCaseInsensitiveCollator;
 
 static void	double2str(double doubleVal, int afterDec, int sigDigitCount,
 					   int expMin, char *returnStr);
+
+inline JSize lgToSize(const JSize lgSize)
+{
+	return (1UL << lgSize);
+}
+
+inline JUtf8Byte* alloc(const JSize lgSize)
+{
+	JUtf8Byte* buf = jnew JUtf8Byte[ lgToSize(lgSize) ];
+	assert( buf != nullptr );
+	return buf;
+}
 
 /******************************************************************************
  Constructor
@@ -64,13 +75,12 @@ JString::JString
 	itsNormalizeFlag(normalize),
 	itsByteCount(0),
 	itsCharacterCount(0),
-	itsAllocCount(theDefaultBlockSize),
-	itsBlockSize(theDefaultBlockSize),
+	itsLgSize(theDefaultMinLgSize),
+	itsMinLgSize(theDefaultMinLgSize),
 	itsUCaseMap(nullptr),
 	itsIterator(nullptr)
 {
-	itsBytes = jnew JUtf8Byte [ itsAllocCount+1 ];
-	assert( itsBytes != nullptr );
+	itsBytes    = alloc(itsLgSize);
 	itsBytes[0] = '\0';
 
 	theCurrentlyConstructingObject = nullptr;
@@ -87,8 +97,8 @@ JString::JString
 	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(source.itsBlockSize),
+	itsLgSize(0),
+	itsMinLgSize(theDefaultMinLgSize),
 	itsUCaseMap(nullptr),
 	itsIterator(nullptr)
 {
@@ -119,8 +129,8 @@ JString::JString
 	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(theDefaultBlockSize),
+	itsLgSize(0),
+	itsMinLgSize(theDefaultMinLgSize),
 	itsUCaseMap(nullptr),
 	itsIterator(nullptr)
 {
@@ -166,8 +176,8 @@ JString::JString
 	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(theDefaultBlockSize),
+	itsLgSize(0),
+	itsMinLgSize(theDefaultMinLgSize),
 	itsUCaseMap(nullptr),
 	itsIterator(nullptr)
 {
@@ -197,8 +207,8 @@ JString::JString
 	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(theDefaultBlockSize),
+	itsLgSize(0),
+	itsMinLgSize(theDefaultMinLgSize),
 	itsUCaseMap(nullptr),
 	itsIterator(nullptr)
 {
@@ -226,8 +236,8 @@ JString::JString
 	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(theDefaultBlockSize),
+	itsLgSize(0),
+	itsMinLgSize(theDefaultMinLgSize),
 	itsUCaseMap(nullptr),
 	itsIterator(nullptr)
 {
@@ -294,15 +304,14 @@ JString::JString
 	itsNormalizeFlag(true),
 	itsByteCount(0),
 	itsCharacterCount(0),
-	itsAllocCount(127),
-	itsBlockSize(127),
+	itsLgSize(7),	// 127 characters should be enough for any number
+	itsMinLgSize(theDefaultMinLgSize),
 	itsUCaseMap(nullptr),
 	itsIterator(nullptr)
 {
 	assert( precision >= -1 );
 
-	itsBytes = jnew JUtf8Byte [ itsAllocCount+1 ];
-	assert( itsBytes != nullptr );
+	itsBytes = alloc(itsLgSize);
 	double2str(number, precision, sigDigitCount,
 			   (expDisplay == kUseGivenExponent ? exponent : expDisplay),
 			   itsBytes);
@@ -410,10 +419,10 @@ JString::Set
 	}
 	else if (itsBytes != str.itsBytes || itsByteCount != str.itsByteCount)
 	{
-		JUtf8Byte* s  = itsBytes;
-		itsBytes      = nullptr;
-		itsByteCount  = 0;
-		itsAllocCount = 0;
+		JUtf8Byte* s = itsBytes;
+		itsBytes     = nullptr;
+		itsByteCount = 0;
+		itsLgSize    = 0;
 		CopyToPrivateBuffer(str.itsBytes, str.itsByteCount);
 
 		if (itsOwnerFlag)
@@ -437,10 +446,10 @@ JString::Set
 	}
 	else if (itsBytes != str.itsBytes || itsByteCount != byteRange.GetCount())
 	{
-		JUtf8Byte* s  = itsBytes;
-		itsBytes      = nullptr;
-		itsByteCount  = 0;
-		itsAllocCount = 0;
+		JUtf8Byte* s = itsBytes;
+		itsBytes     = nullptr;
+		itsByteCount = 0;
+		itsLgSize    = 0;
 		CopyToPrivateBuffer(str.itsBytes + byteRange.first-1, byteRange.GetCount());
 
 		if (itsOwnerFlag)
@@ -448,6 +457,27 @@ JString::Set
 			jdelete [] s;
 		}
 	}
+}
+
+/******************************************************************************
+ NeedsRealloc (private)
+
+ ******************************************************************************/
+
+inline bool
+JString::NeedsRealloc
+	(
+	const JSize byteCount
+	)
+{
+	if (itsOwnerFlag && itsLgSize >= itsMinLgSize &&
+		lgToSize(itsLgSize-1) <= byteCount && byteCount < lgToSize(itsLgSize))
+	{
+		return false;
+	}
+
+	itsLgSize = JMax(itsMinLgSize, (JSize) JLCeil(std::log2(byteCount+1.0)));
+	return true;
 }
 
 /******************************************************************************
@@ -471,18 +501,13 @@ JString::CopyToPrivateBuffer
 
 	// ensure sufficient space
 
-	if (!itsOwnerFlag || itsAllocCount < byteCount || itsAllocCount == 0)
+	if (NeedsRealloc(byteCount))
 	{
-		SetAllocCount(byteCount);
-
-		auto* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
-		assert( newString != nullptr );
-
-		if (itsOwnerFlag && itsBytes!= nullptr)
+		if (itsOwnerFlag)
 		{
 			jdelete [] itsBytes;
 		}
-		itsBytes     = newString;
+		itsBytes     = alloc(itsLgSize);
 		itsOwnerFlag = true;
 	}
 
@@ -492,7 +517,7 @@ JString::CopyToPrivateBuffer
 	{
 		if (itsNormalizeFlag)
 		{
-			itsByteCount = CopyNormalizedBytes(str, byteCount, itsBytes, itsAllocCount+1);
+			itsByteCount = CopyNormalizedBytes(str, byteCount, itsBytes, lgToSize(itsLgSize));
 		}
 		else
 		{
@@ -702,14 +727,11 @@ JString::ReplaceBytes
 
 	// If we don't have space, or would use too much space, reallocate.
 
-	if (!itsOwnerFlag || itsAllocCount < newCount || itsAllocCount > newCount + itsBlockSize)
+	if (NeedsRealloc(newCount))
 	{
-		itsAllocCount = newCount + itsBlockSize;
-
 		// allocate space for the result
 
-		auto* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
-		assert( newString != nullptr );
+		auto* newString = alloc(itsLgSize);
 
 		// place the characters in front and behind
 
@@ -773,9 +795,9 @@ JString::Clear()
 
 	// If we are using too much memory, reallocate.
 
-	if (!itsOwnerFlag || itsAllocCount > itsBlockSize)
+	if (!itsOwnerFlag || itsLgSize > itsMinLgSize)
 	{
-		itsAllocCount = itsBlockSize;
+		itsLgSize = itsMinLgSize;
 
 		// throw out the old data
 
@@ -788,8 +810,7 @@ JString::Clear()
 		// one we are requesting, the system must really be screwed if this
 		// call to new doesn't work.
 
-		itsBytes = jnew JUtf8Byte [ itsAllocCount + 1 ];
-		assert( itsBytes != nullptr );
+		itsBytes     = alloc(itsLgSize);
 		itsOwnerFlag = true;
 	}
 
@@ -864,14 +885,11 @@ JString::TrimWhitespace()
 
 	const JSize newLength = lastByteIndex - firstByteIndex + 1;
 
-	if (!itsOwnerFlag || itsAllocCount > newLength + itsBlockSize)
+	if (NeedsRealloc(newLength))
 	{
-		SetAllocCount(newLength);
-
 		// allocate space for the new string + termination
 
-		auto* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
-		assert( newString != nullptr );
+		auto* newString = alloc(itsLgSize);
 
 		// copy the non-blank characters to the new string
 
@@ -969,23 +987,24 @@ JString::FoldCase
 	}
 	assert( err == U_BUFFER_OVERFLOW_ERROR );
 
-	SetAllocCount(newLength);
+	// set itsLgSize based on new length
+
+	NeedsRealloc(newLength);
 
 	// allocate space for the result
 
-	auto* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
-	assert( newString != nullptr );
+	auto* newString = alloc(itsLgSize);
 
 	// get the new string
 
 	err = U_ZERO_ERROR;
 	if (upper)
 	{
-		ucasemap_utf8ToUpper(itsUCaseMap, newString, itsAllocCount+1, itsBytes, itsByteCount, &err);
+		ucasemap_utf8ToUpper(itsUCaseMap, newString, lgToSize(itsLgSize), itsBytes, itsByteCount, &err);
 	}
 	else
 	{
-		ucasemap_utf8ToLower(itsUCaseMap, newString, itsAllocCount+1, itsBytes, itsByteCount, &err);
+		ucasemap_utf8ToLower(itsUCaseMap, newString, lgToSize(itsLgSize), itsBytes, itsByteCount, &err);
 	}
 	assert( err == U_ZERO_ERROR );
 
@@ -1493,15 +1512,12 @@ JString::Read
 	)
 {
 	const JSize maxByteCount = JUtf8Character::kMaxByteCount * count;
-	if (!itsOwnerFlag || itsAllocCount < maxByteCount || itsAllocCount == 0)
+	if (NeedsRealloc(maxByteCount))
 	{
-		SetAllocCount(maxByteCount);
-
 		// We allocate the new memory first.
 		// If new fails, we still have the old string data.
 
-		auto* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
-		assert( newString != nullptr );
+		auto* newString = alloc(itsLgSize);
 
 		// now it's safe to throw out the old data
 

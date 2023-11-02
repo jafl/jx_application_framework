@@ -19,7 +19,7 @@
 
 int main()
 {
-	JString::SetDefaultBlockSize(1); // Ridiculous block size to really exercise resizer
+	JString::theDefaultMinLgSize = 2; // Ridiculously small to really exercise resizer
 
 	std::cout << "Current locale: " << setlocale(LC_ALL, "") << std::endl;
 	return JTestManager::Execute();

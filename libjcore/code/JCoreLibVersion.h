@@ -29,6 +29,11 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.1";
 //		Added option to categorize record as library, app, or buckets 1-3
 //	JBroadcaster:
 //		Fixed memory leak in typesafe ListenTo().
+//	jMath:
+//		*** Removed kJPi & kJE in favor of std::numbers.
+//		Removed unused constant kJLog10ToLog2.
+//	JString:
+//		Switched to an exponential reallocation model.
 
 // version 4.0.0:
 //	*** Upgraded to C++20
