@@ -11,16 +11,12 @@
 #include "jTypes.h"
 #include "JMinMax.h"	// for convenience
 #include <math.h>
+#include <numbers>
 
 // Constants
 
-const JFloat kJPi = 3.14159265358979323846;
-const JFloat kJE  = 2.71828182845904523536;
-
-const JFloat kJDegToRad = kJPi/180.0;
-const JFloat kJRadToDeg = 180.0/kJPi;
-
-const JFloat kJLog10ToLog2 = 1.0 / log10(2.0);
+constexpr JFloat kJDegToRad = std::numbers::pi / 180.0;
+constexpr JFloat kJRadToDeg = 180.0 / std::numbers::pi;
 
 // Functions
 

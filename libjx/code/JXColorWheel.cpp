@@ -145,7 +145,7 @@ JXColorWheel::Draw
 				{
 					const JCoordinate dy = y - center;
 					const JFloat r = sqrt(dx*dx + dy*dy) / center;
-					const JFloat a = 0.5 + atan2(dy, dx) / (2.0 * kJPi);
+					const JFloat a = 0.5 + atan2(dy, dx) / (2.0 * std::numbers::pi);
 
 					JHSB color(JRound(a * kJMaxHSBValue), JRound(r * kJMaxHSBValue), itsLastDrawBrightness);
 					itsImage->SetColor(x,y, JColorManager::GetColorID(color));
@@ -159,7 +159,7 @@ JXColorWheel::Draw
 	p.Image(*itsImage, itsImage->GetBounds(), 0,0);
 
 	const JFloat r = (itsColor.saturation / kJMaxHSBValueF) * size/2;
-	const JFloat a = ((itsColor.hue / kJMaxHSBValueF) - 0.5) * 2.0 * kJPi;
+	const JFloat a = ((itsColor.hue / kJMaxHSBValueF) - 0.5) * 2.0 * std::numbers::pi;
 
 	const JCoordinate x = center - JRound(r * cos(a));
 	const JCoordinate y = center + JRound(r * sin(a));
@@ -199,7 +199,7 @@ JXColorWheel::SetColor
 	const JCoordinate dy = pt.y - center;
 
 	const JFloat r = JMin(sqrt(dx*dx + dy*dy) / center, 1.0);
-	const JFloat a = 0.5 + atan2(dy, dx) / (2.0 * kJPi);
+	const JFloat a = 0.5 + atan2(dy, dx) / (2.0 * std::numbers::pi);
 
 	const JSize b = JRound(itsBrightnessSlider->GetValue());
 	SetColor(JHSB(JRound(a * kJMaxHSBValue), JRound(r * kJMaxHSBValue), b));

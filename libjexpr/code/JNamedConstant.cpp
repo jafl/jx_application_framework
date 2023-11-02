@@ -24,7 +24,7 @@
 
 static const JFloat kNamedConstValues[] =
 {
-	kJPi, kJE, 0.0
+	std::numbers::pi, std::numbers::e, 0.0
 };
 
 /******************************************************************************
