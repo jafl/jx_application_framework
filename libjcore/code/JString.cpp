@@ -473,6 +473,16 @@ JString::NeedsRealloc
 	const JSize origLgSize = itsLgSize;
 
 	itsLgSize = JMax(itsMinLgSize, (JSize) JLCeil(std::log2(byteCount+1.0)));
+
+	if (itsOwnerFlag && origLgSize > 0 && itsLgSize == origLgSize - 1 &&
+		byteCount > lgToSize(itsLgSize) * 0.9)
+	{
+		// try to prevent thrashing
+
+		itsLgSize = origLgSize;
+		return false;
+	}
+
 	return !itsOwnerFlag || itsLgSize != origLgSize;
 }
 
