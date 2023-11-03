@@ -536,8 +536,8 @@ StatsDirector::ChooseProgram()
 void
 StatsDirector::RunProgram()
 {
-	JString fullName;
-	if (!itsProgramInput->GetFile(&fullName))
+	JString s, fullName;
+	if (!itsProgramInput->GetFile(&s) || !JGetTrueName(s, &fullName))
 	{
 		return;
 	}
@@ -716,11 +716,15 @@ StatsDirector::HandleResponse()
 void
 StatsDirector::RequestRunningStats()
 {
+	JMemoryManager::RecordFilter filter(itsDataFilter);
+	filter.minSize  = 0;
+	filter.fileName = nullptr;
+
 	std::ostringstream output;
 	output << kJMemoryManagerDebugVersion;
 	output << ' ' << JMemoryManager::kRunningStatsMessage;
 	output << ' ';
-	itsDataFilter.Write(output);
+	filter.Write(output);
 
 	SendRequest(output);
 }
