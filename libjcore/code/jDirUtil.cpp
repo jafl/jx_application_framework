@@ -126,56 +126,56 @@ JGetUniqueDirEntryName
 
  *****************************************************************************/
 
+static const JUtf8Byte* theModeTemplate = "---------";
+static auto* theModeString              = jnew JUtf8Byte[ strlen(theModeTemplate)+1 ];
+
 JString
 JGetPermissionsString
 	(
 	const mode_t mode
 	)
 {
-	const JUtf8Byte* modeTemplate = "---------";
-
-	auto* modeString = jnew JUtf8Byte[ strlen(modeTemplate)+1 ];
-	assert( modeString != nullptr );
-	strcpy(modeString, modeTemplate);
+	assert( theModeString != nullptr );
+	strcpy(theModeString, theModeTemplate);
 
 	if (mode & S_IRUSR)
 	{
-		modeString[0] = 'r';
+		theModeString[0] = 'r';
 	}
 	if (mode & S_IWUSR)
 	{
-		modeString[1] = 'w';
+		theModeString[1] = 'w';
 	}
 	if (mode & S_IXUSR)
 	{
-		modeString[2] = 'x';
+		theModeString[2] = 'x';
 	}
 	if (mode & S_IRGRP)
 	{
-		modeString[3] = 'r';
+		theModeString[3] = 'r';
 	}
 	if (mode & S_IWGRP)
 	{
-		modeString[4] = 'w';
+		theModeString[4] = 'w';
 	}
 	if (mode & S_IXGRP)
 	{
-		modeString[5] = 'x';
+		theModeString[5] = 'x';
 	}
 	if (mode & S_IROTH)
 	{
-		modeString[6] = 'r';
+		theModeString[6] = 'r';
 	}
 	if (mode & S_IWOTH)
 	{
-		modeString[7] = 'w';
+		theModeString[7] = 'w';
 	}
 	if (mode & S_IXOTH)
 	{
-		modeString[8] = 'x';
+		theModeString[8] = 'x';
 	}
 
-	return JString(modeString);
+	return JString(theModeString);
 }
 
 /*****************************************************************************
