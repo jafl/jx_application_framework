@@ -1,16 +1,13 @@
 jx_memory_debugger
 	take snapshot (save all record id's) then do diff later and show only new record id's
 jcc,medic:
-	test for memory leaks
-
-need exponential allocation for JRunArray in JTextEditor?
+	investigate memory leaks
 
 jcc
 	EditTasksDialog: top partition gets larger every time it is opened
 		ftc for dialogs containing partition show bottom buttons off by several pixels
 
 medic
-	lldb: disassembly is empty
 	when kill program, doesn't clear current source line marker
 
 -----

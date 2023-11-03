@@ -133,6 +133,7 @@ RecordDirector::~RecordDirector()
  ******************************************************************************/
 
 #include "md_main_window_icon.xpm"
+#include <jx-af/image/jx/jx_file_print.xpm>
 #include <jx-af/image/jx/jx_help_specific.xpm>
 #include <jx-af/image/jx/jx_help_toc.xpm>
 
@@ -203,7 +204,9 @@ RecordDirector::BuildWindow
 		&RecordDirector::UpdateFileMenu,
 		&RecordDirector::HandleFileMenu);
 
-	(itsRecordTable->GetEditMenuHandler())->AppendEditMenu(menuBar);
+	itsFileMenu->SetItemImage(kPrintCmd, jx_file_print);
+
+	itsRecordTable->GetEditMenuHandler()->AppendEditMenu(menuBar);
 
 	auto* windowsMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
@@ -230,7 +233,6 @@ RecordDirector::BuildWindow
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFileMenu, kPrintCmd);
-		itsToolBar->AppendButton(itsFileMenu, kCloseCmd);
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);

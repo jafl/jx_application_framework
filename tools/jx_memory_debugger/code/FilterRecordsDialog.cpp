@@ -103,7 +103,7 @@ FilterRecordsDialog::BuildWindow
 	if (filter.minSize > 0)
 	{
 		itsSizeCB->SetState(true);
-		itsSizeInput->GetText()->SetText(JString((JUInt64) filter.minSize));
+		itsSizeInput->GetText()->SetText(JString((JUInt64) (filter.minSize - 1)));
 	}
 
 	ListenTo(itsFileCB, std::function([this](const JXCheckbox::Pushed& msg)
@@ -154,7 +154,10 @@ FilterRecordsDialog::BuildFilter
 		JInteger minSize;
 		const bool ok = itsSizeInput->GetValue(&minSize);
 		assert( ok );
-		filter->minSize = minSize;
+		if (minSize > 0)
+		{
+			filter->minSize = minSize + 1;
+		}
 	}
 
 	jdelete filter->fileName;
