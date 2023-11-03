@@ -23,6 +23,8 @@ static const char* kCurrentJXLibVersionStr = "4.0.1";
 // version 4.0.1:
 //	JXStringCompletionMenu:
 //		Reverted regression that caused infinite loop with backtick.
+//	JXWindow:
+//		Reverted regression that caused long menus to not scroll smoothly.
 
 // version 4.0.0:
 //	Supports utf-8
