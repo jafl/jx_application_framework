@@ -470,14 +470,10 @@ JString::NeedsRealloc
 	const JSize byteCount
 	)
 {
-	if (itsOwnerFlag && itsLgSize >= itsMinLgSize &&
-		lgToSize(itsLgSize-1) <= byteCount && byteCount < lgToSize(itsLgSize))
-	{
-		return false;
-	}
+	const JSize origLgSize = itsLgSize;
 
 	itsLgSize = JMax(itsMinLgSize, (JSize) JLCeil(std::log2(byteCount+1.0)));
-	return true;
+	return !itsOwnerFlag || itsLgSize != origLgSize;
 }
 
 /******************************************************************************
@@ -1514,18 +1510,11 @@ JString::Read
 	const JSize maxByteCount = JUtf8Character::kMaxByteCount * count;
 	if (NeedsRealloc(maxByteCount))
 	{
-		// We allocate the new memory first.
-		// If new fails, we still have the old string data.
-
-		auto* newString = alloc(itsLgSize);
-
-		// now it's safe to throw out the old data
-
 		if (itsOwnerFlag)
 		{
 			jdelete [] itsBytes;
 		}
-		itsBytes     = newString;
+		itsBytes     = alloc(itsLgSize);
 		itsOwnerFlag = true;
 	}
 
@@ -1548,6 +1537,17 @@ JString::Read
 	JUtf8Byte* normalizedBytes;
 	itsByteCount = Normalize(itsBytes, p - itsBytes, &normalizedBytes);
 	assert( itsByteCount <= maxByteCount );
+
+	if (NeedsRealloc(itsByteCount))		// maxByteCount may be 4x what we really need
+	{
+		if (itsOwnerFlag)
+		{
+			jdelete [] itsBytes;
+		}
+		itsBytes     = alloc(itsLgSize);
+		itsOwnerFlag = true;
+	}
+
 	memcpy(itsBytes, normalizedBytes, itsByteCount+1);
 	jdelete [] normalizedBytes;
 	normalizedBytes = nullptr;
