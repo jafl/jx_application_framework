@@ -20,6 +20,7 @@ int main()
 JTEST(Exercise)
 {
 	const JString path("/tmp/test_JDirInfo/", JString::kNoCopy);
+	JAssertTrue(JKillDirectory(path));
 	JAssertOK(JCreateDirectory(path));
 	JAssertOK(JChangeDirectory(path));
 

@@ -422,7 +422,7 @@ JXMenuTable::MenuHandleMouseAction
 	const JPoint&			pt,
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers,
-	const bool			closeIfOutside
+	const bool				closeIfOutside
 	)
 {
 	itsCurrPt = pt;

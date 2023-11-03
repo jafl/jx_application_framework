@@ -1235,7 +1235,7 @@ JGetTrueName
 		// resolve symbolic link
 
 		JString target;
-		if ((JGetSymbolicLinkTarget(name, &target)).OK())
+		if (JGetSymbolicLinkTarget(name, &target).OK())
 		{
 			if (JIsRelativePath(target))
 			{

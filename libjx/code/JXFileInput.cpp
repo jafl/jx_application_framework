@@ -104,12 +104,12 @@ JXFileInput::GetFile
 	const bool hasBasePath = GetBasePath(&basePath);
 
 	return !text.IsEmpty() &&
-				(JIsAbsolutePath(text) || hasBasePath) &&
-				JConvertToAbsolutePath(text, basePath, fullName) &&
-				JFileExists(*fullName) &&
-				(!itsRequireReadFlag  || JFileReadable(*fullName)) &&
-				(!itsRequireWriteFlag || JFileWritable(*fullName)) &&
-				(!itsRequireExecFlag  || JFileExecutable(*fullName));
+			(JIsAbsolutePath(text) || hasBasePath) &&
+			JConvertToAbsolutePath(text, basePath, fullName) &&
+			JFileExists(*fullName) &&
+			(!itsRequireReadFlag  || JFileReadable(*fullName)) &&
+			(!itsRequireWriteFlag || JFileWritable(*fullName)) &&
+			(!itsRequireExecFlag  || JFileExecutable(*fullName));
 }
 
 /******************************************************************************
