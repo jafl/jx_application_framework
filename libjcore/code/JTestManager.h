@@ -54,6 +54,9 @@ using JUnitTest = void (*)();
 #define JAssertOK(err) \
 	JTestManager::IsOK(err, __FILE__, __LINE__)
 
+#define JAssertFatal(err) \
+	JTestManager::ReportFatal(err.GetType(), __FILE__, __LINE__)
+
 class JTestManager
 {
 public:

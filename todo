@@ -4,8 +4,12 @@ jcc,medic:
 	investigate memory leaks
 
 jcc
+	JXDocumentMenu - show partial paths for repeated file names
+
 	EditTasksDialog: top partition gets larger every time it is opened
 		ftc for dialogs containing partition show bottom buttons off by several pixels
+
+	test with old project formats in code_crusader/test-manual/*.jcc
 
 medic
 	when kill program, doesn't clear current source line marker
@@ -14,8 +18,6 @@ medic
 
 jcc
 	json styler: key vs value
-
-	JXDocumentMenu - show partial paths for repeated file names
 
 	include partial path in symbol search results when display duplicate file name
 		/Users/john.lindal/projects/vendomatic/src/main/webapp/public/sso.php
@@ -27,8 +29,6 @@ jcc
 		unit test for CDATA - can contain php or jsp
 		tag, attribute value, script, char escapes
 		javascript regex, incl char class - can contain php or jsp
-
-	test with old project formats in code_crusader/test-manual/*.jcc
 
 glove
 	undo then redo "transform creates column": puts values back in inverted order

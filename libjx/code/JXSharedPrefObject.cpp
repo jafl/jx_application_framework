@@ -99,7 +99,7 @@ JXSharedPrefObject::GetPrefID
 void
 JXSharedPrefObject::ReadPrefs()
 {
-	(JXGetSharedPrefsManager())->ReadPrefs(this);
+	JXGetSharedPrefsManager()->ReadPrefs(this);
 }
 
 /******************************************************************************
@@ -111,7 +111,7 @@ void
 JXSharedPrefObject::WritePrefs()
 	const
 {
-	(JXGetSharedPrefsManager())->WritePrefs(this);
+	JXGetSharedPrefsManager()->WritePrefs(this);
 }
 
 /******************************************************************************
