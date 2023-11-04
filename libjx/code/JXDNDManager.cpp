@@ -241,7 +241,7 @@ JXDNDManager::BeginDND
 	itsPrevHandleDNDScrollButton = (JXMouseButton) 0;
 	itsPrevHandleDNDModifiers.Clear();
 
-	if ((itsDisplay->GetSelectionManager())->SetData(itsAtoms[ kDNDSelectionAtomIndex ], data))
+	if (itsDisplay->GetSelectionManager()->SetData(itsAtoms[ kDNDSelectionAtomIndex ], data))
 	{
 		itsIsDraggingFlag   = true;
 		itsDragger          = widget;

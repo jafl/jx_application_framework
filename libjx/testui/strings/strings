@@ -2,6 +2,8 @@
 
 # vim:set ts=4 tm=t:
 
+Name	"testjx"
+
 # AboutDialog
 
 WindowTitle::AboutDialog	"About this silly program"

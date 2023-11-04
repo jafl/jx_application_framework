@@ -117,6 +117,8 @@ JStringManager::Get
 	}
 	else if (Contains(theMissingStringKey))	// ok to leak memory, because it should never happen
 	{
+		std::cerr << "missing string id: " << id << std::endl;
+
 		const JUtf8Byte* map[] =
 		{
 			"s", id

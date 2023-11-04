@@ -1,7 +1,6 @@
-jx_memory_debugger
-	take snapshot (save all record id's) then do diff later and show only new record id's
-jcc,medic:
-	investigate memory leaks
+JMemoryManager
+	by default, assert if malloc returns null
+	jnew_allow_null does not assert
 
 jcc
 	JXDocumentMenu - show partial paths for repeated file names
@@ -280,3 +279,9 @@ ASIO
 
 switch to xcb
 	does not support XIM
+
+exceptions suck
+	invisible; not self-documenting
+	infects the entire call tree
+	unwinds the stack, so core dump is useless
+	tricky for partially constructed objects

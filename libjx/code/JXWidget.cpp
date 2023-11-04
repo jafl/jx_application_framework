@@ -1301,7 +1301,7 @@ JXWidget::BeginDND
 	)
 {
 	return GetDNDManager()->BeginDND(this, pt, buttonStates, modifiers, data,
-									   targetFinder);
+									 targetFinder);
 }
 
 /******************************************************************************
