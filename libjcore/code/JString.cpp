@@ -419,13 +419,14 @@ JString::Set
 	}
 	else if (itsBytes != str.itsBytes || itsByteCount != str.itsByteCount)
 	{
-		JUtf8Byte* s = itsBytes;
-		itsBytes     = nullptr;
-		itsByteCount = 0;
-		itsLgSize    = 0;
+		JUtf8Byte* s  = itsBytes;
+		bool wasOwner = itsOwnerFlag;
+		itsBytes      = nullptr;
+		itsByteCount  = 0;
+		itsLgSize     = 0;
 		CopyToPrivateBuffer(str.itsBytes, str.itsByteCount);
 
-		if (itsOwnerFlag)
+		if (wasOwner)
 		{
 			jdelete [] s;
 		}
@@ -446,13 +447,14 @@ JString::Set
 	}
 	else if (itsBytes != str.itsBytes || itsByteCount != byteRange.GetCount())
 	{
-		JUtf8Byte* s = itsBytes;
-		itsBytes     = nullptr;
-		itsByteCount = 0;
-		itsLgSize    = 0;
+		JUtf8Byte* s  = itsBytes;
+		bool wasOwner = itsOwnerFlag;
+		itsBytes      = nullptr;
+		itsByteCount  = 0;
+		itsLgSize     = 0;
 		CopyToPrivateBuffer(str.itsBytes + byteRange.first-1, byteRange.GetCount());
 
-		if (itsOwnerFlag)
+		if (wasOwner)
 		{
 			jdelete [] s;
 		}
