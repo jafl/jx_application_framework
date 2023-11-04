@@ -203,15 +203,13 @@ JGetStringManager()
 
  ******************************************************************************/
 
-static const JString emptyString;
-
 const JString&
 JGetString
 	(
 	const JUtf8Byte* id
 	)
 {
-	return (theStringManager != nullptr ? theStringManager->Get(id) : emptyString);
+	return (theStringManager != nullptr ? theStringManager->Get(id) : JString::empty);
 }
 
 JString
@@ -222,7 +220,7 @@ JGetString
 	const JSize			size
 	)
 {
-	return (theStringManager != nullptr ? theStringManager->Get(id, map, size) : emptyString);
+	return (theStringManager != nullptr ? theStringManager->Get(id, map, size) : JString::empty);
 }
 
 /******************************************************************************
