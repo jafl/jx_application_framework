@@ -1473,7 +1473,7 @@ inline JSize
 JString::GetMinLgSize()
 	const
 {
-	return itsLgSize;
+	return itsMinLgSize;
 }
 
 inline void
@@ -1482,7 +1482,7 @@ JString::SetMinLgSize
 	const JSize lgSize
 	)
 {
-	itsLgSize = JMax(theDefaultMinLgSize, lgSize);
+	itsMinLgSize = JMax(theDefaultMinLgSize, lgSize);
 }
 
 /******************************************************************************
