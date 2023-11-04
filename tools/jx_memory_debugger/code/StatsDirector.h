@@ -96,7 +96,7 @@ private:
 	void	ReceiveRunningStats(std::istream& input);
 	void	ReceiveExitStats(std::istream& input);
 	void	ReadExitStats();
-	void	RequestRecords();
+	void	SendRequest(const JIndex cmd);
 	void	ReceiveRecords(std::istream& input, const JString& windowTitle,
 						   const bool showIfEmpty);
 	void	ReceiveErrorMessage(std::istream& input);

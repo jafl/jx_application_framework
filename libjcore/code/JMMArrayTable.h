@@ -25,6 +25,9 @@ public:
 	JSize GetDeletedCount() const override;
 	JSize GetTotalCount() const override;
 
+	virtual void SaveSnapshot() override;
+	virtual void StreamSnapshotDiffForDebug(std::ostream& output, const JMemoryManager::RecordFilter& filter) const override;
+
 	void PrintAllocated(const JMemoryManager::RecordFilter& filter) const override;
 	void StreamAllocatedForDebug(std::ostream& output, const JMemoryManager::RecordFilter& filter) const override;
 	void StreamAllocationSizeHistogram(std::ostream& output, const JMemoryManager::RecordFilter& filter) const override;
@@ -44,6 +47,7 @@ private:
 	JSize				itsAllocatedBytes;
 	JArray<JMMRecord>*	itsDeletedTable;
 	JSize				itsDeletedCount;
+	JUInt32				itsSnapshotID;
 
 private:
 

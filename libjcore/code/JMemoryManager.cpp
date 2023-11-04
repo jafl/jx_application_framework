@@ -57,6 +57,45 @@
 #		                       of initializations, but once canceled it cannot
 #		                       be restarted.
 
+#		JMM_INITIALIZE         If this environment variable is set but given no
+#		                       value the manager will initialize new memory blocks
+#		                       to the default AllocateGarbage value.  If it is
+#		                       given a numerical value, that will be the value
+#		                       used for initialization.  If the manager cannot
+#		                       understand the value given, the default is used
+#		                       (setting it to "default" is the recommended way
+#		                       to do this intentionally).  If it does not exist
+#		                       or is set to "no" memory blocks will not be
+#		                       initialized.
+
+#		JMM_SHRED              If this environment variable is set but given no
+#		                       value the manager will set deleted blocks to the
+#		                       default DeallocateGarbage value.  If it is given
+#		                       a numerical value, that will be the value the
+#		                       blocks are set to.  If the manager cannot
+#		                       understand the value given, the default is used
+#		                       (setting it to "default" is the recommended way
+#		                       to do this intentionally).  If it does not exist
+#		                       or is set to "no" memory blocks will not be
+#		                       initialized.
+
+#		                       This variable is meaningless if allocation records
+#		                       are not being kept, because in that case the
+#		                       manager cannot know the size of the block being
+#		                       freed.
+
+#		                       Keep in mind that jdelete (via free()) generally
+#		                       will store information at the beginning of each
+#		                       deallocated block.  This information will overwrite
+#		                       the JMM garbage values at those locations, so
+#		                       don't expect the first few bytes to have the
+#		                       JMM_SHRED value.
+
+#		                       Generally, you'll want to use different initialize
+#		                       and shred values so you can look at a piece of
+#		                       memory and see at a glance whether the manager
+#		                       thinks it is allocated or deallocated.
+
 #		JMM_RECORD_DEALLOCATED If this environment variable is set to "yes" the
 #		                       manager will keep a record of all memory which
 #		                       has been deallocated.  It is useless unless
@@ -196,6 +235,11 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 
 	const JUtf8Byte* JMemoryManager::kMultipleAllocation = "MultipleAllocation::JMemoryManager";
 
+// Constants
+
+	const unsigned char kDefaultAllocateGarbage   = 0xA7; // A for Allocate :-)
+	const unsigned char kDefaultDeallocateGarbage = 0xD7; // D for Delete   :-)
+
 // Static member data
 
 	static const JSize theStackMax = 50;
@@ -208,6 +252,9 @@ const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 
 	JMemoryManager::DeleteRequest JMemoryManager::theDeallocStack[theStackMax];
 	JSize                         JMemoryManager::theDeallocStackSize = 0;
+
+	bool          JMemoryManager::theInitializeFlag  = false;
+	unsigned char JMemoryManager::theAllocateGarbage = kDefaultAllocateGarbage;
 
 	bool JMemoryManager::theAbortUnknownAllocFlag = false;
 
@@ -238,8 +285,11 @@ JMemoryManager::JMemoryManager()
 	itsErrorStream(nullptr),
 	itsExitStatsFileName(nullptr),
 	itsExitStatsStream(nullptr),
+	itsSnapshotID(0),
 	itsBroadcastErrorsFlag(false),
 	itsPrintExitStatsFlag(false),
+	itsShredFlag(false), // Dummy initialization
+	itsDeallocateGarbage(kDefaultDeallocateGarbage),
 	itsCheckDoubleAllocationFlag(false)
 {
 	itsMutex = new std::recursive_mutex;
@@ -283,6 +333,8 @@ JMemoryManager::JMemoryManager()
 		itsRecordFilter.includeInternal = true;
 	}
 
+	ReadValue(&theInitializeFlag, &theAllocateGarbage, getenv("JMM_INITIALIZE"));
+	ReadValue(&itsShredFlag, &itsDeallocateGarbage, getenv("JMM_SHRED"));
 	const JUtf8Byte* checkDoubleAllocation = getenv("JMM_CHECK_DOUBLE_ALLOCATION");
 	if (checkDoubleAllocation != nullptr && JString::Compare(checkDoubleAllocation, "yes", JString::kIgnoreCase) == 0)
 	{
@@ -422,6 +474,11 @@ JMemoryManager::New
 		return nullptr;
 	}
 
+	if (theInitializeFlag)
+	{
+		memset(newBlock, theAllocateGarbage, trueSize);
+	}
+
 	if (!theConstructingFlag)
 	{
 		Instance()->itsMutex->lock();
@@ -429,7 +486,7 @@ JMemoryManager::New
 
 	const bool useStack  = theConstructingFlag || theRecursionDepth > 0;
 	const bool isManager = useStack || theInternalFlag;
-	JMMRecord newRecord(GetNewID(), newBlock, trueSize, file, line, isArray, isManager ? JMMRecord::kManager : type);
+	JMMRecord newRecord(GetNewID(), newBlock, trueSize, file, line, isManager ? JMMRecord::kManager : type, isArray);
 
 	if (useStack)
 	{
@@ -593,9 +650,20 @@ JMemoryManager::DeleteRecord
 		return;
 	}
 
-	JMMRecord record;
-	const bool wasAllocated = itsMemoryTable == nullptr ||	// Have to trust the client
-		itsMemoryTable->SetRecordDeleted(&record, block, file, line, isArray);
+	bool wasAllocated = true;		// Have to trust the client, if not recording
+	if (itsMemoryTable != nullptr)
+	{
+		JMMRecord record;
+		wasAllocated = itsMemoryTable->SetRecordDeleted(&record, block,
+														file, line, isArray);
+
+		// Can't do this unless we're keeping records
+		if (itsShredFlag && wasAllocated)
+		{
+			assert( record.GetAddress() == block );
+			memset(block, itsDeallocateGarbage, record.GetSize());
+		}
+	}
 
 	// Try to avoid a seg fault so the program can continue
 	if (wasAllocated)
@@ -855,6 +923,14 @@ JMemoryManager::HandleDebugRequest()
 	{
 		SendRecords(input);
 	}
+	else if (type == kSaveSnapshotMessage)
+	{
+		itsMemoryTable->SaveSnapshot();
+	}
+	else if (type == kSnapshotDiffMessage)
+	{
+		SendSnapshotDiff(input);
+	}
 }
 
 /******************************************************************************
@@ -940,6 +1016,47 @@ JMemoryManager::WriteRecords
 	output << kRecordsMessage;
 	output << ' ';
 	itsMemoryTable->StreamAllocatedForDebug(output, itsRecordFilter);
+}
+
+/******************************************************************************
+ SendSnapshotDiff (private)
+
+ ******************************************************************************/
+
+void
+JMemoryManager::SendSnapshotDiff
+	(
+	std::istream& input
+	)
+	const
+{
+	itsRecordFilter.Read(input);
+
+	std::ostringstream output;
+	output << kJMemoryManagerDebugVersion;
+	output << ' ';
+	WriteSnapshotDiff(output);
+
+	SendDebugMessage(output);
+}
+
+/******************************************************************************
+ WriteSnapshotDiff (private)
+
+ ******************************************************************************/
+
+void
+JMemoryManager::WriteSnapshotDiff
+	(
+	std::ostream& output
+	)
+	const
+{
+	std::lock_guard lock(*itsMutex);
+
+	output << kRecordsMessage;
+	output << ' ';
+	itsMemoryTable->StreamSnapshotDiffForDebug(output, itsRecordFilter);
 }
 
 /******************************************************************************

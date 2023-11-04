@@ -33,7 +33,8 @@ JMMArrayTable::JMMArrayTable
 	itsAllocatedTable(nullptr),
 	itsAllocatedBytes(0),
 	itsDeletedTable(nullptr),
-	itsDeletedCount(0)
+	itsDeletedCount(0),
+	itsSnapshotID(0)
 {
 	itsAllocatedTable = jnew JArray<JMMRecord>(blockSize);
 	assert(itsAllocatedTable != nullptr);
@@ -168,10 +169,8 @@ JMMArrayTable::StreamAllocatedForDebug
 	)
 	const
 {
-	const JSize count = itsAllocatedTable->GetElementCount();
-	for (JIndex i=1;i<=count;i++)
+	for (const auto& thisRecord : *itsAllocatedTable)
 	{
-		const JMMRecord thisRecord = itsAllocatedTable->GetElement(i);
 		if (filter.Match(thisRecord))
 		{
 			output << ' ' << JBoolToString(true);
@@ -199,10 +198,8 @@ JMMArrayTable::StreamAllocationSizeHistogram
 	JSize histo[ JMemoryManager::kHistogramSlotCount ];
 	memset(histo, 0, sizeof(histo));
 
-	const JSize count = itsAllocatedTable->GetElementCount();
-	for (JIndex i=1;i<=count;i++)
+	for (const auto& thisRecord : *itsAllocatedTable)
 	{
-		const JMMRecord thisRecord = itsAllocatedTable->GetElement(i);
 		if (filter.Match(thisRecord))
 		{
 			AddToHistogram(thisRecord, histo);
@@ -210,6 +207,48 @@ JMMArrayTable::StreamAllocationSizeHistogram
 	}
 
 	StreamHistogram(output, histo);
+}
+
+/******************************************************************************
+ SaveSnapshot (virtual)
+
+ *****************************************************************************/
+
+void
+JMMArrayTable::SaveSnapshot()
+{
+	itsSnapshotID = 0;
+
+	for (const auto& thisRecord : *itsAllocatedTable)
+	{
+		itsSnapshotID = JMax(itsSnapshotID, thisRecord.GetID());
+	}
+}
+
+/******************************************************************************
+ StreamSnapshotDiffForDebug (virtual)
+
+ *****************************************************************************/
+
+void
+JMMArrayTable::StreamSnapshotDiffForDebug
+	(
+	std::ostream&						output,
+	const JMemoryManager::RecordFilter&	filter
+	)
+	const
+{
+	for (const auto& thisRecord : *itsAllocatedTable)
+	{
+		if (thisRecord.GetID() > itsSnapshotID && filter.Match(thisRecord))
+		{
+			output << ' ' << JBoolToString(true);
+			output << ' ';
+			thisRecord.StreamForDebug(output);
+		}
+	}
+
+	output << ' ' << JBoolToString(false);
 }
 
 /******************************************************************************

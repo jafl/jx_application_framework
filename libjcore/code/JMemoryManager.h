@@ -47,7 +47,9 @@ public:
 		kRunningStatsMessage,
 		kExitStatsMessage,
 		kErrorMessage,
-		kRecordsMessage
+		kRecordsMessage,
+		kSaveSnapshotMessage,
+		kSnapshotDiffMessage
 	};
 
 	enum
@@ -180,6 +182,9 @@ private:
 	static DeleteRequest theDeallocStack[];
 	static JSize         theDeallocStackSize;
 
+	static bool          theInitializeFlag;
+	static unsigned char theAllocateGarbage;
+
 	static bool theAbortUnknownAllocFlag;
 
 // Member data
@@ -191,6 +196,7 @@ private:
 	JString*				itsExitStatsFileName;
 	mutable std::ofstream*	itsExitStatsStream;
 	mutable RecordFilter	itsRecordFilter;
+	mutable JUInt32			itsSnapshotID;	// can be 0
 	std::recursive_mutex*	itsMutex;
 
 	// Statistics
@@ -199,6 +205,9 @@ private:
 	bool itsPrintExitStatsFlag;
 
 	// Error notification
+
+	bool          itsShredFlag;
+	unsigned char itsDeallocateGarbage;
 
 	bool itsCheckDoubleAllocationFlag;
 
@@ -211,6 +220,8 @@ private:
 	void WriteRunningStats(std::ostream& output) const;
 	void SendRecords(std::istream& input) const;
 	void WriteRecords(std::ostream& output) const;
+	void SendSnapshotDiff(std::istream& input) const;
+	void WriteSnapshotDiff(std::ostream& output) const;
 	void SendExitStats() const;
 	void WriteExitStats() const;
 
@@ -485,6 +496,28 @@ JMemoryManager::SetPrintInternalStats
 	)
 {
 	itsRecordFilter.includeInternal = yesNo;
+}
+
+/******************************************************************************
+ GetAllocateGarbage
+
+ *****************************************************************************/
+
+inline unsigned char
+JMemoryManager::GetAllocateGarbage() const
+{
+	return theAllocateGarbage;
+}
+
+/******************************************************************************
+ GetDeallocateGarbage
+
+ *****************************************************************************/
+
+inline unsigned char
+JMemoryManager::GetDeallocateGarbage() const
+{
+	return itsDeallocateGarbage;
 }
 
 /******************************************************************************

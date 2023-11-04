@@ -72,7 +72,7 @@ public:
 	JMMRecord();
 	JMMRecord(const JUInt32 id, const void* address, const size_t size,
 			  const JUtf8Byte* file, const JUInt32 lineNumber,
-			  const bool array, const int type);
+			  const int type, const bool array);
 	// Save 4 bytes (on many architectures) by having no virtuals, even the destructor
 	// ~JMMRecord() override; // Warning: not virtual!
 

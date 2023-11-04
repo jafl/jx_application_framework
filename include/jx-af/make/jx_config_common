@@ -71,9 +71,9 @@ YFLAGS :=
 define run_tests
     @echo ==========; \
      echo executing updated tests; \
-     export JMM_RECORD_ALLOCATED=yes JMM_RECORD_DEALLOCATED=yes \
-            JMM_CHECK_DOUBLE_ALLOCATION=yes JMM_BROADCAST_ERRORS=yes \
-            MALLOC_PERTURB_=$$(($$RANDOM % 255 + 1)); \
+     export JMM_RECORD_ALLOCATED=yes JMM_INITIALIZE=default \
+            JMM_RECORD_DEALLOCATED=yes JMM_SHRED=default \
+            JMM_CHECK_DOUBLE_ALLOCATION=yes JMM_BROADCAST_ERRORS=yes; \
      mkdir -p .timestamps; \
      ${foreach p, $(1), \
        if [[ ! -f .timestamps/${p} || ${p} -nt .timestamps/${p} ]]; then \

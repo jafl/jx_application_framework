@@ -34,7 +34,8 @@ JMMHashTable::JMMHashTable
 	itsAllocatedTable(nullptr),
 	itsAllocatedBytes(0),
 	itsDeletedTable(nullptr),
-	itsDeletedCount(0)
+	itsDeletedCount(0),
+	itsSnapshotID(0)
 {
 	itsAllocatedTable = jnew JHashTable<JMMRecord>(kInitialSize);
 	assert(itsAllocatedTable != nullptr);
@@ -219,6 +220,52 @@ JMMHashTable::StreamAllocationSizeHistogram
 	}
 
 	StreamHistogram(output, histo);
+}
+
+/******************************************************************************
+ SaveSnapshot (virtual)
+
+ *****************************************************************************/
+
+void
+JMMHashTable::SaveSnapshot()
+{
+	itsSnapshotID = 0;
+
+	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
+	while ( cursor.NextFull() )
+	{
+		const JMMRecord thisRecord = cursor.GetValue();
+		itsSnapshotID = JMax(itsSnapshotID, thisRecord.GetID());
+	}
+}
+
+/******************************************************************************
+ StreamSnapshotDiffForDebug (virtual)
+
+ *****************************************************************************/
+
+void
+JMMHashTable::StreamSnapshotDiffForDebug
+	(
+	std::ostream&						output,
+	const JMemoryManager::RecordFilter&	filter
+	)
+	const
+{
+	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
+	while ( cursor.NextFull() )
+	{
+		const JMMRecord thisRecord = cursor.GetValue();
+		if (thisRecord.GetID() > itsSnapshotID && filter.Match(thisRecord))
+		{
+			output << ' ' << JBoolToString(true);
+			output << ' ';
+			thisRecord.StreamForDebug(output);
+		}
+	}
+
+	output << ' ' << JBoolToString(false);
 }
 
 /******************************************************************************

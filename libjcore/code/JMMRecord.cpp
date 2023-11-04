@@ -70,8 +70,8 @@ JMMRecord::JMMRecord
 	const size_t     size,
 	const JUtf8Byte* file,
 	const JUInt32    lineNumber,
-	const bool       array,
-	const int        type
+	const int        type,
+	const bool       array
 	)
 {
 	assert( kManager <= type && type <= kBucket3 );

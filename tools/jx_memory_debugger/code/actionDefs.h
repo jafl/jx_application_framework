@@ -15,6 +15,8 @@
 #include <jx-af/jx/jXActionDefs.h>	// for convenience
 
 #define kGetRecordsAction			"GetRecords::MDStatsDirector"
+#define kSaveSnapshotAction			"SaveSnapshot::MDStatsDirector"
+#define kDiffSnapshotAction			"DiffSnapshot::MDStatsDirector"
 #define kShowAppRecordsAction		"ShowAppRecordsAction::MDStatsDirector"
 #define kShowBucket1RecordsAction	"ShowBucket1RecordsAction::MDStatsDirector"
 #define kShowBucket2RecordsAction	"ShowBucket2RecordsAction::MDStatsDirector"

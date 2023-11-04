@@ -56,18 +56,22 @@ enum
 // Data menu
 
 static const JUtf8Byte* kDataMenuStr =
-	"    Get allocated records       %i" kGetRecordsAction
-	"%l| Show application records %b %i" kShowAppRecordsAction
-	"  | Show bucket #1 records   %b %i" kShowBucket1RecordsAction
-	"  | Show bucket #2 records   %b %i" kShowBucket2RecordsAction
-	"  | Show bucket #3 records   %b %i" kShowBucket3RecordsAction
-	"%l| Show library records     %b %i" kShowLibraryRecordsAction
-	"%l| Show internal records    %b %i" kShowInternalRecordsAction
-	"  | Show unknown records     %b %i" kShowUnknownRecordsAction;
+	"    Get allocated records        %i" kGetRecordsAction
+	"%l| Take snapshot                %i" kSaveSnapshotAction
+	"  | Compare with latest snapshot %i" kDiffSnapshotAction
+	"%l| Show application records  %b %i" kShowAppRecordsAction
+	"  | Show bucket #1 records    %b %i" kShowBucket1RecordsAction
+	"  | Show bucket #2 records    %b %i" kShowBucket2RecordsAction
+	"  | Show bucket #3 records    %b %i" kShowBucket3RecordsAction
+	"%l| Show library records      %b %i" kShowLibraryRecordsAction
+	"%l| Show internal records     %b %i" kShowInternalRecordsAction
+	"  | Show unknown records      %b %i" kShowUnknownRecordsAction;
 
 enum
 {
 	kGetRecordsCmd = 1,
+	kSaveSnapshotCmd,
+	kDiffSnapshotCmd,
 	kShowAppRecordsCmd,
 	kShowBucket1RecordsCmd,
 	kShowBucket2RecordsCmd,
@@ -842,16 +846,19 @@ StatsDirector::ReceiveExitStats
 }
 
 /******************************************************************************
- RequestRecords (private)
+ SendRequest (private)
 
  ******************************************************************************/
 
 void
-StatsDirector::RequestRecords()
+StatsDirector::SendRequest
+	(
+	const JIndex cmd
+	)
 {
 	std::ostringstream output;
 	output << kJMemoryManagerDebugVersion;
-	output << ' ' << JMemoryManager::kRecordsMessage;
+	output << ' ' << cmd;
 	output << ' ';
 	itsDataFilter.Write(output);
 
@@ -956,6 +963,8 @@ void
 StatsDirector::UpdateDataMenu()
 {
 	itsDataMenu->SetItemEnabled(kGetRecordsCmd, itsProcess != nullptr);
+	itsDataMenu->SetItemEnabled(kSaveSnapshotCmd, itsProcess != nullptr);
+	itsDataMenu->SetItemEnabled(kDiffSnapshotCmd, itsProcess != nullptr);
 
 	if (itsDataFilter.includeApp)
 	{
@@ -1011,40 +1020,43 @@ StatsDirector::HandleDataMenu
 		if (dlog->DoDialog())
 		{
 			dlog->BuildFilter(&itsDataFilter);
-			RequestRecords();
+			SendRequest(JMemoryManager::kRecordsMessage);
 		}
+	}
+
+	else if (index == kSaveSnapshotCmd)
+	{
+		SendRequest(JMemoryManager::kSaveSnapshotMessage);
+	}
+	else if (index == kDiffSnapshotCmd)
+	{
+		SendRequest(JMemoryManager::kSnapshotDiffMessage);
 	}
 
 	else if (index == kShowAppRecordsCmd)
 	{
 		itsDataFilter.includeApp = !itsDataFilter.includeApp;
 	}
-
 	else if (index == kShowBucket1RecordsCmd)
 	{
 		itsDataFilter.includeBucket1 = !itsDataFilter.includeBucket1;
 	}
-
 	else if (index == kShowBucket2RecordsCmd)
 	{
 		itsDataFilter.includeBucket2 = !itsDataFilter.includeBucket2;
 	}
-
 	else if (index == kShowBucket3RecordsCmd)
 	{
 		itsDataFilter.includeBucket3 = !itsDataFilter.includeBucket3;
 	}
-
 	else if (index == kShowLibraryRecordsCmd)
 	{
 		itsDataFilter.includeLibrary = !itsDataFilter.includeLibrary;
 	}
-
 	else if (index == kShowIntervalRecordsCmd)
 	{
 		itsDataFilter.includeInternal = !itsDataFilter.includeInternal;
 	}
-
 	else if (index == kShowUnknownRecordsCmd)
 	{
 		itsDataFilter.includeUnknown = !itsDataFilter.includeUnknown;

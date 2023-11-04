@@ -12,15 +12,15 @@
 
 // This has to be a #define so it can be used for conditional compilation.
 
-#define CURRENT_JX_MAJOR_VERSION	4
-#define CURRENT_JX_MINOR_VERSION	0
-#define CURRENT_JX_PATCH_VERSION	1
+#define CURRENT_JX_MAJOR_VERSION 4
+#define CURRENT_JX_MINOR_VERSION 1
+#define CURRENT_JX_PATCH_VERSION 0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJXLibVersionStr = "4.0.1";
+static const char* kCurrentJXLibVersionStr = "4.1.0";
 
-// version 4.0.1:
+// version 4.1.0:
 //	JXStringCompletionMenu:
 //		Reverted regression that caused infinite loop with backtick.
 //	JXWindow:

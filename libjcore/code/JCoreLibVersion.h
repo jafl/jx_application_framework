@@ -12,18 +12,20 @@
 
 // These have to be #defined so they can be used for conditional compilation.
 
-#define CURRENT_JCORE_MAJOR_VERSION	4
-#define CURRENT_JCORE_MINOR_VERSION	0
-#define CURRENT_JCORE_PATCH_VERSION	1
+#define CURRENT_JCORE_MAJOR_VERSION 4
+#define CURRENT_JCORE_MINOR_VERSION 1
+#define CURRENT_JCORE_PATCH_VERSION 0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJCoreLibVersionStr = "4.0.1";
+static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 
-// version 4.0.1:
+// version 4.1.0:
 //	JMemoryManager:
 //		Added JMM_PRINT_LIBRARY_STATS environment variable.  By default, library
-//		allocations are no longer included, so you can focus on your app.
+//			allocations are no longer included, so you can focus on your app.
+//		Put back JMM_INITIALIZE & JMM_SHRED because MALLOC_PERTURB_ is not
+//			cross-platform.
 //	JMMRecord:
 //		Removed unused mark flag.
 //		Added option to categorize record as library, app, or buckets 1-3
