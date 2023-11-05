@@ -558,7 +558,6 @@ StatsDirector::RunProgram()
 	setenv("JMM_RECORD_ALLOCATED", "yes",                    1);
 	setenv("JMM_BROADCAST_ERRORS", "yes",                    1);
 	setenv("JMM_NO_PRINT_ERRORS",  "yes",                    1);
-	setenv("MALLOC_CHECK_",        "2",                      1);
 
 	JUtf8Byte* v = getenv("JMM_INITIALIZE");
 	if (v == nullptr || JString::Compare(v, "no", JString::kIgnoreCase) == 0)
@@ -604,7 +603,6 @@ StatsDirector::RunProgram()
 	unsetenv("JMM_SHRED");
 	unsetenv("JMM_BROADCAST_ERRORS");
 	unsetenv("JMM_NO_PRINT_ERRORS");
-	unsetenv("MALLOC_CHECK_");
 }
 
 /******************************************************************************
