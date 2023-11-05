@@ -139,7 +139,6 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::handle_input
 		if (!data.IsEmpty())
 		{
 			itsCancelTaskFlag = jnew bool;
-			assert( itsCancelTaskFlag != nullptr );
 			*itsCancelTaskFlag = false;
 
 			bool* cancelFlag = itsCancelTaskFlag;

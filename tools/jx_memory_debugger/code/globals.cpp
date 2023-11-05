@@ -34,7 +34,6 @@ CreateGlobals
 
 	bool isNew;
 	thePrefsManager	= jnew PrefsManager(&isNew);
-	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 

@@ -147,7 +147,6 @@ JX2DPlotWidget::JX2DPlotWidget
 	itsOptionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	itsRemoveCurveMenu = jnew JXTextMenu(itsOptionsMenu, kRemoveCurveCmd, menuBar);
-	assert( itsRemoveCurveMenu != nullptr );
 	itsRemoveCurveMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	itsCursorMenu = menuBar->AppendTextMenu(JGetString("CursorMenuTitle::JX2DPlotWidget"));
@@ -155,11 +154,9 @@ JX2DPlotWidget::JX2DPlotWidget
 	itsCursorMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	itsMarkMenu = jnew JXTextMenu(itsCursorMenu, kRemoveMarkIndex, menuBar);
-	assert( itsMarkMenu != nullptr );
 	itsMarkMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	itsCurveOptionsMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsCurveOptionsMenu != nullptr );
 	itsCurveOptionsMenu->SetToHiddenPopupMenu();
 	itsCurveOptionsMenu->SetMenuItems(kCurveOptionsMenuStr);
 	itsCurveOptionsMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -633,7 +630,6 @@ JX2DPlotWidget::ChangeRange()
 	}
 
 	auto* dlog = jnew JX2DPlotRangeDialog(xmax, xmin, ymax, ymin);
-	assert( dlog != nullptr );
 
 	if (dlog->DoDialog())
 	{

@@ -81,7 +81,6 @@ JXUserNotification::DisplayMessage
 	if (!IsSilent())
 	{
 		auto* dlog = jnew JXMessageDialog(message);
-		assert( dlog != nullptr );
 		dlog->DoDialog();
 	}
 }
@@ -100,7 +99,6 @@ JXUserNotification::ReportError
 	if (!IsSilent())
 	{
 		auto* dlog = jnew JXErrorDialog(message);
-		assert( dlog != nullptr );
 		dlog->DoDialog();
 	}
 }
@@ -155,7 +153,6 @@ JXUserNotification::OKToClose
 	)
 {
 	auto* dlog = jnew JXOKToCloseDialog(message);
-	assert( dlog != nullptr );
 
 	dlog->DoDialog();
 	return dlog->GetCloseAction();
@@ -172,7 +169,6 @@ bool
 JXUserNotification::AcceptLicense()
 {
 	auto* dlog = jnew JXAcceptLicenseDialog();
-	assert( dlog != nullptr );
 
 	return dlog->DoDialog();
 }

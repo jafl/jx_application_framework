@@ -145,7 +145,6 @@ JXTextSelection::SetData
 	else
 	{
 		itsText = jnew JString(text);
-		assert( itsText != nullptr );
 	}
 
 	if (style != nullptr && itsStyle != nullptr)
@@ -209,7 +208,6 @@ JXTextSelection::SetData
 	if (itsText == nullptr)
 	{
 		itsText = jnew JString;
-		assert( itsText != nullptr );
 	}
 	else
 	{

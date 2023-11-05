@@ -71,7 +71,6 @@ JXGetStringDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 310,110, JString::empty);
-	assert( window != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXGetStringDialog::JXLayout"), window,
@@ -88,7 +87,6 @@ JXGetStringDialog::BuildWindow
 	itsInputField =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 270,20);
-	assert( itsInputField != nullptr );
 
 	auto* promptDisplay =
 		jnew JXStaticText(JGetString("promptDisplay::JXGetStringDialog::JXLayout"), window,

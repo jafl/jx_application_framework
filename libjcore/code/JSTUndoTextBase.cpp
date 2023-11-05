@@ -64,7 +64,6 @@ JSTUndoTextBase::UndoText
 	JStyledText* text = GetText();
 
 	auto* newUndo = jnew JSTUndoPaste(text, range);
-	assert( newUndo != nullptr );
 
 	const JStyledText::TextCount pasteCount = text->PrivatePaste(range, itsOrigText, itsOrigStyles);
 	assert( pasteCount.charCount == itsOrigText.GetCharacterCount() );

@@ -130,13 +130,11 @@ JXHintManager::CreateHintWindow()
 	if (itsDirOwner == nullptr)
 	{
 		itsDirOwner = jnew JXDirector(nullptr);
-		assert( itsDirOwner != nullptr );
 	}
 
 	if (itsDirector == nullptr)
 	{
 		itsDirector = jnew JXHintDirector(itsDirOwner, itsWidget, itsText);
-		assert( itsDirector != nullptr );
 		itsDirector->Activate();
 	}
 
@@ -152,13 +150,11 @@ JXHintManager::CreateHintWindow
 	if (itsDirOwner == nullptr)
 	{
 		itsDirOwner = jnew JXDirector(nullptr);
-		assert( itsDirOwner != nullptr );
 	}
 
 	if (itsDirector == nullptr)
 	{
 		itsDirector = jnew JXHintDirector(itsDirOwner, itsWidget, rect, itsText);
-		assert( itsDirector != nullptr );
 		itsDirector->Activate();
 	}
 

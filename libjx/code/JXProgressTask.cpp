@@ -61,7 +61,6 @@ JXProgressTask::JXProgressTaskX
 	)
 {
 	itsPG = jnew JLatentPG;
-	assert( itsPG != nullptr );
 	itsPG->VariableLengthProcessBeginning(message, allowCancel, true);
 
 	itsOwnsPGFlag = true;

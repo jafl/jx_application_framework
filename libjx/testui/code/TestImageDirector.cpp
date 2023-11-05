@@ -73,10 +73,8 @@ TestImageDirector::TestImageDirector
 	JXDisplay* display = GetDisplay();
 
 	itsPSPrinter = jnew JXPSPrinter(display);
-	assert( itsPSPrinter != nullptr );
 
 	itsEPSPrinter = jnew JXEPSPrinter(display);
-	assert( itsEPSPrinter != nullptr );
 }
 
 /******************************************************************************
@@ -101,7 +99,6 @@ TestImageDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -397,7 +394,6 @@ TestImageDirector::CopyImage()
 	if (itsImageWidget->GetImage(&image))
 	{
 		JXImageSelection* data = jnew JXImageSelection(*image);
-		assert( data != nullptr );
 		(GetDisplay()->GetSelectionManager())->SetData(kJXClipboardName, data);
 	}
 }

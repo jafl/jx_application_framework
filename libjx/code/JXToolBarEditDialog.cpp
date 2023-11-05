@@ -91,12 +91,10 @@ JXToolBarEditDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 320,430, JString::empty);
-	assert( window != nullptr );
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,100, 290,290);
-	assert( scrollbarSet != nullptr );
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXToolBarEditDialog::JXLayout"), window,
@@ -144,12 +142,9 @@ JXToolBarEditDialog::BuildWindow()
 	window->SetTitle(JGetString("WindowTitle::JXToolBarEditDialog"));
 	SetButtons(okButton, cancelButton);
 
-	auto* group =
-		jnew JXAtLeastOneCBGroup(2, itsShowImagesCB, itsShowTextCB);
-	assert( group != nullptr );
+	jnew JXAtLeastOneCBGroup(2, itsShowImagesCB, itsShowTextCB);
 
 	auto* list = jnew JNamedTreeList(itsTree);
-	assert(list != nullptr);
 
 	itsWidget =
 		jnew JXToolBarEditWidget(list, scrollbarSet, scrollbarSet->GetScrollEnclosure(),

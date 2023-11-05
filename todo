@@ -1,8 +1,8 @@
-JMemoryManager
-	by default, assert if malloc returns null
-	jnew_allow_null does not assert
+remove all assert != nullptr
 
 jcc
+	TextDocument::OpenAsBinaryFile: read non-normalized, so read bytes not JUtf8Character
+
 	JXDocumentMenu - show partial paths for repeated file names
 
 	EditTasksDialog: top partition gets larger every time it is opened

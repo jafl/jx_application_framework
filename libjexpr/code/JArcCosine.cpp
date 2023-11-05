@@ -64,7 +64,6 @@ JArcCosine::Copy()
 	const
 {
 	auto* newFunction = jnew JArcCosine(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

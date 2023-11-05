@@ -36,6 +36,5 @@ JProgressDisplay*
 JCreateTextPG::New()
 {
 	JProgressDisplay* pg = jnew JTextProgressDisplay;
-	assert( pg != nullptr );
 	return pg;
 }

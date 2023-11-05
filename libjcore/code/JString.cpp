@@ -359,7 +359,7 @@ JString::operator new
 	)
 	noexcept
 {
-	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, JMMRecord::kApp, false);
+	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, JMMRecord::kApp, false, false);
 	theCurrentlyConstructingObject = static_cast<JString*>(memory);
 	return memory;
 }
@@ -370,11 +370,12 @@ JString::operator new
 	std::size_t			sz,
 	const JUtf8Byte*	file,
 	const JUInt32		line,
-	const int			type
+	const int			type,
+	const bool			assert
 	)
 	noexcept
 {
-	void* memory = JMemoryManager::New(sz, file, line, type, false);
+	void* memory = JMemoryManager::New(sz, file, line, type, false, assert);
 	theCurrentlyConstructingObject = static_cast<JString*>(memory);
 	return memory;
 }
@@ -387,7 +388,7 @@ JString::operator new
 	)
 	noexcept
 {
-	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, JMMRecord::kLibrary, false);
+	void* memory = JMemoryManager::New(sz, __FILE__, __LINE__, JMMRecord::kLibrary, false, true);
 	theCurrentlyConstructingObject = forceShallow ? nullptr : static_cast<JString*>(memory);
 	return memory;
 }

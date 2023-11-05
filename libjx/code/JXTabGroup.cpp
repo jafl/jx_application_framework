@@ -121,7 +121,6 @@ JXTabGroup::JXTabGroup
 	assert( itsTabRects != nullptr );
 
 	itsCardFile = jnew JXCardFile(this, kHElastic, kVElastic, 0,0, 100,100);
-	assert( itsCardFile != nullptr );
 	PlaceCardFile();
 }
 
@@ -1683,7 +1682,6 @@ JXTabGroup::CreateContextMenu()
 	if (itsContextMenu == nullptr)
 	{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsContextMenu != nullptr );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "JXTabGroup");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsContextMenu->SetToHiddenPopupMenu();

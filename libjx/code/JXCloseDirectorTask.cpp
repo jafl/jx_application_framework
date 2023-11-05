@@ -23,7 +23,6 @@ JXCloseDirectorTask::Close
 	)
 {
 	auto* task = jnew JXCloseDirectorTask(director);
-	assert( task != nullptr );
 	task->Go();
 }
 

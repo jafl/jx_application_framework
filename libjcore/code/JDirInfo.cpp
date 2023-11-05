@@ -383,7 +383,6 @@ JDirInfo::PrivateCopySettings
 	else if (source.itsNameRegex != nullptr)
 	{
 		itsNameRegex = jnew JRegex(*source.itsNameRegex);
-		assert( itsNameRegex != nullptr );
 		itsOwnsNameRegexFlag = true;
 	}
 
@@ -398,7 +397,6 @@ JDirInfo::PrivateCopySettings
 	if (source.itsContentRegex != nullptr)
 	{
 		itsContentRegex = jnew JRegex(*source.itsContentRegex);
-		assert( itsContentRegex != nullptr );
 	}
 
 	// copy sort method
@@ -424,7 +422,6 @@ JDirInfo::CopyDirEntries
 	for (const auto* origEntry : *source.itsDirEntries)
 	{
 		auto* entry = jnew JDirEntry(*origEntry);
-		assert( entry != nullptr );
 		itsDirEntries->Append(entry);
 	}
 
@@ -1013,7 +1010,6 @@ JDirInfo::SetWildcardFilter
 	}
 
 	auto* r = jnew JRegex(regexStr);
-	assert( r != nullptr );
 	r->SetCaseSensitive(caseSensitive);
 
 	SetWildcardFilter(r, true, negate);
@@ -1262,7 +1258,6 @@ JDirInfo::SetContentFilter
 	{
 		hadFilter       = false;
 		itsContentRegex = jnew JRegex;
-		assert( itsContentRegex != nullptr );
 		itsContentRegex->SetSingleLine();
 	}
 	else

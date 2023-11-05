@@ -249,7 +249,6 @@ UndoWidget::HandleMouseUp
 		// Create the undo object to undo the addition of this line
 
 		UndoLine* undo = jnew UndoLine(this);
-		assert(undo != nullptr);
 		NewUndo(undo);
 
 		// Tell the widget to redraw itself
@@ -456,7 +455,6 @@ UndoWidget::AddLine
 	Refresh();
 
 	UndoLine* undo = jnew UndoLine(this);
-	assert(undo != nullptr);
 
 	NewUndo(undo);
 }
@@ -480,7 +478,6 @@ UndoWidget::RemoveLastLine()
 	Refresh();
 
 	RedoLine* redo = jnew RedoLine(this, start, end);
-	assert(redo != nullptr);
 
 	NewUndo(redo);
 }

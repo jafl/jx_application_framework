@@ -45,18 +45,14 @@ main
 	ParseTextOptions(&argc, argv);
 
 	auto* app = jnew JXApplication(&argc, argv, "testj2dplot", kDefaultStringData);
-	assert( app != nullptr );
 
 	auto* dataDir = jnew PlotDirector(app);
-	assert( dataDir != nullptr );
 	TestData(dataDir);
 
 	auto* logDataDir = jnew PlotDirector(app);
-	assert( logDataDir != nullptr );
 	TestLogData(logDataDir);
 
 	auto* vectorDir = jnew PlotDirector(app);
-	assert( vectorDir != nullptr );
 	TestVector(vectorDir);
 
 	logDataDir->Activate();
@@ -183,7 +179,6 @@ TestVector
 	plot->ShowLegend();
 
 	auto* data = jnew J2DVectorData;
-	assert( data != nullptr );
 
 	const JFloat delta = kJPi/4.0;
 	for (JUnsignedOffset i=0; i<8; i++)

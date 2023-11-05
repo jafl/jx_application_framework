@@ -76,7 +76,6 @@ void
 JXTextMenu::JXTextMenuX()
 {
 	itsTextMenuData = jnew JXTextMenuData(this);
-	assert( itsTextMenuData != nullptr );
 
 	SetBaseItemData(itsTextMenuData);
 }
@@ -489,7 +488,6 @@ JXTextMenu::CreateMenuWindow
 {
 	auto* dir =
 		jnew JXTextMenuDirector(supervisor, this, itsTextMenuData);
-	assert( dir != nullptr );
 	return dir;
 }
 

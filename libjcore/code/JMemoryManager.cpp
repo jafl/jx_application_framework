@@ -447,6 +447,8 @@ JMemoryManager::Instance()
 /******************************************************************************
  New (static)
 
+	If assert==true, the returned pointer is guaranteed to be valid.
+
  *****************************************************************************/
 
 void*
@@ -456,7 +458,8 @@ JMemoryManager::New
 	const JUtf8Byte* file,
 	const JUInt32    line,
 	const int        type,
-	const bool       isArray
+	const bool       isArray,
+	const bool       assert
 	)
 {
 	if (theAbortUnknownAllocFlag && line == 0)
@@ -464,11 +467,19 @@ JMemoryManager::New
 		std::cerr << "Memory allocated by unknown code, aborting..." << std::endl;
 		abort();
 	}
+	else if (size == 0)
+	{
+		std::cerr << "Warning: zero size memory block requested" << std::endl;
+	}
 
 	const size_t trueSize = size ? size : 1;
 	void* newBlock = malloc(trueSize);
 
-	if (newBlock == nullptr)
+	if (assert)
+	{
+		assert( newBlock != nullptr );
+	}
+	else if (newBlock == nullptr)
 	{
 		std::cerr << "Failed to allocate block of size " << trueSize << std::endl;
 		return nullptr;

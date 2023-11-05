@@ -75,7 +75,6 @@ JXTextEditor::JXTextEditor
 
 		itsStyleMenu = jnew JXTEStyleMenu(this, menuBar,
 										  kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsStyleMenu != nullptr );
 		menuBar->AppendMenu(itsStyleMenu);
 	}
 

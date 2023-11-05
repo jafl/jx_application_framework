@@ -109,7 +109,6 @@ JX2DPlotScaleDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 540,190, JString::empty);
-	assert( window != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DPlotScaleDialog::JXLayout"), window,
@@ -126,7 +125,6 @@ JX2DPlotScaleDialog::BuildWindow()
 	itsXMin =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,20, 120,20);
-	assert( itsXMin != nullptr );
 
 	auto* xRangeLabel =
 		jnew JXStaticText(JGetString("xRangeLabel::JX2DPlotScaleDialog::JXLayout"), window,
@@ -143,7 +141,6 @@ JX2DPlotScaleDialog::BuildWindow()
 	itsXMax =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,20, 120,20);
-	assert( itsXMax != nullptr );
 
 	itsXIncLabel =
 		jnew JXStaticText(JGetString("itsXIncLabel::JX2DPlotScaleDialog::JXLayout"), window,
@@ -154,12 +151,10 @@ JX2DPlotScaleDialog::BuildWindow()
 	itsXInc =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,50, 120,20);
-	assert( itsXInc != nullptr );
 
 	itsYMin =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,90, 120,20);
-	assert( itsYMin != nullptr );
 
 	auto* yRangeLabel =
 		jnew JXStaticText(JGetString("yRangeLabel::JX2DPlotScaleDialog::JXLayout"), window,
@@ -176,7 +171,6 @@ JX2DPlotScaleDialog::BuildWindow()
 	itsYMax =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,90, 120,20);
-	assert( itsYMax != nullptr );
 
 	itsYIncLabel =
 		jnew JXStaticText(JGetString("itsYIncLabel::JX2DPlotScaleDialog::JXLayout"), window,
@@ -187,12 +181,10 @@ JX2DPlotScaleDialog::BuildWindow()
 	itsYInc =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,120, 120,20);
-	assert( itsYInc != nullptr );
 
 	itsXAxisTypeRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,15, 124,64);
-	assert( itsXAxisTypeRG != nullptr );
 
 	auto* xLinearRB =
 		jnew JXTextRadioButton(kLinear, JGetString("xLinearRB::JX2DPlotScaleDialog::JXLayout"), itsXAxisTypeRG,
@@ -207,7 +199,6 @@ JX2DPlotScaleDialog::BuildWindow()
 	itsYAxisTypeRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,85, 124,64);
-	assert( itsYAxisTypeRG != nullptr );
 
 	auto* yLinearRB =
 		jnew JXTextRadioButton(kLinear, JGetString("yLinearRB::JX2DPlotScaleDialog::JXLayout"), itsYAxisTypeRG,

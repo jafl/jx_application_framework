@@ -195,7 +195,6 @@ DNDWidget::HandleMouseDrag
 	{
 		// Create the drag data object
 		DNDData* data = jnew DNDData(this, kSelectionID);
-		assert(data != nullptr);
 
 		// Initiate drag-and-drop with the data object. If this succeeds,
 		// HandleMouseDrag will not be called again and you will not get

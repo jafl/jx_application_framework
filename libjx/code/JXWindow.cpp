@@ -224,7 +224,6 @@ JXWindow::JXWindow
 	// create GC to use when drawing
 
 	itsGC = jnew JXGC(itsDisplay, itsXWindow);
-	assert( itsGC != nullptr );
 
 	// Create IC to use when typing
 
@@ -251,7 +250,6 @@ JXWindow::JXWindow
 	if (!isOverlay)
 	{
 		itsExpandTask = jnew JXExpandWindowToFitContentTask(this);
-		assert( itsExpandTask != nullptr );
 		itsExpandTask->Go();
 
 		const JXKeyModifiers& mod = itsDisplay->GetLatestKeyModifiers();
@@ -2259,7 +2257,6 @@ JXWindow::SetIcon
 	if (itsIconDir == nullptr)
 	{
 		itsIconDir = jnew JXIconDirector(itsDirector, normalIcon, dropIcon);
-		assert( itsIconDir != nullptr );
 		(itsIconDir->GetWindow())->itsMainWindow = this;
 	}
 	else

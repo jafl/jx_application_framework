@@ -54,7 +54,6 @@ JSpellChecker::JSpellChecker()
 		assert(itsInFD != ACE_INVALID_HANDLE);
 
 		itsOutPipe = jnew JOutPipeStream(toFD, true);
-		assert(itsOutPipe != nullptr);
 
 		JIgnoreUntil(itsInFD, '\n');
 	}

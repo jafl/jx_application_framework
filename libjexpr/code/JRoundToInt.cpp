@@ -63,7 +63,6 @@ JRoundToInt::Copy()
 	const
 {
 	auto* newFunction = jnew JRoundToInt(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

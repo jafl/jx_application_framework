@@ -56,7 +56,6 @@ JXPSPrintSetupDialog::Create
 	)
 {
 	auto* dlog = jnew JXPSPrintSetupDialog;
-	assert( dlog != nullptr );
 	dlog->BuildWindow(dest, printCmd, fileName, collate, bw);
 	return dlog;
 }
@@ -99,7 +98,6 @@ JXPSPrintSetupDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 370,250, JString::empty);
-	assert( window != nullptr );
 
 	itsPrintCmdLabel =
 		jnew JXStaticText(JGetString("itsPrintCmdLabel::JXPSPrintSetupDialog::JXLayout"), window,
@@ -127,7 +125,6 @@ JXPSPrintSetupDialog::BuildWindow
 	itsDestination =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,20, 139,39);
-	assert( itsDestination != nullptr );
 
 	auto* printerLabel =
 		jnew JXTextRadioButton(1, JGetString("printerLabel::JXPSPrintSetupDialog::JXLayout"), itsDestination,
@@ -144,7 +141,6 @@ JXPSPrintSetupDialog::BuildWindow
 	itsPrintCmd =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 100,70, 250,20);
-	assert( itsPrintCmd != nullptr );
 
 	itsChooseFileButton =
 		jnew JXTextButton(JGetString("itsChooseFileButton::JXPSPrintSetupDialog::JXLayout"), window,
@@ -155,7 +151,6 @@ JXPSPrintSetupDialog::BuildWindow
 	itsCopyCount =
 		jnew JXIntegerInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 170,110, 40,20);
-	assert( itsCopyCount != nullptr );
 
 	itsBWCheckbox =
 		jnew JXTextCheckbox(JGetString("itsBWCheckbox::JXPSPrintSetupDialog::JXLayout"), window,
@@ -166,12 +161,10 @@ JXPSPrintSetupDialog::BuildWindow
 	itsFirstPageIndex =
 		jnew JXIntegerInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,150, 40,20);
-	assert( itsFirstPageIndex != nullptr );
 
 	itsLastPageIndex =
 		jnew JXIntegerInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 290,150, 40,20);
-	assert( itsLastPageIndex != nullptr );
 
 	itsPrintAllCB =
 		jnew JXTextCheckbox(JGetString("itsPrintAllCB::JXPSPrintSetupDialog::JXLayout"), window,
@@ -273,7 +266,6 @@ JXPSPrintSetupDialog::SetObjects
 
 	auto* task =
 		jnew JXAdjustPrintSetupLayoutTask(this, itsPrintCmd, itsChooseFileButton, itsFileInput);
-	assert( task != nullptr );
 	task->Go();
 
 	itsPrintCmd->GetText()->SetText(printCmd);

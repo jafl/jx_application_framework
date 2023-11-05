@@ -62,7 +62,6 @@ JImagPart::Copy()
 	const
 {
 	auto* newFunction = jnew JImagPart(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

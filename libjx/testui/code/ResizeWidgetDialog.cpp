@@ -53,7 +53,6 @@ ResizeWidgetDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 160,120, JString::empty);
-	assert( window != nullptr );
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::ResizeWidgetDialog::JXLayout"), window,

@@ -46,7 +46,6 @@ JXFloatTable::JXFloatTable
 	itsFloatData = data;
 
 	itsFloatBufferData = jnew JFloatBufferTableData(data, precision);
-	assert( itsFloatBufferData != nullptr );
 	SetTableData(itsFloatBufferData);
 
 	itsFloatInputField = nullptr;
@@ -143,7 +142,6 @@ JXFloatTable::CreateFloatTableInput
 	)
 {
 	auto* obj = jnew JXFloatInput(enclosure, hSizing, vSizing, x,y, w,h);
-	assert( obj != nullptr );
 	return obj;
 }
 

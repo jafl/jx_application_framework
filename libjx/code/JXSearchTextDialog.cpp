@@ -69,7 +69,6 @@ JXSearchTextDialog*
 JXSearchTextDialog::Create()
 {
 	auto* dlog = jnew JXSearchTextDialog();
-	assert( dlog != nullptr );
 	dlog->BuildWindow();
 	dlog->JXSearchTextDialogX();
 	return dlog;
@@ -87,12 +86,10 @@ JXSearchTextDialog::JXSearchTextDialog()
 	itsTE = nullptr;
 
 	itsRegex = jnew JRegex;
-	assert( itsRegex != nullptr );
 	itsRegex->SetLineBegin(true);				// ^ matches beginning of line, not text
 	itsRegex->SetLineEnd(true);				// $ matches end of line, not text
 
 	itsInterpolator = jnew JInterpolate;
-	assert( itsInterpolator != nullptr );
 	itsInterpolator->SetWhitespaceEscapes();
 
 	itsUpdateTask = jnew JXFunctionTask(kUpdatePeriod, [this]()
@@ -266,7 +263,6 @@ JXSearchTextDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 450,300, JString::empty);
-	assert( window != nullptr );
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::JXSearchTextDialog::JXLayout"), window,
@@ -313,12 +309,10 @@ JXSearchTextDialog::BuildWindow()
 	itsPrevReplaceMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 245,118, 30,20);
-	assert( itsPrevReplaceMenu != nullptr );
 
 	itsPrevSearchMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 245,43, 30,20);
-	assert( itsPrevSearchMenu != nullptr );
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::JXSearchTextDialog::JXLayout"), window,
@@ -364,12 +358,10 @@ JXSearchTextDialog::BuildWindow()
 	itsFindBackButton =
 		jnew JXSearchTextButton(false, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,20, 20,20);
-	assert( itsFindBackButton != nullptr );
 
 	itsFindFwdButton =
 		jnew JXSearchTextButton(true, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,20, 20,20);
-	assert( itsFindFwdButton != nullptr );
 
 	auto* replaceFindLabel =
 		jnew JXStaticText(JGetString("replaceFindLabel::JXSearchTextDialog::JXLayout"), window,
@@ -380,12 +372,10 @@ JXSearchTextDialog::BuildWindow()
 	itsReplaceFindBackButton =
 		jnew JXSearchTextButton(false, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,80, 20,20);
-	assert( itsReplaceFindBackButton != nullptr );
 
 	itsReplaceFindFwdButton =
 		jnew JXSearchTextButton(true, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,80, 20,20);
-	assert( itsReplaceFindFwdButton != nullptr );
 
 	itsReplaceAllInSelButton =
 		jnew JXTextButton(JGetString("itsReplaceAllInSelButton::JXSearchTextDialog::JXLayout"), window,
@@ -405,12 +395,10 @@ JXSearchTextDialog::BuildWindow()
 	itsSearchInput =
 		jnew JXInputField(true, false, window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,30, 220,45);
-	assert( itsSearchInput != nullptr );
 
 	itsReplaceInput =
 		jnew JXInputField(true, false, window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,105, 220,45);
-	assert( itsReplaceInput != nullptr );
 
 	itsReplaceAllButton =
 		jnew JXTextButton(JGetString("itsReplaceAllButton::JXSearchTextDialog::JXLayout"), window,
@@ -518,7 +506,6 @@ JXSearchTextDialog::SetObjects
 			jnew JXDownRect(window, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							soFrame.left, soFrame.top-6,
 							rfFrame.right-soFrame.left, 2);
-		assert( line != nullptr );
 		line->SetBorderWidth(1);
 	});
 	assert( decorTask != nullptr );

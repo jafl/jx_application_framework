@@ -266,7 +266,6 @@ JPtrArray<T>::InsertAtIndex
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != nullptr );
 	InsertAtIndex(index, ptr);
 }
 
@@ -293,7 +292,6 @@ JPtrArray<T>::Prepend
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != nullptr );
 	Prepend(ptr);
 }
 
@@ -320,7 +318,6 @@ JPtrArray<T>::Append
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != nullptr );
 	Append(ptr);
 }
 
@@ -361,7 +358,6 @@ JPtrArray<T>::InsertBefore
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != nullptr );
 	InsertBefore(beforePtr, ptr);
 }
 
@@ -402,7 +398,6 @@ JPtrArray<T>::InsertAfter
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != nullptr );
 	InsertAfter(afterPtr, ptr);
 }
 
@@ -448,7 +443,6 @@ JPtrArray<T>::SetElement
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != nullptr );
 	SetElement(index, ptr, action);
 }
 

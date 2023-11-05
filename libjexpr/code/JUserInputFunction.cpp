@@ -129,7 +129,6 @@ JUserInputFunction::Copy()
 	const
 {
 	auto* newFunction = jnew JUserInputFunction(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 
@@ -597,7 +596,6 @@ JUserInputFunction::Parse
 		JFunction* newArg;
 		JUserInputFunction* extraUIF;
 		auto* tempUIF = jnew JUserInputFunction(itsEditor);
-		assert( tempUIF != nullptr );
 		const bool ok = itsEditor->ApplyFunction(buffer, *tempUIF, f, &newArg, &extraUIF);
 		jdelete tempUIF;
 		if (ok)
@@ -630,11 +628,9 @@ JUserInputFunction::Parse
 			 buffer.ConvertToFloat(&x))
 	{
 		auto* expBase = jnew JConstantValue(10.0);
-		assert( expBase != nullptr );
 		*newUIF = jnew JUserInputFunction(itsEditor);
 		assert( *newUIF != nullptr );
 		auto* exponent = jnew JExponent(expBase, *newUIF);
-		assert( exponent != nullptr );
 		if (x == 1.0)
 		{
 			*f = exponent;
@@ -642,9 +638,7 @@ JUserInputFunction::Parse
 		else
 		{
 			auto* mantissa = jnew JConstantValue(x);
-			assert( mantissa != nullptr );
 			auto* product = jnew JProduct;
-			assert( product != nullptr );
 			product->SetArg(1, mantissa);
 			product->SetArg(2, exponent);
 			*f = product;

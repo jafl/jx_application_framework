@@ -88,7 +88,6 @@ JXPSPageSetupDialog::Create
 	)
 {
 	auto* dlog = jnew JXPSPageSetupDialog;
-	assert( dlog != nullptr );
 	dlog->BuildWindow(paper, orient);
 	return dlog;
 }
@@ -128,7 +127,6 @@ JXPSPageSetupDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 240,160, JString::empty);
-	assert( window != nullptr );
 
 	auto* orientationLabel =
 		jnew JXStaticText(JGetString("orientationLabel::JXPSPageSetupDialog::JXLayout"), window,
@@ -150,17 +148,14 @@ JXPSPageSetupDialog::BuildWindow
 	itsOrientation =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 95,65, 94,54);
-	assert( itsOrientation != nullptr );
 
 	auto* portraitRB =
 		jnew JXImageRadioButton(1, itsOrientation,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,5, 40,40);
-	assert( portraitRB != nullptr );
 
 	auto* landscapeRB =
 		jnew JXImageRadioButton(2, itsOrientation,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 45,5, 40,40);
-	assert( landscapeRB != nullptr );
 
 	itsPaperTypeMenu =
 		jnew JXTextMenu(JGetString("itsPaperTypeMenu::JXPSPageSetupDialog::JXLayout"), window,

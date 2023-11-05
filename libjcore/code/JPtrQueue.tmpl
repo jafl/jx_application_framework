@@ -153,7 +153,6 @@ JPtrQueue<T,S>::AppendCopy
 	)
 {
 	T* ptr = jnew T(data);
-	assert( ptr != nullptr );
 	JPtrQueue<T,S>::Append(ptr);
 }
 

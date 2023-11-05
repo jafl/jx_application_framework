@@ -60,13 +60,11 @@ JFSBindingList::Create
 		if ((JCreateDirectory(path, 0700)).OK() && JDirectoryWritable(path))
 		{
 			auto* list = jnew JFSBindingList(signalFileName, needUserCheck);
-			assert( list != nullptr );
 			return list;
 		}
 	}
 
 	auto* list = jnew JFSBindingList(JString::empty, needUserCheck);
-	assert( list != nullptr );
 	return list;
 }
 
@@ -135,7 +133,6 @@ JFSBindingList::AddBinding
 	)
 {
 	auto* b = jnew JFSBinding(pattern, cmd, type, singleFile, isSystem);
-	assert( b != nullptr );
 	return AddBinding(b);
 }
 
@@ -398,7 +395,6 @@ JFSBindingList::SetCommand
 	)
 {
 	auto* b = jnew JFSBinding(pattern, cmd, type, singleFile, false);
-	assert( b != nullptr );
 
 	JIndex index;
 	if (itsBindingList->SearchSorted(b, JListT::kLastMatch, &index) &&
@@ -450,7 +446,6 @@ JFSBindingList::SetDefaultCommand
 	if (itsUserDefault == nullptr)
 	{
 		itsUserDefault = jnew JFSBinding(JString::empty, cmd, type, singleFile, false);
-		assert( itsUserDefault != nullptr );
 	}
 	else
 	{
@@ -718,7 +713,6 @@ JFSBindingList::Load
 	{
 		bool isDefault, del;
 		auto* b = jnew JFSBinding(input, vers, isSystem, &isDefault, &del);
-		assert( b != nullptr );
 
 		if (input.eof() || input.fail())
 		{

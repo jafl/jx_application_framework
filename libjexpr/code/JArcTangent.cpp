@@ -64,7 +64,6 @@ JArcTangent::Copy()
 	const
 {
 	auto* newFunction = jnew JArcTangent(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

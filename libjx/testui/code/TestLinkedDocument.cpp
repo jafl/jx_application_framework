@@ -72,7 +72,6 @@ TestLinkedDocument::TestLinkedDocument
 		else
 		{
 			itsDoc = jnew TestTextEditDocument(supervisor, newName, false);
-			assert( itsDoc != nullptr );
 		}
 
 		// This would be the place to update the path + name so the file can be

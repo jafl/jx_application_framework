@@ -114,7 +114,6 @@ JFSFileTreeNode::UpdateAfterGo()
 	const JString fullName = itsDirInfo->GetDirectory();
 	jdelete itsDirEntry;
 	itsDirEntry = jnew JDirEntry(fullName);
-	assert( itsDirEntry != nullptr );
 
 	const JString name = itsDirEntry->GetName();
 	SetName(name);
@@ -253,7 +252,6 @@ JFSFileTreeNode::UpdatePath
 {
 	jdelete itsDirEntry;
 	itsDirEntry = jnew JDirEntry(fullName);
-	assert( itsDirEntry != nullptr );
 
 	if (itsDirInfo != nullptr)
 	{
@@ -343,7 +341,6 @@ JFSFileTreeNode::BuildChildList()
 		for (const auto* e : *itsDirInfo)
 		{
 			auto* entry = jnew JDirEntry(*e);
-			assert( entry != nullptr );
 			InsertSorted(CreateChild(entry));
 		}
 	}
@@ -457,7 +454,6 @@ JFSFileTreeNode::CreateChild
 	)
 {
 	auto* node = jnew JFSFileTreeNode(entry);
-	assert( node != nullptr );
 	return node;
 }
 
@@ -580,7 +576,6 @@ JFSFileTreeNode::UpdateChildren()
 	for (const auto* e : *itsDirInfo)
 	{
 		auto* entry = jnew JDirEntry(*e);
-		assert( entry != nullptr );
 		newChildren.InsertSorted(CreateChild(entry));
 	}
 

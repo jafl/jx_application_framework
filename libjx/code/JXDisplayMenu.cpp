@@ -186,7 +186,6 @@ JXDisplayMenu::ChooseDisplay
 	else
 	{
 		auto* dlog = jnew JXOpenDisplayDialog();
-		assert( dlog != nullptr );
 		if (dlog->DoDialog())
 		{
 			itsDisplayIndex = dlog->GetDisplayIndex();

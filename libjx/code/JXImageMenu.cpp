@@ -81,7 +81,6 @@ JXImageMenu::JXImageMenuX
 	)
 {
 	itsIconMenuData = jnew JXImageMenuData(columnCount);
-	assert( itsIconMenuData != nullptr );
 
 	SetBaseItemData(itsIconMenuData);
 }
@@ -188,7 +187,6 @@ JXImageMenu::CreateMenuWindow
 {
 	auto* dir =
 		jnew JXImageMenuDirector(supervisor, this, itsIconMenuData);
-	assert( dir != nullptr );
 	return dir;
 }
 

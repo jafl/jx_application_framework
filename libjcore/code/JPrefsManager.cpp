@@ -62,7 +62,6 @@ JPrefsManager::JPrefsManager
 	itsEraseFileIfOpenFlag(eraseFileIfOpen)
 {
 	itsFileName = jnew JString(fileName);
-	assert( itsFileName != nullptr );
 
 	itsData = jnew JArray<PrefItem>;
 	assert( itsData != nullptr );

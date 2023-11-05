@@ -103,7 +103,6 @@ JXRadioGroupDialog::BuildWindow
 	const JSize actionCount = choiceList.GetElementCount();
 
 	auto* window = jnew JXWindow(this, 10,10, windowTitle);
-	assert( window != nullptr );
 
 	JCoordinate y = kFirstItemTop;
 
@@ -113,7 +112,6 @@ JXRadioGroupDialog::BuildWindow
 		jnew JXStaticText(prompt, window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 kHMarginWidth,y, 0,0);
-	assert( instrText != nullptr );
 
 	y += instrText->GetFrameHeight() + kItemVDelta;
 
@@ -125,7 +123,6 @@ JXRadioGroupDialog::BuildWindow
 		jnew JXRadioGroup(window, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 kHMarginWidth,y,
 						 kInitRGWidth, kItemVDelta + actionCount * kItemVSeparation);
-	assert( itsRG != nullptr );
 
 	// choices
 

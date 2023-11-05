@@ -63,7 +63,6 @@ JHypCosine::Copy()
 	const
 {
 	auto* newFunction = jnew JHypCosine(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

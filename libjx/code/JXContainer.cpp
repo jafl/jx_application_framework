@@ -682,7 +682,6 @@ JXContainer::SetHint
 	else if (itsHintMgr == nullptr)
 	{
 		itsHintMgr = jnew JXHintManager(this, text);
-		assert( itsHintMgr != nullptr );
 	}
 	else
 	{
@@ -1631,7 +1630,6 @@ JXContainer::CreateCursorAnimator()
 {
 	jdelete itsCursorAnim;
 	itsCursorAnim = jnew JXCursorAnimator(itsWindow);
-	assert( itsCursorAnim != nullptr );
 
 	jdelete itsCursorAnimTask;
 	itsCursorAnimTask = jnew JXFunctionTask(JXCursorAnimator::kmsecPerFrame, std::bind(&JXCursorAnimator::NextFrame, itsCursorAnim));
@@ -2315,7 +2313,6 @@ JXContainer::FTCGroupAlignedObjects
 	else
 	{
 		cell = jnew JXFTCCell(target, container, JXFTCCell::kNoDirection, exact);
-		assert( cell != nullptr );
 	}
 	cellList.AppendElement(cell);
 
@@ -2349,7 +2346,6 @@ JXContainer::FTCGroupAlignedObjects
 		else	// only create new cell to wrap real widget
 		{
 			cell = jnew JXFTCCell(obj, container, JXFTCCell::kNoDirection, exact);
-			assert( cell != nullptr );
 		}
 		cellList.AppendElement(cell);
 		matchedList.AppendElement(obj);

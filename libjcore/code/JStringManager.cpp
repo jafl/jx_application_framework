@@ -82,7 +82,6 @@ JStringManager::JStringManager()
 	itsBCP47Locale("en-US")		// need something as default, until we load
 {
 	itsReplaceEngine = jnew JSubstitute;
-	assert( itsReplaceEngine != nullptr );
 }
 
 /******************************************************************************
@@ -408,7 +407,6 @@ JStringManager::MergeFile
 		}
 
 		auto* s = jnew JString;
-		assert( s != nullptr );
 
 		input >> *s;
 		if (input.eof() || input.fail())

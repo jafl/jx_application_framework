@@ -68,7 +68,6 @@ JSummation::Copy()
 	const
 {
 	auto* newFunction = jnew JSummation(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

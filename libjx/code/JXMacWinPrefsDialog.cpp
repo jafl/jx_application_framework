@@ -26,7 +26,6 @@ void
 JXMacWinPrefsDialog::EditPrefs()
 {
 	auto* dlog = jnew JXMacWinPrefsDialog;
-	assert( dlog != nullptr );
 
 	if (dlog->DoDialog())
 	{
@@ -67,7 +66,6 @@ JXMacWinPrefsDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 350,230, JString::empty);
-	assert( window != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXMacWinPrefsDialog::JXLayout"), window,

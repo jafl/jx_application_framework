@@ -124,7 +124,6 @@ JStringPtrMap<V>::SetElement
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != nullptr );
 	return SetElement(JString(key, JString::kNoCopy), ptr, action, type);
 }
 
@@ -139,7 +138,6 @@ JStringPtrMap<V>::SetElement
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != nullptr );
 	return SetElement(key, ptr, action, type);
 }
 
@@ -152,7 +150,6 @@ JStringPtrMap<V>::SetNewElement
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != nullptr );
 	return SetNewElement(JString(key, JString::kNoCopy), ptr);
 }
 
@@ -165,7 +162,6 @@ JStringPtrMap<V>::SetNewElement
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != nullptr );
 	return SetNewElement(key, ptr);
 }
 
@@ -179,7 +175,6 @@ JStringPtrMap<V>::SetOldElement
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != nullptr );
 	return SetOldElement(JString(key, JString::kNoCopy), ptr, action);
 }
 
@@ -193,7 +188,6 @@ JStringPtrMap<V>::SetOldElement
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != nullptr );
 	return SetOldElement(key, ptr, action);
 }
 
@@ -207,7 +201,6 @@ JStringPtrMap<V>::SetContains
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != nullptr );
 	return SetContains(JString(key, JString::kNoCopy), ptr, action);
 }
 
@@ -221,7 +214,6 @@ JStringPtrMap<V>::SetContains
 	)
 {
 	V* ptr = jnew V(data);
-	assert( ptr != nullptr );
 	return SetContains(key, ptr, action);
 }
 

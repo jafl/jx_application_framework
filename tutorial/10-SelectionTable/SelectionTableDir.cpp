@@ -85,14 +85,12 @@ SelectionTableDir::BuildWindow()
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
 						0,0, 300,kJXDefaultMenuBarHeight);
-	assert( menuBar != nullptr );
 
 	// Create the scrollbar set to hold the table
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kJXDefaultMenuBarHeight, 300,200-kJXDefaultMenuBarHeight);
-	assert( scrollbarSet != nullptr );
 
 	// Create our SelectionTable. It must be placed inside the
 	// special widget that JXScrollbarSet creates.  We get a

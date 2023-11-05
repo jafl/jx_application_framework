@@ -57,7 +57,6 @@ JXMessageDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 330,110, JString::empty);
-	assert( window != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXMessageDialog::JXLayout"), window,
@@ -68,12 +67,10 @@ JXMessageDialog::BuildWindow
 	auto* icon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
-	assert( icon != nullptr );
 
 	auto* text =
 		jnew JXStaticText(JString::empty, true, true, false, nullptr, window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,20, 250,50);
-	assert( text != nullptr );
 
 // end JXLayout
 

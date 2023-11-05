@@ -130,7 +130,6 @@ JXFSBindingTable::JXFSBindingTable
 	// type menu
 
 	itsTypeMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsTypeMenu != nullptr );
 	itsTypeMenu->Hide();
 	itsTypeMenu->SetToHiddenPopupMenu(true);
 	itsTypeMenu->SetMenuItems(kTypeMenuStr);
@@ -142,7 +141,6 @@ JXFSBindingTable::JXFSBindingTable
 	// regex for testing
 
 	itsTestRegex = jnew JRegex;
-	assert( itsTestRegex != nullptr );
 
 	// data
 
@@ -348,7 +346,6 @@ JXFSBindingTable::CreateXInputField
 	s.SelectCell(cell);
 
 	itsTextInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
-	assert( itsTextInput != nullptr );
 
 	const JFSBinding* b = itsBindingList->GetBinding(cell.y);
 	if (cell.x == kPatternColumn)

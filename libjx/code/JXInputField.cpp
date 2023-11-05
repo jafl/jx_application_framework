@@ -555,7 +555,6 @@ JXInputField::CreateContextMenu()
 	if (itsContextMenu == nullptr)
 	{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsContextMenu != nullptr );
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
 			itsContextMenu->SetMenuItems(kMacContextMenuStr, "JXInputField");

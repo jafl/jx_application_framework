@@ -62,7 +62,6 @@ void
 TestDNDTextDirector::BuildWindow()
 {
 	JXWindow* window = jnew JXWindow(this, kWindowWidth,kWindowHeight, JString::empty);
-	assert( window != nullptr );
 
 	window->SetTitle(JGetString("WindowTitle::TestDNDTextDirector"));
 
@@ -78,7 +77,6 @@ TestDNDTextDirector::BuildWindow()
 		jnew JXHorizPartition(sizes, 0, minSizes, window,
 							 JXWidget::kHElastic, JXWidget::kVElastic,
 							 0,0, kWindowWidth, kWindowHeight);
-	assert( partition != nullptr );
 
 	window->SetWMClass("testjx", "TestDNDTextDirector");
 	window->SetMinSize(partition->GetMinTotalSize(), kWindowHeight);

@@ -27,11 +27,9 @@ main
 	// Create the application object - one per program
 	JXApplication* app = 
 		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
-	assert( app != nullptr );
 
 	// Create the window director
 	UndoWidgetDir* mainDir = jnew UndoWidgetDir(app);
-	assert( mainDir != nullptr );
 
 	// Activate the window director
 	mainDir->Activate();

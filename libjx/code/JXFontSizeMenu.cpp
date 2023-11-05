@@ -330,7 +330,6 @@ JXFontSizeMenu::ChooseFontSize
 	else
 	{
 		auto* dlog = jnew JXChooseFontSizeDialog(itsFontSize);
-		assert( dlog != nullptr );
 
 		if (dlog->DoDialog())
 		{

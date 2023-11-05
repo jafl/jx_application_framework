@@ -169,7 +169,6 @@ JStyledText::JStyledText
 	if (source.itsCRMRuleList != nullptr)
 	{
 		itsCRMRuleList = jnew CRMRuleList(*source.itsCRMRuleList);
-		assert( itsCRMRuleList != nullptr );
 
 		itsOwnsCRMRulesFlag = true;
 	}
@@ -540,7 +539,6 @@ JStyledText::ReadPrivateFormat
 	for (JIndex i=1; i<=fontCount; i++)
 	{
 		auto* name = jnew JString;
-		assert( name != nullptr );
 		input >> *name;
 		fontNameList.Append(name);
 	}
@@ -1998,7 +1996,6 @@ JStyledText::RemoveIllegalChars
 	if (style != nullptr && !style->IsEmpty())
 	{
 		styleIter = jnew FontIterator(style);
-		assert( styleIter != nullptr );
 	}
 
 	JStringIterator textIter(text);
@@ -2106,7 +2103,6 @@ JStyledText::DeleteText
 	)
 {
 	auto* newUndo = jnew JSTUndoTyping(this, range);
-	assert( newUndo != nullptr );
 
 	PrivateDeleteText(range);
 
@@ -2177,7 +2173,6 @@ JStyledText::InsertCharacter
 	else
 	{
 		typingUndo = jnew JSTUndoTyping(this, replaceRange);
-		assert( typingUndo != nullptr );
 
 		PrivateDeleteText(&textIter, &styleIter, replaceRange.charRange.GetCount());
 	}
@@ -3910,7 +3905,6 @@ JStyledText::CRMRule::CRMRule
 	rest  = CreateRegex(restPattern);
 
 	replace = jnew JString(replacePattern);
-	assert( replace != nullptr );
 }
 
 void
@@ -3933,7 +3927,6 @@ JStyledText::CRMRule::CreateRegex
 	)
 {
 	auto* r = jnew JRegex(pattern);
-	assert( r != nullptr );
 	return r;
 }
 
@@ -3941,7 +3934,6 @@ JInterpolate*
 JStyledText::CRMRule::CreateInterpolator()
 {
 	auto i = jnew JInterpolate;
-	assert( i != nullptr );
 	i->SetWhitespaceEscapes();
 	return i;
 }
@@ -4364,7 +4356,6 @@ JStyledText::GetTypingUndo
 	else
 	{
 		typingUndo = jnew JSTUndoTyping(this, start);
-		assert( typingUndo != nullptr );
 
 		*isNew = true;
 		return typingUndo;
@@ -4403,7 +4394,6 @@ JStyledText::GetStyleUndo
 	else
 	{
 		styleUndo = jnew JSTUndoStyle(this, range);
-		assert( styleUndo != nullptr );
 
 		*isNew = true;
 		return styleUndo;
@@ -4428,7 +4418,6 @@ JStyledText::GetPasteUndo
 	)
 {
 	auto* pasteUndo = jnew JSTUndoPaste(this, range);
-	assert( pasteUndo != nullptr );
 
 	*isNew = true;
 	return pasteUndo;
@@ -4466,7 +4455,6 @@ JStyledText::GetTabShiftUndo
 	else
 	{
 		tabShiftUndo = jnew JSTUndoTabShift(this, range);
-		assert( tabShiftUndo != nullptr );
 
 		*isNew = true;
 		return tabShiftUndo;
@@ -4493,7 +4481,6 @@ JStyledText::GetMoveUndo
 	)
 {
 	auto* moveUndo = jnew JSTUndoMove(this, srcIndex, destIndex, count);
-	assert( moveUndo != nullptr );
 
 	*isNew = true;
 	return moveUndo;
@@ -5195,7 +5182,6 @@ JStyledText::GetConstIterator
 	assert( s != nullptr );
 
 	auto* iter = jnew JStringIterator(*s);
-	assert( iter != nullptr );
 
 	iter->UnsafeMoveTo(pos, index.charIndex, index.byteIndex);
 	return iter;

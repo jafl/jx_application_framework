@@ -131,7 +131,6 @@ JExprParser::UpdateSum
 	else
 	{
 		s = jnew JSummation;
-		assert( s != nullptr );
 		s->AppendArg(f);
 		s->AppendArg(arg);
 	}
@@ -159,7 +158,6 @@ JExprParser::UpdateProduct
 	else
 	{
 		s = jnew JProduct;
-		assert( s != nullptr );
 		s->AppendArg(f);
 		s->AppendArg(arg);
 	}

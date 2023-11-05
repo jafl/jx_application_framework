@@ -263,7 +263,6 @@ StatsDirector::OpenDebugAcceptor()
 	const JError err = JCreateTempFile(&itsSocketName);
 
 	itsAcceptor = jnew LinkAcceptor(this);
-	assert( itsAcceptor != nullptr );
 
 	JRemoveFile(itsSocketName);
 	ACE_UNIX_Addr addr(itsSocketName.GetBytes());
@@ -304,7 +303,6 @@ StatsDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 500,300, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -330,7 +328,6 @@ StatsDirector::BuildWindow()
 
 // begin statsLayout
 
-	const JRect statsLayout_Frame    = statsEncl->GetFrame();
 	const JRect statsLayout_Aperture = statsEncl->GetAperture();
 	statsEncl->AdjustSize(500 - statsLayout_Aperture.width(), 90 - statsLayout_Aperture.height());
 
@@ -401,7 +398,7 @@ StatsDirector::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 390,60, 90,20);
 	assert( itsDeallocatedBlocksDisplay != nullptr );
 
-	statsEncl->SetSize(statsLayout_Frame.width(), statsLayout_Frame.height());
+	statsEncl->SetSize(statsLayout_Aperture.width(), statsLayout_Aperture.height());
 
 // end statsLayout
 
@@ -877,7 +874,6 @@ StatsDirector::ReceiveRecords
 	)
 {
 	auto* list = jnew RecordList;
-	assert( list != nullptr );
 
 	while (true)
 	{
@@ -889,14 +885,12 @@ StatsDirector::ReceiveRecords
 		}
 
 		auto* record = jnew Record(input);
-		assert( record != nullptr );
 		list->AddRecord(record);
 	}
 
 	if (!list->IsEmpty() || showIfEmpty)
 	{
 		auto* dir = jnew RecordDirector(this, list, windowTitle);
-		assert( dir != nullptr );
 		dir->Activate();
 	}
 }
@@ -918,7 +912,6 @@ StatsDirector::ReceiveErrorMessage
 	if (itsMessageDir == nullptr)
 	{
 		itsMessageDir = jnew JXPGMessageDirector(this);
-		assert( itsMessageDir != nullptr );
 		itsMessageDir->Activate();
 	}
 
@@ -1014,7 +1007,6 @@ StatsDirector::HandleDataMenu
 	if (index == kGetRecordsCmd)
 	{
 		auto* dlog = jnew FilterRecordsDialog(itsDataFilter);
-		assert( dlog != nullptr );
 		if (dlog->DoDialog())
 		{
 			dlog->BuildFilter(&itsDataFilter);

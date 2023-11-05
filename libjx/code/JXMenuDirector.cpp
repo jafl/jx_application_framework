@@ -27,8 +27,7 @@ JXMenuDirector::JXMenuDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	auto* window = jnew JXWindow(this, 10,10, JString::empty, true);
-	assert( window != nullptr );
+	jnew JXWindow(this, 10,10, JString::empty, true);
 
 	itsMenuTable = nullptr;
 }

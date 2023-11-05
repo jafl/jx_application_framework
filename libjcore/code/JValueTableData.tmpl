@@ -504,7 +504,6 @@ JValueTableData<S,T>::InsertCols
 		for (JIndex j=1; j<=count; j++)
 		{
 			S* colData = jnew S;
-			assert( colData != nullptr );
 			itsCols->InsertAtIndex(trueIndex, colData);
 
 			const JSize rowCount = GetRowCount();

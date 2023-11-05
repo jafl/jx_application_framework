@@ -51,7 +51,6 @@ TestPopupChoiceDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 230,170, JString::empty);
-	assert( window != nullptr );
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::TestPopupChoiceDialog::JXLayout"), window,
@@ -105,7 +104,6 @@ TestPopupChoiceDialog::BuildWindow()
 	for (JUnsignedOffset i=0; i<kSmileyBitmapCount; i++)
 	{
 		JXImage* image = jnew JXImage(display, kSmileyBitmap[i], kSmileyColor[i]);
-		assert( image != nullptr );
 		iconMenu->AppendItem(image, true);
 
 		if (i == 0)

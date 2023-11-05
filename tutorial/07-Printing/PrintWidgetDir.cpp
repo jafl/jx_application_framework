@@ -85,7 +85,6 @@ PrintWidgetDir::BuildWindow()
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 300,180);
-	assert( scrollbarSet != nullptr );
 
 	// Create the custom widget with the scrollbarset as its enclosure
 	PrintWidget* widget =

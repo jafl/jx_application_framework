@@ -55,7 +55,6 @@ SetElasticDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 200,90, JString::empty);
-	assert( window != nullptr );
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::SetElasticDialog::JXLayout"), window,

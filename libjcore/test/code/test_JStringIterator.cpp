@@ -885,7 +885,6 @@ JTEST(Empty)
 JTEST(Invalid)
 {
 	auto* s1 = jnew JString();
-	assert( s1 != nullptr );
 
 	JStringIterator i1(s1);
 

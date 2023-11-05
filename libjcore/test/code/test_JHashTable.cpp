@@ -218,7 +218,6 @@ JTEST(Exercise)
 	for (i=0;i<kElementNum;i++)
 	{
 		auto* s = jnew JString("Lazy key", 0);
-		assert( s != nullptr );
 		valueList[i].key = s;
 		valueList[i].value = gRand.UniformInt32();
 	}

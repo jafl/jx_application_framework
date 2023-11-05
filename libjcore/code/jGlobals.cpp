@@ -109,7 +109,6 @@ JInitCore
 	else
 	{
 		theUserNotification = jnew JTextUserNotification;
-		assert( theUserNotification != nullptr );
 	}
 
 	// progress display factory
@@ -121,7 +120,6 @@ JInitCore
 	else
 	{
 		theCreatePG = jnew JCreateTextPG;
-		assert( theCreatePG != nullptr );
 	}
 
 	// remember to clean up
@@ -189,7 +187,6 @@ JGetStringManager()
 	if (theStringManager == nullptr)
 	{
 		theStringManager = jnew JStringManager;
-		assert( theStringManager != nullptr );
 		theStringManager->Register(nullptr, kJCoreDefaultStringData);
 	}
 
@@ -263,7 +260,6 @@ JGetUserNotification()
 		std::cerr << "Forgot to initialize UserNotification: using text version" << std::endl;
 
 		theUserNotification = jnew JTextUserNotification;
-		assert( theUserNotification != nullptr );
 	}
 
 	return theUserNotification;
@@ -282,7 +278,6 @@ JGetCreatePG()
 		std::cerr << "Forgot to initialize CreateProgressDisplay: using text version" << std::endl;
 
 		theCreatePG = jnew JCreateTextPG;
-		assert( theCreatePG != nullptr );
 	}
 
 	return theCreatePG;

@@ -91,7 +91,6 @@ JXSplashWindow::BuildWindow
 
 	auto* border =
 		jnew JXEmbossedRect(window, JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( border != nullptr);
 	border->FitToEnclosure();
 	border->SetWidths(borderWidth, borderWidth, borderWidth);
 

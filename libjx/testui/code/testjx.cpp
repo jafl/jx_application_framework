@@ -49,7 +49,6 @@ main
 	}
 
 	TestApp* app = jnew TestApp(&argc, argv, wantMDI);
-	assert( app != nullptr );
 
 	bool startIconic, bufferTestWidget, testWidgetIsImage;
 	bool snoopWindow;
@@ -59,7 +58,6 @@ main
 	TestDirector* mainDir =
 		jnew TestDirector(app, true, startIconic, bufferTestWidget,
 						 testWidgetIsImage, snoopWindow);
-	assert( mainDir != nullptr );
 
 	app->SetMainDirector(mainDir);
 

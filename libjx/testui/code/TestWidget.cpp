@@ -199,7 +199,6 @@ TestWidget::TestWidget
 		&TestWidget::HandleActionsMenu);
 
 	itsPointMenu = jnew JXTextMenu(itsActionsMenu, kPointMenuCmd, menuBar);
-	assert( itsPointMenu != nullptr );
 	itsPointMenu->SetMenuItems(kPointMenuStr);
 	itsPointMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPointMenu->AttachHandlers(this,
@@ -207,15 +206,13 @@ TestWidget::TestWidget
 		&TestWidget::HandlePointMenu);
 
 	// This tests the JX response to an empty menu.
-	JXTextMenu* emptyMenu = jnew JXTextMenu(itsActionsMenu, kEmptyMenuCmd, menuBar);
-	assert( emptyMenu != nullptr );
+	jnew JXTextMenu(itsActionsMenu, kEmptyMenuCmd, menuBar);
 
 	JXMenu* prevMenu     = itsActionsMenu;
 	JIndex prevMenuIndex = kAdviceMenuCmd;
 	for (JIndex i=1; i<=kAdviceMenuCount; i++)
 	{
 		JXTextMenu* adviceMenu = jnew JXTextMenu(prevMenu, prevMenuIndex, menuBar);
-		assert( adviceMenu != nullptr );
 		adviceMenu->SetMenuItems(kAdviceMenuStr[i-1]);
 		adviceMenu->SetUpdateAction(JXMenu::kDisableNone);
 
@@ -234,7 +231,6 @@ TestWidget::TestWidget
 	// secret menus are a bad idea because the user can't find them!
 
 	itsSecretMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsSecretMenu != nullptr );
 	itsSecretMenu->SetMenuItems(kSecretMenuStr);
 	itsSecretMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsSecretMenu->SetToHiddenPopupMenu(true);		// will assert() otherwise
@@ -251,7 +247,6 @@ TestWidget::TestWidget
 		});
 
 	itsSecretSubmenu = jnew JXTextMenu(itsSecretMenu, kSecretSubmenuIndex, this);
-	assert( itsSecretSubmenu != nullptr );
 	itsSecretSubmenu->SetMenuItems(kSecretSubmenuStr);
 	itsSecretSubmenu->SetUpdateAction(JXMenu::kDisableNone);
 	// we don't ListenTo() it because it's only there for show
@@ -1495,7 +1490,6 @@ void
 TestWidget::GetNewSize()
 {
 	auto* dlog = jnew ResizeWidgetDialog(this);
-	assert( dlog != nullptr );
 
 	if (dlog->DoDialog())
 	{
@@ -1552,7 +1546,6 @@ TestWidget::BuildXlsfontsMenu
 	)
 {
 	JXTextMenu* menu = jnew JXTextMenu(owner, kXlsfontsMenuCmd, enclosure);
-	assert( menu != nullptr );
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 
 	JPtrArray<JString> fontList(JPtrArrayT::kDeleteAll);

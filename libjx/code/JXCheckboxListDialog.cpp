@@ -134,7 +134,6 @@ JXCheckboxListDialog::BuildWindow
 	const JSize actionCount = choiceList.GetElementCount();
 
 	auto* window = jnew JXWindow(this, 10,10, windowTitle);
-	assert( window != nullptr );
 
 	JCoordinate y = kFirstItemTop;
 
@@ -144,7 +143,6 @@ JXCheckboxListDialog::BuildWindow
 		jnew JXStaticText(prompt, window,
 						  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						  kHMarginWidth,y, 0,0);
-	assert( instrText != nullptr );
 
 	y += instrText->GetFrameHeight() + kItemVDelta;
 

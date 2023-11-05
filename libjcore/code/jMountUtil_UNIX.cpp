@@ -262,9 +262,7 @@ JGetUserMountPointList
 			}
 
 			JString* path = jnew JString(info->fs_file);
-			assert( path != nullptr );
 			JString* devicePath = jnew JString(info->fs_spec);
-			assert( devicePath != nullptr );
 			list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 		}
 	}
@@ -334,9 +332,7 @@ JGetUserMountPointList
 			}
 
 			JString* path = jnew JString(info.vfs_mountp);
-			assert( path != nullptr );
 			JString* devicePath = jnew JString(info.vfs_special);
-			assert( devicePath != nullptr );
 			list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 		}
 	}
@@ -431,9 +427,7 @@ JGetUserMountPointList
 		}
 
 		auto* path = jnew JString(info->mnt_dir);
-		assert( path != nullptr );
 		auto* devicePath = jnew JString(info->mnt_fsname);
-		assert( devicePath != nullptr );
 		list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 	}
 

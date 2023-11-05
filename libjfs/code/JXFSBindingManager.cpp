@@ -43,7 +43,6 @@ JXFSBindingManager::Instance()
 
 		JString needUserCheck;
 		itsSelf = jnew JXFSBindingManager(&needUserCheck);
-		assert( itsSelf != nullptr );
 
 		initSelf = false;
 
@@ -105,7 +104,6 @@ JXFSBindingManager::JXFSBindingManager
 	itsUpdateBindingListTask->Start();
 
 	itsRunCmdDialog = jnew JXFSRunCommandDialog;
-	assert( itsRunCmdDialog != nullptr );
 }
 
 /******************************************************************************
@@ -183,7 +181,6 @@ JXFSBindingManager::Exec
 	if (askForArgs)
 	{
 		auto* dlog = jnew JXFSRunScriptDialog(cmd);
-		assert( dlog != nullptr );
 		if (dlog->DoDialog())
 		{
 			JFSBinding::CommandType type;
@@ -223,7 +220,6 @@ JXFSBindingManager::Exec
 	for (const auto* fileName : fileList)
 	{
 		auto* f = jnew JFSBinding(*fileName, JString::empty, JFSBinding::kRunPlain, true, false);
-		assert( f != nullptr );
 		if (!bindingList.InsertSorted(f, false))
 		{
 			jdelete f;

@@ -65,7 +65,6 @@ JLogE::Copy()
 	const
 {
 	auto* newFunction = jnew JLogE(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

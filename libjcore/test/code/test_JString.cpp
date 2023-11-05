@@ -227,7 +227,6 @@ JTEST(Allocation)
 	JAssertEqual(3, s0.GetCharacterCount());
 
 	auto* s = jnew JString("foobar", 3, JString::kNoCopy);
-	assert( s != nullptr );
 
 	p1 = s->GetRawBytes();
 	p2 = s->GetBytes();

@@ -64,7 +64,6 @@ JArcSine::Copy()
 	const
 {
 	auto* newFunction = jnew JArcSine(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

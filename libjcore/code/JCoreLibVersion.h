@@ -26,6 +26,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 //			allocations are no longer included, so you can focus on your app.
 //		Put back JMM_INITIALIZE & JMM_SHRED because MALLOC_PERTURB_ is not
 //			cross-platform.
+//		By default, jnew now asserts that the memory block is not nullptr.
+//			Use jnew_allow_null if you are willing to accept nullptr.
 //	JMMRecord:
 //		Removed unused mark flag.
 //		Added option to categorize record as library, app, or buckets 1-3

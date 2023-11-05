@@ -88,12 +88,10 @@ JXFSRunScriptDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 330,130, JString::empty);
-	assert( window != nullptr );
 
 	itsCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
-	assert( itsCmdInput != nullptr );
 
 	auto* cmdLabel =
 		jnew JXStaticText(JGetString("cmdLabel::JXFSRunScriptDialog::JXLayout"), window,

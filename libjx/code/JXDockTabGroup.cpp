@@ -170,7 +170,6 @@ JXDockTabGroup::CreateDockContextMenu()
 	if (itsDockContextMenu == nullptr)
 	{
 		itsDockContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsDockContextMenu != nullptr );
 		itsDockContextMenu->SetMenuItems(kContextMenuStr, "JXDockTabGroup");
 		itsDockContextMenu->SetUpdateAction(JXMenu::kDisableNone);
 		itsDockContextMenu->SetToHiddenPopupMenu();

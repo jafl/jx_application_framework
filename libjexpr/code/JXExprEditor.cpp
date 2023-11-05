@@ -345,7 +345,6 @@ JXExprEditor::CreateMenus
 	itsMathMenu->SetUpdateAction(JXMenu::kDisableAll);
 
 	itsFunctionMenu = jnew JXTextMenu(itsMathMenu, kApplyFnToSelIndex, menuBar);
-	assert( itsFunctionMenu != nullptr );
 	itsFunctionMenu->SetMenuItems(kFunctionMenuStr);
 	itsFunctionMenu->SetUpdateAction(JXMenu::kDisableNone);
 

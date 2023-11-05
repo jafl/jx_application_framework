@@ -539,7 +539,6 @@ JIndex i;
 		output << indent << "auto* window = jnew JXWindow(this, ";
 		output << formWidth << ',' << formHeight;
 		output << ", JString::empty);" << std::endl;
-		output << indent << "assert( window != nullptr );" << std::endl;
 		output << std::endl;
 	}
 	else
@@ -670,7 +669,6 @@ JIndex i;
 
 		bool isLocal = false;
 		auto* varName = jnew JString(JReadLine(input));
-		assert( varName != nullptr );
 		RemoveIdentifier(kObjNameMarker, varName);
 
 		// callback (ignored)
@@ -763,7 +761,7 @@ JIndex i;
 		JRect localFrame = frame;
 		if (GetEnclosure(rectList, objCount, &enclIndex))
 		{
-			enclName = *(objNames->GetElement(enclIndex));
+			enclName = *objNames->GetElement(enclIndex);
 			const JRect enclFrame = rectList.GetElement(enclIndex);
 			localFrame.Shift(-enclFrame.topLeft());
 		}
@@ -775,7 +773,6 @@ JIndex i;
 		// get the class name and additional arguments
 
 		auto* className = jnew JString;
-		assert( className != nullptr );
 		objTypes->Append(className);
 
 		JString argList;
@@ -856,6 +853,7 @@ JIndex i;
 		output << ", " << localFrame.left << ',' << localFrame.top << ", ";
 		output << localFrame.width() << ',' << localFrame.height() << ");" << std::endl;
 
+		// avoids "unused variable" warnings
 		output << indent << "assert( ";
 		varName->Print(output);
 		output << " != nullptr );" << std::endl;
@@ -1321,7 +1319,6 @@ ApplyOptions
 						output << "\"));" << std::endl;
 
 						auto* s = jnew JString(*value);
-						assert( s != nullptr );
 						stringMgr->SetElement(id, s, JPtrArrayT::kDelete);
 					}
 				}

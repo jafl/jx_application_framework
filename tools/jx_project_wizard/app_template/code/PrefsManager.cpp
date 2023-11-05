@@ -98,7 +98,6 @@ PrefsManager::EditPrefs()
 	JString data;
 
 	auto* dlog = jnew PrefsDialog(data);
-	assert( dlog != nullptr );
 
 	if (dlog->DoDialog())
 	{

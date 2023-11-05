@@ -822,7 +822,6 @@ JXDNDManager::ChooseDropAction
 	const
 {
 	auto* dlog = jnew JXDNDChooseDropActionDialog(actionList, descriptionList, *action);
-	assert( dlog != nullptr );
 
 	*action = None;
 	if (dlog->DoDialog())

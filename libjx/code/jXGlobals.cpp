@@ -63,10 +63,8 @@ JXCreateGlobals
 	theApplication = app;
 
 	theAssertHandler = jnew JXAssert;
-	assert( theAssertHandler != nullptr );
 
 	auto* un = jnew JXUserNotification;
-	assert( un != nullptr );
 
 	JInitCore(theAssertHandler, appSignature, defaultStringData,
 			  un, jnew JXCreatePG);
@@ -79,10 +77,8 @@ JXCreateGlobals
 	// create last so it can access as much as possible
 
 	theSharedPrefsMgr = jnew JXSharedPrefsManager();
-	assert( theSharedPrefsMgr != nullptr );
 
 	theWebBrowser = jnew JXWebBrowser;
-	assert( theWebBrowser != nullptr );
 	JSetWebBrowser(theWebBrowser);		// so JGetWebBrowser() will work
 }
 
@@ -256,8 +252,7 @@ JXCreateDefaultDocumentManager
 	)
 {
 	assert( theDocManager == nullptr );
-	auto* docManager = jnew JXDocumentManager(wantShortcuts);
-	assert( docManager != nullptr );
+	jnew JXDocumentManager(wantShortcuts);
 	// constructor calls JXSetDocumentManager()
 }
 
@@ -306,7 +301,6 @@ JXInitHelp()
 	assert( theHelpManager == nullptr );
 
 	theHelpManager = jnew JXHelpManager;
-	assert( theHelpManager != nullptr );
 }
 
 /******************************************************************************
@@ -432,7 +426,6 @@ JXGetPersistentWindowOwner()
 	if (thePersistentWindowOwner == nullptr)
 	{
 		thePersistentWindowOwner = jnew JXDirector(nullptr);
-		assert( thePersistentWindowOwner != nullptr );
 	}
 
 	return thePersistentWindowOwner;

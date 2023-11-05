@@ -60,7 +60,6 @@ JXFixLenPGDirector::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 270,80, JString::empty);
-	assert( window != nullptr );
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXFixLenPGDirector::JXLayout"), window,
@@ -77,7 +76,6 @@ JXFixLenPGDirector::BuildWindow
 	auto* indicator =
 		jnew JXProgressIndicator(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,50, 230,10);
-	assert( indicator != nullptr );
 
 // end JXLayout
 

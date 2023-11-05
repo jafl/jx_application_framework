@@ -53,7 +53,6 @@ JXChooseFontSizeDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 190,90, JString::empty);
-	assert( window != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXChooseFontSizeDialog::JXLayout"), window,
@@ -69,7 +68,6 @@ JXChooseFontSizeDialog::BuildWindow
 	itsFontSize =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 120,20, 40,20);
-	assert( itsFontSize != nullptr );
 
 	auto* fontSizeLabel =
 		jnew JXStaticText(JGetString("fontSizeLabel::JXChooseFontSizeDialog::JXLayout"), window,

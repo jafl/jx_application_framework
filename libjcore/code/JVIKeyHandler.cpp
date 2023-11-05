@@ -71,7 +71,6 @@ JVIKeyHandler::Initialize
 	JTEKeyHandler::Initialize(te);
 
 	itsDefKeyHandler = jnew JTEDefaultKeyHandler;
-	assert( itsDefKeyHandler != nullptr );
 	itsDefKeyHandler->Initialize(te);
 
 	SetMode(kCommandMode);
@@ -601,7 +600,6 @@ JVIKeyHandler::CutBuffer::Set
 	if (buf == nullptr)
 {
 		buf = jnew JString;
-		assert( buf != nullptr );
 }
 
 	buf->Set(s);

@@ -959,7 +959,6 @@ JXFileDocument::SafetySave
 				if (itsSafetySaveFileName == nullptr)
 				{
 					itsSafetySaveFileName = jnew JString(fullName);
-					assert( itsSafetySaveFileName != nullptr );
 				}
 				else
 				{
@@ -1085,13 +1084,11 @@ JXFileDocument::CheckForSafetySaveFiles
 			if (safetyExists)
 			{
 				auto* s = jnew JString(safetyName);
-				assert( s != nullptr );
 				filesToOpen->Append(s);
 			}
 			if (assertExists)
 			{
 				auto* s = jnew JString(assertName);
-				assert( s != nullptr );
 				filesToOpen->Append(s);
 			}
 		}

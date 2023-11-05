@@ -110,7 +110,6 @@ JXTextButton::SetShortcuts
 		if (itsShortcuts == nullptr)
 		{
 			itsShortcuts = jnew JString(list);
-			assert( itsShortcuts != nullptr );
 		}
 		else
 		{

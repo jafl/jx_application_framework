@@ -147,7 +147,6 @@ RecordDirector::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 500,400, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,

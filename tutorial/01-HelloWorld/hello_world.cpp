@@ -33,7 +33,6 @@ main
 
 	// Create the window director to maintain the Hello World window
 	HelloWorldDir* mainDir = jnew HelloWorldDir(app);
-	assert( mainDir != nullptr );
 
 	// Show the window and activate it
 	mainDir->Activate();

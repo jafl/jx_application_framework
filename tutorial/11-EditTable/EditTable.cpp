@@ -369,7 +369,6 @@ EditTable::CreateXInputField
 
 	// Create the input field
 	itsIntegerInputField = jnew JXIntegerInput(this, kFixedLeft, kFixedTop, x,y,w,h);
-	assert( itsIntegerInputField != nullptr );
 
 	// Set the input field's value to that of the cell.
 	itsIntegerInputField->SetValue(itsData->GetElement(cell.y));

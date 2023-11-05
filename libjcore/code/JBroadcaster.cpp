@@ -429,7 +429,6 @@ JBroadcaster::AddCallSource
 	if (itsCallSources == nullptr)
 	{
 		itsCallSources = jnew JBroadcasterMessageMap;
-		assert( itsCallSources != nullptr );
 	}
 
 	itsCallSources->SetElement(messageType, sender, nullptr, nullptr);

@@ -34,7 +34,6 @@ operator>>
 	for (JIndex i=1; i<=count; i++)
 	{
 		auto* s = jnew JString;
-		assert( s != nullptr );
 
 		input >> *s;
 		if (input.fail())

@@ -100,7 +100,6 @@ PrefsManager::EditPrefs()
 	JString openCmd = GetOpenFileCommand();
 
 	auto* dlog = jnew PrefsDialog(openCmd);
-	assert( dlog != nullptr );
 
 	if (dlog->DoDialog())
 	{

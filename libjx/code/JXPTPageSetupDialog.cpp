@@ -41,7 +41,6 @@ JXPTPageSetupDialog::Create
 	)
 {
 	auto* dlog = jnew JXPTPageSetupDialog;
-	assert( dlog != nullptr );
 	dlog->BuildWindow(printCmd, pageWidth, pageHeight, minPageHeight,
 					  printReverseOrder);
 	return dlog;
@@ -85,7 +84,6 @@ JXPTPageSetupDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 370,190, JString::empty);
-	assert( window != nullptr );
 
 	auto* printCmdLabel =
 		jnew JXStaticText(JGetString("printCmdLabel::JXPTPageSetupDialog::JXLayout"), window,
@@ -107,12 +105,10 @@ JXPTPageSetupDialog::BuildWindow
 	itsPrintCmd =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 240,20);
-	assert( itsPrintCmd != nullptr );
 
 	itsWidth =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,60, 40,20);
-	assert( itsWidth != nullptr );
 
 	auto* widthLabel =
 		jnew JXStaticText(JGetString("widthLabel::JXPTPageSetupDialog::JXLayout"), window,
@@ -129,7 +125,6 @@ JXPTPageSetupDialog::BuildWindow
 	itsHeight =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,80, 40,20);
-	assert( itsHeight != nullptr );
 
 	auto* charsLabel =
 		jnew JXStaticText(JGetString("charsLabel::JXPTPageSetupDialog::JXLayout"), window,

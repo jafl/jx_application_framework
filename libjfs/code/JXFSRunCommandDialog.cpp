@@ -56,7 +56,6 @@ JXFSRunCommandDialog::JXFSRunCommandDialog()
 	if (JExpandHomeDirShortcut(kSignalFileName, &signalFileName))
 	{
 		itsSignalTask = jnew JXCheckModTimeTask(kUpdateInterval, signalFileName);
-		assert( itsSignalTask != nullptr );
 		itsSignalTask->Start();
 		ListenTo(itsSignalTask);
 	}
@@ -118,17 +117,14 @@ JXFSRunCommandDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 440,180, JString::empty);
-	assert( window != nullptr );
 
 	auto* ftcContainer =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 150,120, 280,60);
-	assert( ftcContainer != nullptr );
 
 	itsCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,90, 290,20);
-	assert( itsCmdInput != nullptr );
 
 	auto* cmdLabel =
 		jnew JXStaticText(JGetString("cmdLabel::JXFSRunCommandDialog::JXLayout"), window,
@@ -157,7 +153,6 @@ JXFSRunCommandDialog::BuildWindow()
 	itsCmdHistoryMenu =
 		jnew JXFSCommandHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,90, 30,20);
-	assert( itsCmdHistoryMenu != nullptr );
 
 	itsChooseCmdButton =
 		jnew JXTextButton(JGetString("itsChooseCmdButton::JXFSRunCommandDialog::JXLayout"), window,
@@ -195,12 +190,10 @@ JXFSRunCommandDialog::BuildWindow()
 	itsPathInput =
 		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
-	assert( itsPathInput != nullptr );
 
 	itsPathHistoryMenu =
 		jnew JXPathHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,40, 30,20);
-	assert( itsPathHistoryMenu != nullptr );
 
 // end JXLayout
 

@@ -475,7 +475,6 @@ JDirEntry::ForceUpdate()
 		}
 
 		itsLinkName = jnew JString;
-		assert( itsLinkName != nullptr );
 		if (!(JGetSymbolicLinkTarget(itsFullName, itsLinkName)).OK())
 		{
 			jdelete itsLinkName;

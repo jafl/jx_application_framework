@@ -27,11 +27,9 @@ main
 	// Create the application object - one per program
 	JXApplication* app = 
 		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
-	assert( app != nullptr );
 
 	// Create our window director
 	SimpleTableDir* mainDir = jnew SimpleTableDir(app);
-	assert( mainDir != nullptr );
 
 	// Activate the director
 	mainDir->Activate();

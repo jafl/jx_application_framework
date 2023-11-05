@@ -231,7 +231,6 @@ TextEditor::TEUpdateClipboard
 	if (itsClipText == nullptr)
 	{
 		itsClipText = jnew JString(text);
-		assert( itsClipText != nullptr );
 
 		itsClipStyle = jnew JRunArray<JFont>(style);
 		assert( itsClipStyle != nullptr );

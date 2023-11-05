@@ -81,21 +81,18 @@ JXHintDirector::BuildWindow
 	// create window and contents
 
 	auto* window = jnew JXWindow(this, 10,10, JString::empty, true);
-	assert( window != nullptr );
 
 	window->SetWMWindowType(JXWindow::kWMTooltipType);
 
 	auto* border =
 		jnew JXBorderRect(window, JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 10,10);
-	assert( border != nullptr );
 	border->FitToEnclosure();
 
 	auto* textWidget =
 		jnew JXStaticText(text, border,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 kHMargin, kVMargin, 0,0);
-	assert( textWidget != nullptr );
 
 	JCoordinate ascent = 0, descent = 0;
 	if (!text.IsEmpty())

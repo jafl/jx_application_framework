@@ -141,7 +141,6 @@ TestTextEditDocument::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -177,7 +176,6 @@ TestTextEditDocument::BuildWindow
 
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(compartment, JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	itsTextEditor1 =
@@ -192,7 +190,6 @@ TestTextEditDocument::BuildWindow
 
 	scrollbarSet =
 		jnew JXScrollbarSet(compartment, JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure(true, true);
 
 	itsTextEditor2 =

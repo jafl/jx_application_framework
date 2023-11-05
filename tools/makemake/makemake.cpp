@@ -220,7 +220,6 @@ main
 		}
 
 		auto* mainTargetObjs = jnew JString;
-		assert( mainTargetObjs != nullptr );
 
 		// get the names of the files that the main target depends on
 
@@ -337,9 +336,7 @@ main
 			else
 			{
 				targetName = jnew JString(fullName);
-				assert( targetName != nullptr );
 				suffixName = jnew JString(defSuffix);
-				assert( suffixName != nullptr );
 				outSuffixName = jnew JString(
 					GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut));
 				assert( outSuffixName != nullptr );
@@ -348,7 +345,6 @@ main
 			fnIter.Invalidate();
 
 			auto* prefixName = jnew JString(prefix);
-			assert( prefixName != nullptr );
 
 			usesJava = usesJava ||
 							javaObjFileSuffix.Match(*suffixName) ||
@@ -366,7 +362,6 @@ main
 			}
 
 			auto* outPrefixName = jnew JString;
-			assert( outPrefixName != nullptr );
 
 			*mainTargetObjs += " ";
 			if (!outputDirName.IsEmpty())
@@ -959,10 +954,8 @@ GetOptions
 
 	{
 	auto* s = jnew JString(".java");
-	assert( s != nullptr );
 	suffixMapIn->Append(s);
 	s = jnew JString(".java");
-	assert( s != nullptr );
 	suffixMapOut->Append(s);
 	}
 
@@ -1002,7 +995,6 @@ GetOptions
 		{
 			JCheckForValues(1, &index, argc, argv);
 			auto* s = jnew JString(argv[index]);
-			assert( s != nullptr );
 			searchPaths.Append(s);
 		}
 
@@ -1099,7 +1091,6 @@ GetOptions
 		else
 		{
 			auto* userTarget = jnew JString(argv[index]);
-			assert( userTarget != nullptr );
 			userTargetList->Append(userTarget);
 		}
 
@@ -1396,7 +1387,6 @@ CalcDepend
 	if (!JString::IsEmpty(env))
 	{
 		globalIgnorePattern = jnew JRegex(env);
-		assert( globalIgnorePattern != nullptr );
 	}
 
 	// parse command line arguments

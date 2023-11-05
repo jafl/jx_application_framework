@@ -39,18 +39,15 @@ JXScrollbarSet::JXScrollbarSet
 {
 	itsScrollEnclosure =
 		jnew JXWidgetSet(this, kHElastic, kVElastic, 0,0, w,h);
-	assert( itsScrollEnclosure != nullptr );
 
 	itsHScrollbar =
 		jnew JXScrollbar(this, kHElastic, kFixedBottom,
 						0,h-kScrollBarWidth, w-kScrollBarWidth,kScrollBarWidth);
-	assert( itsHScrollbar != nullptr );
 	itsHScrollbar->Hide();
 
 	itsVScrollbar =
 		jnew JXScrollbar(this, kFixedRight, kVElastic,
 						w-kScrollBarWidth,0, kScrollBarWidth,h-kScrollBarWidth);
-	assert( itsVScrollbar != nullptr );
 	itsVScrollbar->Hide();
 }
 

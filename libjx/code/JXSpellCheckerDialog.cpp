@@ -120,7 +120,6 @@ JXSpellCheckerDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 530,270, JString::empty);
-	assert( window != nullptr );
 
 	auto* notFoundLabel =
 		jnew JXStaticText(JGetString("notFoundLabel::JXSpellCheckerDialog::JXLayout"), window,
@@ -149,12 +148,10 @@ JXSpellCheckerDialog::BuildWindow()
 	itsFirstGuess =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 105,45, 230,20);
-	assert( itsFirstGuess != nullptr );
 
 	auto* set =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 105,75, 230,180);
-	assert( set != nullptr );
 
 	itsIgnoreButton =
 		jnew JXTextButton(JGetString("itsIgnoreButton::JXSpellCheckerDialog::JXLayout"), window,

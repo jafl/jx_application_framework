@@ -34,10 +34,8 @@ main
 	bool displayAbout;
 	JString prevVersStr;
 	auto* app = jnew App(&argc, argv, &displayAbout, &prevVersStr);
-	assert( app != nullptr );
 
 	auto* dir = jnew StatsDirector(app);
-	assert( dir != nullptr );
 	dir->Activate();
 
 	if (displayAbout)

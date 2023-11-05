@@ -77,7 +77,6 @@ JXCurrentPathMenu::JXCurrentPathMenuX
 	itsCDIcon             = cache->GetImage(jx_cdrom_disk_small);
 
 	itsMountPointList = jnew JMountPointList(JPtrArrayT::kDeleteAll);
-	assert( itsMountPointList != nullptr );
 	JGetUserMountPointList(itsMountPointList, &itsMountPointState);
 
 	// after creating icons

@@ -251,7 +251,6 @@ JXFSDirMenu::SetFileList
 	for (const auto* f : fileNameList)
 	{
 		auto* entry = jnew JDirEntry(*f);
-		assert( entry != nullptr );
 		itsEntries->Append(entry);
 		AppendEntry(*entry);
 	}
@@ -274,7 +273,6 @@ JXFSDirMenu::SetFileIcon
 	}
 
 	itsFileIcon = jnew JXImage(image);
-	assert( itsFileIcon != nullptr );
 
 	itsOwnsFileIcon = true;
 }
@@ -311,7 +309,6 @@ JXFSDirMenu::SetExecIcon
 	}
 
 	itsExecIcon = jnew JXImage(image);
-	assert( itsExecIcon != nullptr );
 
 	itsOwnsExecIcon = true;
 }

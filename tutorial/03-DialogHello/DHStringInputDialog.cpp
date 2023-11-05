@@ -62,7 +62,6 @@ DHStringInputDialog::BuildWindow()
 	itsText =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 100,20, 150,20);
-	assert( itsText != nullptr );
 
 	// Create a label for the input field.
 	JXStaticText* obj1 =

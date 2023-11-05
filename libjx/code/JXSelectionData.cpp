@@ -56,7 +56,6 @@ JXSelectionData::JXSelectionData
 	ListenTo(itsDataSource);	// need to know if it is deleted
 
 	itsDataSourceID = jnew JString(id);
-	assert( itsDataSourceID != nullptr );
 }
 
 // private

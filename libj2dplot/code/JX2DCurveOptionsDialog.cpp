@@ -97,17 +97,14 @@ JX2DCurveOptionsDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 370,260, JString::empty);
-	assert( window != nullptr );
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 140,240);
-	assert( scrollbarSet != nullptr );
 
 	itsCurveStyleRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 170,50, 184,104);
-	assert( itsCurveStyleRG != nullptr );
 
 	itsShowCurveCB =
 		jnew JXTextCheckbox(JGetString("itsShowCurveCB::JX2DCurveOptionsDialog::JXLayout"), window,

@@ -38,12 +38,10 @@ JXTextEditorSet::JXTextEditorSet
 {
 	auto* menuBar =
 		jnew JXMenuBar(this, kHElastic, kFixedTop, 0,0, w,kJXDefaultMenuBarHeight);
-	assert( menuBar != nullptr );
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic,kVElastic,
 						   0,kJXDefaultMenuBarHeight, w,h-kJXDefaultMenuBarHeight);
-	assert( scrollbarSet != nullptr );
 
 	*textEditor =
 		jnew JXTextEditor(text, ownsText, menuBar, scrollbarSet,
@@ -77,7 +75,6 @@ JXTextEditorSet::JXTextEditorSet
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
-	assert( scrollbarSet != nullptr );
 
 	*textEditor =
 		jnew JXTextEditor(text, ownsText, menuBar, scrollbarSet,

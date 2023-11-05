@@ -49,7 +49,6 @@ TestFloatTableDirector::TestFloatTableDirector
 	JXWindowDirector(supervisor)
 {
 	itsData = jnew JFloatTableData(0.0);
-	assert( itsData != nullptr );
 
 	itsPrinter = nullptr;
 
@@ -81,7 +80,6 @@ TestFloatTableDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,

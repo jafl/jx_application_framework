@@ -787,8 +787,7 @@ JXScrollbar::ScrollWait
 void
 JXScrollbar::PlaceScrolltab()
 {
-	auto* tab = jnew JXScrolltab(this, itsValue);
-	assert( tab != nullptr );
+	jnew JXScrolltab(this, itsValue);
 	// tab registers itself
 }
 
@@ -1081,8 +1080,7 @@ JXScrollbar::ReadSetup
 			JCoordinate value;
 			input >> value;
 
-			auto* tab = jnew JXScrolltab(this, value);
-			assert( tab != nullptr );
+			jnew JXScrolltab(this, value);
 			// tab registers itself
 		}
 	}
@@ -1152,7 +1150,6 @@ JXScrollbar::OpenActionMenu
 	if (itsActionMenu == nullptr)
 	{
 		itsActionMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsActionMenu != nullptr );
 		itsActionMenu->Hide();
 		itsActionMenu->SetToHiddenPopupMenu(true);
 		itsActionMenu->SetMenuItems(kActionMenuStr);

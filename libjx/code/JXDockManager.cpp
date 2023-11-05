@@ -98,7 +98,6 @@ JXDockManager::CreateDock
 	JXDockWindowTask::PrepareForDockAll();
 
 	auto* dock = jnew JXDockDirector(title, splitHoriz);
-	assert( dock != nullptr );
 	itsDockList->Append(dock);
 	dock->Activate();
 	return dock;
@@ -352,7 +351,6 @@ JXDockManager::ReadSetup
 		title = GetNewDockTitle();
 
 		auto* dir = jnew JXDockDirector(input, vers, title);
-		assert( dir != nullptr );
 		itsDockList->Append(dir);
 		dir->Activate();
 	}

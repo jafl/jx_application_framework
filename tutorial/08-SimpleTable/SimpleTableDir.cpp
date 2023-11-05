@@ -65,7 +65,6 @@ SimpleTableDir::BuildWindow()
 	JXScrollbarSet* scrollbarSet =
 		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 300,200);
-	assert( scrollbarSet != nullptr );
 
 	// Create our SimpleTable. It must be placed inside the
 	// special widget that JXScrollbarSet creates.  We get a

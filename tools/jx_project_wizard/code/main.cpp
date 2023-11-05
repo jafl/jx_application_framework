@@ -33,10 +33,8 @@ main
 
 	bool displayLicense;
 	auto* app = jnew App(&argc, argv, &displayLicense);
-	assert( app != nullptr );
 
 	auto* dlog = jnew MainDialog(app, argc, argv);
-	assert( dlog != nullptr );
 	dlog->Activate();
 
 	if (displayLicense)

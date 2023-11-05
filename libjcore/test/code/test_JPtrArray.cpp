@@ -30,7 +30,6 @@ JTEST(Exercise)
 	for (i=1;i<=5;i++)
 	{
 		stringPtr = jnew JString;
-		assert( stringPtr != nullptr );
 		stringPtr->Append(JUtf8Character('0' + i));
 		snoop1.Expect(JListT::kElementsInserted);
 		a1.Append(stringPtr);
@@ -44,7 +43,6 @@ JTEST(Exercise)
 	a1.SwapElements(2,5);
 
 	stringPtr = jnew JString("1", 0);
-	assert( stringPtr != nullptr );
 
 	snoop1.Expect(JListT::kElementsInserted);
 	a1.InsertElementAtIndex(3, stringPtr);

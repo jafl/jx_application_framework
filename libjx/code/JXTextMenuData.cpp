@@ -85,7 +85,6 @@ JXTextMenuData::InsertItem
 	)
 {
 	auto* text = jnew JString(str);
-	assert( text != nullptr );
 
 	TextItemData itemData(text, itsDefaultFont);
 	itsTextItemData->InsertElementAtIndex(index, itemData);

@@ -47,7 +47,6 @@ TestStrTableDirector::TestStrTableDirector
 	JXWindowDirector(supervisor)
 {
 	itsData = jnew JStringTableData;
-	assert( itsData != nullptr );
 
 	itsPrinter = nullptr;
 
@@ -79,7 +78,6 @@ TestStrTableDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,

@@ -429,7 +429,6 @@ RecordTable::CreateXInputField
 	JXInputField* field =
 		jnew RecordDataField(text, this, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  x,y, w,h);
-	assert( field != nullptr );
 
 	return field;
 }

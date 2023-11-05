@@ -108,7 +108,6 @@ JXHorizDockPartition::CreateCompartment
 
 	auto* tabGroup =
 		jnew JXDockTabGroup(compartment, kHElastic, kVElastic, 0,0, 100,100);
-	assert( tabGroup != nullptr );
 	tabGroup->FitToEnclosure();
 
 	auto* dock =
@@ -323,7 +322,6 @@ JXHorizDockPartition::HandleMouseDown
 		if (itsDockMenu == nullptr)
 		{
 			itsDockMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-			assert( itsDockMenu != nullptr );
 			itsDockMenu->SetToHiddenPopupMenu();
 			itsDockMenu->SetMenuItems(kDockMenuStr);
 			itsDockMenu->SetUpdateAction(JXMenu::kDisableNone);

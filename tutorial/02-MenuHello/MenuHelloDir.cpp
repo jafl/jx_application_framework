@@ -79,7 +79,6 @@ MenuHelloDir::BuildWindow()
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
 						0,0, 200,kJXDefaultMenuBarHeight);
-	assert( menuBar != nullptr );
 
 	// Attach our menu to the menu bar.
 	itsTextMenu = menuBar->AppendTextMenu(JGetString("TextMenuTitle::MenuHelloDir"));

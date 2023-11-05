@@ -37,7 +37,6 @@ JXEPSPrintSetupDialog::Create
 	)
 {
 	auto* dlog = jnew JXEPSPrintSetupDialog;
-	assert( dlog != nullptr );
 	dlog->BuildWindow(fileName, printPreview, bw);
 	return dlog;
 }
@@ -78,7 +77,6 @@ JXEPSPrintSetupDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 370,130, JString::empty);
-	assert( window != nullptr );
 
 	itsChooseFileButton =
 		jnew JXTextButton(JGetString("itsChooseFileButton::JXEPSPrintSetupDialog::JXLayout"), window,
@@ -109,7 +107,6 @@ JXEPSPrintSetupDialog::BuildWindow
 	itsFileInput =
 		jnew JXFileInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 100,20, 250,20);
-	assert( itsFileInput != nullptr );
 
 // end JXLayout
 

@@ -314,7 +314,6 @@ JXEditTable::GetEditMenuHandler()
 		me->itsEditMenuHandler =
 			jnew JXInputField(me, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							 0,0, 10,10);
-		assert( itsEditMenuHandler != nullptr );
 		itsEditMenuHandler->Hide();
 	}
 

@@ -188,7 +188,6 @@ JX2DCurveNameList::CreateXInputField
 
 	assert(itsInput == nullptr);
 	itsInput = jnew JXInputField(this, kHElastic, kVElastic, x, y, w, h);
-	assert(itsInput != nullptr);
 
 	itsInput->GetText()->SetText(*(itsNameList->GetElement(cell.y)));
 	itsInput->SetIsRequired();

@@ -41,7 +41,6 @@ TestSaveFileDialog::Create
 	)
 {
 	TestSaveFileDialog* dlog = jnew TestSaveFileDialog(saveFormat, fileFilter);
-	assert( dlog != nullptr );
 	dlog->BuildWindow(startName, prompt, message);
 	return dlog;
 }
@@ -101,7 +100,6 @@ TestSaveFileDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 310,390, JString::empty);
-	assert( window != nullptr );
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,

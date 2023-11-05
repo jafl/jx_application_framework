@@ -148,7 +148,6 @@ JFSBinding::UpdateRegex()
 		if (itsContentRegex == nullptr)
 		{
 			itsContentRegex = jnew JRegex;
-			assert( itsContentRegex != nullptr );
 			itsContentRegex->SetSingleLine(true);
 		}
 
@@ -170,7 +169,6 @@ JFSBinding::UpdateRegex()
 		if (itsNameRegex == nullptr)
 		{
 			itsNameRegex = jnew JRegex;
-			assert( itsNameRegex != nullptr );
 		}
 
 		JString s;

@@ -112,7 +112,6 @@ MainDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 500,330, JString::empty);
-	assert( window != nullptr );
 
 	itsCreateButton =
 		jnew JXTextButton(JGetString("itsCreateButton::MainDialog::JXLayout"), window,

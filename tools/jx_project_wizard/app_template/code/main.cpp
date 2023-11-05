@@ -45,7 +45,6 @@ main
 	bool displayAbout;
 	JString prevVersStr;
 	auto* app = jnew App(&argc, argv, &displayAbout, &prevVersStr);
-	assert( app != nullptr );
 
 	JXApplication::StartFiber([argc, argv]()
 	{
@@ -55,7 +54,6 @@ main
 	// You may want to create all directors inside HandleCmdLineOptions()
 
 	auto* dir = jnew MainDirector(app);
-	assert( dir != nullptr );
 	dir->Activate();
 
 	if (displayAbout)

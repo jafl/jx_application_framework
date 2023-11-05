@@ -200,21 +200,16 @@ JXDisplay::JXDisplay
 	CreateBuiltInCursor("XC_X_cursor", XC_X_cursor);
 
 	itsFontManager = jnew JXFontManager(this);
-	assert( itsFontManager != nullptr );
 
 	itsSelectionManager = jnew JXSelectionManager(this);
-	assert( itsSelectionManager != nullptr );
 
 	itsDNDManager = jnew JXDNDManager(this);
-	assert( itsDNDManager != nullptr );
 
 	itsMenuManager = jnew JXMenuManager;
-	assert( itsMenuManager != nullptr );
 
 	itsWDManager = nullptr;
 
 	itsImageCache = jnew JXImageCache(this);
-	assert( itsImageCache != nullptr );
 
 	int major_opcode, first_event, first_error;
 	itsIsMacOSFlag = XQueryExtension(itsXDisplay, "Apple-WM",

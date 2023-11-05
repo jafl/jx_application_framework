@@ -86,7 +86,6 @@ TestButtonsDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 270,330, JString::empty);
-	assert( window != nullptr );
 
 	auto* rg1Label =
 		jnew JXStaticText(JGetString("rg1Label::TestButtonsDialog::JXLayout"), window,
@@ -294,8 +293,7 @@ TestButtonsDialog::BuildWindow()
 		its3CB->SetActive(msg.IsChecked());
 	}));
 
-	JXAtLeastOneCBGroup* cbGroup = jnew JXAtLeastOneCBGroup(3, its1CB, its2CB, its3CB);
-	assert( cbGroup != nullptr );
+	jnew JXAtLeastOneCBGroup(3, its1CB, its2CB, its3CB);
 }
 
 /******************************************************************************

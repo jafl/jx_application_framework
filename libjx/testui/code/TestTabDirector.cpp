@@ -56,7 +56,6 @@ void
 TestTabDirector::BuildWindow()
 {
 	JXWindow* window = jnew JXWindow(this, 300,300, JString::empty);
-	assert( window != nullptr );
 
 	window->SetTitle(JGetString("WindowTitle::TestTabDirector"));
 	window->SetWMClass("testjx", "TestTabDirector");
@@ -64,7 +63,6 @@ TestTabDirector::BuildWindow()
 
 	itsTabGroup = jnew JXTabGroup(window, JXWidget::kHElastic, JXWidget::kVElastic,
 								 5, 5, 290, 290);
-	assert( itsTabGroup != nullptr );
 
 	JXContainer* card3 = itsTabGroup->AppendTab(JGetString("Tab3Label::TestTabDirector"));
 	JXContainer* card1 = itsTabGroup->PrependTab(JGetString("Tab1Label::TestTabDirector"));
@@ -99,7 +97,6 @@ TestTabDirector::BuildWindow()
 
 	itsEdgeRG = jnew JXRadioGroup(card1, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								 20,100, 100,140);
-	assert( itsEdgeRG != nullptr );
 
 	JXTextRadioButton* rb1 =
 		jnew JXTextRadioButton(JXTabGroup::kTop, JGetString("TopRBLabel::TestTabDirector"), itsEdgeRG,
@@ -143,7 +140,6 @@ TestTabDirector::BuildWindow()
 	JXIntegerInput* input =
 		jnew JXIntegerInput(card2, JXWidget::kHElastic, JXWidget::kFixedTop,
 						   20, 60, 250, 20);
-	assert( input != nullptr );
 	input->SetLimits(-10, 10);
 	input->SetValue(0);
 
@@ -152,13 +148,11 @@ TestTabDirector::BuildWindow()
 	itsMonoFontSample =
 		jnew JXInputField(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
 						 20, 20, 200, 20);
-	assert( itsMonoFontSample != nullptr );
 	itsMonoFontSample->GetText()->SetText(JGetString("SampleText::TestTabDirector"));
 
 	itsMonoFont =
 		jnew JXChooseMonoFont(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
 							 20, 50, 300, 100);
-	assert( itsMonoFont != nullptr );
 	ListenTo(itsMonoFont, std::function([this](const JXChooseMonoFont::FontChanged&)
 	{
 		UpdateFontSample();

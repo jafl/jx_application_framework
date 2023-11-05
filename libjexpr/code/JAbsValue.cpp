@@ -68,7 +68,6 @@ JAbsValue::Copy()
 	const
 {
 	auto* newFunction = jnew JAbsValue(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

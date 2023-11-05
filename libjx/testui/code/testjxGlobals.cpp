@@ -54,7 +54,6 @@ TestjxCreateGlobals
 	if (wantMDI)
 	{
 		theMDIServer = jnew TestMDIServer;
-		assert( theMDIServer != nullptr );
 	}
 
 	JXInitHelp();

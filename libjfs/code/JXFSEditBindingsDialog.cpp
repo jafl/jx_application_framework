@@ -135,7 +135,6 @@ JXFSEditBindingsDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 580,430, JString::empty);
-	assert( window != nullptr );
 
 	itsSaveButton =
 		jnew JXTextButton(JGetString("itsSaveButton::JXFSEditBindingsDialog::JXLayout"), window,
@@ -152,7 +151,6 @@ JXFSEditBindingsDialog::BuildWindow()
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 490,230);
-	assert( scrollbarSet != nullptr );
 
 	auto* addButton =
 		jnew JXTextButton(JGetString("addButton::JXFSEditBindingsDialog::JXLayout"), window,
@@ -187,7 +185,6 @@ JXFSEditBindingsDialog::BuildWindow()
 	itsDefCmd =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 200,250, 290,20);
-	assert( itsDefCmd != nullptr );
 
 	auto* shellCmdLabel =
 		jnew JXStaticText(JGetString("shellCmdLabel::JXFSEditBindingsDialog::JXLayout"), window,
@@ -216,12 +213,10 @@ JXFSEditBindingsDialog::BuildWindow()
 	itsShellCmd =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 190,330, 300,20);
-	assert( itsShellCmd != nullptr );
 
 	itsWindowCmd =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 190,350, 300,20);
-	assert( itsWindowCmd != nullptr );
 
 	itsDefShellCB =
 		jnew JXTextCheckbox(JGetString("itsDefShellCB::JXFSEditBindingsDialog::JXLayout"), window,

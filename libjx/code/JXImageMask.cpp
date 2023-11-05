@@ -272,7 +272,6 @@ JXImageMask::Copy()
 	const
 {
 	auto* obj = jnew JXImageMask(*this);
-	assert( obj != nullptr );
 	return obj;
 }
 

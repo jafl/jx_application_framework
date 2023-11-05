@@ -164,7 +164,6 @@ JXFileListTable::AddFile
 	ClearSelection();
 
 	auto* s = jnew JString(fullName);
-	assert( s != nullptr );
 
 	bool found;
 	const JIndex index = itsFileList->SearchSortedOTI(s, JListT::kAnyMatch, &found);
@@ -307,7 +306,6 @@ JXFileListTable::SetFilterRegex
 	else if (itsRegex == nullptr)
 	{
 		itsRegex = jnew JRegex;
-		assert( itsRegex != nullptr );
 		const JError err = itsRegex->SetPattern(regexStr);
 		itsRegex->SetCaseSensitive(false);
 		if (err.OK())
@@ -923,7 +921,6 @@ JXFileListTable::HandleMouseDrag
 	if (itsDragType == kWaitForDND && JMouseMoved(itsMouseDownPt, pt))
 	{
 		auto* data = jnew JXFileSelection(this, kSelectionDataID);
-		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data);
 		itsDragType = kInvalidDrag;

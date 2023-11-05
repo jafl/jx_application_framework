@@ -494,7 +494,6 @@ JStringIterator::Prev
 		r.SetFirstAndCount(i, byteCount);
 
 		itsLastMatch = jnew JStringMatch(*itsConstString, r);
-		assert( itsLastMatch != nullptr );
 		itsLastMatch->SetFirstCharacterIndex(itsCharacterOffset + 1);
 
 		return true;
@@ -546,7 +545,6 @@ JStringIterator::Next
 		r.SetFirstAndCount(i, byteCount);
 
 		itsLastMatch = jnew JStringMatch(*itsConstString, r);
-		assert( itsLastMatch != nullptr );
 		itsLastMatch->SetLastCharacterIndex(itsCharacterOffset);
 
 		return true;
@@ -593,7 +591,6 @@ JStringIterator::Prev
 		itsByteOffset = m.GetUtf8ByteRange().first - 1;
 
 		itsLastMatch = jnew JStringMatch(m);
-		assert( itsLastMatch != nullptr );
 
 		return true;
 	}
@@ -639,7 +636,6 @@ JStringIterator::Next
 		itsByteOffset = m.GetUtf8ByteRange().last;
 
 		itsLastMatch = jnew JStringMatch(m);
-		assert( itsLastMatch != nullptr );
 		itsLastMatch->SetLastCharacterIndex(itsCharacterOffset);
 
 		return true;
@@ -705,7 +701,6 @@ JStringIterator::FinishMatch
 	r.last  = JMax(itsMatchStartByte, pos);
 
 	itsLastMatch = jnew JStringMatch(*itsConstString, r);
-	assert( itsLastMatch != nullptr );
 
 	if (itsMatchStartByte <= pos)
 	{

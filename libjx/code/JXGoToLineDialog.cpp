@@ -58,7 +58,6 @@ JXGoToLineDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 190,120, JString::empty);
-	assert( window != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXGoToLineDialog::JXLayout"), window,
@@ -74,7 +73,6 @@ JXGoToLineDialog::BuildWindow
 	itsLineNumber =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 40,20);
-	assert( itsLineNumber != nullptr );
 
 	auto* gotoLineLabel =
 		jnew JXStaticText(JGetString("gotoLineLabel::JXGoToLineDialog::JXLayout"), window,

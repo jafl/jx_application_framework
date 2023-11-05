@@ -137,7 +137,6 @@ JXStringTable::CreateStringTableInput
 	)
 {
 	auto* obj = jnew JXInputField(enclosure, hSizing, vSizing, x,y, w,h);
-	assert( obj != nullptr );
 	return obj;
 }
 

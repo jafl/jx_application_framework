@@ -70,7 +70,6 @@ JExponent::Copy()
 	const
 {
 	auto* newFunction = jnew JExponent(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

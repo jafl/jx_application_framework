@@ -499,7 +499,6 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 					 (!s->IsEmpty() || itsWantsBlankMessagesFlag))
 			{
 				auto* msg = jnew JString(*s);
-				assert( msg != nullptr );
 				itsMessageList.Append(msg);
 
 				auto* m = jnew JMessageProtocolT::MessageReady(*msg);
@@ -511,7 +510,6 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 		if (!msgList->IsEmpty())
 		{
 			itsCancelTaskFlag = jnew bool;
-			assert( itsCancelTaskFlag != nullptr );
 			*itsCancelTaskFlag = false;
 
 			bool* cancelFlag = itsCancelTaskFlag;

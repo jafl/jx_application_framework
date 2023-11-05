@@ -498,7 +498,6 @@ J2DPlotWidget::AddCurve
 	itsCurves->Append(data);
 
 	auto* str = jnew JString(name);
-	assert(str != nullptr);
 
 	J2DCurveInfo info(true, line, symbol,
 						ownsData, true, true, false,

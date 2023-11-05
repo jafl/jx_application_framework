@@ -429,10 +429,8 @@ JSubstitute::DefineVariable
 	if (!SetVariableValue(name, value))
 	{
 		auto* n = jnew JString(name);
-		assert( n != nullptr );
 
 		auto* v = jnew JString(value);
-		assert( v != nullptr );
 
 		itsVarList->AppendElement(VarInfo(n, v));
 	}
@@ -478,10 +476,8 @@ JSubstitute::DefineVariables
 	)
 {
 	auto* name = jnew JString(regexPattern);
-	assert( name != nullptr );
 
 	auto* regex = jnew JRegex(regexPattern);
-	assert( regex != nullptr );
 
 	itsVarList->AppendElement(VarInfo(name, regex));
 }

@@ -26,13 +26,10 @@ int main()
 JTEST(rtti)
 {
 	JFunction* c1 = jnew JConstantValue(3.5);
-	assert( c1 != nullptr );
 
 	JFunction* c2 = jnew JConstantValue(-2);
-	assert( c2 != nullptr );
 
 	auto* sum = jnew JSummation;
-	assert( sum != nullptr );
 	sum->AppendArg(c1);
 	sum->AppendArg(c2);
 
@@ -62,7 +59,6 @@ JTEST(Exercise)
 	JAssertStringsEqual("sqrt(?)", e.GetFunction()->Print());
 
 	JFunction* f = jnew JConstantValue(3.5);
-	assert( f != nullptr );
 	e.SetFunction(&varList, f);
 
 	e.SelectAll();
@@ -116,7 +112,6 @@ JTEST(GetCmdStatus)
 	e.CheckCmdStatus(status);
 
 	JFunction* f = jnew JConstantValue(3.5);
-	assert( f != nullptr );
 	e.SetFunction(&varList, f);
 	e.SelectAll();
 

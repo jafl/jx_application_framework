@@ -50,7 +50,6 @@ TestSliderDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 230,240, JString::empty);
-	assert( window != nullptr );
 
 	itsMaxSlider =
 		jnew JXSlider(window,

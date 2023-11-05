@@ -91,7 +91,6 @@ JIndex i,j;
 		&TestStringTable::HandleTableMenu);
 
 	itsRowBorderMenu = jnew JXTextMenu(itsTableMenu, kChangeRowBorderWidthCmd, menuBar);
-	assert( itsRowBorderMenu != nullptr );
 	itsRowBorderMenu->SetMenuItems(kBorderWidthMenuStr);
 	itsRowBorderMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsRowBorderMenu->AttachHandlers(this,
@@ -99,7 +98,6 @@ JIndex i,j;
 		&TestStringTable::HandleRowBorderMenu);
 
 	itsColBorderMenu = jnew JXTextMenu(itsTableMenu, kChangeColBorderWidthCmd, menuBar);
-	assert( itsColBorderMenu != nullptr );
 	itsColBorderMenu->SetMenuItems(kBorderWidthMenuStr);
 	itsColBorderMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsColBorderMenu->AttachHandlers(this,
@@ -136,7 +134,6 @@ JIndex i,j;
 	itsStyleMenu =
 		jnew JXStyleTableMenu(this, menuBar,
 							 kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsStyleMenu != nullptr );
 	menuBar->AppendMenu(itsStyleMenu);
 
 	const JFont& font = GetFont();

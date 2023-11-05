@@ -97,7 +97,8 @@ public:
 	static JMemoryManager* Instance();
 
 	static void* New(const size_t size, const JUtf8Byte* file,
-					 const JUInt32 line, const int type, const bool isArray);
+					 const JUInt32 line, const int type,
+					 const bool isArray, const bool assert);
 
 	void  Delete(void* memory, bool isArray);
 

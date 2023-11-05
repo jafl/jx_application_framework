@@ -71,7 +71,6 @@ UndoWidgetDir::BuildWindow()
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
 						0,0, 300,kJXDefaultMenuBarHeight);
-	assert( menuBar != nullptr );
 
 	// Attach our menu to the menu bar.
 	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::UndoWidgetDir"));
@@ -92,7 +91,6 @@ UndoWidgetDir::BuildWindow()
 		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kJXDefaultMenuBarHeight, 300,200 - kJXDefaultMenuBarHeight);
-	assert( scrollbarSet != nullptr );
 
 	// Create the custom widget with the scrollbarset as its enclosure
 	itsWidget =

@@ -102,7 +102,6 @@ JXFileListSet::JXFileListSetX
 	// table
 
 	itsTableScroll = jnew JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
-	assert( itsTableScroll != nullptr );
 
 	itsTable =
 		jnew JXFileListTable(itsTableScroll, itsTableScroll->GetScrollEnclosure(),
@@ -113,7 +112,6 @@ JXFileListSet::JXFileListSetX
 	// wildcard input
 
 	itsWildcardSet = jnew JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kDefaultInputHeight);
-	assert( itsWildcardSet != nullptr );
 
 	auto* filterLabel =
 		jnew JXStaticText(JGetString("FilterLabel::JXFileListSet"),
@@ -125,17 +123,14 @@ JXFileListSet::JXFileListSetX
 	itsWildcardMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, itsWildcardSet, kFixedRight, kFixedTop,
 								 w - kHistoryMenuWidth,0, kHistoryMenuWidth,kDefaultInputHeight);
-	assert( itsWildcardMenu != nullptr );
 
 	itsWildcardInput =
 		jnew JXFLWildcardInput(this, itsWildcardMenu, itsWildcardSet, kHElastic, kFixedTop,
 							   kDefaultLabelWidth,0, inputWidth,kDefaultInputHeight);
-	assert( itsWildcardInput != nullptr );
 
 	// regex input
 
 	itsRegexSet = jnew JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kDefaultInputHeight);
-	assert( itsRegexSet != nullptr );
 
 	auto* regexLabel =
 		jnew JXStaticText(JGetString("RegexLabel::JXFileListSet"),
@@ -147,12 +142,10 @@ JXFileListSet::JXFileListSetX
 	itsRegexMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, itsRegexSet, kFixedRight, kFixedTop,
 								 w - kHistoryMenuWidth,0, kHistoryMenuWidth,kDefaultInputHeight);
-	assert( itsRegexMenu != nullptr );
 
 	itsRegexInput =
 		jnew JXFLRegexInput(this, itsRegexMenu, itsRegexSet, kHElastic, kFixedTop,
 							kDefaultLabelWidth,0, inputWidth,kDefaultInputHeight);
-	assert( itsRegexInput != nullptr );
 
 	// start with no filter
 

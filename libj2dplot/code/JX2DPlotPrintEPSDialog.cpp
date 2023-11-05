@@ -91,7 +91,6 @@ JX2DPlotPrintEPSDialog::Create
 	)
 {
 	auto* dlog = jnew JX2DPlotPrintEPSDialog;
-	assert( dlog != nullptr );
 	dlog->BuildWindow(fileName, printPreview, bw, w, h, unit);
 	return dlog;
 }
@@ -161,7 +160,6 @@ JX2DPlotPrintEPSDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 370,190, JString::empty);
-	assert( window != nullptr );
 
 	auto* chooseFileButton =
 		jnew JXTextButton(JGetString("chooseFileButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
@@ -196,17 +194,14 @@ JX2DPlotPrintEPSDialog::BuildWindow
 	auto* fileInput =
 		jnew JXFileInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 100,20, 250,20);
-	assert( fileInput != nullptr );
 
 	itsWidthInput =
 		jnew JXFloatInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 70,60, 60,20);
-	assert( itsWidthInput != nullptr );
 
 	itsHeightInput =
 		jnew JXFloatInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 70,80, 60,20);
-	assert( itsHeightInput != nullptr );
 
 	auto* widthLabel =
 		jnew JXStaticText(JGetString("widthLabel::JX2DPlotPrintEPSDialog::JXLayout"), window,

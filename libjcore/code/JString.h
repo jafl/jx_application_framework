@@ -84,7 +84,7 @@ public:
 	~JString();
 
 	void* operator new(size_t sz) noexcept;
-	void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line, const int type) noexcept;
+	void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line, const int type, const bool assert) noexcept;
 	void* operator new(size_t sz, const bool forceShallow) noexcept;
 	void  operator delete(void* memory) noexcept;
 

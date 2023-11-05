@@ -48,7 +48,6 @@ JXColorWheel::JXColorWheel
 {
 	itsBrightnessSlider =
 		jnew JXSlider(this, kFixedRight, kVElastic, w-kSliderWidth,0, kSliderWidth,h);
-	assert( itsBrightnessSlider != nullptr );
 	itsBrightnessSlider->SetMinValue(0);
 	itsBrightnessSlider->SetMaxValue(kJMaxHSBValue);
 	ListenTo(itsBrightnessSlider);

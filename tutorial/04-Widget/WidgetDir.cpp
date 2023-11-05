@@ -60,8 +60,5 @@ WidgetDir::BuildWindow()
 	window->SetMaxSize(800,600);
 
 	// Create our custom widget
-	Widget* widget =
-		jnew Widget(window, JXWidget::kHElastic, JXWidget::kVElastic,
-			0, 0, 300, 200);
-	assert( widget != nullptr );
+	jnew Widget(window, JXWidget::kHElastic, JXWidget::kVElastic, 0, 0, 300, 200);
 }

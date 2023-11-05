@@ -346,7 +346,6 @@ JXTEBase::JXTEBase
 	itsDNDDropInfo    = nullptr;
 
 	itsBlinkTask = jnew JXTEBlinkCaretTask(this);
-	assert( itsBlinkTask != nullptr );
 	TECaretShouldBlink(true);
 
 	itsMinWidth = itsMinHeight = 0;
@@ -565,7 +564,6 @@ JXTEBase::TEBeginDND()
 	assert( itsDNDDragInfo != nullptr );
 
 	auto* data = jnew JXTextSelection(this, kSelectionDataID);
-	assert( data != nullptr );
 
 	return BeginDND(*(itsDNDDragInfo->pt), *(itsDNDDragInfo->buttonStates),
 					*(itsDNDDragInfo->modifiers), data);
@@ -650,11 +648,9 @@ JXTEBase::GetDNDAskActions
 	askActionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
 
 	auto* s = jnew JString("CopyDescription::JXTEBase", JString::kNoCopy);
-	assert( s != nullptr );
 	askDescriptionList->Append(s);
 
 	s = jnew JString("MoveDescription::JXTEBase", JString::kNoCopy);
-	assert( s != nullptr );
 	askDescriptionList->Append(s);
 }
 
@@ -682,7 +678,6 @@ JXTEBase::GetSelectionData
 		assert( textData != nullptr );
 
 		auto* text = jnew JString;
-		assert( text != nullptr );
 
 		auto* style = jnew JRunArray<JFont>;
 		assert( style != nullptr );
@@ -3037,7 +3032,6 @@ JXTEBase::GetPSPrintFileName()
 	{
 		auto* me = const_cast<JXTEBase*>(this);
 		me->itsPSPrintName = jnew JString;
-		assert( itsPSPrintName != nullptr );
 	}
 
 	return *itsPSPrintName;
@@ -3165,7 +3159,6 @@ JXTEBase::GetPTPrintFileName()
 	{
 		auto* me = const_cast<JXTEBase*>(this);
 		me->itsPTPrintName = jnew JString;
-		assert( itsPTPrintName != nullptr );
 	}
 
 	return *itsPTPrintName;

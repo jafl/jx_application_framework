@@ -126,17 +126,14 @@ JXFSRunFileDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 450,170, JString::empty);
-	assert( window != nullptr );
 
 	auto* ftcContainer =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 180,90, 250,40);
-	assert( ftcContainer != nullptr );
 
 	itsCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 300,20);
-	assert( itsCmdInput != nullptr );
 
 	auto* prompt =
 		jnew JXStaticText(JGetString("prompt::JXFSRunFileDialog::JXLayout"), window,
@@ -165,7 +162,6 @@ JXFSRunFileDialog::BuildWindow
 	itsCmdHistoryMenu =
 		jnew JXFSCommandHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,40, 30,20);
-	assert( itsCmdHistoryMenu != nullptr );
 
 	itsChooseCmdButton =
 		jnew JXTextButton(JGetString("itsChooseCmdButton::JXFSRunFileDialog::JXLayout"), window,

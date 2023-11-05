@@ -58,7 +58,6 @@ JXChooseColorDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 510,250, JString::empty);
-	assert( window != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXChooseColorDialog::JXLayout"), window,
@@ -98,22 +97,18 @@ JXChooseColorDialog::BuildWindow
 	itsHSlider =
 		jnew JXSlider(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 340,70, 150,20);
-	assert( itsHSlider != nullptr );
 
 	itsSSlider =
 		jnew JXSlider(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 340,90, 150,20);
-	assert( itsSSlider != nullptr );
 
 	itsVSlider =
 		jnew JXSlider(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 340,110, 150,20);
-	assert( itsVSlider != nullptr );
 
 	itsColorSample =
 		jnew JXFlatRect(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,20, 30,30);
-	assert( itsColorSample != nullptr );
 
 	auto* redLabel =
 		jnew JXStaticText(JGetString("redLabel::JXChooseColorDialog::JXLayout"), window,
@@ -136,17 +131,14 @@ JXChooseColorDialog::BuildWindow
 	itsRInput =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 420,140, 70,20);
-	assert( itsRInput != nullptr );
 
 	itsGInput =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 420,160, 70,20);
-	assert( itsGInput != nullptr );
 
 	itsBInput =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 420,180, 70,20);
-	assert( itsBInput != nullptr );
 
 	auto* redRangeLabel =
 		jnew JXStaticText(JGetString("redRangeLabel::JXChooseColorDialog::JXLayout"), window,
@@ -169,7 +161,6 @@ JXChooseColorDialog::BuildWindow
 	itsColorWheel =
 		jnew JXColorWheel(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 250,220);
-	assert( itsColorWheel != nullptr );
 
 // end JXLayout
 

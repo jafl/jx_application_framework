@@ -19,8 +19,8 @@
 #include <stdlib.h> // For size_t
 #include "jTypes.h"
 
-void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line, const int type) noexcept;
-void* operator new[](size_t size, const JUtf8Byte* file, const JUInt32 line, const int type) noexcept;
+void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line, const int type, const bool assert) noexcept;
+void* operator new[](size_t size, const JUtf8Byte* file, const JUInt32 line, const int type, const bool assert) noexcept;
 
 void JLocateDelete(const JUtf8Byte* file, const JUInt32 line);
 
@@ -28,7 +28,8 @@ void JLocateDelete(const JUtf8Byte* file, const JUInt32 line);
 #define _J_MEMORY_BUCKET 0
 #endif
 
-#define jnew new(__FILE__, __LINE__, _J_MEMORY_BUCKET)
+#define jnew new(__FILE__, __LINE__, _J_MEMORY_BUCKET, true)
+#define jnew_allow_null new(__FILE__, __LINE__, _J_MEMORY_BUCKET, false)
 #define jdelete JLocateDelete(__FILE__, __LINE__), delete
 
 #endif

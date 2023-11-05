@@ -121,7 +121,6 @@ JTEST(Files)
 	for (JIndex i=1; i<=10; i++)
 	{
 		auto* fileName = jnew JString();
-		assert( fileName != nullptr );
 
 		JAssertOK(JCreateTempFile(&path, nullptr, fileName));
 		fileList.Append(fileName);

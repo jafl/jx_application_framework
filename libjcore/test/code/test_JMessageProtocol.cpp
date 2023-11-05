@@ -184,8 +184,7 @@ TestLink::TestLink()
 	std::cout << server << ": create TestLink" << std::endl;
 	if (server)
 {
-		auto* svr = jnew Server(this);
-		assert( svr != nullptr );
+		jnew Server(this);
 }
 };
 
@@ -202,7 +201,6 @@ void Listen()
 {
 	ACE_UNIX_Addr addr(socketName);
 	auto* acc = jnew TestAcceptor();
-	assert( acc != nullptr );
 	const int result = acc->open(addr);
 	JAssertEqual(0, result);
 }
@@ -258,8 +256,7 @@ void SendAndRecv()
 	int result = conn.connect(link, addr, ACE_Synch_Options::synch);
 	JAssertEqual(0, result);
 
-	auto* a = jnew Client(link);
-	assert( a != nullptr );
+	jnew Client(link);
 }
 
 JTEST(SendRecv)

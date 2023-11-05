@@ -323,7 +323,6 @@ JFileArray::JFileArray
 	assert( itsStream->good() );
 
 	itsFileName = jnew JString;
-	assert( itsFileName != nullptr );
 	const bool ok = JGetTrueName(fileName, itsFileName);
 	assert( ok );
 
@@ -433,7 +432,6 @@ JFileArray::FileArrayX
 	)
 {
 	itsFileIndex = jnew JFileArrayIndex;
-	assert( itsFileIndex != nullptr);
 
 	itsFileSignatureByteCount = strlen(fileSignature);
 

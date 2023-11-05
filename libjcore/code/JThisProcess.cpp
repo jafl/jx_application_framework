@@ -147,7 +147,6 @@ JThisProcess::Instance()
 		recursiveInstance = true;
 
 		itsSelf = jnew JThisProcess;
-		assert( itsSelf != nullptr );
 
 		recursiveInstance = false;
 	}

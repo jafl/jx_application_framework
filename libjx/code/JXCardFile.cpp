@@ -80,7 +80,6 @@ JXCardFile::InsertCard
 	)
 {
 	auto* card = jnew JXWidgetSet(this, kHElastic, kVElastic, 0,0, 10,10);
-	assert( card != nullptr );
 	InsertCard(index, card);
 	return card;
 }

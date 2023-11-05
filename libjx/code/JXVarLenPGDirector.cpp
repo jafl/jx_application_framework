@@ -59,7 +59,6 @@ JXVarLenPGDirector::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 270,80, JString::empty);
-	assert( window != nullptr );
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXVarLenPGDirector::JXLayout"), window,

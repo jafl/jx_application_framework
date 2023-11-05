@@ -217,7 +217,6 @@ TestDirector::TestDirector
 	if (snoopWindow)
 	{
 		itsWindowSnooper = jnew JBroadcastSnooper(window);
-		assert( itsWindowSnooper != nullptr );
 	}
 	else
 	{
@@ -276,7 +275,6 @@ TestDirector::OpenTextFile
 	if (JFileReadable(fileName))
 	{
 		TestTextEditDocument* doc = jnew TestTextEditDocument(this, fileName, false);
-		assert( doc != nullptr );
 		doc->Activate();
 	}
 	else
@@ -308,7 +306,6 @@ TestDirector::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -360,10 +357,8 @@ TestDirector::BuildWindow
 		&TestDirector::HandleAboutMenu);
 
 	itsAnimHelpTask = jnew AnimateHelpMenuTask(itsAboutMenu, kHelpCmd);
-	assert( itsAnimHelpTask != nullptr );
 
 	itsPrintPSMenu = jnew JXTextMenu(itsAboutMenu, kPrintPSMenuCmd, menuBar);
-	assert( itsPrintPSMenu != nullptr );
 	itsPrintPSMenu->SetMenuItems(kPrintPSMenuStr);
 	itsPrintPSMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrintPSMenu->AttachHandlers(this,
@@ -378,7 +373,6 @@ TestDirector::BuildWindow
 		&TestDirector::HandleTestMenu);
 
 	itsUNMenu = jnew JXTextMenu(itsTestMenu, kTestUserNotifyMenuCmd, menuBar);
-	assert( itsUNMenu != nullptr );
 	itsUNMenu->SetMenuItems(kUserNotificationMenuStr);
 	itsUNMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsUNMenu->AttachHandlers(this,
@@ -386,7 +380,6 @@ TestDirector::BuildWindow
 		&TestDirector::HandleUNMenu);
 
 	itsCSFMenu = jnew JXTextMenu(itsTestMenu, kTestChooseSaveFileMenuCmd, menuBar);
-	assert( itsCSFMenu != nullptr );
 	itsCSFMenu->SetMenuItems(kChooseSaveFileMenuStr);
 	itsCSFMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsCSFMenu->AttachHandlers(this,
@@ -394,7 +387,6 @@ TestDirector::BuildWindow
 		&TestDirector::HandleCSFMenu);
 
 	itsPGMenu = jnew JXTextMenu(itsTestMenu, kTestPGMenuCmd, menuBar);
-	assert( itsPGMenu != nullptr );
 	itsPGMenu->SetMenuItems(kProgressDisplayMenuStr);
 	itsPGMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPGMenu->AttachHandlers(this,
@@ -485,7 +477,6 @@ TestDirector::BuildIconMenus
 	// create 2x2 submenu of radio buttons
 
 	itsIconMenu = jnew JXImageMenu(2, itsSmileyMenu, 2, menuBar);
-	assert( itsIconMenu != nullptr );
 	itsIconMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	for (auto* i : image)
@@ -502,7 +493,6 @@ TestDirector::BuildIconMenus
 	// create 3x5 submenu that has a few unused cells
 
 	JXImageMenu* submenu = jnew JXImageMenu(5, itsSmileyMenu, 4, menuBar);
-	assert( submenu != nullptr );
 	submenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	for (JIndex j=1; j<=3; j++)
@@ -548,7 +538,6 @@ TestDirector::HandleAboutMenu
 	else if (index == kTipCmd)
 	{
 		auto* dlog = jnew JXTipOfTheDayDialog(true, false);
-		assert( dlog != nullptr );
 		if (dlog->DoDialog())
 		{
 			std::cout << "Should show at startup: " << JBoolToString(dlog->ShowAtStartup()) << std::endl;
@@ -646,25 +635,21 @@ TestDirector::HandleTestMenu
 	else if (index == kTestInputCmd)
 	{
 		TestInputFieldsDialog* dir = jnew TestInputFieldsDialog();
-		assert( dir != nullptr );
 		dir->DoDialog();
 	}
 	else if (index == kTestButtonsCmd)
 	{
 		TestButtonsDialog* dir = jnew TestButtonsDialog();
-		assert( dir != nullptr );
 		dir->DoDialog();
 	}
 	else if (index == kTestPopupChoiceCmd)
 	{
 		TestPopupChoiceDialog* dir = jnew TestPopupChoiceDialog();
-		assert( dir != nullptr );
 		dir->DoDialog();
 	}
 	else if (index == kTestSliderCmd)
 	{
 		TestSliderDirector* dir = jnew TestSliderDirector(this);
-		assert( dir != nullptr );
 		dir->Activate();
 	}
 
@@ -675,7 +660,6 @@ TestDirector::HandleTestMenu
 			itsDisplayMenu->SelectCurrentDisplay();
 		}
 		TestPartitionDirector* dir = jnew TestPartitionDirector(this);
-		assert( dir != nullptr );
 		dir->Activate();
 	}
 	else if (index == kTestTabGroupCmd)
@@ -685,7 +669,6 @@ TestDirector::HandleTestMenu
 			itsDisplayMenu->SelectCurrentDisplay();
 		}
 		TestTabDirector* dir = jnew TestTabDirector(this);
-		assert( dir != nullptr );
 		dir->Activate();
 	}
 
@@ -696,7 +679,6 @@ TestDirector::HandleTestMenu
 			itsDisplayMenu->SelectCurrentDisplay();
 		}
 		TestStrTableDirector* dir = jnew TestStrTableDirector(this);
-		assert( dir != nullptr );
 		dir->Activate();
 	}
 	else if (index == kTestNumTableCmd)
@@ -706,7 +688,6 @@ TestDirector::HandleTestMenu
 			itsDisplayMenu->SelectCurrentDisplay();
 		}
 		TestFloatTableDirector* dir = jnew TestFloatTableDirector(this);
-		assert( dir != nullptr );
 		dir->Activate();
 	}
 
@@ -717,7 +698,6 @@ TestDirector::HandleTestMenu
 			itsDisplayMenu->SelectCurrentDisplay();
 		}
 		TestTextEditDocument* doc = jnew TestTextEditDocument(this);
-		assert( doc != nullptr );
 		doc->Activate();
 	}
 
@@ -728,7 +708,6 @@ TestDirector::HandleTestMenu
 			itsDisplayMenu->SelectCurrentDisplay();
 		}
 		TestLinkedDocument* doc = jnew TestLinkedDocument(this);
-		assert( doc != nullptr );
 		doc->Activate();
 	}
 
@@ -739,21 +718,18 @@ TestDirector::HandleTestMenu
 			itsDisplayMenu->SelectCurrentDisplay();
 		}
 		TestDNDTextDirector* dir = jnew TestDNDTextDirector(this);
-		assert( dir != nullptr );
 		dir->Activate();
 	}
 
 	else if (index == kTestImageViewCmd)
 	{
 		TestImageDirector* dir = jnew TestImageDirector(this);
-		assert( dir != nullptr );
 		dir->Activate();
 	}
 
 	else if (index == kTestFileListCmd)
 	{
 		TestFileListDirector* dir = jnew TestFileListDirector(this);
-		assert( dir != nullptr );
 		dir->Activate();
 	}
 
@@ -1179,7 +1155,6 @@ TestDirector::BeginBGProcess
 	)
 {
 	TestPGTask* task = jnew TestPGTask(fixedLength);
-	assert( task != nullptr );
 	task->Start();
 }
 

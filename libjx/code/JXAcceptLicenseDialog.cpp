@@ -47,7 +47,6 @@ JXAcceptLicenseDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 510,570, JString::empty);
-	assert( window != nullptr );
 
 	auto* noButton =
 		jnew JXTextButton(JGetString("noButton::JXAcceptLicenseDialog::JXLayout"), window,
@@ -62,7 +61,6 @@ JXAcceptLicenseDialog::BuildWindow()
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 470,500);
-	assert( scrollbarSet != nullptr );
 
 // end JXLayout
 

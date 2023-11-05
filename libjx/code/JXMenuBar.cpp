@@ -64,11 +64,9 @@ JXMenuBar::JXMenuBar
 		Move(JXDocktab::kWidth, 0);
 		AdjustSize(-JXDocktab::kWidth, 0);
 
-		auto* tab =
-			jnew JXDocktab(enclosure,
-						  hSizing == kFixedRight ? kFixedRight : kFixedLeft,
-						  vSizing, x, y, JXDocktab::kWidth, h);
-		assert( tab != nullptr );
+		jnew JXDocktab(enclosure,
+					  hSizing == kFixedRight ? kFixedRight : kFixedLeft,
+					  vSizing, x, y, JXDocktab::kWidth, h);
 	}
 }
 
@@ -568,7 +566,6 @@ JXMenuBar::WidthChanged()
 
 	auto* overflowMenu =
 		jnew JXTextMenu(image, false, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( overflowMenu != nullptr );
 	overflowMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	overflowMenu->SetMenuBar(this);		// don't show down arrow at right of title

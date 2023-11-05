@@ -65,7 +65,6 @@ JX2DPlotLabelDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 540,150, JString::empty);
-	assert( window != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DPlotLabelDialog::JXLayout"), window,
@@ -82,7 +81,6 @@ JX2DPlotLabelDialog::BuildWindow()
 	itsPlotTitle =
 		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,20, 220,20);
-	assert( itsPlotTitle != nullptr );
 
 	auto* titleLabel =
 		jnew JXStaticText(JGetString("titleLabel::JX2DPlotLabelDialog::JXLayout"), window,
@@ -93,7 +91,6 @@ JX2DPlotLabelDialog::BuildWindow()
 	itsXAxisLabel =
 		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,50, 220,20);
-	assert( itsXAxisLabel != nullptr );
 
 	auto* xAxisLabel =
 		jnew JXStaticText(JGetString("xAxisLabel::JX2DPlotLabelDialog::JXLayout"), window,
@@ -104,7 +101,6 @@ JX2DPlotLabelDialog::BuildWindow()
 	itsYAxisLabel =
 		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,80, 220,20);
-	assert( itsYAxisLabel != nullptr );
 
 	auto* yAxisLabel =
 		jnew JXStaticText(JGetString("yAxisLabel::JX2DPlotLabelDialog::JXLayout"), window,

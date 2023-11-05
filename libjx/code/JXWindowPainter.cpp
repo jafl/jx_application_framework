@@ -524,7 +524,6 @@ JXWindowPainter::String
 
 	auto* tempImage = jnew JXImage(itsDisplay, stringWidth, lineHeight, 0, 0,
 									 JXImage::kLocalStorage);
-	assert( tempImage != nullptr );
 
 	// transfer the source
 

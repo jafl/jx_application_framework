@@ -140,7 +140,6 @@ e
 				YYERROR;
 			}
 			JProduct* p = jnew JProduct();
-			assert( p != nullptr );
 			p->AppendArg(jnew JConstantValue(v));
 			p->AppendArg(jnew JExponent(jnew JConstantValue(10), jnew JConstantValue(e)));
 			$$ = p;
@@ -165,7 +164,6 @@ e
 			YYERROR;
 		}
 		JProduct* p = jnew JProduct();
-		assert( p != nullptr );
 		p->AppendArg(jnew JConstantValue(v));
 		p->AppendArg(jnew JExponent(jnew JConstantValue(10), jnew JConstantValue(e)));
 		$$ = p;
@@ -179,7 +177,6 @@ e
 			YYERROR;
 		}
 		JProduct* p = jnew JProduct();
-		assert( p != nullptr );
 		p->AppendArg(jnew JConstantValue(v));
 		p->AppendArg(jnew JExponent(jnew JConstantValue(10), jnew JNegation(jnew JConstantValue(e))));
 		$$ = p;

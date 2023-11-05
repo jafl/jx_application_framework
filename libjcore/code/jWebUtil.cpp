@@ -156,7 +156,6 @@ JCheckForNewerVersion
 #ifndef _J_EVERGREEN_INSTALL
 
 	auto* updater = jnew JUpdateChecker(prefsMgr, prefID);
-	assert( updater != nullptr );
 
 	if (updater->TimeToRemind())
 	{

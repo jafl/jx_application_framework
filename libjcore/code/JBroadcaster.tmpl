@@ -56,7 +56,6 @@ JBroadcaster::AddCallTarget
 	if (itsCallTargets == nullptr)
 	{
 		itsCallTargets = jnew JBroadcasterMessageMap;
-		assert( itsCallTargets != nullptr );
 	}
 
 	auto* fp = jnew std::function(f);

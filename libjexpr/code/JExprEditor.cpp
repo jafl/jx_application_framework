@@ -215,7 +215,6 @@ JExprEditor::PrivateClearFunction()
 {
 	jdelete itsFunction;
 	auto* newUIF = jnew JUserInputFunction(this);
-	assert( newUIF != nullptr );
 	itsFunction = newUIF;
 
 	itsActiveUIF = nullptr;
@@ -232,7 +231,6 @@ JStyledText*
 JExprEditor::BuildStyledText()
 {
 	auto* text = jnew JStyledText(false, false);
-	assert( text != nullptr );
 	return text;
 }
 
@@ -717,7 +715,6 @@ JExprEditor::NegateSelection()
 		SaveStateForUndo();
 		JFunction* arg = f->Copy();
 		auto* neg = jnew JNegation(arg);
-		assert( neg != nullptr );
 		itsActiveUIF = nullptr;
 		ReplaceFunction(f, neg);
 		Render();
@@ -829,7 +826,6 @@ JExprEditor::ApplyFunction
 			else if (!isLogB || origArgCount > 1)
 			{
 				auto* uif = jnew JUserInputFunction(this);
-				assert( uif != nullptr );
 				fwa->SetArg(i, uif);
 				if (*newUIF == nullptr)
 				{
@@ -857,7 +853,6 @@ JExprEditor::AddArgument()
 		{
 			SaveStateForUndo();
 			auto* uif = jnew JUserInputFunction(this);
-			assert( uif != nullptr );
 			naryF->AppendArg(uif);
 			Render();
 			ActivateUIF(uif);
@@ -1819,7 +1814,6 @@ JExprEditor::EIPHandleMouseUp()
 				s = itsVarList->GetVariableName(varVal->GetVariableIndex());
 			}
 			auto* newUIF = jnew JUserInputFunction(this, s);
-			assert( newUIF != nullptr );
 			ReplaceFunction(selectedF, newUIF);
 			Render();
 			ActivateUIF(newUIF);
@@ -1905,7 +1899,6 @@ JExprEditor::EIPHandleKeyPress
 		// replace selection with JUserInputFunction
 
 		auto* newUIF = jnew JUserInputFunction(this);
-		assert( newUIF != nullptr );
 		JFunction* selectedF = itsRectList->GetFunction(itsSelection);
 		ReplaceFunction(selectedF, newUIF);
 		Render();
@@ -1926,7 +1919,6 @@ JExprEditor::EIPHandleKeyPress
 			// replace selection with JUserInputFunction
 
 			auto* newUIF = jnew JUserInputFunction(this);
-			assert( newUIF != nullptr );
 			newUIF->Activate();
 			bool needParse, needRender;
 			newUIF->HandleKeyPress(key, &needParse, &needRender);
@@ -2058,13 +2050,11 @@ JExprEditor::ApplyOperatorKey
 	}
 
 	auto* newUIF = jnew JUserInputFunction(this);
-	assert( newUIF != nullptr );
 
 	JFunction* newArg = newUIF;
 	if (key == '-')
 	{
 		newArg = jnew JNegation(newUIF);
-		assert( newArg != nullptr );
 	}
 
 	JFunction* newF = nullptr;
@@ -2441,7 +2431,6 @@ JExprEditor::Render()
 
 	jdelete itsRectList;
 	itsRectList = jnew JExprRectList;
-	assert( itsRectList != nullptr );
 
 	// calculate the locations of everything
 

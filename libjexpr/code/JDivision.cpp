@@ -67,7 +67,6 @@ JDivision::Copy()
 	const
 {
 	auto* newFunction = jnew JDivision(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

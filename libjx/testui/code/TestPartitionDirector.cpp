@@ -91,7 +91,6 @@ TestPartitionDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 310,340, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -294,7 +293,6 @@ TestPartitionDirector::HandleHorizMenu
 		const JSize count = itsHorizPartition->GetCompartmentCount();
 
 		auto* dlog = jnew SetElasticDialog(elasticIndex, count);
-		assert( dlog != nullptr );
 
 		if (dlog->DoDialog())
 		{
@@ -331,7 +329,6 @@ TestPartitionDirector::HandleVertMenu
 		const JSize count = itsVertPartition->GetCompartmentCount();
 
 		auto* dlog = jnew SetElasticDialog(elasticIndex, count);
-		assert( dlog != nullptr );
 
 		if (dlog->DoDialog())
 		{

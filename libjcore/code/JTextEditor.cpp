@@ -282,7 +282,6 @@ JTextEditor::JTextEditor
 	else if (itsOwnsTextFlag)
 	{
 		itsText = jnew JStyledText(*source.itsText);
-		assert( itsText != nullptr );
 	}
 	else
 	{
@@ -2738,7 +2737,6 @@ JTextEditor::SetKeyHandler
 	if (handler == nullptr)
 	{
 		handler = jnew JTEDefaultKeyHandler;
-		assert( handler != nullptr );
 	}
 
 	itsKeyHandler = handler;

@@ -86,7 +86,6 @@ TestApp::OpenDocuments()
 		if (JFileExists(fullName))
 		{
 			TestTextEditDocument* doc = jnew TestTextEditDocument(this, fullName, false);
-			assert( doc != nullptr );
 			doc->GetWindow()->ReadGeometry(input);
 			doc->Activate();
 		}
@@ -155,7 +154,6 @@ TestApp::DisplayAbout
 	)
 {
 	AboutDialog* dlog = jnew AboutDialog;
-	assert( dlog != nullptr );
 	dlog->DoDialog();
 }
 

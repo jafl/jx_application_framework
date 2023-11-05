@@ -74,7 +74,6 @@ JXImage::JXImage
 		// We need a private GC so we can draw.
 
 		itsGC = jnew JXGC(itsDisplay, itsPixmap);
-		assert( itsGC != nullptr );
 
 		itsGC->SetDrawingColor(initColor);
 		itsGC->FillRect(itsPixmap, 0,0, width, height);
@@ -174,7 +173,6 @@ JXImage::JXImageFromDrawable
 	if (itsDepth != itsDisplay->GetDepth())
 	{
 		itsGC = jnew JXGC(itsDisplay, itsPixmap);
-		assert( itsGC != nullptr );
 	}
 
 	GetGC()->CopyPixels(source, rect.left, rect.top,
@@ -228,7 +226,6 @@ JXImage::JXImage
 	if (itsDepth != itsDisplay->GetDepth())
 	{
 		itsGC = jnew JXGC(itsDisplay, itsPixmap);
-		assert( itsGC != nullptr );
 	}
 }
 
@@ -284,7 +281,6 @@ JXImage::JXImage
 	itsPixmap = bitmap;
 
 	itsGC = jnew JXGC(itsDisplay, itsPixmap);
-	assert( itsGC != nullptr );
 }
 
 /******************************************************************************
@@ -601,14 +597,12 @@ JXImage::CreateImageAndMaskFromXPMData
 	)
 {
 	auto* image = jnew JXImage(display, image_pixmap);
-	assert( image != nullptr );
 
 	XFreePixmap(*display, image_pixmap);
 
 	if (mask_pixmap != None)
 	{
 		auto* mask = jnew JXImageMask(display, mask_pixmap);
-		assert( mask != nullptr );
 		image->SetMask(mask);
 
 		XFreePixmap(*display, mask_pixmap);
@@ -695,7 +689,6 @@ JXImage::Copy()
 	const
 {
 	auto* obj = jnew JXImage(*this);
-	assert( obj != nullptr );
 	return obj;
 }
 
@@ -1039,7 +1032,6 @@ JXImage::ForcePrivateGC()
 		assert( tempPixmap != None );
 
 		itsGC = jnew JXGC(itsDisplay, tempPixmap);
-		assert( itsGC != nullptr );
 
 		XFreePixmap(*itsDisplay, tempPixmap);
 	}
@@ -1181,7 +1173,6 @@ JXImage::SetImageData
 				if (itsMask == nullptr)
 				{
 					itsMask = jnew JXImageMask(itsDisplay, w,h, true);
-					assert( itsMask != nullptr );
 				}
 				itsMask->RemovePixel(x,y);
 				XPutPixel(itsImage, x,y, 0);

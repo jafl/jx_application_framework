@@ -68,7 +68,6 @@ JVariableValue::Copy()
 	const
 {
 	auto* newFunction = jnew JVariableValue(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

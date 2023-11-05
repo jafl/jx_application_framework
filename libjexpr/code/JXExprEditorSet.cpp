@@ -38,12 +38,10 @@ JXExprEditorSet::JXExprEditorSet
 {
 	auto* menuBar =
 		jnew JXMenuBar(this, kHElastic, kFixedTop, 0,0, w,kJXDefaultMenuBarHeight);
-	assert( menuBar != nullptr );
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic, kVElastic,
 						   0,kJXDefaultMenuBarHeight, w,h-kJXDefaultMenuBarHeight);
-	assert( scrollbarSet != nullptr );
 
 	*exprWidget =
 		jnew JXExprEditor(varList, menuBar, scrollbarSet,
@@ -74,7 +72,6 @@ JXExprEditorSet::JXExprEditorSet
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
-	assert( scrollbarSet != nullptr );
 
 	*exprWidget =
 		jnew JXExprEditor(varList, menuBar, scrollbarSet,
@@ -103,7 +100,6 @@ JXExprEditorSet::JXExprEditorSet
 {
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
-	assert( scrollbarSet != nullptr );
 
 	*exprWidget =
 		jnew JXExprEditor(varList, menuProvider, scrollbarSet,

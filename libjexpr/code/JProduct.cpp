@@ -69,7 +69,6 @@ JProduct::Copy()
 	const
 {
 	auto* newFunction = jnew JProduct(*this);
-	assert( newFunction != nullptr );
 	return newFunction;
 }
 

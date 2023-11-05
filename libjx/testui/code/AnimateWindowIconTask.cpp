@@ -117,7 +117,6 @@ AnimateWindowIconTask::CreateIcon
 	assert( icon != nullptr );
 
 	JXImageMask* mask = jnew JXImageMask(display, maskBitmap);
-	assert( mask != nullptr );
 	icon->SetMask(mask);
 
 	return icon;
