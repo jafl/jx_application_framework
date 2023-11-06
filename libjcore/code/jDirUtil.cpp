@@ -126,56 +126,27 @@ JGetUniqueDirEntryName
 
  *****************************************************************************/
 
-static const JUtf8Byte* theModeTemplate = "---------";
-static auto* theModeString              = jnew JUtf8Byte[ strlen(theModeTemplate)+1 ];
-
 JString
 JGetPermissionsString
 	(
 	const mode_t mode
 	)
 {
-	assert( theModeString != nullptr );
-	strcpy(theModeString, theModeTemplate);
+	JString s;
 
-	if (mode & S_IRUSR)
-	{
-		theModeString[0] = 'r';
-	}
-	if (mode & S_IWUSR)
-	{
-		theModeString[1] = 'w';
-	}
-	if (mode & S_IXUSR)
-	{
-		theModeString[2] = 'x';
-	}
-	if (mode & S_IRGRP)
-	{
-		theModeString[3] = 'r';
-	}
-	if (mode & S_IWGRP)
-	{
-		theModeString[4] = 'w';
-	}
-	if (mode & S_IXGRP)
-	{
-		theModeString[5] = 'x';
-	}
-	if (mode & S_IROTH)
-	{
-		theModeString[6] = 'r';
-	}
-	if (mode & S_IWOTH)
-	{
-		theModeString[7] = 'w';
-	}
-	if (mode & S_IXOTH)
-	{
-		theModeString[8] = 'x';
-	}
+	s.Append(mode & S_IRUSR ? "r" : "-");
+	s.Append(mode & S_IWUSR ? "w" : "-");
+	s.Append(mode & S_IXUSR ? "x" : "-");
 
-	return JString(theModeString);
+	s.Append(mode & S_IRGRP ? "r" : "-");
+	s.Append(mode & S_IWGRP ? "w" : "-");
+	s.Append(mode & S_IXGRP ? "x" : "-");
+
+	s.Append(mode & S_IROTH ? "r" : "-");
+	s.Append(mode & S_IWOTH ? "w" : "-");
+	s.Append(mode & S_IXOTH ? "x" : "-");
+
+	return s;
 }
 
 /*****************************************************************************
