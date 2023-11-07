@@ -59,6 +59,7 @@
 #include "JXColorManager.h"
 #include "JXChooseFileDialog.h"
 #include "jXGlobals.h"
+#include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jFileUtil.h>
 #include <algorithm>
 #include <jx-af/jcore/jAssert.h>
@@ -173,7 +174,7 @@ JXDocumentManager::DocumentCreated
 
 	// insert the new document -- can't sort until later
 
-	itsDocList->AppendElement(info);
+	itsDocList->AppendItem(info);
 	if (itsPerformSafetySaveFlag)
 	{
 		itsSafetySaveTask->Start();
@@ -197,13 +198,13 @@ JXDocumentManager::DocumentDeleted
 	JXDocument* doc
 	)
 {
-	const JSize count = itsDocList->GetElementCount();
+	const JSize count = itsDocList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		DocInfo info = itsDocList->GetElement(i);
+		DocInfo info = itsDocList->GetItem(i);
 		if (info.doc == doc)
 		{
-			itsDocList->RemoveElement(i);
+			itsDocList->RemoveItem(i);
 
 			// assign the shortcut to the first item that doesn't have a shortcut
 
@@ -211,11 +212,11 @@ JXDocumentManager::DocumentDeleted
 			{
 				for (JIndex j=1; j<=count-1; j++)
 				{
-					DocInfo info1 = itsDocList->GetElement(j);
+					DocInfo info1 = itsDocList->GetItem(j);
 					if (info1.shortcut == kNoShortcutForDoc)
 					{
 						info1.shortcut = info.shortcut;
-						itsDocList->SetElement(j, info1);
+						itsDocList->SetItem(j, info1);
 						break;
 					}
 				}
@@ -292,14 +293,14 @@ JXDocumentManager::DocumentMustStayOpen
 	const bool	stayOpen
 	)
 {
-	const JSize count = itsDocList->GetElementCount();
+	const JSize count = itsDocList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		DocInfo info = itsDocList->GetElement(i);
+		DocInfo info = itsDocList->GetItem(i);
 		if (info.doc == doc)
 		{
 			info.keepOpen = stayOpen;
-			itsDocList->SetElement(i, info);
+			itsDocList->SetItem(i, info);
 			break;
 		}
 	}
@@ -342,7 +343,7 @@ JXDocumentManager::OKToCloseDocument
 void
 JXDocumentManager::CloseDocuments()
 {
-	JSize count = itsDocList->GetElementCount();
+	JSize count = itsDocList->GetItemCount();
 
 	JSize closeCount;
 	do
@@ -350,12 +351,12 @@ JXDocumentManager::CloseDocuments()
 		closeCount = 0;
 		for (JIndex i=1; i<=count; i++)
 		{
-			const DocInfo info = itsDocList->GetElement(i);
+			const DocInfo info = itsDocList->GetItem(i);
 			if (!info.doc->IsActive() && !info.keepOpen &&
 				OKToCloseDocument(info.doc) && info.doc->Close())
 			{
 				closeCount++;
-				count = itsDocList->GetElementCount();	// several documents may have closed
+				count = itsDocList->GetItemCount();	// several documents may have closed
 			}
 		}
 	}
@@ -505,7 +506,7 @@ JXDocumentManager::FindFile
 			assert( map.oldName != nullptr );
 			map.newName = jnew JString(trueName);
 			assert( map.newName != nullptr );
-			itsFileMap->AppendElement(map);
+			itsFileMap->AppendItem(map);
 
 			*newFileName = trueName;
 			return true;
@@ -529,10 +530,10 @@ JXDocumentManager::SearchFileMap
 	)
 	const
 {
-	const JSize mapCount = itsFileMap->GetElementCount();
+	const JSize mapCount = itsFileMap->GetItemCount();
 	for (JIndex i=mapCount; i>=1; i--)
 	{
-		FileMap map          = itsFileMap->GetElement(i);
+		FileMap map          = itsFileMap->GetItem(i);
 		const bool match = *(map.oldName) == fileName;
 		if (match && JFileExists(*(map.newName)))
 		{
@@ -543,7 +544,7 @@ JXDocumentManager::SearchFileMap
 		{
 			jdelete map.oldName;
 			jdelete map.newName;
-			itsFileMap->RemoveElement(i);
+			itsFileMap->RemoveItem(i);
 		}
 	}
 
@@ -601,13 +602,72 @@ JXDocumentManager::UpdateDocumentMenu
 		itsDocList->Sort();
 	}
 
-	const JSize count = itsDocList->GetElementCount();
+	// include partial paths for files with same names
+
+	const JSize count = itsDocList->GetItemCount();
+	JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll, count+1);
+
+	for (const auto& info : *itsDocList)
+	{
+		JXFileDocument* fdoc = dynamic_cast<JXFileDocument*>(info.doc);
+		if (fdoc != nullptr && fdoc->ExistsOnDisk())
+		{
+			bool onDisk;
+			nameList.Append(fdoc->GetFullName(&onDisk));
+		}
+		else
+		{
+			nameList.Append(info.doc->GetName());
+		}
+	}
+
+	JIndex firstIndex = 0;
+	JSize matchCount  = 0;
 	for (JIndex i=1; i<=count; i++)
 	{
-		DocInfo info        = itsDocList->GetElement(i);
-		const JString& name = info.doc->GetName();
+		const JString& n1 = itsDocList->GetItem(i).doc->GetName();
+		const JString& n2 = i == count ? JString::empty : itsDocList->GetItem(i+1).doc->GetName();
+		if (n2 != n1)
+		{
+			if (firstIndex > 0)
+			{
+				for (JIndex j=firstIndex; j<=i; j++)
+				{
+					JStringIterator iter(nameList.GetItem(j));
+					iter.SkipNext(matchCount);
+					iter.RemoveAllPrev();
+				}
+			}
+			else
+			{
+				nameList.SetItem(i, n1, JPtrArrayT::kDelete);
+			}
 
-		menu->AppendItem(name);
+			firstIndex = 0;
+			continue;
+		}
+
+		const JString* s1 = nameList.GetItem(i);
+		const JString* s2 = nameList.GetItem(i+1);
+		const JSize ml    = JString::CalcCharacterMatchLength(*s1, *s2);
+		if (firstIndex == 0)
+		{
+			firstIndex = i;
+			matchCount = ml;
+		}
+		else
+		{
+			matchCount = JMin(matchCount, ml);
+		}
+	}
+
+	// build menu
+
+	for (JIndex i=1; i<=count; i++)
+	{
+		menu->AppendItem(*nameList.GetItem(i));
+
+		const DocInfo info = itsDocList->GetItem(i);
 		if (info.doc->NeedsSave())
 		{
 			menu->SetItemFontStyle(i, JColorManager::GetDarkRedColor());
@@ -652,7 +712,7 @@ JXDocumentManager::ActivateDocument
 	const JIndex index
 	)
 {
-	const DocInfo info = itsDocList->GetElement(index);
+	const DocInfo info = itsDocList->GetItem(index);
 	(info.doc)->Activate();
 }
 
@@ -676,7 +736,7 @@ JXDocumentManager::GetDocument
 {
 	if (itsDocList->IndexValid(index))
 	{
-		*doc = (itsDocList->GetElement(index)).doc;
+		*doc = (itsDocList->GetItem(index)).doc;
 		return true;
 	}
 	else
