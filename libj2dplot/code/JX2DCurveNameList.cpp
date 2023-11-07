@@ -52,7 +52,7 @@ JX2DCurveNameList::JX2DCurveNameList
 		JFontManager::GetDefaultFont().GetLineHeight(GetFontManager());
 	SetDefaultRowHeight(rowHeight);
 
-	const JSize count = curveInfo.GetElementCount();
+	const JSize count = curveInfo.GetItemCount();
 
 	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kForgetAll, count);
 	assert(itsNameList != nullptr);
@@ -60,7 +60,7 @@ JX2DCurveNameList::JX2DCurveNameList
 	AppendRows(count);
 	for (JIndex i=1; i<=count; i++)
 	{
-		const J2DCurveInfo info = curveInfo.GetElement(i);
+		const J2DCurveInfo info = curveInfo.GetItem(i);
 		itsNameList->Append(info.name);
 
 		const JCoordinate width = 2*kHMarginWidth +
@@ -132,7 +132,7 @@ JX2DCurveNameList::TableDrawCell
 {
 	HilightIfSelected(p, cell, rect);
 
-	const JString* curveName = itsNameList->GetElement(cell.y);
+	const JString* curveName = itsNameList->GetItem(cell.y);
 
 	JRect r = rect;
 	r.left += kHMarginWidth;
@@ -189,7 +189,7 @@ JX2DCurveNameList::CreateXInputField
 	assert(itsInput == nullptr);
 	itsInput = jnew JXInputField(this, kHElastic, kVElastic, x, y, w, h);
 
-	itsInput->GetText()->SetText(*(itsNameList->GetElement(cell.y)));
+	itsInput->GetText()->SetText(*(itsNameList->GetItem(cell.y)));
 	itsInput->SetIsRequired();
 	return itsInput;
 }
@@ -219,7 +219,7 @@ JX2DCurveNameList::ExtractInputData
 	const JString& name = itsInput->GetText()->GetText();
 	if (!name.IsEmpty())
 	{
-		*(itsNameList->GetElement(cell.y)) = name;
+		*(itsNameList->GetItem(cell.y)) = name;
 		return true;
 	}
 	else

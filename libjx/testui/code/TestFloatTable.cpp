@@ -101,7 +101,7 @@ JIndex i,j;
 	{
 		for (i=1; i<=kInitRowCount; i++)
 		{
-			data->SetElement(i,j, r.UniformClosedProb());
+			data->SetItem(i,j, r.UniformClosedProb());
 		}
 	}
 }

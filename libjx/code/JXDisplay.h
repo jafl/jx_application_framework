@@ -677,7 +677,7 @@ JXDisplay::GetXCursorID
 	)
 	const
 {
-	return (itsCursorList->GetElement(index)).xid;
+	return (itsCursorList->GetItem(index)).xid;
 }
 
 /******************************************************************************

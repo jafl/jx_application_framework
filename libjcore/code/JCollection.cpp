@@ -5,7 +5,7 @@
 
 	Abstract class for a collection of objects arranged in some kind of
 	data structure. The common ground for collections is that they
-	contain zero or more elements.
+	contain zero or more items.
 
 	BASE CLASS = virtual JBroadcaster
 
@@ -25,7 +25,7 @@
 
 JCollection::JCollection()
 {
-	itsElementCount = 0;
+	itsItemCount = 0;
 }
 
 /******************************************************************************
@@ -48,7 +48,7 @@ JCollection::ToString()
 {
 	std::ostringstream s;
 	JBroadcaster::ToString().Print(s);
-	s << " (" << itsElementCount << " elements)";
+	s << " (" << itsItemCount << " items)";
 	return JString(s.str().c_str());
 }
 
@@ -64,7 +64,7 @@ JCollection::JCollection
 	:
 	JBroadcaster(source)
 {
-	itsElementCount = source.itsElementCount;
+	itsItemCount = source.itsItemCount;
 }
 
 /******************************************************************************
@@ -85,7 +85,7 @@ JCollection::operator=
 
 	JBroadcaster::operator=(source);
 
-	itsElementCount = source.itsElementCount;
+	itsItemCount = source.itsItemCount;
 
 	return *this;
 }
@@ -104,20 +104,20 @@ JCollection::GetIndexFromEnd
 {
 	assert( IndexValid(index) );	// avoid wrap of unsigned value
 
-	return GetElementCount() - index + 1;
+	return GetItemCount() - index + 1;
 }
 
 /******************************************************************************
- ElementRemoved (protected)
+ ItemRemoved (protected)
 
 	Not inline because it uses assert
 
  ******************************************************************************/
 
 void
-JCollection::ElementRemoved()
+JCollection::ItemRemoved()
 {
 	assert( !IsEmpty() );
 
-	itsElementCount--;
+	itsItemCount--;
 }

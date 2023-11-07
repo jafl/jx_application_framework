@@ -69,8 +69,8 @@ TestDNDTextDirector::BuildWindow()
 	JArray<JCoordinate> minSizes;
 	for (JIndex i=1; i<=2; i++)
 	{
-		sizes.AppendElement(kInitWidth);
-		minSizes.AppendElement(kMinWidth);
+		sizes.AppendItem(kInitWidth);
+		minSizes.AppendItem(kMinWidth);
 	}
 
 	JXHorizPartition* partition =

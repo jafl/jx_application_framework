@@ -6,7 +6,7 @@
 	Class for a collection of objects stored in a JList.
 
 	By calling InstallCollection in the constructors and copy constructors,
-	derived classes need not worry about keeping JCollection::itsElementCount
+	derived classes need not worry about keeping JCollection::itsItemCount
 	up to date.  This class does it automatically by listening to Broadcast
 	from the specified JList.
 
@@ -76,12 +76,12 @@ JContainer::operator=
 	}
 
 	// Usually, the pointer to the JList won't change, so we maintain the
-	// element count.  If the pointer does change, the derived class must call
+	// item count.  If the pointer does change, the derived class must call
 	// InstallCollection() again.
 
-	const JSize origCount = GetElementCount();
+	const JSize origCount = GetItemCount();
 	JCollection::operator=(source);
-	SetElementCount(origCount);
+	SetItemCount(origCount);
 
 	return *this;
 }
@@ -103,14 +103,14 @@ JContainer::InstallCollection
 	}
 
 	itsList = list;
-	SetElementCount(itsList->GetElementCount());
+	SetItemCount(itsList->GetItemCount());
 	ListenTo(itsList);
 }
 
 /******************************************************************************
  Receive (virtual protected)
 
-	Keep the number of elements up to date.
+	Keep the number of items up to date.
 
  ******************************************************************************/
 
@@ -121,19 +121,19 @@ JContainer::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsList && message.Is(JListT::kElementsInserted))
+	if (sender == itsList && message.Is(JListT::kItemsInserted))
 	{
 		const auto* info =
-			dynamic_cast<const JListT::ElementsInserted*>(&message);
+			dynamic_cast<const JListT::ItemsInserted*>(&message);
 		assert( info != nullptr );
-		SetElementCount(GetElementCount() + info->GetCount());
+		SetItemCount(GetItemCount() + info->GetCount());
 	}
-	else if (sender == itsList && message.Is(JListT::kElementsRemoved))
+	else if (sender == itsList && message.Is(JListT::kItemsRemoved))
 	{
 		const auto* info =
-			dynamic_cast<const JListT::ElementsRemoved*>(&message);
+			dynamic_cast<const JListT::ItemsRemoved*>(&message);
 		assert( info != nullptr );
-		SetElementCount(GetElementCount() - info->GetCount());
+		SetItemCount(GetItemCount() - info->GetCount());
 	}
 	else
 	{

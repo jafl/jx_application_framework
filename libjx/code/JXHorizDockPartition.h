@@ -99,7 +99,7 @@ JXHorizDockPartition::GetDockWidget
 	)
 	const
 {
-	return itsDockList->GetElement(index);
+	return itsDockList->GetItem(index);
 }
 
 #endif

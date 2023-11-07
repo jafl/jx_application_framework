@@ -641,9 +641,9 @@ JDirInfo::ClosestMatch
 	JDirEntry target(prefixStr, 0);
 	bool found;
 	*index = itsAlphaEntries->SearchSortedOTI(&target, JListT::kFirstMatch, &found);
-	if (*index > itsAlphaEntries->GetElementCount())		// insert beyond end of list
+	if (*index > itsAlphaEntries->GetItemCount())		// insert beyond end of list
 	{
-		*index = itsAlphaEntries->GetElementCount();
+		*index = itsAlphaEntries->GetItemCount();
 	}
 	return *index > 0;
 }

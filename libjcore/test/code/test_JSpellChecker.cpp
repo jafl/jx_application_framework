@@ -29,7 +29,7 @@ JTEST(Exercise)
 	JAssertFalse(sp.CheckWord(JString("heelo", JString::kNoCopy), &list, &good));
 	JAssertFalse(list.IsEmpty());
 	JAssertTrue(good);
-	JAssertStringsEqual("heel", *list.GetFirstElement());
+	JAssertStringsEqual("heel", *list.GetFirstItem());
 */
 	// aspell treats this as two words
 	JAssertTrue(sp.CheckWord(JString("sﺺd", JString::kNoCopy), &list, &good));

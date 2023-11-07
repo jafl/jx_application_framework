@@ -54,7 +54,7 @@ JXImageCache::GetImage
 	const JString s = GetImageData(data);
 
 	JXImage* image;
-	if (!itsMap->GetElement(s, &image))
+	if (!itsMap->GetItem(s, &image))
 	{
 		const JError err = JXImage::CreateFromXPM(itsDisplay, data, &image);
 		assert_ok( err );

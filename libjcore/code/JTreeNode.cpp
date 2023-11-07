@@ -294,7 +294,7 @@ JTreeNode::GetChild
 	)
 {
 	assert( itsChildren != nullptr );
-	return itsChildren->GetElement(index);
+	return itsChildren->GetItem(index);
 }
 
 const JTreeNode*
@@ -305,7 +305,7 @@ JTreeNode::GetChild
 	const
 {
 	assert( itsChildren != nullptr );
-	return itsChildren->GetElement(index);
+	return itsChildren->GetItem(index);
 }
 
 /******************************************************************************
@@ -474,24 +474,24 @@ JTreeNode::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsChildren && message.Is(JListT::kElementMoved))
+	if (sender == itsChildren && message.Is(JListT::kItemMoved))
 	{
 		assert( itsTree != nullptr );
 
 		const auto* info =
-			dynamic_cast<const JListT::ElementMoved*>(&message);
+			dynamic_cast<const JListT::ItemMoved*>(&message);
 		assert( info != nullptr );
 
 		const JIndex origIndex = info->GetOrigIndex();
 		const JIndex newIndex  = info->GetNewIndex();
-		JTreeNode* child       = itsChildren->GetElement(newIndex);
+		JTreeNode* child       = itsChildren->GetItem(newIndex);
 
-		itsChildren->RemoveElement(newIndex);			// avoid another ElementMoved
+		itsChildren->RemoveItem(newIndex);			// avoid another ItemMoved
 		itsChildren->InsertAtIndex(origIndex, child);
 
 		itsTree->BroadcastPrepareForMove(child);
 
-		itsChildren->RemoveElement(origIndex);
+		itsChildren->RemoveItem(origIndex);
 		itsTree->BroadcastRemove(child);
 
 		itsChildren->InsertAtIndex(newIndex, child);
@@ -604,7 +604,7 @@ JTreeNode::Remove
 		child->itsParent = nullptr;
 		child->SetTree(nullptr);
 
-		itsChildren->RemoveElement(index);
+		itsChildren->RemoveItem(index);
 		if (itsTree != nullptr)
 		{
 			itsTree->BroadcastRemove(child);
@@ -628,10 +628,10 @@ JTreeNode::DeleteAllChildren()
 {
 	if (itsChildren != nullptr)
 	{
-		const JSize count = itsChildren->GetElementCount();
+		const JSize count = itsChildren->GetItemCount();
 		for (JIndex i=count; i>=1; i--)
 		{
-			jdelete itsChildren->GetElement(i);
+			jdelete itsChildren->GetItem(i);
 		}
 
 		jdelete itsChildren;

@@ -95,7 +95,7 @@ JXStringList::TableDrawCell
 	font.SetStyle(itsStyles->GetCellStyle(cell));
 	p.SetFont(font);
 
-	const JString* str = itsList->GetElement(cell.y);
+	const JString* str = itsList->GetItem(cell.y);
 
 	// check that column is wide enough
 	// (Not assuming rect == cell_rect allows icons in derived classes.)
@@ -141,7 +141,7 @@ JXStringList::SetStringList
 	{
 		ListenTo(itsList);
 
-		const JSize strCount = itsList->GetElementCount();
+		const JSize strCount = itsList->GetItemCount();
 		if (strCount > GetRowCount())
 		{
 			AppendRows(strCount - GetRowCount());
@@ -235,7 +235,7 @@ JXStringList::SetStyles
 	)
 {
 	const JSize count = GetRowCount();
-	assert( styleList.GetElementCount() == count );
+	assert( styleList.GetItemCount() == count );
 
 	JRunArrayIterator iter(styleList);
 
@@ -388,42 +388,42 @@ JXStringList::Receive
 	// then check how the list changed
 
 	if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
-		message.Is(JListT::kElementsInserted))
+		message.Is(JListT::kItemsInserted))
 	{
 		const auto* info =
-			dynamic_cast<const JListT::ElementsInserted*>(&message);
+			dynamic_cast<const JListT::ItemsInserted*>(&message);
 		assert( info != nullptr );
 		InsertRows(info->GetFirstIndex(), info->GetCount());
 	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
-			 message.Is(JListT::kElementsRemoved))
+			 message.Is(JListT::kItemsRemoved))
 	{
 		const auto* info =
-			dynamic_cast<const JListT::ElementsRemoved*>(&message);
+			dynamic_cast<const JListT::ItemsRemoved*>(&message);
 		assert( info != nullptr );
 		itsMinColWidth = 1;
 		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
 	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
-			 message.Is(JListT::kElementMoved))
+			 message.Is(JListT::kItemMoved))
 	{
 		const auto* info =
-			dynamic_cast<const JListT::ElementMoved*>(&message);
+			dynamic_cast<const JListT::ItemMoved*>(&message);
 		assert( info != nullptr );
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
 	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
-			 message.Is(JListT::kElementsSwapped))
+			 message.Is(JListT::kItemsSwapped))
 	{
 		const auto* info =
-			dynamic_cast<const JListT::ElementsSwapped*>(&message);
+			dynamic_cast<const JListT::ItemsSwapped*>(&message);
 		assert( info != nullptr );
-		const JFontStyle s1 = itsStyles->GetElement(info->GetIndex1(), 1);
-		itsStyles->SetElement(info->GetIndex1(), 1, itsStyles->GetElement(info->GetIndex2(), 1));
-		itsStyles->SetElement(info->GetIndex2(), 1, s1);
+		const JFontStyle s1 = itsStyles->GetItem(info->GetIndex1(), 1);
+		itsStyles->SetItem(info->GetIndex1(), 1, itsStyles->GetItem(info->GetIndex2(), 1));
+		itsStyles->SetItem(info->GetIndex2(), 1, s1);
 	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
@@ -433,7 +433,7 @@ JXStringList::Receive
 	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
-			 message.Is(JListT::kElementsChanged))
+			 message.Is(JListT::kItemsChanged))
 	{
 		itsMinColWidth = 1;
 		Refresh();

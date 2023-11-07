@@ -49,10 +49,10 @@ JObjTableData<T>::JObjTableData
 	itsCols = jnew JPtrArray< JPtrArray<T> >(JPtrArrayT::kDeleteAll);
 	assert( itsCols != nullptr );
 
-	const JSize colCount = (source.itsCols)->GetElementCount();
+	const JSize colCount = (source.itsCols)->GetItemCount();
 	for (JIndex j=1; j<=colCount; j++)
 	{
-		const JPtrArray<T>* origColData = (source.itsCols)->GetElement(j);
+		const JPtrArray<T>* origColData = (source.itsCols)->GetItem(j);
 
 		JPtrArray<T>* newColData = jnew JDCCPtrArray<T>(*origColData, JPtrArrayT::kDeleteAll);
 		assert( newColData != nullptr );
@@ -72,51 +72,51 @@ JObjTableData<T>::~JObjTableData()
 }
 
 /******************************************************************************
- GetElement
+ GetItem
 
  ******************************************************************************/
 
 template <class T>
 const T&
-JObjTableData<T>::GetElement
+JObjTableData<T>::GetItem
 	(
 	const JIndex row,
 	const JIndex col
 	)
 	const
 {
-	JPtrArray<T>* colData = itsCols->GetElement(col);
-	return *(colData->GetElement(row));
+	JPtrArray<T>* colData = itsCols->GetItem(col);
+	return *(colData->GetItem(row));
 }
 
 template <class T>
 const T&
-JObjTableData<T>::GetElement
+JObjTableData<T>::GetItem
 	(
 	const JPoint& cell
 	)
 	const
 {
-	JPtrArray<T>* colData = itsCols->GetElement(cell.x);
-	return *(colData->GetElement(cell.y));
+	JPtrArray<T>* colData = itsCols->GetItem(cell.x);
+	return *(colData->GetItem(cell.y));
 }
 
 /******************************************************************************
- SetElement
+ SetItem
 
  ******************************************************************************/
 
 template <class T>
 void
-JObjTableData<T>::SetElement
+JObjTableData<T>::SetItem
 	(
 	const JIndex	row,
 	const JIndex	col,
 	const T&		data
 	)
 {
-	JPtrArray<T>* colData = itsCols->GetElement(col);
-	T* element = colData->GetElement(row);
+	JPtrArray<T>* colData = itsCols->GetItem(col);
+	T* element = colData->GetItem(row);
 	if (*element != data)
 	{
 		*element = data;
@@ -126,13 +126,13 @@ JObjTableData<T>::SetElement
 
 template <class T>
 void
-JObjTableData<T>::SetElement
+JObjTableData<T>::SetItem
 	(
 	const JPoint&	cell,
 	const T&		data
 	)
 {
-	SetElement(cell.y, cell.x, data);
+	SetItem(cell.y, cell.x, data);
 }
 
 /******************************************************************************
@@ -154,8 +154,8 @@ JObjTableData<T>::GetRow
 	const JSize colCount = GetColCount();
 	for (JIndex i=1; i<=colCount; i++)
 	{
-		const JPtrArray<T>* dataCol = itsCols->GetElement(i);
-		rowData->InsertAtIndex(i, *(dataCol->GetElement(index)));
+		const JPtrArray<T>* dataCol = itsCols->GetItem(i);
+		rowData->InsertAtIndex(i, *(dataCol->GetItem(index)));
 	}
 }
 
@@ -173,13 +173,13 @@ JObjTableData<T>::SetRow
 	)
 {
 	const JSize colCount = GetColCount();
-	assert( rowData.GetElementCount() == colCount );
+	assert( rowData.GetItemCount() == colCount );
 
 	for (JIndex i=1; i<=colCount; i++)
 	{
-		JPtrArray<T>* dataCol = itsCols->GetElement(i);
-		T* element = dataCol->GetElement(index);
-		*element   = *(rowData.GetElement(i));
+		JPtrArray<T>* dataCol = itsCols->GetItem(i);
+		T* element = dataCol->GetItem(index);
+		*element   = *(rowData.GetItem(i));
 	}
 
 	Broadcast(JTableData::RectChanged(JRect(index, 1, index+1, colCount+1)));
@@ -199,7 +199,7 @@ JObjTableData<T>::GetCol
 	)
 	const
 {
-	const JPtrArray<T>* dataCol = itsCols->GetElement(index);
+	const JPtrArray<T>* dataCol = itsCols->GetItem(index);
 	colData->CopyObjects(*dataCol, colData->GetCleanUpAction(), false);
 }
 
@@ -217,13 +217,13 @@ JObjTableData<T>::SetCol
 	)
 {
 	const JSize rowCount = GetRowCount();
-	assert( colData.GetElementCount() == rowCount );
+	assert( colData.GetItemCount() == rowCount );
 
-	JPtrArray<T>* dataCol = itsCols->GetElement(index);
+	JPtrArray<T>* dataCol = itsCols->GetItem(index);
 	for (JIndex i=1; i<=rowCount; i++)
 	{
-		T* element = dataCol->GetElement(i);
-		*element   = *(colData.GetElement(i));
+		T* element = dataCol->GetItem(i);
+		*element   = *(colData.GetItem(i));
 	}
 
 	Broadcast(JTableData::RectChanged(JRect(1, index, rowCount+1, index+1)));
@@ -243,7 +243,7 @@ JObjTableData<T>::InsertRows
 	const JPtrArray<T>*	initData
 	)
 {
-	assert( initData == nullptr || initData->GetElementCount() == GetColCount() );
+	assert( initData == nullptr || initData->GetItemCount() == GetColCount() );
 
 	if (count > 0)
 	{
@@ -257,7 +257,7 @@ JObjTableData<T>::InsertRows
 				T* element = nullptr;
 				if (initData != nullptr)
 				{
-					element = jnew T(*(initData->GetElement(i)));
+					element = jnew T(*(initData->GetItem(i)));
 				}
 				else
 				{
@@ -265,7 +265,7 @@ JObjTableData<T>::InsertRows
 				}
 				assert( element != nullptr );
 
-				JPtrArray<T>* colData = itsCols->GetElement(i);
+				JPtrArray<T>* colData = itsCols->GetItem(i);
 				colData->InsertAtIndex(trueIndex, element);
 			}
 		}
@@ -320,8 +320,8 @@ JObjTableData<T>::DuplicateRow
 	const JSize colCount = GetColCount();
 	for (JIndex i=1; i<=colCount; i++)
 	{
-		JPtrArray<T>* colData = itsCols->GetElement(i);
-		colData->InsertAtIndex(trueIndex, *(colData->GetElement(origIndex)));
+		JPtrArray<T>* colData = itsCols->GetItem(i);
+		colData->InsertAtIndex(trueIndex, *(colData->GetItem(origIndex)));
 	}
 
 	RowsAdded(1);
@@ -365,10 +365,10 @@ JObjTableData<T>::RemoveNextRows
 		const JSize colCount = GetColCount();
 		for (JIndex i=1; i<=colCount; i++)
 		{
-			JPtrArray<T>* colData = itsCols->GetElement(i);
+			JPtrArray<T>* colData = itsCols->GetItem(i);
 			for (JIndex j=1; j<=count; j++)
 			{
-				colData->DeleteElement(firstIndex);
+				colData->DeleteItem(firstIndex);
 			}
 		}
 
@@ -405,7 +405,7 @@ JObjTableData<T>::RemoveAllRows()
 	const JSize colCount = GetColCount();
 	for (JIndex i=1; i<=colCount; i++)
 	{
-		JPtrArray<T>* colData = itsCols->GetElement(i);
+		JPtrArray<T>* colData = itsCols->GetItem(i);
 		colData->CleanOut();
 	}
 
@@ -432,8 +432,8 @@ JObjTableData<T>::MoveRow
 		const JSize colCount = GetColCount();
 		for (JIndex i=1; i<=colCount; i++)
 		{
-			JPtrArray<T>* colData = itsCols->GetElement(i);
-			colData->MoveElementToIndex(origIndex, newIndex);
+			JPtrArray<T>* colData = itsCols->GetItem(i);
+			colData->MoveItemToIndex(origIndex, newIndex);
 		}
 
 		Broadcast(JTableData::RowMoved(origIndex, newIndex));
@@ -454,7 +454,7 @@ JObjTableData<T>::InsertCols
 	const JPtrArray<T>*	initData
 	)
 {
-	assert( initData == nullptr || initData->GetElementCount() == GetRowCount() );
+	assert( initData == nullptr || initData->GetItemCount() == GetRowCount() );
 
 	if (count > 0)
 	{
@@ -472,7 +472,7 @@ JObjTableData<T>::InsertCols
 				T* element = nullptr;
 				if (initData != nullptr)
 				{
-					element = jnew T(*(initData->GetElement(i)));
+					element = jnew T(*(initData->GetItem(i)));
 				}
 				else
 				{
@@ -531,7 +531,7 @@ JObjTableData<T>::DuplicateCol
 {
 	const JIndex trueIndex = JMin(newIndex, GetColCount()+1);
 
-	JPtrArray<T>* origColData = itsCols->GetElement(origIndex);
+	JPtrArray<T>* origColData = itsCols->GetItem(origIndex);
 
 	JPtrArray<T>* newColData = jnew JDCCPtrArray<T>(*origColData, JPtrArrayT::kDeleteAll);
 	assert( newColData != nullptr );
@@ -571,7 +571,7 @@ JObjTableData<T>::RemoveNextCols
 {
 	for (JIndex i=1; i<=count; i++)
 	{
-		itsCols->DeleteElement(firstIndex);
+		itsCols->DeleteItem(firstIndex);
 	}
 
 	ColsDeleted(count);
@@ -624,7 +624,7 @@ JObjTableData<T>::MoveCol
 {
 	if (origIndex != newIndex)
 	{
-		itsCols->MoveElementToIndex(origIndex, newIndex);
+		itsCols->MoveItemToIndex(origIndex, newIndex);
 		Broadcast(JTableData::ColMoved(origIndex, newIndex));
 	}
 }

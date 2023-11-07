@@ -45,7 +45,7 @@ protected:
 
 private:
 
-	S*	itsElements;
+	S*	itsItems;
 };
 
 #include "JQueue.tmpl"

@@ -263,12 +263,12 @@ JPSPrinterBase::PSSetDashList
 
 	// if odd # of dashes, double the list
 
-	const JSize dashCount = itsDashList->GetElementCount();
+	const JSize dashCount = itsDashList->GetItemCount();
 	if (dashCount % 2 == 1)
 	{
 		for (JIndex i=1; i<=dashCount; i++)
 		{
-			itsDashList->AppendElement(itsDashList->GetElement(i));
+			itsDashList->AppendItem(itsDashList->GetItem(i));
 		}
 	}
 
@@ -603,8 +603,8 @@ JPSPrinterBase::PSPolygon
 
 	PSSetColor(color);
 
-	const JSize count  = poly.GetElementCount();
-	const JPoint start = poly.GetElement(1);
+	const JSize count  = poly.GetItemCount();
+	const JPoint start = poly.GetItem(1);
 
 	JPoint psPt = ConvertToPS(left+start.x, top+start.y);
 
@@ -612,7 +612,7 @@ JPSPrinterBase::PSPolygon
 	*itsFile << psPt.x << ' ' << psPt.y << " moveto\n";
 	for (JSize i=2; i<=count; i++)
 	{
-		const JPoint curr = poly.GetElement(i);
+		const JPoint curr = poly.GetItem(i);
 		psPt = ConvertToPS(left+curr.x, top+curr.y);
 		*itsFile << psPt.x << ' ' << psPt.y << " lineto\n";
 	}
@@ -1079,14 +1079,14 @@ JPSPrinterBase::PSSetLineDashes
 
 			*itsFile << '[';
 
-			const JSize dashCount = itsDashList->GetElementCount();
+			const JSize dashCount = itsDashList->GetItemCount();
 			for (JIndex i=1; i<=dashCount; i++)
 			{
 				if (i > 1)
 				{
 					*itsFile << ' ';
 				}
-				*itsFile << itsDashList->GetElement(i);
+				*itsFile << itsDashList->GetItem(i);
 			}
 
 			*itsFile << "] " << itsDashOffset << " setdash\n";

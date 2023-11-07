@@ -114,10 +114,10 @@ JUpdateChecker::CheckForNewerVersion()
 		const time_t delta = kInitialReminderInterval;
 
 		itsReminderList->RemoveAll();
-		itsReminderList->AppendElement(now);		// remind next time we start
-		itsReminderList->AppendElement(now + delta);
-		itsReminderList->AppendElement(now + 2*delta);
-		itsReminderList->AppendElement(now + 3*delta);
+		itsReminderList->AppendItem(now);		// remind next time we start
+		itsReminderList->AppendItem(now + delta);
+		itsReminderList->AppendItem(now + 2*delta);
+		itsReminderList->AppendItem(now + 3*delta);
 	}
 
 	itsVersion = vers;
@@ -137,10 +137,10 @@ JUpdateChecker::TimeToRemind()
 	const time_t now = time(nullptr);
 	while (!itsReminderList->IsEmpty())
 	{
-		const time_t t = itsReminderList->GetFirstElement();
+		const time_t t = itsReminderList->GetFirstItem();
 		if (now >= t)
 		{
-			itsReminderList->RemoveElement(1);
+			itsReminderList->RemoveItem(1);
 			remind = true;
 		}
 		else
@@ -153,7 +153,7 @@ JUpdateChecker::TimeToRemind()
 	{
 		if (itsReminderList->IsEmpty())
 		{
-			itsReminderList->AppendElement(now + kDefaultReminderInterval);
+			itsReminderList->AppendItem(now + kDefaultReminderInterval);
 		}
 
 		JPrefObject::WritePrefs();
@@ -194,7 +194,7 @@ JUpdateChecker::ReadPrefs
 	{
 		time_t t;
 		input >> t;
-		itsReminderList->AppendElement(t);
+		itsReminderList->AppendItem(t);
 	}
 }
 
@@ -214,7 +214,7 @@ JUpdateChecker::WritePrefs
 	output << ' ' << itsVersion;
 	output << ' ' << itsNextServerTime;
 
-	output << ' ' << itsReminderList->GetElementCount();
+	output << ' ' << itsReminderList->GetItemCount();
 
 	for (auto t : *itsReminderList)
 	{

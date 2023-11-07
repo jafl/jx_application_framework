@@ -60,8 +60,8 @@ TestVarList::TestVarList
 				input >> value;
 
 				itsNumericNames->Append(name);
-				itsNumericValues->AppendElement(value);
-				itsNumericArrays->AppendElement(static_cast<TVLNArray*>(nullptr));
+				itsNumericValues->AppendItem(value);
+				itsNumericArrays->AppendItem(static_cast<TVLNArray*>(nullptr));
 			}
 			else
 			{
@@ -88,11 +88,11 @@ TestVarList::TestVarList
 				{
 					JFloat value;
 					input >> value;
-					values.AppendElement(value);
+					values.AppendItem(value);
 				}
 
 				itsNumericNames->Append(name);
-				itsNumericValues->AppendElement(0.0);
+				itsNumericValues->AppendItem(0.0);
 				itsNumericArrays->Append(values);
 			}
 		}
@@ -154,7 +154,7 @@ TestVarList::GetVariableName
 	)
 	const
 {
-	return *(itsNumericNames->GetElement(index));
+	return *itsNumericNames->GetItem(index);
 }
 
 void
@@ -166,16 +166,16 @@ TestVarList::GetVariableName
 	)
 	const
 {
-	const JString* fullName = itsNumericNames->GetElement(index);
+	const JString* fullName = itsNumericNames->GetItem(index);
 
 	JPtrArray<JString> s(JPtrArrayT::kDeleteAll);
 	fullName->Split("_", &s, 2);
 
 	name->Clear();
-	if (s.GetElementCount() == 2)
+	if (s.GetItemCount() == 2)
 	{
-		*name      = *s.GetElement(1);
-		*subscript = *s.GetElement(2);
+		*name      = *s.GetItem(1);
+		*subscript = *s.GetItem(2);
 	}
 
 	if (name->IsEmpty() || subscript->IsEmpty())
@@ -197,7 +197,7 @@ TestVarList::IsArray
 	)
 	const
 {
-	return itsNumericArrays->GetElement(index) != nullptr;
+	return itsNumericArrays->GetItem(index) != nullptr;
 }
 
 /******************************************************************************
@@ -215,7 +215,7 @@ TestVarList::ArrayIndexValid
 {
 	return elementIndex == 1 ||
 			(IsArray(variableIndex) &&
-			 (itsNumericArrays->GetElement(variableIndex))->IndexValid(elementIndex));
+			 itsNumericArrays->GetItem(variableIndex)->IndexValid(elementIndex));
 }
 
 /******************************************************************************
@@ -232,15 +232,15 @@ TestVarList::GetNumericValue
 	)
 	const
 {
-	TVLNArray* values = itsNumericArrays->GetElement(variableIndex);
+	TVLNArray* values = itsNumericArrays->GetItem(variableIndex);
 	if (values == nullptr && elementIndex == 1)
 	{
-		*value = itsNumericValues->GetElement(variableIndex);
+		*value = itsNumericValues->GetItem(variableIndex);
 		return true;
 	}
 	else if (values != nullptr && values->IndexValid(elementIndex))
 	{
-		*value = values->GetElement(elementIndex);
+		*value = values->GetItem(elementIndex);
 		return true;
 	}
 	else

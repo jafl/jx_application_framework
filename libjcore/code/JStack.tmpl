@@ -32,9 +32,9 @@ JStack<T,S>::JStack()
 	:
 	JContainer()
 {
-	itsElements = jnew S;
+	itsItems = jnew S;
 
-	InstallCollection(itsElements);
+	InstallCollection(itsItems);
 }
 
 /******************************************************************************
@@ -50,10 +50,10 @@ JStack<T,S>::JStack
 	:
 	JContainer(source)
 {
-	itsElements = jnew S(*(source.itsElements));
-	assert( itsElements != nullptr );
+	itsItems = jnew S(*(source.itsItems));
+	assert( itsItems != nullptr );
 
-	InstallCollection(itsElements);
+	InstallCollection(itsItems);
 }
 
 /******************************************************************************
@@ -64,7 +64,7 @@ JStack<T,S>::JStack
 template <class T, class S>
 JStack<T,S>::~JStack()
 {
-	jdelete itsElements;
+	jdelete itsItems;
 }
 
 /******************************************************************************
@@ -86,7 +86,7 @@ JStack<T,S>::operator=
 
 	JContainer::operator=(source);
 
-	*itsElements = *(source.itsElements);
+	*itsItems = *(source.itsItems);
 	return *this;
 }
 
@@ -104,7 +104,7 @@ JStack<T,S>::Push
 	const T& newElement
 	)
 {
-	itsElements->AppendElement(newElement);
+	itsItems->AppendItem(newElement);
 }
 
 /******************************************************************************
@@ -118,9 +118,9 @@ template <class T, class S>
 T
 JStack<T,S>::Pop()
 {
-	const JSize count = GetElementCount();
-	const T data      = itsElements->GetElement(count);
-	itsElements->RemoveElement(count);
+	const JSize count = GetItemCount();
+	const T data      = itsItems->GetItem(count);
+	itsItems->RemoveItem(count);
 	return data;
 }
 
@@ -131,11 +131,11 @@ JStack<T,S>::Pop
 	T* element
 	)
 {
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	if (count > 0)
 	{
-		*element = itsElements->GetElement(count);
-		itsElements->RemoveElement(count);
+		*element = itsItems->GetItem(count);
+		itsItems->RemoveItem(count);
 		return true;
 	}
 	else
@@ -156,7 +156,7 @@ T
 JStack<T,S>::Peek()
 	const
 {
-	return itsElements->GetElement(GetElementCount());
+	return itsItems->GetItem(GetItemCount());
 }
 
 template <class T, class S>
@@ -167,10 +167,10 @@ JStack<T,S>::Peek
 	)
 	const
 {
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	if (count > 0)
 	{
-		*element = itsElements->GetElement(count);
+		*element = itsItems->GetItem(count);
 		return true;
 	}
 	else
@@ -195,7 +195,7 @@ JStack<T,S>::Peek
 	)
 	const
 {
-	return itsElements->GetElement(GetElementCount() - index + 1);
+	return itsItems->GetItem(GetItemCount() - index + 1);
 }
 
 template <class T, class S>
@@ -207,10 +207,10 @@ JStack<T,S>::Peek
 	)
 	const
 {
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	if (IndexValid(index))
 	{
-		*element = itsElements->GetElement(count - index + 1);
+		*element = itsItems->GetItem(count - index + 1);
 		return true;
 	}
 	else
@@ -230,7 +230,7 @@ template <class T, class S>
 void
 JStack<T,S>::Clear()
 {
-	itsElements->RemoveAll();
+	itsItems->RemoveAll();
 }
 
 /******************************************************************************
@@ -248,9 +248,9 @@ JStack<T,S>::Unwind
 	)
 {
 	JSize numUnwound = 0;
-	while (numUnwound < numToUnwind && !itsElements->IsEmpty())
+	while (numUnwound < numToUnwind && !itsItems->IsEmpty())
 	{
-		itsElements->RemoveElement(itsElements->GetElementCount());
+		itsItems->RemoveItem(itsItems->GetItemCount());
 		numUnwound++;
 	}
 }
@@ -264,7 +264,7 @@ template <class T, class S>
 S*
 JStack<T,S>::GetElements()
 {
-	return itsElements;
+	return itsItems;
 }
 
 /******************************************************************************
@@ -282,7 +282,7 @@ template <class T, class S>
 JListIterator<T>*
 JStack<T,S>::NewIterator()
 {
-	return itsElements->NewIterator(JListT::kStartAtEnd);
+	return itsItems->NewIterator(JListT::kStartAtEnd);
 }
 
 template <class T, class S>
@@ -290,7 +290,7 @@ JListIterator<T>*
 JStack<T,S>::NewIterator()
 	const
 {
-	return itsElements->NewIterator(JListT::kStartAtEnd);
+	return itsItems->NewIterator(JListT::kStartAtEnd);
 }
 
 #endif

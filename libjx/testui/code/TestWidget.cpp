@@ -646,9 +646,9 @@ JIndex i;
 	p.Arc(r, 270.0-45.0, -270.0);
 
 	JPolygon poly;
-	poly.AppendElement(JPoint(0,85));
-	poly.AppendElement(JPoint(10,85));
-	poly.AppendElement(JPoint(5,95));
+	poly.AppendItem(JPoint(0,85));
+	poly.AppendItem(JPoint(10,85));
+	poly.AppendItem(JPoint(5,95));
 	p.Polygon(poly);
 
 	p.Line(0,100, 2,98);
@@ -656,9 +656,9 @@ JIndex i;
 	p.LineTo(2,102);
 	p.LineTo(0,100);
 
-	poly.SetElement(1, JPoint(0,5));
-	poly.SetElement(2, JPoint(2,0));
-	poly.SetElement(3, JPoint(4,5));
+	poly.SetItem(1, JPoint(0,5));
+	poly.SetItem(2, JPoint(2,0));
+	poly.SetItem(3, JPoint(4,5));
 	p.Polygon(2,105, poly);
 
 	// test filling rule
@@ -667,11 +667,11 @@ JIndex i;
 	p.SetFilling(true);
 
 	JPolygon fillRulePoly;
-	fillRulePoly.AppendElement(JPoint(175,45));
-	fillRulePoly.AppendElement(JPoint(165,65));
-	fillRulePoly.AppendElement(JPoint(190,50));
-	fillRulePoly.AppendElement(JPoint(160,50));
-	fillRulePoly.AppendElement(JPoint(185,65));
+	fillRulePoly.AppendItem(JPoint(175,45));
+	fillRulePoly.AppendItem(JPoint(165,65));
+	fillRulePoly.AppendItem(JPoint(190,50));
+	fillRulePoly.AppendItem(JPoint(160,50));
+	fillRulePoly.AppendItem(JPoint(185,65));
 	p.Polygon(fillRulePoly);
 
 	p.SetFilling(false);
@@ -683,15 +683,15 @@ JIndex i;
 	p.SetPenColor(JColorManager::GetBlackColor());
 
 	JArray<JSize> dashList;			// pixel rulers
-	dashList.AppendElement(1);
-	dashList.AppendElement(1);
+	dashList.AppendItem(1);
+	dashList.AppendItem(1);
 	p.SetDashList(dashList);
 	p.Line(100,110, 200,110);
 	p.Line(100,114, 200,114);
 	p.Line(100,118, 200,118);
 
-	dashList.SetElement(1, 2);		// simple pattern
-	dashList.SetElement(2, 3);
+	dashList.SetItem(1, 2);		// simple pattern
+	dashList.SetItem(2, 3);
 	p.SetDashList(dashList);
 	p.Line(100,112, 200,112);
 
@@ -701,16 +701,16 @@ JIndex i;
 	p.SetDashList(dashList, 3);		// test offset
 	p.Line(100,116, 200,116);
 
-	dashList.SetElement(1, 1);		// example with odd # of values from X manuals
-	dashList.SetElement(2, 2);
-	dashList.AppendElement(3);
+	dashList.SetItem(1, 1);		// example with odd # of values from X manuals
+	dashList.SetItem(2, 2);
+	dashList.AppendItem(3);
 	p.SetDashList(dashList);
 	p.Line(100,120, 200,120);
 
-	dashList.SetElement(1, 5);		// dash-dot pattern
-	dashList.SetElement(2, 2);
-	dashList.SetElement(3, 1);
-	dashList.AppendElement(2);
+	dashList.SetItem(1, 5);		// dash-dot pattern
+	dashList.SetItem(2, 2);
+	dashList.SetItem(3, 1);
+	dashList.AppendItem(2);
 	p.SetDashList(dashList);
 	p.Line(100,122, 200,122);
 

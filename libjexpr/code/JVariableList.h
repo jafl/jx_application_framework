@@ -41,20 +41,20 @@ public:
 
 	virtual bool	IsArray(const JIndex index) const = 0;
 	virtual bool	ArrayIndexValid(const JIndex variableIndex,
-									const JIndex elementIndex) const = 0;
+									const JIndex itemIndex) const = 0;
 
 	virtual bool	GetNumericValue(const JIndex variableIndex,
-									const JIndex elementIndex,
+									const JIndex itemIndex,
 									JFloat* value) const = 0;
 	virtual bool	GetNumericValue(const JIndex variableIndex,
-									const JIndex elementIndex,
+									const JIndex itemIndex,
 									JComplex* value) const = 0;
 
 	virtual void	SetNumericValue(const JIndex variableIndex,
-									const JIndex elementIndex,
+									const JIndex itemIndex,
 									const JFloat value) = 0;
 	virtual void	SetNumericValue(const JIndex variableIndex,
-									const JIndex elementIndex,
+									const JIndex itemIndex,
 									const JComplex& value) = 0;
 
 	bool	ParseVariableName(const JString& name, JIndex* index) const;
@@ -83,10 +83,10 @@ private:
 private:
 
 	void	JVariableListX();
-	void	VariablesInserted(const JListT::ElementsInserted& info) const;
-	void	VariablesRemoved(const JListT::ElementsRemoved& info) const;
-	void	VariableMoved(const JListT::ElementMoved& info) const;
-	void	VariablesSwapped(const JListT::ElementsSwapped& info) const;
+	void	VariablesInserted(const JListT::ItemsInserted& info) const;
+	void	VariablesRemoved(const JListT::ItemsRemoved& info) const;
+	void	VariableMoved(const JListT::ItemMoved& info) const;
+	void	VariablesSwapped(const JListT::ItemsSwapped& info) const;
 
 	// not allowed
 
@@ -220,11 +220,11 @@ public:
 		{
 		public:
 
-			VarValueChanged(const JIndex varIndex, const JIndex elementIndex)
+			VarValueChanged(const JIndex varIndex, const JIndex itemIndex)
 				:
 				JBroadcaster::Message(kVarValueChanged),
 				itsVarIndex(varIndex),
-				itsElementIndex(elementIndex)
+				itsElementIndex(itemIndex)
 				{ };
 
 			JIndex
@@ -234,7 +234,7 @@ public:
 			};
 
 			JIndex
-			GetElementIndex() const
+			GetItemIndex() const
 			{
 				return itsElementIndex;
 			};
@@ -287,7 +287,7 @@ JVariableList::IsOnEvalStack
 	)
 	const
 {
-	return itsEvalStack->GetElement(variableIndex);
+	return itsEvalStack->GetItem(variableIndex);
 }
 
 #endif

@@ -37,7 +37,7 @@ JTEST(NewFile)
 	JPrefsFile* prefsFile;
 	JAssertOK(JPrefsFile::Create(kTestFileName, &prefsFile));
 
-	JAssertEqual(0, prefsFile->GetElementCount());
+	JAssertEqual(0, prefsFile->GetItemCount());
 	JAssertFalse(prefsFile->GetVersion() == kVersionOfExistingFile);
 
 	prefsFile->SetVersion(kVersionOfExistingFile);
@@ -63,7 +63,7 @@ JTEST(NewFile)
 	prefsFile->SetData(7, dataStream);
 }
 
-	JAssertEqual(2, prefsFile->GetElementCount());
+	JAssertEqual(2, prefsFile->GetItemCount());
 
 {
 	std::string data;
@@ -108,7 +108,7 @@ JTEST(OldFile)
 	JAssertOK(JPrefsFile::Create(kTestFileName, &prefsFile));
 
 	JAssertEqual(kVersionOfExistingFile, prefsFile->GetVersion());
-	JAssertEqual(2, prefsFile->GetElementCount());
+	JAssertEqual(2, prefsFile->GetItemCount());
 
 	JString elementData;
 

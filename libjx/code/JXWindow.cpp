@@ -3622,7 +3622,7 @@ JXWindow::RegisterFocusWidget
 	if (!itsFocusList->Includes(widget))
 	{
 		itsFocusList->Append(widget);
-		if (itsFocusList->GetElementCount() == 1)
+		if (itsFocusList->GetItemCount() == 1)
 		{
 			assert( itsFocusWidget == nullptr );
 			SwitchFocus(false);
@@ -3904,7 +3904,7 @@ JXWindow::FindNextFocusWidget
 {
 	*focusWidget = nullptr;
 
-	const JSize count = itsFocusList->GetElementCount();
+	const JSize count = itsFocusList->GetItemCount();
 	if (count == 0)
 	{
 		return false;
@@ -3924,7 +3924,7 @@ JXWindow::FindNextFocusWidget
 
 	while (true)
 	{
-		JXWidget* widget = itsFocusList->GetElement(i);
+		JXWidget* widget = itsFocusList->GetItem(i);
 		if (widget->WillAcceptFocus())
 		{
 			*focusWidget = widget;
@@ -3963,7 +3963,7 @@ JXWindow::FindPrevFocusWidget
 {
 	*focusWidget = nullptr;
 
-	const JSize count = itsFocusList->GetElementCount();
+	const JSize count = itsFocusList->GetItemCount();
 	if (count == 0)
 	{
 		return false;
@@ -3983,7 +3983,7 @@ JXWindow::FindPrevFocusWidget
 
 	while (true)
 	{
-		JXWidget* widget = itsFocusList->GetElement(i);
+		JXWidget* widget = itsFocusList->GetItem(i);
 		if (widget->WillAcceptFocus())
 		{
 			*focusWidget = widget;
@@ -4089,14 +4089,14 @@ JXWindow::MenuItemInserted
 	const JIndex	newItem
 	)
 {
-	const JSize count = itsShortcuts->GetElementCount();
+	const JSize count = itsShortcuts->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		Shortcut s = itsShortcuts->GetElement(i);
+		Shortcut s = itsShortcuts->GetItem(i);
 		if (s.menu == menu && s.menuItem >= newItem)
 		{
 			(s.menuItem)++;
-			itsShortcuts->SetElement(i, s);
+			itsShortcuts->SetItem(i, s);
 		}
 	}
 }
@@ -4116,18 +4116,18 @@ JXWindow::MenuItemRemoved
 	const JIndex	oldItem
 	)
 {
-	const JSize count = itsShortcuts->GetElementCount();
+	const JSize count = itsShortcuts->GetItemCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		Shortcut s = itsShortcuts->GetElement(i);
+		Shortcut s = itsShortcuts->GetItem(i);
 		if (s.menu == menu && s.menuItem > oldItem)
 		{
 			(s.menuItem)--;
-			itsShortcuts->SetElement(i, s);
+			itsShortcuts->SetItem(i, s);
 		}
 		else if (s.menu == menu && s.menuItem == oldItem)
 		{
-			itsShortcuts->RemoveElement(i);
+			itsShortcuts->RemoveItem(i);
 		}
 	}
 }
@@ -4301,13 +4301,13 @@ JXWindow::ClearShortcuts
 	JXWidget* widget
 	)
 {
-	const JSize count = itsShortcuts->GetElementCount();
+	const JSize count = itsShortcuts->GetItemCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		const Shortcut s = itsShortcuts->GetElement(i);
+		const Shortcut s = itsShortcuts->GetItem(i);
 		if (s.widget == widget)
 		{
-			itsShortcuts->RemoveElement(i);
+			itsShortcuts->RemoveItem(i);
 		}
 	}
 }
@@ -4324,13 +4324,13 @@ JXWindow::ClearMenuShortcut
 	const JIndex	menuItem
 	)
 {
-	const JSize count = itsShortcuts->GetElementCount();
+	const JSize count = itsShortcuts->GetItemCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		const Shortcut s = itsShortcuts->GetElement(i);
+		const Shortcut s = itsShortcuts->GetItem(i);
 		if (s.menu == menu && s.menuItem == menuItem)
 		{
-			itsShortcuts->RemoveElement(i);
+			itsShortcuts->RemoveItem(i);
 		}
 	}
 }
@@ -4346,13 +4346,13 @@ JXWindow::ClearAllMenuShortcuts
 	JXTextMenu* menu
 	)
 {
-	const JSize count = itsShortcuts->GetElementCount();
+	const JSize count = itsShortcuts->GetItemCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		const Shortcut s = itsShortcuts->GetElement(i);
+		const Shortcut s = itsShortcuts->GetItem(i);
 		if (s.menu == menu)
 		{
-			itsShortcuts->RemoveElement(i);
+			itsShortcuts->RemoveItem(i);
 		}
 	}
 }
@@ -4423,7 +4423,7 @@ JXWindow::IsShortcut
 
 	if (found)
 	{
-		const Shortcut s = itsShortcuts->GetElement(i);
+		const Shortcut s = itsShortcuts->GetItem(i);
 		if (s.widget != nullptr && (s.widget)->WillAcceptShortcut())
 		{
 			s.widget->HandleShortcut(s.key, modifiers);
@@ -4889,10 +4889,10 @@ JXWindow::UpdateChildWindowList
 
 		JIndex index = 0;
 
-		const JSize count = itsChildWindowList->GetElementCount();
+		const JSize count = itsChildWindowList->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			const ChildWindowInfo info = itsChildWindowList->GetElement(i);
+			const ChildWindowInfo info = itsChildWindowList->GetItem(i);
 			if (info.xWindow == xWindow)
 			{
 				index = i;
@@ -4909,11 +4909,11 @@ JXWindow::UpdateChildWindowList
 			ChildWindowInfo info(xWindow, attr.map_state != IsUnmapped,
 								 JRect(attr.y, attr.x,
 									   attr.y+attr.height, attr.x+attr.width));
-			itsChildWindowList->AppendElement(info);
+			itsChildWindowList->AppendItem(info);
 		}
 		else if (!add && index > 0)
 		{
-			itsChildWindowList->RemoveElement(index);
+			itsChildWindowList->RemoveItem(index);
 		}
 
 		// toss list if it is empty
@@ -4940,16 +4940,16 @@ JXWindow::SetChildWindowGeometry
 {
 	if (itsChildWindowList != nullptr)
 	{
-		const JSize count = itsChildWindowList->GetElementCount();
+		const JSize count = itsChildWindowList->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			ChildWindowInfo info = itsChildWindowList->GetElement(i);
+			ChildWindowInfo info = itsChildWindowList->GetItem(i);
 			if (info.xWindow == xWindow)
 			{
 				if (info.geom != geom)
 				{
 					info.geom = geom;
-					itsChildWindowList->SetElement(i, info);
+					itsChildWindowList->SetItem(i, info);
 				}
 				break;
 			}
@@ -4992,16 +4992,16 @@ JXWindow::SetChildWindowVisible
 {
 	if (itsChildWindowList != nullptr)
 	{
-		const JSize count = itsChildWindowList->GetElementCount();
+		const JSize count = itsChildWindowList->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			ChildWindowInfo info = itsChildWindowList->GetElement(i);
+			ChildWindowInfo info = itsChildWindowList->GetItem(i);
 			if (info.xWindow == xWindow)
 			{
 				if (info.visible != visible)
 				{
 					info.visible = visible;
-					itsChildWindowList->SetElement(i, info);
+					itsChildWindowList->SetItem(i, info);
 				}
 				break;
 			}

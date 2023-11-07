@@ -76,7 +76,7 @@ JPrefsFile::GetData
 	)
 	const
 {
-	GetElement(id, data);
+	GetItem(id, data);
 }
 
 /******************************************************************************
@@ -92,7 +92,7 @@ JPrefsFile::RemoveData
 {
 	if (IDValid(id))
 		{
-		RemoveElement(id);
+		RemoveItem(id);
 		}
 }
 

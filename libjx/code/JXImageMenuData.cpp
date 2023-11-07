@@ -72,7 +72,7 @@ JXImageMenuData::InsertItem
 	assert( image != nullptr );
 
 	const IconData itemData(image, menuOwnsImage);
-	itsIconData->InsertElementAtIndex(index, itemData);
+	itsIconData->InsertItemAtIndex(index, itemData);
 
 	JXMenuData::InsertItem(index, type, JString::empty, id);
 
@@ -90,9 +90,9 @@ JXImageMenuData::DeleteItem
 	const JIndex index
 	)
 {
-	IconData itemData = itsIconData->GetElement(index);
+	IconData itemData = itsIconData->GetItem(index);
 	CleanOutIconItem(&itemData);
-	itsIconData->RemoveElement(index);
+	itsIconData->RemoveItem(index);
 
 	JXMenuData::DeleteItem(index);
 
@@ -151,7 +151,7 @@ JXImageMenuData::SetImage
 {
 	assert( image != nullptr );
 
-	IconData itemData = itsIconData->GetElement(index);
+	IconData itemData = itsIconData->GetItem(index);
 
 	if (itemData.image == nullptr ||
 		(itemData.image->GetBounds()) != image->GetBounds())
@@ -166,7 +166,7 @@ JXImageMenuData::SetImage
 
 	itemData.image     = image;
 	itemData.ownsImage = menuOwnsImage;
-	itsIconData->SetElement(index, itemData);
+	itsIconData->SetItem(index, itemData);
 
 	Broadcast(ImageChanged(index));
 }

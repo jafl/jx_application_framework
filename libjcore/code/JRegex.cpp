@@ -614,7 +614,7 @@ JRegex::Match
 
 			for (JIndex i=1; i<JSize(nmatch); i++)
 			{
-				list->AppendElement(jMakeRange(pmatch[i]));
+				list->AppendItem(jMakeRange(pmatch[i]));
 			}
 		}
 

@@ -38,35 +38,35 @@ J2DPlotDataBase::~J2DPlotDataBase()
 }
 
 /*********************************************************************************
- GetElement (virtual)
+ GetItem (virtual)
 
  ********************************************************************************/
 
 void
-J2DPlotDataBase::GetElement
+J2DPlotDataBase::GetItem
 	(
 	const JIndex	index,
 	J2DDataPoint*	data
 	)
 	const
 {
-	assert_msg( 0, "The programmer forgot to override J2DPlotDataBase::GetElement(J2DDataPoint)" );
+	assert_msg( 0, "The programmer forgot to override J2DPlotDataBase::GetItem(J2DDataPoint)" );
 }
 
 /*********************************************************************************
- GetElement (virtual)
+ GetItem (virtual)
 
  ********************************************************************************/
 
 void
-J2DPlotDataBase::GetElement
+J2DPlotDataBase::GetItem
 	(
 	const JIndex	index,
 	J2DVectorPoint*	data
 	)
 	const
 {
-	assert_msg( 0, "The programmer forgot to override J2DPlotDataBase::GetElement(J2DVectorPoint)" );
+	assert_msg( 0, "The programmer forgot to override J2DPlotDataBase::GetItem(J2DVectorPoint)" );
 }
 
 /*********************************************************************************

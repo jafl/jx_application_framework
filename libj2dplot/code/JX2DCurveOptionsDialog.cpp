@@ -42,13 +42,13 @@ JX2DCurveOptionsDialog::JX2DCurveOptionsDialog
 	itsCurveInfo = jnew JArray<J2DCurveInfo>;
 	assert(itsCurveInfo != nullptr);
 
-	const JSize count = array.GetElementCount();
+	const JSize count = array.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		J2DCurveInfo info = array.GetElement(i);
+		J2DCurveInfo info = array.GetItem(i);
 		info.name = jnew JString(*info.name);
 		assert(info.name != nullptr);
-		itsCurveInfo->AppendElement(info);
+		itsCurveInfo->AppendItem(info);
 	}
 
 	itsHasXErrors = jnew JArray<bool>(hasXErrors);
@@ -73,10 +73,10 @@ JX2DCurveOptionsDialog::JX2DCurveOptionsDialog
 
 JX2DCurveOptionsDialog::~JX2DCurveOptionsDialog()
 {
-	const JSize count = itsCurveInfo->GetElementCount();
+	const JSize count = itsCurveInfo->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		J2DCurveInfo info = itsCurveInfo->GetElement(i);
+		J2DCurveInfo info = itsCurveInfo->GetItem(i);
 		jdelete info.name;
 	}
 	jdelete itsCurveInfo;
@@ -226,12 +226,12 @@ JX2DCurveOptionsDialog::Receive
 void
 JX2DCurveOptionsDialog::SaveSettings()
 {
-	J2DCurveInfo info  = itsCurveInfo->GetElement(itsCurrentIndex);
+	J2DCurveInfo info  = itsCurveInfo->GetItem(itsCurrentIndex);
 	info.show          = itsShowCurveCB->IsChecked();
 	info.xerrors       = itsShowXErrorsCB->IsChecked();
 	info.yerrors       = itsShowYErrorsCB->IsChecked();
 	DecodeCurveStyle(&info);
-	itsCurveInfo->SetElement(itsCurrentIndex, info);
+	itsCurveInfo->SetItem(itsCurrentIndex, info);
 }
 
 /******************************************************************************
@@ -242,12 +242,12 @@ JX2DCurveOptionsDialog::SaveSettings()
 void
 JX2DCurveOptionsDialog::AdjustWidgets()
 {
-	const J2DCurveInfo info = itsCurveInfo->GetElement(itsCurrentIndex);
+	const J2DCurveInfo info = itsCurveInfo->GetItem(itsCurrentIndex);
 
 	itsShowCurveCB->SetState(info.show);
 
 	JIndex style;
-	if (!itsIsScatter->GetElement(itsCurrentIndex))
+	if (!itsIsScatter->GetItem(itsCurrentIndex))
 	{
 		style = EncodeCurveStyle(info);
 		itsShowPointsRB->Activate();
@@ -255,7 +255,7 @@ JX2DCurveOptionsDialog::AdjustWidgets()
 		itsShowSymbolsRB->Activate();
 		itsShowBothRB->Deactivate();
 	}
-	else if (itsIsFunction->GetElement(itsCurrentIndex))
+	else if (itsIsFunction->GetItem(itsCurrentIndex))
 	{
 		style = kShowLines;
 		itsShowPointsRB->Deactivate();
@@ -274,10 +274,10 @@ JX2DCurveOptionsDialog::AdjustWidgets()
 	itsCurveStyleRG->SelectItem(style);
 
 	itsShowXErrorsCB->SetState(info.xerrors);
-	itsShowXErrorsCB->SetVisible(itsHasXErrors->GetElement(itsCurrentIndex));
+	itsShowXErrorsCB->SetVisible(itsHasXErrors->GetItem(itsCurrentIndex));
 
 	itsShowYErrorsCB->SetState(info.yerrors);
-	itsShowYErrorsCB->SetVisible(itsHasYErrors->GetElement(itsCurrentIndex));
+	itsShowYErrorsCB->SetVisible(itsHasYErrors->GetItem(itsCurrentIndex));
 }
 
 /******************************************************************************

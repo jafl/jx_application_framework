@@ -39,9 +39,9 @@ public:
 	void	Append(T* dataPtr);
 	void	InsertBefore(const T* beforePtr, T* dataPtr);
 	void	InsertAfter(const T* afterPtr, T* dataPtr);
-	void	SetElement(const JIndex index, T* dataPtr,
-					   const JPtrArrayT::SetElementAction action);
-	void	SetToNull(const JIndex index, const JPtrArrayT::SetElementAction action);
+	void	SetItem(const JIndex index, T* dataPtr,
+					   const JPtrArrayT::SetAction action);
+	void	SetToNull(const JIndex index, const JPtrArrayT::SetAction action);
 
 	// these insert a *copy* of the object into the array
 	// (only available if template instantiated with #define JPtrArrayCopy)
@@ -55,17 +55,17 @@ public:
 	void	Append(const T& data);
 	void	InsertBefore(const T* beforePtr, const T& data);
 	void	InsertAfter(const T* afterPtr, const T& data);
-	void	SetElement(const JIndex index, const T& data,
-					   const JPtrArrayT::SetElementAction action);
+	void	SetItem(const JIndex index, const T& data,
+					   const JPtrArrayT::SetAction action);
 
 	bool	Remove(const T* dataPtr);
-	void	DeleteElement(const JIndex index);
+	void	DeleteItem(const JIndex index);
 	void	DeleteAll();
-	void	DeleteElementAsArray(const JIndex index);
+	void	DeleteItemAsArray(const JIndex index);
 	void	DeleteAllAsArrays();
 
 	bool	Includes(const T* dataPtr) const;
-	bool	Find(const T* dataPtr, JIndex* elementIndex) const;
+	bool	Find(const T* dataPtr, JIndex* itemIndex) const;
 
 	JPtrArrayT::CleanUpAction	GetCleanUpAction() const;
 	void						SetCleanUpAction(const JPtrArrayT::CleanUpAction action);
@@ -101,7 +101,7 @@ public:
 
 // JPtrArrayIterator.h can't include JPtrArray.h because that would create
 // a loop.  JPtrArrayIterator.h would have to include JPtrArray.h because
-// it needs SetElementAction.
+// it needs SetAction.
 
 template <class T>
 class JPtrArrayIterator : public JArrayIterator<T*>
@@ -117,9 +117,9 @@ public:
 
 	// only allowed if constructed from non-const JList<T>*
 
-	bool	SetPrev(T* dataPtr, const JPtrArrayT::SetElementAction action,
+	bool	SetPrev(T* dataPtr, const JPtrArrayT::SetAction action,
 					const JListT::Action move = JListT::kMove);
-	bool	SetNext(T* dataPtr, const JPtrArrayT::SetElementAction action,
+	bool	SetNext(T* dataPtr, const JPtrArrayT::SetAction action,
 					const JListT::Action move = JListT::kMove);
 
 	bool	DeletePrev();

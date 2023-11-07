@@ -29,8 +29,8 @@ public:
 
 	~J2DVectorData() override;
 
-	void	GetElement(const JIndex index, J2DDataPoint* data) const override;
-	void	GetElement(const JIndex index, J2DVectorPoint* data) const override;
+	void	GetItem(const JIndex index, J2DDataPoint* data) const override;
+	void	GetItem(const JIndex index, J2DVectorPoint* data) const override;
 
 	void	GetXRange(JFloat* min, JFloat* max) const override;
 	bool	GetYRange(const JFloat xMin, const JFloat xMax,
@@ -40,7 +40,7 @@ public:
 	void	AddElement(const JFloat x,  const JFloat y,
 					   const JFloat vx, const JFloat vy);
 	void	AddElement(const J2DVectorPoint& data);
-	void	RemoveElement(const JIndex index);
+	void	RemoveItem(const JIndex index);
 
 	bool	IsValid() const;
 

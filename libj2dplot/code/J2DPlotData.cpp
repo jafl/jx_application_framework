@@ -49,7 +49,7 @@ J2DPlotData::OKToCreate
 	const JArray<JFloat>& y
 	)
 {
-	return x.GetElementCount() == y.GetElementCount();
+	return x.GetItemCount() == y.GetItemCount();
 }
 
 /*********************************************************************************
@@ -68,8 +68,8 @@ J2DPlotData::J2DPlotData
 {
 	assert( OKToCreate(x,y) );
 
-	SetElementCount(x.GetElementCount());
-	assert(y.GetElementCount() == x.GetElementCount());
+	SetItemCount(x.GetItemCount());
+	assert(y.GetItemCount() == x.GetItemCount());
 
 	if (listen)
 	{
@@ -122,27 +122,27 @@ J2DPlotData::~J2DPlotData()
 }
 
 /*********************************************************************************
- GetElement
+ GetItem
 
  ********************************************************************************/
 
 void
-J2DPlotData::GetElement
+J2DPlotData::GetItem
 	(
 	const JIndex	index,
 	J2DDataPoint*	data
 	)
 	const
 {
-	data->x = itsXData->GetElement(index);
-	data->y = itsYData->GetElement(index);
+	data->x = itsXData->GetItem(index);
+	data->y = itsYData->GetItem(index);
 
 	if (itsXPErrorData != nullptr)
 	{
-		data->xerr = itsXPErrorData->GetElement(index);
+		data->xerr = itsXPErrorData->GetItem(index);
 		if (itsXMErrorData != nullptr)
 		{
-			data->xmerr = itsXMErrorData->GetElement(index);
+			data->xmerr = itsXMErrorData->GetItem(index);
 		}
 		else
 		{
@@ -157,10 +157,10 @@ J2DPlotData::GetElement
 
 	if (itsYPErrorData != nullptr)
 	{
-		data->yerr = itsYPErrorData->GetElement(index);
+		data->yerr = itsYPErrorData->GetItem(index);
 		if (itsYMErrorData != nullptr)
 		{
-			data->ymerr = itsYMErrorData->GetElement(index);
+			data->ymerr = itsYMErrorData->GetItem(index);
 		}
 		else
 		{
@@ -198,10 +198,10 @@ J2DPlotData::GetXRange
 		*max = 0;
 
 		J2DDataPoint pt;
-		const JSize count = GetElementCount();
+		const JSize count = GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			GetElement(i, &pt);
+			GetItem(i, &pt);
 			if (pt.x - pt.xmerr < *min || i == 1)
 			{
 				*min = pt.x - pt.xmerr;
@@ -244,10 +244,10 @@ J2DPlotData::GetYRange
 		*yMax = 0;
 
 		J2DDataPoint pt;
-		const JSize count = GetElementCount();
+		const JSize count = GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			GetElement(i, &pt);
+			GetItem(i, &pt);
 			if (pt.y - pt.ymerr < *yMin || i == 1)
 			{
 				*yMin = pt.y - pt.ymerr;
@@ -325,7 +325,7 @@ J2DPlotData::SetXErrors
 	const JArray<JFloat>& xErr
 	)
 {
-	if (xErr.GetElementCount() != GetElementCount())
+	if (xErr.GetItemCount() != GetItemCount())
 	{
 		return false;
 	}
@@ -370,8 +370,8 @@ J2DPlotData::SetXErrors
 	const JArray<JFloat>& xMErr
 	)
 {
-	if ((xPErr.GetElementCount() != GetElementCount()) ||
-		(xMErr.GetElementCount() != GetElementCount()))
+	if ((xPErr.GetItemCount() != GetItemCount()) ||
+		(xMErr.GetItemCount() != GetItemCount()))
 	{
 		return false;
 	}
@@ -417,7 +417,7 @@ J2DPlotData::SetYErrors
 	const JArray<JFloat>& yErr
 	)
 {
-	if (yErr.GetElementCount() != GetElementCount())
+	if (yErr.GetItemCount() != GetItemCount())
 	{
 		return false;
 	}
@@ -462,8 +462,8 @@ J2DPlotData::SetYErrors
 	const JArray<JFloat>& yMErr
 	)
 {
-	if ((yPErr.GetElementCount() != GetElementCount()) ||
-		(yMErr.GetElementCount() != GetElementCount()))
+	if ((yPErr.GetItemCount() != GetItemCount()) ||
+		(yMErr.GetItemCount() != GetItemCount()))
 	{
 		return false;
 	}
@@ -517,13 +517,13 @@ J2DPlotData::Receive
 		sender == itsYPErrorData ||
 		sender == itsYMErrorData)
 	{
-		if (message.Is(JListT::kElementsChanged) ||
-			message.Is(JListT::kElementMoved) )
+		if (message.Is(JListT::kItemsChanged) ||
+			message.Is(JListT::kItemMoved) )
 		{
 			BroadcastCurveChanged();
 		}
-		else if (message.Is(JListT::kElementsInserted) ||
-				 message.Is(JListT::kElementsRemoved) )
+		else if (message.Is(JListT::kItemsInserted) ||
+				 message.Is(JListT::kItemsRemoved) )
 		{
 			ValidateCurve();
 			BroadcastCurveChanged();
@@ -569,35 +569,35 @@ J2DPlotData::ValidateCurve()
 	if (itsXData == nullptr || itsYData == nullptr)
 	{
 		itsIsValidFlag = false;
-		SetElementCount(0);
+		SetItemCount(0);
 		return;
 	}
 
-	const JSize xCount = itsXData->GetElementCount();
-	const JSize yCount = itsYData->GetElementCount();
+	const JSize xCount = itsXData->GetItemCount();
+	const JSize yCount = itsYData->GetItemCount();
 	itsIsValidFlag = xCount == yCount;
 
 	if (itsXPErrorData != nullptr &&
-		itsXPErrorData->GetElementCount() != xCount)
+		itsXPErrorData->GetItemCount() != xCount)
 	{
 		itsIsValidFlag = false;
 	}
 	if (itsXMErrorData != nullptr &&
-		itsXMErrorData->GetElementCount() != xCount)
+		itsXMErrorData->GetItemCount() != xCount)
 	{
 		itsIsValidFlag = false;
 	}
 
 	if (itsYPErrorData != nullptr &&
-		itsYPErrorData->GetElementCount() != xCount)
+		itsYPErrorData->GetItemCount() != xCount)
 	{
 		itsIsValidFlag = false;
 	}
 	if (itsYMErrorData != nullptr &&
-		itsYMErrorData->GetElementCount() != xCount)
+		itsYMErrorData->GetItemCount() != xCount)
 	{
 		itsIsValidFlag = false;
 	}
 
-	SetElementCount(itsIsValidFlag ? xCount : 0);
+	SetItemCount(itsIsValidFlag ? xCount : 0);
 }

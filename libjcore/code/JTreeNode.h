@@ -217,7 +217,7 @@ inline JSize
 JTreeNode::GetChildCount()
 	const
 {
-	return (itsChildren != nullptr ? itsChildren->GetElementCount() : 0);
+	return (itsChildren != nullptr ? itsChildren->GetItemCount() : 0);
 }
 
 /******************************************************************************

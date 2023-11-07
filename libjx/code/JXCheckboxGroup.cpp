@@ -94,7 +94,7 @@ JXCheckboxGroup::Insert
 	JIndex i;
 	if (itsCBList->Find(cb, &i))
 	{
-		itsCBList->MoveElementToIndex(i, index);
+		itsCBList->MoveItemToIndex(i, index);
 	}
 	else
 	{
@@ -155,7 +155,7 @@ bool
 JXCheckboxGroup::AllDisabled()
 	const
 {
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
 		if (!CheckboxDisabled(i))
@@ -181,7 +181,7 @@ JXCheckboxGroup::CheckboxDisabled
 	)
 	const
 {
-	JXCheckbox* cb = itsCBList->GetElement(index);
+	JXCheckbox* cb = itsCBList->GetItem(index);
 	return !cb->WouldBeVisible() || !cb->WouldBeActive();
 }
 
@@ -225,12 +225,12 @@ JXCheckboxGroup::ReceiveGoingAway
 	JBroadcaster* sender
 	)
 {
-	const JSize cbCount = itsCBList->GetElementCount();
+	const JSize cbCount = itsCBList->GetItemCount();
 	for (JIndex i=1; i<=cbCount; i++)
 	{
-		if (itsCBList->GetElement(i) == sender)
+		if (itsCBList->GetItem(i) == sender)
 		{
-			itsCBList->RemoveElement(i);
+			itsCBList->RemoveItem(i);
 			break;
 		}
 	}
@@ -260,10 +260,10 @@ JXCheckboxGroup::FindCheckbox
 	)
 	const
 {
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		if (itsCBList->GetElement(i) == obj)
+		if (itsCBList->GetItem(i) == obj)
 		{
 			*index = i;
 			return true;

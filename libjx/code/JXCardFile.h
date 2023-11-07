@@ -135,7 +135,7 @@ inline JSize
 JXCardFile::GetCardCount()
 	const
 {
-	return itsCards->GetElementCount();
+	return itsCards->GetItemCount();
 }
 
 /******************************************************************************

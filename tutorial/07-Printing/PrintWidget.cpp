@@ -136,13 +136,13 @@ PrintWidget::DrawStuff
 
 	// Find out how many points there are
 	// There are count/2 lines
-	JSize count = itsPoints->GetElementCount();
+	JSize count = itsPoints->GetItemCount();
 
 	// Loop through the points by twos
 	for (JSize i = 1; i <= count; i += 2)
 	{
 		// Draw the line
-		p.Line(itsPoints->GetElement(i), itsPoints->GetElement(i+1));
+		p.Line(itsPoints->GetItem(i), itsPoints->GetItem(i+1));
 	}
 }
 
@@ -287,8 +287,8 @@ PrintWidget::HandleMouseUp
 		DeleteDragPainter();
 
 		// Add this set of points to our JArray
-		itsPoints->AppendElement(itsStartPt);
-		itsPoints->AppendElement(itsPrevPt);
+		itsPoints->AppendItem(itsStartPt);
+		itsPoints->AppendItem(itsPrevPt);
 
 		// Tell the widget to redraw itself
 		Refresh();

@@ -57,10 +57,10 @@ JXMDIServer::PreprocessArgList
 {
 	JXApplication::StripBaseOptions(argList);
 
-	const JSize count = argList->GetElementCount();
+	const JSize count = argList->GetItemCount();
 	for (JIndex i=2; i<=count; i++)
 	{
-		if (*argList->GetElement(i) == JMDIServer::kQuitOptionName)
+		if (*argList->GetItem(i) == JMDIServer::kQuitOptionName)
 		{
 			JXGetApplication()->Quit();
 			argList->CleanOut();	// don't invoke HandleMDIRequest()

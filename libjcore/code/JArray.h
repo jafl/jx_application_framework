@@ -31,30 +31,30 @@ public:
 	const T*	GetCArray() const;
 	T*			AllocateCArray() const;		// client must call delete [] when finished with it
 
-	T		GetElement(const JIndex index) const;
-	void	SetElement(const JIndex index, const T& data);
+	T		GetItem(const JIndex index) const;
+	void	SetItem(const JIndex index, const T& data);
 
-	T		GetElementFromEnd(const JIndex index) const;
-	void	SetElementFromEnd(const JIndex index, const T& data);
+	T		GetItemFromEnd(const JIndex index) const;
+	void	SetItemFromEnd(const JIndex index, const T& data);
 
-	T		GetFirstElement() const override;
-	T		GetLastElement() const override;
+	T		GetFirstItem() const override;
+	T		GetLastItem() const override;
 
-	void	InsertElementAtIndex(const JIndex index, const T& data);
-	void	PrependElement(const T& data) override;
-	void	AppendElement(const T& data) override;
+	void	InsertItemAtIndex(const JIndex index, const T& data);
+	void	PrependItem(const T& data) override;
+	void	AppendItem(const T& data) override;
 
-	void	RemoveElement(const JIndex index);
-	void	RemoveNextElements(const JIndex firstIndex, const JSize count);
-	void	RemovePrevElements(const JIndex lastIndex, const JSize count);
-	void	RemoveElements(const JIndexRange& range);
-	void	RemoveElements(const JListT::ElementsRemoved& info);
+	void	RemoveItem(const JIndex index);
+	void	RemoveNextItems(const JIndex firstIndex, const JSize count);
+	void	RemovePrevItems(const JIndex lastIndex, const JSize count);
+	void	RemoveItems(const JIndexRange& range);
+	void	RemoveItems(const JListT::ItemsRemoved& info);
 	void	RemoveAll() override;
 
-	void	MoveElementToIndex(const JIndex currentIndex, const JIndex newIndex);
-	void	MoveElementToIndex(const JListT::ElementMoved& info);
-	void	SwapElements(const JIndex index1, const JIndex index2);
-	void	SwapElements(const JListT::ElementsSwapped& info);
+	void	MoveItemToIndex(const JIndex currentIndex, const JIndex newIndex);
+	void	MoveItemToIndex(const JListT::ItemMoved& info);
+	void	SwapItems(const JIndex index1, const JIndex index2);
+	void	SwapItems(const JListT::ItemsSwapped& info);
 
 	JListIterator<T>*
 		NewIterator(const JListT::Position start = JListT::kStartAtBeginning,
@@ -87,27 +87,27 @@ public:
 
 	// std::ranges support
 
-	const T* begin() const { return itsElements; };
-	const T* end() const   { return (itsElements + this->GetElementCount()); };
+	const T* begin() const { return itsItems; };
+	const T* end() const   { return (itsItems + this->GetItemCount()); };
 
 protected:
 
-	const T&	ProtectedGetElement(const JIndex index) const;
+	const T&	ProtectedGetItem(const JIndex index) const;
 
 private:
 
-	T*		itsElements;		// Items in the array
-	JSize	itsSlotCount;		// Total number of slots allocated
-	JSize	itsBlockSize;		// Number of slots to allocate for more space
+	T*		itsItems;		// Items in the array
+	JSize	itsSlotCount;	// Total number of slots allocated
+	JSize	itsBlockSize;	// Number of slots to allocate for more space
 
 private:
 
 	void	CopyArray(const JArray<T>& source);
 
-	JIndex	CreateElement(const JIndex index);
-	void	StoreElement(const JIndex index, const T& dataPtr);
+	JIndex	CreateItem(const JIndex index);
+	void	StoreItem(const JIndex index, const T& dataPtr);
 
-	T*		GetElementPtr(const JIndex index);
+	T*		GetItemPtr(const JIndex index);
 
 	void	AddSlots();
 	void	RemoveSlots();

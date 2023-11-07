@@ -60,7 +60,7 @@ main
 	GetOptions(argc, argv, &inputFileList,
 			   &dataVarName, &outputFileName, &databaseFileName, &debug);
 
-	const JSize inputCount = inputFileList.GetElementCount();
+	const JSize inputCount = inputFileList.GetItemCount();
 
 	// check mod times of input files
 /*
@@ -76,7 +76,7 @@ main
 
 		for (JIndex i=1; i<=inputCount; i++)
 		{
-			const JString* inputFileName = inputFileList.GetElement(i);
+			const JString* inputFileName = inputFileList.GetItem(i);
 			time_t t;
 			if (!(JGetModificationTime(*inputFileName, &t)).OK())
 			{
@@ -102,7 +102,7 @@ main
 
 	for (JIndex i=1; i<=inputCount; i++)
 	{
-		const JString* inputFileName = inputFileList.GetElement(i);
+		const JString* inputFileName = inputFileList.GetItem(i);
 		if (JDirectoryExists(*inputFileName))
 		{
 			continue;

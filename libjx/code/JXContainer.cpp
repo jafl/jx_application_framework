@@ -274,10 +274,10 @@ JXContainer::DrawAll
 		// draw visible objects in reverse order so all the
 		// other routines can check them in the normal order
 
-		const JSize objCount = itsEnclosedObjs->GetElementCount();
+		const JSize objCount = itsEnclosedObjs->GetItemCount();
 		for (JIndex i=objCount; i>=1; i--)
 		{
-			JXContainer* obj = itsEnclosedObjs->GetElement(i);
+			JXContainer* obj = itsEnclosedObjs->GetItem(i);
 			if (theDebugFTCFlag &&
 				dynamic_cast<JXFTCCell*>(obj) != nullptr)
 			{
@@ -287,7 +287,7 @@ JXContainer::DrawAll
 					assert( ftcRootCellList != nullptr );
 				}
 
-				ftcRootCellList->AppendElement(dynamic_cast<JXFTCCell*>(obj));
+				ftcRootCellList->AppendItem(dynamic_cast<JXFTCCell*>(obj));
 				continue;	// let JXWindow draw the background around real widgets
 			}
 
@@ -2142,7 +2142,7 @@ JXContainer::FTCBuildLayout
 			objList.Sort();
 		}
 
-		const JSize objCount = objList.GetElementCount();
+		const JSize objCount = objList.GetItemCount();
 		fullObjList.CopyPointers(objList, JPtrArrayT::kForgetAll, false);
 
 		if (theDebugFTCFlag)
@@ -2170,7 +2170,7 @@ JXContainer::FTCBuildLayout
 			iter.RemovePrev();	// do not process it
 
 			JXContainer* cell = FTCGroupAlignedObjects(obj, &objList, &fullObjList, horizontal, exact, first);
-			cellList.AppendElement(cell);
+			cellList.AppendItem(cell);
 
 			if (theDebugFTCFlag)
 			{
@@ -2192,7 +2192,7 @@ JXContainer::FTCBuildLayout
 		horizontal = ! horizontal;
 		first      = false;
 
-		const bool noChange = objCount == objList.GetElementCount();
+		const bool noChange = objCount == objList.GetItemCount();
 		if (noChange)
 		{
 			noChangeCount++;
@@ -2212,16 +2212,16 @@ JXContainer::FTCBuildLayout
 			noChangeCount = 0;
 		}
 	}
-		while (objList.GetElementCount() > 1 || count >= 100);	// checking count is paranoia
+		while (objList.GetItemCount() > 1 || count >= 100);	// checking count is paranoia
 
-	if (objList.GetElementCount() == 1)
+	if (objList.GetItemCount() == 1)
 	{
-		*root = dynamic_cast<JXFTCCell*>(objList.GetFirstElement());
+		*root = dynamic_cast<JXFTCCell*>(objList.GetFirstItem());
 		return true;
 	}
 	else
 	{
-		GetFTCLog() << "FTCBuildLayout failed with " << objList.GetElementCount() << " roots" << std::endl;
+		GetFTCLog() << "FTCBuildLayout failed with " << objList.GetItemCount() << " roots" << std::endl;
 		if (theDebugFTCFlag)
 		{
 			JPtrArrayIterator iter(objList);
@@ -2314,7 +2314,7 @@ JXContainer::FTCGroupAlignedObjects
 	{
 		cell = jnew JXFTCCell(target, container, JXFTCCell::kNoDirection, exact);
 	}
-	cellList.AppendElement(cell);
+	cellList.AppendItem(cell);
 
 	JRect covering = cell->GetFrameForFTC();
 
@@ -2347,8 +2347,8 @@ JXContainer::FTCGroupAlignedObjects
 		{
 			cell = jnew JXFTCCell(obj, container, JXFTCCell::kNoDirection, exact);
 		}
-		cellList.AppendElement(cell);
-		matchedList.AppendElement(obj);
+		cellList.AppendItem(cell);
+		matchedList.AppendItem(obj);
 
 		if (theDebugFTCFlag)
 		{
@@ -2365,12 +2365,12 @@ JXContainer::FTCGroupAlignedObjects
 
 	// short-circuit if no additional cells found
 
-	if (cellList.GetElementCount() == 1)
+	if (cellList.GetItemCount() == 1)
 	{
 		auto* targetCell = dynamic_cast<JXFTCCell*>(target);
 		if (targetCell == nullptr)
 		{
-			targetCell = cellList.GetFirstElement();
+			targetCell = cellList.GetFirstItem();
 		}
 		ftcReparentCell(targetCell, container->GetEnclosure());		// before deleting container
 		jdelete container;
@@ -2670,13 +2670,13 @@ JXContainer::ComputePaddingForInternalFTC()
 		return JRect();
 	}
 
-	JXContainer* obj = itsEnclosedObjs->GetFirstElement();
+	JXContainer* obj = itsEnclosedObjs->GetFirstItem();
 	JRect covering   = obj->GetFrameForFTC();
 
-	const JSize count = itsEnclosedObjs->GetElementCount();
+	const JSize count = itsEnclosedObjs->GetItemCount();
 	for (JIndex i=2; i<=count; i++)
 	{
-		covering = JCovering(covering, itsEnclosedObjs->GetElement(i)->GetFrameForFTC());
+		covering = JCovering(covering, itsEnclosedObjs->GetItem(i)->GetFrameForFTC());
 	}
 
 	const JRect r = GetApertureGlobal();

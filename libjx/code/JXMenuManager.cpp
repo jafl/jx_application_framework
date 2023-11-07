@@ -51,7 +51,7 @@ JXMenuManager::CloseCurrentMenus()
 {
 	if (!itsOpenMenuList->IsEmpty())
 	{
-		itsOpenMenuList->GetFirstElement()->Close();
+		itsOpenMenuList->GetFirstItem()->Close();
 		assert( itsOpenMenuList->IsEmpty() && itsOpenWindowList->IsEmpty() );
 	}
 }
@@ -89,7 +89,7 @@ JXMenuManager::MenuClosed
 	JIndex index;
 	if (itsOpenMenuList->Find(menu, &index))
 	{
-		itsOpenMenuList->RemoveElement(index);
-		itsOpenWindowList->RemoveElement(index);
+		itsOpenMenuList->RemoveItem(index);
+		itsOpenWindowList->RemoveItem(index);
 	}
 }

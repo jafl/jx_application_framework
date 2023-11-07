@@ -125,7 +125,7 @@ TestImageWidget::HandleDNDDrop
 	if (!fileNameList.IsEmpty())
 	{
 		JXImage* image;
-		const JString& file = *fileNameList.GetFirstElement();
+		const JString& file = *fileNameList.GetFirstItem();
 		const JError err    = JXImage::CreateFromFile(GetDisplay(), file, &image);
 		if (err.OK())
 		{

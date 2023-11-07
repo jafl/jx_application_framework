@@ -142,7 +142,7 @@ JSTStyler::UpdateStyles
 
 		tokenStartList->RemoveAll();
 		tokenData = TokenData(TextIndex(1,1), GetFirstTokenExtraData());
-		tokenStartList->AppendElement(tokenData);
+		tokenStartList->AppendItem(tokenData);
 
 		styles->RemoveAll();
 	}
@@ -193,14 +193,14 @@ JSTStyler::UpdateStyles
 		PreexpandCheckRange(text, *styles, recalcRange->charRange, deletion, &itsCheckRange);
 		assert( itsCheckRange.byteRange.Contains(savedRange.byteRange) &&
 				itsCheckRange.charRange.Contains(savedRange.charRange) &&
-				itsCheckRange.charRange.last <= styles->GetElementCount() );
+				itsCheckRange.charRange.last <= styles->GetItemCount() );
 
 		// find nearest token in front of itsCheckRange
 
 		if (tokenStartList->IsEmpty())
 		{
 			tokenData = TokenData(TextIndex(1,1), GetFirstTokenExtraData());
-			tokenStartList->AppendElement(tokenData);
+			tokenStartList->AppendItem(tokenData);
 		}
 		else
 		{
@@ -212,14 +212,14 @@ JSTStyler::UpdateStyles
 			{
 				tokenStartIndex--;	// wants to insert -after- the value
 			}
-			tokenData = tokenStartList->GetElement(tokenStartIndex);
+			tokenData = tokenStartList->GetItem(tokenStartIndex);
 
 			// the rest of the token starts are invalid
 
-			const JSize tokenStartCount = tokenStartList->GetElementCount();
+			const JSize tokenStartCount = tokenStartList->GetItemCount();
 			if (tokenStartIndex < tokenStartCount)
 			{
-				tokenStartList->RemoveNextElements(tokenStartIndex+1, tokenStartCount - tokenStartIndex);
+				tokenStartList->RemoveNextItems(tokenStartIndex+1, tokenStartCount - tokenStartIndex);
 			}
 		}
 	}
@@ -338,13 +338,13 @@ JSTStyler::SetStyle
 	}
 
 	assert( itsIterator->AtEnd() ||
-			(range.first == itsIterator->GetNextElementIndex()) );
+			(range.first == itsIterator->GetNextItemIndex()) );
 
 	if (itsRedoAllFlag)
 	{
 		JFont f = *itsDefFont;
 		f.SetStyle(style);
-		itsStyles->AppendElements(f, range.GetCount());
+		itsStyles->AppendItems(f, range.GetCount());
 	}
 	else if (range.last >= itsCheckRange.charRange.first)
 	{
@@ -439,7 +439,7 @@ JSTStyler::SaveTokenStart
 	if (itsTokenStartCounter >= itsDecimationFactor)
 	{
 		itsTokenStartCounter = 0;
-		itsTokenStartList->AppendElement(TokenData(index, data));
+		itsTokenStartList->AppendItem(TokenData(index, data));
 	}
 }
 
@@ -487,7 +487,7 @@ JSTStyler::AdjustStyle
 	const JFontStyle&		style
 	)
 {
-	assert( range.last <= itsIterator->GetPrevElementIndex() );
+	assert( range.last <= itsIterator->GetPrevItemIndex() );
 	assert( itsRecalcRange != nullptr );
 
 	ExpandTextRange(itsRecalcRange, range);

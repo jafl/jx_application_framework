@@ -69,11 +69,11 @@ JNaryFunction::JNaryFunction
 	itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
 	assert( itsArgList != nullptr );
 
-	const JSize argCount = (source.itsArgList)->GetElementCount();
+	const JSize argCount = (source.itsArgList)->GetItemCount();
 
 	for (JIndex i=1; i<=argCount; i++)
 	{
-		JFunction* sourceArg = (source.itsArgList)->GetElement(i);
+		JFunction* sourceArg = (source.itsArgList)->GetItem(i);
 		JFunction* arg       = sourceArg->Copy();
 		itsArgList->Append(arg);
 		arg->SetParent(this);
@@ -91,7 +91,7 @@ JSize
 JNaryFunction::GetArgCount()
 	const
 {
-	return itsArgList->GetElementCount();
+	return itsArgList->GetItemCount();
 }
 
 /******************************************************************************
@@ -108,7 +108,7 @@ JNaryFunction::GetArg
 	)
 	const
 {
-	return itsArgList->GetElement(index);
+	return itsArgList->GetItem(index);
 }
 
 JFunction*
@@ -117,7 +117,7 @@ JNaryFunction::GetArg
 	const JIndex index
 	)
 {
-	return itsArgList->GetElement(index);
+	return itsArgList->GetItem(index);
 }
 
 /******************************************************************************
@@ -135,11 +135,11 @@ JNaryFunction::SetArg
 	assert( arg != nullptr );
 	if (itsArgList->IndexValid(index))
 	{
-		itsArgList->SetElement(index, arg, JPtrArrayT::kDelete);
+		itsArgList->SetItem(index, arg, JPtrArrayT::kDelete);
 	}
 	else
 	{
-		assert( index == itsArgList->GetElementCount()+1 );
+		assert( index == itsArgList->GetItemCount()+1 );
 		itsArgList->Append(arg);
 	}
 
@@ -208,8 +208,8 @@ JNaryFunction::DeleteArg
 	const JIndex index
 	)
 {
-	assert( itsArgList->GetElementCount() > 1 );
-	itsArgList->DeleteElement(index);
+	assert( itsArgList->GetItemCount() > 1 );
+	itsArgList->DeleteItem(index);
 }
 
 bool
@@ -218,13 +218,13 @@ JNaryFunction::DeleteArg
 	const JFunction* arg
 	)
 {
-	assert( itsArgList->GetElementCount() > 1 );
+	assert( itsArgList->GetItemCount() > 1 );
 
 	JIndex argIndex;
 	const bool found = itsArgList->Find(arg, &argIndex);
 	if (found)
 	{
-		itsArgList->DeleteElement(argIndex);
+		itsArgList->DeleteItem(argIndex);
 	}
 	return found;
 }

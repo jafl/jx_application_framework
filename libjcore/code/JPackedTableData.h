@@ -27,10 +27,10 @@ public:
 
 	const JRunArray< T >&	GetData() const;
 
-	T		GetElement(const JIndex row, const JIndex col) const;
-	T		GetElement(const JPoint& cell) const;
-	void	SetElement(const JIndex row, const JIndex col, const T& data);
-	void	SetElement(const JPoint& cell, const T& data);
+	T		GetItem(const JIndex row, const JIndex col) const;
+	T		GetItem(const JPoint& cell) const;
+	void	SetItem(const JIndex row, const JIndex col, const T& data);
+	void	SetItem(const JPoint& cell, const T& data);
 
 	void	GetRow(const JIndex index, JList<T>* rowData) const;
 	void	SetRow(const JIndex index, const JList<T>& rowData);
@@ -78,7 +78,7 @@ public:
 
 	void		SetAllElements(const T& data);
 	void		ClearAllElements();
-	bool	AllElementsEqual(T* data = nullptr) const;
+	bool	AllItemsEqual(T* data = nullptr) const;
 	JSize		CountElementsWithValue(const T& data) const;
 
 	const T		GetDefaultValue() const;

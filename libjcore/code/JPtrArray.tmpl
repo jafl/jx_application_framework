@@ -13,7 +13,7 @@
 
 	Implementation notes:
 
-	Retrieving an element from the actual array gives a *pointer*.
+	Retrieving an item from the actual array gives a *pointer*.
 
 	We do not override ToString():  Since this function is virtual, it is
 	always instantiated.  Thus, we cannot print the objects, because they
@@ -254,7 +254,7 @@ JPtrArray<T>::InsertAtIndex
 	T*				dataPtr
 	)
 {
-	JPtrArray<T>::InsertElementAtIndex(index, dataPtr);
+	JPtrArray<T>::InsertItemAtIndex(index, dataPtr);
 }
 
 template <class T>
@@ -307,7 +307,7 @@ JPtrArray<T>::Append
 	T* dataPtr
 	)
 {
-	InsertAtIndex(JCollection::GetElementCount() + 1, dataPtr);
+	InsertAtIndex(JCollection::GetItemCount() + 1, dataPtr);
 }
 
 template <class T>
@@ -402,54 +402,54 @@ JPtrArray<T>::InsertAfter
 }
 
 /******************************************************************************
- SetElement
+ SetItem
 
-	This function avoids the static_cast required for SetElement().
+	This function avoids the static_cast required for SetItem().
 
  ******************************************************************************/
 
 template <class T>
 void
-JPtrArray<T>::SetElement
+JPtrArray<T>::SetItem
 	(
 	const JIndex						index,
 	T*									dataPtr,
-	const JPtrArrayT::SetElementAction	action
+	const JPtrArrayT::SetAction	action
 	)
 {
 	if (action == JPtrArrayT::kDelete)
 	{
-		jdelete JArray<T*>::GetElement(index);
+		jdelete JArray<T*>::GetItem(index);
 	}
 	else if (action == JPtrArrayT::kDeleteAsArray)
 	{
-		jdelete [] JArray<T*>::GetElement(index);
+		jdelete [] JArray<T*>::GetItem(index);
 	}
 	else
 	{
 		assert( action == JPtrArrayT::kForget );
 	}
 
-	JArray<T*>::SetElement(index, dataPtr);
+	JArray<T*>::SetItem(index, dataPtr);
 }
 
 template <class T>
 void
-JPtrArray<T>::SetElement
+JPtrArray<T>::SetItem
 	(
 	const JIndex						index,
 	const T&							data,
-	const JPtrArrayT::SetElementAction	action
+	const JPtrArrayT::SetAction	action
 	)
 {
 	T* ptr = jnew T(data);
-	SetElement(index, ptr, action);
+	SetItem(index, ptr, action);
 }
 
 /******************************************************************************
  SetToNull
 
-	This function avoids the static_cast required for SetElement().
+	This function avoids the static_cast required for SetItem().
 
  ******************************************************************************/
 
@@ -458,10 +458,10 @@ void
 JPtrArray<T>::SetToNull
 	(
 	const JIndex						index,
-	const JPtrArrayT::SetElementAction	action
+	const JPtrArrayT::SetAction	action
 	)
 {
-	SetElement(index, static_cast<T*>(nullptr), action);
+	SetItem(index, static_cast<T*>(nullptr), action);
 }
 
 /******************************************************************************
@@ -481,25 +481,25 @@ JPtrArray<T>::Remove
 
 	if (found)
 	{
-		JArray<T*>::RemoveElement(index);
+		JArray<T*>::RemoveItem(index);
 	}
 	return found;
 }
 
 /******************************************************************************
- DeleteElement
+ DeleteItem
 
  ******************************************************************************/
 
 template <class T>
 void
-JPtrArray<T>::DeleteElement
+JPtrArray<T>::DeleteItem
 	(
 	const JIndex index
 	)
 {
-	jdelete JArray<T*>::GetElement(index);
-	JArray<T*>::RemoveElement(index);
+	jdelete JArray<T*>::GetItem(index);
+	JArray<T*>::RemoveItem(index);
 }
 
 /******************************************************************************
@@ -519,19 +519,19 @@ JPtrArray<T>::DeleteAll()
 }
 
 /******************************************************************************
- DeleteElementAsArray
+ DeleteItemAsArray
 
  ******************************************************************************/
 
 template <class T>
 void
-JPtrArray<T>::DeleteElementAsArray
+JPtrArray<T>::DeleteItemAsArray
 	(
 	const JIndex index
 	)
 {
-	jdelete [] JArray<T*>::GetElement(index);
-	JArray<T*>::RemoveElement(index);
+	jdelete [] JArray<T*>::GetItem(index);
+	JArray<T*>::RemoveItem(index);
 }
 
 /******************************************************************************
@@ -553,7 +553,7 @@ JPtrArray<T>::DeleteAllAsArrays()
 /******************************************************************************
  Includes
 
-	Returns TRUE if the JPtrArray contains the specified element.
+	Returns TRUE if the JPtrArray contains the specified item.
 
  ******************************************************************************/
 
@@ -572,7 +572,7 @@ JPtrArray<T>::Includes
 /******************************************************************************
  Find
 
-	JIndex is 1 based.  Returns FALSE if element is not in array.
+	JIndex is 1 based.  Returns FALSE if item is not in array.
 
  ******************************************************************************/
 
@@ -581,22 +581,22 @@ bool
 JPtrArray<T>::Find
 	(
 	const T*	dataPtr,
-	JIndex*		elementIndex
+	JIndex*		itemIndex
 	)
 	const
 {
 	// set to invalid index so they won't be able to ignore the error for long
 
-	*elementIndex = 0;
+	*itemIndex = 0;
 
 	// search for the first match
 
-	const JSize elementCount = this->JCollection::GetElementCount();
-	for (JIndex i=1; i<=elementCount; i++)
+	const JSize itemCount = this->JCollection::GetItemCount();
+	for (JIndex i=1; i<=itemCount; i++)
 	{
-		if (dataPtr == JArray<T*>::ProtectedGetElement(i))
+		if (dataPtr == JArray<T*>::ProtectedGetItem(i))
 		{
-			*elementIndex = i;
+			*itemIndex = i;
 			return true;
 		}
 	}
@@ -655,7 +655,7 @@ end
 	JPtrArray<T>& a
 	)
 {
-	return const_cast<T**>(a.GetCArray() + a.GetElementCount());
+	return const_cast<T**>(a.GetCArray() + a.GetItemCount());
 }
 
 #endif

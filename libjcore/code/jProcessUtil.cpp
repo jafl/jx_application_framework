@@ -347,14 +347,14 @@ JExecute
 	int*						errFD
 	)
 {
-	const JSize argc = argList.GetElementCount();
+	const JSize argc = argList.GetItemCount();
 
 	const auto** argv = jnew const JUtf8Byte* [ argc+1 ];
 	assert( argv != nullptr );
 
 	for (JIndex i=1; i<=argc; i++)
 	{
-		argv[i-1] = argList.GetElement(i)->GetBytes();
+		argv[i-1] = argList.GetItem(i)->GetBytes();
 	}
 	argv[argc] = nullptr;
 

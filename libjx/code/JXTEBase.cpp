@@ -644,8 +644,8 @@ JXTEBase::GetDNDAskActions
 	assert( GetType() == kFullEditor );
 
 	JXDNDManager* dndMgr = GetDNDManager();
-	askActionList->AppendElement(dndMgr->GetDNDActionCopyXAtom());
-	askActionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
+	askActionList->AppendItem(dndMgr->GetDNDActionCopyXAtom());
+	askActionList->AppendItem(dndMgr->GetDNDActionMoveXAtom());
 
 	auto* s = jnew JString("CopyDescription::JXTEBase", JString::kNoCopy);
 	askDescriptionList->Append(s);
@@ -2368,7 +2368,7 @@ JXTEBase::UpdateEditMenu()
 				enable = itsCanToggleReadOnlyFlag;
 			}
 
-			itsEditMenu->SetItemEnabled(i, enable && enableFlags.GetElement(cmd));
+			itsEditMenu->SetItemEnabled(i, enable && enableFlags.GetItem(cmd));
 		}
 	}
 }
@@ -2530,8 +2530,8 @@ JXTEBase::UpdateSearchMenu()
 
 	if (!GetText()->IsEmpty())
 	{
-		enableFlags.SetElement(kFindSelectionBackwardCmd, true);
-		enableFlags.SetElement(kFindSelectionForwardCmd,  true);
+		enableFlags.SetItem(kFindSelectionBackwardCmd, true);
+		enableFlags.SetItem(kFindSelectionForwardCmd,  true);
 	}
 
 	const JSize count = itsSearchMenu->GetItemCount();
@@ -2540,7 +2540,7 @@ JXTEBase::UpdateSearchMenu()
 		CmdIndex cmd;
 		if (SearchMenuIndexToCmd(i, &cmd))
 		{
-			itsSearchMenu->SetItemEnabled(i, enableFlags.GetElement(cmd));
+			itsSearchMenu->SetItemEnabled(i, enableFlags.GetItem(cmd));
 		}
 	}
 }
@@ -2601,8 +2601,8 @@ JXTEBase::UpdateReplaceMenu()
 
 	if (!GetText()->IsEmpty())
 	{
-		enableFlags.SetElement(kFindSelectionBackwardCmd, true);
-		enableFlags.SetElement(kFindSelectionForwardCmd,  true);
+		enableFlags.SetItem(kFindSelectionBackwardCmd, true);
+		enableFlags.SetItem(kFindSelectionForwardCmd,  true);
 	}
 
 	const JSize count = itsReplaceMenu->GetItemCount();
@@ -2611,7 +2611,7 @@ JXTEBase::UpdateReplaceMenu()
 		CmdIndex cmd;
 		if (SearchReplaceMenuIndexToCmd(i, &cmd))
 		{
-			itsReplaceMenu->SetItemEnabled(i, enableFlags.GetElement(cmd));
+			itsReplaceMenu->SetItemEnabled(i, enableFlags.GetItem(cmd));
 		}
 	}
 }

@@ -340,11 +340,11 @@ JXFSInputBase::GetDroppedEntry
 			JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
 							   urlList(JPtrArrayT::kDeleteAll);
 			JXUnpackFileNames((char*) data, dataLength, &fileNameList, &urlList);
-			if (fileNameList.GetElementCount() == 1 &&
-				(JDirectoryExists(*(fileNameList.GetFirstElement())) ||
-				 JFileExists(*(fileNameList.GetFirstElement()))))
+			if (fileNameList.GetItemCount() == 1 &&
+				(JDirectoryExists(*(fileNameList.GetFirstItem())) ||
+				 JFileExists(*(fileNameList.GetFirstItem()))))
 			{
-				*name = JConvertToHomeDirShortcut(*(fileNameList.GetFirstElement()));
+				*name = JConvertToHomeDirShortcut(*(fileNameList.GetFirstItem()));
 			}
 			JXReportUnreachableHosts(urlList);
 		}
@@ -673,23 +673,23 @@ JXFSInputBase::StyledText::AdjustStylesBeforeBroadcast
 		errLength++;	// trailing . is trimmed
 	}
 
-	JFont f = styles->GetFirstElement();
+	JFont f = styles->GetFirstItem();
 
 	styles->RemoveAll();
 	if (errLength >= totalLength)
 	{
 		f.SetColor(JColorManager::GetRedColor());
-		styles->AppendElements(f, totalLength);
+		styles->AppendItems(f, totalLength);
 	}
 	else
 	{
 		f.SetColor(JColorManager::GetBlackColor());
-		styles->AppendElements(f, totalLength - errLength);
+		styles->AppendItems(f, totalLength - errLength);
 
 		if (errLength > 0)
 		{
 			f.SetColor(JColorManager::GetRedColor());
-			styles->AppendElements(f, errLength);
+			styles->AppendItems(f, errLength);
 		}
 	}
 

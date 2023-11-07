@@ -25,9 +25,9 @@ public:
 
 	~J2DPlotData() override;
 
-	using J2DPlotDataBase::GetElement;
+	using J2DPlotDataBase::GetItem;
 
-	void GetElement(const JIndex index, J2DDataPoint* data) const override;
+	void GetItem(const JIndex index, J2DDataPoint* data) const override;
 
 	bool SetXErrors(const JArray<JFloat>& xErr);
 	bool SetXErrors(const JArray<JFloat>& xPErr, const JArray<JFloat>& xMErr);

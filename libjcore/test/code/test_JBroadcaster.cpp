@@ -48,15 +48,15 @@ JTEST(Broadcaster)
 	JBroadcastTester t2(&t3);
 
 	t1.Expect(JListT::kSorted);
-	t1.Expect(JListT::kElementMoved);
+	t1.Expect(JListT::kItemMoved);
 
 	t2.Expect(JListT::kSorted);
-	t2.Expect(JListT::kElementMoved);
+	t2.Expect(JListT::kItemMoved);
 
 	JListT::Sorted msg1;
 	t3.Bcast(msg1);
 
-	JListT::ElementMoved msg2(3, 5);
+	JListT::ItemMoved msg2(3, 5);
 	t3.Bcast(msg2);
 }
 
@@ -79,7 +79,7 @@ JTEST(BroadcasterFunctions)
 	{
 		t2_1 = true;
 	}));
-	t2.Sub(&t3, std::function([&t2_2](const JListT::ElementMoved& msg)
+	t2.Sub(&t3, std::function([&t2_2](const JListT::ItemMoved& msg)
 	{
 		t2_2 = true;
 	}));
@@ -87,7 +87,7 @@ JTEST(BroadcasterFunctions)
 	JListT::Sorted msg1;
 	t3.Bcast(msg1);
 
-	JListT::ElementMoved msg2(3, 5);
+	JListT::ItemMoved msg2(3, 5);
 	t3.Bcast(msg2);
 
 	JAssertTrue(t1_1);

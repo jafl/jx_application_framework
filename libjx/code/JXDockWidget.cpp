@@ -221,7 +221,7 @@ JXDockWidget::GetTabInsertionIndex
 	)
 	const
 {
-	const JSize count = itsWindowList->GetElementCount();
+	const JSize count = itsWindowList->GetItemCount();
 	assert( count == itsTabGroup->GetTabCount() );
 
 	const JUtf8Byte* title =
@@ -236,7 +236,7 @@ JXDockWidget::GetTabInsertionIndex
 		}
 
 		const JUtf8Byte* t =
-			JXFileDocument::SkipNeedsSavePrefix(itsWindowList->GetElement(i)->GetTitle().GetBytes());
+			JXFileDocument::SkipNeedsSavePrefix(itsWindowList->GetItem(i)->GetTitle().GetBytes());
 		if (JString::Compare(title, t, JString::kIgnoreCase) < 0)
 		{
 			index = i;
@@ -265,10 +265,10 @@ JXDockWidget::TransferAll
 
 	if (itsWindowList != nullptr)
 	{
-		const JSize count = itsWindowList->GetElementCount();
+		const JSize count = itsWindowList->GetItemCount();
 		for (JIndex i=count; i>=1; i--)
 		{
-			JXWindow* w = itsWindowList->GetElement(i);
+			JXWindow* w = itsWindowList->GetItem(i);
 			if (!target->Dock(w))
 			{
 				success = false;
@@ -318,10 +318,10 @@ JXDockWidget::CloseAll()
 		JXDisplay* display = GetDisplay();
 		Display* xDisplay  = display->GetXDisplay();
 
-		const JSize count = itsWindowList->GetElementCount();
+		const JSize count = itsWindowList->GetItemCount();
 		for (JIndex i=count; i>=1; i--)
 		{
-			JXWindow* w = itsWindowList->GetElement(i);
+			JXWindow* w = itsWindowList->GetItem(i);
 			StopListening(w);
 
 			Window xWindow = w->GetXWindow();
@@ -334,7 +334,7 @@ JXDockWidget::CloseAll()
 				else if (JXGetApplication()->DisplayExists(xDisplay))
 				{
 					itsTabGroup->DeleteTab(i);
-					itsWindowList->RemoveElement(i);
+					itsWindowList->RemoveItem(i);
 				}
 				else
 				{
@@ -731,7 +731,7 @@ JXDockWidget::Receive
 				auto* card = dynamic_cast<JXWidgetSet*>(itsTabGroup->RemoveTab(i));
 				itsTabGroup->InsertTab(index, w->GetTitle(), card);
 
-				itsWindowList->MoveElementToIndex(i, index);
+				itsWindowList->MoveItemToIndex(i, index);
 
 				if (hadSelection && i == currIndex)
 				{
@@ -763,7 +763,7 @@ JXDockWidget::Receive
 		JIndex index;
 		if (info->GetCardIndex(&index))
 		{
-			JXWindow* w = itsWindowList->GetElement(index);
+			JXWindow* w = itsWindowList->GetItem(index);
 			(w->GetDirector())->Activate();
 		}
 	}
@@ -808,10 +808,10 @@ JXDockWidget::FindWindow
 {
 	if (itsWindowList != nullptr)
 	{
-		const JSize count = itsWindowList->GetElementCount();
+		const JSize count = itsWindowList->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			JXWindow* w = itsWindowList->GetElement(i);
+			JXWindow* w = itsWindowList->GetItem(i);
 			if (w == sender)
 			{
 				*window = w;
@@ -839,14 +839,14 @@ JXDockWidget::RemoveWindow
 {
 	if (itsWindowList != nullptr)
 	{
-		const JSize count = itsWindowList->GetElementCount();
+		const JSize count = itsWindowList->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			if (itsWindowList->GetElement(i) == sender)
+			if (itsWindowList->GetItem(i) == sender)
 			{
 				itsTabGroup->DeleteTab(i);
 
-				itsWindowList->RemoveElement(i);
+				itsWindowList->RemoveItem(i);
 				if (itsWindowList->IsEmpty())
 				{
 					jdelete itsWindowList;

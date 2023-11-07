@@ -157,7 +157,7 @@ JListIterator<T>::~JListIterator()
 }
 
 /******************************************************************************
- GetPrevElementIndex
+ GetPrevItemIndex
 
 	asserts that there is a previous element
 
@@ -165,7 +165,7 @@ JListIterator<T>::~JListIterator()
 
 template <class T>
 JIndex
-JListIterator<T>::GetPrevElementIndex()
+JListIterator<T>::GetPrevItemIndex()
 	const
 {
 	assert( !this->AtBeginning() );
@@ -173,7 +173,7 @@ JListIterator<T>::GetPrevElementIndex()
 }
 
 /******************************************************************************
- GetNextElementIndex
+ GetNextItemIndex
 
 	asserts that there is a next element
 
@@ -181,7 +181,7 @@ JListIterator<T>::GetPrevElementIndex()
 
 template <class T>
 JIndex
-JListIterator<T>::GetNextElementIndex()
+JListIterator<T>::GetNextItemIndex()
 	const
 {
 	assert( !this->AtEnd() );
@@ -189,7 +189,7 @@ JListIterator<T>::GetNextElementIndex()
 }
 
 /******************************************************************************
- GetPrevElementIndex
+ GetPrevItemIndex
 
 	Returns true if there is a previous element.
 
@@ -197,7 +197,7 @@ JListIterator<T>::GetNextElementIndex()
 
 template <class T>
 bool
-JListIterator<T>::GetPrevElementIndex
+JListIterator<T>::GetPrevItemIndex
 	(
 	JIndex* i
 	)
@@ -214,7 +214,7 @@ JListIterator<T>::GetPrevElementIndex
 }
 
 /******************************************************************************
- GetNextElementIndex
+ GetNextItemIndex
 
 	Returns true if there is a next element.
 
@@ -222,7 +222,7 @@ JListIterator<T>::GetPrevElementIndex
 
 template <class T>
 bool
-JListIterator<T>::GetNextElementIndex
+JListIterator<T>::GetNextItemIndex
 	(
 	JIndex* i
 	)
@@ -262,12 +262,12 @@ JListIterator<T>::MoveTo
 	}
 	else if (newPosition == JListT::kStartAtEnd)
 	{
-		itsCursorPosition = itsConstList->GetElementCount();
+		itsCursorPosition = itsConstList->GetItemCount();
 	}
 	else if (newPosition == JListT::kStartBefore)
 	{
 		assert( (itsConstList->IsEmpty() && index == 1) ||
-				index == itsConstList->GetElementCount()+1 ||
+				index == itsConstList->GetItemCount()+1 ||
 				itsConstList->IndexValid(index));
 
 		itsCursorPosition = index-1;
@@ -311,7 +311,7 @@ JListIterator<T>::AtEnd()
 	const
 {
 	return itsConstList == nullptr ||
-							  itsCursorPosition >= itsConstList->GetElementCount();
+							  itsCursorPosition >= itsConstList->GetItemCount();
 }
 
 /******************************************************************************
@@ -509,20 +509,20 @@ JListIterator<T>::ListChanged
 	const JBroadcaster::Message& message
 	)
 {
-	if (message.Is(JListT::kElementsInserted))
+	if (message.Is(JListT::kItemsInserted))
 	{
-		const JListT::ElementsInserted* info =
-			dynamic_cast<const JListT::ElementsInserted*>(&message);
+		const JListT::ItemsInserted* info =
+			dynamic_cast<const JListT::ItemsInserted*>(&message);
 		assert( info != nullptr );
 		if (itsCursorPosition >= info->GetFirstIndex())
 		{
 			itsCursorPosition += info->GetCount();
 		}
 	}
-	else if (message.Is(JListT::kElementsRemoved))
+	else if (message.Is(JListT::kItemsRemoved))
 	{
-		const JListT::ElementsRemoved* info =
-			dynamic_cast<const JListT::ElementsRemoved*>(&message);
+		const JListT::ItemsRemoved* info =
+			dynamic_cast<const JListT::ItemsRemoved*>(&message);
 		assert( info != nullptr );
 		if (itsCursorPosition > info->GetLastIndex())
 		{

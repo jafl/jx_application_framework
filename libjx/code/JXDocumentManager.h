@@ -87,7 +87,7 @@ private:
 	struct DocInfo
 	{
 		JXDocument*	doc;
-		bool	keepOpen;
+		bool		keepOpen;
 		JInteger	shortcut;
 
 		DocInfo()

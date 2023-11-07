@@ -31,9 +31,9 @@ DataTableDir::DataTableDir
 	assert(itsData != nullptr);
 
 	// Append 3 elements to the array.
-	itsData->AppendElement(4);
-	itsData->AppendElement(1);
-	itsData->AppendElement(9);
+	itsData->AppendItem(4);
+	itsData->AppendItem(1);
+	itsData->AppendItem(9);
 
 	// Set up the window and all of its contents.
 	BuildWindow();
@@ -41,10 +41,10 @@ DataTableDir::DataTableDir
 	// Add 3 more elements and change another element. If the table
 	// hasn't called ListenTo(itsData), it will never hear about the
 	// following additions.
-	itsData->AppendElement(7);
-	itsData->AppendElement(8);
-	itsData->AppendElement(2);
-	itsData->SetElement(5,3);
+	itsData->AppendItem(7);
+	itsData->AppendItem(8);
+	itsData->AppendItem(2);
+	itsData->SetItem(5,3);
 }
 
 /******************************************************************************

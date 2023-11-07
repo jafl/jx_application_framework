@@ -104,7 +104,7 @@ JSize
 JXMenuBar::GetMenuCount()
 	const
 {
-	return (itsMenus->GetElementCount() +
+	return (itsMenus->GetItemCount() +
 			(itsOverflowMenu != nullptr ? itsOverflowMenu->GetItemCount()-1 : 0));
 }
 
@@ -121,7 +121,7 @@ JXMenuBar::GetMenu
 	const JIndex index
 	)
 {
-	const JSize count = itsMenus->GetElementCount();
+	const JSize count = itsMenus->GetItemCount();
 	if (itsOverflowMenu != nullptr && index >= count)
 	{
 		const JXMenu* menu;
@@ -131,7 +131,7 @@ JXMenuBar::GetMenu
 	}
 	else
 	{
-		return itsMenus->GetElement(index);
+		return itsMenus->GetItem(index);
 	}
 }
 
@@ -142,7 +142,7 @@ JXMenuBar::GetMenu
 	)
 	const
 {
-	const JSize count = itsMenus->GetElementCount();
+	const JSize count = itsMenus->GetItemCount();
 	if (itsOverflowMenu != nullptr && index >= count)
 	{
 		const JXMenu* menu;
@@ -152,7 +152,7 @@ JXMenuBar::GetMenu
 	}
 	else
 	{
-		return itsMenus->GetElement(index);
+		return itsMenus->GetItem(index);
 	}
 }
 
@@ -181,7 +181,7 @@ JXMenuBar::FindMenu
 
 			if (m == menu)
 			{
-				*index = itsMenus->GetElementCount() - 1 + i;
+				*index = itsMenus->GetItemCount() - 1 + i;
 				found  = true;
 				break;
 			}
@@ -258,7 +258,7 @@ JXMenuBar::InsertMenu
 	JCoordinate left   = bounds.left;
 	for (JIndex i=1; i<index; i++)
 	{
-		JXMenu* aMenu = itsMenus->GetElement(i);
+		JXMenu* aMenu = itsMenus->GetItem(i);
 		left += aMenu->GetFrameWidth();
 	}
 
@@ -354,9 +354,9 @@ JXMenuBar::RemoveMenu
 {
 	ClearOverflowMenu();
 
-	JXMenu* theMenu = itsMenus->GetElement(index);
+	JXMenu* theMenu = itsMenus->GetItem(index);
 	MenuWidthChanged(index, -theMenu->GetFrameWidth());
-	itsMenus->RemoveElement(index);
+	itsMenus->RemoveItem(index);
 	assert( theMenu->itsMenuBar == this );
 	theMenu->itsMenuBar = nullptr;		// SetMenuBar() would cause infinite loop
 	theMenu->AdjustAppearance();
@@ -437,10 +437,10 @@ JXMenuBar::MenuWidthChanged
 {
 	if (dw != 0)
 	{
-		const JSize menuCount = itsMenus->GetElementCount();
+		const JSize menuCount = itsMenus->GetItemCount();
 		for (JIndex i=menuCount; i>index; i--)
 		{
-			JXMenu* aMenu = itsMenus->GetElement(i);
+			JXMenu* aMenu = itsMenus->GetItem(i);
 			aMenu->Move(dw,0);
 		}
 	}
@@ -551,7 +551,7 @@ JXMenuBar::WidthChanged()
 
 	const JRect ap = GetAperture();
 
-	JXMenu* m   = itsMenus->GetLastElement();
+	JXMenu* m   = itsMenus->GetLastItem();
 	JRect frame = m->GetFrame();
 	if (frame.xcenter() < ap.right)
 	{
@@ -589,7 +589,7 @@ JXMenuBar::WidthChanged()
 			break;
 		}
 
-		m     = itsMenus->GetLastElement();
+		m     = itsMenus->GetLastItem();
 		frame = m->GetFrame();
 	}
 

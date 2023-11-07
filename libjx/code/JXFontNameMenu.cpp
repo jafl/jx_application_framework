@@ -151,12 +151,12 @@ JXFontNameMenu::BuildMenu
 	JPtrArray<JString> fontNames(JPtrArrayT::kDeleteAll);
 	fontManager->GetFontNames(&fontNames);
 
-	const JSize count = fontNames.GetElementCount();
+	const JSize count = fontNames.GetItemCount();
 	assert( count > 0 );
 	JString name, charSet;
 	for (JIndex i=1; i<=count; i++)
 	{
-		const JString* fontName = fontNames.GetElement(i);
+		const JString* fontName = fontNames.GetItem(i);
 		AppendItem(*fontName, kRadioType);
 		SetItemFontName(i+offset, *fontName);
 
@@ -259,10 +259,10 @@ JXFontNameMenu::UpdateMenu()
 
 	UpdateHistory(GetItemText(itsFontIndex));
 
-	const JSize count = itsNameHistory->GetElementCount();
+	const JSize count = itsNameHistory->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const JString* s = itsNameHistory->GetElement(i);
+		const JString* s = itsNameHistory->GetItem(i);
 		InsertItem(i, *s, kRadioType);
 		SetItemFontName(i, *s);
 		itsFontIndex++;
@@ -287,20 +287,20 @@ JXFontNameMenu::UpdateHistory
 {
 	assert( itsNameHistory != nullptr );
 
-	for (JIndex i=1; i<=itsNameHistory->GetElementCount(); i++)
+	for (JIndex i=1; i<=itsNameHistory->GetItemCount(); i++)
 	{
-		if (name == *itsNameHistory->GetElement(i))
+		if (name == *itsNameHistory->GetItem(i))
 		{
-			itsNameHistory->MoveElementToIndex(i, 1);
+			itsNameHistory->MoveItemToIndex(i, 1);
 			return;
 		}
 	}
 
 	itsNameHistory->InsertAtIndex(1, name);
 
-	while (itsNameHistory->GetElementCount() > kHistoryCount)
+	while (itsNameHistory->GetItemCount() > kHistoryCount)
 	{
-		itsNameHistory->DeleteElement(itsNameHistory->GetElementCount());
+		itsNameHistory->DeleteItem(itsNameHistory->GetItemCount());
 	}
 }
 

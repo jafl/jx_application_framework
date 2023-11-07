@@ -72,7 +72,7 @@ JXMenuData::InsertItem
 		assert( itemData.id != nullptr );
 	}
 
-	itsBaseItemData->InsertElementAtIndex(index, itemData);
+	itsBaseItemData->InsertItemAtIndex(index, itemData);
 }
 
 /******************************************************************************
@@ -86,9 +86,9 @@ JXMenuData::DeleteItem
 	const JIndex index
 	)
 {
-	BaseItemData itemData = itsBaseItemData->GetElement(index);
+	BaseItemData itemData = itsBaseItemData->GetItem(index);
 	CleanOutBaseItem(&itemData);
-	itsBaseItemData->RemoveElement(index);
+	itsBaseItemData->RemoveItem(index);
 }
 
 /******************************************************************************
@@ -173,7 +173,7 @@ JXMenuData::SetItemShortcuts
 	const JString&	shortcuts
 	)
 {
-	BaseItemData itemData = itsBaseItemData->GetElement(index);
+	BaseItemData itemData = itsBaseItemData->GetItem(index);
 
 	bool changed = false;
 	if (!shortcuts.IsEmpty())
@@ -182,7 +182,7 @@ JXMenuData::SetItemShortcuts
 		{
 			itemData.shortcuts = jnew JString(shortcuts);
 			assert( itemData.shortcuts != nullptr );
-			itsBaseItemData->SetElement(index, itemData);
+			itsBaseItemData->SetItem(index, itemData);
 		}
 		else
 		{
@@ -195,7 +195,7 @@ JXMenuData::SetItemShortcuts
 	{
 		jdelete (itemData.shortcuts);
 		itemData.shortcuts = nullptr;
-		itsBaseItemData->SetElement(index, itemData);
+		itsBaseItemData->SetItem(index, itemData);
 		changed = true;
 	}
 
@@ -241,10 +241,10 @@ JXMenuData::ShortcutToIndex
 {
 	*index = 0;
 
-	const JIndex count = GetElementCount();
+	const JIndex count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const BaseItemData itemData = itsBaseItemData->GetElement(i);
+		const BaseItemData itemData = itsBaseItemData->GetItem(i);
 		if (itemData.enabled && itemData.shortcuts != nullptr &&
 			itemData.shortcuts->Contains(c))
 		{
@@ -268,7 +268,7 @@ JXMenuData::SetItemID
 	const JString&	id
 	)
 {
-	BaseItemData itemData = itsBaseItemData->GetElement(index);
+	BaseItemData itemData = itsBaseItemData->GetItem(index);
 
 	if (!id.IsEmpty())
 	{
@@ -276,7 +276,7 @@ JXMenuData::SetItemID
 		{
 			itemData.id = jnew JString(id);
 			assert( itemData.id != nullptr );
-			itsBaseItemData->SetElement(index, itemData);
+			itsBaseItemData->SetItem(index, itemData);
 		}
 		else
 		{
@@ -287,7 +287,7 @@ JXMenuData::SetItemID
 	{
 		jdelete (itemData.id);
 		itemData.id = nullptr;
-		itsBaseItemData->SetElement(index, itemData);
+		itsBaseItemData->SetItem(index, itemData);
 	}
 }
 
@@ -299,7 +299,7 @@ JXMenuData::SetItemID
 void
 JXMenuData::EnableAll()
 {
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
 		EnableItem(i);
@@ -314,7 +314,7 @@ JXMenuData::EnableAll()
 void
 JXMenuData::DisableAll()
 {
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
 		DisableItem(i);
@@ -333,11 +333,11 @@ JXMenuData::SetItemEnabled
 	const bool	enabled
 	)
 {
-	BaseItemData itemData = itsBaseItemData->GetElement(index);
+	BaseItemData itemData = itsBaseItemData->GetItem(index);
 	if (itemData.submenu == nullptr && itemData.enabled != enabled)
 	{
 		itemData.enabled = enabled;
-		itsBaseItemData->SetElement(index, itemData);
+		itsBaseItemData->SetItem(index, itemData);
 	}
 	else if (itemData.submenu != nullptr)
 	{
@@ -350,7 +350,7 @@ JXMenuData::SetItemEnabled
 			itemData.submenu->Deactivate();
 		}
 		itemData.enabled = itemData.submenu->IsActive();
-		itsBaseItemData->SetElement(index, itemData);
+		itsBaseItemData->SetItem(index, itemData);
 	}
 }
 
@@ -365,12 +365,12 @@ JXMenuData::CheckItem
 	const JIndex index
 	)
 {
-	BaseItemData itemData = itsBaseItemData->GetElement(index);
+	BaseItemData itemData = itsBaseItemData->GetItem(index);
 	assert( itemData.type == JXMenu::kCheckboxType || itemData.type == JXMenu::kRadioType );
 	if (!itemData.isChecked)
 	{
 		itemData.isChecked = true;
-		itsBaseItemData->SetElement(index, itemData);
+		itsBaseItemData->SetItem(index, itemData);
 	}
 }
 
@@ -390,7 +390,7 @@ JXMenuData::AttachSubmenu
 {
 	assert( submenu != nullptr );
 
-	BaseItemData itemData = itsBaseItemData->GetElement(index);
+	BaseItemData itemData = itsBaseItemData->GetItem(index);
 	if (itemData.submenu != nullptr)
 	{
 		assert( itemData.submenu->itsMenuBar == nullptr );
@@ -401,7 +401,7 @@ JXMenuData::AttachSubmenu
 	itemData.enabled   = submenu->IsActive();
 	itemData.type      = JXMenu::kPlainType;
 	itemData.isChecked = false;
-	itsBaseItemData->SetElement(index, itemData);
+	itsBaseItemData->SetItem(index, itemData);
 }
 
 /******************************************************************************
@@ -419,7 +419,7 @@ JXMenuData::RemoveSubmenu
 	JXMenu**		theMenu
 	)
 {
-	BaseItemData itemData = itsBaseItemData->GetElement(index);
+	BaseItemData itemData = itsBaseItemData->GetItem(index);
 	*theMenu              = itemData.submenu;
 	if (*theMenu != nullptr)
 	{
@@ -427,7 +427,7 @@ JXMenuData::RemoveSubmenu
 		(**theMenu).AdjustAppearance();
 
 		itemData.submenu = nullptr;
-		itsBaseItemData->SetElement(index, itemData);
+		itsBaseItemData->SetItem(index, itemData);
 
 		return true;
 	}
@@ -468,10 +468,10 @@ JXMenuData::FindSubmenu
 	)
 	const
 {
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		BaseItemData itemData = itsBaseItemData->GetElement(i);
+		BaseItemData itemData = itsBaseItemData->GetItem(i);
 		if (itemData.submenu == theMenu)
 		{
 			*index = i;
@@ -494,7 +494,7 @@ JXMenuData::DeleteSubmenu
 	const JIndex index
 	)
 {
-	BaseItemData itemData = itsBaseItemData->GetElement(index);
+	BaseItemData itemData = itsBaseItemData->GetItem(index);
 	if (itemData.submenu != nullptr)
 	{
 		assert( itemData.submenu->itsMenuBar == nullptr );
@@ -502,7 +502,7 @@ JXMenuData::DeleteSubmenu
 		jdelete itemData.submenu;
 
 		itemData.submenu = nullptr;
-		itsBaseItemData->SetElement(index, itemData);
+		itsBaseItemData->SetItem(index, itemData);
 	}
 }
 
@@ -517,10 +517,10 @@ JXMenuData::PrepareToOpenMenu
 	const JXMenu::UpdateAction updateAction
 	)
 {
-	const JSize itemCount = GetElementCount();
+	const JSize itemCount = GetItemCount();
 	for (JIndex i=1; i<=itemCount; i++)
 	{
-		BaseItemData itemData = itsBaseItemData->GetElement(i);
+		BaseItemData itemData = itsBaseItemData->GetItem(i);
 
 		bool changed = false;
 		if (itemData.enabled &&
@@ -538,7 +538,7 @@ JXMenuData::PrepareToOpenMenu
 
 		if (changed)
 		{
-			itsBaseItemData->SetElement(i, itemData);
+			itsBaseItemData->SetItem(i, itemData);
 		}
 	}
 }

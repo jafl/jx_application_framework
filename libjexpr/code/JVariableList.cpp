@@ -123,7 +123,7 @@ JVariableList::ParseVariableName
 
 	bool found = false;
 
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
 		if (*n == GetVariableName(i))
@@ -156,7 +156,7 @@ JVariableList::PushOnEvalStack
 {
 	assert( !IsOnEvalStack(variableIndex) );
 
-	itsEvalStack->SetElement(variableIndex, true);
+	itsEvalStack->SetItem(variableIndex, true);
 }
 
 /******************************************************************************
@@ -173,7 +173,7 @@ JVariableList::PopOffEvalStack
 {
 	assert( IsOnEvalStack(variableIndex) );
 
-	itsEvalStack->SetElement(variableIndex, false);
+	itsEvalStack->SetItem(variableIndex, false);
 }
 
 /******************************************************************************
@@ -209,10 +209,10 @@ JVariableList::OKToRemoveVariable
 	)
 	const
 {
-	const JSize count = itsVarUserList->GetElementCount();
+	const JSize count = itsVarUserList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		if ((itsVarUserList->GetElement(i))->UsesVariable(variableIndex))
+		if ((itsVarUserList->GetItem(i))->UsesVariable(variableIndex))
 		{
 			return false;
 		}
@@ -257,19 +257,19 @@ JVariableList::VariableUserDeleted
 void
 JVariableList::VariablesInserted
 	(
-	const JListT::ElementsInserted& info
+	const JListT::ItemsInserted& info
 	)
 	const
 {
 	for (JIndex i=1; i<=info.GetCount(); i++)
 	{
-		itsEvalStack->InsertElementAtIndex(info.GetFirstIndex(), false);
+		itsEvalStack->InsertItemAtIndex(info.GetFirstIndex(), false);
 	}
 
-	const JSize count = itsVarUserList->GetElementCount();
+	const JSize count = itsVarUserList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		(itsVarUserList->GetElement(i))->
+		(itsVarUserList->GetItem(i))->
 			VariablesInserted(info.GetFirstIndex(), info.GetCount());
 	}
 }
@@ -282,7 +282,7 @@ JVariableList::VariablesInserted
 void
 JVariableList::VariablesRemoved
 	(
-	const JListT::ElementsRemoved& info
+	const JListT::ItemsRemoved& info
 	)
 	const
 {
@@ -295,12 +295,12 @@ JVariableList::VariablesRemoved
 }
 	#endif
 
-	itsEvalStack->RemoveNextElements(info.GetFirstIndex(), info.GetCount());
+	itsEvalStack->RemoveNextItems(info.GetFirstIndex(), info.GetCount());
 
-	const JSize count = itsVarUserList->GetElementCount();
+	const JSize count = itsVarUserList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		(itsVarUserList->GetElement(i))->
+		(itsVarUserList->GetItem(i))->
 			VariablesRemoved(info.GetFirstIndex(), info.GetCount());
 	}
 }
@@ -313,16 +313,16 @@ JVariableList::VariablesRemoved
 void
 JVariableList::VariableMoved
 	(
-	const JListT::ElementMoved& info
+	const JListT::ItemMoved& info
 	)
 	const
 {
-	itsEvalStack->MoveElementToIndex(info.GetOrigIndex(), info.GetNewIndex());
+	itsEvalStack->MoveItemToIndex(info.GetOrigIndex(), info.GetNewIndex());
 
-	const JSize count = itsVarUserList->GetElementCount();
+	const JSize count = itsVarUserList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		(itsVarUserList->GetElement(i))->
+		(itsVarUserList->GetItem(i))->
 			VariableMoved(info.GetOrigIndex(), info.GetNewIndex());
 	}
 }
@@ -335,16 +335,16 @@ JVariableList::VariableMoved
 void
 JVariableList::VariablesSwapped
 	(
-	const JListT::ElementsSwapped& info
+	const JListT::ItemsSwapped& info
 	)
 	const
 {
-	itsEvalStack->SwapElements(info.GetIndex1(), info.GetIndex2());
+	itsEvalStack->SwapItems(info.GetIndex1(), info.GetIndex2());
 
-	const JSize count = itsVarUserList->GetElementCount();
+	const JSize count = itsVarUserList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		(itsVarUserList->GetElement(i))->
+		(itsVarUserList->GetItem(i))->
 			VariablesSwapped(info.GetIndex1(), info.GetIndex2());
 	}
 }
@@ -364,41 +364,41 @@ JVariableList::Receive
 	const JCollection* mainList = GetList();
 
 	if (sender == const_cast<JCollection*>(mainList) &&
-		message.Is(JListT::kElementsInserted))
+		message.Is(JListT::kItemsInserted))
 	{
 		const auto* info =
-			dynamic_cast<const JListT::ElementsInserted*>(&message);
+			dynamic_cast<const JListT::ItemsInserted*>(&message);
 		assert( info != nullptr );
 		VariablesInserted(*info);
 	}
 	else if (sender == const_cast<JCollection*>(mainList) &&
-			 message.Is(JListT::kElementsRemoved))
+			 message.Is(JListT::kItemsRemoved))
 	{
 		if (!mainList->IsEmpty())
 		{
-			// AllElementsRemoved should be illegal, but it normally only
+			// AllItemsRemoved should be illegal, but it normally only
 			// happens when the object is destructed.  During destruction,
 			// we obviously should not complain.
 
 			const auto* info =
-				dynamic_cast<const JListT::ElementsRemoved*>(&message);
+				dynamic_cast<const JListT::ItemsRemoved*>(&message);
 			assert( info != nullptr );
 			VariablesRemoved(*info);
 		}
 	}
 	else if (sender == const_cast<JCollection*>(mainList) &&
-			 message.Is(JListT::kElementMoved))
+			 message.Is(JListT::kItemMoved))
 	{
 		const auto* info =
-			dynamic_cast<const JListT::ElementMoved*>(&message);
+			dynamic_cast<const JListT::ItemMoved*>(&message);
 		assert( info != nullptr );
 		VariableMoved(*info);
 	}
 	else if (sender == const_cast<JCollection*>(mainList) &&
-			 message.Is(JListT::kElementsSwapped))
+			 message.Is(JListT::kItemsSwapped))
 	{
 		const auto* info =
-			dynamic_cast<const JListT::ElementsSwapped*>(&message);
+			dynamic_cast<const JListT::ItemsSwapped*>(&message);
 		assert( info != nullptr );
 		VariablesSwapped(*info);
 	}

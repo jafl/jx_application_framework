@@ -740,10 +740,10 @@ JXScrollbar::SetMaxValue
 
 		if (itsScrolltabList != nullptr && maxValue < itsMaxValue)
 		{
-			const JSize tabCount = itsScrolltabList->GetElementCount();
+			const JSize tabCount = itsScrolltabList->GetItemCount();
 			for (JIndex i=tabCount; i>=1; i--)
 			{
-				JXScrolltab* tab = itsScrolltabList->GetElement(i);
+				JXScrolltab* tab = itsScrolltabList->GetItem(i);
 				if (tab->GetValue() > maxValue)
 				{
 					jdelete tab;
@@ -854,7 +854,7 @@ JXScrollbar::ScrollToTab
 {
 	if (itsScrolltabList != nullptr && itsScrolltabList->IndexValid(tabIndex))
 	{
-		(itsScrolltabList->GetElement(tabIndex))->ScrollToTab();
+		(itsScrolltabList->GetItem(tabIndex))->ScrollToTab();
 	}
 }
 
@@ -880,10 +880,10 @@ JXScrollbar::PrepareForLowerMaxValue
 	{
 		const JCoordinate delta = - (JCoordinate) length;
 
-		const JSize tabCount = itsScrolltabList->GetElementCount();
+		const JSize tabCount = itsScrolltabList->GetItemCount();
 		for (JIndex i=tabCount; i>=1; i--)
 		{
-			JXScrolltab* tab = itsScrolltabList->GetElement(i);
+			JXScrolltab* tab = itsScrolltabList->GetItem(i);
 			if (tab->GetValue() >= start + (JCoordinate) length)
 			{
 				tab->AdjustValue(delta);
@@ -972,15 +972,15 @@ JXScrollbar::StripMoved
 
 		const JCoordinate origEnd = origStart + length-1;
 
-		const JSize tabCount = itsScrolltabList->GetElementCount();
+		const JSize tabCount = itsScrolltabList->GetItemCount();
 		for (JIndex i=tabCount; i>=1; i--)
 		{
-			JXScrolltab* tab    = itsScrolltabList->GetElement(i);
+			JXScrolltab* tab    = itsScrolltabList->GetItem(i);
 			const JCoordinate v = tab->GetValue();
 			if (origStart <= v && v <= origEnd)
 			{
 				savedTabList.Append(tab);
-				itsScrolltabList->RemoveElement(i);
+				itsScrolltabList->RemoveItem(i);
 			}
 		}
 
@@ -1119,7 +1119,7 @@ JXScrollbar::WriteSetup
 
 	if (itsScrolltabList != nullptr)
 	{
-		output << ' ' << itsScrolltabList->GetElementCount();
+		output << ' ' << itsScrolltabList->GetItemCount();
 
 		for (auto* tab : *itsScrolltabList)
 		{

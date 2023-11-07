@@ -48,14 +48,14 @@ public:
 
 	// for all objects
 
-	static const JUtf8Byte* kElementsInserted;
-	static const JUtf8Byte* kElementsRemoved;
+	static const JUtf8Byte* kItemsInserted;
+	static const JUtf8Byte* kItemsRemoved;
 
 	// for JBroadcasters
 
-	static const JUtf8Byte* kElementMoved;
-	static const JUtf8Byte* kElementsSwapped;
-	static const JUtf8Byte* kElementsChanged;
+	static const JUtf8Byte* kItemMoved;
+	static const JUtf8Byte* kItemsSwapped;
+	static const JUtf8Byte* kItemsChanged;
 	static const JUtf8Byte* kSorted;
 
 	// for iterators
@@ -67,12 +67,12 @@ private:
 
 	// base class for JBroadcaster messages
 
-	class ElementMessage : public JBroadcaster::Message
+	class ItemMessage : public JBroadcaster::Message
 	{
 	public:
 
-		ElementMessage(const JUtf8Byte* type,
-					   const JIndex firstIndex, const JSize count)
+		ItemMessage(const JUtf8Byte* type,
+					const JIndex firstIndex, const JSize count)
 			:
 			JBroadcaster::Message(type),
 			itsFirstIndex(firstIndex),
@@ -113,25 +113,25 @@ public:
 
 	// for all objects
 
-	class ElementsInserted : public ElementMessage
+	class ItemsInserted : public ItemMessage
 	{
 	public:
 
-		ElementsInserted(const JIndex firstIndex, const JSize count)
+		ItemsInserted(const JIndex firstIndex, const JSize count)
 			:
-			ElementMessage(kElementsInserted, firstIndex, count)
+			ItemMessage(kItemsInserted, firstIndex, count)
 			{ };
 
 		void	AdjustIndex(JIndex* index) const;
 	};
 
-	class ElementsRemoved : public ElementMessage
+	class ItemsRemoved : public ItemMessage
 	{
 	public:
 
-		ElementsRemoved(const JIndex firstIndex, const JSize count)
+		ItemsRemoved(const JIndex firstIndex, const JSize count)
 			:
-			ElementMessage(kElementsRemoved, firstIndex, count)
+			ItemMessage(kItemsRemoved, firstIndex, count)
 			{ };
 
 		bool	AdjustIndex(JIndex* index) const;
@@ -139,13 +139,13 @@ public:
 
 	// for JBroadcasters
 
-	class ElementMoved : public JBroadcaster::Message
+	class ItemMoved : public JBroadcaster::Message
 	{
 	public:
 
-		ElementMoved(const JIndex origIndex, const JIndex newIndex)
+		ItemMoved(const JIndex origIndex, const JIndex newIndex)
 			:
-			JBroadcaster::Message(kElementMoved),
+			JBroadcaster::Message(kItemMoved),
 			itsOrigIndex(origIndex),
 			itsNewIndex(newIndex)
 			{ };
@@ -170,13 +170,13 @@ public:
 		JIndex	itsNewIndex;
 	};
 
-	class ElementsSwapped : public JBroadcaster::Message
+	class ItemsSwapped : public JBroadcaster::Message
 	{
 	public:
 
-		ElementsSwapped(const JIndex index1, const JIndex index2)
+		ItemsSwapped(const JIndex index1, const JIndex index2)
 			:
-			JBroadcaster::Message(kElementsSwapped),
+			JBroadcaster::Message(kItemsSwapped),
 			itsIndex1(index1),
 			itsIndex2(index2)
 			{ };
@@ -201,13 +201,13 @@ public:
 		JIndex	itsIndex2;
 	};
 
-	class ElementsChanged : public ElementMessage
+	class ItemsChanged : public ItemMessage
 	{
 	public:
 
-		ElementsChanged(const JIndex firstIndex, const JSize count)
+		ItemsChanged(const JIndex firstIndex, const JSize count)
 			:
-			ElementMessage(kElementsChanged, firstIndex, count)
+			ItemMessage(kItemsChanged, firstIndex, count)
 			{ };
 	};
 
@@ -258,11 +258,11 @@ public:
 
 	~JList() override;
 
-	virtual T	GetFirstElement() const = 0;
-	virtual T	GetLastElement() const = 0;
+	virtual T	GetFirstItem() const = 0;
+	virtual T	GetLastItem() const = 0;
 
-	virtual void	PrependElement(const T& data) = 0;
-	virtual void	AppendElement(const T& data) = 0;
+	virtual void	PrependItem(const T& data) = 0;
+	virtual void	AppendItem(const T& data) = 0;
 
 	virtual void	RemoveAll() = 0;
 

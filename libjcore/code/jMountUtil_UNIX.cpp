@@ -200,7 +200,7 @@ JGetUserMountPointList
 			fsType = kVFATType;
 		}
 
-		list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
+		list->AppendItem(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 	}
 
 	return true;
@@ -263,7 +263,7 @@ JGetUserMountPointList
 
 			JString* path = jnew JString(info->fs_file);
 			JString* devicePath = jnew JString(info->fs_spec);
-			list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
+			list->AppendItem(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 		}
 	}
 
@@ -333,7 +333,7 @@ JGetUserMountPointList
 
 			JString* path = jnew JString(info.vfs_mountp);
 			JString* devicePath = jnew JString(info.vfs_special);
-			list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
+			list->AppendItem(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 		}
 	}
 
@@ -428,7 +428,7 @@ JGetUserMountPointList
 
 		auto* path = jnew JString(info->mnt_dir);
 		auto* devicePath = jnew JString(info->mnt_fsname);
-		list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
+		list->AppendItem(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 	}
 
 	endmntent(f);
@@ -872,10 +872,10 @@ JFindUserMountPoint
 		return false;
 	}
 
-	const JSize count = list.GetElementCount();
+	const JSize count = list.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const JMountPoint pt = list.GetElement(i);
+		const JMountPoint pt = list.GetItem(i);
 		if (pt.device == stbuf.st_dev)
 		{
 			*index = i;

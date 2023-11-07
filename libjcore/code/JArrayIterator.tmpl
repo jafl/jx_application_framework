@@ -81,7 +81,7 @@ JArrayIterator<T>::Prev
 
 	const JCursorPosition cursorPos = this->GetCursor();
 
-	*data = itsArray->GetElement(cursorPos);
+	*data = itsArray->GetItem(cursorPos);
 
 	if (move)
 	{
@@ -114,7 +114,7 @@ JArrayIterator<T>::Next
 
 	const JCursorPosition cursorPos = this->GetCursor() + 1;
 
-	*data = itsArray->GetElement(cursorPos);
+	*data = itsArray->GetItem(cursorPos);
 
 	if (move)
 	{
@@ -152,7 +152,7 @@ JArrayIterator<T>::SkipNext
 	)
 {
 	const JCursorPosition cursorPos = this->GetCursor();
-	this->SetCursor(JMin(itsArray->GetElementCount(), cursorPos + count));
+	this->SetCursor(JMin(itsArray->GetItemCount(), cursorPos + count));
 }
 
 #pragma GCC diagnostic push
@@ -183,7 +183,7 @@ JArrayIterator<T>::SetPrev
 
 	const JCursorPosition cursorPos = this->GetCursor();
 
-	itsArray->SetElement(cursorPos, data);
+	itsArray->SetItem(cursorPos, data);
 	if (move)
 	{
 		this->SetCursor(cursorPos-1);
@@ -215,7 +215,7 @@ JArrayIterator<T>::SetNext
 
 	const JCursorPosition cursorPos = this->GetCursor() + 1;
 
-	itsArray->SetElement(cursorPos, data);
+	itsArray->SetItem(cursorPos, data);
 	if (move)
 	{
 		this->SetCursor(cursorPos);
@@ -246,7 +246,7 @@ JArrayIterator<T>::RemovePrev
 		return false;
 	}
 
-	itsArray->RemovePrevElements(this->GetCursor(), count);
+	itsArray->RemovePrevItems(this->GetCursor(), count);
 	return true;
 }
 
@@ -271,7 +271,7 @@ JArrayIterator<T>::RemoveNext
 		return false;
 	}
 
-	itsArray->RemoveNextElements(this->GetCursor()+1, count);
+	itsArray->RemoveNextItems(this->GetCursor()+1, count);
 	return true;
 }
 
@@ -295,7 +295,7 @@ JArrayIterator<T>::Insert
 		return false;
 	}
 
-	itsArray->InsertElementAtIndex(this->GetCursor()+1, data);
+	itsArray->InsertItemAtIndex(this->GetCursor()+1, data);
 	return true;
 }
 

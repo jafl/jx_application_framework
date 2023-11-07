@@ -113,7 +113,7 @@ JXRowHeaderWidget::GetRowTitle
 {
 	if (itsTitles != nullptr)
 	{
-		const JString* str = itsTitles->GetElement(index);
+		const JString* str = itsTitles->GetItem(index);
 		if (str != nullptr)
 		{
 			*title = *str;
@@ -149,7 +149,7 @@ JXRowHeaderWidget::SetRowTitle
 		}
 	}
 
-	itsTitles->SetElement(index, title, JPtrArrayT::kDelete);
+	itsTitles->SetItem(index, title, JPtrArrayT::kDelete);
 }
 
 /******************************************************************************
@@ -206,7 +206,7 @@ JXRowHeaderWidget::TableDrawCell
 	bool hasTitle = false;
 	if (itsTitles != nullptr)
 	{
-		const JString* title = itsTitles->GetElement(cell.y);
+		const JString* title = itsTitles->GetItem(cell.y);
 		if (title != nullptr)
 		{
 			str      = *title;
@@ -555,7 +555,7 @@ JXRowHeaderWidget::Receive
 		{
 			for (JIndex i=1; i<=info->GetCount(); i++)
 			{
-				itsTitles->DeleteElement(info->GetFirstIndex());
+				itsTitles->DeleteItem(info->GetFirstIndex());
 			}
 		}
 		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
@@ -568,7 +568,7 @@ JXRowHeaderWidget::Receive
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
 		{
-			itsTitles->MoveElementToIndex(info->GetOrigIndex(), info->GetNewIndex());
+			itsTitles->MoveItemToIndex(info->GetOrigIndex(), info->GetNewIndex());
 		}
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
 	}

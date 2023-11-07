@@ -2018,8 +2018,8 @@ JString::CompareMaxNBytes
 	Calculates the number of characters that match from the beginning
 	of the given strings.
 
-	CalcMatchLength("abc", "abd")          -> 2
-	CalcMatchLength("abc", "xyz")          -> 0
+	CalcMatchLength("abc", "abd")        -> 2
+	CalcMatchLength("abc", "xyz")        -> 0
 	CalcMatchLength("abc", "aBd", false) -> 2
 
  *****************************************************************************/

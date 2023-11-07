@@ -103,10 +103,10 @@ JPtrQueue<T,S>::DiscardDelete
 	)
 {
 	S* list           = JQueue<T*,S>::GetElements();
-	const JSize count = list->GetElementCount();
+	const JSize count = list->GetItemCount();
 	for (JIndex i=1; i<=numToDiscard && i<=count; i++)
 	{
-		T* elementPtr = list->GetElement(i);
+		T* elementPtr = list->GetItem(i);
 		jdelete elementPtr;
 	}
 
@@ -128,10 +128,10 @@ JPtrQueue<T,S>::DiscardDeleteAsArrays
 	)
 {
 	S* list           = JQueue<T*,S>::GetElements();
-	const JSize count = list->GetElementCount();
+	const JSize count = list->GetItemCount();
 	for (JIndex i=1; i<=numToDiscard && i<=count; i++)
 	{
-		T* elementPtr = list->GetElement(i);
+		T* elementPtr = list->GetItem(i);
 		jdelete [] elementPtr;
 	}
 

@@ -22,7 +22,7 @@ class JFileArrayIndex : public JContainer
 {
 public:
 
-	enum ElementType
+	enum ItemType
 	{
 		kData         = 0,
 		kEmbeddedFile = 1
@@ -34,21 +34,21 @@ public:
 
 	~JFileArrayIndex() override;
 
-	void	InsertElementAtIndex(const JFAIndex& index, const JUnsignedOffset offset,
+	void	InsertItemAtIndex(const JFAIndex& index, const JUnsignedOffset offset,
 								 const JFAID& id);
-	void	RemoveElement(const JFAIndex& index, const JSize elementSize);
+	void	RemoveItem(const JFAIndex& index, const JSize itemSize);
 
-	void	MoveElementToIndex(const JFAIndex& currentIndex, const JFAIndex& newIndex);
-	void	SwapElements(const JFAIndex& index1, const JFAIndex& index2);
+	void	MoveItemToIndex(const JFAIndex& currentIndex, const JFAIndex& newIndex);
+	void	SwapItems(const JFAIndex& index1, const JFAIndex& index2);
 
-	JUnsignedOffset	GetElementOffset(const JFAIndex& index) const;
-	void			ElementSizeChanged(const JFAIndex& index,
-									   const JInteger changeInElementSize);
+	JUnsignedOffset	GetItemOffset(const JFAIndex& index) const;
+	void			ItemSizeChanged(const JFAIndex& index,
+									const JInteger changeInItemSize);
 
-	JFAID	GetElementID(const JFAIndex& index) const;
-	void	SetElementID(const JFAIndex& index, const JFAID& id);
+	JFAID	GetItemID(const JFAIndex& index) const;
+	void	SetItemID(const JFAIndex& index, const JFAID& id);
 
-	bool	GetElementIndexFromID(const JFAID& id, JFAIndex* index) const;
+	bool	GetItemIndexFromID(const JFAID& id, JFAIndex* index) const;
 	JFAID	GetUniqueID() const;
 
 	void	SetToEmbeddedFile(const JFAIndex& index);
@@ -62,20 +62,20 @@ public:
 
 	void	ReplaceEmbeddedFileStreams(std::fstream* newStream);
 
-	void	ReadIndex(const JSize elementCount, std::istream& input);
+	void	ReadIndex(const JSize itemCount, std::istream& input);
 	void	WriteIndex(std::ostream& output);
 	JSize	GetIndexLength() const;
 
 private:
 
-	struct ElementInfo
+	struct ItemInfo
 	{
 		JUnsignedOffset	offset;				// offset of data from start of file
-		JFAID			id;					// unique id for element
-		ElementType		type;				// data or embedded file
+		JFAID			id;					// unique id for item
+		ItemType		type;				// data or embedded file
 		JFileArray*		theEmbeddedFile;	// nullptr or pointer to open JFileArray object
 
-		ElementInfo()
+		ItemInfo()
 			:
 			offset( 0 ),
 			id( JFAID::kInvalidID ),
@@ -83,11 +83,11 @@ private:
 			theEmbeddedFile( nullptr )
 			{ };
 
-		ElementInfo
+		ItemInfo
 			(
 			const JUnsignedOffset	anOffset,
 			const JFAID&			anID,
-			const ElementType		aType
+			const ItemType		aType
 			)
 			:
 			offset( anOffset ),
@@ -99,7 +99,7 @@ private:
 
 private:
 
-	JArray<ElementInfo>*	itsArray;
+	JArray<ItemInfo>*	itsArray;
 
 private:
 
@@ -110,33 +110,33 @@ private:
 };
 
 /******************************************************************************
- MoveElementToIndex
+ MoveItemToIndex
 
  ******************************************************************************/
 
 inline void
-JFileArrayIndex::MoveElementToIndex
+JFileArrayIndex::MoveItemToIndex
 	(
 	const JFAIndex& currentIndex,
 	const JFAIndex& newIndex
 	)
 {
-	itsArray->MoveElementToIndex(currentIndex.GetIndex(), newIndex.GetIndex());
+	itsArray->MoveItemToIndex(currentIndex.GetIndex(), newIndex.GetIndex());
 }
 
 /******************************************************************************
- SwapElements
+ SwapItems
 
  ******************************************************************************/
 
 inline void
-JFileArrayIndex::SwapElements
+JFileArrayIndex::SwapItems
 	(
 	const JFAIndex& index1,
 	const JFAIndex& index2
 	)
 {
-	itsArray->SwapElements(index1.GetIndex(), index2.GetIndex());
+	itsArray->SwapItems(index1.GetIndex(), index2.GetIndex());
 }
 
 #endif

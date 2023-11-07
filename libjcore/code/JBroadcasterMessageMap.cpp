@@ -57,7 +57,7 @@ JBroadcasterMessageMap::Contains
 }
 
 /******************************************************************************
- GetElement
+ GetItem
 
 	If the element is found, sets value to it and returns true; otherwise,
 	nulls value and returns false.
@@ -65,7 +65,7 @@ JBroadcasterMessageMap::Contains
  *****************************************************************************/
 
 bool
-JBroadcasterMessageMap::GetElement
+JBroadcasterMessageMap::GetItem
 	(
 	const std::type_info&	key,
 	const JBroadcaster*		obj,
@@ -118,7 +118,7 @@ JBroadcasterMessageMap::GetList
 }
 
 /******************************************************************************
- SetElement
+ SetItem
 
 	The element is set if it already existed and 'type' is kIfOld or kAlways
 	(the default) or if it did not exist and 'type' is kIfNew or kAlways.
@@ -131,7 +131,7 @@ JBroadcasterMessageMap::GetList
  *****************************************************************************/
 
 void
-JBroadcasterMessageMap::SetElement
+JBroadcasterMessageMap::SetItem
 	(
 	const std::type_info&	key,
 	JBroadcaster*			obj,
@@ -150,17 +150,17 @@ JBroadcasterMessageMap::SetElement
 
 		bool found = false;
 
-		const JSize count = list->GetElementCount();
+		const JSize count = list->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			auto t = list->GetElement(i);
+			auto t = list->GetItem(i);
 			if (t.obj == obj)
 			{
 				t.CleanOut();
 
 				t.f   = f;
 				t.d_f = d;
-				list->SetElement(i, t);
+				list->SetItem(i, t);
 				found = true;
 				break;
 			}
@@ -168,7 +168,7 @@ JBroadcasterMessageMap::SetElement
 
 		if (!found)
 		{
-			list->PrependElement(JBroadcasterMessageTuple(obj, f, d));
+			list->PrependItem(JBroadcasterMessageTuple(obj, f, d));
 		}
 	}
 	else
@@ -176,7 +176,7 @@ JBroadcasterMessageMap::SetElement
 		hashEntry.list = jnew JArray<JBroadcasterMessageTuple>;
 		assert( hashEntry.list != nullptr );
 
-		hashEntry.list->PrependElement(JBroadcasterMessageTuple(obj, f, d));
+		hashEntry.list->PrependItem(JBroadcasterMessageTuple(obj, f, d));
 
 		cursor->Set(cursor->GetCursorHashValue(), hashEntry);
 	}
@@ -202,14 +202,14 @@ JBroadcasterMessageMap::RemoveTuple
 	auto* cursor = JHashTable<JBroadcasterMessageTarget>::GetCursor();
 	auto* list   = cursor->GetValue().list;
 
-	const JSize count = list->GetElementCount();
+	const JSize count = list->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		auto t = list->GetElement(i);
+		auto t = list->GetItem(i);
 		if (t.obj == obj)
 		{
 			t.CleanOut();
-			list->RemoveElement(i);
+			list->RemoveItem(i);
 
 			if (list->IsEmpty())
 			{

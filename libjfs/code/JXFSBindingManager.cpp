@@ -268,7 +268,7 @@ JXFSBindingManager::ProcessFiles
 		{
 			itsRunFileDialog =
 				jnew JXFSRunFileDialog(fileName,
-					fileList->GetElementCount() <= 1 || !ignoreBindings);
+					fileList->GetItemCount() <= 1 || !ignoreBindings);
 			assert( itsRunFileDialog != nullptr );
 			if (itsRunFileDialog->DoDialog())
 			{
@@ -308,16 +308,16 @@ JXFSBindingManager::ProcessFiles
 
 	JXGetApplication()->DisplayBusyCursor();
 
-	for (i=fileList->GetElementCount(); i>=1; i--)
+	for (i=fileList->GetItemCount(); i>=1; i--)
 	{
 		JFSBinding::CommandType t;
 		bool singleFile;
-		fileList->GetElement(i)->GetCommand(&t, &singleFile);
+		fileList->GetItem(i)->GetCommand(&t, &singleFile);
 
 		if (singleFile)
 		{
 			Exec(*fileList, i, i);
-			fileList->DeleteElement(i);
+			fileList->DeleteItem(i);
 		}
 	}
 
@@ -357,7 +357,7 @@ JXFSBindingManager::ProcessFiles
 			i++;
 		}
 
-		Exec(*fileList, startIndex, fileList->GetElementCount());
+		Exec(*fileList, startIndex, fileList->GetItemCount());
 	}
 }
 
@@ -430,7 +430,7 @@ JXFSBindingManager::Exec
 
 	// run command
 
-	JFSBinding* f = fileList.GetElement(startIndex);
+	JFSBinding* f = fileList.GetItem(startIndex);
 	JSplitPathAndName(f->GetPattern(), &path, &name);
 
 	JFSBinding::CommandType type;

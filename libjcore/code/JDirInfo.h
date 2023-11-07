@@ -170,54 +170,54 @@ public:
 	static const JUtf8Byte* kSettingsChanged;
 
 	class ContentsWillBeUpdated : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			ContentsWillBeUpdated()
-				:
-				JBroadcaster::Message(kContentsWillBeUpdated)
-				{ };
-		};
+		ContentsWillBeUpdated()
+			:
+			JBroadcaster::Message(kContentsWillBeUpdated)
+			{ };
+	};
 
 	class ContentsChanged : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			ContentsChanged()
-				:
-				JBroadcaster::Message(kContentsChanged)
-				{ };
-		};
+		ContentsChanged()
+			:
+			JBroadcaster::Message(kContentsChanged)
+			{ };
+	};
 
 	class PathChanged : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			PathChanged()
-				:
-				JBroadcaster::Message(kPathChanged)
-			{ };
-		};
+		PathChanged()
+			:
+			JBroadcaster::Message(kPathChanged)
+		{ };
+	};
 
 	class PermissionsChanged : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			PermissionsChanged()
-				:
-				JBroadcaster::Message(kPermissionsChanged)
-			{ };
-		};
+		PermissionsChanged()
+			:
+			JBroadcaster::Message(kPermissionsChanged)
+		{ };
+	};
 
 	class SettingsChanged : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			SettingsChanged()
-				:
-				JBroadcaster::Message(kSettingsChanged)
-			{ };
-		};
+		SettingsChanged()
+			:
+			JBroadcaster::Message(kSettingsChanged)
+		{ };
+	};
 };
 
 
@@ -334,7 +334,7 @@ inline JSize
 JDirInfo::GetEntryCount()
 	const
 {
-	return GetElementCount();
+	return GetItemCount();
 }
 
 /******************************************************************************
@@ -349,7 +349,7 @@ JDirInfo::GetEntry
 	)
 	const
 {
-	return *(itsVisEntries->GetElement(index));
+	return *itsVisEntries->GetItem(index);
 }
 
 /******************************************************************************
@@ -372,9 +372,9 @@ JDirInfo::ShouldSwitchToValidDirectory
 {
 	itsSwitchIfInvalidFlag = switchIfInvalid;
 	if (itsSwitchIfInvalidFlag && !itsIsValidFlag)
-		{
+	{
 		ForceUpdate();
-		}
+	}
 }
 
 /******************************************************************************

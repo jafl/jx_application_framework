@@ -610,7 +610,7 @@ JIndex i;
 		JCoordinate x,y,w,h;
 		input >> x >> y >> w >> h >> std::ws;
 		const JRect frame(y, x, y+h, x+w);
-		rectList.AppendElement(frame);
+		rectList.AppendItem(frame);
 
 		// box type
 
@@ -630,9 +630,9 @@ JIndex i;
 		line = JReadUntilws(input);
 		assert( line == kObjColorsMarker );
 		JString col1 = JReadUntilws(input);
-		optionValues.SetElement(kCol1Index, &col1, JPtrArrayT::kForget);
+		optionValues.SetItem(kCol1Index, &col1, JPtrArrayT::kForget);
 		JString col2 = JReadUntilws(input);
-		optionValues.SetElement(kCol2Index, &col2, JPtrArrayT::kForget);
+		optionValues.SetItem(kCol2Index, &col2, JPtrArrayT::kForget);
 
 		// label info
 
@@ -651,7 +651,7 @@ JIndex i;
 
 		JString shortcuts = JReadLine(input);
 		RemoveIdentifier(kObjShortcutMarker, &shortcuts);
-		optionValues.SetElement(kShortcutsIndex, &shortcuts, JPtrArrayT::kForget);
+		optionValues.SetItem(kShortcutsIndex, &shortcuts, JPtrArrayT::kForget);
 
 		// resizing (ignored)
 
@@ -693,7 +693,7 @@ JIndex i;
 
 		if (i==1 && flClass == "FL_BOX" && flType == "FL_FLAT_BOX" && col1 == "FL_COL1")
 		{
-			rectList.RemoveElement(objCount);
+			rectList.RemoveItem(objCount);
 			continue;
 		}
 
@@ -706,7 +706,7 @@ JIndex i;
 		}
 		else if (varName->IsEmpty())
 		{
-			isInstanceVar.AppendElement(false);
+			isInstanceVar.AppendItem(false);
 			GetTempVarName(tagName, varName, *objNames);
 			isLocal = true;
 		}
@@ -715,7 +715,7 @@ JIndex i;
 				 (varName->GetFirstCharacter() == '<' &&
 				  varName->GetLastCharacter()  == '>'))
 		{
-			isInstanceVar.AppendElement(false);
+			isInstanceVar.AppendItem(false);
 			isLocal  = varName->GetFirstCharacter() == '(';
 
 			JStringIterator iter(varName);
@@ -727,7 +727,7 @@ JIndex i;
 		}
 		else
 		{
-			isInstanceVar.AppendElement(true);
+			isInstanceVar.AppendItem(true);
 		}
 		objNames->Append(varName);
 
@@ -739,18 +739,18 @@ JIndex i;
 			std::cerr << "Illegal sizing specification ";
 			std::cerr << nwGravity << ',' << seGravity;
 			std::cerr << " for '" << *varName << '\'' << std::endl;
-			rectList.RemoveElement(objCount);
-			isInstanceVar.RemoveElement(objCount);
-			objNames->DeleteElement(objCount);
+			rectList.RemoveItem(objCount);
+			isInstanceVar.RemoveItem(objCount);
+			objNames->DeleteItem(objCount);
 			continue;
 		}
 
 		if (*varName == topEnclVarName)
 		{
 			std::cerr << "Cannot use reserved name '" << topEnclVarName << '\'' << std::endl;
-			rectList.RemoveElement(objCount);
-			isInstanceVar.RemoveElement(objCount);
-			objNames->DeleteElement(objCount);
+			rectList.RemoveItem(objCount);
+			isInstanceVar.RemoveItem(objCount);
+			objNames->DeleteItem(objCount);
 			continue;
 		}
 
@@ -761,8 +761,8 @@ JIndex i;
 		JRect localFrame = frame;
 		if (GetEnclosure(rectList, objCount, &enclIndex))
 		{
-			enclName = *objNames->GetElement(enclIndex);
-			const JRect enclFrame = rectList.GetElement(enclIndex);
+			enclName = *objNames->GetItem(enclIndex);
+			const JRect enclFrame = rectList.GetItem(enclIndex);
 			localFrame.Shift(-enclFrame.topLeft());
 		}
 		else
@@ -779,10 +779,10 @@ JIndex i;
 		if (!GetConstructor(flClass, flType, &label, className, &argList))
 		{
 			std::cerr << "Unsupported class: " << flClass << ", " << flType << std::endl;
-			rectList.RemoveElement(objCount);
-			isInstanceVar.RemoveElement(objCount);
-			objNames->DeleteElement(objCount);
-			objTypes->DeleteElement(objCount);
+			rectList.RemoveItem(objCount);
+			isInstanceVar.RemoveItem(objCount);
+			objNames->DeleteItem(objCount);
+			objTypes->DeleteItem(objCount);
 			continue;
 		}
 
@@ -841,7 +841,7 @@ JIndex i;
 			id.Print(output);
 			output << "\"), ";
 
-			stringMgr.SetElement(id, label, JPtrArrayT::kDelete);
+			stringMgr.SetItem(id, label, JPtrArrayT::kDelete);
 		}
 
 		enclName.Print(output);
@@ -894,7 +894,7 @@ JIndex i;
 	}
 	dbFileName += "_layout";
 
-	if (stringMgr.GetElementCount() > 0)
+	if (stringMgr.GetItemCount() > 0)
 	{
 		JEditVCS(dbFileName);
 		std::ofstream dbOutput(dbFileName.GetBytes());
@@ -923,15 +923,15 @@ JIndex i;
 	// throw away temporary variables
 
 	objCount--;
-	assert( objCount == isInstanceVar.GetElementCount() );
-	assert( objCount == objTypes->GetElementCount() );
-	assert( objCount == objNames->GetElementCount() );
+	assert( objCount == isInstanceVar.GetItemCount() );
+	assert( objCount == objTypes->GetItemCount() );
+	assert( objCount == objNames->GetItemCount() );
 	for (i=objCount; i>=1; i--)
 	{
-		if (!isInstanceVar.GetElement(i))
+		if (!isInstanceVar.GetItem(i))
 		{
-			objTypes->DeleteElement(i);
-			objNames->DeleteElement(i);
+			objTypes->DeleteItem(i);
+			objNames->DeleteItem(i);
 		}
 	}
 
@@ -953,15 +953,15 @@ GenerateHeader
 	)
 {
 	JIndex i;
-	const JSize count = objTypes.GetElementCount();
-	assert( count == objNames.GetElementCount() );
+	const JSize count = objTypes.GetItemCount();
+	assert( count == objNames.GetItemCount() );
 
 	// get width of longest type
 
 	JSize maxLen = 0;
 	for (i=1; i<=count; i++)
 	{
-		const JString* type = objTypes.GetElement(i);
+		const JString* type = objTypes.GetItem(i);
 		const JSize len     = type->GetCharacterCount();
 		if (len > maxLen)
 		{
@@ -974,7 +974,7 @@ GenerateHeader
 	for (i=1; i<=count; i++)
 	{
 		output << indent;
-		const JString* type = objTypes.GetElement(i);
+		const JString* type = objTypes.GetItem(i);
 		type->Print(output);
 		output << '*';
 		const JSize len = type->GetCharacterCount();
@@ -982,7 +982,7 @@ GenerateHeader
 		{
 			output << ' ';
 		}
-		(objNames.GetElement(i))->Print(output);
+		(objNames.GetItem(i))->Print(output);
 		output << ';' << std::endl;
 	}
 
@@ -1068,14 +1068,14 @@ GetTempVarName
 	suffix.Prepend("_");
 
 	const JString prefix("obj", JString::kNoCopy);
-	const JSize count = objNames.GetElementCount();
+	const JSize count = objNames.GetItemCount();
 	for (JIndex i=1; i<=INT_MAX; i++)
 	{
 		*varName = prefix + JString(i, 0) + suffix;
 		bool unique = true;
 		for (JIndex j=1; j<=count; j++)
 		{
-			const JString* usedName = objNames.GetElement(j);
+			const JString* usedName = objNames.GetItem(j);
 			if (*varName == *usedName)
 			{
 				unique = false;
@@ -1108,17 +1108,17 @@ GetEnclosure
 	JIndex*					enclIndex
 	)
 {
-	const JRect theRect = rectList.GetElement(rectIndex);
+	const JRect theRect = rectList.GetItem(rectIndex);
 	bool found = false;
 	*enclIndex = 0;
 
 	JSize minArea = 0;
-	const JSize count = rectList.GetElementCount();
+	const JSize count = rectList.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
 		if (i != rectIndex)
 		{
-			const JRect r = rectList.GetElement(i);
+			const JRect r = rectList.GetItem(i);
 			const JSize a = r.area();
 			if (r.Contains(theRect) && (a < minArea || minArea == 0))
 			{
@@ -1209,19 +1209,19 @@ SplitClassNameAndArgs
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	str.Split("(", &list, 2);
 
-	const bool hasArgs = list.GetElementCount() > 1;
+	const bool hasArgs = list.GetItemCount() > 1;
 	if (hasArgs &&
-		!list.GetFirstElement()->IsEmpty() &&
-		!list.GetLastElement()->IsEmpty())
+		!list.GetFirstItem()->IsEmpty() &&
+		!list.GetLastItem()->IsEmpty())
 	{
-		*name = *(list.GetFirstElement());
-		*args = *(list.GetLastElement());
+		*name = *(list.GetFirstItem());
+		*args = *(list.GetLastItem());
 
 		name->TrimWhitespace();
 		args->TrimWhitespace();
 		return true;
 	}
-	else if (hasArgs && list.GetFirstElement()->IsEmpty())
+	else if (hasArgs && list.GetFirstItem()->IsEmpty())
 	{
 		std::cerr << "No class name in " << str << std::endl;
 		name->Clear();
@@ -1232,7 +1232,7 @@ SplitClassNameAndArgs
 	{
 		if (hasArgs)
 		{
-			*name = *(list.GetFirstElement());
+			*name = *(list.GetFirstItem());
 		}
 		else
 		{
@@ -1301,7 +1301,7 @@ ApplyOptions
 				{
 					optionMap >> std::ws;
 					const JString function = JReadUntilws(optionMap);
-					const JString* value   = values.GetElement(kShortcutsIndex);
+					const JString* value   = values.GetItem(kShortcutsIndex);
 					if (!value->IsEmpty())
 					{
 						JString id = varName;
@@ -1319,7 +1319,7 @@ ApplyOptions
 						output << "\"));" << std::endl;
 
 						auto* s = jnew JString(*value);
-						stringMgr->SetElement(id, s, JPtrArrayT::kDelete);
+						stringMgr->SetItem(id, s, JPtrArrayT::kDelete);
 					}
 				}
 				else
@@ -1337,7 +1337,7 @@ ApplyOptions
 						optionMap >> std::ws;
 						const JString defValue = JReadUntilws(optionMap);
 						const JString function = JReadUntilws(optionMap);
-						const JString* value   = values.GetElement(i);
+						const JString* value   = values.GetItem(i);
 						if (*value != defValue)
 						{
 							JString jxColor;
@@ -1392,7 +1392,7 @@ ApplyOptions
 			id.Print(output);
 			output << "\"));" << std::endl;
 
-			stringMgr->SetElement(id, JString("Times", JString::kNoCopy), JPtrArrayT::kDelete);
+			stringMgr->SetItem(id, JString("Times", JString::kNoCopy), JPtrArrayT::kDelete);
 		}
 
 		if (flSize != "FL_NORMAL_SIZE")

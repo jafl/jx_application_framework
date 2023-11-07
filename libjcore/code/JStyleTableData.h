@@ -81,7 +81,7 @@ JStyleTableData::GetCellStyle
 	)
 	const
 {
-	return GetElement(cell);
+	return GetItem(cell);
 }
 
 #endif

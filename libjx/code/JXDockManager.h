@@ -146,8 +146,8 @@ JXDockManager::IsLastDock
 	)
 	const
 {
-	return itsDockList->GetElementCount() == 1 &&
-				 itsDockList->GetFirstElement() == dock;
+	return itsDockList->GetItemCount() == 1 &&
+				 itsDockList->GetFirstItem() == dock;
 }
 
 /******************************************************************************

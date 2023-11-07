@@ -40,7 +40,7 @@ JTEST(Exercise)
 		strcpy(newValue, keyBytes);
 		JAssertTrue(ptrMap.SetNewElement(key, newValue));
 	}
-	JAssertEqual(gNumStrings, ptrMap.GetElementCount());
+	JAssertEqual(gNumStrings, ptrMap.GetItemCount());
 	JAssertEqualWithMessage(gNumStrings, ptrMap.GetLoadCount(), "Map contains extra deleted elements!");
 
 // Compare with cursor
@@ -53,7 +53,7 @@ JTEST(Exercise)
 		JAssertStringsEqual(cursorValue, thisKey);
 
 		JUtf8Byte* mapValue = nullptr;
-		JAssertTrue(ptrMap.GetElement(thisKey, &mapValue));
+		JAssertTrue(ptrMap.GetItem(thisKey, &mapValue));
 		JAssertStringsEqual(mapValue, cursorValue);
 		++count;
 	}

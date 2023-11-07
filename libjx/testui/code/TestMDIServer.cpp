@@ -68,7 +68,7 @@ TestMDIServer::HandleMDIRequest
 	const bool ok = (TestjxGetApplication())->GetMainDirector(&director);
 	assert( ok );
 
-	const JSize argCount = argList.GetElementCount();
+	const JSize argCount = argList.GetItemCount();
 	if (argCount == 1)
 	{
 		un->DisplayMessage(JGetString("NoArgs::TestMDIServer"));
@@ -83,7 +83,7 @@ TestMDIServer::HandleMDIRequest
 
 		for (JIndex i=2; i<=argCount; i++)
 		{
-			const JString& fileName = *argList.GetElement(i);
+			const JString& fileName = *argList.GetItem(i);
 
 			JXFileDocument* doc;
 			if (docMgr->FileDocumentIsOpen(fileName, &doc))

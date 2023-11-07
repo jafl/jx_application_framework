@@ -13,7 +13,7 @@
 // must forward declare to avoid #include loop
 // (We do it here so JLinkedList includes JLinkedListIterator for convenience.)
 template <class T> class JLinkedList;
-template <class T> class JLinkedListElement;
+template <class T> class JLinkedListItem;
 
 template <class T>
 class JLinkedListIterator : public JListIterator<T>
@@ -54,9 +54,9 @@ protected:
 
 private:
 
-	JLinkedList<T>*			itsLinkedList;
-	JLinkedListElement<T>*	itsCurrElement;		// if cursor > 0, it is after this element
-	bool					itsIgnoreListChangedFlag;
+	JLinkedList<T>*		itsLinkedList;
+	JLinkedListItem<T>*	itsCurrItem;		// if cursor > 0, it is after this item
+	bool				itsIgnoreListChangedFlag;
 
 private:
 

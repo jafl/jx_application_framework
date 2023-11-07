@@ -1190,7 +1190,7 @@ inline JSize
 JTextEditor::GetLineCount()
 	const
 {
-	return itsLineStarts->GetElementCount();
+	return itsLineStarts->GetItemCount();
 }
 
 /******************************************************************************
@@ -1224,7 +1224,7 @@ JTextEditor::GetLineStart
 	)
 	const
 {
-	return itsLineStarts->GetElement(lineIndex);
+	return itsLineStarts->GetItem(lineIndex);
 }
 
 /******************************************************************************
@@ -1277,7 +1277,7 @@ JTextEditor::GetLineHeight
 	)
 	const
 {
-	if (lineIndex == itsLineGeom->GetElementCount()+1 && itsText->EndsWithNewline())
+	if (lineIndex == itsLineGeom->GetItemCount()+1 && itsText->EndsWithNewline())
 		{
 		return itsText->CalcInsertionFont(itsText->SelectAll().GetAfter()).GetLineHeight(itsFontManager);
 		}

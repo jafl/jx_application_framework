@@ -33,55 +33,55 @@ void NewFileTest
 {
 	JBroadcastTester snoop(&a);
 
-	JAssertEqual(embeddedFileCount, a.GetElementCount());
+	JAssertEqual(embeddedFileCount, a.GetItemCount());
 	JAssertFalse(a.GetVersion() == kVersionOfExistingFile);
 
 	a.SetVersion(kVersionOfExistingFile);
 	JAssertTrue(a.GetVersion() == kVersionOfExistingFile);
 
 
-	snoop.Expect(JFileArray::kElementInserted);
+	snoop.Expect(JFileArray::kItemInserted);
 {
 	std::ostringstream dataStream;
 	JString elementData("This was the first element that was added to the file.", JString::kNoCopy);
 
 	dataStream << elementData;
-	a.AppendElement(dataStream);
+	a.AppendItem(dataStream);
 }
-	JAssertEqual(1+embeddedFileCount, a.GetElementCount());
+	JAssertEqual(1+embeddedFileCount, a.GetItemCount());
 
 
-	snoop.Expect(JFileArray::kElementInserted);
+	snoop.Expect(JFileArray::kItemInserted);
 {
 	std::ostringstream dataStream;
 	JString elementData("This was the second element that was added to the file.", JString::kNoCopy);
 
 	dataStream << elementData;
-	a.PrependElement(dataStream);
+	a.PrependItem(dataStream);
 }
-	JAssertEqual(2+embeddedFileCount, a.GetElementCount());
+	JAssertEqual(2+embeddedFileCount, a.GetItemCount());
 
 
-	snoop.Expect(JFileArray::kElementRemoved);
-	a.RemoveElement(JFAIndex(removeIndex));
-	JAssertEqual(1+embeddedFileCount, a.GetElementCount());
+	snoop.Expect(JFileArray::kItemRemoved);
+	a.RemoveItem(JFAIndex(removeIndex));
+	JAssertEqual(1+embeddedFileCount, a.GetItemCount());
 
 
-	snoop.Expect(JFileArray::kElementInserted);
+	snoop.Expect(JFileArray::kItemInserted);
 {
 	std::ostringstream dataStream;
 	JString elementData("This was the third element that was added to the file", JString::kNoCopy);
 
 	dataStream << elementData;
-	a.PrependElement(dataStream);
+	a.PrependItem(dataStream);
 }
-	JAssertEqual(2+embeddedFileCount, a.GetElementCount());
+	JAssertEqual(2+embeddedFileCount, a.GetItemCount());
 
 
 {
 	JFAID id = 3;
 	std::string data;
-	a.GetElement(id, &data);
+	a.GetItem(id, &data);
 
 	std::istringstream dataStream(data);
 	JString elementData;
@@ -94,11 +94,11 @@ void NewFileTest
 }
 
 
-	snoop.Expect(JFileArray::kElementMoved);
-	a.MoveElementToIndex(1,2);
+	snoop.Expect(JFileArray::kItemMoved);
+	a.MoveItemToIndex(1,2);
 
 
-	snoop.Expect(JFileArray::kElementChanged);
+	snoop.Expect(JFileArray::kItemChanged);
 {
 	JFAIndex index = 1;
 
@@ -106,11 +106,11 @@ void NewFileTest
 	JString elementData("1st element shortended", JString::kNoCopy);
 
 	dataStream << elementData;
-	a.SetElement(index,dataStream);
+	a.SetItem(index,dataStream);
 }
 
 
-	snoop.Expect(JFileArray::kElementChanged);
+	snoop.Expect(JFileArray::kItemChanged);
 {
 	JFAIndex index = 2;
 
@@ -118,11 +118,11 @@ void NewFileTest
 	JString elementData("2nd element shortended", JString::kNoCopy);
 
 	dataStream << elementData;
-	a.SetElement(index,dataStream);
+	a.SetItem(index,dataStream);
 }
 
 
-	snoop.Expect(JFileArray::kElementChanged);
+	snoop.Expect(JFileArray::kItemChanged);
 {
 	JFAIndex index = 1;
 
@@ -130,11 +130,11 @@ void NewFileTest
 	JString elementData("Now the first element is really, really long!!!", JString::kNoCopy);
 
 	dataStream << elementData;
-	a.SetElement(index,dataStream);
+	a.SetItem(index,dataStream);
 }
 
 
-	snoop.Expect(JFileArray::kElementChanged);
+	snoop.Expect(JFileArray::kItemChanged);
 {
 	JFAIndex index = 2;
 
@@ -142,12 +142,12 @@ void NewFileTest
 	JString elementData("Now the second element is also very much longer!!!", JString::kNoCopy);
 
 	dataStream << elementData;
-	a.SetElement(index,dataStream);
+	a.SetItem(index,dataStream);
 }
 
 
-	snoop.Expect(JFileArray::kElementsSwapped);
-	a.SwapElements(1,2);
+	snoop.Expect(JFileArray::kItemsSwapped);
+	a.SwapItems(1,2);
 }
 
 void OldFileTest
@@ -156,7 +156,7 @@ void OldFileTest
 	const long			embeddedFileCount
 	)
 {
-	JAssertEqual(2+embeddedFileCount, a.GetElementCount());
+	JAssertEqual(2+embeddedFileCount, a.GetItemCount());
 	JAssertTrue(a.GetVersion() == kVersionOfExistingFile);
 
 	JString elementData;
@@ -169,7 +169,7 @@ void OldFileTest
 		JAssertEqual(4-i+embeddedFileCount, id.GetID());
 
 		std::string data;
-		a.GetElement(index, &data);
+		a.GetItem(index, &data);
 
 		std::istringstream dataStream(data);
 		dataStream >> elementData;

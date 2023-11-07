@@ -207,7 +207,7 @@ JXTipOfTheDayDialog::ParseTips()
 
 	assert( !itsTipList->IsEmpty() );
 
-	itsTipIndex = theRandomGenerator.UniformLong(1, itsTipList->GetElementCount());
+	itsTipIndex = theRandomGenerator.UniformLong(1, itsTipList->GetItemCount());
 	DisplayTip();
 }
 
@@ -240,5 +240,5 @@ JXTipOfTheDayDialog::AddTip
 void
 JXTipOfTheDayDialog::DisplayTip()
 {
-	JReadLimitedMarkdown(*itsTipList->GetElement(itsTipIndex), itsText->GetText());
+	JReadLimitedMarkdown(*itsTipList->GetItem(itsTipIndex), itsText->GetText());
 }

@@ -387,26 +387,26 @@ JXUnpackFileNames
 	JPtrArray<JString>*	urlList
 	)
 {
-	const JSize origCount = fileNameList->GetElementCount();
+	const JSize origCount = fileNameList->GetItemCount();
 	JXUnpackStrings(data, byteCount, fileNameList, kURISeparator, kURISeparatorLength);
-	const JSize newCount = fileNameList->GetElementCount();
+	const JSize newCount = fileNameList->GetItemCount();
 
 	JString fileName;
 	for (JIndex i=newCount; i>origCount; i--)
 	{
-		const JString* url = fileNameList->GetElement(i);
+		const JString* url = fileNameList->GetItem(i);
 		if (url->IsEmpty() || url->GetFirstCharacter() == kURICommentMarker)
 		{
-			fileNameList->DeleteElement(i);
+			fileNameList->DeleteItem(i);
 		}
 		else if (JURLToFileName(*url, &fileName))
 		{
-			*(fileNameList->GetElement(i)) = fileName;
+			*(fileNameList->GetItem(i)) = fileName;
 		}
 		else
 		{
-			urlList->Append(fileNameList->GetElement(i));
-			fileNameList->RemoveElement(i);
+			urlList->Append(fileNameList->GetItem(i));
+			fileNameList->RemoveItem(i);
 		}
 	}
 }

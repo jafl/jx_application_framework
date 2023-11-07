@@ -69,7 +69,7 @@ JBroadcaster::AddCallTarget
 	auto* a = jnew boost::any(fp);
 	assert( a != nullptr );
 
-	itsCallTargets->SetElement(typeid(T), recipient, a, d);
+	itsCallTargets->SetItem(typeid(T), recipient, a, d);
 }
 
 /******************************************************************************
@@ -98,7 +98,7 @@ JBroadcaster::Send
 	static_assert( std::is_base_of<Message, T>::value );
 
 	boost::any* a;
-	if (itsCallTargets != nullptr && itsCallTargets->GetElement(typeid(T), recipient, &a))
+	if (itsCallTargets != nullptr && itsCallTargets->GetItem(typeid(T), recipient, &a))
 	{
 		(*boost::any_cast<std::function<void(const T&)>*>(*a))(message);
 	}

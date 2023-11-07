@@ -1035,7 +1035,7 @@ JTextEditor::Paste
 			iter.Next(&f);
 		}
 
-		style1->AppendElements(f, text.GetCharacterCount());
+		style1->AppendItems(f, text.GetCharacterCount());
 	}
 
 	range = itsText->Paste(range, text, style != nullptr ? style : style1);
@@ -1318,7 +1318,7 @@ JTextEditor::CleanRightMargin
 	Returns breakpoints for cutting text into pages.  The first breakpoint
 	is always zero, and the last breakpoint is the height of the text.
 	Thus, it is easy to calculate the width of what is printed on each page
-	from (breakpt->GetElement(i+1) - breakpt->GetElement(i) + 1).
+	from (breakpt->GetItem(i+1) - breakpt->GetItem(i) + 1).
 
  ******************************************************************************/
 
@@ -1333,7 +1333,7 @@ JTextEditor::Paginate
 	assert( pageHeight > 0 );
 
 	breakpts->RemoveAll();
-	breakpts->AppendElement(0);
+	breakpts->AppendItem(0);
 
 	const JSize count = GetLineCount();
 
@@ -1382,7 +1382,7 @@ JTextEditor::Paginate
 			h = 0;
 		}
 
-		breakpts->AppendElement(breakpts->GetLastElement() + pageH);
+		breakpts->AppendItem(breakpts->GetLastItem() + pageH);
 		prev = i;
 	}
 		while (i < count || h > 0);
@@ -1435,7 +1435,7 @@ JTextEditor::Print
 
 	// print each page
 
-	const JSize pageCount = breakpts.GetElementCount() - 1;
+	const JSize pageCount = breakpts.GetItemCount() - 1;
 
 	bool cancelled = false;
 	for (JIndex i=1; i<=pageCount; i++)
@@ -1457,8 +1457,8 @@ JTextEditor::Print
 			p.LockFooter(footerHeight);
 		}
 
-		JPoint topLeft(0, breakpts.GetElement(i));
-		JPoint bottomRight(pageWidth, breakpts.GetElement(i+1));
+		JPoint topLeft(0, breakpts.GetItem(i));
+		JPoint bottomRight(pageWidth, breakpts.GetItem(i+1));
 		JRect clipRect(JPoint(0,0), bottomRight - topLeft);
 		p.SetClipRect(clipRect);
 
@@ -1549,7 +1549,7 @@ JTextEditor::GetCmdStatus
 	JArray<bool> flags(kCmdCount);
 	for (JIndex i=1; i<=kCmdCount; i++)
 	{
-		flags.AppendElement(false);
+		flags.AppendItem(false);
 	}
 
 	*isReadOnly = true;
@@ -1568,82 +1568,82 @@ JTextEditor::GetCmdStatus
 	}
 	else
 	{
-		flags.SetElement(kCopyCmd, true);
+		flags.SetItem(kCopyCmd, true);
 		*crmActionText  = JGetString("CRMSelectionAction::JTextEditor");
 		*crm2ActionText = JGetString("CRM2SelectionAction::JTextEditor");
 	}
 
-	flags.SetElement(kSelectAllCmd,      true);
-	flags.SetElement(kToggleReadOnlyCmd, true);
-	flags.SetElement(kShowWhitespaceCmd, true);
+	flags.SetItem(kSelectAllCmd,      true);
+	flags.SetItem(kToggleReadOnlyCmd, true);
+	flags.SetItem(kShowWhitespaceCmd, true);
 
 	if (itsType == kFullEditor)
 	{
 		*isReadOnly = false;
 
-		flags.SetElement(kPasteCmd, true);
+		flags.SetItem(kPasteCmd, true);
 		if (!itsSelection.IsEmpty())
 		{
-			flags.SetElement(kCutCmd,       true);
-			flags.SetElement(kDeleteSelCmd, true);
+			flags.SetItem(kCutCmd,       true);
+			flags.SetItem(kDeleteSelCmd, true);
 		}
 
 		if (!itsText->IsEmpty())
 		{
-			flags.SetElement(kCheckSpellingCmd,      true);
-			flags.SetElement(kCleanRightMarginCmd,   true);
-			flags.SetElement(kCoerceRightMarginCmd,  true);
-			flags.SetElement(kShiftSelLeftCmd,       true);
-			flags.SetElement(kShiftSelRightCmd,      true);
-			flags.SetElement(kForceShiftSelLeftCmd,  true);
-			flags.SetElement(kCleanAllWhitespaceCmd, true);
-			flags.SetElement(kCleanAllWSAlignCmd,    true);
+			flags.SetItem(kCheckSpellingCmd,      true);
+			flags.SetItem(kCleanRightMarginCmd,   true);
+			flags.SetItem(kCoerceRightMarginCmd,  true);
+			flags.SetItem(kShiftSelLeftCmd,       true);
+			flags.SetItem(kShiftSelRightCmd,      true);
+			flags.SetItem(kForceShiftSelLeftCmd,  true);
+			flags.SetItem(kCleanAllWhitespaceCmd, true);
+			flags.SetItem(kCleanAllWSAlignCmd,    true);
 
 			if (!itsSelection.IsEmpty())
 			{
-				flags.SetElement(kCheckSpellingSelCmd,   true);
-				flags.SetElement(kCleanWhitespaceSelCmd, true);
-				flags.SetElement(kCleanWSAlignSelCmd,    true);
+				flags.SetItem(kCheckSpellingSelCmd,   true);
+				flags.SetItem(kCleanWhitespaceSelCmd, true);
+				flags.SetItem(kCleanWSAlignSelCmd,    true);
 			}
 		}
 
 		bool canUndo, canRedo;
 		if (itsText->HasMultipleUndo(&canUndo, &canRedo))
 		{
-			flags.SetElement(kUndoCmd, canUndo);
-			flags.SetElement(kRedoCmd, canRedo);
+			flags.SetItem(kUndoCmd, canUndo);
+			flags.SetItem(kRedoCmd, canRedo);
 		}
 		else if (itsText->HasSingleUndo())
 		{
-			flags.SetElement(kUndoCmd, true);
-			flags.SetElement(kRedoCmd, false);
+			flags.SetItem(kUndoCmd, true);
+			flags.SetItem(kRedoCmd, false);
 		}
 	}
 
 	// Search & Replace menu
 
-	flags.SetElement(kFindDialogCmd, true);
+	flags.SetItem(kFindDialogCmd, true);
 
 	if (!itsText->IsEmpty())
 	{
-		flags.SetElement(kFindClipboardBackwardCmd, true);
-		flags.SetElement(kFindClipboardForwardCmd,  true);
+		flags.SetItem(kFindClipboardBackwardCmd, true);
+		flags.SetItem(kFindClipboardForwardCmd,  true);
 
 		if (TEHasSearchText())
 		{
-			flags.SetElement(kFindNextCmd,     true);
-			flags.SetElement(kFindPreviousCmd, true);
+			flags.SetItem(kFindNextCmd,     true);
+			flags.SetItem(kFindPreviousCmd, true);
 
 			if (itsType == kFullEditor)
 			{
-				flags.SetElement(kReplaceAllCmd,  true);
+				flags.SetItem(kReplaceAllCmd,  true);
 
 				if (HasSelection())
 				{
-					flags.SetElement(kReplaceSelectionCmd,      true);
-					flags.SetElement(kReplaceFindNextCmd,       true);
-					flags.SetElement(kReplaceFindPrevCmd,       true);
-					flags.SetElement(kReplaceAllInSelectionCmd, true);
+					flags.SetItem(kReplaceSelectionCmd,      true);
+					flags.SetItem(kReplaceFindNextCmd,       true);
+					flags.SetItem(kReplaceFindPrevCmd,       true);
+					flags.SetItem(kReplaceAllInSelectionCmd, true);
 				}
 			}
 		}
@@ -1651,10 +1651,10 @@ JTextEditor::GetCmdStatus
 
 	if (HasSelection())
 	{
-		flags.SetElement(kEnterSearchTextCmd,       true);
-		flags.SetElement(kEnterReplaceTextCmd,      true);
-		flags.SetElement(kFindSelectionBackwardCmd, true);
-		flags.SetElement(kFindSelectionForwardCmd,  true);
+		flags.SetItem(kEnterSearchTextCmd,       true);
+		flags.SetItem(kEnterReplaceTextCmd,      true);
+		flags.SetItem(kFindSelectionBackwardCmd, true);
+		flags.SetItem(kFindSelectionForwardCmd,  true);
 	}
 
 	return flags;
@@ -3583,7 +3583,7 @@ JTextEditor::GetLineTop
 	const
 {
 	return (endLineIndex == 1 ? 0 :
-			itsLineGeom->SumElements(1, endLineIndex-1, GetLineHeight));
+			itsLineGeom->SumItems(1, endLineIndex-1, GetLineHeight));
 }
 
 /******************************************************************************
@@ -3809,7 +3809,7 @@ JTextEditor::RecalcAll
 	itsMaxWordWidth = 0;
 
 	itsLineStarts->RemoveAll();
-	itsLineStarts->AppendElement(TextIndex(1,1));
+	itsLineStarts->AppendItem(TextIndex(1,1));
 
 	itsLineGeom->RemoveAll();
 
@@ -3870,14 +3870,14 @@ JTextEditor::Recalc
 	else
 	{
 		itsLineStarts->RemoveAll();
-		itsLineStarts->AppendElement(TextIndex(1,1));
+		itsLineStarts->AppendItem(TextIndex(1,1));
 
 		itsLineGeom->RemoveAll();
 
 		const JFont f = itsText->CalcInsertionFont(TextIndex(1,1));
 		JCoordinate ascent,descent;
 		const JCoordinate h = f.GetLineHeight(itsFontManager, &ascent, &descent);
-		itsLineGeom->AppendElement(LineGeometry(h, ascent));
+		itsLineGeom->AppendItem(LineGeometry(h, ascent));
 
 		firstLineIndex = lastLineIndex = 1;
 	}
@@ -3898,7 +3898,7 @@ JTextEditor::Recalc
 
 	// If all the lines are the same height, set the scrolling step size to that.
 
-	if (itsLineGeom->AllElementsEqual() && !itsIsPrintingFlag)
+	if (itsLineGeom->AllItemsEqual() && !itsIsPrintingFlag)
 	{
 		TESetVertScrollStep(GetLineHeight(1));
 	}
@@ -4015,7 +4015,7 @@ JTextEditor::RecalcRange
 			   (itsPrevTextEnd.charCount+1) - GetLineStart(lineIndex+1).charIndex >
 					textLength.charCount - endCharIndex)
 		{
-			itsLineStarts->RemoveElement(lineIndex+1);
+			itsLineStarts->RemoveItem(lineIndex+1);
 			geomIter.RemoveNext();
 		}
 
@@ -4053,7 +4053,7 @@ JTextEditor::RecalcRange
 		// insert the new line start
 
 		lineIndex++;
-		itsLineStarts->InsertElementAtIndex(lineIndex,
+		itsLineStarts->InsertItemAtIndex(lineIndex,
 			TextIndex(textIter->GetNextCharacterIndex(), textIter->GetNextByteIndex()));
 		geomIter.Insert(LineGeometry());	// next iteration will fill in values
 
@@ -4065,7 +4065,7 @@ JTextEditor::RecalcRange
 			(itsPrevTextEnd.charCount+1) - GetLineStart(lineIndex+1).charIndex ==
 				textLength.charCount - endCharIndex)
 		{
-			itsLineStarts->RemoveElement(lineIndex+1);
+			itsLineStarts->RemoveItem(lineIndex+1);
 
 			geomIter.SkipNext();
 			geomIter.RemoveNext();

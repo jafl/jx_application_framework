@@ -15,19 +15,19 @@
 #include "JRange.h"
 
 template <class T>
-class JRunArrayElement
+class JRunArrayItem
 {
 public:
 
 	JSize	length;
 	T		data;
 
-	JRunArrayElement()
+	JRunArrayItem()
 		:
 		length( 0 )
 		{ };
 
-	JRunArrayElement
+	JRunArrayItem
 		(
 		const JSize	runLength,
 		const T&	runData
@@ -53,22 +53,22 @@ public:
 
 	JRunArray<T>& operator=(const JRunArray<T>& source);
 
-	T	GetFirstElement() const override;
-	T	GetLastElement() const override;
+	T	GetFirstItem() const override;
+	T	GetLastItem() const override;
 
-	void	PrependElement(const T& data) override;
-	void	AppendElement(const T& data) override;
+	void	PrependItem(const T& data) override;
+	void	AppendItem(const T& data) override;
 
-	void	PrependElements(const T& data, const JSize count);
-	void	AppendElements(const T& data, const JSize count);
+	void	PrependItems(const T& data, const JSize count);
+	void	AppendItems(const T& data, const JSize count);
 
 	void	PrependSlice(const JRunArray<T>& source, const JIndexRange& range);
 	void	AppendSlice(const JRunArray<T>& source, const JIndexRange& range);
 
 	void	RemoveAll() override;
 
-	bool		AllElementsEqual(T* data = nullptr) const;
-	JInteger	SumElements(const JIndex startIndex, const JIndex endIndex,
+	bool		AllItemsEqual(T* data = nullptr) const;
+	JInteger	SumItems(const JIndex startIndex, const JIndex endIndex,
 							JInteger (*value)(const T& data)) const;
 	bool		FindPositiveSum(const JInteger requestedSum, const JIndex startIndex,
 								JIndex* endIndex, JInteger* trueSum,
@@ -88,14 +88,14 @@ public:
 
 private:
 
-	JArray< JRunArrayElement<T> >*	itsRuns;
+	JArray< JRunArrayItem<T> >*	itsRuns;
 
 private:
 
 	JSize		GetRunLength(const JIndex runIndex) const;
 	const T&	GetRunData(const JIndex runIndex) const;
 	void		SetRunData(const JIndex runIndex, const T& data);
-	bool		FindRun(const JIndex elementIndex,
+	bool		FindRun(const JIndex itemIndex,
 						JIndex* runIndex, JIndex* firstIndexInRun) const;
 	bool		IncrementalFindRun(const JIndex origIndex, const JIndex newIndex,
 								   JIndex* runIndex, JIndex* firstIndexInRun) const;
@@ -108,24 +108,24 @@ private:
 	void	IncrementRunLength(const JIndex runIndex, const JSize delta);
 	void	DecrementRunLength(const JIndex runIndex, const JSize delta);
 
-	void	IteratorInsertElementsAtIndex(const JIndex elementIndex,
-										  const T& data, const JSize newElementCount,
-										  JIndex* runIndex, JIndex* firstIndexInRun);
-	void	IteratorInsertSlice(const JIndex elementIndex,
+	void	IteratorInsertItemsAtIndex(const JIndex itemIndex,
+									   const T& data, const JSize newElementCount,
+									   JIndex* runIndex, JIndex* firstIndexInRun);
+	void	IteratorInsertSlice(const JIndex itemIndex,
 								const JRunArray<T>& source, const JIndexRange& range,
 								JIndex* runIndex, JIndex* firstIndexInRun);
-	void	IteratorSetElements(const JIndex elementIndex, const T& data, const JSize count,
+	void	IteratorSetItems(const JIndex itemIndex, const T& data, const JSize count,
+							 JIndex* runIndex, JIndex* firstIndexInRun);
+	void	IteratorRemoveItems(const JIndex firstIndex, const JSize count,
 								JIndex* runIndex, JIndex* firstIndexInRun);
-	void	IteratorRemoveElements(const JIndex firstIndex, const JSize count,
-								   JIndex* runIndex, JIndex* firstIndexInRun);
 
-	JIndex	PrivateInsertElementsAtIndex(const JIndex elementIndex,
-										 const T& data, const JSize newElementCount,
-										 JIndex* runIndex, JIndex* firstIndexInRun);
-	bool	PrivateSetElement(const JIndex elementIndex, const T& data,
-							  JIndex* runIndex, JIndex* firstIndexInRun);
-	void	PrivateRemoveElements(const JIndex firstIndex, const JSize count,
-								  JIndex* runIndex, JIndex* firstIndexInRun);
+	JIndex	PrivateInsertItemsAtIndex(const JIndex itemIndex,
+									  const T& data, const JSize newElementCount,
+									  JIndex* runIndex, JIndex* firstIndexInRun);
+	bool	PrivateSetItem(const JIndex itemIndex, const T& data,
+						   JIndex* runIndex, JIndex* firstIndexInRun);
+	void	PrivateRemoveItems(const JIndex firstIndex, const JSize count,
+							   JIndex* runIndex, JIndex* firstIndexInRun);
 };
 
 #include "JRunArray.tmpl"

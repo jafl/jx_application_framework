@@ -143,16 +143,16 @@ JXXFontMenu::BuildMenu
 
 	JXFontManager* fontManager = GetDisplay()->GetXFontManager();
 
-	const JSize count = fontNames.GetElementCount();
+	const JSize count = fontNames.GetItemCount();
 	assert( count > 0 );
 	for (JIndex i=1; i<=count; i++)
 	{
-		const JString* fontName = fontNames.GetElement(i);
+		const JString* fontName = fontNames.GetItem(i);
 		AppendItem(*fontName, kRadioType);
 		SetItemFontName(i, *fontName);
 
 		fontManager->Preload(GetItemFont(i).GetID());
 	}
 
-	SetFontName(*fontNames.GetFirstElement());
+	SetFontName(*fontNames.GetFirstItem());
 }

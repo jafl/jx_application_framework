@@ -24,17 +24,17 @@ JTEST(GetSet)
 	JStringMap<int> map;
 
 	int v;
-	JAssertFalse(map.GetElement(key, &v));
+	JAssertFalse(map.GetItem(key, &v));
 
-	map.SetElement(key, 42);
+	map.SetItem(key, 42);
 
 	v = 10;
-	JAssertTrue(map.GetElement(key, &v));
+	JAssertTrue(map.GetItem(key, &v));
 	JAssertEqual(42, v);
 
-	JAssertTrue(map.RemoveElement(key));
+	JAssertTrue(map.RemoveItem(key));
 
-	JAssertFalse(map.GetElement(key, &v));
+	JAssertFalse(map.GetItem(key, &v));
 }
 
 JTEST(InsertRemove)
@@ -51,7 +51,7 @@ JTEST(InsertRemove)
 
 	JStringMap<int> map(0); // Ridiculous table size to really exercise resizer
 
-	JAssertEqual(0, map.GetElementCount());
+	JAssertEqual(0, map.GetItemCount());
 	JAssertEqualWithMessage(0, map.GetLoadCount(), "Map should not have deleted elements!");
 
 // Search for keys, all should fail
@@ -59,9 +59,9 @@ JTEST(InsertRemove)
 	{
 		keyBytes[0] = 'A' + i;
 		key         = keyBytes;
-		JAssertFalse(map.GetElement(key, &v));
+		JAssertFalse(map.GetItem(key, &v));
 	}
-	JAssertEqual(0, map.GetElementCount());
+	JAssertEqual(0, map.GetItemCount());
 	JAssertEqualWithMessage(0, map.GetLoadCount(), "Map should not have deleted elements!");
 
 // Insert keys
@@ -73,7 +73,7 @@ JTEST(InsertRemove)
 //			 << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
 		JAssertTrue(map.SetNewElement(key, i+42));
 	}
-	JAssertEqual(gNumStrings, map.GetElementCount());
+	JAssertEqual(gNumStrings, map.GetItemCount());
 	JAssertEqualWithMessage(gNumStrings, map.GetLoadCount(), "Map contains extra deleted elements!");
 
 {
@@ -98,10 +98,10 @@ JTEST(InsertRemove)
 	{
 		keyBytes[0] = 'A' + i;
 		key         = keyBytes;
-		JAssertTrue(map.GetElement(key, &v));
+		JAssertTrue(map.GetItem(key, &v));
 		JAssertEqual(i+42, JSize(v));
 	}
-	JAssertEqual(gNumStrings, map.GetElementCount());
+	JAssertEqual(gNumStrings, map.GetItemCount());
 	JAssertEqualWithMessage(gNumStrings, map.GetLoadCount(), "Map contains extra deleted elements!");
 
 // Search for other keys, all should fail
@@ -109,9 +109,9 @@ JTEST(InsertRemove)
 	{
 		keyBytes[0] = 'a' + i;
 		key         = keyBytes;
-		JAssertFalse(map.GetElement(key, &v));
+		JAssertFalse(map.GetItem(key, &v));
 	}
-	JAssertEqual(gNumStrings, map.GetElementCount());
+	JAssertEqual(gNumStrings, map.GetItemCount());
 	JAssertEqualWithMessage(gNumStrings, map.GetLoadCount(), "Map contains extra deleted elements!");
 
 // Modify values
@@ -123,7 +123,7 @@ JTEST(InsertRemove)
 //		     << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
 		JAssertTrue(map.SetOldElement(key, 99+i));
 	}
-	JAssertEqual(gNumStrings, map.GetElementCount());
+	JAssertEqual(gNumStrings, map.GetItemCount());
 	JAssertEqualWithMessage(gNumStrings, map.GetLoadCount(), "Map contains extra deleted elements!");
 
 // Search for keys, should all succeed
@@ -131,10 +131,10 @@ JTEST(InsertRemove)
 	{
 		keyBytes[0] = 'A' + i;
 		key         = keyBytes;
-		JAssertTrue(map.GetElement(key, &v));
+		JAssertTrue(map.GetItem(key, &v));
 		JAssertEqual(i+99, JSize(v));
 	}
-	JAssertEqual(gNumStrings, map.GetElementCount());
+	JAssertEqual(gNumStrings, map.GetItemCount());
 	JAssertEqualWithMessage(gNumStrings, map.GetLoadCount(), "Map contains extra deleted elements!");
 
 // Search for other keys, all should fail
@@ -142,9 +142,9 @@ JTEST(InsertRemove)
 	{
 		keyBytes[0] = 'a' + i;
 		key         = keyBytes;
-		JAssertFalse(map.GetElement(key, &v));
+		JAssertFalse(map.GetItem(key, &v));
 	}
-	JAssertEqual(gNumStrings, map.GetElementCount());
+	JAssertEqual(gNumStrings, map.GetItemCount());
 	JAssertEqualWithMessage(gNumStrings, map.GetLoadCount(), "Map contains extra deleted elements!");
 
 // Remove other keys, all should fail
@@ -152,9 +152,9 @@ JTEST(InsertRemove)
 	{
 		keyBytes[0] = 'a' + i;
 		key         = keyBytes;
-		JAssertFalse(map.RemoveElement(key));
+		JAssertFalse(map.RemoveItem(key));
 	}
-	JAssertEqual(gNumStrings, map.GetElementCount());
+	JAssertEqual(gNumStrings, map.GetItemCount());
 	JAssertEqualWithMessage(gNumStrings, map.GetLoadCount(), "Map contains extra deleted elements!");
 
 // Remove keys, all should succeed
@@ -164,9 +164,9 @@ JTEST(InsertRemove)
 		key         = keyBytes;
 //		cout << "Removing string \"" << key << "\" with fill/load factor "
 //			 << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
-		JAssertTrue(map.RemoveElement(key));
+		JAssertTrue(map.RemoveItem(key));
 	}
-	JAssertEqual(0, map.GetElementCount());
+	JAssertEqual(0, map.GetItemCount());
 	JAssertEqualWithMessage(0, map.GetLoadCount(), "Map still contains deleted elements!");
 
 // Remove other keys, all should fail
@@ -174,9 +174,9 @@ JTEST(InsertRemove)
 	{
 		keyBytes[0] = 'a' + i;
 		key         = keyBytes;
-		JAssertFalse(map.RemoveElement(key));
+		JAssertFalse(map.RemoveItem(key));
 	}
-	JAssertEqual(0, map.GetElementCount());
+	JAssertEqual(0, map.GetItemCount());
 	JAssertEqualWithMessage(0, map.GetLoadCount(), "Map still contains deleted elements!");
 
 // Re-insert
@@ -188,12 +188,12 @@ JTEST(InsertRemove)
 //			 << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
 		JAssertTrue(map.SetNewElement(key, -i));
 	}
-	JAssertEqual(gNumStrings, map.GetElementCount());
+	JAssertEqual(gNumStrings, map.GetItemCount());
 	JAssertEqualWithMessage(gNumStrings, map.GetLoadCount(), "Map contains extra deleted elements!");
 
 // Remove them all at once
 	map.RemoveAll();
-	JAssertEqual(0, map.GetElementCount());
+	JAssertEqual(0, map.GetItemCount());
 	JAssertEqualWithMessage(0, map.GetLoadCount(), "Map still contains deleted elements!");
 	JAssertEqual(0, map.GetFillFactor());
 	JAssertEqual(0, map.GetLoadFactor());

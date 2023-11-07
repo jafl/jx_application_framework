@@ -141,7 +141,7 @@ JXMenuData::AppendItem
 	const JString&			id
 	)
 {
-	InsertItem(GetElementCount()+1, type, shortcuts, id);
+	InsertItem(GetItemCount()+1, type, shortcuts, id);
 }
 
 /******************************************************************************
@@ -156,7 +156,7 @@ JXMenuData::IsEnabled
 	)
 	const
 {
-	const BaseItemData itemData = itsBaseItemData->GetElement(index);
+	const BaseItemData itemData = itsBaseItemData->GetItem(index);
 	return itemData.enabled;
 }
 
@@ -200,7 +200,7 @@ JXMenuData::GetType
 	)
 	const
 {
-	const BaseItemData itemData = itsBaseItemData->GetElement(index);
+	const BaseItemData itemData = itsBaseItemData->GetItem(index);
 	return itemData.type;
 }
 
@@ -216,7 +216,7 @@ JXMenuData::IsChecked
 	)
 	const
 {
-	const BaseItemData itemData = itsBaseItemData->GetElement(index);
+	const BaseItemData itemData = itsBaseItemData->GetItem(index);
 	return itemData.isChecked;
 }
 
@@ -232,7 +232,7 @@ JXMenuData::HasSubmenu
 	)
 	const
 {
-	const BaseItemData itemData = itsBaseItemData->GetElement(index);
+	const BaseItemData itemData = itsBaseItemData->GetItem(index);
 	return itemData.submenu != nullptr;
 }
 
@@ -249,7 +249,7 @@ JXMenuData::GetSubmenu
 	)
 	const
 {
-	const BaseItemData itemData = itsBaseItemData->GetElement(index);
+	const BaseItemData itemData = itsBaseItemData->GetItem(index);
 	*menu = itemData.submenu;
 	return itemData.submenu != nullptr;
 }
@@ -267,7 +267,7 @@ JXMenuData::GetItemShortcuts
 	)
 	const
 {
-	*shortcuts = (itsBaseItemData->GetElement(index)).shortcuts;
+	*shortcuts = (itsBaseItemData->GetItem(index)).shortcuts;
 	return *shortcuts != nullptr;
 }
 
@@ -284,7 +284,7 @@ JXMenuData::GetItemID
 	)
 	const
 {
-	*id = (itsBaseItemData->GetElement(index)).id;
+	*id = (itsBaseItemData->GetItem(index)).id;
 	return *id != nullptr;
 }
 

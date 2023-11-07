@@ -43,7 +43,7 @@ JStringTableData::GetString
 	)
 	const
 {
-	return GetElement(row,col);
+	return GetItem(row,col);
 }
 
 inline const JString&
@@ -53,7 +53,7 @@ JStringTableData::GetString
 	)
 	const
 {
-	return GetElement(cell);
+	return GetItem(cell);
 }
 
 /******************************************************************************
@@ -69,7 +69,7 @@ JStringTableData::SetString
 	const JString&	s
 	)
 {
-	SetElement(row,col, s);
+	SetItem(row,col, s);
 }
 
 inline void
@@ -79,7 +79,7 @@ JStringTableData::SetString
 	const JString&	s
 	)
 {
-	SetElement(cell, s);
+	SetItem(cell, s);
 }
 
 #endif

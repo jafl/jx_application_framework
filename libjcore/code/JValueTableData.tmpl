@@ -101,66 +101,66 @@ JValueTableData<S,T>::SetDefaultValue
 }
 
 /******************************************************************************
- GetElement
+ GetItem
 
  ******************************************************************************/
 
 template <class S, class T>
 T
-JValueTableData<S,T>::GetElement
+JValueTableData<S,T>::GetItem
 	(
 	const JIndex row,
 	const JIndex col
 	)
 	const
 {
-	const S* dataCol = itsCols->GetElement(col);
-	return dataCol->GetElement(row);
+	const S* dataCol = itsCols->GetItem(col);
+	return dataCol->GetItem(row);
 }
 
 template <class S, class T>
 T
-JValueTableData<S,T>::GetElement
+JValueTableData<S,T>::GetItem
 	(
 	const JPoint& cell
 	)
 	const
 {
-	const S* dataCol = itsCols->GetElement(cell.x);
-	return dataCol->GetElement(cell.y);
+	const S* dataCol = itsCols->GetItem(cell.x);
+	return dataCol->GetItem(cell.y);
 }
 
 /******************************************************************************
- SetElement
+ SetItem
 
  ******************************************************************************/
 
 template <class S, class T>
 void
-JValueTableData<S,T>::SetElement
+JValueTableData<S,T>::SetItem
 	(
 	const JIndex	row,
 	const JIndex	col,
 	const T&		data
 	)
 {
-	S* dataCol = itsCols->GetElement(col);
-	if (data != dataCol->GetElement(row))
+	S* dataCol = itsCols->GetItem(col);
+	if (data != dataCol->GetItem(row))
 	{
-		dataCol->SetElement(row, data);
+		dataCol->SetItem(row, data);
 		Broadcast(JTableData::RectChanged(row,col));
 	}
 }
 
 template <class S, class T>
 void
-JValueTableData<S,T>::SetElement
+JValueTableData<S,T>::SetItem
 	(
 	const JPoint&	cell,
 	const T&		data
 	)
 {
-	SetElement(cell.y, cell.x, data);
+	SetItem(cell.y, cell.x, data);
 }
 
 /******************************************************************************
@@ -182,8 +182,8 @@ JValueTableData<S,T>::GetRow
 	const JSize colCount = GetColCount();
 	for (JIndex i=1; i<=colCount; i++)
 	{
-		const S* dataCol = itsCols->GetElement(i);
-		rowData->InsertElementAtIndex(i, dataCol->GetElement(index));
+		const S* dataCol = itsCols->GetItem(i);
+		rowData->InsertItemAtIndex(i, dataCol->GetItem(index));
 	}
 }
 
@@ -201,12 +201,12 @@ JValueTableData<S,T>::SetRow
 	)
 {
 	const JSize colCount = GetColCount();
-	assert( rowData.GetElementCount() == colCount );
+	assert( rowData.GetItemCount() == colCount );
 
 	for (JIndex i=1; i<=colCount; i++)
 	{
-		S* dataCol = itsCols->GetElement(i);
-		dataCol->SetElement(index, rowData.GetElement(i));
+		S* dataCol = itsCols->GetItem(i);
+		dataCol->SetItem(index, rowData.GetItem(i));
 	}
 
 	Broadcast(JTableData::RectChanged(JRect(index, 1, index+1, colCount+1)));
@@ -231,10 +231,10 @@ JValueTableData<S,T>::GetCol
 	colData->RemoveAll();
 
 	const JSize rowCount = GetRowCount();
-	const S* dataCol = itsCols->GetElement(index);
+	const S* dataCol = itsCols->GetItem(index);
 	for (JIndex i=1; i<=rowCount; i++)
 	{
-		colData->InsertElementAtIndex(i, dataCol->GetElement(i));
+		colData->InsertItemAtIndex(i, dataCol->GetItem(i));
 	}
 }
 
@@ -254,12 +254,12 @@ JValueTableData<S,T>::SetCol
 	)
 {
 	const JSize rowCount = GetRowCount();
-	assert( colData.GetElementCount() == rowCount );
+	assert( colData.GetItemCount() == rowCount );
 
-	S* dataCol = itsCols->GetElement(index);
+	S* dataCol = itsCols->GetItem(index);
 	for (JIndex i=1; i<=rowCount; i++)
 	{
-		dataCol->SetElement(i, colData.GetElement(i));
+		dataCol->SetItem(i, colData.GetItem(i));
 	}
 
 	Broadcast(JTableData::RectChanged(JRect(1, index, rowCount+1, index+1)));
@@ -279,7 +279,7 @@ JValueTableData<S,T>::InsertRows
 	const JList<T>*	initData
 	)
 {
-	assert( initData == nullptr || initData->GetElementCount() == GetColCount() );
+	assert( initData == nullptr || initData->GetItemCount() == GetColCount() );
 
 	if (count > 0)
 	{
@@ -303,13 +303,13 @@ JValueTableData<S,T>::InsertRows
 
 			for (JIndex i=1; i<=colCount; i++)
 			{
-				S* colData = itsCols->GetElement(i);
+				S* colData = itsCols->GetItem(i);
 				if (iter != nullptr)
 				{
 					const bool ok = iter->Next(&data);
 					assert( ok );
 				}
-				colData->InsertElementAtIndex(trueIndex, data);
+				colData->InsertItemAtIndex(trueIndex, data);
 			}
 		}
 
@@ -364,8 +364,8 @@ JValueTableData<S,T>::DuplicateRow
 
 	for (auto* colData : *itsCols)
 	{
-		const T element = colData->GetElement(origIndex);
-		colData->InsertElementAtIndex(trueIndex, element);
+		const T element = colData->GetItem(origIndex);
+		colData->InsertItemAtIndex(trueIndex, element);
 	}
 
 	RowsAdded(1);
@@ -408,7 +408,7 @@ JValueTableData<S,T>::RemoveNextRows
 	{
 		for (auto* colData : *itsCols)
 		{
-			colData->RemoveNextElements(firstIndex, count);
+			colData->RemoveNextItems(firstIndex, count);
 		}
 
 		RowsDeleted(count);
@@ -468,7 +468,7 @@ JValueTableData<S,T>::MoveRow
 	{
 		for (auto* colData : *itsCols)
 		{
-			colData->MoveElementToIndex(origIndex, newIndex);
+			colData->MoveItemToIndex(origIndex, newIndex);
 		}
 
 		Broadcast(JTableData::RowMoved(origIndex, newIndex));
@@ -489,7 +489,7 @@ JValueTableData<S,T>::InsertCols
 	const JList<T>*	initData
 	)
 {
-	assert( initData == nullptr || initData->GetElementCount() == GetRowCount() );
+	assert( initData == nullptr || initData->GetItemCount() == GetRowCount() );
 
 	if (count > 0)
 	{
@@ -515,14 +515,14 @@ JValueTableData<S,T>::InsertCols
 				{
 					const bool ok = iter->Next(&data);
 					assert( ok );
-					colData->InsertElementAtIndex(i, data);
+					colData->InsertItemAtIndex(i, data);
 				}
 			}
 			else
 			{
 				for (JIndex i=1; i<=rowCount; i++)
 				{
-					colData->AppendElement(itsDefValue);
+					colData->AppendItem(itsDefValue);
 				}
 			}
 		}
@@ -575,7 +575,7 @@ JValueTableData<S,T>::DuplicateCol
 	)
 {
 	const JIndex trueIndex = JMin(newIndex, GetColCount()+1);
-	itsCols->InsertAtIndex(trueIndex, *(itsCols->GetElement(origIndex)));
+	itsCols->InsertAtIndex(trueIndex, *(itsCols->GetItem(origIndex)));
 
 	ColsAdded(1);
 	Broadcast(JTableData::ColDuplicated(origIndex, trueIndex));
@@ -617,7 +617,7 @@ JValueTableData<S,T>::RemoveNextCols
 	{
 		for (JIndex i=1; i<=count; i++)
 		{
-			itsCols->DeleteElement(firstIndex);
+			itsCols->DeleteItem(firstIndex);
 		}
 
 		ColsDeleted(count);
@@ -672,7 +672,7 @@ JValueTableData<S,T>::MoveCol
 {
 	if (origIndex != newIndex)
 	{
-		itsCols->MoveElementToIndex(origIndex, newIndex);
+		itsCols->MoveItemToIndex(origIndex, newIndex);
 		Broadcast(JTableData::ColMoved(origIndex, newIndex));
 	}
 }

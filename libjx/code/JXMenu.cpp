@@ -535,7 +535,7 @@ JSize
 JXMenu::GetItemCount()
 	const
 {
-	return itsBaseItemData->GetElementCount();
+	return itsBaseItemData->GetItemCount();
 }
 
 /******************************************************************************

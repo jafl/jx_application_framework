@@ -102,7 +102,7 @@ RecordTable::UpdateTable()
 	s.ClearSelection();
 
 	const JSize oldCount = GetRowCount();
-	const JSize newCount = itsRecordList->GetElementCount();
+	const JSize newCount = itsRecordList->GetItemCount();
 	if (newCount > oldCount)
 	{
 		AppendRows(newCount - oldCount);

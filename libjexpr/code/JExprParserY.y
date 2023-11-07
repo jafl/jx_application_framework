@@ -131,11 +131,11 @@ e
 		$1->ToLower();
 		$1->Split("e", &s, 2);
 
-		if (s.GetElementCount() == 2)
+		if (s.GetItemCount() == 2)
 		{
 			JFloat v, e;
-			if (!s.GetElement(1)->ConvertToFloat(&v) ||
-				!s.GetElement(2)->ConvertToFloat(&e))
+			if (!s.GetItem(1)->ConvertToFloat(&v) ||
+				!s.GetItem(2)->ConvertToFloat(&e))
 			{
 				YYERROR;
 			}
@@ -475,11 +475,11 @@ arglist
 	{
 		$$ = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
 		assert( $$ != nullptr );
-		$$->AppendElement($1);
+		$$->AppendItem($1);
 	}
 
 	| arglist ',' e
 	{
-		$$ = $1; $$->AppendElement($3);
+		$$ = $1; $$->AppendItem($3);
 	}
 	;

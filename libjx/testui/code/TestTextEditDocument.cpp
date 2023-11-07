@@ -134,8 +134,8 @@ TestTextEditDocument::BuildWindow
 
 	for (JIndex i=1; i<=2; i++)
 	{
-		sizes.AppendElement(140);
-		minSizes.AppendElement(50);
+		sizes.AppendItem(140);
+		minSizes.AppendItem(50);
 	}
 
 // begin JXLayout
@@ -317,7 +317,7 @@ TestTextEditDocument::OpenFiles()
 		JPtrArray<JString> fullNameList(JPtrArrayT::kDeleteAll);
 		dlog->GetFullNames(&fullNameList);
 
-		const JSize count = fullNameList.GetElementCount();
+		const JSize count = fullNameList.GetItemCount();
 		JXStandAlonePG pg;
 		pg.RaiseWhenUpdate();
 		pg.FixedLengthProcessBeginning(count, JGetString("OpenFilesProgress::TestTextEditDocument"), true, true);

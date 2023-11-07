@@ -179,7 +179,7 @@ JXWDManager::DirectorCreated
 
 	// insert the new window -- can't sort until later
 
-	windowList->AppendElement(info);
+	windowList->AppendItem(info);
 
 	// ensure menu not empty; update the menu shortcuts
 
@@ -232,30 +232,30 @@ JXWDManager::CalledByDirectorDeleted
 	JXWindowDirector*	dir
 	)
 {
-	const JSize count = windowList->GetElementCount();
+	const JSize count = windowList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		WindowInfo info = windowList->GetElement(i);
+		WindowInfo info = windowList->GetItem(i);
 		if (info.dir == dir)
 		{
 			jdelete info.shortcutStr;
 			jdelete info.itemID;
-			windowList->RemoveElement(i);
+			windowList->RemoveItem(i);
 
 			// assign the shortcut to the first item that doesn't have a shortcut
 			// (only need to check itsWindowList, since itsPermWindowList shouldn't change)
 
 			if (info.shortcutIndex != kNoShortcutForDir)
 			{
-				const JSize count = itsWindowList->GetElementCount();
+				const JSize count = itsWindowList->GetItemCount();
 				for (JIndex j=1; j<=count; j++)
 				{
-					WindowInfo info1 = itsWindowList->GetElement(j);
+					WindowInfo info1 = itsWindowList->GetItem(j);
 					if (info1.shortcutStr   == nullptr &&
 						info1.shortcutIndex == kNoShortcutForDir)
 					{
 						info1.shortcutIndex = info.shortcutIndex;
-						itsWindowList->SetElement(j, info1);
+						itsWindowList->SetItem(j, info1);
 						break;
 					}
 				}
@@ -475,15 +475,15 @@ JXWDManager::ActivateDirector
 	const JIndex index
 	)
 {
-	const JSize permCount = itsPermWindowList->GetElementCount();
+	const JSize permCount = itsPermWindowList->GetItemCount();
 	if (itsPermWindowList->IndexValid(index))
 	{
-		const WindowInfo info = itsPermWindowList->GetElement(index);
+		const WindowInfo info = itsPermWindowList->GetItem(index);
 		info.dir->Activate();
 	}
 	else if (itsWindowList->IndexValid(index - permCount))
 	{
-		const WindowInfo info = itsWindowList->GetElement(index - permCount);
+		const WindowInfo info = itsWindowList->GetItem(index - permCount);
 		info.dir->Activate();
 	}
 }

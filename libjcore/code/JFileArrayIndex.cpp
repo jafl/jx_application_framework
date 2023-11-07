@@ -1,9 +1,9 @@
 /******************************************************************************
  JFileArrayIndex.cpp
 
-				The Index-of-Elements for a JFileArray Class
+				The Index-of-Items for a JFileArray Class
 
-	This class stores and index of the elements in a JFileArray.
+	This class stores and index of the items in a JFileArray.
 
 	BASE CLASS = public JCollection
 
@@ -20,12 +20,11 @@
 
 enum
 {
-	kElementOffsetLength = JFileArray::kUnsignedLongLength,
-	kElementIDLength     = JFileArray::kUnsignedLongLength,
-	kElementTypeLength   = JFileArray::kUnsignedLongLength,
+	kItemOffsetLength = JFileArray::kUnsignedLongLength,
+	kItemIDLength     = JFileArray::kUnsignedLongLength,
+	kItemTypeLength   = JFileArray::kUnsignedLongLength,
 
-	kIndexElementLength  = kElementOffsetLength + kElementIDLength +
-						   kElementTypeLength
+	kIndexItemLength  = kItemOffsetLength + kItemIDLength + kItemTypeLength
 };
 
 /******************************************************************************
@@ -40,7 +39,7 @@ JFileArrayIndex::JFileArrayIndex()
 	assert( sizeof(JUnsignedOffset) >= JFileArray::kUnsignedLongLength &&
 			sizeof(JFAID_t)         >= JFileArray::kUnsignedLongLength );
 
-	itsArray = jnew JArray<ElementInfo>;
+	itsArray = jnew JArray<ItemInfo>;
 	assert( itsArray != nullptr );
 
 	InstallCollection(itsArray);
@@ -57,168 +56,168 @@ JFileArrayIndex::~JFileArrayIndex()
 }
 
 /******************************************************************************
- InsertElementAtIndex
+ InsertItemAtIndex
 
-	Insert a new element into the index.  Since the storage is appended to the
-	file, we don't have to adjust any element offsets.
+	Insert a new item into the index.  Since the storage is appended to the
+	file, we don't have to adjust any item offsets.
 
-	If the element will be an embedded file, the caller must set it separately.
+	If the item will be an embedded file, the caller must set it separately.
 
  ******************************************************************************/
 
 void
-JFileArrayIndex::InsertElementAtIndex
+JFileArrayIndex::InsertItemAtIndex
 	(
 	const JFAIndex&			index,
 	const JUnsignedOffset	offset,
 	const JFAID&			id
 	)
 {
-	const ElementInfo elementInfo(offset, id, kData);
-	itsArray->InsertElementAtIndex(index.GetIndex(), elementInfo);
+	const ItemInfo itemInfo(offset, id, kData);
+	itsArray->InsertItemAtIndex(index.GetIndex(), itemInfo);
 }
 
 /******************************************************************************
- RemoveElement
+ RemoveItem
 
-	Remove the specified element and adjust the offsets of the other elements.
+	Remove the specified item and adjust the offsets of the other items.
 
  ******************************************************************************/
 
 void
-JFileArrayIndex::RemoveElement
+JFileArrayIndex::RemoveItem
 	(
 	const JFAIndex&	index,
-	const JSize		elementSize
+	const JSize		itemSize
 	)
 {
-	ElementSizeChanged(index, -(long) elementSize);
-	itsArray->RemoveElement(index.GetIndex());
+	ItemSizeChanged(index, -(long) itemSize);
+	itsArray->RemoveItem(index.GetIndex());
 }
 
 /******************************************************************************
- GetElementOffset
+ GetItemOffset
 
  ******************************************************************************/
 
 JUnsignedOffset
-JFileArrayIndex::GetElementOffset
+JFileArrayIndex::GetItemOffset
 	(
 	const JFAIndex& index
 	)
 	const
 {
-	const ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
-	return elementInfo.offset;
+	const ItemInfo itemInfo = itsArray->GetItem(index.GetIndex());
+	return itemInfo.offset;
 }
 
 /******************************************************************************
- ElementSizeChanged
+ ItemSizeChanged
 
-	Adjust the offsets of the other elements.
-	This is the only way element offsets change.
+	Adjust the offsets of the other items.
+	This is the only way item offsets change.
 
  ******************************************************************************/
 
 void
-JFileArrayIndex::ElementSizeChanged
+JFileArrayIndex::ItemSizeChanged
 	(
 	const JFAIndex&	index,
-	const JInteger	changeInElementSize
+	const JInteger	changeInItemSize
 	)
 {
-	if (changeInElementSize == 0)
+	if (changeInItemSize == 0)
 	{
 		return;
 	}
 
-	const JUnsignedOffset elementOffset = GetElementOffset(index);
-	const JSize elementCount            = GetElementCount();
+	const JUnsignedOffset itemOffset = GetItemOffset(index);
+	const JSize itemCount            = GetItemCount();
 
-	for (JIndex i=1; i<=elementCount; i++)
+	for (JIndex i=1; i<=itemCount; i++)
 	{
-		ElementInfo elementInfo = itsArray->GetElement(i);
-		if (elementInfo.offset > elementOffset)
+		ItemInfo itemInfo = itsArray->GetItem(i);
+		if (itemInfo.offset > itemOffset)
 		{
-			// make sure that elementOffset won't try to go negative
+			// make sure that itemOffset won't try to go negative
 
-			assert( changeInElementSize > 0 ||
-					((JSize) -changeInElementSize) <= elementInfo.offset );
+			assert( changeInItemSize > 0 ||
+					((JSize) -changeInItemSize) <= itemInfo.offset );
 
-			elementInfo.offset += changeInElementSize;
-			itsArray->SetElement(i, elementInfo);
+			itemInfo.offset += changeInItemSize;
+			itsArray->SetItem(i, itemInfo);
 		}
 	}
 }
 
 /******************************************************************************
- GetElementID
+ GetItemID
 
  ******************************************************************************/
 
 JFAID
-JFileArrayIndex::GetElementID
+JFileArrayIndex::GetItemID
 	(
 	const JFAIndex& index
 	)
 	const
 {
-	const ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
-	return elementInfo.id;
+	const ItemInfo itemInfo = itsArray->GetItem(index.GetIndex());
+	return itemInfo.id;
 }
 
 /******************************************************************************
- SetElementID
+ SetItemID
 
-	Set the id of the specified element.  We scream if the id has already been used.
+	Set the id of the specified item.  We scream if the id has already been used.
 
  ******************************************************************************/
 
 void
-JFileArrayIndex::SetElementID
+JFileArrayIndex::SetItemID
 	(
 	const JFAIndex&	index,
 	const JFAID&	newID
 	)
 {
-	ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
+	ItemInfo itemInfo = itsArray->GetItem(index.GetIndex());
 
-	if ((elementInfo.id).GetID() != newID.GetID())
+	if (itemInfo.id.GetID() != newID.GetID())
 	{
 		// we scream if newID has already been used
 
 		JFAIndex origIndex;
-		const bool ok = GetElementIndexFromID(newID, &origIndex);
+		const bool ok = GetItemIndexFromID(newID, &origIndex);
 		assert( !ok );
 
 		// store the new ID
 
-		elementInfo.id = newID;
-		itsArray->SetElement(index.GetIndex(), elementInfo);
+		itemInfo.id = newID;
+		itsArray->SetItem(index.GetIndex(), itemInfo);
 	}
 }
 
 /******************************************************************************
- GetElementIndexFromID
+ GetItemIndexFromID
 
-	Return the index of the element with the specified ID.
-	Returns false if there is no element with the specified ID.
+	Return the index of the item with the specified ID.
+	Returns false if there is no item with the specified ID.
 
  ******************************************************************************/
 
 bool
-JFileArrayIndex::GetElementIndexFromID
+JFileArrayIndex::GetItemIndexFromID
 	(
 	const JFAID&	id,
 	JFAIndex*		index
 	)
 	const
 {
-	const JSize elementCount = GetElementCount();
-	for (JIndex i=1; i<=elementCount; i++)
+	const JSize itemCount = GetItemCount();
+	for (JIndex i=1; i<=itemCount; i++)
 	{
-		const ElementInfo elementInfo = itsArray->GetElement(i);
-		if ((elementInfo.id).GetID() == id.GetID())
+		const ItemInfo itemInfo = itsArray->GetItem(i);
+		if (itemInfo.id.GetID() == id.GetID())
 		{
 			index->SetIndex(i);
 			return true;
@@ -245,17 +244,17 @@ JFileArrayIndex::GetUniqueID()
 		return JFAID(JFAID::kMinID);
 	}
 
-	const JSize elementCount = GetElementCount();
+	const JSize itemCount = GetItemCount();
 
 	// this is relevant to the outmost do-while loop
 
 	enum Range
-{
-		kAboveElementCount,
-		kBelowElementCount,
+	{
+		kAboveItemCount,
+		kBelowItemCount,
 		kEmpty
-};
-	Range idRange = kAboveElementCount;
+	};
+	Range idRange = kAboveItemCount;
 
 	do
 	{
@@ -263,22 +262,22 @@ JFileArrayIndex::GetUniqueID()
 
 		JFAID_t firstId, lastId;
 
-		if (idRange == kAboveElementCount && elementCount < JFAID::kMaxID)
+		if (idRange == kAboveItemCount && itemCount < JFAID::kMaxID)
 		{
-			firstId = elementCount + 1;
+			firstId = itemCount + 1;
 			lastId  = JFAID::kMaxID;
 		}
-		else if (idRange == kAboveElementCount)
+		else if (idRange == kAboveItemCount)
 		{
-			idRange = kBelowElementCount;
+			idRange = kBelowItemCount;
 			firstId = JFAID::kMinID;
 			lastId  = JFAID::kMaxID;
 		}
 		else
 		{
-			assert( idRange == kBelowElementCount );
+			assert( idRange == kBelowItemCount );
 			firstId = JFAID::kMinID;
-			lastId  = elementCount;
+			lastId  = itemCount;
 		}
 
 		// try all possible id's in the given range
@@ -288,17 +287,17 @@ JFileArrayIndex::GetUniqueID()
 		for (JFAID_t anID=firstId; anID<=lastId; anID++)
 		{
 			id.SetID(anID);
-			if (!GetElementIndexFromID(id, &index))
+			if (!GetItemIndexFromID(id, &index))
 			{
 				return id;
 			}
 		}
 
-		if (idRange == kAboveElementCount)
+		if (idRange == kAboveItemCount)
 		{
-			idRange = kBelowElementCount;
+			idRange = kBelowItemCount;
 		}
-		else if (idRange == kBelowElementCount)
+		else if (idRange == kBelowItemCount)
 		{
 			idRange = kEmpty;
 		}
@@ -313,9 +312,9 @@ JFileArrayIndex::GetUniqueID()
 /******************************************************************************
  SetToEmbeddedFile
 
-	Specify that the specified element contains an embedded file.
+	Specify that the specified item contains an embedded file.
 	This is irreversible because the data (an entire JFileArray) is not
-	usable by anyone else.  They should remove the element instead.
+	usable by anyone else.  They should remove the item instead.
 
  ******************************************************************************/
 
@@ -325,19 +324,19 @@ JFileArrayIndex::SetToEmbeddedFile
 	const JFAIndex& index
 	)
 {
-	ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
+	ItemInfo itemInfo = itsArray->GetItem(index.GetIndex());
 
-	if (elementInfo.type != kEmbeddedFile)
+	if (itemInfo.type != kEmbeddedFile)
 	{
-		elementInfo.type = kEmbeddedFile;
-		itsArray->SetElement(index.GetIndex(), elementInfo);
+		itemInfo.type = kEmbeddedFile;
+		itsArray->SetItem(index.GetIndex(), itemInfo);
 	}
 }
 
 /******************************************************************************
  IsEmbeddedFile
 
-	Returns TRUE if the specified element contains an embedded file.
+	Returns TRUE if the specified item contains an embedded file.
 
  ******************************************************************************/
 
@@ -348,15 +347,15 @@ JFileArrayIndex::IsEmbeddedFile
 	)
 	const
 {
-	const ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
-	return elementInfo.type == kEmbeddedFile;
+	const ItemInfo itemInfo = itsArray->GetItem(index.GetIndex());
+	return itemInfo.type == kEmbeddedFile;
 }
 
 /******************************************************************************
  EmbeddedFileOpened
 
 	Notify us that an embedded file has been opened.
-	We scream if the element isn't an embedded file or if the element is already open.
+	We scream if the item isn't an embedded file or if the item is already open.
 
  ******************************************************************************/
 
@@ -367,24 +366,24 @@ JFileArrayIndex::EmbeddedFileOpened
 	JFileArray*		theEmbeddedFile
 	)
 {
-	ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
+	ItemInfo itemInfo = itsArray->GetItem(index.GetIndex());
 
-	// we scream if the element isn't an embedded file or if the element is already open
+	// we scream if the item isn't an embedded file or if the item is already open
 
-	assert( elementInfo.type == kEmbeddedFile );
-	assert( elementInfo.theEmbeddedFile == nullptr );
+	assert( itemInfo.type == kEmbeddedFile );
+	assert( itemInfo.theEmbeddedFile == nullptr );
 
 	// save the reference to the opened file
 
-	elementInfo.theEmbeddedFile = theEmbeddedFile;
-	itsArray->SetElement(index.GetIndex(), elementInfo);
+	itemInfo.theEmbeddedFile = theEmbeddedFile;
+	itsArray->SetItem(index.GetIndex(), itemInfo);
 }
 
 /******************************************************************************
  EmbeddedFileClosed
 
-	Tell us that the specified element (an embedded file) has been closed.
-	We scream if the element isn't an embedded file or if the element isn't open.
+	Tell us that the specified item (an embedded file) has been closed.
+	We scream if the item isn't an embedded file or if the item isn't open.
 
  ******************************************************************************/
 
@@ -394,23 +393,23 @@ JFileArrayIndex::EmbeddedFileClosed
 	const JFAIndex& index
 	)
 {
-	ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
+	ItemInfo itemInfo = itsArray->GetItem(index.GetIndex());
 
-	// we scream if the element isn't an embedded file or if the element isn't open
+	// we scream if the item isn't an embedded file or if the item isn't open
 
-	assert( elementInfo.type == kEmbeddedFile );
-	assert( elementInfo.theEmbeddedFile != nullptr );
+	assert( itemInfo.type == kEmbeddedFile );
+	assert( itemInfo.theEmbeddedFile != nullptr );
 
 	// clear the reference to the file
 
-	elementInfo.theEmbeddedFile = nullptr;
-	itsArray->SetElement(index.GetIndex(), elementInfo);
+	itemInfo.theEmbeddedFile = nullptr;
+	itsArray->SetItem(index.GetIndex(), itemInfo);
 }
 
 /******************************************************************************
  EmbeddedFileIsClosed
 
-	Returns TRUE if the specified element is not an embedded file or
+	Returns TRUE if the specified item is not an embedded file or
 	if it is a closed embedded file.
 
  ******************************************************************************/
@@ -422,8 +421,8 @@ JFileArrayIndex::EmbeddedFileIsClosed
 	)
 	const
 {
-	const ElementInfo elementInfo = itsArray->GetElement(index.GetIndex());
-	return elementInfo.theEmbeddedFile == nullptr;
+	const ItemInfo itemInfo = itsArray->GetItem(index.GetIndex());
+	return itemInfo.theEmbeddedFile == nullptr;
 }
 
 /******************************************************************************
@@ -438,7 +437,7 @@ JFileArrayIndex::AllEmbeddedFilesAreClosed()
 	const
 {
 	return std::all_of(begin(*itsArray), end(*itsArray),
-			[] (ElementInfo e) { return e.theEmbeddedFile == nullptr; });
+			[] (ItemInfo e) { return e.theEmbeddedFile == nullptr; });
 }
 
 /******************************************************************************
@@ -475,7 +474,7 @@ JFileArrayIndex::ReplaceEmbeddedFileStreams
 void
 JFileArrayIndex::ReadIndex
 	(
-	const JSize		elementCount,
+	const JSize		itemCount,
 	std::istream&	input
 	)
 {
@@ -483,33 +482,33 @@ JFileArrayIndex::ReadIndex
 
 	itsArray->RemoveAll();
 
-	// read in the information on each element
+	// read in the information on each item
 
-	ElementInfo elementInfo;
-	for (JIndex i=1; i<=elementCount; i++)
+	ItemInfo itemInfo;
+	for (JIndex i=1; i<=itemCount; i++)
 	{
-		elementInfo.offset = JFileArray::ReadUnsignedLong(input);
+		itemInfo.offset = JFileArray::ReadUnsignedLong(input);
 
 		JFAID_t id;
 		id = JFileArray::ReadUnsignedLong(input);
-		(elementInfo.id).SetID(id);
+		itemInfo.id.SetID(id);
 
 		unsigned long type;
 		type = JFileArray::ReadUnsignedLong(input);
 		if (type == kData)
 		{
-			elementInfo.type = kData;
+			itemInfo.type = kData;
 		}
 		else if (type == kEmbeddedFile)
 		{
-			elementInfo.type = kEmbeddedFile;
+			itemInfo.type = kEmbeddedFile;
 		}
 		else
 		{
 			assert( 0 );
 		}
 
-		itsArray->InsertElementAtIndex(i, elementInfo);
+		itsArray->InsertItemAtIndex(i, itemInfo);
 	}
 }
 
@@ -552,5 +551,5 @@ JSize
 JFileArrayIndex::GetIndexLength()
 	const
 {
-	return GetElementCount() * kIndexElementLength;
+	return GetItemCount() * kIndexItemLength;
 }

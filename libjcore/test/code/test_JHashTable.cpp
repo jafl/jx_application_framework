@@ -128,12 +128,12 @@ SearchRand
 }
 
 /******************************************************************************
- RemoveElement
+ RemoveItem
 
  *****************************************************************************/
 
 void
-RemoveElement
+RemoveItem
 	(
 	const JSize el,
 	JHashTable< JStrValue<int> >* const table,
@@ -191,12 +191,12 @@ RemoveRand
 		++el;
 		if (el == firstEl)
 		{
-			JAssertEqual(0, table->GetElementCount());
+			JAssertEqual(0, table->GetItemCount());
 			return;
 		}
 	}
 
-	RemoveElement(el, table, kElementNum, hashList, valueList, countList);
+	RemoveItem(el, table, kElementNum, hashList, valueList, countList);
 }
 
 JTEST(Exercise)
@@ -268,7 +268,7 @@ JTEST(Exercise)
 
 	std::cout << "         Size: " << table.GetTableSize() << std::endl;
 
-	std::cout << "Element count: " << table.GetElementCount() << std::endl;
+	std::cout << "Element count: " << table.GetItemCount() << std::endl;
 	std::cout << "   Load count: " << table.GetLoadCount() << std::endl;
 
 	std::cout << "  Fill factor: " << table.GetFillFactor() << std::endl;

@@ -39,7 +39,7 @@ public:
 // Useful for any hash table
 
 	bool  IsEmpty() const;
-	JSize GetElementCount() const;
+	JSize GetItemCount() const;
 
 // Statistics
 
@@ -115,7 +115,7 @@ private:
 
 	JHashCursor<V>* itsCursor;
 
-	JSize itsElementCount; // Number that are full, different than the array size!
+	JSize itsItemCount; // Number that are full, different than the array size!
 	JSize itsLoadCount;
 
 	bool   itsResizeFlag;
@@ -146,19 +146,19 @@ template <class V>
 inline bool
 JHashTable<V>::IsEmpty() const
 {
-	return itsElementCount == 0;
+	return itsItemCount == 0;
 }
 
 /******************************************************************************
- GetElementCount
+ GetItemCount
 
  *****************************************************************************/
 
 template <class V>
 inline JSize
-JHashTable<V>::GetElementCount() const
+JHashTable<V>::GetItemCount() const
 {
-	return itsElementCount;
+	return itsItemCount;
 }
 
 /******************************************************************************
@@ -206,7 +206,7 @@ template <class V>
 inline JFloat
 JHashTable<V>::GetFillFactor() const
 {
-	return ( (JFloat) GetElementCount())/GetTableSize();
+	return ( (JFloat) GetItemCount())/GetTableSize();
 }
 
 /******************************************************************************

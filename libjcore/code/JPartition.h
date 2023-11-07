@@ -115,7 +115,7 @@ inline JSize
 JPartition::GetCompartmentCount()
 	const
 {
-	return itsSizes->GetElementCount();
+	return itsSizes->GetItemCount();
 }
 
 /******************************************************************************
@@ -163,7 +163,7 @@ JPartition::GetCompartmentSize
 	)
 	const
 {
-	return itsSizes->GetElement(index);
+	return itsSizes->GetItem(index);
 }
 
 inline const JArray<JCoordinate>&
@@ -185,7 +185,7 @@ JPartition::GetMinCompartmentSize
 	)
 	const
 {
-	return itsMinSizes->GetElement(index);
+	return itsMinSizes->GetItem(index);
 }
 
 inline void
@@ -195,7 +195,7 @@ JPartition::SetMinCompartmentSize
 	const JCoordinate	minSize
 	)
 {
-	itsMinSizes->SetElement(index, minSize);
+	itsMinSizes->SetItem(index, minSize);
 }
 
 inline const JArray<JCoordinate>&

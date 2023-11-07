@@ -25,10 +25,10 @@ public:
 
 	~J2DPlotFunctionBase() override;
 
-	using J2DPlotDataBase::GetElement;
+	using J2DPlotDataBase::GetItem;
 
 	bool	IsFunction() const override;
-	void	GetElement(const JIndex index, J2DDataPoint* data) const override;
+	void	GetItem(const JIndex index, J2DDataPoint* data) const override;
 
 	void	GetXRange(JFloat* min, JFloat* max) const override;
 	bool	GetYRange(const JFloat xMin, const JFloat xMax,
@@ -64,7 +64,7 @@ private:
 	JFloat	itsXMin;
 	JFloat	itsXMax;
 
-	// values returned by GetElement()
+	// values returned by GetItem()
 
 	JArray<Point>*	itsValues;
 

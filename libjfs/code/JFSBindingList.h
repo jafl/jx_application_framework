@@ -115,7 +115,7 @@ JFSBindingList::GetBinding
 	)
 	const
 {
-	return itsBindingList->GetElement(index);
+	return itsBindingList->GetItem(index);
 }
 
 /******************************************************************************

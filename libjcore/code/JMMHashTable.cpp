@@ -69,7 +69,7 @@ JMMHashTable::~JMMHashTable()
 JSize
 JMMHashTable::GetAllocatedCount() const
 {
-	return itsAllocatedTable->GetElementCount();
+	return itsAllocatedTable->GetItemCount();
 }
 
 /******************************************************************************
@@ -95,7 +95,7 @@ JMMHashTable::GetDeletedCount() const
 {
 	if (itsDeletedTable != nullptr)
 	{
-		return itsDeletedTable->GetElementCount();
+		return itsDeletedTable->GetItemCount();
 	}
 	else
 	{

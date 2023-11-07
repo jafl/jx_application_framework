@@ -73,7 +73,7 @@ JXBusyIconTask::~JXBusyIconTask()
 JSize
 JXBusyIconTask::GetFrameCount()
 {
-	return itsImageList->GetElementCount();
+	return itsImageList->GetItemCount();
 }
 
 /******************************************************************************
@@ -103,5 +103,5 @@ JXBusyIconTask::GetFrame
 	const JIndex frameIndex
 	)
 {
-	return itsImageList->GetElement(frameIndex);
+	return itsImageList->GetItem(frameIndex);
 }

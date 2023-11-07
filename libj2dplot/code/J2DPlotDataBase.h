@@ -33,8 +33,8 @@ public:
 	~J2DPlotDataBase() override;
 
 	Type			GetType() const;
-	virtual void	GetElement(const JIndex index, J2DDataPoint* data) const;
-	virtual void	GetElement(const JIndex index, J2DVectorPoint* data) const;
+	virtual void	GetItem(const JIndex index, J2DDataPoint* data) const;
+	virtual void	GetItem(const JIndex index, J2DVectorPoint* data) const;
 
 	virtual void	GetXRange(JFloat* xMin, JFloat* xMax) const = 0;
 	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,

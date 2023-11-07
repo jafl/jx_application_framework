@@ -84,13 +84,13 @@ TestData
 	JFloat delta = kJPi/50.0;
 	for (JUInt32 i=0; i<=100; i++)
 	{
-		x.AppendElement(i*delta);
-		y.AppendElement(sin(i*delta));
+		x.AppendItem(i*delta);
+		y.AppendItem(sin(i*delta));
 
-		xPErr.AppendElement(r.UniformDouble(0.0, 0.1));
-		xMErr.AppendElement(r.UniformDouble(0.0, 0.1));
-		yPErr.AppendElement(r.UniformDouble(0.0, 0.1));
-		yMErr.AppendElement(r.UniformDouble(0.0, 0.1));
+		xPErr.AppendItem(r.UniformDouble(0.0, 0.1));
+		xMErr.AppendItem(r.UniformDouble(0.0, 0.1));
+		yPErr.AppendItem(r.UniformDouble(0.0, 0.1));
+		yMErr.AppendItem(r.UniformDouble(0.0, 0.1));
 	}
 
 	J2DPlotData* data;
@@ -109,8 +109,8 @@ TestData
 	delta = kJPi/5000.0;
 	for (JUInt32 i=0; i<=10000; i++)
 	{
-		x.AppendElement(i*delta);
-		y.AppendElement(cos(i*delta));
+		x.AppendItem(i*delta);
+		y.AppendItem(cos(i*delta));
 	}
 
 	JIndex i;
@@ -140,8 +140,8 @@ TestLogData
 	const JFloat delta = 0.1;
 	for (JUInt32 i=1; i<=100; i++)
 	{
-		x.AppendElement(i*delta);
-		y.AppendElement(pow(2, i*delta));
+		x.AppendItem(i*delta);
+		y.AppendItem(pow(2, i*delta));
 	}
 
 	JIndex i;
@@ -152,8 +152,8 @@ TestLogData
 
 	for (JUInt32 i=0; i<=100; i++)
 	{
-		x.AppendElement(i*delta);
-		y.AppendElement((i*delta)*(i*delta));
+		x.AppendItem(i*delta);
+		y.AppendItem((i*delta)*(i*delta));
 	}
 
 	plot->AddCurve(x, y, false, JString("x^2", JString::kNoCopy), &i, true, false);

@@ -285,7 +285,7 @@ JXFileListTable::RowIndexToFileIndex
 	)
 	const
 {
-	return (itsVisibleList->GetElement(rowIndex)).fileIndex;
+	return (itsVisibleList->GetItem(rowIndex)).fileIndex;
 }
 
 #endif

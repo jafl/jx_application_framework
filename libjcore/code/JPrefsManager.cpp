@@ -105,7 +105,7 @@ JPrefsManager::GetData
 	JIndex index;
 	if (itsData->SearchSorted(item, JListT::kAnyMatch, &index))
 	{
-		item = itsData->GetElement(index);
+		item = itsData->GetItem(index);
 		data->assign(item.data->GetBytes(), item.data->GetByteCount());
 		return true;
 	}
@@ -145,14 +145,14 @@ JPrefsManager::SetData
 		itsData->SearchSortedOTI(item, JListT::kAnyMatch, &found);
 	if (found)
 	{
-		item         = itsData->GetElement(index);
+		item         = itsData->GetItem(index);
 		*(item.data) = data;
 	}
 	else
 	{
 		item.data = jnew JString(data);
 		assert( item.data != nullptr );
-		itsData->InsertElementAtIndex(index, item);
+		itsData->InsertItemAtIndex(index, item);
 	}
 
 	Broadcast(DataChanged(id));
@@ -174,10 +174,10 @@ JPrefsManager::RemoveData
 	JIndex index;
 	if (itsData->SearchSorted(item, JListT::kAnyMatch, &index))
 	{
-		item = itsData->GetElement(index);
+		item = itsData->GetItem(index);
 		jdelete item.data;
 
-		itsData->RemoveElement(index);
+		itsData->RemoveItem(index);
 
 		Broadcast(DataRemoved(id));
 	}
@@ -326,7 +326,7 @@ JPrefsManager::LoadData
 	JPrefsFile* file
 	)
 {
-	const JSize count = file->GetElementCount();
+	const JSize count = file->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
 		JFAID id;
@@ -334,7 +334,7 @@ JPrefsManager::LoadData
 		assert( ok );
 
 		std::string data;
-		file->GetElement(JFAIndex(i), &data);
+		file->GetItem(JFAIndex(i), &data);
 		auto* s = jnew JString(data.c_str(), data.length());
 		assert( s != nullptr );
 
@@ -342,7 +342,7 @@ JPrefsManager::LoadData
 		bool isDuplicate;
 		const JIndex j = itsData->GetInsertionSortIndex(item, &isDuplicate);
 		assert( !isDuplicate );
-		itsData->InsertElementAtIndex(j, item);
+		itsData->InsertItemAtIndex(j, item);
 	}
 }
 

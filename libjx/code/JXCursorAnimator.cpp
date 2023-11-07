@@ -82,12 +82,12 @@ JXCursorAnimator::NextFrame()
 	if (itsActiveFlag && currentTime - itsLastUpdateTime >= kmsecPerFrame)
 	{
 		itsFrameCounter++;
-		if (itsFrameCounter > itsFrames->GetElementCount())
+		if (itsFrameCounter > itsFrames->GetItemCount())
 		{
 			ResetFrameCounter();
 		}
 
-		itsWindow->DisplayXCursor(itsFrames->GetElement(itsFrameCounter));
+		itsWindow->DisplayXCursor(itsFrames->GetItem(itsFrameCounter));
 		itsLastUpdateTime = currentTime;
 	}
 }
@@ -140,6 +140,6 @@ JXCursorAnimator::InitFrames
 		const JCursorIndex cursIndex =
 			display->CreateCustomCursor(kBeachballFrameName[i],
 										kBeachBallFrames[i]);
-		itsFrames->AppendElement(cursIndex);
+		itsFrames->AppendItem(cursIndex);
 	}
 }

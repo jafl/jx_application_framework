@@ -217,7 +217,7 @@ JStringMatch::GetCharacterRange
 	}
 	else if (itsSubmatchList != nullptr && itsSubmatchList->IndexValid(submatchIndex))
 	{
-		const JUtf8ByteRange ur = itsSubmatchList->GetElement(submatchIndex);
+		const JUtf8ByteRange ur = itsSubmatchList->GetItem(submatchIndex);
 		if (!ur.IsEmpty())
 		{
 			ComputeCharacterRange();
@@ -250,7 +250,7 @@ JStringMatch::GetSubstring
 {
 	if (itsSubmatchList != nullptr && itsSubmatchList->IndexValid(index))
 	{
-		const JUtf8ByteRange r = itsSubmatchList->GetElement(index);
+		const JUtf8ByteRange r = itsSubmatchList->GetItem(index);
 		if (!r.IsEmpty())
 		{
 			return JString(itsTarget.GetRawBytes(), r, JString::kNoCopy);

@@ -41,7 +41,7 @@ JXTextMenuTable::JXTextMenuTable
 	itsHilightRow(0)
 {
 	AppendCols(4);	// checkbox/radio, image, text, submenu/shortcut
-	AppendRows(itsTextMenuData->GetElementCount());
+	AppendRows(itsTextMenuData->GetItemCount());
 
 	const_cast<JXTextMenuData*>(itsTextMenuData)->ConfigureTable(this);
 	ListenTo(itsTextMenuData);

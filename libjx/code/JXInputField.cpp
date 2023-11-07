@@ -597,7 +597,7 @@ JXInputField::UpdateContextMenu()
 			}
 			else
 			{
-				enable = enableFlags.GetElement(cmd);
+				enable = enableFlags.GetItem(cmd);
 			}
 			itsContextMenu->SetItemEnabled(i, enable);
 		}

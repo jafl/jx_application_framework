@@ -179,12 +179,12 @@ JXChooseMonoFont::PrependOtherMonospaceFonts
 	JPtrArray<JString> fontNames(JPtrArrayT::kDeleteAll);
 	fontManager->GetMonospaceFontNames(&fontNames);
 
-	const JSize count = fontNames.GetElementCount();
+	const JSize count = fontNames.GetItemCount();
 	if (count > 0)
 	{
 		for (JIndex i=count; i>=1; i--)
 		{
-			const JString* fontName = fontNames.GetElement(i);
+			const JString* fontName = fontNames.GetItem(i);
 			menu->PrependItem(*fontName, JXMenu::kRadioType);
 			menu->SetItemFontName(1, *fontName);
 

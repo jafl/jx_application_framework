@@ -759,10 +759,10 @@ JX2DPlotWidget::ChangeCurveOptions
 	for (JIndex i=1; i<=count; i++)
 	{
 		const J2DPlotDataBase* curve = GetCurve(i);
-		hasXErrors.AppendElement(curve->HasXErrors());
-		hasYErrors.AppendElement(curve->HasYErrors());
-		isFunction.AppendElement(curve->IsFunction());
-		isScatter.AppendElement(curve->GetType() == J2DPlotDataBase::kScatterPlot);
+		hasXErrors.AppendItem(curve->HasXErrors());
+		hasYErrors.AppendItem(curve->HasYErrors());
+		isFunction.AppendItem(curve->IsFunction());
+		isScatter.AppendItem(curve->GetType() == J2DPlotDataBase::kScatterPlot);
 	}
 
 	auto* dlog =

@@ -251,7 +251,7 @@ JXApplication::OpenDisplay
 	if (JXDisplay::Create(displayName, &display))
 	{
 		// DisplayOpened() appends new JXDisplay* to our list
-		*displayIndex = itsDisplayList->GetElementCount();
+		*displayIndex = itsDisplayList->GetItemCount();
 		return true;
 	}
 	else
@@ -877,23 +877,23 @@ JXApplication::StripBaseOptions
 	JPtrArray<JString>* argList
 	)
 {
-	JSize count = argList->GetElementCount();
+	JSize count = argList->GetItemCount();
 	for (JIndex i=2; i<=count; i++)
 	{
-		JString* arg = argList->GetElement(i);
+		JString* arg = argList->GetItem(i);
 		if (*arg == kXDebugOptionName        ||
 			*arg == kFTCHorizDebugOptionName ||
 			*arg == kFTCVertDebugOptionName  ||
 			*arg == kPseudotranslateOptionName)
 		{
-			argList->DeleteElement(i);
+			argList->DeleteItem(i);
 			count--;
 			i--;
 		}
 		else if (*arg == kDisplayOptionName)
 		{
-			argList->DeleteElement(i);
-			argList->DeleteElement(i);
+			argList->DeleteItem(i);
+			argList->DeleteItem(i);
 			count -= 2;
 			i--;
 		}

@@ -229,7 +229,7 @@ JXHorizDockPartition::ReadSetup
 
 	for (JIndex i=1; i<=compartmentCount; i++)
 	{
-		JXDockWidget* dock = itsDockList->GetElement(i);
+		JXDockWidget* dock = itsDockList->GetItem(i);
 		assert( dock != nullptr );
 
 		JIndex id;
@@ -465,7 +465,7 @@ JXHorizDockPartition::SplitVert
 		*returnPartition = nullptr;
 	}
 
-	JXDockWidget* parent = itsDockList->GetElement(index);
+	JXDockWidget* parent = itsDockList->GetItem(index);
 	assert( parent != nullptr );
 
 	JXVertDockPartition* p = nullptr;
@@ -485,12 +485,12 @@ JXHorizDockPartition::SplitVert
 		}
 
 		JArray<JCoordinate> heights;
-		heights.AppendElement(h/2);
-		heights.AppendElement(h/2 + h%2);
+		heights.AppendItem(h/2);
+		heights.AppendItem(h/2 + h%2);
 
 		JArray<JCoordinate> minHeights;
-		minHeights.AppendElement(JXDockWidget::kDefaultMinSize);
-		minHeights.AppendElement(JXDockWidget::kDefaultMinSize);
+		minHeights.AppendItem(JXDockWidget::kDefaultMinSize);
+		minHeights.AppendItem(JXDockWidget::kDefaultMinSize);
 
 		p = jnew JXVertDockPartition(itsDirector, parent, heights, 0, minHeights, encl,
 									kHElastic, kVElastic, 0,0,
@@ -542,14 +542,14 @@ JXHorizDockPartition::DeleteCompartment
 		return;
 	}
 
-	itsDockList->RemoveElement(index);
+	itsDockList->RemoveItem(index);
 	JPartition::DeleteCompartment(index);
 
 	if (GetCompartmentCount() == 1)
 	{
 		assert( itsParentDock != nullptr );
 
-		JXDockWidget* child = itsDockList->GetFirstElement();
+		JXDockWidget* child = itsDockList->GetFirstItem();
 		assert( child != nullptr );
 
 		itsParentDock->SetChildPartition(nullptr);		// so docking will be allowed
@@ -569,10 +569,10 @@ JXHorizDockPartition::UpdateMinSize()
 	JCoordinate minWidth  = kDragRegionSize * (GetCompartmentCount()-1);
 	JCoordinate minHeight = JXDockWidget::kDefaultMinSize;
 
-	const JSize count = itsDockList->GetElementCount();
+	const JSize count = itsDockList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const JPoint minSize = (itsDockList->GetElement(i))->GetMinSize();
+		const JPoint minSize = (itsDockList->GetItem(i))->GetMinSize();
 		minWidth            += minSize.x;
 		minHeight            = JMax(minSize.y, minHeight);
 

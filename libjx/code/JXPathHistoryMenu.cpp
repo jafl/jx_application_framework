@@ -113,12 +113,12 @@ JXPathHistoryMenu::UpdateMenu()
 		JMountPointList list(JPtrArrayT::kDeleteAll);
 		if (JGetUserMountPointList(&list, nullptr))
 		{
-			const JSize count = list.GetElementCount();
+			const JSize count = list.GetItemCount();
 			SetFirstIndex(count+1);
 
 			for (JIndex i=count; i>=1; i--)
 			{
-				const JMountPoint mp = list.GetElement(i);
+				const JMountPoint mp = list.GetItem(i);
 				PrependItem(*(mp.path));
 				if (i == count)
 				{

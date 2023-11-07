@@ -23,10 +23,10 @@ public:
 
 	~JObjTableData() override;
 
-	const T&	GetElement(const JIndex row, const JIndex col) const;
-	const T&	GetElement(const JPoint& cell) const;
-	void		SetElement(const JIndex row, const JIndex col, const T& data);
-	void		SetElement(const JPoint& cell, const T& data);
+	const T&	GetItem(const JIndex row, const JIndex col) const;
+	const T&	GetItem(const JPoint& cell) const;
+	void		SetItem(const JIndex row, const JIndex col, const T& data);
+	void		SetItem(const JPoint& cell, const T& data);
 
 	void	GetRow(const JIndex index, JPtrArray<T>* rowData) const;
 	void	SetRow(const JIndex index, const JPtrArray<T>& rowData);

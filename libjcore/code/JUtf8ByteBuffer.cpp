@@ -47,7 +47,7 @@ JUtf8ByteBuffer::Append
 {
 	for (auto c: data)
 	{
-		AppendElement(c);
+		AppendItem(c);
 	}
 }
 
@@ -75,7 +75,7 @@ JUtf8ByteBuffer::ExtractCharacters()
 {
 	const JUtf8Byte* p = GetCArray();
 
-	JSize remainingCount = GetElementCount();
+	JSize remainingCount = GetItemCount();
 	JSize validCount     = 0;
 	JSize byteCount;
 	while (remainingCount > 0 &&
@@ -88,6 +88,6 @@ JUtf8ByteBuffer::ExtractCharacters()
 	}
 
 	const JString s(p, validCount);
-	RemoveNextElements(1, validCount);
+	RemoveNextItems(1, validCount);
 	return s;
 }

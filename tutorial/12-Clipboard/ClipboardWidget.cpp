@@ -234,10 +234,10 @@ ClipboardWidget::Paste()
 
 		// Loop through the available types to see if the clipboard has
 		// one that we want.
-		const JSize typeCount = typeList.GetElementCount();
+		const JSize typeCount = typeList.GetItemCount();
 		for (JIndex i=1; i<=typeCount; i++)
 		{
-			const Atom atom = typeList.GetElement(i);
+			const Atom atom = typeList.GetItem(i);
 
 			// Check if the i-th type is one we can use.
 			if (atom == XA_STRING || atom == selMgr->GetUtf8StringXAtom())

@@ -86,24 +86,24 @@ EditTable::EditTable
 	AppendCols(1, kDefColWidth);
 
 	// We need to add a row for each element in the data array
-	AppendRows(itsData->GetElementCount(), kDefRowHeight);
+	AppendRows(itsData->GetItemCount(), kDefRowHeight);
 
 	// The table is now in sync with the data array, but in
 	// order to hear about changes in the data, we have to listen
 	// for messages from the data.
-	ListenTo(itsData, std::function([this](const JListT::ElementsInserted& msg)
+	ListenTo(itsData, std::function([this](const JListT::ItemsInserted& msg)
 	{
 		// For each element inserted, we insert a row
 		InsertRows(msg.GetFirstIndex(), msg.GetCount(), kDefRowHeight);
 	}));
 
-	ListenTo(itsData, std::function([this](const JListT::ElementsRemoved& msg)
+	ListenTo(itsData, std::function([this](const JListT::ItemsRemoved& msg)
 	{
 		// Remove the corresponding table rows. 
 		RemoveNextRows(msg.GetFirstIndex(), msg.GetCount());
 	}));
 
-	ListenTo(itsData, std::function([this](const JListT::ElementsChanged& msg)
+	ListenTo(itsData, std::function([this](const JListT::ItemsChanged& msg)
 	{
 		// The element changed, so redraw it.
 		// (This would not be necessary if we were using a
@@ -181,7 +181,7 @@ EditTable::TableDrawCell
 	HilightIfSelected(p, cell, rect);
 
 	// Convert the array's current element into a JString.
-	JString cellNumber((JUInt64) itsData->GetElement(cell.y));
+	JString cellNumber((JUInt64) itsData->GetItem(cell.y));
 
 	// Apply the margins.
 	JRect r = rect;
@@ -312,7 +312,7 @@ EditTable::HandleTableMenu
 		assert(ok);
 
 		// The default value is inserted before the selected cell.
-		itsData->InsertElementAtIndex(cell.y, kDefInsertValue);
+		itsData->InsertItemAtIndex(cell.y, kDefInsertValue);
 	}
 
 	// Was it the Remove command?
@@ -332,7 +332,7 @@ EditTable::HandleTableMenu
 			// Remove the element corresponding to the cell selected.
 			// The table will automatically adjust itself in the
 			// Receive function.
-			itsData->RemoveElement(cell.y);
+			itsData->RemoveItem(cell.y);
 		}
 	}
 
@@ -371,7 +371,7 @@ EditTable::CreateXInputField
 	itsIntegerInputField = jnew JXIntegerInput(this, kFixedLeft, kFixedTop, x,y,w,h);
 
 	// Set the input field's value to that of the cell.
-	itsIntegerInputField->SetValue(itsData->GetElement(cell.y));
+	itsIntegerInputField->SetValue(itsData->GetItem(cell.y));
 
 	// Set the minimum value to be zero
 	itsIntegerInputField->SetLowerLimit(0);
@@ -418,7 +418,7 @@ EditTable::ExtractInputData
 	// The data must be good if we have gotten this far, so set the
 	// value in the data array to the value extracted from the
 	// input field.
-	itsData->SetElement(cell.y, number);
+	itsData->SetItem(cell.y, number);
 
 	// The edit was successful, so the input field can be deleted.
 	return true;

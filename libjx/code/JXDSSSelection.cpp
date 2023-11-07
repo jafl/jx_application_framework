@@ -103,7 +103,7 @@ JXDSSSelection::ConvertData
 
 			if (itsAction != nullptr && !fileNameList.IsEmpty())
 			{
-				itsAction->Save(*(fileNameList.GetFirstElement()));
+				itsAction->Save(*(fileNameList.GetFirstItem()));
 			}
 			else if (itsAction != nullptr)
 			{

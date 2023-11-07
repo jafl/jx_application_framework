@@ -106,7 +106,7 @@ JSTUndoTextBase::PrependToSave
 	)
 {
 	itsOrigText.Prepend(c);
-	itsOrigStyles->PrependElement(GetText()->GetFont(charIndex));
+	itsOrigStyles->PrependItem(GetText()->GetFont(charIndex));
 }
 
 /******************************************************************************
@@ -126,7 +126,7 @@ JSTUndoTextBase::AppendToSave
 	)
 {
 	itsOrigText.Append(c);
-	itsOrigStyles->AppendElement(GetText()->GetFont(charIndex));
+	itsOrigStyles->AppendItem(GetText()->GetFont(charIndex));
 }
 
 /******************************************************************************

@@ -103,10 +103,10 @@ JPtrStack<T,S>::UnwindDelete
 	)
 {
 	S* list           = JStack<T*,S>::GetElements();
-	const JSize count = list->GetElementCount();
+	const JSize count = list->GetItemCount();
 	for (JIndex i=1; i<=numToUnwind && i<=count; i++)
 	{
-		T* elementPtr = list->GetElement(count -i+1);
+		T* elementPtr = list->GetItem(count -i+1);
 		jdelete elementPtr;
 	}
 
@@ -128,10 +128,10 @@ JPtrStack<T,S>::UnwindDeleteAsArrays
 	)
 {
 	S* list           = JStack<T*,S>::GetElements();
-	const JSize count = list->GetElementCount();
+	const JSize count = list->GetItemCount();
 	for (JIndex i=1; i<=numToUnwind && i<=count; i++)
 	{
-		T* elementPtr = list->GetElement(count -i+1);
+		T* elementPtr = list->GetItem(count -i+1);
 		jdelete [] elementPtr;
 	}
 

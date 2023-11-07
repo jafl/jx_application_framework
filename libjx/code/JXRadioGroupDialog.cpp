@@ -100,7 +100,7 @@ JXRadioGroupDialog::BuildWindow
 	const JPtrArray<JString>*	shortcutList
 	)
 {
-	const JSize actionCount = choiceList.GetElementCount();
+	const JSize actionCount = choiceList.GetItemCount();
 
 	auto* window = jnew JXWindow(this, 10,10, windowTitle);
 
@@ -131,7 +131,7 @@ JXRadioGroupDialog::BuildWindow
 	for (JIndex i=1; i<=actionCount; i++)
 	{
 		auto* button =
-			jnew JXTextRadioButton(i, *choiceList.GetElement(i), itsRG,
+			jnew JXTextRadioButton(i, *choiceList.GetItem(i), itsRG,
 								  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								  kRGHLMarginWidth, kItemVDelta + (i-1) * kItemVSeparation,
 								  10,kTextHeight);
@@ -139,7 +139,7 @@ JXRadioGroupDialog::BuildWindow
 
 		if (shortcutList != nullptr)
 		{
-			button->SetShortcuts(*(shortcutList->GetElement(i)));
+			button->SetShortcuts(*(shortcutList->GetItem(i)));
 		}
 
 		buttonList.Append(button);

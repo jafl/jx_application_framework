@@ -810,7 +810,7 @@ JReadAll
 			{
 				::close(input);
 			}
-			str->Set(byteBuf.GetCArray(), byteBuf.GetElementCount());
+			str->Set(byteBuf.GetCArray(), byteBuf.GetItemCount());
 			return false;
 		}
 		else if (result == 0)
@@ -819,7 +819,7 @@ JReadAll
 			{
 				::close(input);
 			}
-			str->Set(byteBuf.GetCArray(), byteBuf.GetElementCount());
+			str->Set(byteBuf.GetCArray(), byteBuf.GetItemCount());
 			return true;
 		}
 		// else, keep reading
@@ -917,7 +917,7 @@ JReadUntil
 		byteBuf.Append(std::span(&c, 1));
 	}
 done:
-	str->Set(byteBuf.GetCArray(), byteBuf.GetElementCount());
+	str->Set(byteBuf.GetCArray(), byteBuf.GetItemCount());
 	return isDelimiter;
 }
 

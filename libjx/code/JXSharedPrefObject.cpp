@@ -45,11 +45,11 @@ JXSharedPrefObject::JXSharedPrefObject
 	{
 		if (!itsVersionList->IsEmpty())	// require pre-sorted
 		{
-			const VersionInfo info = itsVersionList->GetLastElement();
+			const VersionInfo info = itsVersionList->GetLastItem();
 			assert( versList[i].vers > info.vers );
 		}
 
-		itsVersionList->AppendElement(versList[i]);
+		itsVersionList->AppendItem(versList[i]);
 	}
 
 	ListenTo(JXGetSharedPrefsManager());
@@ -87,7 +87,7 @@ JXSharedPrefObject::GetPrefID
 		}
 	}
 
-	const VersionInfo info = itsVersionList->GetLastElement();
+	const VersionInfo info = itsVersionList->GetLastItem();
 	return info.id;
 }
 

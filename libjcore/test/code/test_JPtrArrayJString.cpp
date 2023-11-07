@@ -35,8 +35,8 @@ JTEST(ReadWritePtrArray)
 	io2 << list1;
 	io2.seekg(0);
 	io2 >> list2;
-	JAssertEqual(1, list2.GetElementCount());
-	JAssertStringsEqual("foobar", *(list2.GetElement(1)));
+	JAssertEqual(1, list2.GetItemCount());
+	JAssertStringsEqual("foobar", *(list2.GetItem(1)));
 
 	list1.Prepend(JString("barbaz", JString::kNoCopy));
 
@@ -44,9 +44,9 @@ JTEST(ReadWritePtrArray)
 	io3 << list1;
 	io3.seekg(0);
 	io3 >> list2;
-	JAssertEqual(2, list2.GetElementCount());
-	JAssertStringsEqual("barbaz", *(list2.GetElement(1)));
-	JAssertStringsEqual("foobar", *(list2.GetElement(2)));
+	JAssertEqual(2, list2.GetItemCount());
+	JAssertStringsEqual("barbaz", *(list2.GetItem(1)));
+	JAssertStringsEqual("foobar", *(list2.GetItem(2)));
 }
 
 JTEST(ReadWritePtrMap)
@@ -72,8 +72,8 @@ JTEST(ReadWritePtrMap)
 	io2 << map1;
 	io2.seekg(0);
 	io2 >> map2;
-	JAssertEqual(1, map2.GetElementCount());
-	JAssertTrue(map2.GetElement(key1, &s));
+	JAssertEqual(1, map2.GetItemCount());
+	JAssertTrue(map2.GetItem(key1, &s));
 	JAssertStringsEqual("foobar", *s);
 
 	map1.SetNewElement(key2, JString("barbaz", JString::kNoCopy));
@@ -82,10 +82,10 @@ JTEST(ReadWritePtrMap)
 	io3 << map1;
 	io3.seekg(0);
 	io3 >> map2;
-	JAssertEqual(2, map2.GetElementCount());
-	JAssertTrue(map2.GetElement(key1, &s));
+	JAssertEqual(2, map2.GetItemCount());
+	JAssertTrue(map2.GetItem(key1, &s));
 	JAssertStringsEqual("foobar", *s);
-	JAssertTrue(map2.GetElement(key2, &s));
+	JAssertTrue(map2.GetItem(key2, &s));
 	JAssertStringsEqual("barbaz", *s);
 }
 
@@ -105,7 +105,7 @@ JTEST(JSameStrings)
 	JAssertFalse(JSameStrings(list1, list2, JString::kIgnoreCase));
 	JAssertFalse(JSameStrings(list1, list2, JString::kCompareCase));
 
-	list2.SetElement(1, JString("foobar", JString::kNoCopy), JPtrArrayT::kDelete);
+	list2.SetItem(1, JString("foobar", JString::kNoCopy), JPtrArrayT::kDelete);
 	JAssertTrue(JSameStrings(list1, list2, JString::kIgnoreCase));
 	JAssertTrue(JSameStrings(list1, list2, JString::kCompareCase));
 
@@ -117,7 +117,7 @@ JTEST(JSameStrings)
 	JAssertTrue(JSameStrings(list1, list2, JString::kIgnoreCase));
 	JAssertTrue(JSameStrings(list1, list2, JString::kCompareCase));
 
-	list2.SetElement(1, JString("FOOBAR", JString::kNoCopy), JPtrArrayT::kDelete);
+	list2.SetItem(1, JString("FOOBAR", JString::kNoCopy), JPtrArrayT::kDelete);
 	JAssertTrue(JSameStrings(list1, list2, JString::kIgnoreCase));
 	JAssertFalse(JSameStrings(list1, list2, JString::kCompareCase));
 }

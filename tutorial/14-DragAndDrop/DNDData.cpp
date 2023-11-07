@@ -75,10 +75,10 @@ DNDData::SetData
 	}
 
 	// we now loop through all of the points and add them to our list.
-	const JSize count	= points.GetElementCount();
+	const JSize count	= points.GetItemCount();
 	for (JIndex i = 1; i <= count; i++)
 	{
-		itsPoints->AppendElement(points.GetElement(i));
+		itsPoints->AppendItem(points.GetItem(i));
 	}
 
 	// since the data has changed, the data buffer is no longer valid. It
@@ -186,13 +186,13 @@ DNDData::CreateBuffer()
 		std::ostringstream os;
 
 		// Write out the point count.
-		const JSize count	= itsPoints->GetElementCount();
+		const JSize count	= itsPoints->GetItemCount();
 		os << count << ' ';
 
 		// Loop through the points and write out their data.
 		for (JIndex i = 1; i <= count; i++)
 		{
-			JPoint point	= itsPoints->GetElement(i);
+			JPoint point	= itsPoints->GetItem(i);
 			os << point << ' ';
 		}
 

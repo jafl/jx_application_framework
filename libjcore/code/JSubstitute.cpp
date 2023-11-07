@@ -160,7 +160,7 @@ JSubstitute::CopyInternals
 			assert( newInfo.value != nullptr );
 		}
 
-		itsVarList->AppendElement(newInfo);
+		itsVarList->AppendItem(newInfo);
 	}
 
 	itsControlEscapesFlag     = source.itsControlEscapesFlag;
@@ -432,7 +432,7 @@ JSubstitute::DefineVariable
 
 		auto* v = jnew JString(value);
 
-		itsVarList->AppendElement(VarInfo(n, v));
+		itsVarList->AppendItem(VarInfo(n, v));
 	}
 }
 
@@ -479,7 +479,7 @@ JSubstitute::DefineVariables
 
 	auto* regex = jnew JRegex(regexPattern);
 
-	itsVarList->AppendElement(VarInfo(name, regex));
+	itsVarList->AppendItem(VarInfo(name, regex));
 }
 
 /******************************************************************************
@@ -496,16 +496,16 @@ JSubstitute::UndefineVariable
 	const JUtf8Byte* name
 	)
 {
-	const JSize count = itsVarList->GetElementCount();
+	const JSize count = itsVarList->GetItemCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		VarInfo info = itsVarList->GetElement(i);
+		VarInfo info = itsVarList->GetItem(i);
 		if (*info.name == name)
 		{
 			jdelete info.name;
 			jdelete info.regex;
 			jdelete info.value;
-			itsVarList->RemoveElement(i);
+			itsVarList->RemoveItem(i);
 		}
 	}
 }
@@ -810,10 +810,10 @@ JSubstitute::Evaluate
 							 iter.GetString().GetByteCount()),
 			  JString::kNoCopy);
 
-	const JSize count = itsVarList->GetElementCount();
+	const JSize count = itsVarList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const VarInfo info    = itsVarList->GetElement(i);
+		const VarInfo info    = itsVarList->GetItem(i);
 		const JSize charCount = info.name->GetCharacterCount();
 		if (info.regex == nullptr && s.StartsWith(*(info.name)) &&
 			charCount > matchCharCount)
@@ -855,7 +855,7 @@ JSubstitute::Evaluate
 	}
 	else
 	{
-		const VarInfo info = itsVarList->GetElement(varIndex);
+		const VarInfo info = itsVarList->GetItem(varIndex);
 		*value             = *(info.value);
 		iter.SkipNext(matchCharCount);
 		return true;

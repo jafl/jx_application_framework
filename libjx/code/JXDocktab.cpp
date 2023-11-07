@@ -339,7 +339,7 @@ JXDocktab::HandleActionMenu
 		const JIndex i                      = index - kShowFirstDockCmd + 1;
 		if (dockList->IndexValid(i))		// paranoia
 		{
-			(dockList->GetElement(i))->Activate();
+			(dockList->GetItem(i))->Activate();
 		}
 	}
 }

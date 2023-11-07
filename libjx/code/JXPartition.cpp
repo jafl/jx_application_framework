@@ -256,7 +256,7 @@ JXPartition::DeleteCompartmentObject
 	const JIndex index
 	)
 {
-	itsCompartments->DeleteElement(index);
+	itsCompartments->DeleteItem(index);
 }
 
 /******************************************************************************
@@ -288,7 +288,7 @@ JXPartition::RestoreGeometry
 	const JArray<JCoordinate>& sizes
 	)
 {
-	const JSize count = sizes.GetElementCount();
+	const JSize count = sizes.GetItemCount();
 	if (count != GetCompartmentCount())
 	{
 		return;
@@ -297,7 +297,7 @@ JXPartition::RestoreGeometry
 	JSize origTotalSize = 0;
 	for (JIndex i=1; i<=count; i++)
 	{
-		const JSize size = sizes.GetElement(i);
+		const JSize size = sizes.GetItem(i);
 		if (size < (JSize) JPartition::GetMinCompartmentSize(i))
 		{
 			return;
@@ -316,12 +316,12 @@ JXPartition::RestoreGeometry
 		JSize sum               = 0;
 		for (JIndex i=1; i<count; i++)
 		{
-			const JSize size = JMax(newSizes.GetElement(i) + delta, JPartition::GetMinCompartmentSize(i));
-			newSizes.SetElement(i, size);
+			const JSize size = JMax(newSizes.GetItem(i) + delta, JPartition::GetMinCompartmentSize(i));
+			newSizes.SetItem(i, size);
 			sum += size;
 		}
 
-		newSizes.SetElement(count, currTotalSize - sum);	// takes care of rounding error
+		newSizes.SetItem(count, currTotalSize - sum);	// takes care of rounding error
 		SetCompartmentSizes(newSizes);
 	}
 	else

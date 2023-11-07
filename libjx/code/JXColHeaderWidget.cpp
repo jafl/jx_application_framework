@@ -101,7 +101,7 @@ JXColHeaderWidget::GetColTitle
 {
 	if (itsTitles != nullptr)
 	{
-		const JString* str = itsTitles->GetElement(index);
+		const JString* str = itsTitles->GetItem(index);
 		if (str != nullptr)
 		{
 			*title = *str;
@@ -137,7 +137,7 @@ JXColHeaderWidget::SetColTitle
 		}
 	}
 
-	itsTitles->SetElement(index, title, JPtrArrayT::kDelete);
+	itsTitles->SetItem(index, title, JPtrArrayT::kDelete);
 }
 
 /******************************************************************************
@@ -197,7 +197,7 @@ JXColHeaderWidget::TableDrawCell
 	bool hasTitle = false;
 	if (itsTitles != nullptr)
 	{
-		const JString* title = itsTitles->GetElement(cell.x);
+		const JString* title = itsTitles->GetItem(cell.x);
 		if (title != nullptr)
 		{
 			str      = *title;
@@ -539,7 +539,7 @@ JXColHeaderWidget::Receive
 		{
 			for (JIndex i=1; i<=info->GetCount(); i++)
 			{
-				itsTitles->DeleteElement(info->GetFirstIndex());
+				itsTitles->DeleteItem(info->GetFirstIndex());
 			}
 		}
 		RemoveNextCols(info->GetFirstIndex(), info->GetCount());
@@ -552,7 +552,7 @@ JXColHeaderWidget::Receive
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
 		{
-			itsTitles->MoveElementToIndex(info->GetOrigIndex(), info->GetNewIndex());
+			itsTitles->MoveItemToIndex(info->GetOrigIndex(), info->GetNewIndex());
 		}
 		MoveCol(info->GetOrigIndex(), info->GetNewIndex());
 	}

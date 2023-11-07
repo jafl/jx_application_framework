@@ -14,14 +14,14 @@
 
 // for all objects
 
-const JUtf8Byte* JListT::kElementsInserted = "ElementsInserted::JListT";
-const JUtf8Byte* JListT::kElementsRemoved  = "ElementsRemoved::JListT";
+const JUtf8Byte* JListT::kItemsInserted = "ItemsInserted::JListT";
+const JUtf8Byte* JListT::kItemsRemoved  = "ItemsRemoved::JListT";
 
 // for JBroadcasters
 
-const JUtf8Byte* JListT::kElementMoved    = "ElementMoved::JListT";
-const JUtf8Byte* JListT::kElementsSwapped = "ElementsSwapped::JListT";
-const JUtf8Byte* JListT::kElementsChanged = "ElementsChanged::JListT";
+const JUtf8Byte* JListT::kItemMoved    = "ItemMoved::JListT";
+const JUtf8Byte* JListT::kItemsSwapped = "ItemsSwapped::JListT";
+const JUtf8Byte* JListT::kItemsChanged = "ItemsChanged::JListT";
 const JUtf8Byte* JListT::kSorted          = "Sorted::JListT";
 
 // for iterators
@@ -36,7 +36,7 @@ const JUtf8Byte* JListT::kCopied    = "Copied::JListT";
  ******************************************************************************/
 
 void
-JListT::ElementsInserted::AdjustIndex
+JListT::ItemsInserted::AdjustIndex
 	(
 	JIndex* index
 	)
@@ -46,7 +46,7 @@ JListT::ElementsInserted::AdjustIndex
 }
 
 bool
-JListT::ElementsRemoved::AdjustIndex
+JListT::ItemsRemoved::AdjustIndex
 	(
 	JIndex* index
 	)
@@ -56,7 +56,7 @@ JListT::ElementsRemoved::AdjustIndex
 }
 
 void
-JListT::ElementMoved::AdjustIndex
+JListT::ItemMoved::AdjustIndex
 	(
 	JIndex* index
 	)
@@ -66,7 +66,7 @@ JListT::ElementMoved::AdjustIndex
 }
 
 void
-JListT::ElementsSwapped::AdjustIndex
+JListT::ItemsSwapped::AdjustIndex
 	(
 	JIndex* index
 	)

@@ -17,7 +17,7 @@ struct JPtrArrayT
 		kDeleteAllAsArrays
 	};
 
-	enum SetElementAction
+	enum SetAction
 	{
 		kForget,
 		kDelete,

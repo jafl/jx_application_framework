@@ -55,7 +55,7 @@ operator<<
 	const JPtrArray<JString>&	list
 	)
 {
-	output << ' ' << list.GetElementCount();
+	output << ' ' << list.GetItemCount();
 
 	for (const auto* s : list)
 	{
@@ -96,7 +96,7 @@ operator>>
 			return input;
 		}
 
-		map.SetElement(key, value, JPtrArrayT::kDelete);
+		map.SetItem(key, value, JPtrArrayT::kDelete);
 	}
 
 	return input;
@@ -150,8 +150,8 @@ JSameStrings
 {
 JIndex i;
 
-	const JSize count = list1.GetElementCount();
-	if (list2.GetElementCount() != count)
+	const JSize count = list1.GetItemCount();
+	if (list2.GetItemCount() != count)
 	{
 		return false;
 	}
@@ -163,21 +163,21 @@ JIndex i;
 	JArray<bool> matched(count);
 	for (i=1; i<=count; i++)
 	{
-		matched.AppendElement(false);
+		matched.AppendItem(false);
 	}
 
 	for (i=1; i<=count; i++)
 	{
-		const JString* s1 = list1.GetElement(i);
+		const JString* s1 = list1.GetItem(i);
 		bool found    = false;
 
 		for (JIndex j=1; j<=count; j++)
 		{
-			if (!matched.GetElement(j) &&
-				JString::Compare(*s1, *(list2.GetElement(j)), caseSensitive) == 0)
+			if (!matched.GetItem(j) &&
+				JString::Compare(*s1, *(list2.GetItem(j)), caseSensitive) == 0)
 			{
 				found = true;
-				matched.SetElement(j, true);
+				matched.SetItem(j, true);
 				break;
 			}
 		}

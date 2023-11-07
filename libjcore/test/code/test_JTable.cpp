@@ -347,11 +347,11 @@ JTEST(TableData)
 	JAssertFalse(d.CellValid(JPoint(5,6)));
 	JAssertFalse(d.CellValid(JPoint(6,5)));
 
-	d.SetElement(2,2, 1.0);
-	d.SetElement(JPoint(3,3), -1.0);
+	d.SetItem(2,2, 1.0);
+	d.SetItem(JPoint(3,3), -1.0);
 
-	JAssertEqual(1.0, d.GetElement(2,2));
-	JAssertEqual(-1.0, d.GetElement(JPoint(3,3)));
+	JAssertEqual(1.0, d.GetItem(2,2));
+	JAssertEqual(-1.0, d.GetItem(JPoint(3,3)));
 
 	d.DuplicateRow(2,6);
 
@@ -360,11 +360,11 @@ JTEST(TableData)
 	JAssertEqual(5, t.GetColCount());
 	JAssertEqual(5, d.GetColCount());
 
-	JAssertEqual(0.0, d.GetElement(6,1));
-	JAssertEqual(1.0, d.GetElement(6,2));
-	JAssertEqual(0.0, d.GetElement(6,3));
-	JAssertEqual(0.0, d.GetElement(6,4));
-	JAssertEqual(0.0, d.GetElement(6,5));
+	JAssertEqual(0.0, d.GetItem(6,1));
+	JAssertEqual(1.0, d.GetItem(6,2));
+	JAssertEqual(0.0, d.GetItem(6,3));
+	JAssertEqual(0.0, d.GetItem(6,4));
+	JAssertEqual(0.0, d.GetItem(6,5));
 
 	d.DuplicateCol(3,6);
 
@@ -373,30 +373,30 @@ JTEST(TableData)
 	JAssertEqual(6, t.GetColCount());
 	JAssertEqual(6, d.GetColCount());
 
-	JAssertEqual(0.0, d.GetElement(JPoint(6,1)));
-	JAssertEqual(0.0, d.GetElement(JPoint(6,2)));
-	JAssertEqual(-1.0, d.GetElement(JPoint(6,3)));
-	JAssertEqual(0.0, d.GetElement(JPoint(6,4)));
-	JAssertEqual(0.0, d.GetElement(JPoint(6,5)));
-	JAssertEqual(0.0, d.GetElement(JPoint(6,6)));
+	JAssertEqual(0.0, d.GetItem(JPoint(6,1)));
+	JAssertEqual(0.0, d.GetItem(JPoint(6,2)));
+	JAssertEqual(-1.0, d.GetItem(JPoint(6,3)));
+	JAssertEqual(0.0, d.GetItem(JPoint(6,4)));
+	JAssertEqual(0.0, d.GetItem(JPoint(6,5)));
+	JAssertEqual(0.0, d.GetItem(JPoint(6,6)));
 
 	d.MoveRow(6,4);
 
-	JAssertEqual(0.0, d.GetElement(4,1));
-	JAssertEqual(1.0, d.GetElement(4,2));
-	JAssertEqual(0.0, d.GetElement(4,3));
-	JAssertEqual(0.0, d.GetElement(4,4));
-	JAssertEqual(0.0, d.GetElement(4,5));
-	JAssertEqual(0.0, d.GetElement(4,6));
+	JAssertEqual(0.0, d.GetItem(4,1));
+	JAssertEqual(1.0, d.GetItem(4,2));
+	JAssertEqual(0.0, d.GetItem(4,3));
+	JAssertEqual(0.0, d.GetItem(4,4));
+	JAssertEqual(0.0, d.GetItem(4,5));
+	JAssertEqual(0.0, d.GetItem(4,6));
 
 	d.MoveCol(6,4);
 
-	JAssertEqual(0.0, d.GetElement(JPoint(4,1)));
-	JAssertEqual(0.0, d.GetElement(JPoint(4,2)));
-	JAssertEqual(-1.0, d.GetElement(JPoint(4,3)));
-	JAssertEqual(0.0, d.GetElement(JPoint(4,4)));
-	JAssertEqual(0.0, d.GetElement(JPoint(4,5)));
-	JAssertEqual(0.0, d.GetElement(JPoint(4,6)));
+	JAssertEqual(0.0, d.GetItem(JPoint(4,1)));
+	JAssertEqual(0.0, d.GetItem(JPoint(4,2)));
+	JAssertEqual(-1.0, d.GetItem(JPoint(4,3)));
+	JAssertEqual(0.0, d.GetItem(JPoint(4,4)));
+	JAssertEqual(0.0, d.GetItem(JPoint(4,5)));
+	JAssertEqual(0.0, d.GetItem(JPoint(4,6)));
 
 	d.RemoveRow(5);
 	d.RemoveNextRows(3, 2);
@@ -427,23 +427,23 @@ JTEST(Pagination)
 	JAssertFalse(printRowHdr);
 	JAssertFalse(printColHdr);
 
-	JAssertEqual(51, rows.GetElementCount());
-	JAssertEqual(0, rows.GetElement(1));
-	JAssertEqual(22, rows.GetElement(2));
-	JAssertEqual(44, rows.GetElement(3));
-	JAssertEqual(66, rows.GetElement(4));
-	JAssertEqual(88, rows.GetElement(5));
-	JAssertEqual(110, rows.GetElement(6));
-	JAssertEqual(1100, rows.GetElement(51));
+	JAssertEqual(51, rows.GetItemCount());
+	JAssertEqual(0, rows.GetItem(1));
+	JAssertEqual(22, rows.GetItem(2));
+	JAssertEqual(44, rows.GetItem(3));
+	JAssertEqual(66, rows.GetItem(4));
+	JAssertEqual(88, rows.GetItem(5));
+	JAssertEqual(110, rows.GetItem(6));
+	JAssertEqual(1100, rows.GetItem(51));
 
-	JAssertEqual(51, cols.GetElementCount());
-	JAssertEqual(0, cols.GetElement(1));
-	JAssertEqual(42, cols.GetElement(2));
-	JAssertEqual(84, cols.GetElement(3));
-	JAssertEqual(126, cols.GetElement(4));
-	JAssertEqual(168, cols.GetElement(5));
-	JAssertEqual(210, cols.GetElement(6));
-	JAssertEqual(2100, cols.GetElement(51));
+	JAssertEqual(51, cols.GetItemCount());
+	JAssertEqual(0, cols.GetItem(1));
+	JAssertEqual(42, cols.GetItem(2));
+	JAssertEqual(84, cols.GetItem(3));
+	JAssertEqual(126, cols.GetItem(4));
+	JAssertEqual(168, cols.GetItem(5));
+	JAssertEqual(210, cols.GetItem(6));
+	JAssertEqual(2100, cols.GetItem(51));
 
 	JCoordinate lineWidth;
 	JColorID color;
@@ -459,23 +459,23 @@ JTEST(Pagination)
 	JAssertFalse(printRowHdr);
 	JAssertFalse(printColHdr);
 
-	JAssertEqual(51, rows.GetElementCount());
-	JAssertEqual(0, rows.GetElement(1));
-	JAssertEqual(24, rows.GetElement(2));
-	JAssertEqual(48, rows.GetElement(3));
-	JAssertEqual(72, rows.GetElement(4));
-	JAssertEqual(96, rows.GetElement(5));
-	JAssertEqual(120, rows.GetElement(6));
-	JAssertEqual(1199, rows.GetElement(51));
+	JAssertEqual(51, rows.GetItemCount());
+	JAssertEqual(0, rows.GetItem(1));
+	JAssertEqual(24, rows.GetItem(2));
+	JAssertEqual(48, rows.GetItem(3));
+	JAssertEqual(72, rows.GetItem(4));
+	JAssertEqual(96, rows.GetItem(5));
+	JAssertEqual(120, rows.GetItem(6));
+	JAssertEqual(1199, rows.GetItem(51));
 
-	JAssertEqual(51, cols.GetElementCount());
-	JAssertEqual(0, cols.GetElement(1));
-	JAssertEqual(44, cols.GetElement(2));
-	JAssertEqual(88, cols.GetElement(3));
-	JAssertEqual(132, cols.GetElement(4));
-	JAssertEqual(176, cols.GetElement(5));
-	JAssertEqual(220, cols.GetElement(6));
-	JAssertEqual(2199, cols.GetElement(51));
+	JAssertEqual(51, cols.GetItemCount());
+	JAssertEqual(0, cols.GetItem(1));
+	JAssertEqual(44, cols.GetItem(2));
+	JAssertEqual(88, cols.GetItem(3));
+	JAssertEqual(132, cols.GetItem(4));
+	JAssertEqual(176, cols.GetItem(5));
+	JAssertEqual(220, cols.GetItem(6));
+	JAssertEqual(2199, cols.GetItem(51));
 }
 
 JTEST(Selection)

@@ -48,10 +48,10 @@ public:
 	virtual void	MoveTo(const JListT::Position newPosition, const JIndex index);
 	bool			AtBeginning() const;
 	bool			AtEnd() const;
-	JIndex			GetPrevElementIndex() const;		// asserts
-	JIndex			GetNextElementIndex() const;		// asserts
-	bool			GetPrevElementIndex(JIndex* i) const;
-	bool			GetNextElementIndex(JIndex* i) const;
+	JIndex			GetPrevItemIndex() const;		// asserts
+	JIndex			GetNextItemIndex() const;		// asserts
+	bool			GetPrevItemIndex(JIndex* i) const;
+	bool			GetNextItemIndex(JIndex* i) const;
 
 	// only allowed if constructed from non-const JList<T>*
 

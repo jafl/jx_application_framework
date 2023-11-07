@@ -182,7 +182,7 @@ JXSelectionData::RemoveType
 	JIndex index;
 	if (itsTypeList->SearchSorted(type, JListT::kAnyMatch, &index))
 	{
-		itsTypeList->RemoveElement(index);
+		itsTypeList->RemoveItem(index);
 	}
 }
 
@@ -241,7 +241,7 @@ JXSelectionData::Convert
 
 	if (requestType == selMgr->GetTargetsXAtom())
 	{
-		const JSize atomCount = itsTypeList->GetElementCount();
+		const JSize atomCount = itsTypeList->GetItemCount();
 		assert( atomCount > 0 );
 
 		*returnType   = XA_ATOM;
@@ -257,7 +257,7 @@ JXSelectionData::Convert
 		Atom* atomData = reinterpret_cast<Atom*>(*data);
 		for (JIndex i=1; i<=atomCount; i++)
 		{
-			atomData[i-1] = itsTypeList->GetElement(i);
+			atomData[i-1] = itsTypeList->GetItem(i);
 		}
 
 		return true;

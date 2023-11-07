@@ -169,14 +169,14 @@ J2DPlotWidget::~J2DPlotWidget()
 	jdelete itsColors;
 	jdelete itsColorUsage;
 
-	const JSize count = itsCurves->GetElementCount();
+	const JSize count = itsCurves->GetItemCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		J2DCurveInfo info = itsCurveInfo->GetElement(i);
+		J2DCurveInfo info = itsCurveInfo->GetItem(i);
 		if (info.own)
 		{
-			StopListening(itsCurves->GetElement(i));
-			itsCurves->DeleteElement(i);
+			StopListening(itsCurves->GetItem(i));
+			itsCurves->DeleteItem(i);
 		}
 		jdelete info.name;
 	}
@@ -263,9 +263,9 @@ J2DPlotWidget::ShowCurve
 	const bool	show
 	)
 {
-	J2DCurveInfo info = itsCurveInfo->GetElement(curveIndex);
+	J2DCurveInfo info = itsCurveInfo->GetItem(curveIndex);
 	info.show = show;
-	itsCurveInfo->SetElement(curveIndex, info);
+	itsCurveInfo->SetItem(curveIndex, info);
 	UpdatePlot();
 }
 
@@ -277,12 +277,12 @@ J2DPlotWidget::ShowCurve
 void
 J2DPlotWidget::ShowAllCurves()
 {
-	const JSize count = itsCurveInfo->GetElementCount();
+	const JSize count = itsCurveInfo->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		J2DCurveInfo info = itsCurveInfo->GetElement(i);
+		J2DCurveInfo info = itsCurveInfo->GetItem(i);
 		info.show = true;
-		itsCurveInfo->SetElement(i, info);
+		itsCurveInfo->SetItem(i, info);
 	}
 
 	UpdatePlot();
@@ -301,12 +301,12 @@ J2DPlotWidget::HideAllOtherCurves
 {
 	assert( itsCurveInfo->IndexValid(curveIndex) );
 
-	const JSize count = itsCurveInfo->GetElementCount();
+	const JSize count = itsCurveInfo->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		J2DCurveInfo info = itsCurveInfo->GetElement(i);
+		J2DCurveInfo info = itsCurveInfo->GetItem(i);
 		info.show = i == curveIndex;
-		itsCurveInfo->SetElement(i, info);
+		itsCurveInfo->SetItem(i, info);
 	}
 
 	UpdatePlot();
@@ -324,9 +324,9 @@ J2DPlotWidget::ShowLines
 	const bool show
 	)
 {
-	J2DCurveInfo info = itsCurveInfo->GetElement(curveIndex);
+	J2DCurveInfo info = itsCurveInfo->GetItem(curveIndex);
 	info.lines = show;
-	itsCurveInfo->SetElement(curveIndex, info);
+	itsCurveInfo->SetItem(curveIndex, info);
 	UpdatePlot();
 }
 
@@ -342,9 +342,9 @@ J2DPlotWidget::ShowSymbols
 	const bool show
 	)
 {
-	J2DCurveInfo info = itsCurveInfo->GetElement(curveIndex);
+	J2DCurveInfo info = itsCurveInfo->GetItem(curveIndex);
 	info.symbols = show;
-	itsCurveInfo->SetElement(curveIndex, info);
+	itsCurveInfo->SetItem(curveIndex, info);
 	UpdatePlot();
 }
 
@@ -360,11 +360,11 @@ J2DPlotWidget::ShowXErrors
 	const bool	show
 	)
 {
-	J2DCurveInfo info = itsCurveInfo->GetElement(index);
+	J2DCurveInfo info = itsCurveInfo->GetItem(index);
 	if (info.xerrors != show)
 	{
 		info.xerrors = show;
-		itsCurveInfo->SetElement(index, info);
+		itsCurveInfo->SetItem(index, info);
 		UpdatePlot();
 	}
 }
@@ -381,11 +381,11 @@ J2DPlotWidget::ShowYErrors
 	const bool	show
 	)
 {
-	J2DCurveInfo info = itsCurveInfo->GetElement(index);
+	J2DCurveInfo info = itsCurveInfo->GetItem(index);
 	if (info.yerrors != show)
 	{
 		info.yerrors = show;
-		itsCurveInfo->SetElement(index, info);
+		itsCurveInfo->SetItem(index, info);
 		UpdatePlot();
 	}
 }
@@ -403,10 +403,10 @@ J2DPlotWidget::SetCurveStyle
 	const bool	symbols
 	)
 {
-	J2DCurveInfo info = itsCurveInfo->GetElement(curveIndex);
+	J2DCurveInfo info = itsCurveInfo->GetItem(curveIndex);
 	info.lines   = lines;
 	info.symbols = symbols;
-	itsCurveInfo->SetElement(curveIndex, info);
+	itsCurveInfo->SetItem(curveIndex, info);
 	UpdatePlot();
 }
 
@@ -422,9 +422,9 @@ J2DPlotWidget::ProtectCurve
 	const bool protect
 	)
 {
-	J2DCurveInfo info = itsCurveInfo->GetElement(curveIndex);
+	J2DCurveInfo info = itsCurveInfo->GetItem(curveIndex);
 	info.protect = protect;
-	itsCurveInfo->SetElement(curveIndex, info);
+	itsCurveInfo->SetItem(curveIndex, info);
 	ProtectionChanged();
 }
 
@@ -440,7 +440,7 @@ J2DPlotWidget::SetCurveName
 	const JString&	name
 	)
 {
-	J2DCurveInfo info = itsCurveInfo->GetElement(index);
+	J2DCurveInfo info = itsCurveInfo->GetItem(index);
 	(info.name)->Set(name);
 	UpdatePlot(true);
 }
@@ -456,14 +456,14 @@ J2DPlotWidget::SetCurveInfoArray
 	const JArray<J2DCurveInfo>& infoArray
 	)
 {
-	assert(infoArray.GetElementCount() == itsCurveInfo->GetElementCount());
-	const JSize count = itsCurveInfo->GetElementCount();
+	assert(infoArray.GetItemCount() == itsCurveInfo->GetItemCount());
+	const JSize count = itsCurveInfo->GetItemCount();
 	for (JSize i = 1; i <= count; i++)
 	{
-		J2DCurveInfo info = infoArray.GetElement(i);
+		J2DCurveInfo info = infoArray.GetItem(i);
 		info.name = jnew JString(*info.name);
 		assert(info.name != nullptr);
-		itsCurveInfo->SetElement(i, info);
+		itsCurveInfo->SetItem(i, info);
 	}
 	UpdatePlot(true);
 }
@@ -504,14 +504,14 @@ J2DPlotWidget::AddCurve
 						GetFirstAvailableColor(),
 						GetFirstAvailableSymbol(), str);
 
-	itsCurveInfo->AppendElement(info);
+	itsCurveInfo->AppendItem(info);
 
 	ListenTo(data);
-	Broadcast(CurveAdded(itsCurves->GetElementCount()));
+	Broadcast(CurveAdded(itsCurves->GetItemCount()));
 	Broadcast(ScaleChanged());	// Do I still need this?
 	UpdatePlot(true, !itsIsZoomedFlag);
 	Broadcast(ScaleChanged());
-	return itsCurves->GetElementCount();
+	return itsCurves->GetItemCount();
 }
 
 /*******************************************************************************
@@ -556,7 +556,7 @@ J2DPlotWidget::RemoveCurve
 	)
 {
 	assert (itsCurveInfo->IndexValid(index));
-	J2DCurveInfo info = itsCurveInfo->GetElement(index);
+	J2DCurveInfo info = itsCurveInfo->GetItem(index);
 
 	if (info.protect)
 	{
@@ -566,16 +566,16 @@ J2DPlotWidget::RemoveCurve
 
 	if (info.own)
 	{
-		itsCurves->DeleteElement(index);
+		itsCurves->DeleteItem(index);
 	}
 	else
 	{
-		itsCurves->RemoveElement(index);
+		itsCurves->RemoveItem(index);
 	}
 
-	const JSize colorUsage = itsColorUsage->GetElement(info.color);
+	const JSize colorUsage = itsColorUsage->GetItem(info.color);
 	assert( colorUsage > 0 );
-	itsColorUsage->SetElement(info.color, colorUsage - 1);
+	itsColorUsage->SetItem(info.color, colorUsage - 1);
 
 	const JIndex symbolIndex = info.symbol;
 	assert( symbolIndex < kSymbolCount &&
@@ -583,7 +583,7 @@ J2DPlotWidget::RemoveCurve
 	itsSymbolUsage [ symbolIndex ]--;
 
 	jdelete info.name;
-	itsCurveInfo->RemoveElement(index);
+	itsCurveInfo->RemoveItem(index);
 
 	if (!itsCurves->IsEmpty())
 	{
@@ -612,9 +612,9 @@ J2DPlotWidget::ArrayIsInCurve
 {
 	assert_msg( 0, "unimplemented" );
 /*
-	for (JSize i = 1; i <= itsCurves->GetElementCount(); i++)
+	for (JSize i = 1; i <= itsCurves->GetItemCount(); i++)
 	{
-		if (itsCurves->GetElement(i)->ArrayInData(testArray))
+		if (itsCurves->GetItem(i)->ArrayInData(testArray))
 		{
 			return true;
 		}
@@ -636,9 +636,9 @@ J2DPlotWidget::RemoveCurvesContainingArray
 {
 	assert_msg( 0, "unimplemented" );
 /*
-	for (JSize i = 1; i<= itsCurves->GetElementCount(); i++)
+	for (JSize i = 1; i<= itsCurves->GetItemCount(); i++)
 	{
-		if (itsCurves->GetElement(i)->ArrayInData(testArray))
+		if (itsCurves->GetItem(i)->ArrayInData(testArray))
 		{
 			RemoveCurve(i);
 			i--;
@@ -968,15 +968,15 @@ J2DPlotWidget::GetMinimumPositiveValue
 	*min = 1.0;
 	bool foundPMin = false;
 
-	const JSize ccount = itsCurves->GetElementCount();
+	const JSize ccount = itsCurves->GetItemCount();
 	for (JIndex i=1; i<=ccount; i++)
 	{
-		const J2DPlotDataBase* data = itsCurves->GetElement(i);
-		const JSize dcount = data->GetElementCount();
+		const J2DPlotDataBase* data = itsCurves->GetItem(i);
+		const JSize dcount = data->GetItemCount();
 		for (JIndex j=1; j<=dcount; j++)
 		{
 			J2DDataPoint point;
-			data->GetElement(j, &point);
+			data->GetItem(j, &point);
 			JFloat value;
 			JFloat errValue;
 			JFloat other;
@@ -1096,7 +1096,7 @@ J2DPlotWidget::GetYDataRange
 void
 J2DPlotWidget::SetPlotDecPlaces()
 {
-	if (itsCurves->GetElementCount() == 0)
+	if (itsCurves->GetItemCount() == 0)
 	{
 		return;
 	}
@@ -1754,10 +1754,10 @@ J2DPlotWidget::AdjustGeometry
 
 	JSize maxLabelWidth = 0;
 
-	JSize count = itsCurves->GetElementCount();
+	JSize count = itsCurves->GetItemCount();
 	for (JSize i = 1; i <= count; i++)
 	{
-		J2DCurveInfo info = itsCurveInfo->GetElement(i);
+		J2DCurveInfo info = itsCurveInfo->GetItem(i);
 		JSize width = p.GetStringWidth(*(info.name));
 		if (width > kMaxLegendStringWidth)
 		{
@@ -1803,10 +1803,10 @@ J2DPlotWidget::AdjustGeometry
 
 		strWidth = 0;
 		JString str;
-		count = major.GetElementCount();
+		count = major.GetItemCount();
 		for (JSize i = 1; i <= count; i++)
 		{
-			str = GetLogAxisString(major.GetElement(i));
+			str = GetLogAxisString(major.GetItem(i));
 			JSize tempWidth = p.GetStringWidth(str);
 			if (tempWidth > strWidth)
 			{
@@ -1815,10 +1815,10 @@ J2DPlotWidget::AdjustGeometry
 		}
 		if (count == 0)
 		{
-			count = minor.GetElementCount();
+			count = minor.GetItemCount();
 			for (JSize i = 1; i <= count; i++)
 			{
-				str = GetLogAxisString(minor.GetElement(i));
+				str = GetLogAxisString(minor.GetItem(i));
 				JSize tempWidth = p.GetStringWidth(str);
 				if (tempWidth > strWidth)
 				{
@@ -2032,7 +2032,7 @@ J2DPlotWidget::TruncateCurveName
 	const JIndex	index
 	)
 {
-	const J2DCurveInfo info = itsCurveInfo->GetElement(index);
+	const J2DCurveInfo info = itsCurveInfo->GetItem(index);
 
 	JStringIterator iter(info.name);
 	while (p.GetStringWidth(*(info.name)) > kMaxLegendStringWidth)
@@ -2054,14 +2054,14 @@ J2DPlotWidget::DrawLegend
 {
 JIndex i;
 
-	const JSize items  = itsCurves->GetElementCount();
+	const JSize items  = itsCurves->GetItemCount();
 	JSize visibleItems = items;
 	if (itsIsPrintingFlag)
 	{
 		visibleItems = 0;
 		for (i = 1; i <= items; i++)
 		{
-			J2DCurveInfo info = itsCurveInfo->GetElement(i);
+			J2DCurveInfo info = itsCurveInfo->GetItem(i);
 			if (info.show)
 			{
 				visibleItems++;
@@ -2081,7 +2081,7 @@ JIndex i;
 	JSize vis = 1;
 	for (i = 1; i <= items; i++)
 	{
-		J2DCurveInfo info = itsCurveInfo->GetElement(i);
+		J2DCurveInfo info = itsCurveInfo->GetItem(i);
 		p.SetPenColor(itsBlackColor);
 
 		if (!itsIsPrintingFlag || info.show)
@@ -2092,7 +2092,7 @@ JIndex i;
 					yPos, *(info.name),
 					itsMaxCurveNameWidth, JPainter::HAlign::kLeft, strHeight);
 
-			p.SetPenColor(itsColors->GetElement(info.color));
+			p.SetPenColor(itsColors->GetItem(info.color));
 
 			if (info.lines)
 			{
@@ -2114,7 +2114,7 @@ JIndex i;
 				p.Rect(JPoint(startx + kLegendItemBuffer, yPos + strHeight/2), 2,2);
 			}
 
-			const J2DPlotDataBase* curve     = itsCurves->GetElement(i);
+			const J2DPlotDataBase* curve     = itsCurves->GetItem(i);
 			const J2DPlotDataBase::Type type = curve->GetType();
 			if (type == J2DPlotDataBase::kVectorPlot)
 			{
@@ -2385,9 +2385,9 @@ J2DPlotWidget::DrawXLogMinorTicks
 
 	GetLogTicks(itsXScale[kMin], itsXScale[kMax], itsXScale[kInc], &major, &minor);
 
-	for (i = 1; i <= major.GetElementCount(); i++)
+	for (i = 1; i <= major.GetItemCount(); i++)
 	{
-		DrawXTick(p, major.GetElement(i), yTick,
+		DrawXTick(p, major.GetItem(i), yTick,
 				  kMajorTicLength, yLabel,
 				  true, false);
 	}
@@ -2397,15 +2397,15 @@ J2DPlotWidget::DrawXLogMinorTicks
 		return;
 	}
 
-	bool drawStr = major.GetElementCount() == 0;
-	for (i = 1; i <= minor.GetElementCount(); i++)
+	bool drawStr = major.GetItemCount() == 0;
+	for (i = 1; i <= minor.GetItemCount(); i++)
 	{
-		DrawXTick(p, minor.GetElement(i), yTick,
+		DrawXTick(p, minor.GetItem(i), yTick,
 				  kMajorTicLength - 1, yLabel,
 				  drawStr, true);
 	}
 
-	if (major.GetElementCount() == 0 && minor.GetElementCount() == 0)
+	if (major.GetItemCount() == 0 && minor.GetItemCount() == 0)
 	{
 		DrawXTick(p, pow(10, itsXScale[kMin]), yTick,
 				  kMajorTicLength, yLabel,
@@ -2529,10 +2529,10 @@ J2DPlotWidget::DrawYLogMinorTicks
 	JArray<JFloat> minor;
 
 	GetLogTicks(itsYScale[kMin], itsYScale[kMax], itsYScale[kInc], &major, &minor);
-	JSize count = major.GetElementCount();
+	JSize count = major.GetItemCount();
 	for (i = 1; i <= count; i++)
 	{
-		DrawYTick(p, major.GetElement(i), xTick,
+		DrawYTick(p, major.GetItem(i), xTick,
 				  kMajorTicLength, xLabel, xLabelEndKnown,
 				  true, false);
 	}
@@ -2542,15 +2542,15 @@ J2DPlotWidget::DrawYLogMinorTicks
 		return;
 	}
 
-	bool drawStr = major.GetElementCount() == 0;
-	for (i = 1; i <= minor.GetElementCount(); i++)
+	bool drawStr = major.GetItemCount() == 0;
+	for (i = 1; i <= minor.GetItemCount(); i++)
 	{
-		DrawYTick(p, minor.GetElement(i), xTick,
+		DrawYTick(p, minor.GetItem(i), xTick,
 				  kMajorTicLength - 1, xLabel, xLabelEndKnown,
 				  drawStr, true);
 	}
 
-	if ((major.GetElementCount() == 0) && (minor.GetElementCount() == 0))
+	if ((major.GetItemCount() == 0) && (minor.GetItemCount() == 0))
 	{
 		DrawYTick(p, pow(10, itsYScale[kMin]), xTick,
 				  kMajorTicLength, xLabel, xLabelEndKnown,
@@ -2737,11 +2737,11 @@ J2DPlotWidget::GetLogTicks
 			{
 				if (index == 1)
 				{
-					major->AppendElement(value);
+					major->AppendItem(value);
 				}
 				else if (inc == 1)
 				{
-					minor->AppendElement(value);
+					minor->AppendItem(value);
 				}
 			}
 		}
@@ -2852,14 +2852,14 @@ J2DPlotWidget::DrawData
 					 GetGraphValue(itsRangeYMax, itsYAxisIsLinear),
 					 &(visRect.ymin), &(visRect.ymax));
 
-	const JSize count = itsCurves->GetElementCount();
+	const JSize count = itsCurves->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const J2DCurveInfo info        = itsCurveInfo->GetElement(i);
-		const J2DPlotDataBase* curve     = itsCurves->GetElement(i);
+		const J2DCurveInfo info        = itsCurveInfo->GetItem(i);
+		const J2DPlotDataBase* curve     = itsCurves->GetItem(i);
 		const J2DPlotDataBase::Type type = curve->GetType();
 
-		p.SetPenColor(itsColors->GetElement(info.color));
+		p.SetPenColor(itsColors->GetItem(info.color));
 
 		if (info.show && type == J2DPlotDataBase::kScatterPlot)
 		{
@@ -2924,7 +2924,7 @@ J2DPlotWidget::DrawCurve
 	J2DDataPoint data1, data2;
 	JPoint pt;
 
-	const JSize dataCount = curve.GetElementCount();
+	const JSize dataCount = curve.GetItemCount();
 	for (JIndex i=1; i<=dataCount; i++)
 	{
 		if (info.lines || info.symbols)
@@ -2974,7 +2974,7 @@ J2DPlotWidget::DrawCurve
 
 		else
 		{
-			curve.GetElement(i, &data1);
+			curve.GetItem(i, &data1);
 			if (ConvertLog10(&data1) &&
 				visRect.Contains(data1.x, data1.y))
 			{
@@ -3021,7 +3021,7 @@ J2DPlotWidget::DrawError
 	const
 {
 	J2DDataPoint data;
-	curve.GetElement(index, &data);
+	curve.GetItem(index, &data);
 
 	const JPoint origPenLoc = p.GetPenLocation();
 
@@ -3121,10 +3121,10 @@ J2DPlotWidget::DrawVector
 	J2DDataPoint head, tail;
 	JPoint headPt, tailPt;
 
-	const JSize dataCount = curve.GetElementCount();
+	const JSize dataCount = curve.GetItemCount();
 	for (JIndex i=1; i<=dataCount; i++)
 	{
-		curve.GetElement(i, &vector);
+		curve.GetItem(i, &vector);
 		vector.GetHead(&head.x, &head.y);
 		vector.GetTail(&tail.x, &tail.y);
 
@@ -3213,7 +3213,7 @@ J2DPlotWidget::Interpolate
 	)
 	const
 {
-	curve.GetElement(index, data2);
+	curve.GetItem(index, data2);
 	if (!ConvertLog10(data2))
 	{
 		*move = false;
@@ -3239,7 +3239,7 @@ J2DPlotWidget::Interpolate
 		return;
 	}
 
-	curve.GetElement(index-1, data1);
+	curve.GetItem(index-1, data1);
 	if (!ConvertLog10(data1))
 	{
 		*move = false;
@@ -3389,10 +3389,10 @@ J2DPlotWidget::DrawSymbol
 	{
 		if (diamondSymbol.IsEmpty())
 		{
-			diamondSymbol.AppendElement(JPoint(-3,  0));
-			diamondSymbol.AppendElement(JPoint( 0, -3));
-			diamondSymbol.AppendElement(JPoint( 3,  0));
-			diamondSymbol.AppendElement(JPoint( 0,  3));
+			diamondSymbol.AppendItem(JPoint(-3,  0));
+			diamondSymbol.AppendItem(JPoint( 0, -3));
+			diamondSymbol.AppendItem(JPoint( 3,  0));
+			diamondSymbol.AppendItem(JPoint( 0,  3));
 		}
 
 		p.Polygon(pt, diamondSymbol);
@@ -3407,9 +3407,9 @@ J2DPlotWidget::DrawSymbol
 	{
 		if (triangleSymbol.IsEmpty())
 		{
-			triangleSymbol.AppendElement(JPoint(-2,  2));
-			triangleSymbol.AppendElement(JPoint( 0, -2));
-			triangleSymbol.AppendElement(JPoint( 2,  2));
+			triangleSymbol.AppendItem(JPoint(-2,  2));
+			triangleSymbol.AppendItem(JPoint( 0, -2));
+			triangleSymbol.AppendItem(JPoint( 2,  2));
 		}
 
 		p.Polygon(pt, triangleSymbol);
@@ -3463,13 +3463,13 @@ J2DPlotWidget::GetFirstAvailableSymbol()
 JIndex
 J2DPlotWidget::GetFirstAvailableColor()
 {
-	JSize min       = itsColorUsage->GetElement(1);
+	JSize min       = itsColorUsage->GetItem(1);
 	JIndex minIndex = 1;
 
-	const JSize count = itsColorUsage->GetElementCount();
+	const JSize count = itsColorUsage->GetItemCount();
 	for (JIndex color=2; color<=count; color++)
 	{
-		const JSize usage = itsColorUsage->GetElement(color);
+		const JSize usage = itsColorUsage->GetItem(color);
 		if (usage < min)
 		{
 			min      = usage;
@@ -3477,7 +3477,7 @@ J2DPlotWidget::GetFirstAvailableColor()
 		}
 	}
 
-	itsColorUsage->SetElement(minIndex, min + 1);
+	itsColorUsage->SetItem(minIndex, min + 1);
 	return minIndex;
 }
 
@@ -3539,12 +3539,12 @@ J2DPlotWidget::PWWriteSetup
 	output << ' ' << GetXMarkCount();
 	for (i = 1; i <= GetXMarkCount(); i++)
 	{
-		output << ' ' << itsXMarks->GetElement(i);
+		output << ' ' << itsXMarks->GetItem(i);
 	}
 	output << ' ' << GetYMarkCount();
 	for (i = 1; i <= GetYMarkCount(); i++)
 	{
-		output << ' ' << itsYMarks->GetElement(i);
+		output << ' ' << itsYMarks->GetItem(i);
 	}
 
 	output << ' ';
@@ -3651,7 +3651,7 @@ J2DPlotWidget::PWReadSetup
 	{
 		JFloat value;
 		input >> value;
-		itsXMarks->AppendElement(value);
+		itsXMarks->AppendItem(value);
 		Broadcast(CursorMarked(true, value));
 	}
 	input >> count;
@@ -3659,7 +3659,7 @@ J2DPlotWidget::PWReadSetup
 	{
 		JFloat value;
 		input >> value;
-		itsYMarks->AppendElement(value);
+		itsYMarks->AppendItem(value);
 		Broadcast(CursorMarked(false, value));
 	}
 
@@ -3688,10 +3688,10 @@ J2DPlotWidget::PWWriteCurveSetup
 
 	// write sizes first so they can be checked immediately when reading
 
-	const JSize curveCount = itsCurves->GetElementCount();
+	const JSize curveCount = itsCurves->GetItemCount();
 	output << ' ' << curveCount;
 
-	const JSize colorCount = itsColors->GetElementCount();
+	const JSize colorCount = itsColors->GetItemCount();
 	output << ' ' << colorCount;
 
 	output << ' ' << (JSize) kSymbolCount;
@@ -3700,7 +3700,7 @@ J2DPlotWidget::PWWriteCurveSetup
 
 	for (JIndex i=1; i<=curveCount; i++)
 	{
-		J2DCurveInfo info = itsCurveInfo->GetElement(i);
+		J2DCurveInfo info = itsCurveInfo->GetItem(i);
 		output << ' ' << info;
 	}
 
@@ -3708,7 +3708,7 @@ J2DPlotWidget::PWWriteCurveSetup
 
 	for (JIndex i=1; i<=colorCount; i++)
 	{
-		output << ' ' << itsColorUsage->GetElement(i);
+		output << ' ' << itsColorUsage->GetItem(i);
 	}
 
 	for (auto v : itsSymbolUsage)
@@ -3746,8 +3746,8 @@ J2DPlotWidget::PWReadCurveSetup
 
 	// check sizes first so we know whether the data can be used
 
-	const JSize origCurveCount = itsCurves->GetElementCount();
-	const JSize origColorCount = itsColors->GetElementCount();
+	const JSize origCurveCount = itsCurves->GetItemCount();
+	const JSize origColorCount = itsColors->GetItemCount();
 
 	JSize curveCount, colorCount, symbolCount;
 	input >> curveCount >> colorCount >> symbolCount;
@@ -3768,7 +3768,7 @@ J2DPlotWidget::PWReadCurveSetup
 
 		if (setData)
 		{
-			itsCurveInfo->SetElement(i,info);
+			itsCurveInfo->SetItem(i,info);
 		}
 	}
 
@@ -3780,14 +3780,14 @@ J2DPlotWidget::PWReadCurveSetup
 		input >> usage;
 		if (setData)
 		{
-			itsColorUsage->SetElement(i, usage);
+			itsColorUsage->SetItem(i, usage);
 		}
 	}
 	if (setData)
 	{
 		for (JIndex i=colorCount+1; i<=origColorCount; i++)
 		{
-			itsColorUsage->SetElement(i, 0);
+			itsColorUsage->SetItem(i, 0);
 		}
 	}
 
@@ -4117,7 +4117,7 @@ J2DPlotWidget::GetXMarkValue
 	const
 {
 	assert(itsXMarks->IndexValid(index));
-	return itsXMarks->GetElement(index);
+	return itsXMarks->GetItem(index);
 }
 
 /******************************************************************************
@@ -4133,7 +4133,7 @@ J2DPlotWidget::GetYMarkValue
 	const
 {
 	assert(itsYMarks->IndexValid(index));
-	return itsYMarks->GetElement(index);
+	return itsYMarks->GetItem(index);
 }
 
 /******************************************************************************
@@ -4146,25 +4146,25 @@ J2DPlotWidget::MarkCurrentCursor()
 {
 	if (itsSelectedCursor == kX1)
 	{
-		itsXMarks->AppendElement(itsXCursorVal1);
+		itsXMarks->AppendItem(itsXCursorVal1);
 		Broadcast(CursorMarked(true, itsXCursorVal1));
 		Broadcast(PlotChanged());
 	}
 	else if (itsSelectedCursor == kX2)
 	{
-		itsXMarks->AppendElement(itsXCursorVal2);
+		itsXMarks->AppendItem(itsXCursorVal2);
 		Broadcast(CursorMarked(true, itsXCursorVal2));
 		Broadcast(PlotChanged());
 	}
 	else if (itsSelectedCursor == kY1)
 	{
-		itsYMarks->AppendElement(itsYCursorVal1);
+		itsYMarks->AppendItem(itsYCursorVal1);
 		Broadcast(CursorMarked(false, itsYCursorVal1));
 		Broadcast(PlotChanged());
 	}
 	else if (itsSelectedCursor == kY2)
 	{
-		itsYMarks->AppendElement(itsYCursorVal2);
+		itsYMarks->AppendItem(itsYCursorVal2);
 		Broadcast(CursorMarked(false, itsYCursorVal2));
 		Broadcast(PlotChanged());
 	}
@@ -4180,24 +4180,24 @@ J2DPlotWidget::MarkAllVisibleCursors()
 {
 	if (itsXCursorVisible)
 	{
-		itsXMarks->AppendElement(itsXCursorVal1);
+		itsXMarks->AppendItem(itsXCursorVal1);
 		Broadcast(CursorMarked(true, itsXCursorVal1));
 
 		if (itsDualCursors)
 		{
-			itsXMarks->AppendElement(itsXCursorVal2);
+			itsXMarks->AppendItem(itsXCursorVal2);
 			Broadcast(CursorMarked(true, itsXCursorVal2));
 		}
 	}
 
 	if (itsYCursorVisible)
 	{
-		itsYMarks->AppendElement(itsYCursorVal1);
+		itsYMarks->AppendItem(itsYCursorVal1);
 		Broadcast(CursorMarked(false, itsYCursorVal1));
 
 		if (itsDualCursors)
 		{
-			itsYMarks->AppendElement(itsYCursorVal2);
+			itsYMarks->AppendItem(itsYCursorVal2);
 			Broadcast(CursorMarked(false, itsYCursorVal2));
 		}
 	}
@@ -4235,7 +4235,7 @@ J2DPlotWidget::RemoveXMark
 	const JIndex index
 	)
 {
-	itsXMarks->RemoveElement(index);
+	itsXMarks->RemoveItem(index);
 	Broadcast(MarkRemoved(true, index));
 	Broadcast(PlotChanged());
 	PWRefresh();
@@ -4252,7 +4252,7 @@ J2DPlotWidget::RemoveYMark
 	const JIndex index
 	)
 {
-	itsYMarks->RemoveElement(index);
+	itsYMarks->RemoveItem(index);
 	Broadcast(MarkRemoved(false, index));
 	Broadcast(PlotChanged());
 	PWRefresh();
@@ -4541,18 +4541,18 @@ J2DPlotWidget::DrawMarks
 	JCoordinate xmin, xmax, ymin, ymax;
 	GetFrameGeometry(&xmin, &xmax, &ymin, &ymax);
 	JSize i;
-	for (i = 1; i <= itsXMarks->GetElementCount(); i++)
+	for (i = 1; i <= itsXMarks->GetItemCount(); i++)
 	{
-		JFloat value = itsXMarks->GetElement(i);
+		JFloat value = itsXMarks->GetItem(i);
 		JCoordinate x;
 		if (GetFrameX(value, &x))
 		{
 			p.Line(x, ymin, x, ymax);
 		}
 	}
-	for (i = 1; i <= itsYMarks->GetElementCount(); i++)
+	for (i = 1; i <= itsYMarks->GetItemCount(); i++)
 	{
-		JFloat value = itsYMarks->GetElement(i);
+		JFloat value = itsYMarks->GetItem(i);
 		JCoordinate y;
 		if (GetFrameY(value, &y))
 		{

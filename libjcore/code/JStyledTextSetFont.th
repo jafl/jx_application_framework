@@ -33,7 +33,7 @@ JFont f = itsDefaultFont;
 bool changed = false;
 FontIterator iter(itsStyles, JListT::kStartBefore, range.charRange.first);
 JIndex i;
-while (iter.GetNextElementIndex(&i) && i <= range.charRange.last)
+while (iter.GetNextItemIndex(&i) && i <= range.charRange.last)
 {
 	const bool ok = iter.Next(&f, JListT::kStay);
 	assert( ok );

@@ -88,7 +88,7 @@ template <class V>
 void
 JStringPtrMap<V>::PrepareForSet
 	(
-	const JPtrArrayT::SetElementAction action
+	const JPtrArrayT::SetAction action
 	)
 {
 	if (action == JPtrArrayT::kDelete)
@@ -115,30 +115,30 @@ JStringPtrMap<V>::PrepareForSet
 
 template <class V>
 bool
-JStringPtrMap<V>::SetElement
+JStringPtrMap<V>::SetItem
 	(
 	const JUtf8Byte*                   key,
 	const V&                           data,
-	const JPtrArrayT::SetElementAction action,
+	const JPtrArrayT::SetAction action,
 	const JStringMapT::SetType         type // = kAlways
 	)
 {
 	V* ptr = jnew V(data);
-	return SetElement(JString(key, JString::kNoCopy), ptr, action, type);
+	return SetItem(JString(key, JString::kNoCopy), ptr, action, type);
 }
 
 template <class V>
 bool
-JStringPtrMap<V>::SetElement
+JStringPtrMap<V>::SetItem
 	(
 	const JString&                     key,
 	const V&                           data,
-	const JPtrArrayT::SetElementAction action,
+	const JPtrArrayT::SetAction action,
 	const JStringMapT::SetType         type // = kAlways
 	)
 {
 	V* ptr = jnew V(data);
-	return SetElement(key, ptr, action, type);
+	return SetItem(key, ptr, action, type);
 }
 
 template <class V>
@@ -171,7 +171,7 @@ JStringPtrMap<V>::SetOldElement
 	(
 	const JUtf8Byte*                   key,
 	const V&                           data,
-	const JPtrArrayT::SetElementAction action
+	const JPtrArrayT::SetAction action
 	)
 {
 	V* ptr = jnew V(data);
@@ -184,7 +184,7 @@ JStringPtrMap<V>::SetOldElement
 	(
 	const JString&                     key,
 	const V&                           data,
-	const JPtrArrayT::SetElementAction action
+	const JPtrArrayT::SetAction action
 	)
 {
 	V* ptr = jnew V(data);
@@ -197,7 +197,7 @@ JStringPtrMap<V>::SetContains
 	(
 	const JUtf8Byte*                   key,
 	const V&                           data,
-	const JPtrArrayT::SetElementAction action
+	const JPtrArrayT::SetAction action
 	)
 {
 	V* ptr = jnew V(data);
@@ -210,7 +210,7 @@ JStringPtrMap<V>::SetContains
 	(
 	const JString&                     key,
 	const V&                           data,
-	const JPtrArrayT::SetElementAction action
+	const JPtrArrayT::SetAction action
 	)
 {
 	V* ptr = jnew V(data);

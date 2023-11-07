@@ -34,7 +34,7 @@ Test
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 	JParseArgsForExec(cmd, &argList);
 
-	JSize count = argList.GetElementCount();
+	JSize count = argList.GetItemCount();
 	JAssertEqualWithMessage(argc, count, origCmd);
 	count = JMin(argc, count);
 
@@ -44,7 +44,7 @@ Test
 	for (JIndex i=1; i<=count; i++)
 	{
 		const JUtf8Byte* expected = va_arg(ap, const JUtf8Byte*);
-		const JString* arg        = argList.GetElement(i);
+		const JString* arg        = argList.GetItem(i);
 		JAssertStringsEqualWithMessage(expected, *arg,
 			(JString(origCmd, JString::kNoCopy) + ", " + JString((JUInt64) i)).GetBytes());
 	}

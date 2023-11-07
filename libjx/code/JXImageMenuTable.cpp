@@ -38,7 +38,7 @@ JXImageMenuTable::JXImageMenuTable
 	itsIconMenuData( data ),
 	itsHilightCell(0,0)
 {
-	const JPoint lastCell = ItemIndexToCell(itsIconMenuData->GetElementCount());
+	const JPoint lastCell = ItemIndexToCell(itsIconMenuData->GetItemCount());
 	AppendRows(lastCell.y);
 
 	JSize colCount = itsIconMenuData->GetColumnCount();

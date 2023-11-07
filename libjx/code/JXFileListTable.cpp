@@ -203,7 +203,7 @@ JXFileListTable::RemoveFile
 	JIndex index;
 	if (itsFileList->SearchSorted(&s, JListT::kAnyMatch, &index))
 	{
-		itsFileList->DeleteElement(index);
+		itsFileList->DeleteItem(index);
 	}
 }
 
@@ -225,7 +225,7 @@ JXFileListTable::RemoveFiles
 		JIndex index;
 		if (itsFileList->SearchSorted(s, JListT::kAnyMatch, &index))
 		{
-			itsFileList->DeleteElement(index);
+			itsFileList->DeleteItem(index);
 		}
 	}
 }
@@ -246,7 +246,7 @@ JXFileListTable::RemoveSelectedFiles()
 		JPoint cell;
 		while (iter.Next(&cell))
 		{
-			itsFileList->DeleteElement(RowIndexToFileIndex(cell.y));
+			itsFileList->DeleteItem(RowIndexToFileIndex(cell.y));
 		}
 	}
 }
@@ -378,7 +378,7 @@ JXFileListTable::RebuildTable
 	ClearIncrementalSearchBuffer();
 	itsMaxStringWidth = 0;
 
-	const JSize count = itsFileList->GetElementCount();
+	const JSize count = itsFileList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
 		FilterFile(i);
@@ -405,7 +405,7 @@ JXFileListTable::FilterFile
 	const JIndex fileIndex
 	)
 {
-	const JString* fullName = itsFileList->GetElement(fileIndex);
+	const JString* fullName = itsFileList->GetItem(fileIndex);
 	JStringIterator iter(*fullName, JStringIterator::kStartAtEnd);
 
 	VisInfo info;
@@ -431,7 +431,7 @@ JXFileListTable::FilterFile
 
 		info.fileIndex = fileIndex;
 		info.drawIndex = info.nameIndex;
-		itsVisibleList->InsertElementAtIndex(rowIndex, info);
+		itsVisibleList->InsertItemAtIndex(rowIndex, info);
 
 		InsertRows(rowIndex, 1);
 
@@ -445,9 +445,9 @@ JXFileListTable::FilterFile
 
 		for (JIndex i=rowIndex; i<=endRowIndex; i++)
 		{
-			info = itsVisibleList->GetElement(i);
+			info = itsVisibleList->GetItem(i);
 			const JString drawStr(
-				(itsFileList->GetElement(info.fileIndex))->GetBytes() + info.drawIndex-1,
+				itsFileList->GetItem(info.fileIndex)->GetBytes() + info.drawIndex-1,
 				JString::kNoCopy);
 			const JSize w = JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), drawStr);
 			if (w > itsMaxStringWidth)
@@ -477,16 +477,16 @@ JXFileListTable::UpdateDrawIndex
 {
 JIndex i;
 
-	const JSize count = itsVisibleList->GetElementCount();
+	const JSize count = itsVisibleList->GetItemCount();
 
 	// find the last occurrence of fileName
 
 	JIndex lastIndex = firstIndex+2;	// first one that could be different
 	while (lastIndex <= count)
 	{
-		const VisInfo info = itsVisibleList->GetElement(lastIndex);
+		const VisInfo info = itsVisibleList->GetItem(lastIndex);
 		const JUtf8Byte* n =
-			(itsFileList->GetElement(info.fileIndex))->GetBytes() + info.nameIndex-1;
+			itsFileList->GetItem(info.fileIndex)->GetBytes() + info.nameIndex-1;
 		if (JString::Compare(n, fileName, JString::kIgnoreCase) != 0)
 		{
 			break;
@@ -497,12 +497,12 @@ JIndex i;
 
 	// calculate the length of the minimum prefix shared by the files
 
-	const JString* firstFile = itsFileList->GetElement(RowIndexToFileIndex(firstIndex));
+	const JString* firstFile = itsFileList->GetItem(RowIndexToFileIndex(firstIndex));
 	JSize minLength = firstFile->GetCharacterCount();
 	for (i=firstIndex; i<lastIndex; i++)
 	{
-		const JString* s1 = itsFileList->GetElement(RowIndexToFileIndex(i));
-		const JString* s2 = itsFileList->GetElement(RowIndexToFileIndex(i+1));
+		const JString* s1 = itsFileList->GetItem(RowIndexToFileIndex(i));
+		const JString* s2 = itsFileList->GetItem(RowIndexToFileIndex(i+1));
 		minLength         = JMin(minLength, JString::CalcCharacterMatchLength(*s1, *s2));
 	}
 
@@ -525,9 +525,9 @@ JIndex i;
 
 	for (i=firstIndex; i<=lastIndex; i++)
 	{
-		VisInfo info   = itsVisibleList->GetElement(i);
+		VisInfo info   = itsVisibleList->GetItem(i);
 		info.drawIndex = minLength+1;
-		itsVisibleList->SetElement(i, info);
+		itsVisibleList->SetItem(i, info);
 	}
 
 	return lastIndex;
@@ -545,8 +545,8 @@ JXFileListTable::GetFileName
 	)
 	const
 {
-	const VisInfo info      = itsVisibleList->GetElement(rowIndex);
-	const JString* fullName = itsFileList->GetElement(info.fileIndex);
+	const VisInfo info      = itsVisibleList->GetItem(rowIndex);
+	const JString* fullName = itsFileList->GetItem(info.fileIndex);
 	return JString(*fullName, JCharacterRange(info.nameIndex, fullName->GetCharacterCount()));
 }
 
@@ -567,7 +567,7 @@ JXFileListTable::GetFullName
 	const
 {
 	const JIndex fileIndex = RowIndexToFileIndex(rowIndex);
-	JString* n             = itsFileList->GetElement(fileIndex);
+	JString* n             = itsFileList->GetItem(fileIndex);
 	if (IsInactive(*n))
 	{
 		fullName->Clear();
@@ -584,10 +584,10 @@ JXFileListTable::GetFullName
 	{
 		n->Prepend(kInactiveStr);
 
-		VisInfo info = itsVisibleList->GetElement(rowIndex);
+		VisInfo info = itsVisibleList->GetItem(rowIndex);
 		info.nameIndex++;
 		info.drawIndex++;
-		itsVisibleList->SetElement(rowIndex, info);
+		itsVisibleList->SetItem(rowIndex, info);
 
 		itsFileList->Sort();	// after updating VisInfo
 
@@ -663,7 +663,7 @@ JXFileListTable::GetFullName
 	JIndex index;
 	if (FileNameToFileIndex(fileName, &index))
 	{
-		*fullName = *itsFileList->GetElement(index);
+		*fullName = *itsFileList->GetItem(index);
 		return true;
 	}
 	else
@@ -690,10 +690,10 @@ JXFileListTable::FileNameToFileIndex
 {
 	const JSize nameLen = name.GetLength();
 
-	const JSize count = itsFileList->GetElementCount();
+	const JSize count = itsFileList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const JString* f = itsFileList->GetElement(i);
+		const JString* f = itsFileList->GetItem(i);
 		const JSize len  = f->GetLength();
 		if (f->EndsWith(name) &&
 			(len == nameLen ||
@@ -840,8 +840,8 @@ JXFileListTable::TableDrawCell
 
 	// draw name
 
-	const VisInfo info  = itsVisibleList->GetElement(cell.y);
-	const JString* name = itsFileList->GetElement(info.fileIndex);
+	const VisInfo info  = itsVisibleList->GetItem(cell.y);
+	const JString* name = itsFileList->GetItem(info.fileIndex);
 	const JUtf8Byte* s  = name->GetBytes() + info.drawIndex-1;
 
 	if (IsInactive(*name))
@@ -1086,9 +1086,9 @@ JXFileListTable::ClosestMatch
 
 	InstallCompareWrapper(prefixStr);
 	*index = itsVisibleList->SearchSortedOTI(target, JListT::kFirstMatch, &found);
-	if (*index > itsVisibleList->GetElementCount())		// insert beyond end of list
+	if (*index > itsVisibleList->GetItemCount())		// insert beyond end of list
 	{
-		*index = itsVisibleList->GetElementCount();
+		*index = itsVisibleList->GetItemCount();
 	}
 	itsVisibleList->ClearCompareFunction();
 	return *index > 0;
@@ -1113,12 +1113,12 @@ JXFileListTable::CompareWrapper
 	const JUtf8Byte* s1 =
 		(i1.fileIndex == 0 ?
 		 prefix.GetBytes() :
-		 fileList.GetElement(i1.fileIndex)->GetBytes() + i1.nameIndex-1);
+		 fileList.GetItem(i1.fileIndex)->GetBytes() + i1.nameIndex-1);
 
 	const JUtf8Byte* s2 =
 		(i2.fileIndex == 0 ?
 		 prefix.GetBytes() :
-		 fileList.GetElement(i2.fileIndex)->GetBytes() + i2.nameIndex-1);
+		 fileList.GetItem(i2.fileIndex)->GetBytes() + i2.nameIndex-1);
 
 	return JIntToWeakOrdering(JString::Compare(s1, s2, JString::kIgnoreCase));
 }
@@ -1170,7 +1170,7 @@ JXFileListTable::SetEditMenuProvider
  ******************************************************************************/
 
 #define ADJUST_INDEX(m) \
-	const JSize count = itsVisibleList->GetElementCount(); \
+	const JSize count = itsVisibleList->GetItemCount(); \
 	VisInfo* info     = const_cast<VisInfo*>(itsVisibleList->GetCArray()); \
 	for (JUnsignedOffset i=0; i<count; i++) \
 	{ \
@@ -1184,49 +1184,49 @@ JXFileListTable::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsFileList && message.Is(JListT::kElementsInserted))
+	if (sender == itsFileList && message.Is(JListT::kItemsInserted))
 	{
 		const auto* m =
-			dynamic_cast<const JListT::ElementsInserted*>(&message);
+			dynamic_cast<const JListT::ItemsInserted*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m)
 	}
-	else if (sender == itsFileList && message.Is(JListT::kElementsRemoved))
+	else if (sender == itsFileList && message.Is(JListT::kItemsRemoved))
 	{
 		const auto* m =
-			dynamic_cast<const JListT::ElementsRemoved*>(&message);
+			dynamic_cast<const JListT::ItemsRemoved*>(&message);
 		assert( m != nullptr );
 
-		const JSize count = itsVisibleList->GetElementCount();
+		const JSize count = itsVisibleList->GetItemCount();
 		for (JIndex i=count; i>=1; i--)
 		{
-			VisInfo info = itsVisibleList->GetElement(i);
+			VisInfo info = itsVisibleList->GetItem(i);
 			if (m->AdjustIndex(&info.fileIndex))
 			{
-				itsVisibleList->SetElement(i, info);
+				itsVisibleList->SetItem(i, info);
 			}
 			else
 			{
-				itsVisibleList->RemoveElement(i);
+				itsVisibleList->RemoveItem(i);
 				RemoveRow(i);
 			}
 		}
 	}
-	else if (sender == itsFileList && message.Is(JListT::kElementMoved))
+	else if (sender == itsFileList && message.Is(JListT::kItemMoved))
 	{
 		const auto* m =
-			dynamic_cast<const JListT::ElementMoved*>(&message);
+			dynamic_cast<const JListT::ItemMoved*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m)
 	}
-	else if (sender == itsFileList && message.Is(JListT::kElementsSwapped))
+	else if (sender == itsFileList && message.Is(JListT::kItemsSwapped))
 	{
 		const auto* m =
-			dynamic_cast<const JListT::ElementsSwapped*>(&message);
+			dynamic_cast<const JListT::ItemsSwapped*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m)
 	}
-	else if (sender == itsFileList && message.Is(JListT::kElementsChanged))
+	else if (sender == itsFileList && message.Is(JListT::kItemsChanged))
 	{
 		assert_msg( 0, "makes no sense since it's a JPtrArray" );
 	}

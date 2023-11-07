@@ -221,7 +221,7 @@ JGetArgCount
 	jInitFunctionData();
 
 	FunctionData data;
-	if (theFunctionData.GetElement(fnName, &data))
+	if (theFunctionData.GetItem(fnName, &data))
 	{
 		*argCount = data.argCount;
 		return true;

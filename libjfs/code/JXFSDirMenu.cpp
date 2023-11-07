@@ -365,7 +365,7 @@ JXFSDirMenu::Receive
 		assert(info != nullptr);
 		if (itsEntries != nullptr)
 		{
-			BroadcastIfTopLevel(itsEntries->GetElement(info->GetIndex())->GetFullName());
+			BroadcastIfTopLevel(itsEntries->GetItem(info->GetIndex())->GetFullName());
 		}
 		else if (itsDirInfo != nullptr)
 		{

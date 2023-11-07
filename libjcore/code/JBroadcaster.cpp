@@ -93,8 +93,8 @@ JBroadcaster::~JBroadcaster()
 	{
 		while (itsRecipients != nullptr && !itsRecipients->IsEmpty())
 		{
-			JBroadcaster* recipient = itsRecipients->GetLastElement();
-			itsRecipients->RemoveElement(itsRecipients->GetElementCount());
+			JBroadcaster* recipient = itsRecipients->GetLastItem();
+			itsRecipients->RemoveItem(itsRecipients->GetItemCount());
 			recipient->RemoveSender(this);
 			recipient->ClearGone(this);
 			recipient->ReceiveGoingAway(this);		// do this last in case they die
@@ -221,13 +221,13 @@ JBroadcaster::StopListening
 
 		if (itsClearPointers != nullptr)
 		{
-			const JSize count = itsClearPointers->GetElementCount();
+			const JSize count = itsClearPointers->GetItemCount();
 			for (JIndex i=count; i>=1; i--)
 			{
-				ClearPointer ptr = itsClearPointers->GetElement(i);
+				ClearPointer ptr = itsClearPointers->GetItem(i);
 				if (ptr.sender == sender)
 				{
-					itsClearPointers->RemoveElement(i);
+					itsClearPointers->RemoveItem(i);
 				}
 			}
 		}
@@ -277,7 +277,7 @@ JSize
 JBroadcaster::GetSenderCount()
 	const
 {
-	return itsSenders != nullptr ? itsSenders->GetElementCount() : 0;
+	return itsSenders != nullptr ? itsSenders->GetItemCount() : 0;
 }
 
 bool
@@ -291,7 +291,7 @@ JSize
 JBroadcaster::GetRecipientCount()
 	const
 {
-	return itsRecipients != nullptr ? itsRecipients->GetElementCount() : 0;
+	return itsRecipients != nullptr ? itsRecipients->GetItemCount() : 0;
 }
 
 /******************************************************************************
@@ -431,7 +431,7 @@ JBroadcaster::AddCallSource
 		itsCallSources = jnew JBroadcasterMessageMap;
 	}
 
-	itsCallSources->SetElement(messageType, sender, nullptr, nullptr);
+	itsCallSources->SetItem(messageType, sender, nullptr, nullptr);
 }
 
 /******************************************************************************
@@ -589,7 +589,7 @@ JBroadcaster::ClearWhenGoingAway
 		assert( itsClearPointers != nullptr );
 	}
 
-	itsClearPointers->AppendElement(
+	itsClearPointers->AppendItem(
 		ClearPointer(const_cast<JBroadcaster*>(csender), pointerToMember));
 	ListenTo(csender);
 }
@@ -617,14 +617,14 @@ JBroadcaster::ClearGone
 		return;
 	}
 
-	const JSize count = itsClearPointers->GetElementCount();
+	const JSize count = itsClearPointers->GetItemCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		ClearPointer ptr = itsClearPointers->GetElement(i);
+		ClearPointer ptr = itsClearPointers->GetItem(i);
 		if (ptr.sender == sender)
 		{
 			*((PointerSize**) (ptr.pointer)) = nullptr;
-			itsClearPointers->RemoveElement(i);
+			itsClearPointers->RemoveItem(i);
 		}
 	}
 }

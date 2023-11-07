@@ -9,7 +9,7 @@
 	Template for a dynamically sized array.  The data is stored contiguously.
 
 	*** Since memcpy and memmove are used for large scale rearrangement of
-		the array elements, this can -only- be used for structs.
+		the array items, this can -only- be used for structs.
 		To store objects, use the JPtrArray template class.
 
 	We do not override ToString():  Since this function is virtual, it is
@@ -43,8 +43,8 @@ JArray<T>::JArray
 {
 	assert( blockSize > 0 );
 
-	itsElements = jnew T [ blockSize ];
-	assert( itsElements != nullptr );
+	itsItems = jnew T [ blockSize ];
+	assert( itsItems != nullptr );
 
 	itsSlotCount = blockSize;
 	itsBlockSize = blockSize;
@@ -63,7 +63,7 @@ JArray<T>::JArray
 	:
 	JList<T>(source)
 {
-	itsElements = nullptr;		// makes delete [] safe inside CopyArray
+	itsItems = nullptr;		// makes delete [] safe inside CopyArray
 
 	CopyArray(source);
 }
@@ -81,11 +81,11 @@ JArray<T>::JArray
 	noexcept
 	:
 	JList<T>(dyingSource),
-	itsElements(dyingSource.itsElements),
+	itsItems(dyingSource.itsItems),
 	itsSlotCount(dyingSource.itsSlotCount),
 	itsBlockSize(dyingSource.itsBlockSize)
 {
-	dyingSource.itsElements = nullptr;
+	dyingSource.itsItems = nullptr;
 }
 
 /******************************************************************************
@@ -96,7 +96,7 @@ JArray<T>::JArray
 template <class T>
 JArray<T>::~JArray()
 {
-	jdelete [] itsElements;
+	jdelete [] itsItems;
 }
 
 /******************************************************************************
@@ -141,11 +141,11 @@ JArray<T>::CopyArray
 	itsSlotCount = source.itsSlotCount;
 	itsBlockSize = source.itsBlockSize;
 
-	jdelete [] itsElements;
-	itsElements = jnew T [ itsSlotCount ];
-	assert( itsElements != nullptr );
+	jdelete [] itsItems;
+	itsItems = jnew T [ itsSlotCount ];
+	assert( itsItems != nullptr );
 
-	memcpy(itsElements, source.itsElements, itsSlotCount * sizeof(T));
+	memcpy(itsItems, source.itsItems, itsSlotCount * sizeof(T));
 }
 
 /******************************************************************************
@@ -157,7 +157,7 @@ template <class T>
 JArray<T>::operator const T*()
 	const
 {
-	return itsElements;
+	return itsItems;
 }
 
 /******************************************************************************
@@ -170,7 +170,7 @@ const T*
 JArray<T>::GetCArray()
 	const
 {
-	return itsElements;
+	return itsItems;
 }
 
 /******************************************************************************
@@ -183,144 +183,144 @@ T*
 JArray<T>::AllocateCArray()
 	const
 {
-	const JSize count = this->GetElementCount();
+	const JSize count = this->GetItemCount();
 
 	T* data = jnew T [ count ];
 	assert( data != nullptr );
 
-	memcpy(data, itsElements, count * sizeof(T));
+	memcpy(data, itsItems, count * sizeof(T));
 
 	return data;
 }
 
 /******************************************************************************
- PrependElement
+ PrependItem
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::PrependElement
+JArray<T>::PrependItem
 	(
 	const T& data
 	)
 {
-	InsertElementAtIndex(1, data);
+	InsertItemAtIndex(1, data);
 }
 
 /******************************************************************************
- AppendElement
+ AppendItem
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::AppendElement
+JArray<T>::AppendItem
 	(
 	const T& data
 	)
 {
-	InsertElementAtIndex(this->GetElementCount() + 1, data);
+	InsertItemAtIndex(this->GetItemCount() + 1, data);
 }
 
 /******************************************************************************
- InsertElementAtIndex
+ InsertItemAtIndex
 
-	Insert an element into the array at the specified index. Any elements
+	Insert an item into the array at the specified index. Any items
 	at or below index are moved down. If index is any value greater
-	than the current size, then the element is appended to the end
+	than the current size, then the item is appended to the end
 	of the array.
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::InsertElementAtIndex
+JArray<T>::InsertItemAtIndex
 	(
 	const JIndex	index,
 	const T&		data
 	)
 {
-	const JIndex trueIndex = CreateElement(index);
-	StoreElement(trueIndex, data);
+	const JIndex trueIndex = CreateItem(index);
+	StoreItem(trueIndex, data);
 
-	JListT::ElementsInserted message(trueIndex, 1);
+	JListT::ItemsInserted message(trueIndex, 1);
 	JBroadcaster::Broadcast(message);
 	JList<T>::NotifyIterators(message);
 }
 
 /******************************************************************************
- CreateElement (private)
+ CreateItem (private)
 
-	Insert space for an element into the array at the specified index.
-	Any elements at or above index are moved down. If index is any value greater
-	than the current size, then the element is appended to the end
+	Insert space for an item into the array at the specified index.
+	Any items at or above index are moved down. If index is any value greater
+	than the current size, then the item is appended to the end
 	of the array.
 
-	The correct index of the jnew element is returned.
+	The correct index of the jnew item is returned.
 
  ******************************************************************************/
 
 template <class T>
 JIndex
-JArray<T>::CreateElement
+JArray<T>::CreateItem
 	(
 	const JIndex index
 	)
 {
 	assert( index > 0 );
 
-	const JSize elementCount = this->GetElementCount();
-	if (elementCount >= itsSlotCount)
+	const JSize itemCount = this->GetItemCount();
+	if (itemCount >= itsSlotCount)
 	{
 		AddSlots();
 	}
 
 	JIndex trueIndex = index;
-	if (trueIndex <= elementCount)
+	if (trueIndex <= itemCount)
 	{
-		memmove(GetElementPtr(trueIndex + 1), GetElementPtr(trueIndex),
-				(elementCount - trueIndex + 1) * sizeof(T));
+		memmove(GetItemPtr(trueIndex + 1), GetItemPtr(trueIndex),
+				(itemCount - trueIndex + 1) * sizeof(T));
 	}
 	else
 	{
-		trueIndex = elementCount + 1;
+		trueIndex = itemCount + 1;
 	}
 
-	this->ElementAdded();
+	this->ItemAdded();
 
 	return trueIndex;
 }
 
 /******************************************************************************
- RemoveElement
+ RemoveItem
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::RemoveElement
+JArray<T>::RemoveItem
 	(
 	const JIndex index
 	)
 {
-	RemoveNextElements(index, 1);
+	RemoveNextItems(index, 1);
 }
 
 /******************************************************************************
- RemoveNextElements
+ RemoveNextItems
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::RemoveNextElements
+JArray<T>::RemoveNextItems
 	(
 	const JIndex	firstIndex,
 	const JSize		origCount
 	)
 {
-	if (firstIndex == 1 && origCount >= this->GetElementCount())
+	if (firstIndex == 1 && origCount >= this->GetItemCount())
 	{
 		RemoveAll();
 		return;
@@ -328,36 +328,36 @@ JArray<T>::RemoveNextElements
 
 	assert( this->IndexValid(firstIndex) );
 
-	const JSize elementCount = this->GetElementCount(),
-				lastIndex    = JMin(elementCount, firstIndex + origCount-1),
+	const JSize itemCount = this->GetItemCount(),
+				lastIndex    = JMin(itemCount, firstIndex + origCount-1),
 				count        = lastIndex - firstIndex + 1;
 
-	this->SetElementCount(elementCount - count);
+	this->SetItemCount(itemCount - count);
 
-	if (lastIndex < elementCount)
+	if (lastIndex < itemCount)
 	{
-		memmove(GetElementPtr(firstIndex), GetElementPtr(lastIndex + 1),
-				(elementCount - lastIndex) * sizeof(T));
+		memmove(GetItemPtr(firstIndex), GetItemPtr(lastIndex + 1),
+				(itemCount - lastIndex) * sizeof(T));
 	}
 
-	while (itsSlotCount > this->GetElementCount() + itsBlockSize)
+	while (itsSlotCount > this->GetItemCount() + itsBlockSize)
 	{
 		RemoveSlots();
 	}
 
-	JListT::ElementsRemoved message(firstIndex, count);
+	JListT::ItemsRemoved message(firstIndex, count);
 	JBroadcaster::Broadcast(message);
 	JList<T>::NotifyIterators(message);
 }
 
 /******************************************************************************
- RemovePrevElements
+ RemovePrevItems
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::RemovePrevElements
+JArray<T>::RemovePrevItems
 	(
 	const JIndex	lastIndex,
 	const JSize		origCount
@@ -366,37 +366,37 @@ JArray<T>::RemovePrevElements
 	const JSize firstIndex   = origCount <= lastIndex ? lastIndex-origCount+1 : 1,
 				count        = lastIndex - firstIndex + 1;
 
-	RemoveNextElements(firstIndex, count);
+	RemoveNextItems(firstIndex, count);
 }
 
 /******************************************************************************
- RemoveElements
+ RemoveItems
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::RemoveElements
+JArray<T>::RemoveItems
 	(
 	const JIndexRange& range
 	)
 {
-	RemoveNextElements(range.first, range.GetCount());
+	RemoveNextItems(range.first, range.GetCount());
 }
 
 /******************************************************************************
- RemoveElements
+ RemoveItems
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::RemoveElements
+JArray<T>::RemoveItems
 	(
-	const JListT::ElementsRemoved& info
+	const JListT::ItemsRemoved& info
 	)
 {
-	RemoveNextElements(info.GetFirstIndex(), info.GetCount());
+	RemoveNextItems(info.GetFirstIndex(), info.GetCount());
 }
 
 /******************************************************************************
@@ -410,9 +410,9 @@ JArray<T>::RemoveAll()
 {
 	if (!this->IsEmpty())
 	{
-		JListT::ElementsRemoved message(1, this->GetElementCount());
+		JListT::ItemsRemoved message(1, this->GetItemCount());
 
-		this->SetElementCount(0);
+		this->SetItemCount(0);
 		ResizeMemoryAllocation(itsBlockSize);
 
 		JBroadcaster::Broadcast(message);
@@ -421,13 +421,13 @@ JArray<T>::RemoveAll()
 }
 
 /******************************************************************************
- GetElement
+ GetItem
 
  ******************************************************************************/
 
 template <class T>
 T
-JArray<T>::GetElement
+JArray<T>::GetItem
 	(
 	const JIndex index
 	)
@@ -435,33 +435,33 @@ JArray<T>::GetElement
 {
 	assert( this->IndexValid(index) );
 
-	return ProtectedGetElement(index);
+	return ProtectedGetItem(index);
 }
 
 /******************************************************************************
- ProtectedGetElement (protected)
+ ProtectedGetItem (protected)
 
  ******************************************************************************/
 
 template <class T>
 const T&
-JArray<T>::ProtectedGetElement
+JArray<T>::ProtectedGetItem
 	(
 	const JIndex index
 	)
 	const
 {
-	return itsElements[index - 1];
+	return itsItems[index - 1];
 }
 
 /******************************************************************************
- SetElement
+ SetItem
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::SetElement
+JArray<T>::SetItem
 	(
 	const JIndex	index,
 	const T&		data
@@ -469,77 +469,77 @@ JArray<T>::SetElement
 {
 	assert( this->IndexValid(index) );
 
-	StoreElement(index, data);
+	StoreItem(index, data);
 
-	JBroadcaster::Broadcast(JListT::ElementsChanged(index, 1));
+	JBroadcaster::Broadcast(JListT::ItemsChanged(index, 1));
 }
 
 /******************************************************************************
- GetElementFromEnd
+ GetItemFromEnd
 
  ******************************************************************************/
 
 template <class T>
 T
-JArray<T>::GetElementFromEnd
+JArray<T>::GetItemFromEnd
 	(
 	const JIndex index
 	)
 	const
 {
-	return GetElement(this->GetIndexFromEnd(index));
+	return GetItem(this->GetIndexFromEnd(index));
 }
 
 /******************************************************************************
- SetElementFromEnd
+ SetItemFromEnd
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::SetElementFromEnd
+JArray<T>::SetItemFromEnd
 	(
 	const JIndex	index,
 	const T&		data
 	)
 {
-	SetElement(this->GetIndexFromEnd(index), data);
+	SetItem(this->GetIndexFromEnd(index), data);
 }
 
 /******************************************************************************
- GetFirstElement
+ GetFirstItem
 
  ******************************************************************************/
 
 template <class T>
 T
-JArray<T>::GetFirstElement()
+JArray<T>::GetFirstItem()
 	const
 {
-	return GetElement(1);
+	return GetItem(1);
 }
 
 /******************************************************************************
- GetLastElement
+ GetLastItem
 
  ******************************************************************************/
 
 template <class T>
 T
-JArray<T>::GetLastElement()
+JArray<T>::GetLastItem()
 	const
 {
-	return GetElement(this->GetElementCount());
+	return GetItem(this->GetItemCount());
 }
 
 /******************************************************************************
- MoveElementToIndex
+ MoveItemToIndex
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::MoveElementToIndex
+JArray<T>::MoveItemToIndex
 	(
 	const JIndex currentIndex,
 	const JIndex newIndex
@@ -553,46 +553,46 @@ JArray<T>::MoveElementToIndex
 		return;
 	}
 
-	const T savedElement = ProtectedGetElement(currentIndex);
+	const T savedItem = ProtectedGetItem(currentIndex);
 
 	if (currentIndex < newIndex)
 	{
-		memmove(GetElementPtr(currentIndex), GetElementPtr(currentIndex + 1),
+		memmove(GetItemPtr(currentIndex), GetItemPtr(currentIndex + 1),
 				(newIndex - currentIndex) * sizeof(T));
 	}
 	else if (currentIndex > newIndex)
 	{
-		memmove(GetElementPtr(newIndex + 1), GetElementPtr(newIndex),
+		memmove(GetItemPtr(newIndex + 1), GetItemPtr(newIndex),
 				(currentIndex - newIndex) * sizeof(T));
 	}
 
-	StoreElement(newIndex, savedElement);
-	JBroadcaster::Broadcast(JListT::ElementMoved(currentIndex, newIndex));
+	StoreItem(newIndex, savedItem);
+	JBroadcaster::Broadcast(JListT::ItemMoved(currentIndex, newIndex));
 }
 
 /******************************************************************************
- MoveElementToIndex
+ MoveItemToIndex
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::MoveElementToIndex
+JArray<T>::MoveItemToIndex
 	(
-	const JListT::ElementMoved& info
+	const JListT::ItemMoved& info
 	)
 {
-	MoveElementToIndex(info.GetOrigIndex(), info.GetNewIndex());
+	MoveItemToIndex(info.GetOrigIndex(), info.GetNewIndex());
 }
 
 /******************************************************************************
- SwapElements
+ SwapItems
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::SwapElements
+JArray<T>::SwapItems
 	(
 	const JIndex index1,
 	const JIndex index2
@@ -606,36 +606,36 @@ JArray<T>::SwapElements
 		return;
 	}
 
-	const T savedElement = ProtectedGetElement(index1);
-	StoreElement(index1, ProtectedGetElement(index2));
-	StoreElement(index2, savedElement);
+	const T savedItem = ProtectedGetItem(index1);
+	StoreItem(index1, ProtectedGetItem(index2));
+	StoreItem(index2, savedItem);
 
-	JBroadcaster::Broadcast(JListT::ElementsSwapped(index1, index2));
+	JBroadcaster::Broadcast(JListT::ItemsSwapped(index1, index2));
 }
 
 /******************************************************************************
- SwapElements
+ SwapItems
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::SwapElements
+JArray<T>::SwapItems
 	(
-	const JListT::ElementsSwapped& info
+	const JListT::ItemsSwapped& info
 	)
 {
-	SwapElements(info.GetIndex1(), info.GetIndex2());
+	SwapItems(info.GetIndex1(), info.GetIndex2());
 }
 
 /******************************************************************************
  Sort (virtual)
 
-	We minimize the number of moves (O(N)) because MoveElementToIndex()
+	We minimize the number of moves (O(N)) because MoveItemToIndex()
 	invokes JBroadcaster::Broadcast(), which can take arbitrary amounts of time.
 
-	By using insertion sort to sort element k+1 into the already sorted
-	list of k elements, we obtain O(N log N) comparisons.
+	By using insertion sort to sort item k+1 into the already sorted
+	list of k items, we obtain O(N log N) comparisons.
 
 	The number of moves is always O(N^2).
 
@@ -645,7 +645,7 @@ template <class T>
 void
 JArray<T>::Sort()
 {
-	const JSize count = this->GetElementCount();
+	const JSize count = this->GetItemCount();
 	if (count < 2)
 	{
 		return;
@@ -654,15 +654,15 @@ JArray<T>::Sort()
 	bool isDuplicate;
 	for (JIndex i=2; i<=count; i++)
 	{
-		const T& data = ProtectedGetElement(i);
+		const T& data = ProtectedGetItem(i);
 
-		this->SetElementCount(i-1);		// safe because search doesn't modify data
+		this->SetItemCount(i-1);		// safe because search doesn't modify data
 		const JIndex j = GetInsertionSortIndex(data, &isDuplicate);
-		this->SetElementCount(count);
+		this->SetItemCount(count);
 
 		if (j != i)
 		{
-			MoveElementToIndex(i, j);
+			MoveItemToIndex(i, j);
 		}
 	}
 }
@@ -670,10 +670,10 @@ JArray<T>::Sort()
 /******************************************************************************
  InsertSorted
 
-	Returns true if the element was inserted.  Obviously, this is only
+	Returns true if the item was inserted.  Obviously, this is only
 	useful if insertIfDuplicate==false.
 
-	If index!=nullptr, it contains the index where the element was inserted.
+	If index!=nullptr, it contains the index where the item was inserted.
 
  ******************************************************************************/
 
@@ -690,7 +690,7 @@ JArray<T>::InsertSorted
 	const JIndex i = GetInsertionSortIndex(data, &isDuplicate);
 	if (!isDuplicate || insertIfDuplicate)
 	{
-		InsertElementAtIndex(i, data);
+		InsertItemAtIndex(i, data);
 		if (index != nullptr)
 		{
 			*index = i;
@@ -710,8 +710,8 @@ JArray<T>::InsertSorted
 /******************************************************************************
  GetInsertionSortIndex
 
-	Returns index where jnew element should be inserted in order to keep
-	the list sorted.  If there is an element that matches the given one,
+	Returns index where jnew item should be inserted in order to keep
+	the list sorted.  If there is an item that matches the given one,
 	*isDuplicate is set to true.
 
  ******************************************************************************/
@@ -744,7 +744,7 @@ JArray<T>::GetInsertionSortIndex
 
 	Returns true if the specified target is found.
 
-	"which" specifies what to return if more than one element matches
+	"which" specifies what to return if more than one item matches
 	the given target.
 
  ******************************************************************************/
@@ -771,8 +771,8 @@ JArray<T>::SearchSorted
 /******************************************************************************
  SearchSortedOTI
 
-	Returns index where the element is or where it should be inserted in
-	order to keep the list sorted.  If there is an element that matches the
+	Returns index where the item is or where it should be inserted in
+	order to keep the list sorted.  If there is an item that matches the
 	given one, *found is set to true.
 
 	OTI = option to insert
@@ -794,17 +794,17 @@ JArray<T>::SearchSortedOTI
 	const JListT::SortOrder sortOrder = JList<T>::GetSortOrder();
 	*found = false;
 
-	const JSize count = this->GetElementCount();
+	const JSize count = this->GetItemCount();
 	if (count == 0)
 	{
 		return 1;
 	}
 
-	// check first element
+	// check first item
 
-	JIndex firstIndex     = 1;
-	const T& element1     = ProtectedGetElement(firstIndex);
-	std::weak_ordering r1 = compare(target, element1);
+	JIndex firstIndex  = 1;
+	const T& item1     = ProtectedGetItem(firstIndex);
+	std::weak_ordering r1 = compare(target, item1);
 	if (r1 == std::weak_ordering::equivalent &&
 		(count == 1 || which != JListT::kLastMatch))
 	{
@@ -821,11 +821,11 @@ JArray<T>::SearchSortedOTI
 		return 2;
 	}
 
-	// check last element
+	// check last item
 
 	JIndex lastIndex      = count;
-	const T& element2     = ProtectedGetElement(lastIndex);
-	std::weak_ordering r2 = compare(target, element2);
+	const T& item2        = ProtectedGetItem(lastIndex);
+	std::weak_ordering r2 = compare(target, item2);
 	if (r2 == std::weak_ordering::equivalent &&
 		(count == 2 || which != JListT::kFirstMatch))
 	{
@@ -838,8 +838,8 @@ JArray<T>::SearchSortedOTI
 		return count+1;
 	}
 
-	// assert for ascending:  first element <= data <= last element
-	// assert for descending: first element >= data >= last element
+	// assert for ascending:  first item <= data <= last item
+	// assert for descending: first item >= data >= last item
 
 	// squeeze out the appropriate position for data via binary search
 
@@ -848,11 +848,11 @@ JArray<T>::SearchSortedOTI
 		// Thanks to Joshua Bloch at Google for pointing out that
 		// (x+y)/2 doesn't work if x and y are larger than ULONG_MAX/2
 
-		JIndex i         = (firstIndex >> 1) + (lastIndex >> 1) +
-						   ((firstIndex & (JIndex) 1) + (lastIndex & (JIndex) 1))/2;
-		const T& element = ProtectedGetElement(i);
+		JIndex i      = (firstIndex >> 1) + (lastIndex >> 1) +
+						((firstIndex & (JIndex) 1) + (lastIndex & (JIndex) 1))/2;
+		const T& item = ProtectedGetItem(i);
 
-		const std::weak_ordering r = compare(target, element);
+		const std::weak_ordering r = compare(target, item);
 		if (r == std::weak_ordering::equivalent)
 		{
 			if (which == JListT::kAnyMatch)
@@ -891,7 +891,7 @@ JArray<T>::SearchSortedOTI
 				 r2 != std::weak_ordering::equivalent))
 			{
 				// Since we know that target is not equal to either of the
-				// bounding elements, we can give up when there are no elements
+				// bounding items, we can give up when there are no items
 				// between the bounds.
 
 				return lastIndex;
@@ -940,48 +940,48 @@ JArray<T>::QuickSort
 	int (*compare)(const void*, const void*)
 	)
 {
-	::qsort(itsElements, this->GetElementCount(), sizeof(T), compare);
+	::qsort(itsItems, this->GetItemCount(), sizeof(T), compare);
 	JBroadcaster::Broadcast(JListT::Sorted());
 }
 
 /******************************************************************************
- GetElementPtr (private)
+ GetItemPtr (private)
 
  ******************************************************************************/
 
 template <class T>
 T*
-JArray<T>::GetElementPtr
+JArray<T>::GetItemPtr
 	(
 	const JIndex index
 	)
 {
-	return &(itsElements[ index - 1 ]);
+	return &(itsItems[ index - 1 ]);
 }
 
 /******************************************************************************
- StoreElement (private)
+ StoreItem (private)
 
-	This is used by InsertElementAtIndex and SetElement.
+	This is used by InsertItemAtIndex and SetItem.
 
  ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::StoreElement
+JArray<T>::StoreItem
 	(
 	const JIndex	index,
 	const T&		data
 	)
 {
-	itsElements[ index - 1 ] = data;
+	itsItems[ index - 1 ] = data;
 }
 
 /******************************************************************************
  Block size
 
 	itsBlockSize helps prevent constant reallocation of memory in a "noisy"
-	environment.  Increase it if you need to add and remove a lot of elements
+	environment.  Increase it if you need to add and remove a lot of items
 	without reallocating memory.  The larger it is, the more memory can
 	potentially be wasted (allocated but not used).
 
@@ -1041,7 +1041,7 @@ JArray<T>::RemoveSlots()
 /******************************************************************************
  ResizeMemoryAllocation (private)
 
-	Allocate the specified number of slots for itsElements.
+	Allocate the specified number of slots for itsItems.
 
 ******************************************************************************/
 
@@ -1052,17 +1052,15 @@ JArray<T>::ResizeMemoryAllocation
 	const JSize newSlotCount
 	)
 {
-	assert( newSlotCount >= this->GetElementCount() );
+	assert( newSlotCount >= this->GetItemCount() );
 
 	if (newSlotCount != itsSlotCount)
 	{
-		T* newElements = jnew T [newSlotCount];
-		assert( newElements != nullptr );
+		T* newItems = jnew T [newSlotCount];
+		memcpy(newItems, itsItems, this->GetItemCount() * sizeof(T));
 
-		memcpy(newElements, itsElements, this->GetElementCount() * sizeof(T));
-
-		jdelete [] itsElements;
-		itsElements  = newElements;
+		jdelete [] itsItems;
+		itsItems     = newItems;
 		itsSlotCount = newSlotCount;
 	}
 }
@@ -1121,7 +1119,7 @@ end
 	const JArray<T>& a
 	)
 {
-	return (a.GetCArray() + a.GetElementCount());
+	return (a.GetCArray() + a.GetItemCount());
 }
 
 #endif

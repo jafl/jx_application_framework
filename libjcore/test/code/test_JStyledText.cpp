@@ -40,7 +40,7 @@ JTEST(SetText)
 	bool ok = text.SetText(JString("abcd" "\xC3\x86", JString::kNoCopy));
 	JAssertTrue(ok);
 	JAssertStringsEqual("abcd" "\xC3\x86", text.GetText());
-	JAssertEqual(5, text.GetStyles().GetElementCount());
+	JAssertEqual(5, text.GetStyles().GetItemCount());
 	JAssertEqual(1, text.GetStyles().GetRunCount());
 
 	bcastTest.Expect(JStyledText::kTextSet);
@@ -202,7 +202,7 @@ JTEST(ReadPlainText)
 	JAssertTrue(ok);
 	JAssertEqual(JStyledText::kUNIXText, format);
 	JAssertTrue(text.EndsWithNewline());
-	JAssertEqual(47, text.GetStyles().GetElementCount());
+	JAssertEqual(47, text.GetStyles().GetItemCount());
 	JAssertEqual(1, text.GetStyles().GetRunCount());
 
 	const JString s = text.GetText();
@@ -214,7 +214,7 @@ JTEST(ReadPlainText)
 	JAssertTrue(ok);
 	JAssertEqual(JStyledText::kDOSText, format);
 	JAssertStringsEqual(s, text.GetText());
-	JAssertEqual(47, text.GetStyles().GetElementCount());
+	JAssertEqual(47, text.GetStyles().GetItemCount());
 	JAssertEqual(1, text.GetStyles().GetRunCount());
 
 	bcastTest.Expect(JStyledText::kTextSet);
@@ -223,7 +223,7 @@ JTEST(ReadPlainText)
 	JAssertTrue(ok);
 	JAssertEqual(JStyledText::kMacintoshText, format);
 	JAssertStringsEqual(s, text.GetText());
-	JAssertEqual(47, text.GetStyles().GetElementCount());
+	JAssertEqual(47, text.GetStyles().GetItemCount());
 	JAssertEqual(1, text.GetStyles().GetRunCount());
 
 	bcastTest.Expect(JStyledText::kTextSet);
@@ -232,7 +232,7 @@ JTEST(ReadPlainText)
 	JAssertFalse(ok);
 	JAssertEqual(JStyledText::kUNIXText, format);
 	JAssertStringsEqual(s, text.GetText());
-	JAssertEqual(47, text.GetStyles().GetElementCount());
+	JAssertEqual(47, text.GetStyles().GetItemCount());
 	JAssertEqual(1, text.GetStyles().GetRunCount());
 
 	ok = text.ReadPlainText(JString("data/test_ReadPlainBinaryText.txt", JString::kNoCopy), &format, false);
@@ -1181,8 +1181,8 @@ JTEST(BackwardDelete)
 	text.BackwardDelete(TextIndex(5,6), TextIndex(7,9), false, &returnText, &returnStyle);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "b" "d\n" "\t   normal\n" "double underline", text.GetText());
 	JAssertStringsEqual("\xC3\xB8", returnText);
-	JAssertEqual(1, returnStyle.GetElementCount());
-	JAssertTrue(returnStyle.GetFirstElement().GetStyle().bold);
+	JAssertEqual(1, returnStyle.GetItemCount());
+	JAssertTrue(returnStyle.GetFirstItem().GetStyle().bold);
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
@@ -1345,8 +1345,8 @@ JTEST(ForwardDelete)
 	text.ForwardDelete(TextIndex(5,6), TextIndex(5,6), false, &returnText, &returnStyle);
 	JAssertStringsEqual("b" "\xC3\xAE" "g\n" "ld\n" "\t   normal\n" "double underline", text.GetText());
 	JAssertStringsEqual("\xC3\xB8", returnText);
-	JAssertEqual(1, returnStyle.GetElementCount());
-	JAssertTrue(returnStyle.GetFirstElement().GetStyle().bold);
+	JAssertEqual(1, returnStyle.GetItemCount());
+	JAssertTrue(returnStyle.GetFirstItem().GetStyle().bold);
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
@@ -2139,15 +2139,15 @@ JTEST(CleanRightMargin)
 	StyledText text;
 
 	JStyledText::CRMRuleList rules;
-	rules.AppendElement(JStyledText::CRMRule(
+	rules.AppendItem(JStyledText::CRMRule(
 		JString("([[:space:]]*)/(\\*+[[:space:]]*)+", JString::kNoCopy),
 		JString("[[:space:]]*(\\*+/?[[:space:]]*)+", JString::kNoCopy),
 		JString("$1 * ", JString::kNoCopy)));
-	rules.AppendElement(JStyledText::CRMRule(
+	rules.AppendItem(JStyledText::CRMRule(
 		JString("[[:space:]]*(\\*+[[:space:]]*)+", JString::kNoCopy),
 		JString("[[:space:]]*(\\*+/?[[:space:]]*)+", JString::kNoCopy),
 		JString("$0", JString::kNoCopy)));
-	rules.AppendElement(JStyledText::CRMRule(
+	rules.AppendItem(JStyledText::CRMRule(
 		JString("[[:space:]]*//+[[:space:]]*", JString::kNoCopy),
 		JString("[[:space:]]*//+[[:space:]]*", JString::kNoCopy),
 		JString("$0", JString::kNoCopy)));

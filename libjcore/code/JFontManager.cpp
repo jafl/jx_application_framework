@@ -101,7 +101,7 @@ JFontManager::GetDefaultFont()
 		theDefaultFontID = GetFontID(theDefaultFontName, theDefaultFontSize, JFontStyle());
 	}
 
-	const Font f = theFontList.GetElement(theDefaultFontID);
+	const Font f = theFontList.GetItem(theDefaultFontID);
 	return JFont(theDefaultFontID, f.size, f.style);
 }
 
@@ -118,7 +118,7 @@ JFontManager::GetDefaultMonospaceFont()
 		theDefaultMonospaceFontID = GetFontID(theDefaultMonospaceFontName, theDefaultMonospaceFontSize, JFontStyle());
 	}
 
-	const Font f = theFontList.GetElement(theDefaultMonospaceFontID);
+	const Font f = theFontList.GetItem(theDefaultMonospaceFontID);
 	return JFont(theDefaultMonospaceFontID, f.size, f.style);
 }
 
@@ -152,10 +152,10 @@ JFontManager::GetFontID
 	const JFontStyle&	style
 	)
 {
-	const JSize count = theFontList.GetElementCount();
+	const JSize count = theFontList.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const Font f = theFontList.GetElement(i);
+		const Font f = theFontList.GetItem(i);
 		if (*f.name == name && f.size == size && f.style.SameSystemAttributes(style))
 		{
 			return i;
@@ -169,8 +169,8 @@ JFontManager::GetFontID
 	f.name = jnew JString(name);
 	assert( f.name != nullptr );
 
-	theFontList.AppendElement(f);
-	return theFontList.GetElementCount();
+	theFontList.AppendItem(f);
+	return theFontList.GetItemCount();
 }
 
 /******************************************************************************
@@ -184,7 +184,7 @@ JFontManager::GetFont
 	const JFontID id
 	)
 {
-	const Font f = theFontList.GetElement(id);
+	const Font f = theFontList.GetItem(id);
 	return JFont(id, f.size, f.style);
 }
 
@@ -199,7 +199,7 @@ JFontManager::GetFontName
 	const JFontID id
 	)
 {
-	const Font f = theFontList.GetElement(id);
+	const Font f = theFontList.GetItem(id);
 	return *f.name;
 }
 

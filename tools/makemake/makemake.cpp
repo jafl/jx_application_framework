@@ -394,12 +394,12 @@ main
 
 		else if (prevEmptyTargets > 0)
 		{
-			const JSize mainTargetCount = mainTargetObjsList.GetElementCount();
+			const JSize mainTargetCount = mainTargetObjsList.GetItemCount();
 			for (JIndex i=1; i<=prevEmptyTargets; i++)
 			{
 				const JIndex j = mainTargetCount-i+1;
-				*(mainTargetObjsList.GetElement(j)) = *mainTargetObjs;
-				javaTargetList.SetElement(j, usesJava);
+				*(mainTargetObjsList.GetItem(j)) = *mainTargetObjs;
+				javaTargetList.SetItem(j, usesJava);
 			}
 			prevEmptyTargets = 0;
 		}
@@ -411,7 +411,7 @@ main
 		{
 			mainTargetList.Append(mainTargetName);
 			mainTargetObjsList.Append(mainTargetObjs);
-			javaTargetList.AppendElement(usesJava);
+			javaTargetList.AppendItem(usesJava);
 		}
 		else
 		{
@@ -453,13 +453,13 @@ main
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	s.Split(kMakeFooterMarkerStr, &list, 2);
 
-	JString* headerText = list.GetFirstElement();
+	JString* headerText = list.GetFirstItem();
 	headerText->TrimWhitespace();
 	headerText->Print(output);
 
-	if (list.GetElementCount() > 1)
+	if (list.GetItemCount() > 1)
 	{
-		footerText = *(list.GetLastElement());
+		footerText = *(list.GetLastItem());
 		footerText.TrimWhitespace();
 	}
 }
@@ -468,13 +468,13 @@ main
 
 // write the dependencies and link command for each main target
 
-	const JSize mainTargetCount = mainTargetList.GetElementCount();
-	const JSize targetCount     = targetList.GetElementCount();
+	const JSize mainTargetCount = mainTargetList.GetItemCount();
+	const JSize targetCount     = targetList.GetItemCount();
 {
 	for (JIndex i=1; i<=mainTargetCount; i++)
 	{
-		JString* mainTargetName = mainTargetList.GetElement(i);
-		JString* mainTargetObjs = mainTargetObjsList.GetElement(i);
+		JString* mainTargetName = mainTargetList.GetItem(i);
+		JString* mainTargetObjs = mainTargetObjsList.GetItem(i);
 
 		// mark it with a comment
 
@@ -491,7 +491,7 @@ main
 
 		// append the actual link command
 
-		if (javaTargetList.GetElement(i))
+		if (javaTargetList.GetItem(i))
 		{
 			output << "\t${JAVAC} ${JFLAGS} "
 					  "-classpath ${JPATH}:${filter %.jar %.zip %.class, $^} "
@@ -545,7 +545,7 @@ main
 {
 	for (JIndex i=1; i<=mainTargetCount; i++)
 	{
-		JString* mainTargetName = mainTargetList.GetElement(i);
+		JString* mainTargetName = mainTargetList.GetItem(i);
 		output << ' ';
 		mainTargetName->Print(output);
 	}
@@ -568,9 +568,9 @@ main
 	for (JIndex i=1; i<=targetCount; i++)
 	{
 		output << ' ';
-		(outPrefixList.GetElement(i))->Print(output);
-		(targetList.GetElement(i))->Print(output);
-		(outSuffixList.GetElement(i))->Print(output);
+		(outPrefixList.GetItem(i))->Print(output);
+		(targetList.GetItem(i))->Print(output);
+		(outSuffixList.GetItem(i))->Print(output);
 	}
 }
 	output << "\n\n";
@@ -590,9 +590,9 @@ main
 	for (JIndex i=1; i<=targetCount; i++)
 	{
 		output << ' ';
-		(prefixList.GetElement(i))->Print(output);
-		(targetList.GetElement(i))->Print(output);
-		(suffixList.GetElement(i))->Print(output);
+		(prefixList.GetItem(i))->Print(output);
+		(targetList.GetItem(i))->Print(output);
+		(suffixList.GetItem(i))->Print(output);
 	}
 }
 	output << "\n\n";
@@ -651,22 +651,22 @@ main
 {
 	for (JIndex i=1; i<=targetCount; i++)
 	{
-		if (!noParseFileSuffix.Match(*(suffixList.GetElement(i))))
+		if (!noParseFileSuffix.Match(*(suffixList.GetItem(i))))
 		{
 			// write the file to parse
 
 			output << "\t@echo ";
-			(prefixList.GetElement(i))->Print(output);
-			(targetList.GetElement(i))->Print(output);
-			(suffixList.GetElement(i))->Print(output);
+			(prefixList.GetItem(i))->Print(output);
+			(targetList.GetItem(i))->Print(output);
+			(suffixList.GetItem(i))->Print(output);
 			output << " >> " << kDependInputFile << '\n';
 
 			// write the string that should be used in the Makefile
 
 			output << "\t@echo ";
-			PrintForMake(output, *(outPrefixList.GetElement(i)));
-			PrintForMake(output, *(targetList.GetElement(i)));
-			PrintForMake(output, *(outSuffixList.GetElement(i)));
+			PrintForMake(output, *(outPrefixList.GetItem(i)));
+			PrintForMake(output, *(targetList.GetItem(i)));
+			PrintForMake(output, *(outSuffixList.GetItem(i)));
 			output << " >> " << kDependInputFile << '\n';
 		}
 	}
@@ -694,21 +694,21 @@ main
 {
 	for (JIndex i=1; i<=targetCount; i++)
 	{
-		if (!noParseFileSuffix.Match(*(suffixList.GetElement(i))))
+		if (!noParseFileSuffix.Match(*(suffixList.GetItem(i))))
 		{
 			// write the file to parse
 
 			output << ' ';
-			(prefixList.GetElement(i))->Print(output);
-			(targetList.GetElement(i))->Print(output);
-			(suffixList.GetElement(i))->Print(output);
+			(prefixList.GetItem(i))->Print(output);
+			(targetList.GetItem(i))->Print(output);
+			(suffixList.GetItem(i))->Print(output);
 
 			// write the string that should be used in the Makefile
 
 			output << ' ';
-			PrintForMake(output, *(outPrefixList.GetElement(i)));
-			PrintForMake(output, *(targetList.GetElement(i)));
-			PrintForMake(output, *(outSuffixList.GetElement(i)));
+			PrintForMake(output, *(outPrefixList.GetItem(i)));
+			PrintForMake(output, *(targetList.GetItem(i)));
+			PrintForMake(output, *(outSuffixList.GetItem(i)));
 		}
 	}
 }
@@ -799,10 +799,10 @@ ShouldMakeTarget
 		return true;
 	}
 
-	const JSize count = list.GetElementCount();
+	const JSize count = list.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		if (target == *(list.GetElement(i)))
+		if (target == *(list.GetItem(i)))
 		{
 			return true;
 		}
@@ -904,14 +904,14 @@ GetOutputSuffix
 	const JPtrArray<JString>&	suffixMapOut
 	)
 {
-	const JSize count = suffixMapIn.GetElementCount();
-	assert( count == suffixMapOut.GetElementCount() );
+	const JSize count = suffixMapIn.GetItemCount();
+	assert( count == suffixMapOut.GetItemCount() );
 
 	for (JIndex i=1; i<=count; i++)
 	{
-		if (inputSuffix == *(suffixMapIn.GetElement(i)))
+		if (inputSuffix == *(suffixMapIn.GetItem(i)))
 		{
-			return *(suffixMapOut.GetElement(i));
+			return *(suffixMapOut.GetItem(i));
 		}
 	}
 
@@ -1233,7 +1233,7 @@ PickTargets
 		}
 		else
 		{
-			auto* targetName = jnew JString(*(all.GetElement(choice)));
+			auto* targetName = jnew JString(*(all.GetItem(choice)));
 			assert( targetName != nullptr );
 
 			list->Append(targetName);
@@ -1528,10 +1528,10 @@ CalcDepend
 
 #if ! ALLOW_INCLUDE_LOOPS
 
-	const JSize headerCount = headerList.GetElementCount();
+	const JSize headerCount = headerList.GetItemCount();
 	for (i=1; i<=headerCount; i++)
 	{
-		const HeaderDep info = headerList.GetElement(i);
+		const HeaderDep info = headerList.GetItem(i);
 		PrintDependencies(output, outputDirName, *(info.fileName), *(info.depList));
 	}
 
@@ -1666,10 +1666,10 @@ AddDependency
 		const bool addSubToDepList = false;
 		#endif
 
-		const JSize count = (info.depList)->GetElementCount();
+		const JSize count = (info.depList)->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			const JString* includedFileName = (info.depList)->GetElement(i);
+			const JString* includedFileName = (info.depList)->GetItem(i);
 
 			#if ! ALLOW_INCLUDE_LOOPS
 
@@ -1715,7 +1715,7 @@ ParseHeaderFile
 		headerList->SearchSortedOTI(info, JListT::kAnyMatch, &found);
 	if (found)
 	{
-		return headerList->GetElement(index);
+		return headerList->GetItem(index);
 	}
 
 	// add it to headerList
@@ -1727,7 +1727,7 @@ ParseHeaderFile
 	assert( info.depList != nullptr );
 	(info.depList)->SetCompareFunction(JCompareStringsCaseSensitive);
 
-	headerList->InsertElementAtIndex(index, info);
+	headerList->InsertItemAtIndex(index, info);
 
 	// extract dependencies only from non-system header files
 

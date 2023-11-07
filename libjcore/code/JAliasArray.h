@@ -24,17 +24,17 @@ public:
 	JArray<T>*			GetData();
 	const JArray<T>&	GetData() const;
 
-	JIndex	GetElementIndex(const JIndex index) const;
-	JIndex	GetElementIndexFromEnd(const JIndex index) const;
+	JIndex	GetItemIndex(const JIndex index) const;
+	JIndex	GetItemIndexFromEnd(const JIndex index) const;
 
-	const T	GetElement(const JIndex index) const;
-	void	SetElement(const JIndex index, const T& data);
+	const T	GetItem(const JIndex index) const;
+	void	SetItem(const JIndex index, const T& data);
 
-	const T	GetFirstElement() const;
-	const T	GetLastElement() const;
+	const T	GetFirstItem() const;
+	const T	GetLastItem() const;
 
-	const T	GetElementFromEnd(const JIndex index) const;
-	void	SetElementFromEnd(const JIndex index, const T& data);
+	const T	GetItemFromEnd(const JIndex index) const;
+	void	SetItemFromEnd(const JIndex index, const T& data);
 
 	// sorting functions -- the reason this class exists
 

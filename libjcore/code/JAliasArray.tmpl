@@ -50,13 +50,13 @@ JAliasArray<T>::JAliasArray
 
 	SetCompareFunction(compareFn);
 
-	const JSize count = itsData->GetElementCount();
+	const JSize count = itsData->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
 		itsIndexArray->InsertSorted(i);		// faster than calling Sort() afterwards
 	}
 
-	SetElementCount(count);
+	SetItemCount(count);
 	ListenTo(itsData);
 }
 
@@ -97,7 +97,7 @@ JAliasArray<T>::GetData()
 }
 
 /******************************************************************************
- GetElementIndex
+ GetItemIndex
 
 	Returns the index into the data.
 
@@ -105,33 +105,33 @@ JAliasArray<T>::GetData()
 
 template <class T>
 JIndex
-JAliasArray<T>::GetElementIndex
+JAliasArray<T>::GetItemIndex
 	(
 	const JIndex index
 	)
 	const
 {
-	return itsIndexArray->GetElement(index);
+	return itsIndexArray->GetItem(index);
 }
 
 /******************************************************************************
- GetElementIndexFromEnd
+ GetItemIndexFromEnd
 
  ******************************************************************************/
 
 template <class T>
 JIndex
-JAliasArray<T>::GetElementIndexFromEnd
+JAliasArray<T>::GetItemIndexFromEnd
 	(
 	const JIndex index
 	)
 	const
 {
-	return itsIndexArray->GetElement(GetIndexFromEnd(index));
+	return itsIndexArray->GetItem(GetIndexFromEnd(index));
 }
 
 /******************************************************************************
- GetElement
+ GetItem
 
 	Returns the actual data.
 
@@ -139,7 +139,7 @@ JAliasArray<T>::GetElementIndexFromEnd
 
 template <class T>
 const T
-JAliasArray<T>::GetElement
+JAliasArray<T>::GetItem
 	(
 	const JIndex index
 	)
@@ -147,17 +147,17 @@ JAliasArray<T>::GetElement
 {
 	assert( itsData != nullptr );
 
-	return itsData->GetElement(GetElementIndex(index));
+	return itsData->GetItem(GetItemIndex(index));
 }
 
 /******************************************************************************
- SetElement
+ SetItem
 
  ******************************************************************************/
 
 template <class T>
 void
-JAliasArray<T>::SetElement
+JAliasArray<T>::SetItem
 	(
 	const JIndex	index,
 	const T&		data
@@ -165,47 +165,47 @@ JAliasArray<T>::SetElement
 {
 	assert( itsData != nullptr );
 
-	itsData->SetElement(GetElementIndex(index), data);
+	itsData->SetItem(GetItemIndex(index), data);
 }
 
 /******************************************************************************
- GetFirstElement
+ GetFirstItem
 
  ******************************************************************************/
 
 template <class T>
 const T
-JAliasArray<T>::GetFirstElement()
+JAliasArray<T>::GetFirstItem()
 	const
 {
 	assert( itsData != nullptr );
 
-	return itsData->GetElement(GetElementIndex(1));
+	return itsData->GetItem(GetItemIndex(1));
 }
 
 /******************************************************************************
- GetLastElement
+ GetLastItem
 
  ******************************************************************************/
 
 template <class T>
 const T
-JAliasArray<T>::GetLastElement()
+JAliasArray<T>::GetLastItem()
 	const
 {
 	assert( itsData != nullptr );
 
-	return itsData->GetElement(GetElementIndex(GetElementCount()));
+	return itsData->GetItem(GetItemIndex(GetItemCount()));
 }
 
 /******************************************************************************
- GetElementFromEnd
+ GetItemFromEnd
 
  ******************************************************************************/
 
 template <class T>
 const T
-JAliasArray<T>::GetElementFromEnd
+JAliasArray<T>::GetItemFromEnd
 	(
 	const JIndex index
 	)
@@ -213,17 +213,17 @@ JAliasArray<T>::GetElementFromEnd
 {
 	assert( itsData != nullptr );
 
-	return itsData->GetElement(GetElementIndex(GetIndexFromEnd(index)));
+	return itsData->GetItem(GetItemIndex(GetIndexFromEnd(index)));
 }
 
 /******************************************************************************
- SetElementFromEnd
+ SetItemFromEnd
 
  ******************************************************************************/
 
 template <class T>
 void
-JAliasArray<T>::SetElementFromEnd
+JAliasArray<T>::SetItemFromEnd
 	(
 	const JIndex	index,
 	const T&		data
@@ -232,13 +232,13 @@ JAliasArray<T>::SetElementFromEnd
 	assert( itsData != nullptr );
 	assert( IndexValid(index) );	// avoid wrap of unsigned value
 
-	itsData->SetElement(GetElementIndex(GetIndexFromEnd(index)), data);
+	itsData->SetItem(GetItemIndex(GetIndexFromEnd(index)), data);
 }
 
 /******************************************************************************
  Compare wrapper
 
-	Converts indices in itsIndexArray to elements from itsData.
+	Converts indices in itsIndexArray to items from itsData.
 
  ******************************************************************************/
 
@@ -256,15 +256,15 @@ CompareWrapper
 {
 	if (search == nullptr || (i1 > 0 && i2 > 0))
 	{
-		return compare(data.GetElement(i1), data.GetElement(i2));
+		return compare(data.GetItem(i1), data.GetItem(i2));
 	}
 	else if (i1 == 0)
 	{
-		return compare(*search, data.GetElement(i2));
+		return compare(*search, data.GetItem(i2));
 	}
 	else	// i2 == 0
 	{
-		return compare(data.GetElement(i1), *search);
+		return compare(data.GetItem(i1), *search);
 	}
 }
 
@@ -333,7 +333,7 @@ JAliasArray<T>::SetSortOrder
 
 	Returns true if the specified target is found.
 
-	"which" specifies what to return if more than one element matches
+	"which" specifies what to return if more than one item matches
 	the given target.
 
  ******************************************************************************/
@@ -360,11 +360,11 @@ JAliasArray<T>::SearchSorted
 /******************************************************************************
  SearchSortedOTI (virtual)
 
-	Returns index where the element is or where it should be inserted in
-	order to keep the list sorted.  If there is an element that matches the
+	Returns index where the item is or where it should be inserted in
+	order to keep the list sorted.  If there is an item that matches the
 	given one, *found is set to true.
 
-	"which" specifies what to return if more than one element matches
+	"which" specifies what to return if more than one item matches
 	the given target.
 
  ******************************************************************************/
@@ -397,7 +397,7 @@ JAliasArray<T>::SearchSortedOTI
  ******************************************************************************/
 
 #define ADJUST_INDEX(m) \
-	const JSize count = itsIndexArray->GetElementCount(); \
+	const JSize count = itsIndexArray->GetItemCount(); \
 	JIndex* data      = const_cast<JIndex*>(itsIndexArray->GetCArray()); \
 	for (JIndex _i=0; _i<count; _i++) \
 	{ \
@@ -412,10 +412,10 @@ JAliasArray<T>::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsData && message.Is(JListT::kElementsInserted))
+	if (sender == itsData && message.Is(JListT::kItemsInserted))
 	{
-		const JListT::ElementsInserted* m =
-			dynamic_cast<const JListT::ElementsInserted*>(&message);
+		const JListT::ItemsInserted* m =
+			dynamic_cast<const JListT::ItemsInserted*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
 
@@ -424,60 +424,60 @@ JAliasArray<T>::Receive
 			itsIndexArray->InsertSorted(i);
 		}
 
-		SetElementCount(GetElementCount() + m->GetCount());
+		SetItemCount(GetItemCount() + m->GetCount());
 	}
-	else if (sender == itsData && message.Is(JListT::kElementsRemoved))
+	else if (sender == itsData && message.Is(JListT::kItemsRemoved))
 	{
-		const JListT::ElementsRemoved* m =
-			dynamic_cast<const JListT::ElementsRemoved*>(&message);
+		const JListT::ItemsRemoved* m =
+			dynamic_cast<const JListT::ItemsRemoved*>(&message);
 		assert( m != nullptr );
 
-		const JSize count = itsIndexArray->GetElementCount();
+		const JSize count = itsIndexArray->GetItemCount();
 		for (JIndex i=count; i>=1; i--)
 		{
-			JIndex index = itsIndexArray->GetElement(i);
+			JIndex index = itsIndexArray->GetItem(i);
 			if (m->AdjustIndex(&index))
 			{
-				itsIndexArray->SetElement(i, index);
+				itsIndexArray->SetItem(i, index);
 			}
 			else
 			{
-				itsIndexArray->RemoveElement(i);
+				itsIndexArray->RemoveItem(i);
 			}
 		}
 
-		SetElementCount(GetElementCount() - m->GetCount());
+		SetItemCount(GetItemCount() - m->GetCount());
 	}
-	else if (sender == itsData && message.Is(JListT::kElementMoved))
+	else if (sender == itsData && message.Is(JListT::kItemMoved))
 	{
-		const JListT::ElementMoved* m =
-			dynamic_cast<const JListT::ElementMoved*>(&message);
+		const JListT::ItemMoved* m =
+			dynamic_cast<const JListT::ItemMoved*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
 	}
-	else if (sender == itsData && message.Is(JListT::kElementsSwapped))
+	else if (sender == itsData && message.Is(JListT::kItemsSwapped))
 	{
-		const JListT::ElementsSwapped* m =
-			dynamic_cast<const JListT::ElementsSwapped*>(&message);
+		const JListT::ItemsSwapped* m =
+			dynamic_cast<const JListT::ItemsSwapped*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
 	}
-	else if (sender == itsData && message.Is(JListT::kElementsChanged))
+	else if (sender == itsData && message.Is(JListT::kItemsChanged))
 	{
 		// Sort() would be O(N log N).  This method is O(N) + O(log N) = O(N).
 
-		const JListT::ElementsChanged* m =
-			dynamic_cast<const JListT::ElementsChanged*>(&message);
+		const JListT::ItemsChanged* m =
+			dynamic_cast<const JListT::ItemsChanged*>(&message);
 		assert( m != nullptr );
 
 		for (JIndex j=m->GetFirstIndex(); j<=m->GetLastIndex(); j++)
 		{
-			const JSize count = itsIndexArray->GetElementCount();
+			const JSize count = itsIndexArray->GetItemCount();
 			for (JIndex i=1; i<=count; i++)
 			{
-				if (itsIndexArray->GetElement(i) == j)
+				if (itsIndexArray->GetItem(i) == j)
 				{
-					itsIndexArray->RemoveElement(i);
+					itsIndexArray->RemoveItem(i);
 					break;
 				}
 			}

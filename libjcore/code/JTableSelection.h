@@ -115,7 +115,7 @@ JTableSelection::SelectCell
 	const bool		on
 	)
 {
-	SetElement(cell.y, cell.x, on);
+	SetItem(cell.y, cell.x, on);
 }
 
 inline void
@@ -126,7 +126,7 @@ JTableSelection::SelectCell
 	const bool		on
 	)
 {
-	SetElement(row,col, on);
+	SetItem(row,col, on);
 }
 
 /******************************************************************************
@@ -140,7 +140,7 @@ JTableSelection::InvertCell
 	const JPoint& cell
 	)
 {
-	SetElement(cell.y, cell.x, !GetElement(cell.y, cell.x));
+	SetItem(cell.y, cell.x, !GetItem(cell.y, cell.x));
 }
 
 inline void
@@ -150,7 +150,7 @@ JTableSelection::InvertCell
 	const JIndex col
 	)
 {
-	SetElement(row,col, !GetElement(row, col));
+	SetItem(row,col, !GetItem(row, col));
 }
 
 /******************************************************************************
@@ -163,7 +163,7 @@ JTableSelection::HasSelection()
 	const
 {
 	bool value;
-	return !IsEmpty() && !(AllElementsEqual(&value) && !value);
+	return !IsEmpty() && !(AllItemsEqual(&value) && !value);
 }
 
 /******************************************************************************
@@ -178,7 +178,7 @@ JTableSelection::IsSelected
 	)
 	const
 {
-	return GetElement(cell);
+	return GetItem(cell);
 }
 
 inline bool
@@ -189,7 +189,7 @@ JTableSelection::IsSelected
 	)
 	const
 {
-	return GetElement(row,col);
+	return GetItem(row,col);
 }
 
 /******************************************************************************

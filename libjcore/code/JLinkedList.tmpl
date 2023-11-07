@@ -31,8 +31,8 @@ JLinkedList<T>::JLinkedList()
 	:
 	JList<T>()
 {
-	itsFirstElement = nullptr;
-	itsLastElement  = nullptr;
+	itsFirstItem = nullptr;
+	itsLastItem  = nullptr;
 }
 
 /******************************************************************************
@@ -48,8 +48,8 @@ JLinkedList<T>::JLinkedList
 	:
 	JList<T>(source)
 {
-	itsFirstElement = nullptr;
-	itsLastElement  = nullptr;
+	itsFirstItem = nullptr;
+	itsLastItem  = nullptr;
 	CopyList(source);
 }
 
@@ -107,131 +107,131 @@ JLinkedList<T>::CopyList
 	const JLinkedList<T>& source
 	)
 {
-	assert( itsFirstElement == nullptr );
-	assert( itsLastElement  == nullptr );
+	assert( itsFirstItem == nullptr );
+	assert( itsLastItem  == nullptr );
 
-	JLinkedListElement<T>* sourceElement = source.itsFirstElement;
-	JLinkedListElement<T>* prev = nullptr;
-	JLinkedListElement<T>* newElement;
+	JLinkedListItem<T>* sourceItem = source.itsFirstItem;
+	JLinkedListItem<T>* prev       = nullptr;
+	JLinkedListItem<T>* newItem;
 
-	while (sourceElement != nullptr)
+	while (sourceItem != nullptr)
 	{
-		newElement = jnew JLinkedListElement<T>(sourceElement->data);
-		assert( newElement != nullptr );
+		newItem = jnew JLinkedListItem<T>(sourceItem->data);
+		assert( newItem != nullptr );
 
-		newElement->prev = prev;			// link to previous element
-		newElement->next = nullptr;			// no initial link
+		newItem->prev = prev;			// link to previous item
+		newItem->next = nullptr;		// no initial link
 
 		if (prev != nullptr)
 		{
-			prev->next = newElement;		// set up link from previous element
+			prev->next = newItem;		// set up link from previous item
 		}
 		else
 		{
-			itsFirstElement = newElement;	// save link to first element
+			itsFirstItem = newItem;		// save link to first item
 		}
 
-		sourceElement = sourceElement->next;
-		prev          = newElement;
+		sourceItem = sourceItem->next;
+		prev       = newItem;
 	}
 
-	itsLastElement = prev;					// save link to last element
+	itsLastItem = prev;					// save link to last item
 }
 
 /******************************************************************************
- GetFirstElement (virtual)
+ GetFirstItem (virtual)
 
  ******************************************************************************/
 
 template <class T>
 T
-JLinkedList<T>::GetFirstElement()
+JLinkedList<T>::GetFirstItem()
 	const
 {
-	assert( itsFirstElement != nullptr );
-	return itsFirstElement->data;
+	assert( itsFirstItem != nullptr );
+	return itsFirstItem->data;
 }
 
 /******************************************************************************
- GetLastElement (virtual)
+ GetLastItem (virtual)
 
  ******************************************************************************/
 
 template <class T>
 T
-JLinkedList<T>::GetLastElement()
+JLinkedList<T>::GetLastItem()
 	const
 {
-	assert( itsLastElement != nullptr );
-	return itsLastElement->data;
+	assert( itsLastItem != nullptr );
+	return itsLastItem->data;
 }
 
 /******************************************************************************
- PrependElement (virtual)
+ PrependItem (virtual)
 
  ******************************************************************************/
 
 template <class T>
 void
-JLinkedList<T>::PrependElement
+JLinkedList<T>::PrependItem
 	(
 	const T& data
 	)
 {
-	JLinkedListElement<T>* newElement = jnew JLinkedListElement<T>(data);
-	assert( newElement != nullptr );
+	JLinkedListItem<T>* newItem = jnew JLinkedListItem<T>(data);
+	assert( newItem != nullptr );
 
-	newElement->prev = nullptr;
-	newElement->next = itsFirstElement;
+	newItem->prev = nullptr;
+	newItem->next = itsFirstItem;
 
-	if (itsFirstElement != nullptr)
+	if (itsFirstItem != nullptr)
 	{
-		itsFirstElement->prev = newElement;
+		itsFirstItem->prev = newItem;
 	}
 	else
 	{
-		itsLastElement = newElement;
+		itsLastItem = newItem;
 	}
-	itsFirstElement = newElement;
+	itsFirstItem = newItem;
 
-	this->ElementAdded();
+	this->ItemAdded();
 
-	JListT::ElementsInserted message(1, 1);
+	JListT::ItemsInserted message(1, 1);
 	JBroadcaster::Broadcast(message);
 	JList<T>::NotifyIterators(message);
 }
 
 /******************************************************************************
- AppendElement (virtual)
+ AppendItem (virtual)
 
  ******************************************************************************/
 
 template <class T>
 void
-JLinkedList<T>::AppendElement
+JLinkedList<T>::AppendItem
 	(
 	const T& data
 	)
 {
-	JLinkedListElement<T>* newElement = jnew JLinkedListElement<T>(data);
-	assert( newElement != nullptr );
+	JLinkedListItem<T>* newItem = jnew JLinkedListItem<T>(data);
+	assert( newItem != nullptr );
 
-	newElement->prev = itsLastElement;
-	newElement->next = nullptr;
+	newItem->prev = itsLastItem;
+	newItem->next = nullptr;
 
-	if (itsLastElement != nullptr)
+	if (itsLastItem != nullptr)
 	{
-		itsLastElement->next = newElement;
+		itsLastItem->next = newItem;
 	}
 	else
 	{
-		itsFirstElement = newElement;
+		itsFirstItem = newItem;
 	}
-	itsLastElement = newElement;
+	itsLastItem = newItem;
 
-	this->ElementAdded();
+	this->ItemAdded();
 
-	JListT::ElementsInserted message(this->GetElementCount(), 1);
+	JListT::ItemsInserted message(this->GetItemCount(), 1);
 	JBroadcaster::Broadcast(message);
 	JList<T>::NotifyIterators(message);
 }
@@ -247,7 +247,7 @@ JLinkedList<T>::RemoveAll()
 {
 	if (!this->IsEmpty())
 	{
-		JListT::ElementsRemoved message(1, this->GetElementCount());
+		JListT::ItemsRemoved message(1, this->GetItemCount());
 
 		DeleteAll();
 
@@ -259,7 +259,7 @@ JLinkedList<T>::RemoveAll()
 /******************************************************************************
  DeleteAll (private)
 
-	Delete all the elements in the list.
+	Delete all the items in the list.
 
  ******************************************************************************/
 
@@ -267,17 +267,17 @@ template <class T>
 void
 JLinkedList<T>::DeleteAll()
 {
-	DeleteChain(itsFirstElement);
+	DeleteChain(itsFirstItem);
 
-	itsFirstElement = nullptr;
-	itsLastElement  = nullptr;
-	this->SetElementCount(0);
+	itsFirstItem = nullptr;
+	itsLastItem  = nullptr;
+	this->SetItemCount(0);
 }
 
 /******************************************************************************
  DeleteChain (private)
 
-	Delete the chain of elements that starts with the given element.
+	Delete the chain of items that starts with the given item.
 
  ******************************************************************************/
 
@@ -285,71 +285,69 @@ template <class T>
 void
 JLinkedList<T>::DeleteChain
 	(
-	JLinkedListElement<T>* firstElement
+	JLinkedListItem<T>* firstItem
 	)
 {
-	while (firstElement != nullptr)
+	while (firstItem != nullptr)
 	{
-		JLinkedListElement<T>* next = firstElement->next;
-		jdelete firstElement;
-		firstElement = next;
+		JLinkedListItem<T>* next = firstItem->next;
+		jdelete firstItem;
+		firstItem = next;
 	}
 }
 
 /******************************************************************************
- IteratorInsertElementAfter (private)
+ IteratorInsertItemAfter (private)
 
  ******************************************************************************/
 
 template <class T>
 void
-JLinkedList<T>::IteratorInsertElementAfter
+JLinkedList<T>::IteratorInsertItemAfter
 	(
 	const JIndex			index,
 	const T&				data,
-	JLinkedListElement<T>*	prev
+	JLinkedListItem<T>*	prev
 	)
 {
-	JLinkedListElement<T>* next = prev->next;
+	JLinkedListItem<T>* next    = prev->next;
+	JLinkedListItem<T>* newItem = jnew JLinkedListItem<T>(data);
 
-	JLinkedListElement<T>* newElement = jnew JLinkedListElement<T>(data);
-	assert( newElement != nullptr );
+	newItem->prev = prev;
+	newItem->next = next;
 
-	newElement->prev = prev;
-	newElement->next = next;
-
-	prev->next = newElement;
+	prev->next = newItem;
 	if (next != nullptr)
 	{
-		next->prev = newElement;
+		next->prev = newItem;
 	}
 	else
 	{
-		itsLastElement = newElement;
+		itsLastItem = newItem;
 	}
 
-	this->ElementAdded();
+	this->ItemAdded();
 
-	JListT::ElementsInserted message(index+1, 1);
+	JListT::ItemsInserted message(index+1, 1);
 	JBroadcaster::Broadcast(message);
 	JList<T>::NotifyIterators(message);
 }
 
 /******************************************************************************
- IteratorRemovePrevElements (private)
+ IteratorRemovePrevItems (private)
 
  ******************************************************************************/
 
 template <class T>
 void
-JLinkedList<T>::IteratorRemovePrevElements
+JLinkedList<T>::IteratorRemovePrevItems
 	(
 	const JIndex			lastIndex,
 	const JSize				origCount,
-	JLinkedListElement<T>*	origElement
+	JLinkedListItem<T>*	origItem
 	)
 {
-	const JSize totalCount = this->GetElementCount();
+	const JSize totalCount = this->GetItemCount();
 	if (lastIndex == totalCount && origCount >= totalCount)
 	{
 		RemoveAll();
@@ -358,150 +356,150 @@ JLinkedList<T>::IteratorRemovePrevElements
 	{
 		JIndex firstIndex = lastIndex;
 		JSize count       = 1;
-		while (origElement->prev != nullptr && count < origCount)
+		while (origItem->prev != nullptr && count < origCount)
 		{
-			origElement = origElement->prev;
+			origItem = origItem->prev;
 			firstIndex--;
 			count++;
 		}
 
-		DeleteChain(UnlinkNextElements(firstIndex, count, origElement));
+		DeleteChain(UnlinkNextItems(firstIndex, count, origItem));
 
-		JListT::ElementsRemoved message(firstIndex, count);
+		JListT::ItemsRemoved message(firstIndex, count);
 		JBroadcaster::Broadcast(message);
 		JList<T>::NotifyIterators(message);
 	}
 }
 
 /******************************************************************************
- IteratorRemoveNextElements (private)
+ IteratorRemoveNextItems (private)
 
  ******************************************************************************/
 
 template <class T>
 void
-JLinkedList<T>::IteratorRemoveNextElements
+JLinkedList<T>::IteratorRemoveNextItems
 	(
 	const JIndex			firstIndex,
 	const JSize				count,
-	JLinkedListElement<T>*	origElement
+	JLinkedListItem<T>*	origItem
 	)
 {
-	if (firstIndex == 1 && count >= this->GetElementCount())
+	if (firstIndex == 1 && count >= this->GetItemCount())
 	{
 		RemoveAll();
 	}
 	else if (count > 0)
 	{
-		DeleteChain(UnlinkNextElements(firstIndex, count, origElement));
+		DeleteChain(UnlinkNextItems(firstIndex, count, origItem));
 
-		JListT::ElementsRemoved message(firstIndex, count);
+		JListT::ItemsRemoved message(firstIndex, count);
 		JBroadcaster::Broadcast(message);
 		JList<T>::NotifyIterators(message);
 	}
 }
 
 /******************************************************************************
- IteratorSetElement (private)
+ IteratorSetItem (private)
 
  ******************************************************************************/
 
 template <class T>
 void
-JLinkedList<T>::IteratorSetElement
+JLinkedList<T>::IteratorSetItem
 	(
 	const JIndex			index,
 	const T&				data,
-	JLinkedListElement<T>*	listElement
+	JLinkedListItem<T>*	listItem
 	)
 {
-	listElement->data = data;
-	JBroadcaster::Broadcast(JListT::ElementsChanged(index, 1));
+	listItem->data = data;
+	JBroadcaster::Broadcast(JListT::ItemsChanged(index, 1));
 }
 
 /******************************************************************************
- UnlinkNextElements (private)
+ UnlinkNextItems (private)
 
-	Unlink the specified elements from the list and return the first one.
+	Unlink the specified items from the list and return the first one.
 
-	If origElement != nullptr, it is assumed to be the first element to remove.
+	If origItem != nullptr, it is assumed to be the first item to remove.
 
  ******************************************************************************/
 
 template <class T>
-JLinkedListElement<T>*
-JLinkedList<T>::UnlinkNextElements
+JLinkedListItem<T>*
+JLinkedList<T>::UnlinkNextItems
 	(
 	const JIndex			firstIndex,
 	const JSize				origCount,
-	JLinkedListElement<T>*	origElement
+	JLinkedListItem<T>*	origItem
 	)
 {
 	assert( this->IndexValid(firstIndex) );
 
-	const JSize elementCount = this->GetElementCount(),
-				lastIndex    = JMin(elementCount, firstIndex + origCount-1),
+	const JSize itemCount = this->GetItemCount(),
+				lastIndex    = JMin(itemCount, firstIndex + origCount-1),
 				count        = lastIndex - firstIndex + 1;
 
-	JLinkedListElement<T>* result = nullptr;
+	JLinkedListItem<T>* result = nullptr;
 
-	if (count == elementCount)
+	if (count == itemCount)
 	{
-		result          = itsFirstElement;
-		itsFirstElement = nullptr;
-		itsLastElement  = nullptr;
+		result          = itsFirstItem;
+		itsFirstItem = nullptr;
+		itsLastItem  = nullptr;
 	}
 	else if (firstIndex == 1)
 	{
-		result = itsFirstElement;
+		result = itsFirstItem;
 		for (JIndex i=1; i<=count; i++)
 		{
-			itsFirstElement = itsFirstElement->next;
+			itsFirstItem = itsFirstItem->next;
 		}
-		itsFirstElement->prev->next = nullptr;
-		itsFirstElement->prev       = nullptr;
+		itsFirstItem->prev->next = nullptr;
+		itsFirstItem->prev       = nullptr;
 	}
-	else if (lastIndex == elementCount)
+	else if (lastIndex == itemCount)
 	{
 		for (JIndex i=1; i<=count; i++)
 		{
-			itsLastElement = itsLastElement->prev;
+			itsLastItem = itsLastItem->prev;
 		}
-		result               = itsLastElement->next;
+		result               = itsLastItem->next;
 		result->prev         = nullptr;
-		itsLastElement->next = nullptr;
+		itsLastItem->next = nullptr;
 	}
 	else
 	{
-		JLinkedListElement<T>* prev       = origElement->prev;
-		JLinkedListElement<T>* theElement = prev->next;
+		JLinkedListItem<T>* prev   = origItem->prev;
+		JLinkedListItem<T>* theItem = prev->next;
 
-		result       = theElement;
+		result       = theItem;
 		result->prev = nullptr;
 
 		for (JIndex i=1; i<=count; i++)
 		{
-			theElement = theElement->next;
+			theItem = theItem->next;
 		}
-		(theElement->prev)->next = nullptr;
+		theItem->prev->next = nullptr;
 
-		prev->next       = theElement;
-		theElement->prev = prev;
+		prev->next    = theItem;
+		theItem->prev = prev;
 	}
 
-	this->SetElementCount(elementCount - count);
+	this->SetItemCount(itemCount - count);
 
 	return result;
 }
 
 /******************************************************************************
- IteratorFindElement (private)
+ IteratorFindItem (private)
 
  ******************************************************************************/
 
 template <class T>
-JLinkedListElement<T>*
-JLinkedList<T>::IteratorFindElement
+JLinkedListItem<T>*
+JLinkedList<T>::IteratorFindItem
 	(
 	const JIndex index
 	)
@@ -509,34 +507,34 @@ JLinkedList<T>::IteratorFindElement
 {
 	assert( this->IndexValid(index) );
 
-	const JSize elementCount = this->GetElementCount();
-	if (index < elementCount/2)
+	const JSize itemCount = this->GetItemCount();
+	if (index < itemCount/2)
 	{
-		JLinkedListElement<T>* listElement = itsFirstElement;
+		JLinkedListItem<T>* listItem = itsFirstItem;
 
 		// traverse the list forward
-		// when i == index, we have found the element
+		// when i == index, we have found the item
 
 		for (JIndex i=1; i<index; i++)
 		{
-			listElement = listElement->next;
+			listItem = listItem->next;
 		}
 
-		return listElement;
+		return listItem;
 	}
 	else
 	{
-		JLinkedListElement<T>* listElement = itsLastElement;
+		JLinkedListItem<T>* listItem = itsLastItem;
 
 		// traverse the list backward
-		// when i == index, we have found the element
+		// when i == index, we have found the item
 
-		for (JIndex i=elementCount; i>index; i--)
+		for (JIndex i=itemCount; i>index; i--)
 		{
-			listElement = listElement->prev;
+			listItem = listItem->prev;
 		}
 
-		return listElement;
+		return listItem;
 	}
 }
 

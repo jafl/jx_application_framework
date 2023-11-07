@@ -97,7 +97,7 @@ RecordList::GetRecord
 	)
 	const
 {
-	return itsRecords->GetElement(index);
+	return itsRecords->GetItem(index);
 }
 
 /******************************************************************************

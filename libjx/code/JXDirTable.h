@@ -237,7 +237,7 @@ JXDirTable::ItemIsActive
 	)
 	const
 {
-	return itsActiveCells->GetElement(index);
+	return itsActiveCells->GetItem(index);
 }
 
 /******************************************************************************

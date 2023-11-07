@@ -68,7 +68,7 @@ JMMArrayTable::~JMMArrayTable()
 JSize
 JMMArrayTable::GetAllocatedCount() const
 {
-	return itsAllocatedTable->GetElementCount();
+	return itsAllocatedTable->GetItemCount();
 }
 
 /******************************************************************************
@@ -94,7 +94,7 @@ JMMArrayTable::GetDeletedCount() const
 {
 	if (itsDeletedTable != nullptr)
 	{
-		return itsDeletedTable->GetElementCount();
+		return itsDeletedTable->GetItemCount();
 	}
 	else
 	{
@@ -266,7 +266,7 @@ JMMArrayTable::_AddNewRecord
 	JIndex index = FindDeletedBlock( record.GetAddress() );	// check if address is being reused
 	if (index > 0)
 	{
-		itsDeletedTable->RemoveElement(index);
+		itsDeletedTable->RemoveItem(index);
 	}
 
 	index = 0;
@@ -278,18 +278,18 @@ JMMArrayTable::_AddNewRecord
 	if (index == 0)
 	{
 		// Append because new allocations tend to be free'd the fastest
-		itsAllocatedTable->AppendElement(record);
+		itsAllocatedTable->AppendItem(record);
 	}
 	else
 	{
-		JMMRecord thisRecord = itsAllocatedTable->GetElement(index);
+		JMMRecord thisRecord = itsAllocatedTable->GetItem(index);
 		itsAllocatedBytes   -= thisRecord.GetSize();
 
 		NotifyMultipleAllocation(record, thisRecord);
 
 		// Might as well trust malloc--the table should never have duplicate
 		// entries!
-		itsAllocatedTable->SetElement(index, record);
+		itsAllocatedTable->SetItem(index, record);
 	}
 
 	itsAllocatedBytes += record.GetSize();
@@ -314,7 +314,7 @@ JMMArrayTable::_SetRecordDeleted
 
 	if (index != 0)
 	{
-		JMMRecord thisRecord = itsAllocatedTable->GetElement(index);
+		JMMRecord thisRecord = itsAllocatedTable->GetItem(index);
 		thisRecord.SetDeleteLocation(file, line, isArray);
 		itsAllocatedBytes -= thisRecord.GetSize();
 
@@ -327,10 +327,10 @@ JMMArrayTable::_SetRecordDeleted
 			NotifyArrayDeletedAsObject(thisRecord);
 		}
 
-		itsAllocatedTable->RemoveElement(index);
+		itsAllocatedTable->RemoveItem(index);
 		if (itsDeletedTable != nullptr)
 		{
-			itsDeletedTable->AppendElement(thisRecord);
+			itsDeletedTable->AppendItem(thisRecord);
 		}
 		else
 		{
@@ -351,7 +351,7 @@ JMMArrayTable::_SetRecordDeleted
 		}
 		else
 		{
-			JMMRecord thisRecord = itsDeletedTable->GetElement(index);
+			JMMRecord thisRecord = itsDeletedTable->GetItem(index);
 
 			NotifyMultipleDeletion(thisRecord, file, line, isArray);
 		}
@@ -374,10 +374,10 @@ JMMArrayTable::FindAllocatedBlock
 	)
 	const
 {
-	JSize allocatedCount = itsAllocatedTable->GetElementCount();
+	JSize allocatedCount = itsAllocatedTable->GetItemCount();
 	for (JSize i=allocatedCount;i>=1;i--)
 	{
-		const JMMRecord thisRecord = itsAllocatedTable->GetElement(i);
+		const JMMRecord thisRecord = itsAllocatedTable->GetItem(i);
 		if (thisRecord.GetAddress() == block)
 		{
 			return i;
@@ -403,10 +403,10 @@ JMMArrayTable::FindDeletedBlock
 {
 	if (itsDeletedTable != nullptr)
 	{
-		JSize deletedCount = itsDeletedTable->GetElementCount();
+		JSize deletedCount = itsDeletedTable->GetItemCount();
 		for (JSize i=deletedCount;i>=1;i--)
 		{
-			const JMMRecord thisRecord = itsDeletedTable->GetElement(i);
+			const JMMRecord thisRecord = itsDeletedTable->GetItem(i);
 			if (thisRecord.GetAddress() == block)
 			{
 				return i;

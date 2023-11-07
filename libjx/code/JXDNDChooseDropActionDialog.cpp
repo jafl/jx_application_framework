@@ -30,10 +30,10 @@ JXDNDChooseDropActionDialog::JXDNDChooseDropActionDialog
 					   descriptionList),
 	itsActionList(actionList)
 {
-	const JSize count = itsActionList.GetElementCount();
+	const JSize count = itsActionList.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		if (itsActionList.GetElement(i) == defaultAction)
+		if (itsActionList.GetItem(i) == defaultAction)
 		{
 			SelectItem(i);
 			break;
@@ -59,5 +59,5 @@ Atom
 JXDNDChooseDropActionDialog::GetAction()
 	const
 {
-	return itsActionList.GetElement(GetSelectedItem());
+	return itsActionList.GetItem(GetSelectedItem());
 }

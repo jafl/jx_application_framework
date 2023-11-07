@@ -409,13 +409,13 @@ JXVertPartition::RunInternalFTC
 				delta = 0;
 			}
 
-			itsFTCSizes->AppendElement(h);
-			itsFTCMinSizes->AppendElement(JPartition::GetMinCompartmentSize(i) + delta);
+			itsFTCSizes->AppendItem(h);
+			itsFTCMinSizes->AppendItem(JPartition::GetMinCompartmentSize(i) + delta);
 			sum += h;
 			i++;
 		}
 
-		*newSize = sum + (itsFTCSizes->GetElementCount() - 1) * kDragRegionSize;
+		*newSize = sum + (itsFTCSizes->GetItemCount() - 1) * kDragRegionSize;
 	}
 
 	return true;

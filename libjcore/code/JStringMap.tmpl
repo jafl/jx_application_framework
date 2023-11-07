@@ -67,7 +67,7 @@ JStringMap<V>::Contains
 }
 
 /******************************************************************************
- GetElement
+ GetItem
 
 	If the element is found, sets value to it and returns true; otherwise,
 	leaves value unmodified and returns false.
@@ -76,7 +76,7 @@ JStringMap<V>::Contains
 
 template <class V>
 bool
-JStringMap<V>::GetElement
+JStringMap<V>::GetItem
 	(
 	const JString& key,
 	V*             value
@@ -95,7 +95,7 @@ JStringMap<V>::GetElement
 }
 
 /******************************************************************************
- SetElement (protected)
+ SetItem (protected)
 
 	The element is set if it already existed and 'type' is kIfOld or kAlways
 	(the default) or if it did not exist and 'type' is kIfNew or kAlways.
@@ -107,11 +107,11 @@ JStringMap<V>::GetElement
 
 template <class V>
 bool
-JStringMap<V>::SetElement
+JStringMap<V>::SetItem
 	(
 	const JString&                     key,
 	const V&                           value,
-	const JPtrArrayT::SetElementAction action,
+	const JPtrArrayT::SetAction action,
 	const JStringMapT::SetType         type,
 	bool*                              existed
 	)
@@ -164,23 +164,23 @@ template <class V>
 void
 JStringMap<V>::PrepareForSet
 	(
-	const JPtrArrayT::SetElementAction action
+	const JPtrArrayT::SetAction action
 	)
 {
 	assert( action == JPtrArrayT::kForget );
 }
 
 /******************************************************************************
- RemoveElement (protected)
+ RemoveItem (protected)
 
  *****************************************************************************/
 
 template <class V>
 bool
-JStringMap<V>::RemoveElement
+JStringMap<V>::RemoveItem
 	(
 	const JString&                     key,
-	const JPtrArrayT::SetElementAction action
+	const JPtrArrayT::SetAction action
 	)
 {
 	if (Contains(key))
@@ -208,7 +208,7 @@ template <class V>
 void
 JStringMap<V>::RemoveAll
 	(
-	const JPtrArrayT::SetElementAction action
+	const JPtrArrayT::SetAction action
 	)
 {
 	if (!JHashTable< JStrValue<V> >::IsEmpty())

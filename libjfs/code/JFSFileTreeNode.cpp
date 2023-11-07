@@ -588,7 +588,7 @@ JFSFileTreeNode::UpdateChildren()
 		JIndex j;
 		if (newChildren.SearchSorted(node, JListT::kAnyMatch, &j))
 		{
-			newChildren.DeleteElement(j);
+			newChildren.DeleteItem(j);
 		}
 		else
 		{

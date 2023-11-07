@@ -150,7 +150,7 @@ JXFSBindingTable::JXFSBindingTable
 	}
 	UpdateColWidths();
 
-	const JSize rowCount = itsBindingList->GetElementCount();
+	const JSize rowCount = itsBindingList->GetItemCount();
 	AppendRows(rowCount);
 
 	UpdateButtons();
@@ -627,7 +627,7 @@ JXFSBindingTable::SyncWithBindingList()
 {
 	CancelEditing();
 
-	const JSize dataRowCount = itsBindingList->GetElementCount();
+	const JSize dataRowCount = itsBindingList->GetItemCount();
 	if (GetRowCount() < dataRowCount)
 	{
 		AppendRows(dataRowCount - GetRowCount());

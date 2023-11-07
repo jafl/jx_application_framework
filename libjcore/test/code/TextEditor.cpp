@@ -352,13 +352,13 @@ TextEditor::CheckCmdStatus
 	bool isReadOnly;
 	const JArray<bool> status = GetCmdStatus(&crmActionText, &crm2ActionText, &isReadOnly);
 
-	const JSize count = status.GetElementCount();
-	JAssertEqual(expected.GetElementCount(), count);
+	const JSize count = status.GetItemCount();
+	JAssertEqual(expected.GetItemCount(), count);
 
 	for (JIndex i=1; i<=count; i++)
 	{
 		JString s((JUInt64) i);
-		JAssertEqualWithMessage(expected.GetElement(i), (bool) status.GetElement(i), s.GetBytes());
+		JAssertEqualWithMessage(expected.GetItem(i), (bool) status.GetItem(i), s.GetBytes());
 	}
 }
 

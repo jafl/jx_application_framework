@@ -71,7 +71,7 @@ private:
 						 const JTreeNode* node);
 	JIndex	FindLastDescendant(const JIndex index) const;
 
-	void	RemoveElement(const JIndex index);
+	void	RemoveItem(const JIndex index);
 
 	void	ShowChildren(const JIndex index, const JTreeNode* parent);
 	bool	CalledByOpenDescendants(const JTreeNode* node, JSize* depth,
@@ -223,7 +223,7 @@ JTreeList::GetNode
 	const JIndex index
 	)
 {
-	return itsVisibleNodeList->GetElement(index);
+	return itsVisibleNodeList->GetItem(index);
 }
 
 inline const JTreeNode*
@@ -233,7 +233,7 @@ JTreeList::GetNode
 	)
 	const
 {
-	return itsVisibleNodeList->GetElement(index);
+	return itsVisibleNodeList->GetItem(index);
 }
 
 /******************************************************************************

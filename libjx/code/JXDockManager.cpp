@@ -248,7 +248,7 @@ JXDockManager::GetDefaultDock
 	)
 {
 	JIndex id;
-	if (itsWindowTypeMap->GetElement(windowType, &id))
+	if (itsWindowTypeMap->GetItem(windowType, &id))
 	{
 		if (FindDock(id, dock))
 		{
@@ -283,11 +283,11 @@ JXDockManager::SetDefaultDock
 {
 	if (dock == nullptr || windowType == JXGetDockWindowClass())
 	{
-		itsWindowTypeMap->RemoveElement(windowType);
+		itsWindowTypeMap->RemoveItem(windowType);
 	}
 	else
 	{
-		itsWindowTypeMap->SetElement(windowType, dock->GetID());
+		itsWindowTypeMap->SetItem(windowType, dock->GetID());
 	}
 }
 
@@ -304,13 +304,13 @@ JXDockManager::DirectorClosed
 	JXDirector* theDirector
 	)
 {
-	const JSize count = itsDockList->GetElementCount();
+	const JSize count = itsDockList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		JXDockDirector* dir = itsDockList->GetElement(i);
+		JXDockDirector* dir = itsDockList->GetItem(i);
 		if (theDirector == dir)
 		{
-			itsDockList->RemoveElement(i);
+			itsDockList->RemoveItem(i);
 			break;
 		}
 	}
@@ -374,7 +374,7 @@ JXDockManager::ReadSetup
 			JXDockWidget* dock;
 			if (FindDock(id, &dock))
 			{
-				itsWindowTypeMap->SetElement(windowType, id);
+				itsWindowTypeMap->SetItem(windowType, id);
 			}
 		}
 	}
@@ -396,7 +396,7 @@ JXDockManager::WriteSetup
 {
 	output << ' ' << kCurrentSetupVersion;
 
-	output << ' ' << itsDockList->GetElementCount();
+	output << ' ' << itsDockList->GetItemCount();
 
 	for (auto* dir : *itsDockList)
 	{

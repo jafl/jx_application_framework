@@ -170,7 +170,7 @@ inline JXDisplay*
 JXApplication::GetCurrentDisplay()
 	const
 {
-	return itsDisplayList->GetElement(itsCurrDisplayIndex);
+	return itsDisplayList->GetItem(itsCurrDisplayIndex);
 }
 
 /******************************************************************************
@@ -182,7 +182,7 @@ inline JSize
 JXApplication::GetDisplayCount()
 	const
 {
-	return itsDisplayList->GetElementCount();
+	return itsDisplayList->GetItemCount();
 }
 
 /******************************************************************************
@@ -197,7 +197,7 @@ JXApplication::GetDisplay
 	)
 	const
 {
-	return itsDisplayList->GetElement(index);
+	return itsDisplayList->GetItem(index);
 }
 
 /******************************************************************************

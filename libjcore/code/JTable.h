@@ -778,7 +778,7 @@ inline JSize
 JTable::GetRowCount()
 	const
 {
-	return itsRowHeights->GetElementCount();
+	return itsRowHeights->GetItemCount();
 }
 
 /******************************************************************************
@@ -896,7 +896,7 @@ inline JSize
 JTable::GetColCount()
 	const
 {
-	return itsColWidths->GetElementCount();
+	return itsColWidths->GetItemCount();
 }
 
 /******************************************************************************

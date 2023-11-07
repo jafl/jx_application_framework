@@ -126,7 +126,7 @@ JNamedTreeList::Find
 	JNamedTreeNode target(nullptr, name);
 	if (itsSortedNodeList->SearchSorted(&target, JListT::kFirstMatch, index))
 	{
-		const bool found = FindNode(itsSortedNodeList->GetElement(*index), index);
+		const bool found = FindNode(itsSortedNodeList->GetItem(*index), index);
 		assert( found );
 		return true;
 	}
@@ -157,16 +157,16 @@ JNamedTreeList::ClosestMatch
 	JNamedTreeNode target(nullptr, prefixStr);
 	bool found;
 	*index = itsSortedNodeList->SearchSortedOTI(&target, JListT::kFirstMatch, &found);
-	if (*index > itsSortedNodeList->GetElementCount())		// insert beyond end of list
+	if (*index > itsSortedNodeList->GetItemCount())		// insert beyond end of list
 	{
-		*index = itsSortedNodeList->GetElementCount();
+		*index = itsSortedNodeList->GetItemCount();
 	}
 
 	itsSortedNodeList->SetCompareFunction(JNamedTreeNode::DynamicCastCompareNames);
 
 	if (*index > 0)
 	{
-		const bool found = FindNode(itsSortedNodeList->GetElement(*index), index);
+		const bool found = FindNode(itsSortedNodeList->GetItem(*index), index);
 		assert( found );
 		return true;
 	}

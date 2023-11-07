@@ -74,7 +74,7 @@ JNaryFunction::MoveArgToIndex
 	const JIndex newIndex
 	)
 {
-	itsArgList->MoveElementToIndex(currentIndex, newIndex);
+	itsArgList->MoveItemToIndex(currentIndex, newIndex);
 }
 
 /******************************************************************************

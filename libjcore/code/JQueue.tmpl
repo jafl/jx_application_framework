@@ -31,9 +31,9 @@ JQueue<T,S>::JQueue()
 	:
 	JContainer()
 {
-	itsElements = jnew S;
+	itsItems = jnew S;
 
-	InstallCollection(itsElements);
+	InstallCollection(itsItems);
 }
 
 /******************************************************************************
@@ -49,10 +49,10 @@ JQueue<T,S>::JQueue
 	:
 	JContainer(source)
 {
-	itsElements = jnew S(*(source.itsElements));
-	assert( itsElements != nullptr );
+	itsItems = jnew S(*(source.itsItems));
+	assert( itsItems != nullptr );
 
-	InstallCollection(itsElements);
+	InstallCollection(itsItems);
 }
 
 /******************************************************************************
@@ -63,7 +63,7 @@ JQueue<T,S>::JQueue
 template <class T, class S>
 JQueue<T,S>::~JQueue()
 {
-	jdelete itsElements;
+	jdelete itsItems;
 }
 
 /******************************************************************************
@@ -85,7 +85,7 @@ JQueue<T,S>::operator=
 
 	JContainer::operator=(source);
 
-	*itsElements = *(source.itsElements);
+	*itsItems = *(source.itsItems);
 	return *this;
 }
 
@@ -103,7 +103,7 @@ JQueue<T,S>::Append
 	const T& newElement
 	)
 {
-	itsElements->AppendElement(newElement);
+	itsItems->AppendItem(newElement);
 }
 
 /******************************************************************************
@@ -117,8 +117,8 @@ template <class T, class S>
 T
 JQueue<T,S>::GetNext()
 {
-	const T data = itsElements->GetElement(1);
-	itsElements->RemoveElement(1);
+	const T data = itsItems->GetItem(1);
+	itsItems->RemoveItem(1);
 	return data;
 }
 
@@ -131,8 +131,8 @@ JQueue<T,S>::GetNext
 {
 	if (!IsEmpty())
 	{
-		*element = itsElements->GetElement(1);
-		itsElements->RemoveElement(1);
+		*element = itsItems->GetItem(1);
+		itsItems->RemoveItem(1);
 		return true;
 	}
 	else
@@ -153,7 +153,7 @@ const T
 JQueue<T,S>::PeekNext()
 	const
 {
-	return itsElements->GetElement(1);
+	return itsItems->GetItem(1);
 }
 
 template <class T, class S>
@@ -166,7 +166,7 @@ JQueue<T,S>::PeekNext
 {
 	if (!IsEmpty())
 	{
-		*element = itsElements->GetElement(1);
+		*element = itsItems->GetItem(1);
 		return true;
 	}
 	else
@@ -190,7 +190,7 @@ JQueue<T,S>::PeekNext
 	)
 	const
 {
-	return itsElements->GetElement(index);
+	return itsItems->GetItem(index);
 }
 
 template <class T, class S>
@@ -204,7 +204,7 @@ JQueue<T,S>::PeekNext
 {
 	if (IndexValid(index))
 	{
-		*element = itsElements->GetElement(index);
+		*element = itsItems->GetItem(index);
 		return true;
 	}
 	else
@@ -224,7 +224,7 @@ template <class T, class S>
 void
 JQueue<T,S>::Flush()
 {
-	itsElements->RemoveAll();
+	itsItems->RemoveAll();
 }
 
 /******************************************************************************
@@ -242,9 +242,9 @@ JQueue<T,S>::Discard
 	)
 {
 	JSize numDiscarded = 0;
-	while (numDiscarded < numToDiscard && !itsElements->IsEmpty())
+	while (numDiscarded < numToDiscard && !itsItems->IsEmpty())
 	{
-		itsElements->RemoveElement(1);
+		itsItems->RemoveItem(1);
 		numDiscarded++;
 	}
 }
@@ -258,7 +258,7 @@ template <class T, class S>
 S*
 JQueue<T,S>::GetElements()
 {
-	return itsElements;
+	return itsItems;
 }
 
 /******************************************************************************
@@ -273,7 +273,7 @@ template <class T, class S>
 JListIterator<T>*
 JQueue<T,S>::NewIterator()
 {
-	return itsElements->NewIterator();
+	return itsItems->NewIterator();
 }
 
 template <class T, class S>
@@ -281,7 +281,7 @@ JListIterator<T>*
 JQueue<T,S>::NewIterator()
 	const
 {
-	return itsElements->NewIterator();
+	return itsItems->NewIterator();
 }
 
 #endif

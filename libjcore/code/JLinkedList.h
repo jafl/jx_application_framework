@@ -14,15 +14,15 @@
 #include "JLinkedListIterator.h"
 
 template <class T>
-class JLinkedListElement
+class JLinkedListItem
 {
 public:
 
-	JLinkedListElement<T>*	prev;
+	JLinkedListItem<T>*	prev;
 	T						data;
-	JLinkedListElement<T>*	next;
+	JLinkedListItem<T>*	next;
 
-	JLinkedListElement(const T& d)
+	JLinkedListItem(const T& d)
 		:
 		prev(nullptr),
 		data(d),
@@ -44,11 +44,11 @@ public:
 
 	JLinkedList<T>& operator=(const JLinkedList<T>& source);
 
-	T		GetFirstElement() const override;
-	T		GetLastElement() const override;
+	T		GetFirstItem() const override;
+	T		GetLastItem() const override;
 
-	void	PrependElement(const T& data) override;
-	void	AppendElement(const T& data) override;
+	void	PrependItem(const T& data) override;
+	void	AppendItem(const T& data) override;
 
 	void	RemoveAll() override;
 
@@ -61,29 +61,29 @@ public:
 
 private:
 
-	JLinkedListElement<T>*	itsFirstElement;
-	JLinkedListElement<T>*	itsLastElement;
+	JLinkedListItem<T>*	itsFirstItem;
+	JLinkedListItem<T>*	itsLastItem;
 
 private:
 
 	void	CopyList(const JLinkedList<T>& source);
 
 	void	DeleteAll();
-	void	DeleteChain(JLinkedListElement<T>* firstElement);
+	void	DeleteChain(JLinkedListItem<T>* firstItem);
 
-	JLinkedListElement<T>*	IteratorFindElement(const JIndex index) const;
+	JLinkedListItem<T>*	IteratorFindItem(const JIndex index) const;
 
-	void	IteratorInsertElementAfter(const JIndex index, const T& data,
-									   JLinkedListElement<T>* listElement);
-	void	IteratorSetElement(const JIndex index, const T& data,
-							   JLinkedListElement<T>* listElement);
-	void	IteratorRemovePrevElements(const JIndex lastIndex, const JSize count,
-									   JLinkedListElement<T>* origElement);
-	void	IteratorRemoveNextElements(const JIndex firstIndex, const JSize count,
-									   JLinkedListElement<T>* origElement);
+	void	IteratorInsertItemAfter(const JIndex index, const T& data,
+									JLinkedListItem<T>* listItem);
+	void	IteratorSetItem(const JIndex index, const T& data,
+							JLinkedListItem<T>* listItem);
+	void	IteratorRemovePrevItems(const JIndex lastIndex, const JSize count,
+									JLinkedListItem<T>* origItem);
+	void	IteratorRemoveNextItems(const JIndex firstIndex, const JSize count,
+									JLinkedListItem<T>* origItem);
 
-	JLinkedListElement<T>*	UnlinkNextElements(const JIndex firstIndex, const JSize count,
-											   JLinkedListElement<T>* origElement = nullptr);
+	JLinkedListItem<T>*	UnlinkNextItems(const JIndex firstIndex, const JSize count,
+										JLinkedListItem<T>* origItem = nullptr);
 };
 
 #include "JLinkedList.tmpl"

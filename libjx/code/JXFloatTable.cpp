@@ -116,7 +116,7 @@ JXFloatTable::CreateXInputField
 	font.SetStyle(GetCellStyle(cell));
 	itsFloatInputField->SetFont(font);
 
-	itsFloatInputField->SetValue(itsFloatData->GetElement(cell));
+	itsFloatInputField->SetValue(itsFloatData->GetItem(cell));
 	return itsFloatInputField;
 }
 
@@ -168,7 +168,7 @@ JXFloatTable::ExtractInputData
 		JFloat value;
 		const bool valid = itsFloatInputField->GetValue(&value);
 		assert( valid );
-		itsFloatData->SetElement(cell, value);
+		itsFloatData->SetItem(cell, value);
 		return true;
 	}
 	else

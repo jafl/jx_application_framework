@@ -279,7 +279,7 @@ JXDisplay::Close()
 {
 	while (!itsWindowList->IsEmpty())
 	{
-		WindowInfo info = itsWindowList->GetLastElement();
+		WindowInfo info = itsWindowList->GetLastItem();
 		if (!info.window->GetDirector()->Close())
 		{
 			return false;
@@ -331,7 +331,7 @@ JXDisplay::RaiseAllWindows()
 			{
 				if (childList[j] == rootChild)
 				{
-					childMapping.SetElement(j+1, info.window, JPtrArrayT::kForget);
+					childMapping.SetItem(j+1, info.window, JPtrArrayT::kForget);
 					break;
 				}
 			}
@@ -528,11 +528,11 @@ JXDisplay::GetBounds()
 
 				if (info[i].x_org == 0 && info[i].y_org == 0)
 				{
-					itsBounds->PrependElement(r);
+					itsBounds->PrependItem(r);
 				}
 				else
 				{
-					itsBounds->AppendElement(r);
+					itsBounds->AppendItem(r);
 				}
 			}
 
@@ -554,7 +554,7 @@ JXDisplay::GetBounds()
 
 		itsBounds = jnew JArray<JRect>(1);
 		assert( itsBounds != nullptr );
-		itsBounds->AppendElement(JRect(y, x, y+height, x+width));
+		itsBounds->AppendItem(JRect(y, x, y+height, x+width));
 	}
 
 	// The location of the mouse is a good guess as to the location of the
@@ -569,7 +569,7 @@ JXDisplay::GetBounds()
 		}
 	}
 
-	return itsBounds->GetFirstElement();
+	return itsBounds->GetFirstItem();
 }
 
 /******************************************************************************
@@ -780,8 +780,8 @@ JXDisplay::CreateBuiltInCursor
 
 	info.xid = XCreateFontCursor(itsXDisplay, shape);
 
-	itsCursorList->AppendElement(info);
-	return itsCursorList->GetElementCount();
+	itsCursorList->AppendItem(info);
+	return itsCursorList->GetItemCount();
 }
 
 /******************************************************************************
@@ -809,8 +809,8 @@ JXDisplay::CreateCustomCursor
 
 	info.xid = CreateCustomXCursor(cursor);
 
-	itsCursorList->AppendElement(info);
-	return itsCursorList->GetElementCount();
+	itsCursorList->AppendItem(info);
+	return itsCursorList->GetItemCount();
 }
 
 /******************************************************************************
@@ -870,10 +870,10 @@ JXDisplay::GetCursor
 	)
 	const
 {
-	const JSize count = itsCursorList->GetElementCount();
+	const JSize count = itsCursorList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const CursorInfo info = itsCursorList->GetElement(i);
+		const CursorInfo info = itsCursorList->GetItem(i);
 		if (*(info.name) == name)
 		{
 			*index = i;
@@ -1338,9 +1338,9 @@ JXDisplay::WindowCreated
 	if (itsWindowList->InsertSorted(newInfo, false, &i) && i == 1)
 	{
 		window->AcceptSaveYourself(true);
-		if (itsWindowList->GetElementCount() > 1)
+		if (itsWindowList->GetItemCount() > 1)
 		{
-			((itsWindowList->GetElement(2)).window)->AcceptSaveYourself(false);
+			((itsWindowList->GetItem(2)).window)->AcceptSaveYourself(false);
 		}
 	}
 }
@@ -1369,16 +1369,16 @@ JXDisplay::WindowDeleted
 		itsKeyboardGrabber = nullptr;
 	}
 
-	const JSize count = itsWindowList->GetElementCount();
+	const JSize count = itsWindowList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const WindowInfo info = itsWindowList->GetElement(i);
+		const WindowInfo info = itsWindowList->GetItem(i);
 		if (info.window == window)
 		{
-			itsWindowList->RemoveElement(i);
+			itsWindowList->RemoveItem(i);
 			if (i == 1 && count > 1)
 			{
-				((itsWindowList->GetElement(1)).window)->AcceptSaveYourself(true);
+				((itsWindowList->GetItem(1)).window)->AcceptSaveYourself(true);
 			}
 			break;
 		}
@@ -1408,7 +1408,7 @@ JXDisplay::FindXWindow
 	JIndex i;
 	if (itsWindowList->SearchSorted(target, JListT::kAnyMatch, &i))
 	{
-		target  = itsWindowList->GetElement(i);
+		target  = itsWindowList->GetItem(i);
 		*window = target.window;
 		return true;
 	}
@@ -1474,7 +1474,7 @@ JXDisplay::JXErrorHandler
 	XErrorEvent*	error
 	)
 {
-	theXErrorList.AppendElement(*error);
+	theXErrorList.AppendItem(*error);
 	return Success;
 }
 

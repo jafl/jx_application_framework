@@ -118,7 +118,7 @@ jGetUserInfo
 	JIndex i;
 	if (theUserInfoMap.SearchSorted(target, JListT::kAnyMatch, &i))
 	{
-		*info = theUserInfoMap.GetElement(i);
+		*info = theUserInfoMap.GetItem(i);
 	}
 	else
 	{
@@ -313,7 +313,7 @@ jGetGroupInfo
 	JIndex i;
 	if (groupInfoMap.SearchSorted(target, JListT::kAnyMatch, &i))
 	{
-		*info = groupInfoMap.GetElement(i);
+		*info = groupInfoMap.GetItem(i);
 	}
 	else
 	{

@@ -93,19 +93,19 @@ JXDirector::CloseAllSubdirectors()
 {
 	while (itsSubdirectors != nullptr && !itsSubdirectors->IsEmpty())
 	{
-		JXDirector* theDirector = itsSubdirectors->GetFirstElement();
+		JXDirector* theDirector = itsSubdirectors->GetFirstItem();
 		if (!theDirector->Close())
 		{
 			return false;
 		}
 		else if (itsSubdirectors != nullptr && !itsSubdirectors->IsEmpty() &&
-				 theDirector == itsSubdirectors->GetFirstElement())
+				 theDirector == itsSubdirectors->GetFirstItem())
 		{
 			// Since one JXDocument can keep another one open,
 			// if the owned document is in front, we have to shove it to
 			// the end so we close the owner first.
 
-			itsSubdirectors->MoveElementToIndex(1, itsSubdirectors->GetElementCount());
+			itsSubdirectors->MoveItemToIndex(1, itsSubdirectors->GetItemCount());
 		}
 	}
 

@@ -637,7 +637,7 @@ JXDNDManager::AnnounceTypeList
 	)
 	const
 {
-	const JSize typeCount = list.GetElementCount();
+	const JSize typeCount = list.GetItemCount();
 	if (typeCount > kDNDEnterTypeCount)
 	{
 		XChangeProperty(*itsDisplay, xWindow,
@@ -702,8 +702,8 @@ JXDNDManager::AnnounceAskActions
 	itsDragger->GetDNDAskActions(buttonStates, modifiers,
 								 itsDraggerAskActionList, itsDraggerAskDescripList);
 
-	const JSize count = itsDraggerAskActionList->GetElementCount();
-	assert( count >= 2 && count == itsDraggerAskDescripList->GetElementCount() );
+	const JSize count = itsDraggerAskActionList->GetItemCount();
+	assert( count >= 2 && count == itsDraggerAskDescripList->GetItemCount() );
 
 	XChangeProperty(*itsDisplay, itsDraggerWindow,
 					itsAtoms[ kDNDActionListAtomIndex ], XA_ATOM, 32,
@@ -766,7 +766,7 @@ JXDNDManager::GetAskActions
 			Atom* data = reinterpret_cast<Atom*>(rawData);
 			for (JUnsignedOffset i=0; i<itemCount; i++)
 			{
-				actionList->AppendElement(data[i]);
+				actionList->AppendItem(data[i]);
 			}
 		}
 
@@ -790,7 +790,7 @@ JXDNDManager::GetAskActions
 
 	// return status
 
-	if (actionList->GetElementCount() != descriptionList->GetElementCount())
+	if (actionList->GetItemCount() != descriptionList->GetItemCount())
 	{
 		actionList->RemoveAll();
 		descriptionList->CleanOut();
@@ -884,7 +884,7 @@ JXDNDManager::SendDNDEnter
 		JWait(JXDND_SOURCE_DELAY);
 		#endif
 
-		const JSize typeCount = itsDraggerTypeList->GetElementCount();
+		const JSize typeCount = itsDraggerTypeList->GetItemCount();
 
 		XEvent xEvent;
 		XClientMessageEvent& message = xEvent.xclient;
@@ -911,7 +911,7 @@ JXDNDManager::SendDNDEnter
 		const JSize msgTypeCount = JMin(typeCount, (JSize) kDNDEnterTypeCount);
 		for (JIndex i=1; i<=msgTypeCount; i++)
 		{
-			message.data.l[ kDNDEnterType1 + i-1 ] = itsDraggerTypeList->GetElement(i);
+			message.data.l[ kDNDEnterType1 + i-1 ] = itsDraggerTypeList->GetItem(i);
 		}
 
 		itsDisplay->SendXEvent(itsMsgWindow, &xEvent);
@@ -1406,7 +1406,7 @@ JXDNDManager::HandleDNDEnter
 				Atom* data = reinterpret_cast<Atom*>(rawData);
 				for (JUnsignedOffset i=0; i<itemCount; i++)
 				{
-					itsDraggerTypeList->AppendElement(data[i]);
+					itsDraggerTypeList->AppendItem(data[i]);
 				}
 			}
 
@@ -1423,7 +1423,7 @@ JXDNDManager::HandleDNDEnter
 					assert( i > 1 );
 					break;
 				}
-				itsDraggerTypeList->AppendElement(type);
+				itsDraggerTypeList->AppendItem(type);
 			}
 		}
 	}

@@ -133,7 +133,7 @@ JXImageMenuData::AppendItem
 	const JString&			id
 	)
 {
-	InsertItem(GetElementCount()+1, image, menuOwnsImage, type, id);
+	InsertItem(GetItemCount()+1, image, menuOwnsImage, type, id);
 }
 
 /******************************************************************************
@@ -148,7 +148,7 @@ JXImageMenuData::GetImage
 	)
 	const
 {
-	const IconData itemData = itsIconData->GetElement(index);
+	const IconData itemData = itsIconData->GetItem(index);
 	return itemData.image;
 }
 

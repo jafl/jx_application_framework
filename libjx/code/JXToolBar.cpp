@@ -180,7 +180,7 @@ JXToolBar::AppendButton
 	const JString* itemID = nullptr;
 	if (menu->GetItemID(index, &itemID))
 	{
-		itsGroupStarts->AppendElement(itsInNewGroupMode);
+		itsGroupStarts->AppendItem(itsInNewGroupMode);
 
 		itsInNewGroupMode = false;
 
@@ -583,13 +583,13 @@ JXToolBar::WritePrefs
 				  << JBoolToString(itsCurrentButtonHeight == kSmallButtonHeight);
 	output << ' ' << (JIndex) itsButtonType;
 
-	const JSize count = itsButtons->GetElementCount();
+	const JSize count = itsButtons->GetItemCount();
 	output << ' ' << count;
 
 	for (JIndex i=1; i<=count; i++)
 	{
-		output << ' ' << (itsButtons->GetElement(i))->GetMenuItemID();
-		output << ' ' << JBoolToString(itsGroupStarts->GetElement(i));
+		output << ' ' << (itsButtons->GetItem(i))->GetMenuItemID();
+		output << ' ' << JBoolToString(itsGroupStarts->GetItem(i));
 	}
 
 	output << ' ' << itsDialogPrefs;
@@ -717,18 +717,18 @@ JXToolBar::GetGroups
 	}
 	JIndexRange range;
 	range.first = 1;
-	JSize count = itsButtons->GetElementCount();
+	JSize count = itsButtons->GetItemCount();
 	for (JSize i = 2; i <= count; i++)
 	{
-		if (itsGroupStarts->GetElement(i))
+		if (itsGroupStarts->GetItem(i))
 		{
 			range.last = i - 1;
-			groups->AppendElement(range);
+			groups->AppendItem(range);
 			range.first = i;
 		}
 	}
 	range.last = count;
-	groups->AppendElement(range);
+	groups->AppendItem(range);
 }
 
 /******************************************************************************
@@ -759,7 +759,7 @@ JXToolBar::PlaceGroup
 	{
 		for (JSize i = range.first; i <= range.last; i++)
 		{
-			JXToolBarButton* button = itsButtons->GetElement(i);
+			JXToolBarButton* button = itsButtons->GetItem(i);
 			JCoordinate butWidth	= button->GetFrameWidth();
 			JCoordinate totalWidth	= GetBoundsWidth();
 			if (itsNextButtonPosition + butWidth <= totalWidth)
@@ -795,7 +795,7 @@ JXToolBar::PlaceButton
 	const JIndex index
 	)
 {
-	JXToolBarButton* button = itsButtons->GetElement(index);
+	JXToolBarButton* button = itsButtons->GetItem(index);
 	button->Place(itsNextButtonPosition, itsCurrentLineY);
 	itsNextButtonPosition += button->GetFrameWidth();
 }
@@ -814,7 +814,7 @@ JXToolBar::GetGroupWidth
 	JSize w = 0;
 	for (JSize index = range.first; index <= range.last; index++)
 	{
-		JXToolBarButton* button = itsButtons->GetElement(index);
+		JXToolBarButton* button = itsButtons->GetItem(index);
 		w += button->GetFrameWidth();
 	}
 	return w;
@@ -977,10 +977,10 @@ JXToolBar::UpdateButtons()
 	}
 
 	bool needsAdjustment = false;
-	const JSize count = itsButtons->GetElementCount();
+	const JSize count = itsButtons->GetItemCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		JXToolBarButton* button = itsButtons->GetElement(i);
+		JXToolBarButton* button = itsButtons->GetItem(i);
 		JIndex itemIndex;
 		if (button->GetMenuItemIndex(&itemIndex) &&
 			button->GetMenu()->IsActive()        &&
@@ -1001,7 +1001,7 @@ JXToolBar::UpdateButtons()
 
 		if (invalid)
 		{
-			itsButtons->DeleteElement(i);
+			itsButtons->DeleteItem(i);
 			needsAdjustment = true;
 		}
 	}

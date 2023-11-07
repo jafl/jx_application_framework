@@ -110,7 +110,7 @@ JStringManager::Get
 	const
 {
 	const JString* s;
-	if (GetElement(JString(id, JString::kNoCopy), &s))
+	if (GetItem(JString(id, JString::kNoCopy), &s))
 	{
 		assert( s != nullptr );
 	}
@@ -300,11 +300,11 @@ JStringManager::Register
 		JPtrArray<JString> localeParts(JPtrArrayT::kDeleteAll);
 		locale.Split("_", &localeParts);
 
-		itsBCP47Locale = *localeParts.GetElement(1);
+		itsBCP47Locale = *localeParts.GetItem(1);
 		itsBCP47Locale.Append("-");
-		itsBCP47Locale += *localeParts.GetElement(2);
+		itsBCP47Locale += *localeParts.GetItem(2);
 
-		const JString& language = *localeParts.GetElement(1);
+		const JString& language = *localeParts.GetItem(1);
 
 		JString path[2];
 		JGetDataDirectories(signature, kDataDirName, path, path+1);
@@ -421,7 +421,7 @@ JStringManager::MergeFile
 			{
 				Pseudotranslate(s);
 			}
-			SetElement(id, s, JPtrArrayT::kDelete);
+			SetItem(id, s, JPtrArrayT::kDelete);
 		}
 		else if (!SetNewElement(id, s))
 		{

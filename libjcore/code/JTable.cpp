@@ -465,7 +465,7 @@ JTable::TableDrawRowBorders
 	const JSize rowCount = GetRowCount();
 	sBorderWidth         = itsRowBorderInfo.width;
 	JCoordinate y        = -itsRowBorderInfo.width + (itsRowBorderInfo.width / 2) +	// thick line is centered on path
-						   (firstRow == 1 ? 0 : itsRowHeights->SumElements(1, firstRow-1, GetCellSize));
+						   (firstRow == 1 ? 0 : itsRowHeights->SumItems(1, firstRow-1, GetCellSize));
 	for (JIndex i=firstRow;
 		 i <= lastRow &&
 		 (( drawBottomBorder && i<=rowCount) ||
@@ -511,7 +511,7 @@ JTable::TableDrawColBorders
 	const JSize colCount = GetColCount();
 	sBorderWidth         = itsColBorderInfo.width;
 	JCoordinate x        = -itsColBorderInfo.width + (itsColBorderInfo.width / 2) +	// thick line is centered on path
-						   (firstCol == 1 ? 0 : itsColWidths->SumElements(1, firstCol-1, GetCellSize));
+						   (firstCol == 1 ? 0 : itsColWidths->SumItems(1, firstCol-1, GetCellSize));
 	for (JIndex i=firstCol;
 		 i <= lastCol &&
 		 (( drawRightBorder && i<=colCount) ||
@@ -630,7 +630,7 @@ JTable::HilightIfSelected
 	Returns breakpoints for cutting table into pages.  The first breakpoint
 	is always zero, and the last breakpoint is the width or height of
 	the table.  Thus, it is easy to calculate the width of what is printed
-	on each page from (breakpt->GetElement(i+1) - breakpt->GetElement(i) + 1).
+	on each page from (breakpt->GetItem(i+1) - breakpt->GetItem(i) + 1).
 
  ******************************************************************************/
 
@@ -691,11 +691,11 @@ JTable::Paginate
 	}
 
 	breakpts->RemoveAll();
-	breakpts->AppendElement(0);
+	breakpts->AppendItem(0);
 
 	JRunArrayIterator<JCoordinate> iter(&lengths);
 
-	const JSize count = lengths.GetElementCount();
+	const JSize count = lengths.GetItemCount();
 
 	JIndex prev = 1, i = 0;
 	JCoordinate totalLength = 0;
@@ -749,13 +749,13 @@ JTable::Paginate
 			totalLength = 0;
 		}
 
-		JCoordinate newBreakpt = breakpts->GetLastElement() + pageLen;
+		JCoordinate newBreakpt = breakpts->GetLastItem() + pageLen;
 		if (borderWidth > 1)
 		{
 			newBreakpt += borderWidth - 1;		// compensate for initial shift
 		}
 
-		breakpts->AppendElement(newBreakpt);
+		breakpts->AppendItem(newBreakpt);
 		prev = i;
 	}
 		while (i < count || totalLength > 0);
@@ -764,8 +764,8 @@ JTable::Paginate
 
 	if (borderWidth > 1)
 	{
-		const JCoordinate lastBreakpt = breakpts->GetLastElement();
-		breakpts->SetElement(breakpts->GetElementCount(), lastBreakpt - borderWidth+1);
+		const JCoordinate lastBreakpt = breakpts->GetLastItem();
+		breakpts->SetItem(breakpts->GetItemCount(), lastBreakpt - borderWidth+1);
 	}
 
 	return true;
@@ -804,8 +804,8 @@ JTable::Print
 				 userPrintColHeader, &colBreakpts, &printColHeader);
 	assert( ok );
 
-	const JSize rowCount = rowBreakpts.GetElementCount() - 1;
-	const JSize colCount = colBreakpts.GetElementCount() - 1;
+	const JSize rowCount = rowBreakpts.GetItemCount() - 1;
+	const JSize colCount = colBreakpts.GetItemCount() - 1;
 
 	bool cancelled = false;
 	for (JIndex j=1; j<=colCount; j++)
@@ -833,8 +833,8 @@ JTable::Print
 
 			// calculate visible area of table on this page
 
-			JPoint tableTopLeft(colBreakpts.GetElement(j), rowBreakpts.GetElement(i));
-			JPoint tableBotRight(colBreakpts.GetElement(j+1), rowBreakpts.GetElement(i+1));
+			JPoint tableTopLeft(colBreakpts.GetItem(j), rowBreakpts.GetItem(i));
+			JPoint tableBotRight(colBreakpts.GetItem(j+1), rowBreakpts.GetItem(i+1));
 
 			if (i < rowCount)
 			{
@@ -1265,11 +1265,11 @@ JTable::SetAllRowHeights
 {
 	assert( rowHeight > 0 );
 
-	const JSize rowCount = itsRowHeights->GetElementCount();
+	const JSize rowCount = itsRowHeights->GetItemCount();
 	if (rowCount > 0)
 	{
 		itsRowHeights->RemoveAll();
-		itsRowHeights->AppendElements(rowHeight, rowCount);
+		itsRowHeights->AppendItems(rowHeight, rowCount);
 
 		const JCoordinate newHeight =
 			rowCount * rowHeight + (rowCount-1) * itsRowBorderInfo.width;
@@ -1316,7 +1316,7 @@ JTable::RemoveNextRows
 
 	sBorderWidth                    = itsRowBorderInfo.width;
 	const JCoordinate removedY      = GetRowTop(firstIndex);
-	const JCoordinate removedHeight = itsRowHeights->SumElements(firstIndex, firstIndex+count-1, GetCellSize);
+	const JCoordinate removedHeight = itsRowHeights->SumItems(firstIndex, firstIndex+count-1, GetCellSize);
 
 	JRunArrayIterator<JCoordinate> iter(itsRowHeights, JListT::kStartBefore, firstIndex);
 	iter.RemoveNext(count);
@@ -1572,11 +1572,11 @@ JTable::SetAllColWidths
 {
 	assert( colWidth > 0 );
 
-	const JSize colCount = itsColWidths->GetElementCount();
+	const JSize colCount = itsColWidths->GetItemCount();
 	if (colCount > 0)
 	{
 		itsColWidths->RemoveAll();
-		itsColWidths->AppendElements(colWidth, colCount);
+		itsColWidths->AppendItems(colWidth, colCount);
 
 		const JCoordinate newWidth =
 			colCount * colWidth + (colCount-1) * itsColBorderInfo.width;
@@ -1623,7 +1623,7 @@ JTable::RemoveNextCols
 
 	sBorderWidth                   = itsColBorderInfo.width;
 	const JCoordinate removedX     = GetColLeft(firstIndex);
-	const JCoordinate removedWidth = itsColWidths->SumElements(firstIndex, firstIndex+count-1, GetCellSize);
+	const JCoordinate removedWidth = itsColWidths->SumItems(firstIndex, firstIndex+count-1, GetCellSize);
 
 	JRunArrayIterator<JCoordinate> iter(itsColWidths, JListT::kStartBefore, firstIndex);
 	iter.RemoveNext(count);
@@ -1928,7 +1928,7 @@ JTable::GetCellBoundaries
 	iter.Next(&v);
 
 	sBorderWidth = borderWidth;
-	*min = (index == 1 ? 0 : lengths.SumElements(1, index-1, GetCellSize));
+	*min = (index == 1 ? 0 : lengths.SumItems(1, index-1, GetCellSize));
 	*max = *min + v;
 }
 

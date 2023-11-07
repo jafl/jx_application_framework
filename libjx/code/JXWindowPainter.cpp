@@ -789,17 +789,17 @@ JXWindowPainter::Polygon
 	const JPolygon&		poly
 	)
 {
-	const JSize count = poly.GetElementCount();
+	const JSize count = poly.GetItemCount();
 	const JPoint& o   = GetOrigin();
 
 	auto* xpt = jnew XPoint[ count+1 ];
 	for (JSize i=0; i<count; i++)
 	{
-		const JPoint pt = poly.GetElement(i+1);
+		const JPoint pt = poly.GetItem(i+1);
 		xpt[i].x = o.x + left + pt.x;
 		xpt[i].y = o.y + top  + pt.y;
 	}
-	const JPoint start = poly.GetElement(1);
+	const JPoint start = poly.GetItem(1);
 	xpt[count].x = o.x + left + start.x;
 	xpt[count].y = o.y + top  + start.y;
 

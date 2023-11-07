@@ -1039,7 +1039,7 @@ inline JSize
 J2DPlotWidget::GetCurveCount()
 	const
 {
-	return itsCurves->GetElementCount();
+	return itsCurves->GetItemCount();
 }
 
 /*******************************************************************************
@@ -1053,7 +1053,7 @@ J2DPlotWidget::GetCurve
 	const JIndex index
 	)
 {
-	return itsCurves->GetElement(index);
+	return itsCurves->GetItem(index);
 }
 
 inline const J2DPlotDataBase*
@@ -1063,7 +1063,7 @@ J2DPlotWidget::GetCurve
 	)
 	const
 {
-	return itsCurves->GetElement(index);
+	return itsCurves->GetItem(index);
 }
 
 /*******************************************************************************
@@ -1078,7 +1078,7 @@ J2DPlotWidget::GetCurveName
 	)
 	const
 {
-	return *itsCurveInfo->GetElement(index).name;
+	return *itsCurveInfo->GetItem(index).name;
 }
 
 /*******************************************************************************
@@ -1119,7 +1119,7 @@ J2DPlotWidget::CurveIsVisible
 	)
 	const
 {
-	return itsCurveInfo->GetElement(index).show;
+	return itsCurveInfo->GetItem(index).show;
 }
 
 /*******************************************************************************
@@ -1134,7 +1134,7 @@ J2DPlotWidget::LinesAreVisible
 	)
 	const
 {
-	return itsCurveInfo->GetElement(index).lines;
+	return itsCurveInfo->GetItem(index).lines;
 }
 
 /*******************************************************************************
@@ -1149,7 +1149,7 @@ J2DPlotWidget::SymbolsAreVisible
 	)
 	const
 {
-	return itsCurveInfo->GetElement(index).symbols;
+	return itsCurveInfo->GetItem(index).symbols;
 }
 
 /******************************************************************************
@@ -1163,7 +1163,7 @@ J2DPlotWidget::XErrorsAreVisible
 	const JIndex index
 	)
 {
-	return itsCurveInfo->GetElement(index).xerrors;
+	return itsCurveInfo->GetItem(index).xerrors;
 }
 
 /******************************************************************************
@@ -1177,7 +1177,7 @@ J2DPlotWidget::YErrorsAreVisible
 	const JIndex index
 	)
 {
-	return itsCurveInfo->GetElement(index).yerrors;
+	return itsCurveInfo->GetItem(index).yerrors;
 }
 
 /*******************************************************************************
@@ -1192,7 +1192,7 @@ J2DPlotWidget::CurveIsProtected
 	)
 	const
 {
-	return itsCurveInfo->GetElement(index).protect;
+	return itsCurveInfo->GetItem(index).protect;
 }
 
 /*******************************************************************************
@@ -1207,7 +1207,7 @@ J2DPlotWidget::GetCurveColor
 	)
 	const
 {
-	return itsCurveInfo->GetElement(index).color;
+	return itsCurveInfo->GetItem(index).color;
 }
 
 /*******************************************************************************
@@ -1221,8 +1221,8 @@ J2DPlotWidget::AddColor
 	const JColorID color
 	)
 {
-	itsColors->AppendElement(color);
-	itsColorUsage->AppendElement(0);
+	itsColors->AppendItem(color);
+	itsColorUsage->AppendItem(0);
 }
 
 /*******************************************************************************
@@ -1237,7 +1237,7 @@ J2DPlotWidget::GetSymbolType
 	)
 	const
 {
-	return itsCurveInfo->GetElement(index).symbol;
+	return itsCurveInfo->GetItem(index).symbol;
 }
 
 /******************************************************************************
@@ -1633,7 +1633,7 @@ inline JSize
 J2DPlotWidget::GetXMarkCount()
 	const
 {
-	return itsXMarks->GetElementCount();
+	return itsXMarks->GetItemCount();
 }
 
 /******************************************************************************
@@ -1645,7 +1645,7 @@ inline JSize
 J2DPlotWidget::GetYMarkCount()
 	const
 {
-	return itsYMarks->GetElementCount();
+	return itsYMarks->GetItemCount();
 }
 
 /*******************************************************************************

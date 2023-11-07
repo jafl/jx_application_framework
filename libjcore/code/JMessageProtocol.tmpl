@@ -311,7 +311,7 @@ JSize
 JMessageProtocol<ACE_PEER_STREAM_2>::GetMessageCount()
 	const
 {
-	return itsMessageList.GetElementCount();
+	return itsMessageList.GetItemCount();
 }
 
 /******************************************************************************
@@ -331,8 +331,8 @@ JMessageProtocol<ACE_PEER_STREAM_2>::GetNextMessage
 {
 	if (!itsMessageList.IsEmpty())
 	{
-		*message = *itsMessageList.GetFirstElement();
-		itsMessageList.DeleteElement(1);
+		*message = *itsMessageList.GetFirstItem();
+		itsMessageList.DeleteItem(1);
 		return true;
 	}
 	else
@@ -359,7 +359,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::PeekNextMessage
 {
 	if (!itsMessageList.IsEmpty())
 	{
-		*message = *itsMessageList.GetFirstElement();
+		*message = *itsMessageList.GetFirstItem();
 		return true;
 	}
 	else
@@ -471,14 +471,14 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	itsRecvData.Split(itsTokenPattern, &list, 0, true);
 
-	if (itsTokenPattern.Match(*list.GetLastElement()))
+	if (itsTokenPattern.Match(*list.GetLastItem()))
 	{
 		itsRecvData.Clear();
 	}
 	else
 	{
-		itsRecvData = *list.GetLastElement();
-		list.DeleteElement(list.GetElementCount());
+		itsRecvData = *list.GetLastItem();
+		list.DeleteItem(list.GetItemCount());
 	}
 
 	if (!list.IsEmpty())

@@ -223,7 +223,7 @@ JList<T>::IsSorted()
 {
 	assert( itsCompareFn != nullptr );
 
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	if (count < 2)
 	{
 		return true;		// avoid constructing iterator

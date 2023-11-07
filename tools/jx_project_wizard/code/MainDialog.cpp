@@ -510,7 +510,7 @@ MainDialog::CopyAndAdjustTemplateFiles
 				iter.BeginMatch();
 				iter.SkipNext(kBinaryPrefixTag.GetCharacterCount());
 				iter.FinishMatch();
-				iter.ReplaceLastMatch(*value.GetElement(kBinary+1));
+				iter.ReplaceLastMatch(*value.GetItem(kBinary+1));
 			}
 
 			JString data;
@@ -522,7 +522,7 @@ MainDialog::CopyAndAdjustTemplateFiles
 				iter.MoveTo(JStringIterator::kStartAtBeginning, 0);
 				while (iter.Next(kTag[j-1]))
 				{
-					iter.ReplaceLastMatch(*value.GetElement(j));
+					iter.ReplaceLastMatch(*value.GetItem(j));
 				}
 			}
 

@@ -94,7 +94,7 @@ JXAtMostOneCBGroup::EnforceConstraints
 	}
 	else if ((GetCheckbox(cbIndex))->IsChecked())
 	{
-		const JSize count = GetElementCount();
+		const JSize count = GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
 			if (i != cbIndex)

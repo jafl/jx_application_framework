@@ -788,7 +788,7 @@ JStyledText::HasMultipleUndo
 	const
 {
 	*canUndo = itsFirstRedoIndex > 1;
-	*canRedo = itsUndoList != nullptr && itsFirstRedoIndex <= itsUndoList->GetElementCount();
+	*canRedo = itsUndoList != nullptr && itsFirstRedoIndex <= itsUndoList->GetItemCount();
 	return itsUndoList != nullptr;
 }
 

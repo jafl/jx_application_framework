@@ -217,7 +217,7 @@ JStyledText::SetText
 	}
 	else
 	{
-		tmpStyle.AppendElements(itsDefaultFont, text.GetCharacterCount());
+		tmpStyle.AppendItems(itsDefaultFont, text.GetCharacterCount());
 	}
 
 	JString* cleanText           = nullptr;
@@ -261,7 +261,7 @@ JStyledText::SetText
 		assert( recalcRange.byteRange == origRange.byteRange );
 		assert( redrawRange.charRange == origRange.charRange );
 		assert( redrawRange.byteRange == origRange.byteRange );
-		assert( itsText.GetCharacterCount() == itsStyles->GetElementCount() );
+		assert( itsText.GetCharacterCount() == itsStyles->GetItemCount() );
 	}
 
 	Broadcast(TextSet());
@@ -554,7 +554,7 @@ JStyledText::ReadPrivateFormat
 	for (JIndex i=1; i<=colorCount; i++)
 	{
 		input >> color;
-		colorList.AppendElement(JColorManager::GetColorID(color));
+		colorList.AppendItem(JColorManager::GetColorID(color));
 	}
 
 	// styles
@@ -580,10 +580,10 @@ JStyledText::ReadPrivateFormat
 
 		JIndex colorIndex;
 		input >> colorIndex;
-		fStyle.color = colorList.GetElement(colorIndex);
+		fStyle.color = colorList.GetItem(colorIndex);
 
-		style->AppendElements(
-			JFontManager::GetFont(*fontNameList.GetElement(fontIndex), size, fStyle),
+		style->AppendItems(
+			JFontManager::GetFont(*fontNameList.GetItem(fontIndex), size, fStyle),
 			charCount);
 	}
 
@@ -702,7 +702,7 @@ JStyledText::WritePrivateFormat
 			colorList.SearchSortedOTI(color, JListT::kAnyMatch, &found);
 		if (!found)
 		{
-			colorList.InsertElementAtIndex(colorIndex, color);
+			colorList.InsertItemAtIndex(colorIndex, color);
 		}
 
 		styleRunCount++;
@@ -712,7 +712,7 @@ JStyledText::WritePrivateFormat
 
 	// write list of font names
 
-	output << ' ' << fontNameList.GetElementCount();
+	output << ' ' << fontNameList.GetItemCount();
 
 	for (const auto* fontName : fontNameList)
 	{
@@ -721,7 +721,7 @@ JStyledText::WritePrivateFormat
 
 	// write list of rgb values
 
-	output << ' ' << colorList.GetElementCount();
+	output << ' ' << colorList.GetItemCount();
 
 	for (auto id : colorList)
 	{
@@ -1023,7 +1023,7 @@ JStyledText::ReplaceAllInRange
 		styleIter.MoveTo(JListT::kStartBefore, match.GetCharacterRange().first);
 
 		newStyles.RemoveAll();
-		newStyles.AppendElements(CalcInsertionFont(textIter2, styleIter),
+		newStyles.AppendItems(CalcInsertionFont(textIter2, styleIter),
 								 replaceText.GetCharacterCount());
 
 		styleIter.RemoveNext(match.GetCharacterRange().GetCount());
@@ -1358,7 +1358,7 @@ JStyledText::SetFontName
 	bool changed = false;
 	FontIterator iter(itsStyles, JListT::kStartBefore, range.charRange.first);
 	JIndex i;
-	while (iter.GetNextElementIndex(&i) && i <= range.charRange.last)
+	while (iter.GetNextItemIndex(&i) && i <= range.charRange.last)
 	{
 		const bool ok = iter.Next(&f1, JListT::kStay);
 		assert( ok );
@@ -1555,7 +1555,7 @@ JStyledText::SetFont
 	const JRunArray<JFont>&	fontList
 	)
 {
-	assert( range.GetCount().charCount == fontList.GetElementCount() );
+	assert( range.GetCount().charCount == fontList.GetItemCount() );
 
 	JFont f = itsDefaultFont;
 	FontIterator fIter(fontList);
@@ -1657,7 +1657,7 @@ JStyledText::Copy
 			style->RemoveAll();
 			style->AppendSlice(*itsStyles, range.charRange);
 
-			assert( style->GetElementCount() == text->GetCharacterCount() );
+			assert( style->GetItemCount() == text->GetCharacterCount() );
 		}
 
 		return true;
@@ -1683,7 +1683,7 @@ JStyledText::Paste
 	const JRunArray<JFont>*	style
 	)
 {
-	assert( style == nullptr || style->GetElementCount() == text.GetCharacterCount() );
+	assert( style == nullptr || style->GetItemCount() == text.GetCharacterCount() );
 
 	bool isNew;
 	JSTUndoPaste* newUndo = GetPasteUndo(range, &isNew);
@@ -1755,7 +1755,7 @@ JStyledText::InsertText
 	)
 {
 	JRunArray<JFont> style(itsStyles->GetBlockSize());
-	style.AppendElements(font, text.GetCharacterCount());
+	style.AppendItems(font, text.GetCharacterCount());
 
 	return InsertText(index, text, style);
 }
@@ -1812,7 +1812,7 @@ JStyledText::InsertText
 	}
 
 	targetText->Insert(*cleanText);
-	targetStyle->InsertSlice(*cleanStyle, JIndexRange(1, cleanStyle->GetElementCount()));
+	targetStyle->InsertSlice(*cleanStyle, JIndexRange(1, cleanStyle->GetItemCount()));
 
 	const TextCount result(cleanText->GetCharacterCount(), cleanText->GetByteCount());
 
@@ -1862,7 +1862,7 @@ JStyledText::CleanText
 		return false;
 	}
 
-	assert( text.GetCharacterCount() == style.GetElementCount() );
+	assert( text.GetCharacterCount() == style.GetItemCount() );
 
 	*cleanText  = nullptr;
 	*cleanStyle = nullptr;
@@ -1988,7 +1988,7 @@ JStyledText::RemoveIllegalChars
 	)
 {
 	assert( style == nullptr || style->IsEmpty() ||
-			style->GetElementCount() == text->GetCharacterCount() );
+			style->GetItemCount() == text->GetCharacterCount() );
 
 	bool changed = false;
 
@@ -2182,7 +2182,7 @@ JStyledText::InsertCharacter
 	const JString text(key.GetBytes(), key.GetByteCount(), JString::kNoCopy);
 
 	JRunArray<JFont> style;
-	style.AppendElement(font);
+	style.AppendItem(font);
 
 	*count = InsertText(&textIter, &styleIter, text, style);
 	assert( count->charCount == 1 );
@@ -2672,7 +2672,7 @@ JStyledText::Indent
 			styleIter.MoveTo(JListT::kStartBefore, textIter.GetNextCharacterIndex());
 
 			style.RemoveAll();
-			style.AppendElements(CalcInsertionFont(textIter, styleIter),
+			style.AppendItems(CalcInsertionFont(textIter, styleIter),
 								 tabs.GetCharacterCount());
 
 			const JSize count = InsertText(&textIter, &styleIter, tabs, style).charCount;
@@ -3027,7 +3027,7 @@ JStyledText::CleanRightMargin
 				*caretIndex    = tmpCaretIndex;
 				origTextRange += range;
 				newText       += text;
-				newStyles.AppendSlice(styles, JIndexRange(1, styles.GetElementCount()));
+				newStyles.AppendSlice(styles, JIndexRange(1, styles.GetItemCount()));
 				if (range.charRange.last < end.charIndex)
 				{
 					range.charRange.last++;
@@ -3035,7 +3035,7 @@ JStyledText::CleanRightMargin
 					origTextRange.charRange.last++;
 					origTextRange.byteRange.last++;	// ascii
 					newText.Append("\n");
-					newStyles.AppendElement(newStyles.GetLastElement());
+					newStyles.AppendItem(newStyles.GetLastItem());
 				}
 			}
 			else
@@ -3203,7 +3203,7 @@ JStyledText::PrivateCleanRightMargin
 	}
 
 	assert( newCaretIndex->charIndex > 0 );
-	assert( newText->GetCharacterCount() == newStyles->GetElementCount() );
+	assert( newText->GetCharacterCount() == newStyles->GetItemCount() );
 
 	return true;
 }
@@ -3403,7 +3403,7 @@ JStyledText::CRMMatchPrefix
 	TextRange matchRange;
 	if (itsCRMRuleList != nullptr && *ruleIndex > 0)
 	{
-		const CRMRule rule   = itsCRMRuleList->GetElement(*ruleIndex);
+		const CRMRule rule   = itsCRMRuleList->GetItem(*ruleIndex);
 		const JStringMatch m = rule.rest->Match(prefix, JRegex::kIgnoreSubmatches);
 		if (!m.IsEmpty() && m.GetUtf8ByteRange().first == 1)
 		{
@@ -3537,7 +3537,7 @@ JStyledText::CRMBuildRestPrefix
 	JString s = firstLinePrefix;
 	if (itsCRMRuleList != nullptr && ruleIndex > 0)
 	{
-		const CRMRule rule   = itsCRMRuleList->GetElement(ruleIndex);
+		const CRMRule rule   = itsCRMRuleList->GetItem(ruleIndex);
 		const JStringMatch m = rule.first->Match(s, JRegex::kIncludeSubmatches);
 		assert( !m.IsEmpty() &&
 				m.GetUtf8ByteRange() == JUtf8ByteRange(1, s.GetByteCount()));
@@ -3774,7 +3774,7 @@ JStyledText::CRMAppendWord
 	{
 		// calculate prefix font
 
-		JFont prefixFont = wordStyles.GetFirstElement();
+		JFont prefixFont = wordStyles.GetFirstItem();
 		prefixFont.ClearStyle();
 
 		// terminate previous line
@@ -3782,13 +3782,13 @@ JStyledText::CRMAppendWord
 		if (!newText->IsEmpty())
 		{
 			newText->Append("\n");
-			newStyles->AppendElement(prefixFont);
+			newStyles->AppendItem(prefixFont);
 		}
 
 		if (!linePrefix.IsEmpty())
 		{
 			*newText += linePrefix;
-			newStyles->AppendElements(prefixFont, linePrefix.GetCharacterCount());
+			newStyles->AppendItems(prefixFont, linePrefix.GetCharacterCount());
 		}
 
 		// write word
@@ -3808,7 +3808,7 @@ JStyledText::CRMAppendWord
 		}
 
 		*newText += wordBuffer;
-		newStyles->AppendSlice(wordStyles, JIndexRange(1, wordStyles.GetElementCount()));
+		newStyles->AppendSlice(wordStyles, JIndexRange(1, wordStyles.GetItemCount()));
 		*currentCharCount = prefixLength + wordBuffer.GetCharacterCount();
 	}
 	else	// newLineWidth <= itsCRMLineWidth
@@ -3821,11 +3821,11 @@ JStyledText::CRMAppendWord
 		}
 
 		*newText += spaceBuffer;
-		newStyles->AppendElements(JCalcWSFont(newStyles->GetLastElement(),
-											  wordStyles.GetFirstElement()),
+		newStyles->AppendItems(JCalcWSFont(newStyles->GetLastItem(),
+											  wordStyles.GetFirstItem()),
 								  spaceBuffer.GetCharacterCount());
 		*newText += wordBuffer;
-		newStyles->AppendSlice(wordStyles, JIndexRange(1, wordStyles.GetElementCount()));
+		newStyles->AppendSlice(wordStyles, JIndexRange(1, wordStyles.GetItemCount()));
 
 		if (newLineWidth < itsCRMLineWidth)
 		{
@@ -3957,7 +3957,7 @@ JStyledText::CRMRuleList::CRMRuleList
 {
 	for (const auto& r : source)
 	{
-		AppendElement(
+		AppendItem(
 			CRMRule(r.first->GetPattern(), r.rest->GetPattern(), *r.replace));
 	}
 
@@ -4139,7 +4139,7 @@ JStyledText::GetCurrentUndo
 {
 	if (itsUndoList != nullptr && itsFirstRedoIndex > 1)
 	{
-		*undo = itsUndoList->GetElement(itsFirstRedoIndex - 1);
+		*undo = itsUndoList->GetItem(itsFirstRedoIndex - 1);
 		return true;
 	}
 	else if (itsUndoList != nullptr)
@@ -4165,9 +4165,9 @@ JStyledText::GetCurrentRedo
 	)
 	const
 {
-	if (itsUndoList != nullptr && itsFirstRedoIndex <= itsUndoList->GetElementCount())
+	if (itsUndoList != nullptr && itsFirstRedoIndex <= itsUndoList->GetItemCount())
 	{
-		*redo = itsUndoList->GetElement(itsFirstRedoIndex);
+		*redo = itsUndoList->GetItem(itsFirstRedoIndex);
 		return true;
 	}
 	else if (itsUndoList != nullptr)
@@ -4187,7 +4187,7 @@ JStyledText::GetCurrentRedo
 	Register a jnew Undo object.
 
 	itsFirstRedoIndex points to the first redo object in itsUndoList.
-	1 <= itsFirstRedoIndex <= itsUndoList->GetElementCount()+1
+	1 <= itsFirstRedoIndex <= itsUndoList->GetItemCount()+1
 	Minimum => everything is redo
 	Maximum => everything is undo
 
@@ -4209,10 +4209,10 @@ JStyledText::NewUndo
 	{
 		// clear redo objects
 
-		const JSize undoCount = itsUndoList->GetElementCount();
+		const JSize undoCount = itsUndoList->GetItemCount();
 		for (JIndex i=undoCount; i>=itsFirstRedoIndex; i--)
 		{
-			itsUndoList->DeleteElement(i);
+			itsUndoList->DeleteItem(i);
 		}
 
 		if (itsLastSaveRedoIndex > 0 &&
@@ -4235,7 +4235,7 @@ JStyledText::NewUndo
 		assert( itsFirstRedoIndex > 1 );
 
 		itsFirstRedoIndex--;
-		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
+		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
 
 		undo->SetRedo(true);
 		undo->Deactivate();
@@ -4243,9 +4243,9 @@ JStyledText::NewUndo
 
 	else if (itsUndoList != nullptr && itsUndoState == kRedo)
 	{
-		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() );
+		assert( itsFirstRedoIndex <= itsUndoList->GetItemCount() );
 
-		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
+		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
 		itsFirstRedoIndex++;
 
 		undo->SetRedo(false);
@@ -4278,12 +4278,12 @@ JStyledText::ReplaceUndo
 	if (itsUndoList != nullptr && itsUndoState == kUndo)
 	{
 		assert( itsFirstRedoIndex > 1 &&
-				oldUndo == itsUndoList->GetElement(itsFirstRedoIndex - 1) );
+				oldUndo == itsUndoList->GetItem(itsFirstRedoIndex - 1) );
 	}
 	else if (itsUndoList != nullptr && itsUndoState == kRedo)
 	{
-		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() &&
-				oldUndo == itsUndoList->GetElement(itsFirstRedoIndex) );
+		assert( itsFirstRedoIndex <= itsUndoList->GetItemCount() &&
+				oldUndo == itsUndoList->GetItem(itsFirstRedoIndex) );
 	}
 	else
 	{
@@ -4308,9 +4308,9 @@ JStyledText::ClearOutdatedUndo()
 		return;
 	}
 
-	while (itsUndoList->GetElementCount() > itsMaxUndoCount)
+	while (itsUndoList->GetItemCount() > itsMaxUndoCount)
 	{
-		itsUndoList->DeleteElement(1);
+		itsUndoList->DeleteItem(1);
 		itsFirstRedoIndex--;
 		itsLastSaveRedoIndex--;
 
@@ -4662,7 +4662,7 @@ JStyledText::BroadcastTextChanged
 	assert( recalcRange.byteRange.Contains(range.byteRange) || range.byteRange.first == itsText.GetByteCount()+1 );
 	assert( redrawRange.charRange.Contains(range.charRange) || range.charRange.first == itsText.GetCharacterCount()+1 );
 	assert( redrawRange.byteRange.Contains(range.byteRange) || range.byteRange.first == itsText.GetByteCount()+1 );
-	assert( itsText.GetCharacterCount() == itsStyles->GetElementCount() );
+	assert( itsText.GetCharacterCount() == itsStyles->GetItemCount() );
 
 	if (recalcRange.charRange.Contains(redrawRange.charRange))
 	{
@@ -5337,7 +5337,7 @@ JStyledText::CalcInsertionFont
 	}
 	else if (!styleIter.GetList()->IsEmpty())
 	{
-		return styleIter.GetList()->GetFirstElement();
+		return styleIter.GetList()->GetFirstItem();
 	}
 	else
 	{

@@ -25,13 +25,13 @@ JTEST(Construct)
 	JLinkedList<long> a;
 
 	JAssertTrue(a.IsEmpty());
-	JAssertEqual(0, a.GetElementCount());
+	JAssertEqual(0, a.GetItemCount());
 	JAssertFalse(a.IndexValid(1));
 
 	JSetList("1 2 3 4 5", &a);
 
 	JAssertFalse(a.IsEmpty());
-	JAssertEqual(5, a.GetElementCount());
+	JAssertEqual(5, a.GetItemCount());
 	JAssertTrue(a.IndexValid(1));
 	JAssertTrue(a.IndexValid(5));
 	JAssertFalse(a.IndexValid(6));
@@ -55,24 +55,24 @@ JTEST(Prepend)
 
 	for (long j : { 5,4,3,2,1 })
 	{
-		snoop.Expect(JListT::kElementsInserted,
+		snoop.Expect(JListT::kItemsInserted,
 			[] (const JBroadcaster::Message& m)
 		{
 				const auto* ei =
-					dynamic_cast<const JListT::ElementsInserted*>(&m);
+					dynamic_cast<const JListT::ItemsInserted*>(&m);
 				JAssertNotNull(ei);
 				JAssertEqual(1, ei->GetFirstIndex());
 				JAssertEqual(1, ei->GetLastIndex());
 				JAssertEqual(1, ei->GetCount());
 		});
 
-		a.PrependElement(j);
+		a.PrependItem(j);
 	}
 
 	verify("1 2 3 4 5", a);
 
-	JAssertEqual(1, a.GetFirstElement());
-	JAssertEqual(5, a.GetLastElement());
+	JAssertEqual(1, a.GetFirstItem());
+	JAssertEqual(5, a.GetLastItem());
 }
 
 JTEST(Append)
@@ -82,11 +82,11 @@ JTEST(Append)
 
 	for (long j : { 1,2,3,4,5 })
 	{
-		snoop.Expect(JListT::kElementsInserted,
+		snoop.Expect(JListT::kItemsInserted,
 			[j] (const JBroadcaster::Message& m)
 		{
 				const auto* ei =
-					dynamic_cast<const JListT::ElementsInserted*>(&m);
+					dynamic_cast<const JListT::ItemsInserted*>(&m);
 				JAssertNotNull(ei);
 				JAssertEqual(j, ei->GetFirstIndex());
 				JAssertEqual(j, ei->GetLastIndex());
@@ -108,21 +108,21 @@ JTEST(Append)
 				JAssertEqual(j+2, k);
 		});
 
-		a.AppendElement(j);
+		a.AppendItem(j);
 	}
 
 	verify("1 2 3 4 5", a);
 
-	JAssertEqual(1, a.GetFirstElement());
-	JAssertEqual(5, a.GetLastElement());
+	JAssertEqual(1, a.GetFirstItem());
+	JAssertEqual(5, a.GetLastItem());
 }
 
 JTEST(RangeBasedForLoop)
 {
 	JLinkedList<long> a;
-	a.AppendElement(3);
-	a.AppendElement(2);
-	a.AppendElement(5);
+	a.AppendItem(3);
+	a.AppendItem(2);
+	a.AppendItem(5);
 
 	long b[3];
 	int j = 0;
@@ -139,9 +139,9 @@ JTEST(RangeBasedForLoop)
 JTEST(FunctionalProgramming)
 {
 	JLinkedList<long> a;
-	a.AppendElement(3);
-	a.AppendElement(2);
-	a.AppendElement(5);
+	a.AppendItem(3);
+	a.AppendItem(2);
+	a.AppendItem(5);
 
 	long sum = std::accumulate(begin(a), end(a), 0);
 	JAssertEqual(10, sum);
@@ -164,22 +164,22 @@ JTEST(Iterator)
 	JAssertFalse(iter->Next(&j));
 
 	JIndex i;
-	JAssertFalse(iter->GetNextElementIndex(&i));
-	JAssertTrue(iter->GetPrevElementIndex(&i));
+	JAssertFalse(iter->GetNextItemIndex(&i));
+	JAssertTrue(iter->GetPrevItemIndex(&i));
 	JAssertEqual(5, i);
 
 	JAssertTrue(iter->Prev(&j, JListT::kStay));
 	JAssertEqual(1, j);
 	JAssertTrue(iter->Prev(&j));
 	JAssertEqual(1, j);
-	JAssertEqual(4, iter->GetPrevElementIndex());
-	JAssertEqual(5, iter->GetNextElementIndex());
+	JAssertEqual(4, iter->GetPrevItemIndex());
+	JAssertEqual(5, iter->GetNextItemIndex());
 	JAssertTrue(iter->Prev(&j));
 	JAssertEqual(2, j);
 	JAssertTrue(iter->Prev(&j));
 	JAssertEqual(3, j);
-	JAssertEqual(2, iter->GetPrevElementIndex());
-	JAssertEqual(3, iter->GetNextElementIndex());
+	JAssertEqual(2, iter->GetPrevItemIndex());
+	JAssertEqual(3, iter->GetNextItemIndex());
 	JAssertTrue(iter->Prev(&j));
 	JAssertEqual(4, j);
 	JAssertTrue(iter->Prev(&j));
@@ -189,8 +189,8 @@ JTEST(Iterator)
 	JAssertTrue(iter->AtBeginning());
 	JAssertFalse(iter->AtEnd());
 
-	JAssertFalse(iter->GetPrevElementIndex(&i));
-	JAssertTrue(iter->GetNextElementIndex(&i));
+	JAssertFalse(iter->GetPrevItemIndex(&i));
+	JAssertTrue(iter->GetNextItemIndex(&i));
 	JAssertEqual(1, i);
 
 	JAssertTrue(iter->Next(&j, JListT::kStay));
@@ -246,27 +246,27 @@ JTEST(IteratorModification)
 	JSetList("5 4 3 2 1", &a);
 
 	JListIterator<long>* iter = a.NewIterator();
-	JAssertEqual(1, iter->GetNextElementIndex());
+	JAssertEqual(1, iter->GetNextItemIndex());
 
 	long j;
 
-	a.PrependElement(-1);
-	JAssertEqual(1, iter->GetNextElementIndex());
+	a.PrependItem(-1);
+	JAssertEqual(1, iter->GetNextItemIndex());
 	verify("-1 5 4 3 2 1", a);
 
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(-1, j);
-	JAssertEqual(2, iter->GetNextElementIndex());
+	JAssertEqual(2, iter->GetNextItemIndex());
 
-	a.PrependElement(-2);
-	JAssertEqual(3, iter->GetNextElementIndex());
+	a.PrependItem(-2);
+	JAssertEqual(3, iter->GetNextItemIndex());
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(5, j);
 	verify("-2 -1 5 4 3 2 1", a);
 
 	iter->MoveTo(JListT::kStartAfter, 4);
-	a.AppendElement(-3);
-	JAssertEqual(5, iter->GetNextElementIndex());
+	a.AppendItem(-3);
+	JAssertEqual(5, iter->GetNextItemIndex());
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(3, j);
 	iter->SkipPrev();
@@ -278,7 +278,7 @@ JTEST(IteratorModification)
 	jdelete i2;
 }
 
-	JAssertEqual(6, iter->GetNextElementIndex());
+	JAssertEqual(6, iter->GetNextItemIndex());
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(3, j);
 	iter->SkipPrev();
@@ -293,14 +293,14 @@ JTEST(IteratorModification)
 
 	iter->RemovePrev(2);
 	iter->RemoveNext(1);
-	JAssertEqual(4, iter->GetNextElementIndex());
+	JAssertEqual(4, iter->GetNextItemIndex());
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(2, j);
 	iter->SkipPrev();
 	verify("-2 -4 -1 2 1 -3", a);
 
 	iter->Insert(7);
-	JAssertEqual(4, iter->GetNextElementIndex());
+	JAssertEqual(4, iter->GetNextItemIndex());
 	JAssertTrue(iter->Next(&j));
 	JAssertEqual(7, j);
 	iter->SkipPrev();
@@ -352,44 +352,44 @@ JTEST(TwoIterators)
 	long j;
 
 	i1->Insert(-1);
-	JAssertEqual(3, i1->GetNextElementIndex());
+	JAssertEqual(3, i1->GetNextItemIndex());
 	JAssertTrue(i1->Next(&j));
 	JAssertEqual(-1, j);
 	i1->SkipPrev();
-	JAssertEqual(6, i2->GetPrevElementIndex());
+	JAssertEqual(6, i2->GetPrevItemIndex());
 	JAssertTrue(i2->Prev(&j));
 	JAssertEqual(1, j);
 	i2->SkipNext();
 	verify("5 4 -1 3 2 1", a);
 
 	i1->RemoveNext(2);
-	JAssertEqual(3, i1->GetNextElementIndex());
+	JAssertEqual(3, i1->GetNextItemIndex());
 	JAssertTrue(i1->Next(&j));
 	JAssertEqual(2, j);
 	i1->SkipPrev();
-	JAssertEqual(4, i2->GetPrevElementIndex());
+	JAssertEqual(4, i2->GetPrevItemIndex());
 	JAssertTrue(i2->Prev(&j));
 	JAssertEqual(1, j);
 	i2->SkipNext();
 	verify("5 4 2 1", a);
 
 	i2->Insert(-2);
-	JAssertEqual(3, i1->GetNextElementIndex());
+	JAssertEqual(3, i1->GetNextItemIndex());
 	JAssertTrue(i1->Next(&j));
 	JAssertEqual(2, j);
 	i1->SkipPrev();
-	JAssertEqual(4, i2->GetPrevElementIndex());
+	JAssertEqual(4, i2->GetPrevItemIndex());
 	JAssertTrue(i2->Prev(&j));
 	JAssertEqual(1, j);
 	i2->SkipNext();
 	verify("5 4 2 1 -2", a);
 
-	a.PrependElement(-3);
-	JAssertEqual(4, i1->GetNextElementIndex());
+	a.PrependItem(-3);
+	JAssertEqual(4, i1->GetNextItemIndex());
 	JAssertTrue(i1->Next(&j));
 	JAssertEqual(2, j);
 	i1->SkipPrev();
-	JAssertEqual(5, i2->GetPrevElementIndex());
+	JAssertEqual(5, i2->GetPrevItemIndex());
 	JAssertTrue(i2->Prev(&j));
 	JAssertEqual(1, j);
 	i2->SkipNext();
@@ -401,11 +401,11 @@ JTEST(TwoIterators)
 	jdelete i3;
 }
 
-	JAssertEqual(4, i1->GetNextElementIndex());
+	JAssertEqual(4, i1->GetNextItemIndex());
 	JAssertTrue(i1->Next(&j));
 	JAssertEqual(-4, j);
 	i1->SkipPrev();
-	JAssertEqual(6, i2->GetPrevElementIndex());
+	JAssertEqual(6, i2->GetPrevItemIndex());
 	JAssertTrue(i2->Prev(&j));
 	JAssertEqual(1, j);
 	i2->SkipNext();

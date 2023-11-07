@@ -77,7 +77,7 @@ JExprRectList::GetRect
 	)
 	const
 {
-	return itsRects->GetElement(index);
+	return itsRects->GetItem(index);
 }
 
 /******************************************************************************
@@ -89,7 +89,7 @@ inline JRect
 JExprRectList::GetBoundsRect()
 	const
 {
-	return itsRects->GetLastElement();
+	return itsRects->GetLastItem();
 }
 
 /******************************************************************************
@@ -104,7 +104,7 @@ JExprRectList::GetMidline
 	)
 	const
 {
-	const ExtraInfo info = itsExtraInfo->GetElement(index);
+	const ExtraInfo info = itsExtraInfo->GetItem(index);
 	return info.midline;
 }
 
@@ -135,7 +135,7 @@ JExprRectList::GetFontSize
 	)
 	const
 {
-	const ExtraInfo info = itsExtraInfo->GetElement(index);
+	const ExtraInfo info = itsExtraInfo->GetItem(index);
 	return info.fontSize;
 }
 
@@ -150,7 +150,7 @@ JExprRectList::GetFunction
 	const JIndex index
 	)
 {
-	return itsFunctions->GetElement(index);
+	return itsFunctions->GetItem(index);
 }
 
 inline const JFunction*
@@ -160,7 +160,7 @@ JExprRectList::GetFunction
 	)
 	const
 {
-	return itsFunctions->GetElement(index);
+	return itsFunctions->GetItem(index);
 }
 
 /******************************************************************************
@@ -191,7 +191,7 @@ JExprRectList::SelectionValid
 	)
 	const
 {
-	return 1 <= index && index <= itsRects->GetElementCount();
+	return 1 <= index && index <= itsRects->GetItemCount();
 }
 
 #endif

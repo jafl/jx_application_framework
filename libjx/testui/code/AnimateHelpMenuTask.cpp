@@ -89,7 +89,7 @@ AnimateHelpMenuTask::Perform
 			itsCurrentImage = 1;
 		}
 
-		itsMenu->SetItemImage(itsMenuItem, itsImageList->GetElement(itsCurrentImage), false);
+		itsMenu->SetItemImage(itsMenuItem, itsImageList->GetItem(itsCurrentImage), false);
 	}
 	else
 	{
@@ -106,5 +106,5 @@ void
 AnimateHelpMenuTask::Reset()
 {
 	itsCurrentImage = 0;
-	itsMenu->SetItemImage(itsMenuItem, itsImageList->GetLastElement(), false);
+	itsMenu->SetItemImage(itsMenuItem, itsImageList->GetLastItem(), false);
 }

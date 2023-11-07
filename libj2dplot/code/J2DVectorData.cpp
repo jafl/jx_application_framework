@@ -54,9 +54,9 @@ J2DVectorData::OKToCreate
 	const JArray<JFloat>& vy
 	)
 {
-	return x.GetElementCount()  == y.GetElementCount() &&
-				y.GetElementCount()  == vx.GetElementCount() &&
-				vx.GetElementCount() == vy.GetElementCount();
+	return x.GetItemCount()  == y.GetItemCount() &&
+				y.GetItemCount()  == vx.GetItemCount() &&
+				vx.GetItemCount() == vy.GetItemCount();
 }
 
 /*********************************************************************************
@@ -99,8 +99,8 @@ J2DVectorData::J2DVectorData
 
 	J2DVectorDataX();
 
-	const JSize count = x.GetElementCount();
-	SetElementCount(count);
+	const JSize count = x.GetItemCount();
+	SetItemCount(count);
 
 	itsIsListeningFlag = listen;
 	if (listen)
@@ -164,39 +164,39 @@ J2DVectorData::~J2DVectorData()
 }
 
 /*********************************************************************************
- GetElement (virtual)
+ GetItem (virtual)
 
  ********************************************************************************/
 
 void
-J2DVectorData::GetElement
+J2DVectorData::GetItem
 	(
 	const JIndex	index,
 	J2DDataPoint*	data
 	)
 	const
 {
-	data->x = itsXData->GetElement(index);
-	data->y = itsYData->GetElement(index);
+	data->x = itsXData->GetItem(index);
+	data->y = itsYData->GetItem(index);
 }
 
 /*********************************************************************************
- GetElement (virtual)
+ GetItem (virtual)
 
  ********************************************************************************/
 
 void
-J2DVectorData::GetElement
+J2DVectorData::GetItem
 	(
 	const JIndex	index,
 	J2DVectorPoint*	data
 	)
 	const
 {
-	data->x  = itsXData->GetElement(index);
-	data->y  = itsYData->GetElement(index);
-	data->vx = itsVXData->GetElement(index);
-	data->vy = itsVYData->GetElement(index);
+	data->x  = itsXData->GetItem(index);
+	data->y  = itsYData->GetItem(index);
+	data->vx = itsVXData->GetItem(index);
+	data->vy = itsVYData->GetItem(index);
 }
 
 /*********************************************************************************
@@ -222,11 +222,11 @@ J2DVectorData::GetXRange
 		*min = 0;
 		*max = 0;
 
-		const JSize count = itsXData->GetElementCount();
+		const JSize count = itsXData->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			const JFloat x1 = itsXData->GetElement(i);
-			const JFloat x2 = x1 + itsVXData->GetElement(i);
+			const JFloat x1 = itsXData->GetItem(i);
+			const JFloat x2 = x1 + itsVXData->GetItem(i);
 
 			if (i == 1)
 			{
@@ -284,11 +284,11 @@ J2DVectorData::GetYRange
 		*yMin = 0;
 		*yMax = 0;
 
-		const JSize count = itsYData->GetElementCount();
+		const JSize count = itsYData->GetItemCount();
 		for (JIndex i=1; i<=count; i++)
 		{
-			const JFloat y1 = itsYData->GetElement(i);
-			const JFloat y2 = y1 + itsVYData->GetElement(i);
+			const JFloat y1 = itsYData->GetItem(i);
+			const JFloat y2 = y1 + itsVYData->GetItem(i);
 
 			if (i == 1)
 			{
@@ -337,31 +337,31 @@ J2DVectorData::AddElement
 	)
 {
 	IgnoreDataChanges();
-	itsXData->AppendElement(x);
-	itsYData->AppendElement(y);
-	itsVXData->AppendElement(vx);
-	itsVYData->AppendElement(vy);
-	ElementAdded();
+	itsXData->AppendItem(x);
+	itsYData->AppendItem(y);
+	itsVXData->AppendItem(vx);
+	itsVYData->AppendItem(vy);
+	ItemAdded();
 	BroadcastCurveChanged();
 }
 
 /*********************************************************************************
- RemoveElement
+ RemoveItem
 
  ********************************************************************************/
 
 void
-J2DVectorData::RemoveElement
+J2DVectorData::RemoveItem
 	(
 	const JIndex index
 	)
 {
 	IgnoreDataChanges();
-	itsXData->RemoveElement(index);
-	itsYData->RemoveElement(index);
-	itsVXData->RemoveElement(index);
-	itsVYData->RemoveElement(index);
-	ElementRemoved();
+	itsXData->RemoveItem(index);
+	itsYData->RemoveItem(index);
+	itsVXData->RemoveItem(index);
+	itsVYData->RemoveItem(index);
+	ItemRemoved();
 	BroadcastCurveChanged();
 }
 
@@ -411,13 +411,13 @@ J2DVectorData::Receive
 	if (sender == itsXData  || sender == itsYData ||
 		sender == itsVXData || sender == itsVYData)
 	{
-		if (message.Is(JListT::kElementsChanged) ||
-			message.Is(JListT::kElementMoved) )
+		if (message.Is(JListT::kItemsChanged) ||
+			message.Is(JListT::kItemMoved) )
 		{
 			BroadcastCurveChanged();
 		}
-		else if (message.Is(JListT::kElementsInserted) ||
-				 message.Is(JListT::kElementsRemoved) )
+		else if (message.Is(JListT::kItemsInserted) ||
+				 message.Is(JListT::kItemsRemoved) )
 		{
 			ValidateData();
 			BroadcastCurveChanged();
@@ -466,5 +466,5 @@ J2DVectorData::ValidateData()
 	itsIsValidFlag = itsXData != nullptr &&
 		OKToCreate(*itsXData, *itsYData, *itsVXData, *itsVYData);
 
-	SetElementCount(itsIsValidFlag ? itsXData->GetElementCount() : 0);
+	SetItemCount(itsIsValidFlag ? itsXData->GetItemCount() : 0);
 }

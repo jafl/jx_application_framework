@@ -212,7 +212,7 @@ JFloatBufferTableData::UpdateCell
 	const JPoint& cell
 	)
 {
-	const JFloat value = itsFloatData->GetElement(cell);
+	const JFloat value = itsFloatData->GetItem(cell);
 	const JString valueStr(value, itsPrecision);
-	SetElement(cell, valueStr);
+	SetItem(cell, valueStr);
 }

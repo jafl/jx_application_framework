@@ -207,7 +207,7 @@ JXTextMenuData::AppendItem
 	const JString&			id
 	)
 {
-	InsertItem(GetElementCount()+1, str, type, shortcuts, nmShortcut, id);
+	InsertItem(GetItemCount()+1, str, type, shortcuts, nmShortcut, id);
 }
 
 /******************************************************************************
@@ -232,7 +232,7 @@ JXTextMenuData::AppendMenuItems
 	const JUtf8Byte* idNamespace
 	)
 {
-	InsertMenuItems(GetElementCount()+1, menuStr, idNamespace);
+	InsertMenuItems(GetItemCount()+1, menuStr, idNamespace);
 }
 
 /******************************************************************************
@@ -247,7 +247,7 @@ JXTextMenuData::GetText
 	)
 	const
 {
-	const TextItemData itemData = itsTextItemData->GetElement(index);
+	const TextItemData itemData = itsTextItemData->GetItem(index);
 	return *(itemData.text);
 }
 
@@ -263,7 +263,7 @@ JXTextMenuData::GetFont
 	)
 	const
 {
-	const TextItemData itemData = itsTextItemData->GetElement(index);
+	const TextItemData itemData = itsTextItemData->GetItem(index);
 	return itemData.font;
 }
 
@@ -291,7 +291,7 @@ JXTextMenuData::HasSeparator
 	)
 	const
 {
-	const TextItemData itemData = itsTextItemData->GetElement(index);
+	const TextItemData itemData = itsTextItemData->GetItem(index);
 	return itemData.separator;
 }
 

@@ -79,14 +79,14 @@ DragWidget::Draw
 	
 	// Find out how many points there are
 	// There are count/2 lines
-	JSize count = itsPoints->GetElementCount();
+	JSize count = itsPoints->GetItemCount();
 	
 	// Loop through the points by twos
 	for (JSize i = 1; i <= count; i += 2)
 	{
 		// We need to specify that this is a JPainter function because
 		// JXWindowPainter has this function in a different form
-		p.Line(itsPoints->GetElement(i), itsPoints->GetElement(i+1));
+		p.Line(itsPoints->GetItem(i), itsPoints->GetItem(i+1));
 	}
 }
 
@@ -231,8 +231,8 @@ DragWidget::HandleMouseUp
 		DeleteDragPainter();
 		
 		// Add this set of points to our JArray
-		itsPoints->AppendElement(itsStartPt);
-		itsPoints->AppendElement(itsPrevPt);
+		itsPoints->AppendItem(itsStartPt);
+		itsPoints->AppendItem(itsPrevPt);
 		
 		// Tell the widget to redraw itself
 		Refresh();

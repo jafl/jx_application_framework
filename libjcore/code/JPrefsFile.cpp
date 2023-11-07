@@ -153,12 +153,12 @@ JPrefsFile::SetData
 {
 	if (IDValid(id))
 	{
-		SetElement(id, data);
+		SetItem(id, data);
 	}
 	else
 	{
-		AppendElement(data);
-		GetFileArrayIndex()->SetElementID(GetElementCount(), id);
+		AppendItem(data);
+		GetFileArrayIndex()->SetItemID(GetItemCount(), id);
 	}
 }
 
@@ -172,12 +172,12 @@ JPrefsFile::SetData
 	JString d(data.c_str(), data.length(), JString::kNoCopy);
 	if (IDValid(id))
 	{
-		SetElement(id, d);
+		SetItem(id, d);
 	}
 	else
 	{
-		AppendElement(d);
-		GetFileArrayIndex()->SetElementID(GetElementCount(), id);
+		AppendItem(d);
+		GetFileArrayIndex()->SetItemID(GetItemCount(), id);
 	}
 }
 
@@ -190,11 +190,11 @@ JPrefsFile::SetData
 {
 	if (IDValid(id))
 	{
-		SetElement(id, data);
+		SetItem(id, data);
 	}
 	else
 	{
-		AppendElement(data);
-		GetFileArrayIndex()->SetElementID(GetElementCount(), id);
+		AppendItem(data);
+		GetFileArrayIndex()->SetItemID(GetItemCount(), id);
 	}
 }

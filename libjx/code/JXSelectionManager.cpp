@@ -153,7 +153,7 @@ JXSelectionManager::GetAvailableTypes
 			Atom* atomData = reinterpret_cast<Atom*>(data);
 			for (JIndex i=1; i<=itemCount; i++)
 			{
-				typeList->AppendElement(atomData[i-1]);
+				typeList->AppendItem(atomData[i-1]);
 			}
 
 			XFree(data);
@@ -180,7 +180,7 @@ JXSelectionManager::GetAvailableTypes
 //		std::cout << "XA_SECONDARY owner: " << XGetSelectionOwner(*itsDisplay, XA_SECONDARY) << std::endl;
 //		std::cout << "CLIPBOARD owner: " << XGetSelectionOwner(*itsDisplay, XInternAtom(*itsDisplay, "CLIPBOARD", False)) << std::endl;
 
-		typeList->AppendElement(XA_STRING);
+		typeList->AppendItem(XA_STRING);
 		return true;
 	}
 	else
@@ -1207,10 +1207,10 @@ JXSelectionManager::GetData
 	JIndex*				index
 	)
 {
-	const JSize count = itsDataList->GetElementCount();
+	const JSize count = itsDataList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		*data         = itsDataList->GetElement(i);
+		*data         = itsDataList->GetItem(i);
 		const Time t1 = (**data).GetStartTime();
 
 		Time t2;
@@ -1248,10 +1248,10 @@ JXSelectionManager::DeleteOutdatedData()
 	const Time currTime = itsDisplay->GetLastEventTime();
 	const Time oldTime  = currTime - kHistoryInterval;
 
-	const JSize count = itsDataList->GetElementCount();
+	const JSize count = itsDataList->GetItemCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		JXSelectionData* data = itsDataList->GetElement(i);
+		JXSelectionData* data = itsDataList->GetItem(i);
 
 		// toss if outdated or clock has wrapped
 
@@ -1259,7 +1259,7 @@ JXSelectionManager::DeleteOutdatedData()
 		if ((data->GetEndTime(&endTime) && endTime < oldTime) ||
 			data->GetStartTime() > currTime)
 		{
-			itsDataList->DeleteElement(i);
+			itsDataList->DeleteItem(i);
 		}
 	}
 }

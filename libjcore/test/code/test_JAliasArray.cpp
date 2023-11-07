@@ -29,10 +29,10 @@ JPrintAliasArray
 {
 	std::ostringstream data;
 
-	const JSize count = a.GetElementCount();
+	const JSize count = a.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		data << a.GetElement(i) << ' ';
+		data << a.GetItem(i) << ' ';
 	}
 
 	JString s(data.str());
@@ -65,13 +65,13 @@ JTEST(Construct)
 	JAliasArray<long> aa(&a, CompareLongs, JListT::kSortDescending);
 
 	JAssertTrue(aa.IsEmpty());
-	JAssertEqual(0, aa.GetElementCount());
+	JAssertEqual(0, aa.GetItemCount());
 	JAssertFalse(aa.IndexValid(1));
 
 	JSetList("1 2 3 4 5", &a);
 
 	JAssertFalse(aa.IsEmpty());
-	JAssertEqual(5, aa.GetElementCount());
+	JAssertEqual(5, aa.GetItemCount());
 	JAssertTrue(aa.IndexValid(1));
 	JAssertTrue(aa.IndexValid(5));
 	JAssertFalse(aa.IndexValid(6));
@@ -84,16 +84,16 @@ JTEST(Prepend)
 
 	for (long j : { 5,4,3,2,1 })
 	{
-		a.PrependElement(j);
+		a.PrependItem(j);
 	}
 
 	verify("1 2 3 4 5", a);
 	verifyalias("5 4 3 2 1", aa);
 
-	JAssertEqual(4, aa.GetElement(2));
-	JAssertEqual(2, aa.GetElementFromEnd(2));
-	JAssertEqual(5, aa.GetFirstElement());
-	JAssertEqual(1, aa.GetLastElement());
+	JAssertEqual(4, aa.GetItem(2));
+	JAssertEqual(2, aa.GetItemFromEnd(2));
+	JAssertEqual(5, aa.GetFirstItem());
+	JAssertEqual(1, aa.GetLastItem());
 }
 
 JTEST(Append)
@@ -103,16 +103,16 @@ JTEST(Append)
 
 	for (long j : { 1,2,3,4,5 })
 	{
-		a.AppendElement(j);
+		a.AppendItem(j);
 	}
 
 	verify("1 2 3 4 5", a);
 	verifyalias("5 4 3 2 1", aa);
 
-	JAssertEqual(4, aa.GetElement(2));
-	JAssertEqual(2, aa.GetElementFromEnd(2));
-	JAssertEqual(5, aa.GetFirstElement());
-	JAssertEqual(1, aa.GetLastElement());
+	JAssertEqual(4, aa.GetItem(2));
+	JAssertEqual(2, aa.GetItemFromEnd(2));
+	JAssertEqual(5, aa.GetFirstItem());
+	JAssertEqual(1, aa.GetLastItem());
 }
 
 JTEST(Insert)
@@ -122,19 +122,19 @@ JTEST(Insert)
 
 	JSetList("5 4 3 2 1", &a);
 
-	a.InsertElementAtIndex(1, 6);
+	a.InsertItemAtIndex(1, 6);
 	verify("6 5 4 3 2 1", a);
 	verifyalias("1 2 3 4 5 6", aa);
 
-	a.InsertElementAtIndex(4, -1);
+	a.InsertItemAtIndex(4, -1);
 	verify("6 5 4 -1 3 2 1", a);
 	verifyalias("-1 1 2 3 4 5 6", aa);
 
-	a.InsertElementAtIndex(7, 0);
+	a.InsertItemAtIndex(7, 0);
 	verify("6 5 4 -1 3 2 0 1", a);
 	verifyalias("-1 0 1 2 3 4 5 6", aa);
 
-	a.InsertElementAtIndex(9, 10);
+	a.InsertItemAtIndex(9, 10);
 	verify("6 5 4 -1 3 2 0 1 10", a);
 	verifyalias("-1 0 1 2 3 4 5 6 10", aa);
 }
@@ -146,23 +146,23 @@ JTEST(Remove)
 
 	JSetList("1 2 3 4 5 6 7 8 9 10 11 12 13 14 15", &a);
 
-	a.RemoveElement(7);
+	a.RemoveItem(7);
 	verify("1 2 3 4 5 6 8 9 10 11 12 13 14 15", a);
 	verifyalias("15 14 13 12 11 10 9 8 6 5 4 3 2 1", aa);
 
-	a.RemoveElement(1);
+	a.RemoveItem(1);
 	verify("2 3 4 5 6 8 9 10 11 12 13 14 15", a);
 	verifyalias("15 14 13 12 11 10 9 8 6 5 4 3 2", aa);
 
-	a.RemoveElement(13);
+	a.RemoveItem(13);
 	verify("2 3 4 5 6 8 9 10 11 12 13 14", a);
 	verifyalias("14 13 12 11 10 9 8 6 5 4 3 2", aa);
 
-	a.RemoveNextElements(8, 3);
+	a.RemoveNextItems(8, 3);
 	verify("2 3 4 5 6 8 9 13 14", a);
 	verifyalias("14 13 9 8 6 5 4 3 2", aa);
 
-	a.RemovePrevElements(5, 2);
+	a.RemovePrevItems(5, 2);
 	verify("2 3 4 8 9 13 14", a);
 	verifyalias("14 13 9 8 4 3 2", aa);
 
@@ -179,15 +179,15 @@ JTEST(Move)
 	JAliasArray<long> aa(&a, CompareLongs, JListT::kSortDescending);
 	verifyalias("5 4 3 2 1", aa);
 
-	a.MoveElementToIndex(3, a.GetIndexFromEnd(1));
+	a.MoveItemToIndex(3, a.GetIndexFromEnd(1));
 	verify("1 2 4 5 3", a);
 	verifyalias("5 4 3 2 1", aa);
 
-	a.MoveElementToIndex(3, 1);
+	a.MoveItemToIndex(3, 1);
 	verify("4 1 2 5 3", a);
 	verifyalias("5 4 3 2 1", aa);
 
-	a.MoveElementToIndex(4, 2);
+	a.MoveItemToIndex(4, 2);
 	verify("4 5 1 2 3", a);
 	verifyalias("5 4 3 2 1", aa);
 }
@@ -200,7 +200,7 @@ JTEST(Swap)
 	JAliasArray<long> aa(&a, CompareLongs, JListT::kSortDescending);
 	verifyalias("5 4 3 2 1", aa);
 
-	a.SwapElements(2,5);
+	a.SwapItems(2,5);
 	verify("1 5 3 4 2", a);
 	verifyalias("5 4 3 2 1", aa);
 }
@@ -233,7 +233,7 @@ JTEST(Sort)
 	for (JIndex i=0; i<eCount; i++)
 	{
 		const JIndex j = a.GetInsertionSortIndex(element[i], &isDuplicate);
-		a.InsertElementAtIndex(j, element[i]);
+		a.InsertItemAtIndex(j, element[i]);
 		JAssertEqual(expect[i], (bool) isDuplicate);
 	}
 }

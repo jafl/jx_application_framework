@@ -107,7 +107,7 @@ inline JSize
 JXFontNameMenu::GetHistoryCount()
 	const
 {
-	return itsNameHistory->GetElementCount();
+	return itsNameHistory->GetItemCount();
 }
 
 #endif

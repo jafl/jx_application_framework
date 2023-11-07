@@ -110,13 +110,13 @@ JPackedTableData<T>::GetData()
 }
 
 /******************************************************************************
- GetElement
+ GetItem
 
  ******************************************************************************/
 
 template <class T>
 T
-JPackedTableData<T>::GetElement
+JPackedTableData<T>::GetItem
 	(
 	const JIndex row,
 	const JIndex col
@@ -136,17 +136,17 @@ JPackedTableData<T>::GetElement
 
 template <class T>
 T
-JPackedTableData<T>::GetElement
+JPackedTableData<T>::GetItem
 	(
 	const JPoint& cell
 	)
 	const
 {
-	return GetElement(cell.y, cell.x);
+	return GetItem(cell.y, cell.x);
 }
 
 /******************************************************************************
- SetElement
+ SetItem
 
  ******************************************************************************/
 
@@ -157,7 +157,7 @@ JPackedTableData<T>::GetElement
 
 template <class T>
 void
-JPackedTableData<T>::SetElement
+JPackedTableData<T>::SetItem
 	(
 	const JIndex	row,
 	const JIndex	col,
@@ -182,13 +182,13 @@ JPackedTableData<T>::SetElement
 
 template <class T>
 void
-JPackedTableData<T>::SetElement
+JPackedTableData<T>::SetItem
 	(
 	const JPoint&	cell,
 	const T&		data
 	)
 {
-	SetElement(cell.y, cell.x, data);
+	SetItem(cell.y, cell.x, data);
 }
 
 /******************************************************************************
@@ -212,7 +212,7 @@ JPackedTableData<T>::GetRow
 	const JSize colCount = GetColCount();
 	for (JIndex i=1; i<=colCount; i++)
 	{
-		rowData->InsertElementAtIndex(i, GetElement(index,i));
+		rowData->InsertItemAtIndex(i, GetItem(index,i));
 	}
 }
 
@@ -231,11 +231,11 @@ JPackedTableData<T>::SetRow
 {
 	const JSize colCount = GetColCount();
 	assert( RowIndexValid(index) );
-	assert( rowData.GetElementCount() == colCount );
+	assert( rowData.GetItemCount() == colCount );
 
 	for (JIndex i=1; i<=colCount; i++)
 	{
-		itsData->SetElement(RCToI(index,i), rowData.GetElement(i));
+		itsData->SetItem(RCToI(index,i), rowData.GetItem(i));
 	}
 
 	Broadcast(JTableData::RectChanged(JRect(index, 1, index+1, colCount+1)));
@@ -304,7 +304,7 @@ JPackedTableData<T>::GetCol
 	const JSize rowCount = GetRowCount();
 	for (JIndex i=1; i<=rowCount; i++)
 	{
-		colData->InsertElementAtIndex(i, GetElement(i,index));
+		colData->InsertItemAtIndex(i, GetItem(i,index));
 	}
 }
 
@@ -323,11 +323,11 @@ JPackedTableData<T>::SetCol
 {
 	const JSize rowCount = GetRowCount();
 	assert( ColIndexValid(index) );
-	assert( colData.GetElementCount() == rowCount );
+	assert( colData.GetItemCount() == rowCount );
 
 	for (JIndex i=1; i<=rowCount; i++)
 	{
-		itsData->SetElement(RCToI(i,index), colData.GetElement(i));
+		itsData->SetItem(RCToI(i,index), colData.GetItem(i));
 	}
 
 	Broadcast(JTableData::RectChanged(JRect(1, index, rowCount+1, index+1)));
@@ -479,7 +479,7 @@ JPackedTableData<T>::InsertRows
 	const JList<T>*	initData
 	)
 {
-	assert( initData == nullptr || initData->GetElementCount() == GetColCount() );
+	assert( initData == nullptr || initData->GetItemCount() == GetColCount() );
 
 	if (count > 0)
 	{
@@ -704,7 +704,7 @@ JPackedTableData<T>::InsertCols
 	)
 {
 	const JSize rowCount = GetRowCount();
-	assert( initData == nullptr || initData->GetElementCount() == rowCount );
+	assert( initData == nullptr || initData->GetItemCount() == rowCount );
 
 	if (count > 0)
 	{
@@ -925,13 +925,13 @@ JPackedTableData<T>::SetAllElements
 	const T& data
 	)
 {
-	const JIndex count = itsData->GetElementCount();
+	const JIndex count = itsData->GetItemCount();
 	T value;
 	if (count > 0 &&
-		(!AllElementsEqual(&value) || value != data))
+		(!AllItemsEqual(&value) || value != data))
 	{
 		itsData->RemoveAll();
-		itsData->AppendElements(data, count);
+		itsData->AppendItems(data, count);
 		Broadcast(JTableData::RectChanged(JRect(1, 1, GetRowCount()+1, GetColCount()+1)));
 	}
 }
@@ -951,7 +951,7 @@ JPackedTableData<T>::ClearAllElements()
 }
 
 /******************************************************************************
- AllElementsEqual
+ AllItemsEqual
 
 	If all the elements are equal, this function returns true and sets
 	data to the single value.
@@ -963,13 +963,13 @@ JPackedTableData<T>::ClearAllElements()
 
 template <class T>
 bool	
-JPackedTableData<T>::AllElementsEqual
+JPackedTableData<T>::AllItemsEqual
 	(
 	T* data
 	)
 	const
 {
-	return itsData->AllElementsEqual(data);
+	return itsData->AllItemsEqual(data);
 }
 
 /******************************************************************************

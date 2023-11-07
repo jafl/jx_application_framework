@@ -59,7 +59,7 @@ TestRndInt()
 	long i;
 	for (i=1;i<=binCount;i++)
 	{
-		histogram.AppendElement(0);
+		histogram.AppendItem(0);
 	}
 
 	// generate samples and build histogram
@@ -67,8 +67,8 @@ TestRndInt()
 	for (i=1;i<=sampleCount;i++)
 	{
 		const long bin   = jRand.UniformLong(min,max) - min + 1;
-		const long count = histogram.GetElement(bin) + 1;
-		histogram.SetElement(bin, count);
+		const long count = histogram.GetItem(bin) + 1;
+		histogram.SetItem(bin, count);
 	}
 
 	// get name of histogram data file
@@ -84,7 +84,7 @@ TestRndInt()
 
 	for (i=1;i<=binCount;i++)
 	{
-		histogramFile << i << ' ' << histogram.GetElement(i) << std::endl;
+		histogramFile << i << ' ' << histogram.GetItem(i) << std::endl;
 	}
 }
 

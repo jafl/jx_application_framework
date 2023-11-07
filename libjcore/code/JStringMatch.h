@@ -99,7 +99,7 @@ inline JSize
 JStringMatch::GetSubstringCount()
 	const
 {
-	return (itsSubmatchList == nullptr ? 0 : itsSubmatchList->GetElementCount());
+	return (itsSubmatchList == nullptr ? 0 : itsSubmatchList->GetItemCount());
 }
 
 /******************************************************************************
@@ -143,7 +143,7 @@ JStringMatch::GetUtf8ByteRange
 {
 	return (submatchIndex == 0 ? itsByteRange :
 			itsSubmatchList == nullptr || !itsSubmatchList->IndexValid(submatchIndex) ? JUtf8ByteRange() :
-			itsSubmatchList->GetElement(submatchIndex));
+			itsSubmatchList->GetItem(submatchIndex));
 }
 
 #endif

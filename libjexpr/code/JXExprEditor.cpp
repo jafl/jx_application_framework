@@ -706,7 +706,7 @@ JXExprEditor::UpdateEditMenu()
 	for (JIndex i=1; i<=count; i++)
 	{
 		CmdIndex cmd;
-		if (EditMenuIndexToCmd(i, &cmd) && enableFlags.GetElement(cmd))
+		if (EditMenuIndexToCmd(i, &cmd) && enableFlags.GetItem(cmd))
 		{
 			itsEditMenu->EnableItem(i);
 		}
@@ -798,7 +798,7 @@ JXExprEditor::UpdateMathMenu()
 	const JArray<bool> enableFlags = GetCmdStatus(&evalStr);
 	for (JIndex i=1; i<=kMathMenuItemCount; i++)
 	{
-		if (enableFlags.GetElement(kMathMenuItemToCmd[i-1]))
+		if (enableFlags.GetItem(kMathMenuItemToCmd[i-1]))
 		{
 			itsMathMenu->EnableItem(i);
 		}
@@ -916,7 +916,7 @@ JXExprEditor::UpdateFontMenu()
 	for (JIndex i=1; i<=kFontMenuItemCount; i++)
 	{
 		const bool enableFlag =
-			enableFlags.GetElement(kFontMenuItemToCmd[i-1]);
+			enableFlags.GetItem(kFontMenuItemToCmd[i-1]);
 		if (enableFlag && activeIndex == 0)
 		{
 			activeIndex = i;
@@ -1033,10 +1033,10 @@ JXExprEditor::EIPGetExternalClipboard
 		bool canGetText = false;
 		Atom textType       = None;
 
-		const JSize typeCount = typeList.GetElementCount();
+		const JSize typeCount = typeList.GetItemCount();
 		for (JIndex i=1; i<=typeCount; i++)
 		{
-			Atom type = typeList.GetElement(i);
+			Atom type = typeList.GetItem(i);
 			if (type == XA_STRING ||
 				(!canGetText && type == selManager->GetUtf8StringXAtom()))
 			{

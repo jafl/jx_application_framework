@@ -264,7 +264,7 @@ JReadUNIXManOutput
 
 			if (c == '_' &&
 				(styles.IsEmpty() ||
-				 styles.GetLastElement() != ulFont))
+				 styles.GetLastItem() != ulFont))
 			{
 				siter.SetPrev(defFont, JListT::kStay);
 			}
@@ -350,7 +350,7 @@ JPasteUNIXTerminalOutput
 		if (m.IsEmpty())
 		{
 			buffer += *chunk;
-			styles.AppendElements(f, chunk->GetCharacterCount());
+			styles.AppendItems(f, chunk->GetCharacterCount());
 			continue;
 		}
 
@@ -489,7 +489,7 @@ JReadLimitedMarkdown
 	JStringIterator iter(&buffer);
 
 	JFont f = st->GetDefaultFont();
-	styles.AppendElements(f, buffer.GetCharacterCount());
+	styles.AppendItems(f, buffer.GetCharacterCount());
 
 	f.SetBold(true);
 	jReplaceMarkdownPattern(&iter, theBoldPattern, f, &styles);

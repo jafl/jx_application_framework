@@ -62,19 +62,19 @@ J2DPlotFunctionBase::IsFunction()
 }
 
 /*********************************************************************************
- GetElement (virtual)
+ GetItem (virtual)
 
  ********************************************************************************/
 
 void
-J2DPlotFunctionBase::GetElement
+J2DPlotFunctionBase::GetItem
 	(
 	const JIndex	index,
 	J2DDataPoint*	data
 	)
 	const
 {
-	const Point pt = itsValues->GetElement(index);
+	const Point pt = itsValues->GetItem(index);
 	data->x        = pt.x;
 	data->y        = pt.y;
 }
@@ -118,10 +118,10 @@ J2DPlotFunctionBase::GetYRange
 
 	*yMin = *yMax = 0.0;
 
-	const JSize count = list.GetElementCount();
+	const JSize count = list.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const Point pt = list.GetElement(i);
+		const Point pt = list.GetItem(i);
 		if (pt.y < *yMin || i == 1)
 		{
 			*yMin = pt.y;
@@ -179,7 +179,7 @@ J2DPlotFunctionBase::UpdateFunction
 	)
 {
 	EvaluateFunction(min, max, itsPlot->XAxisIsLinear(), stepCount, itsValues);
-	SetElementCount(itsValues->GetElementCount());
+	SetItemCount(itsValues->GetItemCount());
 }
 
 /*********************************************************************************
@@ -225,7 +225,7 @@ J2DPlotFunctionBase::EvaluateFunction
 		}
 		if (GetYValue(pt.x, &pt.y))
 		{
-			list->AppendElement(pt);
+			list->AppendItem(pt);
 		}
 	}
 }

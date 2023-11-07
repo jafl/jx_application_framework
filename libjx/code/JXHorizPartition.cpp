@@ -383,13 +383,13 @@ JXHorizPartition::RunInternalFTC
 				delta = 0;
 			}
 
-			itsFTCSizes->AppendElement(w);
-			itsFTCMinSizes->AppendElement(JPartition::GetMinCompartmentSize(i) + delta);
+			itsFTCSizes->AppendItem(w);
+			itsFTCMinSizes->AppendItem(JPartition::GetMinCompartmentSize(i) + delta);
 			sum += w;
 			i++;
 		}
 
-		*newSize = sum + (itsFTCSizes->GetElementCount() - 1) * kDragRegionSize;
+		*newSize = sum + (itsFTCSizes->GetItemCount() - 1) * kDragRegionSize;
 	}
 	else	// vertical
 	{

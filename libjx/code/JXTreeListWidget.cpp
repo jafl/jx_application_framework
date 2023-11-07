@@ -96,7 +96,7 @@ JXTreeListWidget::JXTreeListWidget
 
 	NeedsAdjustToTree();
 
-	AppendRows(itsTreeList->GetElementCount());
+	AppendRows(itsTreeList->GetItemCount());
 	AppendCols(2, kToggleColWidth);		// second width adjusts automatically
 
 	itsToggleOpenColIndex = 1;
@@ -392,13 +392,13 @@ JXTreeListWidget::TableDrawCell
 									&kOpenTriangle : &kClosedTriangle);
 		if (kOpenTriangle.IsEmpty())
 		{
-			kOpenTriangle.AppendElement(JPoint(-5,  -2));
-			kOpenTriangle.AppendElement(JPoint(5, -2));
-			kOpenTriangle.AppendElement(JPoint(0, 3));
+			kOpenTriangle.AppendItem(JPoint(-5,  -2));
+			kOpenTriangle.AppendItem(JPoint(5, -2));
+			kOpenTriangle.AppendItem(JPoint(0, 3));
 
-			kClosedTriangle.AppendElement(JPoint(0, -5));
-			kClosedTriangle.AppendElement(JPoint(5, 0));
-			kClosedTriangle.AppendElement(JPoint(0, 5));
+			kClosedTriangle.AppendItem(JPoint(0, -5));
+			kClosedTriangle.AppendItem(JPoint(5, 0));
+			kClosedTriangle.AppendItem(JPoint(0, 5));
 		}
 
 		if ((itsToggleDragIndex == cell.y && itsMouseInToggleFlag) ||
@@ -705,7 +705,7 @@ JXTreeListWidget::Receive
 			info->AdjustIndex(&itsToggleOpenColIndex);
 			info->AdjustIndex(&itsNodeColIndex);
 			info->AdjustIndex(&itsElasticColIndex);
-			itsMinColWidths->MoveElementToIndex(info->GetOrigIndex(), info->GetNewIndex());
+			itsMinColWidths->MoveItemToIndex(info->GetOrigIndex(), info->GetNewIndex());
 		}
 
 		JXStyleTable::Receive(sender, message);
@@ -829,7 +829,7 @@ JXTreeListWidget::AdjustToTree()
 	{
 		if (j == itsToggleOpenColIndex)
 		{
-			itsMinColWidths->AppendElement(kToggleColWidth);
+			itsMinColWidths->AppendItem(kToggleColWidth);
 		}
 		else
 		{
@@ -849,7 +849,7 @@ JXTreeListWidget::AdjustToTree()
 			{
 				maxWidth = kDefColWidth;
 			}
-			itsMinColWidths->AppendElement(maxWidth);
+			itsMinColWidths->AppendItem(maxWidth);
 		}
 	}
 
@@ -886,7 +886,7 @@ JXTreeListWidget::AdjustColWidths()
 	}
 
 	const JSize colCount = GetColCount();
-	if (itsMinColWidths->GetElementCount() != colCount)
+	if (itsMinColWidths->GetItemCount() != colCount)
 	{
 		NeedsAdjustToTree();
 		return;
@@ -894,12 +894,12 @@ JXTreeListWidget::AdjustColWidths()
 
 	for (JIndex i=1; i<=colCount; i++)
 	{
-		SetColWidth(i, itsMinColWidths->GetElement(i));
+		SetColWidth(i, itsMinColWidths->GetItem(i));
 	}
 
 	if (ColIndexValid(itsElasticColIndex))
 	{
-		const JCoordinate minReqWidth = itsMinColWidths->GetElement(itsElasticColIndex);
+		const JCoordinate minReqWidth = itsMinColWidths->GetItem(itsElasticColIndex);
 		if (minReqWidth > 0)
 		{
 			const JCoordinate availWidth =

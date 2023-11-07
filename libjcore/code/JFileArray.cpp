@@ -4,14 +4,14 @@
 							The Array-in-a-File Class
 
 	An array implemented as a file.  All data is stored as text and is
-	transferred via stringstream objects. Each element can have an
+	transferred via stringstream objects. Each item can have an
 	arbitrary size.
 
 	A JFileArray can be embedded within other JFileArray by storing all the
-	embedded file's data inside one element of the enclosing file.
+	embedded file's data inside one item of the enclosing file.
 	The single base file object is initialized with the file specifications.
 	An embedded file object is initialized with the file object that
-	contains it and the ID of the element that contains it.
+	contains it and the ID of the item that contains it.
 
 	The embedding can theoretically go on forever.  In practice, deep
 	embedding can be hard to keep track of.
@@ -23,13 +23,13 @@
 
 	The first item is the file signature (arbitrary length).
 	The second item is the version.
-	The third item is the number of elements in the array.
+	The third item is the number of items in the array.
 	The fourth item is the offset into the file where the index starts.
 
-	Each element is preceded by its length.
+	Each item is preceded by its length.
 	(This makes it easier to recover the data directly from the file.)
 
-	The positions and id's of the elements in the file are stored
+	The positions and id's of the items in the file are stored
 	at the end of the file.  This is handled by JFileArrayIndex.
 
 	Since both the data and index sections have to change size,
@@ -37,7 +37,7 @@
 	significantly smaller and only needs to be written out when
 	the file is closed.
 
-	sig  header      elements (length+data)            index
+	sig  header      items (length+data)            index
 	+--+--+--+--+-------------------------------+-------------------+
 	|  |  |  |  | ++---++---+- - - -++---++---+   +-+-+- - - -+-+-+
 	|  |  |  |  | ||   ||   |       ||   ||   |   | | |       | | |
@@ -73,9 +73,9 @@
 
 	Since some information is only written out when the file is closed,
 	only one process at a time can open the disk file.  To guarantee this,
-	the high bit of the elementCount is set when the file is opened.
+	the high bit of the itemCount is set when the file is opened.
 	This does not conflict with other uses because one will run out of
-	RAM and disk space long before one needs the high bit in elementCount.
+	RAM and disk space long before one needs the high bit in itemCount.
 	(If you're not out of space, switch to a real database system!)
 	If this bit is set, JFileArray::Create() will return false.
 
@@ -104,11 +104,11 @@ const JFAID_t JFAID::kMaxID                    = kJUInt32Max - 1;	// avoid rollo
 
 // JBroadcaster message types
 
-const JUtf8Byte* JFileArray::kElementInserted = "ElementInserted::JFileArray";
-const JUtf8Byte* JFileArray::kElementRemoved  = "ElementRemoved::JFileArray";
-const JUtf8Byte* JFileArray::kElementMoved    = "ElementMoved::JFileArray";
-const JUtf8Byte* JFileArray::kElementsSwapped = "ElementsSwapped::JFileArray";
-const JUtf8Byte* JFileArray::kElementChanged  = "ElementChanged::JFileArray";
+const JUtf8Byte* JFileArray::kItemInserted = "ItemInserted::JFileArray";
+const JUtf8Byte* JFileArray::kItemRemoved  = "ItemRemoved::JFileArray";
+const JUtf8Byte* JFileArray::kItemMoved    = "ItemMoved::JFileArray";
+const JUtf8Byte* JFileArray::kItemsSwapped = "ItemsSwapped::JFileArray";
+const JUtf8Byte* JFileArray::kItemChanged  = "ItemChanged::JFileArray";
 
 // JError types
 
@@ -141,21 +141,21 @@ enum
 {
 	// stored at front of file
 
-	kVersionLength       = JFileArray::kUnsignedLongLength,
-	kElementCountLength  = JFileArray::kUnsignedLongLength,
-	kIndexOffsetLength   = JFileArray::kUnsignedLongLength,
+	kVersionLength     = JFileArray::kUnsignedLongLength,
+	kItemCountLength   = JFileArray::kUnsignedLongLength,
+	kIndexOffsetLength = JFileArray::kUnsignedLongLength,
 
 	// these do -not- include the length of the file signature
 
-	kVersionOffset       = 0,
-	kElementCountOffset  = kVersionOffset + kVersionLength,
-	kIndexOffsetOffset   = kElementCountOffset + kElementCountLength,
+	kVersionOffset     = 0,
+	kItemCountOffset   = kVersionOffset + kVersionLength,
+	kIndexOffsetOffset = kItemCountOffset + kItemCountLength,
 
-	kFileHeaderLength    = kIndexOffsetOffset + kIndexOffsetLength,
+	kFileHeaderLength  = kIndexOffsetOffset + kIndexOffsetLength,
 
-	// at the front of each element
+	// at the front of each item
 
-	kElementSizeLength   = JFileArray::kUnsignedLongLength
+	kItemSizeLength    = JFileArray::kUnsignedLongLength
 };
 
 /******************************************************************************
@@ -297,7 +297,7 @@ JFileArray::JFileArray
 	:
 	JCollection(),
 	itsEnclosingFile( nullptr ),
-	itsEnclosureElementID( JFAID::kInvalidID )
+	itsEnclosureItemID( JFAID::kInvalidID )
 {
 	assert( sizeof(JSize)           >= kUnsignedLongLength &&
 			sizeof(JUnsignedOffset) >= kUnsignedLongLength &&
@@ -346,15 +346,15 @@ JError
 JFileArray::Create
 	(
 	JFileArray*		theEnclosingFile,
-	const JFAID&	enclosureElementID,
+	const JFAID&	enclosureItemID,
 	JFileArray**	obj
 	)
 {
 	const JError err =
-		OKToCreateEmbedded(theEnclosingFile, enclosureElementID);
+		OKToCreateEmbedded(theEnclosingFile, enclosureItemID);
 	if (err.OK())
 	{
-		*obj = jnew JFileArray(theEnclosingFile, enclosureElementID);
+		*obj = jnew JFileArray(theEnclosingFile, enclosureItemID);
 		assert( *obj != nullptr );
 	}
 	else
@@ -368,11 +368,11 @@ JError
 JFileArray::OKToCreateEmbedded
 	(
 	JFileArray*		theEnclosingFile,
-	const JFAID&	enclosureElementID
+	const JFAID&	enclosureItemID
 	)
 {
 	JFAIndex index;
-	if (theEnclosingFile->IDToIndex(enclosureElementID, &index))
+	if (theEnclosingFile->IDToIndex(enclosureItemID, &index))
 	{
 		JFileArrayIndex* fileIndex = theEnclosingFile->GetFileArrayIndex();
 		if (!fileIndex->IsEmbeddedFile(index))
@@ -398,18 +398,18 @@ JFileArray::OKToCreateEmbedded
 JFileArray::JFileArray
 	(
 	JFileArray*		theEnclosingFile,
-	const JFAID&	enclosureElementID
+	const JFAID&	enclosureItemID
 	)
 	:
 	JCollection(),
 	itsEnclosingFile( theEnclosingFile ),
-	itsEnclosureElementID( enclosureElementID )
+	itsEnclosureItemID( enclosureItemID )
 {
 	// get the std::fstream and whether we are new from our enclosing file
 
 	bool isNew;
 	itsFileName = nullptr;
-	itsStream   = theEnclosingFile->OpenEmbeddedFile(this, enclosureElementID, &isNew);
+	itsStream   = theEnclosingFile->OpenEmbeddedFile(this, enclosureItemID, &isNew);
 	assert( itsStream != nullptr );
 
 	// common initialization
@@ -441,7 +441,7 @@ JFileArray::FileArrayX
 	if (isNew)
 	{
 		itsVersion = kInitialVersion;
-		SetElementCount(0);
+		SetItemCount(0);
 		itsIndexOffset = itsFileSignatureByteCount + kFileHeaderLength;
 
 		SetFileLength(itsIndexOffset);
@@ -453,22 +453,22 @@ JFileArray::FileArrayX
 		}
 
 		WriteVersion();
-		WriteElementCount();
+		WriteItemCount();
 		WriteIndexOffset();
 		// no index to write out
 	}
 	else
 	{
 		ReadVersion();
-		ReadElementCount();
+		ReadItemCount();
 		ReadIndexOffset();
-		ReadIndex(GetElementCount());
+		ReadIndex(GetItemCount());
 	}
 
 	// set high bit to lock file
 
 	itsIsOpenFlag = true;
-	WriteElementCount();
+	WriteItemCount();
 	itsStream->flush();
 }
 
@@ -503,7 +503,7 @@ JFileArray::~JFileArray()
 
 	if (itsEnclosingFile != nullptr)
 	{
-		itsEnclosingFile->EmbeddedFileClosed(itsEnclosureElementID);
+		itsEnclosingFile->EmbeddedFileClosed(itsEnclosureItemID);
 		itsEnclosingFile = nullptr;
 	}
 	else
@@ -543,11 +543,11 @@ JFileArray::OpenEmbeddedFile
 		*isNew = true;
 
 		std::ostringstream emptyStream;
-		AppendElement(emptyStream);
+		AppendItem(emptyStream);
 
-		index.SetIndex(GetElementCount());
+		index.SetIndex(GetItemCount());
 
-		itsFileIndex->SetElementID(index, id);
+		itsFileIndex->SetItemID(index, id);
 		itsFileIndex->SetToEmbeddedFile(index);
 	}
 
@@ -598,86 +598,85 @@ JFileArray::GetFileName()
 }
 
 /******************************************************************************
- GetElement
+ GetItem
 
-	Fills the given string with a copy of the data for the specified
-	element.
+	Fills the given string with a copy of the data for the specified item.
 
  ******************************************************************************/
 
 void
-JFileArray::GetElement
+JFileArray::GetItem
 	(
 	const JFAIndex&	index,
-	std::string*	elementData
+	std::string*	data
 	)
 	const
 {
 	assert( IndexValid(index) );
 	assert( !itsFileIndex->IsEmbeddedFile(index) );
 
-	// move the read mark to the start of the element
+	// move the read mark to the start of the item
 
-	GoToElement(index);
+	GoToItem(index);
 
-	// read in the length of the element
+	// read in the length of the item
 
-	const JSize length = ReadElementSize();
+	const JSize length = ReadItemSize();
 
-	// allocate temporary space to hold the element's data
+	// allocate temporary space to hold the item's data
 
-	auto* data = jnew JUtf8Byte [ length ];
-	assert( data != nullptr );
+	auto* newData = jnew JUtf8Byte [ length ];
+	assert( newData != nullptr );
 
-	// stuff the element's data into elementData
+	// stuff the item's data into data
 
-	itsStream->read(data, length);
-	elementData->assign(data);
+	itsStream->read(newData, length);
+	data->assign(newData);
 
 	// clean up
 
-	jdelete [] data;
+	jdelete [] newData;
 }
 
 /******************************************************************************
- GetElement
+ GetItem
 
  ******************************************************************************/
 
 void
-JFileArray::GetElement
+JFileArray::GetItem
 	(
 	const JFAID&	id,
-	std::string*	elementData
+	std::string*	data
 	)
 	const
 {
 	JFAIndex index;
 	const bool ok = IDToIndex(id, &index);
 	assert( ok );
-	GetElement(index, elementData);
+	GetItem(index, data);
 }
 
 /******************************************************************************
- SetElement
+ SetItem
 
-	Write out the contents of the ostringstream to the specified element.
+	Write out the contents of the ostringstream to the specified item.
 
  ******************************************************************************/
 
 void
-JFileArray::SetElement
+JFileArray::SetItem
 	(
 	const JFAIndex&		index,
 	std::ostringstream&	dataStream
 	)
 {
 	const std::string data = dataStream.str();
-	SetElement(index, JString(data.c_str(), data.length(), JString::kNoCopy));
+	SetItem(index, JString(data.c_str(), data.length(), JString::kNoCopy));
 }
 
 void
-JFileArray::SetElement
+JFileArray::SetItem
 	(
 	const JFAIndex&	index,
 	const JString&	data
@@ -687,28 +686,28 @@ JFileArray::SetElement
 	assert( !itsFileIndex->IsEmbeddedFile(index) );
 
 	const JSize length = data.GetByteCount() + 1;		// include termination
-	SetElementSize(index, length);
+	SetItemSize(index, length);
 
-	GoToElement(index);
-	WriteElementSize(length);
+	GoToItem(index);
+	WriteItemSize(length);
 	itsStream->write(data.GetBytes(), length);
 
 	// make sure all the data in the file is correct
 
 	FlushChanges();
 
-	// notify the world that the element data changed
+	// notify the world that the item data changed
 
-	Broadcast(ElementChanged(index));
+	Broadcast(ItemChanged(index));
 }
 
 /******************************************************************************
- SetElement
+ SetItem
 
  ******************************************************************************/
 
 void
-JFileArray::SetElement
+JFileArray::SetItem
 	(
 	const JFAID&		id,
 	std::ostringstream&	dataStream
@@ -717,11 +716,11 @@ JFileArray::SetElement
 	JFAIndex index;
 	const bool ok = IDToIndex(id, &index);
 	assert( ok );
-	SetElement(index, dataStream);
+	SetItem(index, dataStream);
 }
 
 void
-JFileArray::SetElement
+JFileArray::SetItem
 	(
 	const JFAID&	id,
 	const JString&	data
@@ -730,79 +729,79 @@ JFileArray::SetElement
 	JFAIndex index;
 	const bool ok = IDToIndex(id, &index);
 	assert( ok );
-	SetElement(index, data);
+	SetItem(index, data);
 }
 
 /******************************************************************************
- InsertElementAtIndex
+ InsertItemAtIndex
 
-	Insert an element into the array at the specified index.
+	Insert an item into the array at the specified index.
 
-	If index is any value greater than the current number of elements,
-		then the element is appended to the end of the array.
+	If index is any value greater than the current number of items,
+		then the item is appended to the end of the array.
 
 	The actual data is appended to the data section of the file.
-	The index entry for the element is inserted into the file's index
+	The index entry for the item is inserted into the file's index
 		at the specified index.
 
  ******************************************************************************/
 
 void
-JFileArray::InsertElementAtIndex
+JFileArray::InsertItemAtIndex
 	(
 	const JFAIndex&		index,
 	std::ostringstream&	dataStream
 	)
 {
 	const std::string data = dataStream.str();
-	InsertElementAtIndex(index, JString(data.c_str(), data.length(), JString::kNoCopy));
+	InsertItemAtIndex(index, JString(data.c_str(), data.length(), JString::kNoCopy));
 }
 
 void
-JFileArray::InsertElementAtIndex
+JFileArray::InsertItemAtIndex
 	(
 	const JFAIndex&	index,
-	const JString&	newElementData
+	const JString&	newItemData
 	)
 {
 	assert( index.IsValid() );
 
-	// if the specified index is too large, set it to after the last element
+	// if the specified index is too large, set it to after the last item
 
-	const JSize elementCount = GetElementCount();
+	const JSize itemCount = GetItemCount();
 
 	JFAIndex trueIndex = index;
-	if (trueIndex.GetIndex() > elementCount)
+	if (trueIndex.GetIndex() > itemCount)
 	{
-		trueIndex.SetIndex(elementCount + 1);
+		trueIndex.SetIndex(itemCount + 1);
 	}
 
-	// get information about the new element
+	// get information about the new item
 
-	const JUnsignedOffset newElementOffset = itsIndexOffset;		// end of data section
-	const JFAID           newElementID     = itsFileIndex->GetUniqueID();
+	const JUnsignedOffset newItemOffset = itsIndexOffset;		// end of data section
+	const JFAID           newItemID     = itsFileIndex->GetUniqueID();
 
 	// update the index first so its new length will be included when we
 	// expand the allocation for the file
 
-	itsFileIndex->InsertElementAtIndex(trueIndex, newElementOffset, newElementID);
+	itsFileIndex->InsertItemAtIndex(trueIndex, newItemOffset, newItemID);
 
 	// now expand the allocation for the file
 
-	const JSize newElementSize = newElementData.GetByteCount() + 1;	// include termination
+	const JSize newItemSize = newItemData.GetByteCount() + 1;	// include termination
 
-	itsIndexOffset += kElementSizeLength + newElementSize;
+	itsIndexOffset += kItemSizeLength + newItemSize;
 	SetFileLength(itsIndexOffset + itsFileIndex->GetIndexLength());
 
-	// write new element's length + data
+	// write new item's length + data
 
-	SetReadWriteMark(newElementOffset, kFromFileStart);
-	WriteElementSize(newElementSize);
-	itsStream->write(newElementData.GetBytes(), newElementSize);
+	SetReadWriteMark(newItemOffset, kFromFileStart);
+	WriteItemSize(newItemSize);
+	itsStream->write(newItemData.GetBytes(), newItemSize);
 
 	// notify JCollection base class
 
-	ElementAdded();
+	ItemAdded();
 
 	// make sure all the data in the file is correct
 
@@ -810,20 +809,20 @@ JFileArray::InsertElementAtIndex
 
 	// notify the rest of the world
 
-	Broadcast(ElementInserted(trueIndex));
+	Broadcast(ItemInserted(trueIndex));
 }
 
 /******************************************************************************
- RemoveElement
+ RemoveItem
 
-	Remove the specified element from the file.
+	Remove the specified item from the file.
 
 	If it is an embedded file, it must already be closed.
 
  ******************************************************************************/
 
 void
-JFileArray::RemoveElement
+JFileArray::RemoveItem
 	(
 	const JFAIndex& index
 	)
@@ -834,20 +833,20 @@ JFileArray::RemoveElement
 
 	assert( itsFileIndex->EmbeddedFileIsClosed(index) );
 
-	// get information about element
+	// get information about item
 
-	const JUnsignedOffset elementOffset = itsFileIndex->GetElementOffset(index);
-	const JSize           elementSize   = kElementSizeLength + GetElementSize(index);
+	const JUnsignedOffset itemOffset = itsFileIndex->GetItemOffset(index);
+	const JSize           itemSize   = kItemSizeLength + GetItemSize(index);
 
-	// Shift the rest of the data down to remove the element's data.
+	// Shift the rest of the data down to remove the item's data.
 	// This updates itsIndexOffset, which means that there is extra
 	// empty space at the end of the file.
 
-	CompactData(elementOffset, elementSize);
+	CompactData(itemOffset, itemSize);
 
-	// remove the element from the index
+	// remove the item from the index
 
-	itsFileIndex->RemoveElement(index, elementSize);
+	itsFileIndex->RemoveItem(index, itemSize);
 
 	// now shrink the file to remove the empty space at the end
 
@@ -855,7 +854,7 @@ JFileArray::RemoveElement
 
 	// notify JCollection base class
 
-	JCollection::ElementRemoved();
+	JCollection::ItemRemoved();
 
 	// make sure all the data in the file is correct
 
@@ -863,16 +862,16 @@ JFileArray::RemoveElement
 
 	// notify the rest of the world
 
-	Broadcast(ElementRemoved(index));
+	Broadcast(ItemRemoved(index));
 }
 
 /******************************************************************************
- RemoveElement
+ RemoveItem
 
  ******************************************************************************/
 
 void
-JFileArray::RemoveElement
+JFileArray::RemoveItem
 	(
 	const JFAID& id
 	)
@@ -880,18 +879,18 @@ JFileArray::RemoveElement
 	JFAIndex index;
 	const bool ok = IDToIndex(id, &index);
 	assert( ok );
-	RemoveElement(index);
+	RemoveItem(index);
 }
 
 /******************************************************************************
- MoveElementToIndex
+ MoveItemToIndex
 
-	Move the specified element to a different index in the file.
+	Move the specified item to a different index in the file.
 
  ******************************************************************************/
 
 void
-JFileArray::MoveElementToIndex
+JFileArray::MoveItemToIndex
 	(
 	const JFAIndex&	currentIndex,
 	const JFAIndex&	newIndex
@@ -907,7 +906,7 @@ JFileArray::MoveElementToIndex
 
 	// we only have to rearrange the information in the index
 
-	itsFileIndex->MoveElementToIndex(currentIndex, newIndex);
+	itsFileIndex->MoveItemToIndex(currentIndex, newIndex);
 
 	// make sure all the data in the file is correct
 
@@ -915,18 +914,18 @@ JFileArray::MoveElementToIndex
 
 	// notify the rest of the world
 
-	Broadcast(ElementMoved(currentIndex, newIndex));
+	Broadcast(ItemMoved(currentIndex, newIndex));
 }
 
 /******************************************************************************
- SwapElements
+ SwapItems
 
-	Interchange the specified elements in the file.
+	Interchange the specified items in the file.
 
  ******************************************************************************/
 
 void
-JFileArray::SwapElements
+JFileArray::SwapItems
 	(
 	const JFAIndex&	index1,
 	const JFAIndex&	index2
@@ -942,7 +941,7 @@ JFileArray::SwapElements
 
 	// we only have to rearrange the information in the index
 
-	itsFileIndex->SwapElements(index1, index2);
+	itsFileIndex->SwapItems(index1, index2);
 
 	// make sure all the data in the file is correct
 
@@ -950,13 +949,13 @@ JFileArray::SwapElements
 
 	// notify the rest of the world
 
-	Broadcast(ElementsSwapped(index1, index2));
+	Broadcast(ItemsSwapped(index1, index2));
 }
 
 /******************************************************************************
  IndexToID
 
-	Return the ID of the specified element.
+	Return the ID of the specified item.
 
 	This is not inline because JFileArrayIndex is forward declared.
 
@@ -972,7 +971,7 @@ JFileArray::IndexToID
 {
 	if (IndexValid(index))
 	{
-		*id = itsFileIndex->GetElementID(index);
+		*id = itsFileIndex->GetItemID(index);
 		return true;
 	}
 	else
@@ -985,8 +984,8 @@ JFileArray::IndexToID
 /******************************************************************************
  IDToIndex
 
-	Return the index of the element with the specified ID.
-	Returns an invalid JFAIndex if there is no element with the specified ID.
+	Return the index of the item with the specified ID.
+	Returns an invalid JFAIndex if there is no item with the specified ID.
 
 	This is not inline because JFileArrayIndex is forward declared.
 
@@ -1000,57 +999,57 @@ JFileArray::IDToIndex
 	)
 	const
 {
-	return itsFileIndex->GetElementIndexFromID(id, index);
+	return itsFileIndex->GetItemIndexFromID(id, index);
 }
 
 /******************************************************************************
- GetElementSize (private)
+ GetItemSize (private)
 
  ******************************************************************************/
 
 JSize
-JFileArray::GetElementSize
+JFileArray::GetItemSize
 	(
 	const JFAIndex& index
 	)
 	const
 {
-	GoToElement(index);
-	return ReadElementSize();
+	GoToItem(index);
+	return ReadItemSize();
 }
 
 /******************************************************************************
- SetElementSize (private)
+ SetItemSize (private)
 
-	Set the size of the specified element.
-	Element offsets are updated appropriately.
+	Set the size of the specified item.
+	Item offsets are updated appropriately.
 
  ******************************************************************************/
 
 void
-JFileArray::SetElementSize
+JFileArray::SetItemSize
 	(
 	const JFAIndex&	index,
 	const JSize		newSize
 	)
 {
-	// calculate the change in the element's size
+	// calculate the change in the item's size
 
-	const JSize oldSize     = GetElementSize(index);
+	const JSize oldSize     = GetItemSize(index);
 	const long changeInSize = newSize - oldSize;
 
-	const JUnsignedOffset elementOffset = itsFileIndex->GetElementOffset(index);
+	const JUnsignedOffset itemOffset = itsFileIndex->GetItemOffset(index);
 
 	// expand or shrink the file as necessary
 
 	if (changeInSize > 0)
 	{
 		SetFileLength(GetFileLength() + changeInSize);
-		ExpandData(elementOffset + kElementSizeLength + oldSize, changeInSize);
+		ExpandData(itemOffset + kItemSizeLength + oldSize, changeInSize);
 	}
 	else if (changeInSize < 0)
 	{
-		CompactData(elementOffset + kElementSizeLength + newSize, -changeInSize);
+		CompactData(itemOffset + kItemSizeLength + newSize, -changeInSize);
 		SetFileLength(GetFileLength() + changeInSize);
 	}
 	else
@@ -1058,14 +1057,14 @@ JFileArray::SetElementSize
 		return;
 	}
 
-	// write new element size
+	// write new item size
 
-	SetReadWriteMark(elementOffset, kFromFileStart);
-	WriteElementSize(newSize);
+	SetReadWriteMark(itemOffset, kFromFileStart);
+	WriteItemSize(newSize);
 
-	// adjust offsets of other elements in index
+	// adjust offsets of other items in index
 
-	itsFileIndex->ElementSizeChanged(index, changeInSize);
+	itsFileIndex->ItemSizeChanged(index, changeInSize);
 }
 
 /******************************************************************************
@@ -1239,20 +1238,21 @@ JFileArray::CompactData
 }
 
 /******************************************************************************
- GoToElement (private)
+ GoToItem (private)
 
-	Set the file mark to the start of the specified element.
+	Set the file mark to the start of the specified item.
+
  ******************************************************************************/
 
 void
-JFileArray::GoToElement
+JFileArray::GoToItem
 	(
 	const JFAIndex& index
 	)
 	const
 {
-	const JUnsignedOffset elementOffset = itsFileIndex->GetElementOffset(index);
-	SetReadWriteMark(elementOffset, kFromFileStart);
+	const JUnsignedOffset itemOffset = itsFileIndex->GetItemOffset(index);
+	SetReadWriteMark(itemOffset, kFromFileStart);
 }
 
 /******************************************************************************
@@ -1272,7 +1272,7 @@ JFileArray::FlushChanges()
 	if (itsFlushChangesFlag)
 	{
 		WriteVersion();
-		WriteElementCount();
+		WriteItemCount();
 		WriteIndexOffset();
 		WriteIndex();
 		itsStream->flush();
@@ -1304,29 +1304,29 @@ JFileArray::WriteVersion()
 }
 
 /******************************************************************************
- ReadElementCount (private)
+ ReadItemCount (private)
 
  ******************************************************************************/
 
 void
-JFileArray::ReadElementCount()
+JFileArray::ReadItemCount()
 {
-	SetReadWriteMark(itsFileSignatureByteCount + kElementCountOffset, kFromFileStart);
+	SetReadWriteMark(itsFileSignatureByteCount + kItemCountOffset, kFromFileStart);
 	const JSize count = ReadUnsignedLong(*itsStream) & (~kFileLockedMask);
-	SetElementCount(count);
+	SetItemCount(count);
 }
 
 /******************************************************************************
- WriteElementCount (private)
+ WriteItemCount (private)
 
  ******************************************************************************/
 
 void
-JFileArray::WriteElementCount()
+JFileArray::WriteItemCount()
 {
-	SetReadWriteMark(itsFileSignatureByteCount + kElementCountOffset, kFromFileStart);
+	SetReadWriteMark(itsFileSignatureByteCount + kItemCountOffset, kFromFileStart);
 
-	JSize count = GetElementCount();
+	JSize count = GetItemCount();
 	if (itsIsOpenFlag)
 	{
 		count |= kFileLockedMask;
@@ -1347,7 +1347,7 @@ JFileArray::FileIsOpen
 	const JSize	sigLength
 	)
 {
-	JSeekg(file, sigLength + kElementCountOffset);
+	JSeekg(file, sigLength + kItemCountOffset);
 	const JSize count = ReadUnsignedLong(file);
 	return (count & kFileLockedMask) != 0L;
 }
@@ -1377,33 +1377,33 @@ JFileArray::WriteIndexOffset()
 }
 
 /******************************************************************************
- ReadElementSize (private)
+ ReadItemSize (private)
 
 	*** Caller must set read mark appropriately.
 
  ******************************************************************************/
 
 JSize
-JFileArray::ReadElementSize()
+JFileArray::ReadItemSize()
 	const
 {
 	return ReadUnsignedLong(*itsStream);
 }
 
 /******************************************************************************
- WriteElementSize (private)
+ WriteItemSize (private)
 
 	*** Caller must set write mark appropriately.
 
  ******************************************************************************/
 
 void
-JFileArray::WriteElementSize
+JFileArray::WriteItemSize
 	(
-	const JSize elementSize
+	const JSize itemSize
 	)
 {
-	WriteUnsignedLong(*itsStream, elementSize);
+	WriteUnsignedLong(*itsStream, itemSize);
 }
 
 /******************************************************************************
@@ -1466,20 +1466,20 @@ JFileArray::WriteUnsignedLong
 	Tell itsFileIndex to read in the index information.
 	Used once when the file is opened.
 
-	We require the number of elements to be passed in to force the caller
-	to read in itsElementCount first.
+	We require the number of items to be passed in to force the caller
+	to read in itsItemCount first.
 
  ******************************************************************************/
 
 void
 JFileArray::ReadIndex
 	(
-	const JSize elementCount
+	const JSize itemCount
 	)
 	const
 {
 	SetReadWriteMark(itsIndexOffset, kFromFileStart);
-	itsFileIndex->ReadIndex(elementCount, *itsStream);
+	itsFileIndex->ReadIndex(itemCount, *itsStream);
 
 	// Since the index is stored at the end of the file, the std::ios::eof
 	// bit will be set when we are done reading the index.
@@ -1522,14 +1522,14 @@ JFileArray::GetStartOfFile()
 {
 	if (itsEnclosingFile != nullptr)
 	{
-		JFAIndex enclosureElementIndex;
+		JFAIndex enclosureItemIndex;
 		const bool ok =
-			itsEnclosingFile->IDToIndex(itsEnclosureElementID, &enclosureElementIndex);
+			itsEnclosingFile->IDToIndex(itsEnclosureItemID, &enclosureItemIndex);
 		assert( ok );
 
 		const JUnsignedOffset enclosureOffset =
-			(itsEnclosingFile->itsFileIndex)->GetElementOffset(enclosureElementIndex);
-		return enclosureOffset + kElementSizeLength;
+			(itsEnclosingFile->itsFileIndex)->GetItemOffset(enclosureItemIndex);
+		return enclosureOffset + kItemSizeLength;
 	}
 	else
 	{
@@ -1550,12 +1550,12 @@ JFileArray::GetFileLength()
 {
 	if (itsEnclosingFile != nullptr)
 	{
-		JFAIndex enclosureElementIndex;
+		JFAIndex enclosureItemIndex;
 		const bool ok =
-			itsEnclosingFile->IDToIndex(itsEnclosureElementID, &enclosureElementIndex);
+			itsEnclosingFile->IDToIndex(itsEnclosureItemID, &enclosureItemIndex);
 		assert( ok );
 
-		return itsEnclosingFile->GetElementSize(enclosureElementIndex);
+		return itsEnclosingFile->GetItemSize(enclosureItemIndex);
 	}
 	else
 	{
@@ -1577,12 +1577,12 @@ JFileArray::SetFileLength
 {
 	if (itsEnclosingFile != nullptr)
 	{
-		JFAIndex enclosureElementIndex;
+		JFAIndex enclosureItemIndex;
 		const bool ok =
-			itsEnclosingFile->IDToIndex(itsEnclosureElementID, &enclosureElementIndex);
+			itsEnclosingFile->IDToIndex(itsEnclosureItemID, &enclosureItemIndex);
 		assert( ok );
 
-		itsEnclosingFile->SetElementSize(enclosureElementIndex, newLength);
+		itsEnclosingFile->SetItemSize(enclosureItemIndex, newLength);
 	}
 	else
 	{
@@ -1685,7 +1685,7 @@ JFileArray::SetReadWriteMark
  ******************************************************************************/
 
 void
-JFileArray::ElementInserted::AdjustIndex
+JFileArray::ItemInserted::AdjustIndex
 	(
 	JFAIndex* index
 	)
@@ -1697,7 +1697,7 @@ JFileArray::ElementInserted::AdjustIndex
 }
 
 bool
-JFileArray::ElementRemoved::AdjustIndex
+JFileArray::ItemRemoved::AdjustIndex
 	(
 	JFAIndex* index
 	)
@@ -1710,7 +1710,7 @@ JFileArray::ElementRemoved::AdjustIndex
 }
 
 void
-JFileArray::ElementMoved::AdjustIndex
+JFileArray::ItemMoved::AdjustIndex
 	(
 	JFAIndex* index
 	)
@@ -1722,7 +1722,7 @@ JFileArray::ElementMoved::AdjustIndex
 }
 
 void
-JFileArray::ElementsSwapped::AdjustIndex
+JFileArray::ItemsSwapped::AdjustIndex
 	(
 	JFAIndex* index
 	)

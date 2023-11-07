@@ -52,9 +52,9 @@ public:
 								   const CreateAction action = kFailIfOpen);
 
 	static JError	Create(JFileArray* theEnclosingFile,
-						   const JFAID& enclosureElementID, JFileArray** obj);
+						   const JFAID& enclosureItemID, JFileArray** obj);
 	static JError	OKToCreateEmbedded(JFileArray* theEnclosingFile,
-									   const JFAID& enclosureElementID);
+									   const JFAID& enclosureItemID);
 
 	~JFileArray() override;
 
@@ -63,28 +63,28 @@ public:
 	JFileVersion	GetVersion() const;
 	void			SetVersion(const JFileVersion newVersion);
 
-	void	GetElement(const JFAIndex& index, std::string* elementData) const;
-	void	GetElement(const JFAID&    id,    std::string* elementData) const;
+	void	GetItem(const JFAIndex& index, std::string* data) const;
+	void	GetItem(const JFAID&    id,    std::string* data) const;
 
-	void	SetElement(const JFAIndex& index, const JString& data);
-	void	SetElement(const JFAID&    id,    const JString& data);
+	void	SetItem(const JFAIndex& index, const JString& data);
+	void	SetItem(const JFAID&    id,    const JString& data);
 
-	void	InsertElementAtIndex(const JFAIndex& index, const JString& data);
-	void	PrependElement(const JString& data);
-	void	AppendElement(const JString& data);
+	void	InsertItemAtIndex(const JFAIndex& index, const JString& data);
+	void	PrependItem(const JString& data);
+	void	AppendItem(const JString& data);
 
-	void	SetElement(const JFAIndex& index, std::ostringstream& dataStream);
-	void	SetElement(const JFAID&    id,    std::ostringstream& dataStream);
+	void	SetItem(const JFAIndex& index, std::ostringstream& dataStream);
+	void	SetItem(const JFAID&    id,    std::ostringstream& dataStream);
 
-	void	InsertElementAtIndex(const JFAIndex& index, std::ostringstream& dataStream);
-	void	PrependElement(std::ostringstream& dataStream);
-	void	AppendElement(std::ostringstream& dataStream);
+	void	InsertItemAtIndex(const JFAIndex& index, std::ostringstream& dataStream);
+	void	PrependItem(std::ostringstream& dataStream);
+	void	AppendItem(std::ostringstream& dataStream);
 
-	void	RemoveElement(const JFAIndex& index);
-	void	RemoveElement(const JFAID&    id);
+	void	RemoveItem(const JFAIndex& index);
+	void	RemoveItem(const JFAID&    id);
 
-	void	MoveElementToIndex(const JFAIndex& currentIndex, const JFAIndex& newIndex);
-	void	SwapElements(const JFAIndex& index1, const JFAIndex& index2);
+	void	MoveItemToIndex(const JFAIndex& currentIndex, const JFAIndex& newIndex);
+	void	SwapItems(const JFAIndex& index1, const JFAIndex& index2);
 
 	bool	IndexToID(const JFAIndex& index, JFAID*    id   ) const;
 	bool	IDToIndex(const JFAID&    id,    JFAIndex* index) const;
@@ -93,14 +93,14 @@ public:
 	bool	IDValid(const JFAID& id) const;
 
 	bool	WillFlushChanges() const;
-	void		ShouldFlushChanges(const bool write);
-	void		FlushChanges();
+	void	ShouldFlushChanges(const bool write);
+	void	FlushChanges();
 
 protected:
 
 	JFileArray(const JString& fileName, const JUtf8Byte* fileSignature,
 			   const CreateAction action);
-	JFileArray(JFileArray* theEnclosingFile, const JFAID& enclosureElementID);
+	JFileArray(JFileArray* theEnclosingFile, const JFAID& enclosureItemID);
 
 	JFileArrayIndex*	GetFileArrayIndex();
 
@@ -113,26 +113,26 @@ private:
 	// absolute positioning first anyway.
 
 	enum SetMarkMode
-		{
+	{
 		kFromFileStart = std::ios::beg,
 		kFromFileEnd   = std::ios::end
-		};
+	};
 
 private:
 
 	JString*		itsFileName;				// name of file (for JSetFStreamLength) - nullptr if embedded
 	std::fstream*	itsStream;					// stream for accessing file
-	bool		itsIsOpenFlag;				// true => set high bit of element count
-	bool		itsFlushChangesFlag;		// true => write index after every change
+	bool			itsIsOpenFlag;				// true => set high bit of item count
+	bool			itsFlushChangesFlag;		// true => write index after every change
 
 	JFileVersion	itsVersion;					// version of file
 	JUnsignedOffset	itsFileSignatureByteCount;	// space reserved at front for file signaure (string)
 
 	JUnsignedOffset		itsIndexOffset;			// location in file where index is stored
-	JFileArrayIndex*	itsFileIndex;			// index of elements in file
+	JFileArrayIndex*	itsFileIndex;			// index of items in file
 
 	JFileArray*		itsEnclosingFile;			// file enclosing us
-	const JFAID		itsEnclosureElementID;		// id of our element in enclosing file
+	const JFAID		itsEnclosureItemID;			// id of our item in enclosing file
 
 private:
 
@@ -142,25 +142,25 @@ private:
 								 const JFAID& id, bool* isNew);
 	void	EmbeddedFileClosed(const JFAID& id);
 
-	JSize	GetElementSize(const JFAIndex& index) const;
-	void	SetElementSize(const JFAIndex& index, const JSize newSize);
+	JSize	GetItemSize(const JFAIndex& index) const;
+	void	SetItemSize(const JFAIndex& index, const JSize newSize);
 	void	ExpandData(const JUnsignedOffset offset, const JSize spaceNeeded);
 	void	CompactData(const JUnsignedOffset offset, const JSize blankSize);
 
-	void	GoToElement(const JFAIndex& index) const;
-	JSize	ReadElementSize() const;
-	void	WriteElementSize(const JSize elementSize);
+	void	GoToItem(const JFAIndex& index) const;
+	JSize	ReadItemSize() const;
+	void	WriteItemSize(const JSize itemSize);
 
 	void	ReadVersion();
 	void	WriteVersion();
 
-	void	ReadElementCount();
-	void	WriteElementCount();
+	void	ReadItemCount();
+	void	WriteItemCount();
 
 	void	ReadIndexOffset();
 	void	WriteIndexOffset();
 
-	void	ReadIndex(const JSize elementCount) const;
+	void	ReadIndex(const JSize itemCount) const;
 	void	WriteIndex();
 
 	JUnsignedOffset	GetStartOfFile() const;
@@ -187,132 +187,132 @@ private:
 
 	// base class for JBroadcaster messages
 
-	class ElementMessage : public JBroadcaster::Message
+	class ItemMessage : public JBroadcaster::Message
+	{
+	public:
+
+		ItemMessage(const JUtf8Byte* type, const JFAIndex& index)
+			:
+			JBroadcaster::Message(type),
+			itsIndex(index)
+			{ };
+
+		JFAIndex
+		GetIndex() const
 		{
-		public:
-
-			ElementMessage(const JUtf8Byte* type, const JFAIndex& index)
-				:
-				JBroadcaster::Message(type),
-				itsIndex(index)
-				{ };
-
-			JFAIndex
-			GetIndex() const
-			{
-				return itsIndex;
-			};
-
-		private:
-
-			JFAIndex	itsIndex;
+			return itsIndex;
 		};
+
+	private:
+
+		JFAIndex	itsIndex;
+	};
 
 public:
 
 	// JBroadcaster messages
 
-	static const JUtf8Byte* kElementInserted;
-	static const JUtf8Byte* kElementRemoved;
-	static const JUtf8Byte* kElementMoved;
-	static const JUtf8Byte* kElementsSwapped;
-	static const JUtf8Byte* kElementChanged;
+	static const JUtf8Byte* kItemInserted;
+	static const JUtf8Byte* kItemRemoved;
+	static const JUtf8Byte* kItemMoved;
+	static const JUtf8Byte* kItemsSwapped;
+	static const JUtf8Byte* kItemChanged;
 
-	class ElementInserted : public ElementMessage
+	class ItemInserted : public ItemMessage
+	{
+	public:
+
+		ItemInserted(const JFAIndex& index)
+			:
+			ItemMessage(kItemInserted, index)
+			{ };
+
+		void	AdjustIndex(JFAIndex* index) const;
+	};
+
+	class ItemRemoved : public ItemMessage
+	{
+	public:
+
+		ItemRemoved(const JFAIndex& index)
+			:
+			ItemMessage(kItemRemoved, index)
+			{ };
+
+		bool	AdjustIndex(JFAIndex* index) const;
+	};
+
+	class ItemMoved : public JBroadcaster::Message
+	{
+	public:
+
+		ItemMoved(const JFAIndex& origIndex, const JFAIndex& newIndex)
+			:
+			JBroadcaster::Message(kItemMoved),
+			itsOrigIndex(origIndex),
+			itsNewIndex(newIndex)
+			{ };
+
+		void	AdjustIndex(JFAIndex* index) const;
+
+		JFAIndex
+		GetOrigIndex() const
 		{
-		public:
-
-			ElementInserted(const JFAIndex& index)
-				:
-				ElementMessage(kElementInserted, index)
-				{ };
-
-			void	AdjustIndex(JFAIndex* index) const;
+			return itsOrigIndex;
 		};
 
-	class ElementRemoved : public ElementMessage
+		JFAIndex
+		GetNewIndex() const
 		{
-		public:
-
-			ElementRemoved(const JFAIndex& index)
-				:
-				ElementMessage(kElementRemoved, index)
-				{ };
-
-			bool	AdjustIndex(JFAIndex* index) const;
+			return itsNewIndex;
 		};
 
-	class ElementMoved : public JBroadcaster::Message
+	private:
+
+		JFAIndex	itsOrigIndex;
+		JFAIndex	itsNewIndex;
+	};
+
+	class ItemsSwapped : public JBroadcaster::Message
+	{
+	public:
+
+		ItemsSwapped(const JFAIndex index1, const JFAIndex index2)
+			:
+			JBroadcaster::Message(kItemsSwapped),
+			itsIndex1(index1),
+			itsIndex2(index2)
+			{ };
+
+		void	AdjustIndex(JFAIndex* index) const;
+
+		JFAIndex
+		GetIndex1() const
 		{
-		public:
-
-			ElementMoved(const JFAIndex& origIndex, const JFAIndex& newIndex)
-				:
-				JBroadcaster::Message(kElementMoved),
-				itsOrigIndex(origIndex),
-				itsNewIndex(newIndex)
-				{ };
-
-			void	AdjustIndex(JFAIndex* index) const;
-
-			JFAIndex
-			GetOrigIndex() const
-			{
-				return itsOrigIndex;
-			};
-
-			JFAIndex
-			GetNewIndex() const
-			{
-				return itsNewIndex;
-			};
-
-		private:
-
-			JFAIndex	itsOrigIndex;
-			JFAIndex	itsNewIndex;
+			return itsIndex1;
 		};
 
-	class ElementsSwapped : public JBroadcaster::Message
+		JFAIndex
+		GetIndex2() const
 		{
-		public:
-
-			ElementsSwapped(const JFAIndex index1, const JFAIndex index2)
-				:
-				JBroadcaster::Message(kElementsSwapped),
-				itsIndex1(index1),
-				itsIndex2(index2)
-				{ };
-
-			void	AdjustIndex(JFAIndex* index) const;
-
-			JFAIndex
-			GetIndex1() const
-			{
-				return itsIndex1;
-			};
-
-			JFAIndex
-			GetIndex2() const
-			{
-				return itsIndex2;
-			};
-
-		private:
-
-			JFAIndex	itsIndex1;
-			JFAIndex	itsIndex2;
+			return itsIndex2;
 		};
 
-	class ElementChanged : public ElementMessage
-		{
-		public:
+	private:
 
-			ElementChanged(const JFAIndex& index)
-				:
-				ElementMessage(kElementChanged, index)
-				{ };
-		};
+		JFAIndex	itsIndex1;
+		JFAIndex	itsIndex2;
+	};
+
+	class ItemChanged : public ItemMessage
+	{
+	public:
+
+		ItemChanged(const JFAIndex& index)
+			:
+			ItemMessage(kItemChanged, index)
+			{ };
+	};
 
 public:
 
@@ -354,49 +354,49 @@ public:
 
 
 /******************************************************************************
- PrependElement
+ PrependItem
 
  ******************************************************************************/
 
 inline void
-JFileArray::PrependElement
+JFileArray::PrependItem
 	(
 	std::ostringstream& dataStream
 	)
 {
-	InsertElementAtIndex(1, dataStream);
+	InsertItemAtIndex(1, dataStream);
 }
 
 inline void
-JFileArray::PrependElement
+JFileArray::PrependItem
 	(
 	const JString& data
 	)
 {
-	InsertElementAtIndex(1, data);
+	InsertItemAtIndex(1, data);
 }
 
 /******************************************************************************
- AppendElement
+ AppendItem
 
  ******************************************************************************/
 
 inline void
-JFileArray::AppendElement
+JFileArray::AppendItem
 	(
 	std::ostringstream& dataStream
 	)
 {
-	InsertElementAtIndex(GetElementCount() + 1, dataStream);
+	InsertItemAtIndex(GetItemCount() + 1, dataStream);
 }
 
 inline void
-JFileArray::AppendElement
+JFileArray::AppendItem
 	(
 	const JString& data
 	)
 {
-	InsertElementAtIndex(GetElementCount() + 1, data);
+	InsertItemAtIndex(GetItemCount() + 1, data);
 }
 
 /******************************************************************************

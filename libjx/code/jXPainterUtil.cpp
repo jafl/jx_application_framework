@@ -73,22 +73,22 @@ JXDrawUpFrame
 
 	JPolygon edge(6);
 
-	edge.AppendElement(topRight);
-	edge.AppendElement(topRight1);
-	edge.AppendElement(botRight1);
-	edge.AppendElement(botLeft1);
-	edge.AppendElement(botLeft);
-	edge.AppendElement(botRight);
+	edge.AppendItem(topRight);
+	edge.AppendItem(topRight1);
+	edge.AppendItem(botRight1);
+	edge.AppendItem(botLeft1);
+	edge.AppendItem(botLeft);
+	edge.AppendItem(botRight);
 	p.SetPenColor(JColorManager::Get3DShadeColor());
 	p.Polygon(edge);
 	p.Point(botRight);
 
-	edge.SetElement(1, topRight);
-	edge.SetElement(2, topRight1);
-	edge.SetElement(3, topLeft1);
-	edge.SetElement(4, botLeft1);
-	edge.SetElement(5, botLeft);
-	edge.SetElement(6, topLeft);
+	edge.SetItem(1, topRight);
+	edge.SetItem(2, topRight1);
+	edge.SetItem(3, topLeft1);
+	edge.SetItem(4, botLeft1);
+	edge.SetItem(5, botLeft);
+	edge.SetItem(6, topLeft);
 	p.SetPenColor(JColorManager::Get3DLightColor());
 	p.Polygon(edge);
 
@@ -161,21 +161,21 @@ JXDrawDownFrame
 
 	JPolygon edge(6);
 
-	edge.AppendElement(topRight);
-	edge.AppendElement(topRight1);
-	edge.AppendElement(topLeft1);
-	edge.AppendElement(botLeft1);
-	edge.AppendElement(botLeft);
-	edge.AppendElement(topLeft);
+	edge.AppendItem(topRight);
+	edge.AppendItem(topRight1);
+	edge.AppendItem(topLeft1);
+	edge.AppendItem(botLeft1);
+	edge.AppendItem(botLeft);
+	edge.AppendItem(topLeft);
 	p.SetPenColor(JColorManager::Get3DShadeColor());
 	p.Polygon(edge);
 
-	edge.SetElement(1, topRight);
-	edge.SetElement(2, topRight1);
-	edge.SetElement(3, botRight1);
-	edge.SetElement(4, botLeft1);
-	edge.SetElement(5, botLeft);
-	edge.SetElement(6, botRight);
+	edge.SetItem(1, topRight);
+	edge.SetItem(2, topRight1);
+	edge.SetItem(3, botRight1);
+	edge.SetItem(4, botLeft1);
+	edge.SetItem(5, botLeft);
+	edge.SetItem(6, botRight);
 	p.SetPenColor(JColorManager::Get3DLightColor());
 	p.Polygon(edge);
 	p.Point(botRight);
@@ -339,17 +339,17 @@ JXDrawFlatDiamond
 
 		JPolygon edge(11);
 
-		edge.AppendElement(left);
-		edge.AppendElement(left1);
-		edge.AppendElement(top1);
-		edge.AppendElement(right1);
-		edge.AppendElement(bottom1);
-		edge.AppendElement(left1);
-		edge.AppendElement(left);
-		edge.AppendElement(bottom);
-		edge.AppendElement(right);
-		edge.AppendElement(top);
-		edge.AppendElement(left);
+		edge.AppendItem(left);
+		edge.AppendItem(left1);
+		edge.AppendItem(top1);
+		edge.AppendItem(right1);
+		edge.AppendItem(bottom1);
+		edge.AppendItem(left1);
+		edge.AppendItem(left);
+		edge.AppendItem(bottom);
+		edge.AppendItem(right);
+		edge.AppendItem(top);
+		edge.AppendItem(left);
 		p.Polygon(edge);
 
 		p.SetFilling(origFill);
@@ -437,21 +437,21 @@ JXDrawUpDiamond
 
 		JPolygon edge(6);
 
-		edge.AppendElement(left);
-		edge.AppendElement(left1);
-		edge.AppendElement(bottom1);
-		edge.AppendElement(right1);
-		edge.AppendElement(right);
-		edge.AppendElement(bottom);
+		edge.AppendItem(left);
+		edge.AppendItem(left1);
+		edge.AppendItem(bottom1);
+		edge.AppendItem(right1);
+		edge.AppendItem(right);
+		edge.AppendItem(bottom);
 		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
-		edge.SetElement(1, left);
-		edge.SetElement(2, left1);
-		edge.SetElement(3, top1);
-		edge.SetElement(4, right1);
-		edge.SetElement(5, right);
-		edge.SetElement(6, top);
+		edge.SetItem(1, left);
+		edge.SetItem(2, left1);
+		edge.SetItem(3, top1);
+		edge.SetItem(4, right1);
+		edge.SetItem(5, right);
+		edge.SetItem(6, top);
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
@@ -540,21 +540,21 @@ JXDrawDownDiamond
 
 		JPolygon edge(6);
 
-		edge.AppendElement(left);
-		edge.AppendElement(left1);
-		edge.AppendElement(top1);
-		edge.AppendElement(right1);
-		edge.AppendElement(right);
-		edge.AppendElement(top);
+		edge.AppendItem(left);
+		edge.AppendItem(left1);
+		edge.AppendItem(top1);
+		edge.AppendItem(right1);
+		edge.AppendItem(right);
+		edge.AppendItem(top);
 		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
-		edge.SetElement(1, left);
-		edge.SetElement(2, left1);
-		edge.SetElement(3, bottom1);
-		edge.SetElement(4, right1);
-		edge.SetElement(5, right);
-		edge.SetElement(6, bottom);
+		edge.SetItem(1, left);
+		edge.SetItem(2, left1);
+		edge.SetItem(3, bottom1);
+		edge.SetItem(4, right1);
+		edge.SetItem(5, right);
+		edge.SetItem(6, bottom);
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
@@ -586,15 +586,15 @@ JXFillDiamond
 	const JCoordinate yc = rect.ycenter();
 
 	JPolygon poly(4);
-	poly.AppendElement(JPoint(xc, rect.top));
-	poly.AppendElement(JPoint(rect.left, yc));
-	poly.AppendElement(JPoint(xc, rect.bottom));
-	poly.AppendElement(JPoint(rect.right, yc));
+	poly.AppendItem(JPoint(xc, rect.top));
+	poly.AppendItem(JPoint(rect.left, yc));
+	poly.AppendItem(JPoint(xc, rect.bottom));
+	poly.AppendItem(JPoint(rect.right, yc));
 
 	p.SetPenColor(fillColor);
 	p.SetFilling(true);
 	p.Polygon(poly);
-	p.Point(poly.GetElement(4));
+	p.Point(poly.GetItem(4));
 
 	p.SetFilling(origFill);
 }
@@ -669,19 +669,19 @@ JXDrawUpArrowLeft
 
 		JPolygon edge(6);
 
-		edge.AppendElement(left1);
-		edge.AppendElement(left);
-		edge.AppendElement(botRight);
-		edge.AppendElement(topRight);
-		edge.AppendElement(topRight1);
-		edge.AppendElement(botRight1);
+		edge.AppendItem(left1);
+		edge.AppendItem(left);
+		edge.AppendItem(botRight);
+		edge.AppendItem(topRight);
+		edge.AppendItem(topRight1);
+		edge.AppendItem(botRight1);
 		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
-		edge.SetElement(3, topRight);
-		edge.SetElement(4, topRight1);
-		edge.RemoveElement(6);
-		edge.RemoveElement(5);
+		edge.SetItem(3, topRight);
+		edge.SetItem(4, topRight1);
+		edge.RemoveItem(6);
+		edge.RemoveItem(5);
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
@@ -764,17 +764,17 @@ JXDrawDownArrowLeft
 
 		JPolygon edge(6);
 
-		edge.AppendElement(left1);
-		edge.AppendElement(left);
-		edge.AppendElement(topRight);
-		edge.AppendElement(topRight1);
+		edge.AppendItem(left1);
+		edge.AppendItem(left);
+		edge.AppendItem(topRight);
+		edge.AppendItem(topRight1);
 		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
-		edge.SetElement(3, botRight);
-		edge.SetElement(4, topRight);
-		edge.AppendElement(topRight1);
-		edge.AppendElement(botRight1);
+		edge.SetItem(3, botRight);
+		edge.SetItem(4, topRight);
+		edge.AppendItem(topRight1);
+		edge.AppendItem(botRight1);
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
@@ -803,9 +803,9 @@ JXFillArrowLeft
 	const bool origFill = p.IsFilling();
 
 	JPolygon poly(3);
-	poly.AppendElement(JPoint(rect.left, rect.ycenter()));
-	poly.AppendElement(rect.topRight()    + JPoint(-1, 0));
-	poly.AppendElement(rect.bottomRight() + JPoint(-1,-1));
+	poly.AppendItem(JPoint(rect.left, rect.ycenter()));
+	poly.AppendItem(rect.topRight()    + JPoint(-1, 0));
+	poly.AppendItem(rect.bottomRight() + JPoint(-1,-1));
 
 	p.SetPenColor(fillColor);
 	p.SetFilling(true);
@@ -884,17 +884,17 @@ JXDrawUpArrowRight
 
 		JPolygon edge(6);
 
-		edge.AppendElement(right1);
-		edge.AppendElement(right);
-		edge.AppendElement(botLeft);
-		edge.AppendElement(botLeft1);
+		edge.AppendItem(right1);
+		edge.AppendItem(right);
+		edge.AppendItem(botLeft);
+		edge.AppendItem(botLeft1);
 		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
-		edge.SetElement(3, topLeft);
-		edge.SetElement(4, botLeft);
-		edge.AppendElement(botLeft1);
-		edge.AppendElement(topLeft1);
+		edge.SetItem(3, topLeft);
+		edge.SetItem(4, botLeft);
+		edge.AppendItem(botLeft1);
+		edge.AppendItem(topLeft1);
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
@@ -977,19 +977,19 @@ JXDrawDownArrowRight
 
 		JPolygon edge(6);
 
-		edge.AppendElement(right1);
-		edge.AppendElement(right);
-		edge.AppendElement(topLeft);
-		edge.AppendElement(botLeft);
-		edge.AppendElement(botLeft1);
-		edge.AppendElement(topLeft1);
+		edge.AppendItem(right1);
+		edge.AppendItem(right);
+		edge.AppendItem(topLeft);
+		edge.AppendItem(botLeft);
+		edge.AppendItem(botLeft1);
+		edge.AppendItem(topLeft1);
 		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
-		edge.SetElement(3, botLeft);
-		edge.SetElement(4, botLeft1);
-		edge.RemoveElement(6);
-		edge.RemoveElement(5);
+		edge.SetItem(3, botLeft);
+		edge.SetItem(4, botLeft1);
+		edge.RemoveItem(6);
+		edge.RemoveItem(5);
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
@@ -1018,9 +1018,9 @@ JXFillArrowRight
 	const bool origFill = p.IsFilling();
 
 	JPolygon poly(3);
-	poly.AppendElement(JPoint(rect.right-1, rect.ycenter()));
-	poly.AppendElement(rect.topLeft());
-	poly.AppendElement(rect.bottomLeft() + JPoint(0,-1));
+	poly.AppendItem(JPoint(rect.right-1, rect.ycenter()));
+	poly.AppendItem(rect.topLeft());
+	poly.AppendItem(rect.bottomLeft() + JPoint(0,-1));
 
 	p.SetPenColor(fillColor);
 	p.SetFilling(true);
@@ -1099,19 +1099,19 @@ JXDrawUpArrowUp
 
 		JPolygon edge(6);
 
-		edge.AppendElement(top1);
-		edge.AppendElement(top);
-		edge.AppendElement(botRight);
-		edge.AppendElement(botLeft);
-		edge.AppendElement(botLeft1);
-		edge.AppendElement(botRight1);
+		edge.AppendItem(top1);
+		edge.AppendItem(top);
+		edge.AppendItem(botRight);
+		edge.AppendItem(botLeft);
+		edge.AppendItem(botLeft1);
+		edge.AppendItem(botRight1);
 		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
-		edge.SetElement(3, botLeft);
-		edge.SetElement(4, botLeft1);
-		edge.RemoveElement(6);
-		edge.RemoveElement(5);
+		edge.SetItem(3, botLeft);
+		edge.SetItem(4, botLeft1);
+		edge.RemoveItem(6);
+		edge.RemoveItem(5);
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
@@ -1194,17 +1194,17 @@ JXDrawDownArrowUp
 
 		JPolygon edge(6);
 
-		edge.AppendElement(top1);
-		edge.AppendElement(top);
-		edge.AppendElement(botLeft);
-		edge.AppendElement(botLeft1);
+		edge.AppendItem(top1);
+		edge.AppendItem(top);
+		edge.AppendItem(botLeft);
+		edge.AppendItem(botLeft1);
 		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
-		edge.SetElement(3, botRight);
-		edge.SetElement(4, botLeft);
-		edge.AppendElement(botLeft1);
-		edge.AppendElement(botRight1);
+		edge.SetItem(3, botRight);
+		edge.SetItem(4, botLeft);
+		edge.AppendItem(botLeft1);
+		edge.AppendItem(botRight1);
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
@@ -1233,9 +1233,9 @@ JXFillArrowUp
 	const bool origFill = p.IsFilling();
 
 	JPolygon poly(3);
-	poly.AppendElement(JPoint(rect.xcenter(), rect.top));
-	poly.AppendElement(rect.bottomLeft()  + JPoint( 0,-1));
-	poly.AppendElement(rect.bottomRight() + JPoint(-1,-1));
+	poly.AppendItem(JPoint(rect.xcenter(), rect.top));
+	poly.AppendItem(rect.bottomLeft()  + JPoint( 0,-1));
+	poly.AppendItem(rect.bottomRight() + JPoint(-1,-1));
 
 	p.SetPenColor(fillColor);
 	p.SetFilling(true);
@@ -1314,17 +1314,17 @@ JXDrawUpArrowDown
 
 		JPolygon edge(6);
 
-		edge.AppendElement(bottom1);
-		edge.AppendElement(bottom);
-		edge.AppendElement(topRight);
-		edge.AppendElement(topRight1);
+		edge.AppendItem(bottom1);
+		edge.AppendItem(bottom);
+		edge.AppendItem(topRight);
+		edge.AppendItem(topRight1);
 		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
-		edge.SetElement(3, topLeft);
-		edge.SetElement(4, topRight);
-		edge.AppendElement(topRight1);
-		edge.AppendElement(topLeft1);
+		edge.SetItem(3, topLeft);
+		edge.SetItem(4, topRight);
+		edge.AppendItem(topRight1);
+		edge.AppendItem(topLeft1);
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
@@ -1407,19 +1407,19 @@ JXDrawDownArrowDown
 
 		JPolygon edge(6);
 
-		edge.AppendElement(bottom1);
-		edge.AppendElement(bottom);
-		edge.AppendElement(topLeft);
-		edge.AppendElement(topRight);
-		edge.AppendElement(topRight1);
-		edge.AppendElement(topLeft1);
+		edge.AppendItem(bottom1);
+		edge.AppendItem(bottom);
+		edge.AppendItem(topLeft);
+		edge.AppendItem(topRight);
+		edge.AppendItem(topRight1);
+		edge.AppendItem(topLeft1);
 		p.SetPenColor(JColorManager::Get3DShadeColor());
 		p.Polygon(edge);
 
-		edge.SetElement(3, topRight);
-		edge.SetElement(4, topRight1);
-		edge.RemoveElement(6);
-		edge.RemoveElement(5);
+		edge.SetItem(3, topRight);
+		edge.SetItem(4, topRight1);
+		edge.RemoveItem(6);
+		edge.RemoveItem(5);
 		p.SetPenColor(JColorManager::Get3DLightColor());
 		p.Polygon(edge);
 
@@ -1448,9 +1448,9 @@ JXFillArrowDown
 	const bool origFill = p.IsFilling();
 
 	JPolygon poly(3);
-	poly.AppendElement(JPoint(rect.xcenter(), rect.bottom));
-	poly.AppendElement(rect.topLeft());
-	poly.AppendElement(rect.topRight() + JPoint(-1,0));
+	poly.AppendItem(JPoint(rect.xcenter(), rect.bottom));
+	poly.AppendItem(rect.topLeft());
+	poly.AppendItem(rect.topRight() + JPoint(-1,0));
 
 	p.SetPenColor(fillColor);
 	p.SetFilling(true);

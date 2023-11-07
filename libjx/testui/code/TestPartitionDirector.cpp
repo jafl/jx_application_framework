@@ -84,8 +84,8 @@ TestPartitionDirector::BuildWindow()
 
 	for (JIndex i=1; i<=kInitCompartmentCount; i++)
 	{
-		sizes.AppendElement(kInitSize);
-		minSizes.AppendElement(kMinSize);
+		sizes.AppendItem(kInitSize);
+		minSizes.AppendItem(kMinSize);
 	}
 
 // begin JXLayout

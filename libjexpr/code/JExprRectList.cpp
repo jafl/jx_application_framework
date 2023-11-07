@@ -64,16 +64,16 @@ JExprRectList::AddRect
 	JFunction*			f
 	)
 {
-	itsRects->AppendElement(rect);
+	itsRects->AppendItem(rect);
 
 	ExtraInfo info;
 	info.midline  = midline;
 	info.fontSize = fontSize;
-	itsExtraInfo->AppendElement(info);
+	itsExtraInfo->AppendItem(info);
 
 	itsFunctions->Append(f);
 
-	return GetElementCount();
+	return GetItemCount();
 }
 
 /******************************************************************************
@@ -97,27 +97,27 @@ JExprRectList::ShiftRect
 		return;
 	}
 
-	JRect rect = itsRects->GetElement(index);
+	JRect rect = itsRects->GetItem(index);
 	const JRect origRect = rect;
 	rect.Shift(dx, dy);
-	itsRects->SetElement(index, rect);
+	itsRects->SetItem(index, rect);
 
-	ExtraInfo info = itsExtraInfo->GetElement(index);
+	ExtraInfo info = itsExtraInfo->GetItem(index);
 	info.midline += dy;
-	itsExtraInfo->SetElement(index, info);
+	itsExtraInfo->SetItem(index, info);
 
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		rect = itsRects->GetElement(i);
+		rect = itsRects->GetItem(i);
 		if (origRect.Contains(rect))
 		{
 			rect.Shift(dx, dy);
-			itsRects->SetElement(i, rect);
+			itsRects->SetItem(i, rect);
 
-			info = itsExtraInfo->GetElement(i);
+			info = itsExtraInfo->GetItem(i);
 			info.midline += dy;
-			itsExtraInfo->SetElement(i, info);
+			itsExtraInfo->SetItem(i, info);
 		}
 	}
 }
@@ -161,12 +161,12 @@ JExprRectList::GetSelection
 
 	// The bounding rect is the last rect in the list.
 
-	const JSize rectCount = itsRects->GetElementCount();
+	const JSize rectCount = itsRects->GetItemCount();
 	JSize minArea         = 0;
 	JIndex result         = rectCount;
 	for (JIndex i=1; i<rectCount; i++)
 	{
-		const JRect rect = itsRects->GetElement(i);
+		const JRect rect = itsRects->GetItem(i);
 		const JSize area = rect.area();
 		if (rect.Contains(startPt) && rect.Contains(currPt) &&
 			(minArea == 0 || area < minArea))
@@ -205,12 +205,12 @@ JExprRectList::GetParent
 	)
 	const
 {
-	const JRect smallRect = itsRects->GetElement(index);
+	const JRect smallRect = itsRects->GetItem(index);
 
-	const JSize rectCount = itsRects->GetElementCount();
+	const JSize rectCount = itsRects->GetItemCount();
 	for (JIndex i=index+1; i<=rectCount; i++)
 	{
-		const JRect bigRect = itsRects->GetElement(i);
+		const JRect bigRect = itsRects->GetItem(i);
 		if (bigRect.Contains(smallRect))
 		{
 			return i;

@@ -91,14 +91,14 @@ UndoWidget::Draw
 
 	// Find out how many points there are
 	// There are count/2 lines
-	JSize count = itsPoints->GetElementCount();
+	JSize count = itsPoints->GetItemCount();
 
 	// Loop through the points by twos
 	for (JSize i = 1; i <= count; i += 2)
 	{
 		// We need to specify that this is a JPainter function because
 		// JXWindowPainter has this function in a different form
-		p.Line(itsPoints->GetElement(i), itsPoints->GetElement(i+1));
+		p.Line(itsPoints->GetItem(i), itsPoints->GetItem(i+1));
 	}
 }
 
@@ -243,8 +243,8 @@ UndoWidget::HandleMouseUp
 		DeleteDragPainter();
 
 		// Add this set of points to our JArray
-		itsPoints->AppendElement(itsStartPt);
-		itsPoints->AppendElement(itsPrevPt);
+		itsPoints->AppendItem(itsStartPt);
+		itsPoints->AppendItem(itsPrevPt);
 
 		// Create the undo object to undo the addition of this line
 
@@ -324,7 +324,7 @@ UndoWidget::GetCurrentUndo
 {
 	if (HasUndo())
 	{
-		*undo = itsUndoList->GetElement(itsFirstRedoIndex - 1);
+		*undo = itsUndoList->GetItem(itsFirstRedoIndex - 1);
 		return true;
 	}
 	else
@@ -347,7 +347,7 @@ UndoWidget::GetCurrentRedo
 {
 	if (HasRedo())
 	{
-		*redo = itsUndoList->GetElement(itsFirstRedoIndex);
+		*redo = itsUndoList->GetItem(itsFirstRedoIndex);
 		return true;
 	}
 	else
@@ -377,7 +377,7 @@ bool
 UndoWidget::HasRedo()
 	const
 {
-	return itsFirstRedoIndex <= itsUndoList->GetElementCount();
+	return itsFirstRedoIndex <= itsUndoList->GetItemCount();
 }
 
 /******************************************************************************
@@ -395,10 +395,10 @@ UndoWidget::NewUndo
 	{
 		// clear redo objects
 
-		const JSize undoCount = itsUndoList->GetElementCount();
+		const JSize undoCount = itsUndoList->GetItemCount();
 		for (JIndex i=undoCount; i>=itsFirstRedoIndex; i--)
 		{
-			itsUndoList->DeleteElement(i);
+			itsUndoList->DeleteItem(i);
 		}
 
 		// save the new object
@@ -414,7 +414,7 @@ UndoWidget::NewUndo
 		assert( itsFirstRedoIndex > 1 );
 
 		itsFirstRedoIndex--;
-		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
+		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
 
 		undo->SetRedo(true);
 		undo->Deactivate();
@@ -422,9 +422,9 @@ UndoWidget::NewUndo
 
 	else if (itsUndoList != nullptr && itsUndoState == kRedo)
 	{
-		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() );
+		assert( itsFirstRedoIndex <= itsUndoList->GetItemCount() );
 
-		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
+		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
 		itsFirstRedoIndex++;
 
 		undo->SetRedo(false);
@@ -448,8 +448,8 @@ UndoWidget::AddLine
 	)
 {
 	// Add this set of points to our JArray
-	itsPoints->AppendElement(start);
-	itsPoints->AppendElement(end);
+	itsPoints->AppendItem(start);
+	itsPoints->AppendItem(end);
 
 	// Tell the widget to redraw itself
 	Refresh();
@@ -469,12 +469,12 @@ UndoWidget::AddLine
 void
 UndoWidget::RemoveLastLine()
 {
-	const JSize count = itsPoints->GetElementCount();
+	const JSize count = itsPoints->GetItemCount();
 	assert(count >= 2);
-	JPoint start = itsPoints->GetElement(count - 1);
-	JPoint end = itsPoints->GetElement(count);
-	itsPoints->RemoveElement(count);
-	itsPoints->RemoveElement(count - 1);
+	JPoint start = itsPoints->GetItem(count - 1);
+	JPoint end = itsPoints->GetItem(count);
+	itsPoints->RemoveItem(count);
+	itsPoints->RemoveItem(count - 1);
 	Refresh();
 
 	RedoLine* redo = jnew RedoLine(this, start, end);

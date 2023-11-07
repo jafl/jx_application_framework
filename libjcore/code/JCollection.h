@@ -21,7 +21,7 @@ public:
 
 	JCollection& operator=(const JCollection& source);
 
-	JSize	GetElementCount() const;
+	JSize	GetItemCount() const;
 	bool	IsEmpty() const;
 	bool	IndexValid(const JIndex index) const;
 	JIndex	GetIndexFromEnd(const JIndex index) const;
@@ -30,26 +30,26 @@ public:
 
 protected:
 
-	void	ElementAdded();
-	void	ElementRemoved();
-	void	SetElementCount(const JSize newElementCount);
+	void	ItemAdded();
+	void	ItemRemoved();
+	void	SetItemCount(const JSize newItemCount);
 
 private:
 
-	JSize itsElementCount;
+	JSize itsItemCount;
 };
 
 
 /******************************************************************************
- GetElementCount
+ GetItemCount
 
  ******************************************************************************/
 
 inline JSize
-JCollection::GetElementCount()
+JCollection::GetItemCount()
 	const
 {
-	return itsElementCount;
+	return itsItemCount;
 }
 
 /******************************************************************************
@@ -63,7 +63,7 @@ inline bool
 JCollection::IsEmpty()
 	const
 {
-	return itsElementCount == 0;
+	return itsItemCount == 0;
 }
 
 /******************************************************************************
@@ -78,32 +78,32 @@ JCollection::IndexValid
 	)
 	const
 {
-	return 1 <= index && index <= itsElementCount;
+	return 1 <= index && index <= itsItemCount;
 }
 
 /******************************************************************************
- ElementAdded (protected)
+ ItemAdded (protected)
 
  ******************************************************************************/
 
 inline void
-JCollection::ElementAdded()
+JCollection::ItemAdded()
 {
-	itsElementCount++;
+	itsItemCount++;
 }
 
 /******************************************************************************
- SetElementCount (protected)
+ SetItemCount (protected)
 
  ******************************************************************************/
 
 inline void
-JCollection::SetElementCount
+JCollection::SetItemCount
 	(
-	const JSize newElementCount
+	const JSize newItemCount
 	)
 {
-	itsElementCount = newElementCount;
+	itsItemCount = newItemCount;
 }
 
 #endif

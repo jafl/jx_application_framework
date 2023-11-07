@@ -77,12 +77,12 @@ JXCheckboxListDialog::GetSelectedItems
 {
 	indexList->RemoveAll();
 
-	const JSize count = itsCBList->GetElementCount();
+	const JSize count = itsCBList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		if (itsCBList->GetElement(i)->IsChecked())
+		if (itsCBList->GetItem(i)->IsChecked())
 		{
-			indexList->AppendElement(i);
+			indexList->AppendItem(i);
 		}
 	}
 
@@ -100,7 +100,7 @@ JXCheckboxListDialog::SelectItem
 	const JIndex index
 	)
 {
-	itsCBList->GetElement(index)->SetState(true);
+	itsCBList->GetItem(index)->SetState(true);
 }
 
 /******************************************************************************
@@ -131,7 +131,7 @@ JXCheckboxListDialog::BuildWindow
 	const JPtrArray<JString>*	shortcutList
 	)
 {
-	const JSize actionCount = choiceList.GetElementCount();
+	const JSize actionCount = choiceList.GetItemCount();
 
 	auto* window = jnew JXWindow(this, 10,10, windowTitle);
 
@@ -152,7 +152,7 @@ JXCheckboxListDialog::BuildWindow
 	for (JIndex i=1; i<=actionCount; i++)
 	{
 		auto* cb =
-			jnew JXTextCheckbox(*(choiceList.GetElement(i)), window,
+			jnew JXTextCheckbox(*(choiceList.GetItem(i)), window,
 								JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								kCBHLMarginWidth, y + (i-1) * kItemVSeparation,
 								10, kTextHeight);
@@ -160,7 +160,7 @@ JXCheckboxListDialog::BuildWindow
 
 		if (shortcutList != nullptr)
 		{
-			cb->SetShortcuts(*(shortcutList->GetElement(i)));
+			cb->SetShortcuts(*(shortcutList->GetItem(i)));
 		}
 
 		itsCBList->Append(cb);

@@ -148,7 +148,7 @@ JXTabGroup::GetTabTitlePreMargin
 	)
 	const
 {
-	return (itsTabInfoList->GetElement(index)).preMargin - kTextMargin;
+	return (itsTabInfoList->GetItem(index)).preMargin - kTextMargin;
 }
 
 void
@@ -158,9 +158,9 @@ JXTabGroup::SetTabTitlePreMargin
 	const JCoordinate	margin
 	)
 {
-	TabInfo info   = itsTabInfoList->GetElement(index);
+	TabInfo info   = itsTabInfoList->GetItem(index);
 	info.preMargin = kTextMargin + margin;
-	itsTabInfoList->SetElement(index, info);
+	itsTabInfoList->SetItem(index, info);
 	Refresh();
 }
 
@@ -171,7 +171,7 @@ JXTabGroup::GetTabTitlePostMargin
 	)
 	const
 {
-	return (itsTabInfoList->GetElement(index)).postMargin - kTextMargin;
+	return (itsTabInfoList->GetItem(index)).postMargin - kTextMargin;
 }
 
 void
@@ -181,9 +181,9 @@ JXTabGroup::SetTabTitlePostMargin
 	const JCoordinate	margin
 	)
 {
-	TabInfo info    = itsTabInfoList->GetElement(index);
+	TabInfo info    = itsTabInfoList->GetItem(index);
 	info.postMargin = kTextMargin + margin;
-	itsTabInfoList->SetElement(index, info);
+	itsTabInfoList->SetItem(index, info);
 	Refresh();
 }
 
@@ -359,7 +359,7 @@ JXTabGroup::InsertTab
 {
 	Refresh();
 	itsTitles->InsertAtIndex(index, title);
-	itsTabInfoList->InsertElementAtIndex(index, TabInfo(closeable));
+	itsTabInfoList->InsertItemAtIndex(index, TabInfo(closeable));
 	return itsCardFile->InsertCard(index);
 }
 
@@ -374,7 +374,7 @@ JXTabGroup::InsertTab
 {
 	Refresh();
 	itsTitles->InsertAtIndex(index, title);
-	itsTabInfoList->InsertElementAtIndex(index, TabInfo(closeable));
+	itsTabInfoList->InsertItemAtIndex(index, TabInfo(closeable));
 	itsCardFile->InsertCard(index, card);
 }
 
@@ -418,8 +418,8 @@ JXTabGroup::RemoveTab
 	}
 
 	Refresh();
-	itsTitles->DeleteElement(index);
-	itsTabInfoList->RemoveElement(index);
+	itsTitles->DeleteItem(index);
+	itsTabInfoList->RemoveItem(index);
 	return itsCardFile->RemoveCard(index);
 }
 
@@ -484,19 +484,19 @@ JXTabGroup::ScrollUpToTab
 	JCoordinate right     = left;
 	JArray<JCoordinate> widthList;
 
-	const JSize count  = itsTitles->GetElementCount();
+	const JSize count  = itsTitles->GetItemCount();
 	bool offScreen = false;
 	for (JIndex i=itsFirstDrawIndex; i<=index; i++)
 	{
-		const TabInfo info = itsTabInfoList->GetElement(index);
+		const TabInfo info = itsTabInfoList->GetItem(index);
 
 		right += 2*kBorderWidth + info.preMargin + info.postMargin +
-				 itsFont.GetStringWidth(GetFontManager(), *(itsTitles->GetElement(i)));
+				 itsFont.GetStringWidth(GetFontManager(), *(itsTitles->GetItem(i)));
 		if (info.closable)
 		{
 			right += kCloseMarginWidth + itsCloseImage->GetWidth();
 		}
-		widthList.AppendElement(right - left);
+		widthList.AppendItem(right - left);
 
 		if (!offScreen &&
 			right >= max - scrollArrowWidth &&
@@ -513,7 +513,7 @@ JXTabGroup::ScrollUpToTab
 		JIndex i = 1;
 		while (right > max - scrollArrowWidth && itsFirstDrawIndex < index)
 		{
-			right -= widthList.GetElement(i);
+			right -= widthList.GetItem(i);
 			itsFirstDrawIndex++;
 			i++;
 		}
@@ -548,7 +548,7 @@ JXTabGroup::Draw
 
 	const JCoordinate scrollArrowWidth = 2*(kArrowWidth + kBorderWidth);
 
-	const JSize count = itsTitles->GetElementCount();
+	const JSize count = itsTitles->GetItemCount();
 	itsLastDrawIndex  = JMax(count, itsFirstDrawIndex);
 
 	if (itsEdge == kTop)
@@ -558,9 +558,9 @@ JXTabGroup::Draw
 
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
 		{
-			const JString* title = itsTitles->GetElement(i);
+			const JString* title = itsTitles->GetItem(i);
 			const bool isSel = hasSelection && i == selIndex;
-			const TabInfo info   = itsTabInfoList->GetElement(i);
+			const TabInfo info   = itsTabInfoList->GetItem(i);
 
 			r.right += 2*kBorderWidth + info.preMargin +info.postMargin + p.GetStringWidth(*title);
 			if (info.closable)
@@ -591,7 +591,7 @@ JXTabGroup::Draw
 			}
 			p.String(titlePt, *title);
 
-			itsTabRects->AppendElement(r);
+			itsTabRects->AppendItem(r);
 			if (isSel)
 			{
 				r.top += kSelMargin;
@@ -629,9 +629,9 @@ JXTabGroup::Draw
 
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
 		{
-			const JString* title = itsTitles->GetElement(i);
+			const JString* title = itsTitles->GetItem(i);
 			const bool isSel = hasSelection && i == selIndex;
-			const TabInfo info   = itsTabInfoList->GetElement(i);
+			const TabInfo info   = itsTabInfoList->GetItem(i);
 
 			r.top -= 2*kBorderWidth + info.preMargin + info.postMargin + p.GetStringWidth(*title);
 			if (info.closable)
@@ -662,7 +662,7 @@ JXTabGroup::Draw
 			}
 			p.String(90, titlePt, *title);
 
-			itsTabRects->AppendElement(r);
+			itsTabRects->AppendItem(r);
 			if (isSel)
 			{
 				r.left += kSelMargin;
@@ -700,9 +700,9 @@ JXTabGroup::Draw
 
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
 		{
-			const JString* title = itsTitles->GetElement(i);
+			const JString* title = itsTitles->GetItem(i);
 			const bool isSel = hasSelection && i == selIndex;
-			const TabInfo info   = itsTabInfoList->GetElement(i);
+			const TabInfo info   = itsTabInfoList->GetItem(i);
 
 			r.right += 2*kBorderWidth + info.preMargin + info.postMargin + p.GetStringWidth(*title);
 			if (info.closable)
@@ -733,7 +733,7 @@ JXTabGroup::Draw
 			}
 			p.String(titlePt, *title);
 
-			itsTabRects->AppendElement(r);
+			itsTabRects->AppendItem(r);
 			if (isSel)
 			{
 				r.bottom -= kSelMargin;
@@ -771,9 +771,9 @@ JXTabGroup::Draw
 
 		for (JIndex i=itsFirstDrawIndex; i<=count; i++)
 		{
-			const JString* title = itsTitles->GetElement(i);
+			const JString* title = itsTitles->GetItem(i);
 			const bool isSel = hasSelection && i == selIndex;
-			const TabInfo info   = itsTabInfoList->GetElement(i);
+			const TabInfo info   = itsTabInfoList->GetItem(i);
 
 			r.bottom += 2*kBorderWidth + info.preMargin + info.postMargin + p.GetStringWidth(*title);
 			if (info.closable)
@@ -804,7 +804,7 @@ JXTabGroup::Draw
 			}
 			p.String(-90, titlePt, *title);
 
-			itsTabRects->AppendElement(r);
+			itsTabRects->AppendItem(r);
 			if (isSel)
 			{
 				r.right -= kSelMargin;
@@ -1524,10 +1524,10 @@ JXTabGroup::FindTab
 	)
 	const
 {
-	const JSize count = itsTabRects->GetElementCount();
+	const JSize count = itsTabRects->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		*rect = itsTabRects->GetElement(i);
+		*rect = itsTabRects->GetItem(i);
 		if (rect->Contains(pt))
 		{
 			*index = itsFirstDrawIndex + i-1;

@@ -24,35 +24,35 @@ JTEST(Exercise)
 	JPtrArray<JString> a1(JPtrArrayT::kDeleteAll, 1); // Ridiculous block size to really exercise resizer
 	JBroadcastTester snoop1(&a1);
 	JAssertTrue(a1.IsEmpty());
-	JAssertEqual(0, a1.GetElementCount());
+	JAssertEqual(0, a1.GetItemCount());
 
 	long i;
 	for (i=1;i<=5;i++)
 	{
 		stringPtr = jnew JString;
 		stringPtr->Append(JUtf8Character('0' + i));
-		snoop1.Expect(JListT::kElementsInserted);
+		snoop1.Expect(JListT::kItemsInserted);
 		a1.Append(stringPtr);
 	}
 	stringPtr = nullptr;
 
 	JAssertFalse(a1.IsEmpty());
-	JAssertEqual(5, a1.GetElementCount());
+	JAssertEqual(5, a1.GetItemCount());
 
-	snoop1.Expect(JListT::kElementsSwapped);
-	a1.SwapElements(2,5);
+	snoop1.Expect(JListT::kItemsSwapped);
+	a1.SwapItems(2,5);
 
 	stringPtr = jnew JString("1", 0);
 
-	snoop1.Expect(JListT::kElementsInserted);
-	a1.InsertElementAtIndex(3, stringPtr);
+	snoop1.Expect(JListT::kItemsInserted);
+	a1.InsertItemAtIndex(3, stringPtr);
 
-	snoop1.Expect(JListT::kElementMoved);
-	a1.MoveElementToIndex(3, a1.GetElementCount());
+	snoop1.Expect(JListT::kItemMoved);
+	a1.MoveItemToIndex(3, a1.GetItemCount());
 
 	JPtrArrayIterator<JString> iter(&a1, JListT::kStartAtBeginning);
 
-	snoop1.Expect(JListT::kElementsRemoved);
+	snoop1.Expect(JListT::kItemsRemoved);
 {
 	const JUtf8Byte* expect[] = { "1", "5", "3", "2", "1" };
 	long j                    = 0;
@@ -63,7 +63,7 @@ JTEST(Exercise)
 
 		if (*stringPtr == "5")
 		{
-			stringPtr = a1.GetElement(4);
+			stringPtr = a1.GetItem(4);
 			a1.Remove(stringPtr);
 			jdelete stringPtr;
 			stringPtr = nullptr;
@@ -73,11 +73,11 @@ JTEST(Exercise)
 }
 
 	JIndex index;
-	stringPtr = a1.GetElement(4);
+	stringPtr = a1.GetItem(4);
 	JAssertTrue(a1.Find(stringPtr, &index));
 	JAssertEqual(4, index);
 
-	snoop1.Expect(JListT::kElementsRemoved);
+	snoop1.Expect(JListT::kItemsRemoved);
 {
 	const JUtf8Byte* expect[] = { "1", "2", "3", "5", "1" };
 	long j                    = 0;
@@ -88,7 +88,7 @@ JTEST(Exercise)
 
 		if (*stringPtr == "5")
 		{
-			a1.DeleteElement(4);
+			a1.DeleteItem(4);
 			stringPtr = nullptr;
 		}
 	}
@@ -96,14 +96,14 @@ JTEST(Exercise)
 }
 
 	JAssertFalse(a1.IsEmpty());
-	JAssertEqual(4, a1.GetElementCount());
+	JAssertEqual(4, a1.GetItemCount());
 
 	JPtrArray<JString> a2(a1, JPtrArrayT::kForgetAll);
 {
 	JBroadcastTester snoop2(&a2);
 
 	JAssertFalse(a2.IsEmpty());
-	JAssertEqual(4, a2.GetElementCount());
+	JAssertEqual(4, a2.GetItemCount());
 
 	JPtrArrayIterator<JString> iter2(&a2, JListT::kStartAtEnd);
 {
@@ -117,21 +117,21 @@ JTEST(Exercise)
 	JAssertEqual(4, j);
 }
 
-	snoop2.Expect(JListT::kElementsRemoved);
+	snoop2.Expect(JListT::kItemsRemoved);
 	a2.RemoveAll();
 
 	JAssertTrue(a2.IsEmpty());
-	JAssertEqual(0, a2.GetElementCount());
+	JAssertEqual(0, a2.GetItemCount());
 
-	snoop2.Expect(JListT::kElementsInserted);
-	snoop2.Expect(JListT::kElementsInserted);
-	snoop2.Expect(JListT::kElementsInserted);
-	snoop2.Expect(JListT::kElementsInserted);
+	snoop2.Expect(JListT::kItemsInserted);
+	snoop2.Expect(JListT::kItemsInserted);
+	snoop2.Expect(JListT::kItemsInserted);
+	snoop2.Expect(JListT::kItemsInserted);
 
 	a2.CopyPointers(a1, JPtrArrayT::kForgetAll, false);
 
 	JAssertFalse(a2.IsEmpty());
-	JAssertEqual(4, a2.GetElementCount());
+	JAssertEqual(4, a2.GetItemCount());
 {
 	const JUtf8Byte* expect[] = { "1", "3", "5", "1" };
 	long j                    = 0;
@@ -189,13 +189,13 @@ JTEST(Exercise)
 	a2.RemoveAll();
 
 	JAssertTrue(a2.IsEmpty());
-	JAssertEqual(0, a2.GetElementCount());
+	JAssertEqual(0, a2.GetItemCount());
 
-	snoop1.Expect(JListT::kElementsRemoved);
+	snoop1.Expect(JListT::kItemsRemoved);
 	a1.DeleteAll();
 
 	JAssertTrue(a1.IsEmpty());
-	JAssertEqual(0, a1.GetElementCount());
+	JAssertEqual(0, a1.GetItemCount());
 }
 
 JTEST(RangeBasedForLoop)
@@ -230,7 +230,7 @@ JTEST(MoveCtor)
 	jdelete a1;
 	a1 = nullptr;
 
-	JAssertStringsEqual("foo", *a2.GetElement(1));
-	JAssertStringsEqual("bar", *a2.GetElement(2));
-	JAssertStringsEqual("baz", *a2.GetElement(3));
+	JAssertStringsEqual("foo", *a2.GetItem(1));
+	JAssertStringsEqual("bar", *a2.GetItem(2));
+	JAssertStringsEqual("baz", *a2.GetItem(3));
 }

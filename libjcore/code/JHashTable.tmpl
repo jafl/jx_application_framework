@@ -152,7 +152,7 @@ JHashTable<V>::JHashTable
 	itsLgSize(lgSize),
 	itsMaxIndex( (1UL << itsLgSize) - 1),
 	itsArray(nullptr),
-	itsElementCount(0),
+	itsItemCount(0),
 	itsLoadCount(0),
 	itsResizeFlag(true),
 	itsMaxLoadFactor(kJDefaultMaxLoadFactor),
@@ -295,7 +295,7 @@ JHashTable<V>::IsOK() const
 {
 	bool ok = true;
 
-	JSize elementCount=0;
+	JSize itemCount=0;
 	JSize loadCount=0;
 
 	// Someday could use JMemoryManager services to test that itsMaxIndex is correct.
@@ -308,15 +308,15 @@ JHashTable<V>::IsOK() const
 			++loadCount;
 			if ( thisRecord.IsFull() )
 			{
-				++elementCount;
+				++itemCount;
 
-				// Test to see that all full elements can be reached.
+				// Test to see that all full items can be reached.
 			}
 		}
 	}
 
-	if (elementCount != itsElementCount || loadCount != itsLoadCount
-		|| itsElementCount > itsLoadCount)
+	if (itemCount != itsItemCount || loadCount != itsLoadCount
+		|| itsItemCount > itsLoadCount)
 	{
 		ok = false;
 	}
@@ -355,11 +355,11 @@ JHashTable<V>::Set
 
 	if ( thisRecord.IsDeleted() )
 	{
-		++itsElementCount;
+		++itsItemCount;
 	}
 	else if ( thisRecord.IsEmpty() )
 	{
-		++itsElementCount;
+		++itsItemCount;
 		++itsLoadCount;
 	}
 
@@ -382,11 +382,11 @@ JHashTable<V>::Set
 
 	if ( thisRecord.IsDeleted() )
 	{
-		++itsElementCount;
+		++itsItemCount;
 	}
 	else if ( thisRecord.IsEmpty() )
 	{
-		++itsElementCount;
+		++itsItemCount;
 		++itsLoadCount;
 	}
 
@@ -426,11 +426,11 @@ JHashTable<V>::SetHash
 
 	if ( thisRecord.IsDeleted() )
 	{
-		++itsElementCount;
+		++itsItemCount;
 	}
 	else if ( thisRecord.IsEmpty() )
 	{
-		++itsElementCount;
+		++itsItemCount;
 		++itsLoadCount;
 	}
 
@@ -456,8 +456,8 @@ JHashTable<V>::Remove
 	if ( thisRecord.IsFull() )
 	{
 		itsArray[index].Remove();
-		--itsElementCount;
-		if (itsElementCount == 0)
+		--itsItemCount;
+		if (itsItemCount == 0)
 		{
 			FitToLimits(0, true); // Force a resize to clear deleted records
 		}
@@ -493,7 +493,7 @@ JHashTable<V>::MarkEmpty
 		--itsLoadCount;
 		if (oldState == JHashRecordT::kFull)
 		{
-			--itsElementCount;
+			--itsItemCount;
 		}
 		FitToLimits();
 	}
@@ -534,7 +534,7 @@ JHashTable<V>::TryResizeTable
 	)
 {
 	// Can we do it the easy way?
-	if (itsElementCount == 0) // Can simply mark all empty
+	if (itsItemCount == 0) // Can simply mark all empty
 	{
 		if (itsLgSize == lgSize)
 		{
@@ -595,7 +595,7 @@ JHashTable<V>::TryResizeTable
 	itsLgSize = newTable.itsLgSize;
 	itsMaxIndex = newTable.itsMaxIndex;
 
-	itsElementCount = newTable.itsElementCount;
+	itsItemCount = newTable.itsItemCount;
 	itsLoadCount = newTable.itsLoadCount;
 
 	// itsResizeFlag must not be copied, obviously!
@@ -687,7 +687,7 @@ JHashTable<V>::FitToLimits
 				// We need to
 				(
 					// We don't have room for 'required' objects
-					( GetTableSize() - GetElementCount() ) < required
+					( GetTableSize() - GetItemCount() ) < required
 					||
 					// We're violating the current limits
 					(
@@ -706,14 +706,14 @@ JHashTable<V>::FitToLimits
 		)
 	{
 //std::cout << "      Resizing from lg(size) = " << itsLgSize << " (load " << GetLoadFactor()
-//     << "%, " << GetLoadCount()-GetElementCount() << " deleted)\n";
+//     << "%, " << GetLoadCount()-GetItemCount() << " deleted)\n";
 		JSize newLgSize = itsLgSize;
 
 		// Attempt to shrink if lots of stuff was deleted
 		while	(
 				newLgSize > itsLgMinTableSize
 				&&
-				(1.0*GetElementCount()+required)/(1L << newLgSize) 
+				(1.0*GetItemCount()+required)/(1L << newLgSize) 
 					< itsMinFillFactor
 //					< (itsMaxLoadFactor+itsMinFillFactor)/2
 				)
@@ -723,7 +723,7 @@ JHashTable<V>::FitToLimits
 
 		// Grow if the load is too high
 		// The average of maxload and minfill avoids many useless resizes
-		while ((1.0*GetElementCount()+required)/(1L << newLgSize)
+		while ((1.0*GetItemCount()+required)/(1L << newLgSize)
 			> (itsMaxLoadFactor+itsMinFillFactor)/2 )
 		{
 			++newLgSize;
@@ -733,7 +733,7 @@ JHashTable<V>::FitToLimits
 		resized = true;
 
 //std::cout << "                            to " << itsLgSize << " (load " << GetLoadFactor()
-//     << "%, " << GetLoadCount()-GetElementCount() << " deleted)" << std::endl;
+//     << "%, " << GetLoadCount()-GetItemCount() << " deleted)" << std::endl;
 	}
 
 #if 0
@@ -762,7 +762,7 @@ JHashTable<V>::_MarkAllEmpty()
 		itsArray[i].MarkEmpty();
 	}
 
-	itsElementCount = itsLoadCount = 0;
+	itsItemCount = itsLoadCount = 0;
 }
 
 /******************************************************************************

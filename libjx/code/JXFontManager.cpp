@@ -376,10 +376,10 @@ JXFontManager::GetXFont
 	const JFontID id = GetFontID(xFontStr, 0, JFontStyle());
 	while (!itsFontList->IndexValid(id))
 	{
-		itsFontList->AppendElement(FontInfo());
+		itsFontList->AppendItem(FontInfo());
 	}
 
-	FontInfo info = itsFontList->GetElement(id);
+	FontInfo info = itsFontList->GetItem(id);
 	if (info.filled)
 	{
 		*font = jnew JFont(GetFont(id));
@@ -417,7 +417,7 @@ JXFontManager::GetXFont
 	info.exact     = true;
 	info.monoWidth = IsMonospace(info.xfont);
 
-	itsFontList->SetElement(id, info);
+	itsFontList->SetItem(id, info);
 
 	*font = jnew JFont(GetFont(id));
 	assert( font != nullptr );
@@ -515,7 +515,7 @@ JXFontManager::GetLineHeight
 			info.ascent  = JMax(info.ascent,  (JCoordinate) fsList[i]->ascent);
 			info.descent = JMax(info.descent, (JCoordinate) fsList[i]->descent);
 		}
-		itsFontList->SetElement(id, info);
+		itsFontList->SetItem(id, info);
 	}
 	else if (info.ascent == 0)
 	{
@@ -525,7 +525,7 @@ JXFontManager::GetLineHeight
 		XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789|_", 64, &g);
 		info.ascent  = g.y + 1 + size/10;
 		info.descent = g.height - g.y;
-		itsFontList->SetElement(id, info);
+		itsFontList->SetItem(id, info);
 	}
 
 	*ascent  = info.ascent;
@@ -646,10 +646,10 @@ JXFontManager::ResolveFontID
 
 	while (!itsFontList->IndexValid(id))
 	{
-		itsFontList->AppendElement(FontInfo());
+		itsFontList->AppendItem(FontInfo());
 	}
 
-	FontInfo info = itsFontList->GetElement(id);
+	FontInfo info = itsFontList->GetItem(id);
 	if (info.filled)
 	{
 		return info;
@@ -672,7 +672,7 @@ JXFontManager::ResolveFontID
 	info.filled    = true;
 	info.monoWidth = IsMonospace(info.xfont);
 
-	itsFontList->SetElement(id, info);
+	itsFontList->SetItem(id, info);
 	return info;
 }
 

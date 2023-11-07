@@ -245,7 +245,7 @@ bool
 JExprEditor::ContainsUIF()
 	const
 {
-	const JSize rectCount = itsRectList->GetElementCount();
+	const JSize rectCount = itsRectList->GetItemCount();
 	for (JIndex i=1; i<=rectCount; i++)
 	{
 		const JFunction* f = itsRectList->GetFunction(i);
@@ -1439,7 +1439,7 @@ JExprEditor::GetCmdStatus
 	JArray<bool> flags(kCmdCount);
 	for (JIndex i=1; i<=kCmdCount; i++)
 	{
-		flags.AppendElement(false);
+		flags.AppendItem(false);
 	}
 
 	if (itsFunction == nullptr || itsRectList == nullptr || !itsActiveFlag)
@@ -1447,19 +1447,19 @@ JExprEditor::GetCmdStatus
 		return flags;
 	}
 
-	flags.SetElement(kEvaluateSelCmd, CanDisplaySelectionValue());
-	flags.SetElement(kSelectAllCmd, true);
-	flags.SetElement(kPrintEPSCmd, true);
+	flags.SetItem(kEvaluateSelCmd, CanDisplaySelectionValue());
+	flags.SetItem(kSelectAllCmd, true);
+	flags.SetItem(kPrintEPSCmd, true);
 
 	const bool hasSelection = itsRectList->SelectionValid(itsSelection);
 
 	if (itsUndoFunction != nullptr)
 	{
-		flags.SetElement(kUndoCmd, true);
+		flags.SetItem(kUndoCmd, true);
 	}
 	if (hasSelection || (itsActiveUIF != nullptr && itsActiveUIF->IsEmpty()))
 	{
-		flags.SetElement(kPasteCmd, true);
+		flags.SetItem(kPasteCmd, true);
 	}
 
 	if (evalStr != nullptr)
@@ -1469,32 +1469,32 @@ JExprEditor::GetCmdStatus
 
 	if (hasSelection)
 	{
-		flags.SetElement(kCutCmd, true);
-		flags.SetElement(kCopyCmd, true);
-		flags.SetElement(kDeleteSelCmd, true);
+		flags.SetItem(kCutCmd, true);
+		flags.SetItem(kCopyCmd, true);
+		flags.SetItem(kDeleteSelCmd, true);
 
-		flags.SetElement(kNegateSelCmd, true);
-		flags.SetElement(kApplyFnToSelCmd, true);
+		flags.SetItem(kNegateSelCmd, true);
+		flags.SetItem(kApplyFnToSelCmd, true);
 
 		JFunction* selF = itsRectList->GetFunction(itsSelection);
 		if (dynamic_cast<JNaryFunction*>(selF) != nullptr)
 		{
-			flags.SetElement(kAddArgCmd, true);
+			flags.SetItem(kAddArgCmd, true);
 		}
 	}
 
 	if (itsActiveUIF != nullptr)
 	{
-		flags.SetElement(kNegateSelCmd, true);
-		flags.SetElement(kApplyFnToSelCmd, true);
+		flags.SetItem(kNegateSelCmd, true);
+		flags.SetItem(kApplyFnToSelCmd, true);
 
 		if (itsActiveUIF->IsGreek())
 		{
-			flags.SetElement(kSetGreekFontCmd, true);
+			flags.SetItem(kSetGreekFontCmd, true);
 		}
 		else
 		{
-			flags.SetElement(kSetNormalFontCmd, true);
+			flags.SetItem(kSetNormalFontCmd, true);
 		}
 	}
 
@@ -1510,26 +1510,26 @@ JExprEditor::GetCmdStatus
 			assert( found );
 			if (argIndex > 1)
 			{
-				flags.SetElement(kMoveArgLeftCmd, true);
+				flags.SetItem(kMoveArgLeftCmd, true);
 			}
 			if (argIndex < parentArgCount)
 			{
-				flags.SetElement(kMoveArgRightCmd, true);
+				flags.SetItem(kMoveArgRightCmd, true);
 			}
 
 			if (dynamic_cast<JNaryOperator*>(naryParentF) != nullptr)
 			{
 				if (argIndex > 1)
 				{
-					flags.SetElement(kGroupLeftCmd, true);
+					flags.SetItem(kGroupLeftCmd, true);
 				}
 				if (argIndex < parentArgCount)
 				{
-					flags.SetElement(kGroupRightCmd, true);
+					flags.SetItem(kGroupRightCmd, true);
 				}
 				if (typeid(*selF) == typeid(*naryParentF))
 				{
-					flags.SetElement(kUngroupCmd, true);
+					flags.SetItem(kUngroupCmd, true);
 				}
 				else if (typeid(*naryParentF) == typeid(JSummation) &&
 						 typeid(*selF)        == typeid(JNegation))
@@ -1539,7 +1539,7 @@ JExprEditor::GetCmdStatus
 					const JFunction* negArg = neg->GetArg();
 					if (typeid(*negArg) == typeid(JSummation))
 					{
-						flags.SetElement(kUngroupCmd, true);
+						flags.SetItem(kUngroupCmd, true);
 					}
 				}
 			}
@@ -2391,7 +2391,7 @@ JExprEditor::FindNextUIF
 		assert( found );
 	}
 
-	const JSize rectCount = itsRectList->GetElementCount();
+	const JSize rectCount = itsRectList->GetItemCount();
 
 	for (JIndex i=currentIndex+1; i<=rectCount; i++)
 	{

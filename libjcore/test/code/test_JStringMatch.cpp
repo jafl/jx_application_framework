@@ -107,9 +107,9 @@ JTEST(Submatches)
 
 	auto* list1 = jnew JArray<JUtf8ByteRange>();
 	assert( list1 != nullptr );
-	list1->AppendElement(JUtf8ByteRange(11,12));
-	list1->AppendElement(JUtf8ByteRange(9, 14));
-	list1->AppendElement(JUtf8ByteRange(7, 7));
+	list1->AppendItem(JUtf8ByteRange(11,12));
+	list1->AppendItem(JUtf8ByteRange(9, 14));
+	list1->AppendItem(JUtf8ByteRange(7, 7));
 
 	JStringMatchTest m1(s, JUtf8ByteRange(7,14), list1);
 	m1.TestSetLastCharacterIndex(12);

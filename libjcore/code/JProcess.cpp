@@ -374,10 +374,10 @@ JProcess::CheckForFinishedChild
 			// and then we tell each one to broadcast.
 
 			JPtrArray<JProcess> list(JPtrArrayT::kForgetAll);
-			const JSize processCount = theProcessList.GetElementCount();
+			const JSize processCount = theProcessList.GetItemCount();
 			while (i <= processCount)
 			{
-				JProcess* p = theProcessList.GetElement(i);
+				JProcess* p = theProcessList.GetItem(i);
 				if (p->GetPID() != pid)
 				{
 					break;

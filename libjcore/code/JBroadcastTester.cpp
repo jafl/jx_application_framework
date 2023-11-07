@@ -39,7 +39,7 @@ JBroadcastTester::JBroadcastTester
 
 JBroadcastTester::~JBroadcastTester()
 {
-	JAssertEqualWithMessage(0UL, itsExpectedMessages.GetElementCount(),
+	JAssertEqualWithMessage(0UL, itsExpectedMessages.GetItemCount(),
 							"expected more JBroadcaster messages");
 }
 

@@ -87,14 +87,14 @@ JXTextMenuData::InsertItem
 	auto* text = jnew JString(str);
 
 	TextItemData itemData(text, itsDefaultFont);
-	itsTextItemData->InsertElementAtIndex(index, itemData);
+	itsTextItemData->InsertItemAtIndex(index, itemData);
 
 	JXMenuData::InsertItem(index, type, shortcuts, id);
 
 	const JString* s;
 	GetItemShortcuts(index, &s);
 	itemData.ulIndex = JXWindow::GetULShortcutIndex(*(itemData.text), s);
-	itsTextItemData->SetElement(index, itemData);
+	itsTextItemData->SetItem(index, itemData);
 
 	(itsMenu->GetWindow())->MenuItemInserted(itsMenu, index);
 	itsNeedGeomRecalcFlag = true;
@@ -116,9 +116,9 @@ JXTextMenuData::DeleteItem
 	const JIndex index
 	)
 {
-	TextItemData itemData = itsTextItemData->GetElement(index);
+	TextItemData itemData = itsTextItemData->GetItem(index);
 	CleanOutTextItem(&itemData);
-	itsTextItemData->RemoveElement(index);
+	itsTextItemData->RemoveItem(index);
 
 	JXMenuData::DeleteItem(index);
 
@@ -184,7 +184,7 @@ JXTextMenuData::GetText
 	)
 	const
 {
-	const TextItemData itemData = itsTextItemData->GetElement(index);
+	const TextItemData itemData = itsTextItemData->GetItem(index);
 	*font    = itemData.font;
 	*ulIndex = itemData.ulIndex;
 	return *(itemData.text);
@@ -202,13 +202,13 @@ JXTextMenuData::SetText
 	const JString&	str
 	)
 {
-	TextItemData itemData = itsTextItemData->GetElement(index);
+	TextItemData itemData = itsTextItemData->GetItem(index);
 	*itemData.text = str;
 
 	const JString* shortcuts;
 	GetItemShortcuts(index, &shortcuts);
 	itemData.ulIndex = JXWindow::GetULShortcutIndex(*itemData.text, shortcuts);
-	itsTextItemData->SetElement(index, itemData);
+	itsTextItemData->SetItem(index, itemData);
 
 	itsNeedGeomRecalcFlag = true;
 }
@@ -260,11 +260,11 @@ JXTextMenuData::InsertMenuItems
 	JPtrArray<JString> itemList(JPtrArrayT::kDeleteAll);
 	JString(menuStr, JString::kNoCopy).Split("|", &itemList);
 
-	const JSize itemCount = itemList.GetElementCount();
+	const JSize itemCount = itemList.GetItemCount();
 	JString itemText, shortcuts, nmShortcut, id, strID, id1;
 	for (JIndex i=1; i<=itemCount; i++)
 	{
-		itemText = *itemList.GetElement(i);
+		itemText = *itemList.GetItem(i);
 
 		bool isActive, hasSeparator;
 		JXMenu::ItemType type;
@@ -277,7 +277,7 @@ JXTextMenuData::InsertMenuItems
 			strID += "::";
 			strID += idNamespace;
 			JString* itemText1;
-			if (strMgr->GetElement(strID, &itemText1) && itemText1 != nullptr)
+			if (strMgr->GetItem(strID, &itemText1) && itemText1 != nullptr)
 			{
 				itemText = *itemText1;
 				bool isActive1, hasSeparator1;
@@ -348,15 +348,15 @@ JXTextMenuData::ParseMenuItemStr
 
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	text->Split("%", &list);
-	text->Set(*(list.GetFirstElement()));
+	text->Set(*(list.GetFirstItem()));
 	text->TrimWhitespace();
 
 	const bool isMacOS = JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle;
 
-	const JSize count = list.GetElementCount();
+	const JSize count = list.GetItemCount();
 	for (JIndex i=2; i<=count; i++)
 	{
-		const JString* op        = list.GetElement(i);
+		const JString* op        = list.GetItem(i);
 		const JUtf8Character opc = op->GetFirstCharacter().ToLower();
 		if (opc == 'd')
 		{
@@ -427,9 +427,9 @@ JXTextMenuData::SetFontName
 	const JString&	name
 	)
 {
-	TextItemData itemData = itsTextItemData->GetElement(index);
+	TextItemData itemData = itsTextItemData->GetItem(index);
 	itemData.font.SetName(name);
-	itsTextItemData->SetElement(index, itemData);
+	itsTextItemData->SetItem(index, itemData);
 
 	itsNeedGeomRecalcFlag = true;
 }
@@ -441,11 +441,11 @@ JXTextMenuData::SetFontSize
 	const JSize		size
 	)
 {
-	TextItemData itemData = itsTextItemData->GetElement(index);
+	TextItemData itemData = itsTextItemData->GetItem(index);
 	if (size != itemData.font.GetSize())
 	{
 		itemData.font.SetSize(size);
-		itsTextItemData->SetElement(index, itemData);
+		itsTextItemData->SetItem(index, itemData);
 
 		itsNeedGeomRecalcFlag = true;
 	}
@@ -458,11 +458,11 @@ JXTextMenuData::SetFontStyle
 	const JFontStyle&	style
 	)
 {
-	TextItemData itemData = itsTextItemData->GetElement(index);
+	TextItemData itemData = itsTextItemData->GetItem(index);
 	if (style != itemData.font.GetStyle())
 	{
 		itemData.font.SetStyle(style);
-		itsTextItemData->SetElement(index, itemData);
+		itsTextItemData->SetItem(index, itemData);
 
 		itsNeedGeomRecalcFlag = true;
 	}
@@ -475,9 +475,9 @@ JXTextMenuData::SetFont
 	const JFont&	font
 	)
 {
-	TextItemData itemData = itsTextItemData->GetElement(index);
+	TextItemData itemData = itsTextItemData->GetItem(index);
 	itemData.font = font;
-	itsTextItemData->SetElement(index, itemData);
+	itsTextItemData->SetItem(index, itemData);
 
 	itsNeedGeomRecalcFlag = true;
 }
@@ -565,14 +565,14 @@ JXTextMenuData::UpdateItemFonts
 	const JFont& newFont
 	)
 {
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		TextItemData itemData = itsTextItemData->GetElement(i);
+		TextItemData itemData = itsTextItemData->GetItem(i);
 		if (itemData.font == oldFont)
 		{
 			itemData.font = newFont;
-			itsTextItemData->SetElement(i, itemData);
+			itsTextItemData->SetItem(i, itemData);
 
 			itsNeedGeomRecalcFlag = true;
 		}
@@ -592,7 +592,7 @@ JXTextMenuData::GetImage
 	)
 	const
 {
-	const TextItemData itemData = itsTextItemData->GetElement(index);
+	const TextItemData itemData = itsTextItemData->GetItem(index);
 	if (itemData.image != nullptr)
 	{
 		*image = itemData.image;
@@ -624,7 +624,7 @@ JXTextMenuData::SetImage
 		return;
 	}
 
-	TextItemData itemData = itsTextItemData->GetElement(index);
+	TextItemData itemData = itsTextItemData->GetItem(index);
 
 	if (itemData.image == nullptr ||
 		(itemData.image->GetBounds()) != image->GetBounds())
@@ -639,7 +639,7 @@ JXTextMenuData::SetImage
 
 	itemData.image     = image;
 	itemData.ownsImage = menuOwnsImage;
-	itsTextItemData->SetElement(index, itemData);
+	itsTextItemData->SetItem(index, itemData);
 
 	Broadcast(ImageChanged(index));
 }
@@ -655,7 +655,7 @@ JXTextMenuData::ClearImage
 	const JIndex index
 	)
 {
-	TextItemData itemData = itsTextItemData->GetElement(index);
+	TextItemData itemData = itsTextItemData->GetItem(index);
 	if (itemData.image != nullptr)
 	{
 		if (itemData.ownsImage)
@@ -663,7 +663,7 @@ JXTextMenuData::ClearImage
 			jdelete itemData.image;
 		}
 		itemData.image = nullptr;
-		itsTextItemData->SetElement(index, itemData);
+		itsTextItemData->SetItem(index, itemData);
 
 		itsNeedGeomRecalcFlag = true;
 	}
@@ -682,7 +682,7 @@ JXTextMenuData::GetNMShortcut
 	)
 	const
 {
-	const TextItemData itemData = itsTextItemData->GetElement(index);
+	const TextItemData itemData = itsTextItemData->GetItem(index);
 	if (itemData.nmShortcut != nullptr)
 	{
 		*str = itemData.nmShortcut;
@@ -709,7 +709,7 @@ JXTextMenuData::GetNMShortcut
 	)
 	const
 {
-	const TextItemData itemData = itsTextItemData->GetElement(index);
+	const TextItemData itemData = itsTextItemData->GetItem(index);
 
 	if (itemData.nmShortcut != nullptr)
 	{
@@ -737,7 +737,7 @@ JXTextMenuData::SetNMShortcut
 	const JString&	str
 	)
 {
-	TextItemData itemData = itsTextItemData->GetElement(index);
+	TextItemData itemData = itsTextItemData->GetItem(index);
 
 	const bool strEmpty = str.IsEmpty();
 
@@ -746,7 +746,7 @@ JXTextMenuData::SetNMShortcut
 	{
 		itemData.nmShortcut = jnew JString(str);
 		assert( itemData.nmShortcut != nullptr );
-		itsTextItemData->SetElement(index, itemData);
+		itsTextItemData->SetItem(index, itemData);
 		changed = true;
 	}
 	else if (!strEmpty)
@@ -758,7 +758,7 @@ JXTextMenuData::SetNMShortcut
 	{
 		jdelete itemData.nmShortcut;
 		itemData.nmShortcut = nullptr;
-		itsTextItemData->SetElement(index, itemData);
+		itsTextItemData->SetItem(index, itemData);
 		changed = true;
 	}
 
@@ -1072,11 +1072,11 @@ JXTextMenuData::ShowSeparatorAfter
 	const bool	show
 	)
 {
-	TextItemData itemData = itsTextItemData->GetElement(index);
+	TextItemData itemData = itsTextItemData->GetItem(index);
 	if (itemData.separator != show)
 	{
 		itemData.separator = show;
-		itsTextItemData->SetElement(index, itemData);
+		itsTextItemData->SetItem(index, itemData);
 
 		itsNeedGeomRecalcFlag = true;
 	}
@@ -1098,10 +1098,10 @@ JXTextMenuData::ItemShortcutsChanged
 	const JString*	shortcuts
 	)
 {
-	TextItemData itemData = itsTextItemData->GetElement(index);
+	TextItemData itemData = itsTextItemData->GetItem(index);
 	itemData.ulIndex =
 		JXWindow::GetULShortcutIndex(*(itemData.text), shortcuts);
-	itsTextItemData->SetElement(index, itemData);
+	itsTextItemData->SetItem(index, itemData);
 }
 
 /******************************************************************************
@@ -1131,10 +1131,10 @@ JXTextMenuData::ConfigureTable
 		itsHasNMShortcutsFlag = false;
 		itsItemHeights->RemoveAll();
 
-		const JSize itemCount = itsTextItemData->GetElementCount();
+		const JSize itemCount = itsTextItemData->GetItemCount();
 		for (JIndex i=1; i<=itemCount; i++)
 		{
-			const TextItemData itemData = itsTextItemData->GetElement(i);
+			const TextItemData itemData = itsTextItemData->GetItem(i);
 			JCoordinate h =
 				(itsCompressHeightFlag && !hasCheckboxes && !hasSubmenus) ?
 				0 : JXMenuTable::kMinRowHeight;
@@ -1184,7 +1184,7 @@ JXTextMenuData::ConfigureTable
 			}
 
 			table->SetRowHeight(i,h);
-			itsItemHeights->AppendElement(h);
+			itsItemHeights->AppendItem(h);
 		}
 	}
 	else

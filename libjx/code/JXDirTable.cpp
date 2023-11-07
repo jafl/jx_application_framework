@@ -842,7 +842,7 @@ JXDirTable::HandleDNDDrop
 
 	if (!fileNameList.IsEmpty())
 	{
-		const JString* entryName = fileNameList.GetFirstElement();
+		const JString* entryName = fileNameList.GetFirstItem();
 		JString path, name;
 		if (JDirectoryExists(*entryName))
 		{
@@ -915,7 +915,7 @@ JXDirTable::AdjustTableContents()
 	RemoveAllRows();
 	itsMaxStringWidth = 0;
 
-	const JSize count = itsDirInfo->GetElementCount();
+	const JSize count = itsDirInfo->GetItemCount();
 	AppendRows(count);
 
 	const JFont& font = JFontManager::GetDefaultFont();
@@ -942,11 +942,11 @@ JXDirTable::AdjustTableContents()
 				(entry.IsDirectory() && (!entry.IsReadable() || !entry.IsExecutable())) ||
 				(entry.IsFile() && (!entry.IsReadable() || !itsAllowSelectFilesFlag)))
 			{
-				itsActiveCells->AppendElement(false);
+				itsActiveCells->AppendItem(false);
 			}
 			else
 			{
-				itsActiveCells->AppendElement(true);
+				itsActiveCells->AppendItem(true);
 			}
 		}
 	}
@@ -974,14 +974,14 @@ JXDirTable::AdjustTableContents()
 			// select the closest item
 
 			JIndex i;
-			if (ClosestMatch(*(itsReselectNameList->GetFirstElement()), &i))
+			if (ClosestMatch(*(itsReselectNameList->GetFirstItem()), &i))
 			{
 				s.SelectRow(i);
 
 				// If it is not an exact match, deselect it after scrolling to it.
 
 				if ((itsDirInfo->GetEntry(i)).GetName() !=
-					*(itsReselectNameList->GetFirstElement()))
+					*(itsReselectNameList->GetFirstItem()))
 				{
 					deselect = true;
 				}

@@ -148,7 +148,7 @@ inline JSize
 JXDockWidget::GetWindowCount()
 	const
 {
-	return (itsWindowList == nullptr ? 0 : itsWindowList->GetElementCount());
+	return (itsWindowList == nullptr ? 0 : itsWindowList->GetItemCount());
 }
 
 /******************************************************************************
@@ -169,7 +169,7 @@ JXDockWidget::GetWindow
 		return false;
 		}
 
-	*window = itsWindowList->GetElement(index);
+	*window = itsWindowList->GetItem(index);
 	return true;
 }
 

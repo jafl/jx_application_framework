@@ -167,7 +167,7 @@ JTreeList::Close
 	JIndex openIndex;
 	if (itsOpenNodeList->Find(node, &openIndex))
 	{
-		itsOpenNodeList->RemoveElement(openIndex);
+		itsOpenNodeList->RemoveItem(openIndex);
 
 		JIndex index;
 		if (FindNode(node, &index))
@@ -180,7 +180,7 @@ JTreeList::Close
 			{
 				if (FindNode(n, &j))
 				{
-					RemoveElement(j);
+					RemoveItem(j);
 				}
 			}
 
@@ -396,7 +396,7 @@ JTreeList::Receive
 	{
 		while (!itsVisibleNodeList->IsEmpty())
 		{
-			RemoveElement(1);
+			RemoveItem(1);
 		}
 
 		const JTreeNode* root = itsTree->GetRoot();
@@ -420,7 +420,7 @@ JTreeList::Receive
 		{
 			if (index == parent->GetChildCount())
 			{
-				InsertElement(GetElementCount()+1, node);
+				InsertElement(GetItemCount()+1, node);
 			}
 			else
 			{
@@ -450,7 +450,7 @@ JTreeList::Receive
 		if (FindNode(node, &index))
 		{
 			Close(index);
-			RemoveElement(index);
+			RemoveItem(index);
 		}
 	}
 
@@ -464,7 +464,7 @@ JTreeList::Receive
 		JIndex index;
 		if (FindNode(node, &index))
 		{
-			RemoveElement(index);
+			RemoveItem(index);
 		}
 	}
 
@@ -572,17 +572,17 @@ JTreeList::InsertElement
 }
 
 /******************************************************************************
- RemoveElement (private)
+ RemoveItem (private)
 
  ******************************************************************************/
 
 void
-JTreeList::RemoveElement
+JTreeList::RemoveItem
 	(
 	const JIndex index
 	)
 {
 	const JTreeNode* node = GetNode(index);		// save before removing from list
-	itsVisibleNodeList->RemoveElement(index);
+	itsVisibleNodeList->RemoveItem(index);
 	Broadcast(NodeRemoved(node, index));
 }

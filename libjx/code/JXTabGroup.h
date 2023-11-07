@@ -224,7 +224,7 @@ inline JSize
 JXTabGroup::GetTabCount()
 	const
 {
-	return itsTitles->GetElementCount();
+	return itsTitles->GetItemCount();
 }
 
 /******************************************************************************
@@ -376,7 +376,7 @@ JXTabGroup::GetTabTitle
 	)
 	const
 {
-	return *(itsTitles->GetElement(index));
+	return *(itsTitles->GetItem(index));
 }
 
 inline void
@@ -386,7 +386,7 @@ JXTabGroup::SetTabTitle
 	const JString&	title
 	)
 {
-	*(itsTitles->GetElement(index)) = title;
+	*(itsTitles->GetItem(index)) = title;
 	Refresh();
 }
 
@@ -402,7 +402,7 @@ JXTabGroup::TabCanClose
 	)
 	const
 {
-	return (itsTabInfoList->GetElement(index)).closable;
+	return (itsTabInfoList->GetItem(index)).closable;
 }
 
 inline void
@@ -412,11 +412,11 @@ JXTabGroup::SetTabCanClose
 	const bool	closable
 	)
 {
-	TabInfo info = itsTabInfoList->GetElement(index);
+	TabInfo info = itsTabInfoList->GetItem(index);
 	if (closable != info.closable)
 		{
 		info.closable = closable;
-		itsTabInfoList->SetElement(index, info);
+		itsTabInfoList->SetItem(index, info);
 		Refresh();
 		}
 }

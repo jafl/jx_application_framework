@@ -389,7 +389,7 @@ JRunArrayIterator<T>::SkipNext
 	JCursorPosition cursorPos = this->GetCursor();
 	if (itsRunArray != nullptr)
 	{
-		const JSize maxPos = itsRunArray->GetElementCount();
+		const JSize maxPos = itsRunArray->GetItemCount();
 
 		JSize remaining = count;
 		while (remaining > 0 && cursorPos < maxPos)
@@ -469,7 +469,7 @@ JRunArrayIterator<T>::SetNext
 	JIndex firstInRun      = itemIndex - itsOffsetInRun;
 
 	itsIgnoreListChangedFlag = true;
-	itsRunArray->IteratorSetElements(itemIndex, data, 1, &itsRunIndex, &firstInRun);
+	itsRunArray->IteratorSetItems(itemIndex, data, 1, &itsRunIndex, &firstInRun);
 	itsIgnoreListChangedFlag = false;
 
 	itsOffsetInRun = itemIndex - firstInRun;
@@ -531,7 +531,7 @@ JRunArrayIterator<T>::SetNext
 	assert( count > 0 );
 
 	JList<T>* obj;
-	if (!this->GetList(&obj) || itsRunArray->GetElementCount() - this->GetCursor() < count)
+	if (!this->GetList(&obj) || itsRunArray->GetItemCount() - this->GetCursor() < count)
 	{
 		return false;
 	}
@@ -547,7 +547,7 @@ JRunArrayIterator<T>::SetNext
 	}
 
 	itsIgnoreListChangedFlag = true;
-	itsRunArray->IteratorSetElements(itemIndex, data, count, &runIndex, &firstInRun);
+	itsRunArray->IteratorSetItems(itemIndex, data, count, &runIndex, &firstInRun);
 	itsIgnoreListChangedFlag = false;
 
 	if (!wasAtBeginning)
@@ -614,7 +614,7 @@ JRunArrayIterator<T>::RemoveNext
 	JIndex firstInRun      = itemIndex - itsOffsetInRun;
 
 	itsIgnoreListChangedFlag = true;
-	itsRunArray->IteratorRemoveElements(itemIndex, count, &itsRunIndex, &firstInRun);
+	itsRunArray->IteratorRemoveItems(itemIndex, count, &itsRunIndex, &firstInRun);
 	itsIgnoreListChangedFlag = false;
 
 	itsOffsetInRun = itemIndex - firstInRun;
@@ -654,7 +654,7 @@ JRunArrayIterator<T>::Insert
 
 	if (this->AtBeginning())
 	{
-		itsRunArray->PrependElements(data, count);
+		itsRunArray->PrependItems(data, count);
 	}
 	else
 	{
@@ -666,7 +666,7 @@ JRunArrayIterator<T>::Insert
 		SkipPrev();
 
 		itsIgnoreListChangedFlag = true;
-		itsRunArray->IteratorInsertElementsAtIndex(itemIndex, data, count, &runIndex, &firstInRun);
+		itsRunArray->IteratorInsertItemsAtIndex(itemIndex, data, count, &runIndex, &firstInRun);
 		itsIgnoreListChangedFlag = false;
 
 		if (!wasAtBeginning)
@@ -810,7 +810,7 @@ JRunArrayIterator<T>::PrivateMoveTo
  ListChanged (virtual protected)
 
 	Respond to changes in itsRunArray.  We can't optimize anything because
-	inserting and removing elements can merge runs or split a run.  We have
+	inserting and removing items can merge runs or split a run.  We have
 	to ask our JRunArray what happened.
 
  ******************************************************************************/
@@ -839,7 +839,7 @@ JRunArrayIterator<T>::ListChanged
 			itsRunIndex    = 1;
 			itsOffsetInRun = 0;
 		}
-		else if (p >= itsRunArray->GetElementCount())
+		else if (p >= itsRunArray->GetItemCount())
 		{
 			itsRunIndex    = itsRunArray->GetRunCount()+1;
 			itsOffsetInRun = 0;

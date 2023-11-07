@@ -349,14 +349,14 @@ JXGC::SetDashList
 	const JSize				offset
 	)
 {
-	const JSize dashCount = dashList.GetElementCount();
+	const JSize dashCount = dashList.GetItemCount();
 
 	char* xDashList = jnew char [ dashCount ];
 	assert( xDashList != nullptr );
 
 	for (JIndex i=1; i<=dashCount; i++)
 	{
-		xDashList[i-1] = dashList.GetElement(i);
+		xDashList[i-1] = dashList.GetItem(i);
 	}
 
 	XSetDashes(*itsDisplay, itsXGC, offset, xDashList, dashCount);

@@ -1,10 +1,4 @@
-remove all assert != nullptr
-
 jcc
-	TextDocument::OpenAsBinaryFile: read non-normalized, so read bytes not JUtf8Character
-
-	JXDocumentMenu - show partial paths for repeated file names
-
 	EditTasksDialog: top partition gets larger every time it is opened
 		ftc for dialogs containing partition show bottom buttons off by several pixels
 
@@ -17,10 +11,6 @@ medic
 
 jcc
 	json styler: key vs value
-
-	include partial path in symbol search results when display duplicate file name
-		/Users/john.lindal/projects/vendomatic/src/main/webapp/public/sso.php
-		validateLogin
 
 	cmd window sometimes loses last chunk of program output
 

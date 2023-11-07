@@ -128,7 +128,7 @@ JXAtLeastOneCBGroup::GetNextActiveIndex
 	const JIndex cbIndex
 	)
 {
-	const JSize count = GetElementCount();
+	const JSize count = GetItemCount();
 	if (count < 2)
 	{
 		return cbIndex;

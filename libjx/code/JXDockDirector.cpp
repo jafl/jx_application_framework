@@ -141,12 +141,12 @@ JXDockDirector::BuildWindow
 	const JCoordinate kSize = 300;
 
 	JArray<JCoordinate> sizes;
-	sizes.AppendElement(kSize);
-	sizes.AppendElement(kSize);
+	sizes.AppendItem(kSize);
+	sizes.AppendItem(kSize);
 
 	JArray<JCoordinate> minSizes;
-	minSizes.AppendElement(JXDockWidget::kDefaultMinSize);
-	minSizes.AppendElement(JXDockWidget::kDefaultMinSize);
+	minSizes.AppendItem(JXDockWidget::kDefaultMinSize);
+	minSizes.AppendItem(JXDockWidget::kDefaultMinSize);
 
 	const JCoordinate w = 2*kSize + (splitHoriz ? JPartition::kDragRegionSize : 0);
 	const JCoordinate h = 2*kSize + (splitHoriz ? 0 : JPartition::kDragRegionSize);

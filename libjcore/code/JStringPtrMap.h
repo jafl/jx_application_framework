@@ -26,55 +26,55 @@ public:
 				  const JSize lgSize = kJDefaultLgMinTableSize);
 	~JStringPtrMap() override;
 
-	bool GetElement(const JString& key, V** ptr);
-	bool GetElement(const JString& key, const V** ptr) const;
+	bool GetItem(const JString& key, V** ptr);
+	bool GetItem(const JString& key, const V** ptr) const;
 
-	bool SetElement(const JString& key, V* ptr,
-					const JPtrArrayT::SetElementAction action,
+	bool SetItem(const JString& key, V* ptr,
+					const JPtrArrayT::SetAction action,
 					const JStringMapT::SetType type = JStringMapT::kAlways);
 	bool SetNewElement(const JString& key, V* ptr);	// avoid shadowing
 	bool SetOldElement(const JString& key, V* ptr,
-					   const JPtrArrayT::SetElementAction action);
+					   const JPtrArrayT::SetAction action);
 	bool SetContains(const JString& key, V* ptr,
-					 const JPtrArrayT::SetElementAction action);
+					 const JPtrArrayT::SetAction action);
 
-	bool GetElement(const JUtf8Byte* key, V** ptr);
-	bool GetElement(const JUtf8Byte* key, const V** ptr) const;
+	bool GetItem(const JUtf8Byte* key, V** ptr);
+	bool GetItem(const JUtf8Byte* key, const V** ptr) const;
 
-	bool SetElement(const JUtf8Byte* key, V* ptr,
-					const JPtrArrayT::SetElementAction action,
+	bool SetItem(const JUtf8Byte* key, V* ptr,
+					const JPtrArrayT::SetAction action,
 					const JStringMapT::SetType type = JStringMapT::kAlways);
 	bool SetNewElement(const JUtf8Byte* key, V* ptr);	// avoid shadowing
 	bool SetOldElement(const JUtf8Byte* key, V* ptr,
-					   const JPtrArrayT::SetElementAction action);
+					   const JPtrArrayT::SetAction action);
 	bool SetContains(const JUtf8Byte* key, V* ptr,
-					 const JPtrArrayT::SetElementAction action);
+					 const JPtrArrayT::SetAction action);
 
 	// these insert a *copy* of the object into the array
 
-	bool SetElement(const JString& key, const V& data,
-					const JPtrArrayT::SetElementAction action,
+	bool SetItem(const JString& key, const V& data,
+					const JPtrArrayT::SetAction action,
 					const JStringMapT::SetType type = JStringMapT::kAlways);
 	bool SetNewElement(const JString& key, const V& data);
 	bool SetOldElement(const JString& key, const V& data,
-					   const JPtrArrayT::SetElementAction action);
+					   const JPtrArrayT::SetAction action);
 	bool SetContains(const JString& key, const V& data,
-					 const JPtrArrayT::SetElementAction action);
+					 const JPtrArrayT::SetAction action);
 
-	bool DeleteElement(const JString& key);
-	bool DeleteElementAsArray(const JString& key);
+	bool DeleteItem(const JString& key);
+	bool DeleteItemAsArray(const JString& key);
 
-	bool SetElement(const JUtf8Byte* key, const V& data,
-					const JPtrArrayT::SetElementAction action,
+	bool SetItem(const JUtf8Byte* key, const V& data,
+					const JPtrArrayT::SetAction action,
 					const JStringMapT::SetType type = JStringMapT::kAlways);
 	bool SetNewElement(const JUtf8Byte* key, const V& data);
 	bool SetOldElement(const JUtf8Byte* key, const V& data,
-					   const JPtrArrayT::SetElementAction action);
+					   const JPtrArrayT::SetAction action);
 	bool SetContains(const JUtf8Byte* key, const V& data,
-					 const JPtrArrayT::SetElementAction action);
+					 const JPtrArrayT::SetAction action);
 
-	bool DeleteElement(const JUtf8Byte* key);
-	bool DeleteElementAsArray(const JUtf8Byte* key);
+	bool DeleteItem(const JUtf8Byte* key);
+	bool DeleteItemAsArray(const JUtf8Byte* key);
 
 	void CleanOut();		// safest
 	void DeleteAll();
@@ -85,7 +85,7 @@ public:
 
 protected:
 
-	void PrepareForSet(const JPtrArrayT::SetElementAction action) override;
+	void PrepareForSet(const JPtrArrayT::SetAction action) override;
 
 private:
 
@@ -94,7 +94,7 @@ private:
 
 
 /******************************************************************************
- GetElement
+ GetItem
 
 	These override the version in JStringMap to preserve constness.
 
@@ -102,84 +102,84 @@ private:
 
 template <class V>
 inline bool
-JStringPtrMap<V>::GetElement
+JStringPtrMap<V>::GetItem
 	(
 	const JUtf8Byte* key,
 	V**              ptr
 	)
 {
-	return JStringMap<V*>::GetElement(JString(key, JString::kNoCopy), ptr);
+	return JStringMap<V*>::GetItem(JString(key, JString::kNoCopy), ptr);
 }
 
 template <class V>
 inline bool
-JStringPtrMap<V>::GetElement
+JStringPtrMap<V>::GetItem
 	(
 	const JString& key,
 	V**            ptr
 	)
 {
-	return JStringMap<V*>::GetElement(key, ptr);
+	return JStringMap<V*>::GetItem(key, ptr);
 }
 
 template <class V>
 inline bool
-JStringPtrMap<V>::GetElement
+JStringPtrMap<V>::GetItem
 	(
 	const JUtf8Byte* key,
 	const V**        ptr
 	)
 	const
 {
-	return JStringMap<V*>::GetElement(JString(key, JString::kNoCopy), const_cast<V**>(ptr));
+	return JStringMap<V*>::GetItem(JString(key, JString::kNoCopy), const_cast<V**>(ptr));
 }
 
 template <class V>
 inline bool
-JStringPtrMap<V>::GetElement
+JStringPtrMap<V>::GetItem
 	(
 	const JString& key,
 	const V**      ptr
 	)
 	const
 {
-	return JStringMap<V*>::GetElement(key, const_cast<V**>(ptr));
+	return JStringMap<V*>::GetItem(key, const_cast<V**>(ptr));
 }
 
 /******************************************************************************
  Set...Element
 
 	These override the versions in JStringMap to force you to consider the
-	SetElementAction.
+	SetAction.
 
  *****************************************************************************/
 
 template <class V>
 inline bool
-JStringPtrMap<V>::SetElement
+JStringPtrMap<V>::SetItem
 	(
 	const JUtf8Byte*                   key,
 	V*                                 ptr,
-	const JPtrArrayT::SetElementAction action,
+	const JPtrArrayT::SetAction action,
 	const JStringMapT::SetType         type // = kAlways
 	)
 {
 	bool existed;
-	return JStringMap<V*>::SetElement(JString(key, JString::kNoCopy), ptr, action, type, &existed);
+	return JStringMap<V*>::SetItem(JString(key, JString::kNoCopy), ptr, action, type, &existed);
 }
 
 template <class V>
 inline bool
-JStringPtrMap<V>::SetElement
+JStringPtrMap<V>::SetItem
 	(
 	const JString&                     key,
 	V*                                 ptr,
-	const JPtrArrayT::SetElementAction action,
+	const JPtrArrayT::SetAction action,
 	const JStringMapT::SetType         type // = kAlways
 	)
 {
 	bool existed;
-	return JStringMap<V*>::SetElement(key, ptr, action, type, &existed);
+	return JStringMap<V*>::SetItem(key, ptr, action, type, &existed);
 }
 
 template <class V>
@@ -210,10 +210,10 @@ JStringPtrMap<V>::SetOldElement
 	(
 	const JUtf8Byte*                   key,
 	V*                                 ptr,
-	const JPtrArrayT::SetElementAction action
+	const JPtrArrayT::SetAction action
 	)
 {
-	return SetElement(JString(key, JString::kNoCopy), ptr, action, JStringMapT::kIfOld);
+	return SetItem(JString(key, JString::kNoCopy), ptr, action, JStringMapT::kIfOld);
 }
 
 template <class V>
@@ -222,10 +222,10 @@ JStringPtrMap<V>::SetOldElement
 	(
 	const JString&                     key,
 	V*                                 ptr,
-	const JPtrArrayT::SetElementAction action
+	const JPtrArrayT::SetAction action
 	)
 {
-	return SetElement(key, ptr, action, JStringMapT::kIfOld);
+	return SetItem(key, ptr, action, JStringMapT::kIfOld);
 }
 
 template <class V>
@@ -234,11 +234,11 @@ JStringPtrMap<V>::SetContains
 	(
 	const JUtf8Byte*                   key,
 	V*                                 ptr,
-	const JPtrArrayT::SetElementAction action
+	const JPtrArrayT::SetAction action
 	)
 {
 	bool existed;
-	JStringMap<V*>::SetElement(JString(key, JString::kNoCopy), ptr, action, JStringMapT::kAlways, &existed);
+	JStringMap<V*>::SetItem(JString(key, JString::kNoCopy), ptr, action, JStringMapT::kAlways, &existed);
 	return existed;
 }
 
@@ -248,62 +248,62 @@ JStringPtrMap<V>::SetContains
 	(
 	const JString&                     key,
 	V*                                 ptr,
-	const JPtrArrayT::SetElementAction action
+	const JPtrArrayT::SetAction action
 	)
 {
 	bool existed;
-	JStringMap<V*>::SetElement(key, ptr, action, JStringMapT::kAlways, &existed);
+	JStringMap<V*>::SetItem(key, ptr, action, JStringMapT::kAlways, &existed);
 	return existed;
 }
 
 /******************************************************************************
- DeleteElement
+ DeleteItem
 
  *****************************************************************************/
 
 template <class V>
 inline bool
-JStringPtrMap<V>::DeleteElement
+JStringPtrMap<V>::DeleteItem
 	(
 	const JUtf8Byte* key
 	)
 {
-	return JStringMap<V*>::RemoveElement(JString(key, JString::kNoCopy), JPtrArrayT::kDelete);
+	return JStringMap<V*>::RemoveItem(JString(key, JString::kNoCopy), JPtrArrayT::kDelete);
 }
 
 template <class V>
 inline bool
-JStringPtrMap<V>::DeleteElement
+JStringPtrMap<V>::DeleteItem
 	(
 	const JString& key
 	)
 {
-	return JStringMap<V*>::RemoveElement(key, JPtrArrayT::kDelete);
+	return JStringMap<V*>::RemoveItem(key, JPtrArrayT::kDelete);
 }
 
 /******************************************************************************
- DeleteElementAsArray
+ DeleteItemAsArray
 
  *****************************************************************************/
 
 template <class V>
 inline bool
-JStringPtrMap<V>::DeleteElementAsArray
+JStringPtrMap<V>::DeleteItemAsArray
 	(
 	const JUtf8Byte* key
 	)
 {
-	return JStringMap<V*>::RemoveElement(JString(key, JString::kNoCopy), JPtrArrayT::kDeleteAsArray);
+	return JStringMap<V*>::RemoveItem(JString(key, JString::kNoCopy), JPtrArrayT::kDeleteAsArray);
 }
 
 template <class V>
 inline bool
-JStringPtrMap<V>::DeleteElementAsArray
+JStringPtrMap<V>::DeleteItemAsArray
 	(
 	const JString& key
 	)
 {
-	return JStringMap<V*>::RemoveElement(key, JPtrArrayT::kDeleteAsArray);
+	return JStringMap<V*>::RemoveItem(key, JPtrArrayT::kDeleteAsArray);
 }
 
 /******************************************************************************

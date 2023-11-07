@@ -149,7 +149,7 @@ JFSBindingList::AddBinding
 		itsBindingList->SearchSortedOTI(b, JListT::kLastMatch, &found);
 	if (found)
 	{
-		JFSBinding* origB = itsBindingList->GetElement(index);
+		JFSBinding* origB = itsBindingList->GetItem(index);
 		if (b->IsSystemBinding() && !origB->IsSystemBinding())
 		{
 			if (!itsOverriddenList->InsertSorted(b, false))
@@ -161,11 +161,11 @@ JFSBindingList::AddBinding
 		else if (!b->IsSystemBinding() && origB->IsSystemBinding() &&
 				 itsOverriddenList->InsertSorted(origB, false))
 		{
-			itsBindingList->RemoveElement(index);
+			itsBindingList->RemoveItem(index);
 		}
 		else
 		{
-			itsBindingList->DeleteElement(index);
+			itsBindingList->DeleteItem(index);
 		}
 	}
 
@@ -188,7 +188,7 @@ JFSBindingList::DeleteBinding
 	const JIndex index
 	)
 {
-	JFSBinding* b = itsBindingList->GetElement(index);
+	JFSBinding* b = itsBindingList->GetItem(index);
 	if (b->IsSystemBinding())
 	{
 		return true;
@@ -198,13 +198,13 @@ JFSBindingList::DeleteBinding
 	const bool found =
 		itsOverriddenList->SearchSorted(b, JListT::kLastMatch, &fIndex);
 
-	itsBindingList->DeleteElement(index);
+	itsBindingList->DeleteItem(index);
 	b = nullptr;
 
 	if (found)
 	{
-		b = itsOverriddenList->GetElement(fIndex);
-		itsOverriddenList->RemoveElement(fIndex);
+		b = itsOverriddenList->GetItem(fIndex);
+		itsOverriddenList->RemoveItem(fIndex);
 
 		const bool inserted = itsBindingList->InsertSorted(b, false);
 		assert( inserted );
@@ -236,7 +236,7 @@ JFSBindingList::SetPattern
 {
 	*newIndex = index;
 
-	JFSBinding* b = itsBindingList->GetElement(index);
+	JFSBinding* b = itsBindingList->GetItem(index);
 	if (b->GetPattern() == pattern)
 	{
 		return true;
@@ -284,7 +284,7 @@ JFSBindingList::SetCommand
 	const JString&	cmd
 	)
 {
-	JFSBinding* b = itsBindingList->GetElement(index);
+	JFSBinding* b = itsBindingList->GetItem(index);
 
 	JFSBinding::CommandType type;
 	bool singleFile;
@@ -320,7 +320,7 @@ JFSBindingList::SetCommandType
 	const JFSBinding::CommandType	type
 	)
 {
-	JFSBinding* b = itsBindingList->GetElement(index);
+	JFSBinding* b = itsBindingList->GetItem(index);
 	if (b->GetCommandType() == type)
 	{
 		return false;
@@ -356,7 +356,7 @@ JFSBindingList::SetSingleFile
 	const bool	singleFile
 	)
 {
-	JFSBinding* b = itsBindingList->GetElement(index);
+	JFSBinding* b = itsBindingList->GetItem(index);
 	if (b->IsSingleFileCommand() == singleFile)
 	{
 		return false;
@@ -398,10 +398,10 @@ JFSBindingList::SetCommand
 
 	JIndex index;
 	if (itsBindingList->SearchSorted(b, JListT::kLastMatch, &index) &&
-		!(itsBindingList->GetElement(index))->IsSystemBinding())
+		!(itsBindingList->GetItem(index))->IsSystemBinding())
 	{
 		jdelete b;
-		b = itsBindingList->GetElement(index);
+		b = itsBindingList->GetItem(index);
 		b->SetCommand(cmd, type, singleFile);
 	}
 	else
