@@ -842,7 +842,7 @@ JError
 JXFileDocument::WriteFile
 	(
 	const JString&	fullName,
-	const bool	safetySave
+	const bool		safetySave
 	)
 	const
 {
@@ -889,8 +889,8 @@ JXFileDocument::WriteFile
 void
 JXFileDocument::WriteTextFile
 	(
-	std::ostream&		output,
-	const bool	safetySave
+	std::ostream&	output,
+	const bool		safetySave
 	)
 	const
 {

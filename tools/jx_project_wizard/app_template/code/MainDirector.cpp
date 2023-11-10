@@ -10,8 +10,6 @@
 #include "MainDirector.h"
 #include "globals.h"
 #include "actionDefs.h"
-#include <jx-af/jx/JXWebBrowser.h>
-#include <jx-af/jx/JXMacWinPrefsDialog.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
@@ -19,8 +17,9 @@
 #include <jx-af/jx/JXScrollbarSet.h>
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXWebBrowser.h>
+#include <jx-af/jx/JXMacWinPrefsDialog.h>
 #include <jx-af/jcore/JColorManager.h>
-#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 // File menu

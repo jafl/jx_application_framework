@@ -323,7 +323,7 @@ GenerateForm
 	const JString&		stringPath,
 	const JString&		codeSuffix,
 	const JString&		headerSuffix,
-	const bool		requireObjectNames,
+	const bool			requireObjectNames,
 	JPtrArray<JString>*	backupList
 	)
 {
@@ -567,8 +567,8 @@ JIndex i;
 	// are drawn in the order added, an object must come after its enclosure
 	// in the list in order to be visible.
 
-	JArray<JRect>    rectList(10);
-	JArray<bool> isInstanceVar(10);
+	JArray<JRect> rectList(10);
+	JArray<bool>  isInstanceVar(10);
 
 	// This array is used to send the options to ApplyOptions.
 	// It does not own the pointers that it contains.
