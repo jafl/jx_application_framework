@@ -12,6 +12,7 @@
 #include "JXBorderRect.h"
 #include "JXWindowPainter.h"
 #include "jXPainterUtil.h"
+#include <jx-af/jcore/JColorManager.h>
 
 /******************************************************************************
  Constructor
@@ -29,7 +30,8 @@ JXBorderRect::JXBorderRect
 	const JCoordinate	h
 	)
 	:
-	JXDecorRect(enclosure, hSizing, vSizing, x,y, w,h)
+	JXDecorRect(enclosure, hSizing, vSizing, x,y, w,h),
+	itsColor(JColorManager::GetBlackColor())
 {
 	SetBorderWidth(1);
 }
@@ -55,5 +57,7 @@ JXBorderRect::DrawBorder
 	const JRect&		frame
 	)
 {
+	p.SetPenColor(itsColor);
+	p.SetFilling(true);
 	p.Rect(frame);
 }

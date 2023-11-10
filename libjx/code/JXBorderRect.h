@@ -21,9 +21,38 @@ public:
 
 	~JXBorderRect() override;
 
+	JColorID	GetBorderColor() const;
+	void		SetBorderColor(const JColorID color);
+
 protected:
 
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+
+private:
+
+	JColorID	itsColor;
 };
+
+
+/******************************************************************************
+ Layout name
+
+ ******************************************************************************/
+
+inline JColorID
+JXBorderRect::GetBorderColor()
+	const
+{
+	return itsColor;
+}
+
+inline void
+JXBorderRect::SetBorderColor
+	(
+	const JColorID color
+	)
+{
+	itsColor = color;
+}
 
 #endif
