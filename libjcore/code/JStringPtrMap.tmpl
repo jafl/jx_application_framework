@@ -80,7 +80,7 @@ JStringPtrMap<V>::CleanOut()
 /******************************************************************************
  PrepareForSet (virtual protected)
 
-	Operates on the cursor's element.
+	Operates on the cursor's item.
 
  *****************************************************************************/
 
@@ -143,31 +143,31 @@ JStringPtrMap<V>::SetItem
 
 template <class V>
 bool
-JStringPtrMap<V>::SetNewElement
+JStringPtrMap<V>::SetNewItem
 	(
 	const JUtf8Byte* key,
 	const V&         data
 	)
 {
 	V* ptr = jnew V(data);
-	return SetNewElement(JString(key, JString::kNoCopy), ptr);
+	return SetNewItem(JString(key, JString::kNoCopy), ptr);
 }
 
 template <class V>
 bool
-JStringPtrMap<V>::SetNewElement
+JStringPtrMap<V>::SetNewItem
 	(
 	const JString& key,
 	const V&       data
 	)
 {
 	V* ptr = jnew V(data);
-	return SetNewElement(key, ptr);
+	return SetNewItem(key, ptr);
 }
 
 template <class V>
 bool
-JStringPtrMap<V>::SetOldElement
+JStringPtrMap<V>::SetOldItem
 	(
 	const JUtf8Byte*                   key,
 	const V&                           data,
@@ -175,12 +175,12 @@ JStringPtrMap<V>::SetOldElement
 	)
 {
 	V* ptr = jnew V(data);
-	return SetOldElement(JString(key, JString::kNoCopy), ptr, action);
+	return SetOldItem(JString(key, JString::kNoCopy), ptr, action);
 }
 
 template <class V>
 bool
-JStringPtrMap<V>::SetOldElement
+JStringPtrMap<V>::SetOldItem
 	(
 	const JString&                     key,
 	const V&                           data,
@@ -188,7 +188,7 @@ JStringPtrMap<V>::SetOldElement
 	)
 {
 	V* ptr = jnew V(data);
-	return SetOldElement(key, ptr, action);
+	return SetOldItem(key, ptr, action);
 }
 
 template <class V>

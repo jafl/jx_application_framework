@@ -38,7 +38,7 @@ JTEST(Exercise)
 		key         = keyBytes;
 		auto* newValue = jnew JUtf8Byte[key.GetByteCount()+1];
 		strcpy(newValue, keyBytes);
-		JAssertTrue(ptrMap.SetNewElement(key, newValue));
+		JAssertTrue(ptrMap.SetNewItem(key, newValue));
 	}
 	JAssertEqual(gNumStrings, ptrMap.GetItemCount());
 	JAssertEqualWithMessage(gNumStrings, ptrMap.GetLoadCount(), "Map contains extra deleted elements!");

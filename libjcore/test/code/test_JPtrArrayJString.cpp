@@ -59,7 +59,7 @@ JTEST(ReadWritePtrMap)
 
 	JString* s;
 
-	map2.SetNewElement(key1, JString("foobar", JString::kNoCopy));
+	map2.SetNewItem(key1, JString("foobar", JString::kNoCopy));
 
 	std::stringstream io1;
 	io1 << map1;
@@ -67,7 +67,7 @@ JTEST(ReadWritePtrMap)
 	io1 >> map2;
 	JAssertTrue(map2.IsEmpty());
 
-	map1.SetNewElement(key1, JString("foobar", JString::kNoCopy));
+	map1.SetNewItem(key1, JString("foobar", JString::kNoCopy));
 	std::stringstream io2;
 	io2 << map1;
 	io2.seekg(0);
@@ -76,7 +76,7 @@ JTEST(ReadWritePtrMap)
 	JAssertTrue(map2.GetItem(key1, &s));
 	JAssertStringsEqual("foobar", *s);
 
-	map1.SetNewElement(key2, JString("barbaz", JString::kNoCopy));
+	map1.SetNewItem(key2, JString("barbaz", JString::kNoCopy));
 
 	std::stringstream io3;
 	io3 << map1;

@@ -42,9 +42,9 @@ public:
 	bool GetItem(const JString& key, V* value) const;
 
 	bool SetItem(const JString& key, const V& value,
-					const JStringMapT::SetType type = JStringMapT::kAlways);
-	bool SetNewElement(const JString& key, const V& value);
-	bool SetOldElement(const JString& key, const V& value);
+				 const JStringMapT::SetType type = JStringMapT::kAlways);
+	bool SetNewItem(const JString& key, const V& value);
+	bool SetOldItem(const JString& key, const V& value);
 	bool SetContains(const JString& key, const V& value);
 
 	bool RemoveItem(const JString& key);
@@ -54,9 +54,9 @@ public:
 	bool GetItem(const JUtf8Byte* key, V* value) const;
 
 	bool SetItem(const JUtf8Byte* key, const V& value,
-					const JStringMapT::SetType type = JStringMapT::kAlways);
-	bool SetNewElement(const JUtf8Byte* key, const V& value);
-	bool SetOldElement(const JUtf8Byte* key, const V& value);
+				 const JStringMapT::SetType type = JStringMapT::kAlways);
+	bool SetNewItem(const JUtf8Byte* key, const V& value);
+	bool SetOldItem(const JUtf8Byte* key, const V& value);
 	bool SetContains(const JUtf8Byte* key, const V& value);
 
 	bool RemoveItem(const JUtf8Byte* key);
@@ -64,13 +64,13 @@ public:
 protected:
 
 	bool         SetItem(const JString& key, const V& value,
-							const JPtrArrayT::SetAction action,
-							const JStringMapT::SetType type,
-							bool* existed);
+						 const JPtrArrayT::SetAction action,
+						 const JStringMapT::SetType type,
+						 bool* existed);
 	virtual void PrepareForSet(const JPtrArrayT::SetAction action);
 
 	bool RemoveItem(const JString& key,
-					   const JPtrArrayT::SetAction action);
+					const JPtrArrayT::SetAction action);
 	void RemoveAll(const JPtrArrayT::SetAction action);
 };
 
@@ -157,7 +157,7 @@ JStringMap<V>::SetItem
 }
 
 /******************************************************************************
- SetNewElement
+ SetNewItem
 
 	Only sets the value if it does not already exist.  Returns true if the
 	value was set.
@@ -166,7 +166,7 @@ JStringMap<V>::SetItem
 
 template <class V>
 inline bool
-JStringMap<V>::SetNewElement
+JStringMap<V>::SetNewItem
 	(
 	const JUtf8Byte* key,
 	const V&         value
@@ -177,7 +177,7 @@ JStringMap<V>::SetNewElement
 
 template <class V>
 inline bool
-JStringMap<V>::SetNewElement
+JStringMap<V>::SetNewItem
 	(
 	const JString& key,
 	const V&       value
@@ -187,7 +187,7 @@ JStringMap<V>::SetNewElement
 }
 
 /******************************************************************************
- SetOldElement
+ SetOldItem
 
 	Only sets the value if it already exists.  Returns true if the value was
 	set.
@@ -196,7 +196,7 @@ JStringMap<V>::SetNewElement
 
 template <class V>
 inline bool
-JStringMap<V>::SetOldElement
+JStringMap<V>::SetOldItem
 	(
 	const JUtf8Byte* key,
 	const V&         value
@@ -207,7 +207,7 @@ JStringMap<V>::SetOldElement
 
 template <class V>
 inline bool
-JStringMap<V>::SetOldElement
+JStringMap<V>::SetOldItem
 	(
 	const JString& key,
 	const V&       value

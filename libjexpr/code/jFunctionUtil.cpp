@@ -164,7 +164,7 @@ jAddFunction
 	FunctionData data;
 	data.argCount = argCount;
 
-	const bool added = theFunctionData.SetNewElement(JString(name, JString::kNoCopy), data);
+	const bool added = theFunctionData.SetNewItem(JString(name, JString::kNoCopy), data);
 	assert( added );
 }
 

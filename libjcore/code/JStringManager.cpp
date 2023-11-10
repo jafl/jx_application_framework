@@ -423,7 +423,7 @@ JStringManager::MergeFile
 			}
 			SetItem(id, s, JPtrArrayT::kDelete);
 		}
-		else if (!SetNewElement(id, s))
+		else if (!SetNewItem(id, s))
 		{
 			jdelete s;
 		}

@@ -61,7 +61,7 @@ JXImageCache::GetImage
 
 		image->ConvertToRemoteStorage();	// expect to use as-is
 
-		const bool ok = itsMap->SetNewElement(s, image);
+		const bool ok = itsMap->SetNewItem(s, image);
 		assert( ok );
 	}
 

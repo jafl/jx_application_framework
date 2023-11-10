@@ -109,11 +109,11 @@ template <class V>
 bool
 JStringMap<V>::SetItem
 	(
-	const JString&                     key,
-	const V&                           value,
+	const JString&              key,
+	const V&                    value,
 	const JPtrArrayT::SetAction action,
-	const JStringMapT::SetType         type,
-	bool*                              existed
+	const JStringMapT::SetType  type,
+	bool*                       existed
 	)
 {
 	auto* cursor = JHashTable< JStrValue<V> >::GetCursor();
@@ -179,7 +179,7 @@ template <class V>
 bool
 JStringMap<V>::RemoveItem
 	(
-	const JString&                     key,
+	const JString&              key,
 	const JPtrArrayT::SetAction action
 	)
 {

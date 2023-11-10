@@ -38,7 +38,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 //		Removed unused constant kJLog10ToLog2.
 //	JString:
 //		Switched to an exponential reallocation model.
-//	JList, etc:
+//	JList, JHashTable, etc:
 //		*** Renamed "element" to "item"
 
 // version 4.0.0:
