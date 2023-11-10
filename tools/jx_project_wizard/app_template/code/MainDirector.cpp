@@ -103,7 +103,6 @@ MainDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 500,300, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -122,14 +121,12 @@ MainDirector::BuildWindow()
 	window->SetMinSize(200, 200);
 
 	JXImage* image = jnew JXImage(GetDisplay(), main_window_icon);
-	assert( image != nullptr );
 	window->SetIcon(image);
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,0, 100,100);
-	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	auto* widget =
@@ -137,7 +134,6 @@ MainDirector::BuildWindow()
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 100,100);
-	assert( widget != nullptr );
 	widget->FitToEnclosure();
 	widget->SetBackColor(JColorManager::GetWhiteColor());
 	widget->SetBorderWidth(2);

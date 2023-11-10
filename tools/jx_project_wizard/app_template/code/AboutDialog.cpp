@@ -61,7 +61,6 @@ AboutDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 370,120, JString::empty);
-	assert( window != nullptr );
 
 	auto* textWidget =
 		jnew JXStaticText(JGetString("textWidget::AboutDialog::JXLayout"), window,
