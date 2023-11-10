@@ -41,8 +41,8 @@ public:
 	void		SetAllStyles(const JFontStyle& style);
 
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
-								   const JXKeyModifiers& modifiers) override;
-	void			ClearIncrementalSearchBuffer();
+						   const JXKeyModifiers& modifiers) override;
+	void	ClearIncrementalSearchBuffer();
 
 	// called by urgent task
 

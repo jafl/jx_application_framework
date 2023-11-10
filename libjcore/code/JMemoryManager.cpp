@@ -469,7 +469,7 @@ JMemoryManager::New
 	}
 	else if (size == 0)
 	{
-		std::cerr << "Warning: zero size memory block requested" << std::endl;
+//		std::cerr << "Warning: zero size memory block requested" << std::endl;
 	}
 
 	const size_t trueSize = size ? size : 1;
