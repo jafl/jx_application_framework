@@ -25,32 +25,32 @@ public:
 protected:
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
 private:
 
 	class SpellBase : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			SpellBase(const JUtf8Byte* type, const JString& word)
-				:
-				JBroadcaster::Message(type),
-				itsWord(word)
-				{ };
+		SpellBase(const JUtf8Byte* type, const JString& word)
+			:
+			JBroadcaster::Message(type),
+			itsWord(word)
+			{ };
 
-			const JString&
-			GetWord() const
-				{
-				return itsWord;
-				};
+		const JString&
+		GetWord() const
+			{
+			return itsWord;
+			};
 
-		private:
+	private:
 
-			const JString& itsWord;
-		};
+		const JString& itsWord;
+	};
 
 public:
 
@@ -61,34 +61,34 @@ public:
 	static const JUtf8Byte* kReplaceWordAll;
 
 	class WordSelected : public SpellBase
-		{
-		public:
+	{
+	public:
 
-			WordSelected(const JString& word)
-				:
-				SpellBase(kWordSelected, word)
-				{ };
-		};
+		WordSelected(const JString& word)
+			:
+			SpellBase(kWordSelected, word)
+			{ };
+	};
 
 	class ReplaceWord : public SpellBase
-		{
-		public:
+	{
+	public:
 
-			ReplaceWord(const JString& word)
-				:
-				SpellBase(kReplaceWord, word)
-				{ };
-		};
+		ReplaceWord(const JString& word)
+			:
+			SpellBase(kReplaceWord, word)
+			{ };
+	};
 
 	class ReplaceWordAll : public SpellBase
-		{
-		public:
+	{
+	public:
 
-			ReplaceWordAll(const JString& word)
-				:
-				SpellBase(kReplaceWordAll, word)
-				{ };
-		};
+		ReplaceWordAll(const JString& word)
+			:
+			SpellBase(kReplaceWordAll, word)
+			{ };
+	};
 };
 
 #endif

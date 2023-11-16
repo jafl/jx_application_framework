@@ -8,8 +8,6 @@
  ******************************************************************************/
 
 #include "JXSpellList.h"
-#include "JXColorManager.h"
-#include "jXGlobals.h"
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -50,7 +48,7 @@ JXSpellList::~JXSpellList()
 }
 
 /******************************************************************************
- HandleMouseDown
+ HandleMouseDown (virtual protected)
 
  ******************************************************************************/
 
@@ -80,26 +78,19 @@ JXSpellList::HandleMouseDown
 		s.ClearSelection();
 		s.SelectCell(cell);
 
-		const JString& word = *((GetStringList()).GetItem(cell.y));
+		const JString& word = *GetStringList().GetItem(cell.y);
 
-		JBroadcaster::Message* msg = nullptr;
 		if (clickCount == 1)
 		{
-			msg = jnew WordSelected(word);
+			Broadcast(WordSelected(word));
 		}
 		else if (clickCount == 2 && modifiers.meta())
 		{
-			msg = jnew ReplaceWordAll(word);
+			Broadcast(ReplaceWordAll(word));
 		}
 		else if (clickCount == 2)
 		{
-			msg = jnew ReplaceWord(word);
-		}
-
-		if (msg != nullptr)
-		{
-			Broadcast(*msg);
-			jdelete msg;
+			Broadcast(ReplaceWord(word));
 		}
 	}
 }
