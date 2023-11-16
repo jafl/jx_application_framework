@@ -1139,7 +1139,7 @@ JXTextMenuData::ConfigureTable
 				(itsCompressHeightFlag && !hasCheckboxes && !hasSubmenus) ?
 				0 : JXMenuTable::kMinRowHeight;
 
-			if (itemData.text != nullptr)
+			if (itemData.text != nullptr && !itemData.text->IsEmpty())
 			{
 				JFont f = itemData.font;
 				JXTextMenuTable::AdjustFont(itsMenu->GetDisplay(),
