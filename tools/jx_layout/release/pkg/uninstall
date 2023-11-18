@@ -1,0 +1,16 @@
+#!/bin/bash
+
+PRE=$1;
+if [[ -z $PRE ]]; then
+	PRE=/usr/local;
+fi
+
+BIN=$PRE/bin;
+DOC=$PRE/share/doc/jx_layout;
+APP=$PRE/share/applications;
+ICON=$PRE/share/pixmaps;
+
+rm -f  $BIN/jx_layout;
+rm -rf $DOC;
+rm -f  `find $APP -name 'jx_layout*.desktop'`;
+rm -f  `find $ICON -name 'jx_layout*.xpm'`;

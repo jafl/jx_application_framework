@@ -1,16 +1,20 @@
-import from .fd
-load/save private format - .jxl
+keep ptr to open layouts, so can't double-open
+
+calculate min size for open layout window to avoid negative widget height/width
+	dynamic, based on existing widgets
+	if elastic in dimension, allow shrink to min 5px
+	use max of calculated min sizes
+
+-----
+
+load/save .jxl
 cmd line option to generate code from layout file
 
-main window is sorted JXStringList
-	hash table stores serialized layouts
-	open item from main window => look up and deserialize into layout
 palette
 	just another layout window
 	save in prefs -- allows rearranging, resizing, custom objects, etc
 
 MDWidget extends JXWidget
-	10px black border around MDWindow
 	share drawing code with JX*Widget, where possible
 	MDTabGroup: allow direct editing of all cards
 	MD*Partition: set number of compartments, for direct editing
@@ -22,6 +26,7 @@ resize
 	shift key to turn off grid
 cut/copy/duplicate/delete
 	serialize/deserialize
+undo
 
 widget options
 	label, if appropriate
