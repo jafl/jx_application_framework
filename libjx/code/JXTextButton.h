@@ -147,9 +147,9 @@ JXTextButton::SetPushedColor
 {
 	itsPushedColor = color;
 	if (IsPushed())
-		{
+	{
 		Refresh();
-		}
+	}
 }
 
 /******************************************************************************
