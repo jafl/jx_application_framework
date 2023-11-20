@@ -227,6 +227,12 @@ protected:
 
 	std::ostream&	GetFTCLog() const;
 
+	// jx_layout_editor
+
+	virtual bool	StealMouse(const int eventType, const JPoint& ptG,
+							   const JXMouseButton button,
+							   const unsigned int state);
+
 private:
 
 	JXWindow*				itsWindow;

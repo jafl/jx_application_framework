@@ -214,8 +214,9 @@ JXContainer::IsAncestor
 	Returns false if we are a JXWindow or obj is in a different JXWindow.
 
 	Before we can implement this, we need to define pure virtual
-	EnclosureChanged() so derived classes can update their state.  This may
-	be very difficult if said state is application specific and can only be
+	EnclosureChanged() so derived classes can update their state, e.g.,
+	JXRadioButton needs to know its JXRadioGroup.  This may be very
+	difficult if said state is application specific and can only be
 	computed at a higher level, e.g., JXDirector or JXApplication.
 
  ******************************************************************************/
@@ -537,12 +538,13 @@ JXContainer::DispatchNewMouseEvent
 
 	// check if enclosed object wants it
 
-	if (IsActive() && itsEnclosedObjs != nullptr)
+	if (IsActive() && itsEnclosedObjs != nullptr &&
+		!StealMouse(eventType, ptG, button, state))
 	{
 		for (auto* obj : *itsEnclosedObjs)
 		{
 			if (obj->IsVisible() &&
-				(obj->GetFrameGlobal()).Contains(ptG))
+				obj->GetFrameGlobal().Contains(ptG))
 			{
 				obj->DispatchNewMouseEvent(eventType, ptG, button, state);
 				return;
@@ -585,6 +587,26 @@ JXContainer::DispatchNewMouseEvent
 		}
 		MouseHere(pt, modifiers);
 	}
+}
+
+/******************************************************************************
+ StealMouse (virtual protected)
+
+	Derived classes can override to grab a mouse down, preventing enclosed
+	objects from getting it.
+
+ ******************************************************************************/
+
+bool
+JXContainer::StealMouse
+	(
+	const int			eventType,
+	const JPoint&		ptG,
+	const JXMouseButton	button,
+	const unsigned int	state
+	)
+{
+	return false;
 }
 
 /******************************************************************************
@@ -1846,6 +1868,8 @@ JXContainer::NotifyBoundsResized
  GetEnclosedObjects (protected)
 
 	Returns false if there are no enclosed objects.
+
+	Caller must jdelete the iterator.
 
  ******************************************************************************/
 
