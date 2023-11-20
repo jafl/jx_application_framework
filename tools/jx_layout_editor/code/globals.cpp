@@ -156,17 +156,17 @@ GetVersionStr()
 const JUtf8Byte*
 GetWMClassInstance()
 {
-	return "jx_layout";
+	return "jx_layout_editor";
 }
 
 const JUtf8Byte*
 GetMainDocumentClass()
 {
-	return "jx_layout_Document";
+	return "jx_layout_editor_Document";
 }
 
 const JUtf8Byte*
 GetLayoutDirectorClass()
 {
-	return "jx_layout_Layout";
+	return "jx_layout_editor_Layout";
 }

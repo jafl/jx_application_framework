@@ -18,7 +18,7 @@
 #include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jcore/jAssert.h>
 
-static const JUtf8Byte* kAppSignature = "jx_layout";
+static const JUtf8Byte* kAppSignature = "jx_layout_editor";
 
 // Help menu
 

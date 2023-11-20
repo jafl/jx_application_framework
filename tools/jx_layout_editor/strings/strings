@@ -13,8 +13,8 @@ You should have received a copy of the GNU General Public License along with thi
 
 https://github.com/jafl/jx_application_framework"
 
-HELP_URL		"https://libjx.sourceforge.net/jx_layout/help.html"
-CHANGE_LOG_URL	"https://libjx.sourceforge.net/jx_layout/ChangeLog.html"
+HELP_URL		"https://libjx.sourceforge.net/jx_layout_editor/help.html"
+CHANGE_LOG_URL	"https://libjx.sourceforge.net/jx_layout_editor/ChangeLog.html"
 
 # globals
 
@@ -34,7 +34,7 @@ $copyright
 
 This program requires the X Window System.
 
-Usage:  jx_layout [layout_file_name]
+Usage:  jx_layout_editor [layout_file_name]
 
 --help     prints this help
 --version  prints version information"
@@ -64,3 +64,7 @@ FileMissing::MainDocument				"Unable to revert because the file has been removed
 DefaultLayoutName::LayoutDirector			"Untitled"
 EditLayoutNameWindowTitle::LayoutDirector	"Edit Layout Name"
 EditLayoutNamePrompt::LayoutDirector		"Enter the name of this layout:"
+
+# TextButton
+
+DefaultLabel::TextButton	"Button"

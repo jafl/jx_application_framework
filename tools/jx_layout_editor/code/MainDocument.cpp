@@ -24,7 +24,7 @@
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-static const JUtf8Byte* kFileSignature = "jx_layout_data";
+static const JUtf8Byte* kFileSignature = "jx_layout_editor_data";
 const JFileVersion kCurrentFileVersion = 0;
 
 // File menu

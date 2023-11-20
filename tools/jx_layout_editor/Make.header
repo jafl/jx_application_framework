@@ -3,7 +3,7 @@
 
 JX_ROOT := ../..
 
-APP_NAME := jx_layout
+APP_NAME := jx_layout_editor
 
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config

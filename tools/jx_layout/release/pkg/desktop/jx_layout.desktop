@@ -1,9 +1,0 @@
-[Desktop Entry]
-Categories=Utility;X-Red-Hat-Base;
-Name=JX Layout Editor
-Comment=JX Layout Editor
-Icon=jx_layout.xpm
-Exec=jx_layout
-Type=Application
-Terminal=0
-MapNotify=true

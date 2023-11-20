@@ -8,15 +8,13 @@
 #ifndef _H_TextButton
 #define _H_TextButton
 
-#include "BaseWidget.h"
+#include "CoreWidget.h"
 #include <jx-af/jcore/JFontStyle.h>
 
 class JXTextButton;
 
-class TextButton : public BaseWidget
+class TextButton : public CoreWidget
 {
-	friend class JXRadioButton;
-
 public:
 
 	TextButton(JXContainer* enclosure,
@@ -46,33 +44,13 @@ protected:
 
 private:
 
-	JString		itsLabel;
-	JString		itsShortcuts;
-	JString		itsFontName;
-	JSize		itsFontSize;
-	JFontStyle	itsFontStyle;
-	JColorID	itsNormalColor;
-	JColorID	itsPushedColor;
-
 	JXTextButton*	itsWidget;
 
 private:
 
-	void	TextButtonX(const JCoordinate x, const JCoordinate y,
+	void	TextButtonX(const JString& label,
+						const JCoordinate x, const JCoordinate y,
 						const JCoordinate w, const JCoordinate h);
 };
-
-
-/******************************************************************************
- GetLabel
-
- ******************************************************************************/
-
-inline const JString&
-TextButton::GetLabel()
-	const
-{
-	return itsLabel;
-}
 
 #endif

@@ -1,15 +1,14 @@
 /******************************************************************************
- BaseWidget.cpp
+ CustomWidget.cpp
 
-	BASE CLASS = JXWidget
+	BASE CLASS = BaseWidget
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#include "BaseWidget.h"
+#include "CustomWidget.h"
 #include <jx-af/jx/JXWindowPainter.h>
-#include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -17,7 +16,7 @@
 
  ******************************************************************************/
 
-BaseWidget::BaseWidget
+CustomWidget::CustomWidget
 	(
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -28,11 +27,35 @@ BaseWidget::BaseWidget
 	const JCoordinate	h
 	)
 	:
-	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
+	BaseWidget(enclosure, hSizing, vSizing, x,y, w,h),
+	itsCreateFlag(false)
 {
+	CustomWidgetX();
 }
 
-BaseWidget::BaseWidget
+CustomWidget::CustomWidget
+	(
+	const JString&		className,
+	const JString&		args,
+	const bool			create,
+	JXContainer*		enclosure,
+	const HSizingOption	hSizing,
+	const VSizingOption	vSizing,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
+	)
+	:
+	BaseWidget(enclosure, hSizing, vSizing, x,y, w,h),
+	itsClassName(className),
+	itsCtorArgs(args),
+	itsCreateFlag(create)
+{
+	CustomWidgetX();
+}
+
+CustomWidget::CustomWidget
 	(
 	std::istream&		input,
 	JXContainer*		enclosure,
@@ -44,9 +67,19 @@ BaseWidget::BaseWidget
 	const JCoordinate	h
 	)
 	:
-	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
+	BaseWidget(input, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	input >> itsVarName >> itsMemberVarFlag;
+	input >> itsClassName >> itsCtorArgs >> itsCreateFlag;
+
+	CustomWidgetX();
+}
+
+// private
+
+void
+CustomWidget::CustomWidgetX()
+{
+	SetBorderWidth(1);
 }
 
 /******************************************************************************
@@ -54,7 +87,7 @@ BaseWidget::BaseWidget
 
  ******************************************************************************/
 
-BaseWidget::~BaseWidget()
+CustomWidget::~CustomWidget()
 {
 }
 
@@ -64,22 +97,34 @@ BaseWidget::~BaseWidget()
  ******************************************************************************/
 
 void
-BaseWidget::StreamOut
+CustomWidget::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	// read by LayoutDirector
+	output << JString("CustomWidget", JString::kNoCopy) << std::endl;
 
-	output << (int) GetHSizing() << std::endl;
-	output << (int) GetVSizing() << std::endl;
-	output << GetEnclosure()->GlobalToLocal(GetFrameGlobal()) << std::endl;
+	BaseWidget::StreamOut(output);
 
-	// read by ctor
+	output << itsClassName << std::endl;
+	output << itsCtorArgs << std::endl;
+	output << itsCreateFlag << std::endl;
+}
 
-	output << itsVarName << std::endl;
-	output << itsMemberVarFlag << std::endl;
+/******************************************************************************
+ Draw (virtual protected)
+
+ ******************************************************************************/
+
+void
+CustomWidget::Draw
+	(
+	JXWindowPainter&	p,
+	const JRect&		rect
+	)
+{
+	p.String(rect, itsClassName, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************
@@ -88,26 +133,11 @@ BaseWidget::StreamOut
  ******************************************************************************/
 
 void
-BaseWidget::DrawBorder
+CustomWidget::DrawBorder
 	(
 	JXWindowPainter&	p,
 	const JRect&		frame
 	)
 {
-}
-
-/******************************************************************************
- DrawBackground (virtual protected)
-
-	Transparent by default
-
- ******************************************************************************/
-
-void
-BaseWidget::DrawBackground
-	(
-	JXWindowPainter&	p,
-	const JRect&		frame
-	)
-{
+	p.Rect(frame);
 }

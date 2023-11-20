@@ -49,6 +49,10 @@ T
 2 "CustomWidget.cpp"
 F
 "./code/CustomWidget.cpp"
+T
+2 "TextButton.cpp"
+F
+"./code/TextButton.cpp"
 F
 T
 1 "misc"

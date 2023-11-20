@@ -12,8 +12,6 @@
 
 class BaseWidget : public JXWidget
 {
-	friend class JXRadioButton;
-
 public:
 
 	BaseWidget(JXContainer* enclosure,
@@ -35,7 +33,6 @@ public:
 protected:
 
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	void	DrawBackground(JXWindowPainter& p, const JRect& frame) override;
 
 private:
 
