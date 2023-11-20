@@ -81,11 +81,6 @@ static const JRegex linePattern =
 // Prototypes
 
 bool ShouldMakeTarget(const JString& target, const JPtrArray<JString>& list);
-bool AddSubTarget(JPtrArray<JString>& targetList,
-					  JPtrArray<JString>& prefixList, JPtrArray<JString>& suffixList,
-					  JPtrArray<JString>& outPrefixList, JPtrArray<JString>& outSuffixList,
-					  JString* targetName, JString* prefixName, JString* suffixName,
-					  JString* outPrefix, JString* outSuffixName);
 void PrintForMake(std::ostream& output, const JString& str);
 JString GetOutputSuffix(const JString& inputSuffix,
 						const JPtrArray<JString>& suffixMapIn,
@@ -97,7 +92,7 @@ void GetOptions(const JSize argc, char* argv[], JString* defSuffix,
 				JPtrArray<JString>* userTargetList, bool* searchSysDir,
 				JPtrArray<JString>* suffixMapIn, JPtrArray<JString>* suffixMapOut);
 bool FindFile(const JString& fileName, const JPtrArray<JString>& pathList,
-				  JString* fullName);
+			  JString* fullName);
 void PickTargets(const JString& fileName, JPtrArray<JString>* list);
 
 void PrintHelp(const JString& headerName, const JString& inputName,
@@ -143,7 +138,7 @@ main
 
 	JPtrArray<JString> mainTargetList(JPtrArrayT::kDeleteAll),
 					   mainTargetObjsList(JPtrArrayT::kDeleteAll);
-	JArray<bool>   javaTargetList;
+	JArray<bool>	   javaTargetList;
 	JPtrArray<JString> targetList(JPtrArrayT::kDeleteAll),
 					   prefixList(JPtrArrayT::kDeleteAll),
 					   suffixList(JPtrArrayT::kDeleteAll);
@@ -346,12 +341,11 @@ main
 
 			auto* prefixName = jnew JString(prefix);
 
-			usesJava = usesJava ||
-							javaObjFileSuffix.Match(*suffixName) ||
-							javaObjFileSuffix.Match(*outSuffixName);
+			usesJava = (usesJava ||
+						javaObjFileSuffix.Match(*suffixName) ||
+						javaObjFileSuffix.Match(*outSuffixName));
 
-			// We want all the path information to be
-			// in the prefix.
+			// We want all the path information to be in the prefix.
 
 			JString targetPrefix, targetSuffix;
 			JSplitPathAndName(*targetName, &targetPrefix, &targetSuffix);
@@ -376,10 +370,11 @@ main
 			*mainTargetObjs += *targetName;
 			*mainTargetObjs += *outSuffixName;
 
-			// may delete *Name objects
-
-			AddSubTarget(targetList, prefixList, suffixList, outPrefixList, outSuffixList,
-						 targetName, prefixName, suffixName, outPrefixName, outSuffixName);
+			targetList.Append(targetName);
+			prefixList.Append(prefixName);
+			suffixList.Append(suffixName);
+			outPrefixList.Append(outPrefixName);
+			outSuffixList.Append(outSuffixName);
 		}
 
 		// If the dependency list is empty, remember it for later.
@@ -446,7 +441,7 @@ main
 	output << "\n";
 
 	JString footerText;
-{
+	{
 	JString s;
 	JReadFile(headerName, &s);
 
@@ -462,7 +457,7 @@ main
 		footerText = *(list.GetLastItem());
 		footerText.TrimWhitespace();
 	}
-}
+	}
 
 	output << "\n\n\n# This is what makemake added\n\n";
 
@@ -470,7 +465,7 @@ main
 
 	const JSize mainTargetCount = mainTargetList.GetItemCount();
 	const JSize targetCount     = targetList.GetItemCount();
-{
+
 	for (JIndex i=1; i<=mainTargetCount; i++)
 	{
 		JString* mainTargetName = mainTargetList.GetItem(i);
@@ -535,21 +530,19 @@ main
 			output << "  endif\n";
 		}
 	}
-}
 	output << '\n';
 
 // define a variable to contain all targets
 
 	output << "# list of all targets\n\n";
 	output << "MM_ALL_TARGETS :=";
-{
+
 	for (JIndex i=1; i<=mainTargetCount; i++)
 	{
 		JString* mainTargetName = mainTargetList.GetItem(i);
 		output << ' ';
 		mainTargetName->Print(output);
 	}
-}
 	output << "\n\n";
 
 // append a target so user can easily make all files
@@ -568,9 +561,9 @@ main
 	for (JIndex i=1; i<=targetCount; i++)
 	{
 		output << ' ';
-		(outPrefixList.GetItem(i))->Print(output);
-		(targetList.GetItem(i))->Print(output);
-		(outSuffixList.GetItem(i))->Print(output);
+		outPrefixList.GetItem(i)->Print(output);
+		targetList.GetItem(i)->Print(output);
+		outSuffixList.GetItem(i)->Print(output);
 	}
 }
 	output << "\n\n";
@@ -590,9 +583,9 @@ main
 	for (JIndex i=1; i<=targetCount; i++)
 	{
 		output << ' ';
-		(prefixList.GetItem(i))->Print(output);
-		(targetList.GetItem(i))->Print(output);
-		(suffixList.GetItem(i))->Print(output);
+		prefixList.GetItem(i)->Print(output);
+		targetList.GetItem(i)->Print(output);
+		suffixList.GetItem(i)->Print(output);
 	}
 }
 	output << "\n\n";
@@ -626,8 +619,8 @@ main
 	{
 		output << "# from Make.header\n\n";
 		footerText.Print(output);
-		output << "\n\n\n";
 	}
+	output << "\n\n\n";
 
 // append a target to build the initial dependencies via makedepend
 
@@ -651,14 +644,14 @@ main
 {
 	for (JIndex i=1; i<=targetCount; i++)
 	{
-		if (!noParseFileSuffix.Match(*(suffixList.GetItem(i))))
+		if (!noParseFileSuffix.Match(*suffixList.GetItem(i)))
 		{
 			// write the file to parse
 
 			output << "\t@echo ";
-			(prefixList.GetItem(i))->Print(output);
-			(targetList.GetItem(i))->Print(output);
-			(suffixList.GetItem(i))->Print(output);
+			prefixList.GetItem(i)->Print(output);
+			targetList.GetItem(i)->Print(output);
+			suffixList.GetItem(i)->Print(output);
 			output << " >> " << kDependInputFile << '\n';
 
 			// write the string that should be used in the Makefile
@@ -808,55 +801,6 @@ ShouldMakeTarget
 		}
 	}
 	return false;
-}
-
-/******************************************************************************
- AddSubTarget
-
-	Add the given target name to the targetList if it is new.
-	Returns true if the target was added.
-
-	*** If it returns false, the JStrings were deleted.
-
- ******************************************************************************/
-
-bool
-AddSubTarget
-	(
-	JPtrArray<JString>&	targetList,
-	JPtrArray<JString>&	prefixList,
-	JPtrArray<JString>&	suffixList,
-	JPtrArray<JString>&	outPrefixList,
-	JPtrArray<JString>&	outSuffixList,
-	JString*			targetName,
-	JString*			prefixName,
-	JString*			suffixName,
-	JString*			outPrefixName,
-	JString*			outSuffixName
-	)
-{
-	bool found;
-	const JIndex index =
-		targetList.SearchSortedOTI(targetName, JListT::kAnyMatch, &found);
-
-	if (found)
-	{
-		jdelete targetName;
-		jdelete prefixName;
-		jdelete suffixName;
-		jdelete outPrefixName;
-		jdelete outSuffixName;
-		return false;
-	}
-	else
-	{
-		targetList.InsertAtIndex(index, targetName);
-		prefixList.InsertAtIndex(index, prefixName);
-		suffixList.InsertAtIndex(index, suffixName);
-		outPrefixList.InsertAtIndex(index, outPrefixName);
-		outSuffixList.InsertAtIndex(index, outSuffixName);
-		return true;
-	}
 }
 
 /******************************************************************************
