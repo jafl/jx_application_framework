@@ -24,15 +24,6 @@
 #include <jx-af/jcore/JMemoryManager.h>
 #include <jx-af/jcore/jAssert.h>
 
-// Turn this on to generate a Makefile that allows #include loops.
-// Unfortunately, GNU Make doesn't understand the dependencies generated
-// when this is turned off.
-#define ALLOW_INCLUDE_LOOPS			1	// boolean
-
-// On some systems, one cannot pass an arbitrarily long list of arguments
-// to a process, so we store the information in a temp file instead.
-#define USE_TEMP_FILE_FOR_DEPEND	1	// boolean
-
 // Constants
 
 static const JUtf8Byte* kVersionStr =
@@ -626,14 +617,11 @@ main
 
 	output << "# target for calculating dependencies (";
 	output << kMakemakeBinaryVar;
-#if USE_TEMP_FILE_FOR_DEPEND
 	output << ", " << kDependInputFileVar;
-#endif
 	output << ")\n\n";
 	output << ".PHONY : " << kDependTargetName << '\n';
 	output << kDependTargetName << ":\n";
 
-#if USE_TEMP_FILE_FOR_DEPEND
 	JString tempFileName;
 	const JError err = JCreateTempFile(&tempFileName);
 	if (!err.OK())
@@ -641,7 +629,7 @@ main
 		std::cerr << argv[0] << ": error creating temporary file: " << err.GetMessage() << std::endl;
 		return 1;
 	}
-{
+
 	for (JIndex i=1; i<=targetCount; i++)
 	{
 		if (!noParseFileSuffix.Match(*suffixList.GetItem(i)))
@@ -663,8 +651,6 @@ main
 			output << " >> " << kDependInputFile << '\n';
 		}
 	}
-}
-#endif
 
 	output << "\t@" << kMakemakeBinary << " --depend ";
 	outputName.Print(output);
@@ -677,35 +663,7 @@ main
 	{
 		output << ' ' << kNoStdIncArg;
 	}
-	output << " -- ${DEPENDFLAGS} -- ";
-
-#if USE_TEMP_FILE_FOR_DEPEND
-
-	output << kDependInputFile;
-
-#else
-{
-	for (JIndex i=1; i<=targetCount; i++)
-	{
-		if (!noParseFileSuffix.Match(*(suffixList.GetItem(i))))
-		{
-			// write the file to parse
-
-			output << ' ';
-			(prefixList.GetItem(i))->Print(output);
-			(targetList.GetItem(i))->Print(output);
-			(suffixList.GetItem(i))->Print(output);
-
-			// write the string that should be used in the Makefile
-
-			output << ' ';
-			PrintForMake(output, *(outPrefixList.GetItem(i)));
-			PrintForMake(output, *(targetList.GetItem(i)));
-			PrintForMake(output, *(outSuffixList.GetItem(i)));
-		}
-	}
-}
-#endif
+	output << " -- ${DEPENDFLAGS} -- " << kDependInputFile;
 
 	output << "\n\n\n";
 
@@ -725,8 +683,6 @@ main
 	makemakeBinaryDef += "=";
 	makemakeBinaryDef += argv[0];
 
-#if USE_TEMP_FILE_FOR_DEPEND
-
 	JString tempFileDef(kDependInputFileVar);
 	tempFileDef += "=";
 	tempFileDef += tempFileName;
@@ -734,14 +690,6 @@ main
 	const JUtf8Byte* depArgv[] =
 	{ kMakeBinary, makemakeBinaryDef.GetBytes(), tempFileDef.GetBytes(),
 		  "-f", outputName.GetBytes(), kDependTargetName, nullptr };
-
-#else
-
-	const JUtf8Byte* depArgv[] =
-	{ kMakeBinary, makemakeBinaryDef.GetBytes(),
-		  "-f", outputName.GetBytes(), kDependTargetName, nullptr };
-
-#endif
 
 	JProcess* p;
 	const JError depErr =
@@ -753,10 +701,7 @@ main
 	}
 	p->WaitUntilFinished();
 
-#if USE_TEMP_FILE_FOR_DEPEND
 	JRemoveFile(tempFileName);
-#endif
-
 	JUpdateCVSIgnore(outputName);
 
 	if (p->SuccessfulFinish())
@@ -1413,11 +1358,7 @@ CalcDepend
 
 	if (i >= argc)
 	{
-#if USE_TEMP_FILE_FOR_DEPEND
-//		std::cerr << "Missing transfer file name in \"makemake --depend\"" << std::endl;
-#else
-//		std::cerr << "Missing file list in \"makemake --depend\"" << std::endl;
-#endif
+		std::cerr << "Missing transfer file name in \"makemake --depend\"" << std::endl;
 		return;
 	}
 
@@ -1443,9 +1384,10 @@ CalcDepend
 	JArray<HeaderDep> headerList;		// header files that have been processed
 	headerList.SetCompareFunction(CompareHeaderFiles);
 
-#if USE_TEMP_FILE_FOR_DEPEND
-
 	std::ifstream input(argv[i]);
+
+	JPtrArray<JString> dedup(JPtrArrayT::kDeleteAll);
+	dedup.SetCompareFunction(JCompareStringsCaseSensitive);
 
 	JString fileName, makeName;
 	while (true)
@@ -1456,30 +1398,17 @@ CalcDepend
 			break;
 		}
 		makeName = JReadLine(input);
-		WriteDependencies(output, fileName, makeName, pathList1, pathList2,
-						  outputDirName, &headerList);
+
+		bool found;
+		const JIndex i = dedup.SearchSortedOTI(&fileName, JListT::kAnyMatch, &found);
+		if (!found)
+		{
+			WriteDependencies(output, fileName, makeName, pathList1, pathList2,
+							  outputDirName, &headerList);
+
+			dedup.InsertAtIndex(i, fileName);
+		}
 	}
-
-#else
-
-	for ( ; i<argc; i+=2)
-	{
-		WriteDependencies(output, argv[i], argv[i+1], pathList1, pathList2,
-						  outputDirName, &headerList);
-	}
-
-#endif
-
-#if ! ALLOW_INCLUDE_LOOPS
-
-	const JSize headerCount = headerList.GetItemCount();
-	for (i=1; i<=headerCount; i++)
-	{
-		const HeaderDep info = headerList.GetItem(i);
-		PrintDependencies(output, outputDirName, *(info.fileName), *(info.depList));
-	}
-
-#endif
 
 	// We should clean up, but it's not worth the trouble.
 	// (and pathList1 and pathList2 share objects)
@@ -1604,30 +1533,10 @@ AddDependency
 			depList->InsertAtIndex(index, info.fileName);
 		}
 
-		#if ALLOW_INCLUDE_LOOPS
 		const bool addSubToDepList = true;
-		#else
-		const bool addSubToDepList = false;
-		#endif
 
-		const JSize count = (info.depList)->GetItemCount();
-		for (JIndex i=1; i<=count; i++)
+		for (const auto* includedFileName : *info.depList)
 		{
-			const JString* includedFileName = (info.depList)->GetItem(i);
-
-			#if ! ALLOW_INCLUDE_LOOPS
-
-			// check if it already exists
-
-			HeaderDep info(const_cast<JString*>(includedFileName), nullptr);
-			JIndex j;
-			if (headerList->SearchSorted(info, JListT::kAnyMatch, &j))
-			{
-				continue;
-			}
-
-			#endif
-
 			AddDependency(depList, *includedFileName,
 						  pathList1, pathList2,
 						  headerList, addSubToDepList);
