@@ -30,10 +30,6 @@ public:
 	const JString&	GetVarName(bool* isMemberData) const;
 	void			SetVarName(const JString& name, const bool member);
 
-protected:
-
-	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-
 private:
 
 	JString	itsVarName;		// can be empty

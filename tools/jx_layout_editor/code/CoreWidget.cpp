@@ -57,6 +57,20 @@ CoreWidget::~CoreWidget()
 }
 
 /******************************************************************************
+ DrawBorder (virtual protected)
+
+ ******************************************************************************/
+
+void
+BaseWidget::DrawBorder
+	(
+	JXWindowPainter&	p,
+	const JRect&		frame
+	)
+{
+}
+
+/******************************************************************************
  StealMouse (virtual protected)
 
 	Don't pass mouse clicks to rendered widget.

@@ -50,6 +50,10 @@ T
 F
 "./code/CustomWidget.cpp"
 T
+2 "CoreWidget.cpp"
+F
+"./code/CoreWidget.cpp"
+T
 2 "TextButton.cpp"
 F
 "./code/TextButton.cpp"

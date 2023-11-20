@@ -81,17 +81,3 @@ BaseWidget::StreamOut
 	output << itsVarName << std::endl;
 	output << itsMemberVarFlag << std::endl;
 }
-
-/******************************************************************************
- DrawBorder (virtual protected)
-
- ******************************************************************************/
-
-void
-BaseWidget::DrawBorder
-	(
-	JXWindowPainter&	p,
-	const JRect&		frame
-	)
-{
-}

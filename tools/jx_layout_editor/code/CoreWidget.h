@@ -27,6 +27,8 @@ public:
 
 protected:
 
+	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+
 	bool	StealMouse(const int eventType, const JPoint& ptG,
 					   const JXMouseButton button,
 					   const unsigned int state) override;
