@@ -29,10 +29,11 @@ public:
 	bool GetItem(const JString& key, V** ptr);
 	bool GetItem(const JString& key, const V** ptr) const;
 
+	using JStringMap<V*>::SetNewItem;
+
 	bool SetItem(const JString& key, V* ptr,
 				 const JPtrArrayT::SetAction action,
 				 const JStringMapT::SetType type = JStringMapT::kAlways);
-	bool SetNewItem(const JString& key, V* ptr);	// avoid shadowing
 	bool SetOldItem(const JString& key, V* ptr,
 					const JPtrArrayT::SetAction action);
 	bool SetContains(const JString& key, V* ptr,
@@ -44,7 +45,6 @@ public:
 	bool SetItem(const JUtf8Byte* key, V* ptr,
 				 const JPtrArrayT::SetAction action,
 				 const JStringMapT::SetType type = JStringMapT::kAlways);
-	bool SetNewItem(const JUtf8Byte* key, V* ptr);	// avoid shadowing
 	bool SetOldItem(const JUtf8Byte* key, V* ptr,
 					   const JPtrArrayT::SetAction action);
 	bool SetContains(const JUtf8Byte* key, V* ptr,
@@ -180,28 +180,6 @@ JStringPtrMap<V>::SetItem
 {
 	bool existed;
 	return JStringMap<V*>::SetItem(key, ptr, action, type, &existed);
-}
-
-template <class V>
-inline bool
-JStringPtrMap<V>::SetNewItem
-	(
-	const JUtf8Byte* key,
-	V*               ptr
-	)
-{
-	return JStringMap<V*>::SetNewItem(JString(key, JString::kNoCopy), ptr);
-}
-
-template <class V>
-inline bool
-JStringPtrMap<V>::SetNewItem
-	(
-	const JString& key,
-	V*             ptr
-	)
-{
-	return JStringMap<V*>::SetNewItem(key, ptr);
 }
 
 template <class V>

@@ -96,7 +96,7 @@ JXDocument::~JXDocument()
 }
 
 /******************************************************************************
- Close
+ Close (virtual)
 
 	Returns true if the user ok's it and nobody needs us.
 
