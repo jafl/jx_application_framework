@@ -16,10 +16,10 @@
 
 // File menu
 
-#define kJXPageSetupAction   "PageSetup::JX"
-#define kJXPrintAction       "Print::JX"
-#define kJXCloseWindowAction "CloseWindow::JX"
-#define kJXQuitAction        "Quit::JX"
+#define kJXPageSetupAction		"PageSetup::JX"
+#define kJXPrintAction			"Print::JX"
+#define kJXCloseWindowAction	"CloseWindow::JX"
+#define kJXQuitAction			"Quit::JX"
 
 // Edit menu
 
@@ -36,25 +36,25 @@
 
 // Search menu
 
-#define kJXFindDialogAction             "FindDialog::JX"
-#define kJXFindPreviousAction           "FindPrevious::JX"
-#define kJXFindNextAction               "FindNext::JX"
-#define kJXEnterSearchTextAction        "EnterSearchText::JX"
-#define kJXEnterReplaceTextAction       "EnterReplaceText::JX"
-#define kJXFindSelectionBackwardsAction "FindSelectionBackwards::JX"
-#define kJXFindSelectionForwardAction   "FindSelectionForward::JX"
-#define kJXFindClipboardBackwardsAction "FindClipboardBackwards::JX"
-#define kJXFindClipboardForwardAction   "FindClipboardForward::JX"
-#define kJXReplaceSelectionAction       "ReplaceSelection::JX"
-#define kJXReplaceFindPrevAction        "ReplaceFindPrev::JX"
-#define kJXReplaceFindNextAction        "ReplaceFindNext::JX"
-#define kJXReplaceAllAction  		    "ReplaceAll::JX"
-#define kJXReplaceAllInSelectionAction  "ReplaceAllInSelection::JX"
+#define kJXFindDialogAction				"FindDialog::JX"
+#define kJXFindPreviousAction			"FindPrevious::JX"
+#define kJXFindNextAction				"FindNext::JX"
+#define kJXEnterSearchTextAction		"EnterSearchText::JX"
+#define kJXEnterReplaceTextAction		"EnterReplaceText::JX"
+#define kJXFindSelectionBackwardsAction	"FindSelectionBackwards::JX"
+#define kJXFindSelectionForwardAction	"FindSelectionForward::JX"
+#define kJXFindClipboardBackwardsAction	"FindClipboardBackwards::JX"
+#define kJXFindClipboardForwardAction	"FindClipboardForward::JX"
+#define kJXReplaceSelectionAction		"ReplaceSelection::JX"
+#define kJXReplaceFindPrevAction		"ReplaceFindPrev::JX"
+#define kJXReplaceFindNextAction		"ReplaceFindNext::JX"
+#define kJXReplaceAllAction				"ReplaceAll::JX"
+#define kJXReplaceAllInSelectionAction	"ReplaceAllInSelection::JX"
 
 // Font size menu
 
 // [0-9]+::JX
-#define kJXOtherFontSizeAction "OtherFontSize::JX"
+#define kJXOtherFontSizeAction	"OtherFontSize::JX"
 
 // Font style menu
 
@@ -78,12 +78,12 @@
 
 // Windows menu
 
-#define kJXRaiseAllWindowsAction      "RaiseAllWindows::JX"
-#define kJXCloseAllOtherWindowsAction "CloseAllOtherWindows::JX"
+#define kJXRaiseAllWindowsAction		"RaiseAllWindows::JX"
+#define kJXCloseAllOtherWindowsAction	"CloseAllOtherWindows::JX"
 
 // Help menu
 
-#define kJXHelpTOCAction      "HelpTOC::JX"
-#define kJXHelpSpecificAction "HelpSpecific::JX"
+#define kJXHelpTOCAction		"HelpTOC::JX"
+#define kJXHelpSpecificAction	"HelpSpecific::JX"
 
 #endif

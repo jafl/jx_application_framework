@@ -240,9 +240,9 @@ inline bool
 JXFileDocument::Save()
 {
 	if (!itsSavedFlag)
-		{
+	{
 		SaveInCurrentFile();
-		}
+	}
 
 	return itsSavedFlag;
 }
