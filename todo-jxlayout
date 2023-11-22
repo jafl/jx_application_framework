@@ -1,26 +1,16 @@
 keep ptr to open layouts, so can't double-open
 
+show selection border for TextButtons
+
 calculate min size for open layout window to avoid negative widget height/width
 	dynamic, based on existing widgets
 	if elastic in dimension, allow shrink to min 5px
 	use max of calculated min sizes
 
+? - assign fixed name for every widget to ensure stable translations
+
 -----
 
-load/save .jxl
-cmd line option to generate code from layout file
-
-palette
-	just another layout window
-	save in prefs -- allows rearranging, resizing, custom objects, etc
-
-MDWidget extends JXWidget
-	share drawing code with JX*Widget, where possible
-	MDTabGroup: allow direct editing of all cards
-	MD*Partition: set number of compartments, for direct editing
-place/drag
-	drag new from palette
-	use DND, to drop inside another widget, e.g., scrollbarset or toolbar
 resize
 	like window - any edge or corner
 	shift key to turn off grid
@@ -46,12 +36,25 @@ layout options
 		only for non-bordered widgets, e.g., checkbox
 		expand frame by +1 and set 1px border
 
-assign fixed name for every widget to ensure stable translations
-
 need option to control tab order
 	show index in each item
 	cmd-click to select item without re-ordering
 	click to make object the next in list
+
+-----
+
+cmd line option to generate code from layout file
+
+palette
+	just another layout window
+	save in prefs -- allows rearranging, resizing, custom objects, etc
+
+TabGroup: allow direct editing of all cards
+Partition: set number of compartments, for direct editing
+
+place/drag
+	drag new from palette
+	use DND, to drop inside another widget, e.g., scrollbarset or toolbar
 
 -----
 

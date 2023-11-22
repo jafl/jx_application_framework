@@ -9,6 +9,7 @@
 
 #include "LayoutDirector.h"
 #include "MainDocument.h"
+#include "LayoutContainer.h"
 #include "BaseWidget.h"
 #include "CustomWidget.h"
 #include "TextButton.h"
@@ -21,7 +22,6 @@
 #include <jx-af/jx/JXBorderRect.h>
 #include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXGetStringDialog.h>
-#include <jx-af/jx/JXWebBrowser.h>
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
 #include <jx-af/jcore/JPtrArray-JString.h>
 #include <jx-af/jcore/JStringIterator.h>
@@ -43,17 +43,33 @@ enum
 	kCloseCmd
 };
 
+// Edit menu
+
+static const JUtf8Byte* kEditMenuStr =
+	"    Undo       %k Meta-Z       %i" kJXUndoAction
+	"  | Redo       %k Meta-Shift-Z %i" kJXRedoAction
+	"%l| Cut        %k Meta-X       %i" kJXCutAction
+	"  | Copy       %k Meta-C       %i" kJXCopyAction
+	"  | Paste      %k Meta-V       %i" kJXPasteAction
+	"  | Delete                     %i" kJXClearAction
+	"%l| Select all %k Meta-A       %i" kJXSelectAllAction;
+
+enum
+{
+	kUndoIndex = 1, kRedoIndex,
+	kCutIndex, kCopyIndex, kPasteIndex, kClearIndex,
+	kSelectAllIndex
+};
+
 // Preferences menu
 
 static const JUtf8Byte* kPrefsMenuStr =
 	"    Edit tool bar..."
-	"  | File manager & web browser..."
 	"  | Mac/Win/X emulation...";
 
 enum
 {
 	kEditToolBarCmd = 1,
-	kWebBrowserCmd,
 	kEditMacWinPrefsCmd
 };
 
@@ -104,6 +120,12 @@ LayoutDirector::~LayoutDirector()
  ******************************************************************************/
 
 #include "layout_window_icon.xpm"
+#include <jx-af/image/jx/jx_edit_undo.xpm>
+#include <jx-af/image/jx/jx_edit_redo.xpm>
+#include <jx-af/image/jx/jx_edit_cut.xpm>
+#include <jx-af/image/jx/jx_edit_copy.xpm>
+#include <jx-af/image/jx/jx_edit_paste.xpm>
+#include <jx-af/image/jx/jx_edit_clear.xpm>
 
 void
 LayoutDirector::BuildWindow()
@@ -132,11 +154,10 @@ LayoutDirector::BuildWindow()
 	window->SetIcon(image);
 
 	itsLayoutContainer =
-		jnew JXBorderRect(itsToolBar->GetWidgetEnclosure(),
-						  JXWidget::kHElastic,JXWidget::kVElastic,
-						  0,0, 100,100);
+		jnew LayoutContainer(itsToolBar->GetWidgetEnclosure(),
+							 JXWidget::kHElastic,JXWidget::kVElastic,
+							 0,0, 100,100);
 	itsLayoutContainer->FitToEnclosure();
-	itsLayoutContainer->SetBorderWidth(10);
 
 	// menus
 
@@ -146,6 +167,20 @@ LayoutDirector::BuildWindow()
 	itsFileMenu->AttachHandlers(this,
 		&LayoutDirector::UpdateFileMenu,
 		&LayoutDirector::HandleFileMenu);
+
+	itsEditMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
+	itsEditMenu->SetMenuItems(kEditMenuStr, "LayoutDirector");
+	itsEditMenu->SetUpdateAction(JXMenu::kDisableAll);
+	itsEditMenu->AttachHandlers(this,
+		&LayoutDirector::UpdateEditMenu,
+		&LayoutDirector::HandleEditMenu);
+
+	itsEditMenu->SetItemImage(kUndoIndex,  jx_edit_undo);
+	itsEditMenu->SetItemImage(kRedoIndex,  jx_edit_redo);
+	itsEditMenu->SetItemImage(kCutIndex,   jx_edit_cut);
+	itsEditMenu->SetItemImage(kCopyIndex,  jx_edit_copy);
+	itsEditMenu->SetItemImage(kPasteIndex, jx_edit_paste);
+	itsEditMenu->SetItemImage(kClearIndex, jx_edit_clear);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "LayoutDirector");
@@ -749,6 +784,7 @@ LayoutDirector::GetSelectedWidgets
 	const
 {
 	list->CleanOut();
+	list->SetCleanUpAction(JPtrArrayT::kForgetAll);
 
 	itsLayoutContainer->ForEach([&list](JXContainer* obj)
 	{
@@ -756,6 +792,25 @@ LayoutDirector::GetSelectedWidgets
 		if (widget != nullptr && widget->IsSelected())
 		{
 			list->Append(widget);
+		}
+	},
+	true);
+}
+
+/******************************************************************************
+ SelectAllWidgets
+
+ ******************************************************************************/
+
+void
+LayoutDirector::SelectAllWidgets()
+{
+	itsLayoutContainer->ForEach([](JXContainer* obj)
+	{
+		BaseWidget* widget = dynamic_cast<BaseWidget*>(obj);
+		if (widget != nullptr)
+		{
+			widget->SetSelected(true);
 		}
 	},
 	true);
@@ -822,6 +877,54 @@ LayoutDirector::HandleFileMenu
 }
 
 /******************************************************************************
+ UpdateEditMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutDirector::UpdateEditMenu()
+{
+	itsEditMenu->EnableItem(kSelectAllIndex);
+}
+
+/******************************************************************************
+ HandleEditMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutDirector::HandleEditMenu
+	(
+	const JIndex index
+	)
+{
+	if (index == kUndoIndex)
+	{
+	}
+	else if (index == kRedoIndex)
+	{
+	}
+
+	else if (index == kCutIndex)
+	{
+	}
+	else if (index == kCopyIndex)
+	{
+	}
+	else if (index == kPasteIndex)
+	{
+	}
+	else if (index == kClearIndex)
+	{
+	}
+
+	else if (index == kSelectAllIndex)
+	{
+		SelectAllWidgets();
+	}
+}
+
+/******************************************************************************
  HandlePrefsMenu (private)
 
  ******************************************************************************/
@@ -835,10 +938,6 @@ LayoutDirector::HandlePrefsMenu
 	if (index == kEditToolBarCmd)
 	{
 		itsToolBar->Edit();
-	}
-	else if (index == kWebBrowserCmd)
-	{
-		JXGetWebBrowser()->EditPrefs();
 	}
 	else if (index == kEditMacWinPrefsCmd)
 	{

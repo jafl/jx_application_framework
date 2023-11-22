@@ -18,6 +18,8 @@
 #define kSaveLayoutAsAction		"SaveAs::LayoutDirector"
 #define kRevertLayoutsAction	"Revert::LayoutDirector"
 
+#define kNewLayoutAction		"NewLayout::LayoutList"
+
 #define kEditLayoutNameAction	"EditName::LayoutDirector"
 
 #endif

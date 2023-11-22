@@ -9,8 +9,32 @@
 
 #include "LayoutList.h"
 #include "MainDocument.h"
+#include "actionDefs.h"
+#include "globals.h"
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/jAssert.h>
+
+// Edit menu
+
+static const JUtf8Byte* kEditMenuStr =
+	"    Cut        %k Meta-X %i" kJXCutAction
+	"  | Copy       %k Meta-C %i" kJXCopyAction
+	"  | Paste      %k Meta-V %i" kJXPasteAction
+	"  | Delete               %i" kJXClearAction
+	"%l| Select all %k Meta-A %i" kJXSelectAllAction;
+
+enum
+{
+	kCutIndex = 1, kCopyIndex, kPasteIndex, kClearIndex,
+	kSelectAllIndex
+};
+
+#include <jx-af/image/jx/jx_edit_cut.xpm>
+#include <jx-af/image/jx/jx_edit_copy.xpm>
+#include <jx-af/image/jx/jx_edit_paste.xpm>
+#include <jx-af/image/jx/jx_edit_clear.xpm>
 
 /******************************************************************************
  Constructor
@@ -20,6 +44,7 @@
 LayoutList::LayoutList
 	(
 	MainDocument*		doc,
+	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption hSizing,
@@ -33,6 +58,17 @@ LayoutList::LayoutList
 	JXStringList(scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h),
 	itsDoc(doc)
 {
+	itsEditMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
+	itsEditMenu->SetMenuItems(kEditMenuStr, "MainDocument");
+	itsEditMenu->SetUpdateAction(JXMenu::kDisableAll);
+	itsEditMenu->AttachHandlers(this,
+		&LayoutList::UpdateEditMenu,
+		&LayoutList::HandleEditMenu);
+
+	itsEditMenu->SetItemImage(kCutIndex,   jx_edit_cut);
+	itsEditMenu->SetItemImage(kCopyIndex,  jx_edit_copy);
+	itsEditMenu->SetItemImage(kPasteIndex, jx_edit_paste);
+	itsEditMenu->SetItemImage(kClearIndex, jx_edit_clear);
 }
 
 /******************************************************************************
@@ -127,5 +163,58 @@ LayoutList::OpenSelectedLayouts()
 	while (iter.Next(&cell))
 	{
 		itsDoc->OpenLayout(*names.GetItem(cell.y));
+	}
+}
+
+/******************************************************************************
+ UpdateEditMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutList::UpdateEditMenu()
+{
+	if (GetRowCount() == 0)
+	{
+		return;
+	}
+
+	if (GetTableSelection().HasSelection())
+	{
+		itsEditMenu->EnableItem(kCutIndex);
+		itsEditMenu->EnableItem(kCopyIndex);
+		itsEditMenu->EnableItem(kClearIndex);
+	}
+
+	itsEditMenu->EnableItem(kSelectAllIndex);
+}
+
+/******************************************************************************
+ HandleEditMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutList::HandleEditMenu
+	(
+	const JIndex index
+	)
+{
+	if (index == kCutIndex)
+	{
+	}
+	else if (index == kCopyIndex)
+	{
+	}
+	else if (index == kPasteIndex)
+	{
+	}
+	else if (index == kClearIndex)
+	{
+	}
+
+	else if (index == kSelectAllIndex)
+	{
+		GetTableSelection().SelectCol(1);
 	}
 }

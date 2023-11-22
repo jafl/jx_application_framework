@@ -12,6 +12,7 @@
 .cpp ./code/MainDocument
 .cpp ./code/LayoutList
 .cpp ./code/LayoutDirector
+.cpp ./code/LayoutContainer
 .cpp ./code/BaseWidget
 .cpp ./code/CustomWidget
 .cpp ./code/CoreWidget

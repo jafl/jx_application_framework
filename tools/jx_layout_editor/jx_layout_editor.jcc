@@ -38,6 +38,10 @@ T
 2 "LayoutDirector.cpp"
 F
 "./code/LayoutDirector.cpp"
+T
+2 "LayoutContainer.cpp"
+F
+"./code/LayoutContainer.cpp"
 F
 T
 1 "widgets"
@@ -93,7 +97,7 @@ F
 # build settings
 1
 F
-"jx_layout"
+"jx_layout_editor"
 "${LIB_DEPS}"
 "make -k all"
 # search paths

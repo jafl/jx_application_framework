@@ -1,7 +1,7 @@
 /******************************************************************************
  LayoutDirector.h
 
-	Copyright (C) <Year> by <Company>.
+	Copyright (C) 2023 by John Lindal.
 
  *****************************************************************************/
 
@@ -17,6 +17,7 @@ class JXTextMenu;
 class JXToolBar;
 class JXFlatRect;
 class MainDocument;
+class LayoutContainer;
 class BaseWidget;
 
 class LayoutDirector : public JXWindowDirector
@@ -34,6 +35,7 @@ public:
 	void	WriteLayout(std::ostream& output) const;
 	bool	ImportFDesignLayout(std::istream& input);
 
+	void	SelectAllWidgets();
 	void	ClearSelection();
 	void	GetSelectedWidgets(JPtrArray<BaseWidget>* list) const;
 
@@ -41,11 +43,12 @@ public:
 
 private:
 
-	MainDocument*	itsDoc;
-	JString			itsLayoutName;
-	JXWidget*		itsLayoutContainer;
+	MainDocument*		itsDoc;
+	JString				itsLayoutName;
+	LayoutContainer*	itsLayoutContainer;
 
 	JXTextMenu*	itsFileMenu;
+	JXTextMenu*	itsEditMenu;
 	JXTextMenu*	itsPrefsMenu;
 
 // begin JXLayout
@@ -76,6 +79,9 @@ private:
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);
+
+	void	UpdateEditMenu();
+	void	HandleEditMenu(const JIndex index);
 
 	void	HandlePrefsMenu(const JIndex index);
 };

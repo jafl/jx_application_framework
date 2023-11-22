@@ -18,7 +18,6 @@
 #include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jx/JXScrollbarSet.h>
 #include <jx-af/jx/JXImage.h>
-#include <jx-af/jx/JXWebBrowser.h>
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jDirUtil.h>
@@ -43,17 +42,25 @@ enum
 	kQuitCmd
 };
 
+// Layout menu
+
+static const JUtf8Byte* kLayoutMenuStr =
+	"    New layout... %k Meta-N %i" kNewLayoutAction;
+
+enum
+{
+	kNewLayoutCmd = 1
+};
+
 // Preferences menu
 
 static const JUtf8Byte* kPrefsMenuStr =
 	"    Edit tool bar..."
-	"  | File manager & web browser..."
 	"  | Mac/Win/X emulation...";
 
 enum
 {
 	kEditToolBarCmd = 1,
-	kWebBrowserCmd,
 	kEditMacWinPrefsCmd
 };
 
@@ -197,15 +204,15 @@ MainDocument::BuildWindow()
 	scrollbarSet->FitToEnclosure();
 
 	itsLayoutNameTable =
-		jnew LayoutList(this, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-						  JXWidget::kHElastic, JXWidget::kVElastic,
-						  0,0, 100,100);
+		jnew LayoutList(this, menuBar, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+						JXWidget::kHElastic, JXWidget::kVElastic,
+						0,0, 100,100);
 	itsLayoutNameTable->FitToEnclosure();
 	itsLayoutNameTable->SetStringList(itsLayoutNames);
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr, "MainDocument");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
@@ -214,6 +221,13 @@ MainDocument::BuildWindow()
 
 	itsFileMenu->SetItemImage(kSaveCmd,   jx_file_save);
 	itsFileMenu->SetItemImage(kRevertCmd, jx_file_revert_to_saved);
+
+	itsLayoutMenu = menuBar->AppendTextMenu(JGetString("LayoutMenuTitle::MainDocument"));
+	itsLayoutMenu->SetMenuItems(kLayoutMenuStr, "MainDocument");
+	itsLayoutMenu->SetUpdateAction(JXMenu::kDisableNone);
+	itsLayoutMenu->AttachHandlers(this,
+		&MainDocument::UpdateLayoutMenu,
+		&MainDocument::HandleLayoutMenu);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "MainDocument");
@@ -438,6 +452,32 @@ MainDocument::HandleFileMenu
 }
 
 /******************************************************************************
+ UpdateLayoutMenu (private)
+
+ ******************************************************************************/
+
+void
+MainDocument::UpdateLayoutMenu()
+{
+}
+
+/******************************************************************************
+ HandleLayoutMenu (private)
+
+ ******************************************************************************/
+
+void
+MainDocument::HandleLayoutMenu
+	(
+	const JIndex index
+	)
+{
+	if (index == kNewLayoutCmd)
+	{
+	}
+}
+
+/******************************************************************************
  HandlePrefsMenu (private)
 
  ******************************************************************************/
@@ -451,10 +491,6 @@ MainDocument::HandlePrefsMenu
 	if (index == kEditToolBarCmd)
 	{
 		itsToolBar->Edit();
-	}
-	else if (index == kWebBrowserCmd)
-	{
-		JXGetWebBrowser()->EditPrefs();
 	}
 	else if (index == kEditMacWinPrefsCmd)
 	{

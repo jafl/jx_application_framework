@@ -42,6 +42,7 @@ private:
 	mutable JString			itsDocName;				// so GetName() can return JString&
 
 	JXTextMenu*	itsFileMenu;
+	JXTextMenu*	itsLayoutMenu;
 	JXTextMenu*	itsPrefsMenu;
 
 // begin JXLayout
@@ -59,6 +60,9 @@ private:
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);
+
+	void	UpdateLayoutMenu();
+	void	HandleLayoutMenu(const JIndex index);
 
 	void	HandlePrefsMenu(const JIndex index);
 };

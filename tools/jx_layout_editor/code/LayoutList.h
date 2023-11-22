@@ -10,6 +10,8 @@
 
 #include <jx-af/jx/JXStringList.h>
 
+class JXMenuBar;
+class JXTextMenu;
 class MainDocument;
 
 class LayoutList : public JXStringList
@@ -17,7 +19,7 @@ class LayoutList : public JXStringList
 
 public:
 
-	LayoutList(MainDocument* doc,
+	LayoutList(MainDocument* doc, JXMenuBar* menuBar,
 				JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
@@ -38,11 +40,15 @@ protected:
 private:
 
 	MainDocument*	itsDoc;
+	JXTextMenu*		itsEditMenu;
 
 private:
 
 	void	OpenSelectedLayouts() const;
 	void	OpenLayout(const JIndex index) const;
+
+	void	UpdateEditMenu();
+	void	HandleEditMenu(const JIndex index);
 };
 
 #endif
