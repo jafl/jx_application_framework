@@ -18,6 +18,7 @@
 
 CoreWidget::CoreWidget
 	(
+	LayoutDirector*		dir,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -27,12 +28,13 @@ CoreWidget::CoreWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(enclosure, hSizing, vSizing, x,y, w,h)
+	BaseWidget(dir, enclosure, hSizing, vSizing, x,y, w,h)
 {
 }
 
 CoreWidget::CoreWidget
 	(
+	LayoutDirector*		dir,
 	std::istream&		input,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -43,7 +45,7 @@ CoreWidget::CoreWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, enclosure, hSizing, vSizing, x,y, w,h)
+	BaseWidget(dir, input, enclosure, hSizing, vSizing, x,y, w,h)
 {
 }
 
@@ -57,12 +59,30 @@ CoreWidget::~CoreWidget()
 }
 
 /******************************************************************************
+ Draw (virtual protected)
+
+ ******************************************************************************/
+
+void
+CoreWidget::Draw
+	(
+	JXWindowPainter&	p,
+	const JRect&		rect
+	)
+{
+	DrawSelection(p, rect);
+
+	itsWidget->Place(rect.left, rect.top);
+	itsWidget->SetSize(rect.width(), rect.height());
+}
+
+/******************************************************************************
  DrawBorder (virtual protected)
 
  ******************************************************************************/
 
 void
-BaseWidget::DrawBorder
+CoreWidget::DrawBorder
 	(
 	JXWindowPainter&	p,
 	const JRect&		frame

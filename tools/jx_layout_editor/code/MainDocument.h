@@ -54,7 +54,7 @@ private:
 
 	void	BuildWindow();
 
-	void	ReadFile(std::istream& input, const JFileVersion vers);
+	void	ReadFile(std::istream& input);
 	void	ImportFDesignFile(std::istream& input);
 
 	void	UpdateFileMenu();

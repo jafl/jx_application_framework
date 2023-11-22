@@ -17,6 +17,7 @@ class JXTextMenu;
 class JXToolBar;
 class JXFlatRect;
 class MainDocument;
+class BaseWidget;
 
 class LayoutDirector : public JXWindowDirector
 {
@@ -32,6 +33,11 @@ public:
 
 	void	WriteLayout(std::ostream& output) const;
 	bool	ImportFDesignLayout(std::istream& input);
+
+	void	ClearSelection();
+	void	GetSelectedWidgets(JPtrArray<BaseWidget>* list) const;
+
+	void	DataModified();
 
 private:
 

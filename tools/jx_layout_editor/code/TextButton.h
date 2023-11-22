@@ -17,16 +17,16 @@ class TextButton : public CoreWidget
 {
 public:
 
-	TextButton(JXContainer* enclosure,
+	TextButton(LayoutDirector* dir, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	TextButton(const JString& label,
+	TextButton(LayoutDirector* dir, const JString& label,
 				JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	TextButton(std::istream& input, JXContainer* enclosure,
+	TextButton(LayoutDirector* dir, std::istream& input, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -38,13 +38,9 @@ public:
 	const JString&	GetLabel() const;
 	void			SetLabel(const JString& label);
 
-protected:
-
-	void	Draw(JXWindowPainter& p, const JRect& rect) override;
-
 private:
 
-	JXTextButton*	itsWidget;
+	JXTextButton*	itsButton;
 
 private:
 

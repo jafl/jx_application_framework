@@ -14,6 +14,10 @@
 
 #include <jx-af/jx/jXActionDefs.h>	// for convenience
 
-#define kEditLayoutNameAction   "EditLayoutName::LayoutDirector"
+#define kSaveLayoutAction		"Save::LayoutDirector"
+#define kSaveLayoutAsAction		"SaveAs::LayoutDirector"
+#define kRevertLayoutsAction	"Revert::LayoutDirector"
+
+#define kEditLayoutNameAction	"EditName::LayoutDirector"
 
 #endif

@@ -2,7 +2,7 @@
 # Do not edit it directly!
 # Any changes you make will be silently overwritten.
 
-@jx_layout
+@jx_layout_editor
 
 .cpp ./code/main
 .cpp ./code/App

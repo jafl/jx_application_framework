@@ -46,13 +46,7 @@ main
 		else
 		{
 			auto* dlog = JXChooseFileDialog::Create(JXChooseFileDialog::kSelectSingleFile, JString::empty, JString("*.jxl *.fd", JString::kNoCopy));
-			if (!dlog->DoDialog())
-			{
-				app->Quit();
-				return;
-			}
-
-			fileName = dlog->GetFullName();
+			fileName   = dlog->DoDialog() ? dlog->GetFullName() : JGetString("NewFileName::MainDocument");
 		}
 
 		MainDocument* doc;

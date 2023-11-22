@@ -30,11 +30,17 @@ const JFileVersion kCurrentFileVersion = 0;
 // File menu
 
 static const JUtf8Byte* kFileMenuStr =
-	"Quit %k Meta-Q %i" kJXQuitAction;
+	"    Save            %k Meta-S %i" kSaveLayoutAction
+	"  | Save as...      %k Ctrl-S %i" kSaveLayoutAsAction
+	"  | Revert to saved           %i" kRevertLayoutsAction
+	"%l| Quit            %k Meta-Q %i" kJXQuitAction;
 
 enum
 {
-	kQuitCmd = 1
+	kSaveCmd = 1,
+	kSaveAsCmd,
+	kRevertCmd,
+	kQuitCmd
 };
 
 // Preferences menu
@@ -65,13 +71,23 @@ MainDocument::Create
 {
 	*doc = nullptr;
 
+	if (!JFileExists(fullName))
+	{
+		*doc = jnew MainDocument(fullName, false);
+		return true;
+	}
+
 	std::ifstream input(fullName.GetBytes());
 	JFileVersion vers;
 
 	FileStatus status =DefaultCanReadASCIIFile(input, "Magic:", 15000, &vers);
 	if (status == kFileReadable)
 	{
-		*doc = jnew MainDocument(fullName, false);
+		JString path, name, root, suffix;
+		JSplitPathAndName(fullName, &path, &name);
+		JSplitRootAndSuffix(name, &root, &suffix);
+
+		*doc = jnew MainDocument(root, false);
 		(**doc).ImportFDesignFile(input);
 		return true;
 	}
@@ -91,7 +107,7 @@ MainDocument::Create
 	if (status == kFileReadable)
 	{
 		*doc = jnew MainDocument(fullName, true);
-		(**doc).ReadFile(input, vers);
+		(**doc).ReadFile(input);
 		return true;
 	}
 	else if (status == kNeedNewerVersion)
@@ -144,6 +160,8 @@ MainDocument::~MainDocument()
  ******************************************************************************/
 
 #include "main_window_icon.xpm"
+#include <jx-af/image/jx/jx_file_save.xpm>
+#include <jx-af/image/jx/jx_file_revert_to_saved.xpm>
 
 void
 MainDocument::BuildWindow()
@@ -194,6 +212,9 @@ MainDocument::BuildWindow()
 		&MainDocument::UpdateFileMenu,
 		&MainDocument::HandleFileMenu);
 
+	itsFileMenu->SetItemImage(kSaveCmd,   jx_file_save);
+	itsFileMenu->SetItemImage(kRevertCmd, jx_file_revert_to_saved);
+
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "MainDocument");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -206,7 +227,7 @@ MainDocument::BuildWindow()
 	itsToolBar->LoadPrefs();
 	if (itsToolBar->IsEmpty())
 	{
-		itsToolBar->AppendButton(itsFileMenu, kQuitCmd);
+		itsToolBar->AppendButton(itsFileMenu, kSaveCmd);
 		GetApplication()->AppendHelpMenuToToolBar(itsToolBar, helpMenu);
 	}
 }
@@ -257,10 +278,13 @@ MainDocument::OpenLayout
 void
 MainDocument::ReadFile
 	(
-	std::istream&		input,
-	const JFileVersion	vers
+	std::istream& input
 	)
 {
+	input.ignore(strlen(kFileSignature));
+
+	JFileVersion vers;
+	input >> vers;
 	assert( vers <= kCurrentFileVersion );
 
 	itsLayouts->CleanOut();
@@ -357,7 +381,7 @@ MainDocument::DiscardChanges()
 		const FileStatus status = DefaultCanReadASCIIFile(input, kFileSignature, kCurrentFileVersion, &vers);
 		if (status == kFileReadable)
 		{
-			ReadFile(input, vers);
+			ReadFile(input);
 			DataReverted();
 		}
 		else
@@ -379,6 +403,8 @@ MainDocument::DiscardChanges()
 void
 MainDocument::UpdateFileMenu()
 {
+	itsFileMenu->SetItemEnabled(kSaveCmd, NeedsSave());
+	itsFileMenu->SetItemEnabled(kRevertCmd, CanRevert());
 }
 
 /******************************************************************************
@@ -392,6 +418,19 @@ MainDocument::HandleFileMenu
 	const JIndex index
 	)
 {
+	if (index == kSaveCmd)
+	{
+		SaveInCurrentFile();
+	}
+	else if (index == kSaveAsCmd)
+	{
+		SaveInNewFile();
+	}
+	else if (index == kRevertCmd)
+	{
+		RevertToSaved();
+	}
+
 	if (index == kQuitCmd)
 	{
 		GetApplication()->Quit();

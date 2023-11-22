@@ -58,6 +58,7 @@ NeedNewerVersion::MainDocument			"You need a newer version of this program to re
 UnsupportedFDesignVersion::MainDocument	"Unable to read .fd file with version $v"
 UnknownFile::MainDocument				"Unable to read this file."
 FileMissing::MainDocument				"Unable to revert because the file has been removed."
+NewFileName::MainDocument				"Untitled"
 
 # LayoutDirector
 

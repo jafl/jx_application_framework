@@ -19,6 +19,7 @@
 
 TextButton::TextButton
 	(
+	LayoutDirector*		dir,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -28,13 +29,14 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(enclosure, hSizing, vSizing, x,y, w,h)
+	CoreWidget(dir, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	TextButtonX(JGetString("DefaultLabel::TextButton"), x,y,w,h);
 }
 
 TextButton::TextButton
 	(
+	LayoutDirector*		dir,
 	const JString&		label,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -45,13 +47,14 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(enclosure, hSizing, vSizing, x,y, w,h)
+	CoreWidget(dir, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	TextButtonX(label, x,y,w,h);
 }
 
 TextButton::TextButton
 	(
+	LayoutDirector*		dir,
 	std::istream&		input,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -62,7 +65,7 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(input, enclosure, hSizing, vSizing, x,y, w,h)
+	CoreWidget(dir, input, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JString label;
 	input >> label;
@@ -82,7 +85,8 @@ TextButton::TextButtonX
 	const JCoordinate	h
 	)
 {
-	itsWidget = jnew JXTextButton(label, this, kFixedLeft, kFixedTop, x,y,w,h);
+	itsButton = jnew JXTextButton(label, this, kFixedLeft, kFixedTop, x,y,w,h);
+	SetWidget(itsButton);
 }
 
 /******************************************************************************
@@ -110,23 +114,7 @@ TextButton::StreamOut
 
 	BaseWidget::StreamOut(output);
 
-	output << itsWidget->GetLabel() << std::endl;
-}
-
-/******************************************************************************
- Draw (virtual protected)
-
- ******************************************************************************/
-
-void
-TextButton::Draw
-	(
-	JXWindowPainter&	p,
-	const JRect&		rect
-	)
-{
-	itsWidget->Place(rect.left, rect.top);
-	itsWidget->SetSize(rect.width(), rect.height());
+	output << itsButton->GetLabel() << std::endl;
 }
 
 /******************************************************************************
@@ -138,7 +126,7 @@ const JString&
 TextButton::GetLabel()
 	const
 {
-	return itsWidget->GetLabel();
+	return itsButton->GetLabel();
 }
 
 void
@@ -147,5 +135,5 @@ TextButton::SetLabel
 	const JString& label
 	)
 {
-	itsWidget->SetLabel(label);
+	itsButton->SetLabel(label);
 }

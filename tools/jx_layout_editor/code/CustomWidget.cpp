@@ -18,6 +18,7 @@
 
 CustomWidget::CustomWidget
 	(
+	LayoutDirector*		dir,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -27,7 +28,7 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(enclosure, hSizing, vSizing, x,y, w,h),
+	BaseWidget(dir, enclosure, hSizing, vSizing, x,y, w,h),
 	itsCreateFlag(false)
 {
 	CustomWidgetX();
@@ -35,6 +36,7 @@ CustomWidget::CustomWidget
 
 CustomWidget::CustomWidget
 	(
+	LayoutDirector*		dir,
 	const JString&		className,
 	const JString&		args,
 	const bool			create,
@@ -47,7 +49,7 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(enclosure, hSizing, vSizing, x,y, w,h),
+	BaseWidget(dir, enclosure, hSizing, vSizing, x,y, w,h),
 	itsClassName(className),
 	itsCtorArgs(args),
 	itsCreateFlag(create)
@@ -57,6 +59,7 @@ CustomWidget::CustomWidget
 
 CustomWidget::CustomWidget
 	(
+	LayoutDirector*		dir,
 	std::istream&		input,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -67,7 +70,7 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, enclosure, hSizing, vSizing, x,y, w,h)
+	BaseWidget(dir, input, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	input >> itsClassName >> itsCtorArgs >> itsCreateFlag;
 
@@ -140,4 +143,5 @@ CustomWidget::DrawBorder
 	)
 {
 	p.Rect(frame);
+	DrawSelection(p, frame);
 }

@@ -3,7 +3,7 @@
 
 	BASE CLASS = public JXWindowDirector
 
-	Copyright (C) <Year> by <Company>.
+	Copyright (C) 2023 by John Lindal.
 
  *****************************************************************************/
 
@@ -229,12 +229,12 @@ LayoutDirector::ReadLayout
 		JXWidget* widget = nullptr;
 		if (className == "TextButton")
 		{
-			widget = jnew TextButton(input, e, hS,vS, x,y,w,h);
+			widget = jnew TextButton(this, input, e, hS,vS, x,y,w,h);
 		}
 		else
 		{
 			assert( className == "CustomWidget" );
-			widget = jnew CustomWidget(input, e, hS,vS, x,y,w,h);
+			widget = jnew CustomWidget(this, input, e, hS,vS, x,y,w,h);
 		}
 
 		widgetList.Append(widget);
@@ -465,7 +465,7 @@ LayoutDirector::ImportFDesignLayout
 		BaseWidget* widget;
 		if (flClass == "FL_BUTTON")
 		{
-			widget = jnew TextButton(label, enclosure, hS,vS, x,y,w,h);
+			widget = jnew TextButton(this, label, enclosure, hS,vS, x,y,w,h);
 
 			if (flType == "FL_RETURN_BUTTON")
 			{
@@ -476,7 +476,7 @@ LayoutDirector::ImportFDesignLayout
 		{
 			SplitFDesignClassNameAndArgs(label, &className, &argList);
 
-			widget = jnew CustomWidget(className, argList, false,
+			widget = jnew CustomWidget(this, className, argList, false,
 										enclosure, hS,vS, x,y,w,h);
 		}
 
@@ -709,6 +709,17 @@ LayoutDirector::SplitFDesignClassNameAndArgs
 }
 
 /******************************************************************************
+ DataModified
+
+ ******************************************************************************/
+
+void
+LayoutDirector::DataModified()
+{
+	itsDoc->DataModified();
+}
+
+/******************************************************************************
  SetLayoutSize
 
  ******************************************************************************/
@@ -723,6 +734,50 @@ LayoutDirector::SetLayoutSize
 	GetWindow()->AdjustSize(
 		w - itsLayoutContainer->GetApertureWidth(),
 		h - itsLayoutContainer->GetApertureHeight());
+}
+
+/******************************************************************************
+ GetSelectedWidgets
+
+ ******************************************************************************/
+
+void
+LayoutDirector::GetSelectedWidgets
+	(
+	JPtrArray<BaseWidget>* list
+	)
+	const
+{
+	list->CleanOut();
+
+	itsLayoutContainer->ForEach([&list](JXContainer* obj)
+	{
+		BaseWidget* widget = dynamic_cast<BaseWidget*>(obj);
+		if (widget != nullptr && widget->IsSelected())
+		{
+			list->Append(widget);
+		}
+	},
+	true);
+}
+
+/******************************************************************************
+ ClearSelection
+
+ ******************************************************************************/
+
+void
+LayoutDirector::ClearSelection()
+{
+	itsLayoutContainer->ForEach([](JXContainer* obj)
+	{
+		BaseWidget* widget = dynamic_cast<BaseWidget*>(obj);
+		if (widget != nullptr)
+		{
+			widget->SetSelected(false);
+		}
+	},
+	true);
 }
 
 /******************************************************************************
