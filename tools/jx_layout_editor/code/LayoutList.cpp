@@ -14,6 +14,7 @@
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/jAsciiConstants.h>
 #include <jx-af/jcore/jAssert.h>
 
 // Edit menu
@@ -135,9 +136,28 @@ LayoutList::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (c == '\n')
+	JPoint cell;
+	if (c == kJReturnKey)
 	{
 		OpenSelectedLayouts();
+	}
+	else if (c == kJUpArrow && GetTableSelection().GetFirstSelectedCell(&cell))
+	{
+		cell.y = JMax(1, cell.y-1);
+		SelectSingleCell(cell);
+	}
+	else if (c == kJUpArrow)
+	{
+		SelectSingleCell(JPoint(1, GetRowCount()));
+	}
+	else if (c == kJDownArrow && GetTableSelection().GetFirstSelectedCell(&cell))
+	{
+		cell.y = JMin(GetRowCount(), cell.y+1);
+		SelectSingleCell(cell);
+	}
+	else if (c == kJDownArrow)
+	{
+		SelectSingleCell(JPoint(1, 1));
 	}
 	else
 	{
