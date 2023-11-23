@@ -849,7 +849,7 @@ JTextEditor::TESetLeftMarginWidth
 	const JCoordinate origWidth
 	)
 {
-	const JCoordinate width = JMax(kMinLeftMarginWidth, origWidth);
+	const JCoordinate width = JMax((JCoordinate) kMinLeftMarginWidth, origWidth);
 
 	if (width != itsLeftMarginWidth)
 	{
@@ -2910,7 +2910,7 @@ JTextEditor::SetCaretLocation
 	const JIndex origCharIndex
 	)
 {
-	JIndex charIndex = JMax(origCharIndex, 1);
+	JIndex charIndex = JMax(origCharIndex, (JIndex) 1);
 	charIndex        = JMin(charIndex, itsText->GetText().GetCharacterCount()+1);
 
 	SetCaretLocation(TextIndex(charIndex, 0));

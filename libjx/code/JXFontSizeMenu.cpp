@@ -220,7 +220,7 @@ JXFontSizeMenu::BuildMenu
 			}
 		}
 
-		for (JSize size=JMax(10, minSize); size<=maxSize; size+=2)
+		for (JSize size=JMax((JSize) 10, minSize); size<=maxSize; size+=2)
 		{
 			const JString itemText((JUInt64) size);
 			id = itemText + "::JX";

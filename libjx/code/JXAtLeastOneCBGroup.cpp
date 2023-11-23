@@ -148,7 +148,7 @@ JXAtLeastOneCBGroup::GetNextActiveIndex
 
 		if (itsDirection == kSlideUp)
 		{
-			newIndex = JMax(1, newIndex-1);
+			newIndex = JMax((JIndex) 1, newIndex-1);
 		}
 		else
 		{

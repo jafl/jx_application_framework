@@ -79,9 +79,9 @@ JBlend
 	)
 {
 	return JRGB(
-		JMax(0, JMin(kJMaxRGBValue, JRound((1.0-alpha) * c1.red   + alpha * c2.red))),
-		JMax(0, JMin(kJMaxRGBValue, JRound((1.0-alpha) * c1.green + alpha * c2.green))),
-		JMax(0, JMin(kJMaxRGBValue, JRound((1.0-alpha) * c1.blue  + alpha * c2.blue))));
+		JMax(0UL, JMin(kJMaxRGBValue, (JSize) JRound((1.0-alpha) * c1.red   + alpha * c2.red))),
+		JMax(0UL, JMin(kJMaxRGBValue, (JSize) JRound((1.0-alpha) * c1.green + alpha * c2.green))),
+		JMax(0UL, JMin(kJMaxRGBValue, (JSize) JRound((1.0-alpha) * c1.blue  + alpha * c2.blue))));
 }
 
 inline bool

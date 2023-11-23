@@ -152,7 +152,7 @@ LayoutList::HandleKeyPress
 	}
 	else if (c == kJDownArrow && GetTableSelection().GetFirstSelectedCell(&cell))
 	{
-		cell.y = JMin(GetRowCount(), cell.y+1);
+		cell.y = JMin((JCoordinate) GetRowCount(), cell.y+1);
 		SelectSingleCell(cell);
 	}
 	else if (c == kJDownArrow)

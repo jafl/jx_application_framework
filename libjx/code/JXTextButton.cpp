@@ -216,6 +216,6 @@ JXTextButton::GetFTCMinContentSize
 	const
 {
 	return (horizontal ?
-			JMax(GetApertureWidth(), itsFont.GetStringWidth(GetFontManager(), itsLabel) + 2*itsPadding.x) :
-			JMax(GetApertureHeight(), itsFont.GetLineHeight(GetFontManager()) + 2*itsPadding.y));
+			JMax(GetApertureWidth(), (JCoordinate) itsFont.GetStringWidth(GetFontManager(), itsLabel) + 2*itsPadding.x) :
+			JMax(GetApertureHeight(), (JCoordinate) itsFont.GetLineHeight(GetFontManager()) + 2*itsPadding.y));
 }

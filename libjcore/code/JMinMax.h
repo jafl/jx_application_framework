@@ -3,7 +3,7 @@
 
 	Interface for JMin and JMax templates
 
-	Copyright (C) 1994 by John Lindal.
+	Copyright (C) 1994-2023 by John Lindal.
 
  ******************************************************************************/
 
@@ -11,7 +11,14 @@
 #define _H_JMinMax
 
 template <class T, class U>
-	requires std::totally_ordered_with<T, U>
+concept j_minmax_comparable = std::totally_ordered_with<T, U> &&
+(
+	(std::is_signed_v<T>   && std::is_signed_v<U>) ||
+	(std::is_unsigned_v<T> && std::is_unsigned_v<U>)
+);
+
+template <class T, class U>
+	requires j_minmax_comparable<T, U>
 std::common_type_t<T, U>
 JMin
 	(
@@ -23,7 +30,7 @@ JMin
 }
 
 template <class T, class U, typename... Args>
-	requires std::totally_ordered_with<T, U>
+	requires j_minmax_comparable<T, U>
 std::common_type_t<T, U>
 JMin
 	(
@@ -37,7 +44,7 @@ JMin
 }
 
 template <class T, class U>
-	requires std::totally_ordered_with<T, U>
+	requires j_minmax_comparable<T, U>
 std::common_type_t<T, U>
 JMax
 	(
@@ -49,7 +56,7 @@ JMax
 }
 
 template <class T, class U, typename... Args>
-	requires std::totally_ordered_with<T, U>
+	requires j_minmax_comparable<T, U>
 std::common_type_t<T, U>
 JMax
 	(
@@ -63,7 +70,7 @@ JMax
 }
 
 template <class T, class U>
-	requires std::totally_ordered_with<T, U>
+	requires j_minmax_comparable<T, U>
 std::common_type_t<T, U>
 JLimit
 	(

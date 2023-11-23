@@ -1199,7 +1199,7 @@ JXSearchTextDialog::GetXSearch()
 	if (actualType == XA_ATOM && actualFormat == 32 && itemCount == 1)
 	{
 		const Atom maxSourceVers = *(reinterpret_cast<Atom*>(data));
-		const Atom vers          = JMin(maxSourceVers, kCurrentXSearchVersion);
+		const Atom vers          = JMin(maxSourceVers, (Atom) kCurrentXSearchVersion);
 		XFree(data);
 
 		const Atom requestType = itsAtoms[ kXSearchDataV1AtomIndex + (vers-1) ];

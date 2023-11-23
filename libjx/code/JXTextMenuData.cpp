@@ -1146,9 +1146,9 @@ JXTextMenuData::ConfigureTable
 											JXTextMenuTable::kTextColumnIndex,
 											*itemData.text, &f);
 
-				h = JMax(h, f.GetLineHeight(fontMgr));
+				h = JMax(h, (JCoordinate) f.GetLineHeight(fontMgr));
 
-				itsMaxTextWidth = JMax(itsMaxTextWidth,
+				itsMaxTextWidth = JMax(itsMaxTextWidth, (JCoordinate)
 					JXTextMenuTable::GetTextWidth(fontMgr, f,
 												  JXTextMenuTable::kTextColumnIndex,
 												  *itemData.text));
@@ -1169,9 +1169,9 @@ JXTextMenuData::ConfigureTable
 											JXTextMenuTable::kSubmenuColumnIndex,
 											*itemData.nmShortcut, &f);
 
-				h = JMax(h, f.GetLineHeight(fontMgr));
+				h = JMax(h, (JCoordinate) f.GetLineHeight(fontMgr));
 
-				itsMaxShortcutWidth = JMax(itsMaxShortcutWidth,
+				itsMaxShortcutWidth = JMax(itsMaxShortcutWidth, (JCoordinate)
 					JXTextMenuTable::GetTextWidth(fontMgr, f,
 												  JXTextMenuTable::kSubmenuColumnIndex,
 												  *itemData.nmShortcut));

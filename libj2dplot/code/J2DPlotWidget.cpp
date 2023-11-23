@@ -1147,7 +1147,7 @@ J2DPlotWidget::CalledBySetPlotDecPlaces
 	const long pl = JLFloor(log10(scale[kInc]));
 	if (forceExp && exp > pl)
 	{
-		*dpCount = JMax(*dpCount, exp - pl);
+		*dpCount = JMax(*dpCount, JSize(exp - pl));
 	}
 }
 
