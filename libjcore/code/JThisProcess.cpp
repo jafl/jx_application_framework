@@ -78,7 +78,6 @@
 #include "JThisProcess.h"
 #include <ace/Reactor.h>
 #include "JString.h"
-#include "JMinMax.h"
 #include "JStdError.h"
 #include <stdlib.h>
 #include <atomic>

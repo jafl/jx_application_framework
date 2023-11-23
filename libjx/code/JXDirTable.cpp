@@ -146,7 +146,7 @@ bool
 JXDirTable::HasSelection()
 	const
 {
-	return (GetTableSelection()).HasSelection();
+	return GetTableSelection().HasSelection();
 }
 
 /******************************************************************************
@@ -178,7 +178,7 @@ JXDirTable::GetFirstSelection
 	const
 {
 	JPoint cell;
-	if ((GetTableSelection()).GetFirstSelectedCell(&cell))
+	if (GetTableSelection().GetFirstSelectedCell(&cell))
 	{
 		*entry = &(itsDirInfo->GetEntry(cell.y));
 		return true;
@@ -283,7 +283,7 @@ JXDirTable::SelectLastEntry
 void
 JXDirTable::SelectAll()
 {
-	(GetTableSelection()).SelectAll();
+	GetTableSelection().SelectAll();
 }
 
 /******************************************************************************
@@ -374,7 +374,7 @@ JXDirTable::AllowSelectFiles
 
 	if (!itsAllowSelectMultipleFlag && !HasSingleSelection())
 	{
-		(GetTableSelection()).ClearSelection();
+		GetTableSelection().ClearSelection();
 	}
 }
 
@@ -1166,7 +1166,7 @@ JXDirTable::Receive
 		}
 		else
 		{
-			(GetTableSelection()).ClearSelection();
+			GetTableSelection().ClearSelection();
 		}
 	}
 
@@ -1205,7 +1205,7 @@ JXDirTable::RememberSelections()
 		}
 
 		JPoint cell;
-		const bool hasSelection = (GetTableSelection()).GetFirstSelectedCell(&cell);
+		const bool hasSelection = GetTableSelection().GetFirstSelectedCell(&cell);
 		assert( hasSelection );
 		const JRect selRect     = GetCellRect(cell);
 		itsReselectScrollOffset = (GetAperture()).topLeft() - selRect.topLeft();

@@ -123,7 +123,7 @@ JMaxFunc::Evaluate
 	for (JIndex i=2; i<=argCount; i++)
 	{
 		JComplex argValue;
-		if (!(GetArg(i))->Evaluate(&argValue))
+		if (!GetArg(i)->Evaluate(&argValue))
 		{
 			return false;
 		}

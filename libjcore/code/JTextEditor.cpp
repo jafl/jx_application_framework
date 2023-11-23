@@ -849,7 +849,7 @@ JTextEditor::TESetLeftMarginWidth
 	const JCoordinate origWidth
 	)
 {
-	const JCoordinate width = JMax((JCoordinate) kMinLeftMarginWidth, origWidth);
+	const JCoordinate width = JMax(kMinLeftMarginWidth, origWidth);
 
 	if (width != itsLeftMarginWidth)
 	{
@@ -1923,7 +1923,7 @@ JTextEditor::TEDrawLine
 				p.SetLineWidth(1);
 				p.SetPenColor(itsWhitespaceColor);
 
-				const JCoordinate box = JMax(4L, JMin(10L, wsRect.height(), tabWidth));
+				const JCoordinate box = JMax(4L, JMin(10, wsRect.height(), tabWidth));
 
 				wsRect.left  = left;
 				wsRect.right = left + box;
@@ -2910,7 +2910,7 @@ JTextEditor::SetCaretLocation
 	const JIndex origCharIndex
 	)
 {
-	JIndex charIndex = JMax(origCharIndex, JIndex(1));
+	JIndex charIndex = JMax(origCharIndex, 1);
 	charIndex        = JMin(charIndex, itsText->GetText().GetCharacterCount()+1);
 
 	SetCaretLocation(TextIndex(charIndex, 0));

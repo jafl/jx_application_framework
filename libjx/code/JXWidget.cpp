@@ -925,8 +925,8 @@ JXWidget::ShouldAllowUnboundedScrolling
 		const JRect bG  = GetBoundsGlobal();
 		if (apG.top < bG.top || apG.left < bG.left)
 		{
-			ScrollTo(JMax(0L, apG.left - bG.left),
-					 JMax(0L, apG.top - bG.top));
+			ScrollTo(JMax(0, apG.left - bG.left),
+					 JMax(0, apG.top - bG.top));
 		}
 	}
 }

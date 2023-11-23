@@ -11,13 +11,11 @@
 #include <jx-af/jcore/JPtrArray-JString.h>
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/JStringMatch.h>
-#include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jFStreamUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jVCSUtil.h>
 #include <jx-af/jcore/jCommandLine.h>
-#include <jx-af/jcore/JMinMax.h>
 #include <sstream>
 #include <stdlib.h>
 #include <jx-af/jcore/jAssert.h>

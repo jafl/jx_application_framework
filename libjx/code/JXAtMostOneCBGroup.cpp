@@ -13,7 +13,6 @@
 
 #include "JXAtMostOneCBGroup.h"
 #include "JXCheckbox.h"
-#include <jx-af/jcore/JMinMax.h>
 #include <stdarg.h>
 #include <jx-af/jcore/jAssert.h>
 

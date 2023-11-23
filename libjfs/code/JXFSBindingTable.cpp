@@ -297,7 +297,7 @@ JXFSBindingTable::HandleKeyPress
 		 (modifiers.meta() && (c == kJRightArrow || c == '6'))))
 	{
 		if (EndEditing() &&
-			(GetTableSelection()).GetSingleSelectedCell(&cell))
+			GetTableSelection().GetSingleSelectedCell(&cell))
 		{
 			BeginEditing(JPoint(kCommandColumn, cell.y));
 		}
@@ -435,7 +435,7 @@ JXFSBindingTable::PrepareDeleteXInputField()
 	itsTextInput = nullptr;
 
 	JPoint cell;
-	if ((GetTableSelection()).GetSingleSelectedCell(&cell))
+	if (GetTableSelection().GetSingleSelectedCell(&cell))
 	{
 		const JFSBinding* b = itsBindingList->GetBinding(cell.y);
 		JFSBinding::CommandType type;
@@ -540,7 +540,7 @@ void
 JXFSBindingTable::DuplicatePattern()
 {
 	JPoint cell;
-	if ((GetTableSelection()).GetFirstSelectedCell(&cell) && EndEditing())
+	if (GetTableSelection().GetFirstSelectedCell(&cell) && EndEditing())
 	{
 		const JFSBinding* b = itsBindingList->GetBinding(cell.y);
 
@@ -565,7 +565,7 @@ void
 JXFSBindingTable::UpdateTypeMenu()
 {
 	JPoint cell;
-	const bool ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const bool ok = GetTableSelection().GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	const JFSBinding* b = itsBindingList->GetBinding(cell.y);
@@ -584,7 +584,7 @@ JXFSBindingTable::HandleTypeMenu
 	)
 {
 	JPoint cell;
-	const bool ok = (GetTableSelection()).GetFirstSelectedCell(&cell);
+	const bool ok = GetTableSelection().GetFirstSelectedCell(&cell);
 	assert( ok );
 
 	const JFSBinding::CommandType newType = kMenuIndexToCmdType [ index-1 ];
@@ -604,7 +604,7 @@ void
 JXFSBindingTable::UpdateButtons()
 {
 	JPoint cell;
-	if ((GetTableSelection()).GetFirstSelectedCell(&cell))
+	if (GetTableSelection().GetFirstSelectedCell(&cell))
 	{
 		itsRemoveButton->SetActive(
 			!(itsBindingList->GetBinding(cell.y))->IsSystemBinding());

@@ -40,7 +40,7 @@ public:
 	void	InsertBefore(const T* beforePtr, T* dataPtr);
 	void	InsertAfter(const T* afterPtr, T* dataPtr);
 	void	SetItem(const JIndex index, T* dataPtr,
-					   const JPtrArrayT::SetAction action);
+					const JPtrArrayT::SetAction action);
 	void	SetToNull(const JIndex index, const JPtrArrayT::SetAction action);
 
 	// these insert a *copy* of the object into the array
@@ -56,7 +56,7 @@ public:
 	void	InsertBefore(const T* beforePtr, const T& data);
 	void	InsertAfter(const T* afterPtr, const T& data);
 	void	SetItem(const JIndex index, const T& data,
-					   const JPtrArrayT::SetAction action);
+					const JPtrArrayT::SetAction action);
 
 	bool	Remove(const T* dataPtr);
 	void	DeleteItem(const JIndex index);

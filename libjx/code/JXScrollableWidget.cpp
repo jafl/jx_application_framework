@@ -459,7 +459,7 @@ JXScrollableWidget::AdjustScrollbars()
 
 	itsAdjustingFlag = true;
 
-	const JCoordinate xmax = JMax(boundsG.width() - apW, (JCoordinate) 0);
+	const JCoordinate xmax = JMax(boundsG.width() - apW, 0);
 	hScrollbar->SetMaxValue(xmax);
 	hScrollbar->SetValue(ap.left);
 	JCoordinate hStep = itsHStepSize;
@@ -477,7 +477,7 @@ JXScrollableWidget::AdjustScrollbars()
 		hScrollbar->SetPageStepSize(JRound(apW * kPageStepFraction));
 	}
 
-	const JCoordinate ymax = JMax(boundsG.height() - apH, (JCoordinate) 0);
+	const JCoordinate ymax = JMax(boundsG.height() - apH, 0);
 	vScrollbar->SetMaxValue(ymax);
 	vScrollbar->SetValue(ap.top);
 	JCoordinate vStep = itsVStepSize;

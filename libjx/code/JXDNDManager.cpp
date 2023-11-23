@@ -908,7 +908,7 @@ JXDNDManager::SendDNDEnter
 		message.data.l[ kDNDEnterType2 ] = None;
 		message.data.l[ kDNDEnterType3 ] = None;
 
-		const JSize msgTypeCount = JMin(typeCount, (JSize) kDNDEnterTypeCount);
+		const JSize msgTypeCount = JMin(typeCount, kDNDEnterTypeCount);
 		for (JIndex i=1; i<=msgTypeCount; i++)
 		{
 			message.data.l[ kDNDEnterType1 + i-1 ] = itsDraggerTypeList->GetItem(i);

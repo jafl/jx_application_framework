@@ -512,8 +512,8 @@ JXFontManager::GetLineHeight
 		const int count = XFontsOfFontSet(info.xfont.xfset, &fsList, &nameList);
 		for (int i=0; i<count; i++)
 		{
-			info.ascent  = JMax(info.ascent,  (JCoordinate) fsList[i]->ascent);
-			info.descent = JMax(info.descent, (JCoordinate) fsList[i]->descent);
+			info.ascent  = JMax(info.ascent,  fsList[i]->ascent);
+			info.descent = JMax(info.descent, fsList[i]->descent);
 		}
 		itsFontList->SetItem(id, info);
 	}

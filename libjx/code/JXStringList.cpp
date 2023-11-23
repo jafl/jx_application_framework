@@ -290,7 +290,7 @@ JXStringList::HandleKeyPress
 	if (c == ' ' || (c == kJEscapeKey && !IsEditing()))
 	{
 		ClearIncrementalSearchBuffer();
-		(GetTableSelection()).ClearSelection();
+		GetTableSelection().ClearSelection();
 	}
 
 	// incremental search
@@ -308,7 +308,7 @@ JXStringList::HandleKeyPress
 		}
 		else
 		{
-			(GetTableSelection()).ClearSelection();
+			GetTableSelection().ClearSelection();
 		}
 	}
 

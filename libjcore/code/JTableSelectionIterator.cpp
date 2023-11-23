@@ -314,8 +314,8 @@ JTableSelectionIterator::MoveTo
 
 	else if (newPosition == kStartAtEnd)
 	{
-		itsCursor.x  = JMax((JSize) 1, colCount);
-		itsCursor.y  = JMax((JSize) 1, rowCount);
+		itsCursor.x  = JMax(1, colCount);
+		itsCursor.y  = JMax(1, rowCount);
 		itsAtEndFlag = true;
 	}
 
@@ -430,7 +430,7 @@ JTableSelectionIterator::Receive
 		else if (itsDirection == kIterateByCol &&
 				 (JIndex) itsCursor.y > rowCount)
 		{
-			itsCursor.y = JMax((JSize) 1, rowCount);
+			itsCursor.y = JMax(1, rowCount);
 			NextCell();
 		}
 	}
@@ -475,7 +475,7 @@ JTableSelectionIterator::Receive
 		else if (itsDirection == kIterateByRow &&
 				 (JIndex) itsCursor.x > colCount)
 		{
-			itsCursor.x = JMax((JSize) 1, colCount);
+			itsCursor.x = JMax(1, colCount);
 			NextCell();
 		}
 	}

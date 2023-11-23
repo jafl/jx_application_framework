@@ -1147,7 +1147,7 @@ J2DPlotWidget::CalledBySetPlotDecPlaces
 	const long pl = JLFloor(log10(scale[kInc]));
 	if (forceExp && exp > pl)
 	{
-		*dpCount = JMax(*dpCount, (JSize) (exp - pl));
+		*dpCount = JMax(*dpCount, exp - pl);
 	}
 }
 
@@ -1555,7 +1555,7 @@ J2DPlotWidget::Print
 				GetPSPortraitPrintSize(p.GetPageWidth(), p.GetPageHeight(),
 									   &itsPrintWidth, &itsPrintHeight);
 				xShift = (p.GetPageWidth() - itsPrintWidth)/2;
-				yShift = JMax(0L, (p.GetPageHeight() - itsPrintHeight - GetMarksHeight())/2);
+				yShift = JMax(0, (p.GetPageHeight() - itsPrintHeight - GetMarksHeight())/2);
 			}
 			else
 			{

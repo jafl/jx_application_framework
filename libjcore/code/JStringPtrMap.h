@@ -147,7 +147,7 @@ JStringPtrMap<V>::GetItem
 }
 
 /******************************************************************************
- Set...Element
+ Set...Item
 
 	These override the versions in JStringMap to force you to consider the
 	SetAction.

@@ -373,7 +373,7 @@ JXNamedTreeListWidget::HandleKeyPress
 	if (c == ' ' || (c == kJEscapeKey && !IsEditing()))
 	{
 		ClearIncrementalSearchBuffer();
-		(GetTableSelection()).ClearSelection();
+		GetTableSelection().ClearSelection();
 	}
 
 	// incremental search
@@ -391,7 +391,7 @@ JXNamedTreeListWidget::HandleKeyPress
 		}
 		else
 		{
-			(GetTableSelection()).ClearSelection();
+			GetTableSelection().ClearSelection();
 		}
 	}
 

@@ -48,7 +48,6 @@
 
 #include "JRegex.h"
 #include "JStringIterator.h"
-#include "JMinMax.h"
 #include <pcreposix.h>	// for regmatch_t
 #include "jAssert.h"
 

@@ -1977,8 +1977,8 @@ JXWindow::SetMinSize
 	JCoordinate h = origH;
 	if ((sizeHints.flags & PMaxSize) != 0)
 	{
-		w = JMin(w, (JCoordinate) sizeHints.max_width);
-		h = JMin(h, (JCoordinate) sizeHints.max_height);
+		w = JMin(w, sizeHints.max_width);
+		h = JMin(h, sizeHints.max_height);
 	}
 
 	sizeHints.flags     |= PMinSize;
@@ -2045,8 +2045,8 @@ JXWindow::SetMaxSize
 	JCoordinate h = origH;
 	if ((sizeHints.flags & PMinSize) != 0)
 	{
-		w = JMax(w, (JCoordinate) sizeHints.min_width);
-		h = JMax(h, (JCoordinate) sizeHints.min_height);
+		w = JMax(w, sizeHints.min_width);
+		h = JMax(h, sizeHints.min_height);
 	}
 
 	sizeHints.flags     |= PMaxSize;

@@ -719,7 +719,7 @@ bool
 JXFileListTable::HasSelection()
 	const
 {
-	return (GetTableSelection()).HasSelection();
+	return GetTableSelection().HasSelection();
 }
 
 /******************************************************************************
@@ -775,7 +775,7 @@ JXFileListTable::SelectSingleEntry
 void
 JXFileListTable::SelectAll()
 {
-	(GetTableSelection()).SelectAll();
+	GetTableSelection().SelectAll();
 	ClearIncrementalSearchBuffer();
 }
 
@@ -787,7 +787,7 @@ JXFileListTable::SelectAll()
 void
 JXFileListTable::ClearSelection()
 {
-	(GetTableSelection()).ClearSelection();
+	GetTableSelection().ClearSelection();
 	ClearIncrementalSearchBuffer();
 }
 

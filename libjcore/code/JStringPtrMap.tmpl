@@ -117,10 +117,10 @@ template <class V>
 bool
 JStringPtrMap<V>::SetItem
 	(
-	const JUtf8Byte*                   key,
-	const V&                           data,
+	const JUtf8Byte*            key,
+	const V&                    data,
 	const JPtrArrayT::SetAction action,
-	const JStringMapT::SetType         type // = kAlways
+	const JStringMapT::SetType  type // = kAlways
 	)
 {
 	V* ptr = jnew V(data);
@@ -131,10 +131,10 @@ template <class V>
 bool
 JStringPtrMap<V>::SetItem
 	(
-	const JString&                     key,
-	const V&                           data,
+	const JString&              key,
+	const V&                    data,
 	const JPtrArrayT::SetAction action,
-	const JStringMapT::SetType         type // = kAlways
+	const JStringMapT::SetType  type // = kAlways
 	)
 {
 	V* ptr = jnew V(data);
@@ -169,8 +169,8 @@ template <class V>
 bool
 JStringPtrMap<V>::SetOldItem
 	(
-	const JUtf8Byte*                   key,
-	const V&                           data,
+	const JUtf8Byte*            key,
+	const V&                    data,
 	const JPtrArrayT::SetAction action
 	)
 {
@@ -182,8 +182,8 @@ template <class V>
 bool
 JStringPtrMap<V>::SetOldItem
 	(
-	const JString&                     key,
-	const V&                           data,
+	const JString&              key,
+	const V&                    data,
 	const JPtrArrayT::SetAction action
 	)
 {
@@ -195,8 +195,8 @@ template <class V>
 bool
 JStringPtrMap<V>::SetContains
 	(
-	const JUtf8Byte*                   key,
-	const V&                           data,
+	const JUtf8Byte*            key,
+	const V&                    data,
 	const JPtrArrayT::SetAction action
 	)
 {
@@ -208,8 +208,8 @@ template <class V>
 bool
 JStringPtrMap<V>::SetContains
 	(
-	const JString&                     key,
-	const V&                           data,
+	const JString&              key,
+	const V&                    data,
 	const JPtrArrayT::SetAction action
 	)
 {

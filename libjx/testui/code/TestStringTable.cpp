@@ -353,7 +353,7 @@ TestStringTable::HandleMouseDrag
 		JPoint cell;
 		const bool ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
 		assert( ok );
-		(GetTableSelection()).ExtendSelection(cell);
+		GetTableSelection().ExtendSelection(cell);
 	}
 }
 

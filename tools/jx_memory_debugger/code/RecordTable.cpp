@@ -352,13 +352,13 @@ RecordTable::HandleKeyPress
 		if (itsRecordList->ClosestMatch(itsKeyBuffer, &record) &&
 			itsRecordList->GetRecordIndex(record, &index))
 		{
-			(GetTableSelection()).ClearSelection();
-			(GetTableSelection()).SelectRow(index);
+			GetTableSelection().ClearSelection();
+			GetTableSelection().SelectRow(index);
 			TableScrollToCell(JPoint(1, index));
 		}
 		else
 		{
-			(GetTableSelection()).ClearSelection();
+			GetTableSelection().ClearSelection();
 		}
 	}
 

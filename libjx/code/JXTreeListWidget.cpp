@@ -755,7 +755,7 @@ JXTreeListWidget::HandleNodeMoveFinished()
 {
 	// restore selection
 
-	(GetTableSelection()).ClearSelection();
+	GetTableSelection().ClearSelection();
 	SelectNodes(*itsReselectNodeList);
 	itsReselectNodeList->RemoveAll();
 

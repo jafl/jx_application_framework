@@ -16,7 +16,6 @@
 #include "JStringMatch.h"
 #include "JStdError.h"
 #include "jStreamUtil.h"
-#include "JMinMax.h"
 #include "jGlobals.h"
 #include <unistd.h>
 #include <stdlib.h>
