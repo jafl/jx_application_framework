@@ -18,7 +18,10 @@
 #include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jx/JXScrollbarSet.h>
 #include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXCloseDirectorTask.h>
+#include <jx-af/jx/JXGetStringDialog.h>
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
+#include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
@@ -45,11 +48,13 @@ enum
 // Layout menu
 
 static const JUtf8Byte* kLayoutMenuStr =
-	"    New layout... %k Meta-N %i" kNewLayoutAction;
+	"    New layout...             %k Meta-N %i" kNewLayoutAction
+	"%l| Rename selected layout...           %i" kEditLayoutNameAction;
 
 enum
 {
-	kNewLayoutCmd = 1
+	kNewLayoutCmd = 1,
+	kRenameSelectedLayoutCmd
 };
 
 // Preferences menu
@@ -142,7 +147,8 @@ MainDocument::MainDocument
 	:
 	JXFileDocument(JXGetApplication(), fullName, onDisk, false, ".jxl")
 {
-	itsLayouts = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
+	itsLayouts    = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
+	itsLayoutDirs = jnew JStringPtrMap<LayoutDirector>(JPtrArrayT::kForgetAll);
 
 	itsLayoutNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	itsLayoutNames->SetCompareFunction(JCompareStringsCaseInsensitive);
@@ -275,13 +281,110 @@ MainDocument::OpenLayout
 	const JString& name
 	)
 {
+	LayoutDirector* dir;
 	JString* data;
-	if (itsLayouts->GetItem(name, &data))
+	if (itsLayoutDirs->GetItem(name, &dir))
 	{
-		std::istringstream input(data->GetBytes());
-		auto* dir = jnew LayoutDirector(this, input);
 		dir->Activate();
 	}
+	else if (itsLayouts->GetItem(name, &data))
+	{
+		std::istringstream input(data->GetBytes());
+		auto* dir = jnew LayoutDirector(this, name, input);
+
+		const bool ok = itsLayoutDirs->SetNewItem(name, dir);
+		assert( ok );
+
+		dir->Activate();
+	}
+}
+
+/******************************************************************************
+ SaveLayout
+
+ ******************************************************************************/
+
+void
+MainDocument::SaveLayout
+	(
+	LayoutDirector* dir
+	)
+{
+	std::ostringstream data;
+	dir->WriteLayout(data);
+	itsLayouts->SetItem(dir->GetLayoutName(), JString(data.str()), JPtrArrayT::kDelete);
+}
+
+/******************************************************************************
+ EditLayoutName
+
+ ******************************************************************************/
+
+void
+MainDocument::EditLayoutName
+	(
+	const JString& oldName
+	)
+{
+	auto* dlog = jnew JXGetStringDialog(
+		JGetString("EditLayoutNameWindowTitle::LayoutDirector"),
+		JGetString("EditLayoutNamePrompt::LayoutDirector"),
+		oldName);
+
+	if (dlog->DoDialog())
+	{
+		const JString& newName = dlog->GetString();
+
+		JString* data;
+		bool ok = itsLayouts->GetItem(oldName, &data);
+		assert( ok );
+		ok = itsLayouts->SetNewItem(newName, data);
+		if (ok)
+		{
+			itsLayouts->RemoveItem(oldName);
+
+			LayoutDirector* dir;
+			ok = itsLayoutDirs->GetItem(oldName, &dir);
+			assert( ok );
+			ok = itsLayoutDirs->SetNewItem(newName, dir);
+			assert( ok );
+			itsLayoutDirs->RemoveItem(oldName);
+
+			JIndex i;
+			ok = itsLayoutNames->SearchSorted(const_cast<JString*>(&oldName), JListT::kAnyMatch, &i);
+			assert( ok );
+			itsLayoutNames->DeleteItem(i);
+			ok = itsLayoutNames->InsertSorted(jnew JString(newName), false, &i);
+			assert( ok );
+
+			dir->SetLayoutName(newName);
+			DataModified();
+		}
+		else
+		{
+			JGetUserNotification()->ReportError(JGetString("DuplicateLayoutName::MainDocument"));
+		}
+	}
+}
+
+/*****************************************************************************
+ DirectorClosed (virtual protected)
+
+ ******************************************************************************/
+
+void
+MainDocument::DirectorClosed
+	(
+	JXDirector* dir
+	)
+{
+	LayoutDirector* layoutDir = dynamic_cast<LayoutDirector*>(dir);
+	if (layoutDir != nullptr)
+	{
+		itsLayoutDirs->RemoveItem(layoutDir->GetLayoutName());
+	}
+
+	JXWindowDirector::DirectorClosed(dir);
 }
 
 /******************************************************************************
@@ -317,7 +420,8 @@ MainDocument::ReadFile
 
 		auto* n = jnew JString(name);
 		JIndex i;
-		itsLayoutNames->InsertSorted(n, true, &i);
+		const bool ok = itsLayoutNames->InsertSorted(n, false, &i);
+		assert( ok );
 	}
 }
 
@@ -362,12 +466,10 @@ MainDocument::ImportFDesignFile
 {
 	while (!input.eof() && !input.fail())
 	{
-		auto* dir = jnew LayoutDirector(this);
+		auto* dir = jnew LayoutDirector(this, JString::empty);
 		if (dir->ImportFDesignLayout(input))
 		{
-			std::ostringstream data;
-			dir->WriteLayout(data);
-			itsLayouts->SetItem(dir->GetLayoutName(), JString(data.str()), JPtrArrayT::kDelete);
+			SaveLayout(dir);
 
 			auto* n = jnew JString(dir->GetLayoutName());
 			JIndex i;
@@ -459,6 +561,9 @@ MainDocument::HandleFileMenu
 void
 MainDocument::UpdateLayoutMenu()
 {
+	JPoint cell;
+	itsLayoutMenu->SetItemEnabled(kRenameSelectedLayoutCmd,
+		itsLayoutNameTable->GetTableSelection().GetSingleSelectedCell(&cell));
 }
 
 /******************************************************************************
@@ -474,6 +579,47 @@ MainDocument::HandleLayoutMenu
 {
 	if (index == kNewLayoutCmd)
 	{
+		auto* dlog = jnew JXGetStringDialog(
+			JGetString("NewLayoutNameWindowTitle::LayoutDirector"),
+			JGetString("EditLayoutNamePrompt::LayoutDirector"));
+
+		if (dlog->DoDialog())
+		{
+			const JString& name = dlog->GetString();
+
+			auto* dir = jnew LayoutDirector(this, name);
+
+			std::ostringstream data;
+			dir->WriteLayout(data);
+			bool ok = itsLayouts->SetNewItem(name, JString(data.str()));
+			if (ok)
+			{
+				JIndex i;
+				ok = itsLayoutNames->InsertSorted(jnew JString(name), false, &i);
+				assert(ok);
+
+				ok = itsLayoutDirs->SetNewItem(name, dir);
+				assert( ok );
+
+				dir->Activate();
+				DataModified();
+			}
+			else
+			{
+				dir->Close();
+				JGetUserNotification()->ReportError(JGetString("DuplicateLayoutName::MainDocument"));
+			}
+		}
+	}
+
+	else if (index == kRenameSelectedLayoutCmd)
+	{
+		JPoint cell;
+		bool ok = itsLayoutNameTable->GetTableSelection().GetSingleSelectedCell(&cell);
+		assert( ok );
+
+		const JString oldName = *itsLayoutNames->GetItem(cell.y);	// copy to avoid data corruption
+		EditLayoutName(oldName);
 	}
 }
 

@@ -24,10 +24,12 @@ class LayoutDirector : public JXWindowDirector
 {
 public:
 
-	LayoutDirector(MainDocument* doc);
-	LayoutDirector(MainDocument* doc, std::istream& input);
+	LayoutDirector(MainDocument* doc, const JString& name);
+	LayoutDirector(MainDocument* doc, const JString& name, std::istream& input);
 
 	~LayoutDirector() override;
+
+	bool	Close() override;
 
 	const JString&	GetLayoutName() const;
 	void			SetLayoutName(const JString& name);
@@ -46,6 +48,7 @@ private:
 	MainDocument*		itsDoc;
 	JString				itsLayoutName;
 	LayoutContainer*	itsLayoutContainer;
+	bool				itsModifiedFlag;
 
 	JXTextMenu*	itsFileMenu;
 	JXTextMenu*	itsEditMenu;

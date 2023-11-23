@@ -62,9 +62,11 @@ UnsupportedFDesignVersion::MainDocument	"Unable to read .fd file with version $v
 UnknownFile::MainDocument				"Unable to read this file."
 FileMissing::MainDocument				"Unable to revert because the file has been removed."
 
+DuplicateLayoutName::MainDocument	"That name is already used by another layout."
+
 # LayoutDirector
 
-DefaultLayoutName::LayoutDirector			"Untitled"
+NewLayoutNameWindowTitle::LayoutDirector	"New Layout Name"
 EditLayoutNameWindowTitle::LayoutDirector	"Edit Layout Name"
 EditLayoutNamePrompt::LayoutDirector		"Enter the name of this layout:"
 

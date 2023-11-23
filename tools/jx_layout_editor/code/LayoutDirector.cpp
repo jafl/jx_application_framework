@@ -21,7 +21,6 @@
 #include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jx/JXBorderRect.h>
 #include <jx-af/jx/JXImage.h>
-#include <jx-af/jx/JXGetStringDialog.h>
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
 #include <jx-af/jcore/JPtrArray-JString.h>
 #include <jx-af/jcore/JStringIterator.h>
@@ -35,7 +34,7 @@ const JFileVersion kCurrentDataVersion = 0;		// remember to increment MainDocume
 
 static const JUtf8Byte* kFileMenuStr =
 	"    Edit name...           %i" kEditLayoutNameAction
-	"  | Close        %k Meta-W %i" kJXCloseWindowAction;
+	"%l| Close        %k Meta-W %i" kJXCloseWindowAction;
 
 enum
 {
@@ -80,12 +79,14 @@ enum
 
 LayoutDirector::LayoutDirector
 	(
-	MainDocument* doc
+	MainDocument*	doc,
+	const JString&	name
 	)
 	:
 	JXWindowDirector(doc),
 	itsDoc(doc),
-	itsLayoutName(JGetString("DefaultLayoutName::LayoutDirector"))
+	itsLayoutName(name),
+	itsModifiedFlag(false)
 {
 	BuildWindow();
 	UpdateWindowTitle();
@@ -94,11 +95,14 @@ LayoutDirector::LayoutDirector
 LayoutDirector::LayoutDirector
 	(
 	MainDocument*	doc,
+	const JString&	name,
 	std::istream&	input
 	)
 	:
 	JXWindowDirector(doc),
-	itsDoc(doc)
+	itsDoc(doc),
+	itsLayoutName(name),
+	itsModifiedFlag(false)
 {
 	BuildWindow();
 	ReadLayout(input);
@@ -211,6 +215,21 @@ LayoutDirector::UpdateWindowTitle()
 }
 
 /******************************************************************************
+ Close (virtual)
+
+ ******************************************************************************/
+
+bool
+LayoutDirector::Close()
+{
+	if (itsModifiedFlag)
+	{
+		itsDoc->SaveLayout(this);
+	}
+	return JXWindowDirector::Close();
+}
+
+/******************************************************************************
  ReadLayout (private)
 
  ******************************************************************************/
@@ -224,9 +243,6 @@ LayoutDirector::ReadLayout
 	JFileVersion vers;
 	input >> vers;
 	assert( vers <= kCurrentDataVersion );
-
-	input >> itsLayoutName;
-	GetWindow()->SetTitle(itsLayoutName);
 
 	JCoordinate w,h;
 	input >> w >> h;
@@ -289,7 +305,6 @@ LayoutDirector::WriteLayout
 	const
 {
 	output << kCurrentDataVersion << std::endl;
-	output << itsLayoutName << std::endl;
 	output << itsLayoutContainer->GetApertureWidth() << std::endl;
 	output << itsLayoutContainer->GetApertureHeight() << std::endl;
 
@@ -372,7 +387,6 @@ LayoutDirector::ImportFDesignLayout
 	// name
 
 	itsLayoutName = ReadFDesignString(input, kFormNameMarker);
-	GetWindow()->SetTitle(itsLayoutName);
 
 	// window size
 
@@ -751,6 +765,7 @@ LayoutDirector::SplitFDesignClassNameAndArgs
 void
 LayoutDirector::DataModified()
 {
+	itsModifiedFlag = true;
 	itsDoc->DataModified();
 }
 
@@ -858,16 +873,7 @@ LayoutDirector::HandleFileMenu
 {
 	if (index == kEditLayoutNameCmd)
 	{
-		auto* dlog = jnew JXGetStringDialog(
-			JGetString("EditLayoutNameWindowTitle::LayoutDirector"),
-			JGetString("EditLayoutNamePrompt::LayoutDirector"),
-			itsLayoutName);
-
-		if (dlog->DoDialog())
-		{
-			itsLayoutName = dlog->GetString();
-			UpdateWindowTitle();
-		}
+		itsDoc->EditLayoutName(itsLayoutName);
 	}
 
 	else if (index == kCloseCmd)

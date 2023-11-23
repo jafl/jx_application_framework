@@ -14,6 +14,7 @@
 class JXTextMenu;
 class JXToolBar;
 class JXStringList;
+class LayoutDirector;
 
 class MainDocument : public JXFileDocument
 {
@@ -26,6 +27,8 @@ public:
 	const JString&	GetName() const override;
 
 	void	OpenLayout(const JString& name);
+	void	SaveLayout(LayoutDirector* dir);
+	void	EditLayoutName(const JString& name);
 
 protected:
 
@@ -34,12 +37,15 @@ protected:
 	void	WriteTextFile(std::ostream& output, const bool safetySave) const override;
 	void	DiscardChanges() override;
 
+	void	DirectorClosed(JXDirector* dir) override;
+
 private:
 
-	JStringPtrMap<JString>*	itsLayouts;
-	JPtrArray<JString>*		itsLayoutNames;
-	JXStringList*			itsLayoutNameTable;
-	mutable JString			itsDocName;				// so GetName() can return JString&
+	JStringPtrMap<JString>*			itsLayouts;
+	JStringPtrMap<LayoutDirector>*	itsLayoutDirs;
+	JPtrArray<JString>*				itsLayoutNames;
+	JXStringList*					itsLayoutNameTable;
+	mutable JString					itsDocName;			// so GetName() can return JString&
 
 	JXTextMenu*	itsFileMenu;
 	JXTextMenu*	itsLayoutMenu;

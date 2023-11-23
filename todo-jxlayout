@@ -1,13 +1,11 @@
-keep ptr to open layouts, so can't double-open
-
-show selection border for TextButtons
-
 calculate min size for open layout window to avoid negative widget height/width
 	dynamic, based on existing widgets
 	if elastic in dimension, allow shrink to min 5px
 	use max of calculated min sizes
 
-? - assign fixed name for every widget to ensure stable translations
+show selection border for TextButtons
+
+ensure stable translations:  assign fixed name for every widget?
 
 -----
 
