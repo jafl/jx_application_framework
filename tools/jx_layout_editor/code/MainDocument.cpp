@@ -404,7 +404,16 @@ MainDocument::ReadFile
 	input >> vers;
 	assert( vers <= kCurrentFileVersion );
 
+	JStringPtrMapCursor<LayoutDirector> cursor(itsLayoutDirs);
+	while (cursor.Next())
+	{
+		cursor.GetValue()->Close();
+	}
+
 	itsLayouts->CleanOut();
+	itsLayoutDirs->CleanOut();
+	itsLayoutNames->CleanOut();
+
 	while (true)
 	{
 		bool keepGoing;

@@ -5,8 +5,6 @@ calculate min size for open layout window to avoid negative widget height/width
 
 show selection border for TextButtons
 
-ensure stable translations:  assign fixed name for every widget?
-
 -----
 
 resize
@@ -53,6 +51,8 @@ Partition: set number of compartments, for direct editing
 place/drag
 	drag new from palette
 	use DND, to drop inside another widget, e.g., scrollbarset or toolbar
+
+ensure stable translations:  assign fixed name for every widget?
 
 -----
 
