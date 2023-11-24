@@ -45,7 +45,7 @@ enum
 {
 	kPrefsCmd = 1,
 	kEditToolBarCmd,
-	kWebBrowserCmd,
+	kEditFileWebPrefsCmd,
 	kEditMacWinPrefsCmd,
 	kSaveWindSizeCmd
 };
@@ -212,7 +212,7 @@ MainDirector::HandlePrefsMenu
 	{
 		itsToolBar->Edit();
 	}
-	else if (index == kWebBrowserCmd)
+	else if (index == kEditFileWebPrefsCmd)
 	{
 		JXGetWebBrowser()->EditPrefs();
 	}

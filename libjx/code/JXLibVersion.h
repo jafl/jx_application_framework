@@ -27,6 +27,9 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //		Reverted regression that caused long menus to not scroll smoothly.
 //	JXTextMenuData:
 //		Fixed edge case that caused occasional crashes.
+//	JXDocumentManager:
+//		Added HasDocuments(), GetDocumentCount(), DocumentsNeedSave(),
+//			SaveAllFileDocuments().
 
 // version 4.0.0:
 //	Supports utf-8
