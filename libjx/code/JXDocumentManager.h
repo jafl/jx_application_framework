@@ -54,6 +54,10 @@ public:
 
 	void	SafetySave(const SafetySaveReason reason);
 
+	bool	HasDocuments() const;
+	JSize	GetDocumentCount() const;
+	bool	DocumentsNeedSave() const;
+	bool	SaveAllFileDocuments(const bool saveUntitled);
 	void	CloseDocuments();
 
 	// for use by classes derived from JXDocument
@@ -165,6 +169,30 @@ public:
 		};
 };
 
+
+/******************************************************************************
+ HasDocuments
+
+ ******************************************************************************/
+
+inline bool
+JXDocumentManager::HasDocuments()
+	const
+{
+	return !itsDocList->IsEmpty();
+}
+
+/******************************************************************************
+ HasDocuments
+
+ ******************************************************************************/
+
+inline JSize
+JXDocumentManager::GetDocumentCount()
+	const
+{
+	return itsDocList->GetItemCount();
+}
 
 /******************************************************************************
  WillSafetySave

@@ -364,6 +364,52 @@ JXDocumentManager::CloseDocuments()
 }
 
 /******************************************************************************
+ DocumentsNeedSave
+
+ ******************************************************************************/
+
+bool
+JXDocumentManager::DocumentsNeedSave()
+	const
+{
+	for (const auto& info : *itsDocList)
+	{
+		if (info.doc->NeedsSave())
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/******************************************************************************
+ SaveAllFileDocuments
+
+ ******************************************************************************/
+
+bool
+JXDocumentManager::SaveAllFileDocuments
+	(
+	const bool saveUntitled
+	)
+{
+	bool needsSave = false;
+
+	for (const auto& info : *itsDocList)
+	{
+		JXFileDocument* doc = dynamic_cast<JXFileDocument*>(info.doc);
+		if (doc != nullptr &&
+			(saveUntitled || doc->ExistsOnDisk()) && !doc->Save())
+		{
+			needsSave = true;
+		}
+	}
+
+	return !needsSave;
+}
+
+/******************************************************************************
  FileDocumentIsOpen
 
 	If there is a JXFileDocument that uses the specified file, we return it.
