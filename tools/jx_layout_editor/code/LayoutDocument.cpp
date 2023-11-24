@@ -1,45 +1,61 @@
 /******************************************************************************
- LayoutDirector.cpp
+ LayoutDocument.cpp
 
-	BASE CLASS = public JXWindowDirector
+	BASE CLASS = public JXFileDocument
 
 	Copyright (C) 2023 by John Lindal.
 
  *****************************************************************************/
 
-#include "LayoutDirector.h"
-#include "MainDocument.h"
+#include "LayoutDocument.h"
 #include "LayoutContainer.h"
-#include "BaseWidget.h"
 #include "CustomWidget.h"
 #include "TextButton.h"
+#include "MDIServer.h"
 #include "globals.h"
 #include "actionDefs.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXFileHistoryMenu.h>
 #include <jx-af/jx/JXToolBar.h>
-#include <jx-af/jx/JXBorderRect.h>
+#include <jx-af/jx/JXScrollbarSet.h>
 #include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXGetStringDialog.h>
+#include <jx-af/jx/JXWebBrowser.h>
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
-#include <jx-af/jcore/JPtrArray-JString.h>
 #include <jx-af/jcore/JStringIterator.h>
-#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JFileVersion kCurrentDataVersion = 0;		// remember to increment MainDocument version
+static const JUtf8Byte* kFileSignature = "jx_layout_editor";
+const JFileVersion kCurrentFileVersion = 0;
+
+const JSize kFileHistoryLength = 40;
 
 // File menu
 
 static const JUtf8Byte* kFileMenuStr =
-	"    Edit name...           %i" kEditLayoutNameAction
-	"%l| Close        %k Meta-W %i" kJXCloseWindowAction;
+	"    New...          %k Meta-N       %i" kNewLayoutAction
+	"%l| Open...         %k Meta-O       %i" kOpenLayoutAction
+	"  | Recent"
+	"%l| Save            %k Meta-S       %i" kSaveLayoutAction
+	"  | Save as...      %k Ctrl-S       %i" kSaveLayoutAsAction
+	"  | Revert to saved                 %i" kRevertLayoutsAction
+	"  | Save all        %k Meta-Shift-S %i" kSaveAllLayoutsAction
+	"%l| Show in file manager            %i" kShowInFileMgrAction
+	"%l| Close           %k Meta-W       %i" kJXCloseWindowAction
+	"%l| Quit            %k Meta-Q       %i" kJXQuitAction;
 
 enum
 {
-	kEditLayoutNameCmd = 1,
-	kCloseCmd
+	kNewCmd = 1,
+	kOpenCmd, kRecentMenuCmd,
+	kSaveCmd, kSaveAsCmd, kRevertCmd, kSaveAllCmd,
+	kShowInFileMgrCmd,
+	kCloseCmd,
+	kQuitCmd
 };
 
 // Edit menu
@@ -55,58 +71,127 @@ static const JUtf8Byte* kEditMenuStr =
 
 enum
 {
-	kUndoIndex = 1, kRedoIndex,
-	kCutIndex, kCopyIndex, kPasteIndex, kClearIndex,
-	kSelectAllIndex
+	kUndoCmd = 1, kRedoCmd,
+	kCutCmd, kCopyCmd, kPasteCmd, kClearCmd,
+	kSelectAllCmd
 };
 
 // Preferences menu
 
 static const JUtf8Byte* kPrefsMenuStr =
 	"    Edit tool bar..."
+	"  | File manager..."
 	"  | Mac/Win/X emulation...";
 
 enum
 {
 	kEditToolBarCmd = 1,
+	kFilePrefsCmd,
 	kEditMacWinPrefsCmd
 };
 
 /******************************************************************************
- Constructor
+ Create (static)
+
+	Create an empty layout.
 
  *****************************************************************************/
 
-LayoutDirector::LayoutDirector
+bool
+LayoutDocument::Create
 	(
-	MainDocument*	doc,
-	const JString&	name
+	LayoutDocument** doc
 	)
-	:
-	JXWindowDirector(doc),
-	itsDoc(doc),
-	itsLayoutName(name),
-	itsModifiedFlag(false)
 {
-	BuildWindow();
-	UpdateWindowTitle();
+	auto* dlog = jnew JXGetStringDialog(
+		JGetString("NewLayoutNameWindowTitle::LayoutDocument"),
+		JGetString("EditLayoutNamePrompt::LayoutDocument"));
+
+	if (dlog->DoDialog())
+	{
+		*doc = jnew LayoutDocument(dlog->GetString(), false);
+		(**doc).Activate();
+		return true;
+	}
+
+	return false;
 }
 
-LayoutDirector::LayoutDirector
+/******************************************************************************
+ Create (static)
+
+	Load layout(s) from a file.
+
+ *****************************************************************************/
+
+bool
+LayoutDocument::Create
 	(
-	MainDocument*	doc,
-	const JString&	name,
-	std::istream&	input
+	const JString& fullName
+	)
+{
+	std::ifstream input(fullName.GetBytes());
+	JFileVersion vers;
+
+	FileStatus status =DefaultCanReadASCIIFile(input, "Magic:", 15000, &vers);
+	if (status == kFileReadable)
+	{
+		ImportFDesignFile(input);
+		return true;
+	}
+	else if (status == kNeedNewerVersion)
+	{
+		const JString v((JUInt64) vers);
+		const JUtf8Byte* map[] =
+		{
+			"v", v.GetBytes()
+		};
+		const JString msg = JGetString("UnsupportedFDesignVersion::LayoutDocument", map, sizeof(map));
+		JGetUserNotification()->ReportError(msg);
+		return false;
+	}
+
+	JXFileDocument* fdoc;
+	if (JXGetDocumentManager()->FileDocumentIsOpen(fullName, &fdoc))
+	{
+		fdoc->Activate();
+		return true;
+	}
+
+	status = DefaultCanReadASCIIFile(input, kFileSignature, kCurrentFileVersion, &vers);
+	if (status == kFileReadable)
+	{
+		auto* doc = jnew LayoutDocument(fullName, true);
+		doc->ReadFile(input);
+		doc->Activate();
+		return true;
+	}
+	else if (status == kNeedNewerVersion)
+	{
+		JGetUserNotification()->ReportError(JGetString("NeedNewerVersion::LayoutDocument"));
+		return false;
+	}
+	else
+	{
+		JGetUserNotification()->ReportError(JGetString("UnknownFile::LayoutDocument"));
+		return false;
+	}
+}
+
+/******************************************************************************
+ Constructor (protected)
+
+ *****************************************************************************/
+
+LayoutDocument::LayoutDocument
+	(
+	const JString&	fullName,
+	const bool		onDisk
 	)
 	:
-	JXWindowDirector(doc),
-	itsDoc(doc),
-	itsLayoutName(name),
-	itsModifiedFlag(false)
+	JXFileDocument(JXGetApplication(), fullName, onDisk, false, ".jxl")
 {
 	BuildWindow();
-	ReadLayout(input);
-	UpdateWindowTitle();
 }
 
 /******************************************************************************
@@ -114,7 +199,7 @@ LayoutDirector::LayoutDirector
 
  *****************************************************************************/
 
-LayoutDirector::~LayoutDirector()
+LayoutDocument::~LayoutDocument()
 {
 }
 
@@ -123,7 +208,12 @@ LayoutDirector::~LayoutDirector()
 
  ******************************************************************************/
 
-#include "layout_window_icon.xpm"
+#include "main_window_icon.xpm"
+#include <jx-af/image/jx/jx_file_new.xpm>
+#include <jx-af/image/jx/jx_file_open.xpm>
+#include <jx-af/image/jx/jx_file_save.xpm>
+#include <jx-af/image/jx/jx_file_revert_to_saved.xpm>
+#include <jx-af/image/jx/jx_file_save_all.xpm>
 #include <jx-af/image/jx/jx_edit_undo.xpm>
 #include <jx-af/image/jx/jx_edit_redo.xpm>
 #include <jx-af/image/jx/jx_edit_cut.xpm>
@@ -132,7 +222,7 @@ LayoutDirector::~LayoutDirector()
 #include <jx-af/image/jx/jx_edit_clear.xpm>
 
 void
-LayoutDirector::BuildWindow()
+LayoutDocument::BuildWindow()
 {
 // begin JXLayout
 
@@ -144,17 +234,18 @@ LayoutDirector::BuildWindow()
 	assert( menuBar != nullptr );
 
 	itsToolBar =
-		jnew JXToolBar(GetPrefsManager(), kLayoutDirToolBarID, menuBar, window,
+		jnew JXToolBar(GetPrefsManager(), kMainDocToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
 	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
-	window->SetWMClass(GetWMClassInstance(), GetLayoutDirectorClass());
-	window->SetMinSize(200, 100);
+	AdjustWindowTitle();
+	window->SetCloseAction(JXWindow::kQuitApp);
+	window->SetWMClass(GetWMClassInstance(), GetLayoutDocumentClass());
+	window->SetMinSize(200, 200);
 
-	JXImage* image = jnew JXImage(GetDisplay(), layout_window_icon);
-	assert( image != nullptr );
+	JXImage* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);
 
 	itsLayoutContainer =
@@ -165,84 +256,105 @@ LayoutDirector::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
-	itsFileMenu->SetMenuItems(kFileMenuStr, "LayoutDirector");
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
+	itsFileMenu->SetMenuItems(kFileMenuStr, "LayoutDocument");
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
-		&LayoutDirector::UpdateFileMenu,
-		&LayoutDirector::HandleFileMenu);
+		&LayoutDocument::UpdateFileMenu,
+		&LayoutDocument::HandleFileMenu);
+
+	itsFileMenu->SetItemImage(kNewCmd,     jx_file_new);
+	itsFileMenu->SetItemImage(kOpenCmd,    jx_file_open);
+	itsFileMenu->SetItemImage(kSaveCmd,    jx_file_save);
+	itsFileMenu->SetItemImage(kRevertCmd,  jx_file_revert_to_saved);
+	itsFileMenu->SetItemImage(kSaveAllCmd, jx_file_save_all);
+
+	jnew JXFileHistoryMenu(kFileHistoryLength, itsFileMenu, kRecentMenuCmd, menuBar);
 
 	itsEditMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
-	itsEditMenu->SetMenuItems(kEditMenuStr, "LayoutDirector");
+	itsEditMenu->SetMenuItems(kEditMenuStr, "LayoutDocument");
 	itsEditMenu->SetUpdateAction(JXMenu::kDisableAll);
 	itsEditMenu->AttachHandlers(this,
-		&LayoutDirector::UpdateEditMenu,
-		&LayoutDirector::HandleEditMenu);
+		&LayoutDocument::UpdateEditMenu,
+		&LayoutDocument::HandleEditMenu);
 
-	itsEditMenu->SetItemImage(kUndoIndex,  jx_edit_undo);
-	itsEditMenu->SetItemImage(kRedoIndex,  jx_edit_redo);
-	itsEditMenu->SetItemImage(kCutIndex,   jx_edit_cut);
-	itsEditMenu->SetItemImage(kCopyIndex,  jx_edit_copy);
-	itsEditMenu->SetItemImage(kPasteIndex, jx_edit_paste);
-	itsEditMenu->SetItemImage(kClearIndex, jx_edit_clear);
+	itsEditMenu->SetItemImage(kUndoCmd,  jx_edit_undo);
+	itsEditMenu->SetItemImage(kRedoCmd,  jx_edit_redo);
+	itsEditMenu->SetItemImage(kCutCmd,   jx_edit_cut);
+	itsEditMenu->SetItemImage(kCopyCmd,  jx_edit_copy);
+	itsEditMenu->SetItemImage(kPasteCmd, jx_edit_paste);
+	itsEditMenu->SetItemImage(kClearCmd, jx_edit_clear);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "LayoutDirector");
+	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "LayoutDocument");
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsPrefsMenu->AttachHandler(this, &LayoutDirector::HandlePrefsMenu);
+	itsPrefsMenu->AttachHandler(this, &LayoutDocument::HandlePrefsMenu);
 
-	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "LayoutDirector", "MainHelp");
+	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "LayoutDocument", "MainHelp");
 
 	// must be done after creating widgets
 
 	itsToolBar->LoadPrefs();
 	if (itsToolBar->IsEmpty())
 	{
-		itsToolBar->AppendButton(itsFileMenu, kCloseCmd);
+		itsToolBar->AppendButton(itsFileMenu, kNewCmd);
+		itsToolBar->AppendButton(itsFileMenu, kOpenCmd);
+		itsToolBar->NewGroup();
+		itsToolBar->AppendButton(itsFileMenu, kSaveCmd);
+		itsToolBar->AppendButton(itsFileMenu, kSaveAllCmd);
+		itsToolBar->NewGroup();
+		itsToolBar->AppendButton(itsEditMenu, kUndoCmd);
+		itsToolBar->AppendButton(itsEditMenu, kRedoCmd);
+		itsToolBar->NewGroup();
+		itsToolBar->AppendButton(itsEditMenu, kCutCmd);
+		itsToolBar->AppendButton(itsEditMenu, kCopyCmd);
+		itsToolBar->AppendButton(itsEditMenu, kPasteCmd);
+
 		GetApplication()->AppendHelpMenuToToolBar(itsToolBar, helpMenu);
 	}
 }
 
 /******************************************************************************
- UpdateWindowTitle (private)
+ GetName (virtual)
+
+	Override of JXDocument::GetName().
+
+ ******************************************************************************/
+
+const JString&
+LayoutDocument::GetName()
+	const
+{
+	JString root, suffix;
+	JSplitRootAndSuffix(GetFileName(), &root, &suffix);
+	itsDocName = root;
+
+	return itsDocName;
+}
+
+/******************************************************************************
+ ReadFile (private)
 
  ******************************************************************************/
 
 void
-LayoutDirector::UpdateWindowTitle()
-{
-	GetWindow()->SetTitle(itsDoc->GetName() + ": " + itsLayoutName);
-}
-
-/******************************************************************************
- Close (virtual)
-
- ******************************************************************************/
-
-bool
-LayoutDirector::Close()
-{
-	if (itsModifiedFlag)
-	{
-		itsDoc->SaveLayout(this);
-	}
-	return JXWindowDirector::Close();
-}
-
-/******************************************************************************
- ReadLayout (private)
-
- ******************************************************************************/
-
-void
-LayoutDirector::ReadLayout
+LayoutDocument::ReadFile
 	(
 	std::istream& input
 	)
 {
+	input.ignore(strlen(kFileSignature));
+
 	JFileVersion vers;
 	input >> vers;
-	assert( vers <= kCurrentDataVersion );
+	assert( vers <= kCurrentFileVersion );
+
+	jdelete itsLayoutContainer;
+	itsLayoutContainer =
+		jnew LayoutContainer(itsToolBar->GetWidgetEnclosure(),
+							 JXWidget::kHElastic,JXWidget::kVElastic,
+							 0,0, 100,100);
+	itsLayoutContainer->FitToEnclosure();
 
 	JCoordinate w,h;
 	input >> w >> h;
@@ -293,18 +405,21 @@ LayoutDirector::ReadLayout
 }
 
 /******************************************************************************
- WriteLayout
+ WriteTextFile (virtual protected)
+
+	This must be overridden if WriteFile() is not overridden.
 
  ******************************************************************************/
 
 void
-LayoutDirector::WriteLayout
+LayoutDocument::WriteTextFile
 	(
-	std::ostream& output
+	std::ostream&	output,
+	const bool		safetySave
 	)
 	const
 {
-	output << kCurrentDataVersion << std::endl;
+	output << kFileSignature << ' ' << kCurrentFileVersion << std::endl;
 	output << itsLayoutContainer->GetApertureWidth() << std::endl;
 	output << itsLayoutContainer->GetApertureHeight() << std::endl;
 
@@ -333,6 +448,53 @@ LayoutDirector::WriteLayout
 	true);
 
 	output << false << std::endl;
+}
+
+/******************************************************************************
+ DiscardChanges (virtual protected)
+
+ ******************************************************************************/
+
+void
+LayoutDocument::DiscardChanges()
+{
+	bool onDisk;
+	const JString fullName = GetFullName(&onDisk);
+	assert( onDisk );
+
+	std::ifstream input(fullName.GetBytes());
+	JFileVersion vers;
+	const FileStatus status = DefaultCanReadASCIIFile(input, kFileSignature, kCurrentFileVersion, &vers);
+	if (status == kFileReadable)
+	{
+		ReadFile(input);
+		DataReverted();
+	}
+	else
+	{
+		JGetUserNotification()->ReportError(JGetString("UnknownFile::LayoutDocument"));
+	}
+}
+
+/******************************************************************************
+ ImportFDesignFile (static private)
+
+ ******************************************************************************/
+
+void
+LayoutDocument::ImportFDesignFile
+	(
+	std::istream& input
+	)
+{
+	while (!input.eof() && !input.fail())
+	{
+		auto* doc = jnew LayoutDocument(JString::empty, false);
+		if (!doc->ImportFDesignLayout(input))
+		{
+			doc->Close();
+		}
+	}
 }
 
 /******************************************************************************
@@ -367,7 +529,7 @@ static const JUtf8Byte* kObjNameMarker     = "name:";
 static const JUtf8Byte* kObjCBArgMarker    = "argument:";
 
 bool
-LayoutDirector::ImportFDesignLayout
+LayoutDocument::ImportFDesignLayout
 	(
 	std::istream& input
 	)
@@ -386,7 +548,8 @@ LayoutDirector::ImportFDesignLayout
 
 	// name
 
-	itsLayoutName = ReadFDesignString(input, kFormNameMarker);
+	s = ReadFDesignString(input, kFormNameMarker);
+	FileChanged(s, false);
 
 	// window size
 
@@ -548,7 +711,7 @@ LayoutDirector::ImportFDesignLayout
  ******************************************************************************/
 
 JString
-LayoutDirector::ReadFDesignString
+LayoutDocument::ReadFDesignString
 	(
 	std::istream&		input,
 	const JUtf8Byte*	marker
@@ -570,7 +733,7 @@ LayoutDirector::ReadFDesignString
  ******************************************************************************/
 
 JCoordinate
-LayoutDirector::ReadFDesignNumber
+LayoutDocument::ReadFDesignNumber
 	(
 	std::istream&		input,
 	const JUtf8Byte*	marker
@@ -614,7 +777,7 @@ static const GravityMap kGravityMap[] =
 const JSize kGravityCount = sizeof(kGravityMap) / sizeof(GravityMap);
 
 void
-LayoutDirector::ParseFDesignGravity
+LayoutDocument::ParseFDesignGravity
 	(
 	const JString&				gravity,
 	JXWidget::HSizingOption*	hSizing,
@@ -647,7 +810,7 @@ LayoutDirector::ParseFDesignGravity
  ******************************************************************************/
 
 JString
-LayoutDirector::GetTempFDesignVarName
+LayoutDocument::GetTempFDesignVarName
 	(
 	const JPtrArray<JString>& objNames
 	)
@@ -687,7 +850,7 @@ LayoutDirector::GetTempFDesignVarName
  ******************************************************************************/
 
 bool
-LayoutDirector::GetFDesignEnclosure
+LayoutDocument::GetFDesignEnclosure
 	(
 	const JRect&			frame,
 	const JArray<JRect>&	rectList,
@@ -722,7 +885,7 @@ LayoutDirector::GetFDesignEnclosure
  ******************************************************************************/
 
 void
-LayoutDirector::SplitFDesignClassNameAndArgs
+LayoutDocument::SplitFDesignClassNameAndArgs
 	(
 	const JString&	str,
 	JString*		name,
@@ -758,24 +921,12 @@ LayoutDirector::SplitFDesignClassNameAndArgs
 }
 
 /******************************************************************************
- DataModified
-
- ******************************************************************************/
-
-void
-LayoutDirector::DataModified()
-{
-	itsModifiedFlag = true;
-	itsDoc->DataModified();
-}
-
-/******************************************************************************
  SetLayoutSize
 
  ******************************************************************************/
 
 void
-LayoutDirector::SetLayoutSize
+LayoutDocument::SetLayoutSize
 	(
 	const JCoordinate w,
 	const JCoordinate h
@@ -792,7 +943,7 @@ LayoutDirector::SetLayoutSize
  ******************************************************************************/
 
 void
-LayoutDirector::GetSelectedWidgets
+LayoutDocument::GetSelectedWidgets
 	(
 	JPtrArray<BaseWidget>* list
 	)
@@ -818,7 +969,7 @@ LayoutDirector::GetSelectedWidgets
  ******************************************************************************/
 
 void
-LayoutDirector::SelectAllWidgets()
+LayoutDocument::SelectAllWidgets()
 {
 	itsLayoutContainer->ForEach([](JXContainer* obj)
 	{
@@ -837,7 +988,7 @@ LayoutDirector::SelectAllWidgets()
  ******************************************************************************/
 
 void
-LayoutDirector::ClearSelection()
+LayoutDocument::ClearSelection()
 {
 	itsLayoutContainer->ForEach([](JXContainer* obj)
 	{
@@ -856,8 +1007,13 @@ LayoutDirector::ClearSelection()
  ******************************************************************************/
 
 void
-LayoutDirector::UpdateFileMenu()
+LayoutDocument::UpdateFileMenu()
 {
+	itsFileMenu->SetItemEnabled(kSaveCmd, NeedsSave());
+	itsFileMenu->SetItemEnabled(kRevertCmd, CanRevert());
+	itsFileMenu->SetItemEnabled(kSaveAllCmd, JXGetDocumentManager()->DocumentsNeedSave());
+
+	itsFileMenu->SetItemEnabled(kShowInFileMgrCmd, ExistsOnDisk());
 }
 
 /******************************************************************************
@@ -866,19 +1022,54 @@ LayoutDirector::UpdateFileMenu()
  ******************************************************************************/
 
 void
-LayoutDirector::HandleFileMenu
+LayoutDocument::HandleFileMenu
 	(
 	const JIndex index
 	)
 {
-	if (index == kEditLayoutNameCmd)
+	if (index == kNewCmd)
 	{
-		itsDoc->EditLayoutName(itsLayoutName);
+		LayoutDocument* doc;
+		Create(&doc);
+	}
+	else if (index == kOpenCmd)
+	{
+		MDIServer::ChooseFiles();
+	}
+
+	else if (index == kSaveCmd)
+	{
+		SaveInCurrentFile();
+	}
+	else if (index == kSaveAsCmd)
+	{
+		SaveInNewFile();
+	}
+	else if (index == kRevertCmd)
+	{
+		RevertToSaved();
+	}
+	else if (index == kSaveAllCmd)
+	{
+		JXGetDocumentManager()->SaveAllFileDocuments(true);
+	}
+
+	else if (index == kShowInFileMgrCmd)
+	{
+		bool onDisk;
+		const JString fullName = GetFullName(&onDisk);
+		assert( onDisk );
+		JXGetWebBrowser()->ShowFileLocation(fullName);
 	}
 
 	else if (index == kCloseCmd)
 	{
 		Close();
+	}
+
+	else if (index == kQuitCmd)
+	{
+		GetApplication()->Quit();
 	}
 }
 
@@ -888,9 +1079,9 @@ LayoutDirector::HandleFileMenu
  ******************************************************************************/
 
 void
-LayoutDirector::UpdateEditMenu()
+LayoutDocument::UpdateEditMenu()
 {
-	itsEditMenu->EnableItem(kSelectAllIndex);
+	itsEditMenu->EnableItem(kSelectAllCmd);
 }
 
 /******************************************************************************
@@ -899,32 +1090,32 @@ LayoutDirector::UpdateEditMenu()
  ******************************************************************************/
 
 void
-LayoutDirector::HandleEditMenu
+LayoutDocument::HandleEditMenu
 	(
 	const JIndex index
 	)
 {
-	if (index == kUndoIndex)
+	if (index == kUndoCmd)
 	{
 	}
-	else if (index == kRedoIndex)
-	{
-	}
-
-	else if (index == kCutIndex)
-	{
-	}
-	else if (index == kCopyIndex)
-	{
-	}
-	else if (index == kPasteIndex)
-	{
-	}
-	else if (index == kClearIndex)
+	else if (index == kRedoCmd)
 	{
 	}
 
-	else if (index == kSelectAllIndex)
+	else if (index == kCutCmd)
+	{
+	}
+	else if (index == kCopyCmd)
+	{
+	}
+	else if (index == kPasteCmd)
+	{
+	}
+	else if (index == kClearCmd)
+	{
+	}
+
+	else if (index == kSelectAllCmd)
 	{
 		SelectAllWidgets();
 	}
@@ -936,7 +1127,7 @@ LayoutDirector::HandleEditMenu
  ******************************************************************************/
 
 void
-LayoutDirector::HandlePrefsMenu
+LayoutDocument::HandlePrefsMenu
 	(
 	const JIndex index
 	)
@@ -944,6 +1135,10 @@ LayoutDirector::HandlePrefsMenu
 	if (index == kEditToolBarCmd)
 	{
 		itsToolBar->Edit();
+	}
+	else if (index == kFilePrefsCmd)
+	{
+		JXGetWebBrowser()->EditPrefs();
 	}
 	else if (index == kEditMacWinPrefsCmd)
 	{

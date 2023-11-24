@@ -10,17 +10,17 @@
 
 #include <jx-af/jx/JXWidget.h>
 
-class LayoutDirector;
+class LayoutDocument;
 
 class BaseWidget : public JXWidget
 {
 public:
 
-	BaseWidget(LayoutDirector* dir, JXContainer* enclosure,
+	BaseWidget(LayoutDocument* dir, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	BaseWidget(LayoutDirector* dir, std::istream& input, JXContainer* enclosure,
+	BaseWidget(LayoutDocument* dir, std::istream& input, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -29,7 +29,7 @@ public:
 
 	virtual void	StreamOut(std::ostream& output) const;
 
-	LayoutDirector*	GetLayoutDirector();
+	LayoutDocument*	GetLayoutDocument();
 
 	const JString&	GetVarName(bool* isMemberData) const;
 	void			SetVarName(const JString& name, const bool member);
@@ -53,7 +53,7 @@ protected:
 
 private:
 
-	LayoutDirector*	itsLayoutDir;
+	LayoutDocument*	itsLayoutDoc;
 	JString			itsVarName;		// can be empty
 	bool			itsMemberVarFlag;
 	bool			itsSelectedFlag;
@@ -61,14 +61,14 @@ private:
 
 
 /******************************************************************************
- GetLayoutDirector
+ GetLayoutDocument
 
  ******************************************************************************/
 
-inline LayoutDirector*
-BaseWidget::GetLayoutDirector()
+inline LayoutDocument*
+BaseWidget::GetLayoutDocument()
 {
-	return itsLayoutDir;
+	return itsLayoutDoc;
 }
 
 /******************************************************************************

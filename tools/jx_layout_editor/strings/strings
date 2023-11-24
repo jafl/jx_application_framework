@@ -52,23 +52,14 @@ UpgradeNotice::AboutDialog
 
 You have just upgraded from version $vers"
 
-# MainDocument
+# LayoutDocument
 
-LayoutMenuTitle::MainDocument	"Layout"
+NewLayoutNameWindowTitle::LayoutDocument	"New Layout Name"
+EditLayoutNamePrompt::LayoutDocument		"Enter the name of this layout:"
 
-NewFileName::MainDocument				"Untitled"
-NeedNewerVersion::MainDocument			"You need a newer version of this program to read this file."
-UnsupportedFDesignVersion::MainDocument	"Unable to read .fd file with version $v"
-UnknownFile::MainDocument				"Unable to read this file."
-FileMissing::MainDocument				"Unable to revert because the file has been removed."
-
-DuplicateLayoutName::MainDocument	"That name is already used by another layout."
-
-# LayoutDirector
-
-NewLayoutNameWindowTitle::LayoutDirector	"New Layout Name"
-EditLayoutNameWindowTitle::LayoutDirector	"Edit Layout Name"
-EditLayoutNamePrompt::LayoutDirector		"Enter the name of this layout:"
+NeedNewerVersion::LayoutDocument			"You need a newer version of this program to read this file."
+UnsupportedFDesignVersion::LayoutDocument	"Unable to read .fd file with version $v"
+UnknownFile::LayoutDocument					"Unable to read this file."
 
 # TextButton
 

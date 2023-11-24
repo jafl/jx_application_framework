@@ -16,9 +16,12 @@
 #include "PrefsManager.h"
 #include <jx-af/jx/JXDocumentManager.h>
 
+class MDIServer;
+
 App*			GetApplication();
 PrefsManager*	GetPrefsManager();
 void			ForgetPrefsManager();
+MDIServer*		GetMDIServer();
 
 const JString&	GetVersionNumberStr();
 JString			GetVersionStr();
@@ -32,7 +35,6 @@ void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 	// called by Directors
 
 const JUtf8Byte*	GetWMClassInstance();
-const JUtf8Byte*	GetMainDocumentClass();
-const JUtf8Byte*	GetLayoutDirectorClass();
+const JUtf8Byte*	GetLayoutDocumentClass();
 
 #endif

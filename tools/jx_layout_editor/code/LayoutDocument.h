@@ -1,54 +1,49 @@
 /******************************************************************************
- LayoutDirector.h
+ LayoutDocument.h
 
 	Copyright (C) 2023 by John Lindal.
 
  *****************************************************************************/
 
-#ifndef _H_LayoutDirector
-#define _H_LayoutDirector
+#ifndef _H_LayoutDocument
+#define _H_LayoutDocument
 
-#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jx/JXFileDocument.h>
 #include <jx-af/jx/JXWidget.h>	// need sizing
-#include <jx-af/jcore/JString.h>
 
-class JRect;
 class JXTextMenu;
 class JXToolBar;
-class JXFlatRect;
-class MainDocument;
 class LayoutContainer;
 class BaseWidget;
 
-class LayoutDirector : public JXWindowDirector
+class LayoutDocument : public JXFileDocument
 {
 public:
 
-	LayoutDirector(MainDocument* doc, const JString& name);
-	LayoutDirector(MainDocument* doc, const JString& name, std::istream& input);
+	static bool	Create(LayoutDocument** doc);
+	static bool	Create(const JString& fullName);
 
-	~LayoutDirector() override;
+	~LayoutDocument() override;
 
-	bool	Close() override;
-
-	const JString&	GetLayoutName() const;
-	void			SetLayoutName(const JString& name);
-
-	void	WriteLayout(std::ostream& output) const;
-	bool	ImportFDesignLayout(std::istream& input);
+	const JString&	GetName() const override;
 
 	void	SelectAllWidgets();
 	void	ClearSelection();
 	void	GetSelectedWidgets(JPtrArray<BaseWidget>* list) const;
 
-	void	DataModified();
+protected:
+
+	LayoutDocument(const JString& fullName, const bool onDisk);
+
+	void	WriteTextFile(std::ostream& output, const bool safetySave) const override;
+	void	DiscardChanges() override;
+
+	void	DirectorClosed(JXDirector* dir) override;
 
 private:
 
-	MainDocument*		itsDoc;
-	JString				itsLayoutName;
 	LayoutContainer*	itsLayoutContainer;
-	bool				itsModifiedFlag;
+	mutable JString		itsDocName;		// so GetName() can return JString&
 
 	JXTextMenu*	itsFileMenu;
 	JXTextMenu*	itsEditMenu;
@@ -63,11 +58,11 @@ private:
 private:
 
 	void	BuildWindow();
-	void	UpdateWindowTitle();
-
-	void	ReadLayout(std::istream& input);
+	void	ReadFile(std::istream& input);
 	void	SetLayoutSize(const JCoordinate w, const JCoordinate h);
 
+	static void			ImportFDesignFile(std::istream& input);
+	bool				ImportFDesignLayout(std::istream& input);
 	static JString		ReadFDesignString(std::istream& input, const JUtf8Byte* marker);
 	static JCoordinate	ReadFDesignNumber(std::istream& input, const JUtf8Byte* marker);
 	static void			ParseFDesignGravity(const JString& gravity,
@@ -88,28 +83,5 @@ private:
 
 	void	HandlePrefsMenu(const JIndex index);
 };
-
-
-/******************************************************************************
- Layout name
-
- ******************************************************************************/
-
-inline const JString&
-LayoutDirector::GetLayoutName()
-	const
-{
-	return itsLayoutName;
-}
-
-inline void
-LayoutDirector::SetLayoutName
-	(
-	const JString& name
-	)
-{
-	itsLayoutName = name;
-	UpdateWindowTitle();
-}
 
 #endif

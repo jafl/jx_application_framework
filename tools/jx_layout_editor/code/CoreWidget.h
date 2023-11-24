@@ -14,11 +14,11 @@ class CoreWidget : public BaseWidget
 {
 public:
 
-	CoreWidget(LayoutDirector* dir, JXContainer* enclosure,
+	CoreWidget(LayoutDocument* dir, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	CoreWidget(LayoutDirector* dir, std::istream& input, JXContainer* enclosure,
+	CoreWidget(LayoutDocument* dir, std::istream& input, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);

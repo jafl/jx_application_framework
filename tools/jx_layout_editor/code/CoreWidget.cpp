@@ -18,7 +18,7 @@
 
 CoreWidget::CoreWidget
 	(
-	LayoutDirector*		dir,
+	LayoutDocument*		dir,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -34,7 +34,7 @@ CoreWidget::CoreWidget
 
 CoreWidget::CoreWidget
 	(
-	LayoutDirector*		dir,
+	LayoutDocument*		dir,
 	std::istream&		input,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,

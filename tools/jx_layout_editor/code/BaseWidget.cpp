@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include "BaseWidget.h"
-#include "LayoutDirector.h"
+#include "LayoutDocument.h"
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jcore/JColorManager.h>
@@ -21,7 +21,7 @@
 
 BaseWidget::BaseWidget
 	(
-	LayoutDirector*		dir,
+	LayoutDocument*		dir,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -32,7 +32,7 @@ BaseWidget::BaseWidget
 	)
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
-	itsLayoutDir(dir),
+	itsLayoutDoc(dir),
 	itsMemberVarFlag(false),
 	itsSelectedFlag(false)
 {
@@ -40,7 +40,7 @@ BaseWidget::BaseWidget
 
 BaseWidget::BaseWidget
 	(
-	LayoutDirector*		dir,
+	LayoutDocument*		dir,
 	std::istream&		input,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -52,7 +52,7 @@ BaseWidget::BaseWidget
 	)
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
-	itsLayoutDir(dir),
+	itsLayoutDoc(dir),
 	itsSelectedFlag(false)
 {
 	input >> itsVarName >> itsMemberVarFlag;
@@ -79,7 +79,7 @@ BaseWidget::StreamOut
 	)
 	const
 {
-	// read by LayoutDirector
+	// read by LayoutDocument
 
 	output << (int) GetHSizing() << std::endl;
 	output << (int) GetVSizing() << std::endl;
@@ -127,7 +127,7 @@ BaseWidget::HandleMouseDown
 {
 	if (button == kJXLeftButton && clickCount == 1)
 	{
-		GetLayoutDirector()->ClearSelection();
+		GetLayoutDocument()->ClearSelection();
 		SetSelected(true);
 	}
 	else if (button == kJXLeftButton && clickCount == 2)

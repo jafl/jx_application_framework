@@ -20,6 +20,10 @@ T
 F
 "./code/PrefsManager.cpp"
 T
+2 "MDIServer.cpp"
+F
+"./code/MDIServer.cpp"
+T
 2 "AboutDialog.cpp"
 F
 "./code/AboutDialog.cpp"
@@ -27,17 +31,9 @@ F
 T
 1 "layout"
 T
-2 "MainDocument.cpp"
+2 "LayoutDocument.cpp"
 F
-"./code/MainDocument.cpp"
-T
-2 "LayoutList.cpp"
-F
-"./code/LayoutList.cpp"
-T
-2 "LayoutDirector.cpp"
-F
-"./code/LayoutDirector.cpp"
+"./code/LayoutDocument.cpp"
 T
 2 "LayoutContainer.cpp"
 F

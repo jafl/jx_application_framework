@@ -10,11 +10,13 @@
 #include "globals.h"
 #include "App.h"
 #include "PrefsManager.h"
+#include "MDIServer.h"
 #include <jx-af/jx/JXDocumentManager.h>
 #include <jx-af/jcore/jAssert.h>
 
 static App*					theApplication  = nullptr;		// owns itself
 static PrefsManager*		thePrefsManager = nullptr;
+static MDIServer*			theMDIServer    = nullptr;
 static JXDocumentManager*	theDocManager   = nullptr;
 
 /******************************************************************************
@@ -37,6 +39,7 @@ CreateGlobals
 
 	JXInitHelp();
 
+	theMDIServer  = jnew MDIServer;
 	theDocManager = jnew JXDocumentManager;
 
 	return isNew;
@@ -51,6 +54,7 @@ void
 DeleteGlobals()
 {
 	theApplication = nullptr;
+	theMDIServer   = nullptr;
 	theDocManager  = nullptr;
 
 	// this must be last so everybody else can use it to save their setup
@@ -122,6 +126,18 @@ ForgetPrefsManager()
 }
 
 /******************************************************************************
+ GetMDIServer
+
+ ******************************************************************************/
+
+MDIServer*
+GetMDIServer()
+{
+	assert( theMDIServer != nullptr );
+	return theMDIServer;
+}
+
+/******************************************************************************
  GetVersionNumberStr
 
  ******************************************************************************/
@@ -160,13 +176,7 @@ GetWMClassInstance()
 }
 
 const JUtf8Byte*
-GetMainDocumentClass()
-{
-	return "jx_layout_editor_Document";
-}
-
-const JUtf8Byte*
-GetLayoutDirectorClass()
+GetLayoutDocumentClass()
 {
 	return "jx_layout_editor_Layout";
 }

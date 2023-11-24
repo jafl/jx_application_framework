@@ -6,7 +6,8 @@
  ******************************************************************************/
 
 #include "App.h"
-#include "MainDocument.h"
+#include "MDIServer.h"
+#include "LayoutDocument.h"
 #include "globals.h"
 #include <jx-af/jx/JXChooseFileDialog.h>
 #include <jx-af/jcore/jCommandLine.h>
@@ -32,30 +33,18 @@ main
 {
 	ParseTextOptions(argc, argv);
 
+	if (!MDIServer::WillBeMDIServer(App::GetAppSignature(), argc, argv))
+	{
+		return 0;
+	}
+
 	bool displayAbout;
 	JString prevVersStr;
 	auto* app = jnew App(&argc, argv, &displayAbout, &prevVersStr);
 
-	JXApplication::StartFiber([argc, argv, app]()
+	JXApplication::StartFiber([argc, argv]()
 	{
-		JString fileName;
-		if (argc > 1)
-		{
-			fileName = argv[1];
-		}
-		else
-		{
-			auto* dlog = JXChooseFileDialog::Create(JXChooseFileDialog::kSelectSingleFile, JString::empty, JString("*.jxl *.fd", JString::kNoCopy));
-			fileName   = dlog->DoDialog() ? dlog->GetFullName() : JGetString("NewFileName::MainDocument");
-		}
-
-		MainDocument* doc;
-		if (!MainDocument::Create(fileName, &doc))
-		{
-			app->Quit();
-			return;
-		}
-		doc->Activate();
+		GetMDIServer()->HandleCmdLineOptions(argc, argv);
 	});
 
 	if (displayAbout)

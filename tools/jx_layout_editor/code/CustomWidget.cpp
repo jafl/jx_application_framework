@@ -18,7 +18,7 @@
 
 CustomWidget::CustomWidget
 	(
-	LayoutDirector*		dir,
+	LayoutDocument*		dir,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -36,7 +36,7 @@ CustomWidget::CustomWidget
 
 CustomWidget::CustomWidget
 	(
-	LayoutDirector*		dir,
+	LayoutDocument*		dir,
 	const JString&		className,
 	const JString&		args,
 	const bool			create,
@@ -59,7 +59,7 @@ CustomWidget::CustomWidget
 
 CustomWidget::CustomWidget
 	(
-	LayoutDirector*		dir,
+	LayoutDocument*		dir,
 	std::istream&		input,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,

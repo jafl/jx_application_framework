@@ -19,7 +19,7 @@
 
 TextButton::TextButton
 	(
-	LayoutDirector*		dir,
+	LayoutDocument*		dir,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -36,7 +36,7 @@ TextButton::TextButton
 
 TextButton::TextButton
 	(
-	LayoutDirector*		dir,
+	LayoutDocument*		dir,
 	const JString&		label,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -54,7 +54,7 @@ TextButton::TextButton
 
 TextButton::TextButton
 	(
-	LayoutDirector*		dir,
+	LayoutDocument*		dir,
 	std::istream&		input,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
