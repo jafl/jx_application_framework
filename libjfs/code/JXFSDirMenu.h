@@ -96,25 +96,25 @@ public:
 	static const JUtf8Byte* kFileSelected;
 
 	class FileSelected : public JBroadcaster::Message
-		{
-		public:
+	{
+	public:
 
-			FileSelected(const JString& filename)
-				:
-				JBroadcaster::Message(kFileSelected),
-				itsFile(filename)
-				{ };
+		FileSelected(const JString& filename)
+			:
+			JBroadcaster::Message(kFileSelected),
+			itsFile(filename)
+			{ };
 
-			const JString&
-			GetFileName() const
-				{
-				return itsFile;
-				};
+		const JString&
+		GetFileName() const
+			{
+			return itsFile;
+			};
 
-		private:
+	private:
 
-			const JString& itsFile;
-		};
+		const JString& itsFile;
+	};
 };
 
 

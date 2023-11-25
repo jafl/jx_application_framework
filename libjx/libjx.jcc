@@ -1,4 +1,4 @@
-jx_browser_data 91
+jx_browser_data 93
 # project tree
 0 "root"
 T
@@ -30,10 +30,6 @@ T
 2 "JXFunctionTask.cpp"
 F
 "./code/JXFunctionTask.cpp"
-T
-2 "JXTimerTask.cpp"
-F
-"./code/JXTimerTask.cpp"
 T
 2 "JXUrgentTask.cpp"
 F
@@ -1042,7 +1038,7 @@ F
 F
 # build settings
 1
-T
+F
 "libjx.a"
 ""
 "make -k all"
