@@ -70,7 +70,9 @@ JXWidget::JXWidget
 	const JCoordinate	h
 	)
 	:
-	JXContainer(enclosure->GetWindow(), enclosure)
+	JXContainer(enclosure->GetWindow(), enclosure),
+	itsSavedDW(0),
+	itsSavedDH(0)
 {
 	assert( enclosure != nullptr );
 	assert( w > 0 && h > 0 );
@@ -515,16 +517,18 @@ JXWidget::Move
 	const JCoordinate dy
 	)
 {
-	if (dx != 0 || dy != 0)
+	if (dx == 0 && dy == 0)
 	{
-		Refresh();		// refresh orig location
-
-		itsBoundsG.Shift(dx,dy);
-		itsFrameG.Shift(dx,dy);
-		NotifyBoundsMoved(dx,dy);
-
-		Refresh();		// refresh new location
+		return;
 	}
+
+	Refresh();		// refresh orig location
+
+	itsBoundsG.Shift(dx,dy);
+	itsFrameG.Shift(dx,dy);
+	NotifyBoundsMoved(dx,dy);
+
+	Refresh();		// refresh new location
 }
 
 /******************************************************************************
@@ -550,22 +554,40 @@ JXWidget::SetSize
 void
 JXWidget::AdjustSize
 	(
-	const JCoordinate dw,
-	const JCoordinate dh
+	const JCoordinate origDW,
+	const JCoordinate origDH
 	)
 {
-	if (dw != 0 || dh != 0)
+	if (origDW == 0 && origDH == 0)
 	{
-		assert( itsFrameG.width() + dw > 0 && itsFrameG.height() + dh > 0 );
-
-		Refresh();		// refresh orig size
-
-		itsFrameG.bottom += dh;
-		itsFrameG.right  += dw;
-		ApertureResized(dw,dh);
-
-		Refresh();		// refresh new size
+		return;
 	}
+
+	JCoordinate dw = origDW + itsSavedDW, dh = origDH + itsSavedDH;
+
+	itsSavedDW = 0;
+	if (itsFrameG.width() + dw <= 0)
+	{
+		itsSavedDW = dw;
+		dw         = 0;
+	}
+
+	itsSavedDH = 0;
+	if (itsFrameG.height() + dh <= 0)
+	{
+		itsSavedDH = dh;
+		dh         = 0;
+	}
+
+	assert( itsFrameG.width() + dw > 0 && itsFrameG.height() + dh > 0 );
+
+	Refresh();		// refresh orig size
+
+	itsFrameG.bottom += dh;
+	itsFrameG.right  += dw;
+	ApertureResized(dw,dh);
+
+	Refresh();		// refresh new size
 }
 
 /******************************************************************************
@@ -580,23 +602,25 @@ JXWidget::FTCAdjustSize
 	const JCoordinate dh
 	)
 {
-	if (dw != 0 || dh != 0)
+	if (dw == 0 && dh == 0)
 	{
-		assert( itsFrameG.width() + dw > 0 && itsFrameG.height() + dh > 0 );
-
-		Refresh();		// refresh orig size
-
-		itsFrameG.bottom += dh;
-		itsFrameG.right  += dw;
-
-		if (itsApertureBoundedFlag)
-		{
-			itsBoundsG.bottom += dh;
-			itsBoundsG.right  += dw;
-		}
-
-		Refresh();		// refresh new size
+		return;
 	}
+
+	assert( dw >= 0 && dh >= 0 );
+
+	Refresh();		// refresh orig size
+
+	itsFrameG.bottom += dh;
+	itsFrameG.right  += dw;
+
+	if (itsApertureBoundedFlag)
+	{
+		itsBoundsG.bottom += dh;
+		itsBoundsG.right  += dw;
+	}
+
+	Refresh();		// refresh new size
 }
 
 /******************************************************************************

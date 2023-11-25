@@ -190,6 +190,11 @@ private:
 	HSizingOption	itsHSizing;
 	VSizingOption	itsVSizing;
 
+	// prevent negative size
+
+	JCoordinate	itsSavedDW;
+	JCoordinate	itsSavedDH;
+
 	// focus information
 
 	bool	itsWantInputFlag;
