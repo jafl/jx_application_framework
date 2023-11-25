@@ -8,6 +8,7 @@
  ******************************************************************************/
 
 #include "LayoutContainer.h"
+#include "LayoutDocument.h"
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jcore/JColorManager.h>
@@ -19,6 +20,7 @@
 
 LayoutContainer::LayoutContainer
 	(
+	LayoutDocument*		doc,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -29,6 +31,7 @@ LayoutContainer::LayoutContainer
 	)
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
+	itsDoc(doc),
 	itsGridSpacing(10)
 {
 	SetBorderWidth(10);
@@ -86,4 +89,20 @@ LayoutContainer::DrawBorder
 	p.SetPenColor(JColorManager::GetBlackColor());
 	p.SetFilling(true);
 	p.Rect(frame);
+}
+
+/******************************************************************************
+ BoundsResized (virtual protected)
+
+ ******************************************************************************/
+
+void
+LayoutContainer::BoundsResized
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	JXWidget::BoundsResized(dw,dh);
+	itsDoc->DataModified();
 }

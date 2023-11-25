@@ -10,11 +10,13 @@
 
 #include <jx-af/jx/JXWidget.h>
 
+class LayoutDocument;
+
 class LayoutContainer : public JXWidget
 {
 public:
 
-	LayoutContainer(JXContainer* enclosure,
+	LayoutContainer(LayoutDocument* doc, JXContainer* enclosure,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
@@ -26,9 +28,12 @@ protected:
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
+	void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
+
 private:
 
-	JSize	itsGridSpacing;
+	LayoutDocument*	itsDoc;
+	JSize			itsGridSpacing;
 };
 
 #endif
