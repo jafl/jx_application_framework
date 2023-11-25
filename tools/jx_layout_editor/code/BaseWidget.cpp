@@ -125,7 +125,11 @@ BaseWidget::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (button == kJXLeftButton && clickCount == 1)
+	if (button == kJXLeftButton && clickCount == 1 && modifiers.shift())
+	{
+		SetSelected(!IsSelected());
+	}
+	else if (button == kJXLeftButton && clickCount == 1)
 	{
 		GetLayoutDocument()->ClearSelection();
 		SetSelected(true);
