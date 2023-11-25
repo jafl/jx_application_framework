@@ -2,6 +2,14 @@ show selection border for TextButtons
 
 -----
 
+select - drag rectangle
+add to selection - shift-drag rectangle
+
+create widget by cmd-dragging rectangle
+	after release, select widget type and then create it - sets correct container
+
+move
+	drag selected widgets - each must remain within its current enclosure
 resize
 	like window - any edge or corner
 	shift key to turn off grid
@@ -28,44 +36,18 @@ layout options
 		only for non-bordered widgets, e.g., checkbox
 		expand frame by +1 and set 1px border
 
-need option to control tab order
+control tab order
 	show index in each item
 	cmd-click to select item without re-ordering
 	click to make object the next in list
 
 -----
 
-cmd line option to generate code from layout file
+generate code when save
 
-palette
-	just another layout window
-	save in prefs -- allows rearranging, resizing, custom objects, etc
+adjust for 1px border when button has ^M shortcut
 
 TabGroup: allow direct editing of all cards
 Partition: set number of compartments, for direct editing
 
-place/drag
-	drag new from palette
-	use DND, to drop inside another widget, e.g., scrollbarset or toolbar
-
 ensure stable translations:  assign fixed name for every widget?
-
------
-
-menu editor
-	build visually
-	remove bin/extract_menu_strings
-
-generates id for every item
-	fixed prefix, so these are excluded from toolbar config
-	override to provide useful value and include in toolbar config
-
-menu itself has id
-	generates string with list of item id's + separator locations
-		item-id::text
-		item-idid::macshortcut - if set
-		item-idid::winshortcut - if set
-	construct JXTextMenu directly from this
-	JXMenu broadcasts item id, not index
-		all menus constructed in BuildWindow and passed to widgets
-		(widgets do not need to own menu data + enum)

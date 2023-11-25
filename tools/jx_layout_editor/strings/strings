@@ -54,7 +54,7 @@ You have just upgraded from version $vers"
 
 # LayoutDocument
 
-NewLayoutNameWindowTitle::LayoutDocument	"New Layout Name"
+NewLayoutNameWindowTitle::LayoutDocument	"New Layout"
 EditLayoutNamePrompt::LayoutDocument		"Enter the name of this layout:"
 
 NeedNewerVersion::LayoutDocument			"You need a newer version of this program to read this file."

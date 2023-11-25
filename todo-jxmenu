@@ -1,0 +1,17 @@
+menu editor
+	build visually - copy from jcc
+	remove bin/extract_menu_strings
+
+generates id for every item
+	fixed prefix, so these are excluded from toolbar config
+	override to provide useful value and include in toolbar config
+
+menu itself has id
+	generates string with list of item id's + separator locations
+		item-id::text
+		item-idid::macshortcut - if set
+		item-idid::winshortcut - if set
+	construct JXTextMenu directly from this
+	JXMenu broadcasts item id, not index
+		all menus constructed in BuildWindow and passed to widgets
+		(widgets do not need to own menu data + enum)
