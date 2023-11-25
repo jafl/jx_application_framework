@@ -16,8 +16,8 @@ enum
 {
 	kProgramVersionID = 1,
 	kgCSFSetupID,
-	kMainDocToolBarID,
-	kLayoutDirToolBarID
+	kLayoutDocToolBarID,
+	kDocMgrID
 };
 
 class PrefsManager : public JXPrefsManager

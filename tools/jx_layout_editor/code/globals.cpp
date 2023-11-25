@@ -11,13 +11,15 @@
 #include "App.h"
 #include "PrefsManager.h"
 #include "MDIServer.h"
-#include <jx-af/jx/JXDocumentManager.h>
+#include "DocumentManager.h"
+#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jx/JXWindow.h>
 #include <jx-af/jcore/jAssert.h>
 
-static App*					theApplication  = nullptr;		// owns itself
-static PrefsManager*		thePrefsManager = nullptr;
-static MDIServer*			theMDIServer    = nullptr;
-static JXDocumentManager*	theDocManager   = nullptr;
+static App*				theApplication  = nullptr;		// owns itself
+static PrefsManager*	thePrefsManager = nullptr;
+static MDIServer*		theMDIServer    = nullptr;
+static DocumentManager*	theDocManager   = nullptr;
 
 /******************************************************************************
  CreateGlobals
@@ -40,7 +42,14 @@ CreateGlobals
 	JXInitHelp();
 
 	theMDIServer  = jnew MDIServer;
-	theDocManager = jnew JXDocumentManager;
+	theDocManager = jnew DocumentManager;
+
+	// widgets hidden in permanent window
+
+	JXWindowDirector* permDir = jnew JXWindowDirector(JXGetPersistentWindowOwner());
+	JXWindow* permWindow      = jnew JXWindow(permDir, 100, 100, JString::empty);
+
+	theDocManager->CreateFileHistoryMenu(permWindow);
 
 	return isNew;
 }
@@ -53,6 +62,11 @@ CreateGlobals
 void
 DeleteGlobals()
 {
+	if (thePrefsManager != nullptr)
+	{
+		theDocManager->JPrefObject::WritePrefs();
+	}
+
 	theApplication = nullptr;
 	theMDIServer   = nullptr;
 	theDocManager  = nullptr;
@@ -98,6 +112,18 @@ GetApplication()
 {
 	assert( theApplication != nullptr );
 	return theApplication;
+}
+
+/******************************************************************************
+ GetDocumentManager
+
+ ******************************************************************************/
+
+DocumentManager*
+GetDocumentManager()
+{
+	assert( theDocManager != nullptr );
+	return theDocManager;
 }
 
 /******************************************************************************

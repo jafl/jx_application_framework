@@ -8,6 +8,7 @@
  *****************************************************************************/
 
 #include "LayoutDocument.h"
+#include "FileHistoryMenu.h"
 #include "LayoutContainer.h"
 #include "CustomWidget.h"
 #include "TextButton.h"
@@ -17,9 +18,7 @@
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
-#include <jx-af/jx/JXFileHistoryMenu.h>
 #include <jx-af/jx/JXToolBar.h>
-#include <jx-af/jx/JXScrollbarSet.h>
 #include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXGetStringDialog.h>
 #include <jx-af/jx/JXWebBrowser.h>
@@ -32,27 +31,26 @@
 static const JUtf8Byte* kFileSignature = "jx_layout_editor";
 const JFileVersion kCurrentFileVersion = 0;
 
-const JSize kFileHistoryLength = 40;
-
 // File menu
 
 static const JUtf8Byte* kFileMenuStr =
-	"    New...          %k Meta-N       %i" kNewLayoutAction
-	"%l| Open...         %k Meta-O       %i" kOpenLayoutAction
+	"    New...            %k Meta-N       %i" kNewLayoutAction
+	"%l| Open...           %k Meta-O       %i" kOpenLayoutAction
 	"  | Recent"
-	"%l| Save            %k Meta-S       %i" kSaveLayoutAction
-	"  | Save as...      %k Ctrl-S       %i" kSaveLayoutAsAction
-	"  | Revert to saved                 %i" kRevertLayoutsAction
-	"  | Save all        %k Meta-Shift-S %i" kSaveAllLayoutsAction
-	"%l| Show in file manager            %i" kShowInFileMgrAction
-	"%l| Close           %k Meta-W       %i" kJXCloseWindowAction
-	"%l| Quit            %k Meta-Q       %i" kJXQuitAction;
+	"%l| Save              %k Meta-S       %i" kSaveLayoutAction
+	"  | Save as...        %k Ctrl-S       %i" kSaveLayoutAsAction
+	"  | Save a copy as... %k Ctrl-Shift-S %i" kSaveLayoutCopyAsAction
+	"  | Revert to saved                   %i" kRevertLayoutsAction
+	"  | Save all          %k Meta-Shift-S %i" kSaveAllLayoutsAction
+	"%l| Show in file manager              %i" kShowInFileMgrAction
+	"%l| Close             %k Meta-W       %i" kJXCloseWindowAction
+	"%l| Quit              %k Meta-Q       %i" kJXQuitAction;
 
 enum
 {
 	kNewCmd = 1,
 	kOpenCmd, kRecentMenuCmd,
-	kSaveCmd, kSaveAsCmd, kRevertCmd, kSaveAllCmd,
+	kSaveCmd, kSaveAsCmd, kSaveCopyAsCmd, kRevertCmd, kSaveAllCmd,
 	kShowInFileMgrCmd,
 	kCloseCmd,
 	kQuitCmd
@@ -133,7 +131,7 @@ LayoutDocument::Create
 	std::ifstream input(fullName.GetBytes());
 	JFileVersion vers;
 
-	FileStatus status =DefaultCanReadASCIIFile(input, "Magic:", 15000, &vers);
+	FileStatus status = DefaultCanReadASCIIFile(input, "Magic:", 15000, &vers);
 	if (status == kFileReadable)
 	{
 		ImportFDesignFile(input);
@@ -201,6 +199,12 @@ LayoutDocument::LayoutDocument
 
 LayoutDocument::~LayoutDocument()
 {
+	bool onDisk;
+	const JString fullName = GetFullName(&onDisk);
+	if (onDisk)
+	{
+		GetDocumentManager()->AddToFileHistoryMenu(fullName);
+	}
 }
 
 /******************************************************************************
@@ -234,22 +238,22 @@ LayoutDocument::BuildWindow()
 	assert( menuBar != nullptr );
 
 	itsToolBar =
-		jnew JXToolBar(GetPrefsManager(), kMainDocToolBarID, menuBar, window,
+		jnew JXToolBar(GetPrefsManager(), kLayoutDocToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
 	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
 	AdjustWindowTitle();
-	window->SetCloseAction(JXWindow::kQuitApp);
+	window->SetCloseAction(JXWindow::kCloseDirector);
 	window->SetWMClass(GetWMClassInstance(), GetLayoutDocumentClass());
-	window->SetMinSize(200, 200);
+	window->SetMinSize(200, 100);
 
 	JXImage* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);
 
 	itsLayoutContainer =
-		jnew LayoutContainer(itsToolBar->GetWidgetEnclosure(),
+		jnew LayoutContainer(this, itsToolBar->GetWidgetEnclosure(),
 							 JXWidget::kHElastic,JXWidget::kVElastic,
 							 0,0, 100,100);
 	itsLayoutContainer->FitToEnclosure();
@@ -269,7 +273,7 @@ LayoutDocument::BuildWindow()
 	itsFileMenu->SetItemImage(kRevertCmd,  jx_file_revert_to_saved);
 	itsFileMenu->SetItemImage(kSaveAllCmd, jx_file_save_all);
 
-	jnew JXFileHistoryMenu(kFileHistoryLength, itsFileMenu, kRecentMenuCmd, menuBar);
+	jnew FileHistoryMenu(itsFileMenu, kRecentMenuCmd, menuBar);
 
 	itsEditMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
 	itsEditMenu->SetMenuItems(kEditMenuStr, "LayoutDocument");
@@ -351,7 +355,7 @@ LayoutDocument::ReadFile
 
 	jdelete itsLayoutContainer;
 	itsLayoutContainer =
-		jnew LayoutContainer(itsToolBar->GetWidgetEnclosure(),
+		jnew LayoutContainer(this, itsToolBar->GetWidgetEnclosure(),
 							 JXWidget::kHElastic,JXWidget::kVElastic,
 							 0,0, 100,100);
 	itsLayoutContainer->FitToEnclosure();
@@ -490,8 +494,14 @@ LayoutDocument::ImportFDesignFile
 	while (!input.eof() && !input.fail())
 	{
 		auto* doc = jnew LayoutDocument(JString::empty, false);
-		if (!doc->ImportFDesignLayout(input))
+		if (doc->ImportFDesignLayout(input))
 		{
+			doc->DataReverted();
+			doc->Activate();
+		}
+		else
+		{
+			doc->DataReverted();
 			doc->Close();
 		}
 	}
@@ -1043,7 +1053,22 @@ LayoutDocument::HandleFileMenu
 	}
 	else if (index == kSaveAsCmd)
 	{
+		bool onDisk;
+		const JString fullName = GetFullName(&onDisk);
+		if (onDisk)
+		{
+			GetDocumentManager()->AddToFileHistoryMenu(fullName);
+		}
+
 		SaveInNewFile();
+	}
+	else if (index == kSaveCopyAsCmd)
+	{
+		JString fullName;
+		if (SaveCopyInNewFile(JString::empty, &fullName))
+		{
+			GetDocumentManager()->AddToFileHistoryMenu(fullName);
+		}
 	}
 	else if (index == kRevertCmd)
 	{

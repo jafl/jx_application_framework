@@ -8,6 +8,8 @@
 .cpp ./code/App
 .cpp ./code/globals
 .cpp ./code/PrefsManager
+.cpp ./code/DocumentManager
+.cpp ./code/FileHistoryMenu
 .cpp ./code/MDIServer
 .cpp ./code/AboutDialog
 .cpp ./code/LayoutDocument

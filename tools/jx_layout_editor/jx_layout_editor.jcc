@@ -20,6 +20,14 @@ T
 F
 "./code/PrefsManager.cpp"
 T
+2 "DocumentManager.cpp"
+F
+"./code/DocumentManager.cpp"
+T
+2 "FileHistoryMenu.cpp"
+F
+"./code/FileHistoryMenu.cpp"
+T
 2 "MDIServer.cpp"
 F
 "./code/MDIServer.cpp"
@@ -69,9 +77,9 @@ T
 F
 "./strings/license"
 T
-2 "jx_layout.fd"
+2 "jx_layout_editor.fd"
 F
-"./jx_layout.fd"
+"./jx_layout_editor.fd"
 F
 T
 1 "help"

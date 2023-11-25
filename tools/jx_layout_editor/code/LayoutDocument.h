@@ -38,8 +38,6 @@ protected:
 	void	WriteTextFile(std::ostream& output, const bool safetySave) const override;
 	void	DiscardChanges() override;
 
-	void	DirectorClosed(JXDirector* dir) override;
-
 private:
 
 	LayoutContainer*	itsLayoutContainer;

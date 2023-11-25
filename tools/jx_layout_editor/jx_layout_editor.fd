@@ -3,7 +3,7 @@ Magic: 15000
 Internal Form Definition File
     (do not change)
 
-Number of forms: 3
+Number of forms: 2
 Unit of measure: FL_COORD_PIXEL
 
 =============== FORM ===============
@@ -121,7 +121,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: MainDocument
+Name: LayoutDocument
 Width: 500
 Height: 300
 Number of Objects: 3
@@ -178,67 +178,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: GetPrefsManager(), kMainDocToolBarID, menuBar,
-
-=============== FORM ===============
-Name: LayoutDirector
-Width: 500
-Height: 300
-Number of Objects: 3
-
---------------------
-class: FL_BOX
-type: FL_FLAT_BOX
-box: 0 0 500 300
-boxtype: FL_FLAT_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
-lcol: FL_BLACK
-label: 
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: 
-callback: 
-argument: 
-
---------------------
-class: FL_BOX
-type: FL_NO_BOX
-box: 0 0 500 30
-boxtype: FL_NO_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: JXMenuBar
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_North FL_NoGravity
-name: (menuBar)
-callback: 
-argument: 
-
---------------------
-class: FL_BOX
-type: FL_NO_BOX
-box: 0 30 500 270
-boxtype: FL_NO_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: JXToolBar
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: itsToolBar
-callback: 
-argument: GetPrefsManager(), kLayoutDirToolBarID, menuBar,
+argument: GetPrefsManager(), kLayoutDocToolBarID, menuBar,
 
 ==============================
 create_the_forms

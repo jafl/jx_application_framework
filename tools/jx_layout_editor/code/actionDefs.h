@@ -18,6 +18,7 @@
 #define kOpenLayoutAction		"Open::LayoutDocument"
 #define kSaveLayoutAction		"Save::LayoutDocument"
 #define kSaveLayoutAsAction		"SaveAs::LayoutDocument"
+#define kSaveLayoutCopyAsAction	"SaveCopyAs::LayoutDocument"
 #define kRevertLayoutsAction	"Revert::LayoutDocument"
 #define kSaveAllLayoutsAction	"SaveAll::LayoutDocument"
 #define kShowInFileMgrAction	"ShowInFileMgr::LayoutDocument"

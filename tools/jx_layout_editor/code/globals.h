@@ -14,14 +14,15 @@
 
 #include "App.h"
 #include "PrefsManager.h"
-#include <jx-af/jx/JXDocumentManager.h>
+#include "DocumentManager.h"
 
 class MDIServer;
 
-App*			GetApplication();
-PrefsManager*	GetPrefsManager();
-void			ForgetPrefsManager();
-MDIServer*		GetMDIServer();
+App*				GetApplication();
+DocumentManager*	GetDocumentManager();
+PrefsManager*		GetPrefsManager();
+void				ForgetPrefsManager();
+MDIServer*			GetMDIServer();
 
 const JString&	GetVersionNumberStr();
 JString			GetVersionStr();
