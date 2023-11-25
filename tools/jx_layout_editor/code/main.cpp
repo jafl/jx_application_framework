@@ -7,7 +7,6 @@
 
 #include "App.h"
 #include "MDIServer.h"
-#include "LayoutDocument.h"
 #include "globals.h"
 #include <jx-af/jx/JXChooseFileDialog.h>
 #include <jx-af/jcore/jCommandLine.h>

@@ -93,10 +93,10 @@ JXTextMenuData::InsertItem
 
 	const JString* s;
 	GetItemShortcuts(index, &s);
-	itemData.ulIndex = JXWindow::GetULShortcutIndex(*(itemData.text), s);
+	itemData.ulIndex = JXWindow::GetULShortcutIndex(*itemData.text, s);
 	itsTextItemData->SetItem(index, itemData);
 
-	(itsMenu->GetWindow())->MenuItemInserted(itsMenu, index);
+	itsMenu->GetWindow()->MenuItemInserted(itsMenu, index);
 	itsNeedGeomRecalcFlag = true;
 
 	if (!nmShortcut.IsEmpty())
@@ -329,8 +329,8 @@ void
 JXTextMenuData::ParseMenuItemStr
 	(
 	JString*			text,
-	bool*			isActive,
-	bool*			hasSeparator,
+	bool*				isActive,
+	bool*				hasSeparator,
 	JXMenu::ItemType*	type,
 	JString*			shortcuts,
 	JString*			nmShortcut,
@@ -751,7 +751,7 @@ JXTextMenuData::SetNMShortcut
 	}
 	else if (!strEmpty)
 	{
-		*(itemData.nmShortcut) = str;
+		*itemData.nmShortcut = str;
 		changed = true;
 	}
 	else if (itemData.nmShortcut != nullptr)
@@ -812,17 +812,17 @@ struct JXTMModifierConversion
 
 static const JXTMModifierConversion kNMModConv[] =
 {
-{ "Shift-", 6, kJXShiftKeyIndex   },
-{ "Ctrl-",  5, kJXControlKeyIndex },
-{ "Meta-",  5, kJXMetaKeyIndex    },	// index = kMacOSModifierCount
-{ "Mod1-",  5, kJXMod1KeyIndex    },
-{ "Mod2-",  5, kJXMod2KeyIndex    },
-{ "Mod3-",  5, kJXMod3KeyIndex    },
-{ "Mod4-",  5, kJXMod4KeyIndex    },
-{ "Mod5-",  5, kJXMod5KeyIndex    },
-{ "Alt-",   4, kJXAltKeyIndex     },
-{ "Super-", 6, kJXSuperKeyIndex   },
-{ "Hyper-", 6, kJXHyperKeyIndex   }
+	{ "Shift-", 6, kJXShiftKeyIndex   },
+	{ "Ctrl-",  5, kJXControlKeyIndex },
+	{ "Meta-",  5, kJXMetaKeyIndex    },	// index = kMacOSModifierCount
+	{ "Mod1-",  5, kJXMod1KeyIndex    },
+	{ "Mod2-",  5, kJXMod2KeyIndex    },
+	{ "Mod3-",  5, kJXMod3KeyIndex    },
+	{ "Mod4-",  5, kJXMod4KeyIndex    },
+	{ "Mod5-",  5, kJXMod5KeyIndex    },
+	{ "Alt-",   4, kJXAltKeyIndex     },
+	{ "Super-", 6, kJXSuperKeyIndex   },
+	{ "Hyper-", 6, kJXHyperKeyIndex   }
 };
 
 const JSize kNMModConvCount = sizeof(kNMModConv)/sizeof(JXTMModifierConversion);
@@ -837,20 +837,20 @@ struct JXTMKeySymConversion
 
 static const JXTMKeySymConversion kNMKeyConv[] =
 {
-{"dash",      '-'},
-{"minus",     '-'},
-{"plus",      '+'},
-{"period",    '.'},
-{"comma",     ','},
-{"return",    '\r'},
-{"tab",       '\t'},
-{"backspace", '\b'},
-{"delete",    kJForwardDeleteKey},
-{"insert",    XK_Insert},
-{"home",      XK_Home},
-{"end",       XK_End},
-{"page up",   XK_Page_Up},
-{"page down", XK_Page_Down}
+	{"dash",      '-'},
+	{"minus",     '-'},
+	{"plus",      '+'},
+	{"period",    '.'},
+	{"comma",     ','},
+	{"return",    '\r'},
+	{"tab",       '\t'},
+	{"backspace", '\b'},
+	{"delete",    kJForwardDeleteKey},
+	{"insert",    XK_Insert},
+	{"home",      XK_Home},
+	{"end",       XK_End},
+	{"page up",   XK_Page_Up},
+	{"page down", XK_Page_Down}
 };
 
 struct JXTMNameConversion
@@ -861,11 +861,11 @@ struct JXTMNameConversion
 
 static const JXTMNameConversion kNMNameConv[] =
 {
-{"dash",   "\xE2\x80\x93"},
-{"minus",  "\xE2\x80\x93"},
-{"plus",   "+"},
-{"period", "."},
-{"comma",  ","}
+	{"dash",   "\xE2\x80\x93"},
+	{"minus",  "\xE2\x80\x93"},
+	{"plus",   "+"},
+	{"period", "."},
+	{"comma",  ","}
 };
 
 bool

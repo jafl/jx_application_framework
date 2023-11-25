@@ -44,6 +44,7 @@ control tab order
 -----
 
 generate code when save
+	search for file_root .cpp .cc .hpp .h in same directory
 
 adjust for 1px border when button has ^M shortcut
 

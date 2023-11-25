@@ -112,6 +112,7 @@ LayoutDocument::Create
 		return true;
 	}
 
+	*doc = nullptr;
 	return false;
 }
 
