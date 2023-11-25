@@ -607,7 +607,7 @@ JXWidget::FTCAdjustSize
 		return;
 	}
 
-	assert( dw >= 0 && dh >= 0 );
+	assert( itsFrameG.width() + dw > 0 && itsFrameG.height() + dh > 0 );
 
 	Refresh();		// refresh orig size
 
