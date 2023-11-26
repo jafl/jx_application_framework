@@ -1542,7 +1542,7 @@ JTextEditor::GetCmdStatus
 	(
 	JString*	crmActionText,
 	JString*	crm2ActionText,
-	bool*	isReadOnly
+	bool*		isReadOnly
 	)
 	const
 {

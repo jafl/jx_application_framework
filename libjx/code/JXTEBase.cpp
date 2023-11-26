@@ -1869,7 +1869,7 @@ JXTEBase::DataNotCompatible::DataNotCompatible
 JXTextMenu*
 JXTEBase::AppendEditMenu
 	(
-	JXMenuBar*		menuBar,
+	JXMenuBar*	menuBar,
 	const bool	showCheckSpellingCmds,
 	const bool	allowCheckSpelling,
 	const bool	showAdjustMarginsCmds,
@@ -1894,7 +1894,7 @@ JXTEBase::AppendEditMenu
 JXTextMenu*
 JXTEBase::StaticAppendEditMenu
 	(
-	JXMenuBar*		menuBar,
+	JXMenuBar*	menuBar,
 	const bool	showCheckSpellingCmds,
 	const bool	allowCheckSpelling,
 	const bool	showAdjustMarginsCmds,
@@ -2025,7 +2025,7 @@ JXTEBase::StaticAppendEditMenu
 JXTextMenu*
 JXTEBase::ShareEditMenu
 	(
-	JXTEBase*		te,
+	JXTEBase*	te,
 	const bool	allowCheckSpelling,
 	const bool	allowAdjustMargins,
 	const bool	allowCleanWhitespace,
@@ -2040,7 +2040,7 @@ JXTEBase::ShareEditMenu
 void
 JXTEBase::ShareEditMenu
 	(
-	JXTextMenu*		menu,
+	JXTextMenu*	menu,
 	const bool	allowCheckSpelling,
 	const bool	allowAdjustMargins,
 	const bool	allowCleanWhitespace,

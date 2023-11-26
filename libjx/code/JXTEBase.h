@@ -60,28 +60,25 @@ public:
 								   const JXKeyModifiers& modifiers) override;
 	void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
-	JXTextMenu*		AppendEditMenu(JXMenuBar* menuBar);	// no extras
 	JXTextMenu*		AppendEditMenu(JXMenuBar* menuBar,
-								   const bool showCheckSpellingCmds,
-								   const bool allowCheckSpelling,
-								   const bool showAdjustMarginsCmds,
-								   const bool allowAdjustMargins,
-								   const bool showCleanWhitespaceCmds,
-								   const bool allowCleanWhitespace,
-								   const bool showToggleReadOnly,
-								   const bool allowToggleReadOnly);
-	JXTextMenu*		ShareEditMenu(JXTEBase* te);		// no extras
+								   const bool showCheckSpellingCmds = false,
+								   const bool allowCheckSpelling = false,
+								   const bool showAdjustMarginsCmds = false,
+								   const bool allowAdjustMargins = false,
+								   const bool showCleanWhitespaceCmds = false,
+								   const bool allowCleanWhitespace = false,
+								   const bool showToggleReadOnly = false,
+								   const bool allowToggleReadOnly = false);
 	JXTextMenu*		ShareEditMenu(JXTEBase* te,
-								  const bool allowCheckSpelling,
-								  const bool allowAdjustMargins,
-								  const bool allowCleanWhitespace,
-								  const bool allowToggleReadOnly);
-	void			ShareEditMenu(JXTextMenu* menu);	// no extras
+								  const bool allowCheckSpelling = false,
+								  const bool allowAdjustMargins = false,
+								  const bool allowCleanWhitespace = false,
+								  const bool allowToggleReadOnly = false);
 	void			ShareEditMenu(JXTextMenu* menu,
-								  const bool allowCheckSpelling,
-								  const bool allowAdjustMargins,
-								  const bool allowCleanWhitespace,
-								  const bool allowToggleReadOnly);
+								  const bool allowCheckSpelling = false,
+								  const bool allowAdjustMargins = false,
+								  const bool allowCleanWhitespace = false,
+								  const bool allowToggleReadOnly = false);
 	bool	HasEditMenu() const;
 	bool	GetEditMenu(JXTextMenu** menu) const;
 	bool	EditMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
@@ -398,43 +395,6 @@ JXTEBase::GetEditMenu
 {
 	*menu = itsEditMenu;
 	return itsEditMenu != nullptr;
-}
-
-/******************************************************************************
- AppendEditMenu
-
- ******************************************************************************/
-
-inline JXTextMenu*
-JXTEBase::AppendEditMenu
-	(
-	JXMenuBar* menuBar
-	)
-{
-	return AppendEditMenu(menuBar, false, false, false, false, false, false, false, false);
-}
-
-/******************************************************************************
- ShareEditMenu
-
- ******************************************************************************/
-
-inline JXTextMenu*
-JXTEBase::ShareEditMenu
-	(
-	JXTEBase* te
-	)
-{
-	return ShareEditMenu(te, false, false, false, false);
-}
-
-inline void
-JXTEBase::ShareEditMenu
-	(
-	JXTextMenu* menu
-	)
-{
-	return ShareEditMenu(menu, false, false, false, false);
 }
 
 /******************************************************************************
