@@ -113,7 +113,6 @@ elif command -v apt-get; then
 	# debian
 
 	$SUDO apt update;
-#	$SUDO apt -y remove nginx libgd3;	# hack
 	$SUDO apt -y install curl \
 		g++ bison make automake \
 		libx11-dev libxinerama-dev libxft-dev libxmu-dev libxi-dev \
