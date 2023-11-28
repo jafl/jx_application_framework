@@ -112,18 +112,16 @@ elif command -v apt-get; then
 
 	# debian
 
-	if [[ -z $LGTM_SRC ]]; then
-		$SUDO apt update;
-		$SUDO apt -y remove nginx libgd3;	# hack
-		$SUDO apt -y install curl \
-			g++ bison make automake \
-			libx11-dev libxinerama-dev libxft-dev libxmu-dev libxi-dev \
-				libx11-xcb-dev libxcb-xfixes0-dev libxcb-dri2-0-dev \
-			libxpm-dev libjpeg-dev libpng-dev libgd-dev \
-			libace-dev libicu-dev libpcre3-dev libxml2-dev \
-			libboost-fiber-dev xutils-dev libdrm-dev \
-			libforms-bin aspell;
-	fi
+	$SUDO apt update;
+#	$SUDO apt -y remove nginx libgd3;	# hack
+	$SUDO apt -y install curl \
+		g++ bison make automake \
+		libx11-dev libxinerama-dev libxft-dev libxmu-dev libxi-dev \
+			libx11-xcb-dev libxcb-xfixes0-dev libxcb-dri2-0-dev \
+		libxpm-dev libjpeg-dev libpng-dev libgd-dev \
+		libace-dev libicu-dev libpcre3-dev libxml2-dev \
+		libboost-fiber-dev xutils-dev libdrm-dev \
+		libforms-bin aspell;
 
 	if [[ $1 != package ]]; then
 		configure_linux;
