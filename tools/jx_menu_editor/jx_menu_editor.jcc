@@ -1,0 +1,99 @@
+jx_browser_data 94
+# project tree
+0 "root"
+T
+1 "main"
+T
+2 "main.cpp"
+F
+"./code/main.cpp"
+T
+2 "App.cpp"
+F
+"./code/App.cpp"
+T
+2 "globals.cpp"
+F
+"./code/globals.cpp"
+T
+2 "PrefsManager.cpp"
+F
+"./code/PrefsManager.cpp"
+T
+2 "DocumentManager.cpp"
+F
+"./code/DocumentManager.cpp"
+T
+2 "FileHistoryMenu.cpp"
+F
+"./code/FileHistoryMenu.cpp"
+T
+2 "MDIServer.cpp"
+F
+"./code/MDIServer.cpp"
+T
+2 "AboutDialog.cpp"
+F
+"./code/AboutDialog.cpp"
+F
+T
+1 "layout"
+T
+2 "MenuDocument.cpp"
+F
+"./code/MenuDocument.cpp"
+T
+2 "MenuTable.cpp"
+F
+"./code/MenuTable.cpp"
+T
+2 "MenuItemSelection.cpp"
+F
+"./code/MenuItemSelection.cpp"
+F
+T
+1 "misc"
+T
+2 "strings"
+F
+"./strings/strings"
+T
+2 "license"
+F
+"./strings/license"
+T
+2 "jx_menu_editor.fd"
+F
+"./jx_menu_editor.fd"
+F
+T
+1 "help"
+T
+2 "ChangeLog.html"
+F
+"./release/ChangeLog.html"
+T
+2 "help.html"
+F
+"./release/help.html"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "jxlayout --choose --require-obj-names --post-cmd \"jcc --force-reload-open\" -cp code $project_name.fd" "" FFTTTTF "Compile layouts" "Meta-'" "&|3Ss+=IL_ywwy[Pm}cG::CBCommandManager" F
+F
+# build settings
+1
+F
+"jx_menu_editor"
+"${LIB_DEPS}"
+"make -k all"
+# search paths
+T "../../include" T
+T "../../include/jx-af/jcore" T
+T "../../include/jx-af/jx" T
+T "./code" T
+F
+# C preprocessor
+F

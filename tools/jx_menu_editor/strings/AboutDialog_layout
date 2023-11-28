@@ -1,0 +1,7 @@
+0
+okButton::AboutDialog::shortcuts::JXLayout "^M"
+itsHelpButton::AboutDialog::JXLayout "Help"
+textWidget::AboutDialog::JXLayout ""
+itsHelpButton::AboutDialog::shortcuts::JXLayout "F1"
+okButton::AboutDialog::JXLayout "OK"
+itsCreditsButton::AboutDialog::JXLayout "Credits"

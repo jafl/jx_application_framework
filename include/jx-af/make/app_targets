@@ -123,9 +123,8 @@ uninstall::
 # Strings
 #
 
-MENU_STRING_FILE := ./strings/menu_strings
-JX_ACTION_DEFS   := ${JX_INCLUDE_ROOT}/jx-af/jx/jXActionDefs.h \
-                    ${JX_INCLUDE_ROOT}/jx-af/jx/JXTEBase.cpp
+JX_ACTION_DEFS := ${JX_INCLUDE_ROOT}/jx-af/jx/jXActionDefs.h \
+                  ${JX_INCLUDE_ROOT}/jx-af/jx/JXTEBase.cpp
 
 .PHONY : strings
 strings:
@@ -140,13 +139,6 @@ strings:
 stringdb:
 	compile_jstrings ${J_STRING_FILES} --db ${SIGNATURE}_us
 
-.PHONY : menu_strings
-menu_strings:
-	@${JX_INCLUDE_ROOT}/jx-af/scripts/extract_menu_strings \
-       ${MENU_STRING_FILE} ${SIGNATURE} \
-       -a ./code/actionDefs.h ${JX_ACTION_DEFS} \
-       -m ./code/*.cpp ${JX_INCLUDE_ROOT}/jx-af/jx/*.cpp ${EXTRA_MENU_STRING_FILES}
-
 #
 # Building packages
 #
@@ -157,7 +149,7 @@ RPM_PKG_NAME    := ${APP_NAME}-${APP_VERSION}.${SYS_NAME}.${SYS_ARCH}.rpm
 DEB_PKG_NAME    := ${APP_NAME}_${APP_VERSION}_${SYS_NAME}_${SYS_ARCH}.deb
 
 .PHONY : release
-release: _pre_build_pkgs default menu_strings
+release: _pre_build_pkgs default
 	@${J_STRIP_DEBUG} ${EXE_NAME}
 
   ifneq (${J_IS_APP_RELEASE_BUILD},1)

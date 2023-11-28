@@ -1,0 +1,73 @@
+0
+
+Name	"JX Menu Editor"
+
+COPYRIGHT
+"Copyright (C) 2023 by John Lindal.
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+https://github.com/jafl/jx_application_framework"
+
+HELP_URL		"https://libjx.sourceforge.net/jx_menu_editor/help.html"
+CHANGE_LOG_URL	"https://libjx.sourceforge.net/jx_menu_editor/ChangeLog.html"
+
+# globals
+
+Description::globals
+"JX Menu Editor $version
+
+Menu editor for JX
+
+$copyright"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+CommandLineHelp
+"JX Menu Editor $vers
+
+$copyright
+
+This program requires the X Window System.
+
+Usage:  jx_menu_editor [menu_file_name]
+
+--help     prints this help
+--version  prints version information"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+# AboutDialog
+
+WindowTitle::AboutDialog		"About"
+ChangeButtonLabel::AboutDialog	"Changes"
+
+UpgradeNotice::AboutDialog
+"
+
+
+You have just upgraded from version $vers"
+
+# MenuDocument
+
+NewMenuNameWindowTitle::MenuDocument	"New Menu"
+EditMenuNamePrompt::MenuDocument		"Enter the name of this menu:"
+
+NeedNewerVersion::MenuDocument			"You need a newer version of this program to read this file."
+UnknownFile::MenuDocument				"Unable to read this file."
+
+# MenuTable
+
+Column1::MenuTable	"Type"
+Column2::MenuTable	"Icon"
+Column3::MenuTable	"Text"
+Column4::MenuTable	"Shortcut"
+Column5::MenuTable	"Windows Key"
+Column6::MenuTable	"ID"
+Column7::MenuTable	"Separator"
+
+TableMenuTitle::MenuTable	"Table"
