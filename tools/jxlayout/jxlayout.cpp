@@ -1376,7 +1376,7 @@ ApplyOptions
 		{
 			output << indent;
 			varName.Print(output);
-			output << "->SetFont(JGetMonospaceFontName(), JGetDefaultMonoFontSize(), JFontStyle());" << std::endl;
+			output << "->SetFont(JFontManager::GetDefaultMonospaceFont());" << std::endl;
 		}
 		else if (flStyle.Contains("TIMES"))
 		{

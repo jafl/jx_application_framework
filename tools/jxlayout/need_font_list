@@ -6,6 +6,6 @@ JXTextButton
 JXTextCheckbox
 JXTextRadioButton
 
-JXStringInput
+JXInputField
 JXFloatInput
 JXIntegerInput
