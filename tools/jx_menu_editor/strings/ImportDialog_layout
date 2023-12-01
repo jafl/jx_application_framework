@@ -1,0 +1,9 @@
+0
+itsHelpButton::ImportDialog::JXLayout "Help"
+okButton::ImportDialog::shortcuts::JXLayout "^M"
+actionDefsLabel::ImportDialog::JXLayout "actionDefs file:"
+okButton::ImportDialog::JXLayout "OK"
+enumLabel::ImportDialog::JXLayout "Menu items enum:"
+textLabel::ImportDialog::JXLayout "Menu definition text:"
+cancelButton::ImportDialog::JXLayout "Cancel"
+itsChooseActionDefsFileButton::ImportDialog::JXLayout "Choose"

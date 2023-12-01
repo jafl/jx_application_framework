@@ -25,5 +25,6 @@
 
 #define kNewItemAction			"New::MenuTable"
 #define kDuplicateItemsAction	"Duplicate::MenuTable"
+#define kImportMenuAction		"Import::MenuTable"
 
 #endif

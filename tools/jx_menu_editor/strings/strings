@@ -68,6 +68,10 @@ Column3::MenuTable	"Text"
 Column4::MenuTable	"Shortcut"
 Column5::MenuTable	"Windows Key"
 Column6::MenuTable	"ID"
-Column7::MenuTable	"Separator"
+Column7::MenuTable	"Enum Name"
+Column8::MenuTable	"Separator"
 
 TableMenuTitle::MenuTable	"Table"
+
+MissingOpenQuote:MenuTable		"The menu definition text does not have a starting double quote."
+UnknownActionMacro:MenuTable	"Unable to find the definition for the macro $m."

@@ -37,7 +37,7 @@ F
 "./code/AboutDialog.cpp"
 F
 T
-1 "layout"
+1 "menu"
 T
 2 "MenuDocument.cpp"
 F
@@ -50,6 +50,10 @@ T
 2 "MenuItemSelection.cpp"
 F
 "./code/MenuItemSelection.cpp"
+T
+2 "ImportDialog.cpp"
+F
+"./code/ImportDialog.cpp"
 F
 T
 1 "misc"
@@ -71,11 +75,11 @@ T
 T
 2 "ChangeLog.html"
 F
-"./release/ChangeLog.html"
+"./release/doc/ChangeLog.html"
 T
 2 "help.html"
 F
-"./release/help.html"
+"./release/doc/help.html"
 F
 F
 # tasks

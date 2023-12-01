@@ -9,7 +9,9 @@
 
 #include "MenuTable.h"
 #include "MenuItemSelection.h"
+#include "ImportDialog.h"
 #include "globals.h"
+#include "fileVersions.h"
 #include "actionDefs.h"
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXWindow.h>
@@ -23,6 +25,7 @@
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jMouseUtil.h>
 #include <jx-af/jcore/jASCIIConstants.h>
@@ -40,12 +43,13 @@ enum
 	kShortcutColumn,
 	kWindowsKeyColumn,
 	kIDColumn,
+	kEnumColumn,
 	kSeparatorColumn
 };
 
 const JCoordinate kInitColWidth[] =
 {
-	40, 40, 100, 80, 40, 100, 40
+	40, 40, 100, 100, 100, 100, 100, 75
 };
 
 const JSize kColCount = sizeof(kInitColWidth) / sizeof(JCoordinate);
@@ -53,13 +57,15 @@ const JSize kColCount = sizeof(kInitColWidth) / sizeof(JCoordinate);
 // Table menu
 
 static const JUtf8Byte* kTableMenuStr =
-	"  New item                   %k Meta-Shift-N %i" kNewItemAction
-	"| Duplicate selected item(s)                 %i" kDuplicateItemsAction;
+	"    New item  %k Meta-Shift-N %i" kNewItemAction
+	"  | Duplicate selected item   %i" kDuplicateItemsAction
+	"%l| Import...                 %i" kImportMenuAction;
 
 enum
 {
 	kAppendCmd = 1,
-	kDuplicateCmd
+	kDuplicateCmd,
+	kImportCmd
 };
 
 // Type menu
@@ -76,14 +82,9 @@ enum
 	kRadioCmd
 };
 
-// data versions
-
-const JFileVersion kCurrentDataVersion = 0;
+// prefs
 
 const JFileVersion kCurrentPrefsVersion = 0;
-
-const JFileVersion kCurrentGeometryDataVersion = 0;
-const JUtf8Byte kGeometryDataEndDelimiter      = '\1';
 
 /******************************************************************************
  Constructor
@@ -124,14 +125,14 @@ MenuTable::MenuTable
 	// menus
 
 	itsTableMenu = menuBar->AppendTextMenu(JGetString("TableMenuTitle::MenuTable"));
-	itsTableMenu->SetMenuItems(kTableMenuStr, "MenuTable");
+	itsTableMenu->SetMenuItems(kTableMenuStr);
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsTableMenu->AttachHandler(this, &MenuTable::HandleTableMenu);
 
 	menuBar->InsertMenuAfter(itsEditMenu, itsTableMenu);
 
 	itsTypeMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-	itsTypeMenu->SetMenuItems(kTypeMenuStr, "MenuTable");
+	itsTypeMenu->SetMenuItems(kTypeMenuStr);
 	itsTypeMenu->SetToHiddenPopupMenu();
 	itsTypeMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsTypeMenu->AttachHandlers(this,
@@ -159,6 +160,7 @@ MenuTable::MenuTable
 	JPrefObject::ReadPrefs();
 
 	AddItem();
+	CancelEditing();
 }
 
 /******************************************************************************
@@ -286,6 +288,10 @@ MenuTable::TableDrawCell
 		else if (cell.x == kIDColumn)
 		{
 			s = info.id;
+		}
+		else if (cell.x == kEnumColumn)
+		{
+			s = info.enumName;
 		}
 		assert( s != nullptr );
 
@@ -570,7 +576,7 @@ MenuTable::HandleDNDDrop
 				const std::string s((char*) data, dataLength);
 				std::istringstream input(s);
 
-				ItemInfo info = ReadMenuItem(input, kCurrentDataVersion);
+				ItemInfo info = ReadMenuItem(input, kCurrentMenuFileVersion);
 				if (!input.fail())
 				{
 					const JIndex newIndex = JMax((JIndex) 1, itsDNDRowIndex);
@@ -636,6 +642,11 @@ MenuTable::HandleKeyPress
 				info.id->Clear();
 				cleared = true;
 			}
+			else if (cell.x == kEnumColumn)
+			{
+				info.enumName->Clear();
+				cleared = true;
+			}
 		}
 	}
 
@@ -666,7 +677,8 @@ MenuTable::IsEditable
 	const
 {
 	return (cell.x == kTextColumn || cell.x == kShortcutColumn ||
-			cell.x == kWindowsKeyColumn || cell.x == kIDColumn);
+			cell.x == kWindowsKeyColumn || cell.x == kIDColumn ||
+			cell.x == kEnumColumn);
 }
 
 /******************************************************************************
@@ -714,6 +726,10 @@ MenuTable::CreateXInputField
 	{
 		text = info.id;
 	}
+	else if (cell.x == kEnumColumn)
+	{
+		text = info.enumName;
+	}
 	assert( text != nullptr );
 
 	itsTextInput->GetText()->SetText(*text);
@@ -756,6 +772,10 @@ MenuTable::ExtractInputData
 	else if (cell.x == kIDColumn)
 	{
 		s = info.id;
+	}
+	else if (cell.x == kEnumColumn)
+	{
+		s = info.enumName;
 	}
 	assert( s != nullptr );
 
@@ -856,7 +876,7 @@ MenuTable::UpdateEditMenu()
 
 	ok = itsEditMenuProvider->EditMenuCmdToIndex(JTextEditor::kSelectAllCmd, &i);
 	assert( ok );
-	itsEditMenu->SetItemEnabled(i, GetRowCount() > 0);
+	itsEditMenu->DisableItem(i);
 }
 
 /******************************************************************************
@@ -891,11 +911,6 @@ MenuTable::HandleEditMenu
 			RemoveRow(cell.y);
 		}
 	}
-
-	else if (cmd == JTextEditor::kSelectAllCmd)
-	{
-		GetTableSelection().SelectAll();
-	}
 }
 
 /******************************************************************************
@@ -917,6 +932,15 @@ MenuTable::HandleTableMenu
 	{
 		DuplicateSelectedItems();
 	}
+
+	else if (index == kImportCmd)
+	{
+		auto* dlog = jnew ImportDialog;
+		if (dlog->DoDialog())
+		{
+			Import(dlog->GetMenuText(), dlog->GetEnumText(), dlog->GetActionDefsFile());
+		}
+	}
 }
 
 /******************************************************************************
@@ -931,7 +955,7 @@ MenuTable::AddItem()
 	{
 		ItemInfo info(JXMenu::kPlainType, 0,
 					  jnew JString, jnew JString,
-					  JUtf8Character(' '), jnew JString, false);
+					  JUtf8Character(' '), jnew JString, jnew JString, false);
 		itsItemList->AppendItem(info);
 		AppendRows(1);
 		BeginEditing(JPoint(kTextColumn, itsItemList->GetItemCount()));
@@ -1041,12 +1065,10 @@ MenuTable::ReadPrefs
 {
 	JFileVersion vers;
 	input >> vers;
-	if (vers > kCurrentPrefsVersion)
+	if (vers <= kCurrentPrefsVersion)
 	{
-		return;
+		ReadGeometry(input);
 	}
-
-	ReadGeometry(input);
 }
 
 /******************************************************************************
@@ -1078,28 +1100,23 @@ MenuTable::ReadGeometry
 	std::istream& input
 	)
 {
-	JFileVersion vers;
-	input >> vers;
-	if (vers <= kCurrentGeometryDataVersion)
-	{
-		JCoordinate w;
-		input >> w;
-		SetColWidth(kTypeColumn, w);
-		input >> w;
-		SetColWidth(kIconColumn, w);
-		input >> w;
-		SetColWidth(kTextColumn, w);
-		input >> w;
-		SetColWidth(kShortcutColumn, w);
-		input >> w;
-		SetColWidth(kWindowsKeyColumn, w);
-		input >> w;
-		SetColWidth(kIDColumn, w);
-		input >> w;
-		SetColWidth(kSeparatorColumn, w);
-	}
-
-	JIgnoreUntil(input, kGeometryDataEndDelimiter);
+	JCoordinate w;
+	input >> w;
+	SetColWidth(kTypeColumn, w);
+	input >> w;
+	SetColWidth(kIconColumn, w);
+	input >> w;
+	SetColWidth(kTextColumn, w);
+	input >> w;
+	SetColWidth(kShortcutColumn, w);
+	input >> w;
+	SetColWidth(kWindowsKeyColumn, w);
+	input >> w;
+	SetColWidth(kIDColumn, w);
+	input >> w;
+	SetColWidth(kEnumColumn, w);
+	input >> w;
+	SetColWidth(kSeparatorColumn, w);
 }
 
 /******************************************************************************
@@ -1114,15 +1131,14 @@ MenuTable::WriteGeometry
 	)
 	const
 {
-	output << kCurrentGeometryDataVersion << std::endl;
 	output << GetColWidth(kTypeColumn) << std::endl;
 	output << GetColWidth(kIconColumn) << std::endl;
 	output << GetColWidth(kTextColumn) << std::endl;
 	output << GetColWidth(kShortcutColumn) << std::endl;
 	output << GetColWidth(kWindowsKeyColumn) << std::endl;
 	output << GetColWidth(kIDColumn) << std::endl;
+	output << GetColWidth(kEnumColumn) << std::endl;
 	output << GetColWidth(kSeparatorColumn) << std::endl;
-	output << kGeometryDataEndDelimiter << std::endl;
 }
 
 /******************************************************************************
@@ -1153,7 +1169,7 @@ MenuTable::ReadMenuItems
 {
 	JFileVersion vers;
 	input >> vers;
-	if (input.fail() || vers > kCurrentDataVersion)
+	if (input.fail() || vers > kCurrentMenuFileVersion)
 	{
 		return;
 	}
@@ -1189,7 +1205,7 @@ MenuTable::ReadMenuItem
 	const JFileVersion	vers
 	)
 {
-	assert( vers <= kCurrentDataVersion );
+	assert( vers <= kCurrentMenuFileVersion );
 
 	int type;
 	input >> type;
@@ -1204,15 +1220,19 @@ MenuTable::ReadMenuItem
 	input >> *shortcut;
 
 	JUtf8Character key;
-	input >> std::ws >> key;
+	JReadUntil(input, kCharacterMarker);
+	input >> key;
 
 	auto* id = jnew JString;
 	input >> *id;
 
+	auto* enumName = jnew JString;
+	input >> *enumName;
+
 	bool separator;
 	input >> separator;
 
-	return ItemInfo((JXMenu::ItemType) type, iconIndex, text, shortcut, key, id, separator);
+	return ItemInfo((JXMenu::ItemType) type, iconIndex, text, shortcut, key, id, enumName, separator);
 }
 
 /******************************************************************************
@@ -1227,7 +1247,7 @@ MenuTable::WriteMenuItems
 	)
 	const
 {
-	output << kCurrentDataVersion << std::endl;
+	output << kCurrentMenuFileVersion << std::endl;
 
 	for (const auto& item : *itsItemList)
 	{
@@ -1255,9 +1275,215 @@ MenuTable::WriteMenuItem
 	output << item.iconIndex << std::endl;
 	output << *item.text << std::endl;
 	output << *item.shortcut << std::endl;
-	output << item.windowsKey << std::endl;
+	output << kCharacterMarker << item.windowsKey << std::endl;
 	output << *item.id << std::endl;
+	output << *item.enumName << std::endl;
 	output << item.separator << std::endl;
+}
+
+/******************************************************************************
+ Import (private)
+
+ ******************************************************************************/
+
+static const JRegex actionDefPattern   = "#define\\s+([^\\s]+)\\s+\"([^\"]+)\"";
+static const JRegex actionUsePattern   = "\"\\s*([^\\s\";]+)\\s*\"?;?";
+static const JRegex emptyActionPattern = "\"\\s*\"";
+
+void
+MenuTable::Import
+	(
+	const JString& menuText,
+	const JString& enumText,
+	const JString& actionDefsFile
+	)
+{
+	// action map
+
+	JStringPtrMap<JString> actionMap(JPtrArrayT::kDeleteAll);
+	AddCoreActionDefs(&actionMap);
+
+	std::ifstream actionInput(actionDefsFile.GetBytes());
+
+	JString line;
+	while (actionInput.good())
+	{
+		line = JReadLine(actionInput);
+
+		const JStringMatch m = actionDefPattern.Match(line, JRegex::kIncludeSubmatches);
+		if (!m.IsEmpty())
+		{
+			actionMap.SetNewItem(m.GetSubstring(1), m.GetSubstring(2));
+		}
+	}
+
+	// definition
+
+	JString text = menuText;
+	text.TrimWhitespace();
+
+	JStringIterator textIter(&text);
+	if (!textIter.Next("\""))
+	{
+		JGetUserNotification()->ReportError(JGetString("MissingOpenQuote:MenuTable"));
+	}
+	textIter.RemoveAllPrev();
+
+	while (textIter.Next(emptyActionPattern))
+	{
+		textIter.RemoveLastMatch();
+	}
+
+	textIter.MoveTo(JStringIterator::kStartAtBeginning, 0);
+
+	JString* action;
+	while (textIter.Next(actionUsePattern))
+	{
+		const JStringMatch m = textIter.GetLastMatch();
+		const JString macro  = m.GetSubstring(1);
+		if (!actionMap.GetItem(macro, &action))
+		{
+			const JUtf8Byte* map[] =
+			{
+				"m", macro.GetBytes()
+			};
+			const JString msg = JGetString("UnknownActionMacro:MenuTable", map, sizeof(map));
+			JGetUserNotification()->ReportError(msg);
+		}
+
+		textIter.ReplaceLastMatch(*action);
+	}
+
+	auto* menu =
+		jnew JXTextMenu(JString::empty, GetHiddenDirector()->GetWindow(),
+						JXWidget::kHElastic, JXWidget::kVElastic,
+						0,0, 10,10);
+	menu->SetMenuItems(text.GetBytes());
+
+	itsItemList->DeleteAll();
+	RemoveAllRows();
+
+	const JSize count = menu->GetItemCount();
+	for (JIndex i=1; i<=count; i++)
+	{
+		ItemInfo info(jnew JString, jnew JString, jnew JString, jnew JString);
+		info.type = menu->GetItemType(i);
+		info.text->Set(menu->GetItemText(i));
+		menu->GetItemNMShortcut(i, info.shortcut);
+		info.separator = menu->HasSeparatorAfter(i);
+
+		const JString* id;
+		if (menu->GetItemID(i, &id))
+		{
+			info.id->Set(*id);
+		}
+
+		if (menu->GetItemShortcuts(i, &line))
+		{
+			info.windowsKey = line.GetFirstCharacter();
+		}
+
+		itsItemList->AppendItem(info);
+	}
+
+	// enum
+
+	std::istringstream enumInput(enumText.GetBytes());
+	if (enumText.Contains("{"))
+	{
+		JIgnoreUntil(enumInput, '{');
+	}
+
+	for (JIndex i=1; i<=count; i++)
+	{
+		auto item = itsItemList->GetItem(i);
+		JReadUntil(enumInput, 2, ",}", item.enumName);
+		item.enumName->TrimWhitespace();
+
+		JStringIterator iter(item.enumName, JStringIterator::kStartAtEnd);
+		JUtf8Character c;
+		while (iter.Prev(&c) && (c.IsDigit() || c == '=' || c.IsSpace()))
+		{
+			iter.RemoveNext();
+		}
+	}
+
+	// clean up
+
+	AppendRows(itsItemList->GetItemCount());
+	Refresh();
+
+	jdelete menu;
+}
+
+/******************************************************************************
+ AddCoreActionDefs (private)
+
+ ******************************************************************************/
+
+void
+MenuTable::AddCoreActionDefs
+	(
+	JStringPtrMap<JString>* actionMap
+	)
+	const
+{
+	actionMap->SetNewItem("kJXPageSetupAction", JString("PageSetup::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXPrintAction", JString("Print::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXCloseWindowAction", JString("CloseWindow::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXQuitAction", JString("Quit::JX", JString::kNoCopy));
+
+	actionMap->SetNewItem("kJXUndoAction", JString("Undo::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXRedoAction", JString("Redo::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXCutAction", JString("Cut::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXCopyAction", JString("Copy::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXPasteAction", JString("Paste::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXClearAction", JString("Clear::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXSelectAllAction", JString("SelectAll::JX", JString::kNoCopy));
+
+	actionMap->SetNewItem("kCheckAllSpellingAction", JString("CheckAllSpellingCmd::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kCheckSpellingSelAction", JString("CheckSpellingSelCmd::JX", JString::kNoCopy));
+
+	actionMap->SetNewItem("kJXFindDialogAction", JString("FindDialog::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXFindPreviousAction", JString("FindPrevious::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXFindNextAction", JString("FindNext::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXEnterSearchTextAction", JString("EnterSearchText::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXEnterReplaceTextAction", JString("EnterReplaceText::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXFindSelectionBackwardsAction", JString("FindSelectionBackwards::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXFindSelectionForwardAction", JString("FindSelectionForward::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXFindClipboardBackwardsAction", JString("FindClipboardBackwards::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXFindClipboardForwardAction", JString("FindClipboardForward::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXReplaceSelectionAction", JString("ReplaceSelection::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXReplaceFindPrevAction", JString("ReplaceFindPrev::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXReplaceFindNextAction", JString("ReplaceFindNext::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXReplaceAllAction", JString("ReplaceAll::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXReplaceAllInSelectionAction", JString("ReplaceAllInSelection::JX", JString::kNoCopy));
+
+	actionMap->SetNewItem("kJXOtherFontSizeAction", JString("OtherFontSize::JX", JString::kNoCopy));
+
+	actionMap->SetNewItem("kJXPlainStyleAction", JString("PlainStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXBoldStyleAction", JString("BoldStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXItalicStyleAction", JString("ItalicStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXUnderlineStyleAction", JString("UnderlineStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXDoubleUnderlineStyleAction", JString("DoubleUnderlineStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXStrikeStyleAction", JString("StrikeStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXBlackStyleAction", JString("BlackStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXGrayStyleAction", JString("GrayStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXBrownStyleAction", JString("BrownStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXOrangeStyleAction", JString("OrangeStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXRedStyleAction", JString("RedStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXDarkRedStyleAction", JString("DarkRedStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXGreenStyleAction", JString("GreenStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXBlueStyleAction", JString("BlueStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXLightBlueStyleAction", JString("LightBlueStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXPinkStyleAction", JString("PinkStyle::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXOtherColorStyleAction", JString("OtherColorStyle::JX", JString::kNoCopy));
+
+	actionMap->SetNewItem("kJXRaiseAllWindowsAction", JString("RaiseAllWindows::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXCloseAllOtherWindowsAction", JString("CloseAllOtherWindows::JX", JString::kNoCopy));
+
+	actionMap->SetNewItem("kJXHelpTOCAction", JString("HelpTOC::JX", JString::kNoCopy));
+	actionMap->SetNewItem("kJXHelpSpecificAction", JString("HelpSpecific::JX", JString::kNoCopy));
 }
 
 /******************************************************************************

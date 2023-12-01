@@ -30,26 +30,30 @@ public:
 		JString*			shortcut;
 		JUtf8Character		windowsKey;
 		JString*			id;
+		JString*			enumName;
 		bool				separator;
 
 		ItemInfo()
 			:
 			type(JXMenu::kPlainType), iconIndex(0),
-			text(nullptr), shortcut(nullptr), id(nullptr), separator(false)
+			text(nullptr), shortcut(nullptr), windowsKey(' '), id(nullptr),
+			enumName(nullptr), separator(false)
 		{ };
 
-		ItemInfo(JString* t, JString* s, const JUtf8Character& wk, JString* _id)
+		ItemInfo(JString* t, JString* s, JString* _id, JString* e)
 			:
 			type(JXMenu::kPlainType), iconIndex(0),
-			text(t), shortcut(s), windowsKey(wk), id(_id), separator(false)
+			text(t), shortcut(s), windowsKey(' '), id(_id),
+			enumName(e), separator(false)
 		{ };
 
 		ItemInfo(const JXMenu::ItemType _type, const JIndex _icon,
 				JString* t, JString* s, const JUtf8Character& wk, JString* _id,
-				const bool sep)
+				JString* e, const bool sep)
 			:
 			type(_type), iconIndex(_icon),
-			text(t), shortcut(s), windowsKey(wk), id(_id), separator(sep)
+			text(t), shortcut(s), windowsKey(wk), id(_id),
+			enumName(e), separator(sep)
 		{ };
 
 		ItemInfo	Copy() const;
@@ -148,6 +152,10 @@ private:
 
 	void	AddItem();
 	void	DuplicateSelectedItems();
+
+	void	Import(const JString& menuText, const JString& enumText,
+				   const JString& actionDefsFile);
+	void	AddCoreActionDefs(JStringPtrMap<JString>* actionMap) const;
 
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex index);

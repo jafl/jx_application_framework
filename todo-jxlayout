@@ -9,14 +9,14 @@ create widget by cmd-dragging rectangle
 	after release, select widget type and then create it - sets correct container
 
 move
-	drag selected widgets - each must remain within its current enclosure
+	drag selected widgets
+	serialize/deserialize if enclosure changes
+	enclosure only accepts drag if bounding box of all dragged items fits inside
 resize
 	like window - any edge or corner
 	shift key to turn off grid
-cut/copy/paste/delete
-	serialize/deserialize
 undo
-	create/cut/paste/delete/move/resize/params
+	create/delete/move/resize/params
 
 widget options
 	label, if appropriate

@@ -15,5 +15,6 @@
 .cpp ./code/MenuDocument
 .cpp ./code/MenuTable
 .cpp ./code/MenuItemSelection
+.cpp ./code/ImportDialog
 
 literal: ${LIB_DEPS}

@@ -12,6 +12,7 @@
 #include "MenuTable.h"
 #include "MDIServer.h"
 #include "globals.h"
+#include "fileVersions.h"
 #include "actionDefs.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
@@ -31,7 +32,6 @@
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kFileSignature = "jx_menu_editor";
-const JFileVersion kCurrentFileVersion = 0;
 
 // File menu
 
@@ -131,7 +131,7 @@ MenuDocument::Create
 	std::ifstream input(fullName.GetBytes());
 	JFileVersion vers;
 
-	const FileStatus status = DefaultCanReadASCIIFile(input, kFileSignature, kCurrentFileVersion, &vers);
+	const FileStatus status = DefaultCanReadASCIIFile(input, kFileSignature, kCurrentMenuFileVersion, &vers);
 	if (status == kFileReadable)
 	{
 		*doc = jnew MenuDocument(fullName, true);
@@ -205,16 +205,16 @@ MenuDocument::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 500,300, JString::empty);
+	auto* window = jnew JXWindow(this, 670,300, JString::empty);
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 670,30);
 	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(GetPrefsManager(), kMenuDocToolBarID, menuBar, window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 670,270);
 	assert( itsToolBar != nullptr );
 
 // end JXLayout
@@ -268,7 +268,7 @@ MenuDocument::BuildWindow()
 	// menus
 
 	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
-	itsFileMenu->SetMenuItems(kFileMenuStr, "MenuDocument");
+	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&MenuDocument::UpdateFileMenu,
@@ -285,11 +285,11 @@ MenuDocument::BuildWindow()
 	JXTextMenu* editMenu = itsMenuTitleInput->AppendEditMenu(menuBar);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "MenuDocument");
+	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &MenuDocument::HandlePrefsMenu);
 
-	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "MenuDocument", "MainHelp");
+	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "MainHelp");
 
 	// table
 
@@ -349,8 +349,6 @@ MenuDocument::BuildWindow()
 /******************************************************************************
  GetName (virtual)
 
-	Override of JXDocument::GetName().
-
  ******************************************************************************/
 
 const JString&
@@ -379,11 +377,19 @@ MenuDocument::ReadFile
 
 	JFileVersion vers;
 	input >> vers;
-	assert( vers <= kCurrentFileVersion );
+	assert( vers <= kCurrentMenuFileVersion );
+
+	JCoordinate w,h;
+	input >> w >> h;
+
+	GetWindow()->SetSize(w, h);
 
 	JString title;
+	input >> title;
+
 	JUtf8Character key;
-	input >> title >> std::ws >> key;
+	JReadUntil(input, kCharacterMarker);
+	input >> key;
 
 	itsMenuTitleInput->GetText()->SetText(title);
 	itsWindowsKeyInput->SetCharacter(key);
@@ -407,10 +413,13 @@ MenuDocument::WriteTextFile
 	)
 	const
 {
-	output << kFileSignature << ' ' << kCurrentFileVersion << std::endl;
+	output << kFileSignature << ' ' << kCurrentMenuFileVersion << std::endl;
+
+	const JRect boundsG = GetWindow()->GetBoundsGlobal();
+	output << boundsG.width() << ' ' << boundsG.height() << std::endl;
 
 	output << itsMenuTitleInput->GetText()->GetText() << std::endl;
-	output << itsWindowsKeyInput->GetCharacter() << std::endl;
+	output << kCharacterMarker << itsWindowsKeyInput->GetCharacter() << std::endl;
 
 	itsTable->WriteGeometry(output);
 	output << std::endl;
@@ -432,7 +441,7 @@ MenuDocument::DiscardChanges()
 
 	std::ifstream input(fullName.GetBytes());
 	JFileVersion vers;
-	const FileStatus status = DefaultCanReadASCIIFile(input, kFileSignature, kCurrentFileVersion, &vers);
+	const FileStatus status = DefaultCanReadASCIIFile(input, kFileSignature, kCurrentMenuFileVersion, &vers);
 	if (status == kFileReadable)
 	{
 		ReadFile(input);
