@@ -350,12 +350,12 @@ JXWDManager::UpdateWDMenu
 	const JXMenu::Style style = JXMenu::GetDefaultStyle();
 	if (style == JXMenu::kWindowsStyle)
 	{
-		menu->SetMenuItems(kWinWDMenuStr, "JXWDManager");
+		menu->SetMenuItems(kWinWDMenuStr);
 	}
 	else
 	{
 		assert( style == JXMenu::kMacintoshStyle );
-		menu->SetMenuItems(kMacWDMenuStr, "JXWDManager");
+		menu->SetMenuItems(kMacWDMenuStr);
 	}
 
 	// It almost always is sorted, so we only pay O(N) instead of O(N^2).

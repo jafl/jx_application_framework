@@ -46,14 +46,10 @@ public:
 
 	const JString&	GetText(const JIndex index) const;
 	void			SetText(const JIndex index, const JString& str);
-	void			SetMenuItems(const JUtf8Byte* menuStr,
-								 const JUtf8Byte* idNamespace = nullptr);
-	void			InsertMenuItems(const JIndex index, const JUtf8Byte* menuStr,
-									const JUtf8Byte* idNamespace = nullptr);
-	void			PrependMenuItems(const JUtf8Byte* menuStr,
-									 const JUtf8Byte* idNamespace = nullptr);
-	void			AppendMenuItems(const JUtf8Byte* menuStr,
-									const JUtf8Byte* idNamespace = nullptr);
+	void			SetMenuItems(const JUtf8Byte* menuStr);
+	void			InsertMenuItems(const JIndex index, const JUtf8Byte* menuStr);
+	void			PrependMenuItems(const JUtf8Byte* menuStr);
+	void			AppendMenuItems(const JUtf8Byte* menuStr);
 
 	JFont	GetFont(const JIndex index) const;
 
@@ -218,21 +214,19 @@ JXTextMenuData::AppendItem
 inline void
 JXTextMenuData::PrependMenuItems
 	(
-	const JUtf8Byte* menuStr,
-	const JUtf8Byte* idNamespace
+	const JUtf8Byte* menuStr
 	)
 {
-	InsertMenuItems(1, menuStr, idNamespace);
+	InsertMenuItems(1, menuStr);
 }
 
 inline void
 JXTextMenuData::AppendMenuItems
 	(
-	const JUtf8Byte* menuStr,
-	const JUtf8Byte* idNamespace
+	const JUtf8Byte* menuStr
 	)
 {
-	InsertMenuItems(GetItemCount()+1, menuStr, idNamespace);
+	InsertMenuItems(GetItemCount()+1, menuStr);
 }
 
 /******************************************************************************

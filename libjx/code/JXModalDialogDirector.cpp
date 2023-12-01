@@ -1,29 +1,17 @@
 /******************************************************************************
  JXModalDialogDirector.cpp
 
-	Maintains a dialog window.  If we are modal, we suspend our supervisor
-	when activated and resume it when we are deactivated.
+	Maintains a modal dialog window.  Call DoDialog() to show the window.
+	We suspend all other windows while active.  If DoDialog() returns true,
+	the client can extract the information.  We Close() automatically.
 
-	If we successfully deactivate or are cancelled, we broadcast
-	kJXDialogDeactivated.  The client can then extract the information.
-	After successfully deactivating, we Close() ourselves.  By taking
-	this responsibility ourselves, we allow any number of objects to
-	safely ListenTo() us, because there is no danger that one will Close()
-	us before another gets the message.
-
-	Note that this means that modeless dialog windows that are supposed
-	to simply hide themselves instead of closing must be implemented as
-	JXWindowDirectors intead of JXDialogDirectors.
+	Modeless dialog windows that are supposed to simply hide themselves
+	instead of closing must be implemented as JXWindowDirectors intead of
+	JXModalDialogDirectors.
 
 	If the client wants actions other than OK and Cancel, it merely has to
 	add extra buttons and ListenTo() each one.  If part of the action should
-	be to close the dialog, the client can call EndDialog().  Since this
-	generates kJXDialogDeactivated, extracting the data only has to be
-	done one place: in the "deactivated" message handler.
-
-	The only difference between a modeless JXModalDialogDirector and a
-	JXWindowDirector is that JXModalDialogDirector is transient by default
-	and notifies you when it is closed.
+	be to close the dialog, the client can call EndDialog().
 
 	Derived classes that implement modal windows are required to call
 	SetButtons() with at least an okButton.
@@ -35,7 +23,7 @@
 
 	BASE CLASS = JXWindowDirector
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2023 by John Lindal.
 
  ******************************************************************************/
 

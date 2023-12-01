@@ -169,42 +169,38 @@ JXTextMenu::SetItemText
 void
 JXTextMenu::SetMenuItems
 	(
-	const JUtf8Byte* menuStr,
-	const JUtf8Byte* idNamespace
+	const JUtf8Byte* menuStr
 	)
 {
-	itsTextMenuData->SetMenuItems(menuStr, idNamespace);
+	itsTextMenuData->SetMenuItems(menuStr);
 }
 
 void
 JXTextMenu::InsertMenuItems
 	(
 	const JIndex		index,
-	const JUtf8Byte*	menuStr,
-	const JUtf8Byte*	idNamespace
+	const JUtf8Byte*	menuStr
 	)
 {
-	itsTextMenuData->InsertMenuItems(index, menuStr, idNamespace);
+	itsTextMenuData->InsertMenuItems(index, menuStr);
 }
 
 void
 JXTextMenu::PrependMenuItems
 	(
-	const JUtf8Byte* menuStr,
-	const JUtf8Byte* idNamespace
+	const JUtf8Byte* menuStr
 	)
 {
-	itsTextMenuData->PrependMenuItems(menuStr, idNamespace);
+	itsTextMenuData->PrependMenuItems(menuStr);
 }
 
 void
 JXTextMenu::AppendMenuItems
 	(
-	const JUtf8Byte* menuStr,
-	const JUtf8Byte* idNamespace
+	const JUtf8Byte* menuStr
 	)
 {
-	itsTextMenuData->AppendMenuItems(menuStr, idNamespace);
+	itsTextMenuData->AppendMenuItems(menuStr);
 }
 
 /******************************************************************************

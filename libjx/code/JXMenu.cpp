@@ -654,7 +654,7 @@ JXMenu::ItemIDToIndex
 	for (JIndex i=1; i<=count; i++)
 	{
 		const JString* id;
-		if (GetItemID(i, &id) && *id == targetID)
+		if (itsBaseItemData->GetItemID(i, &id) && *id == targetID)
 		{
 			*index = i;
 			return true;
@@ -743,6 +743,21 @@ JXMenu::SetItemEnabled
 	)
 {
 	itsBaseItemData->SetItemEnabled(index, enabled);
+}
+
+/******************************************************************************
+ GetItemType
+
+ ******************************************************************************/
+
+JXMenu::ItemType
+JXMenu::GetItemType
+	(
+	const JIndex index
+	)
+	const
+{
+	return itsBaseItemData->GetType(index);
 }
 
 /******************************************************************************

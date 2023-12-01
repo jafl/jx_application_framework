@@ -16,6 +16,7 @@
 #include "JXColorManager.h"
 #include "jXConstants.h"
 #include "jXGlobals.h"
+#include "jXActionDefs.h"
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -27,37 +28,30 @@ struct MenuItemInfo
 	const JUtf8Byte*		id;
 };
 
-#define kContextUndoAction		"ContextUndo::JXInputField"
-#define kContextCutAction		"ContextCut::JXInputField"
-#define kContextCopyAction		"ContextCopy::JXInputField"
-#define kContextPasteAction		"ContextPaste::JXInputField"
-#define kContextClearAction		"ContextClear::JXInputField"
-#define kContextSelectAllAction	"ContextSelectAll::JXInputField"
-
 static const JUtf8Byte* kMacContextMenuStr =
-	"    Undo       %k Meta-Z. %i" kContextUndoAction
-	"%l| Cut        %k Meta-X. %i" kContextCutAction
-	"  | Copy       %k Meta-C. %i" kContextCopyAction
-	"  | Paste      %k Meta-V. %i" kContextPasteAction
-	"  | Clear                 %i" kContextClearAction
-	"%l| Select All %k Meta-A. %i" kContextSelectAllAction;
+	"    Undo       %k Meta-Z. %i" kJXUndoAction
+	"%l| Cut        %k Meta-X. %i" kJXCutAction
+	"  | Copy       %k Meta-C. %i" kJXCopyAction
+	"  | Paste      %k Meta-V. %i" kJXPasteAction
+	"  | Clear                 %i" kJXClearAction
+	"%l| Select All %k Meta-A. %i" kJXSelectAllAction;
 
 static const JUtf8Byte* kWinContextMenuStr =
-	"    Undo       %k Ctrl-Z. %i" kContextUndoAction
-	"%l| Cut        %k Ctrl-X. %i" kContextCutAction
-	"  | Copy       %k Ctrl-C. %i" kContextCopyAction
-	"  | Paste      %k Ctrl-V. %i" kContextPasteAction
-	"  | Clear                 %i" kContextClearAction
-	"%l| Select All %k Ctrl-A. %i" kContextSelectAllAction;
+	"    Undo       %k Ctrl-Z. %i" kJXUndoAction
+	"%l| Cut        %k Ctrl-X. %i" kJXCutAction
+	"  | Copy       %k Ctrl-C. %i" kJXCopyAction
+	"  | Paste      %k Ctrl-V. %i" kJXPasteAction
+	"  | Clear                 %i" kJXClearAction
+	"%l| Select All %k Ctrl-A. %i" kJXSelectAllAction;
 
 static const MenuItemInfo kContextMenuItemInfo[] =
 {
-{ JTextEditor::kUndoCmd,      kContextUndoAction      },
-{ JTextEditor::kCutCmd,       kContextCutAction       },
-{ JTextEditor::kCopyCmd,      kContextCopyAction      },
-{ JTextEditor::kPasteCmd,     kContextPasteAction     },
-{ JTextEditor::kDeleteSelCmd, kContextClearAction     },
-{ JTextEditor::kSelectAllCmd, kContextSelectAllAction }
+	{ JTextEditor::kUndoCmd,      kJXUndoAction      },
+	{ JTextEditor::kCutCmd,       kJXCutAction       },
+	{ JTextEditor::kCopyCmd,      kJXCopyAction      },
+	{ JTextEditor::kPasteCmd,     kJXPasteAction     },
+	{ JTextEditor::kDeleteSelCmd, kJXClearAction     },
+	{ JTextEditor::kSelectAllCmd, kJXSelectAllAction }
 };
 
 /******************************************************************************
@@ -85,8 +79,8 @@ JXInputField::JXInputField
 
 JXInputField::JXInputField
 	(
-	const bool		wordWrap,
-	const bool		acceptNewline,
+	const bool			wordWrap,
+	const bool			acceptNewline,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -557,11 +551,11 @@ JXInputField::CreateContextMenu()
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
-			itsContextMenu->SetMenuItems(kMacContextMenuStr, "JXInputField");
+			itsContextMenu->SetMenuItems(kMacContextMenuStr);
 		}
 		else
 		{
-			itsContextMenu->SetMenuItems(kWinContextMenuStr, "JXInputField");
+			itsContextMenu->SetMenuItems(kWinContextMenuStr);
 		}
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableAll);
 		itsContextMenu->SetToHiddenPopupMenu();

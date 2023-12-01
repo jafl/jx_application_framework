@@ -36,14 +36,10 @@ public:
 
 	~JXTextMenu() override;
 
-	void	SetMenuItems(const JUtf8Byte* menuStr,
-						 const JUtf8Byte* idNamespace = nullptr);
-	void	InsertMenuItems(const JIndex index, const JUtf8Byte* menuStr,
-							const JUtf8Byte* idNamespace = nullptr);
-	void	PrependMenuItems(const JUtf8Byte* menuStr,
-							 const JUtf8Byte* idNamespace = nullptr);
-	void	AppendMenuItems(const JUtf8Byte* menuStr,
-							const JUtf8Byte* idNamespace = nullptr);
+	void	SetMenuItems(const JUtf8Byte* menuStr);
+	void	InsertMenuItems(const JIndex index, const JUtf8Byte* menuStr);
+	void	PrependMenuItems(const JUtf8Byte* menuStr);
+	void	AppendMenuItems(const JUtf8Byte* menuStr);
 
 	void	InsertItem(const JIndex index, const JString& str,
 					   const ItemType type = kPlainType,

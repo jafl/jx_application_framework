@@ -145,8 +145,9 @@ public:
 	void	DisableAll();
 	void	SetItemEnabled(const JIndex index, const bool enabled);
 
-	bool	IsChecked(const JIndex index) const;
-	void	CheckItem(const JIndex index);
+	JXMenu::ItemType	GetItemType(const JIndex index) const;
+	bool				IsChecked(const JIndex index) const;
+	void				CheckItem(const JIndex index);
 
 	bool	GetSubmenu(const JIndex index, const JXMenu** menu) const;
 	void	AttachSubmenu(const JIndex index, JXMenu* submenu);
@@ -174,7 +175,7 @@ public:
 				  const JXKeyModifiers&	modifiers);
 
 	bool	GetMenuBar(JXMenuBar** menuBar) const;
-	JXMenu*		GetTopLevelMenu() const;
+	JXMenu*	GetTopLevelMenu() const;
 
 	ArrowPosition	GetPopupArrowPosition() const;
 	void			SetPopupArrowPosition(const ArrowPosition position);

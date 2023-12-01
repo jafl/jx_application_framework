@@ -223,12 +223,11 @@ JXTextMenuData::SetText
 void
 JXTextMenuData::SetMenuItems
 	(
-	const JUtf8Byte* menuStr,
-	const JUtf8Byte* idNamespace
+	const JUtf8Byte* menuStr
 	)
 {
 	DeleteAll();
-	InsertMenuItems(1, menuStr, idNamespace);
+	InsertMenuItems(1, menuStr);
 }
 
 /******************************************************************************
@@ -241,9 +240,8 @@ JXTextMenuData::SetMenuItems
 
 	See ParseMenuItemStr() for more details.
 
-	If idNamespace is not nullptr, the string database is searched for
-	"<item ID>::<idNamespace>" and this is parsed for the item's text
-	and shortcuts.
+	If id is not nullptr, the string database is searched for "<item ID>"
+	and this is parsed for the item's text and shortcuts.
 
  ******************************************************************************/
 
@@ -251,8 +249,7 @@ void
 JXTextMenuData::InsertMenuItems
 	(
 	const JIndex		startIndex,
-	const JUtf8Byte*	menuStr,
-	const JUtf8Byte*	idNamespace
+	const JUtf8Byte*	menuStr
 	)
 {
 	JStringManager* strMgr = JGetStringManager();
@@ -261,7 +258,7 @@ JXTextMenuData::InsertMenuItems
 	JString(menuStr, JString::kNoCopy).Split("|", &itemList);
 
 	const JSize itemCount = itemList.GetItemCount();
-	JString itemText, shortcuts, nmShortcut, id, strID, id1;
+	JString itemText, shortcuts, nmShortcut, id, id1;
 	for (JIndex i=1; i<=itemCount; i++)
 	{
 		itemText = *itemList.GetItem(i);
@@ -271,20 +268,14 @@ JXTextMenuData::InsertMenuItems
 		ParseMenuItemStr(&itemText, &isActive, &hasSeparator,
 						 &type, &shortcuts, &nmShortcut, &id);
 
-		if (!JString::IsEmpty(idNamespace) && !id.IsEmpty())
+		JString* itemText1;
+		if (!id.IsEmpty() && strMgr->GetItem(id, &itemText1) && itemText1 != nullptr)
 		{
-			strID  = id;
-			strID += "::";
-			strID += idNamespace;
-			JString* itemText1;
-			if (strMgr->GetItem(strID, &itemText1) && itemText1 != nullptr)
-			{
-				itemText = *itemText1;
-				bool isActive1, hasSeparator1;
-				JXMenu::ItemType type1;
-				ParseMenuItemStr(&itemText, &isActive1, &hasSeparator1,
-								 &type1, &shortcuts, &nmShortcut, &id1);
-			}
+			itemText = *itemText1;
+			bool isActive1, hasSeparator1;
+			JXMenu::ItemType type1;
+			ParseMenuItemStr(&itemText, &isActive1, &hasSeparator1,
+							 &type1, &shortcuts, &nmShortcut, &id1);
 		}
 
 		const JIndex j = startIndex + i-1;
@@ -348,7 +339,7 @@ JXTextMenuData::ParseMenuItemStr
 
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 	text->Split("%", &list);
-	text->Set(*(list.GetFirstItem()));
+	text->Set(*list.GetFirstItem());
 	text->TrimWhitespace();
 
 	const bool isMacOS = JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle;

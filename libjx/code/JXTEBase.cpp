@@ -151,27 +151,27 @@ static const JUtf8Byte* kWinReadOnlyMenuStr =
 
 static const MenuItemInfo kEditMenuItemInfo[] =
 {
-{ JTextEditor::kUndoCmd,      kJXUndoAction      },
-{ JTextEditor::kRedoCmd,      kJXRedoAction      },
-{ JTextEditor::kCutCmd,       kJXCutAction       },
-{ JTextEditor::kCopyCmd,      kJXCopyAction      },
-{ JTextEditor::kPasteCmd,     kJXPasteAction     },
-{ JTextEditor::kDeleteSelCmd, kJXClearAction     },
-{ JTextEditor::kSelectAllCmd, kJXSelectAllAction },
+	{ JTextEditor::kUndoCmd,      kJXUndoAction      },
+	{ JTextEditor::kRedoCmd,      kJXRedoAction      },
+	{ JTextEditor::kCutCmd,       kJXCutAction       },
+	{ JTextEditor::kCopyCmd,      kJXCopyAction      },
+	{ JTextEditor::kPasteCmd,     kJXPasteAction     },
+	{ JTextEditor::kDeleteSelCmd, kJXClearAction     },
+	{ JTextEditor::kSelectAllCmd, kJXSelectAllAction },
 
-{ JTextEditor::kCheckSpellingCmd,      kCheckAllSpellingAction   },
-{ JTextEditor::kCheckSpellingSelCmd,   kCheckSpellingSelAction   },
-{ JTextEditor::kCleanRightMarginCmd,   kCleanRightMarginAction   },
-{ JTextEditor::kCoerceRightMarginCmd,  kCoerceRightMarginAction  },
-{ JTextEditor::kShiftSelLeftCmd,       kShiftSelLeftAction       },
-{ JTextEditor::kShiftSelRightCmd,      kShiftSelRightAction      },
-{ JTextEditor::kForceShiftSelLeftCmd,  kForceShiftSelLeftAction  },
-{ JTextEditor::kShowWhitespaceCmd,     kShowWhitespaceAction     },
-{ JTextEditor::kCleanAllWhitespaceCmd, kCleanAllWhitespaceAction },
-{ JTextEditor::kCleanWhitespaceSelCmd, kCleanWhitespaceSelAction },
-{ JTextEditor::kCleanAllWSAlignCmd,    kCleanAllWSAlignAction    },
-{ JTextEditor::kCleanWSAlignSelCmd,    kCleanWSAlignSelAction    },
-{ JTextEditor::kToggleReadOnlyCmd,     kToggleReadOnlyAction     },
+	{ JTextEditor::kCheckSpellingCmd,      kCheckAllSpellingAction   },
+	{ JTextEditor::kCheckSpellingSelCmd,   kCheckSpellingSelAction   },
+	{ JTextEditor::kCleanRightMarginCmd,   kCleanRightMarginAction   },
+	{ JTextEditor::kCoerceRightMarginCmd,  kCoerceRightMarginAction  },
+	{ JTextEditor::kShiftSelLeftCmd,       kShiftSelLeftAction       },
+	{ JTextEditor::kShiftSelRightCmd,      kShiftSelRightAction      },
+	{ JTextEditor::kForceShiftSelLeftCmd,  kForceShiftSelLeftAction  },
+	{ JTextEditor::kShowWhitespaceCmd,     kShowWhitespaceAction     },
+	{ JTextEditor::kCleanAllWhitespaceCmd, kCleanAllWhitespaceAction },
+	{ JTextEditor::kCleanWhitespaceSelCmd, kCleanWhitespaceSelAction },
+	{ JTextEditor::kCleanAllWSAlignCmd,    kCleanAllWSAlignAction    },
+	{ JTextEditor::kCleanWSAlignSelCmd,    kCleanWSAlignSelAction    },
+	{ JTextEditor::kToggleReadOnlyCmd,     kToggleReadOnlyAction     },
 };
 
 // used when setting images
@@ -209,15 +209,15 @@ static const JUtf8Byte* kWinSearchMenuStr =
 
 static const MenuItemInfo kSearchMenuItemInfo[] =
 {
-{ JTextEditor::kFindDialogCmd,            kJXFindDialogAction             },
-{ JTextEditor::kFindPreviousCmd,          kJXFindPreviousAction           },
-{ JTextEditor::kFindNextCmd,              kJXFindNextAction               },
-{ JTextEditor::kEnterSearchTextCmd,       kJXEnterSearchTextAction        },
-{ JTextEditor::kEnterReplaceTextCmd,      kJXEnterReplaceTextAction       },
-{ JTextEditor::kFindSelectionBackwardCmd, kJXFindSelectionBackwardsAction },
-{ JTextEditor::kFindSelectionForwardCmd,  kJXFindSelectionForwardAction   },
-{ JTextEditor::kFindClipboardBackwardCmd, kJXFindClipboardBackwardsAction },
-{ JTextEditor::kFindClipboardForwardCmd,  kJXFindClipboardForwardAction   }
+	{ JTextEditor::kFindDialogCmd,            kJXFindDialogAction             },
+	{ JTextEditor::kFindPreviousCmd,          kJXFindPreviousAction           },
+	{ JTextEditor::kFindNextCmd,              kJXFindNextAction               },
+	{ JTextEditor::kEnterSearchTextCmd,       kJXEnterSearchTextAction        },
+	{ JTextEditor::kEnterReplaceTextCmd,      kJXEnterReplaceTextAction       },
+	{ JTextEditor::kFindSelectionBackwardCmd, kJXFindSelectionBackwardsAction },
+	{ JTextEditor::kFindSelectionForwardCmd,  kJXFindSelectionForwardAction   },
+	{ JTextEditor::kFindClipboardBackwardCmd, kJXFindClipboardBackwardsAction },
+	{ JTextEditor::kFindClipboardForwardCmd,  kJXFindClipboardForwardAction   }
 };
 
 // used when setting images
@@ -267,20 +267,20 @@ static const JUtf8Byte* kWinReplaceMenuStr =
 
 static const MenuItemInfo kReplaceMenuItemInfo[] =
 {
-{ JTextEditor::kFindDialogCmd,            kJXFindDialogAction             },
-{ JTextEditor::kFindPreviousCmd,          kJXFindPreviousAction           },
-{ JTextEditor::kFindNextCmd,              kJXFindNextAction               },
-{ JTextEditor::kEnterSearchTextCmd,       kJXEnterSearchTextAction        },
-{ JTextEditor::kEnterReplaceTextCmd,      kJXEnterReplaceTextAction       },
-{ JTextEditor::kFindSelectionBackwardCmd, kJXFindSelectionBackwardsAction },
-{ JTextEditor::kFindSelectionForwardCmd,  kJXFindSelectionForwardAction   },
-{ JTextEditor::kFindClipboardBackwardCmd, kJXFindClipboardBackwardsAction },
-{ JTextEditor::kFindClipboardForwardCmd,  kJXFindClipboardForwardAction   },
-{ JTextEditor::kReplaceSelectionCmd,      kJXReplaceSelectionAction       },
-{ JTextEditor::kReplaceFindPrevCmd,       kJXReplaceFindPrevAction        },
-{ JTextEditor::kReplaceFindNextCmd,       kJXReplaceFindNextAction        },
-{ JTextEditor::kReplaceAllCmd,            kJXReplaceAllAction             },
-{ JTextEditor::kReplaceAllInSelectionCmd, kJXReplaceAllInSelectionAction  }
+	{ JTextEditor::kFindDialogCmd,            kJXFindDialogAction             },
+	{ JTextEditor::kFindPreviousCmd,          kJXFindPreviousAction           },
+	{ JTextEditor::kFindNextCmd,              kJXFindNextAction               },
+	{ JTextEditor::kEnterSearchTextCmd,       kJXEnterSearchTextAction        },
+	{ JTextEditor::kEnterReplaceTextCmd,      kJXEnterReplaceTextAction       },
+	{ JTextEditor::kFindSelectionBackwardCmd, kJXFindSelectionBackwardsAction },
+	{ JTextEditor::kFindSelectionForwardCmd,  kJXFindSelectionForwardAction   },
+	{ JTextEditor::kFindClipboardBackwardCmd, kJXFindClipboardBackwardsAction },
+	{ JTextEditor::kFindClipboardForwardCmd,  kJXFindClipboardForwardAction   },
+	{ JTextEditor::kReplaceSelectionCmd,      kJXReplaceSelectionAction       },
+	{ JTextEditor::kReplaceFindPrevCmd,       kJXReplaceFindPrevAction        },
+	{ JTextEditor::kReplaceFindNextCmd,       kJXReplaceFindNextAction        },
+	{ JTextEditor::kReplaceAllCmd,            kJXReplaceAllAction             },
+	{ JTextEditor::kReplaceAllInSelectionCmd, kJXReplaceAllInSelectionAction  }
 };
 
 // used when setting images
@@ -1910,12 +1910,12 @@ JXTEBase::StaticAppendEditMenu
 	JXTextMenu* editMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 	{
-		editMenu->SetMenuItems(kMacEditMenuStr, "JXTEBase");
+		editMenu->SetMenuItems(kMacEditMenuStr);
 	}
 	else
 	{
 		editMenu->SetShortcuts(JGetString("EditMenuShortcut::JXGlobal"));
-		editMenu->SetMenuItems(kWinEditMenuStr, "JXTEBase");
+		editMenu->SetMenuItems(kWinEditMenuStr);
 	}
 
 	editMenu->SetItemImage(kUndoIndex,  jx_edit_undo);
@@ -1936,11 +1936,11 @@ JXTEBase::StaticAppendEditMenu
 
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
-			editMenu->AppendMenuItems(kMacCheckSpellingMenuStr, "JXTEBase");
+			editMenu->AppendMenuItems(kMacCheckSpellingMenuStr);
 		}
 		else
 		{
-			editMenu->AppendMenuItems(kWinCheckSpellingMenuStr, "JXTEBase");
+			editMenu->AppendMenuItems(kWinCheckSpellingMenuStr);
 		}
 
 		editMenu->SetItemImage(itemCount+1, jx_spell_check);
@@ -1956,11 +1956,11 @@ JXTEBase::StaticAppendEditMenu
 
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
-			editMenu->AppendMenuItems(kMacAdjustMarginsMenuStr, "JXTEBase");
+			editMenu->AppendMenuItems(kMacAdjustMarginsMenuStr);
 		}
 		else
 		{
-			editMenu->AppendMenuItems(kWinAdjustMarginsMenuStr, "JXTEBase");
+			editMenu->AppendMenuItems(kWinAdjustMarginsMenuStr);
 		}
 
 		editMenu->SetItemImage(itemCount+1, jx_edit_clean_right_margin);
@@ -1979,11 +1979,11 @@ JXTEBase::StaticAppendEditMenu
 
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
-			editMenu->AppendMenuItems(kMacCleanWhitespaceMenuStr, "JXTEBase");
+			editMenu->AppendMenuItems(kMacCleanWhitespaceMenuStr);
 		}
 		else
 		{
-			editMenu->AppendMenuItems(kWinCleanWhitespaceMenuStr, "JXTEBase");
+			editMenu->AppendMenuItems(kWinCleanWhitespaceMenuStr);
 		}
 
 		editMenu->SetItemImage(itemCount+1, jx_show_whitespace);
@@ -1998,11 +1998,11 @@ JXTEBase::StaticAppendEditMenu
 
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
-			editMenu->AppendMenuItems(kMacReadOnlyMenuStr, "JXTEBase");
+			editMenu->AppendMenuItems(kMacReadOnlyMenuStr);
 		}
 		else
 		{
-			editMenu->AppendMenuItems(kWinReadOnlyMenuStr, "JXTEBase");
+			editMenu->AppendMenuItems(kWinReadOnlyMenuStr);
 		}
 
 		editMenu->SetItemImage(itemCount+1, jx_edit_read_only);
@@ -2085,12 +2085,12 @@ JXTEBase::AppendSearchMenu
 	itsSearchMenu = menuBar->AppendTextMenu(JGetString("SearchMenuTitle::JXTEBase"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 	{
-		itsSearchMenu->SetMenuItems(kMacSearchMenuStr, "JXTEBase");
+		itsSearchMenu->SetMenuItems(kMacSearchMenuStr);
 	}
 	else
 	{
 		itsSearchMenu->SetShortcuts(JGetString("SearchMenuShortcut::JXTEBase"));
-		itsSearchMenu->SetMenuItems(kWinSearchMenuStr, "JXTEBase");
+		itsSearchMenu->SetMenuItems(kWinSearchMenuStr);
 	}
 
 	itsSearchMenu->SetItemImage(kSFindCmd,              jx_find);
@@ -2125,12 +2125,12 @@ JXTEBase::AppendSearchReplaceMenu
 	itsReplaceMenu = menuBar->AppendTextMenu(JGetString("SearchMenuTitle::JXTEBase"));
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 	{
-		itsReplaceMenu->SetMenuItems(kMacReplaceMenuStr, "JXTEBase");
+		itsReplaceMenu->SetMenuItems(kMacReplaceMenuStr);
 	}
 	else
 	{
 		itsReplaceMenu->SetShortcuts(JGetString("SearchMenuShortcut::JXTEBase"));
-		itsReplaceMenu->SetMenuItems(kWinReplaceMenuStr, "JXTEBase");
+		itsReplaceMenu->SetMenuItems(kWinReplaceMenuStr);
 	}
 
 	itsReplaceMenu->SetItemImage(kSRFindCmd,              jx_find);

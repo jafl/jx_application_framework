@@ -12,8 +12,6 @@
 #ifndef _H_jXActionDefs
 #define _H_jXActionDefs
 
-#include "jXActions.h"	// for convenience
-
 // File menu
 
 #define kJXPageSetupAction		"PageSetup::JX"
