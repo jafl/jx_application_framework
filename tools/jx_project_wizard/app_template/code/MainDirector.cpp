@@ -141,18 +141,18 @@ MainDirector::BuildWindow()
 	// menus
 
 	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
-	itsFileMenu->SetMenuItems(kFileMenuStr, "MainDirector");
+	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&MainDirector::UpdateFileMenu,
 		&MainDirector::HandleFileMenu);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "MainDirector");
+	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &MainDirector::HandlePrefsMenu);
 
-	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "MainDirector", "MainHelp");
+	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "MainHelp");
 
 	// must be done after creating widgets
 

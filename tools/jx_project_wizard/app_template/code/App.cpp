@@ -128,12 +128,11 @@ JXTextMenu*
 App::CreateHelpMenu
 	(
 	JXMenuBar*			menuBar,
-	const JUtf8Byte*	idNamespace,
 	const JUtf8Byte*	sectionName
 	)
 {
 	JXTextMenu* menu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
-	menu->SetMenuItems(kHelpMenuStr, idNamespace);
+	menu->SetMenuItems(kHelpMenuStr);
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 
 	menu->SetItemImage(kHelpTOCCmd,    jx_help_toc);
