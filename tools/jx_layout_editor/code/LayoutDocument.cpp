@@ -295,7 +295,7 @@ LayoutDocument::BuildWindow()
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &LayoutDocument::HandlePrefsMenu);
 
-	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "LayoutDocument", "MainHelp");
+	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "MainHelp");
 
 	// must be done after creating widgets
 
