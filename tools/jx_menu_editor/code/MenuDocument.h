@@ -61,6 +61,9 @@ private:
 	void	BuildWindow();
 	void	ReadFile(std::istream& input);
 
+	void	GenerateCode() const;
+	bool	FindProjectRoot(const JString& path, JString* root) const;
+
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);
 

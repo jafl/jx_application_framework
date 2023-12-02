@@ -94,6 +94,7 @@ MenuDocument::Create
 	if (dlog->DoDialog())
 	{
 		*doc = jnew MenuDocument(dlog->GetString(), false);
+		(**doc).itsMenuTitleInput->GetText()->SetText(dlog->GetString());
 		(**doc).Activate();
 		return true;
 	}
@@ -265,6 +266,16 @@ MenuDocument::BuildWindow()
 	JXImage* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);
 
+	ListenTo(itsMenuTitleInput->GetText(), std::function([this](const JStyledText::TextChanged&)
+	{
+		DataModified();
+	}));
+
+	ListenTo(itsWindowsKeyInput->GetText(), std::function([this](const JStyledText::TextChanged&)
+	{
+		DataModified();
+	}));
+
 	// menus
 
 	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
@@ -296,7 +307,7 @@ MenuDocument::BuildWindow()
 	const JCoordinate kHeaderHeight = 20;
 
 	itsTable =
-		jnew MenuTable(menuBar, itsMenuTitleInput, editMenu,
+		jnew MenuTable(this, menuBar, itsMenuTitleInput, editMenu,
 					   scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 					   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	itsTable->FitToEnclosure();
@@ -401,8 +412,6 @@ MenuDocument::ReadFile
 /******************************************************************************
  WriteTextFile (virtual protected)
 
-	This must be overridden if WriteFile() is not overridden.
-
  ******************************************************************************/
 
 void
@@ -425,6 +434,118 @@ MenuDocument::WriteTextFile
 	output << std::endl;
 
 	itsTable->WriteMenuItems(output);
+
+	GenerateCode();
+}
+
+/******************************************************************************
+ GenerateCode (private)
+
+ ******************************************************************************/
+
+void
+MenuDocument::GenerateCode()
+	const
+{
+	bool onDisk;
+	const JString fullName = GetFullName(&onDisk);
+	assert( onDisk );
+
+	JString path, name, root, suffix;
+	JSplitPathAndName(fullName, &path, &name);
+	JSplitRootAndSuffix(name, &root, &suffix);
+
+	JString projRoot;
+	if (!FindProjectRoot(path, &projRoot))
+	{
+		JGetUserNotification()->ReportError(JGetString(""));
+	}
+
+	// header
+
+	JString headerFile = JCombinePathAndName(path, root);
+	headerFile         = JCombineRootAndSuffix(headerFile, "h");
+	std::ofstream headerOutput(headerFile.GetBytes());
+
+	JString title = itsMenuTitleInput->GetText()->GetText();
+	JStringIterator titleIter(&title);
+	while (titleIter.Next(" "))
+	{
+		titleIter.RemoveLastMatch();
+	}
+
+	const JUtf8Byte* headerMap[] =
+	{
+		"name",  root.GetBytes(),
+		"title", title.GetBytes()
+	};
+	JGetString("CodeHeader::MenuDocument", headerMap, sizeof(headerMap)).Print(headerOutput);
+
+	itsTable->GenerateCode(headerOutput);
+
+	JGetString("CodeFooter::MenuDocument").Print(headerOutput);
+
+	// strings
+
+	JString stringsFile = JCombinePathAndName(projRoot, JString("strings", JString::kNoCopy));
+	stringsFile         = JCombinePathAndName(stringsFile, root);
+	std::ofstream stringsOutput(stringsFile.GetBytes());
+
+	const JUtf8Byte* stringsMap[] =
+	{
+		"name",  root.GetBytes(),
+		"title", itsMenuTitleInput->GetText()->GetText().GetBytes()
+	};
+	JGetString("StringsHeader::MenuDocument", stringsMap, sizeof(stringsMap)).Print(stringsOutput);
+
+	itsTable->GenerateStrings(stringsOutput);
+}
+
+/******************************************************************************
+ FindProjectRoot (private)
+
+	Search directory tree up to root.
+
+ ******************************************************************************/
+
+bool
+MenuDocument::FindProjectRoot
+	(
+	const JString&	path,
+	JString*		root
+	)
+	const
+{
+	JString p = path, n;
+	do
+	{
+		n = JCombinePathAndName(p, JString("Makefile", JString::kNoCopy));
+		if (JFileExists(n))
+		{
+			*root = p;
+			return true;
+		}
+
+		n = JCombinePathAndName(p, JString("Make.header", JString::kNoCopy));
+		if (JFileExists(n))
+		{
+			*root = p;
+			return true;
+		}
+
+		n = JCombinePathAndName(p, JString("CMakeLists.txt", JString::kNoCopy));
+		if (JFileExists(n))
+		{
+			*root = p;
+			return true;
+		}
+
+		JSplitPathAndName(p, &p, &n);
+	}
+	while (!JIsRootDirectory(p));
+
+	root->Clear();
+	return false;
 }
 
 /******************************************************************************

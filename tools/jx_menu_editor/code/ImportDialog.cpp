@@ -120,6 +120,8 @@ ImportDialog::BuildWindow()
 		JXGetHelpManager()->ShowSection("ImportHelp");
 	}));
 
+	itsMenuText->SetIsRequired();
+
 	itsActionDefsFileInput->GetText()->SetText(theActionDefsFile);
 	itsActionDefsFileInput->ShouldRequireWritable(false);
 

@@ -20,7 +20,6 @@ static App*					theApplication  = nullptr;		// owns itself
 static PrefsManager*		thePrefsManager = nullptr;
 static MDIServer*			theMDIServer    = nullptr;
 static DocumentManager*		theDocManager   = nullptr;
-static JXWindowDirector*	theHiddenDir    = nullptr;
 
 /******************************************************************************
  CreateGlobals
@@ -47,8 +46,8 @@ CreateGlobals
 
 	// widgets hidden in permanent window
 
-	theHiddenDir         = jnew JXWindowDirector(JXGetPersistentWindowOwner());
-	JXWindow* permWindow = jnew JXWindow(theHiddenDir, 100, 100, JString::empty);
+	JXWindowDirector* permDir = jnew JXWindowDirector(JXGetPersistentWindowOwner());
+	JXWindow* permWindow      = jnew JXWindow(permDir, 100, 100, JString::empty);
 
 	theDocManager->CreateFileHistoryMenu(permWindow);
 
@@ -162,18 +161,6 @@ GetMDIServer()
 {
 	assert( theMDIServer != nullptr );
 	return theMDIServer;
-}
-
-/******************************************************************************
- GetHiddenDirector
-
- ******************************************************************************/
-
-JXWindowDirector*
-GetHiddenDirector()
-{
-	assert( theHiddenDir != nullptr );
-	return theHiddenDir;
 }
 
 /******************************************************************************

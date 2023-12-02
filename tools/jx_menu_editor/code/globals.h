@@ -16,7 +16,6 @@
 #include "PrefsManager.h"
 #include "DocumentManager.h"
 
-class JXWindowDirector;
 class MDIServer;
 
 App*				GetApplication();
@@ -24,7 +23,6 @@ DocumentManager*	GetDocumentManager();
 PrefsManager*		GetPrefsManager();
 void				ForgetPrefsManager();
 MDIServer*			GetMDIServer();
-JXWindowDirector*	GetHiddenDirector();
 
 const JString&	GetVersionNumberStr();
 JString			GetVersionStr();

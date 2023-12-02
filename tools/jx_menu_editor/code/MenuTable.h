@@ -17,10 +17,17 @@ class JXImageMenu;
 class JXInputField;
 class JXCharInput;
 class JXColHeaderWidget;
+class MenuDocument;
 
 class MenuTable : public JXEditTable, public JPrefObject
 {
 public:
+
+	enum
+	{
+		kJXIcon,
+		kLocalIcon
+	};
 
 	struct ItemInfo
 	{
@@ -62,7 +69,8 @@ public:
 
 public:
 
-	MenuTable(JXMenuBar* menuBar, JXTEBase* editMenuProvider, JXTextMenu* editMenu,
+	MenuTable(MenuDocument* doc, JXMenuBar* menuBar,
+			  JXTEBase* editMenuProvider, JXTextMenu* editMenu,
 			  JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 			  const HSizingOption hSizing, const VSizingOption vSizing,
 			  const JCoordinate x, const JCoordinate y,
@@ -85,6 +93,9 @@ public:
 						   const int keySym, const JXKeyModifiers& modifiers) override;
 
 	void	RemoveSelectedItem();
+
+	void	GenerateCode(std::ostream& output) const;
+	void	GenerateStrings(std::ostream& output) const;
 
 protected:
 
@@ -134,6 +145,7 @@ private:
 
 private:
 
+	MenuDocument*	itsDoc;
 	ItemList*		itsItemList;
 	JXTEBase*		itsEditMenuProvider;
 	JXTextMenu*		itsEditMenu;
@@ -155,7 +167,8 @@ private:
 
 	void	Import(const JString& menuText, const JString& enumText,
 				   const JString& actionDefsFile);
-	void	AddCoreActionDefs(JStringPtrMap<JString>* actionMap) const;
+	void	ImportActionDefs(const JString& fullName,
+							 JStringPtrMap<JString>* actionMap) const;
 
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex index);
