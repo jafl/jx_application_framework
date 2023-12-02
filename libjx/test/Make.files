@@ -23,5 +23,6 @@ code/TestFontManager
 .cpp ../code/JXMenuData
 .cpp ../code/JXButtonStates
 .cpp ../code/JXKeyModifiers
+.cpp ../code/jXMenuUtil
 .cpp ../code/jXEventUtil
 literal: ../../libjcore/libjcore.a

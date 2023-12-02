@@ -87,6 +87,7 @@
 .cpp ./code/JXStyleMenu
 .cpp ./code/JXStyleMenuDirector
 .cpp ./code/JXStyleMenuTable
+.cpp ./code/jXMenuUtil
 .cpp ./code/JXHistoryMenuBase
 .cpp ./code/JXStringHistoryMenu
 .cpp ./code/JXPathHistoryMenu

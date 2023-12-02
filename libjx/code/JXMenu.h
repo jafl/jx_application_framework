@@ -193,8 +193,6 @@ public:
 	static Style	GetDisplayStyle();
 	static void		SetDisplayStyle(const Style style);
 
-	static JXModifierKey	AdjustNMShortcutModifier(const JXModifierKey key);
-
 protected:
 
 	void	SetBaseItemData(JXMenuData* baseItemData);

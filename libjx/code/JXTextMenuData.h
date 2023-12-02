@@ -133,16 +133,7 @@ private:
 
 private:
 
-	void	ParseMenuItemStr(JString* text, bool* isActive,
-							 bool* hasSeparator, JXMenu::ItemType* type,
-							 JString* shortcuts, JString* nmShortcut,
-							 JString* id) const;
 	void	CleanOutTextItem(TextItemData* itemData);
-
-	bool	ParseNMShortcut(JString* str, int* key,
-								JXKeyModifiers* modifiers);
-	void	AdjustNMShortcutString(JString* str, const JUtf8Byte* origStr,
-								   const JXModifierKey newKey);
 
 	void	UpdateItemFonts(const JFont& oldFont, const JFont& newFont);
 

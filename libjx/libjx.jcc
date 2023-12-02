@@ -1,4 +1,4 @@
-jx_browser_data 93
+jx_browser_data 94
 # project tree
 0 "root"
 T
@@ -362,6 +362,10 @@ T
 2 "JXStyleMenuTable.cpp"
 F
 "./code/JXStyleMenuTable.cpp"
+T
+2 "jXMenuUtil.cpp"
+F
+"./code/jXMenuUtil.cpp"
 F
 T
 1 "Menus"

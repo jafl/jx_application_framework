@@ -1563,33 +1563,6 @@ JXMenu::Receive
 }
 
 /******************************************************************************
- AdjustNMShortcutModifier (static)
-
- ******************************************************************************/
-
-JXModifierKey
-JXMenu::AdjustNMShortcutModifier
-	(
-	const JXModifierKey key
-	)
-{
-	if ((theDisplayStyle == kMacintoshStyle && theDefaultStyle == kWindowsStyle) ||
-		(theDisplayStyle == kWindowsStyle   && theDefaultStyle == kMacintoshStyle))
-	{
-		if (key == kJXControlKeyIndex)
-		{
-			return kJXMetaKeyIndex;
-		}
-		else if (key == kJXMetaKeyIndex)
-		{
-			return kJXControlKeyIndex;
-		}
-	}
-
-	return key;
-}
-
-/******************************************************************************
  Menu ID routine (virtual)
 
  ******************************************************************************/

@@ -34,6 +34,7 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //	JXWidget:
 //		Fixed AdjustSize() to avoid crashing if the widget size goes negative.
 //	*** Removed unused, useless jXActions.h
+//	Created jXMenuUtils
 
 // version 4.0.0:
 //	Supports utf-8
