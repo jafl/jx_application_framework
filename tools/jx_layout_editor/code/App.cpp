@@ -26,9 +26,7 @@ static const JUtf8Byte* kHelpMenuStr =
 	"    About"
 	"%l| Table of Contents       %i" kJXHelpTOCAction
 	"  | Overview"
-	"  | Tutorial"
 	"  | This window       %k F1 %i" kJXHelpSpecificAction
-	"%l| Tip of the Day"
 	"%l| Changes"
 	"  | Credits";
 

@@ -28,7 +28,7 @@ public:
 	bool Contains(const std::type_info& key) const;
 	bool GetItem(const std::type_info& key, const JBroadcaster* obj, boost::any** f) const;
 	void SetItem(const std::type_info& key, JBroadcaster* obj, boost::any* f,
-					std::function<void()>* d);
+				 std::function<void()>* d);
 
 	bool GetList(const std::type_info& key, JArray<JBroadcasterMessageTuple>** f) const;
 

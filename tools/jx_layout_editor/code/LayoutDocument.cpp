@@ -262,7 +262,7 @@ LayoutDocument::BuildWindow()
 	// menus
 
 	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
-	itsFileMenu->SetMenuItems(kFileMenuStr, "LayoutDocument");
+	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&LayoutDocument::UpdateFileMenu,
@@ -277,7 +277,7 @@ LayoutDocument::BuildWindow()
 	jnew FileHistoryMenu(itsFileMenu, kRecentMenuCmd, menuBar);
 
 	itsEditMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
-	itsEditMenu->SetMenuItems(kEditMenuStr, "LayoutDocument");
+	itsEditMenu->SetMenuItems(kEditMenuStr);
 	itsEditMenu->SetUpdateAction(JXMenu::kDisableAll);
 	itsEditMenu->AttachHandlers(this,
 		&LayoutDocument::UpdateEditMenu,
@@ -291,7 +291,7 @@ LayoutDocument::BuildWindow()
 	itsEditMenu->SetItemImage(kClearCmd, jx_edit_clear);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "LayoutDocument");
+	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &LayoutDocument::HandlePrefsMenu);
 

@@ -10,13 +10,35 @@
 #include "App.h"
 #include "AboutDialog.h"
 #include "stringData.h"
+#include "actionDefs.h"
 #include "globals.h"
+#include <jx-af/jx/JXToolBar.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jcore/JSimpleProcess.h>
 #include <jx-af/jcore/JSubstitute.h>
 #include <jx-af/jcore/JMemoryManager.h>
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kAppSignature = "jx_memory_debugger";
+
+// Help menu
+
+static const JUtf8Byte* kHelpMenuStr =
+	"    About"
+	"%l| Table of Contents       %i" kJXHelpTOCAction
+	"  | Overview"
+	"  | This window       %k F1 %i" kJXHelpSpecificAction
+	"%l| Changes"
+	"  | Credits";
+
+enum
+{
+	kHelpAboutCmd = 1,
+	kHelpTOCCmd, kHelpOverviewCmd, kHelpWindowCmd,
+	kHelpChangeLogCmd, kHelpCreditsCmd
+};
 
 /******************************************************************************
  Constructor
@@ -119,6 +141,93 @@ App::OpenFile
 	subst.Substitute(&cmd);
 
 	JSimpleProcess::Create(cmd, true);
+}
+
+/******************************************************************************
+ CreateHelpMenu
+
+ ******************************************************************************/
+
+#include <jx-af/image/jx/jx_help_toc.xpm>
+#include <jx-af/image/jx/jx_help_specific.xpm>
+
+JXTextMenu*
+App::CreateHelpMenu
+	(
+	JXMenuBar*			menuBar,
+	const JUtf8Byte*	sectionName
+	)
+{
+	JXTextMenu* menu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
+	menu->SetMenuItems(kHelpMenuStr);
+	menu->SetUpdateAction(JXMenu::kDisableNone);
+
+	menu->SetItemImage(kHelpTOCCmd,    jx_help_toc);
+	menu->SetItemImage(kHelpWindowCmd, jx_help_specific);
+
+	ListenTo(menu, std::function([this, sectionName](const JXMenu::ItemSelected& msg)
+	{
+		HandleHelpMenu(sectionName, msg.GetIndex());
+	}));
+
+	return menu;
+}
+
+/******************************************************************************
+ AppendHelpMenuToToolBar
+
+ ******************************************************************************/
+
+void
+App::AppendHelpMenuToToolBar
+	(
+	JXToolBar*	toolBar,
+	JXTextMenu* menu
+	)
+{
+	toolBar->NewGroup();
+	toolBar->AppendButton(menu, kHelpTOCCmd);
+	toolBar->AppendButton(menu, kHelpWindowCmd);
+}
+
+/******************************************************************************
+ HandleHelpMenu (private)
+
+ ******************************************************************************/
+
+void
+App::HandleHelpMenu
+	(
+	const JUtf8Byte*	windowSectionName,
+	const JIndex		index
+	)
+{
+	if (index == kHelpAboutCmd)
+	{
+		DisplayAbout();
+	}
+
+	else if (index == kHelpTOCCmd)
+	{
+		JXGetHelpManager()->ShowTOC();
+	}
+	else if (index == kHelpOverviewCmd)
+	{
+		JXGetHelpManager()->ShowSection("OverviewHelp");
+	}
+	else if (index == kHelpWindowCmd)
+	{
+		JXGetHelpManager()->ShowSection(windowSectionName);
+	}
+
+	else if (index == kHelpChangeLogCmd)
+	{
+		JXGetHelpManager()->ShowChangeLog();
+	}
+	else if (index == kHelpCreditsCmd)
+	{
+		JXGetHelpManager()->ShowCredits();
+	}
 }
 
 /******************************************************************************

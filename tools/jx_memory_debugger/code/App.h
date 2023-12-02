@@ -10,7 +10,9 @@
 
 #include <jx-af/jx/JXApplication.h>
 
-class JString;
+class JXToolBar;
+class JXMenuBar;
+class JXTextMenu;
 
 class App : public JXApplication
 {
@@ -24,12 +26,19 @@ public:
 						 const JString& prevVersStr = JString::empty);
 	void	OpenFile(const JString& fileName, const JSize lineIndex);
 
+	JXTextMenu*	CreateHelpMenu(JXMenuBar* menuBar, const JUtf8Byte* sectionName);
+	void		AppendHelpMenuToToolBar(JXToolBar* toolBar, JXTextMenu* menu);
+
 	static const JUtf8Byte*	GetAppSignature();
 	static void				InitStrings();
 
 protected:
 
 	void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason) override;
+
+private:
+
+	void	HandleHelpMenu(const JUtf8Byte* windowSectionName, const JIndex index);
 };
 
 #endif

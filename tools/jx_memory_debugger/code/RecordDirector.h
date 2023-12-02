@@ -31,7 +31,6 @@ private:
 	JXPSPrinter*	itsPrinter;
 	JXTextMenu*		itsFileMenu;
 	JXTextMenu*		itsPrefsMenu;
-	JXTextMenu*		itsHelpMenu;
 
 // begin JXLayout
 
@@ -47,8 +46,6 @@ private:
 	void	HandleFileMenu(const JIndex index);
 
 	void	HandlePrefsMenu(const JIndex index);
-
-	void	HandleHelpMenu(const JIndex index);
 };
 
 #endif

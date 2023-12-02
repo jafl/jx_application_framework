@@ -16,7 +16,6 @@
 #include "globals.h"
 #include "actionDefs.h"
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
-#include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jx/JXWDManager.h>
 #include <jx-af/jx/JXWDMenu.h>
 #include <jx-af/jx/JXDisplay.h>
@@ -95,26 +94,6 @@ enum
 	kEditToolBarCmd,
 	kEditMacWinPrefsCmd,
 	kSaveWindSizeCmd
-};
-
-// Help menu
-
-static const JUtf8Byte* kHelpMenuStr =
-	"    About"
-	"%l| Table of Contents       %i" kJXHelpTOCAction
-	"  | Overview"
-	"  | This window       %k F1 %i" kJXHelpSpecificAction
-	"%l| Changes"
-	"  | Credits";
-
-enum
-{
-	kAboutCmd = 1,
-	kTOCCmd,
-	kOverviewCmd,
-	kThisWindowCmd,
-	kChangesCmd,
-	kCreditsCmd
 };
 
 // preferences
@@ -294,8 +273,6 @@ StatsDirector::DeleteDebugAcceptor()
  ******************************************************************************/
 
 #include "md_main_window_icon.xpm"
-#include <jx-af/image/jx/jx_help_specific.xpm>
-#include <jx-af/image/jx/jx_help_toc.xpm>
 
 void
 StatsDirector::BuildWindow()
@@ -445,14 +422,14 @@ StatsDirector::BuildWindow()
 	// menus
 
 	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
-	itsFileMenu->SetMenuItems(kFileMenuStr, "StatsDirector");
+	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&StatsDirector::UpdateFileMenu,
 		&StatsDirector::HandleFileMenu);
 
 	itsDataMenu = menuBar->AppendTextMenu(JGetString("DataMenuTitle::StatsDirector"));
-	itsDataMenu->SetMenuItems(kDataMenuStr, "StatsDirector");
+	itsDataMenu->SetMenuItems(kDataMenuStr);
 	itsDataMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsDataMenu->AttachHandlers(this,
 		&StatsDirector::UpdateDataMenu,
@@ -474,17 +451,11 @@ StatsDirector::BuildWindow()
 	menuBar->AppendMenu(windowsMenu);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "StatsDirector");
+	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &StatsDirector::HandlePrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
-	itsHelpMenu->SetMenuItems(kHelpMenuStr, "StatsDirector");
-	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsHelpMenu->AttachHandler(this, &StatsDirector::HandleHelpMenu);
-
-	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
-	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
+	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "MainHelp");
 
 	// must be done after creating widgets
 
@@ -494,9 +465,8 @@ StatsDirector::BuildWindow()
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFileMenu, kQuitCmd);
-		itsToolBar->NewGroup();
-		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
-		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
+
+		GetApplication()->AppendHelpMenuToToolBar(itsToolBar, helpMenu);
 	}
 
 	GetDisplay()->GetWDManager()->DirectorCreated(this);
@@ -1080,45 +1050,6 @@ StatsDirector::HandlePrefsMenu
 	else if (index == kSaveWindSizeCmd)
 	{
 		GetPrefsManager()->SaveWindowSize(kStatsDirectorWindSizeID, GetWindow());
-	}
-}
-
-/******************************************************************************
- HandleHelpMenu (private)
-
- ******************************************************************************/
-
-void
-StatsDirector::HandleHelpMenu
-	(
-	const JIndex index
-	)
-{
-	if (index == kAboutCmd)
-	{
-		GetApplication()->DisplayAbout();
-	}
-
-	else if (index == kTOCCmd)
-	{
-		JXGetHelpManager()->ShowTOC();
-	}
-	else if (index == kOverviewCmd)
-	{
-		JXGetHelpManager()->ShowSection("OverviewHelp");
-	}
-	else if (index == kThisWindowCmd)
-	{
-		JXGetHelpManager()->ShowSection("MainHelp");
-	}
-
-	else if (index == kChangesCmd)
-	{
-		JXGetHelpManager()->ShowChangeLog();
-	}
-	else if (index == kCreditsCmd)
-	{
-		JXGetHelpManager()->ShowCredits();
 	}
 }
 

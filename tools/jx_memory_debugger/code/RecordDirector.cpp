@@ -13,7 +13,6 @@
 #include "globals.h"
 #include "actionDefs.h"
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
-#include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jx/JXWDManager.h>
 #include <jx-af/jx/JXWDMenu.h>
 #include <jx-af/jx/JXDisplay.h>
@@ -61,26 +60,6 @@ enum
 	kEditToolBarCmd,
 	kEditMacWinPrefsCmd,
 	kSaveWindSizeCmd
-};
-
-// Help menu
-
-static const JUtf8Byte* kHelpMenuStr =
-	"    About"
-	"%l| Table of Contents       %i" kJXHelpTOCAction
-	"  | Overview"
-	"  | This window       %k F1 %i" kJXHelpSpecificAction
-	"%l| Changes"
-	"  | Credits";
-
-enum
-{
-	kAboutCmd = 1,
-	kTOCCmd,
-	kOverviewCmd,
-	kThisWindowCmd,
-	kChangesCmd,
-	kCreditsCmd
 };
 
 /******************************************************************************
@@ -134,8 +113,6 @@ RecordDirector::~RecordDirector()
 
 #include "md_main_window_icon.xpm"
 #include <jx-af/image/jx/jx_file_print.xpm>
-#include <jx-af/image/jx/jx_help_specific.xpm>
-#include <jx-af/image/jx/jx_help_toc.xpm>
 
 void
 RecordDirector::BuildWindow
@@ -197,7 +174,7 @@ RecordDirector::BuildWindow
 	// menus
 
 	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
-	itsFileMenu->SetMenuItems(kFileMenuStr, "RecordDirector");
+	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&RecordDirector::UpdateFileMenu,
@@ -214,17 +191,11 @@ RecordDirector::BuildWindow
 	menuBar->AppendMenu(windowsMenu);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "RecordDirector");
+	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &RecordDirector::HandlePrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
-	itsHelpMenu->SetMenuItems(kHelpMenuStr, "RecordDirector");
-	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsHelpMenu->AttachHandler(this, &RecordDirector::HandleHelpMenu);
-
-	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
-	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
+	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "RecordHelp");
 
 	// must be done after creating widgets
 
@@ -232,9 +203,8 @@ RecordDirector::BuildWindow
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFileMenu, kPrintCmd);
-		itsToolBar->NewGroup();
-		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
-		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
+
+		GetApplication()->AppendHelpMenuToToolBar(itsToolBar, helpMenu);
 	}
 
 	(GetDisplay()->GetWDManager())->DirectorCreated(this);
@@ -322,44 +292,5 @@ RecordDirector::HandlePrefsMenu
 	else if (index == kSaveWindSizeCmd)
 	{
 		(GetPrefsManager())->SaveWindowSize(kRecordDirectorWindSizeID, GetWindow());
-	}
-}
-
-/******************************************************************************
- HandleHelpMenu (private)
-
- ******************************************************************************/
-
-void
-RecordDirector::HandleHelpMenu
-	(
-	const JIndex index
-	)
-{
-	if (index == kAboutCmd)
-	{
-		GetApplication()->DisplayAbout();
-	}
-
-	else if (index == kTOCCmd)
-	{
-		(JXGetHelpManager())->ShowTOC();
-	}
-	else if (index == kOverviewCmd)
-	{
-		(JXGetHelpManager())->ShowSection("OverviewHelp");
-	}
-	else if (index == kThisWindowCmd)
-	{
-		(JXGetHelpManager())->ShowSection("RecordHelp");
-	}
-
-	else if (index == kChangesCmd)
-	{
-		(JXGetHelpManager())->ShowChangeLog();
-	}
-	else if (index == kCreditsCmd)
-	{
-		(JXGetHelpManager())->ShowCredits();
 	}
 }

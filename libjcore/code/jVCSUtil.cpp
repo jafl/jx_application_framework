@@ -117,13 +117,13 @@ JGetVCSType
 	// check git & new svn last, since they need to search directory tree up to root
 
 	if (JSearchGitRoot(p, &n))
-{
+	{
 		return kJGitType;
-}
+	}
 	else if (jSearchVCSRoot(p, kSubversionDirName, &n))
-{
+	{
 		return kJSVNType;
-}
+	}
 
 	return kJUnknownVCSType;
 }
@@ -641,7 +641,7 @@ jSearchVCSRoot
 
 		JSplitPathAndName(p, &p, &n);
 	}
-		while (!JIsRootDirectory(p));
+	while (!JIsRootDirectory(p));
 
 	vcsRoot->Clear();
 	return false;

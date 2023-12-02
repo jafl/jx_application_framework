@@ -46,7 +46,6 @@ private:
 	JXTextMenu*	itsFileMenu;
 	JXTextMenu*	itsDataMenu;
 	JXTextMenu*	itsPrefsMenu;
-	JXTextMenu*	itsHelpMenu;
 
 	JString						itsSocketName;
 	LinkAcceptor*				itsAcceptor;
@@ -108,8 +107,6 @@ private:
 	void	HandleDataMenu(const JIndex index);
 
 	void	HandlePrefsMenu(const JIndex index);
-
-	void	HandleHelpMenu(const JIndex index);
 };
 
 #endif
