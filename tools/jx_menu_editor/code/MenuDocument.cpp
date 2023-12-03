@@ -28,6 +28,7 @@
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jVCSUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -459,13 +460,27 @@ MenuDocument::GenerateCode()
 	if (!FindProjectRoot(path, &projRoot))
 	{
 		JGetUserNotification()->ReportError(JGetString(""));
+		return;
 	}
 
 	// header
 
-	JString headerFile = JCombinePathAndName(path, root);
-	headerFile         = JCombineRootAndSuffix(headerFile, "h");
-	std::ofstream headerOutput(headerFile.GetBytes());
+	JString headerFileName = JCombinePathAndName(path, root);
+	headerFileName         = JCombineRootAndSuffix(headerFileName, "h");
+
+	JString tempHeaderFileName;
+	const JError err = JCreateTempFile(&path, nullptr, &tempHeaderFileName);
+	if (!err.OK())
+	{
+		const JUtf8Byte* map[] =
+		{
+			"path", path.GetBytes(),
+			"err",  err.GetMessage().GetBytes()
+		};
+		JGetUserNotification()->ReportError(JGetString("CodeDirectoryNotWritable::MenuDocument", map, sizeof(map)));
+		return;
+	}
+	std::ofstream headerOutput(tempHeaderFileName.GetBytes());
 
 	JString title = itsMenuTitleInput->GetText()->GetText();
 	JStringIterator titleIter(&title);
@@ -484,6 +499,22 @@ MenuDocument::GenerateCode()
 	itsTable->GenerateCode(headerOutput);
 
 	JGetString("CodeFooter::MenuDocument").Print(headerOutput);
+	headerOutput.close();
+
+	// check if header file actually changed
+
+	JString origHeaderText, newHeaderText;
+	JReadFile(headerFileName, &origHeaderText);
+	JReadFile(tempHeaderFileName, &newHeaderText);
+	if (newHeaderText != origHeaderText)
+	{
+		JEditVCS(headerFileName);
+		JRenameFile(tempHeaderFileName, headerFileName, true);
+	}
+	else
+	{
+		JRemoveFile(tempHeaderFileName);
+	}
 
 	// strings
 

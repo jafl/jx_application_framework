@@ -1,14 +1,9 @@
-only set changed if table edit field modified
-
-file saves name (foo.xpm) & type (local or jx) of icon
-
-only update header file if content changed
-
------
-
 image
 	JXImageMenu to select icon
 	list built from contents of <include>/image/jx and local image directories
+	file saves name (foo.xpm) & type (local or jx) of icon
+
+-----
 
 text
 	recognize known strings and set associated id from jx_strings

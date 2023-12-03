@@ -762,9 +762,12 @@ MenuTable::ExtractInputData
 	if (cell.x == kWindowsKeyColumn)
 	{
 		assert( itsCharInput != nullptr );
-		info.windowsKey = itsCharInput->GetCharacter();
-		itsItemList->SetItem(cell.y, info);
-		itsDoc->DataModified();
+		if (itsCharInput->GetCharacter() != info.windowsKey)
+		{
+			info.windowsKey = itsCharInput->GetCharacter();
+			itsItemList->SetItem(cell.y, info);
+			itsDoc->DataModified();
+		}
 		return true;
 	}
 
@@ -791,9 +794,12 @@ MenuTable::ExtractInputData
 
 	if (itsTextInput->InputValid())
 	{
-		*s = itsTextInput->GetText()->GetText();
-		s->TrimWhitespace();
-		itsDoc->DataModified();
+		if (itsTextInput->GetText()->GetText() != *s)
+		{
+			*s = itsTextInput->GetText()->GetText();
+			s->TrimWhitespace();
+			itsDoc->DataModified();
+		}
 		return true;
 	}
 	else
