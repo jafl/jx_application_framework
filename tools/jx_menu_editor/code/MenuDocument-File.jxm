@@ -7,7 +7,7 @@ jx_menu_editor 0
 100
 100
 100
-100
+157
 100
 75
 
@@ -38,7 +38,7 @@ jx_menu_editor 0
 "Recent"
 ""
 ' 
-""
+"Recent::MenuDocument"
 "kRecentMenuCmd"
 1
 

@@ -2,21 +2,21 @@
 // Do not edit it directly!
 // Any changes you make will be silently overwritten.
 
-#ifndef _H_MenuDocument-File
-#define _H_MenuDocument-File
+#ifndef _H_MenuDocument_File
+#define _H_MenuDocument_File
 
 static const JUtf8Byte* kFileMenuStr =
-"New... %k Meta-N %i New::MenuDocument %l"
-"Open... %k Meta-O %i Open::MenuDocument"
-"Recent %l"
-"Save %k Meta-S %i Save::MenuDocument"
-"Save as... %k Ctrl-S %i SaveAs::MenuDocument"
-"Save a copy as... %k Ctrl-Shift-S %i SaveCopyAs::MenuDocument"
-"Revert to saved %i Revert::MenuDocument"
-"Save all %k Meta-Shift-S %i SaveAll::MenuDocument %l"
-"Show in file manager %i ShowInFileMgr::MenuDocument %l"
-"Close %k Meta-W %i CloseWindow::JX %l"
-"Quit %k Meta-Q %i Quit::JX"
+"* %i New::MenuDocument %l"
+"|* %i Open::MenuDocument"
+"|* %i Recent::MenuDocument %l"
+"|* %i Save::MenuDocument"
+"|* %i SaveAs::MenuDocument"
+"|* %i SaveCopyAs::MenuDocument"
+"|* %i Revert::MenuDocument"
+"|* %i SaveAll::MenuDocument %l"
+"|* %i ShowInFileMgr::MenuDocument %l"
+"|* %i CloseWindow::JX %l"
+"|* %i Quit::JX"
 ;
 
 enum {

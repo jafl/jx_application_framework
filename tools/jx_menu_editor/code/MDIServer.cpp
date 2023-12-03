@@ -58,7 +58,7 @@ MDIServer::HandleMDIRequest
 			MenuDocument::Create(*n, &doc);
 		}
 	}
-	else if (!ChooseFiles())
+	else if (!ChooseFiles() && !GetDocumentManager()->HasDocuments())
 	{
 		MenuDocument::Create(&doc);
 	}

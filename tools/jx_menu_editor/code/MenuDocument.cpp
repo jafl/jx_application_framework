@@ -26,6 +26,7 @@
 #include <jx-af/jx/JXGetStringDialog.h>
 #include <jx-af/jx/JXWebBrowser.h>
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
+#include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jVCSUtil.h>
@@ -33,31 +34,6 @@
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kFileSignature = "jx_menu_editor";
-
-// File menu
-
-static const JUtf8Byte* kFileMenuStr =
-	"    New...            %k Meta-N       %i" kNewMenuAction
-	"%l| Open...           %k Meta-O       %i" kOpenMenuAction
-	"  | Recent"
-	"%l| Save              %k Meta-S       %i" kSaveMenuAction
-	"  | Save as...        %k Ctrl-S       %i" kSaveMenuAsAction
-	"  | Save a copy as... %k Ctrl-Shift-S %i" kSaveMenuCopyAsAction
-	"  | Revert to saved                   %i" kRevertMenusAction
-	"  | Save all          %k Meta-Shift-S %i" kSaveAllMenusAction
-	"%l| Show in file manager              %i" kShowInFileMgrAction
-	"%l| Close             %k Meta-W       %i" kJXCloseWindowAction
-	"%l| Quit              %k Meta-Q       %i" kJXQuitAction;
-
-enum
-{
-	kNewCmd = 1,
-	kOpenCmd, kRecentMenuCmd,
-	kSaveCmd, kSaveAsCmd, kSaveCopyAsCmd, kRevertCmd, kSaveAllCmd,
-	kShowInFileMgrCmd,
-	kCloseCmd,
-	kQuitCmd
-};
 
 // Preferences menu
 
@@ -190,6 +166,7 @@ MenuDocument::~MenuDocument()
  ******************************************************************************/
 
 #include "main_window_icon.xpm"
+#include "MenuDocument-File.h"
 #include <jx-af/image/jx/jx_file_new.xpm>
 #include <jx-af/image/jx/jx_file_open.xpm>
 #include <jx-af/image/jx/jx_file_save.xpm>
@@ -444,6 +421,8 @@ MenuDocument::WriteTextFile
 
  ******************************************************************************/
 
+static const JRegex invalidCharPattern = "[^_a-zA-Z0-9]+";
+
 void
 MenuDocument::GenerateCode()
 	const
@@ -482,16 +461,25 @@ MenuDocument::GenerateCode()
 	}
 	std::ofstream headerOutput(tempHeaderFileName.GetBytes());
 
+	name = root;
+	JStringIterator nameIter(&name);
+	while (nameIter.Next(invalidCharPattern))
+	{
+		nameIter.ReplaceLastMatch("_");
+	}
+	nameIter.Invalidate();
+
 	JString title = itsMenuTitleInput->GetText()->GetText();
 	JStringIterator titleIter(&title);
-	while (titleIter.Next(" "))
+	while (titleIter.Next(invalidCharPattern))
 	{
 		titleIter.RemoveLastMatch();
 	}
+	titleIter.Invalidate();
 
 	const JUtf8Byte* headerMap[] =
 	{
-		"name",  root.GetBytes(),
+		"name",  name.GetBytes(),
 		"title", title.GetBytes()
 	};
 	JGetString("CodeHeader::MenuDocument", headerMap, sizeof(headerMap)).Print(headerOutput);
@@ -524,10 +512,11 @@ MenuDocument::GenerateCode()
 
 	const JUtf8Byte* stringsMap[] =
 	{
-		"name",  root.GetBytes(),
-		"title", itsMenuTitleInput->GetText()->GetText().GetBytes()
+		"name", name.GetBytes()
 	};
 	JGetString("StringsHeader::MenuDocument", stringsMap, sizeof(stringsMap)).Print(stringsOutput);
+
+	stringsOutput << itsMenuTitleInput->GetText()->GetText() << std::endl << std::endl;
 
 	itsTable->GenerateStrings(stringsOutput);
 }

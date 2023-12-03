@@ -4,10 +4,11 @@
 # Do not edit it directly!
 # Any changes you make will be silently overwritten.
 
-MenuTitle::MenuDocument-File "File"
+MenuTitle::MenuDocument_File "File"
 
 New::MenuDocument "New... %k Meta-N"
 Open::MenuDocument "Open... %k Meta-O"
+Recent::MenuDocument "Recent"
 Save::MenuDocument "Save %k Meta-S"
 SaveAs::MenuDocument "Save as... %k Ctrl-S"
 SaveCopyAs::MenuDocument "Save a copy as... %k Ctrl-Shift-S"
