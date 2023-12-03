@@ -89,9 +89,7 @@ StringsHeader::MenuDocument
 # Do not edit it directly!
 # Any changes you make will be silently overwritten.
 
-MenuTitle::$name \"$title\"
-
-"
+MenuTitle::$name "
 
 # MenuTable
 
@@ -106,5 +104,8 @@ Column8::MenuTable	"Separator"
 
 TableMenuTitle::MenuTable	"Table"
 
-MissingOpenQuote:MenuTable		"The menu definition text does not have a starting double quote."
-UnknownActionMacro:MenuTable	"Unable to find the definition for the macro $m."
+MissingOpenQuote:MenuTable				"The menu definition text does not have a starting double quote."
+UnknownActionMacro:MenuTable			"Unable to find the definition for the macro $m."
+IDCannotIncludeSpace::MenuTable			"The ID cannot contain spaces."
+EnumMustBeValidIdentifier::MenuTable	"The enum name must be a valid C identifier."
+InvalidShortcut::MenuTable				"This is not a valid shortcut.  Refer to the online help for more information."

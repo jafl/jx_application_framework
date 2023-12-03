@@ -726,6 +726,7 @@ MenuTable::CreateXInputField
 	if (cell.x == kTextColumn)
 	{
 		text = info.text;
+		itsTextInput->SetIsRequired();
 	}
 	else if (cell.x == kShortcutColumn)
 	{
@@ -734,10 +735,12 @@ MenuTable::CreateXInputField
 	else if (cell.x == kIDColumn)
 	{
 		text = info.id;
+		itsTextInput->SetIsRequired();
 	}
 	else if (cell.x == kEnumColumn)
 	{
 		text = info.enumName;
+		itsTextInput->SetIsRequired();
 	}
 	assert( text != nullptr );
 
@@ -750,6 +753,8 @@ MenuTable::CreateXInputField
  ExtractInputData (virtual protected)
 
  ******************************************************************************/
+
+static const JRegex enumPattern = "^[a-zA-Z][_a-zA-Z0-9]+$";
 
 bool
 MenuTable::ExtractInputData
@@ -781,14 +786,35 @@ MenuTable::ExtractInputData
 	else if (cell.x == kShortcutColumn)
 	{
 		s = info.shortcut;
+
+		JString tmp = itsTextInput->GetText()->GetText();
+		int key;
+		JXKeyModifiers mod(GetDisplay());
+		if (!JXParseNMShortcut(&tmp, &key, &mod, false))
+		{
+			JGetUserNotification()->ReportError(JGetString("InvalidShortcut::MenuTable"));
+			return false;
+		}
 	}
 	else if (cell.x == kIDColumn)
 	{
 		s = info.id;
+
+		if (itsTextInput->GetText()->GetText().Contains(" "))
+		{
+			JGetUserNotification()->ReportError(JGetString("IDCannotIncludeSpace::MenuTable"));
+			return false;
+		}
 	}
 	else if (cell.x == kEnumColumn)
 	{
 		s = info.enumName;
+
+		if (!enumPattern.Match(itsTextInput->GetText()->GetText()))
+		{
+			JGetUserNotification()->ReportError(JGetString("EnumMustBeValidIdentifier::MenuTable"));
+			return false;
+		}
 	}
 	assert( s != nullptr );
 
@@ -1470,10 +1496,15 @@ MenuTable::GenerateCode
 {
 	// definition
 
+	bool first = true;
 	for (const auto& item : *itsItemList)
 	{
 		output << '"';
-		item.text->Print(output);
+		if (!first)
+		{
+			output << '|';
+		}
+		output << '*';
 
 		if (item.type == JXMenu::kCheckboxType)
 		{
@@ -1482,17 +1513,6 @@ MenuTable::GenerateCode
 		else if (item.type == JXMenu::kRadioType)
 		{
 			output << " %r";
-		}
-
-		if (!item.shortcut->IsEmpty())
-		{
-			output << " %k ";
-			item.shortcut->Print(output);
-		}
-
-		if (item.windowsKey != ' ')
-		{
-			output << " %h " << item.windowsKey;
 		}
 
 		if (!item.id->IsEmpty())
@@ -1508,6 +1528,8 @@ MenuTable::GenerateCode
 
 		output << '"';
 		output << std::endl;
+
+		first = false;
 	}
 
 	output << ';' << std::endl << std::endl;
