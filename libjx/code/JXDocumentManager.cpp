@@ -759,7 +759,7 @@ JXDocumentManager::ActivateDocument
 	)
 {
 	const DocInfo info = itsDocList->GetItem(index);
-	(info.doc)->Activate();
+	info.doc->Activate();
 }
 
 /******************************************************************************
@@ -782,7 +782,7 @@ JXDocumentManager::GetDocument
 {
 	if (itsDocList->IndexValid(index))
 	{
-		*doc = (itsDocList->GetItem(index)).doc;
+		*doc = itsDocList->GetItem(index).doc;
 		return true;
 	}
 	else

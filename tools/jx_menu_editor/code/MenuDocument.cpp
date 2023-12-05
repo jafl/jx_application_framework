@@ -16,6 +16,7 @@
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXDocumentMenu.h>
 #include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jx/JXScrollbarSet.h>
 #include <jx-af/jx/JXStaticText.h>
@@ -245,7 +246,6 @@ MenuDocument::BuildWindow()
 	itsFileMenu->AttachHandlers(this,
 		&MenuDocument::UpdateFileMenu,
 		&MenuDocument::HandleFileMenu);
-
 	SetFileMenuIcons(itsFileMenu);
 
 	jnew FileHistoryMenu(itsFileMenu, kRecentMenuCmd, menuBar);
@@ -253,6 +253,10 @@ MenuDocument::BuildWindow()
 	JXTextMenu* editMenu = itsClassNameInput->AppendEditMenu(menuBar);
 	itsMenuTitleInput->ShareEditMenu(editMenu);
 	itsWindowsKeyInput->ShareEditMenu(editMenu);
+
+	menuBar->AppendMenu(
+		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
+							JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 10,10));
 
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MenuDocument_Preferences"));
 	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
