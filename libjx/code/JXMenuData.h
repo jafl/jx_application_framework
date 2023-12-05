@@ -267,7 +267,7 @@ JXMenuData::GetItemShortcuts
 	)
 	const
 {
-	*shortcuts = (itsBaseItemData->GetItem(index)).shortcuts;
+	*shortcuts = itsBaseItemData->GetItem(index).shortcuts;
 	return *shortcuts != nullptr;
 }
 
@@ -284,7 +284,7 @@ JXMenuData::GetItemID
 	)
 	const
 {
-	*id = (itsBaseItemData->GetItem(index)).id;
+	*id = itsBaseItemData->GetItem(index).id;
 	return *id != nullptr;
 }
 

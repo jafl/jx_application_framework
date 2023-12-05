@@ -480,9 +480,9 @@ JXMenu::SetToHiddenPopupMenu
 {
 	itsIsHiddenPopupMenuFlag = isHiddenPopup;
 	if (itsIsHiddenPopupMenuFlag)
-		{
+	{
 		Hide();
-		}
+	}
 }
 
 /******************************************************************************

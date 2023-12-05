@@ -962,21 +962,21 @@ JDirInfo::IsVisible
 	if (type == JDirEntry::kDir || type == JDirEntry::kDirLink)
 	{
 		return itsShowDirsFlag &&
-					(!itsFilterDirsFlag || MatchesNameFilter(entry)) &&
-					MatchesDirEntryFilter(entry);
+				(!itsFilterDirsFlag || MatchesNameFilter(entry)) &&
+				MatchesDirEntryFilter(entry);
 	}
 	else if (type == JDirEntry::kFile || type == JDirEntry::kFileLink ||
 			 type == JDirEntry::kBrokenLink)
 	{
 		return itsShowFilesFlag &&
-					MatchesNameFilter(entry) &&
-					MatchesDirEntryFilter(entry);
+				MatchesNameFilter(entry) &&
+				MatchesDirEntryFilter(entry);
 	}
 	else if (type == JDirEntry::kUnknown || type == JDirEntry::kUnknownLink)
 	{
 		return itsShowOthersFlag &&
-					MatchesNameFilter(entry) &&
-					MatchesDirEntryFilter(entry);
+				MatchesNameFilter(entry) &&
+				MatchesDirEntryFilter(entry);
 	}
 	else if (type == JDirEntry::kDoesNotExist)
 	{
@@ -998,8 +998,8 @@ void
 JDirInfo::SetWildcardFilter
 	(
 	const JString&	filterStr,
-	const bool	negate,
-	const bool	caseSensitive
+	const bool		negate,
+	const bool		caseSensitive
 	)
 {
 	JString regexStr;
@@ -1023,7 +1023,7 @@ JDirInfo::SetWildcardFilter
 void
 JDirInfo::SetWildcardFilter
 	(
-	JRegex*			filter,
+	JRegex*		filter,
 	const bool	dirInfoOwnsRegex,
 	const bool	negate
 	)

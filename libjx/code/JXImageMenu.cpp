@@ -106,7 +106,7 @@ JXImageMenu::InsertItem
 	(
 	const JIndex		index,
 	JXImage*			image,
-	const bool		menuOwnsImage,
+	const bool			menuOwnsImage,
 	const ItemType		type,
 	const JString&		id
 	)
@@ -185,8 +185,7 @@ JXImageMenu::CreateMenuWindow
 	JXWindowDirector* supervisor
 	)
 {
-	auto* dir =
-		jnew JXImageMenuDirector(supervisor, this, itsIconMenuData);
+	auto* dir = jnew JXImageMenuDirector(supervisor, this, itsIconMenuData);
 	return dir;
 }
 

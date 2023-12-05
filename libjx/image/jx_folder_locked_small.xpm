@@ -1,7 +1,7 @@
 /* XPM */
 static const char * jx_folder_locked_small[] = {
 "15 15 8 1",
-" 	c white",
+" 	c None",
 ".	c #808080808080",
 "X	c yellow",
 "o	c #C0C0C0C0C0C0",
