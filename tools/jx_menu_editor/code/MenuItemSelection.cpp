@@ -41,7 +41,7 @@ MenuItemSelection::MenuItemSelection
 	itsSrcRowIndex = cell.y;
 
 	std::ostringstream data;
-	MenuTable::WriteMenuItem(data, itemInfo);
+	table->WriteMenuItem(data, itemInfo);
 	data << std::ends;
 	itsData = data.str();
 

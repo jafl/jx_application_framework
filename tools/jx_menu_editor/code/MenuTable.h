@@ -12,6 +12,7 @@
 #include <jx-af/jx/JXMenu.h>	// need ItemType
 #include <jx-af/jcore/JPrefObject.h>
 
+class JDirInfo;
 class JXTextMenu;
 class JXImageMenu;
 class JXInputField;
@@ -22,12 +23,6 @@ class MenuDocument;
 class MenuTable : public JXEditTable, public JPrefObject
 {
 public:
-
-	enum
-	{
-		kJXIcon,
-		kLocalIcon
-	};
 
 	struct ItemInfo
 	{
@@ -85,8 +80,8 @@ public:
 	void	ReadMenuItems(std::istream& input);
 	void	WriteMenuItems(std::ostream& output) const;
 
-	static ItemInfo	ReadMenuItem(std::istream& input, const JFileVersion vers);
-	static void		WriteMenuItem(std::ostream& output, const ItemInfo& item);
+	ItemInfo	ReadMenuItem(std::istream& input, const JFileVersion vers);
+	void		WriteMenuItem(std::ostream& output, const ItemInfo& item) const;
 
 	bool	IsEditable(const JPoint& cell) const override;
 	void	HandleKeyPress(const JUtf8Character& c,
@@ -94,8 +89,11 @@ public:
 
 	void	RemoveSelectedItem();
 
-	void	GenerateCode(std::ostream& output) const;
-	void	GenerateStrings(std::ostream& output) const;
+	void	GenerateCode(std::ostream& output, const JString& className,
+						 const JString& menuTitle) const;
+	void	GenerateStrings(std::ostream& output, const JString& className) const;
+
+	void	FillInItemIDs(const JString& className);
 
 protected:
 
@@ -153,6 +151,8 @@ private:
 	JXTextMenu*		itsTypeMenu;
 	JXImageMenu*	itsIconMenu;
 
+	JPtrArray<JString>*	itsIconPathList;
+
 	JXInputField*	itsTextInput;
 	JXCharInput*	itsCharInput;
 
@@ -170,6 +170,8 @@ private:
 	void	ImportActionDefs(const JString& fullName,
 							 JStringPtrMap<JString>* actionMap) const;
 
+	void	GenerateUniqueID(ItemInfo* info);
+
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex index);
 
@@ -179,6 +181,8 @@ private:
 	void	HandleTypeMenu(const JIndex index);
 
 	void	HandleIconMenu(const JIndex index);
+	void	BuildIconMenu();
+	void	LoadIcons(const JDirInfo& info);
 };
 
 #endif

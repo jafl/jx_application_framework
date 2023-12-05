@@ -182,14 +182,14 @@ argument: GetPrefsManager(), kMenuDocToolBarID, menuBar,
 
 =============== FORM ===============
 Name: MenuDocument__EditorLayout__toolBarEnclosure
-Width: 500
+Width: 600
 Height: 300
-Number of Objects: 6
+Number of Objects: 8
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 500 300
+box: 0 0 600 300
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -205,9 +205,27 @@ callback:
 argument: 
 
 --------------------
+class: FL_INPUT
+type: FL_NORMAL_INPUT
+box: 80 10 140 20
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: itsClassNameInput
+callback: 
+argument: 
+
+--------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 0 10 70 20
+box: 230 10 70 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -225,7 +243,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 70 10 240 20
+box: 300 10 130 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -235,7 +253,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_North FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsMenuTitleInput
 callback: 
 argument: 
@@ -243,7 +261,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 320 10 130 20
+box: 440 10 130 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -253,7 +271,7 @@ lcol: FL_BLACK
 label: Windows Alt shortcut:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (windowsAltLabel)
 callback: 
 argument: 
@@ -261,7 +279,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 450 10 50 20
+box: 570 10 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -271,7 +289,7 @@ lcol: FL_BLACK
 label: JXCharInput
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthEast FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsWindowsKeyInput
 callback: 
 argument: 
@@ -279,7 +297,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 40 500 260
+box: 0 40 600 260
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -291,6 +309,24 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: (scrollbarSet)
+callback: 
+argument: 
+
+--------------------
+class: FL_TEXT
+type: FL_NORMAL_TEXT
+box: 0 10 80 20
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Class name:
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: (classNameLabel)
 callback: 
 argument: 
 

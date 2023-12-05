@@ -11,11 +11,12 @@
 #include "MenuItemSelection.h"
 #include "MenuDocument.h"
 #include "ImportDialog.h"
+#include "ImageCache.h"
 #include "globals.h"
 #include "fileVersions.h"
-#include "actionDefs.h"
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXImageMenu.h>
@@ -23,11 +24,14 @@
 #include <jx-af/jx/JXCharInput.h>
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/jXMenuUtil.h>
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jMouseUtil.h>
 #include <jx-af/jcore/jASCIIConstants.h>
@@ -56,33 +60,8 @@ const JCoordinate kInitColWidth[] =
 
 const JSize kColCount = sizeof(kInitColWidth) / sizeof(JCoordinate);
 
-// Table menu
-
-static const JUtf8Byte* kTableMenuStr =
-	"    New item  %k Meta-Shift-N %i" kNewItemAction
-	"  | Duplicate selected item   %i" kDuplicateItemsAction
-	"%l| Import...                 %i" kImportMenuAction;
-
-enum
-{
-	kAppendCmd = 1,
-	kDuplicateCmd,
-	kImportCmd
-};
-
-// Type menu
-
-static const JUtf8Byte* kTypeMenuStr =
-	"  Plain %r"
-	"| Checkbox %r"
-	"| Radio button %r";
-
-enum
-{
-	kPlainCmd = 1,
-	kCheckboxCmd,
-	kRadioCmd
-};
+#include "MenuTable-Table.h"
+#include "MenuTable-Type.h"
 
 // prefs
 
@@ -122,9 +101,11 @@ MenuTable::MenuTable
 	itsMenuItemXAtom =
 		GetDisplay()->RegisterXAtom(MenuItemSelection::GetMenuItemXAtomName());
 
-	const JSize rowHeight = 2*kVMarginWidth +
-		JFontManager::GetDefaultFont().GetLineHeight(GetFontManager());
+	const JSize rowHeight = JMax((JSize) 18, 2*kVMarginWidth +
+		JFontManager::GetDefaultFont().GetLineHeight(GetFontManager()));
 	SetDefaultRowHeight(rowHeight);
+
+	itsIconPathList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 
 	// menus
 
@@ -143,14 +124,13 @@ MenuTable::MenuTable
 		&MenuTable::UpdateTypeMenu,
 		&MenuTable::HandleTypeMenu);
 
-	itsIconMenu = jnew JXImageMenu(JString::empty, 5, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-//	BuildIconMenu();
+	itsIconMenu = jnew JXImageMenu(JString::empty, 10, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	itsIconMenu->SetToHiddenPopupMenu();
 	itsIconMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsIconMenu->AttachHandler(this, &MenuTable::HandleIconMenu);
+	BuildIconMenu();
 
 	ListenTo(itsEditMenu);
-	ListenTo(itsIconMenu);
 
 	// data
 
@@ -162,9 +142,6 @@ MenuTable::MenuTable
 	}
 
 	JPrefObject::ReadPrefs();
-
-	AddItem();
-	CancelEditing();
 }
 
 /******************************************************************************
@@ -176,6 +153,8 @@ MenuTable::~MenuTable()
 {
 	itsItemList->DeleteAll();
 	jdelete itsItemList;
+
+	jdelete itsIconPathList;
 }
 
 /******************************************************************************
@@ -262,6 +241,15 @@ MenuTable::TableDrawCell
 	}
 	else if (cell.x == kIconColumn)
 	{
+		if (info.iconIndex > 0)
+		{
+			const JXImage* image = itsIconMenu->GetItemImage(info.iconIndex);
+			const JRect srcRect  = image->GetBounds();
+
+			JRect destRect(rect.center(), rect.center());
+			destRect.Expand(srcRect.width()/2, srcRect.height()/2);
+			p.Image(*image, srcRect, destRect.topLeft());
+		}
 	}
 	else if (cell.x == kSeparatorColumn)
 	{
@@ -735,7 +723,6 @@ MenuTable::CreateXInputField
 	else if (cell.x == kIDColumn)
 	{
 		text = info.id;
-		itsTextInput->SetIsRequired();
 	}
 	else if (cell.x == kEnumColumn)
 	{
@@ -778,6 +765,11 @@ MenuTable::ExtractInputData
 
 	assert( itsTextInput != nullptr );
 
+	if (!itsTextInput->InputValid())
+	{
+		return false;
+	}
+
 	JString* s = nullptr;
 	if (cell.x == kTextColumn)
 	{
@@ -790,7 +782,7 @@ MenuTable::ExtractInputData
 		JString tmp = itsTextInput->GetText()->GetText();
 		int key;
 		JXKeyModifiers mod(GetDisplay());
-		if (!JXParseNMShortcut(&tmp, &key, &mod, false))
+		if (!tmp.IsEmpty() && !JXParseNMShortcut(&tmp, &key, &mod, false))
 		{
 			JGetUserNotification()->ReportError(JGetString("InvalidShortcut::MenuTable"));
 			return false;
@@ -818,20 +810,13 @@ MenuTable::ExtractInputData
 	}
 	assert( s != nullptr );
 
-	if (itsTextInput->InputValid())
+	if (itsTextInput->GetText()->GetText() != *s)
 	{
-		if (itsTextInput->GetText()->GetText() != *s)
-		{
-			*s = itsTextInput->GetText()->GetText();
-			s->TrimWhitespace();
-			itsDoc->DataModified();
-		}
-		return true;
+		*s = itsTextInput->GetText()->GetText();
+		s->TrimWhitespace();
+		itsDoc->DataModified();
 	}
-	else
-	{
-		return false;
-	}
+	return true;
 }
 
 /******************************************************************************
@@ -1002,7 +987,7 @@ MenuTable::AddItem()
 					  JUtf8Character(' '), jnew JString, jnew JString, false);
 		itsItemList->AppendItem(info);
 		AppendRows(1);
-		BeginEditing(JPoint(kTextColumn, itsItemList->GetItemCount()));
+		BeginEditing(JPoint(kEnumColumn, itsItemList->GetItemCount()));
 	}
 }
 
@@ -1086,6 +1071,73 @@ MenuTable::HandleTypeMenu
 }
 
 /******************************************************************************
+ BuildIconMenu (private)
+
+ ******************************************************************************/
+
+static const JString coreIconPath(JX_INCLUDE_PATH "/image/jx", JString::kNoCopy);
+static const JString iconPattern("*.xpm", JString::kNoCopy);
+
+void
+MenuTable::BuildIconMenu()
+{
+	itsIconPathList->CleanOut();
+
+	JDirInfo* info;
+
+	JString iconPath;
+	if (itsDoc->ExistsOnDisk() &&
+		MenuDocument::FindProjectRoot(itsDoc->GetFilePath(), &iconPath))
+	{
+		iconPath = JCombinePathAndName(iconPath, JString("image", JString::kNoCopy));
+		if (JDirInfo::Create(iconPath, &info))
+		{
+			info->ShowDirs(false);
+			info->SetWildcardFilter(iconPattern);
+			LoadIcons(*info);
+			jdelete info;
+		}
+	}
+
+	if (JDirInfo::Create(coreIconPath, &info))
+	{
+		info->ShowDirs(false);
+		info->SetWildcardFilter(iconPattern);
+		LoadIcons(*info);
+		jdelete info;
+	}
+}
+
+/******************************************************************************
+ LoadIcons (private)
+
+ ******************************************************************************/
+
+static const JRegex excludeIconPattern = "_icon|_un_|_cursor|_busy|_large|_selected|_tip_of_the_day|new_planet_software";
+
+void
+MenuTable::LoadIcons
+	(
+	const JDirInfo& info
+	)
+{
+	for (const auto* e : info)
+	{
+		if (excludeIconPattern.Match(e->GetName()))
+		{
+			continue;
+		}
+
+		JXImage* image;
+		if (GetImageCache()->GetImage(e->GetFullName(), &image))
+		{
+			itsIconMenu->AppendItem(image, false);
+			itsIconPathList->Append(e->GetFullName());
+		}
+	}
+}
+
+/******************************************************************************
  HandleIconMenu (private)
 
  ******************************************************************************/
@@ -1096,8 +1148,16 @@ MenuTable::HandleIconMenu
 	const JIndex index
 	)
 {
-	// todo
-	// itsDoc->DataModified();
+	JPoint cell;
+	if (GetTableSelection().GetSingleSelectedCell(&cell))
+	{
+		ItemInfo info  = itsItemList->GetItem(cell.y);
+		info.iconIndex = index;
+		itsItemList->SetItem(cell.y, info);
+
+		TableRefreshCell(cell);
+		itsDoc->DataModified();
+	}
 }
 
 /******************************************************************************
@@ -1242,7 +1302,7 @@ MenuTable::ReadMenuItems
 }
 
 /******************************************************************************
- ReadMenuItem (static)
+ ReadMenuItem
 
  ******************************************************************************/
 
@@ -1258,11 +1318,26 @@ MenuTable::ReadMenuItem
 	int type;
 	input >> type;
 
-	int iconType;
+	bool isCoreIcon;
 	JString iconName;
-	input >> iconType >> iconName;
+	input >> isCoreIcon >> iconName;
 
-	JIndex iconIndex = 0;	// todo - lookup iconIndex
+	JIndex iconIndex = 0;
+	if (!iconName.IsEmpty())
+	{
+		iconName.Prepend(ACE_DIRECTORY_SEPARATOR_STR);
+		JIndex i = 0;
+		for (const auto* path : *itsIconPathList)
+		{
+			i++;
+			if (path->EndsWith(iconName) &&
+				((isCoreIcon && path->StartsWith(JX_INCLUDE_PATH)) || !isCoreIcon))
+			{
+				iconIndex = i;
+				break;
+			}
+		}
+	}
 
 	auto* text = jnew JString;
 	input >> *text;
@@ -1311,7 +1386,7 @@ MenuTable::WriteMenuItems
 }
 
 /******************************************************************************
- WriteMenuItem (static)
+ WriteMenuItem
 
  ******************************************************************************/
 
@@ -1321,11 +1396,16 @@ MenuTable::WriteMenuItem
 	std::ostream&	output,
 	const ItemInfo&	item
 	)
+	const
 {
 	output << item.type << std::endl;
 
-	// todo - convert item.iconIndex
-	output << kLocalIcon << "\"\"" << std::endl;
+	JString iconPath, iconName;
+	if (item.iconIndex > 0)
+	{
+		JSplitPathAndName(*itsIconPathList->GetItem(item.iconIndex), &iconPath, &iconName);
+	}
+	output << iconPath.StartsWith(JX_INCLUDE_PATH) << ' ' << iconName << std::endl;
 
 	output << *item.text << std::endl;
 	output << *item.shortcut << std::endl;
@@ -1341,9 +1421,9 @@ MenuTable::WriteMenuItem
  ******************************************************************************/
 
 static const JRegex actionUsePattern   = "\"\\s*([^\\s\";]+)\\s*\"?;?";
-static const JRegex emptyActionPattern = "\"\\s*\"";
+static const JRegex emptyActionPattern = "\"(\\s*\"|;)";
 
-static const JString coreActionDefsFile = JString(JX_INCLUDE_DIR "/jx/jXActionDefs.h", JString::kNoCopy);
+static const JString coreActionDefsFile = JString(JX_INCLUDE_PATH "/jx/jXActionDefs.h", JString::kNoCopy);
 
 void
 MenuTable::Import
@@ -1418,6 +1498,11 @@ MenuTable::Import
 			info.windowsKey = shortcuts.GetFirstCharacter();
 		}
 
+		if (info.id->IsEmpty())
+		{
+			GenerateUniqueID(&info);
+		}
+
 		itsItemList->AppendItem(info);
 	}
 
@@ -1483,6 +1568,63 @@ MenuTable::ImportActionDefs
 }
 
 /******************************************************************************
+ FillInItemIDs
+
+ ******************************************************************************/
+
+void
+MenuTable::FillInItemIDs
+	(
+	const JString& className
+	)
+{
+	for (auto info : *itsItemList)
+	{
+		if (info.id->IsEmpty())
+		{
+			GenerateUniqueID(&info);
+		}
+
+		if (info.enumName->IsEmpty())
+		{
+			info.enumName->Set(*info.id);
+		}
+	}
+
+	Refresh();
+}
+
+/******************************************************************************
+ GenerateUniqueID (private)
+
+ ******************************************************************************/
+
+static const JRegex invalidCharPattern = "[^_a-zA-Z0-9]+";
+
+void
+MenuTable::GenerateUniqueID
+	(
+	ItemInfo* info
+	)
+{
+	info->id->Set(*info->text);
+
+	JStringIterator iter(info->id);
+	JUtf8Character c;
+	while (iter.Next(invalidCharPattern))
+	{
+		iter.RemoveLastMatch();
+		if (iter.Next(&c, JStringIterator::kStay))
+		{
+			iter.SetNext(c.ToUpper());
+		}
+	}
+	iter.Invalidate();
+
+	info->id->Prepend(JXToolBar::kIgnorePrefix);
+}
+
+/******************************************************************************
  GenerateCode
 
  ******************************************************************************/
@@ -1490,7 +1632,9 @@ MenuTable::ImportActionDefs
 void
 MenuTable::GenerateCode
 	(
-	std::ostream& output
+	std::ostream&	output,
+	const JString&	className,
+	const JString&	menuTitle
 	)
 	const
 {
@@ -1504,7 +1648,7 @@ MenuTable::GenerateCode
 		{
 			output << '|';
 		}
-		output << '*';
+		output << '*';		// actual text stored in strings file
 
 		if (item.type == JXMenu::kCheckboxType)
 		{
@@ -1519,6 +1663,8 @@ MenuTable::GenerateCode
 		{
 			output << " %i ";
 			item.id->Print(output);
+			output << "::";
+			className.Print(output);
 		}
 
 		if (item.separator)
@@ -1538,18 +1684,70 @@ MenuTable::GenerateCode
 
 	output << "enum {" << std::endl;
 
-	JIndex i = 0;
+	first = true;
 	for (const auto& item : *itsItemList)
 	{
-		i++;
-		if (!item.enumName->IsEmpty())
+		item.enumName->Print(output);
+		if (first)
 		{
-			item.enumName->Print(output);
-			output << " = " << i << ',' << std::endl;
+			output << "=1";
+			first = false;
 		}
+		output << ',' << std::endl;
 	}
 
-	output << "};" << std::endl;
+	output << "};" << std::endl << std::endl;
+
+	// attach icons
+
+	bool hasIcons = false;
+	JString p, n;
+	for (const auto& item : *itsItemList)
+	{
+		if (item.iconIndex > 0)
+		{
+			const auto* path      = itsIconPathList->GetItem(item.iconIndex);
+			const bool isCoreIcon = path->StartsWith(JX_INCLUDE_PATH);
+			JSplitPathAndName(*path, &p, &n);
+
+			output << "#include ";
+			output << (isCoreIcon ? "<jx-af/image/jx/" : "\"");
+			n.Print(output);
+			output << (isCoreIcon ? '>' : '"') << std::endl;
+
+			hasIcons = true;
+		}
+	}
+	output << std::endl;
+
+	if (hasIcons)
+	{
+		const JUtf8Byte* map[] =
+		{
+			"title", menuTitle.GetBytes()
+		};
+		JGetString("SetIconsHeader::MenuTable", map, sizeof(map)).Print(output);
+
+		JString icon;
+		for (const auto& item : *itsItemList)
+		{
+			if (item.iconIndex > 0)
+			{
+				JSplitPathAndName(*itsIconPathList->GetItem(item.iconIndex), &p, &n);
+				JSplitRootAndSuffix(n, &icon, &p);
+
+				const JUtf8Byte* map[] =
+				{
+					"enum", item.enumName->GetBytes(),
+					"icon", icon.GetBytes()
+				};
+				JGetString("SetIconsLine::MenuTable", map, sizeof(map)).Print(output);
+				output << std::endl;
+			}
+		}
+
+		output << "};" << std::endl;
+	}
 }
 
 /******************************************************************************
@@ -1560,7 +1758,8 @@ MenuTable::GenerateCode
 void
 MenuTable::GenerateStrings
 	(
-	std::ostream& output
+	std::ostream&	output,
+	const JString&	className
 	)
 	const
 {
@@ -1587,6 +1786,8 @@ MenuTable::GenerateStrings
 		}
 
 		item.id->Print(output);
+		output << "::";
+		className.Print(output);
 		output << ' ' << s << std::endl;
 	}
 }

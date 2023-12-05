@@ -1,0 +1,76 @@
+jx_menu_editor 0
+670 300
+"App"
+"Help"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"About"
+""
+' 
+"__About"
+"kHelpAboutCmd"
+1
+
+1
+0
+1 "jx_help_toc.xpm"
+"Table of Contents"
+""
+' 
+"HelpTOC"
+"kHelpTOCCmd"
+0
+
+1
+0
+0 ""
+"Overview"
+""
+' 
+"__Overview"
+"kHelpOverviewCmd"
+0
+
+1
+0
+1 "jx_help_specific.xpm"
+"This window"
+"F1"
+' 
+"HelpSpecific"
+"kHelpWindowCmd"
+1
+
+1
+0
+0 ""
+"Changes"
+""
+' 
+"__Changes"
+"kHelpChangeLogCmd"
+0
+
+1
+0
+0 ""
+"Credits"
+""
+' 
+"__Credits"
+"kHelpCreditsCmd"
+0
+
+0

@@ -13,7 +13,6 @@
 #include "MDIServer.h"
 #include "globals.h"
 #include "fileVersions.h"
-#include "actionDefs.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
@@ -35,22 +34,6 @@
 
 static const JUtf8Byte* kFileSignature = "jx_menu_editor";
 
-// Preferences menu
-
-static const JUtf8Byte* kPrefsMenuStr =
-	"    Edit tool bar..."
-	"  | File manager..."
-	"  | Mac/Win/X emulation..."
-	"%l| Save table layout as default";
-
-enum
-{
-	kEditToolBarCmd = 1,
-	kFilePrefsCmd,
-	kEditMacWinPrefsCmd,
-	kSaveLayoutPrefsCmd
-};
-
 /******************************************************************************
  Create (static)
 
@@ -64,20 +47,9 @@ MenuDocument::Create
 	MenuDocument** doc
 	)
 {
-	auto* dlog = jnew JXGetStringDialog(
-		JGetString("NewMenuNameWindowTitle::MenuDocument"),
-		JGetString("EditMenuNamePrompt::MenuDocument"));
-
-	if (dlog->DoDialog())
-	{
-		*doc = jnew MenuDocument(dlog->GetString(), false);
-		(**doc).itsMenuTitleInput->GetText()->SetText(dlog->GetString());
-		(**doc).Activate();
-		return true;
-	}
-
-	*doc = nullptr;
-	return false;
+	*doc = jnew MenuDocument(GetDocumentManager()->GetNewFileName(), false);
+	(**doc).Activate();
+	return true;
 }
 
 /******************************************************************************
@@ -167,17 +139,7 @@ MenuDocument::~MenuDocument()
 
 #include "main_window_icon.xpm"
 #include "MenuDocument-File.h"
-#include <jx-af/image/jx/jx_file_new.xpm>
-#include <jx-af/image/jx/jx_file_open.xpm>
-#include <jx-af/image/jx/jx_file_save.xpm>
-#include <jx-af/image/jx/jx_file_revert_to_saved.xpm>
-#include <jx-af/image/jx/jx_file_save_all.xpm>
-#include <jx-af/image/jx/jx_edit_undo.xpm>
-#include <jx-af/image/jx/jx_edit_redo.xpm>
-#include <jx-af/image/jx/jx_edit_cut.xpm>
-#include <jx-af/image/jx/jx_edit_copy.xpm>
-#include <jx-af/image/jx/jx_edit_paste.xpm>
-#include <jx-af/image/jx/jx_edit_clear.xpm>
+#include "MenuDocument-Preferences.h"
 
 void
 MenuDocument::BuildWindow()
@@ -203,34 +165,45 @@ MenuDocument::BuildWindow()
 // begin EditorLayout
 
 	const JRect EditorLayout_Aperture = toolBarEnclosure->GetAperture();
-	toolBarEnclosure->AdjustSize(500 - EditorLayout_Aperture.width(), 300 - EditorLayout_Aperture.height());
+	toolBarEnclosure->AdjustSize(600 - EditorLayout_Aperture.width(), 300 - EditorLayout_Aperture.height());
+
+	itsClassNameInput =
+		jnew JXInputField(toolBarEnclosure,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,10, 140,20);
+	assert( itsClassNameInput != nullptr );
 
 	auto* menuTitleLabel =
 		jnew JXStaticText(JGetString("menuTitleLabel::MenuDocument::EditorLayout"), toolBarEnclosure,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,10, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,10, 70,20);
 	assert( menuTitleLabel != nullptr );
 	menuTitleLabel->SetToLabel();
 
 	itsMenuTitleInput =
 		jnew JXInputField(toolBarEnclosure,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 70,10, 240,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 300,10, 130,20);
 	assert( itsMenuTitleInput != nullptr );
 
 	auto* windowsAltLabel =
 		jnew JXStaticText(JGetString("windowsAltLabel::MenuDocument::EditorLayout"), toolBarEnclosure,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,10, 130,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 440,10, 130,20);
 	assert( windowsAltLabel != nullptr );
 	windowsAltLabel->SetToLabel();
 
 	itsWindowsKeyInput =
 		jnew JXCharInput(toolBarEnclosure,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 450,10, 50,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 570,10, 30,20);
 	assert( itsWindowsKeyInput != nullptr );
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(toolBarEnclosure,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,40, 500,260);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,40, 600,260);
 	assert( scrollbarSet != nullptr );
+
+	auto* classNameLabel =
+		jnew JXStaticText(JGetString("classNameLabel::MenuDocument::EditorLayout"), toolBarEnclosure,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,10, 80,20);
+	assert( classNameLabel != nullptr );
+	classNameLabel->SetToLabel();
 
 	toolBarEnclosure->SetSize(EditorLayout_Aperture.width(), EditorLayout_Aperture.height());
 
@@ -244,8 +217,18 @@ MenuDocument::BuildWindow()
 	JXImage* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);
 
+	itsClassNameInput->SetIsRequired();
+	itsMenuTitleInput->SetIsRequired();
+
+	ListenTo(itsClassNameInput->GetText(), std::function([this](const JStyledText::TextChanged&)
+	{
+		UpdateUnsavedFileName();
+		DataModified();
+	}));
+
 	ListenTo(itsMenuTitleInput->GetText(), std::function([this](const JStyledText::TextChanged&)
 	{
+		UpdateUnsavedFileName();
 		DataModified();
 	}));
 
@@ -256,25 +239,23 @@ MenuDocument::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("MenuTitle::MenuDocument_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&MenuDocument::UpdateFileMenu,
 		&MenuDocument::HandleFileMenu);
 
-	itsFileMenu->SetItemImage(kNewCmd,     jx_file_new);
-	itsFileMenu->SetItemImage(kOpenCmd,    jx_file_open);
-	itsFileMenu->SetItemImage(kSaveCmd,    jx_file_save);
-	itsFileMenu->SetItemImage(kRevertCmd,  jx_file_revert_to_saved);
-	itsFileMenu->SetItemImage(kSaveAllCmd, jx_file_save_all);
+	SetFileMenuIcons(itsFileMenu);
 
 	jnew FileHistoryMenu(itsFileMenu, kRecentMenuCmd, menuBar);
 
-	JXTextMenu* editMenu = itsMenuTitleInput->AppendEditMenu(menuBar);
+	JXTextMenu* editMenu = itsClassNameInput->AppendEditMenu(menuBar);
+	itsMenuTitleInput->ShareEditMenu(editMenu);
+	itsWindowsKeyInput->ShareEditMenu(editMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MenuDocument_Preferences"));
+	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &MenuDocument::HandlePrefsMenu);
 
@@ -306,32 +287,29 @@ MenuDocument::BuildWindow()
 	itsToolBar->LoadPrefs();
 	if (itsToolBar->IsEmpty())
 	{
-		JIndex undo, redo, cut, copy, paste;
-		bool ok = itsMenuTitleInput->EditMenuCmdToIndex(JTextEditor::kUndoCmd, &undo);
-		assert( ok );
-		ok = itsMenuTitleInput->EditMenuCmdToIndex(JTextEditor::kRedoCmd, &redo);
-		assert( ok );
-		ok = itsMenuTitleInput->EditMenuCmdToIndex(JTextEditor::kCutCmd, &cut);
-		assert( ok );
-		ok = itsMenuTitleInput->EditMenuCmdToIndex(JTextEditor::kCopyCmd, &copy);
-		assert( ok );
-		ok = itsMenuTitleInput->EditMenuCmdToIndex(JTextEditor::kPasteCmd, &paste);
-		assert( ok );
-
 		itsToolBar->AppendButton(itsFileMenu, kNewCmd);
 		itsToolBar->AppendButton(itsFileMenu, kOpenCmd);
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsFileMenu, kSaveCmd);
 		itsToolBar->AppendButton(itsFileMenu, kSaveAllCmd);
-		itsToolBar->NewGroup();
-		itsToolBar->AppendButton(editMenu, undo);
-		itsToolBar->AppendButton(editMenu, redo);
-		itsToolBar->NewGroup();
-		itsToolBar->AppendButton(editMenu, cut);
-		itsToolBar->AppendButton(editMenu, copy);
-		itsToolBar->AppendButton(editMenu, paste);
 
 		GetApplication()->AppendHelpMenuToToolBar(itsToolBar, helpMenu);
+	}
+}
+
+/******************************************************************************
+ UpdateUnsavedFileName (private)
+
+ ******************************************************************************/
+
+void
+MenuDocument::UpdateUnsavedFileName()
+{
+	if (!ExistsOnDisk())
+	{
+		FileChanged(
+			itsClassNameInput->GetText()->GetText() + "-" + itsMenuTitleInput->GetText()->GetText(),
+			false);
 	}
 }
 
@@ -373,18 +351,39 @@ MenuDocument::ReadFile
 
 	GetWindow()->SetSize(w, h);
 
-	JString title;
-	input >> title;
+	JString className, title;
+	input >> className >> title;
 
 	JUtf8Character key;
 	JReadUntil(input, kCharacterMarker);
 	input >> key;
 
+	itsClassNameInput->GetText()->SetText(className);
 	itsMenuTitleInput->GetText()->SetText(title);
 	itsWindowsKeyInput->SetCharacter(key);
 
 	itsTable->ReadGeometry(input);
 	itsTable->ReadMenuItems(input);
+}
+
+/******************************************************************************
+ WriteFile (virtual protected)
+
+ ******************************************************************************/
+
+JError
+MenuDocument::WriteFile
+	(
+	const JString&	fullName,
+	const bool		safetySave
+	)
+	const
+{
+	if (!safetySave)
+	{
+		itsTable->FillInItemIDs(itsClassNameInput->GetText()->GetText());
+	}
+	return JXFileDocument::WriteFile(fullName, safetySave);
 }
 
 /******************************************************************************
@@ -405,6 +404,7 @@ MenuDocument::WriteTextFile
 	const JRect boundsG = GetWindow()->GetBoundsGlobal();
 	output << boundsG.width() << ' ' << boundsG.height() << std::endl;
 
+	output << itsClassNameInput->GetText()->GetText() << std::endl;
 	output << itsMenuTitleInput->GetText()->GetText() << std::endl;
 	output << kCharacterMarker << itsWindowsKeyInput->GetCharacter() << std::endl;
 
@@ -413,7 +413,10 @@ MenuDocument::WriteTextFile
 
 	itsTable->WriteMenuItems(output);
 
-	GenerateCode();
+	if (!safetySave)
+	{
+		GenerateCode();
+	}
 }
 
 /******************************************************************************
@@ -484,7 +487,7 @@ MenuDocument::GenerateCode()
 	};
 	JGetString("CodeHeader::MenuDocument", headerMap, sizeof(headerMap)).Print(headerOutput);
 
-	itsTable->GenerateCode(headerOutput);
+	itsTable->GenerateCode(headerOutput, itsClassNameInput->GetText()->GetText(), title);
 
 	JGetString("CodeFooter::MenuDocument").Print(headerOutput);
 	headerOutput.close();
@@ -518,11 +521,11 @@ MenuDocument::GenerateCode()
 
 	stringsOutput << itsMenuTitleInput->GetText()->GetText() << std::endl << std::endl;
 
-	itsTable->GenerateStrings(stringsOutput);
+	itsTable->GenerateStrings(stringsOutput, itsClassNameInput->GetText()->GetText());
 }
 
 /******************************************************************************
- FindProjectRoot (private)
+ FindProjectRoot (static)
 
 	Search directory tree up to root.
 
@@ -534,7 +537,6 @@ MenuDocument::FindProjectRoot
 	const JString&	path,
 	JString*		root
 	)
-	const
 {
 	JString p = path, n;
 	do
@@ -632,7 +634,10 @@ MenuDocument::HandleFileMenu
 
 	else if (index == kSaveCmd)
 	{
-		SaveInCurrentFile();
+		if (itsTable->EndEditing())
+		{
+			SaveInCurrentFile();
+		}
 	}
 	else if (index == kSaveAsCmd)
 	{
@@ -643,12 +648,15 @@ MenuDocument::HandleFileMenu
 			GetDocumentManager()->AddToFileHistoryMenu(fullName);
 		}
 
-		SaveInNewFile();
+		if (itsTable->EndEditing())
+		{
+			SaveInNewFile();
+		}
 	}
 	else if (index == kSaveCopyAsCmd)
 	{
 		JString fullName;
-		if (SaveCopyInNewFile(JString::empty, &fullName))
+		if (itsTable->EndEditing() && SaveCopyInNewFile(JString::empty, &fullName))
 		{
 			GetDocumentManager()->AddToFileHistoryMenu(fullName);
 		}

@@ -1,0 +1,46 @@
+jx_menu_editor 0
+670 300
+"MenuTable"
+"Type"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+2
+0 ""
+"Plain"
+""
+' 
+"__Plain"
+"kPlainCmd"
+0
+
+1
+2
+0 ""
+"Checkbox"
+""
+' 
+"__Checkbox"
+"kCheckboxCmd"
+0
+
+1
+2
+0 ""
+"Radio button"
+""
+' 
+"__RadioButton"
+"kRadioCmd"
+0
+
+0

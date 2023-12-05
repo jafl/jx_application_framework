@@ -15,22 +15,37 @@ static const JUtf8Byte* kFileMenuStr =
 "|* %i Revert::MenuDocument"
 "|* %i SaveAll::MenuDocument %l"
 "|* %i ShowInFileMgr::MenuDocument %l"
-"|* %i CloseWindow::JX %l"
-"|* %i Quit::JX"
+"|* %i CloseWindow::MenuDocument %l"
+"|* %i Quit::MenuDocument"
 ;
 
 enum {
-kNewCmd = 1,
-kOpenCmd = 2,
-kRecentMenuCmd = 3,
-kSaveCmd = 4,
-kSaveAsCmd = 5,
-kSaveCopyAsCmd = 6,
-kRevertCmd = 7,
-kSaveAllCmd = 8,
-kShowInFileMgrCmd = 9,
-kCloseCmd = 10,
-kQuitCmd = 11,
+kNewCmd=1,
+kOpenCmd,
+kRecentMenuCmd,
+kSaveCmd,
+kSaveAsCmd,
+kSaveCopyAsCmd,
+kRevertCmd,
+kSaveAllCmd,
+kShowInFileMgrCmd,
+kCloseCmd,
+kQuitCmd,
+};
+
+#include <jx-af/image/jx/jx_file_new.xpm>
+#include <jx-af/image/jx/jx_file_open.xpm>
+#include <jx-af/image/jx/jx_file_save.xpm>
+#include <jx-af/image/jx/jx_file_revert_to_saved.xpm>
+#include <jx-af/image/jx/jx_file_save_all.xpm>
+
+void SetFileMenuIcons(JXTextMenu* menu)
+{
+menu->SetItemImage(kNewCmd, jx_file_new);
+menu->SetItemImage(kOpenCmd, jx_file_open);
+menu->SetItemImage(kSaveCmd, jx_file_save);
+menu->SetItemImage(kRevertCmd, jx_file_revert_to_saved);
+menu->SetItemImage(kSaveAllCmd, jx_file_save_all);
 };
 
 #endif

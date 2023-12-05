@@ -1,5 +1,6 @@
 jx_menu_editor 0
-769 508
+730 362
+"MenuDocument"
 "File"
 ' 
 40
@@ -14,111 +15,111 @@ jx_menu_editor 0
 0
 1
 0
-1""
+1 "jx_file_new.xpm"
 "New..."
 "Meta-N"
 ' 
-"New::MenuDocument"
+"New"
 "kNewCmd"
 1
 
 1
 0
-1""
+1 "jx_file_open.xpm"
 "Open..."
 "Meta-O"
 ' 
-"Open::MenuDocument"
+"Open"
 "kOpenCmd"
 0
 
 1
 0
-1""
+0 ""
 "Recent"
 ""
 ' 
-"Recent::MenuDocument"
+"Recent"
 "kRecentMenuCmd"
 1
 
 1
 0
-1""
+1 "jx_file_save.xpm"
 "Save"
 "Meta-S"
 ' 
-"Save::MenuDocument"
+"Save"
 "kSaveCmd"
 0
 
 1
 0
-1""
+0 ""
 "Save as..."
 "Ctrl-S"
 ' 
-"SaveAs::MenuDocument"
+"SaveAs"
 "kSaveAsCmd"
 0
 
 1
 0
-1""
+0 ""
 "Save a copy as..."
 "Ctrl-Shift-S"
 ' 
-"SaveCopyAs::MenuDocument"
+"SaveCopyAs"
 "kSaveCopyAsCmd"
 0
 
 1
 0
-1""
+1 "jx_file_revert_to_saved.xpm"
 "Revert to saved"
 ""
 ' 
-"Revert::MenuDocument"
+"Revert"
 "kRevertCmd"
 0
 
 1
 0
-1""
+1 "jx_file_save_all.xpm"
 "Save all"
 "Meta-Shift-S"
 ' 
-"SaveAll::MenuDocument"
+"SaveAll"
 "kSaveAllCmd"
 1
 
 1
 0
-1""
+0 ""
 "Show in file manager"
 ""
 ' 
-"ShowInFileMgr::MenuDocument"
+"ShowInFileMgr"
 "kShowInFileMgrCmd"
 1
 
 1
 0
-1""
+0 ""
 "Close"
 "Meta-W"
 ' 
-"CloseWindow::JX"
+"CloseWindow"
 "kCloseCmd"
 1
 
 1
 0
-1""
+0 ""
 "Quit"
 "Meta-Q"
 ' 
-"Quit::JX"
+"Quit"
 "kQuitCmd"
 0
 

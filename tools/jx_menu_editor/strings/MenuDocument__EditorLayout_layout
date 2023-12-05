@@ -1,3 +1,4 @@
 0
 windowsAltLabel::MenuDocument::EditorLayout "Windows Alt shortcut:"
+classNameLabel::MenuDocument::EditorLayout "Class name:"
 menuTitleLabel::MenuDocument::EditorLayout "Menu title:"

@@ -1,0 +1,46 @@
+jx_menu_editor 0
+732 300
+"MenuTable"
+"Table"
+' 
+40
+40
+163
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"New item"
+"Meta-Shift-N"
+' 
+"New"
+"kAppendCmd"
+0
+
+1
+0
+0 ""
+"Duplicate selected item"
+""
+' 
+"Duplicate"
+"kDuplicateCmd"
+1
+
+1
+0
+0 ""
+"Import..."
+""
+' 
+"Import"
+"kImportCmd"
+0
+
+0

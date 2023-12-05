@@ -12,18 +12,18 @@ SEARCHDIRS := -I./code -I./image ${SEARCHDIRS}
 
 ifeq (${J_IS_RELEASE_BUILD},1)
   ifdef BREW_ROOT
-    JX_INCLUDE_DIR := ${BREW_ROOT}/include/jx-af
+    JX_INCLUDE_PATH := ${BREW_ROOT}/include/jx-af
   else
-    JX_INCLUDE_DIR := /usr/local/include/jx-af
+    JX_INCLUDE_PATH := /usr/local/include/jx-af
   endif
 else
-  JX_INCLUDE_DIR := $(shell cd ${JX_ROOT}; pwd)/include/jx-af
+  JX_INCLUDE_PATH := $(shell cd ${JX_ROOT}; pwd)/include/jx-af
 endif
 
 # makemake variables
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS} \
-               -DJX_INCLUDE_DIR=\"${JX_INCLUDE_DIR}/\"
+               -DJX_INCLUDE_PATH=\"${JX_INCLUDE_PATH}\"
 
 # library dependencies
 

@@ -157,5 +157,6 @@ ImportDialog::GetActionDefsFile()
 	JString fullName;
 	const bool ok = itsActionDefsFileInput->GetFile(&fullName);
 	assert( ok );
+	theActionDefsFile = fullName;
 	return fullName;
 }

@@ -10,7 +10,6 @@
 #include "App.h"
 #include "AboutDialog.h"
 #include "stringData.h"
-#include "actionDefs.h"
 #include "globals.h"
 #include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jx/JXMenuBar.h>
@@ -19,23 +18,6 @@
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kAppSignature = "jx_menu_editor";
-
-// Help menu
-
-static const JUtf8Byte* kHelpMenuStr =
-	"    About"
-	"%l| Table of Contents       %i" kJXHelpTOCAction
-	"  | Overview"
-	"  | This window       %k F1 %i" kJXHelpSpecificAction
-	"%l| Changes"
-	"  | Credits";
-
-enum
-{
-	kHelpAboutCmd = 1,
-	kHelpTOCCmd, kHelpOverviewCmd, kHelpWindowCmd,
-	kHelpChangeLogCmd, kHelpCreditsCmd
-};
 
 /******************************************************************************
  Constructor
@@ -116,8 +98,7 @@ App::DisplayAbout
 
  ******************************************************************************/
 
-#include <jx-af/image/jx/jx_help_toc.xpm>
-#include <jx-af/image/jx/jx_help_specific.xpm>
+#include "App-Help.h"
 
 JXTextMenu*
 App::CreateHelpMenu
@@ -126,12 +107,10 @@ App::CreateHelpMenu
 	const JUtf8Byte*	sectionName
 	)
 {
-	JXTextMenu* menu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
+	JXTextMenu* menu = menuBar->AppendTextMenu(JGetString("MenuTitle::App_Help"));
 	menu->SetMenuItems(kHelpMenuStr);
 	menu->SetUpdateAction(JXMenu::kDisableNone);
-
-	menu->SetItemImage(kHelpTOCCmd,    jx_help_toc);
-	menu->SetItemImage(kHelpWindowCmd, jx_help_specific);
+	SetHelpMenuIcons(menu);
 
 	ListenTo(menu, std::function([this, sectionName](const JXMenu::ItemSelected& msg)
 	{

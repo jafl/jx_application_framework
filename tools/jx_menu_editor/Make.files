@@ -11,6 +11,7 @@
 .cpp ./code/DocumentManager
 .cpp ./code/FileHistoryMenu
 .cpp ./code/MDIServer
+.cpp ./code/ImageCache
 .cpp ./code/AboutDialog
 .cpp ./code/MenuDocument
 .cpp ./code/MenuTable

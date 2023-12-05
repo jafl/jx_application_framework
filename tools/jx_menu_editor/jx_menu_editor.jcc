@@ -32,6 +32,10 @@ T
 F
 "./code/MDIServer.cpp"
 T
+2 "ImageCache.cpp"
+F
+"./code/ImageCache.cpp"
+T
 2 "AboutDialog.cpp"
 F
 "./code/AboutDialog.cpp"

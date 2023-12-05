@@ -28,10 +28,13 @@ public:
 
 	const JString&	GetName() const override;
 
+	static bool	FindProjectRoot(const JString& path, JString* root);
+
 protected:
 
 	MenuDocument(const JString& fullName, const bool onDisk);
 
+	JError	WriteFile(const JString& fullName, const bool safetySave) const override;
 	void	WriteTextFile(std::ostream& output, const bool safetySave) const override;
 	void	DiscardChanges() override;
 
@@ -51,6 +54,7 @@ private:
 
 // begin EditorLayout
 
+	JXInputField* itsClassNameInput;
 	JXInputField* itsMenuTitleInput;
 	JXCharInput*  itsWindowsKeyInput;
 
@@ -59,10 +63,10 @@ private:
 private:
 
 	void	BuildWindow();
+	void	UpdateUnsavedFileName();
 	void	ReadFile(std::istream& input);
 
 	void	GenerateCode() const;
-	bool	FindProjectRoot(const JString& path, JString* root) const;
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);

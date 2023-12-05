@@ -54,9 +54,6 @@ You have just upgraded from version $vers"
 
 # MenuDocument
 
-NewMenuNameWindowTitle::MenuDocument	"New Menu"
-EditMenuNamePrompt::MenuDocument		"Enter the name of this menu:"
-
 NeedNewerVersion::MenuDocument	"You need a newer version of this program to read this file."
 UnknownFile::MenuDocument		"Unable to read this file."
 
@@ -109,3 +106,10 @@ UnknownActionMacro:MenuTable			"Unable to find the definition for the macro $m."
 IDCannotIncludeSpace::MenuTable			"The ID cannot contain spaces."
 EnumMustBeValidIdentifier::MenuTable	"The enum name must be a valid C identifier."
 InvalidShortcut::MenuTable				"This is not a valid shortcut.  Refer to the online help for more information."
+
+SetIconsHeader::MenuTable
+"void Set$titleMenuIcons(JXTextMenu* menu)
+{
+"
+
+SetIconsLine::MenuTable	"menu->SetItemImage($enum, $icon);"

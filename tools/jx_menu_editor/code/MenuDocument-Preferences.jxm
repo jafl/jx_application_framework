@@ -1,0 +1,56 @@
+jx_menu_editor 0
+756 328
+"MenuDocument"
+"Preferences"
+' 
+40
+40
+207
+100
+100
+186
+100
+75
+
+0
+1
+0
+0 ""
+"Edit tool bar..."
+""
+' 
+"__EditToolBar"
+"kEditToolBarCmd"
+0
+
+1
+0
+0 ""
+"File manager..."
+""
+' 
+"__FileManager"
+"kFilePrefsCmd"
+0
+
+1
+0
+0 ""
+"Mac/Win/X emulation..."
+""
+' 
+"__MacWinXEmulation"
+"kEditMacWinPrefsCmd"
+1
+
+1
+0
+0 ""
+"Save table layout as default"
+""
+' 
+"__SaveTableLayoutAsDefault"
+"kSaveLayoutPrefsCmd"
+0
+
+0
