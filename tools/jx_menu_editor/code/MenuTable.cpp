@@ -60,6 +60,8 @@ const JCoordinate kInitColWidth[] =
 
 const JSize kColCount = sizeof(kInitColWidth) / sizeof(JCoordinate);
 
+static const JUtf8Byte* kNamespaceOperator = "::";
+
 #include "MenuTable-Table.h"
 #include "MenuTable-Type.h"
 
@@ -1663,8 +1665,11 @@ MenuTable::GenerateCode
 		{
 			output << " %i ";
 			item.id->Print(output);
-			output << "::";
-			className.Print(output);
+			if (!item.id->Contains(kNamespaceOperator))
+			{
+				output << kNamespaceOperator;
+				className.Print(output);
+			}
 		}
 
 		if (item.separator)
@@ -1786,8 +1791,11 @@ MenuTable::GenerateStrings
 		}
 
 		item.id->Print(output);
-		output << "::";
-		className.Print(output);
+		if (!item.id->Contains(kNamespaceOperator))
+		{
+			output << kNamespaceOperator;
+			className.Print(output);
+		}
 		output << ' ' << s << std::endl;
 	}
 }

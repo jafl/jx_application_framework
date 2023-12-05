@@ -108,7 +108,7 @@ EnumMustBeValidIdentifier::MenuTable	"The enum name must be a valid C identifier
 InvalidShortcut::MenuTable				"This is not a valid shortcut.  Refer to the online help for more information."
 
 SetIconsHeader::MenuTable
-"void Set$titleMenuIcons(JXTextMenu* menu)
+"static void Set$titleMenuIcons(JXTextMenu* menu)
 {
 "
 
