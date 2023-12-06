@@ -28,6 +28,8 @@ public:
 	bool		IsChecked() const;
 	void		ToggleChecked();
 
+	void	SetSeparator();
+
 private:
 
 	JXTextMenu*	itsMenu;
@@ -71,6 +73,17 @@ JXToolBarNode::HasSeparator()
 	const
 {
 	return itsHasSeparator;
+}
+
+/******************************************************************************
+ SetSeparator (public)
+
+ ******************************************************************************/
+
+inline void
+JXToolBarNode::SetSeparator()
+{
+	itsHasSeparator = true;
 }
 
 /******************************************************************************

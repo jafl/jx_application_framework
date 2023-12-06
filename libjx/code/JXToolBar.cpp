@@ -60,6 +60,8 @@ const JSize kMedButtonHeight   = 30;
 
 const JFileVersion kCurrentPrefsVersion	= 2;
 
+const JUtf8Byte* JXToolBar::kIgnorePrefix = "__";
+
 // JBroadcaster message types
 
 const JUtf8Byte* JXToolBar::kWantsToDrop = "WantsToDrop::JXToolBar";
@@ -421,9 +423,10 @@ JXToolBar::BuildTree()
 	{
 		auto* menu  = itsMenuBar->GetMenu(i);
 		auto* tmenu	= dynamic_cast<JXTextMenu*>(menu);
-		assert( tmenu != nullptr );
-
-		AddMenuToTree(tree, tmenu, base, tmenu->GetTitleText());
+		if (tmenu != nullptr)
+		{
+			AddMenuToTree(tree, tmenu, base, tmenu->GetTitleText());
+		}
 	}
 
 	return tree;
@@ -452,22 +455,34 @@ JXToolBar::AddMenuToTree
 	{
 		const JString& name1 = menu->GetItemText(i);
 		const JXMenu* sub;
+		const JString* id;
 		if (menu->GetSubmenu(i, &sub))
 		{
-			const auto* temp	= dynamic_cast<const JXTextMenu*>(sub);
-			auto* tsub = const_cast<JXTextMenu*>(temp);
-			AddMenuToTree(tree, tsub, mnode, name1);
-		}
-		else
-		{
-			const bool separator = menu->HasSeparatorAfter(i);
-			const bool checked   = ItemIsUsed(menu, i);
-
-			const JString* id;
-			if (menu->GetItemID(i, &id))
+			if (menu->HasSeparatorAfter(i) && mnode->HasChildren())
 			{
-				jnew JXToolBarNode(menu, i, separator, checked, tree, mnode, name1);
+				JIndex j = mnode->GetChildCount();
+				while (j > 0)
+				{
+					JXToolBarNode* tbn = dynamic_cast<JXToolBarNode*>(mnode->GetChild(j));
+					if (tbn != nullptr)
+					{
+						tbn->SetSeparator();
+						break;
+					}
+					j--;
+				}
 			}
+
+			const auto* temp = dynamic_cast<const JXTextMenu*>(sub);
+			auto* tsub       = const_cast<JXTextMenu*>(temp);
+			if (tsub != nullptr)
+			{
+				AddMenuToTree(tree, tsub, mnode, name1);
+			}
+		}
+		else if (menu->GetItemID(i, &id) && !id->StartsWith(kIgnorePrefix))
+		{
+			jnew JXToolBarNode(menu, i, menu->HasSeparatorAfter(i), ItemIsUsed(menu, i), tree, mnode, name1);
 		}
 	}
 

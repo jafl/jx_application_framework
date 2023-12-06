@@ -28,6 +28,8 @@ public:
 	friend class JXToolBarButton;
 	friend class JXAdjustToolBarGeometryTask;
 
+	static const JUtf8Byte* kIgnorePrefix;
+
 public:
 
 	JXToolBar(JPrefsManager* prefsMgr, const JPrefID& id, JXMenuBar* menuBar,

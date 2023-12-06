@@ -26,8 +26,6 @@ public:
 					 const JXToolBarButton::Type type);
 	~JXToolBarEditDialog() override;
 
-	bool	TreeChanged();
-
 	bool	ShowToolBar();
 	bool	UseSmallButtons();
 
@@ -40,7 +38,6 @@ private:
 
 	JTree*					itsTree;		// we don't own this
 	JXToolBarEditWidget*	itsWidget;
-	bool					itsTreeChanged;
 
 // begin JXLayout
 

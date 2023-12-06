@@ -49,14 +49,9 @@ JXToolBarEditDialog::JXToolBarEditDialog
 	)
 	:
 	JXModalDialogDirector(true),
-	itsTree(tree),
-	itsTreeChanged(false)
+	itsTree(tree)
 {
 	BuildWindow();
-	ListenTo(itsTree, std::function([this](const JTree::NodeChanged&)
-	{
-		itsTreeChanged = true;
-	}));
 
 	itsShowToolBarCB->SetState(show);
 	itsUseSmallButtonsCB->SetState(useSmall);
