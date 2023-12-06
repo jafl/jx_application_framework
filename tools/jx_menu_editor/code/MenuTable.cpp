@@ -1615,7 +1615,18 @@ MenuTable::FillInItemIDs
 
 		if (info.enumName->IsEmpty())
 		{
-			info.enumName->Set(*info.id);
+			JString s("__");
+			s += *info.id;
+
+			JStringIterator iter(&s);
+			if (iter.Next(kNamespaceOperator))
+			{
+				iter.SkipPrev(strlen(kNamespaceOperator));
+				iter.RemoveAllNext();
+			}
+			iter.Invalidate();
+
+			info.enumName->Set(s);
 		}
 	}
 
