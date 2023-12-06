@@ -1,0 +1,46 @@
+jx_menu_editor 0
+670 300
+"UndoWidgetDir"
+"Actions"
+'a
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Undo"
+"Meta-Z"
+'u
+"__Undo"
+"kUndo"
+0
+
+1
+0
+0 ""
+"Redo"
+"Meta-Shift-Z"
+'r
+"__Redo"
+"kRedo"
+1
+
+1
+0
+0 ""
+"Quit"
+"Meta-Q"
+'q
+"__Quit"
+"kQuit"
+0
+
+0

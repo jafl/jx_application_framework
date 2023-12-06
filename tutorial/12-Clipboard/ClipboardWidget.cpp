@@ -31,15 +31,7 @@
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-// This defines the menu items
-static const JUtf8Byte* kEditMenuStr =
-	"Copy %k Meta-C | Paste %k Meta-V";
-
-enum
-{
-	kCopyCmd = 1,
-	kPasteCmd
-};
+#include "ClipboardWidget-Edit.h"
 
 /******************************************************************************
  Constructor
@@ -76,6 +68,9 @@ ClipboardWidget::ClipboardWidget
 
 	// Listen for messages from the menu.
 	itsEditMenu->AttachHandler(this, &ClipboardWidget::HandleEditMenu);
+
+	// Apply configuration defined in the menu editor.
+	ConfigureEditMenu(itsEditMenu);
 
 	// Register the data types that we support.  The atoms that we need
 	// here, namely text atoms, are already defined, so we don't need to

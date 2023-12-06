@@ -18,8 +18,6 @@ DIR12 := ./12-Clipboard
 DIR13 := ./13-Undo
 DIR14 := ./14-DragAndDrop
 
-J_STRING_FILES := */strings
-
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
@@ -59,5 +57,5 @@ strings:
 	compile_jstrings \
         ${JX_INCLUDE_ROOT}/jx-af/strings/jcore/* \
         ${JX_INCLUDE_ROOT}/jx-af/strings/jx/* \
-        */strings \
+        */strings strings/* \
         --code kTutorialStringData TutorialStringData.h

@@ -1,0 +1,36 @@
+jx_menu_editor 0
+670 300
+"MenuHelloDir"
+"Text"
+'t
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Hello world!"
+""
+'h
+"__HelloWorld"
+"kHello"
+0
+
+1
+0
+0 ""
+"Goodbye cruel world!"
+""
+'g
+"__GoodbyeCruelWorld"
+"kGoodbye"
+0
+
+0

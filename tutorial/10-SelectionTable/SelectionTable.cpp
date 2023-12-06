@@ -29,20 +29,7 @@ const JCoordinate	kDefRowHeight	= 20;
 const JCoordinate	kDefColWidth	= 80;
 const JIndex 		kDefInsertValue	= 12;
 
-// This defines the menu items.
-// The '|' separates menu items.  The complete syntax
-// is described in JXTextMenuData.doc in SetMenuItems()
-// and ParseMenuItemStr().
-
-static const JUtf8Byte* kTableMenuStr =
-	"Insert %k Meta-I | Remove | Quit %k Meta-Q";
-
-enum
-{
-	kInsertCmd = 1,
-	kRemoveCmd,
-	kQuitCmd
-};
+#include "SelectionTable-Table.h"
 
 /******************************************************************************
  Constructor
@@ -117,6 +104,9 @@ SelectionTable::SelectionTable
 	itsTableMenu->AttachHandlers(this,
 		&SelectionTable::UpdateTableMenu,
 		&SelectionTable::HandleTableMenu);
+
+	// Apply configuration defined in the menu editor.
+	ConfigureTableMenu(itsTableMenu);
 }
 
 /******************************************************************************
@@ -246,6 +236,8 @@ SelectionTable::UpdateTableMenu()
 		// Only one cell is selected, so allow insertion
 		itsTableMenu->EnableItem(kInsertCmd);
 	}
+
+	itsTableMenu->SetItemEnabled(kRemoveCmd, selection.HasSelection());
 }
 
 /******************************************************************************

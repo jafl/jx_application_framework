@@ -39,20 +39,7 @@ const JIndex 		kDefInsertValue	= 12;
 const JCoordinate kHMargin = JTextEditor::kMinLeftMarginWidth + 1;
 const JCoordinate kVMargin = 1;
 
-// This defines the menu items.
-// The '|' separates menu items.  The complete syntax
-// is described in JXTextMenuData.doc in SetMenuItems()
-// and ParseMenuItemStr().
-
-static const JUtf8Byte* kTableMenuStr =
-	"Insert %k Meta-I | Remove | Quit %k Meta-Q";
-
-enum
-{
-	kInsertCmd = 1,
-	kRemoveCmd,
-	kQuitCmd
-};
+#include "EditTable-Table.h"
 
 /******************************************************************************
  Constructor
@@ -127,6 +114,9 @@ EditTable::EditTable
 	itsTableMenu->AttachHandlers(this,
 		&EditTable::UpdateTableMenu,
 		&EditTable::HandleTableMenu);
+
+	// Apply configuration defined in the menu editor.
+	ConfigureTableMenu(itsTableMenu);
 
 	// This is nullptr, because we want to make sure we only create one at
 	// a time.

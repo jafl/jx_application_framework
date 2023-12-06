@@ -2,8 +2,6 @@
 
 WindowTitle::MenuHelloDir	"Hello World Program"
 
-TextMenuTitle::MenuHelloDir	"Text"
-
 HelloText::MenuHelloDir	"Hello world!"
 
 GoodbyeText::MenuHelloDir	"Goodbye cruel world!"

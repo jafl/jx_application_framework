@@ -17,16 +17,6 @@
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-// This defines the menu title and menu items
-static const JUtf8Byte* kTextMenuStr =
-	"Change Text %k Meta-C %l|Quit %k Meta-Q";
-
-enum
-{
-	kChangeText = 1,
-	kQuit
-};
-
 /******************************************************************************
  Constructor
 
@@ -58,6 +48,8 @@ DialogHelloDir::~DialogHelloDir()
 
  ******************************************************************************/
 
+#include "DialogHelloDir-Text.h"
+
 void
 DialogHelloDir::BuildWindow()
 {
@@ -85,6 +77,9 @@ DialogHelloDir::BuildWindow()
 
 	// Listen for messages from the menu.
 	itsTextMenu->AttachHandler(this, &DialogHelloDir::HandleTextMenu);
+
+	// Apply configuration defined in the menu editor.
+	ConfigureTextMenu(itsTextMenu);
 
 	// Create the object to hold the text.
 	itsText =

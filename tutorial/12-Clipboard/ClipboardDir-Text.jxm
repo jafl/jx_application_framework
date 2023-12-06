@@ -1,0 +1,36 @@
+jx_menu_editor 0
+670 300
+"ClipboardDir"
+"Text"
+'t
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Change Text"
+"Meta-T"
+'t
+"__ChangeText"
+"kChangeText"
+1
+
+1
+0
+0 ""
+"Quit"
+"Meta-Q"
+'q
+"__Quit"
+"kQuit"
+0
+
+0

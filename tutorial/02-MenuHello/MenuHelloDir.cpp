@@ -15,20 +15,6 @@
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-// This defines the menu items.
-// The '|' separates menu items.  The complete syntax
-// is described in JXTextMenuData.cpp in SetMenuItems()
-// and ParseMenuItemStr().
-
-static const JUtf8Byte* kTextMenuStr =
-	"Hello world! | Goodbye cruel world!";
-
-enum
-{
-	kHello = 1,
-	kGoodbye
-};
-
 /******************************************************************************
  Constructor
 
@@ -63,6 +49,8 @@ MenuHelloDir::~MenuHelloDir()
 
  ******************************************************************************/
 
+#include "MenuHelloDir-Text.h"
+
 void
 MenuHelloDir::BuildWindow()
 {
@@ -81,7 +69,7 @@ MenuHelloDir::BuildWindow()
 						0,0, 200,kJXDefaultMenuBarHeight);
 
 	// Attach our menu to the menu bar.
-	itsTextMenu = menuBar->AppendTextMenu(JGetString("TextMenuTitle::MenuHelloDir"));
+	itsTextMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MenuHelloDir_Text"));
 
 	// Set the menu items in our menu.
 	itsTextMenu->SetMenuItems(kTextMenuStr);
@@ -92,6 +80,9 @@ MenuHelloDir::BuildWindow()
 	// The director needs to listen to the menu for messages. The message
 	// we care about is JXMenu::ItemSelected.
 	itsTextMenu->AttachHandler(this, &MenuHelloDir::HandleTextMenu);
+
+	// Apply configuration defined in the menu editor.
+	ConfigureTextMenu(itsTextMenu);
 
 	// Create the object to display the text. This time, we need to keep a
 	// pointer to it so we can change the text later.

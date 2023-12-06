@@ -16,16 +16,6 @@
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-// This defines the menu items
-static const JUtf8Byte* kTextMenuStr =
-	"Change Text %k Meta-T %l| Quit %k Meta-Q";
-
-enum
-{
-	kChangeText = 1,
-	kQuit
-};
-
 /******************************************************************************
  Constructor
 
@@ -58,6 +48,8 @@ ClipboardDir::~ClipboardDir()
 
  ******************************************************************************/
 
+#include "ClipboardDir-Text.h"
+
 void
 ClipboardDir::BuildWindow()
 {
@@ -85,6 +77,9 @@ ClipboardDir::BuildWindow()
 
 	// Listen for messages from the menu.
 	itsTextMenu->AttachHandler(this, &ClipboardDir::HandleTextMenu);
+
+	// Apply configuration defined in the menu editor.
+	ConfigureTextMenu(itsTextMenu);
 
 	// Create the object to hold the text.
 	itsText =

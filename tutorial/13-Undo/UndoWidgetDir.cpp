@@ -16,23 +16,6 @@
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-// This defines the menu items.
-// The '|' separates menu items.  The complete syntax
-// is described in JXTextMenuData.doc in SetMenuItems()
-// and ParseMenuItemStr().
-
-static const JUtf8Byte* kActionsMenuStr =
-	"  Undo %k Meta-Z"
-	"| Redo %k Meta-Shift-Z"
-	"| Quit %k Meta-Q";
-
-enum
-{
-	kUndo = 1,
-	kRedo,
-	kQuit
-};
-
 /******************************************************************************
  Constructor
 
@@ -55,10 +38,12 @@ UndoWidgetDir::UndoWidgetDir
 
  ******************************************************************************/
 
+#include "UndoWidgetDir-Actions.h"
+
 void
 UndoWidgetDir::BuildWindow()
 {
-		// Create the window
+	// Create the window
 	JXWindow* window = jnew JXWindow(this, 300,200, JGetString("WindowTitle::UndoWidgetDir"));
 	assert( window != nullptr );
 
@@ -85,6 +70,9 @@ UndoWidgetDir::BuildWindow()
 	itsActionsMenu->AttachHandlers(this,
 		&UndoWidgetDir::UpdateActionsMenu,
 		&UndoWidgetDir::HandleActionsMenu);
+
+	// Apply configuration defined in the menu editor.
+	ConfigureActionsMenu(itsActionsMenu);
 
 	// Create the scrollbar set
 	JXScrollbarSet* scrollbarSet =
