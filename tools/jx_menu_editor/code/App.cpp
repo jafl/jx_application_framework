@@ -110,7 +110,7 @@ App::CreateHelpMenu
 	JXTextMenu* menu = menuBar->AppendTextMenu(JGetString("MenuTitle::App_Help"));
 	menu->SetMenuItems(kHelpMenuStr);
 	menu->SetUpdateAction(JXMenu::kDisableNone);
-	SetHelpMenuIcons(menu);
+	ConfigureHelpMenu(menu);
 
 	ListenTo(menu, std::function([this, sectionName](const JXMenu::ItemSelected& msg)
 	{

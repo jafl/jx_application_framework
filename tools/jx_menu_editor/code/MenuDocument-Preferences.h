@@ -13,12 +13,17 @@ static const JUtf8Byte* kPreferencesMenuStr =
 ;
 
 enum {
-kEditToolBarCmd=1,
-kFilePrefsCmd,
-kEditMacWinPrefsCmd,
-kSaveLayoutPrefsCmd,
+	kEditToolBarCmd=1,
+	kFilePrefsCmd,
+	kEditMacWinPrefsCmd,
+	kSaveLayoutPrefsCmd,
 };
 
 
+static void ConfigurePreferencesMenu(JXTextMenu* menu) {
+	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts(JString("#p", JString::kNoCopy));
+	}
+};
 
 #endif

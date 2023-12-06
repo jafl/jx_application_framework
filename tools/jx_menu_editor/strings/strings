@@ -107,9 +107,14 @@ IDCannotIncludeSpace::MenuTable			"The ID cannot contain spaces."
 EnumMustBeValidIdentifier::MenuTable	"The enum name must be a valid C identifier."
 InvalidShortcut::MenuTable				"This is not a valid shortcut.  Refer to the online help for more information."
 
-SetIconsHeader::MenuTable
-"static void Set$titleMenuIcons(JXTextMenu* menu)
-{
+ConfigureMenuHeader::MenuTable
+"static void Configure$titleMenu(JXTextMenu* menu) {
 "
 
-SetIconsLine::MenuTable	"menu->SetItemImage($enum, $icon);"
+ConfigureShortcut::MenuTable
+"	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts(JString(\"#$key\", JString::kNoCopy));
+	}
+"
+
+SetIconsLine::MenuTable	"	menu->SetItemImage($enum, $icon);"

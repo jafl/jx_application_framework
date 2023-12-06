@@ -12,9 +12,9 @@ static const JUtf8Byte* kTypeMenuStr =
 ;
 
 enum {
-kPlainCmd=1,
-kCheckboxCmd,
-kRadioCmd,
+	kPlainCmd=1,
+	kCheckboxCmd,
+	kRadioCmd,
 };
 
 

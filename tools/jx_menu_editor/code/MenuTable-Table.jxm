@@ -2,7 +2,7 @@ jx_menu_editor 0
 732 300
 "MenuTable"
 "Table"
-' 
+'t
 40
 40
 163
@@ -18,7 +18,7 @@ jx_menu_editor 0
 0 ""
 "New item"
 "Meta-Shift-N"
-' 
+'n
 "New"
 "kAppendCmd"
 0
@@ -28,7 +28,7 @@ jx_menu_editor 0
 0 ""
 "Duplicate selected item"
 ""
-' 
+'d
 "Duplicate"
 "kDuplicateCmd"
 1
@@ -38,7 +38,7 @@ jx_menu_editor 0
 0 ""
 "Import..."
 ""
-' 
+'i
 "Import"
 "kImportCmd"
 0

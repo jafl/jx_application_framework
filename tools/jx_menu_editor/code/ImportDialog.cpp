@@ -122,6 +122,7 @@ ImportDialog::BuildWindow()
 
 	itsMenuText->SetIsRequired();
 
+	itsActionDefsFileInput->SetIsRequired(false);
 	itsActionDefsFileInput->GetText()->SetText(theActionDefsFile);
 	itsActionDefsFileInput->ShouldRequireWritable(false);
 
@@ -150,13 +151,21 @@ ImportDialog::GetEnumText()
 	return itsMenuEnum->GetText()->GetText();
 }
 
-JString
-ImportDialog::GetActionDefsFile()
+bool
+ImportDialog::GetActionDefsFile
+	(
+	JString* fullName
+	)
 	const
 {
-	JString fullName;
-	const bool ok = itsActionDefsFileInput->GetFile(&fullName);
-	assert( ok );
-	theActionDefsFile = fullName;
-	return fullName;
+	if (itsActionDefsFileInput->GetFile(fullName))
+	{
+		theActionDefsFile = *fullName;
+		return true;
+	}
+	else
+	{
+		theActionDefsFile.Clear();
+		return false;
+	}
 }

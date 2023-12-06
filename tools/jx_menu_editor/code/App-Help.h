@@ -15,21 +15,23 @@ static const JUtf8Byte* kHelpMenuStr =
 ;
 
 enum {
-kHelpAboutCmd=1,
-kHelpTOCCmd,
-kHelpOverviewCmd,
-kHelpWindowCmd,
-kHelpChangeLogCmd,
-kHelpCreditsCmd,
+	kHelpAboutCmd=1,
+	kHelpTOCCmd,
+	kHelpOverviewCmd,
+	kHelpWindowCmd,
+	kHelpChangeLogCmd,
+	kHelpCreditsCmd,
 };
 
 #include <jx-af/image/jx/jx_help_toc.xpm>
 #include <jx-af/image/jx/jx_help_specific.xpm>
 
-void SetHelpMenuIcons(JXTextMenu* menu)
-{
-menu->SetItemImage(kHelpTOCCmd, jx_help_toc);
-menu->SetItemImage(kHelpWindowCmd, jx_help_specific);
+static void ConfigureHelpMenu(JXTextMenu* menu) {
+	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts(JString("#h", JString::kNoCopy));
+	}
+	menu->SetItemImage(kHelpTOCCmd, jx_help_toc);
+	menu->SetItemImage(kHelpWindowCmd, jx_help_specific);
 };
 
 #endif

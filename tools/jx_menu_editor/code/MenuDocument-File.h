@@ -20,17 +20,17 @@ static const JUtf8Byte* kFileMenuStr =
 ;
 
 enum {
-kNewCmd=1,
-kOpenCmd,
-kRecentMenuCmd,
-kSaveCmd,
-kSaveAsCmd,
-kSaveCopyAsCmd,
-kRevertCmd,
-kSaveAllCmd,
-kShowInFileMgrCmd,
-kCloseCmd,
-kQuitCmd,
+	kNewCmd=1,
+	kOpenCmd,
+	kRecentMenuCmd,
+	kSaveCmd,
+	kSaveAsCmd,
+	kSaveCopyAsCmd,
+	kRevertCmd,
+	kSaveAllCmd,
+	kShowInFileMgrCmd,
+	kCloseCmd,
+	kQuitCmd,
 };
 
 #include <jx-af/image/jx/jx_file_new.xpm>
@@ -39,13 +39,15 @@ kQuitCmd,
 #include <jx-af/image/jx/jx_file_revert_to_saved.xpm>
 #include <jx-af/image/jx/jx_file_save_all.xpm>
 
-void SetFileMenuIcons(JXTextMenu* menu)
-{
-menu->SetItemImage(kNewCmd, jx_file_new);
-menu->SetItemImage(kOpenCmd, jx_file_open);
-menu->SetItemImage(kSaveCmd, jx_file_save);
-menu->SetItemImage(kRevertCmd, jx_file_revert_to_saved);
-menu->SetItemImage(kSaveAllCmd, jx_file_save_all);
+static void ConfigureFileMenu(JXTextMenu* menu) {
+	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts(JString("#f", JString::kNoCopy));
+	}
+	menu->SetItemImage(kNewCmd, jx_file_new);
+	menu->SetItemImage(kOpenCmd, jx_file_open);
+	menu->SetItemImage(kSaveCmd, jx_file_save);
+	menu->SetItemImage(kRevertCmd, jx_file_revert_to_saved);
+	menu->SetItemImage(kSaveAllCmd, jx_file_save_all);
 };
 
 #endif

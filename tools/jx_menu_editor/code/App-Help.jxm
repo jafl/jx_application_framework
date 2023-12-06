@@ -2,7 +2,7 @@ jx_menu_editor 0
 670 300
 "App"
 "Help"
-' 
+'h
 40
 40
 100
@@ -18,7 +18,7 @@ jx_menu_editor 0
 0 ""
 "About"
 ""
-' 
+'a
 "__About"
 "kHelpAboutCmd"
 1
@@ -28,7 +28,7 @@ jx_menu_editor 0
 1 "jx_help_toc.xpm"
 "Table of Contents"
 ""
-' 
+'c
 "HelpTOC"
 "kHelpTOCCmd"
 0
@@ -38,7 +38,7 @@ jx_menu_editor 0
 0 ""
 "Overview"
 ""
-' 
+'o
 "__Overview"
 "kHelpOverviewCmd"
 0
@@ -48,7 +48,7 @@ jx_menu_editor 0
 1 "jx_help_specific.xpm"
 "This window"
 "F1"
-' 
+'w
 "HelpSpecific"
 "kHelpWindowCmd"
 1
@@ -58,7 +58,7 @@ jx_menu_editor 0
 0 ""
 "Changes"
 ""
-' 
+'h
 "__Changes"
 "kHelpChangeLogCmd"
 0
@@ -68,7 +68,7 @@ jx_menu_editor 0
 0 ""
 "Credits"
 ""
-' 
+'r
 "__Credits"
 "kHelpCreditsCmd"
 0

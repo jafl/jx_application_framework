@@ -238,6 +238,11 @@ MenuDocument::BuildWindow()
 		DataModified();
 	}));
 
+	ListenTo(this, std::function([this](const JXFileDocument::NameChanged&)
+	{
+		itsTable->RebuildIconMenu();
+	}));
+
 	// menus
 
 	itsFileMenu = menuBar->PrependTextMenu(JGetString("MenuTitle::MenuDocument_File"));
@@ -246,7 +251,7 @@ MenuDocument::BuildWindow()
 	itsFileMenu->AttachHandlers(this,
 		&MenuDocument::UpdateFileMenu,
 		&MenuDocument::HandleFileMenu);
-	SetFileMenuIcons(itsFileMenu);
+	ConfigureFileMenu(itsFileMenu);
 
 	jnew FileHistoryMenu(itsFileMenu, kRecentMenuCmd, menuBar);
 
@@ -262,6 +267,7 @@ MenuDocument::BuildWindow()
 	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &MenuDocument::HandlePrefsMenu);
+	ConfigurePreferencesMenu(itsPrefsMenu);
 
 	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "MainHelp");
 
@@ -491,7 +497,8 @@ MenuDocument::GenerateCode()
 	};
 	JGetString("CodeHeader::MenuDocument", headerMap, sizeof(headerMap)).Print(headerOutput);
 
-	itsTable->GenerateCode(headerOutput, itsClassNameInput->GetText()->GetText(), title);
+	itsTable->GenerateCode(headerOutput, itsClassNameInput->GetText()->GetText(),
+						   title, itsWindowsKeyInput->GetText()->GetText());
 
 	JGetString("CodeFooter::MenuDocument").Print(headerOutput);
 	headerOutput.close();
@@ -513,9 +520,11 @@ MenuDocument::GenerateCode()
 
 	// strings
 
-	JString stringsFile = JCombinePathAndName(projRoot, JString("strings", JString::kNoCopy));
-	stringsFile         = JCombinePathAndName(stringsFile, root);
-	std::ofstream stringsOutput(stringsFile.GetBytes());
+	JString stringsFileName = JCombinePathAndName(projRoot, JString("strings", JString::kNoCopy));
+	stringsFileName         = JCombinePathAndName(stringsFileName, root);
+
+	JEditVCS(stringsFileName);
+	std::ofstream stringsOutput(stringsFileName.GetBytes());
 
 	const JUtf8Byte* stringsMap[] =
 	{

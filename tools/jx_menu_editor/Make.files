@@ -11,11 +11,11 @@
 .cpp ./code/DocumentManager
 .cpp ./code/FileHistoryMenu
 .cpp ./code/MDIServer
-.cpp ./code/ImageCache
 .cpp ./code/AboutDialog
 .cpp ./code/MenuDocument
 .cpp ./code/MenuTable
 .cpp ./code/MenuItemSelection
 .cpp ./code/ImportDialog
+.cpp ./code/ImageCache
 
 literal: ${LIB_DEPS}

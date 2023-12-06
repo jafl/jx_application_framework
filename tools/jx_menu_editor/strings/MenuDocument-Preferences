@@ -6,7 +6,7 @@
 
 MenuTitle::MenuDocument_Preferences "Preferences"
 
-__EditToolBar::MenuDocument "Edit tool bar..."
-__FileManager::MenuDocument "File manager..."
-__MacWinXEmulation::MenuDocument "Mac/Win/X emulation..."
-__SaveTableLayoutAsDefault::MenuDocument "Save table layout as default"
+__EditToolBar::MenuDocument "Edit tool bar... %h t"
+__FileManager::MenuDocument "File manager... %h f"
+__MacWinXEmulation::MenuDocument "Mac/Win/X emulation... %h e"
+__SaveTableLayoutAsDefault::MenuDocument "Save table layout as default %h s"

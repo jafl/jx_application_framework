@@ -24,7 +24,7 @@ public:
 
 	const JString&	GetMenuText() const;
 	const JString&	GetEnumText() const;
-	JString			GetActionDefsFile() const;
+	bool			GetActionDefsFile(JString* fullName) const;
 
 private:
 

@@ -6,9 +6,9 @@
 
 MenuTitle::App_Help "Help"
 
-__About::App "About"
-HelpTOC::App "Table of Contents"
-__Overview::App "Overview"
-HelpSpecific::App "This window %k F1"
-__Changes::App "Changes"
-__Credits::App "Credits"
+__About::App "About %h a"
+HelpTOC::App "Table of Contents %h c"
+__Overview::App "Overview %h o"
+HelpSpecific::App "This window %k F1 %h w"
+__Changes::App "Changes %h h"
+__Credits::App "Credits %h r"

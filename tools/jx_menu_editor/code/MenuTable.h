@@ -19,6 +19,7 @@ class JXInputField;
 class JXCharInput;
 class JXColHeaderWidget;
 class MenuDocument;
+class ImportDialog;
 
 class MenuTable : public JXEditTable, public JPrefObject
 {
@@ -90,10 +91,11 @@ public:
 	void	RemoveSelectedItem();
 
 	void	GenerateCode(std::ostream& output, const JString& className,
-						 const JString& menuTitle) const;
+						 const JString& menuTitle, const JString& menuTitleShortcut) const;
 	void	GenerateStrings(std::ostream& output, const JString& className) const;
 
 	void	FillInItemIDs(const JString& className);
+	void	RebuildIconMenu();
 
 protected:
 
@@ -165,8 +167,7 @@ private:
 	void	AddItem();
 	void	DuplicateSelectedItems();
 
-	void	Import(const JString& menuText, const JString& enumText,
-				   const JString& actionDefsFile);
+	void	Import(ImportDialog* dlog);
 	void	ImportActionDefs(const JString& fullName,
 							 JStringPtrMap<JString>* actionMap) const;
 

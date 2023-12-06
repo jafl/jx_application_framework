@@ -6,6 +6,6 @@
 
 MenuTitle::MenuTable_Table "Table"
 
-New::MenuTable "New item %k Meta-Shift-N"
-Duplicate::MenuTable "Duplicate selected item"
-Import::MenuTable "Import..."
+New::MenuTable "New item %k Meta-Shift-N %h n"
+Duplicate::MenuTable "Duplicate selected item %h d"
+Import::MenuTable "Import... %h i"

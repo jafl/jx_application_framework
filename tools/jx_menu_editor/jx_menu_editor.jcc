@@ -12,6 +12,10 @@ T
 F
 "./code/App.cpp"
 T
+2 "App-Help.jxm"
+F
+"./code/App-Help.jxm"
+T
 2 "globals.cpp"
 F
 "./code/globals.cpp"
@@ -32,24 +36,36 @@ T
 F
 "./code/MDIServer.cpp"
 T
-2 "ImageCache.cpp"
-F
-"./code/ImageCache.cpp"
-T
 2 "AboutDialog.cpp"
 F
 "./code/AboutDialog.cpp"
 F
 T
-1 "menu"
+1 "editor"
 T
 2 "MenuDocument.cpp"
 F
 "./code/MenuDocument.cpp"
 T
+2 "MenuDocument-File.jxm"
+F
+"./code/MenuDocument-File.jxm"
+T
+2 "MenuDocument-Preferences.jxm"
+F
+"./code/MenuDocument-Preferences.jxm"
+T
 2 "MenuTable.cpp"
 F
 "./code/MenuTable.cpp"
+T
+2 "MenuTable-Table.jxm"
+F
+"./code/MenuTable-Table.jxm"
+T
+2 "MenuTable-Type.jxm"
+F
+"./code/MenuTable-Type.jxm"
 T
 2 "MenuItemSelection.cpp"
 F
@@ -58,6 +74,10 @@ T
 2 "ImportDialog.cpp"
 F
 "./code/ImportDialog.cpp"
+T
+2 "ImageCache.cpp"
+F
+"./code/ImageCache.cpp"
 F
 T
 1 "misc"
@@ -89,7 +109,7 @@ F
 # tasks
 4
 "makemake"
-T "./" "jxlayout --choose --require-obj-names --post-cmd \"jcc --force-reload-open\" -cp code $project_name.fd" "" FFTTTTF "Compile layouts" "Meta-'" "&|3Ss+=IL_ywwy[Pm}cG::CBCommandManager" F
+T "./" "make install" "" TFTFTFF "" "" "" F
 F
 # build settings
 1
