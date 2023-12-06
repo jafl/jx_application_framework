@@ -42,60 +42,6 @@
 
 const JSize kRefreshInterval = 1000;	// 1 second (ms)
 
-// File menu
-
-static const JUtf8Byte* kFileMenuStr =
-	"Quit %k Meta-Q %i" kJXQuitAction;
-
-enum
-{
-	kQuitCmd = 1
-};
-
-// Data menu
-
-static const JUtf8Byte* kDataMenuStr =
-	"    Get allocated records        %i" kGetRecordsAction
-	"%l| Take snapshot                %i" kSaveSnapshotAction
-	"  | Compare with latest snapshot %i" kDiffSnapshotAction
-	"%l| Show application records  %b %i" kShowAppRecordsAction
-	"  | Show bucket #1 records    %b %i" kShowBucket1RecordsAction
-	"  | Show bucket #2 records    %b %i" kShowBucket2RecordsAction
-	"  | Show bucket #3 records    %b %i" kShowBucket3RecordsAction
-	"%l| Show library records      %b %i" kShowLibraryRecordsAction
-	"%l| Show internal records     %b %i" kShowInternalRecordsAction
-	"  | Show unknown records      %b %i" kShowUnknownRecordsAction;
-
-enum
-{
-	kGetRecordsCmd = 1,
-	kSaveSnapshotCmd,
-	kDiffSnapshotCmd,
-	kShowAppRecordsCmd,
-	kShowBucket1RecordsCmd,
-	kShowBucket2RecordsCmd,
-	kShowBucket3RecordsCmd,
-	kShowLibraryRecordsCmd,
-	kShowIntervalRecordsCmd,
-	kShowUnknownRecordsCmd
-};
-
-// Preferences menu
-
-static const JUtf8Byte* kPrefsMenuStr =
-	"    Edit preferences..."
-	"  | Edit tool bar..."
-	"  | Mac/Win/X emulation..."
-	"%l| Save window setup as default";
-
-enum
-{
-	kPrefsCmd = 1,
-	kEditToolBarCmd,
-	kEditMacWinPrefsCmd,
-	kSaveWindSizeCmd
-};
-
 // preferences
 
 const JFileVersion kCurrentPrefsVersion	= 0;
@@ -273,6 +219,9 @@ StatsDirector::DeleteDebugAcceptor()
  ******************************************************************************/
 
 #include "md_main_window_icon.xpm"
+#include "StatsDirector-File.h"
+#include "StatsDirector-Data.h"
+#include "All-Preferences.h"
 
 void
 StatsDirector::BuildWindow()
@@ -421,19 +370,21 @@ StatsDirector::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::StatsDirector_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&StatsDirector::UpdateFileMenu,
 		&StatsDirector::HandleFileMenu);
+	ConfigureFileMenu(itsFileMenu);
 
-	itsDataMenu = menuBar->AppendTextMenu(JGetString("DataMenuTitle::StatsDirector"));
+	itsDataMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::StatsDirector_Data"));
 	itsDataMenu->SetMenuItems(kDataMenuStr);
 	itsDataMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsDataMenu->AttachHandlers(this,
 		&StatsDirector::UpdateDataMenu,
 		&StatsDirector::HandleDataMenu);
+	ConfigureDataMenu(itsDataMenu);
 
 	itsProgramInput->AppendEditMenu(menuBar);
 	itsArgsInput->ShareEditMenu(itsProgramInput);
@@ -450,10 +401,11 @@ StatsDirector::BuildWindow()
 	assert( windowsMenu != nullptr );
 	menuBar->AppendMenu(windowsMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::All_Preferences"));
+	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &StatsDirector::HandlePrefsMenu);
+	ConfigurePreferencesMenu(itsPrefsMenu);
 
 	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "MainHelp");
 

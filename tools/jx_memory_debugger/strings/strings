@@ -67,8 +67,6 @@ ExitWindowTitle::StatsDirector			"Exit Stats"
 QueryRecordsWindowTitle::StatsDirector	"Query Results"
 ExitRecordsWindowTitle::StatsDirector	"Leftovers"
 
-DataMenuTitle::StatsDirector	"Data"
-
 # SizeHistogram
 
 Size::SizeHistogram		"Max Size"

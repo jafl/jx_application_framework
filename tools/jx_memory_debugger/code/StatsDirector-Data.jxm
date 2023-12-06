@@ -1,0 +1,116 @@
+jx_menu_editor 0
+686 418
+"StatsDirector"
+"Data"
+'d
+40
+40
+100
+100
+100
+162
+100
+75
+
+0
+1
+0
+0 ""
+"Get allocated records"
+""
+' 
+"GetRecords::MDStatsDirector"
+"kGetRecordsCmd"
+1
+
+1
+0
+0 ""
+"Take snapshot"
+""
+' 
+"SaveSnapshot::MDStatsDirector"
+"kSaveSnapshotCmd"
+0
+
+1
+0
+0 ""
+"Compare with latest snapshot"
+""
+' 
+"DiffSnapshot::MDStatsDirector"
+"kDiffSnapshotCmd"
+1
+
+1
+1
+0 ""
+"Show application records"
+""
+' 
+"ShowAppRecordsAction::MDStatsDirector"
+"kShowAppRecordsCmd"
+0
+
+1
+1
+0 ""
+"Show bucket #1 records"
+""
+' 
+"ShowBucket1RecordsAction::MDStatsDirector"
+"kShowBucket1RecordsCmd"
+0
+
+1
+1
+0 ""
+"Show bucket #2 records"
+""
+' 
+"ShowBucket2RecordsAction::MDStatsDirector"
+"kShowBucket2RecordsCmd"
+0
+
+1
+1
+0 ""
+"Show bucket #3 records"
+""
+' 
+"ShowBucket3RecordsAction::MDStatsDirector"
+"kShowBucket3RecordsCmd"
+1
+
+1
+1
+0 ""
+"Show library records"
+""
+' 
+"ShowLibraryRecordsAction::MDStatsDirector"
+"kShowLibraryRecordsCmd"
+1
+
+1
+1
+0 ""
+"Show internal records"
+""
+' 
+"ShowInternalRecordsAction::MDStatsDirector"
+"kShowIntervalRecordsCmd"
+0
+
+1
+1
+0 ""
+"Show unknown records"
+""
+' 
+"ShowUnknownRecordsAction::MDStatsDirector"
+"kShowUnknownRecordsCmd"
+0
+
+0

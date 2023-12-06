@@ -36,7 +36,7 @@ const JCoordinate kHMarginWidth	= 5;
 
 RecordTable::RecordTable
 	(
-	RecordList*		list,
+	RecordList*			list,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,

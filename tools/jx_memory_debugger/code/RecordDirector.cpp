@@ -28,40 +28,6 @@
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/jAssert.h>
 
-// File menu
-
-static const JUtf8Byte* kFileMenuStr =
-	"    Open selected items %k Return. %i" kOpenFilesAction
-	"%l| Page setup..."
-	"  | Print...            %k Meta-P  %i" kJXPrintAction
-	"%l| Close               %k Meta-W  %i" kJXCloseWindowAction
-	"%l| Quit                %k Meta-Q  %i" kJXQuitAction;
-
-enum
-{
-	kOpenSelCmd = 1,
-	kPageSetupCmd,
-	kPrintCmd,
-	kCloseCmd,
-	kQuitCmd
-};
-
-// Preferences menu
-
-static const JUtf8Byte* kPrefsMenuStr =
-	"    Edit preferences..."
-	"  | Edit tool bar..."
-	"  | Mac/Win/X emulation..."
-	"%l| Save window setup as default";
-
-enum
-{
-	kPrefsCmd = 1,
-	kEditToolBarCmd,
-	kEditMacWinPrefsCmd,
-	kSaveWindSizeCmd
-};
-
 /******************************************************************************
  Constructor
 
@@ -112,7 +78,8 @@ RecordDirector::~RecordDirector()
  ******************************************************************************/
 
 #include "md_main_window_icon.xpm"
-#include <jx-af/image/jx/jx_file_print.xpm>
+#include "RecordDirector-File.h"
+#include "All-Preferences.h"
 
 void
 RecordDirector::BuildWindow
@@ -173,14 +140,13 @@ RecordDirector::BuildWindow
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::RecordDirector_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&RecordDirector::UpdateFileMenu,
 		&RecordDirector::HandleFileMenu);
-
-	itsFileMenu->SetItemImage(kPrintCmd, jx_file_print);
+	ConfigureFileMenu(itsFileMenu);
 
 	itsRecordTable->GetEditMenuHandler()->AppendEditMenu(menuBar);
 
@@ -190,10 +156,11 @@ RecordDirector::BuildWindow
 	assert( windowsMenu != nullptr );
 	menuBar->AppendMenu(windowsMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::All_Preferences"));
+	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &RecordDirector::HandlePrefsMenu);
+	ConfigurePreferencesMenu(itsPrefsMenu);
 
 	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "RecordHelp");
 

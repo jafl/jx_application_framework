@@ -1,0 +1,56 @@
+jx_menu_editor 0
+670 300
+"All"
+"Preferences"
+'p
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Edit preferences..."
+""
+'p
+"__EditPreferences"
+"kPrefsCmd"
+0
+
+1
+0
+0 ""
+"Edit tool bar..."
+""
+'t
+"__EditToolBar"
+"kEditToolBarCmd"
+0
+
+1
+0
+0 ""
+"Mac/Win/X emulation..."
+""
+'e
+"__MacWinXEmulation"
+"kEditMacWinPrefsCmd"
+1
+
+1
+0
+0 ""
+"Save window setup as default"
+""
+'s
+"__SaveWindowSetupAsDefault"
+"kSaveWindSizeCmd"
+0
+
+0
