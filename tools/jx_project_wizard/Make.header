@@ -12,8 +12,8 @@ include ${MAKE_INCLUDE}/jx_config
 SEARCHDIRS := -I./code ${SEARCHDIRS}
 
 ifeq (${J_IS_RELEASE_BUILD},1)
-  ifeq ($(shell uname -s),Darwin)
-    JX_PATH := $(shell brew --prefix)
+  ifdef BREW_ROOT
+    JX_PATH := ${BREW_ROOT}
   else
     JX_PATH := /usr/local
   endif

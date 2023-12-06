@@ -12,6 +12,10 @@ T
 F
 "./code/App.cpp"
 T
+2 "App-Help.jxm"
+F
+"./code/App-Help.jxm"
+T
 2 "globals.cpp"
 F
 "./code/globals.cpp"
@@ -38,6 +42,14 @@ T
 2 "MainDirector.cpp"
 F
 "./code/MainDirector.cpp"
+T
+2 "MainDirector-File.jxm"
+F
+"./code/MainDirector-File.jxm"
+T
+2 "MainDirector-Preferences.jxm"
+F
+"./code/MainDirector-Preferences.jxm"
 F
 T
 1 "misc"
