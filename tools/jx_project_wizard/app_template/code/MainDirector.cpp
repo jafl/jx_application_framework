@@ -9,7 +9,6 @@
 
 #include "MainDirector.h"
 #include "globals.h"
-#include "actionDefs.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
@@ -21,34 +20,6 @@
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jAssert.h>
-
-// File menu
-
-static const JUtf8Byte* kFileMenuStr =
-	"Quit %k Meta-Q %i" kJXQuitAction;
-
-enum
-{
-	kQuitCmd = 1
-};
-
-// Preferences menu
-
-static const JUtf8Byte* kPrefsMenuStr =
-	"    Edit preferences..."
-	"  | Edit tool bar..."
-	"  | File manager & web browser..."
-	"  | Mac/Win/X emulation..."
-	"%l| Save window setup as default";
-
-enum
-{
-	kPrefsCmd = 1,
-	kEditToolBarCmd,
-	kEditFileWebPrefsCmd,
-	kEditMacWinPrefsCmd,
-	kSaveWindSizeCmd
-};
 
 // preferences
 
@@ -96,6 +67,8 @@ MainDirector::~MainDirector()
  ******************************************************************************/
 
 #include "main_window_icon.xpm"
+#include "MainDirector-File.h"
+#include "MainDirector-Preferences.h"
 
 void
 MainDirector::BuildWindow()
@@ -140,17 +113,19 @@ MainDirector::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MainDirector_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&MainDirector::UpdateFileMenu,
 		&MainDirector::HandleFileMenu);
+	ConfigureFileMenu(itsFileMenu);
 
-	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MainDirector_Preferences"));
+	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &MainDirector::HandlePrefsMenu);
+	ConfigurePreferencesMenu(itsPrefsMenu);
 
 	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "MainHelp");
 
