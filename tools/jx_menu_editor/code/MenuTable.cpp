@@ -746,7 +746,7 @@ MenuTable::CreateXInputField
 
  ******************************************************************************/
 
-static const JRegex enumPattern = "^[a-zA-Z][_a-zA-Z0-9]+$";
+static const JRegex enumPattern = "^[_a-zA-Z][_a-zA-Z0-9]+$";
 
 bool
 MenuTable::ExtractInputData
