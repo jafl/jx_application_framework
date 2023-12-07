@@ -35,6 +35,10 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //		Fixed AdjustSize() to avoid crashing if the widget size goes negative.
 //	*** Removed unused, useless jXActions.h
 //	Created jXMenuUtils
+//	JXMenu:
+//		*** Removed default style setting.  The default style is locked at Windows.
+//			This allows the menus owned by core widgets to be managed by
+//			jx_menu_editor, which in turn enables localization.
 
 // version 4.0.0:
 //	Supports utf-8

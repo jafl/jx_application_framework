@@ -47,15 +47,7 @@
 
 // Edit menu
 
-static const JUtf8Byte* kMacEditMenuStr =
-	"    Undo       %k Meta-Z %i" kJXUndoAction
-	"%l| Cut        %k Meta-X %i" kJXCutAction
-	"  | Copy       %k Meta-C %i" kJXCopyAction
-	"  | Paste      %k Meta-V %i" kJXPasteAction
-	"  | Clear                %i" kJXClearAction
-	"%l| Select all %k Meta-A %i" kJXSelectAllAction;
-
-static const JUtf8Byte* kWinEditMenuStr =
+static const JUtf8Byte* kEditMenuStr =
 	"    Undo       %h uz %k Ctrl-Z %i" kJXUndoAction
 	"%l| Cut        %h tx %k Ctrl-X %i" kJXCutAction
 	"  | Copy       %h c  %k Ctrl-C %i" kJXCopyAction
@@ -315,15 +307,8 @@ JXExprEditor::CreateMenus
 	else
 	{
 		itsEditMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
-		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
-			itsEditMenu->SetMenuItems(kMacEditMenuStr);
-		}
-		else
-		{
-			itsEditMenu->SetShortcuts(JGetString("EditMenuShortcut::JXGlobal"));
-			itsEditMenu->SetMenuItems(kWinEditMenuStr);
-		}
+		itsEditMenu->SetShortcuts(JGetString("EditMenuShortcut::JXGlobal"));
+		itsEditMenu->SetMenuItems(kEditMenuStr);
 
 		itsEditMenu->SetItemImage(kUndoIndex,  jx_edit_undo);
 		itsEditMenu->SetItemImage(kCutIndex,   jx_edit_cut);

@@ -28,15 +28,7 @@ struct MenuItemInfo
 	const JUtf8Byte*		id;
 };
 
-static const JUtf8Byte* kMacContextMenuStr =
-	"    Undo       %k Meta-Z. %i" kJXUndoAction
-	"%l| Cut        %k Meta-X. %i" kJXCutAction
-	"  | Copy       %k Meta-C. %i" kJXCopyAction
-	"  | Paste      %k Meta-V. %i" kJXPasteAction
-	"  | Clear                 %i" kJXClearAction
-	"%l| Select All %k Meta-A. %i" kJXSelectAllAction;
-
-static const JUtf8Byte* kWinContextMenuStr =
+static const JUtf8Byte* kContextMenuStr =
 	"    Undo       %k Ctrl-Z. %i" kJXUndoAction
 	"%l| Cut        %k Ctrl-X. %i" kJXCutAction
 	"  | Copy       %k Ctrl-C. %i" kJXCopyAction
@@ -549,14 +541,7 @@ JXInputField::CreateContextMenu()
 	if (itsContextMenu == nullptr)
 	{
 		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
-		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
-			itsContextMenu->SetMenuItems(kMacContextMenuStr);
-		}
-		else
-		{
-			itsContextMenu->SetMenuItems(kWinContextMenuStr);
-		}
+		itsContextMenu->SetMenuItems(kContextMenuStr);
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableAll);
 		itsContextMenu->SetToHiddenPopupMenu();
 		itsContextMenu->AttachHandlers(this,

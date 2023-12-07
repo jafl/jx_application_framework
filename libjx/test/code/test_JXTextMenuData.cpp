@@ -45,9 +45,9 @@ JTEST(ParseMacOS)
 
 	TestTextMenuData data(&menu);
 	data.AppendMenuItems(
-		"    Undo       %k Meta-Z       %iundo"
-		"  | Redo       %k Meta-Shift-Z %iredo"
-		"%l| Select all %k Meta-Hyper-A %iselectall"
+		"    Undo       %k Ctrl-Z       %iundo"
+		"  | Redo       %k Ctrl-Shift-Z %iredo"
+		"%l| Select all %k Ctrl-Hyper-A %iselectall"
 		"%l| Underline  %b"
 		"  | Strike     %b %d"
 		"%l| Black      %r"
@@ -103,9 +103,9 @@ JTEST(ParseLinux)
 
 	TestTextMenuData data(&menu);
 	data.AppendMenuItems(
-		"    Undo       %k Meta-Z       %iundo"
-		"  | Redo       %k Meta-Shift-Z %iredo"
-		"%l| Select all %k Meta-Hyper-A %h a %iselectall");
+		"    Undo       %k Ctrl-Z       %iundo"
+		"  | Redo       %k Ctrl-Shift-Z %iredo"
+		"%l| Select all %k Ctrl-Hyper-A %h a %iselectall");
 
 	const JString* s;
 
@@ -145,9 +145,9 @@ JTEST(ParseWindows)
 
 	TestTextMenuData data(&menu);
 	data.AppendMenuItems(
-		"    Undo       %k Meta-Z       %iundo"
-		"  | Redo       %k Meta-Shift-Z %iredo"
-		"%l| Select all %k Meta-Hyper-A %h a %iselectall");
+		"    Undo       %k Ctrl-Z       %iundo"
+		"  | Redo       %k Ctrl-Shift-Z %iredo"
+		"%l| Select all %k Ctrl-Hyper-A %h a %iselectall");
 
 	const JString* s;
 

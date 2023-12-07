@@ -377,10 +377,7 @@ JXAdjustNMShortcutModifier
 	const JXModifierKey key
 	)
 {
-	if ((JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle &&
-		 JXMenu::GetDefaultStyle() == JXMenu::kWindowsStyle) ||
-		(JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle &&
-		 JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle))
+	if (JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle)
 	{
 		if (key == kJXControlKeyIndex)
 		{

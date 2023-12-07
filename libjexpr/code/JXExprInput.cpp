@@ -17,8 +17,7 @@
 
 // Font menu
 
-static const JUtf8Byte* kMacFontMenuStr = "Normal      %r | Greek      %r";
-static const JUtf8Byte* kWinFontMenuStr = "Normal %h n %r | Greek %h g %r";
+static const JUtf8Byte* kFontMenuStr = "Normal %h n %r | Greek %h g %r";
 
 enum
 {
@@ -102,17 +101,8 @@ JXExprInput::CreateFontMenu
 						kFixedLeft, kVElastic, 0,0, 10,10);
 	assert( menu != nullptr );
 	menu->SetUpdateAction(JXMenu::kDisableNone);
-
-	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-	{
-		menu->SetMenuItems(kMacFontMenuStr);
-	}
-	else
-	{
-		menu->SetShortcuts(JGetString("FontMenuShortcut::JXExprInput"));
-		menu->SetMenuItems(kWinFontMenuStr);
-	}
-
+	menu->SetShortcuts(JGetString("FontMenuShortcut::JXExprInput"));
+	menu->SetMenuItems(kFontMenuStr);
 	return menu;
 }
 

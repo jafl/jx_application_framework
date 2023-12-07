@@ -521,7 +521,7 @@ JXSearchTextDialog::SetObjects
 	itsSingleLineCB->SetShortcuts(JGetString("SingleLineShortcut::JXSearchTextDialog"));
 	itsPreserveCaseCB->SetShortcuts(JGetString("PreserveCaseShortcut::JXSearchTextDialog"));
 
-	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
+	if (JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle)
 	{
 		itsFindFwdButton->SetShortcuts(JGetString("FindForwardMacShortcut::JXSearchTextDialog"));
 		itsFindFwdButton->SetHint(JGetString("FindForwardMacHint::JXSearchTextDialog"));
@@ -558,16 +558,16 @@ JXSearchTextDialog::SetObjects
 	modifiers.SetState(kJXShiftKeyIndex, true);
 	window->InstallShortcut(itsFindBackButton, JXCtrl('M'), modifiers);
 
-	modifiers.SetState(kJXMetaKeyIndex, true);
+	modifiers.SetState(kJXControlKeyIndex, true);
 	itsReplaceIsRegexCB->SetShortcuts(JGetString("ReplaceIsRegexShorcut::JXSearchTextDialog"));
 	window->ClearShortcuts(itsReplaceIsRegexCB);
 	window->InstallShortcut(itsReplaceIsRegexCB, 'x', modifiers);
 	window->InstallShortcut(itsReplaceIsRegexCB, 'X', modifiers);
 
-	if (JXMenu::GetDefaultStyle() != JXMenu::kMacintoshStyle)
+	if (JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle)
 	{
-		modifiers.SetState(kJXMetaKeyIndex, false);
-		modifiers.SetState(kJXControlKeyIndex, true);
+		modifiers.SetState(kJXMetaKeyIndex, true);
+		modifiers.SetState(kJXControlKeyIndex, false);
 	}
 
 	window->InstallShortcut(itsFindBackButton, 'g', modifiers);

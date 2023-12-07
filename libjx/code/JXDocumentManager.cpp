@@ -729,18 +729,7 @@ JXDocumentManager::UpdateDocumentMenu
 		if (itsWantShortcutFlag &&
 			kFirstShortcut <= info.shortcut && info.shortcut <= kLastShortcut)
 		{
-			const JXMenu::Style style = JXMenu::GetDefaultStyle();
-			JString nmShortcut;
-			if (style == JXMenu::kWindowsStyle)
-			{
-				nmShortcut = "Ctrl-";
-			}
-			else
-			{
-				assert( style == JXMenu::kMacintoshStyle );
-				nmShortcut = "Meta-";
-			}
-
+			JString nmShortcut("Ctrl-");
 			nmShortcut.Append(JUtf8Character(kShortcutChar[ info.shortcut ]));
 			menu->SetItemNMShortcut(i, nmShortcut);
 		}

@@ -39,12 +39,7 @@ static const JUtf8Byte kShortcutChar[] =
 
 // Windows menu
 
-static const JUtf8Byte* kMacWDMenuStr =
-	"    Bring all windows to front                 %i" kJXRaiseAllWindowsAction
-	"  | Close all other windows    %k Meta-Shift-W %i" kJXCloseAllOtherWindowsAction
-	"%l";
-
-static const JUtf8Byte* kWinWDMenuStr =
+static const JUtf8Byte* kWDMenuStr =
 	"    Bring all windows to front                 %i" kJXRaiseAllWindowsAction
 	"  | Close all other windows    %k Ctrl-Shift-W %i" kJXCloseAllOtherWindowsAction
 	"%l";
@@ -347,16 +342,7 @@ JXWDManager::UpdateWDMenu
 		return;		// will update next time it is opened
 	}
 
-	const JXMenu::Style style = JXMenu::GetDefaultStyle();
-	if (style == JXMenu::kWindowsStyle)
-	{
-		menu->SetMenuItems(kWinWDMenuStr);
-	}
-	else
-	{
-		assert( style == JXMenu::kMacintoshStyle );
-		menu->SetMenuItems(kMacWDMenuStr);
-	}
+	menu->SetMenuItems(kWDMenuStr);
 
 	// It almost always is sorted, so we only pay O(N) instead of O(N^2).
 	// (but we can't sort when document is created!)
@@ -386,8 +372,6 @@ JXWDManager::CalledByUpdateWDMenu
 	JXWDMenu*					menu
 	)
 {
-	const JXMenu::Style style = JXMenu::GetDefaultStyle();
-
 	for (const auto& info : windowList)
 	{
 		const JString& name = info.dir->GetName();
@@ -419,17 +403,7 @@ JXWDManager::CalledByUpdateWDMenu
 		else if (itsWantShortcutFlag &&
 				 kFirstShortcut <= info.shortcutIndex && info.shortcutIndex <= kLastShortcut)
 		{
-			JString nmShortcut;
-			if (style == JXMenu::kWindowsStyle)
-			{
-				nmShortcut = "Ctrl-";
-			}
-			else
-			{
-				assert( style == JXMenu::kMacintoshStyle );
-				nmShortcut = "Meta-";
-			}
-
+			JString nmShortcut("Ctrl-");
 			nmShortcut.Append(JUtf8Character(kShortcutChar[ info.shortcutIndex ]));
 			menu->SetItemNMShortcut(menuIndex, nmShortcut);
 		}

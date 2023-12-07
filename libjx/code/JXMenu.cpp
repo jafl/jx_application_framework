@@ -54,7 +54,6 @@
 #include <jx-af/jcore/jFStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-JXMenu::Style JXMenu::theDefaultStyle = JXMenu::kMacintoshStyle;
 JXMenu::Style JXMenu::theDisplayStyle = JXMenu::kWindowsStyle;
 
 const JCoordinate kImageTextBufferWidth = 4;

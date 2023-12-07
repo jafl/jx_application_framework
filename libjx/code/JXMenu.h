@@ -187,9 +187,6 @@ public:
 
 	void	HandleShortcut(const int key, const JXKeyModifiers& modifiers) override;
 
-	static Style	GetDefaultStyle();
-	static void		SetDefaultStyle(const Style style);
-
 	static Style	GetDisplayStyle();
 	static void		SetDisplayStyle(const Style style);
 
@@ -244,7 +241,6 @@ private:
 	ArrowPosition	itsArrowPosition;	// location of arrow when menu is free-standing
 	ArrowDirection	itsArrowDirection;	// direction of arrow when menu is free-standing
 
-	static Style	theDefaultStyle;
 	static Style	theDisplayStyle;
 
 	// used when menu is pulled down
@@ -528,32 +524,9 @@ JXMenu::SetPopupArrowDirection
 }
 
 /******************************************************************************
- Default menu style (static)
-
-	This controls the style of all menus created by JX and also indicates
-	what style the programmer hard-coded into the application menus.
-
- ******************************************************************************/
-
-inline JXMenu::Style
-JXMenu::GetDefaultStyle()
-{
-	return theDefaultStyle;
-}
-
-inline void
-JXMenu::SetDefaultStyle
-	(
-	const Style style
-	)
-{
-	theDefaultStyle = style;
-}
-
-/******************************************************************************
  Display menu style (static)
 
-	This controls the style that is actually displayed in the menus.
+	This controls the style that is displayed in the menus.
 
  ******************************************************************************/
 
