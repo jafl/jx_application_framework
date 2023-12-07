@@ -12,6 +12,10 @@ T
 F
 "./code/App.cpp"
 T
+2 "App-Help.jxm"
+F
+"./code/App-Help.jxm"
+T
 2 "globals.cpp"
 F
 "./code/globals.cpp"

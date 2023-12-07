@@ -1,0 +1,86 @@
+jx_menu_editor 0
+670 300
+"LayoutDocument"
+"Edit"
+'e
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+1 "jx_edit_undo.xpm"
+"Undo"
+"Ctrl-Z"
+'u
+"Undo::JX"
+"kUndoCmd"
+0
+
+1
+0
+1 "jx_edit_redo.xpm"
+"Redo"
+"Ctrl-Shift-Z"
+'r
+"Redo::JX"
+"kRedoCmd"
+1
+
+1
+0
+1 "jx_edit_cut.xpm"
+"Cut"
+"Ctrl-X"
+'t
+"Cut::JX"
+"kCutCmd"
+0
+
+1
+0
+1 "jx_edit_copy.xpm"
+"Copy"
+"Ctrl-C"
+'c
+"Copy::JX"
+"kCopyCmd"
+0
+
+1
+0
+1 "jx_edit_paste.xpm"
+"Paste"
+"Ctrl-V"
+'p
+"Paste::JX"
+"kPasteCmd"
+0
+
+1
+0
+1 "jx_edit_clear.xpm"
+"Delete"
+""
+'l
+"Clear::JX"
+"kClearCmd"
+1
+
+1
+0
+0 ""
+"Select all"
+"Ctrl-A"
+'a
+"SelectAll::JX"
+"kSelectAllCmd"
+0
+
+0

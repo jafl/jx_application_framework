@@ -1,0 +1,46 @@
+jx_menu_editor 0
+756 328
+"LayoutDocument"
+"Preferences"
+'p
+40
+40
+207
+100
+100
+186
+100
+75
+
+0
+1
+0
+0 ""
+"Edit tool bar..."
+""
+'t
+"__EditToolBar"
+"kEditToolBarCmd"
+0
+
+1
+0
+0 ""
+"File manager..."
+""
+'f
+"__FileManager"
+"kFilePrefsCmd"
+0
+
+1
+0
+0 ""
+"Mac/Win/X emulation..."
+""
+'e
+"__MacWinXEmulation"
+"kEditMacWinPrefsCmd"
+0
+
+0

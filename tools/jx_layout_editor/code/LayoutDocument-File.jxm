@@ -1,0 +1,126 @@
+jx_menu_editor 0
+730 362
+"LayoutDocument"
+"File"
+'f
+40
+40
+100
+100
+100
+157
+100
+75
+
+0
+1
+0
+1 "jx_file_new.xpm"
+"New..."
+"Ctrl-N"
+'s
+"New"
+"kNewCmd"
+1
+
+1
+0
+1 "jx_file_open.xpm"
+"Open..."
+"Ctrl-O"
+'o
+"Open"
+"kOpenCmd"
+0
+
+1
+0
+0 ""
+"Recent"
+""
+' 
+"Recent"
+"kRecentMenuCmd"
+1
+
+1
+0
+1 "jx_file_save.xpm"
+"Save"
+"Ctrl-S"
+'s
+"Save"
+"kSaveCmd"
+0
+
+1
+0
+0 ""
+"Save as..."
+"Meta-S"
+'v
+"SaveAs"
+"kSaveAsCmd"
+0
+
+1
+0
+0 ""
+"Save a copy as..."
+"Meta-Shift-S"
+'y
+"SaveCopyAs"
+"kSaveCopyAsCmd"
+0
+
+1
+0
+1 "jx_file_revert_to_saved.xpm"
+"Revert to saved"
+""
+'r
+"Revert"
+"kRevertCmd"
+0
+
+1
+0
+1 "jx_file_save_all.xpm"
+"Save all"
+"Ctrl-Shift-S"
+'a
+"SaveAll"
+"kSaveAllCmd"
+1
+
+1
+0
+0 ""
+"Show in file manager"
+""
+'f
+"ShowInFileMgr"
+"kShowInFileMgrCmd"
+1
+
+1
+0
+0 ""
+"Close"
+"Ctrl-W"
+'c
+"CloseWindow"
+"kCloseCmd"
+1
+
+1
+0
+0 ""
+"Quit"
+"Ctrl-Q"
+'q
+"Quit"
+"kQuitCmd"
+0
+
+0

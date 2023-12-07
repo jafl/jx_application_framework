@@ -20,23 +20,6 @@
 
 static const JUtf8Byte* kAppSignature = "jx_layout_editor";
 
-// Help menu
-
-static const JUtf8Byte* kHelpMenuStr =
-	"    About"
-	"%l| Table of Contents       %i" kJXHelpTOCAction
-	"  | Overview"
-	"  | This window       %k F1 %i" kJXHelpSpecificAction
-	"%l| Changes"
-	"  | Credits";
-
-enum
-{
-	kHelpAboutCmd = 1,
-	kHelpTOCCmd, kHelpOverviewCmd, kHelpWindowCmd,
-	kHelpChangeLogCmd, kHelpCreditsCmd
-};
-
 /******************************************************************************
  Constructor
 
@@ -116,8 +99,7 @@ App::DisplayAbout
 
  ******************************************************************************/
 
-#include <jx-af/image/jx/jx_help_toc.xpm>
-#include <jx-af/image/jx/jx_help_specific.xpm>
+#include "App-Help.h"
 
 JXTextMenu*
 App::CreateHelpMenu
@@ -126,12 +108,10 @@ App::CreateHelpMenu
 	const JUtf8Byte*	sectionName
 	)
 {
-	JXTextMenu* menu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
+	JXTextMenu* menu = menuBar->AppendTextMenu(JGetString("MenuTitle::App_Help"));
 	menu->SetMenuItems(kHelpMenuStr);
 	menu->SetUpdateAction(JXMenu::kDisableNone);
-
-	menu->SetItemImage(kHelpTOCCmd,    jx_help_toc);
-	menu->SetItemImage(kHelpWindowCmd, jx_help_specific);
+	ConfigureHelpMenu(menu);
 
 	ListenTo(menu, std::function([this, sectionName](const JXMenu::ItemSelected& msg)
 	{
