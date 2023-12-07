@@ -109,7 +109,7 @@ F
 # tasks
 4
 "makemake"
-T "./" "make install" "" TFTFTFF "" "" "" F
+T "./" "make -kw install" "" TFTFTFF "" "" "" F
 F
 # build settings
 1

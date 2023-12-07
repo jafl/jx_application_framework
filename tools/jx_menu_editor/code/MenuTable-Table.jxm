@@ -17,7 +17,7 @@ jx_menu_editor 0
 0
 0 ""
 "New item"
-"Meta-Shift-N"
+"Ctrl-Shift-N"
 'n
 "New"
 "kAppendCmd"

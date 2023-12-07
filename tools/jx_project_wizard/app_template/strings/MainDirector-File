@@ -6,4 +6,4 @@
 
 MenuTitle::MainDirector_File "File"
 
-Quit::MainDirector "Quit %k Meta-Q %h q"
+Quit::MainDirector "Quit %k Ctrl-Q %h q"

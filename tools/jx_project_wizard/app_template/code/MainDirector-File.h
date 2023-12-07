@@ -14,9 +14,9 @@ enum {
 };
 
 
-static void ConfigureFileMenu(JXTextMenu* menu) {
-	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("f", JString::kNoCopy));
+static void ConfigureFileMenu(JXTextMenu* menu, const int offset = 0) {
+	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts(JString("#f", JString::kNoCopy));
 	}
 };
 

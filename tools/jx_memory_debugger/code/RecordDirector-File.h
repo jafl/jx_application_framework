@@ -21,13 +21,16 @@ enum {
 	kQuitCmd,
 };
 
+#ifndef _H_jx_af_image_jx_jx_file_print
+#define _H_jx_af_image_jx_jx_file_print
 #include <jx-af/image/jx/jx_file_print.xpm>
+#endif
 
-static void ConfigureFileMenu(JXTextMenu* menu) {
-	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+static void ConfigureFileMenu(JXTextMenu* menu, const int offset = 0) {
+	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
 		menu->SetShortcuts(JString("#f", JString::kNoCopy));
 	}
-	menu->SetItemImage(kPrintCmd, jx_file_print);
+	menu->SetItemImage(kPrintCmd + offset, jx_file_print);
 };
 
 #endif

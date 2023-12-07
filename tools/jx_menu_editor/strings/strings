@@ -108,13 +108,13 @@ EnumMustBeValidIdentifier::MenuTable	"The enum name must be a valid C identifier
 InvalidShortcut::MenuTable				"This is not a valid shortcut.  Refer to the online help for more information."
 
 ConfigureMenuHeader::MenuTable
-"static void Configure$titleMenu(JXTextMenu* menu) {
+"static void Configure$titleMenu(JXTextMenu* menu, const int offset = 0) {
 "
 
 ConfigureShortcut::MenuTable
-"	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+"	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
 		menu->SetShortcuts(JString(\"#$key\", JString::kNoCopy));
 	}
 "
 
-SetIconsLine::MenuTable	"	menu->SetItemImage($enum, $icon);"
+SetIconsLine::MenuTable	"	menu->SetItemImage($enum + offset, $icon);"

@@ -229,6 +229,14 @@ MenuTable::TableDrawCell
 		p.Line(pt1, pt2);
 	}
 
+	if (cell.x == kTypeColumn || cell.x == kIconColumn)
+	{
+		p.SetFilling(true);
+		p.SetPenColor(JColorManager::GetDefaultBackColor());
+		p.Rect(rect);
+		p.ResetAllButClipping();
+	}
+
 	if (cell.x == kTypeColumn)
 	{
 		const JPoint pt = rect.center();
@@ -1745,7 +1753,7 @@ MenuTable::GenerateCode
 	// attach icons
 
 	bool hasIcons = false;
-	JString p, n;
+	JString p, n, r;
 	for (const auto& item : *itsItemList)
 	{
 		if (item.iconIndex > 0)
@@ -1753,11 +1761,26 @@ MenuTable::GenerateCode
 			const auto* path      = itsIconPathList->GetItem(item.iconIndex);
 			const bool isCoreIcon = path->StartsWith(JX_INCLUDE_PATH);
 			JSplitPathAndName(*path, &p, &n);
+			JSplitRootAndSuffix(n, &r, &p);
+
+			p.Set(isCoreIcon ? "jx_af_image_jx_" : "");
+
+			output << "#ifndef _H_";
+			p.Print(output);
+			r.Print(output);
+			output << std::endl;
+
+			output << "#define _H_";
+			p.Print(output);
+			r.Print(output);
+			output << std::endl;
 
 			output << "#include ";
 			output << (isCoreIcon ? "<jx-af/image/jx/" : "\"");
 			n.Print(output);
 			output << (isCoreIcon ? '>' : '"') << std::endl;
+
+			output << "#endif" << std::endl;
 
 			hasIcons = true;
 		}

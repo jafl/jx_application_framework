@@ -18,8 +18,8 @@ enum {
 };
 
 
-static void ConfigureTableMenu(JXTextMenu* menu) {
-	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+static void ConfigureTableMenu(JXTextMenu* menu, const int offset = 0) {
+	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
 		menu->SetShortcuts(JString("#t", JString::kNoCopy));
 	}
 };

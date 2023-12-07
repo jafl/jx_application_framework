@@ -6,4 +6,4 @@
 
 MenuTitle::StatsDirector_File "File"
 
-Quit::JX "Quit %k Meta-Q %h q"
+Quit::JX "Quit %k Ctrl-Q %h q"

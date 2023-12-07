@@ -33,21 +33,36 @@ enum {
 	kQuitCmd,
 };
 
+#ifndef _H_jx_af_image_jx_jx_file_new
+#define _H_jx_af_image_jx_jx_file_new
 #include <jx-af/image/jx/jx_file_new.xpm>
+#endif
+#ifndef _H_jx_af_image_jx_jx_file_open
+#define _H_jx_af_image_jx_jx_file_open
 #include <jx-af/image/jx/jx_file_open.xpm>
+#endif
+#ifndef _H_jx_af_image_jx_jx_file_save
+#define _H_jx_af_image_jx_jx_file_save
 #include <jx-af/image/jx/jx_file_save.xpm>
+#endif
+#ifndef _H_jx_af_image_jx_jx_file_revert_to_saved
+#define _H_jx_af_image_jx_jx_file_revert_to_saved
 #include <jx-af/image/jx/jx_file_revert_to_saved.xpm>
+#endif
+#ifndef _H_jx_af_image_jx_jx_file_save_all
+#define _H_jx_af_image_jx_jx_file_save_all
 #include <jx-af/image/jx/jx_file_save_all.xpm>
+#endif
 
-static void ConfigureFileMenu(JXTextMenu* menu) {
-	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+static void ConfigureFileMenu(JXTextMenu* menu, const int offset = 0) {
+	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
 		menu->SetShortcuts(JString("#f", JString::kNoCopy));
 	}
-	menu->SetItemImage(kNewCmd, jx_file_new);
-	menu->SetItemImage(kOpenCmd, jx_file_open);
-	menu->SetItemImage(kSaveCmd, jx_file_save);
-	menu->SetItemImage(kRevertCmd, jx_file_revert_to_saved);
-	menu->SetItemImage(kSaveAllCmd, jx_file_save_all);
+	menu->SetItemImage(kNewCmd + offset, jx_file_new);
+	menu->SetItemImage(kOpenCmd + offset, jx_file_open);
+	menu->SetItemImage(kSaveCmd + offset, jx_file_save);
+	menu->SetItemImage(kRevertCmd + offset, jx_file_revert_to_saved);
+	menu->SetItemImage(kSaveAllCmd + offset, jx_file_save_all);
 };
 
 #endif

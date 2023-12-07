@@ -23,15 +23,21 @@ enum {
 	kHelpCreditsCmd,
 };
 
+#ifndef _H_jx_af_image_jx_jx_help_toc
+#define _H_jx_af_image_jx_jx_help_toc
 #include <jx-af/image/jx/jx_help_toc.xpm>
+#endif
+#ifndef _H_jx_af_image_jx_jx_help_specific
+#define _H_jx_af_image_jx_jx_help_specific
 #include <jx-af/image/jx/jx_help_specific.xpm>
+#endif
 
-static void ConfigureHelpMenu(JXTextMenu* menu) {
-	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("h", JString::kNoCopy));
+static void ConfigureHelpMenu(JXTextMenu* menu, const int offset = 0) {
+	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts(JString("#h", JString::kNoCopy));
 	}
-	menu->SetItemImage(kHelpTOCCmd, jx_help_toc);
-	menu->SetItemImage(kHelpWindowCmd, jx_help_specific);
+	menu->SetItemImage(kHelpTOCCmd + offset, jx_help_toc);
+	menu->SetItemImage(kHelpWindowCmd + offset, jx_help_specific);
 };
 
 #endif

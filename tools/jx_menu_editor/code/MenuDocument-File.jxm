@@ -17,7 +17,7 @@ jx_menu_editor 0
 0
 1 "jx_file_new.xpm"
 "New..."
-"Meta-N"
+"Ctrl-N"
 's
 "New"
 "kNewCmd"
@@ -27,7 +27,7 @@ jx_menu_editor 0
 0
 1 "jx_file_open.xpm"
 "Open..."
-"Meta-O"
+"Ctrl-O"
 'o
 "Open"
 "kOpenCmd"
@@ -47,7 +47,7 @@ jx_menu_editor 0
 0
 1 "jx_file_save.xpm"
 "Save"
-"Meta-S"
+"Ctrl-S"
 's
 "Save"
 "kSaveCmd"
@@ -57,7 +57,7 @@ jx_menu_editor 0
 0
 0 ""
 "Save as..."
-"Ctrl-S"
+"Meta-S"
 'v
 "SaveAs"
 "kSaveAsCmd"
@@ -67,7 +67,7 @@ jx_menu_editor 0
 0
 0 ""
 "Save a copy as..."
-"Ctrl-Shift-S"
+"Meta-Shift-S"
 'y
 "SaveCopyAs"
 "kSaveCopyAsCmd"
@@ -87,7 +87,7 @@ jx_menu_editor 0
 0
 1 "jx_file_save_all.xpm"
 "Save all"
-"Meta-Shift-S"
+"Ctrl-Shift-S"
 'a
 "SaveAll"
 "kSaveAllCmd"
@@ -107,7 +107,7 @@ jx_menu_editor 0
 0
 0 ""
 "Close"
-"Meta-W"
+"Ctrl-W"
 'c
 "CloseWindow"
 "kCloseCmd"
@@ -117,7 +117,7 @@ jx_menu_editor 0
 0
 0 ""
 "Quit"
-"Meta-Q"
+"Ctrl-Q"
 'q
 "Quit"
 "kQuitCmd"

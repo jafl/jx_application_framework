@@ -20,8 +20,8 @@ enum {
 };
 
 
-static void ConfigurePreferencesMenu(JXTextMenu* menu) {
-	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+static void ConfigurePreferencesMenu(JXTextMenu* menu, const int offset = 0) {
+	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
 		menu->SetShortcuts(JString("#p", JString::kNoCopy));
 	}
 };
