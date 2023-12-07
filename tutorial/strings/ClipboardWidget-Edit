@@ -6,5 +6,5 @@
 
 MenuTitle::ClipboardWidget_Edit "Edit"
 
-__Copy::ClipboardWidget "Copy %k Meta-C %h c"
-__Paste::ClipboardWidget "Paste %k Meta-V %h p"
+__Copy::ClipboardWidget "Copy %k Ctrl-C %h c"
+__Paste::ClipboardWidget "Paste %k Ctrl-V %h p"

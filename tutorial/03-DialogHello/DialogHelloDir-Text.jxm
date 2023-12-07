@@ -17,7 +17,7 @@ jx_menu_editor 0
 0
 0 ""
 "Change Text"
-"Meta-C"
+"Ctrl-C"
 'c
 "__ChangeText"
 "kChangeText"
@@ -27,7 +27,7 @@ jx_menu_editor 0
 0
 0 ""
 "Quit"
-"Meta-Q"
+"Ctrl-Q"
 'q
 "__Quit"
 "kQuit"

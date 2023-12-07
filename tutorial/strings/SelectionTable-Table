@@ -6,6 +6,6 @@
 
 MenuTitle::SelectionTable_Table "Table"
 
-__Insert::SelectionTable "Insert %k Meta-I %h i"
+__Insert::SelectionTable "Insert %k Ctrl-I %h i"
 __Remove::SelectionTable "Remove %h r"
-__Quit::SelectionTable "Quit %k Meta-Q %h q"
+__Quit::SelectionTable "Quit %k Ctrl-Q %h q"

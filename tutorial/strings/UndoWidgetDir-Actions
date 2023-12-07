@@ -6,6 +6,6 @@
 
 MenuTitle::UndoWidgetDir_Actions "Actions"
 
-__Undo::UndoWidgetDir "Undo %k Meta-Z %h u"
-__Redo::UndoWidgetDir "Redo %k Meta-Shift-Z %h r"
-__Quit::UndoWidgetDir "Quit %k Meta-Q %h q"
+__Undo::UndoWidgetDir "Undo %k Ctrl-Z %h u"
+__Redo::UndoWidgetDir "Redo %k Ctrl-Shift-Z %h r"
+__Quit::UndoWidgetDir "Quit %k Ctrl-Q %h q"

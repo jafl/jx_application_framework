@@ -17,7 +17,7 @@ jx_menu_editor 0
 0
 0 ""
 "Undo"
-"Meta-Z"
+"Ctrl-Z"
 'u
 "__Undo"
 "kUndo"
@@ -27,7 +27,7 @@ jx_menu_editor 0
 0
 0 ""
 "Redo"
-"Meta-Shift-Z"
+"Ctrl-Shift-Z"
 'r
 "__Redo"
 "kRedo"
@@ -37,7 +37,7 @@ jx_menu_editor 0
 0
 0 ""
 "Quit"
-"Meta-Q"
+"Ctrl-Q"
 'q
 "__Quit"
 "kQuit"

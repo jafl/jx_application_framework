@@ -6,6 +6,6 @@
 
 MenuTitle::EditTable_Table "Table"
 
-__Insert::EditTable "Insert %k Meta-I %h i"
+__Insert::EditTable "Insert %k Ctrl-I %h i"
 __Remove::EditTable "Remove %h r"
-__Quit::EditTable "Quit %k Meta-Q %h q"
+__Quit::EditTable "Quit %k Ctrl-Q %h q"

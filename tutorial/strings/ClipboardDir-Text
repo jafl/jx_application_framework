@@ -6,5 +6,5 @@
 
 MenuTitle::ClipboardDir_Text "Text"
 
-__ChangeText::ClipboardDir "Change Text %k Meta-T %h t"
-__Quit::ClipboardDir "Quit %k Meta-Q %h q"
+__ChangeText::ClipboardDir "Change Text %k Ctrl-T %h t"
+__Quit::ClipboardDir "Quit %k Ctrl-Q %h q"

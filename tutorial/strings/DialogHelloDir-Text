@@ -6,5 +6,5 @@
 
 MenuTitle::DialogHelloDir_Text "Text"
 
-__ChangeText::DialogHelloDir "Change Text %k Meta-C %h c"
-__Quit::DialogHelloDir "Quit %k Meta-Q %h q"
+__ChangeText::DialogHelloDir "Change Text %k Ctrl-C %h c"
+__Quit::DialogHelloDir "Quit %k Ctrl-Q %h q"
