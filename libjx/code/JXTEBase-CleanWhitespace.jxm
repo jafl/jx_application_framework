@@ -1,0 +1,66 @@
+jx_menu_editor 0
+670 300
+"JXTEBase"
+"CleanWhitespace"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+1
+1 "jx_show_whitespace.xpm"
+"Show whitespace"
+""
+' 
+"ShowWhitespaceCmd::JXTEBase"
+"__ShowWhitespaceCmd"
+0
+
+1
+0
+0 ""
+"Clean all whitespace"
+""
+'w
+"CleanAllWhitespaceCmd::JXTEBase"
+"__CleanAllWhitespaceCmd"
+0
+
+1
+0
+0 ""
+"Clean selected ws"
+""
+' 
+"CleanWhitespaceSelCmd::JXTEBase"
+"__CleanWhitespaceSelCmd"
+0
+
+1
+0
+0 ""
+"Clean all ws & alignment"
+""
+' 
+"CleanAllWSAlignCmd::JXTEBase"
+"__CleanAllWSAlignCmd"
+0
+
+1
+0
+0 ""
+"Clean selected ws & align"
+""
+' 
+"CleanWSAlignSelCmd::JXTEBase"
+"__CleanWSAlignSelCmd"
+0
+
+0

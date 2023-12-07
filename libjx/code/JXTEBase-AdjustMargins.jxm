@@ -1,0 +1,66 @@
+jx_menu_editor 0
+670 300
+"JXTEBase"
+"AdjustMargins"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+1 "jx_edit_clean_right_margin.xpm"
+"Clean right margin"
+"Ctrl-Return"
+'m
+"CleanRightMarginCmd::JXTEBase"
+"__CleanRightMarginCmd"
+0
+
+1
+0
+1 "jx_edit_coerce_right_margin.xpm"
+"Coerce right margin"
+"Ctrl-Shift-Return"
+'n
+"CoerceRightMarginCmd::JXTEBase"
+"__CoerceRightMarginCmd"
+1
+
+1
+0
+1 "jx_edit_shift_left.xpm"
+"Shift left"
+"Ctrl-["
+'e
+"ShiftSelLeftCmd::JXTEBase"
+"__ShiftSelLeftCmd"
+0
+
+1
+0
+1 "jx_edit_shift_right.xpm"
+"Shift right"
+"Ctrl-]"
+'i
+"ShiftSelRightCmd::JXTEBase"
+"__ShiftSelRightCmd"
+0
+
+1
+0
+1 "jx_edit_force_shift_left.xpm"
+"Force shift left"
+"Ctrl-{"
+'f
+"ForceShiftSelLeftCmd::JXTEBase"
+"__ForceShiftSelLeftCmd"
+0
+
+0

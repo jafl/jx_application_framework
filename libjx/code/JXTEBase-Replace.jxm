@@ -1,0 +1,156 @@
+jx_menu_editor 0
+680 419
+"JXTEBase"
+"Replace"
+'s
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+1 "jx_find.xpm"
+"Find..."
+"Ctrl-F"
+'f
+"FindDialog::JX"
+"__FindDialog_Replace"
+0
+
+1
+0
+1 "jx_find_previous.xpm"
+"Find previous"
+"Ctrl-Shift-G"
+'p
+"FindPrevious::JX"
+"__FindPrevious_Replace"
+0
+
+1
+0
+1 "jx_find_next.xpm"
+"Find next"
+"Ctrl-G"
+'n
+"FindNext::JX"
+"__FindNext_Replace"
+1
+
+1
+0
+0 ""
+"Enter search string"
+"Ctrl-E"
+'s
+"EnterSearchText::JX"
+"__EnterSearchText_Replace"
+0
+
+1
+0
+0 ""
+"Enter replace string"
+"Ctrl-Shift-E"
+'e
+"EnterReplaceText::JX"
+"__EnterReplaceText_Replace"
+1
+
+1
+0
+1 "jx_find_selection_backwards.xpm"
+"Find selection backwards"
+"Ctrl-Shift-H"
+'b
+"FindSelectionBackwards::JX"
+"__FindSelectionBackwards_Replace"
+0
+
+1
+0
+1 "jx_find_selection_forward.xpm"
+"Find selection forward"
+"Ctrl-H"
+'o
+"FindSelectionForward::JX"
+"__FindSelectionForward_Replace"
+1
+
+1
+0
+0 ""
+"Find clipboard backwards"
+"Meta-Shift-H"
+'k
+"FindClipboardBackwards::JX"
+"__FindClipboardBackwards_Replace"
+0
+
+1
+0
+0 ""
+"Find clipboard forward"
+"Meta-H"
+'w
+"FindClipboardForward::JX"
+"__FindClipboardForward_Replace"
+1
+
+1
+0
+1 "jx_replace_selection.xpm"
+"Replace"
+"Ctrl-="
+'r
+"ReplaceSelection::JX"
+"__ReplaceSelection_Replace"
+0
+
+1
+0
+0 ""
+"Replace and find previous"
+"Ctrl-Shift-L"
+'v
+"ReplaceFindPrev::JX"
+"__ReplaceFindPrev_Replace"
+0
+
+1
+0
+0 ""
+"Replace and find next"
+"Ctrl-L"
+'x
+"ReplaceFindNext::JX"
+"__ReplaceFindNext_Replace"
+1
+
+1
+0
+0 ""
+"Replace all"
+""
+'c
+"ReplaceAll::JX"
+"__ReplaceAll_Replace"
+0
+
+1
+0
+0 ""
+"Replace all in selection"
+""
+'i
+"ReplaceAllInSelection::JX"
+"__ReplaceAllInSelection_Replace"
+0
+
+0

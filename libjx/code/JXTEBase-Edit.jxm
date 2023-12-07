@@ -1,0 +1,86 @@
+jx_menu_editor 0
+670 300
+"JXTEBase"
+"Edit"
+'e
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+1 "jx_edit_undo.xpm"
+"Undo"
+"Ctrl-Z"
+'u
+"Undo::JX"
+"__Undo"
+0
+
+1
+0
+1 "jx_edit_redo.xpm"
+"Redo"
+"Ctrl-Shift-Z"
+'r
+"Redo::JX"
+"__Redo"
+1
+
+1
+0
+1 "jx_edit_cut.xpm"
+"Cut"
+"Ctrl-X"
+'t
+"Cut::JX"
+"__Cut"
+0
+
+1
+0
+1 "jx_edit_copy.xpm"
+"Copy"
+"Ctrl-C"
+'c
+"Copy::JX"
+"__Copy"
+0
+
+1
+0
+1 "jx_edit_paste.xpm"
+"Paste"
+"Ctrl-V"
+'p
+"Paste::JX"
+"__Paste"
+0
+
+1
+0
+1 "jx_edit_clear.xpm"
+"Delete"
+""
+'l
+"Clear::JX"
+"__Clear"
+1
+
+1
+0
+0 ""
+"Select all"
+"Ctrl-A"
+'a
+"SelectAll::JX"
+"__SelectAll"
+0
+
+0

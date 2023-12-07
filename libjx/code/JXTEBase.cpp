@@ -77,78 +77,6 @@ static const JUtf8Byte* kDataNotCompatibleExtra = "DataNotCompatibleExtra::JXTEB
 
 // Edit menu
 
-static const JUtf8Byte* kMacEditMenuStr =
-	"    Undo       %k Meta-Z       %i" kJXUndoAction
-	"  | Redo       %k Meta-Shift-Z %i" kJXRedoAction
-	"%l| Cut        %k Meta-X       %i" kJXCutAction
-	"  | Copy       %k Meta-C       %i" kJXCopyAction
-	"  | Paste      %k Meta-V       %i" kJXPasteAction
-	"  | Delete                     %i" kJXClearAction
-	"%l| Select all %k Meta-A       %i" kJXSelectAllAction;
-
-static const JUtf8Byte* kWinEditMenuStr =
-	"    Undo       %h uz %k Ctrl-Z       %i" kJXUndoAction
-	"  | Redo       %h r  %k Ctrl-Shift-Z %i" kJXRedoAction
-	"%l| Cut        %h tx %k Ctrl-X       %i" kJXCutAction
-	"  | Copy       %h c  %k Ctrl-C       %i" kJXCopyAction
-	"  | Paste      %h pv %k Ctrl-V       %i" kJXPasteAction
-	"  | Delete     %h l                  %i" kJXClearAction
-	"%l| Select all %h a  %k Ctrl-A       %i" kJXSelectAllAction;
-
-#define kCleanRightMarginAction		"CleanRightMarginCmd::JXTEBase"
-#define kCoerceRightMarginAction	"CoerceRightMarginCmd::JXTEBase"
-#define kShiftSelLeftAction			"ShiftSelLeftCmd::JXTEBase"
-#define kShiftSelRightAction		"ShiftSelRightCmd::JXTEBase"
-#define kForceShiftSelLeftAction	"ForceShiftSelLeftCmd::JXTEBase"
-#define kShowWhitespaceAction		"ShowWhitespaceCmd::JXTEBase"
-#define kCleanAllWhitespaceAction	"CleanAllWhitespaceCmd::JXTEBase"
-#define kCleanWhitespaceSelAction	"CleanWhitespaceSelCmd::JXTEBase"
-#define kCleanAllWSAlignAction		"CleanAllWSAlignCmd::JXTEBase"
-#define kCleanWSAlignSelAction		"CleanWSAlignSelCmd::JXTEBase"
-#define kToggleReadOnlyAction		"ToggleReadOnlyCmd::JXTEBase"
-
-static const JUtf8Byte* kMacCheckSpellingMenuStr =
-	"  Check spelling  %i" kCheckAllSpellingAction
-	"| Check selection %i" kCheckSpellingSelAction;
-
-static const JUtf8Byte* kWinCheckSpellingMenuStr =
-	"  Check spelling  %h s %i" kCheckAllSpellingAction
-	"| Check selection %h k %i" kCheckSpellingSelAction;
-
-static const JUtf8Byte* kMacAdjustMarginsMenuStr =
-	"    Clean right margin  %k Meta-Return       %i" kCleanRightMarginAction
-	"  | Coerce right margin %k Meta-Shift-Return %i" kCoerceRightMarginAction
-	"%l| Shift left          %k Meta-[            %i" kShiftSelLeftAction
-	"  | Shift right         %k Meta-]            %i" kShiftSelRightAction
-	"  | Force shift left    %k Meta-{            %i" kForceShiftSelLeftAction;
-
-static const JUtf8Byte* kWinAdjustMarginsMenuStr =
-	"    Clean right margin  %h m %k Ctrl-Return       %i" kCleanRightMarginAction
-	"  | Coerce right margin %h n %k Ctrl-Shift-Return %i" kCoerceRightMarginAction
-	"%l| Shift left          %h e %k Ctrl-[            %i" kShiftSelLeftAction
-	"  | Shift right         %h i %k Ctrl-]            %i" kShiftSelRightAction
-	"  | Force shift left    %h f %k Ctrl-{            %i" kForceShiftSelLeftAction;
-
-static const JUtf8Byte* kMacCleanWhitespaceMenuStr =
-	"  Show whitespace        %b %i" kShowWhitespaceAction
-	"| Clean all whitespace      %i" kCleanAllWhitespaceAction
-	"| Clean selected ws         %i" kCleanWhitespaceSelAction
-	"| Clean all ws & alignment  %i" kCleanAllWSAlignAction
-	"| Clean selected ws & align %i" kCleanWSAlignSelAction;
-
-static const JUtf8Byte* kWinCleanWhitespaceMenuStr =
-	"  Show whitespace   %b      %i" kShowWhitespaceAction
-	"| Clean all whitespace %h w %i" kCleanAllWhitespaceAction
-	"| Clean selected ws         %i" kCleanWhitespaceSelAction
-	"| Clean all ws & alignment  %i" kCleanAllWSAlignAction
-	"| Clean selected ws & align %i" kCleanWSAlignSelAction;
-
-static const JUtf8Byte* kMacReadOnlyMenuStr =
-	"Read only %b %i" kToggleReadOnlyAction;
-
-static const JUtf8Byte* kWinReadOnlyMenuStr =
-	"Read only %b %h o %i" kToggleReadOnlyAction;
-
 static const MenuItemInfo kEditMenuItemInfo[] =
 {
 	{ JTextEditor::kUndoCmd,      kJXUndoAction      },
@@ -159,53 +87,22 @@ static const MenuItemInfo kEditMenuItemInfo[] =
 	{ JTextEditor::kDeleteSelCmd, kJXClearAction     },
 	{ JTextEditor::kSelectAllCmd, kJXSelectAllAction },
 
-	{ JTextEditor::kCheckSpellingCmd,      kCheckAllSpellingAction   },
-	{ JTextEditor::kCheckSpellingSelCmd,   kCheckSpellingSelAction   },
-	{ JTextEditor::kCleanRightMarginCmd,   kCleanRightMarginAction   },
-	{ JTextEditor::kCoerceRightMarginCmd,  kCoerceRightMarginAction  },
-	{ JTextEditor::kShiftSelLeftCmd,       kShiftSelLeftAction       },
-	{ JTextEditor::kShiftSelRightCmd,      kShiftSelRightAction      },
-	{ JTextEditor::kForceShiftSelLeftCmd,  kForceShiftSelLeftAction  },
-	{ JTextEditor::kShowWhitespaceCmd,     kShowWhitespaceAction     },
-	{ JTextEditor::kCleanAllWhitespaceCmd, kCleanAllWhitespaceAction },
-	{ JTextEditor::kCleanWhitespaceSelCmd, kCleanWhitespaceSelAction },
-	{ JTextEditor::kCleanAllWSAlignCmd,    kCleanAllWSAlignAction    },
-	{ JTextEditor::kCleanWSAlignSelCmd,    kCleanWSAlignSelAction    },
-	{ JTextEditor::kToggleReadOnlyCmd,     kToggleReadOnlyAction     },
-};
-
-// used when setting images
-
-enum
-{
-	kUndoIndex = 1, kRedoIndex,
-	kCutIndex, kCopyIndex, kPasteIndex, kClearIndex,
-	kSelectAllIndex
+	{ JTextEditor::kCheckSpellingCmd,      kCheckAllSpellingAction           },
+	{ JTextEditor::kCheckSpellingSelCmd,   kCheckSpellingSelAction           },
+	{ JTextEditor::kCleanRightMarginCmd,   "CleanRightMarginCmd::JXTEBase"   },
+	{ JTextEditor::kCoerceRightMarginCmd,  "CoerceRightMarginCmd::JXTEBase"  },
+	{ JTextEditor::kShiftSelLeftCmd,       "ShiftSelLeftCmd::JXTEBase"       },
+	{ JTextEditor::kShiftSelRightCmd,      "ShiftSelRightCmd::JXTEBase"      },
+	{ JTextEditor::kForceShiftSelLeftCmd,  "ForceShiftSelLeftCmd::JXTEBase"  },
+	{ JTextEditor::kShowWhitespaceCmd,     "ShowWhitespaceCmd::JXTEBase"     },
+	{ JTextEditor::kCleanAllWhitespaceCmd, "CleanAllWhitespaceCmd::JXTEBase" },
+	{ JTextEditor::kCleanWhitespaceSelCmd, "CleanWhitespaceSelCmd::JXTEBase" },
+	{ JTextEditor::kCleanAllWSAlignCmd,    "CleanAllWSAlignCmd::JXTEBase"    },
+	{ JTextEditor::kCleanWSAlignSelCmd,    "CleanWSAlignSelCmd::JXTEBase"    },
+	{ JTextEditor::kToggleReadOnlyCmd,     "ToggleReadOnlyCmd::JXTEBase"     },
 };
 
 // Search menu
-
-static const JUtf8Byte* kMacSearchMenuStr =
-	"    Find...                   %k Meta-F       %i" kJXFindDialogAction
-	"  | Find previous             %k Meta-Shift-G %i" kJXFindPreviousAction
-	"  | Find next                 %k Meta-G       %i" kJXFindNextAction
-	"%l| Enter search string       %k Meta-E       %i" kJXEnterSearchTextAction
-	"  | Enter replace string      %k Meta-Shift-E %i" kJXEnterReplaceTextAction
-	"%l| Find selection backwards  %k Meta-Shift-H %i" kJXFindSelectionBackwardsAction
-	"  | Find selection forward    %k Meta-H       %i" kJXFindSelectionForwardAction
-	"%l| Find clipboard backwards  %k Ctrl-Shift-H %i" kJXFindClipboardBackwardsAction
-	"  | Find clipboard forward    %k Ctrl-H       %i" kJXFindClipboardForwardAction;
-
-static const JUtf8Byte* kWinSearchMenuStr =
-	"    Find...                   %h f %k Ctrl-F       %i" kJXFindDialogAction
-	"  | Find previous             %h p %k Ctrl-Shift-G %i" kJXFindPreviousAction
-	"  | Find next                 %h n %k Ctrl-G       %i" kJXFindNextAction
-	"%l| Enter search string       %h s %k Ctrl-E       %i" kJXEnterSearchTextAction
-	"  | Enter replace string      %h e %k Ctrl-Shift-E %i" kJXEnterReplaceTextAction
-	"%l| Find selection backwards  %h b %k Ctrl-Shift-H %i" kJXFindSelectionBackwardsAction
-	"  | Find selection forward    %h o %k Ctrl-H       %i" kJXFindSelectionForwardAction
-	"%l| Find clipboard backwards  %h k %k Meta-Shift-H %i" kJXFindClipboardBackwardsAction
-	"  | Find clipboard forward    %h w %k Meta-H       %i" kJXFindClipboardForwardAction;
 
 static const MenuItemInfo kSearchMenuItemInfo[] =
 {
@@ -220,50 +117,7 @@ static const MenuItemInfo kSearchMenuItemInfo[] =
 	{ JTextEditor::kFindClipboardForwardCmd,  kJXFindClipboardForwardAction   }
 };
 
-// used when setting images
-
-enum
-{
-	kSFindCmd = 1,
-	kSFindPrevCmd,          kSFindNextCmd,
-	kSEnterSearchStrCmd,    kSEnterReplaceStrCmd,
-	kSFindSelectionBackCmd, kSFindSelectionFwdCmd,
-	kSFindClipboardBackCmd, kSFindClipboardFwdCmd
-};
-
 // Search & Replace menu
-
-static const JUtf8Byte* kMacReplaceMenuStr =
-	"    Find...                   %k Meta-F       %i" kJXFindDialogAction
-	"  | Find previous             %k Meta-Shift-G %i" kJXFindPreviousAction
-	"  | Find next                 %k Meta-G       %i" kJXFindNextAction
-	"%l| Enter search string       %k Meta-E       %i" kJXEnterSearchTextAction
-	"  | Enter replace string      %k Meta-Shift-E %i" kJXEnterReplaceTextAction
-	"%l| Find selection backwards  %k Meta-Shift-H %i" kJXFindSelectionBackwardsAction
-	"  | Find selection forward    %k Meta-H       %i" kJXFindSelectionForwardAction
-	"%l| Find clipboard backwards  %k Ctrl-Shift-H %i" kJXFindClipboardBackwardsAction
-	"  | Find clipboard forward    %k Ctrl-H       %i" kJXFindClipboardForwardAction
-	"%l| Replace                   %k Meta-=       %i" kJXReplaceSelectionAction
-	"  | Replace and find previous %k Meta-Shift-L %i" kJXReplaceFindPrevAction
-	"  | Replace and find next     %k Meta-L       %i" kJXReplaceFindNextAction
-	"%l| Replace all                               %i" kJXReplaceAllAction
-	"  | Replace all in selection                  %i" kJXReplaceAllInSelectionAction;
-
-static const JUtf8Byte* kWinReplaceMenuStr =
-	"    Find...                   %h f %k Ctrl-F       %i" kJXFindDialogAction
-	"  | Find previous             %h p %k Ctrl-Shift-G %i" kJXFindPreviousAction
-	"  | Find next                 %h n %k Ctrl-G       %i" kJXFindNextAction
-	"%l| Enter search string       %h s %k Ctrl-E       %i" kJXEnterSearchTextAction
-	"  | Enter replace string      %h e %k Ctrl-Shift-E %i" kJXEnterReplaceTextAction
-	"%l| Find selection backwards  %h b %k Ctrl-Shift-H %i" kJXFindSelectionBackwardsAction
-	"  | Find selection forward    %h o %k Ctrl-H       %i" kJXFindSelectionForwardAction
-	"%l| Find clipboard backwards  %h k %k Meta-Shift-H %i" kJXFindClipboardBackwardsAction
-	"  | Find clipboard forward    %h w %k Meta-H       %i" kJXFindClipboardForwardAction
-	"%l| Replace                   %h r %k Ctrl-=       %i" kJXReplaceSelectionAction
-	"  | Replace and find previous %h v %k Ctrl-Shift-L %i" kJXReplaceFindPrevAction
-	"  | Replace and find next     %h x %k Ctrl-L       %i" kJXReplaceFindNextAction
-	"%l| Replace all               %h c                 %i" kJXReplaceAllAction
-	"  | Replace all in selection  %h i                 %i" kJXReplaceAllInSelectionAction;
 
 static const MenuItemInfo kReplaceMenuItemInfo[] =
 {
@@ -281,20 +135,6 @@ static const MenuItemInfo kReplaceMenuItemInfo[] =
 	{ JTextEditor::kReplaceFindNextCmd,       kJXReplaceFindNextAction        },
 	{ JTextEditor::kReplaceAllCmd,            kJXReplaceAllAction             },
 	{ JTextEditor::kReplaceAllInSelectionCmd, kJXReplaceAllInSelectionAction  }
-};
-
-// used when setting images
-
-enum
-{
-	kSRFindCmd = 1,
-	kSRFindPrevCmd,          kSRFindNextCmd,
-	kSREnterSearchStrCmd,    kSREnterReplaceStrCmd,
-	kSRFindSelectionBackCmd, kSRFindSelectionFwdCmd,
-	kSRFindClipboardBackCmd, kSRFindClipboardFwdCmd,
-	kSRReplaceCmd,
-	kSRReplaceAndFindPrevCmd, kSRReplaceAndFindNextCmd,
-	kSRReplaceAllCmd, kSRReplaceAllInSelectionCmd
 };
 
 /******************************************************************************
@@ -1850,21 +1690,11 @@ JXTEBase::DataNotCompatible::DataNotCompatible
 
  ******************************************************************************/
 
-#include <jx-af/image/jx/jx_edit_undo.xpm>
-#include <jx-af/image/jx/jx_edit_redo.xpm>
-#include <jx-af/image/jx/jx_edit_cut.xpm>
-#include <jx-af/image/jx/jx_edit_copy.xpm>
-#include <jx-af/image/jx/jx_edit_paste.xpm>
-#include <jx-af/image/jx/jx_edit_clear.xpm>
-#include <jx-af/image/jx/jx_spell_check.xpm>
-#include <jx-af/image/jx/jx_spell_check_selection.xpm>
-#include <jx-af/image/jx/jx_edit_clean_right_margin.xpm>
-#include <jx-af/image/jx/jx_edit_coerce_right_margin.xpm>
-#include <jx-af/image/jx/jx_edit_shift_left.xpm>
-#include <jx-af/image/jx/jx_edit_shift_right.xpm>
-#include <jx-af/image/jx/jx_edit_force_shift_left.xpm>
-#include <jx-af/image/jx/jx_show_whitespace.xpm>
-#include <jx-af/image/jx/jx_edit_read_only.xpm>
+#include "JXTEBase-Edit.h"
+#include "JXTEBase-CheckSpelling.h"
+#include "JXTEBase-AdjustMargins.h"
+#include "JXTEBase-CleanWhitespace.h"
+#include "JXTEBase-ReadOnly.h"
 
 JXTextMenu*
 JXTEBase::AppendEditMenu
@@ -1907,25 +1737,10 @@ JXTEBase::StaticAppendEditMenu
 {
 	// create basic menu
 
-	JXTextMenu* editMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
-	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-	{
-		editMenu->SetMenuItems(kMacEditMenuStr);
-	}
-	else
-	{
-		editMenu->SetShortcuts(JGetString("EditMenuShortcut::JXGlobal"));
-		editMenu->SetMenuItems(kWinEditMenuStr);
-	}
-
-	editMenu->SetItemImage(kUndoIndex,  jx_edit_undo);
-	editMenu->SetItemImage(kRedoIndex,  jx_edit_redo);
-	editMenu->SetItemImage(kCutIndex,   jx_edit_cut);
-	editMenu->SetItemImage(kCopyIndex,  jx_edit_copy);
-	editMenu->SetItemImage(kPasteIndex, jx_edit_paste);
-	editMenu->SetItemImage(kClearIndex, jx_edit_clear);
-
+	JXTextMenu* editMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::JXTEBase_Edit"));
+	editMenu->SetMenuItems(kEditMenuStr);
 	editMenu->SetUpdateAction(JXMenu::kDisableAll);
+	ConfigureEditMenu(editMenu);
 
 	// append check spelling commands
 
@@ -1933,18 +1748,8 @@ JXTEBase::StaticAppendEditMenu
 	{
 		const JSize itemCount = editMenu->GetItemCount();
 		editMenu->ShowSeparatorAfter(itemCount);
-
-		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
-			editMenu->AppendMenuItems(kMacCheckSpellingMenuStr);
-		}
-		else
-		{
-			editMenu->AppendMenuItems(kWinCheckSpellingMenuStr);
-		}
-
-		editMenu->SetItemImage(itemCount+1, jx_spell_check);
-		editMenu->SetItemImage(itemCount+2, jx_spell_check_selection);
+		editMenu->AppendMenuItems(kCheckSpellingMenuStr);
+		ConfigureCheckSpellingMenu(editMenu, itemCount);
 	}
 
 	// append margin adjustment commands
@@ -1953,21 +1758,8 @@ JXTEBase::StaticAppendEditMenu
 	{
 		const JSize itemCount = editMenu->GetItemCount();
 		editMenu->ShowSeparatorAfter(itemCount);
-
-		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
-			editMenu->AppendMenuItems(kMacAdjustMarginsMenuStr);
-		}
-		else
-		{
-			editMenu->AppendMenuItems(kWinAdjustMarginsMenuStr);
-		}
-
-		editMenu->SetItemImage(itemCount+1, jx_edit_clean_right_margin);
-		editMenu->SetItemImage(itemCount+2, jx_edit_coerce_right_margin);
-		editMenu->SetItemImage(itemCount+3, jx_edit_shift_left);
-		editMenu->SetItemImage(itemCount+4, jx_edit_shift_right);
-		editMenu->SetItemImage(itemCount+5, jx_edit_force_shift_left);
+		editMenu->AppendMenuItems(kAdjustMarginsMenuStr);
+		ConfigureAdjustMarginsMenu(editMenu, itemCount);
 	}
 
 	// append clean whitespace commands
@@ -1976,17 +1768,8 @@ JXTEBase::StaticAppendEditMenu
 	{
 		const JSize itemCount = editMenu->GetItemCount();
 		editMenu->ShowSeparatorAfter(itemCount);
-
-		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
-			editMenu->AppendMenuItems(kMacCleanWhitespaceMenuStr);
-		}
-		else
-		{
-			editMenu->AppendMenuItems(kWinCleanWhitespaceMenuStr);
-		}
-
-		editMenu->SetItemImage(itemCount+1, jx_show_whitespace);
+		editMenu->AppendMenuItems(kCleanWhitespaceMenuStr);
+		ConfigureCleanWhitespaceMenu(editMenu, itemCount);
 	}
 
 	// append "read only" checkbox
@@ -1995,17 +1778,8 @@ JXTEBase::StaticAppendEditMenu
 	{
 		const JSize itemCount = editMenu->GetItemCount();
 		editMenu->ShowSeparatorAfter(itemCount);
-
-		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-		{
-			editMenu->AppendMenuItems(kMacReadOnlyMenuStr);
-		}
-		else
-		{
-			editMenu->AppendMenuItems(kWinReadOnlyMenuStr);
-		}
-
-		editMenu->SetItemImage(itemCount+1, jx_edit_read_only);
+		editMenu->AppendMenuItems(kReadOnlyMenuStr);
+		ConfigureReadOnlyMenu(editMenu, itemCount);
 	}
 
 	return editMenu;
@@ -2067,12 +1841,7 @@ JXTEBase::ShareEditMenu
 
  ******************************************************************************/
 
-#include <jx-af/image/jx/jx_find.xpm>
-#include <jx-af/image/jx/jx_find_previous.xpm>
-#include <jx-af/image/jx/jx_find_next.xpm>
-#include <jx-af/image/jx/jx_find_selection_backwards.xpm>
-#include <jx-af/image/jx/jx_find_selection_forward.xpm>
-#include <jx-af/image/jx/jx_replace_selection.xpm>
+#include "JXTEBase-Search.h"
 
 JXTextMenu*
 JXTEBase::AppendSearchMenu
@@ -2083,23 +1852,10 @@ JXTEBase::AppendSearchMenu
 	assert( itsSearchMenu == nullptr && itsReplaceMenu == nullptr );
 
 	itsSearchMenu = menuBar->AppendTextMenu(JGetString("SearchMenuTitle::JXTEBase"));
-	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-	{
-		itsSearchMenu->SetMenuItems(kMacSearchMenuStr);
-	}
-	else
-	{
-		itsSearchMenu->SetShortcuts(JGetString("SearchMenuShortcut::JXTEBase"));
-		itsSearchMenu->SetMenuItems(kWinSearchMenuStr);
-	}
-
-	itsSearchMenu->SetItemImage(kSFindCmd,              jx_find);
-	itsSearchMenu->SetItemImage(kSFindPrevCmd,          jx_find_previous);
-	itsSearchMenu->SetItemImage(kSFindNextCmd,          jx_find_next);
-	itsSearchMenu->SetItemImage(kSFindSelectionBackCmd, jx_find_selection_backwards);
-	itsSearchMenu->SetItemImage(kSFindSelectionFwdCmd,  jx_find_selection_forward);
-
+	itsSearchMenu->SetShortcuts(JGetString("SearchMenuShortcut::JXTEBase"));
+	itsSearchMenu->SetMenuItems(kSearchMenuStr);
 	itsSearchMenu->SetUpdateAction(JXMenu::kDisableAll);
+	ConfigureSearchMenu(itsSearchMenu);
 	ListenTo(itsSearchMenu);
 
 	return itsSearchMenu;
@@ -2114,6 +1870,8 @@ JXTEBase::AppendSearchMenu
 
  ******************************************************************************/
 
+#include "JXTEBase-Replace.h"
+
 JXTextMenu*
 JXTEBase::AppendSearchReplaceMenu
 	(
@@ -2123,24 +1881,10 @@ JXTEBase::AppendSearchReplaceMenu
 	assert( itsSearchMenu == nullptr && itsReplaceMenu == nullptr );
 
 	itsReplaceMenu = menuBar->AppendTextMenu(JGetString("SearchMenuTitle::JXTEBase"));
-	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-	{
-		itsReplaceMenu->SetMenuItems(kMacReplaceMenuStr);
-	}
-	else
-	{
-		itsReplaceMenu->SetShortcuts(JGetString("SearchMenuShortcut::JXTEBase"));
-		itsReplaceMenu->SetMenuItems(kWinReplaceMenuStr);
-	}
-
-	itsReplaceMenu->SetItemImage(kSRFindCmd,              jx_find);
-	itsReplaceMenu->SetItemImage(kSRFindPrevCmd,          jx_find_previous);
-	itsReplaceMenu->SetItemImage(kSRFindNextCmd,          jx_find_next);
-	itsReplaceMenu->SetItemImage(kSRFindSelectionBackCmd, jx_find_selection_backwards);
-	itsReplaceMenu->SetItemImage(kSRFindSelectionFwdCmd,  jx_find_selection_forward);
-	itsReplaceMenu->SetItemImage(kSRReplaceCmd,           jx_replace_selection);
-
+	itsReplaceMenu->SetShortcuts(JGetString("SearchMenuShortcut::JXTEBase"));
+	itsReplaceMenu->SetMenuItems(kReplaceMenuStr);
 	itsReplaceMenu->SetUpdateAction(JXMenu::kDisableAll);
+	ConfigureReplaceMenu(itsReplaceMenu);
 	ListenTo(itsReplaceMenu);
 
 	return itsReplaceMenu;
