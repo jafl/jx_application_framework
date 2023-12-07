@@ -1851,8 +1851,7 @@ JXTEBase::AppendSearchMenu
 {
 	assert( itsSearchMenu == nullptr && itsReplaceMenu == nullptr );
 
-	itsSearchMenu = menuBar->AppendTextMenu(JGetString("SearchMenuTitle::JXTEBase"));
-	itsSearchMenu->SetShortcuts(JGetString("SearchMenuShortcut::JXTEBase"));
+	itsSearchMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::JXTEBase_Search"));
 	itsSearchMenu->SetMenuItems(kSearchMenuStr);
 	itsSearchMenu->SetUpdateAction(JXMenu::kDisableAll);
 	ConfigureSearchMenu(itsSearchMenu);
@@ -1880,8 +1879,7 @@ JXTEBase::AppendSearchReplaceMenu
 {
 	assert( itsSearchMenu == nullptr && itsReplaceMenu == nullptr );
 
-	itsReplaceMenu = menuBar->AppendTextMenu(JGetString("SearchMenuTitle::JXTEBase"));
-	itsReplaceMenu->SetShortcuts(JGetString("SearchMenuShortcut::JXTEBase"));
+	itsReplaceMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::JXTEBase_Search"));
 	itsReplaceMenu->SetMenuItems(kReplaceMenuStr);
 	itsReplaceMenu->SetUpdateAction(JXMenu::kDisableAll);
 	ConfigureReplaceMenu(itsReplaceMenu);

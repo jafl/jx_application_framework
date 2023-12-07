@@ -38,9 +38,6 @@ DataNotCompatibleExtra::JXTEBase	"  (Unknown type:  $atom)"
 CopyDescription::JXTEBase			"copy the text"
 MoveDescription::JXTEBase			"move the text"
 
-SearchMenuTitle::JXTEBase			"Search"
-SearchMenuShortcut::JXTEBase		"#S"
-
 # JXInputField
 
 EmptyError::JXInputField	"This is a required field and cannot be left empty."
