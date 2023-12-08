@@ -64,7 +64,7 @@
 #include <algorithm>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx-af/image/jx/jx_plain_file_small.xpm>
+#include "jx_plain_file_small.xpm"
 
 const JInteger kFirstShortcut = 0;
 const JInteger kLastShortcut  = 9;

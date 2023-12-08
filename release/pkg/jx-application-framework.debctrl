@@ -6,6 +6,6 @@ Section: contrib/libs
 Priority: optional
 Architecture: %ARCH%
 Essential: no
-Depends: g++, make, libx11-dev, libxinerama-dev, libxft-dev, libxmu-dev, libxi-dev, libx11-xcb-dev, libxcb-xfixes0-dev, libxcb-dri2-0-dev, libxpm-dev, libjpeg-dev, libpng-dev, libgd-dev, libace-dev, libicu-dev, libpcre3-dev, libxml2-dev, libboost-fiber-dev, xutils-dev, libdrm-dev, libforms-bin, aspell, curl
+Depends: g++, make, libx11-dev, libxinerama-dev, libxft-dev, libxmu-dev, libxi-dev, libx11-xcb-dev, libxcb-xfixes0-dev, libxcb-dri2-0-dev, libxpm-dev, libjpeg-dev, libpng-dev, libgd-dev, libace-dev, libicu-dev, libpcre3-dev, libxml2-dev, libboost-fiber-dev, xutils-dev, libdrm-dev, libforms-bin, aspell, curl, imagemagick
 Suggests: code-crusader, code-medic
 Description: JX is a full-featured C++ application framework and widget library (SDK) for use with the X Window System.

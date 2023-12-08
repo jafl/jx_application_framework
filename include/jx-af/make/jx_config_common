@@ -65,6 +65,15 @@ YFLAGS :=
 	@${JX_INCLUDE_ROOT}/jx-af/scripts/fix_bison_output.pl $*.cpp
 
 #
+# images
+#
+
+image-build/%.xpm : image/%.png
+	@mkdir -p $(@D)
+	magick convert $< $@
+	@perl -pi -e 's/static char/static const char/g' $@
+
+#
 # useful functions
 #
 

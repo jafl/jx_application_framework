@@ -20,11 +20,11 @@
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx-af/image/jx/jx_folder_small.xpm>
-#include <jx-af/image/jx/jx_folder_read_only_small.xpm>
-#include <jx-af/image/jx/jx_hard_disk_small.xpm>
-#include <jx-af/image/jx/jx_floppy_disk_small.xpm>
-#include <jx-af/image/jx/jx_cdrom_disk_small.xpm>
+#include "jx_folder_small.xpm"
+#include "jx_folder_read_only_small.xpm"
+#include "jx_hard_disk_small.xpm"
+#include "jx_floppy_disk_small.xpm"
+#include "jx_cdrom_disk_small.xpm"
 
 /******************************************************************************
  Constructor

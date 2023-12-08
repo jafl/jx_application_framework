@@ -31,7 +31,7 @@
 #include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx-af/image/jx/jx_down_chevron.xpm>
+#include "jx_down_chevron.xpm"
 
 /******************************************************************************
  Constructor

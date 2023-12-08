@@ -120,7 +120,7 @@ elif command -v apt-get; then
 		libxpm-dev libjpeg-dev libpng-dev libgd-dev \
 		libace-dev libicu-dev libpcre3-dev libxml2-dev \
 		libboost-fiber-dev xutils-dev libdrm-dev \
-		libforms-bin aspell;
+		libforms-bin aspell imagemagick;
 
 	if [[ $1 != package ]]; then
 		configure_linux;
@@ -137,7 +137,7 @@ elif command -v dnf; then
 		libXpm-devel libjpeg-devel libpng-devel gd-devel \
 		libicu-devel pcre-devel libxml2-devel \
 		boost-devel expat-devel libdrm-devel \
-		xforms-devel aspell aspell-en;
+		xforms-devel aspell aspell-en imagemagick;
 
 	if [[ $1 != package ]]; then
 		get_ace;
@@ -155,7 +155,7 @@ elif command -v zypper; then
 		libXpm-devel libjpeg-devel libpng-devel gd-devel \
 		libicu-devel pcre-devel libxml2-devel \
 		boost-devel expat-devel libdrm-devel \
-		xforms-devel aspell aspell-en;
+		xforms-devel aspell aspell-en imagemagick;
 
 	if [[ $1 != package ]]; then
 		get_ace;
@@ -184,7 +184,7 @@ elif [[ $SYS == Cygwin ]]; then
 	$SETUP -q -P libX11-devel,libXinerama-devel,libXpm-devel,libXft-devel,libXmu-devel,libXi-devel;
 	$SETUP -q -P libxml2-devel,libgd-devel,libjpeg-devel,libpng-devel,libicu-devel,libpcre-devel;
 	$SETUP -q -P imake,libtool,xorg-server-devel,libXdamage-devel,libexpat-devel;
-	$SETUP -q -P aspell,aspell-en;
+	$SETUP -q -P aspell,aspell-en,imagemagick;
 
 	if [[ $1 != package ]]; then
 		get_ace;

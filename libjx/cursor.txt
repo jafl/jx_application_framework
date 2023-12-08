@@ -1,0 +1,10 @@
+magick convert jx_beachball_cursor_mask.xbm -channel RGB -negate jx_beachball_cursor_mask.png
+
+magick convert jx_beachball_1_cursor.xbm \( jx_beachball_cursor_mask.png -colorspace gray -alpha off \) -compose copy-opacity -composite jx_beachball_1_cursor.png
+
+
+
+
+magick convert jx_beachball_1_cursor.png  beachball_1_cursor.xbm
+
+magick convert jx_beachball_cursor_mask.png -channel RGB -negate beachball_cursor_mask.xbm

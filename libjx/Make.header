@@ -6,6 +6,8 @@ JX_ROOT := ..
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
+SEARCHDIRS := -I./image-build -I./cursor -I./cursor-mask ${SEARCHDIRS}
+
 # makemake variables
 
 DEPENDFLAGS = ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}

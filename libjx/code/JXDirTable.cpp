@@ -34,12 +34,12 @@
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx-af/image/jx/jx_plain_file_small.xpm>
-#include <jx-af/image/jx/jx_folder_small.xpm>
-#include <jx-af/image/jx/jx_folder_read_only_small.xpm>
-#include <jx-af/image/jx/jx_folder_locked_small.xpm>
-#include <jx-af/image/jx/jx_executable_small.xpm>
-#include <jx-af/image/jx/jx_unknown_file_small.xpm>
+#include "jx_plain_file_small.xpm"
+#include "jx_folder_small.xpm"
+#include "jx_folder_read_only_small.xpm"
+#include "jx_folder_locked_small.xpm"
+#include "jx_executable_small.xpm"
+#include "jx_unknown_file_small.xpm"
 
 const JCoordinate kIconWidth    = 20;
 const JCoordinate kTextPadding  = 5;

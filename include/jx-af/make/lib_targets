@@ -28,9 +28,9 @@ install:
          mkdir -p ${JX_INSTALL_INC}/strings/${INCLUDE_INSTALL_NAME}; \
          cp strings/* ${JX_INSTALL_INC}/strings/${INCLUDE_INSTALL_NAME}; \
      fi
-	@if [[ -d image ]]; then \
+	@if [[ -d image-build ]]; then \
          mkdir -p ${JX_INSTALL_INC}/image/${INCLUDE_INSTALL_NAME}; \
-         cp image/* ${JX_INSTALL_INC}/image/${INCLUDE_INSTALL_NAME}; \
+         cp image-build/* ${JX_INSTALL_INC}/image/${INCLUDE_INSTALL_NAME}; \
      fi
 
 .PHONY : uninstall

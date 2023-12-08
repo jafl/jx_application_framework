@@ -26,6 +26,7 @@ parts:
     override-pull: |
       snapcraftctl pull
       sudo locale-gen en_US.UTF-8
+      touch libjx/image-build/*
       touch libjexpr/code/JExprParserY.cpp libjexpr/code/JExprParserY.hpp
       sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
     build-environment:
@@ -63,3 +64,4 @@ parts:
       - libdrm-dev
       - aspell
       - locales
+      - imagemagick

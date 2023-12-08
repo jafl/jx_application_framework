@@ -17,7 +17,7 @@
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx-af/image/jx/jx_un_error.xpm>
+#include "jx_un_error.xpm"
 
 /******************************************************************************
  Constructor

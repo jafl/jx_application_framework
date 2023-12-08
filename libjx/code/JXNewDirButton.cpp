@@ -17,7 +17,7 @@
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx-af/image/jx/jx_folder_small.xpm>
+#include "jx_folder_small.xpm"
 
 /******************************************************************************
  Constructor

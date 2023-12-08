@@ -1,0 +1,31 @@
+/* XPM */
+static const char *jx_busy_1_small[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 9 1 ",
+"  c None",
+". c black",
+"X c gray10",
+"o c gray20",
+"O c #4C4C4C",
+"+ c gray40",
+"@ c #808080",
+"# c gray60",
+"$ c #B2B2B2",
+/* pixels */
+"       ..       ",
+"      ....      ",
+"   XX .... $$   ",
+"  XXXX .. $$$$  ",
+"  XXXX    $$$$  ",
+"   XX      $$   ",
+" oo          ## ",
+"oooo        ####",
+"oooo        ####",
+" oo          ## ",
+"   OO      @@   ",
+"  OOOO    @@@@  ",
+"  OOOO ++ @@@@  ",
+"   OO ++++ @@   ",
+"      ++++      ",
+"       ++       "
+};
