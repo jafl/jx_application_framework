@@ -24,7 +24,7 @@
 #ifdef _J_MACOS
 static const JUtf8Byte* kDefShowURLCmd = "open $u";
 #else
-static const JUtf8Byte* kDefShowURLCmd = "firefox $u";
+static const JUtf8Byte* kDefShowURLCmd = "xdg-open $u";
 #endif
 static const JUtf8Byte* kURLVarName    = "u";
 
@@ -32,7 +32,7 @@ static const JUtf8Byte* kFileURLPrefix          = "file:";
 #ifdef _J_MACOS
 static const JUtf8Byte* kDefShowFileContentCmd  = "open $f";
 #else
-static const JUtf8Byte* kDefShowFileContentCmd  = "firefox file:'$f'";
+static const JUtf8Byte* kDefShowFileContentCmd  = "xdg-open file:'$f'";
 #endif
 static const JUtf8Byte* kDefShowFileLocationCmd = "systemg --no-force-new";
 static const JUtf8Byte* kFileVarName            = "f";
@@ -42,7 +42,7 @@ static const JUtf8Byte* kMailURLPrefix      = "mailto:";
 #ifdef _J_MACOS
 static const JUtf8Byte* kDefComposeMailCmd  = "open mailto:$a";
 #else
-static const JUtf8Byte* kDefComposeMailCmd  = "firefox mailto:$a";
+static const JUtf8Byte* kDefComposeMailCmd  = "xdg-open mailto:$a";
 #endif
 static const JUtf8Byte* kMailAddressVarName = "a";
 
