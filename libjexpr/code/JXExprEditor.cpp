@@ -82,19 +82,7 @@ enum
 
 // Math menu
 
-static const JUtf8Byte* kMacMathMenuStr =
-	"    Evaluate        %k Meta-="
-	"  | Print to EPS..."
-	"%l| Negate"
-	"  | Apply function"
-	"%l| Add argument"
-	"  | Move left       %k Meta-<"
-	"  | Move right      %k Meta->"
-	"%l| Group left      %k Meta-("
-	"  | Group right     %k Meta-)"
-	"  | Ungroup";
-
-static const JUtf8Byte* kWinMathMenuStr =
+static const JUtf8Byte* kMathMenuStr =
 	"    Evaluate        %h e %k Ctrl-="
 	"  | Print to EPS... %h p"
 	"%l| Negate          %h n"
@@ -154,8 +142,7 @@ static const JUtf8Byte* kFunctionMenuStr =
 
 // Font menu
 
-static const JUtf8Byte* kMacFontMenuStr = "Normal      %r | Greek      %r";
-static const JUtf8Byte* kWinFontMenuStr = "Normal %h n %r | Greek %h g %r";
+static const JUtf8Byte* kFontMenuStr = "Normal %h n %r | Greek %h g %r";
 
 static const JExprEditor::CmdIndex kFontMenuItemToCmd[] =
 {
@@ -318,15 +305,8 @@ JXExprEditor::CreateMenus
 	}
 
 	itsMathMenu = menuBar->AppendTextMenu(JGetString("MathMenuTitle::JXExprEditor"));
-	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-	{
-		itsMathMenu->SetMenuItems(kMacMathMenuStr);
-	}
-	else
-	{
-		itsMathMenu->SetShortcuts(JGetString("MathMenuShortcut::JXExprEditor"));
-		itsMathMenu->SetMenuItems(kWinMathMenuStr);
-	}
+	itsMathMenu->SetShortcuts(JGetString("MathMenuShortcut::JXExprEditor"));
+	itsMathMenu->SetMenuItems(kMathMenuStr);
 	itsMathMenu->SetUpdateAction(JXMenu::kDisableAll);
 
 	itsFunctionMenu = jnew JXTextMenu(itsMathMenu, kApplyFnToSelIndex, menuBar);
@@ -334,15 +314,8 @@ JXExprEditor::CreateMenus
 	itsFunctionMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	itsFontMenu = menuBar->AppendTextMenu(JGetString("FontMenuTitle::JXExprEditor"));
-	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
-	{
-		itsFontMenu->SetMenuItems(kMacFontMenuStr);
-	}
-	else
-	{
-		itsFontMenu->SetShortcuts(JGetString("FontMenuShortcut::JXExprEditor"));
-		itsFontMenu->SetMenuItems(kWinFontMenuStr);
-	}
+	itsFontMenu->SetShortcuts(JGetString("FontMenuShortcut::JXExprEditor"));
+	itsFontMenu->SetMenuItems(kFontMenuStr);
 }
 
 /******************************************************************************
