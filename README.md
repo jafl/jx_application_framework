@@ -66,12 +66,13 @@ libjx
 
 tools
   compile_jstrings   Compiles string database files for use with JX
+  jx_layout_editor   Graphical editor for window layouts
   jx_memory_debugger Graphical display and inspection of memory usage
+  jx_menu_editor     Graphical editor for menus
   jx_project_wizard  Wizard to create skeleton JX application
                      and project file for use in Code Crusader 
   jxlayout           Graphical window layout editor
   makemake           Builds Makefile from Make.files and Make.header
-  webgif             Utility program for working with gifs
 
 ACE
   test               Sample source for using ACE library

@@ -14,7 +14,7 @@ sub ReadFile($)
 open(L, "find -E . -regex '.+\.(cpp|[tp]?h|tmpl|[ly])' |");
 
 while ($file = <L>)
-	{
+{
 	chomp($file);
 	$orig_data = $data = ReadFile($file);
 
@@ -23,16 +23,16 @@ while ($file = <L>)
 	$data =~ s/\n{2,}$/\n/o;
 
 	if ($data !~ /\n$/)
-		{
+	{
 		$data .= "\n";
-		}
+	}
 
 	if ($data ne $orig_data)
-		{
+	{
 		print $file,"\n";
 
 		open(F, "> $file");
 		print F $data;
 		close(F);
-		}
 	}
+}

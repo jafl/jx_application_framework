@@ -5,5 +5,10 @@ if [[ ! -d libjcore ]]; then
 	exit 1;
 fi
 
+if ! command -v dot; then
+	echo "please install graphviz";
+	exit 1;
+fi
+
 rm -rf doc/api/*;
 doxygen doc/Doxyfile;
