@@ -1,0 +1,46 @@
+jx_menu_editor 0
+670 300
+"TestDirector"
+"UserNotification"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Message"
+""
+' 
+"__Message"
+"kTestMessageCmd"
+0
+
+1
+0
+0 ""
+"Warning"
+""
+' 
+"__Warning"
+"kTestWarningCmd"
+0
+
+1
+0
+0 ""
+"Error"
+""
+' 
+"__Error"
+"kTestErrorCmd"
+0
+
+0

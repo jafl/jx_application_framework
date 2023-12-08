@@ -26,33 +26,6 @@
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-// File menu information
-
-static const JUtf8Byte* kFileMenuStr =
-	"    Open...             %h o %k Ctrl-O"
-	"  | Save as GIF...      %h g %k Ctrl-G"
-	"  | Save as PNG...      %h n %k Ctrl-N"
-	"  | Save as JPEG...     %h j %k Ctrl-J"
-	"  | Save as XPM...      %h x %k Ctrl-X"
-	"  | Save mask as XBM... %h b %k Ctrl-B"
-	"%l| Copy                     %k Ctrl-C"
-	"  | Paste                    %k Ctrl-V"
-	"%l| Page setup..."
-	"  | Print PostScript... %h p %k Ctrl-P"
-	"%l| Print EPS..."
-	"%l| Close               %h c %k Ctrl-W";
-
-enum
-{
-	kOpenImageCmd = 1,
-	kSaveGIFCmd, kSavePNGCmd, kSaveJPEGCmd,
-	kSaveXPMCmd, kSaveMaskXBMCmd,
-	kCopyImageCmd, kPasteImageCmd,
-	kPageSetupCmd, kPrintPSCmd,
-	kPrintEPSCmd,
-	kCloseCmd
-};
-
 /******************************************************************************
  Constructor
 
@@ -93,6 +66,8 @@ TestImageDirector::~TestImageDirector()
 
  ******************************************************************************/
 
+#include "TestImageDirector-File.h"
+
 void
 TestImageDirector::BuildWindow()
 {
@@ -116,12 +91,12 @@ TestImageDirector::BuildWindow()
 	window->SetWMClass("testjx", "TestImageDirector");
 	window->SetMinSize(100,100);
 
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::TestImageDirector"));
-	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestImageDirector"));
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestImageDirector_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->AttachHandlers(this,
 		&TestImageDirector::UpdateFileMenu,
 		&TestImageDirector::HandleFileMenu);
+	ConfigureFileMenu(itsFileMenu);
 
 	itsImageWidget =
 		jnew TestImageWidget(this, scrollbarSet, scrollbarSet->GetScrollEnclosure(),

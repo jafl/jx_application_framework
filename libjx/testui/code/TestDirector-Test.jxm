@@ -1,0 +1,346 @@
+jx_menu_editor 0
+686 837
+"TestDirector"
+"Test"
+'t
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"New main window"
+""
+' 
+"__NewMainWindow"
+"kNewTestDirectorCmd"
+1
+
+1
+0
+0 ""
+"User notification"
+""
+' 
+"__UserNotification"
+"kTestUserNotifyMenuCmd"
+0
+
+1
+0
+0 ""
+"File chooser"
+""
+' 
+"__FileChooser"
+"kTestChooseSaveFileMenuCmd"
+0
+
+1
+0
+0 ""
+"Progress display"
+""
+' 
+"__ProgressDisplay"
+"kTestPGMenuCmd"
+1
+
+1
+0
+0 ""
+"Input fields"
+"Ctrl-I"
+' 
+"__InputFields"
+"kTestInputCmd"
+0
+
+1
+0
+0 ""
+"Buttons"
+"Ctrl-B"
+' 
+"__Buttons"
+"kTestButtonsCmd"
+0
+
+1
+0
+0 ""
+"Popup menus"
+""
+' 
+"__PopupMenus"
+"kTestPopupChoiceCmd"
+0
+
+1
+0
+0 ""
+"Sliders"
+""
+' 
+"__Sliders"
+"kTestSliderCmd"
+1
+
+1
+0
+0 ""
+"Partitions"
+""
+' 
+"__Partitions"
+"kTestPartitionsCmd"
+0
+
+1
+0
+0 ""
+"Tab group"
+""
+' 
+"__TabGroup"
+"kTestTabGroupCmd"
+0
+
+1
+0
+0 ""
+"String table"
+""
+' 
+"__StringTable"
+"kTestStrTableCmd"
+0
+
+1
+0
+0 ""
+"Number table"
+""
+' 
+"__NumberTable"
+"kTestNumTableCmd"
+0
+
+1
+0
+0 ""
+"Text editor"
+"Ctrl-O"
+' 
+"__TextEditor"
+"kTestTextEditorCmd"
+0
+
+1
+0
+0 ""
+"Linked documents"
+"Super-O"
+' 
+"__LinkedDocuments"
+"kTestLinkedDocCmd"
+0
+
+1
+0
+0 ""
+"Drag-And-Drop (text)"
+"Hyper-O"
+' 
+"__DragAndDropText"
+"kTestDNDTextCmd"
+0
+
+1
+0
+0 ""
+"Image viewer"
+"Ctrl-I"
+' 
+"__ImageViewer"
+"kTestImageViewCmd"
+0
+
+1
+0
+0 ""
+"File List"
+""
+' 
+"__FileList"
+"kTestFileListCmd"
+1
+
+1
+0
+0 ""
+"Send email"
+""
+' 
+"__SendEmail"
+"kSendEmailCmd"
+0
+
+1
+0
+0 ""
+"Show file content"
+""
+' 
+"__ShowFileContent"
+"kShowFileContentCmd"
+0
+
+1
+0
+0 ""
+"Show web page"
+""
+' 
+"__ShowWebPage"
+"kShowWebPageCmd"
+1
+
+1
+1
+0 ""
+"Enable Smileys menu"
+""
+' 
+"__EnableSmileysMenu"
+"kTestDisabledMenuCmd"
+1
+
+1
+0
+0 ""
+"Zombie process"
+""
+' 
+"__ZombieProcess"
+"kTestZombieProcessCmd"
+1
+
+1
+0
+0 ""
+"Place window at (0,0)"
+"Ctrl-1"
+' 
+"__PlaceWindowAt00"
+"kTestPlaceWindow0Cmd"
+0
+
+1
+0
+0 ""
+"Place window at (30,30)"
+"Ctrl-2"
+' 
+"__PlaceWindowAt3030"
+"kTestPlaceWindow30Cmd"
+0
+
+1
+0
+0 ""
+"Place window at (100,100)"
+"Ctrl-3"
+' 
+"__PlaceWindowAt100100"
+"kTestPlaceWindow100Cmd"
+0
+
+1
+0
+0 ""
+"Move window by (+10,+10)"
+"Ctrl-4"
+' 
+"__MoveWindowBy1010"
+"kTestMoveWindowCmd"
+0
+
+1
+0
+0 ""
+"Raise all windows"
+""
+' 
+"__RaiseAllWindows"
+"kRaiseAllWindowsCmd"
+0
+
+1
+0
+0 ""
+"Window config"
+"Ctrl-0"
+' 
+"__WindowConfig"
+"kPrintWMConfigCmd"
+1
+
+1
+0
+0 ""
+"Idle task mutex"
+""
+' 
+"__IdleTaskMutex"
+"kTestIdleTaskMutexCmd"
+1
+
+1
+0
+0 ""
+"Force broken pipe (does not dump core)"
+""
+' 
+"__ForceBrokenPipeDoesNotDumpCore"
+"kTestBrokenPipeCmd"
+0
+
+1
+0
+0 ""
+"Generate X error (dumps core)"
+""
+' 
+"__GenerateXErrorDumpsCore"
+"kTestUncaughtXErrorCmd"
+0
+
+1
+0
+0 ""
+"Lock up for 10 seconds (test MDI)"
+""
+' 
+"__LockUpFor10SecondsTestMDI"
+"kLockUpToTestMDICmd"
+1
+
+1
+0
+0 ""
+"Timing for font substitution"
+""
+' 
+"__TimingForFontSubstitution"
+"kTimeFontSubCmd"
+0
+
+0

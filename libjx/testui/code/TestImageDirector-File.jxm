@@ -1,0 +1,136 @@
+jx_menu_editor 0
+685 392
+"TestImageDirector"
+"File"
+'f
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+1 "jx_file_open.xpm"
+"Open..."
+"Ctrl-O"
+'o
+"__Open"
+"kOpenImageCmd"
+0
+
+1
+0
+0 ""
+"Save as GIF..."
+"Ctrl-G"
+'g
+"__SaveAsGIF"
+"kSaveGIFCmd"
+0
+
+1
+0
+0 ""
+"Save as PNG..."
+"Ctrl-N"
+'n
+"__SaveAsPNG"
+"kSavePNGCmd"
+0
+
+1
+0
+0 ""
+"Save as JPEG..."
+"Ctrl-J"
+'j
+"__SaveAsJPEG"
+"kSaveJPEGCmd"
+0
+
+1
+0
+0 ""
+"Save as XPM..."
+"Ctrl-X"
+'x
+"__SaveAsXPM"
+"kSaveXPMCmd"
+0
+
+1
+0
+0 ""
+"Save mask as XBM..."
+"Ctrl-B"
+'b
+"__SaveMaskAsXBM"
+"kSaveMaskXBMCmd"
+1
+
+1
+0
+1 "jx_edit_copy.xpm"
+"Copy"
+"Ctrl-C"
+' 
+"__Copy"
+"kCopyImageCmd"
+0
+
+1
+0
+1 "jx_edit_paste.xpm"
+"Paste"
+"Ctrl-V"
+' 
+"__Paste"
+"kPasteImageCmd"
+1
+
+1
+0
+0 ""
+"Page setup..."
+""
+' 
+"__PageSetup"
+"kPageSetupCmd"
+0
+
+1
+0
+1 "jx_file_print.xpm"
+"Print PostScript..."
+"Ctrl-P"
+'p
+"__PrintPostScript"
+"kPrintPSCmd"
+1
+
+1
+0
+0 ""
+"Print EPS..."
+""
+' 
+"__PrintEPS"
+"kPrintEPSCmd"
+1
+
+1
+0
+0 ""
+"Close"
+"Ctrl-W"
+'c
+"__Close"
+"kCloseCmd"
+0
+
+0

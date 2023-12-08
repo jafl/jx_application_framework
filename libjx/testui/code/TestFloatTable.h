@@ -44,22 +44,7 @@ protected:
 
 private:
 
-	enum MouseAction
-	{
-		kInsertRow = 1,
-		kDuplicateRow,
-		kMoveRow,
-		kRemoveRow,
-
-		kInsertCol,
-		kDuplicateCol,
-		kMoveCol,
-		kRemoveCol
-	};
-
-private:
-
-	MouseAction	itsMouseAction;
+	int	itsMouseAction;
 
 	// owned by the menu bar
 

@@ -49,32 +49,8 @@ protected:
 
 private:
 
-	enum MouseAction
-	{
-		kInsertRow = 1,
-		kDuplicateRow,
-		kMoveRow,
-		kRemoveRow,
-		kChangeRowBorderWidthCmd,		// place holder
-
-		kInsertCol,
-		kDuplicateCol,
-		kMoveCol,
-		kRemoveCol,
-		kChangeColBorderWidthCmd,		// place holder
-
-		kSelectCells,
-		kSelectRows,
-		kSelectCols,
-		kTestSelectionIteratorByRow,	// place holder
-		kTestSelectionIteratorByCol,	// place holder
-		kAdd4000Rows					// place holder
-	};
-
-private:
-
-	MouseAction	itsMouseAction;
-	bool		itsIsDraggingFlag;
+	int		itsMouseAction;
+	bool	itsIsDraggingFlag;
 
 	JXRowHeaderWidget*	itsRowHeader;		// owned by director
 

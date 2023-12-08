@@ -1,0 +1,36 @@
+jx_menu_editor 0
+670 300
+"TestDirector"
+"PrintPostscript"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Page setup..."
+""
+' 
+"__PageSetup"
+"kPSPageSetupCmd"
+0
+
+1
+0
+1 "jx_file_print.xpm"
+"Print..."
+"Ctrl-P"
+'p
+"__Print"
+"kPrintPSCmd"
+0
+
+0

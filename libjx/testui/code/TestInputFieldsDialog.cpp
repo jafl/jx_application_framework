@@ -72,21 +72,33 @@ TestInputFieldsDialog::BuildWindow()
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 180,20);
 	assert( text1 != nullptr );
+	const JFontStyle text1_style(true, true, 0, false, JColorManager::GetRedColor());
+	text1->SetFontStyle(text1_style);
 
 	auto* text2 =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,40, 180,20);
 	assert( text2 != nullptr );
+	text2->SetFontName(JGetString("TimesFontName::TestInputFieldsDialog::JXLayout"));
+	text2->SetFontSize(JFontManager::GetDefaultFontSize()-2);
+	const JFontStyle text2_style(true, false, 0, false, JColorManager::GetGreenColor());
+	text2->SetFontStyle(text2_style);
 
 	auto* text3 =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,60, 180,20);
 	assert( text3 != nullptr );
+	text3->SetFontName(JGetString("TimesFontName::TestInputFieldsDialog::JXLayout"));
+	const JFontStyle text3_style(true, true, 0, false, JColorManager::GetBlackColor());
+	text3->SetFontStyle(text3_style);
 
 	auto* text4 =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,80, 180,20);
 	assert( text4 != nullptr );
+	text4->SetFontName(JGetString("TimesFontName::TestInputFieldsDialog::JXLayout"));
+	const JFontStyle text4_style(false, true, 0, false, JColorManager::GetBlackColor());
+	text4->SetFontStyle(text4_style);
 
 	auto* f1 =
 		jnew JXFloatInput(window,

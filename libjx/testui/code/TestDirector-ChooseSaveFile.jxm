@@ -1,0 +1,76 @@
+jx_menu_editor 0
+670 300
+"TestDirector"
+"ChooseSaveFile"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Choose file..."
+""
+' 
+"__ChooseFile"
+"kChooseFileCmd"
+0
+
+1
+0
+0 ""
+"Choose file... (custom)"
+""
+' 
+"__ChooseFileCustom"
+"kChooseFileCustomCmd"
+0
+
+1
+0
+0 ""
+"Save file..."
+""
+' 
+"__SaveFile"
+"kSaveFileCmd"
+0
+
+1
+0
+0 ""
+"Save file (custom)..."
+""
+' 
+"__SaveFileCustom"
+"kSaveFileCustomCmd"
+1
+
+1
+0
+0 ""
+"Choose readable directory..."
+""
+' 
+"__ChooseReadableDirectory"
+"kChooseRPathCmd"
+0
+
+1
+0
+0 ""
+"Choose writable directory..."
+""
+' 
+"__ChooseWritableDirectory"
+"kChooseRWPathCmd"
+0
+
+0

@@ -1,0 +1,56 @@
+jx_menu_editor 0
+670 300
+"TestFileListDirector"
+"File"
+'f
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Show selected files in file manager"
+"Ctrl-Return"
+'s
+"__ShowSelectedFilesInFileManager"
+"kShowLocationCmd"
+1
+
+1
+1
+1 "jx_filter_wildcard.xpm"
+"Use wildcard filter"
+""
+' 
+"__UseWildcardFilter"
+"kUseWildcardCmd"
+0
+
+1
+1
+1 "jx_filter_regex.xpm"
+"Use regex filter"
+""
+' 
+"__UseRegexFilter"
+"kUseRegexCmd"
+1
+
+1
+0
+0 ""
+"Close"
+"Ctrl-W"
+'c
+"__Close"
+"kCloseCmd"
+0
+
+0

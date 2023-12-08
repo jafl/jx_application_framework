@@ -1,0 +1,136 @@
+jx_menu_editor 0
+670 409
+"TestWidget"
+"Actions"
+'a
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Change size"
+""
+' 
+"__ChangeSize"
+"kChangeSizeCmd"
+1
+
+1
+1
+0 ""
+"Fill"
+"Ctrl-Shift-F"
+'f
+"__Fill"
+"kToggleFillCmd"
+0
+
+1
+0
+0 ""
+"Points"
+""
+'p
+"__Points"
+"kPointMenuCmd"
+1
+
+1
+0
+0 ""
+"Hide"
+""
+' 
+"__Hide"
+"kShowHideCmd"
+0
+
+1
+0
+0 ""
+"Deactivate"
+""
+' 
+"__Deactivate"
+"kActDeactCmd"
+1
+
+1
+0
+0 ""
+"Hide quit"
+""
+' 
+"__HideQuit"
+"kShowHideQuitCmd"
+0
+
+1
+0
+0 ""
+"Deactivate quit"
+""
+' 
+"__DeactivateQuit"
+"kActDeactQuitCmd"
+1
+
+1
+0
+0 ""
+"Print selection targets"
+""
+' 
+"__PrintSelectionTargets"
+"kPrintSelectionTargetsCmd"
+0
+
+1
+0
+0 ""
+"Print old selection targets (t - 10 sec)"
+""
+' 
+"__PrintOldSelectionTargetsT10Sec"
+"kPrintOldSelectionTargetsCmd"
+1
+
+1
+0
+0 ""
+"Advice"
+""
+'a
+"__Advice"
+"kAdviceMenuCmd"
+0
+
+1
+0
+0 ""
+"xlsfonts"
+""
+' 
+"__xlsfonts"
+"kXlsfontsMenuCmd"
+0
+
+1
+0
+0 ""
+"empty"
+""
+' 
+"__empty"
+"kEmptyMenuCmd"
+0
+
+0

@@ -1,0 +1,36 @@
+jx_menu_editor 0
+670 300
+"TestTextEditDocument"
+"Emulator"
+'e
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+2
+0 ""
+"None"
+""
+' 
+"__None"
+"kNoEmulatorCmd"
+0
+
+1
+2
+0 ""
+"vi"
+""
+' 
+"__vi"
+"kVIEmulatorCmd"
+0
+
+0

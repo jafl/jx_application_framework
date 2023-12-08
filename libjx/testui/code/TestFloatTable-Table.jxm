@@ -1,0 +1,96 @@
+jx_menu_editor 0
+670 300
+"TestFloatTable"
+"Table"
+'t
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+2
+0 ""
+"Insert row"
+""
+' 
+"__InsertRow"
+"kInsertRow"
+0
+
+1
+2
+0 ""
+"Duplicate row"
+""
+' 
+"__DuplicateRow"
+"kDuplicateRow"
+0
+
+1
+2
+0 ""
+"Move row"
+""
+' 
+"__MoveRow"
+"kMoveRow"
+0
+
+1
+2
+0 ""
+"Remove row"
+""
+' 
+"__RemoveRow"
+"kRemoveRow"
+1
+
+1
+2
+0 ""
+"Insert column"
+""
+' 
+"__InsertColumn"
+"kInsertCol"
+0
+
+1
+2
+0 ""
+"Duplicate column"
+""
+' 
+"__DuplicateColumn"
+"kDuplicateCol"
+0
+
+1
+2
+0 ""
+"Move column"
+""
+' 
+"__MoveColumn"
+"kMoveCol"
+0
+
+1
+2
+0 ""
+"Remove column"
+""
+' 
+"__RemoveColumn"
+"kRemoveCol"
+0
+
+0

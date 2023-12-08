@@ -31,42 +31,6 @@
 #include <sstream>
 #include <jx-af/jcore/jAssert.h>
 
-// File menu
-
-static const JUtf8Byte* kFileMenuStr =
-	"    New     %h n %k Ctrl-N"
-	"  | Open... %h o %k Ctrl-O"
-	"  | Save    %h s %k Ctrl-S"
-	"  | Save as..."
-	"  | Save a copy as..."
-	"  | Revert to saved"
-	"%l| Load private format... %k Ctrl-Shift-O"
-	"  | Save private format... %k Ctrl-Shift-S"
-	"%l| Page setup..."
-	"  | Print... %h p %k Ctrl-P"
-	"%l| Close    %h c %k Ctrl-W";
-
-enum
-{
-	kNewFileCmd = 1,
-	kOpenFileCmd, kSaveFileCmd, kSaveFileAsCmd, kSaveCopyAsCmd, kRevertCmd,
-	kReadPrivateFmtCmd, kWritePrivateFmtCmd,
-	kPageSetupCmd, kPrintCmd,
-	kCloseCmd
-};
-
-// Emulator menu
-
-static const JUtf8Byte* kEmulatorMenuStr =
-	"    None %r"
-	"  | vi   %r";
-
-enum
-{
-	kNoEmulatorCmd = 1,
-	kVIEmulatorCmd
-};
-
 /******************************************************************************
  Constructor
 
@@ -122,6 +86,9 @@ TestTextEditDocument::~TestTextEditDocument()
  BuildWindow (private)
 
  ******************************************************************************/
+
+#include "TestTextEditDocument-File.h"
+#include "TestTextEditDocument-Emulator.h"
 
 void
 TestTextEditDocument::BuildWindow
@@ -202,12 +169,12 @@ TestTextEditDocument::BuildWindow
 	itsTextEditor2->ShareMenus(itsTextEditor1);
 
 	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
-	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestTextEditDocument"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&TestTextEditDocument::UpdateFileMenu,
 		&TestTextEditDocument::HandleFileMenu);
+	ConfigureFileMenu(itsFileMenu);
 
 	JXDocumentMenu* fileListMenu =
 		jnew JXDocumentMenu(JGetString("FilesMenuTitle::TestTextEditDocument"), menuBar,
@@ -215,12 +182,13 @@ TestTextEditDocument::BuildWindow
 	assert( fileListMenu != nullptr );
 	menuBar->PrependMenu(fileListMenu);
 
-	itsEmulatorMenu = menuBar->AppendTextMenu(JGetString("EmulatorMenuTitle::TestTextEditDocument"));
+	itsEmulatorMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestTextEditDocument_Emulator"));
 	itsEmulatorMenu->SetMenuItems(kEmulatorMenuStr);
 	itsEmulatorMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsEmulatorMenu->AttachHandlers(this,
 		&TestTextEditDocument::UpdateEmulatorMenu,
 		&TestTextEditDocument::HandleEmulatorMenu);
+	ConfigureEmulatorMenu(itsEmulatorMenu);
 }
 
 /******************************************************************************

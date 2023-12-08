@@ -1,0 +1,176 @@
+jx_menu_editor 0
+778 479
+"TestStringTable"
+"Table"
+'t
+40
+40
+198
+100
+100
+100
+100
+75
+
+0
+1
+2
+0 ""
+"Insert row"
+""
+' 
+"__InsertRow"
+"kInsertRow"
+0
+
+1
+2
+0 ""
+"Duplicate row"
+""
+' 
+"__DuplicateRow"
+"kDuplicateRow"
+0
+
+1
+2
+0 ""
+"Move row"
+""
+' 
+"__MoveRow"
+"kMoveRow"
+0
+
+1
+2
+0 ""
+"Remove row"
+""
+' 
+"__RemoveRow"
+"kRemoveRow"
+0
+
+1
+0
+0 ""
+"Row border"
+""
+' 
+"__RowBorder"
+"kChangeRowBorderWidthCmd"
+1
+
+1
+2
+0 ""
+"Insert column"
+""
+' 
+"__InsertColumn"
+"kInsertCol"
+0
+
+1
+2
+0 ""
+"Duplicate column"
+""
+' 
+"__DuplicateColumn"
+"kDuplicateCol"
+0
+
+1
+2
+0 ""
+"Move column"
+""
+' 
+"__MoveColumn"
+"kMoveCol"
+0
+
+1
+2
+0 ""
+"Remove column"
+""
+' 
+"__RemoveColumn"
+"kRemoveCol"
+0
+
+1
+0
+0 ""
+"Column border"
+""
+' 
+"__ColumnBorder"
+"kChangeColBorderWidthCmd"
+1
+
+1
+2
+0 ""
+"Select cells"
+""
+' 
+"__SelectCells"
+"kSelectCells"
+0
+
+1
+2
+0 ""
+"Select rows"
+""
+' 
+"__SelectRows"
+"kSelectRows"
+0
+
+1
+2
+0 ""
+"Select columns"
+""
+' 
+"__SelectColumns"
+"kSelectCols"
+1
+
+1
+0
+0 ""
+"Test selection iterator by row"
+""
+' 
+"__TestSelectionIteratorByRow"
+"kTestSelectionIteratorByRow"
+0
+
+1
+0
+0 ""
+"Test selection iterator by col"
+""
+' 
+"__TestSelectionIteratorByCol"
+"kTestSelectionIteratorByCol"
+1
+
+1
+0
+0 ""
+"Add 4000 rows"
+""
+' 
+"__Add4000RowsEnumMouseActionIsInHeaderFile"
+"kAdd4000Rows"
+0
+
+0

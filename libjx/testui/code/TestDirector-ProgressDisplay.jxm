@@ -1,0 +1,56 @@
+jx_menu_editor 0
+670 300
+"TestDirector"
+"ProgressDisplay"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Fixed length"
+""
+' 
+"__FixedLength"
+"kFixLenFGCmd"
+0
+
+1
+0
+0 ""
+"Variable length"
+""
+' 
+"__VariableLength"
+"kVarLenFGCmd"
+1
+
+1
+0
+0 ""
+"Fixed length (background)"
+""
+' 
+"__FixedLengthBackground"
+"kFixLenBGCmd"
+0
+
+1
+0
+0 ""
+"Variable length (background)"
+""
+' 
+"__VariableLengthBackground"
+"kVarLenBGCmd"
+0
+
+0

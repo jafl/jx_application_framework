@@ -35,8 +35,6 @@ TestjxCreateGlobals
 {
 	theApplication = app;
 
-	JXMenu::SetDefaultStyle(JXMenu::kWindowsStyle);
-
 	JXCreateDefaultDocumentManager();
 
 	TestDockManager* theDockManager =

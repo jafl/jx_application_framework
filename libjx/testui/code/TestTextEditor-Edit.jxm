@@ -1,0 +1,66 @@
+jx_menu_editor 0
+670 300
+"TestTextEditor"
+"Edit"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+1
+0 ""
+"Auto-indent"
+""
+' 
+"__AutoIndent"
+"____AutoIndent"
+1
+
+1
+2
+0 ""
+"Undo depth 1"
+""
+' 
+"__UndoDepth1"
+"____UndoDepth1"
+0
+
+1
+2
+0 ""
+"Undo depth 2"
+""
+' 
+"__UndoDepth2"
+"____UndoDepth2"
+0
+
+1
+2
+0 ""
+"Undo depth 3"
+""
+' 
+"__UndoDepth3"
+"____UndoDepth3"
+0
+
+1
+2
+0 ""
+"Undo depth 100"
+""
+' 
+"__UndoDepth100"
+"____UndoDepth100"
+0
+
+0

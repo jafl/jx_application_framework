@@ -1,0 +1,76 @@
+jx_menu_editor 0
+670 300
+"TestDirector"
+"About"
+'?
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"About"
+""
+'a
+"__About"
+"kAboutCmd"
+0
+
+1
+0
+0 ""
+"Help"
+"Ctrl-H"
+'h
+"HelpSpecific::JX"
+"kHelpCmd"
+0
+
+1
+0
+0 ""
+"Tip of the Day"
+""
+'t
+"__TipOfTheDay"
+"kTipCmd"
+1
+
+1
+0
+0 ""
+"Print PostScript"
+""
+'p
+"__PrintPostScript"
+"kPrintPSMenuCmd"
+0
+
+1
+0
+0 ""
+"Print EPS..."
+"Ctrl-E"
+'e
+"__PrintEPS"
+"kPrintEPSCmd"
+1
+
+1
+0
+0 ""
+"Quit"
+"Ctrl-Q"
+'q
+"__Quit"
+"kQuitCmd"
+0
+
+0

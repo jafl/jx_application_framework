@@ -66,131 +66,6 @@
 
 static const JUtf8Byte* kWindowGeomFileName = "testjx_window_geom";
 
-// About menu
-
-static const JUtf8Byte* kAboutMenuStr =
-	"    About            %h a"
-	"  | from string db   %i" kJXHelpSpecificAction		// "Help %h h %k Ctrl-H"
-	"  | Tip of the Day   %h t"
-	"%l| Print PostScript %h p"
-	"  | Print EPS...     %h e %k Ctrl-E"
-	"%l| Quit             %h q %k Ctrl-Q"
-	"%l";	// test that JXTextMenu ignores this
-
-enum
-{
-	kAboutCmd = 1, kHelpCmd, kTipCmd,
-	kPrintPSMenuCmd, kPrintEPSCmd,
-	kQuitCmd
-};
-
-// PostScript printing menu
-
-static const JUtf8Byte* kPrintPSMenuStr =
-	"    Page setup..."
-	"  | Print...      %h p %k Ctrl-P";
-
-enum
-{
-	kPSPageSetupCmd = 1, kPrintPSCmd
-};
-
-// Test menu
-
-static const JUtf8Byte* kTestMenuStr =
-	"    New main window"
-	"%l| User notification"
-	"  | File chooser"
-	"  | Progress display"
-	"%l| Input fields  %k Ctrl-I"
-	"  | Buttons       %k Ctrl-B"
-	"  | Popup menus"
-	"  | Sliders"
-	"%l| Partitions"
-	"  | Tab group"
-	"  | String table"
-	"  | Number table"
-	"  | Text editor                       %k Ctrl-O"
-	"  | Linked documents                  %k Super-O"
-	"  | Drag-And-Drop (text)              %k Hyper-O"
-	"  | Image viewer                      %k Ctrl-I"
-	"  | File List"
-	"%l| Send email"
-	"  | Show file content"
-	"  | Show web page"
-	"%l| Enable Smileys menu %b"
-	"%l| Zombie process"
-	"%l| Place window at (0,0)             %k Ctrl-1"
-	"  | Place window at (30,30)           %k Ctrl-2"
-	"  | Place window at (100,100)         %k Ctrl-3"
-	"  | Move window by (+10,+10)          %k Ctrl-4"
-	"  | Raise all windows"
-	"  | Window config                     %k Ctrl-0"
-	"%l| Idle task mutex"
-	"%l| Force broken pipe (does not dump core)"
-	"  | Generate X error (dumps core)"
-	"  | Lock up for 10 seconds (test MDI)"
-	"%l| Timing for font substitution";
-
-enum
-{
-	kNewTestDirectorCmd = 1,
-	kTestUserNotifyMenuCmd, kTestChooseSaveFileMenuCmd, kTestPGMenuCmd,
-	kTestInputCmd, kTestButtonsCmd, kTestPopupChoiceCmd, kTestSliderCmd,
-	kTestPartitionsCmd, kTestTabGroupCmd,
-	kTestStrTableCmd, kTestNumTableCmd,
-	kTestTextEditorCmd, kTestLinkedDocCmd, kTestDNDTextCmd,
-	kTestImageViewCmd, kTestFileListCmd,
-	kSendEmailCmd, kShowFileContentCmd, kShowWebPageCmd,
-	kTestDisabledMenuCmd,
-	kTestZombieProcessCmd,
-	kTestPlaceWindow0Cmd, kTestPlaceWindow30Cmd, kTestPlaceWindow100Cmd,
-	kTestMoveWindowCmd, kRaiseAllWindowsCmd, kPrintWMConfigCmd,
-	kTestIdleTaskMutexCmd,
-	kTestBrokenPipeCmd, kTestUncaughtXErrorCmd, kLockUpToTestMDICmd,
-	kTimeFontSubCmd
-};
-
-// UserNotification menu
-
-static const JUtf8Byte* kUserNotificationMenuStr =
-	"Message|Warning|Error";
-
-enum
-{
-	kTestMessageCmd = 1, kTestWarningCmd, kTestErrorCmd
-};
-
-// ChooseSaveFile menu
-
-static const JUtf8Byte* kChooseSaveFileMenuStr =
-	"    Choose file..."
-	"  | Choose file... (custom)"
-	"  | Save file..."
-	"  | Save file (custom)..."
-	"%l| Choose readable directory..."
-	"  | Choose writable directory...";
-
-enum
-{
-	kChooseFileCmd = 1, kChooseFileCustomCmd,
-	kSaveFileCmd, kSaveFileCustomCmd,
-	kChooseRPathCmd, kChooseRWPathCmd
-};
-
-// ProgressDisplay menu
-
-static const JUtf8Byte* kProgressDisplayMenuStr =
-	"    Fixed length"
-	"  | Variable length"
-	"%l| Fixed length (background)"
-	"  | Variable length (background)";
-
-enum
-{
-	kFixLenFGCmd = 1, kVarLenFGCmd, kFixLenBGCmd, kVarLenBGCmd
-};
-
 /******************************************************************************
  Constructor
 
@@ -293,6 +168,13 @@ TestDirector::OpenTextFile
 
  ******************************************************************************/
 
+#include "TestDirector-About.h"
+#include "TestDirector-PrintPostscript.h"
+#include "TestDirector-Test.h"
+#include "TestDirector-UserNotification.h"
+#include "TestDirector-ChooseSaveFile.h"
+#include "TestDirector-ProgressDisplay.h"
+
 void
 TestDirector::BuildWindow
 	(
@@ -349,28 +231,30 @@ TestDirector::BuildWindow
 		jnew JXImage(display, kSmileyBitmap[ kHappySmileyIndex ], JColorManager::GetRedColor());
 	assert( aboutTitleImage != nullptr );
 	itsAboutMenu = menuBar->AppendTextMenu(aboutTitleImage, true);
-	itsAboutMenu->SetShortcuts(JGetString("AboutMenuShortcut::TestDirector"));
-	itsAboutMenu->SetMenuItems(kAboutMenuStr, "TestDirector");
+	itsAboutMenu->SetMenuItems(kAboutMenuStr);
 	itsAboutMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsAboutMenu->AttachHandlers(this,
 		&TestDirector::UpdateAboutMenu,
 		&TestDirector::HandleAboutMenu);
+	ConfigureAboutMenu(itsAboutMenu);
 
 	itsAnimHelpTask = jnew AnimateHelpMenuTask(itsAboutMenu, kHelpCmd);
 
 	itsPrintPSMenu = jnew JXTextMenu(itsAboutMenu, kPrintPSMenuCmd, menuBar);
-	itsPrintPSMenu->SetMenuItems(kPrintPSMenuStr);
+	itsPrintPSMenu->SetMenuItems(kPrintPostscriptMenuStr);
 	itsPrintPSMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrintPSMenu->AttachHandlers(this,
 		&TestDirector::UpdatePrintPSMenu,
 		&TestDirector::HandlePrintPSMenu);
+	ConfigurePrintPostscriptMenu(itsPrintPSMenu);
 
-	itsTestMenu = menuBar->AppendTextMenu(JGetString("TestMenuTitle::TestDirector"));
+	itsTestMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestDirector_Test"));
 	itsTestMenu->SetMenuItems(kTestMenuStr);
 	itsTestMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsTestMenu->AttachHandlers(this,
 		&TestDirector::UpdateTestMenu,
 		&TestDirector::HandleTestMenu);
+	ConfigureTestMenu(itsTestMenu);
 
 	itsUNMenu = jnew JXTextMenu(itsTestMenu, kTestUserNotifyMenuCmd, menuBar);
 	itsUNMenu->SetMenuItems(kUserNotificationMenuStr);
@@ -378,6 +262,7 @@ TestDirector::BuildWindow
 	itsUNMenu->AttachHandlers(this,
 		&TestDirector::UpdateUNMenu,
 		&TestDirector::HandleUNMenu);
+	ConfigureUserNotificationMenu(itsUNMenu);
 
 	itsCSFMenu = jnew JXTextMenu(itsTestMenu, kTestChooseSaveFileMenuCmd, menuBar);
 	itsCSFMenu->SetMenuItems(kChooseSaveFileMenuStr);
@@ -385,6 +270,7 @@ TestDirector::BuildWindow
 	itsCSFMenu->AttachHandlers(this,
 		&TestDirector::UpdateCSFMenu,
 		&TestDirector::HandleCSFMenu);
+	ConfigureChooseSaveFileMenu(itsCSFMenu);
 
 	itsPGMenu = jnew JXTextMenu(itsTestMenu, kTestPGMenuCmd, menuBar);
 	itsPGMenu->SetMenuItems(kProgressDisplayMenuStr);
@@ -392,6 +278,7 @@ TestDirector::BuildWindow
 	itsPGMenu->AttachHandlers(this,
 		&TestDirector::UpdatePGMenu,
 		&TestDirector::HandlePGMenu);
+	ConfigureProgressDisplayMenu(itsPGMenu);
 
 	if (isMaster)
 	{

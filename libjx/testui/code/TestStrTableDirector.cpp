@@ -22,18 +22,6 @@
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-// File menu information
-
-static const JUtf8Byte* kFileMenuStr =
-	"Page setup... | Print... %h p" "%l| Close %h c";
-
-enum
-{
-	kPageSetupCmd = 1,
-	kPrintCmd,
-	kCloseCmd
-};
-
 /******************************************************************************
  Constructor
 
@@ -72,6 +60,8 @@ TestStrTableDirector::~TestStrTableDirector()
 
  ******************************************************************************/
 
+#include "TestAnyTableDirector-File.h"
+
 void
 TestStrTableDirector::BuildWindow()
 {
@@ -95,12 +85,12 @@ TestStrTableDirector::BuildWindow()
 	window->SetWMClass("testjx", "TestStrTableDirector");
 	window->SetMinSize(150,150);
 
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::TestStrTableDirector"));
-	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestStrTableDirector"));
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestAnyTableDirector_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->AttachHandlers(this,
 		&TestStrTableDirector::UpdateFileMenu,
 		&TestStrTableDirector::HandleFileMenu);
+	ConfigureFileMenu(itsFileMenu);
 
 	// layout table and headers
 

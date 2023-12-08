@@ -39,42 +39,9 @@
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jAssert.h>
 
-// Actions menu
-
-static const JUtf8Byte* kActionsMenuStr =
-	"    Change size"
-	"%l| Fill %b %h f %k Ctrl-Shift-F"
-	"  | Points %h p"
-	"%l| Hide"
-	"  | Deactivate"
-	"%l| Hide quit"
-	"  | Deactivate quit"
-	"%l| Print selection targets"
-	"  | Print old selection targets (t - 10 sec)"
-	"%l| Advice %h a"
-	"  | xlsfonts"
-	"  | empty";
-
-enum
-{
-	kChangeSizeCmd = 1,
-	kToggleFillCmd,
-	kPointMenuCmd,
-	kShowHideCmd,
-	kActDeactCmd,
-	kShowHideQuitCmd,
-	kActDeactQuitCmd,
-	kPrintSelectionTargetsCmd,
-	kPrintOldSelectionTargetsCmd,
-	kAdviceMenuCmd,
-	kXlsfontsMenuCmd,
-	kEmptyMenuCmd
-};
-
-// Points menu
-
-static const JUtf8Byte* kPointMenuStr =
-	"10 %r %h 1 | 20 %r %h 2 | 30 %r %h 3 | 40 %r %h 4 | 50 %r %h 5 | 60 %r %h 6";
+#include "TestWidget-Actions.h"
+#include "TestWidget-Points.h"
+#include "TestWidget-Secret.h"
 
 // Advice menus
 
@@ -88,12 +55,6 @@ const JSize kAdviceMenuCount      = sizeof(kAdviceMenuStr)/sizeof(JUtf8Byte*);
 const JIndex kAdviceBoldMenuIndex = 2;
 
 // Secret popup menu
-
-static const JUtf8Byte* kSecretMenuStr =
-	"Congratulations! | You found the secret menu."
-	"%l| If you have to use such menus"
-	"%l| Pick me! %k Ctrl-plus"
-	"%l| ba x-a aha %h a | ba b %h b | ba x-a %h a | ba xa %h a";
 
 const JIndex kSecretSubmenuIndex  = 3;
 const JIndex kSecretMenuDialogCmd = 4;
@@ -191,19 +152,20 @@ TestWidget::TestWidget
 
 	itsActionsMenu = menuBar->AppendTextMenu(JGetString("ActionsMenuTitle::TestWidget"));
 	itsActionsMenu->SetTitleFontStyle(JColorManager::GetWhiteColor());
-	itsActionsMenu->SetShortcuts(JGetString("ActionsMenuShortcut::TestWidget"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsActionsMenu->AttachHandlers(this,
 		&TestWidget::UpdateActionsMenu,
 		&TestWidget::HandleActionsMenu);
+	ConfigureActionsMenu(itsActionsMenu);
 
 	itsPointMenu = jnew JXTextMenu(itsActionsMenu, kPointMenuCmd, menuBar);
-	itsPointMenu->SetMenuItems(kPointMenuStr);
+	itsPointMenu->SetMenuItems(kPointsMenuStr);
 	itsPointMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPointMenu->AttachHandlers(this,
 		&TestWidget::UpdatePointMenu,
 		&TestWidget::HandlePointMenu);
+	ConfigurePointsMenu(itsPointMenu);
 
 	// This tests the JX response to an empty menu.
 	jnew JXTextMenu(itsActionsMenu, kEmptyMenuCmd, menuBar);
@@ -245,6 +207,7 @@ TestWidget::TestWidget
 					JGetString("SecretMenuMessage::TestWidget"));
 			}
 		});
+	ConfigureSecretMenu(itsSecretMenu);
 
 	itsSecretSubmenu = jnew JXTextMenu(itsSecretMenu, kSecretSubmenuIndex, this);
 	itsSecretSubmenu->SetMenuItems(kSecretSubmenuStr);

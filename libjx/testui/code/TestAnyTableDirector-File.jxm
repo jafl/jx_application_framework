@@ -1,0 +1,46 @@
+jx_menu_editor 0
+670 300
+"TestAnyTableDirector"
+"File"
+'f
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Page setup..."
+""
+' 
+"__PageSetup"
+"kPageSetupCmd"
+0
+
+1
+0
+1 "jx_file_print.xpm"
+"Print..."
+""
+'p
+"__Print"
+"kPrintCmd"
+1
+
+1
+0
+0 ""
+"Close"
+""
+'c
+"__Close"
+"kCloseCmd"
+0
+
+0

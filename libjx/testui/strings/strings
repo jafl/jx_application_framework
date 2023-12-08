@@ -11,9 +11,6 @@ WindowTitle::AboutDialog	"About this silly program"
 # TestDirector
 
 WindowTitle::TestDirector		"Test Director"
-AboutMenuShortcut::TestDirector	"#?"
-HelpSpecific::JX::TestDirector	"Help %h h %k Ctrl-H %b %d"
-TestMenuTitle::TestDirector		"Test %h #t"
 DisplayMenuTitle::TestDirector	"Display"
 IconMenuTitle::TestDirector		"Smileys"
 FileNotReadable::TestDirector	"You do not have permission to read \"$name\"."
@@ -88,8 +85,6 @@ WindowTitle::ResizeWidgetDialog	"Change widget size"
 # TestImageDirector
 
 WindowTitle::TestImageDirector			"Test Image"
-FileMenuTitle::TestImageDirector		"File"
-FileMenuShortcut::TestImageDirector		"#F"
 SaveImagePrompt::TestImageDirector		"Save image as:"
 SaveMaskPrompt::TestImageDirector		"Save mask as:"
 
@@ -112,9 +107,7 @@ UnrecognizedFormat::TestImageDirector	"Unable to find a known image format."
 
 # TestFileListDirector
 
-WindowTitle::TestFileListDirector		"File List"
-FileMenuTitle::TestFileListDirector		"File"
-FileMenuShortcut::TestFileListDirector	"#F"
+WindowTitle::TestFileListDirector	"File List"
 
 # TestSliderDirector
 
@@ -144,10 +137,6 @@ TabLabelPrefix::TestTabDirector			"Tab #"
 # TestPartitionDirector
 
 WindowTitle::TestPartitionDirector			"Test Partitions"
-HorizMenuTitle::TestPartitionDirector		"Horiz"
-HorizMenuShortcut::TestPartitionDirector	"#H"
-VertMenuTitle::TestPartitionDirector		"Vert"
-VertMenuShortcut::TestPartitionDirector		"#V"
 OutOfSpace::TestPartitionDirector			"There is not enough space for another compartment."
 CannotRemoveLast::TestPartitionDirector		"You can't remove the last compartment."
 
@@ -191,13 +180,10 @@ ImageMenuLabel::TestPopupChoiceDialog		"Icons"
 
 # TestStrTableDirector
 
-WindowTitle::TestStrTableDirector		"Test String Table"
-FileMenuTitle::TestStrTableDirector		"File"
-FileMenuShortcut::TestStrTableDirector	"#F"
+WindowTitle::TestStrTableDirector	"Test String Table"
 
 # TestStringTable
 
-TableMenuTitle::TestStringTable	"Table"
 FontMenuTitle::TestStringTable	"Font"
 SizeMenuTitle::TestStringTable	"Size"
 Progress::TestStringTable		"Appending rows..."
@@ -206,13 +192,10 @@ PageFooter::TestStringTable		"Page $page"
 
 # TestFloatTableDirector
 
-WindowTitle::TestFloatTableDirector		"Test Number Table"
-FileMenuTitle::TestFloatTableDirector	"File"
-FileMenuShorcut::TestFloatTableDirector	"#F"
+WindowTitle::TestFloatTableDirector	"Test Number Table"
 
 # TestFloatTable
 
-TableMenuTitle::TestFloatTable	"Table"
 SizeMenuTitle::TestFloatTable	"Size"
 PageHeader::TestFloatTable		"testjx NumberTable"
 PageFooter::TestFloatTable		"Page $page"
@@ -235,11 +218,8 @@ ProcessText::TestPGTask	"Crunching numbers..."
 
 # TestTextEditDocument
 
-FileMenuShortcut::TestTextEditDocument	"#F"
 FilesMenuTitle::TestTextEditDocument	"Files"
 OpenFilesProgress::TestTextEditDocument	"Opening files..."
-
-EmulatorMenuTitle::TestTextEditDocument	"Emulator"
 
 # TestDNDTextDirector
 

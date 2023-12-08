@@ -25,35 +25,11 @@
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jAssert.h>
 
+#include "TestStringTable-Table.h"
+#include "TestStringTable-BorderWidth.h"
+
 const JSize kInitRowCount = 10;
 const JSize kInitColCount = 3;
-
-// Table menu information
-
-static const JUtf8Byte* kTableMenuStr =
-	"    Insert row %r"
-	"  | Duplicate row %r"
-	"  | Move row %r"
-	"  | Remove row %r"
-	"  | Row border"
-	"%l| Insert column %r"
-	"  | Duplicate column %r"
-	"  | Move column %r"
-	"  |Remove column %r"
-	"  | Column border"
-	"%l| Select cells %r"
-	"  | Select rows %r"
-	"  | Select columns %r"
-	"%l| Test selection iterator by row"
-	"  | Test selection iterator by col"
-	"%l| Add 4000 rows";
-
-// enum MouseAction is in header file
-
-// Border width menu information
-
-static const JUtf8Byte* kBorderWidthMenuStr =
-	"0%r|1%r|2%r|3%r|4%r|5%r";
 
 /******************************************************************************
  Constructor
@@ -83,12 +59,13 @@ JIndex i,j;
 
 	GetEditMenuHandler()->AppendEditMenu(menuBar);
 
-	itsTableMenu = menuBar->AppendTextMenu(JGetString("TableMenuTitle::TestStringTable"));
+	itsTableMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestStringTable_Table"));
 	itsTableMenu->SetMenuItems(kTableMenuStr);
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsTableMenu->AttachHandlers(this,
 		&TestStringTable::UpdateTableMenu,
 		&TestStringTable::HandleTableMenu);
+	ConfigureTableMenu(itsTableMenu);
 
 	itsRowBorderMenu = jnew JXTextMenu(itsTableMenu, kChangeRowBorderWidthCmd, menuBar);
 	itsRowBorderMenu->SetMenuItems(kBorderWidthMenuStr);
@@ -96,6 +73,7 @@ JIndex i,j;
 	itsRowBorderMenu->AttachHandlers(this,
 		&TestStringTable::UpdateRowBorderMenu,
 		&TestStringTable::HandleRowBorderMenu);
+	ConfigureBorderWidthMenu(itsRowBorderMenu);
 
 	itsColBorderMenu = jnew JXTextMenu(itsTableMenu, kChangeColBorderWidthCmd, menuBar);
 	itsColBorderMenu->SetMenuItems(kBorderWidthMenuStr);
@@ -103,6 +81,7 @@ JIndex i,j;
 	itsColBorderMenu->AttachHandlers(this,
 		&TestStringTable::UpdateColBorderMenu,
 		&TestStringTable::HandleColBorderMenu);
+	ConfigureBorderWidthMenu(itsColBorderMenu);
 
 	std::function f = [this]()
 	{
@@ -381,7 +360,7 @@ TestStringTable::HandleTableMenu
 {
 	if (index < kTestSelectionIteratorByRow)
 	{
-		itsMouseAction = static_cast<MouseAction>(index);
+		itsMouseAction = index;
 	}
 
 	else if (index == kTestSelectionIteratorByRow ||

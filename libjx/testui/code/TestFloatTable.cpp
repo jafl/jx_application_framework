@@ -23,22 +23,10 @@
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jAssert.h>
 
+#include "TestFloatTable-Table.h"
+
 const JSize kInitRowCount = 10;
 const JSize kInitColCount = 3;
-
-// Table menu information
-
-static const JUtf8Byte* kTableMenuStr =
-	"    Insert row %r"
-	"  | Duplicate row %r"
-	"  | Move row %r"
-	"  | Remove row %r"
-	"%l| Insert column %r"
-	"  | Duplicate column %r"
-	"  | Move column %r"
-	"  | Remove column %r";
-
-// enum MouseAction is in header file
 
 /******************************************************************************
  Constructor
@@ -68,12 +56,13 @@ JIndex i,j;
 
 	GetEditMenuHandler()->AppendEditMenu(menuBar);
 
-	itsTableMenu = menuBar->AppendTextMenu(JGetString("TableMenuTitle::TestFloatTable"));
+	itsTableMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestFloatTable_Table"));
 	itsTableMenu->SetMenuItems(kTableMenuStr);
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsTableMenu->AttachHandlers(this,
 		&TestFloatTable::UpdateTableMenu,
 		&TestFloatTable::HandleTableMenu);
+	ConfigureTableMenu(itsTableMenu);
 
 	itsSizeMenu = jnew JXFontSizeMenu(JFontManager::GetDefaultFontName(), JGetString("SizeMenuTitle::TestFloatTable"),
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
@@ -246,7 +235,7 @@ TestFloatTable::HandleTableMenu
 	const JIndex index
 	)
 {
-	itsMouseAction = static_cast<MouseAction>(index);
+	itsMouseAction = index;
 }
 
 /******************************************************************************

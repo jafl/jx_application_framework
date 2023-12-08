@@ -20,21 +20,6 @@
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-// File menu
-
-static const JUtf8Byte* kFileMenuStr =
-	"    Show selected files in file manager %h s %k Ctrl-Return"
-	"%l| Use wildcard filter %b"
-	"  | Use regex filter    %b"
-	"%l| Close                               %h c %k Ctrl-W";
-
-enum
-{
-	kShowLocationCmd = 1,
-	kUseWildcardCmd, kUseRegexCmd,
-	kCloseCmd
-};
-
 /******************************************************************************
  Constructor
 
@@ -74,8 +59,7 @@ TestFileListDirector::~TestFileListDirector()
 
  ******************************************************************************/
 
-#include <jx-af/image/jx/jx_filter_wildcard.xpm>
-#include <jx-af/image/jx/jx_filter_regex.xpm>
+#include "TestFileListDirector-File.h"
 
 void
 TestFileListDirector::BuildWindow()
@@ -100,16 +84,13 @@ TestFileListDirector::BuildWindow()
 	window->SetWMClass("testjx", "TestFileListDirector");
 	window->SetMinSize(150, 150);
 
-	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::TestFileListDirector"));
-	itsFileMenu->SetShortcuts(JGetString("FileMenuShortcut::TestFileListDirector"));
-	itsFileMenu->SetMenuItems(kFileMenuStr, "TestFileListDirector");
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("MenuTitle::TestFileListDirector_File"));
+	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&TestFileListDirector::UpdateFileMenu,
 		&TestFileListDirector::HandleFileMenu);
-
-	itsFileMenu->SetItemImage(kUseWildcardCmd, jx_filter_wildcard);
-	itsFileMenu->SetItemImage(kUseRegexCmd,    jx_filter_regex);
+	ConfigureFileMenu(itsFileMenu);
 }
 
 /******************************************************************************

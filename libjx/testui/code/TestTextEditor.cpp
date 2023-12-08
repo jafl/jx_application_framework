@@ -12,14 +12,9 @@
 #include <jx-af/jx/JXPSPrinter.h>
 #include <jx-af/jcore/jAssert.h>
 
-// Edit menu
+#include "TestTextEditor-Edit.h"
 
-static const JUtf8Byte* kEditMenuStr =
-	"    Auto-indent    %b"
-	"%l| Undo depth 1   %r"
-	"  | Undo depth 2   %r"
-	"  | Undo depth 3   %r"
-	"  | Undo depth 100 %r";
+// Edit menu
 
 static const JSize kUndoDepth[] = { 1, 2, 3, 100 };
 const JSize kUndoDepthCount     = sizeof(kUndoDepth)/sizeof(JSize);
@@ -70,6 +65,7 @@ TestTextEditor::TestTextEditor
 		itsAutoIndentCmdIndex     = editCount + 1;
 		itsFirstUndoDepthCmdIndex = itsAutoIndentCmdIndex + 1;
 		editMenu->AppendMenuItems(kEditMenuStr);
+		ConfigureEditMenu(editMenu, editCount);
 	}
 }
 

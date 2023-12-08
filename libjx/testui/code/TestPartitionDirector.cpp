@@ -24,29 +24,6 @@ const JSize kInitSize             = 100;
 const JSize kMinSize              = 50;
 const JSize kMenuBarHeight        = 30;
 
-// Horiz menu information
-
-static const JUtf8Byte* kHorizMenuStr =
-	"Prepend compartment %h p | Append compartment %h a"
-	"%l | Set elastic compartment %h s";
-
-enum
-{
-	kPrependHorizCmd = 1,
-	kAppendHorizCmd,
-	kSetHorizElasticIndexCmd
-};
-
-// Vert menu information
-
-static const JUtf8Byte* kVertMenuStr =
-	"Set elastic compartment %h s";
-
-enum
-{
-	kSetVertElasticIndexCmd = 1
-};
-
 /******************************************************************************
  Constructor
 
@@ -75,6 +52,9 @@ TestPartitionDirector::~TestPartitionDirector()
  BuildWindow (private)
 
  ******************************************************************************/
+
+#include "TestPartitionDirector-Horiz.h"
+#include "TestPartitionDirector-Vert.h"
 
 void
 TestPartitionDirector::BuildWindow()
@@ -116,21 +96,21 @@ TestPartitionDirector::BuildWindow()
 	window->SetWMClass("testjx", "TestPartitionDirector");
 	AdjustMinWindowSize();
 
-	itsHorizMenu = menuBar->AppendTextMenu(JGetString("HorizMenuTitle::TestPartitionDirector"));
-	itsHorizMenu->SetShortcuts(JGetString("HorizMenuShortcut::TestPartitionDirector"));
+	itsHorizMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestPartitionDirector_Horiz"));
 	itsHorizMenu->SetMenuItems(kHorizMenuStr);
 	itsHorizMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsHorizMenu->AttachHandlers(this,
 		&TestPartitionDirector::UpdateHorizMenu,
 		&TestPartitionDirector::HandleHorizMenu);
+	ConfigureHorizMenu(itsHorizMenu);
 
-	itsVertMenu = menuBar->AppendTextMenu(JGetString("VertMenuTitle::TestPartitionDirector"));
-	itsVertMenu->SetShortcuts(JGetString("VertMenuShortcut::TestPartitionDirector"));
+	itsVertMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestPartitionDirector_Vert"));
 	itsVertMenu->SetMenuItems(kVertMenuStr);
 	itsVertMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsVertMenu->AttachHandlers(this,
 		&TestPartitionDirector::UpdateVertMenu,
 		&TestPartitionDirector::HandleVertMenu);
+	ConfigureVertMenu(itsVertMenu);
 
 	for (JIndex i=1; i<=kInitCompartmentCount; i++)
 	{

@@ -1,4 +1,4 @@
-jx_browser_data 93
+jx_browser_data 94
 # project tree
 0 "root"
 T
@@ -43,9 +43,45 @@ T
 F
 "./code/TestDirector.cpp"
 T
+2 "TestDirector-About.jxm"
+F
+"./code/TestDirector-About.jxm"
+T
+2 "TestDirector-PrintPostscript.jxm"
+F
+"./code/TestDirector-PrintPostscript.jxm"
+T
+2 "TestDirector-Test.jxm"
+F
+"./code/TestDirector-Test.jxm"
+T
+2 "TestDirector-UserNotification.jxm"
+F
+"./code/TestDirector-UserNotification.jxm"
+T
+2 "TestDirector-ChooseSaveFile.jxm"
+F
+"./code/TestDirector-ChooseSaveFile.jxm"
+T
+2 "TestDirector-ProgressDisplay.jxm"
+F
+"./code/TestDirector-ProgressDisplay.jxm"
+T
 2 "TestWidget.cpp"
 F
 "./code/TestWidget.cpp"
+T
+2 "TestWidget-Actions.jxm"
+F
+"./code/TestWidget-Actions.jxm"
+T
+2 "TestWidget-Points.jxm"
+F
+"./code/TestWidget-Points.jxm"
+T
+2 "TestWidget-Secret.jxm"
+F
+"./code/TestWidget-Secret.jxm"
 T
 2 "ResizeWidgetDialog.cpp"
 F
@@ -66,6 +102,10 @@ T
 F
 "./code/TestImageDirector.cpp"
 T
+2 "TestImageDirector-File.jxm"
+F
+"./code/TestImageDirector-File.jxm"
+T
 2 "TestImageWidget.cpp"
 F
 "./code/TestImageWidget.cpp"
@@ -82,6 +122,14 @@ T
 F
 "./code/TestPartitionDirector.cpp"
 T
+2 "TestPartitionDirector-Horiz.jxm"
+F
+"./code/TestPartitionDirector-Horiz.jxm"
+T
+2 "TestPartitionDirector-Vert.jxm"
+F
+"./code/TestPartitionDirector-Vert.jxm"
+T
 2 "TestCompartment.cpp"
 F
 "./code/TestCompartment.cpp"
@@ -93,6 +141,10 @@ T
 2 "TestFileListDirector.cpp"
 F
 "./code/TestFileListDirector.cpp"
+T
+2 "TestFileListDirector-File.jxm"
+F
+"./code/TestFileListDirector-File.jxm"
 F
 T
 1 "Dialogs"
@@ -120,6 +172,14 @@ T
 F
 "./code/TestStringTable.cpp"
 T
+2 "TestStringTable-Table.jxm"
+F
+"./code/TestStringTable-Table.jxm"
+T
+2 "TestStringTable-BorderWidth.jxm"
+F
+"./code/TestStringTable-BorderWidth.jxm"
+T
 2 "TestFloatTableDirector.cpp"
 F
 "./code/TestFloatTableDirector.cpp"
@@ -127,6 +187,14 @@ T
 2 "TestFloatTable.cpp"
 F
 "./code/TestFloatTable.cpp"
+T
+2 "TestFloatTable-Table.jxm"
+F
+"./code/TestFloatTable-Table.jxm"
+T
+2 "TestAnyTableDirector-File.jxm"
+F
+"./code/TestAnyTableDirector-File.jxm"
 F
 T
 1 "TextEdit"
@@ -135,9 +203,21 @@ T
 F
 "./code/TestTextEditDocument.cpp"
 T
+2 "TestTextEditDocument-File.jxm"
+F
+"./code/TestTextEditDocument-File.jxm"
+T
+2 "TestTextEditDocument-Emulator.jxm"
+F
+"./code/TestTextEditDocument-Emulator.jxm"
+T
 2 "TestTextEditor.cpp"
 F
 "./code/TestTextEditor.cpp"
+T
+2 "TestTextEditor-Edit.jxm"
+F
+"./code/TestTextEditor-Edit.jxm"
 T
 2 "TestDNDTextDirector.cpp"
 F
