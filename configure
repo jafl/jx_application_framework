@@ -137,7 +137,7 @@ elif command -v dnf; then
 		libXpm-devel libjpeg-devel libpng-devel gd-devel \
 		libicu-devel pcre-devel libxml2-devel \
 		boost-devel expat-devel libdrm-devel \
-		xforms-devel aspell aspell-en imagemagick;
+		xforms-devel aspell aspell-en ImageMagick;
 
 	if [[ $1 != package ]]; then
 		get_ace;
