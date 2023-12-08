@@ -1787,46 +1787,43 @@ MenuTable::GenerateCode
 	}
 	output << std::endl;
 
-	if (hasIcons || menuTitleShortcut != " ")
+	const JUtf8Byte* map[] =
+	{
+		"title", menuTitle.GetBytes()
+	};
+	JGetString("ConfigureMenuHeader::MenuTable", map, sizeof(map)).Print(output);
+
+	if (menuTitleShortcut != " ")
 	{
 		const JUtf8Byte* map[] =
 		{
-			"title", menuTitle.GetBytes()
+			"key", menuTitleShortcut.GetBytes()
 		};
-		JGetString("ConfigureMenuHeader::MenuTable", map, sizeof(map)).Print(output);
+		JGetString("ConfigureShortcut::MenuTable", map, sizeof(map)).Print(output);
+	}
 
-		if (menuTitleShortcut != " ")
+	if (hasIcons)
+	{
+		JString icon;
+		for (const auto& item : *itsItemList)
 		{
-			const JUtf8Byte* map[] =
+			if (item.iconIndex > 0)
 			{
-				"key", menuTitleShortcut.GetBytes()
-			};
-			JGetString("ConfigureShortcut::MenuTable", map, sizeof(map)).Print(output);
-		}
+				JSplitPathAndName(*itsIconPathList->GetItem(item.iconIndex), &p, &n);
+				JSplitRootAndSuffix(n, &icon, &p);
 
-		if (hasIcons)
-		{
-			JString icon;
-			for (const auto& item : *itsItemList)
-			{
-				if (item.iconIndex > 0)
+				const JUtf8Byte* map[] =
 				{
-					JSplitPathAndName(*itsIconPathList->GetItem(item.iconIndex), &p, &n);
-					JSplitRootAndSuffix(n, &icon, &p);
-
-					const JUtf8Byte* map[] =
-					{
-						"enum", item.enumName->GetBytes(),
-						"icon", icon.GetBytes()
-					};
-					JGetString("SetIconsLine::MenuTable", map, sizeof(map)).Print(output);
-					output << std::endl;
-				}
+					"enum", item.enumName->GetBytes(),
+					"icon", icon.GetBytes()
+				};
+				JGetString("SetIconsLine::MenuTable", map, sizeof(map)).Print(output);
+				output << std::endl;
 			}
 		}
-
-		output << "};" << std::endl;
 	}
+
+	output << "};" << std::endl;
 }
 
 /******************************************************************************
