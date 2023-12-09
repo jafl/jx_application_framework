@@ -84,7 +84,7 @@ initial_build_libs_tools:
        if ! ( cd $$dir; ${JMAKE}; ); then exit 1; fi \
      done;
 	@$(foreach dir, $(wildcard tools/*), \
-       ${IF_DIR} ${JMAKE} install; ${ENDIF_DIR})
+       ${IF_DIR} if ! ( ${JMAKE} install; ); then exit 1; fi ${ENDIF_DIR})
 	@cd tutorial; ${JMAKE}
 
 #

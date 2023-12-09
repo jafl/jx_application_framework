@@ -216,5 +216,7 @@ if [[ ! -e libjcore/code/jStringData.h && $1 != package ]]; then
 	chmod u+w libjcore/code/jStringData.h;
 fi
 
-touch libjx/image-build/*;
-touch libjexpr/code/JExprParserY.cpp libjexpr/code/JExprParserY.hpp;
+if [[ $1 != package ]]; then
+	touch libjx/image-build/*;
+	touch libjexpr/code/JExprParserY.cpp libjexpr/code/JExprParserY.hpp;
+fi
