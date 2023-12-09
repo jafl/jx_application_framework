@@ -796,7 +796,8 @@ MenuTable::ExtractInputData
 		JString tmp = itsTextInput->GetText()->GetText();
 		int key;
 		JXKeyModifiers mod(GetDisplay());
-		if (!tmp.IsEmpty() && !JXParseNMShortcut(&tmp, &key, &mod, false) &&
+		if (!tmp.IsEmpty() && tmp != *s &&
+			!JXParseNMShortcut(&tmp, &key, &mod, false) &&
 			!JGetUserNotification()->AskUserNo(JGetString("WarnInvalidShortcut::MenuTable")))
 		{
 			return false;
@@ -862,6 +863,7 @@ MenuTable::ValidateWindowsKeys()
 			if (itsItemList->GetItem(j).windowsKey == item1.windowsKey)
 			{
 				SelectSingleCell(JPoint(kWindowsKeyColumn, i));
+				GetTableSelection().SelectCell(JPoint(kWindowsKeyColumn, j));
 				JGetUserNotification()->ReportError(
 					JGetString("DuplicateWindowsKey::MenuTable"));
 				return false;
