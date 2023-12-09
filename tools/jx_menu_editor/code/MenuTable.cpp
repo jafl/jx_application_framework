@@ -229,7 +229,8 @@ MenuTable::TableDrawCell
 		p.Line(pt1, pt2);
 	}
 
-	if (cell.x == kTypeColumn || cell.x == kIconColumn)
+	if (!GetTableSelection().IsSelected(cell) &&
+		(cell.x == kTypeColumn || cell.x == kIconColumn))
 	{
 		p.SetFilling(true);
 		p.SetPenColor(JColorManager::GetDefaultBackColor());
