@@ -99,11 +99,11 @@ if [[ $SYS == Darwin ]]; then
 			$SUDO /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
 		fi
 
-		brew bundle;
-
-		if [[ -z $GITHUB_ACTIONS ]]; then
-			brew install imagemagick;	# python upgrade fails on github runner
+		if [[ -n $GITHUB_ACTIONS ]]; then
+			brew install python@3.11 || brew link --overwrite python@3.11;
+			brew install python@3.12 || brew link --overwrite python@3.12;
 		fi
+		brew bundle;
 	fi
 
 	if [[ $1 != package ]]; then
@@ -215,3 +215,6 @@ if [[ ! -e libjcore/code/jStringData.h && $1 != package ]]; then
 	cp -f libjcore/jStringData_init.h libjcore/code/jStringData.h;
 	chmod u+w libjcore/code/jStringData.h;
 fi
+
+touch libjx/image-build/*;
+touch libjexpr/code/JExprParserY.cpp libjexpr/code/JExprParserY.hpp;
