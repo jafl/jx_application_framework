@@ -647,29 +647,30 @@ MenuDocument::HandleFileMenu
 
 	else if (index == kSaveCmd)
 	{
-		if (itsTable->EndEditing())
+		if (itsTable->EndEditing() && itsTable->ValidateWindowsKeys())
 		{
 			SaveInCurrentFile();
 		}
 	}
 	else if (index == kSaveAsCmd)
 	{
-		bool onDisk;
-		const JString fullName = GetFullName(&onDisk);
-		if (onDisk)
+		if (itsTable->EndEditing() && itsTable->ValidateWindowsKeys())
 		{
-			GetDocumentManager()->AddToFileHistoryMenu(fullName);
-		}
+			bool onDisk;
+			const JString fullName = GetFullName(&onDisk);
+			if (onDisk)
+			{
+				GetDocumentManager()->AddToFileHistoryMenu(fullName);
+			}
 
-		if (itsTable->EndEditing())
-		{
 			SaveInNewFile();
 		}
 	}
 	else if (index == kSaveCopyAsCmd)
 	{
 		JString fullName;
-		if (itsTable->EndEditing() && SaveCopyInNewFile(JString::empty, &fullName))
+		if (itsTable->EndEditing() && itsTable->ValidateWindowsKeys() &&
+			SaveCopyInNewFile(JString::empty, &fullName))
 		{
 			GetDocumentManager()->AddToFileHistoryMenu(fullName);
 		}

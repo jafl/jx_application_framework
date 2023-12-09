@@ -99,13 +99,13 @@ Column6::MenuTable	"ID"
 Column7::MenuTable	"Enum Name"
 Column8::MenuTable	"Separator"
 
-TableMenuTitle::MenuTable	"Table"
-
 MissingOpenQuote:MenuTable				"The menu definition text does not have a starting double quote."
 UnknownActionMacro:MenuTable			"Unable to find the definition for the macro $m."
 IDCannotIncludeSpace::MenuTable			"The ID cannot contain spaces."
 EnumMustBeValidIdentifier::MenuTable	"The enum name must be a valid C identifier."
-InvalidShortcut::MenuTable				"This is not a valid shortcut.  Refer to the online help for more information."
+WarnInvalidShortcut::MenuTable			"This is not a valid shortcut.  Do you want to keep it?"
+
+DuplicateWindowsKey::MenuTable	"This key has already been assigned to an earlier menu item."
 
 ConfigureMenuHeader::MenuTable
 "static void Configure$titleMenu(JXTextMenu* menu, const int offset = 0) {

@@ -113,7 +113,7 @@ MenuTable::MenuTable
 
 	// menus
 
-	itsTableMenu = menuBar->AppendTextMenu(JGetString("TableMenuTitle::MenuTable"));
+	itsTableMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MenuTable_Table"));
 	itsTableMenu->SetMenuItems(kTableMenuStr);
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsTableMenu->AttachHandler(this, &MenuTable::HandleTableMenu);
@@ -796,9 +796,9 @@ MenuTable::ExtractInputData
 		JString tmp = itsTextInput->GetText()->GetText();
 		int key;
 		JXKeyModifiers mod(GetDisplay());
-		if (!tmp.IsEmpty() && !JXParseNMShortcut(&tmp, &key, &mod, false))
+		if (!tmp.IsEmpty() && !JXParseNMShortcut(&tmp, &key, &mod, false) &&
+			!JGetUserNotification()->AskUserNo(JGetString("WarnInvalidShortcut::MenuTable")))
 		{
-			JGetUserNotification()->ReportError(JGetString("InvalidShortcut::MenuTable"));
 			return false;
 		}
 	}
@@ -843,6 +843,33 @@ MenuTable::PrepareDeleteXInputField()
 {
 	itsTextInput = nullptr;
 	itsCharInput = nullptr;
+}
+
+/******************************************************************************
+ ValidateWindowsKeys
+
+ ******************************************************************************/
+
+bool
+MenuTable::ValidateWindowsKeys()
+{
+	const JSize count = itsItemList->GetItemCount();
+	for (JIndex i=2; i<=count; i++)
+	{
+		const auto item1 = itsItemList->GetItem(i);
+		for (JIndex j=1; j<i; j++)
+		{
+			if (itsItemList->GetItem(j).windowsKey == item1.windowsKey)
+			{
+				SelectSingleCell(JPoint(kWindowsKeyColumn, i));
+				JGetUserNotification()->ReportError(
+					JGetString("DuplicateWindowsKey::MenuTable"));
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
 
 /******************************************************************************

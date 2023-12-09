@@ -97,6 +97,8 @@ public:
 	void	FillInItemIDs(const JString& className);
 	void	RebuildIconMenu();
 
+	bool	ValidateWindowsKeys();
+
 protected:
 
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
