@@ -35,26 +35,7 @@
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-static const JUtf8Byte* kMenuStr =
-	"    Plain            %b %h p %k Ctrl-T %i" kJXPlainStyleAction
-	"%l| Bold             %b %h b %k Ctrl-B %i" kJXBoldStyleAction
-	"  | Italic           %b %h i %k Ctrl-I %i" kJXItalicStyleAction
-	"  | Underline        %b %h u %k Ctrl-U %i" kJXUnderlineStyleAction
-	"  | Double underline %b %h d           %i" kJXDoubleUnderlineStyleAction
-	"  | Strike           %b %h s           %i" kJXStrikeStyleAction
-	"%l| Black            %r                %i" kJXBlackStyleAction
-	"  | Gray             %r                %i" kJXGrayStyleAction
-	"  | Brown            %r                %i" kJXBrownStyleAction
-	"  | Orange           %r                %i" kJXOrangeStyleAction
-	"  | Red              %r                %i" kJXRedStyleAction
-	"  | Dark red         %r                %i" kJXDarkRedStyleAction
-	"  | Green            %r                %i" kJXGreenStyleAction
-	"  | Blue             %r                %i" kJXBlueStyleAction
-	"  | Light blue       %r                %i" kJXLightBlueStyleAction
-	"  | Pink             %r                %i" kJXPinkStyleAction
-	"%l| Other            %r                %i" kJXOtherColorStyleAction;
-
-// remember to update kColorCount and JXStyleMenuX()
+#include "JXStyleMenu-Style.h"
 
 /******************************************************************************
  Constructor
@@ -72,7 +53,7 @@ JXStyleMenu::JXStyleMenu
 	const JCoordinate	h
 	)
 	:
-	JXTextMenu(JGetString("Title::JXStyleMenu"), enclosure, hSizing, vSizing, x,y, w,h)
+	JXTextMenu(JGetString("MenuTitle::JXStyleMenu_Style"), enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXStyleMenuX();
 }
@@ -94,8 +75,8 @@ JXStyleMenu::JXStyleMenu
 void
 JXStyleMenu::JXStyleMenuX()
 {
-	SetShortcuts(JGetString("Shortcut::JXStyleMenu"));
-	SetMenuItems(kMenuStr);
+	SetMenuItems(kStyleMenuStr);
+	ConfigureStyleMenu(this);
 
 	const JColorID blackColor = JColorManager::GetBlackColor();
 

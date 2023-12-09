@@ -1,0 +1,296 @@
+jx_menu_editor 0
+675 728
+"JXExprEditor"
+"Function"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"absolute value"
+"abs"
+' 
+"__absoluteValue"
+"____absoluteValue"
+0
+
+1
+0
+0 ""
+"square root"
+"sqrt"
+' 
+"__squareRoot"
+"____squareRoot"
+1
+
+1
+0
+0 ""
+"logarithm (any base)"
+"log"
+' 
+"__logarithmAnyBase"
+"____logarithmAnyBase"
+0
+
+1
+0
+0 ""
+"natural logarithm"
+"ln"
+' 
+"__naturalLogarithm"
+"____naturalLogarithm"
+1
+
+1
+0
+0 ""
+"sine"
+"sin"
+' 
+"__sine"
+"____sine"
+0
+
+1
+0
+0 ""
+"cosine"
+"cos"
+' 
+"__cosine"
+"____cosine"
+0
+
+1
+0
+0 ""
+"tangent"
+"tan"
+' 
+"__tangent"
+"____tangent"
+1
+
+1
+0
+0 ""
+"inverse sine"
+"arcsin"
+' 
+"__inverseSine"
+"____inverseSine"
+0
+
+1
+0
+0 ""
+"inverse cosine"
+"arccos"
+' 
+"__inverseCosine"
+"____inverseCosine"
+0
+
+1
+0
+0 ""
+"inverse tangent"
+"arctan"
+' 
+"__inverseTangent"
+"____inverseTangent"
+0
+
+1
+0
+0 ""
+"inverse tangent(y, x)"
+"arctan2"
+' 
+"__inverseTangentYX"
+"____inverseTangentYX"
+1
+
+1
+0
+0 ""
+"hyperbolic sine"
+"sinh"
+' 
+"__hyperbolicSine"
+"____hyperbolicSine"
+0
+
+1
+0
+0 ""
+"hyperbolic cosine"
+"cosh"
+' 
+"__hyperbolicCosine"
+"____hyperbolicCosine"
+0
+
+1
+0
+0 ""
+"hyperbolic tangent"
+"tanh"
+' 
+"__hyperbolicTangent"
+"____hyperbolicTangent"
+1
+
+1
+0
+0 ""
+"inverse hyperbolic sine"
+"arcsinh"
+' 
+"__inverseHyperbolicSine"
+"____inverseHyperbolicSine"
+0
+
+1
+0
+0 ""
+"inverse hyperbolic cosine"
+"arccosh"
+' 
+"__inverseHyperbolicCosine"
+"____inverseHyperbolicCosine"
+0
+
+1
+0
+0 ""
+"inverse hyperbolic tangent"
+"arctanh"
+' 
+"__inverseHyperbolicTangent"
+"____inverseHyperbolicTangent"
+1
+
+1
+0
+0 ""
+"real part"
+"re"
+' 
+"__realPart"
+"____realPart"
+0
+
+1
+0
+0 ""
+"imaginary part"
+"im"
+' 
+"__imaginaryPart"
+"____imaginaryPart"
+0
+
+1
+0
+0 ""
+"phase angle"
+"arg"
+' 
+"__phaseAngle"
+"____phaseAngle"
+0
+
+1
+0
+0 ""
+"complex conjugate"
+"conjugate"
+' 
+"__complexConjugate"
+"____complexConjugate"
+0
+
+1
+0
+0 ""
+"rotate(z, angle)"
+"rotate"
+' 
+"__rotateZAngle"
+"____rotateZAngle"
+1
+
+1
+0
+0 ""
+"minimum"
+"min"
+' 
+"__minimum"
+"____minimum"
+0
+
+1
+0
+0 ""
+"maximum"
+"max"
+' 
+"__maximum"
+"____maximum"
+0
+
+1
+0
+0 ""
+"parallel"
+"parallel"
+' 
+"__parallel"
+"____parallel"
+1
+
+1
+0
+0 ""
+"algebraic sign"
+"sign"
+' 
+"__algebraicSign"
+"____algebraicSign"
+0
+
+1
+0
+0 ""
+"round to integer"
+"round"
+' 
+"__roundToInteger"
+"____roundToInteger"
+0
+
+1
+0
+0 ""
+"truncate to integer"
+"truncate"
+' 
+"__truncateToInteger"
+"____truncateToInteger"
+0
+
+0

@@ -139,6 +139,10 @@ T
 F
 "./code/JXWDManager.cpp"
 T
+2 "JXWDManager-Windows.jxm"
+F
+"./code/JXWDManager-Windows.jxm"
+T
 2 "JXWDMenu.cpp"
 F
 "./code/JXWDMenu.cpp"
@@ -335,34 +339,6 @@ T
 F
 "./code/JXImageMenuTable.cpp"
 T
-2 "JXFontNameMenu.cpp"
-F
-"./code/JXFontNameMenu.cpp"
-T
-2 "JXFontNameMenuDirector.cpp"
-F
-"./code/JXFontNameMenuDirector.cpp"
-T
-2 "JXFontNameMenuTable.cpp"
-F
-"./code/JXFontNameMenuTable.cpp"
-T
-2 "JXFontSizeMenu.cpp"
-F
-"./code/JXFontSizeMenu.cpp"
-T
-2 "JXStyleMenu.cpp"
-F
-"./code/JXStyleMenu.cpp"
-T
-2 "JXStyleMenuDirector.cpp"
-F
-"./code/JXStyleMenuDirector.cpp"
-T
-2 "JXStyleMenuTable.cpp"
-F
-"./code/JXStyleMenuTable.cpp"
-T
 2 "jXMenuUtil.cpp"
 F
 "./code/jXMenuUtil.cpp"
@@ -389,6 +365,38 @@ T
 2 "JXXFontMenu.cpp"
 F
 "./code/JXXFontMenu.cpp"
+T
+2 "JXFontNameMenu.cpp"
+F
+"./code/JXFontNameMenu.cpp"
+T
+2 "JXFontNameMenuDirector.cpp"
+F
+"./code/JXFontNameMenuDirector.cpp"
+T
+2 "JXFontNameMenuTable.cpp"
+F
+"./code/JXFontNameMenuTable.cpp"
+T
+2 "JXFontSizeMenu.cpp"
+F
+"./code/JXFontSizeMenu.cpp"
+T
+2 "JXStyleMenu.cpp"
+F
+"./code/JXStyleMenu.cpp"
+T
+2 "JXStyleMenu-Style.jxm"
+F
+"./code/JXStyleMenu-Style.jxm"
+T
+2 "JXStyleMenuDirector.cpp"
+F
+"./code/JXStyleMenuDirector.cpp"
+T
+2 "JXStyleMenuTable.cpp"
+F
+"./code/JXStyleMenuTable.cpp"
 F
 T
 1 "InputField"
@@ -396,6 +404,10 @@ T
 2 "JXInputField.cpp"
 F
 "./code/JXInputField.cpp"
+T
+2 "JXInputField-Context.jxm"
+F
+"./code/JXInputField-Context.jxm"
 T
 2 "JXIntegerInput.cpp"
 F

@@ -1,0 +1,96 @@
+jx_menu_editor 0
+670 300
+"JX2DPlotWidget"
+"Cursor"
+'c
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+1
+0 ""
+"X cursor"
+""
+'x
+"__XCursor"
+"kXCursorCmd"
+0
+
+1
+1
+0 ""
+"Y cursor"
+""
+'y
+"__YCursor"
+"kYCursorCmd"
+0
+
+1
+1
+0 ""
+"Dual cursors"
+""
+'d
+"__DualCursors"
+"kDualCursorsCmd"
+1
+
+1
+0
+0 ""
+"Mark cursor"
+""
+'m
+"__MarkCursor"
+"kMarkCursorCmd"
+0
+
+1
+0
+0 ""
+"Mark all visible cursors"
+""
+'a
+"__MarkAllVisibleCursors"
+"kMarkAllVisCursorsCmd"
+0
+
+1
+0
+0 ""
+"Remove mark"
+""
+'r
+"__RemoveMark"
+"kRemoveMarkIndex"
+0
+
+1
+0
+0 ""
+"Remove all marks"
+""
+'v
+"__RemoveAllMarks"
+"kRemoveAllMarksCmd"
+1
+
+1
+0
+0 ""
+"Show mark window"
+""
+'s
+"__ShowMarkWindow"
+"kShowMarkWindowCmd"
+0
+
+0

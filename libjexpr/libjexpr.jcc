@@ -27,6 +27,22 @@ T
 F
 "./code/JXExprEditor.cpp"
 T
+2 "JXExprEditor-Edit.jxm"
+F
+"./code/JXExprEditor-Edit.jxm"
+T
+2 "JXExprEditor-Math.jxm"
+F
+"./code/JXExprEditor-Math.jxm"
+T
+2 "JXExprEditor-Function.jxm"
+F
+"./code/JXExprEditor-Function.jxm"
+T
+2 "JXExprEditor-Font.jxm"
+F
+"./code/JXExprEditor-Font.jxm"
+T
 2 "JXExprEditorSet.cpp"
 F
 "./code/JXExprEditorSet.cpp"
@@ -34,6 +50,10 @@ T
 2 "JXExprInput.cpp"
 F
 "./code/JXExprInput.cpp"
+T
+2 "JXExprInput-Font.jxm"
+F
+"./code/JXExprInput-Font.jxm"
 T
 2 "JExprEditor.cpp"
 F

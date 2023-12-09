@@ -6,6 +6,6 @@
 
 MenuTitle::LayoutDocument_Preferences "Preferences"
 
-__EditToolBar::LayoutDocument "Edit tool bar... %h t"
+__EditToolBar::LayoutDocument "Toolbar buttons... %h t"
 __FileManager::LayoutDocument "File manager... %h f"
 __MacWinXEmulation::LayoutDocument "Mac/Win/X emulation... %h e"

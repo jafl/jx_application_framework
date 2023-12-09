@@ -1,0 +1,66 @@
+jx_menu_editor 0
+670 300
+"PlotDirector"
+"Actions"
+'a
+40
+40
+153
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"PostScript page setup..."
+""
+'s
+"__PostScriptPageSetup"
+"kPSPageSetupCmd"
+0
+
+1
+0
+1 "jx_file_print.xpm"
+"Print PostScript..."
+"Ctrl-P"
+'p
+"__PrintPostScript"
+"kPrintPSCmd"
+1
+
+1
+0
+0 ""
+"Print plot as EPS..."
+""
+'e
+"__PrintPlotAsEPS"
+"kPrintPlotEPSCmd"
+0
+
+1
+0
+0 ""
+"Print marks as EPS..."
+""
+'m
+"__PrintMarksAsEPS"
+"kPrintMarksEPSCmd"
+1
+
+1
+0
+0 ""
+"Quit"
+"Ctrl-Q"
+'q
+"__Quit"
+"kQuitCmd"
+0
+
+0

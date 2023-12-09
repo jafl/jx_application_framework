@@ -39,6 +39,10 @@ T
 2 "AboutDialog.cpp"
 F
 "./code/AboutDialog.cpp"
+T
+2 "PlotDirector-Actions.jxm"
+F
+"../../libj2dplot/testui/code/PlotDirector-Actions.jxm"
 F
 T
 1 "editor"
@@ -109,7 +113,6 @@ F
 # tasks
 4
 "makemake"
-T "./" "make -kw install" "" TFTFTFF "" "" "" F
 F
 # build settings
 1

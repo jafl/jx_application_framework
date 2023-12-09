@@ -1,4 +1,4 @@
-jx_browser_data 92
+jx_browser_data 94
 # project tree
 0 "root"
 T
@@ -7,6 +7,18 @@ T
 2 "JX2DPlotWidget.cpp"
 F
 "./code/JX2DPlotWidget.cpp"
+T
+2 "JX2DPlotWidget-Options.jxm"
+F
+"./code/JX2DPlotWidget-Options.jxm"
+T
+2 "JX2DPlotWidget-Cursor.jxm"
+F
+"./code/JX2DPlotWidget-Cursor.jxm"
+T
+2 "JX2DPlotWidget-CurveOptions.jxm"
+F
+"./code/JX2DPlotWidget-CurveOptions.jxm"
 T
 2 "J2DPlotWidget.cpp"
 F

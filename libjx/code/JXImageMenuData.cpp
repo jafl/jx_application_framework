@@ -131,7 +131,7 @@ JXImageMenuData::CleanOutIconItem
 {
 	if (itemData->ownsImage)
 	{
-		jdelete (itemData->image);
+		jdelete itemData->image;
 	}
 	itemData->image = nullptr;
 }

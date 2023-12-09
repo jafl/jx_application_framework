@@ -80,6 +80,12 @@
 .cpp ./code/JXImageMenuData
 .cpp ./code/JXImageMenuDirector
 .cpp ./code/JXImageMenuTable
+.cpp ./code/jXMenuUtil
+.cpp ./code/JXHistoryMenuBase
+.cpp ./code/JXStringHistoryMenu
+.cpp ./code/JXPathHistoryMenu
+.cpp ./code/JXFileHistoryMenu
+.cpp ./code/JXXFontMenu
 .cpp ./code/JXFontNameMenu
 .cpp ./code/JXFontNameMenuDirector
 .cpp ./code/JXFontNameMenuTable
@@ -87,12 +93,6 @@
 .cpp ./code/JXStyleMenu
 .cpp ./code/JXStyleMenuDirector
 .cpp ./code/JXStyleMenuTable
-.cpp ./code/jXMenuUtil
-.cpp ./code/JXHistoryMenuBase
-.cpp ./code/JXStringHistoryMenu
-.cpp ./code/JXPathHistoryMenu
-.cpp ./code/JXFileHistoryMenu
-.cpp ./code/JXXFontMenu
 .cpp ./code/JXInputField
 .cpp ./code/JXIntegerInput
 .cpp ./code/JXFloatInput

@@ -15,16 +15,6 @@
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-// Font menu
-
-static const JUtf8Byte* kFontMenuStr = "Normal %h n %r | Greek %h g %r";
-
-enum
-{
-	kNormalFontCmd = 1,
-	kGreekFontCmd
-};
-
 /******************************************************************************
  Constructor
 
@@ -90,6 +80,8 @@ JXExprInput::HandleKeyPress
 
  ******************************************************************************/
 
+#include "JXExprInput-Font.h"
+
 JXTextMenu*
 JXExprInput::CreateFontMenu
 	(
@@ -97,12 +89,12 @@ JXExprInput::CreateFontMenu
 	)
 {
 	auto* menu =
-		jnew JXTextMenu(JGetString("FontMenuTitle::JXExprInput"), enclosure,
+		jnew JXTextMenu(JGetString("MenuTitle::JXExprInput_Font"), enclosure,
 						kFixedLeft, kVElastic, 0,0, 10,10);
 	assert( menu != nullptr );
 	menu->SetUpdateAction(JXMenu::kDisableNone);
-	menu->SetShortcuts(JGetString("FontMenuShortcut::JXExprInput"));
 	menu->SetMenuItems(kFontMenuStr);
+	ConfigureFontMenu(menu);
 	return menu;
 }
 

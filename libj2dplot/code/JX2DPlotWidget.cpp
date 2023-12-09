@@ -35,87 +35,16 @@
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 
+#include "JX2DPlotWidget-Options.h"
+#include "JX2DPlotWidget-Cursor.h"
+#include "JX2DPlotWidget-CurveOptions.h"
+
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 3;	// must begin with digit >= 2
 
 	// version 2: added version number and itsPSPrintName
 	// version 3: added itsEPSPlotName, itsEPSPlotBounds, and itsEPSMarksName
-
-// Options menu
-
-static const JUtf8Byte* kOptionsMenuStr =
-	"    Change scale..."
-	"  | Reset scale"
-	"%l| Show frame  %b"
-	"  | Show grid   %b"
-	"  | Show legend %b"
-	"%l| Copy scale to range"
-	"  | Change range..."
-	"  | Clear range"
-	"%l| Change labels..."
-	"  | Change curve options..."
-	"  | Remove curve";
-
-enum
-{
-	kScaleCmd = 1,
-	kResetScaleCmd,
-	kShowFrameCmd,
-	kShowGridCmd,
-	kShowLegendCmd,
-	kCopyScaleToRangeCmd,
-	kChangeRangeCmd,
-	kClearRangeCmd,
-	kChangeLabelsCmd,
-	kCurveOptionsCmd,
-	kRemoveCurveCmd
-};
-
-// Cursor menu
-
-static const JUtf8Byte* kCursorMenuStr =
-	"    X cursor     %b"
-	"  | Y cursor     %b"
-	"  | Dual cursors %b"
-	"%l| Mark cursor"
-	"  | Mark all visible cursors"
-	"  | Remove mark"
-	"  | Remove all marks"
-	"%l| Show mark window";
-
-enum
-{
-	kXCursorCmd = 1,
-	kYCursorCmd,
-	kDualCursorsCmd,
-	kMarkCursorCmd,
-	kMarkAllVisCursorsCmd,
-	kRemoveMarkIndex,
-	kRemoveAllMarksCmd,
-	kShowMarkWindowCmd
-};
-
-// Curve Options menu (popup)
-
-static const JUtf8Byte* kCurveOptionsMenuStr =
-	"    Visible         %b"
-	"%l| Show all"
-	"  | Hide others"
-	"%l| Points          %r"
-	"  | Symbols         %r"
-	"  | Lines           %r"
-	"  | Lines & symbols %r"
-	"%l| X errors        %b"
-	"  | Y errors        %b";
-
-enum
-{
-	kToggleCurveVisibleCmd = 1,
-	kShowAllCurvesCmd, kHideAllOtherCurvesCmd,
-	kPointsCmd, kSymbolsCmd, kLinesCmd, kLinesSymbolsCmd,
-	kXErrorsCmd, kYErrorsCmd
-};
 
 /*******************************************************************************
  Constructor
@@ -141,17 +70,19 @@ JX2DPlotWidget::JX2DPlotWidget
 				  JColorManager::GetRedColor()),
 	itsIsSharingMenusFlag(false)
 {
-	itsOptionsMenu = menuBar->AppendTextMenu(JGetString("OptionsMenuTitle::JX2DPlotWidget"));
+	itsOptionsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::JX2DPlotWidget_Options"));
 	assert( itsOptionsMenu != nullptr );
 	itsOptionsMenu->SetMenuItems(kOptionsMenuStr);
 	itsOptionsMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ConfigureOptionsMenu(itsOptionsMenu);
 
 	itsRemoveCurveMenu = jnew JXTextMenu(itsOptionsMenu, kRemoveCurveCmd, menuBar);
 	itsRemoveCurveMenu->SetUpdateAction(JXMenu::kDisableNone);
 
-	itsCursorMenu = menuBar->AppendTextMenu(JGetString("CursorMenuTitle::JX2DPlotWidget"));
+	itsCursorMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::JX2DPlotWidget_Cursor"));
 	itsCursorMenu->SetMenuItems(kCursorMenuStr);
 	itsCursorMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ConfigureCursorMenu(itsCursorMenu);
 
 	itsMarkMenu = jnew JXTextMenu(itsCursorMenu, kRemoveMarkIndex, menuBar);
 	itsMarkMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -160,6 +91,7 @@ JX2DPlotWidget::JX2DPlotWidget
 	itsCurveOptionsMenu->SetToHiddenPopupMenu();
 	itsCurveOptionsMenu->SetMenuItems(kCurveOptionsMenuStr);
 	itsCurveOptionsMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ConfigureCurveOptionsMenu(itsCurveOptionsMenu);
 
 	JX2DPlotWidgetX();
 }

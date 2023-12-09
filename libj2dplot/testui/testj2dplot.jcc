@@ -1,4 +1,4 @@
-jx_browser_data 89
+jx_browser_data 94
 # project tree
 0 "root"
 T
@@ -11,6 +11,10 @@ T
 2 "PlotDirector.cpp"
 F
 "./code/PlotDirector.cpp"
+T
+2 "PlotDirector-Actions.jxm"
+F
+"./code/PlotDirector-Actions.jxm"
 F
 T
 1 "strings"

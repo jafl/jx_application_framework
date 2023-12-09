@@ -1,0 +1,76 @@
+jx_menu_editor 0
+670 300
+"JXInputField"
+"Context"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+1 "jx_edit_undo.xpm"
+"Undo"
+"Ctrl-Z."
+' 
+"Undo::JXInputField"
+"__Undo"
+1
+
+1
+0
+1 "jx_edit_cut.xpm"
+"Cut"
+"Ctrl-X."
+' 
+"Cut::JXInputField"
+"__Cut"
+0
+
+1
+0
+1 "jx_edit_copy.xpm"
+"Copy"
+"Ctrl-C."
+' 
+"Copy::JXInputField"
+"__Copy"
+0
+
+1
+0
+1 "jx_edit_paste.xpm"
+"Paste"
+"Ctrl-V."
+' 
+"Paste::JXInputField"
+"__Paste"
+0
+
+1
+0
+1 "jx_edit_clear.xpm"
+"Clear"
+""
+' 
+"Clear::JXInputField"
+"__Clear"
+1
+
+1
+0
+0 ""
+"Select All"
+"Ctrl-A."
+' 
+"SelectAll::JXInputField"
+"__SelectAll"
+0
+
+0

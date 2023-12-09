@@ -1,0 +1,106 @@
+jx_menu_editor 0
+671 327
+"JX2DPlotWidget"
+"CurveOptions"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+1
+0 ""
+"Visible"
+""
+'v
+"__Visible"
+"kToggleCurveVisibleCmd"
+1
+
+1
+0
+0 ""
+"Show all"
+""
+'s
+"__ShowAll"
+"kShowAllCurvesCmd"
+0
+
+1
+0
+0 ""
+"Hide others"
+""
+'h
+"__HideOthers"
+"kHideAllOtherCurvesCmd"
+1
+
+1
+2
+0 ""
+"Points"
+""
+'p
+"__Points"
+"kPointsCmd"
+0
+
+1
+2
+0 ""
+"Symbols"
+""
+'b
+"__Symbols"
+"kSymbolsCmd"
+0
+
+1
+2
+0 ""
+"Lines"
+""
+'l
+"__Lines"
+"kLinesCmd"
+0
+
+1
+2
+0 ""
+"Lines & symbols"
+""
+'&
+"__LinesSymbols"
+"kLinesSymbolsCmd"
+1
+
+1
+1
+0 ""
+"X errors"
+""
+'x
+"__XErrors"
+"kXErrorsCmd"
+0
+
+1
+1
+0 ""
+"Y errors"
+""
+'y
+"__YErrors"
+"kYErrorsCmd"
+0
+
+0

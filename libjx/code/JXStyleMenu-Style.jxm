@@ -1,0 +1,186 @@
+jx_menu_editor 0
+676 491
+"JXStyleMenu"
+"Style"
+'y
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+1
+0 ""
+"Plain"
+"Ctrl-T"
+'p
+"PlainStyle::JX"
+"__PlainStyle"
+1
+
+1
+1
+0 ""
+"Bold"
+"Ctrl-B"
+'b
+"BoldStyle::JX"
+"__BoldStyle"
+0
+
+1
+1
+0 ""
+"Italic"
+"Ctrl-I"
+'i
+"ItalicStyle::JX"
+"__ItalicStyle"
+0
+
+1
+1
+0 ""
+"Underline"
+"Ctrl-U"
+'u
+"UnderlineStyle::JX"
+"__UnderlineStyle"
+0
+
+1
+1
+0 ""
+"Double underline"
+""
+'d
+"DoubleUnderlineStyle::JX"
+"__DblUnderlineStyle"
+0
+
+1
+1
+0 ""
+"Strike"
+""
+'s
+"StrikeStyle::JX"
+"__StrikeStyle"
+1
+
+1
+2
+0 ""
+"Black"
+""
+' 
+"BlackStyle::JX"
+"__BlackStyle"
+0
+
+1
+2
+0 ""
+"Gray"
+""
+' 
+"GrayStyle::JX"
+"__GrayStyle"
+0
+
+1
+2
+0 ""
+"Brown"
+""
+' 
+"BrownStyle::JX"
+"__BrownStyle"
+0
+
+1
+2
+0 ""
+"Orange"
+""
+' 
+"OrangeStyle::JX"
+"__OrangeStyle"
+0
+
+1
+2
+0 ""
+"Red"
+""
+' 
+"RedStyle::JX"
+"__RedStyle"
+0
+
+1
+2
+0 ""
+"Dark red"
+""
+' 
+"DarkRedStyle::JX"
+"__DarkRedStyle"
+0
+
+1
+2
+0 ""
+"Green"
+""
+' 
+"GreenStyle::JX"
+"__GreenStyle"
+0
+
+1
+2
+0 ""
+"Blue"
+""
+' 
+"BlueStyle::JX"
+"__BlueStyle"
+0
+
+1
+2
+0 ""
+"Light blue"
+""
+' 
+"LightBlueStyle::JX"
+"__LightBlueStyle"
+0
+
+1
+2
+0 ""
+"Pink"
+""
+' 
+"PinkStyle::JX"
+"__PinkStyle"
+1
+
+1
+2
+0 ""
+"Other"
+""
+' 
+"OtherColorStyle::JX"
+"__OtherColorStyle"
+0
+
+0

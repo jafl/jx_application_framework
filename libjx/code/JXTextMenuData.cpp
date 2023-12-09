@@ -624,7 +624,6 @@ JXTextMenuData::SetNMShortcut
 	if (!strEmpty && itemData.nmShortcut == nullptr)
 	{
 		itemData.nmShortcut = jnew JString(str);
-		assert( itemData.nmShortcut != nullptr );
 		itsTextItemData->SetItem(index, itemData);
 		changed = true;
 	}

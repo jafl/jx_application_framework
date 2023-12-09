@@ -28,22 +28,14 @@ struct MenuItemInfo
 	const JUtf8Byte*		id;
 };
 
-static const JUtf8Byte* kContextMenuStr =
-	"    Undo       %k Ctrl-Z. %i" kJXUndoAction
-	"%l| Cut        %k Ctrl-X. %i" kJXCutAction
-	"  | Copy       %k Ctrl-C. %i" kJXCopyAction
-	"  | Paste      %k Ctrl-V. %i" kJXPasteAction
-	"  | Clear                 %i" kJXClearAction
-	"%l| Select All %k Ctrl-A. %i" kJXSelectAllAction;
-
 static const MenuItemInfo kContextMenuItemInfo[] =
 {
-	{ JTextEditor::kUndoCmd,      kJXUndoAction      },
-	{ JTextEditor::kCutCmd,       kJXCutAction       },
-	{ JTextEditor::kCopyCmd,      kJXCopyAction      },
-	{ JTextEditor::kPasteCmd,     kJXPasteAction     },
-	{ JTextEditor::kDeleteSelCmd, kJXClearAction     },
-	{ JTextEditor::kSelectAllCmd, kJXSelectAllAction }
+	{ JTextEditor::kUndoCmd,      "Undo::JXInputField"      },
+	{ JTextEditor::kCutCmd,       "Cut::JXInputField"       },
+	{ JTextEditor::kCopyCmd,      "Copy::JXInputField"      },
+	{ JTextEditor::kPasteCmd,     "Paste::JXInputField"     },
+	{ JTextEditor::kDeleteSelCmd, "Clear::JXInputField"     },
+	{ JTextEditor::kSelectAllCmd, "SelectAll::JXInputField" }
 };
 
 /******************************************************************************
@@ -535,6 +527,8 @@ JXInputField::HandleKeyPress
 
  ******************************************************************************/
 
+#include "JXInputField-Context.h"
+
 void
 JXInputField::CreateContextMenu()
 {
@@ -547,6 +541,7 @@ JXInputField::CreateContextMenu()
 		itsContextMenu->AttachHandlers(this,
 			&JXInputField::UpdateContextMenu,
 			&JXInputField::HandleContextMenu);
+		ConfigureContextMenu(itsContextMenu);
 	}
 }
 

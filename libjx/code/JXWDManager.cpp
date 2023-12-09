@@ -37,20 +37,7 @@ static const JUtf8Byte kShortcutChar[] =
 	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
 };
 
-// Windows menu
-
-static const JUtf8Byte* kWDMenuStr =
-	"    Bring all windows to front                 %i" kJXRaiseAllWindowsAction
-	"  | Close all other windows    %k Ctrl-Shift-W %i" kJXCloseAllOtherWindowsAction
-	"%l";
-
-enum
-{
-	kRaiseAllCmd = 1,
-	kCloseAllCmd		// = kFirstDirectorOffset
-};
-
-const JSize kFirstDirectorOffset = kCloseAllCmd;
+static JSize kFirstDirectorOffset;
 
 // JBroadcaster message types
 
@@ -331,6 +318,8 @@ JXWDManager::UpdateAllWDMenus()
 
  ******************************************************************************/
 
+#include "JXWDManager-Windows.h"
+
 void
 JXWDManager::UpdateWDMenu
 	(
@@ -342,7 +331,9 @@ JXWDManager::UpdateWDMenu
 		return;		// will update next time it is opened
 	}
 
-	menu->SetMenuItems(kWDMenuStr);
+	menu->SetMenuItems(kWindowsMenuStr);
+	ConfigureWindowsMenu(menu);
+	kFirstDirectorOffset = menu->GetItemCount();
 
 	// It almost always is sorted, so we only pay O(N) instead of O(N^2).
 	// (but we can't sort when document is created!)

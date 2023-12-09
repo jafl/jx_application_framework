@@ -47,14 +47,6 @@
 
 // Edit menu
 
-static const JUtf8Byte* kEditMenuStr =
-	"    Undo       %h uz %k Ctrl-Z %i" kJXUndoAction
-	"%l| Cut        %h tx %k Ctrl-X %i" kJXCutAction
-	"  | Copy       %h c  %k Ctrl-C %i" kJXCopyAction
-	"  | Paste      %h pv %k Ctrl-V %i" kJXPasteAction
-	"  | Clear      %h l            %i" kJXClearAction
-	"%l| Select all %h a  %k Ctrl-A %i" kJXSelectAllAction;
-
 struct EditMenuItemInfo
 {
 	JExprEditor::CmdIndex	cmd;
@@ -63,39 +55,15 @@ struct EditMenuItemInfo
 
 static const EditMenuItemInfo kEditMenuItemInfo[] =
 {
-{ JExprEditor::kUndoCmd,      kJXUndoAction      },
-{ JExprEditor::kCutCmd,       kJXCutAction       },
-{ JExprEditor::kCopyCmd,      kJXCopyAction      },
-{ JExprEditor::kPasteCmd,     kJXPasteAction     },
-{ JExprEditor::kDeleteSelCmd, kJXClearAction     },
-{ JExprEditor::kSelectAllCmd, kJXSelectAllAction }
-};
-
-// used when setting images
-
-enum
-{
-	kUndoIndex = 1,
-	kCutIndex, kCopyIndex, kPasteIndex, kClearIndex,
-	kSelectAllIndex
+	{ JExprEditor::kUndoCmd,      kJXUndoAction      },
+	{ JExprEditor::kCutCmd,       kJXCutAction       },
+	{ JExprEditor::kCopyCmd,      kJXCopyAction      },
+	{ JExprEditor::kPasteCmd,     kJXPasteAction     },
+	{ JExprEditor::kDeleteSelCmd, kJXClearAction     },
+	{ JExprEditor::kSelectAllCmd, kJXSelectAllAction }
 };
 
 // Math menu
-
-static const JUtf8Byte* kMathMenuStr =
-	"    Evaluate        %h e %k Ctrl-="
-	"  | Print to EPS... %h p"
-	"%l| Negate          %h n"
-	"  | Apply function  %h f"
-	"%l| Add argument    %h a"
-	"  | Move left       %h < %k Ctrl-<"
-	"  | Move right      %h > %k Ctrl->"
-	"%l| Group left      %h ( %k Ctrl-("
-	"  | Group right     %h ) %k Ctrl-)"
-	"  | Ungroup         %h u";
-
-const JIndex kEvaluateItemIndex = 1;
-const JIndex kApplyFnToSelIndex = 4;
 
 static const JExprEditor::CmdIndex kMathMenuItemToCmd[] =
 {
@@ -108,41 +76,7 @@ static const JExprEditor::CmdIndex kMathMenuItemToCmd[] =
 };
 const JSize kMathMenuItemCount = sizeof(kMathMenuItemToCmd)/sizeof(JExprEditor::CmdIndex);
 
-// Function menu
-
-static const JUtf8Byte* kFunctionMenuStr =
-	"    absolute value               %k abs"
-	"  | square root                  %k sqrt"
-	"%l| logarithm (any base)         %k log"
-	"  | natural logarithm            %k ln"
-	"%l| sine                         %k sin"
-	"  | cosine                       %k cos"
-	"  | tangent                      %k tan"
-	"%l| inverse sine                 %k arcsin"
-	"  | inverse cosine               %k arccos"
-	"  | inverse tangent              %k arctan"
-	"  | inverse tangent(y, x)        %k arctan2"
-	"%l| hyperbolic sine              %k sinh"
-	"  | hyperbolic cosine            %k cosh"
-	"  | hyperbolic tangent           %k tanh"
-	"%l| inverse hyperbolic sine      %k arcsinh"
-	"  | inverse hyperbolic cosine    %k arccosh"
-	"  | inverse hyperbolic tangent   %k arctanh"
-	"%l| real part                    %k re"
-	"  | imaginary part               %k im"
-	"  | phase angle                  %k arg"
-	"  | complex conjugate            %k conjugate"
-	"  | rotate(z, angle)             %k rotate"
-	"%l| minimum                      %k min"
-	"  | maximum                      %k max"
-	"  | parallel                     %k parallel"
-	"%l| algebraic sign               %k sign"
-	"  | round to integer             %k round"
-	"  | truncate to integer          %k truncate";
-
 // Font menu
-
-static const JUtf8Byte* kFontMenuStr = "Normal %h n %r | Greek %h g %r";
 
 static const JExprEditor::CmdIndex kFontMenuItemToCmd[] =
 {
@@ -227,7 +161,7 @@ JXExprEditor::JXExprEditor
 	itsFontMenu(menuProvider->itsFontMenu)
 {
 	JXExprEditorX();
-	menuProvider->itsIsSharingEditMenuFlag = true;
+	menuProvider->itsIsSharingEditMenuFlag   = true;
 	menuProvider->itsIsSharingOtherMenusFlag = true;
 }
 
@@ -274,11 +208,10 @@ JXExprEditor::~JXExprEditor()
 
  ******************************************************************************/
 
-#include <jx-af/image/jx/jx_edit_undo.xpm>
-#include <jx-af/image/jx/jx_edit_cut.xpm>
-#include <jx-af/image/jx/jx_edit_copy.xpm>
-#include <jx-af/image/jx/jx_edit_paste.xpm>
-#include <jx-af/image/jx/jx_edit_clear.xpm>
+#include "JXExprEditor-Edit.h"
+#include "JXExprEditor-Math.h"
+#include "JXExprEditor-Function.h"
+#include "JXExprEditor-Font.h"
 
 void
 JXExprEditor::CreateMenus
@@ -293,29 +226,24 @@ JXExprEditor::CreateMenus
 	}
 	else
 	{
-		itsEditMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
-		itsEditMenu->SetShortcuts(JGetString("EditMenuShortcut::JXGlobal"));
+		itsEditMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::JXExprEditor_Edit"));
 		itsEditMenu->SetMenuItems(kEditMenuStr);
-
-		itsEditMenu->SetItemImage(kUndoIndex,  jx_edit_undo);
-		itsEditMenu->SetItemImage(kCutIndex,   jx_edit_cut);
-		itsEditMenu->SetItemImage(kCopyIndex,  jx_edit_copy);
-		itsEditMenu->SetItemImage(kPasteIndex, jx_edit_paste);
-		itsEditMenu->SetItemImage(kClearIndex, jx_edit_clear);
+		ConfigureEditMenu(itsEditMenu);
 	}
 
-	itsMathMenu = menuBar->AppendTextMenu(JGetString("MathMenuTitle::JXExprEditor"));
-	itsMathMenu->SetShortcuts(JGetString("MathMenuShortcut::JXExprEditor"));
+	itsMathMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::JXExprEditor_Math"));
 	itsMathMenu->SetMenuItems(kMathMenuStr);
 	itsMathMenu->SetUpdateAction(JXMenu::kDisableAll);
+	ConfigureMathMenu(itsMathMenu);
 
 	itsFunctionMenu = jnew JXTextMenu(itsMathMenu, kApplyFnToSelIndex, menuBar);
 	itsFunctionMenu->SetMenuItems(kFunctionMenuStr);
 	itsFunctionMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ConfigureFunctionMenu(itsFunctionMenu);
 
-	itsFontMenu = menuBar->AppendTextMenu(JGetString("FontMenuTitle::JXExprEditor"));
-	itsFontMenu->SetShortcuts(JGetString("FontMenuShortcut::JXExprEditor"));
+	itsFontMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::JXExprEditor_Font"));
 	itsFontMenu->SetMenuItems(kFontMenuStr);
+	ConfigureFontMenu(itsFontMenu);
 }
 
 /******************************************************************************

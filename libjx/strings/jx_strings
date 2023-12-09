@@ -308,12 +308,6 @@ NewDisplay::JXDisplayMenu	"Open new display..."
 WindowTitle::JXDNDChooseDropActionDialog	"Choose Drop Action"
 Prompt::JXDNDChooseDropActionDialog			"Choose the action to perform:"
 
-# JXStyleMenu
-
-Title::JXStyleMenu		"Style"
-Shortcut::JXStyleMenu	"#y"
-# #S is for Search menu
-
 # JXPTPrinter
 
 CannotCreateTempFile::JXPTPrinter	"Unable to create a temporary file.  Please check that the disk is not full."

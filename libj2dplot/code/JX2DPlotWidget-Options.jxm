@@ -1,0 +1,126 @@
+jx_menu_editor 0
+671 373
+"JX2DPlotWidget"
+"Options"
+'o
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Change scale..."
+""
+'c
+"__ChangeScale"
+"kScaleCmd"
+0
+
+1
+0
+0 ""
+"Reset scale"
+""
+'r
+"__ResetScale"
+"kResetScaleCmd"
+1
+
+1
+1
+0 ""
+"Show frame"
+""
+'f
+"__ShowFrame"
+"kShowFrameCmd"
+0
+
+1
+1
+0 ""
+"Show grid"
+""
+'g
+"__ShowGrid"
+"kShowGridCmd"
+0
+
+1
+1
+0 ""
+"Show legend"
+""
+'l
+"__ShowLegend"
+"kShowLegendCmd"
+1
+
+1
+0
+0 ""
+"Copy scale to range"
+""
+'t
+"__CopyScaleToRange"
+"kCopyScaleToRangeCmd"
+0
+
+1
+0
+0 ""
+"Change range..."
+""
+'h
+"__ChangeRange"
+"kChangeRangeCmd"
+0
+
+1
+0
+0 ""
+"Clear range"
+""
+'n
+"__ClearRange"
+"kClearRangeCmd"
+1
+
+1
+0
+0 ""
+"Change labels..."
+""
+'a
+"__ChangeLabels"
+"kChangeLabelsCmd"
+0
+
+1
+0
+0 ""
+"Change curve options..."
+""
+'u
+"__ChangeCurveOptions"
+"kCurveOptionsCmd"
+0
+
+1
+0
+0 ""
+"Remove curve"
+""
+'v
+"__RemoveCurve"
+"kRemoveCurveCmd"
+0
+
+0

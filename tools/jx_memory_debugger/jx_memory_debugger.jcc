@@ -24,6 +24,10 @@ T
 F
 "./code/PrefsManager.cpp"
 T
+2 "All-Preferences.jxm"
+F
+"./code/All-Preferences.jxm"
+T
 2 "PrefsDialog.cpp"
 F
 "./code/PrefsDialog.cpp"
@@ -84,10 +88,6 @@ F
 F
 T
 1 "misc"
-T
-2 "All-Preferences.jxm"
-F
-"./code/All-Preferences.jxm"
 T
 2 "jx_memory_debugger.fd"
 F

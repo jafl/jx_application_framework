@@ -7,7 +7,7 @@
 MenuTitle::MainDirector_Preferences "Preferences"
 
 __EditPreferences::MainDirector "Edit preferences... %h p"
-__EditToolBar::MainDirector "Edit tool bar... %h t"
+__EditToolBar::MainDirector "Toolbar buttons... %h t"
 __FileManagerWebBrowser::MainDirector "File manager & web browser... %h f"
 __MacWinXEmulation::MainDirector "Mac/Win/X emulation... %h e"
 __SaveWindowSetupAsDefault::MainDirector "Save window setup as default %h s"

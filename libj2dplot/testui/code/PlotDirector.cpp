@@ -17,22 +17,6 @@
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-// Actions menu
-
-static const JUtf8Byte* kActionsMenuStr =
-	"    PostScript page setup..."
-	"  | Print PostScript...      %k Meta-P"
-	"%l| Print plot as EPS..."
-	"  | Print marks as EPS..."
-	"%l| Quit                     %k Meta-Q";
-
-enum
-{
-	kPSPageSetupCmd = 1, kPrintPSCmd,
-	kPrintPlotEPSCmd, kPrintMarksEPSCmd,
-	kQuitCmd
-};
-
 /******************************************************************************
  Constructor
 
@@ -63,6 +47,8 @@ PlotDirector::~PlotDirector()
  BuildWindow (private)
 
  ******************************************************************************/
+
+#include "PlotDirector-Actions.h"
 
 void
 PlotDirector::BuildWindow()
@@ -96,12 +82,13 @@ PlotDirector::BuildWindow()
 		GetWindow()->SetTitle(itsPlotWidget->GetTitle());
 	}));
 
-	itsActionsMenu = menuBar->PrependTextMenu(JGetString("ActionsMenuTitle::PlotDirector"));
+	itsActionsMenu = menuBar->PrependTextMenu(JGetString("MenuTitle::PlotDirector_Actions"));
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsActionsMenu->AttachHandlers(this,
 		&PlotDirector::UpdateActionsMenu,
 		&PlotDirector::HandleActionsMenu);
+	ConfigureActionsMenu(itsActionsMenu);
 
 	// do this after everything is constructed so Receive() doesn't crash
 

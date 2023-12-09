@@ -257,7 +257,7 @@ MenuTable::TableDrawCell
 	{
 		if (info.iconIndex > 0)
 		{
-			const JXImage* image = itsIconMenu->GetItemImage(info.iconIndex);
+			const JXImage* image = itsIconMenu->GetItemImage(info.iconIndex+1);
 			const JRect srcRect  = image->GetBounds();
 
 			JRect destRect(rect.center(), rect.center());
@@ -1092,6 +1092,11 @@ MenuTable::HandleTypeMenu
 static const JString coreIconPath(JX_INCLUDE_PATH "/image/jx", JString::kNoCopy);
 static const JString iconPattern("*.xpm", JString::kNoCopy);
 
+static const char * empty_icon[] = {
+"1 1 1 1",
+" 	c None",
+" "};
+
 void
 MenuTable::BuildIconMenu()
 {
@@ -1120,6 +1125,9 @@ MenuTable::BuildIconMenu()
 		LoadIcons(*info);
 		jdelete info;
 	}
+
+	auto* image = jnew JXImage(GetDisplay(), empty_icon);
+	itsIconMenu->PrependItem(image, true);
 }
 
 /******************************************************************************
@@ -1127,7 +1135,7 @@ MenuTable::BuildIconMenu()
 
  ******************************************************************************/
 
-static const JRegex excludeIconPattern = "_busy|_large|_selected|new_planet_software";
+static const JRegex excludeIconPattern = "_busy|_large|_selected|_pushed|new_planet_software";
 
 void
 MenuTable::LoadIcons
@@ -1185,7 +1193,7 @@ MenuTable::HandleIconMenu
 	if (GetTableSelection().GetSingleSelectedCell(&cell))
 	{
 		ItemInfo info  = itsItemList->GetItem(cell.y);
-		info.iconIndex = index;
+		info.iconIndex = index-1;
 		itsItemList->SetItem(cell.y, info);
 
 		TableRefreshCell(cell);
@@ -1484,6 +1492,7 @@ MenuTable::Import
 	if (!textIter.Next("\""))
 	{
 		JGetUserNotification()->ReportError(JGetString("MissingOpenQuote:MenuTable"));
+		return;
 	}
 	textIter.RemoveAllPrev();
 
@@ -1507,6 +1516,7 @@ MenuTable::Import
 			};
 			const JString msg = JGetString("UnknownActionMacro:MenuTable", map, sizeof(map));
 			JGetUserNotification()->ReportError(msg);
+			return;
 		}
 
 		textIter.ReplaceLastMatch(*action);

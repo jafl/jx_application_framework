@@ -11,10 +11,10 @@
 #include "PlotDirector.h"
 #include "stringData.h"
 #include <jx-af/jx/JXApplication.h>
-#include "JX2DPlotWidget.h"
-#include "J2DPlotData.h"
-#include "J2DVectorData.h"
-#include "J2DPlotLibVersion.h"
+#include <jx-af/j2dplot/JX2DPlotWidget.h>
+#include <jx-af/j2dplot/J2DPlotData.h>
+#include <jx-af/j2dplot/J2DVectorData.h>
+#include <jx-af/j2dplot/J2DPlotLibVersion.h>
 #include <jx-af/jcore/JKLRand.h>
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jGlobals.h>
@@ -81,7 +81,7 @@ TestData
 	JArray<JFloat> x(100),y(100), xPErr(101),xMErr(101), yPErr(101), yMErr(101);
 	JKLRand r;
 
-	JFloat delta = kJPi/50.0;
+	JFloat delta = std::numbers::pi/50.0;
 	for (JUInt32 i=0; i<=100; i++)
 	{
 		x.AppendItem(i*delta);
@@ -106,7 +106,7 @@ TestData
 	x.RemoveAll();
 	y.RemoveAll();
 
-	delta = kJPi/5000.0;
+	delta = std::numbers::pi/5000.0;
 	for (JUInt32 i=0; i<=10000; i++)
 	{
 		x.AppendItem(i*delta);
@@ -180,7 +180,7 @@ TestVector
 
 	auto* data = jnew J2DVectorData;
 
-	const JFloat delta = kJPi/4.0;
+	const JFloat delta = std::numbers::pi/4.0;
 	for (JUnsignedOffset i=0; i<8; i++)
 	{
 		const JFloat x = cos(i*delta);

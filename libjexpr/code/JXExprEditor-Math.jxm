@@ -1,0 +1,116 @@
+jx_menu_editor 0
+671 352
+"JXExprEditor"
+"Math"
+'m
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 ""
+"Evaluate"
+"Ctrl-="
+'e
+"__Evaluate"
+"kEvaluateItemIndex"
+0
+
+1
+0
+0 ""
+"Print to EPS..."
+""
+'p
+"__PrintToEPS"
+"____PrintToEPS"
+1
+
+1
+0
+0 ""
+"Negate"
+""
+'n
+"__Negate"
+"____Negate"
+0
+
+1
+0
+0 ""
+"Apply function"
+""
+'f
+"__ApplyFunction"
+"kApplyFnToSelIndex"
+1
+
+1
+0
+0 ""
+"Add argument"
+""
+'a
+"__AddArgument"
+"____AddArgument"
+0
+
+1
+0
+0 ""
+"Move left"
+"Ctrl-<"
+'<
+"__MoveLeft"
+"____MoveLeft"
+0
+
+1
+0
+0 ""
+"Move right"
+"Ctrl->"
+'>
+"__MoveRight"
+"____MoveRight"
+1
+
+1
+0
+0 ""
+"Group left"
+"Ctrl-("
+'(
+"__GroupLeft"
+"____GroupLeft"
+0
+
+1
+0
+0 ""
+"Group right"
+"Ctrl-)"
+')
+"__GroupRight"
+"____GroupRight"
+0
+
+1
+0
+0 ""
+"Ungroup"
+""
+'u
+"__Ungroup"
+"____Ungroup"
+0
+
+0

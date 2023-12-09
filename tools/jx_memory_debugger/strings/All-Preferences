@@ -7,6 +7,6 @@
 MenuTitle::All_Preferences "Preferences"
 
 __EditPreferences::All "Edit preferences... %h p"
-__EditToolBar::All "Edit tool bar... %h t"
+__EditToolBar::All "Toolbar buttons... %h t"
 __MacWinXEmulation::All "Mac/Win/X emulation... %h e"
 __SaveWindowSetupAsDefault::All "Save window setup as default %h s"
