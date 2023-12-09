@@ -83,8 +83,9 @@ initial_build_libs_tools:
 	@for dir in libjx libjfs libjexpr libj2dplot; do \
        if ! ( cd $$dir; ${JMAKE}; ); then exit 1; fi \
      done;
-	@$(foreach dir, $(wildcard tools/*), \
-       ${IF_DIR} if ! ( ${JMAKE} install; ); then exit 1; fi ${ENDIF_DIR})
+	@for dir in tools/*; do \
+       if ! ( if [[ -d $$dir ]]; then cd $$dir; ${JMAKE} install; fi ); then exit 1; fi \
+     done;
 	@cd tutorial; ${JMAKE}
 
 #
@@ -102,8 +103,9 @@ Makefiles:
 
 .PHONY : libs
 libs:
-	@$(foreach dir, $(wildcard lib?*), \
-       ${IF_DIR} makemake; ${JMAKE}; ${ENDIF_DIR})
+	@for dir in lib?*; do \
+       if ! ( if [[ -d $$dir ]]; then cd $$dir; makemake; ${JMAKE}; fi ); then exit 1; fi \
+     done;
 
 #
 # build code coverage report
@@ -120,19 +122,6 @@ analyze_coverage: initial_build_makemake
          COMPILE_STRINGS=0
 	@cd libjcore; gcov -lp code/*.o; mv code\#* code; \
      cd test; gcov -lp code/*.o; mv code\#* code
-
-#
-# build all layouts
-#
-
-.PHONY : layouts
-layouts:
-	@$(foreach dir, $(wildcard lib?* tools/*), \
-       ${IF_DIR} \
-           if compgen -G "*.fd" > /dev/null; then \
-               jxlayout --require-obj-names *.fd; \
-           fi; \
-       ${ENDIF_DIR})
 
 #
 # install libraries, headers, etc.

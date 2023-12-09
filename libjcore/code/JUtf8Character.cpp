@@ -10,7 +10,7 @@
 #include <iomanip>
 #include "jAssert.h"
 
-const JUInt32 JUtf8Character::kUtf32SubstitutionCharacter       = 0x0000FFFD;
+const JUInt32 JUtf8Character::kUtf32SubstitutionCharacter = 0x0000FFFD;
 const JUtf8Character JUtf8Character::kUtf8SubstitutionCharacter("\xEF\xBF\xBD");
 
 bool JUtf8Character::theIgnoreBadUtf8Flag = true;
@@ -41,19 +41,6 @@ JUtf8Character::JUtf8Character
 	)
 {
 	Set(utf8Character);
-}
-
-/******************************************************************************
- Copy constructor
-
- ******************************************************************************/
-
-JUtf8Character::JUtf8Character
-	(
-	const JUtf8Character& source
-	)
-{
-	Set(source);
 }
 
 /******************************************************************************

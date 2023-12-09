@@ -38,7 +38,7 @@
 #include <sstream>
 #include <jx-af/jcore/jAssert.h>
 
-const JSize kMaxIconSize = 20;
+const JCoordinate kMaxIconSize = 20;
 
 const JCoordinate kHMarginWidth = 3;
 const JCoordinate kVMarginWidth = 1;
@@ -105,7 +105,7 @@ MenuTable::MenuTable
 	itsMenuItemXAtom =
 		GetDisplay()->RegisterXAtom(MenuItemSelection::GetMenuItemXAtomName());
 
-	const JSize rowHeight = JMax(kMaxIconSize, 2*kVMarginWidth +
+	const JSize rowHeight = JMax((JSize)kMaxIconSize, 2*kVMarginWidth +
 		JFontManager::GetDefaultFont().GetLineHeight(GetFontManager()));
 	SetDefaultRowHeight(rowHeight);
 
