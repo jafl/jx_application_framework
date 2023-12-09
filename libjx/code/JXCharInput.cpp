@@ -104,10 +104,14 @@ JXCharInput::HandleKeyPress
 {
 	JXEditTable* table;
 	const bool willDie = GetTable(&table) &&
-								   table->WantsInputFieldKey(c, keySym, modifiers);
+						 table->WantsInputFieldKey(c, keySym, modifiers);
 
 	SelectAll();
 	JXInputField::HandleKeyPress(c, keySym, modifiers);
+	if (GetText()->IsEmpty())
+	{
+		GetText()->SetText(JString(" ", JString::kNoCopy));
+	}
 	if (!willDie)
 	{
 		SelectAll();
