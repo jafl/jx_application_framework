@@ -100,6 +100,10 @@ if [[ $SYS == Darwin ]]; then
 		fi
 
 		brew bundle;
+
+		if [[ -z $GITHUB_ACTIONS ]]; then
+			brew install imagemagick;	# python upgrade fails on github runner
+		fi
 	fi
 
 	if [[ $1 != package ]]; then
