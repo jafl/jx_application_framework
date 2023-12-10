@@ -275,3 +275,5 @@ exceptions suck
 	infects the entire call tree
 	unwinds the stack, so core dump is useless
 	tricky for partially constructed objects
+
+https://microsoft.github.io/language-server-protocol/
