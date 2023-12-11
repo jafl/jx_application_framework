@@ -39,12 +39,12 @@ JXTable::JXTable
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
 	JTable(defRowHeight, defColWidth,
-		   JColorManager::GetGrayColor(50),
+		   JColorManager::GetGrayColor(70),
 		   JColorManager::GetDefaultSelectionColor())
 {
-	const JColorID gray50Color = JColorManager::GetGrayColor(50);
-	SetRowBorderInfo(1, gray50Color);	// calls TableSetScrollSteps()
-	SetColBorderInfo(1, gray50Color);
+	const JColorID c = JColorManager::GetGrayColor(70);
+	SetRowBorderInfo(1, c);	// calls TableSetScrollSteps()
+	SetColBorderInfo(1, c);
 }
 
 /******************************************************************************
