@@ -124,7 +124,7 @@ elif command -v apt-get; then
 		libxpm-dev libjpeg-dev libpng-dev libgd-dev \
 		libace-dev libicu-dev libpcre3-dev libxml2-dev \
 		libboost-fiber-dev xutils-dev libdrm-dev \
-		libforms-bin aspell imagemagick;
+		libforms-bin aspell xdg-utils imagemagick;
 
 	if [[ $1 != package ]]; then
 		configure_linux;
@@ -141,7 +141,7 @@ elif command -v dnf; then
 		libXpm-devel libjpeg-devel libpng-devel gd-devel \
 		libicu-devel pcre-devel libxml2-devel \
 		boost-devel expat-devel libdrm-devel \
-		xforms-devel aspell aspell-en ImageMagick;
+		xforms-devel aspell aspell-en xdg-utils ImageMagick;
 
 	if [[ $1 != package ]]; then
 		get_ace;
@@ -159,7 +159,7 @@ elif command -v zypper; then
 		libXpm-devel libjpeg-devel libpng-devel gd-devel \
 		libicu-devel pcre-devel libxml2-devel \
 		boost-devel expat-devel libdrm-devel \
-		xforms-devel aspell aspell-en imagemagick;
+		xforms-devel aspell aspell-en xdg-utils imagemagick;
 
 	if [[ $1 != package ]]; then
 		get_ace;
