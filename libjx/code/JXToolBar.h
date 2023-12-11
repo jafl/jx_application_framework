@@ -30,6 +30,8 @@ public:
 
 	static const JUtf8Byte* kIgnorePrefix;
 
+	typedef void (*UpgradeFn)(JString* s);
+
 public:
 
 	JXToolBar(JPrefsManager* prefsMgr, const JPrefID& id, JXMenuBar* menuBar,
@@ -41,7 +43,7 @@ public:
 
 	JXWidgetSet*	GetWidgetEnclosure() const;
 
-	void	LoadPrefs();
+	void	LoadPrefs(UpgradeFn f);
 
 	bool	IsEmpty() const;
 	void	AppendButton(JXTextMenu* menu, const JIndex index);
@@ -87,6 +89,7 @@ private:
 	JString						itsDialogPrefs;
 	JXToolBarButton::Type		itsButtonType;
 	bool						itsLoadedPrefs;
+	UpgradeFn					itsUpgradeFn;
 
 private:
 
@@ -104,7 +107,7 @@ private:
 
 	bool	ItemIsUsed(JXTextMenu* menu, const JIndex index);
 	void	FindItemAndAdd(const JString& id);
-	void	FindItemAndAdd(JXTextMenu* menu, const JString& id);
+	bool	FindItemAndAdd(JXTextMenu* menu, const JString& id);
 
 	void	ExtractItemNodes(JTreeNode* menuNode);
 	JTree*	BuildTree();

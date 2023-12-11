@@ -95,7 +95,8 @@ JXToolBar::JXToolBar
 	itsIsShowingButtons(true),
 	itsWasShowingButtons(false),
 	itsButtonType(JXToolBarButton::kImage),
-	itsLoadedPrefs(false)
+	itsLoadedPrefs(false),
+	itsUpgradeFn(nullptr)
 {
 	assert(h >= 40);
 
@@ -154,13 +155,17 @@ JXToolBar::~JXToolBar()
 }
 
 /******************************************************************************
- LoadPrefs (public)
+ LoadPrefs
 
  ******************************************************************************/
 
 void
-JXToolBar::LoadPrefs()
+JXToolBar::LoadPrefs
+	(
+	UpgradeFn f
+	)
 {
+	itsUpgradeFn = f;
 	JPrefObject::ReadPrefs();
 }
 
@@ -572,6 +577,11 @@ JXToolBar::ReadPrefs
 			{
 				NewGroup();
 			}
+
+			if (itsUpgradeFn != nullptr)
+			{
+				itsUpgradeFn(&id);
+			}
 			FindItemAndAdd(id);
 		}
 	}
@@ -624,17 +634,18 @@ JXToolBar::FindItemAndAdd
 	const JSize count = itsMenuBar->GetMenuCount();
 	for (JIndex i = 1; i <= count; i++)
 	{
-		JXMenu* menu		= itsMenuBar->GetMenu(i);
-		auto* tmenu	= dynamic_cast<JXTextMenu*>(menu);
-		assert(tmenu != nullptr);
-		FindItemAndAdd(tmenu, id);
+		auto* tmenu = dynamic_cast<JXTextMenu*>(itsMenuBar->GetMenu(i));
+		if (tmenu != nullptr && FindItemAndAdd(tmenu, id))
+		{
+			break;
+		}
 	}
 }
 
-void
+bool
 JXToolBar::FindItemAndAdd
 	(
-	JXTextMenu*	menu,
+	JXTextMenu*		menu,
 	const JString&	id
 	)
 {
@@ -646,16 +657,21 @@ JXToolBar::FindItemAndAdd
 		const JXMenu* sub;
 		if (menu->GetSubmenu(i, &sub))
 		{
-			const auto* temp	= dynamic_cast<const JXTextMenu*>(sub);
-			auto* tsub = const_cast<JXTextMenu*>(temp);
-			FindItemAndAdd(tsub, id);
+			const auto* temp = dynamic_cast<const JXTextMenu*>(sub);
+			if (temp != nullptr &&
+				FindItemAndAdd(const_cast<JXTextMenu*>(temp), id))
+			{
+				return true;
+			}
 		}
 		else if (menu->GetItemID(i, &testID) && *testID == id)
 		{
 			AppendButton(menu, i);
-			return;
+			return true;
 		}
 	}
+
+	return false;
 }
 
 /******************************************************************************
