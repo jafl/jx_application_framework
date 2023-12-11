@@ -48,8 +48,8 @@ enum
 	kTypeColumn = 1,
 	kIconColumn,
 	kTextColumn,
-	kShortcutColumn,
 	kWindowsKeyColumn,
+	kShortcutColumn,
 	kIDColumn,
 	kEnumColumn,
 	kSeparatorColumn
@@ -57,7 +57,7 @@ enum
 
 const JCoordinate kInitColWidth[] =
 {
-	40, 40, 100, 100, 100, 100, 100, 75
+	40, 40, 100, 40, 100, 100, 100, 75
 };
 
 const JSize kColCount = sizeof(kInitColWidth) / sizeof(JCoordinate);
@@ -128,6 +128,7 @@ MenuTable::MenuTable
 	itsTypeMenu->AttachHandlers(this,
 		&MenuTable::UpdateTypeMenu,
 		&MenuTable::HandleTypeMenu);
+	ConfigureTypeMenu(itsTypeMenu);
 
 	itsIconMenu = jnew JXImageMenu(JString::empty, 10, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	itsIconMenu->SetToHiddenPopupMenu();
@@ -1570,6 +1571,7 @@ MenuTable::Import
 	text.Split("|", &itemList);
 
 	JString shortcuts;
+	JString defSuffix = "::" + itsDoc->GetClassName();
 	for (auto* text : itemList)
 	{
 		ItemInfo info(jnew JString, jnew JString, jnew JString, jnew JString);
@@ -1587,6 +1589,13 @@ MenuTable::Import
 		if (info.id->IsEmpty())
 		{
 			GenerateUniqueID(&info);
+		}
+		else if (info.id->EndsWith(defSuffix))
+		{
+			JStringIterator iter(info.id, JStringIterator::kStartAtEnd);
+			const bool found = iter.Prev("::");
+			assert( found );
+			iter.RemoveAllNext();
 		}
 
 		itsItemList->AppendItem(info);

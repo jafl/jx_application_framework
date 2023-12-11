@@ -294,7 +294,7 @@ MenuDocument::BuildWindow()
 
 	// must be done after creating widgets
 
-	itsToolBar->LoadPrefs();
+	itsToolBar->LoadPrefs(nullptr);
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFileMenu, kNewCmd);
@@ -337,6 +337,18 @@ MenuDocument::GetName()
 	itsDocName = root;
 
 	return itsDocName;
+}
+
+/******************************************************************************
+ GetClassName
+
+ ******************************************************************************/
+
+const JString&
+MenuDocument::GetClassName()
+	const
+{
+	return itsClassNameInput->GetText()->GetText();
 }
 
 /******************************************************************************

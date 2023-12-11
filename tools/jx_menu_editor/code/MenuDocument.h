@@ -27,6 +27,7 @@ public:
 	~MenuDocument() override;
 
 	const JString&	GetName() const override;
+	const JString&	GetClassName() const;
 
 	static bool	FindProjectRoot(const JString& path, JString* root);
 

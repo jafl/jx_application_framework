@@ -18,5 +18,7 @@ enum {
 };
 
 
+static void ConfigureTypeMenu(JXTextMenu* menu, const int offset = 0) {
+};
 
 #endif
