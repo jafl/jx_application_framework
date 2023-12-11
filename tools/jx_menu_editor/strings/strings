@@ -112,7 +112,7 @@ ConfigureMenuHeader::MenuTable
 "
 
 ConfigureShortcut::MenuTable
-"	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+"	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
 		menu->SetShortcuts(JString(\"#$key\", JString::kNoCopy));
 	}
 "
