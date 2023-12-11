@@ -413,7 +413,7 @@ StatsDirector::BuildWindow()
 
 	JPrefObject::ReadPrefs();
 
-	itsToolBar->LoadPrefs();
+	itsToolBar->LoadPrefs(nullptr);
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFileMenu, kQuitCmd);

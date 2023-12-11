@@ -166,7 +166,7 @@ RecordDirector::BuildWindow
 
 	// must be done after creating widgets
 
-	itsToolBar->LoadPrefs();
+	itsToolBar->LoadPrefs(nullptr);
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFileMenu, kPrintCmd);
