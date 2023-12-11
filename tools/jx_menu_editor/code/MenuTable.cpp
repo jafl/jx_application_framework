@@ -857,10 +857,21 @@ MenuTable::ValidateWindowsKeys()
 	const JSize count = itsItemList->GetItemCount();
 	for (JIndex i=2; i<=count; i++)
 	{
-		const auto item1 = itsItemList->GetItem(i);
+		const auto key1 = itsItemList->GetItem(i).windowsKey;
+		if (key1.IsSpace())
+		{
+			continue;
+		}
+
 		for (JIndex j=1; j<i; j++)
 		{
-			if (itsItemList->GetItem(j).windowsKey == item1.windowsKey)
+			const auto key2 = itsItemList->GetItem(j).windowsKey;
+			if (key2.IsSpace())
+			{
+				continue;
+			}
+
+			if (key2 == key1)
 			{
 				SelectSingleCell(JPoint(kWindowsKeyColumn, i));
 				GetTableSelection().SelectCell(JPoint(kWindowsKeyColumn, j));
@@ -1137,7 +1148,7 @@ MenuTable::BuildIconMenu()
 	if (itsDoc->ExistsOnDisk() &&
 		MenuDocument::FindProjectRoot(itsDoc->GetFilePath(), &iconPath))
 	{
-		iconPath = JCombinePathAndName(iconPath, JString("image", JString::kNoCopy));
+		iconPath = JCombinePathAndName(iconPath, JString("image-build", JString::kNoCopy));
 		if (JDirInfo::Create(iconPath, &info))
 		{
 			info->ShowDirs(false);
