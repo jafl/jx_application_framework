@@ -5,11 +5,11 @@ jx_menu_editor 0
 'f
 40
 40
+135
 100
-100
-100
-157
-100
+43
+109
+135
 75
 
 0
@@ -18,7 +18,7 @@ jx_menu_editor 0
 1 "jx_file_new.xpm"
 "New..."
 "Ctrl-N"
-'s
+'n
 "New"
 "kNewCmd"
 1

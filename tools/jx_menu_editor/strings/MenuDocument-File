@@ -6,7 +6,7 @@
 
 MenuTitle::MenuDocument_File "File"
 
-New::MenuDocument "New... %k Ctrl-N %h s"
+New::MenuDocument "New... %k Ctrl-N %h n"
 Open::MenuDocument "Open... %k Ctrl-O %h o"
 Recent::MenuDocument "Recent"
 Save::MenuDocument "Save %k Ctrl-S %h s"

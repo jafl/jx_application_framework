@@ -57,7 +57,7 @@ enum
 
 const JCoordinate kInitColWidth[] =
 {
-	40, 40, 100, 40, 100, 100, 100, 75
+	40, 40, 200, 40, 100, 200, 200, 75
 };
 
 const JSize kColCount = sizeof(kInitColWidth) / sizeof(JCoordinate);
