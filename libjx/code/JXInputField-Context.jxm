@@ -7,7 +7,7 @@ jx_menu_editor 0
 40
 100
 100
-100
+48
 100
 100
 75
@@ -19,7 +19,7 @@ jx_menu_editor 0
 "Undo"
 "Ctrl-Z."
 ' 
-"Undo::JXInputField"
+"Undo"
 "__Undo"
 1
 
@@ -29,7 +29,7 @@ jx_menu_editor 0
 "Cut"
 "Ctrl-X."
 ' 
-"Cut::JXInputField"
+"Cut"
 "__Cut"
 0
 
@@ -39,7 +39,7 @@ jx_menu_editor 0
 "Copy"
 "Ctrl-C."
 ' 
-"Copy::JXInputField"
+"Copy"
 "__Copy"
 0
 
@@ -49,7 +49,7 @@ jx_menu_editor 0
 "Paste"
 "Ctrl-V."
 ' 
-"Paste::JXInputField"
+"Paste"
 "__Paste"
 0
 
@@ -59,7 +59,7 @@ jx_menu_editor 0
 "Clear"
 ""
 ' 
-"Clear::JXInputField"
+"Clear"
 "__Clear"
 1
 
@@ -69,7 +69,7 @@ jx_menu_editor 0
 "Select All"
 "Ctrl-A."
 ' 
-"SelectAll::JXInputField"
+"SelectAll"
 "__SelectAll"
 0
 

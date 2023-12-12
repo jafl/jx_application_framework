@@ -1,15 +1,15 @@
 jx_menu_editor 0
-670 300
+833 250
 "JXTEBase"
 "AdjustMargins"
 ' 
 40
 40
-100
-100
-100
-100
-100
+127
+105
+37
+187
+167
 75
 
 0
@@ -19,7 +19,7 @@ jx_menu_editor 0
 "Clean right margin"
 "Ctrl-Return"
 'm
-"CleanRightMarginCmd::JXTEBase"
+"CleanRightMarginCmd"
 "__CleanRightMarginCmd"
 0
 
@@ -29,7 +29,7 @@ jx_menu_editor 0
 "Coerce right margin"
 "Ctrl-Shift-Return"
 'n
-"CoerceRightMarginCmd::JXTEBase"
+"CoerceRightMarginCmd"
 "__CoerceRightMarginCmd"
 1
 
@@ -39,7 +39,7 @@ jx_menu_editor 0
 "Shift left"
 "Ctrl-["
 'e
-"ShiftSelLeftCmd::JXTEBase"
+"ShiftSelLeftCmd"
 "__ShiftSelLeftCmd"
 0
 
@@ -49,7 +49,7 @@ jx_menu_editor 0
 "Shift right"
 "Ctrl-]"
 'i
-"ShiftSelRightCmd::JXTEBase"
+"ShiftSelRightCmd"
 "__ShiftSelRightCmd"
 0
 
@@ -59,7 +59,7 @@ jx_menu_editor 0
 "Force shift left"
 "Ctrl-{"
 'f
-"ForceShiftSelLeftCmd::JXTEBase"
+"ForceShiftSelLeftCmd"
 "__ForceShiftSelLeftCmd"
 0
 

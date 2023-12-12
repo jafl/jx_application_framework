@@ -1,15 +1,15 @@
 jx_menu_editor 0
-670 300
+833 246
 "JXTEBase"
 "CleanWhitespace"
 ' 
 40
 40
+169
 100
-100
-100
-100
-100
+41
+170
+171
 75
 
 0
@@ -19,7 +19,7 @@ jx_menu_editor 0
 "Show whitespace"
 ""
 ' 
-"ShowWhitespaceCmd::JXTEBase"
+"ShowWhitespaceCmd"
 "__ShowWhitespaceCmd"
 0
 
@@ -29,7 +29,7 @@ jx_menu_editor 0
 "Clean all whitespace"
 ""
 'w
-"CleanAllWhitespaceCmd::JXTEBase"
+"CleanAllWhitespaceCmd"
 "__CleanAllWhitespaceCmd"
 0
 
@@ -39,7 +39,7 @@ jx_menu_editor 0
 "Clean selected ws"
 ""
 ' 
-"CleanWhitespaceSelCmd::JXTEBase"
+"CleanWhitespaceSelCmd"
 "__CleanWhitespaceSelCmd"
 0
 
@@ -49,7 +49,7 @@ jx_menu_editor 0
 "Clean all ws & alignment"
 ""
 ' 
-"CleanAllWSAlignCmd::JXTEBase"
+"CleanAllWSAlignCmd"
 "__CleanAllWSAlignCmd"
 0
 
@@ -59,7 +59,7 @@ jx_menu_editor 0
 "Clean selected ws & align"
 ""
 ' 
-"CleanWSAlignSelCmd::JXTEBase"
+"CleanWSAlignSelCmd"
 "__CleanWSAlignSelCmd"
 0
 
