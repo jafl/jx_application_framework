@@ -26,7 +26,7 @@
 
 	<li><a href="http://libjx.sourceforge.net/help/credits.html">Credits</a></li>
 
-	<li><a href="http://...">License</a></li>
+	<li><a href="https://www.gnu.org/licenses/gpl-3.0.en.html">License</a></li>
 </ul>
 
 
@@ -34,17 +34,41 @@
 <h2><a name="OverviewHelp">Overview of JX Menu Editor</a></h2>
 </head>
 
-<p>Overview summary</p>
+<p>This program provides a graphical editor for defining menus to be displayed via <code>JXTextMenu</code>.  It automatically generates a header file for inclusion in your code and a strings file allowing translation of both the text and the shortcuts.</p>
+
+<p>The header file includes the menu definition string, the enum defining the menu item indexes, and a function that configures the menu item images.  You should always call this configuration function after the menu items have been added to the menu.</p>
 
 
 <hr>
 <h2><a name="MainHelp">Main Window</a></h2>
 
-<p>Main window explanation.</p>
+<p>The class name defines the namespace for the item ID's.  This is important for translation.</p>
 
-<p>To edit a text item, double click on it.  To change the menu item type or icon, click in the cell to get a menu of the available options.  To toggle the separator between items, click the cell.</p>
+<p>The menu title should be the text displayed in the menu bar.  (This is not relevant for sub-menus and popup context menus, but it still helps explain the purpose of the menu.)  The title is used to build the name of the variable containing the menu definition string passed to <code>JXTextMenu::SetMenuItems</code>, et. al., and the name of the function that you must call to configure the menu.</p>
 
-<p>The menu text and menu shortcut are displayed when the menu is opened.  The menu text can be anything you want.  The menu shortcut can include any combination of the following prefix modifiers:</p>
+<p>The Windows Alt shortcut is the key (combined with Meta) that will open the menu when the user has selected Windows-style menus.</p>
+
+<p>Add items to the menu by using "New item" on the Table menu.  You can rearrange items by dragging.  Drag-and-Drop also works between windows, so you can move (hold down the Meta key) or copy items between menus.</p>
+
+<p>The columns in the table are:</p>
+
+<dl>
+<dt>Type</dt>
+<dd>This can be Plain (blank), Checkbox, or Radio Button.</dd>
+
+<dt>Icon</dt>
+<dd>The icon displayed for the menu item, which is also used by <code>JXToolBar</code>.  The popup menu displays all the icons in the <code>image-build</code> directory inside your project directory and all the icons from the JX image directory (<code>jx-af/image/jx</code>).</dd>
+
+<dt>Text (required)</dt>
+<dd>The text of the menu item.</dd>
+
+<dt>Key</dt>
+<dd>The shortcut that will trigger the menu item when the menu is open.  This will only be displayed when the user has selected Windows-style menus.</dd>
+
+<dt>Shortcut</dt>
+<dd>The shortcut that will trigger the menu item even if the menu is not open.  You must define your shortcuts for the Windows-style menu.  If the user selected Macintosh-style menus, the shortcuts will automatically be adjusted.</dd>
+
+<dd>The menu shortcut can include any combination of the following prefix modifiers:</dd>
 
 <ul>
 	<li>Shift-</li>
@@ -57,13 +81,34 @@
 	<li>F1 through F35</li>
 </ul>
 
-<p>To rearrange items, simply click and drag.  Drag-and-Drop also works between windows.  To move (rather than copy) an item from one window to another, hold down the Meta key while you drag the item.</p>
+<dt>ID</dt>
+<dd>The id of the menu item.  If you do not specify a namespace with <code>::</code>, the class name will be used.  The ID is used as the key to retrieve translations and configure <code>JXToolBar</code>.  (If you leave the cell blank, it will automatically be filled with a default starting with <code>__</code>.  This indicates that <code>JXToolBar</code> should ignore the item.)</dd>
+
+<dt>Enum Name (required)</dt>
+<dd>The name of the enum constant defining the index of the menu item.</dd>
+
+<dt>Separator</dt>
+<dd>Click this cell to toggle displaying a separator after the menu item.</dd>
+</dl>
+
+<p>To edit a text item, double click on it.  To change the menu item type or icon, click in the cell to get a menu of the available options.  To toggle the separator between items, click the cell.</p>
 
 
 <hr>
 <h2><a name="ImportHelp">Import Dialog</a></h2>
 
-<p>Import dialog explanation.</p>
+<p>The import feature is provided to simplify upgrading existing applications.  The dialog displays three fields:</p>
+
+<dl>
+<dt>Menu definition text (required)</dt>
+<dd>Paste your existing code that defines the menu.  This should be a text string enclosed in double quotes.  It can also contain macros that expand to strings.</dd>
+
+<dt>Menu items enum</dt>
+<dd>Paste your existing code that defines the enum of the menu item indices.</dd>
+
+<dt>actionDefs file</dt>
+<dd>If you have a file that defines macros used in the menu definition, specify the full path to enable parsing of the menu definition.</dd>
+</dl>
 
 </body>
 </html>

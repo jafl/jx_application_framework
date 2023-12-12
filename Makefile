@@ -21,8 +21,9 @@ release:
 .PHONY : update_docs
 update_docs:
 	@scp -r doc/html/* jafl,libjx@web.sourceforge.net:htdocs/;
-	@scp -r tools/jx_memory_debugger/release/doc/* jafl,libjx@web.sourceforge.net:htdocs/jx_memory_debugger/;
-	@scp -r tools/jx_project_wizard/release/doc/* jafl,libjx@web.sourceforge.net:htdocs/jx_project_wizard/;
+	@for p in jx_layout_editor jx_menu_editor jx_memory_debugger jx_project_wizard; do \
+        scp -r tools/$$p/release/doc/* jafl,libjx@web.sourceforge.net:htdocs/$$p/; \
+     done
 
 .PHONY : coverage
 coverage:
