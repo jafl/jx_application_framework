@@ -39,6 +39,10 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //		*** Removed default style setting.  The default style is locked at Windows.
 //			This allows the menus owned by core widgets to be managed by
 //			jx_menu_editor, which in turn enables localization.
+//	JXToolBar:
+//		*** Added std::function* argument to LoadPrefs(), to support programs
+//			that did not correctly namespace the menu id's before
+//			jx_menu_editor.
 
 // version 4.0.0:
 //	Supports utf-8

@@ -162,11 +162,12 @@ JXToolBar::~JXToolBar()
 void
 JXToolBar::LoadPrefs
 	(
-	UpgradeFn f
+	std::function<void(JString*)>* f
 	)
 {
 	itsUpgradeFn = f;
 	JPrefObject::ReadPrefs();
+	itsUpgradeFn = nullptr;
 }
 
 /******************************************************************************
@@ -580,7 +581,7 @@ JXToolBar::ReadPrefs
 
 			if (itsUpgradeFn != nullptr)
 			{
-				itsUpgradeFn(&id);
+				(*itsUpgradeFn)(&id);
 			}
 			FindItemAndAdd(id);
 		}

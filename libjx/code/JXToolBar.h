@@ -43,7 +43,7 @@ public:
 
 	JXWidgetSet*	GetWidgetEnclosure() const;
 
-	void	LoadPrefs(UpgradeFn f);
+	void	LoadPrefs(std::function<void(JString*)>* f);
 
 	bool	IsEmpty() const;
 	void	AppendButton(JXTextMenu* menu, const JIndex index);
@@ -89,7 +89,8 @@ private:
 	JString						itsDialogPrefs;
 	JXToolBarButton::Type		itsButtonType;
 	bool						itsLoadedPrefs;
-	UpgradeFn					itsUpgradeFn;
+
+	std::function<void(JString*)>*	itsUpgradeFn;
 
 private:
 
