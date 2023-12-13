@@ -220,6 +220,7 @@ JXParseNMShortcut
 	const bool		useMacOSSymbols
 	)
 {
+	const JString origStr(*str);
 	JString keyStr(*str);
 	modifiers->Clear();
 
@@ -237,6 +238,7 @@ JXParseNMShortcut
 				const JXModifierKey mkey = JXAdjustNMShortcutModifier(conv.key);
 				if (!modifiers->Available(mkey))
 				{
+					str->Set(origStr);
 					return false;
 				}
 
@@ -363,6 +365,7 @@ JXParseNMShortcut
 
 	// give up
 
+	str->Set(origStr);
 	return false;
 }
 
@@ -405,7 +408,7 @@ JXAdjustNMShortcutString
 	const JXModifierKey	newKey
 	)
 {
-	bool found     = false;
+	bool found         = false;
 	JIndex newKeyIndex = 0;
 
 	for (JUnsignedOffset i=0; i<kNMModConvCount; i++)
@@ -418,14 +421,12 @@ JXAdjustNMShortcutString
 		}
 	}
 
-	if (!found)
+	if (found)
 	{
-		return;
-	}
-
-	JStringIterator iter(str);
-	while (iter.Next(origStr))
-	{
-		iter.ReplaceLastMatch(kNMModConv[newKeyIndex].str);
+		JStringIterator iter(str);
+		while (iter.Next(origStr))
+		{
+			iter.ReplaceLastMatch(kNMModConv[newKeyIndex].str);
+		}
 	}
 }
