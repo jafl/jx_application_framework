@@ -39,7 +39,7 @@
 #include <stdio.h>
 #include "jAssert.h"
 
-const JSize kMDIServerQSize   = 1;
+const JSize kMDIServerQSize   = 100;
 const JSize kMDIMaxWaitTime   = 2;		// seconds
 const JUtf8Byte kEndOfLine    = '\n';
 const JUtf8Byte kEndOfMessage = '\0';
@@ -362,7 +362,7 @@ JMDIServer::ReceiveLine
 	JUtf8ByteBuffer buf(128);
 
 	const ACE_Time_Value timeout(kMDIMaxWaitTime);
-	while (!(*receivedFinishedFlag))
+	while (!*receivedFinishedFlag)
 	{
 		JUtf8Byte c;
 		int result;
