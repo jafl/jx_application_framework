@@ -11,6 +11,7 @@
 #include "MenuDocument.h"
 #include "globals.h"
 #include <jx-af/jx/JXChooseFileDialog.h>
+#include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -50,6 +51,14 @@ MDIServer::HandleMDIRequest
 	JString fileName;
 	if (argList.GetItemCount() > 1)
 	{
+		const JString origDir = JGetCurrentDirectory();
+		const JError err      = JChangeDirectory(dir);
+		if (!err.OK())
+		{
+			err.ReportIfError();
+			return;
+		}
+
 		JPtrArray<JString> fullNameList(argList, JPtrArrayT::kForgetAll);
 		fullNameList.RemoveItem(1);
 
@@ -57,6 +66,8 @@ MDIServer::HandleMDIRequest
 		{
 			MenuDocument::Create(*n, &doc);
 		}
+
+		JChangeDirectory(origDir);
 	}
 	else if (!ChooseFiles() && !GetDocumentManager()->HasDocuments())
 	{

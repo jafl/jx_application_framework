@@ -116,7 +116,7 @@ F
 F
 # build settings
 1
-T
+F
 "jx_menu_editor"
 "${LIB_DEPS}"
 "make -k all"
