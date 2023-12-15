@@ -14,7 +14,6 @@
 #include "TextButton.h"
 #include "MDIServer.h"
 #include "globals.h"
-#include "actionDefs.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>

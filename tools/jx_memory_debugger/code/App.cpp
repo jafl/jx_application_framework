@@ -10,7 +10,6 @@
 #include "App.h"
 #include "AboutDialog.h"
 #include "stringData.h"
-#include "actionDefs.h"
 #include "globals.h"
 #include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jx/JXMenuBar.h>

@@ -11,7 +11,6 @@
 #include "RecordTable.h"
 #include "HeaderWidget.h"
 #include "globals.h"
-#include "actionDefs.h"
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
 #include <jx-af/jx/JXWDManager.h>
 #include <jx-af/jx/JXWDMenu.h>
