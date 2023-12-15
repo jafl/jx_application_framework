@@ -1615,14 +1615,13 @@ MenuTable::Import
 		for (auto item : *itsItemList)
 		{
 			JReadUntil(enumInput, 2, ",}", item.enumName);
-			item.enumName->TrimWhitespace();
 
 			JStringIterator iter(item.enumName, JStringIterator::kStartAtEnd);
-			JUtf8Character c;
-			while (iter.Prev(&c) && (c.IsDigit() || c == '=' || c.IsSpace()))
+			if (iter.Prev("="))
 			{
-				iter.RemoveNext();
+				iter.RemoveAllNext();
 			}
+			item.enumName->TrimWhitespace();
 		}
 	}
 
