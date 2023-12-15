@@ -26,7 +26,6 @@
 #include "JXImage.h"
 #include "JXColorManager.h"
 #include "jXGlobals.h"
-#include "jXActionDefs.h"
 #include <jx-af/jcore/jAssert.h>
 
 const JInteger kFirstShortcut = 0;

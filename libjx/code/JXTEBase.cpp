@@ -41,7 +41,6 @@
 #include "JXTextSelection.h"
 #include "JXColorManager.h"
 #include "jXGlobals.h"
-#include "jXActionDefs.h"
 
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JRegex.h>
@@ -79,16 +78,16 @@ static const JUtf8Byte* kDataNotCompatibleExtra = "DataNotCompatibleExtra::JXTEB
 
 static const MenuItemInfo kEditMenuItemInfo[] =
 {
-	{ JTextEditor::kUndoCmd,      kJXUndoAction      },
-	{ JTextEditor::kRedoCmd,      kJXRedoAction      },
-	{ JTextEditor::kCutCmd,       kJXCutAction       },
-	{ JTextEditor::kCopyCmd,      kJXCopyAction      },
-	{ JTextEditor::kPasteCmd,     kJXPasteAction     },
-	{ JTextEditor::kDeleteSelCmd, kJXClearAction     },
-	{ JTextEditor::kSelectAllCmd, kJXSelectAllAction },
+	{ JTextEditor::kUndoCmd,      "Undo::JX"      },
+	{ JTextEditor::kRedoCmd,      "Redo::JX"      },
+	{ JTextEditor::kCutCmd,       "Cut::JX"       },
+	{ JTextEditor::kCopyCmd,      "Copy::JX"      },
+	{ JTextEditor::kPasteCmd,     "Paste::JX"     },
+	{ JTextEditor::kDeleteSelCmd, "Clear::JX"     },
+	{ JTextEditor::kSelectAllCmd, "SelectAll::JX" },
 
-	{ JTextEditor::kCheckSpellingCmd,      kCheckAllSpellingAction           },
-	{ JTextEditor::kCheckSpellingSelCmd,   kCheckSpellingSelAction           },
+	{ JTextEditor::kCheckSpellingCmd,      "CheckAllSpellingCmd::JX"         },
+	{ JTextEditor::kCheckSpellingSelCmd,   "CheckSpellingSelCmd::JX"         },
 	{ JTextEditor::kCleanRightMarginCmd,   "CleanRightMarginCmd::JXTEBase"   },
 	{ JTextEditor::kCoerceRightMarginCmd,  "CoerceRightMarginCmd::JXTEBase"  },
 	{ JTextEditor::kShiftSelLeftCmd,       "ShiftSelLeftCmd::JXTEBase"       },
@@ -106,35 +105,35 @@ static const MenuItemInfo kEditMenuItemInfo[] =
 
 static const MenuItemInfo kSearchMenuItemInfo[] =
 {
-	{ JTextEditor::kFindDialogCmd,            kJXFindDialogAction             },
-	{ JTextEditor::kFindPreviousCmd,          kJXFindPreviousAction           },
-	{ JTextEditor::kFindNextCmd,              kJXFindNextAction               },
-	{ JTextEditor::kEnterSearchTextCmd,       kJXEnterSearchTextAction        },
-	{ JTextEditor::kEnterReplaceTextCmd,      kJXEnterReplaceTextAction       },
-	{ JTextEditor::kFindSelectionBackwardCmd, kJXFindSelectionBackwardsAction },
-	{ JTextEditor::kFindSelectionForwardCmd,  kJXFindSelectionForwardAction   },
-	{ JTextEditor::kFindClipboardBackwardCmd, kJXFindClipboardBackwardsAction },
-	{ JTextEditor::kFindClipboardForwardCmd,  kJXFindClipboardForwardAction   }
+	{ JTextEditor::kFindDialogCmd,            "FindDialog::JX"             },
+	{ JTextEditor::kFindPreviousCmd,          "FindPrevious::JX"           },
+	{ JTextEditor::kFindNextCmd,              "FindNext::JX"               },
+	{ JTextEditor::kEnterSearchTextCmd,       "EnterSearchText::JX"        },
+	{ JTextEditor::kEnterReplaceTextCmd,      "EnterReplaceText::JX"       },
+	{ JTextEditor::kFindSelectionBackwardCmd, "FindSelectionBackwards::JX" },
+	{ JTextEditor::kFindSelectionForwardCmd,  "FindSelectionForward::JX"   },
+	{ JTextEditor::kFindClipboardBackwardCmd, "FindClipboardBackwards::JX" },
+	{ JTextEditor::kFindClipboardForwardCmd,  "FindClipboardForward::JX"   }
 };
 
 // Search & Replace menu
 
 static const MenuItemInfo kReplaceMenuItemInfo[] =
 {
-	{ JTextEditor::kFindDialogCmd,            kJXFindDialogAction             },
-	{ JTextEditor::kFindPreviousCmd,          kJXFindPreviousAction           },
-	{ JTextEditor::kFindNextCmd,              kJXFindNextAction               },
-	{ JTextEditor::kEnterSearchTextCmd,       kJXEnterSearchTextAction        },
-	{ JTextEditor::kEnterReplaceTextCmd,      kJXEnterReplaceTextAction       },
-	{ JTextEditor::kFindSelectionBackwardCmd, kJXFindSelectionBackwardsAction },
-	{ JTextEditor::kFindSelectionForwardCmd,  kJXFindSelectionForwardAction   },
-	{ JTextEditor::kFindClipboardBackwardCmd, kJXFindClipboardBackwardsAction },
-	{ JTextEditor::kFindClipboardForwardCmd,  kJXFindClipboardForwardAction   },
-	{ JTextEditor::kReplaceSelectionCmd,      kJXReplaceSelectionAction       },
-	{ JTextEditor::kReplaceFindPrevCmd,       kJXReplaceFindPrevAction        },
-	{ JTextEditor::kReplaceFindNextCmd,       kJXReplaceFindNextAction        },
-	{ JTextEditor::kReplaceAllCmd,            kJXReplaceAllAction             },
-	{ JTextEditor::kReplaceAllInSelectionCmd, kJXReplaceAllInSelectionAction  }
+	{ JTextEditor::kFindDialogCmd,            "FindDialog::JX"             },
+	{ JTextEditor::kFindPreviousCmd,          "FindPrevious::JX"           },
+	{ JTextEditor::kFindNextCmd,              "FindNext::JX"               },
+	{ JTextEditor::kEnterSearchTextCmd,       "EnterSearchText::JX"        },
+	{ JTextEditor::kEnterReplaceTextCmd,      "EnterReplaceText::JX"       },
+	{ JTextEditor::kFindSelectionBackwardCmd, "FindSelectionBackwards::JX" },
+	{ JTextEditor::kFindSelectionForwardCmd,  "FindSelectionForward::JX"   },
+	{ JTextEditor::kFindClipboardBackwardCmd, "FindClipboardBackwards::JX" },
+	{ JTextEditor::kFindClipboardForwardCmd,  "FindClipboardForward::JX"   },
+	{ JTextEditor::kReplaceSelectionCmd,      "ReplaceSelection::JX"       },
+	{ JTextEditor::kReplaceFindPrevCmd,       "ReplaceFindPrev::JX"        },
+	{ JTextEditor::kReplaceFindNextCmd,       "ReplaceFindNext::JX"        },
+	{ JTextEditor::kReplaceAllCmd,            "ReplaceAll::JX"             },
+	{ JTextEditor::kReplaceAllInSelectionCmd, "ReplaceAllInSelection::JX"  }
 };
 
 /******************************************************************************

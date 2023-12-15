@@ -36,7 +36,6 @@
 #include <jx-af/jx/jXEventUtil.h>
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jx/jXGlobals.h>
-#include <jx-af/jx/jXActionDefs.h>
 
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jASCIIConstants.h>
@@ -55,12 +54,12 @@ struct EditMenuItemInfo
 
 static const EditMenuItemInfo kEditMenuItemInfo[] =
 {
-	{ JExprEditor::kUndoCmd,      kJXUndoAction      },
-	{ JExprEditor::kCutCmd,       kJXCutAction       },
-	{ JExprEditor::kCopyCmd,      kJXCopyAction      },
-	{ JExprEditor::kPasteCmd,     kJXPasteAction     },
-	{ JExprEditor::kDeleteSelCmd, kJXClearAction     },
-	{ JExprEditor::kSelectAllCmd, kJXSelectAllAction }
+	{ JExprEditor::kUndoCmd,      "Undo::JX"      },
+	{ JExprEditor::kCutCmd,       "Cut::JX"       },
+	{ JExprEditor::kCopyCmd,      "Copy::JX"      },
+	{ JExprEditor::kPasteCmd,     "Paste::JX"     },
+	{ JExprEditor::kDeleteSelCmd, "Clear::JX"     },
+	{ JExprEditor::kSelectAllCmd, "SelectAll::JX" }
 };
 
 // Math menu

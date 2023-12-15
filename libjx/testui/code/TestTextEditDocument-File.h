@@ -55,7 +55,7 @@ enum {
 #endif
 
 static void ConfigureFileMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
 		menu->SetShortcuts(JString("#f", JString::kNoCopy));
 	}
 	menu->SetItemImage(kNewFileCmd + offset, jx_file_new);

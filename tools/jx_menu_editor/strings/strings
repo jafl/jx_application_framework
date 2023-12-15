@@ -108,7 +108,7 @@ WarnInvalidShortcut::MenuTable			"This is not a valid shortcut.  Do you want to 
 DuplicateWindowsKey::MenuTable	"These two menu items have the same key shortcut."
 
 ConfigureMenuHeader::MenuTable
-"static void Configure$titleMenu(JXTextMenu* menu, const int offset = 0) {
+"inline void Configure$titleMenu(JXTextMenu* menu, const int offset = 0) {
 "
 
 ConfigureShortcut::MenuTable

@@ -448,6 +448,34 @@ T
 F
 "./code/JXTEBase.cpp"
 T
+2 "JXTEBase-Edit.jxm"
+F
+"./code/JXTEBase-Edit.jxm"
+T
+2 "JXTEBase-CheckSpelling.jxm"
+F
+"./code/JXTEBase-CheckSpelling.jxm"
+T
+2 "JXTEBase-AdjustMargins.jxm"
+F
+"./code/JXTEBase-AdjustMargins.jxm"
+T
+2 "JXTEBase-CleanWhitespace.jxm"
+F
+"./code/JXTEBase-CleanWhitespace.jxm"
+T
+2 "JXTEBase-ReadOnly.jxm"
+F
+"./code/JXTEBase-ReadOnly.jxm"
+T
+2 "JXTEBase-Search.jxm"
+F
+"./code/JXTEBase-Search.jxm"
+T
+2 "JXTEBase-Replace.jxm"
+F
+"./code/JXTEBase-Replace.jxm"
+T
 2 "JXTEBlinkCaretTask.cpp"
 F
 "./code/JXTEBlinkCaretTask.cpp"

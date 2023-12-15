@@ -18,7 +18,6 @@
 #include "JXChooseFontSizeDialog.h"
 #include "JXWindow.h"
 #include "jXConstants.h"
-#include "jXActionDefs.h"
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jGlobals.h>
@@ -229,7 +228,7 @@ JXFontSizeMenu::BuildMenu
 		ShowSeparatorAfter(GetItemCount());
 		AppendItem(JGetString("VariableSizeLabel::JXFontSizeMenu"),
 				   kRadioType, JString::empty, JString::empty,
-				   JString(kJXOtherFontSizeAction, JString::kNoCopy));
+				   JString("OtherFontSize::JX", JString::kNoCopy));
 		itsVarSizeIndex = GetItemCount();
 	}
 	SetUpdateAction(kDisableNone);

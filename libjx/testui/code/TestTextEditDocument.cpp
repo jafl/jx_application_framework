@@ -168,7 +168,7 @@ TestTextEditDocument::BuildWindow
 	itsTextEditor2->ShouldAlwaysShowSelection(true);
 	itsTextEditor2->ShareMenus(itsTextEditor1);
 
-	itsFileMenu = menuBar->PrependTextMenu(JGetString("FileMenuTitle::JXGlobal"));
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("MenuTitle::TestTextEditDocument_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,

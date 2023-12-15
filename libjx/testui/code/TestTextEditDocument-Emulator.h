@@ -17,7 +17,7 @@ enum {
 
 
 static void ConfigureEmulatorMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
 		menu->SetShortcuts(JString("#e", JString::kNoCopy));
 	}
 };

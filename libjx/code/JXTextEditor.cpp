@@ -50,7 +50,7 @@ JXTextEditor::JXTextEditor
 	ShouldAllowDragAndDrop(true);
 	GetText()->SetLastSaveLocation();
 
-	(scrollbarSet->GetVScrollbar())->SetScrollDelay(0);
+	scrollbarSet->GetVScrollbar()->SetScrollDelay(0);
 
 	// add the menus
 

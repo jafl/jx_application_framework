@@ -31,7 +31,6 @@
 #include "JXChooseColorDialog.h"
 #include "JXWindow.h"
 #include "JXColorManager.h"
-#include "jXActionDefs.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 

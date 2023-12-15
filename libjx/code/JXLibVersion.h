@@ -43,6 +43,7 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //		*** Added std::function* argument to LoadPrefs(), to support programs
 //			that did not correctly namespace the menu id's before
 //			jx_menu_editor.
+//	*** Removed most macros from jXActionDefs.h, because they should be private.
 
 // version 4.0.0:
 //	Supports utf-8

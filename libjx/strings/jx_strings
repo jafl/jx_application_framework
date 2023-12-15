@@ -16,14 +16,18 @@ DirectoryDoesNotExist::JXGlobal	"This directory does not exist."
 DirNotWritable::JXGlobal		"You do not have write access to this directory."
 FileNotWritable::JXGlobal		"You do not have write access to this file."
 
-FileMenuTitle::JXGlobal		"File"
-EditMenuTitle::JXGlobal		"Edit"
-EditMenuShortcut::JXGlobal	"#E"
-FontMenuTitle::JXGlobal		"Font"
-SizeMenuTitle::JXGlobal		"Size"
-WindowsMenuTitle::JXGlobal	"Windows"
-PrefsMenuTitle::JXGlobal	"Preferences"
-HelpMenuTitle::JXGlobal		"Help"
+EditMenuTitle::JXGlobal			"Edit"
+EditMenuShortcut::JXGlobal		"#E"
+FontMenuTitle::JXGlobal			"Font"
+SizeMenuTitle::JXGlobal			"Size"
+WindowsMenuTitle::JXGlobal		"Windows"
+WindowsMenuShortcut::JXGlobal	"#W"
+
+# deprecated because of jx_menu_editor
+
+FileMenuTitle::JXGlobal			"File"
+PrefsMenuTitle::JXGlobal		"Preferences"
+HelpMenuTitle::JXGlobal			"Help"
 
 # JXApplication
 

@@ -123,9 +123,6 @@ uninstall::
 # Strings
 #
 
-JX_ACTION_DEFS := ${JX_INCLUDE_ROOT}/jx-af/jx/jXActionDefs.h \
-                  ${JX_INCLUDE_ROOT}/jx-af/jx/JXTEBase.cpp
-
 .PHONY : strings
 strings:
   ifneq (${J_STRING_FILES},)

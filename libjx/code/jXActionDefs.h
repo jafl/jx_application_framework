@@ -29,51 +29,6 @@
 #define kJXClearAction		"Clear::JX"
 #define kJXSelectAllAction	"SelectAll::JX"
 
-#define kCheckAllSpellingAction	"CheckAllSpellingCmd::JX"
-#define kCheckSpellingSelAction	"CheckSpellingSelCmd::JX"
-
-// Search menu
-
-#define kJXFindDialogAction				"FindDialog::JX"
-#define kJXFindPreviousAction			"FindPrevious::JX"
-#define kJXFindNextAction				"FindNext::JX"
-#define kJXEnterSearchTextAction		"EnterSearchText::JX"
-#define kJXEnterReplaceTextAction		"EnterReplaceText::JX"
-#define kJXFindSelectionBackwardsAction	"FindSelectionBackwards::JX"
-#define kJXFindSelectionForwardAction	"FindSelectionForward::JX"
-#define kJXFindClipboardBackwardsAction	"FindClipboardBackwards::JX"
-#define kJXFindClipboardForwardAction	"FindClipboardForward::JX"
-#define kJXReplaceSelectionAction		"ReplaceSelection::JX"
-#define kJXReplaceFindPrevAction		"ReplaceFindPrev::JX"
-#define kJXReplaceFindNextAction		"ReplaceFindNext::JX"
-#define kJXReplaceAllAction				"ReplaceAll::JX"
-#define kJXReplaceAllInSelectionAction	"ReplaceAllInSelection::JX"
-
-// Font size menu
-
-// [0-9]+::JX
-#define kJXOtherFontSizeAction	"OtherFontSize::JX"
-
-// Font style menu
-
-#define kJXPlainStyleAction				"PlainStyle::JX"
-#define kJXBoldStyleAction				"BoldStyle::JX"
-#define kJXItalicStyleAction			"ItalicStyle::JX"
-#define kJXUnderlineStyleAction			"UnderlineStyle::JX"
-#define kJXDoubleUnderlineStyleAction	"DoubleUnderlineStyle::JX"
-#define kJXStrikeStyleAction			"StrikeStyle::JX"
-#define kJXBlackStyleAction				"BlackStyle::JX"
-#define kJXGrayStyleAction				"GrayStyle::JX"
-#define kJXBrownStyleAction				"BrownStyle::JX"
-#define kJXOrangeStyleAction			"OrangeStyle::JX"
-#define kJXRedStyleAction				"RedStyle::JX"
-#define kJXDarkRedStyleAction			"DarkRedStyle::JX"
-#define kJXGreenStyleAction				"GreenStyle::JX"
-#define kJXBlueStyleAction				"BlueStyle::JX"
-#define kJXLightBlueStyleAction			"LightBlueStyle::JX"
-#define kJXPinkStyleAction				"PinkStyle::JX"
-#define kJXOtherColorStyleAction		"OtherColorStyle::JX"
-
 // Windows menu
 
 #define kJXRaiseAllWindowsAction		"RaiseAllWindows::JX"

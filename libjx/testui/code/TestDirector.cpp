@@ -49,7 +49,6 @@
 #include <jx-af/jx/JXChooseFileDialog.h>
 #include <jx-af/jx/JXChoosePathDialog.h>
 #include <jx-af/jx/JXSaveFileDialog.h>
-#include <jx-af/jx/jXActionDefs.h>
 
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JStopWatch.h>
