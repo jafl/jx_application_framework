@@ -259,9 +259,14 @@ MenuDocument::BuildWindow()
 	itsMenuTitleInput->ShareEditMenu(editMenu);
 	itsWindowsKeyInput->ShareEditMenu(editMenu);
 
-	menuBar->AppendMenu(
+	auto* docMenu =
 		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
-							JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 10,10));
+							JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 10,10);
+	menuBar->AppendMenu(docMenu);
+	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle)
+	{
+		docMenu->SetShortcuts(JGetString("WindowsMenuShortcut::JXGlobal"));
+	}
 
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MenuDocument_Preferences"));
 	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
