@@ -303,7 +303,7 @@ JRegex::SetUtf8
 	const bool yesNo // = true
 	)
 {
-	SetCompileOption(PCRE_UTF8, !yesNo);
+	SetCompileOption(PCRE_UTF8, yesNo);
 }
 
 inline bool

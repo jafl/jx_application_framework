@@ -1999,6 +1999,7 @@ JStyledText::RemoveIllegalChars
 	}
 
 	JStringIterator textIter(text);
+	illegalCharRegex.SetUtf8(false);
 	while (textIter.Next(illegalCharRegex))
 	{
 		const JStringMatch& m = textIter.GetLastMatch();
