@@ -472,13 +472,13 @@ MenuDocument::GenerateCode()
 		return;
 	}
 
-	// header
+	// headers
 
-	JString headerFileName = JCombinePathAndName(path, root);
-	headerFileName         = JCombineRootAndSuffix(headerFileName, "h");
+	JString headerFullName = JCombinePathAndName(path, root);
+	headerFullName         = JCombineRootAndSuffix(headerFullName, "h");
 
-	JString tempHeaderFileName;
-	const JError err = JCreateTempFile(&path, nullptr, &tempHeaderFileName);
+	JString tempHeaderFullName;
+	JError err = JCreateTempFile(&path, nullptr, &tempHeaderFullName);
 	if (!err.OK())
 	{
 		const JUtf8Byte* map[] =
@@ -489,7 +489,7 @@ MenuDocument::GenerateCode()
 		JGetUserNotification()->ReportError(JGetString("CodeDirectoryNotWritable::MenuDocument", map, sizeof(map)));
 		return;
 	}
-	std::ofstream headerOutput(tempHeaderFileName.GetBytes());
+	std::ofstream headerOutput(tempHeaderFullName.GetBytes());
 
 	name = root;
 	JStringIterator nameIter(&name);
@@ -514,34 +514,68 @@ MenuDocument::GenerateCode()
 	};
 	JGetString("CodeHeader::MenuDocument", headerMap, sizeof(headerMap)).Print(headerOutput);
 
+	JString enumFullName = JCombinePathAndName(path, root + "-enum");
+	enumFullName         = JCombineRootAndSuffix(enumFullName, "h");
+
+	JString tempEnumFullName;
+	err = JCreateTempFile(&path, nullptr, &tempEnumFullName);
+	assert( err.OK() );
+	std::ofstream enumOutput(tempEnumFullName.GetBytes());
+
+	const JUtf8Byte* enumMap[] =
+	{
+		"name",  name.GetBytes(),
+		"title", title.GetBytes()
+	};
+	JGetString("EnumHeader::MenuDocument", enumMap, sizeof(enumMap)).Print(enumOutput);
+
+	JString enumFileName;
+	JSplitPathAndName(enumFullName, &path, &enumFileName);
+
 	itsTable->GenerateCode(headerOutput, itsClassNameInput->GetText()->GetText(),
-						   title, itsWindowsKeyInput->GetText()->GetText());
+						   title, itsWindowsKeyInput->GetText()->GetText(),
+						   enumOutput, enumFileName);
 
 	JGetString("CodeFooter::MenuDocument").Print(headerOutput);
 	headerOutput.close();
 
-	// check if header file actually changed
+	JGetString("CodeFooter::MenuDocument").Print(enumOutput);
+	enumOutput.close();
 
-	JString origHeaderText, newHeaderText;
-	JReadFile(headerFileName, &origHeaderText);
-	JReadFile(tempHeaderFileName, &newHeaderText);
-	if (newHeaderText != origHeaderText)
+	// check if header files actually changed
+
+	JString origText, newText;
+	JReadFile(headerFullName, &origText);
+	JReadFile(tempHeaderFullName, &newText);
+	if (newText != origText)
 	{
-		JEditVCS(headerFileName);
-		JRenameFile(tempHeaderFileName, headerFileName, true);
+		JEditVCS(headerFullName);
+		JRenameFile(tempHeaderFullName, headerFullName, true);
 	}
 	else
 	{
-		JRemoveFile(tempHeaderFileName);
+		JRemoveFile(tempHeaderFullName);
+	}
+
+	JReadFile(enumFullName, &origText);
+	JReadFile(tempEnumFullName, &newText);
+	if (newText != origText)
+	{
+		JEditVCS(enumFullName);
+		JRenameFile(tempEnumFullName, enumFullName, true);
+	}
+	else
+	{
+		JRemoveFile(tempEnumFullName);
 	}
 
 	// strings
 
-	JString stringsFileName = JCombinePathAndName(projRoot, JString("strings", JString::kNoCopy));
-	stringsFileName         = JCombinePathAndName(stringsFileName, root);
+	JString stringsFullName = JCombinePathAndName(projRoot, JString("strings", JString::kNoCopy));
+	stringsFullName         = JCombinePathAndName(stringsFullName, root);
 
-	JEditVCS(stringsFileName);
-	std::ofstream stringsOutput(stringsFileName.GetBytes());
+	JEditVCS(stringsFullName);
+	std::ofstream stringsOutput(stringsFullName.GetBytes());
 
 	const JUtf8Byte* stringsMap[] =
 	{

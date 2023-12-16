@@ -91,7 +91,8 @@ public:
 	void	RemoveSelectedItem();
 
 	void	GenerateCode(std::ostream& output, const JString& className,
-						 const JString& menuTitle, const JString& menuTitleShortcut) const;
+						 const JString& menuTitle, const JString& menuTitleShortcut,
+						 std::ostream& enumOutput, const JString& enumFileName) const;
 	void	GenerateStrings(std::ostream& output, const JString& className) const;
 
 	void	FillInItemIDs(const JString& className);

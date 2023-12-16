@@ -20,6 +20,8 @@ jcc
 		javascript regex, incl char class - can contain php or jsp
 
 glove
+	convert to jx_menu_editor
+
 	undo then redo "transform creates column": puts values back in inverted order
 
 	remember open documents and restore when start

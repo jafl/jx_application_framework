@@ -1741,7 +1741,9 @@ MenuTable::GenerateCode
 	std::ostream&	output,
 	const JString&	className,
 	const JString&	menuTitle,
-	const JString&	menuTitleShortcut
+	const JString&	menuTitleShortcut,
+	std::ostream&	enumOutput,
+	const JString&	enumFileName
 	)
 	const
 {
@@ -1792,22 +1794,24 @@ MenuTable::GenerateCode
 
 	// enum
 
-	output << "enum {" << std::endl;
+	output << "#include " << enumFileName << std::endl << std::endl;
+
+	enumOutput << "enum {" << std::endl;
 
 	first = true;
 	for (const auto& item : *itsItemList)
 	{
-		output << '\t';
-		item.enumName->Print(output);
+		enumOutput << '\t';
+		item.enumName->Print(enumOutput);
 		if (first)
 		{
-			output << "=1";
+			enumOutput << "=1";
 			first = false;
 		}
-		output << ',' << std::endl;
+		enumOutput << ',' << std::endl;
 	}
 
-	output << "};" << std::endl << std::endl;
+	enumOutput << "};" << std::endl;
 
 	// attach icons
 
