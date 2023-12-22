@@ -402,11 +402,11 @@ MenuTable::GetDNDAction
 	const JXKeyModifiers&	modifiers
 	)
 {
-	const bool meta =
-		modifiers.GetState(JXAdjustNMShortcutModifier(kJXMetaKeyIndex));
+	const bool move =
+		modifiers.GetState(JXAdjustNMShortcutModifier(kJXControlKeyIndex));
 
-	if ((target == this && !meta) ||
-		(target != this &&  meta))
+	if ((target == this && !move) ||
+		(target != this &&  move))
 	{
 		return GetDNDManager()->GetDNDActionMoveXAtom();
 	}
