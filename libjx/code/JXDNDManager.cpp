@@ -245,7 +245,7 @@ JXDNDManager::BeginDND
 	{
 		itsIsDraggingFlag   = true;
 		itsDragger          = widget;
-		itsDraggerWindow    = (itsDragger->GetWindow())->GetXWindow();
+		itsDraggerWindow    = itsDragger->GetWindow()->GetXWindow();
 		*itsDraggerTypeList = data->GetTypeList();
 		itsTargetFinder     = targetFinder;
 
@@ -1179,7 +1179,7 @@ JXDNDManager::PrepareForDrop
 	)
 {
 	const JXSelectionData* data = nullptr;
-	if ((itsDisplay->GetSelectionManager())->
+	if (itsDisplay->GetSelectionManager()->
 			GetData(itsAtoms[ kDNDSelectionAtomIndex ], CurrentTime, &data))
 	{
 		data->Resolve();

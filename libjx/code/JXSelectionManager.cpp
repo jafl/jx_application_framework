@@ -347,9 +347,6 @@ JXSelectionManager::DeleteData
 
 	Implements the DELETE selection protocol.
 
-	window should be any one that X can attach the data to.
-	Widgets can simply pass in the result from GetWindow().
-
 	time can be CurrentTime.
 
  ******************************************************************************/

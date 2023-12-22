@@ -10,7 +10,6 @@
  ******************************************************************************/
 
 #include "MenuItemSelection.h"
-#include "MenuTable.h"
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/jAssert.h>

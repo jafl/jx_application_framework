@@ -49,7 +49,6 @@ private:
 private:
 
 	void	JXFileSelectionX();
-	void	CreateBuffer() const;
 };
 
 

@@ -159,7 +159,11 @@ JXFileSelection::ConvertData
 	if (requestType == GetSelectionManager()->GetURLXAtom() &&
 		itsList != nullptr && !itsList->IsEmpty())
 	{
-		CreateBuffer();
+		if (itsBuffer == nullptr)
+		{
+			const_cast<JXFileSelection*>(this)->itsBuffer =
+				jnew JString(JXPackFileNames(*itsList));
+		}
 
 		*returnType = requestType;
 		*dataLength = itsBuffer->GetByteCount();
@@ -171,23 +175,6 @@ JXFileSelection::ConvertData
 	*dataLength = 0;
 	*returnType = None;
 	return false;
-}
-
-/******************************************************************************
- CreateBuffer (private)
-
- ******************************************************************************/
-
-void
-JXFileSelection::CreateBuffer()
-	const
-{
-	if (itsBuffer == nullptr)
-	{
-		(const_cast<JXFileSelection*>(this))->itsBuffer =
-			jnew JString(JXPackFileNames(*itsList));
-		assert( itsBuffer != nullptr );
-	}
 }
 
 /******************************************************************************

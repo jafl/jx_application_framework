@@ -240,8 +240,8 @@ public:
 	};
 };
 
-bool JIntersection(const JRect& r1, const JRect& r2, JRect* result);
-JRect    JCovering(const JRect& r1, const JRect& r2);
+bool	JIntersection(const JRect& r1, const JRect& r2, JRect* result);
+JRect	JCovering(const JRect& r1, const JRect& r2);
 
 std::istream& operator>>(std::istream& input, JRect& r);
 std::ostream& operator<<(std::ostream& output, const JRect& r);

@@ -11,8 +11,6 @@
 #include <jx-af/jx/JXSelectionManager.h>
 #include "MenuTable.h"
 
-class MenuTable;
-
 class MenuItemSelection : public JXSelectionData
 {
 public:
