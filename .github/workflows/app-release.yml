@@ -39,3 +39,10 @@ jobs:
     secrets:
       api-key: ${{ secrets.api-key }}
       ssh-key: ${{ secrets.ssh-key }}
+
+  publish-version:
+    name: Publish version
+    needs: [ update-sourceforge ]
+    steps:
+      - name: Update version & docs
+        run: scp -o StrictHostKeyChecking=no -i ssh-key release/VERSION release/doc/* jafl,${{ inputs.forge-name }}@web.sourceforge.net:htdocs/;
