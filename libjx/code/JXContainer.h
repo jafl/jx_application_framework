@@ -117,6 +117,7 @@ public:
 
 	void	ForEach(const std::function<void(JXContainer*)>& f, const bool recurse);
 	void	ForEach(const std::function<void(const JXContainer*)>& f, const bool recurse) const;
+	bool	AnyOf(const std::function<bool(const JXContainer*)>& f, const bool recurse) const;
 
 	// primarily invoked (automagically) after BuildWindow() finishes
 

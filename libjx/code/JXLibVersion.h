@@ -44,6 +44,8 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //			that did not correctly namespace the menu id's before
 //			jx_menu_editor.
 //	*** Removed most macros from jXActionDefs.h, because they should be private.
+//	JXContainer:
+//		Added AnyOf().
 
 // version 4.0.0:
 //	Supports utf-8
@@ -72,6 +74,7 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //	JXContainer:
 //		Added ExpandToFitContent() to adjust layouts to fit translated/resized text.
 //			This is automagically called by JXWindow after it has been constructed.
+//		Added ForEach().
 //	Implemented ToString() for various widgets.
 //	JXStaticText:
 //		Added option to horizontally center labels.

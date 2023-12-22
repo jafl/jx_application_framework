@@ -478,6 +478,39 @@ JXContainer::ForEach
 }
 
 /******************************************************************************
+ AnyOf
+
+	Calls the given function for each enclosed object.  If recurse,
+	also calls ForEach() on each enclosed object.
+
+	If the function returns true, immediately returns true.  Otherwise,
+	returns false.
+
+ ******************************************************************************/
+
+bool
+JXContainer::AnyOf
+	(
+	const std::function<bool(const JXContainer*)>&	f,
+	const bool										recurse
+	)
+	const
+{
+	if (itsEnclosedObjs != nullptr)
+	{
+		for (const auto* obj : *itsEnclosedObjs)
+		{
+			if (f(obj) || (recurse && obj->AnyOf(f, recurse)))
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+/******************************************************************************
  FindContainer
 
 	Returns the JXContainer that contains the given point.
