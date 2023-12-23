@@ -44,5 +44,12 @@ jobs:
     name: Publish version
     needs: [ update-sourceforge ]
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: Update version & docs
-        run: scp -o StrictHostKeyChecking=no -i ssh-key release/VERSION release/doc/* jafl,${{ inputs.forge-name }}@web.sourceforge.net:htdocs/;
+        run: |
+          echo "${{ secrets.ssh-key }}" > ssh-key
+          chmod 0600 ssh-key
+          scp -o StrictHostKeyChecking=no -i ssh-key release/VERSION release/doc/* jafl,${{ inputs.forge-name }}@web.sourceforge.net:htdocs/;
