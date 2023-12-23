@@ -813,9 +813,9 @@ inline bool
 JStyledText::IsAtLastSaveLocation()
 	const
 {
-	return itsUndoList != nullptr &&
-				 itsLastSaveRedoIndex > 0 &&
-				 JIndex(itsLastSaveRedoIndex) == itsFirstRedoIndex;
+	return (itsUndoList != nullptr &&
+			itsLastSaveRedoIndex > 0 &&
+			JIndex(itsLastSaveRedoIndex) == itsFirstRedoIndex);
 }
 
 inline void

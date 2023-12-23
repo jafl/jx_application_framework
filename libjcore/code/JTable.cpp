@@ -2036,7 +2036,7 @@ bool
 JTable::BeginEditing
 	(
 	const JPoint&	cell,
-	const bool	scrollToCell
+	const bool		scrollToCell
 	)
 {
 	if (itsIsEditingFlag && cell == itsEditCell)

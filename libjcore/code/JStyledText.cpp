@@ -120,7 +120,6 @@ JStyledText::JStyledText
 	{
 		itsUndoList = jnew JPtrArray<JSTUndoBase>(JPtrArrayT::kDeleteAll,
 												  itsMaxUndoCount+1);
-		assert( itsUndoList != nullptr );
 	}
 }
 
@@ -4185,7 +4184,7 @@ JStyledText::GetCurrentRedo
 /******************************************************************************
  NewUndo (private)
 
-	Register a jnew Undo object.
+	Register a new Undo object.
 
 	itsFirstRedoIndex points to the first redo object in itsUndoList.
 	1 <= itsFirstRedoIndex <= itsUndoList->GetItemCount()+1
@@ -4340,7 +4339,7 @@ JSTUndoTyping*
 JStyledText::GetTypingUndo
 	(
 	const TextIndex&	start,
-	bool*			isNew
+	bool*				isNew
 	)
 {
 	JSTUndoTyping* typingUndo = nullptr;
@@ -4378,7 +4377,7 @@ JSTUndoStyle*
 JStyledText::GetStyleUndo
 	(
 	const TextRange&	range,
-	bool*			isNew
+	bool*				isNew
 	)
 {
 	JSTUndoStyle* styleUndo = nullptr;
@@ -4415,7 +4414,7 @@ JSTUndoPaste*
 JStyledText::GetPasteUndo
 	(
 	const TextRange&	range,
-	bool*			isNew
+	bool*				isNew
 	)
 {
 	auto* pasteUndo = jnew JSTUndoPaste(this, range);
@@ -4439,7 +4438,7 @@ JSTUndoTabShift*
 JStyledText::GetTabShiftUndo
 	(
 	const TextRange&	range,
-	bool*			isNew
+	bool*				isNew
 	)
 {
 	JSTUndoTabShift* tabShiftUndo = nullptr;
@@ -4478,7 +4477,7 @@ JStyledText::GetMoveUndo
 	const TextIndex&	srcIndex,
 	const TextIndex&	destIndex,
 	const TextCount&	count,
-	bool*			isNew
+	bool*				isNew
 	)
 {
 	auto* moveUndo = jnew JSTUndoMove(this, srcIndex, destIndex, count);
