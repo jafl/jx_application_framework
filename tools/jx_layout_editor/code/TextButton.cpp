@@ -19,7 +19,7 @@
 
 TextButton::TextButton
 	(
-	LayoutDocument*		dir,
+	LayoutContainer*	layout,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -29,14 +29,14 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(dir, enclosure, hSizing, vSizing, x,y, w,h)
+	CoreWidget(layout, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	TextButtonX(JGetString("DefaultLabel::TextButton"), x,y,w,h);
 }
 
 TextButton::TextButton
 	(
-	LayoutDocument*		dir,
+	LayoutContainer*	layout,
 	const JString&		label,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -47,14 +47,14 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(dir, enclosure, hSizing, vSizing, x,y, w,h)
+	CoreWidget(layout, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	TextButtonX(label, x,y,w,h);
 }
 
 TextButton::TextButton
 	(
-	LayoutDocument*		dir,
+	LayoutContainer*	layout,
 	std::istream&		input,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -65,7 +65,7 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(dir, input, enclosure, hSizing, vSizing, x,y, w,h)
+	CoreWidget(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JString label;
 	input >> label;

@@ -11,6 +11,7 @@
 #include <jx-af/jx/JXFileDocument.h>
 #include <jx-af/jx/JXWidget.h>	// need sizing
 
+class JXMenuBar;
 class JXTextMenu;
 class JXToolBar;
 class LayoutContainer;
@@ -18,6 +19,8 @@ class BaseWidget;
 
 class LayoutDocument : public JXFileDocument
 {
+	friend class LayoutUndo;
+
 public:
 
 	static bool	Create(LayoutDocument** doc);
@@ -27,9 +30,9 @@ public:
 
 	const JString&	GetName() const override;
 
-	void	SelectAllWidgets();
-	void	ClearSelection();
-	void	GetSelectedWidgets(JPtrArray<BaseWidget>* list) const;
+	LayoutContainer*	GetLayoutContainer() const;
+
+	void	DataChanged();
 
 protected:
 
@@ -40,15 +43,15 @@ protected:
 
 private:
 
-	LayoutContainer*	itsLayoutContainer;
+	LayoutContainer*	itsLayout;
 	mutable JString		itsDocName;		// so GetName() can return JString&
 
 	JXTextMenu*	itsFileMenu;
-	JXTextMenu*	itsEditMenu;
 	JXTextMenu*	itsPrefsMenu;
 
 // begin JXLayout
 
+	JXMenuBar* itsMenuBar;
 	JXToolBar* itsToolBar;
 
 // end JXLayout
@@ -56,7 +59,7 @@ private:
 private:
 
 	void	BuildWindow();
-	void	ReadFile(std::istream& input);
+	void	ReadFile(std::istream& input, const bool isUndoRedo = false);
 	void	SetLayoutSize(const JCoordinate w, const JCoordinate h);
 
 	static void			ImportFDesignFile(std::istream& input);
@@ -76,10 +79,20 @@ private:
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);
 
-	void	UpdateEditMenu();
-	void	HandleEditMenu(const JIndex index);
-
 	void	HandlePrefsMenu(const JIndex index);
 };
+
+
+/******************************************************************************
+ GetLayoutContainer
+
+ ******************************************************************************/
+
+inline LayoutContainer*
+LayoutDocument::GetLayoutContainer()
+	const
+{
+	return itsLayout;
+}
 
 #endif

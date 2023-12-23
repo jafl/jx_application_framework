@@ -10,17 +10,17 @@
 
 #include <jx-af/jx/JXWidget.h>
 
-class LayoutDocument;
+class LayoutContainer;
 
 class BaseWidget : public JXWidget
 {
 public:
 
-	BaseWidget(LayoutDocument* dir, JXContainer* enclosure,
+	BaseWidget(LayoutContainer* layout, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	BaseWidget(LayoutDocument* dir, std::istream& input, JXContainer* enclosure,
+	BaseWidget(LayoutContainer* layout, std::istream& input, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -29,7 +29,7 @@ public:
 
 	virtual void	StreamOut(std::ostream& output) const;
 
-	LayoutDocument*	GetLayoutDocument();
+	LayoutContainer*	GetLayoutContainer() const;
 
 	const JString&	GetVarName(bool* isMemberData) const;
 	void			SetVarName(const JString& name, const bool member);
@@ -51,24 +51,39 @@ protected:
 						  const JXButtonStates& buttonStates,
 						  const JXKeyModifiers& modifiers) override;
 
+	void	GetSelectionData(JXSelectionData* data,
+							 const JString& id) override;
+	Atom	GetDNDAction(const JXContainer* target,
+						 const JXButtonStates& buttonStates,
+						 const JXKeyModifiers& modifiers) override;
+
 private:
 
-	LayoutDocument*	itsLayoutDoc;
-	JString			itsVarName;		// can be empty
-	bool			itsMemberVarFlag;
-	bool			itsSelectedFlag;
+	LayoutContainer*	itsLayout;
+	JString				itsVarName;		// can be empty
+	bool				itsMemberVarFlag;
+	bool				itsSelectedFlag;
+
+	// used during dragging
+
+	JPoint	itsStartPt;
+	JPoint	itsPrevPt;
+	JSize	itsLastClickCount;
+	bool	itsWaitingForDragFlag;
+	bool	itsClearIfNotDNDFlag;
 };
 
 
 /******************************************************************************
- GetLayoutDocument
+ GetLayoutContainer
 
  ******************************************************************************/
 
-inline LayoutDocument*
-BaseWidget::GetLayoutDocument()
+inline LayoutContainer*
+BaseWidget::GetLayoutContainer()
+	const
 {
-	return itsLayoutDoc;
+	return itsLayout;
 }
 
 /******************************************************************************

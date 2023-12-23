@@ -151,6 +151,7 @@ protected:
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect) = 0;
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame) = 0;
 	virtual void	DrawBackground(JXWindowPainter& p, const JRect& frame) = 0;
+	virtual void	DrawOver(JXWindowPainter& p, const JRect& rect);
 
 	virtual void	HandleMouseEnter();
 	virtual void	HandleMouseHere(const JPoint& pt, const JXKeyModifiers& modifiers);

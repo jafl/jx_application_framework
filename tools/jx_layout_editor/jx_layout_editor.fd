@@ -158,7 +158,7 @@ label: JXMenuBar
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
-name: (menuBar)
+name: itsMenuBar
 callback: 
 argument: 
 
@@ -178,7 +178,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: GetPrefsManager(), kLayoutDocToolBarID, menuBar,
+argument: GetPrefsManager(), kLayoutDocToolBarID, itsMenuBar,
 
 ==============================
 create_the_forms

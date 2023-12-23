@@ -5,7 +5,6 @@
 @jx_layout_editor
 
 .cpp ./code/main
-.cpp ./code/App
 .cpp ./code/globals
 .cpp ./code/PrefsManager
 .cpp ./code/DocumentManager
@@ -14,9 +13,12 @@
 .cpp ./code/AboutDialog
 .cpp ./code/LayoutDocument
 .cpp ./code/LayoutContainer
+.cpp ./code/LayoutSelection
+.cpp ./code/LayoutUndo
 .cpp ./code/BaseWidget
 .cpp ./code/CustomWidget
 .cpp ./code/CoreWidget
 .cpp ./code/TextButton
+.cpp ./code/App
 
 literal: ${LIB_DEPS}

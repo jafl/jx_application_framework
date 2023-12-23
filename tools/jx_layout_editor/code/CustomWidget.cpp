@@ -18,7 +18,7 @@
 
 CustomWidget::CustomWidget
 	(
-	LayoutDocument*		dir,
+	LayoutContainer*	layout,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -28,7 +28,7 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(dir, enclosure, hSizing, vSizing, x,y, w,h),
+	BaseWidget(layout, enclosure, hSizing, vSizing, x,y, w,h),
 	itsCreateFlag(false)
 {
 	CustomWidgetX();
@@ -36,7 +36,7 @@ CustomWidget::CustomWidget
 
 CustomWidget::CustomWidget
 	(
-	LayoutDocument*		dir,
+	LayoutContainer*	layout,
 	const JString&		className,
 	const JString&		args,
 	const bool			create,
@@ -49,7 +49,7 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(dir, enclosure, hSizing, vSizing, x,y, w,h),
+	BaseWidget(layout, enclosure, hSizing, vSizing, x,y, w,h),
 	itsClassName(className),
 	itsCtorArgs(args),
 	itsCreateFlag(create)
@@ -59,7 +59,7 @@ CustomWidget::CustomWidget
 
 CustomWidget::CustomWidget
 	(
-	LayoutDocument*		dir,
+	LayoutContainer*	layout,
 	std::istream&		input,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -70,7 +70,7 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(dir, input, enclosure, hSizing, vSizing, x,y, w,h)
+	BaseWidget(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	input >> itsClassName >> itsCtorArgs >> itsCreateFlag;
 

@@ -4,12 +4,9 @@
 # Do not edit it directly!
 # Any changes you make will be silently overwritten.
 
-MenuTitle::LayoutDocument_Edit "Edit"
+MenuTitle::LayoutContainer_Edit "Edit"
 
 Undo::JX "Undo %k Ctrl-Z %h u"
 Redo::JX "Redo %k Ctrl-Shift-Z %h r"
-Cut::JX "Cut %k Ctrl-X %h t"
-Copy::JX "Copy %k Ctrl-C %h c"
-Paste::JX "Paste %k Ctrl-V %h p"
 Clear::JX "Delete %h l"
 SelectAll::JX "Select all %k Ctrl-A %h a"

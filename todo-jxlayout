@@ -1,9 +1,12 @@
-show selection border for TextButtons
+drag:
+	second selection target: frames & mouse offset
+	remove selected widgets, replace with frames
+	cancel: put back where they were
+	drop: place at last frame location
+
+	in other window, still need to show frames & deserialize to the drop location
 
 -----
-
-select - drag rectangle
-add to selection - shift-drag rectangle
 
 create widget by cmd-dragging rectangle
 	after release, select widget type and then create it - sets correct container

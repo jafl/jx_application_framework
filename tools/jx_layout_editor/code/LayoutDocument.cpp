@@ -130,7 +130,8 @@ LayoutDocument::LayoutDocument
 	const bool		onDisk
 	)
 	:
-	JXFileDocument(JXGetApplication(), fullName, onDisk, false, ".jxl")
+	JXFileDocument(JXGetApplication(), fullName, onDisk, false, ".jxl"),
+	itsLayout(nullptr)
 {
 	BuildWindow();
 }
@@ -157,7 +158,6 @@ LayoutDocument::~LayoutDocument()
 
 #include "main_window_icon.xpm"
 #include "LayoutDocument-File.h"
-#include "LayoutDocument-Edit.h"
 #include "LayoutDocument-Preferences.h"
 
 void
@@ -167,13 +167,13 @@ LayoutDocument::BuildWindow()
 
 	auto* window = jnew JXWindow(this, 500,300, JString::empty);
 
-	auto* menuBar =
+	itsMenuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
-	assert( menuBar != nullptr );
+	assert( itsMenuBar != nullptr );
 
 	itsToolBar =
-		jnew JXToolBar(GetPrefsManager(), kLayoutDocToolBarID, menuBar, window,
+		jnew JXToolBar(GetPrefsManager(), kLayoutDocToolBarID, itsMenuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
 	assert( itsToolBar != nullptr );
 
@@ -187,15 +187,15 @@ LayoutDocument::BuildWindow()
 	JXImage* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);
 
-	itsLayoutContainer =
-		jnew LayoutContainer(this, itsToolBar->GetWidgetEnclosure(),
+	itsLayout =
+		jnew LayoutContainer(this, itsMenuBar, itsToolBar->GetWidgetEnclosure(),
 							 JXWidget::kHElastic,JXWidget::kVElastic,
 							 0,0, 100,100);
-	itsLayoutContainer->FitToEnclosure();
+	itsLayout->FitToEnclosure();
 
 	// menus
 
-	itsFileMenu = menuBar->PrependTextMenu(JGetString("MenuTitle::LayoutDocument_File"));
+	itsFileMenu = itsMenuBar->PrependTextMenu(JGetString("MenuTitle::LayoutDocument_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
@@ -203,23 +203,15 @@ LayoutDocument::BuildWindow()
 		&LayoutDocument::HandleFileMenu);
 	ConfigureFileMenu(itsFileMenu);
 
-	jnew FileHistoryMenu(itsFileMenu, kRecentMenuCmd, menuBar);
+	jnew FileHistoryMenu(itsFileMenu, kRecentMenuCmd, itsMenuBar);
 
-	itsEditMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::LayoutDocument_Edit"));
-	itsEditMenu->SetMenuItems(kEditMenuStr);
-	itsEditMenu->SetUpdateAction(JXMenu::kDisableAll);
-	itsEditMenu->AttachHandlers(this,
-		&LayoutDocument::UpdateEditMenu,
-		&LayoutDocument::HandleEditMenu);
-	ConfigureEditMenu(itsEditMenu);
-
-	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::LayoutDocument_Preferences"));
+	itsPrefsMenu = itsMenuBar->AppendTextMenu(JGetString("MenuTitle::LayoutDocument_Preferences"));
 	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &LayoutDocument::HandlePrefsMenu);
 	ConfigurePreferencesMenu(itsPrefsMenu);
 
-	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "MainHelp");
+	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(itsMenuBar, "MainHelp");
 
 	// must be done after creating widgets
 
@@ -231,14 +223,8 @@ LayoutDocument::BuildWindow()
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsFileMenu, kSaveCmd);
 		itsToolBar->AppendButton(itsFileMenu, kSaveAllCmd);
-		itsToolBar->NewGroup();
-		itsToolBar->AppendButton(itsEditMenu, kUndoCmd);
-		itsToolBar->AppendButton(itsEditMenu, kRedoCmd);
-		itsToolBar->NewGroup();
-		itsToolBar->AppendButton(itsEditMenu, kCutCmd);
-		itsToolBar->AppendButton(itsEditMenu, kCopyCmd);
-		itsToolBar->AppendButton(itsEditMenu, kPasteCmd);
 
+		itsLayout->AppendEditMenuToToolBar(itsToolBar);
 		GetApplication()->AppendHelpMenuToToolBar(itsToolBar, helpMenu);
 	}
 }
@@ -269,7 +255,8 @@ LayoutDocument::GetName()
 void
 LayoutDocument::ReadFile
 	(
-	std::istream& input
+	std::istream&	input,
+	const bool		isUndoRedo
 	)
 {
 	input.ignore(strlen(kFileSignature));
@@ -278,12 +265,7 @@ LayoutDocument::ReadFile
 	input >> vers;
 	assert( vers <= kCurrentFileVersion );
 
-	jdelete itsLayoutContainer;
-	itsLayoutContainer =
-		jnew LayoutContainer(this, itsToolBar->GetWidgetEnclosure(),
-							 JXWidget::kHElastic,JXWidget::kVElastic,
-							 0,0, 100,100);
-	itsLayoutContainer->FitToEnclosure();
+	itsLayout->Clear(isUndoRedo);
 
 	JCoordinate w,h;
 	input >> w >> h;
@@ -307,7 +289,7 @@ LayoutDocument::ReadFile
 		input >> enclosureIndex >> className >> hs >> vs >> frame;
 
 		JXWidget* e =
-			enclosureIndex == 0 ? itsLayoutContainer :
+			enclosureIndex == 0 ? itsLayout :
 			widgetList.GetItem(enclosureIndex);
 
 		const JXWidget::HSizingOption hS = (JXWidget::HSizingOption) hs;
@@ -321,12 +303,12 @@ LayoutDocument::ReadFile
 		JXWidget* widget = nullptr;
 		if (className == "TextButton")
 		{
-			widget = jnew TextButton(this, input, e, hS,vS, x,y,w,h);
+			widget = jnew TextButton(itsLayout, input, e, hS,vS, x,y,w,h);
 		}
 		else
 		{
 			assert( className == "CustomWidget" );
-			widget = jnew CustomWidget(this, input, e, hS,vS, x,y,w,h);
+			widget = jnew CustomWidget(itsLayout, input, e, hS,vS, x,y,w,h);
 		}
 
 		widgetList.Append(widget);
@@ -349,20 +331,20 @@ LayoutDocument::WriteTextFile
 	const
 {
 	output << kFileSignature << ' ' << kCurrentFileVersion << std::endl;
-	output << itsLayoutContainer->GetApertureWidth() << std::endl;
-	output << itsLayoutContainer->GetApertureHeight() << std::endl;
+	output << itsLayout->GetApertureWidth() << std::endl;
+	output << itsLayout->GetApertureHeight() << std::endl;
 
 	JPtrArray<JXWidget> widgetList(JPtrArrayT::kForgetAll);
 
-	itsLayoutContainer->ForEach([&output, &widgetList](const JXContainer* obj)
+	itsLayout->ForEach([&output, &widgetList](const JXContainer* obj)
 	{
-		const BaseWidget* widget = dynamic_cast<const BaseWidget*>(obj);
+		auto* widget = dynamic_cast<const BaseWidget*>(obj);
 		if (widget == nullptr)
 		{
 			return;		// used for rendering
 		}
 
-		const JXWidget* encl = dynamic_cast<const JXWidget*>(obj->GetEnclosure());
+		auto* encl = dynamic_cast<const JXWidget*>(obj->GetEnclosure());
 		assert( encl != nullptr );
 
 		JIndex enclosureIndex;
@@ -402,6 +384,157 @@ LayoutDocument::DiscardChanges()
 	else
 	{
 		JGetUserNotification()->ReportError(JGetString("UnknownFile::LayoutDocument"));
+	}
+}
+
+/******************************************************************************
+ DataChanged
+
+ ******************************************************************************/
+
+void
+LayoutDocument::DataChanged()
+{
+	if (itsLayout != nullptr && itsLayout->IsAtLastSaveLocation())
+	{
+		DataReverted(true);
+	}
+	else
+	{
+		DataModified();
+	}
+}
+
+/******************************************************************************
+ SetLayoutSize
+
+ ******************************************************************************/
+
+void
+LayoutDocument::SetLayoutSize
+	(
+	const JCoordinate w,
+	const JCoordinate h
+	)
+{
+	itsLayout->SetIgnoreResize(true);
+
+	GetWindow()->AdjustSize(
+		w - itsLayout->GetApertureWidth(),
+		h - itsLayout->GetApertureHeight());
+
+	itsLayout->SetIgnoreResize(false);
+}
+
+/******************************************************************************
+ UpdateFileMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutDocument::UpdateFileMenu()
+{
+	itsFileMenu->SetItemEnabled(kSaveCmd, NeedsSave());
+	itsFileMenu->SetItemEnabled(kRevertCmd, CanRevert());
+	itsFileMenu->SetItemEnabled(kSaveAllCmd, JXGetDocumentManager()->DocumentsNeedSave());
+
+	itsFileMenu->SetItemEnabled(kShowInFileMgrCmd, ExistsOnDisk());
+}
+
+/******************************************************************************
+ HandleFileMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutDocument::HandleFileMenu
+	(
+	const JIndex index
+	)
+{
+	if (index == kNewCmd)
+	{
+		LayoutDocument* doc;
+		Create(&doc);
+	}
+	else if (index == kOpenCmd)
+	{
+		MDIServer::ChooseFiles();
+	}
+
+	else if (index == kSaveCmd)
+	{
+		SaveInCurrentFile();
+	}
+	else if (index == kSaveAsCmd)
+	{
+		bool onDisk;
+		const JString fullName = GetFullName(&onDisk);
+		if (onDisk)
+		{
+			GetDocumentManager()->AddToFileHistoryMenu(fullName);
+		}
+
+		SaveInNewFile();
+	}
+	else if (index == kSaveCopyAsCmd)
+	{
+		JString fullName;
+		if (SaveCopyInNewFile(JString::empty, &fullName))
+		{
+			GetDocumentManager()->AddToFileHistoryMenu(fullName);
+		}
+	}
+	else if (index == kRevertCmd)
+	{
+		RevertToSaved();
+	}
+	else if (index == kSaveAllCmd)
+	{
+		JXGetDocumentManager()->SaveAllFileDocuments(true);
+	}
+
+	else if (index == kShowInFileMgrCmd)
+	{
+		bool onDisk;
+		const JString fullName = GetFullName(&onDisk);
+		assert( onDisk );
+		JXGetWebBrowser()->ShowFileLocation(fullName);
+	}
+
+	else if (index == kCloseCmd)
+	{
+		Close();
+	}
+
+	else if (index == kQuitCmd)
+	{
+		GetApplication()->Quit();
+	}
+}
+
+/******************************************************************************
+ HandlePrefsMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutDocument::HandlePrefsMenu
+	(
+	const JIndex index
+	)
+{
+	if (index == kEditToolBarCmd)
+	{
+		itsToolBar->Edit();
+	}
+	else if (index == kFilePrefsCmd)
+	{
+		JXGetWebBrowser()->EditPrefs();
+	}
+	else if (index == kEditMacWinPrefsCmd)
+	{
+		JXMacWinPrefsDialog::EditPrefs();
 	}
 }
 
@@ -597,7 +730,7 @@ LayoutDocument::ImportFDesignLayout
 		}
 		else
 		{
-			enclosure = itsLayoutContainer;
+			enclosure = itsLayout;
 		}
 
 		JXWidget::HSizingOption hS;
@@ -612,7 +745,7 @@ LayoutDocument::ImportFDesignLayout
 		BaseWidget* widget;
 		if (flClass == "FL_BUTTON")
 		{
-			widget = jnew TextButton(this, label, enclosure, hS,vS, x,y,w,h);
+			widget = jnew TextButton(itsLayout, label, enclosure, hS,vS, x,y,w,h);
 
 			if (flType == "FL_RETURN_BUTTON")
 			{
@@ -623,7 +756,7 @@ LayoutDocument::ImportFDesignLayout
 		{
 			SplitFDesignClassNameAndArgs(label, &className, &argList);
 
-			widget = jnew CustomWidget(this, className, argList, false,
+			widget = jnew CustomWidget(itsLayout, className, argList, false,
 										enclosure, hS,vS, x,y,w,h);
 		}
 
@@ -853,245 +986,4 @@ LayoutDocument::SplitFDesignClassNameAndArgs
 	}
 	name->TrimWhitespace();
 	args->Clear();
-}
-
-/******************************************************************************
- SetLayoutSize
-
- ******************************************************************************/
-
-void
-LayoutDocument::SetLayoutSize
-	(
-	const JCoordinate w,
-	const JCoordinate h
-	)
-{
-	GetWindow()->AdjustSize(
-		w - itsLayoutContainer->GetApertureWidth(),
-		h - itsLayoutContainer->GetApertureHeight());
-}
-
-/******************************************************************************
- GetSelectedWidgets
-
- ******************************************************************************/
-
-void
-LayoutDocument::GetSelectedWidgets
-	(
-	JPtrArray<BaseWidget>* list
-	)
-	const
-{
-	list->CleanOut();
-	list->SetCleanUpAction(JPtrArrayT::kForgetAll);
-
-	itsLayoutContainer->ForEach([&list](JXContainer* obj)
-	{
-		BaseWidget* widget = dynamic_cast<BaseWidget*>(obj);
-		if (widget != nullptr && widget->IsSelected())
-		{
-			list->Append(widget);
-		}
-	},
-	true);
-}
-
-/******************************************************************************
- SelectAllWidgets
-
- ******************************************************************************/
-
-void
-LayoutDocument::SelectAllWidgets()
-{
-	itsLayoutContainer->ForEach([](JXContainer* obj)
-	{
-		BaseWidget* widget = dynamic_cast<BaseWidget*>(obj);
-		if (widget != nullptr)
-		{
-			widget->SetSelected(true);
-		}
-	},
-	true);
-}
-
-/******************************************************************************
- ClearSelection
-
- ******************************************************************************/
-
-void
-LayoutDocument::ClearSelection()
-{
-	itsLayoutContainer->ForEach([](JXContainer* obj)
-	{
-		BaseWidget* widget = dynamic_cast<BaseWidget*>(obj);
-		if (widget != nullptr)
-		{
-			widget->SetSelected(false);
-		}
-	},
-	true);
-}
-
-/******************************************************************************
- UpdateFileMenu (private)
-
- ******************************************************************************/
-
-void
-LayoutDocument::UpdateFileMenu()
-{
-	itsFileMenu->SetItemEnabled(kSaveCmd, NeedsSave());
-	itsFileMenu->SetItemEnabled(kRevertCmd, CanRevert());
-	itsFileMenu->SetItemEnabled(kSaveAllCmd, JXGetDocumentManager()->DocumentsNeedSave());
-
-	itsFileMenu->SetItemEnabled(kShowInFileMgrCmd, ExistsOnDisk());
-}
-
-/******************************************************************************
- HandleFileMenu (private)
-
- ******************************************************************************/
-
-void
-LayoutDocument::HandleFileMenu
-	(
-	const JIndex index
-	)
-{
-	if (index == kNewCmd)
-	{
-		LayoutDocument* doc;
-		Create(&doc);
-	}
-	else if (index == kOpenCmd)
-	{
-		MDIServer::ChooseFiles();
-	}
-
-	else if (index == kSaveCmd)
-	{
-		SaveInCurrentFile();
-	}
-	else if (index == kSaveAsCmd)
-	{
-		bool onDisk;
-		const JString fullName = GetFullName(&onDisk);
-		if (onDisk)
-		{
-			GetDocumentManager()->AddToFileHistoryMenu(fullName);
-		}
-
-		SaveInNewFile();
-	}
-	else if (index == kSaveCopyAsCmd)
-	{
-		JString fullName;
-		if (SaveCopyInNewFile(JString::empty, &fullName))
-		{
-			GetDocumentManager()->AddToFileHistoryMenu(fullName);
-		}
-	}
-	else if (index == kRevertCmd)
-	{
-		RevertToSaved();
-	}
-	else if (index == kSaveAllCmd)
-	{
-		JXGetDocumentManager()->SaveAllFileDocuments(true);
-	}
-
-	else if (index == kShowInFileMgrCmd)
-	{
-		bool onDisk;
-		const JString fullName = GetFullName(&onDisk);
-		assert( onDisk );
-		JXGetWebBrowser()->ShowFileLocation(fullName);
-	}
-
-	else if (index == kCloseCmd)
-	{
-		Close();
-	}
-
-	else if (index == kQuitCmd)
-	{
-		GetApplication()->Quit();
-	}
-}
-
-/******************************************************************************
- UpdateEditMenu (private)
-
- ******************************************************************************/
-
-void
-LayoutDocument::UpdateEditMenu()
-{
-	itsEditMenu->EnableItem(kSelectAllCmd);
-}
-
-/******************************************************************************
- HandleEditMenu (private)
-
- ******************************************************************************/
-
-void
-LayoutDocument::HandleEditMenu
-	(
-	const JIndex index
-	)
-{
-	if (index == kUndoCmd)
-	{
-	}
-	else if (index == kRedoCmd)
-	{
-	}
-
-	else if (index == kCutCmd)
-	{
-	}
-	else if (index == kCopyCmd)
-	{
-	}
-	else if (index == kPasteCmd)
-	{
-	}
-	else if (index == kClearCmd)
-	{
-	}
-
-	else if (index == kSelectAllCmd)
-	{
-		SelectAllWidgets();
-	}
-}
-
-/******************************************************************************
- HandlePrefsMenu (private)
-
- ******************************************************************************/
-
-void
-LayoutDocument::HandlePrefsMenu
-	(
-	const JIndex index
-	)
-{
-	if (index == kEditToolBarCmd)
-	{
-		itsToolBar->Edit();
-	}
-	else if (index == kFilePrefsCmd)
-	{
-		JXGetWebBrowser()->EditPrefs();
-	}
-	else if (index == kEditMacWinPrefsCmd)
-	{
-		JXMacWinPrefsDialog::EditPrefs();
-	}
 }

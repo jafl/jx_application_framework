@@ -16,17 +16,17 @@ class CustomWidget : public BaseWidget
 
 public:
 
-	CustomWidget(LayoutDocument* dir, JXContainer* enclosure,
+	CustomWidget(LayoutContainer* layout, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	CustomWidget(LayoutDocument* dir,
+	CustomWidget(LayoutContainer* layout,
 				const JString& className, const JString& args, const bool create,
 				JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	CustomWidget(LayoutDocument* dir, std::istream& input, JXContainer* enclosure,
+	CustomWidget(LayoutContainer* layout, std::istream& input, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);

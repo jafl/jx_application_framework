@@ -1,6 +1,6 @@
 jx_menu_editor 0
 670 300
-"LayoutDocument"
+"LayoutContainer"
 "Edit"
 'e
 40
@@ -32,36 +32,6 @@ jx_menu_editor 0
 "Redo::JX"
 "kRedoCmd"
 1
-
-1
-0
-1 "jx_edit_cut.xpm"
-"Cut"
-"Ctrl-X"
-'t
-"Cut::JX"
-"kCutCmd"
-0
-
-1
-0
-1 "jx_edit_copy.xpm"
-"Copy"
-"Ctrl-C"
-'c
-"Copy::JX"
-"kCopyCmd"
-0
-
-1
-0
-1 "jx_edit_paste.xpm"
-"Paste"
-"Ctrl-V"
-'p
-"Paste::JX"
-"kPasteCmd"
-0
 
 1
 0

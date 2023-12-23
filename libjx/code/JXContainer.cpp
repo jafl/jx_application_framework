@@ -328,6 +328,12 @@ JXContainer::DrawAll
 
 	if (!theDebugFTCFlag && visRegion != nullptr && XEmptyRegion(visRegion))
 	{
+		XRectangle xFrameRect = JXJToXRect(frameRectG);
+		Region borderRegion   = JXRectangleRegion(&xFrameRect);
+		p.Reset(clipRectG, borderRegion);
+		DrawOver(p, GlobalToLocal(frameRectG));
+		XDestroyRegion(borderRegion);
+
 		// If nothing else is visible, we can quit now.
 
 		XDestroyRegion(visRegion);
@@ -371,6 +377,14 @@ JXContainer::DrawAll
 			p.SetDefaultClipRegion(origDefClipRegion);
 			XDestroyRegion(origDefClipRegion);
 		}
+
+		// enable drawing over contained widgets
+
+		XRectangle xFrameRect = JXJToXRect(frameRectG);
+		Region borderRegion   = JXRectangleRegion(&xFrameRect);
+		p.Reset(clipRectG, borderRegion);
+		DrawOver(p, GlobalToLocal(frameRectG));
+		XDestroyRegion(borderRegion);
 	}
 
 	if (ftcRootCellList != nullptr)	// overlay FTC on top of window contents
@@ -392,6 +406,22 @@ JXContainer::DrawAll
 	{
 		XDestroyRegion(visRegion);
 	}
+}
+
+/******************************************************************************
+ DrawOver (virtual protected)
+
+	Allows drawing over enclosed widgets
+
+ ******************************************************************************/
+
+void
+JXContainer::DrawOver
+	(
+	JXWindowPainter&	p,
+	const JRect&		rect
+	)
+{
 }
 
 /******************************************************************************

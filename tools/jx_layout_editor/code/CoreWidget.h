@@ -14,11 +14,11 @@ class CoreWidget : public BaseWidget
 {
 public:
 
-	CoreWidget(LayoutDocument* dir, JXContainer* enclosure,
+	CoreWidget(LayoutContainer* layout, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	CoreWidget(LayoutDocument* dir, std::istream& input, JXContainer* enclosure,
+	CoreWidget(LayoutContainer* layout, std::istream& input, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -29,6 +29,7 @@ protected:
 
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	DrawOver(JXWindowPainter& p, const JRect& rect) override;
 
 	bool	StealMouse(const int eventType, const JPoint& ptG,
 					   const JXMouseButton button,

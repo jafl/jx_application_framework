@@ -17,16 +17,16 @@ class TextButton : public CoreWidget
 {
 public:
 
-	TextButton(LayoutDocument* dir, JXContainer* enclosure,
+	TextButton(LayoutContainer* layout, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	TextButton(LayoutDocument* dir, const JString& label,
+	TextButton(LayoutContainer* layout, const JString& label,
 				JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	TextButton(LayoutDocument* dir, std::istream& input, JXContainer* enclosure,
+	TextButton(LayoutContainer* layout, std::istream& input, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);

@@ -8,10 +8,6 @@ T
 F
 "./code/main.cpp"
 T
-2 "App.cpp"
-F
-"./code/App.cpp"
-T
 2 "App-Help.jxm"
 F
 "./code/App-Help.jxm"
@@ -47,9 +43,29 @@ T
 F
 "./code/LayoutDocument.cpp"
 T
+2 "LayoutDocument-File.jxm"
+F
+"./code/LayoutDocument-File.jxm"
+T
+2 "LayoutDocument-Preferences.jxm"
+F
+"./code/LayoutDocument-Preferences.jxm"
+T
 2 "LayoutContainer.cpp"
 F
 "./code/LayoutContainer.cpp"
+T
+2 "LayoutContainer-Edit.jxm"
+F
+"./code/LayoutContainer-Edit.jxm"
+T
+2 "LayoutSelection.cpp"
+F
+"./code/LayoutSelection.cpp"
+T
+2 "LayoutUndo.cpp"
+F
+"./code/LayoutUndo.cpp"
 F
 T
 1 "widgets"
@@ -95,6 +111,10 @@ T
 2 "help.html"
 F
 "./release/doc/help.html"
+T
+2 "App.cpp"
+F
+"./code/App.cpp"
 F
 F
 # tasks
