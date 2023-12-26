@@ -14,14 +14,7 @@ static const JUtf8Byte* kHelpMenuStr =
 "|* %i __Credits::App"
 ;
 
-enum {
-	kHelpAboutCmd=1,
-	kHelpTOCCmd,
-	kHelpOverviewCmd,
-	kHelpWindowCmd,
-	kHelpChangeLogCmd,
-	kHelpCreditsCmd,
-};
+#include "App-Help-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_help_toc
 #define _H_jx_af_image_jx_jx_help_toc
@@ -33,7 +26,7 @@ enum {
 #endif
 
 static void ConfigureHelpMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
 		menu->SetShortcuts(JString("#h", JString::kNoCopy));
 	}
 	menu->SetItemImage(kHelpTOCCmd + offset, jx_help_toc);

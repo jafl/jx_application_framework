@@ -137,6 +137,7 @@ MenuTable::MenuTable
 	BuildIconMenu();
 
 	ListenTo(itsEditMenu);
+	ListenTo(this);
 
 	// data
 
@@ -920,8 +921,30 @@ MenuTable::Receive
 
 	else
 	{
+		if (message.Is(JTable::kColWidthChanged) ||
+			message.Is(JTable::kAllColWidthsChanged))
+		{
+			itsDoc->DataModified();
+		}
+
 		JXEditTable::Receive(sender, message);
 	}
+}
+
+/******************************************************************************
+ EnclosingBoundsResized (virtual protected)
+
+ ******************************************************************************/
+
+void
+MenuTable::EnclosingBoundsResized
+	(
+	const JCoordinate dwb,
+	const JCoordinate dhb
+	)
+{
+	itsDoc->DataModified();
+	JXEditTable::EnclosingBoundsResized(dwb,dhb);
 }
 
 /******************************************************************************
