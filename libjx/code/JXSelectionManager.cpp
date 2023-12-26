@@ -64,12 +64,10 @@ JXSelectionManager::JXSelectionManager
 	(
 	JXDisplay* display
 	)
+	:
+	itsDisplay(display)
 {
-	itsDisplay = display;
-
-	itsDataList = jnew JPtrArray<JXSelectionData>(JPtrArrayT::kDeleteAll);
-	assert( itsDataList != nullptr );
-
+	itsDataList         = jnew JPtrArray<JXSelectionData>(JPtrArrayT::kDeleteAll);
 	itsMaxDataChunkSize = XMaxRequestSize(*display) * 4/5;
 
 	itsReceivedAllocErrorFlag  = false;

@@ -545,7 +545,7 @@ JXContainer::GetFrame()		// enclosure coordinates
 {
 	if (itsEnclosure != nullptr)
 	{
-		return (itsEnclosure->GlobalToLocal(GetFrameGlobal()));
+		return itsEnclosure->GlobalToLocal(GetFrameGlobal());
 	}
 	else
 	{
@@ -585,7 +585,7 @@ inline JRect
 JXContainer::GetAperture()
 	const
 {
-	return (GlobalToLocal(GetApertureGlobal()));
+	return GlobalToLocal(GetApertureGlobal());
 }
 
 inline JCoordinate

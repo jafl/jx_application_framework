@@ -166,8 +166,8 @@ public:
 		)
 		const
 	{
-		return left <= x && x < right &&
-								  top  <= y && y < bottom;
+		return (left <= x && x < right &&
+				top  <= y && y < bottom);
 	};
 
 	bool
@@ -187,8 +187,8 @@ public:
 		)
 		const
 	{
-		return left <= r.left && r.left <= r.right && r.right <= right &&
-					top <= r.top && r.top <= r.bottom && r.bottom <= bottom;
+		return (left <= r.left && r.left <= r.right && r.right <= right &&
+				top <= r.top && r.top <= r.bottom && r.bottom <= bottom);
 	};
 
 	void

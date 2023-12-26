@@ -50,8 +50,8 @@ JXDockDragData::AddTypes
 	const Atom selectionName
 	)
 {
-	AddType((JXGetDockManager())->GetDNDMinSizeAtom());
-	AddType((JXGetDockManager())->GetDNDWindowAtom());
+	AddType(JXGetDockManager()->GetDNDMinSizeAtom());
+	AddType(JXGetDockManager()->GetDNDWindowAtom());
 }
 
 /******************************************************************************
@@ -70,28 +70,28 @@ JXDockDragData::ConvertData
 	)
 	const
 {
-	if (requestType == (JXGetDockManager())->GetDNDMinSizeAtom())
+	if (requestType == JXGetDockManager()->GetDNDMinSizeAtom())
 	{
 		*returnType   = XA_POINT;
 		*bitsPerBlock = 16;
 		*dataLength   = sizeof(XPoint);
-		*data         = jnew unsigned char[ *dataLength ];
+		*data         = jnew_allow_null unsigned char[ *dataLength ];
 		if (*data != nullptr)
 		{
 			const JPoint minSize = itsWindow->GetMinSize();
-			auto* xpt          = (XPoint*) *data;
+			auto* xpt            = (XPoint*) *data;
 			xpt->x               = JMin(minSize.x, SHRT_MAX);
 			xpt->y               = JMin(minSize.y, SHRT_MAX);
 			return true;
 		}
 	}
 
-	else if (requestType == (JXGetDockManager())->GetDNDWindowAtom())
+	else if (requestType == JXGetDockManager()->GetDNDWindowAtom())
 	{
 		*returnType   = XA_WINDOW;
 		*bitsPerBlock = 32;
 		*dataLength   = sizeof(Window);
-		*data         = jnew unsigned char[ *dataLength ];
+		*data         = jnew_allow_null unsigned char[ *dataLength ];
 		if (*data != nullptr)
 		{
 			*((Window*) *data) = itsWindow->GetXWindow();

@@ -68,7 +68,6 @@ JXSelectionData::JXSelectionDataX()
 	itsEndTime       = CurrentTime;
 
 	itsTypeList = jnew JArray<Atom>;
-	assert( itsTypeList != nullptr );
 	itsTypeList->SetCompareFunction(CompareAtoms);
 
 	itsDataSourceID = nullptr;
@@ -220,7 +219,7 @@ JXSelectionData::Resolve()
 	Handles certain types and passes everything else off to ConvertData().
 
 	When adding special types to this function, remember to update
-	SetSelectionInfo() to add the jnew types.
+	SetSelectionInfo() to add the new types.
 
  ******************************************************************************/
 
@@ -248,7 +247,7 @@ JXSelectionData::Convert
 		*bitsPerBlock = 32;		// XXXATOM: sizeof(Atom)*8; -- fails on 64-bit systems
 		*dataLength   = sizeof(Atom)*atomCount;
 
-		*data = jnew unsigned char [ *dataLength ];
+		*data = jnew_allow_null unsigned char [ *dataLength ];
 		if (*data == nullptr)
 		{
 			return false;
@@ -271,7 +270,7 @@ JXSelectionData::Convert
 		*bitsPerBlock = 32;	// sizeof(Time)*8; -- fails on 64-bit systems
 		*dataLength   = sizeof(Time);
 
-		*data = jnew unsigned char [ *dataLength ];
+		*data = jnew_allow_null unsigned char [ *dataLength ];
 		if (*data == nullptr)
 		{
 			return false;

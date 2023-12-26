@@ -154,7 +154,6 @@ JXTextSelection::SetData
 	else if (style != nullptr && itsStyle == nullptr)
 	{
 		itsStyle = jnew JRunArray<JFont>(*style);
-		assert( itsStyle != nullptr );
 	}
 	else
 	{
@@ -282,7 +281,7 @@ JXTextSelection::ConvertData
 	{
 		*returnType = requestType;
 		*dataLength = itsText->GetByteCount();
-		*data       = jnew unsigned char[ *dataLength ];
+		*data       = jnew_allow_null unsigned char[ *dataLength ];
 		if (*data != nullptr)
 		{
 			memcpy(*data, itsText->GetRawBytes(), *dataLength);
@@ -301,7 +300,7 @@ JXTextSelection::ConvertData
 		const std::string s = dataStream.str();
 		*returnType         = itsStyledText0XAtom;
 		*dataLength         = s.length();
-		*data               = jnew unsigned char[ *dataLength ];
+		*data               = jnew_allow_null unsigned char[ *dataLength ];
 		if (*data != nullptr)
 		{
 			memcpy(*data, s.data(), *dataLength);

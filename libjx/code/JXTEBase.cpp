@@ -404,8 +404,8 @@ JXTEBase::TEBeginDND()
 
 	auto* data = jnew JXTextSelection(this, kSelectionDataID);
 
-	return BeginDND(*(itsDNDDragInfo->pt), *(itsDNDDragInfo->buttonStates),
-					*(itsDNDDragInfo->modifiers), data);
+	return BeginDND(*itsDNDDragInfo->pt, *itsDNDDragInfo->buttonStates,
+					*itsDNDDragInfo->modifiers, data);
 }
 
 /******************************************************************************
@@ -416,7 +416,7 @@ JXTEBase::TEBeginDND()
 void
 JXTEBase::DNDFinish
 	(
-	const bool		isDrop,
+	const bool			isDrop,
 	const JXContainer*	target
 	)
 {
@@ -516,10 +516,8 @@ JXTEBase::GetSelectionData
 		auto* textData = dynamic_cast<JXTextSelection*>(data);
 		assert( textData != nullptr );
 
-		auto* text = jnew JString;
-
+		auto* text  = jnew JString;
 		auto* style = jnew JRunArray<JFont>;
-		assert( style != nullptr );
 
 		const bool ok = GetSelection(text, style);
 		assert( ok );
@@ -1457,8 +1455,6 @@ JXTEBase::TEUpdateClipboard
 	const
 {
 	auto* data = jnew JXTextSelection(GetDisplay(), text, &style);
-	assert( data != nullptr );
-
 	if (!GetSelectionManager()->SetData(kJXClipboardName, data))
 	{
 		JGetUserNotification()->ReportError(JGetString("UnableToCopy::JXTEBase"));
@@ -2771,7 +2767,7 @@ JXTEBase::GetPSPrintFileName()
 {
 	if (itsPSPrintName == nullptr)
 	{
-		auto* me = const_cast<JXTEBase*>(this);
+		auto* me           = const_cast<JXTEBase*>(this);
 		me->itsPSPrintName = jnew JString;
 	}
 
@@ -2898,7 +2894,7 @@ JXTEBase::GetPTPrintFileName()
 {
 	if (itsPTPrintName == nullptr)
 	{
-		auto* me = const_cast<JXTEBase*>(this);
+		auto* me           = const_cast<JXTEBase*>(this);
 		me->itsPTPrintName = jnew JString;
 	}
 
@@ -2970,8 +2966,6 @@ JXTEBase::AskForLine()
 	JIndex lineIndex = GetLineForChar(GetInsertionIndex().charIndex);
 
 	auto* dlog = jnew JXGoToLineDialog(lineIndex, GetLineCount());
-	assert( dlog != nullptr );
-
 	if (dlog->DoDialog())
 	{
 		bool physicalLineIndexFlag;

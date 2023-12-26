@@ -119,7 +119,7 @@ JXDSSSelection::ConvertData
 
 		*returnType = XA_STRING;
 		*dataLength = 1;
-		*data = jnew unsigned char[ *dataLength ];
+		*data = jnew_allow_null unsigned char[ *dataLength ];
 		if (*data != nullptr)
 		{
 			**data = 0x45;	// E

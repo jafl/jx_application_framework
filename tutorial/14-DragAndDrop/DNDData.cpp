@@ -64,7 +64,6 @@ DNDData::SetData
 	if (itsPoints == nullptr)
 	{
 		itsPoints = jnew JArray<JPoint>;
-		assert(itsPoints != nullptr);
 	}
 
 	// if the data had been set previously, we want to remove all of
@@ -132,7 +131,7 @@ DNDData::ConvertData
 		// The following code gives X the data in the form that it needs.
 		*returnType = itsLinesXAtom;
 		*dataLength = itsBuffer->GetByteCount();
-		*data = jnew unsigned char[ *dataLength ];
+		*data = jnew_allow_null unsigned char[ *dataLength ];
 		if (*data != nullptr)
 		{
 			memcpy(*data, itsBuffer->GetRawBytes(), *dataLength);
@@ -197,7 +196,6 @@ DNDData::CreateBuffer()
 		}
 
 		// Create our buffer with the character pointer.
-		th->itsBuffer  = jnew JString(os.str());
-		assert( th->itsBuffer != nullptr );
+		th->itsBuffer = jnew JString(os.str());
 	}
 }

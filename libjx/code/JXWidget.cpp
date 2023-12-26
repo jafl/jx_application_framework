@@ -1260,8 +1260,6 @@ JXWidget::CreateDragPainter
 	assert( visible );
 
 	itsDragPainter = jnew JXDragPainter(GetDisplay(), GetWindow(), clipRect);
-	assert( itsDragPainter != nullptr );
-
 	itsDragPainter->SetOrigin(itsBoundsG.left, itsBoundsG.top);
 	itsDragPainter->ResetClipRect();	// do this last so clipRect matches with new origin
 	return itsDragPainter;
@@ -1379,7 +1377,7 @@ JXWidget::GetSelectionData
 void
 JXWidget::DNDFinish
 	(
-	const bool		isDrop,
+	const bool			isDrop,
 	const JXContainer*	target
 	)
 {

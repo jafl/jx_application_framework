@@ -105,7 +105,6 @@ JXFileSelection::SetData
 	if (itsList == nullptr)
 	{
 		itsList = jnew JDCCPtrArray<JString>(list, JPtrArrayT::kDeleteAll);
-		assert( itsList != nullptr );
 	}
 	else
 	{

@@ -52,11 +52,10 @@ DNDWidget::DNDWidget
 	// See JCollection.h, JList.h, and JArray.h for functionality
 
 	itsPoints = jnew JArray<JPoint>;
-	assert( itsPoints != nullptr );
 
 	// We need to register the drag X Atom with the display. We will need
 	// to keep a copy of the atom to check in WillAcceptDrop.
-	itsLinesXAtom	= GetDisplay()->RegisterXAtom(DNDData::GetDNDAtomName());
+	itsLinesXAtom = GetDisplay()->RegisterXAtom(DNDData::GetDNDAtomName());
 }
 
 /******************************************************************************
