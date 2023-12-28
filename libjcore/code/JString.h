@@ -67,13 +67,14 @@ public:
 	JString() : JString(true) {};
 	JString(const JString& str, const Copy copy = kCopy);
 	JString(const JString& str, const JCharacterRange& range, const Copy copy = kCopy);
+	JString(const JUtf8Byte* str, const Copy copy = kNoCopy) : JString(str, 0, copy) {};
 	JString(const JUtf8Byte* str, const JSize byteCount, const Copy copy = kCopy);
 	JString(const JUtf8Byte* str, const JUtf8ByteRange& range, const Copy copy = kCopy);
 	JString(const JUtf8Character& c) : JString(c.GetBytes(), 0) {};
 	JString(const std::string& str, const JUtf8ByteRange& range);
 
 	explicit JString(const bool normalize);		// prevent sneaky, incorrect, automatic construction from char*
-	explicit JString(const JUtf8Byte* str, const Copy copy = kCopy) : JString(str, 0, copy) {};
+	explicit JString(JUtf8Byte* str, const Copy copy = kCopy) : JString(str, 0, copy) {};
 	explicit JString(const std::string& str) : JString(str, JUtf8ByteRange()) {};	// prevent sneaky automatic construction from char*
 
 	explicit JString(const JUInt64 number, const Base base = kBase10, const bool pad = false);

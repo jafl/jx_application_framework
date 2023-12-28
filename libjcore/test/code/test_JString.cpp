@@ -585,9 +585,9 @@ JTEST(Search)
 	JAssertTrue(s.TestSearchBackward("\xC3\xA9\xC3\xAD\xC3\xA7", 6, JString::kIgnoreCase, &byteIndex));
 */
 	s.Set("\xC3\xB6\xE2\x9C\x94");
-	JAssertTrue(s.StartsWith(JString("\x6F\xCC\x88\xE2\x9C\x94")));
-	JAssertTrue(s.Contains(JString("\x6F\xCC\x88\xE2\x9C\x94")));
-	JAssertTrue(s.EndsWith(JString("\x6F\xCC\x88\xE2\x9C\x94")));
+	JAssertTrue(s.StartsWith(JString("\x6F\xCC\x88\xE2\x9C\x94", JString::kCopy)));
+	JAssertTrue(s.Contains(JString("\x6F\xCC\x88\xE2\x9C\x94", JString::kCopy)));
+	JAssertTrue(s.EndsWith(JString("\x6F\xCC\x88\xE2\x9C\x94", JString::kCopy)));
 	JAssertTrue(s.StartsWith("\x6F\xCC\x88\xE2\x9C\x94", JString::kIgnoreCase));
 	JAssertTrue(s.Contains("\x6F\xCC\x88\xE2\x9C\x94", JString::kIgnoreCase));
 	JAssertTrue(s.EndsWith("\x6F\xCC\x88\xE2\x9C\x94", JString::kIgnoreCase));
@@ -971,7 +971,7 @@ JTEST(Compare)
 
 	// both are o-umlaut
 
-	JAssertEqual(0, JString::Compare(JString("\x6F\xCC\x88"), "\xC3\xB6"));
+	JAssertEqual(0, JString::Compare(JString("\x6F\xCC\x88", JString::kCopy), "\xC3\xB6"));
 	JAssertEqual(0, JString::Compare("\x6F\xCC\x88", "\xC3\xB6", JString::kIgnoreCase));
 	JAssertEqual(0, JString::Compare("\x4F\xCC\x88", "\xC3\xB6", JString::kIgnoreCase));
 	JAssertEqual(0, JString::CompareMaxNBytes("\xC3\xB6", "\x6F\xCC\x88", 3, JString::kIgnoreCase));

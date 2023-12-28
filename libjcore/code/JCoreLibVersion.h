@@ -21,6 +21,12 @@
 static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 
 // version 4.1.0:
+//
+// YOU MUST FULLY UPGRADE TO VERSION 4.0.0 BEFORE UPGRADING TO 4.1.0 BECAUSE:
+//	JString:
+//		Removed "explicit" from JString(const JUtf8Byte*, const Copy)
+//		and made the default kNoCopy.
+//
 //	JMemoryManager:
 //		Added JMM_PRINT_LIBRARY_STATS environment variable.  By default, library
 //			allocations are no longer included, so you can focus on your app.

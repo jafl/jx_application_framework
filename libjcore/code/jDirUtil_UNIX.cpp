@@ -936,7 +936,7 @@ JGetHomeDirectory
 
 	// try password information
 
-	JUtf8Byte* envUserName = getenv("USER");
+	const JUtf8Byte* envUserName = getenv("USER");
 
 	struct passwd* pw;
 	if (envUserName != nullptr)
@@ -1047,12 +1047,12 @@ JGetTempDirectory
 
 	if (!theTempPathInitFlag)
 	{
-		JUtf8Byte* path = getenv("TMPDIR");
-		if (!JString::IsEmpty(path) && JDirectoryWritable(JString(path, JString::kNoCopy)))
+		const JUtf8Byte* path = getenv("TMPDIR");
+		if (!JString::IsEmpty(path) && JDirectoryWritable(path))
 		{
 			theTempPath.Set(path);
 		}
-		else if (P_tmpdir != nullptr && JDirectoryWritable(JString(P_tmpdir, JString::kNoCopy)))
+		else if (P_tmpdir != nullptr && JDirectoryWritable(P_tmpdir))
 		{
 			theTempPath.Set(P_tmpdir);
 		}
