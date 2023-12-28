@@ -107,6 +107,7 @@ JXEPSPrintSetupDialog::BuildWindow
 	itsFileInput =
 		jnew JXFileInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 100,20, 250,20);
+	assert( itsFileInput != nullptr );
 
 // end JXLayout
 

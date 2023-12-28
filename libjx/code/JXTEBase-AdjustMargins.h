@@ -13,13 +13,7 @@ static const JUtf8Byte* kAdjustMarginsMenuStr =
 "|* %i ForceShiftSelLeftCmd::JXTEBase"
 ;
 
-enum {
-	__CleanRightMarginCmd=1,
-	__CoerceRightMarginCmd,
-	__ShiftSelLeftCmd,
-	__ShiftSelRightCmd,
-	__ForceShiftSelLeftCmd,
-};
+#include "JXTEBase-AdjustMargins-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_edit_clean_right_margin
 #define _H_jx_af_image_jx_jx_edit_clean_right_margin

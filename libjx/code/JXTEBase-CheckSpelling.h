@@ -10,10 +10,7 @@ static const JUtf8Byte* kCheckSpellingMenuStr =
 "|* %i CheckSpellingSelCmd::JX"
 ;
 
-enum {
-	__CheckAllSpellingCmd=1,
-	__CheckSpellingSelCmd,
-};
+#include "JXTEBase-CheckSpelling-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_spell_check
 #define _H_jx_af_image_jx_jx_spell_check

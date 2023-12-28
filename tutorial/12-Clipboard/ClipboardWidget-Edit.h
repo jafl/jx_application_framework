@@ -10,15 +10,12 @@ static const JUtf8Byte* kEditMenuStr =
 "|* %i __Paste::ClipboardWidget"
 ;
 
-enum {
-	kCopyCmd=1,
-	kPasteCmd,
-};
+#include "ClipboardWidget-Edit-enum.h"
 
 
 static void ConfigureEditMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#e", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#e");
 	}
 };
 

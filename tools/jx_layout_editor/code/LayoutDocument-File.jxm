@@ -18,7 +18,7 @@ jx_menu_editor 0
 1 "jx_file_new.xpm"
 "New..."
 "Ctrl-N"
-'s
+'n
 "New"
 "kNewCmd"
 1

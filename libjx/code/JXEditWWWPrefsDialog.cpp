@@ -64,18 +64,22 @@ JXEditWWWPrefsDialog::BuildWindow
 	itsShowURLCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 250,20, 250,20);
+	assert( itsShowURLCmdInput != nullptr );
 
 	itsShowFileContentCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 250,80, 250,20);
+	assert( itsShowFileContentCmdInput != nullptr );
 
 	itsShowFileLocationCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 250,140, 250,20);
+	assert( itsShowFileLocationCmdInput != nullptr );
 
 	itsComposeMailCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 250,200, 250,20);
+	assert( itsComposeMailCmdInput != nullptr );
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXEditWWWPrefsDialog::JXLayout"), window,

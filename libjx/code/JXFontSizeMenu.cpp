@@ -228,7 +228,7 @@ JXFontSizeMenu::BuildMenu
 		ShowSeparatorAfter(GetItemCount());
 		AppendItem(JGetString("VariableSizeLabel::JXFontSizeMenu"),
 				   kRadioType, JString::empty, JString::empty,
-				   JString("OtherFontSize::JX", JString::kNoCopy));
+				   "OtherFontSize::JX");
 		itsVarSizeIndex = GetItemCount();
 	}
 	SetUpdateAction(kDisableNone);

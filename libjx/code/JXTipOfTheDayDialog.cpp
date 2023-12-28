@@ -98,6 +98,7 @@ JXTipOfTheDayDialog::BuildWindow
 	auto* sideBar =
 		jnew JXFlatRect(window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 10,10, 50,200);
+	assert( sideBar != nullptr );
 	sideBar->SetColor(JColorManager::GetInactiveLabelColor());
 
 	itsCloseButton =
@@ -114,10 +115,12 @@ JXTipOfTheDayDialog::BuildWindow
 	auto* icon =
 		jnew JXImageWidget(sideBar,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,15, 30,30);
+	assert( icon != nullptr );
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,60, 340,150);
+	assert( scrollbarSet != nullptr );
 
 	auto* title =
 		jnew JXStaticText(JGetString("title::JXTipOfTheDayDialog::JXLayout"), window,

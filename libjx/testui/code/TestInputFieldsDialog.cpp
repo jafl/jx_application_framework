@@ -306,14 +306,14 @@ TestInputFieldsDialog::BuildWindow()
 	pwInput->SetHint(JGetString("PasswordHint::TestInputFieldsDialog"));
 
 	itsPathInput->SetBasePath(JGetCurrentDirectory());
-	itsPathInput->GetText()->SetText(JString("~", JString::kNoCopy));
+	itsPathInput->GetText()->SetText("~");
 	ListenTo(itsChoosePathButton, std::function([this](const JXButton::Pushed&)
 	{
 		itsPathInput->ChoosePath();
 	}));
 
 	itsFileInput->SetBasePath(JGetCurrentDirectory());
-	itsFileInput->GetText()->SetText(JString("./testjx", JString::kNoCopy));
+	itsFileInput->GetText()->SetText("./testjx");
 	ListenTo(itsChooseFileButton, std::function([this](const JXButton::Pushed&)
 	{
 		itsFileInput->ChooseFile();

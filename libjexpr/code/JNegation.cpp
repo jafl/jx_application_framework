@@ -158,7 +158,7 @@ JNegation::Layout
 	// intialize our rectangle
 
 	JPoint argUpperLeft = upperLeft;
-	argUpperLeft.x += renderer.GetStringWidth(fontSize, JString("-", JString::kNoCopy));
+	argUpperLeft.x += renderer.GetStringWidth(fontSize, "-");
 
 	JFunction* arg = GetArg();
 	if (dynamic_cast<JDivision*>(arg) != nullptr)
@@ -216,7 +216,7 @@ JNegation::Render
 
 	// draw ourselves
 
-	renderer.DrawString(ourRect.left, ourMidline, fontSize, JString("-", JString::kNoCopy));
+	renderer.DrawString(ourRect.left, ourMidline, fontSize, "-");
 
 	const JFunction* arg = GetArg();
 	arg->Render(renderer, rectList);

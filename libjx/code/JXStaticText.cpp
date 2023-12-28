@@ -117,7 +117,7 @@ JString
 JXStaticText::ToString()
 	const
 {
-	return JXTEBase::ToString() + JString(": ", JString::kNoCopy) + GetText().GetText();
+	return JXTEBase::ToString() + ": " + GetText().GetText();
 }
 
 /******************************************************************************

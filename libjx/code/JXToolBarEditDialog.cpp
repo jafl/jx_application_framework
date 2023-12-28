@@ -90,6 +90,7 @@ JXToolBarEditDialog::BuildWindow()
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,100, 290,290);
+	assert( scrollbarSet != nullptr );
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXToolBarEditDialog::JXLayout"), window,

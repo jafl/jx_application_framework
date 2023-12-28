@@ -11,16 +11,12 @@ static const JUtf8Byte* kTableMenuStr =
 "|* %i __Quit::EditTable"
 ;
 
-enum {
-	kInsertCmd=1,
-	kRemoveCmd,
-	kQuitCmd,
-};
+#include "EditTable-Table-enum.h"
 
 
 static void ConfigureTableMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#t", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#t");
 	}
 };
 

@@ -150,7 +150,7 @@ JFunctionWithArgs::Layout
 	// get rectangle for each argument
 
 	JPoint argUpperLeft(ourRect.right, ourRect.top);
-	const JSize sepWidth = renderer.GetStringWidth(fontSize, JString(", ", JString::kNoCopy));
+	const JSize sepWidth = renderer.GetStringWidth(fontSize, ", ");
 
 	const JSize argCount = GetArgCount();
 {
@@ -259,7 +259,7 @@ JFunctionWithArgs::Render
 		}
 		if (i < argCount)
 		{
-			renderer.DrawString(argRect.right, ourMidline, fontSize, JString(",", JString::kNoCopy));
+			renderer.DrawString(argRect.right, ourMidline, fontSize, ",");
 		}
 		else
 		{

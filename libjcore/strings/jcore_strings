@@ -106,6 +106,8 @@ FileAlreadyOpen::JFileArray	"\"$name\" is already open."
 WrongSignature::JFileArray	"\"$name\" has the wrong signature."
 NotEmbeddedFile::JFileArray	"The specified element ($index) is not an embedded JFileArray."
 
+EmbeddedFile::JFileArray	"embedded file"
+
 # JPrefsManager
 
 WrongVersion::JPrefsManager	"The preferences file has the wrong version."

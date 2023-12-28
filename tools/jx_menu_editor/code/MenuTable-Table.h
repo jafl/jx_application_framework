@@ -11,16 +11,12 @@ static const JUtf8Byte* kTableMenuStr =
 "|* %i Import::MenuTable"
 ;
 
-enum {
-	kAppendCmd=1,
-	kDuplicateCmd,
-	kImportCmd,
-};
+#include "MenuTable-Table-enum.h"
 
 
 static void ConfigureTableMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#t", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#t");
 	}
 };
 

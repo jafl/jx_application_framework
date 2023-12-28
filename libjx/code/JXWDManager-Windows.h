@@ -10,15 +10,12 @@ static const JUtf8Byte* kWindowsMenuStr =
 "|* %i CloseAllOtherWindows::JX %l"
 ;
 
-enum {
-	kRaiseAllCmd=1,
-	kCloseAllCmd,
-};
+#include "JXWDManager-Windows-enum.h"
 
 
 static void ConfigureWindowsMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#w", JString::kNoCopy));
+		menu->SetShortcuts("#w");
 	}
 };
 

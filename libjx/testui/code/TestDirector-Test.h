@@ -41,46 +41,12 @@ static const JUtf8Byte* kTestMenuStr =
 "|* %i __TimingForFontSubstitution::TestDirector"
 ;
 
-enum {
-	kNewTestDirectorCmd=1,
-	kTestUserNotifyMenuCmd,
-	kTestChooseSaveFileMenuCmd,
-	kTestPGMenuCmd,
-	kTestInputCmd,
-	kTestButtonsCmd,
-	kTestPopupChoiceCmd,
-	kTestSliderCmd,
-	kTestPartitionsCmd,
-	kTestTabGroupCmd,
-	kTestStrTableCmd,
-	kTestNumTableCmd,
-	kTestTextEditorCmd,
-	kTestLinkedDocCmd,
-	kTestDNDTextCmd,
-	kTestImageViewCmd,
-	kTestFileListCmd,
-	kSendEmailCmd,
-	kShowFileContentCmd,
-	kShowWebPageCmd,
-	kTestDisabledMenuCmd,
-	kTestZombieProcessCmd,
-	kTestPlaceWindow0Cmd,
-	kTestPlaceWindow30Cmd,
-	kTestPlaceWindow100Cmd,
-	kTestMoveWindowCmd,
-	kRaiseAllWindowsCmd,
-	kPrintWMConfigCmd,
-	kTestIdleTaskMutexCmd,
-	kTestBrokenPipeCmd,
-	kTestUncaughtXErrorCmd,
-	kLockUpToTestMDICmd,
-	kTimeFontSubCmd,
-};
+#include "TestDirector-Test-enum.h"
 
 
 static void ConfigureTestMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#t", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#t");
 	}
 };
 

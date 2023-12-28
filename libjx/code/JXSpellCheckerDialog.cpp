@@ -148,10 +148,12 @@ JXSpellCheckerDialog::BuildWindow()
 	itsFirstGuess =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 105,45, 230,20);
+	assert( itsFirstGuess != nullptr );
 
 	auto* set =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 105,75, 230,180);
+	assert( set != nullptr );
 
 	itsIgnoreButton =
 		jnew JXTextButton(JGetString("itsIgnoreButton::JXSpellCheckerDialog::JXLayout"), window,

@@ -27,7 +27,7 @@ static const JUtf8Byte* kHelpMenuStr =
 
 static void ConfigureHelpMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#h", JString::kNoCopy));
+		menu->SetShortcuts("#h");
 	}
 	menu->SetItemImage(kHelpTOCCmd + offset, jx_help_toc);
 	menu->SetItemImage(kHelpWindowCmd + offset, jx_help_specific);

@@ -25,30 +25,12 @@ static const JUtf8Byte* kStyleMenuStr =
 "|* %r %i OtherColorStyle::JX"
 ;
 
-enum {
-	__PlainStyle=1,
-	__BoldStyle,
-	__ItalicStyle,
-	__UnderlineStyle,
-	__DblUnderlineStyle,
-	__StrikeStyle,
-	__BlackStyle,
-	__GrayStyle,
-	__BrownStyle,
-	__OrangeStyle,
-	__RedStyle,
-	__DarkRedStyle,
-	__GreenStyle,
-	__BlueStyle,
-	__LightBlueStyle,
-	__PinkStyle,
-	__OtherColorStyle,
-};
+#include "JXStyleMenu-Style-enum.h"
 
 
 static void ConfigureStyleMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#y", JString::kNoCopy));
+		menu->SetShortcuts("#y");
 	}
 };
 

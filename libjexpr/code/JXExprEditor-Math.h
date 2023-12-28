@@ -18,23 +18,12 @@ static const JUtf8Byte* kMathMenuStr =
 "|* %i __Ungroup::JXExprEditor"
 ;
 
-enum {
-	kEvaluateItemIndex=1,
-	____PrintToEPS,
-	____Negate,
-	kApplyFnToSelIndex,
-	____AddArgument,
-	____MoveLeft,
-	____MoveRight,
-	____GroupLeft,
-	____GroupRight,
-	____Ungroup,
-};
+#include "JXExprEditor-Math-enum.h"
 
 
 static void ConfigureMathMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#m", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#m");
 	}
 };
 

@@ -61,6 +61,7 @@ JXPGMessageDirector::BuildWindow()
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 500,170);
+	assert( scrollbarSet != nullptr );
 
 	itsSaveButton =
 		jnew JXTextButton(JGetString("itsSaveButton::JXPGMessageDirector::JXLayout"), window,

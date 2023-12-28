@@ -36,13 +36,13 @@ JSpellChecker::JSpellChecker()
 	}
 
 	int toFD, fromFD;
-	JError err = JProcess::Create(&itsProcess, JString("aspell -a", JString::kNoCopy),
+	JError err = JProcess::Create(&itsProcess, "aspell -a",
 								  kJCreatePipe, &toFD,
 								  kJCreatePipe, &fromFD,
 								  kJTossOutput, nullptr);
 	if (!err.OK())
 	{
-		err = JProcess::Create(&itsProcess, JString("ispell -a", JString::kNoCopy),
+		err = JProcess::Create(&itsProcess, "ispell -a",
 							   kJCreatePipe, &toFD,
 							   kJCreatePipe, &fromFD,
 							   kJTossOutput, nullptr);

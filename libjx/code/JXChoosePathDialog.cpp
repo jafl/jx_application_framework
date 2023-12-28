@@ -118,6 +118,7 @@ JXChoosePathDialog::BuildWindow
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,140, 180,190);
+	assert( scrollbarSet != nullptr );
 
 	auto* selectButton =
 		jnew JXTextButton(JGetString("selectButton::JXChoosePathDialog::JXLayout"), window,
@@ -127,6 +128,7 @@ JXChoosePathDialog::BuildWindow
 	auto* pathInput =
 		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,20, 200,20);
+	assert( pathInput != nullptr );
 
 	auto* showHiddenCB =
 		jnew JXTextCheckbox(JGetString("showHiddenCB::JXChoosePathDialog::JXLayout"), window,
@@ -142,6 +144,7 @@ JXChoosePathDialog::BuildWindow
 	auto* filterInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,50, 200,20);
+	assert( filterInput != nullptr );
 
 	auto* explanText =
 		jnew JXStaticText(JGetString("explanText::JXChoosePathDialog::JXLayout"), window,
@@ -152,10 +155,12 @@ JXChoosePathDialog::BuildWindow
 	auto* pathHistory =
 		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
+	assert( pathHistory != nullptr );
 
 	auto* filterHistory =
 		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
+	assert( filterHistory != nullptr );
 
 	auto* upButton =
 		jnew JXTextButton(JGetString("upButton::JXChoosePathDialog::JXLayout"), window,
@@ -165,9 +170,10 @@ JXChoosePathDialog::BuildWindow
 	auto* newDirButton =
 		jnew JXNewDirButton(window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,190, 70,20);
+	assert( newDirButton != nullptr );
 
 	auto* currPathMenu =
-		jnew JXCurrentPathMenu(JString("/", JString::kNoCopy), window,
+		jnew JXCurrentPathMenu("/", window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != nullptr );
 

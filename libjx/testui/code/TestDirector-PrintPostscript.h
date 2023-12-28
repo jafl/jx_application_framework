@@ -10,10 +10,7 @@ static const JUtf8Byte* kPrintPostscriptMenuStr =
 "|* %i __Print::TestDirector"
 ;
 
-enum {
-	kPSPageSetupCmd=1,
-	kPrintPSCmd,
-};
+#include "TestDirector-PrintPostscript-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_file_print
 #define _H_jx_af_image_jx_jx_file_print

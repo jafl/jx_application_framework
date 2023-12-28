@@ -9,14 +9,12 @@ static const JUtf8Byte* kVertMenuStr =
 "* %i __SetElasticCompartment::TestPartitionDirector"
 ;
 
-enum {
-	kSetVertElasticIndexCmd=1,
-};
+#include "TestPartitionDirector-Vert-enum.h"
 
 
 static void ConfigureVertMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#v", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#v");
 	}
 };
 

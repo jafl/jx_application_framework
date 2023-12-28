@@ -309,10 +309,12 @@ JXSearchTextDialog::BuildWindow()
 	itsPrevReplaceMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 245,118, 30,20);
+	assert( itsPrevReplaceMenu != nullptr );
 
 	itsPrevSearchMenu =
 		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 245,43, 30,20);
+	assert( itsPrevSearchMenu != nullptr );
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::JXSearchTextDialog::JXLayout"), window,
@@ -358,10 +360,12 @@ JXSearchTextDialog::BuildWindow()
 	itsFindBackButton =
 		jnew JXSearchTextButton(false, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,20, 20,20);
+	assert( itsFindBackButton != nullptr );
 
 	itsFindFwdButton =
 		jnew JXSearchTextButton(true, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,20, 20,20);
+	assert( itsFindFwdButton != nullptr );
 
 	auto* replaceFindLabel =
 		jnew JXStaticText(JGetString("replaceFindLabel::JXSearchTextDialog::JXLayout"), window,
@@ -372,10 +376,12 @@ JXSearchTextDialog::BuildWindow()
 	itsReplaceFindBackButton =
 		jnew JXSearchTextButton(false, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,80, 20,20);
+	assert( itsReplaceFindBackButton != nullptr );
 
 	itsReplaceFindFwdButton =
 		jnew JXSearchTextButton(true, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,80, 20,20);
+	assert( itsReplaceFindFwdButton != nullptr );
 
 	itsReplaceAllInSelButton =
 		jnew JXTextButton(JGetString("itsReplaceAllInSelButton::JXSearchTextDialog::JXLayout"), window,
@@ -395,10 +401,12 @@ JXSearchTextDialog::BuildWindow()
 	itsSearchInput =
 		jnew JXInputField(true, false, window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,30, 220,45);
+	assert( itsSearchInput != nullptr );
 
 	itsReplaceInput =
 		jnew JXInputField(true, false, window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,105, 220,45);
+	assert( itsReplaceInput != nullptr );
 
 	itsReplaceAllButton =
 		jnew JXTextButton(JGetString("itsReplaceAllButton::JXSearchTextDialog::JXLayout"), window,
@@ -558,17 +566,19 @@ JXSearchTextDialog::SetObjects
 	modifiers.SetState(kJXShiftKeyIndex, true);
 	window->InstallShortcut(itsFindBackButton, JXCtrl('M'), modifiers);
 
-	modifiers.SetState(kJXControlKeyIndex, true);
+	if (JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle)
+	{
+		modifiers.SetState(kJXMetaKeyIndex, true);
+	}
+	else
+	{
+		modifiers.SetState(kJXControlKeyIndex, true);
+	}
+
 	itsReplaceIsRegexCB->SetShortcuts(JGetString("ReplaceIsRegexShorcut::JXSearchTextDialog"));
 	window->ClearShortcuts(itsReplaceIsRegexCB);
 	window->InstallShortcut(itsReplaceIsRegexCB, 'x', modifiers);
 	window->InstallShortcut(itsReplaceIsRegexCB, 'X', modifiers);
-
-	if (JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle)
-	{
-		modifiers.SetState(kJXMetaKeyIndex, true);
-		modifiers.SetState(kJXControlKeyIndex, false);
-	}
 
 	window->InstallShortcut(itsFindBackButton, 'g', modifiers);
 	window->InstallShortcut(itsFindBackButton, 'G', modifiers);

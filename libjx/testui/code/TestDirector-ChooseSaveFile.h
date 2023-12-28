@@ -14,14 +14,7 @@ static const JUtf8Byte* kChooseSaveFileMenuStr =
 "|* %i __ChooseWritableDirectory::TestDirector"
 ;
 
-enum {
-	kChooseFileCmd=1,
-	kChooseFileCustomCmd,
-	kSaveFileCmd,
-	kSaveFileCustomCmd,
-	kChooseRPathCmd,
-	kChooseRWPathCmd,
-};
+#include "TestDirector-ChooseSaveFile-enum.h"
 
 
 static void ConfigureChooseSaveFileMenu(JXTextMenu* menu, const int offset = 0) {

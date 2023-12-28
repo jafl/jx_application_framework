@@ -466,7 +466,7 @@ JIndex i;
 	p.SetPenColor(JColorManager::GetRedColor());
 	p.Rect(its2Rect);
 	p.SetFontStyle(JColorManager::GetRedColor());
-	p.String(its2Rect.topLeft(), JString("2", JString::kNoCopy),
+	p.String(its2Rect.topLeft(), "2",
 			 its2Rect.width(),  JPainter::HAlign::kCenter,
 			 its2Rect.height(), JPainter::VAlign::kCenter);
 
@@ -474,7 +474,7 @@ JIndex i;
 	p.SetPenColor(JColorManager::GetBlueColor());
 	p.Rect(its3Rect);
 	p.SetFontStyle(JColorManager::GetBlueColor());
-	p.String(its3Rect.topLeft(), JString("3", JString::kNoCopy),
+	p.String(its3Rect.topLeft(), "3",
 			 its3Rect.width(),  JPainter::HAlign::kCenter,
 			 its3Rect.height(), JPainter::VAlign::kCenter);
 

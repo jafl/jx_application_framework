@@ -36,36 +36,7 @@ static const JUtf8Byte* kFunctionMenuStr =
 "|* %i __truncateToInteger::JXExprEditor"
 ;
 
-enum {
-	____absoluteValue=1,
-	____squareRoot,
-	____logarithmAnyBase,
-	____naturalLogarithm,
-	____sine,
-	____cosine,
-	____tangent,
-	____inverseSine,
-	____inverseCosine,
-	____inverseTangent,
-	____inverseTangentYX,
-	____hyperbolicSine,
-	____hyperbolicCosine,
-	____hyperbolicTangent,
-	____inverseHyperbolicSine,
-	____inverseHyperbolicCosine,
-	____inverseHyperbolicTangent,
-	____realPart,
-	____imaginaryPart,
-	____phaseAngle,
-	____complexConjugate,
-	____rotateZAngle,
-	____minimum,
-	____maximum,
-	____parallel,
-	____algebraicSign,
-	____roundToInteger,
-	____truncateToInteger,
-};
+#include "JXExprEditor-Function-enum.h"
 
 
 static void ConfigureFunctionMenu(JXTextMenu* menu, const int offset = 0) {

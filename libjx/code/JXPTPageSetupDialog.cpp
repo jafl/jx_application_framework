@@ -105,10 +105,12 @@ JXPTPageSetupDialog::BuildWindow
 	itsPrintCmd =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 240,20);
+	assert( itsPrintCmd != nullptr );
 
 	itsWidth =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,60, 40,20);
+	assert( itsWidth != nullptr );
 
 	auto* widthLabel =
 		jnew JXStaticText(JGetString("widthLabel::JXPTPageSetupDialog::JXLayout"), window,
@@ -125,6 +127,7 @@ JXPTPageSetupDialog::BuildWindow
 	itsHeight =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,80, 40,20);
+	assert( itsHeight != nullptr );
 
 	auto* charsLabel =
 		jnew JXStaticText(JGetString("charsLabel::JXPTPageSetupDialog::JXLayout"), window,
@@ -294,7 +297,7 @@ JXPTPageSetupDialog::PrintTestPage()
 			}
 			output.close();
 
-			const JString sysCmd  = itsPrintCmd->GetText()->GetText() + JString(" ", JString::kNoCopy) + JPrepArgForExec(fileName);
+			const JString sysCmd  = itsPrintCmd->GetText()->GetText() + JString::space + JPrepArgForExec(fileName);
 			err = JExecute(sysCmd, nullptr);
 			err.ReportIfError();
 

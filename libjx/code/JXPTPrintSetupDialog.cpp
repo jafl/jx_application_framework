@@ -123,6 +123,7 @@ JXPTPrintSetupDialog::BuildWindow
 	itsDestination =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,20, 139,39);
+	assert( itsDestination != nullptr );
 
 	auto* printerLabel =
 		jnew JXTextRadioButton(1, JGetString("printerLabel::JXPTPrintSetupDialog::JXLayout"), itsDestination,
@@ -139,6 +140,7 @@ JXPTPrintSetupDialog::BuildWindow
 	itsPrintCmd =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 100,70, 250,20);
+	assert( itsPrintCmd != nullptr );
 
 	itsChooseFileButton =
 		jnew JXTextButton(JGetString("itsChooseFileButton::JXPTPrintSetupDialog::JXLayout"), window,
@@ -149,14 +151,17 @@ JXPTPrintSetupDialog::BuildWindow
 	itsCopyCount =
 		jnew JXIntegerInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 140,110, 40,20);
+	assert( itsCopyCount != nullptr );
 
 	itsFirstPageIndex =
 		jnew JXIntegerInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,150, 40,20);
+	assert( itsFirstPageIndex != nullptr );
 
 	itsLastPageIndex =
 		jnew JXIntegerInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 290,150, 40,20);
+	assert( itsLastPageIndex != nullptr );
 
 	itsPrintAllCB =
 		jnew JXTextCheckbox(JGetString("itsPrintAllCB::JXPTPrintSetupDialog::JXLayout"), window,

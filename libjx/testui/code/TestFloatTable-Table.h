@@ -16,21 +16,12 @@ static const JUtf8Byte* kTableMenuStr =
 "|* %r %i __RemoveColumn::TestFloatTable"
 ;
 
-enum {
-	kInsertRow=1,
-	kDuplicateRow,
-	kMoveRow,
-	kRemoveRow,
-	kInsertCol,
-	kDuplicateCol,
-	kMoveCol,
-	kRemoveCol,
-};
+#include "TestFloatTable-Table-enum.h"
 
 
 static void ConfigureTableMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#t", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#t");
 	}
 };
 

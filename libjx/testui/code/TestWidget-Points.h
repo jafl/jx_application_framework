@@ -14,14 +14,7 @@ static const JUtf8Byte* kPointsMenuStr =
 "|* %r %i __60::TestWidget"
 ;
 
-enum {
-	____10=1,
-	____20,
-	____30,
-	____40,
-	____50,
-	____60,
-};
+#include "TestWidget-Points-enum.h"
 
 
 static void ConfigurePointsMenu(JXTextMenu* menu, const int offset = 0) {

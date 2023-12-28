@@ -13,13 +13,7 @@ static const JUtf8Byte* kEditMenuStr =
 "|* %r %i __UndoDepth100::TestTextEditor"
 ;
 
-enum {
-	____AutoIndent=1,
-	____UndoDepth1,
-	____UndoDepth2,
-	____UndoDepth3,
-	____UndoDepth100,
-};
+#include "TestTextEditor-Edit-enum.h"
 
 
 static void ConfigureEditMenu(JXTextMenu* menu, const int offset = 0) {

@@ -73,6 +73,7 @@ JXGoToLineDialog::BuildWindow
 	itsLineNumber =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 40,20);
+	assert( itsLineNumber != nullptr );
 
 	auto* gotoLineLabel =
 		jnew JXStaticText(JGetString("gotoLineLabel::JXGoToLineDialog::JXLayout"), window,

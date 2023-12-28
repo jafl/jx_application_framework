@@ -14,14 +14,7 @@ static const JUtf8Byte* kContextMenuStr =
 "|* %i SelectAll::JXInputField"
 ;
 
-enum {
-	__Undo=1,
-	__Cut,
-	__Copy,
-	__Paste,
-	__Clear,
-	__SelectAll,
-};
+#include "JXInputField-Context-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_edit_undo
 #define _H_jx_af_image_jx_jx_edit_undo

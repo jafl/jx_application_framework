@@ -14,14 +14,7 @@ static const JUtf8Byte* kBorderWidthMenuStr =
 "|* %r %i __5::TestStringTable"
 ;
 
-enum {
-	____0=1,
-	____1,
-	____2,
-	____3,
-	____4,
-	____5,
-};
+#include "TestStringTable-BorderWidth-enum.h"
 
 
 static void ConfigureBorderWidthMenu(JXTextMenu* menu, const int offset = 0) {

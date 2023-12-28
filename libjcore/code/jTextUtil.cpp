@@ -358,7 +358,7 @@ JPasteUNIXTerminalOutput
 		if (substr.IsEmpty())
 		{
 			cmdList.CleanOut();
-			cmdList.Append(JString("0", JString::kNoCopy));
+			cmdList.Append("0");
 		}
 		else
 		{

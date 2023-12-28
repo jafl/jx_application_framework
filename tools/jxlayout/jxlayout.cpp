@@ -1392,7 +1392,7 @@ ApplyOptions
 			id.Print(output);
 			output << "\"));" << std::endl;
 
-			stringMgr->SetItem(id, JString("Times", JString::kNoCopy), JPtrArrayT::kDelete);
+			stringMgr->SetItem(id, "Times", JPtrArrayT::kDelete);
 		}
 
 		if (flSize != "FL_NORMAL_SIZE")

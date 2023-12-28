@@ -85,7 +85,7 @@ MDIServer::ChooseFiles()
 {
 	auto* dlog = JXChooseFileDialog::Create(
 		JXChooseFileDialog::kSelectMultipleFiles,
-		JString::empty, JString("*.jxm", JString::kNoCopy));
+		JString::empty, "*.jxm");
 
 	if (dlog->DoDialog())
 	{

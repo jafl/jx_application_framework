@@ -19,24 +19,12 @@ static const JUtf8Byte* kOptionsMenuStr =
 "|* %i __RemoveCurve::JX2DPlotWidget"
 ;
 
-enum {
-	kScaleCmd=1,
-	kResetScaleCmd,
-	kShowFrameCmd,
-	kShowGridCmd,
-	kShowLegendCmd,
-	kCopyScaleToRangeCmd,
-	kChangeRangeCmd,
-	kClearRangeCmd,
-	kChangeLabelsCmd,
-	kCurveOptionsCmd,
-	kRemoveCurveCmd,
-};
+#include "JX2DPlotWidget-Options-enum.h"
 
 
 static void ConfigureOptionsMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#o", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#o");
 	}
 };
 

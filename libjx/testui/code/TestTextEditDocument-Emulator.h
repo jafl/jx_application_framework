@@ -10,15 +10,12 @@ static const JUtf8Byte* kEmulatorMenuStr =
 "|* %r %i __vi::TestTextEditDocument"
 ;
 
-enum {
-	kNoEmulatorCmd=1,
-	kVIEmulatorCmd,
-};
+#include "TestTextEditDocument-Emulator-enum.h"
 
 
 static void ConfigureEmulatorMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#e", JString::kNoCopy));
+		menu->SetShortcuts("#e");
 	}
 };
 

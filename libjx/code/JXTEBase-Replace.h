@@ -22,22 +22,7 @@ static const JUtf8Byte* kReplaceMenuStr =
 "|* %i ReplaceAllInSelection::JX"
 ;
 
-enum {
-	__FindDialog_Replace=1,
-	__FindPrevious_Replace,
-	__FindNext_Replace,
-	__EnterSearchText_Replace,
-	__EnterReplaceText_Replace,
-	__FindSelectionBackwards_Replace,
-	__FindSelectionForward_Replace,
-	__FindClipboardBackwards_Replace,
-	__FindClipboardForward_Replace,
-	__ReplaceSelection_Replace,
-	__ReplaceFindPrev_Replace,
-	__ReplaceFindNext_Replace,
-	__ReplaceAll_Replace,
-	__ReplaceAllInSelection_Replace,
-};
+#include "JXTEBase-Replace-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_find
 #define _H_jx_af_image_jx_jx_find
@@ -66,7 +51,7 @@ enum {
 
 static void ConfigureReplaceMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#s", JString::kNoCopy));
+		menu->SetShortcuts("#s");
 	}
 	menu->SetItemImage(__FindDialog_Replace + offset, jx_find);
 	menu->SetItemImage(__FindPrevious_Replace + offset, jx_find_previous);

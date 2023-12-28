@@ -20,20 +20,7 @@ static const JUtf8Byte* kFileMenuStr =
 "|* %i __Close::TestImageDirector"
 ;
 
-enum {
-	kOpenImageCmd=1,
-	kSaveGIFCmd,
-	kSavePNGCmd,
-	kSaveJPEGCmd,
-	kSaveXPMCmd,
-	kSaveMaskXBMCmd,
-	kCopyImageCmd,
-	kPasteImageCmd,
-	kPageSetupCmd,
-	kPrintPSCmd,
-	kPrintEPSCmd,
-	kCloseCmd,
-};
+#include "TestImageDirector-File-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_file_open
 #define _H_jx_af_image_jx_jx_file_open
@@ -53,8 +40,8 @@ enum {
 #endif
 
 static void ConfigureFileMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#f", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#f");
 	}
 	menu->SetItemImage(kOpenImageCmd + offset, jx_file_open);
 	menu->SetItemImage(kCopyImageCmd + offset, jx_edit_copy);

@@ -78,6 +78,7 @@ JXOKToCloseDialog::BuildWindow
 	auto* icon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
+	assert( icon != nullptr );
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXOKToCloseDialog::JXLayout"), window,

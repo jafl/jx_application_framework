@@ -198,8 +198,8 @@ JSummation::Layout
 	// get rectangle for each argument
 
 	const JSize spaceWidth = renderer.GetSpaceWidth(fontSize);
-	const JSize plusWidth  = renderer.GetStringWidth(fontSize, JString("+", JString::kNoCopy));
-	const JSize minusWidth = renderer.GetStringWidth(fontSize, JString("-", JString::kNoCopy));
+	const JSize plusWidth  = renderer.GetStringWidth(fontSize, "+");
+	const JSize minusWidth = renderer.GetStringWidth(fontSize, "-");
 
 	const JSize argCount = GetArgCount();
 {
@@ -309,13 +309,13 @@ JSummation::Render
 		const auto* neg = dynamic_cast<const JNegation*>(arg);
 		if (neg != nullptr)
 		{
-			renderer.DrawString(h, ourMidline, fontSize, JString("-", JString::kNoCopy));
+			renderer.DrawString(h, ourMidline, fontSize, "-");
 			f   = arg;
 			arg = neg->GetArg();
 		}
 		else if (i > 1)
 		{
-			renderer.DrawString(h, ourMidline, fontSize, JString("+", JString::kNoCopy));
+			renderer.DrawString(h, ourMidline, fontSize, "+");
 		}
 
 		arg->Render(renderer, rectList);

@@ -486,11 +486,8 @@ JXTEBase::GetDNDAskActions
 	askActionList->AppendItem(dndMgr->GetDNDActionCopyXAtom());
 	askActionList->AppendItem(dndMgr->GetDNDActionMoveXAtom());
 
-	auto* s = jnew JString("CopyDescription::JXTEBase", JString::kNoCopy);
-	askDescriptionList->Append(s);
-
-	s = jnew JString("MoveDescription::JXTEBase", JString::kNoCopy);
-	askDescriptionList->Append(s);
+	askDescriptionList->Append("CopyDescription::JXTEBase");
+	askDescriptionList->Append("MoveDescription::JXTEBase");
 }
 
 /******************************************************************************

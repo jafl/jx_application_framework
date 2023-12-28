@@ -11,16 +11,12 @@ static const JUtf8Byte* kHorizMenuStr =
 "|* %i __SetElasticCompartment::TestPartitionDirector"
 ;
 
-enum {
-	kPrependHorizCmd=1,
-	kAppendHorizCmd,
-	kSetHorizElasticIndexCmd,
-};
+#include "TestPartitionDirector-Horiz-enum.h"
 
 
 static void ConfigureHorizMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#h", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#h");
 	}
 };
 

@@ -20,25 +20,12 @@ static const JUtf8Byte* kActionsMenuStr =
 "|* %i __empty::TestWidget"
 ;
 
-enum {
-	kChangeSizeCmd=1,
-	kToggleFillCmd,
-	kPointMenuCmd,
-	kShowHideCmd,
-	kActDeactCmd,
-	kShowHideQuitCmd,
-	kActDeactQuitCmd,
-	kPrintSelectionTargetsCmd,
-	kPrintOldSelectionTargetsCmd,
-	kAdviceMenuCmd,
-	kXlsfontsMenuCmd,
-	kEmptyMenuCmd,
-};
+#include "TestWidget-Actions-enum.h"
 
 
 static void ConfigureActionsMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#a", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#a");
 	}
 };
 

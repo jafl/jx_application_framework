@@ -76,6 +76,7 @@ JXFixLenPGDirector::BuildWindow
 	auto* indicator =
 		jnew JXProgressIndicator(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,50, 230,10);
+	assert( indicator != nullptr );
 
 // end JXLayout
 

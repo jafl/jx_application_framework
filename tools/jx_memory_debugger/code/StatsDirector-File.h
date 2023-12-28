@@ -9,14 +9,12 @@ static const JUtf8Byte* kFileMenuStr =
 "* %i Quit::JX"
 ;
 
-enum {
-	kQuitCmd=1,
-};
+#include "StatsDirector-File-enum.h"
 
 
 static void ConfigureFileMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#f", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#f");
 	}
 };
 

@@ -29,7 +29,7 @@ static const JUtf8Byte* kEditMenuStr =
 
 static void ConfigureEditMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#e", JString::kNoCopy));
+		menu->SetShortcuts("#e");
 	}
 	menu->SetItemImage(kUndoCmd + offset, jx_edit_undo);
 	menu->SetItemImage(kRedoCmd + offset, jx_edit_redo);

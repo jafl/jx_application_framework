@@ -1172,7 +1172,7 @@ MenuTable::BuildIconMenu()
 	if (itsDoc->ExistsOnDisk() &&
 		MenuDocument::FindProjectRoot(itsDoc->GetFilePath(), &iconPath))
 	{
-		iconPath = JCombinePathAndName(iconPath, JString("image-build", JString::kNoCopy));
+		iconPath = JCombinePathAndName(iconPath, "image-build");
 		if (JDirInfo::Create(iconPath, &info))
 		{
 			info->ShowDirs(false);

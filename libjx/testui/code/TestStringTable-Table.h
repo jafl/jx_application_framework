@@ -24,29 +24,12 @@ static const JUtf8Byte* kTableMenuStr =
 "|* %i __Add4000RowsEnumMouseActionIsInHeaderFile::TestStringTable"
 ;
 
-enum {
-	kInsertRow=1,
-	kDuplicateRow,
-	kMoveRow,
-	kRemoveRow,
-	kChangeRowBorderWidthCmd,
-	kInsertCol,
-	kDuplicateCol,
-	kMoveCol,
-	kRemoveCol,
-	kChangeColBorderWidthCmd,
-	kSelectCells,
-	kSelectRows,
-	kSelectCols,
-	kTestSelectionIteratorByRow,
-	kTestSelectionIteratorByCol,
-	kAdd4000Rows,
-};
+#include "TestStringTable-Table-enum.h"
 
 
 static void ConfigureTableMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#t", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#t");
 	}
 };
 

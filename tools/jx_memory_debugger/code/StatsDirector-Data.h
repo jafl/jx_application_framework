@@ -18,23 +18,12 @@ static const JUtf8Byte* kDataMenuStr =
 "|* %b %i ShowUnknownRecordsAction::MDStatsDirector"
 ;
 
-enum {
-	kGetRecordsCmd=1,
-	kSaveSnapshotCmd,
-	kDiffSnapshotCmd,
-	kShowAppRecordsCmd,
-	kShowBucket1RecordsCmd,
-	kShowBucket2RecordsCmd,
-	kShowBucket3RecordsCmd,
-	kShowLibraryRecordsCmd,
-	kShowIntervalRecordsCmd,
-	kShowUnknownRecordsCmd,
-};
+#include "StatsDirector-Data-enum.h"
 
 
 static void ConfigureDataMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#d", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#d");
 	}
 };
 

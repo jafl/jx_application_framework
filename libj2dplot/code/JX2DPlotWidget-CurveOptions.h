@@ -17,17 +17,7 @@ static const JUtf8Byte* kCurveOptionsMenuStr =
 "|* %b %i __YErrors::JX2DPlotWidget"
 ;
 
-enum {
-	kToggleCurveVisibleCmd=1,
-	kShowAllCurvesCmd,
-	kHideAllOtherCurvesCmd,
-	kPointsCmd,
-	kSymbolsCmd,
-	kLinesCmd,
-	kLinesSymbolsCmd,
-	kXErrorsCmd,
-	kYErrorsCmd,
-};
+#include "JX2DPlotWidget-CurveOptions-enum.h"
 
 
 static void ConfigureCurveOptionsMenu(JXTextMenu* menu, const int offset = 0) {

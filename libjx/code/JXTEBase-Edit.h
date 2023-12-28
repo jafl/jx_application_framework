@@ -15,15 +15,7 @@ static const JUtf8Byte* kEditMenuStr =
 "|* %i SelectAll::JX"
 ;
 
-enum {
-	__Undo=1,
-	__Redo,
-	__Cut,
-	__Copy,
-	__Paste,
-	__Clear,
-	__SelectAll,
-};
+#include "JXTEBase-Edit-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_edit_undo
 #define _H_jx_af_image_jx_jx_edit_undo
@@ -52,7 +44,7 @@ enum {
 
 static void ConfigureEditMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#e", JString::kNoCopy));
+		menu->SetShortcuts("#e");
 	}
 	menu->SetItemImage(__Undo + offset, jx_edit_undo);
 	menu->SetItemImage(__Redo + offset, jx_edit_redo);

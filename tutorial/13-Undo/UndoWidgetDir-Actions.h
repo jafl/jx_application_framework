@@ -11,16 +11,12 @@ static const JUtf8Byte* kActionsMenuStr =
 "|* %i __Quit::UndoWidgetDir"
 ;
 
-enum {
-	kUndo=1,
-	kRedo,
-	kQuit,
-};
+#include "UndoWidgetDir-Actions-enum.h"
 
 
 static void ConfigureActionsMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#a", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#a");
 	}
 };
 

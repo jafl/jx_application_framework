@@ -101,7 +101,7 @@ TestData
 	ok = data->SetYErrors(yPErr, yMErr);
 	assert( ok );
 
-	plot->AddCurve(data, true, JString("sin(x)", JString::kNoCopy), true, true);
+	plot->AddCurve(data, true, "sin(x)", true, true);
 
 	x.RemoveAll();
 	y.RemoveAll();
@@ -114,7 +114,7 @@ TestData
 	}
 
 	JIndex i;
-	plot->AddCurve(x, y, false, JString("cos(x)", JString::kNoCopy), &i, true, false);
+	plot->AddCurve(x, y, false, "cos(x)", &i, true, false);
 
 	plot->SetTitle(JGetString("DataTitle::main"));
 }
@@ -145,7 +145,7 @@ TestLogData
 	}
 
 	JIndex i;
-	plot->AddCurve(x, y, false, JString("log2(x)", JString::kNoCopy), &i, true, false);
+	plot->AddCurve(x, y, false, "log2(x)", &i, true, false);
 
 	x.RemoveAll();
 	y.RemoveAll();
@@ -156,7 +156,7 @@ TestLogData
 		y.AppendItem((i*delta)*(i*delta));
 	}
 
-	plot->AddCurve(x, y, false, JString("x^2", JString::kNoCopy), &i, true, false);
+	plot->AddCurve(x, y, false, "x^2", &i, true, false);
 
 	plot->SetYScale(0.1, 1000, 0, false);
 	plot->SetTitle(JGetString("LogDataTitle::main"));
@@ -188,7 +188,7 @@ TestVector
 		data->AddElement(0.8+x, 5.0+y, x,y);
 	}
 
-	plot->AddCurve(data, true, JString("vector", JString::kNoCopy));
+	plot->AddCurve(data, true, "vector");
 
 	plot->SetTitle(JGetString("VectorTitle::main"));
 }

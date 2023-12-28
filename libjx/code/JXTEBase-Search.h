@@ -17,17 +17,7 @@ static const JUtf8Byte* kSearchMenuStr =
 "|* %i FindClipboardForward::JX"
 ;
 
-enum {
-	__FindDialog_Search=1,
-	__FindPrevious_Search,
-	__FindNext_Search,
-	__EnterSearchText_Search,
-	__EnterReplaceText_Search,
-	__FindSelectionBackwards_Search,
-	__FindSelectionForward_Search,
-	__FindClipboardBackwards_Search,
-	__FindClipboardForward_Search,
-};
+#include "JXTEBase-Search-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_find
 #define _H_jx_af_image_jx_jx_find
@@ -52,7 +42,7 @@ enum {
 
 static void ConfigureSearchMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#s", JString::kNoCopy));
+		menu->SetShortcuts("#s");
 	}
 	menu->SetItemImage(__FindDialog_Search + offset, jx_find);
 	menu->SetItemImage(__FindPrevious_Search + offset, jx_find_previous);

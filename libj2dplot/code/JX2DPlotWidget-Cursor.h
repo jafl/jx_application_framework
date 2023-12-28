@@ -16,21 +16,12 @@ static const JUtf8Byte* kCursorMenuStr =
 "|* %i __ShowMarkWindow::JX2DPlotWidget"
 ;
 
-enum {
-	kXCursorCmd=1,
-	kYCursorCmd,
-	kDualCursorsCmd,
-	kMarkCursorCmd,
-	kMarkAllVisCursorsCmd,
-	kRemoveMarkIndex,
-	kRemoveAllMarksCmd,
-	kShowMarkWindowCmd,
-};
+#include "JX2DPlotWidget-Cursor-enum.h"
 
 
 static void ConfigureCursorMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#c", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#c");
 	}
 };
 

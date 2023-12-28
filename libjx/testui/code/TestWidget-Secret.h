@@ -16,16 +16,7 @@ static const JUtf8Byte* kSecretMenuStr =
 "|* %i __baXa::TestWidget"
 ;
 
-enum {
-	____Congratulations=1,
-	____YouFoundTheSecretMenu,
-	____IfYouHaveToUseSuchMenus,
-	____PickMe,
-	____baXAAha,
-	____baB,
-	____baXA,
-	____baXa,
-};
+#include "TestWidget-Secret-enum.h"
 
 
 static void ConfigureSecretMenu(JXTextMenu* menu, const int offset = 0) {

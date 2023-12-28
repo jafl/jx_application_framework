@@ -61,6 +61,7 @@ JXAcceptLicenseDialog::BuildWindow()
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 470,500);
+	assert( scrollbarSet != nullptr );
 
 // end JXLayout
 

@@ -10,15 +10,12 @@ static const JUtf8Byte* kTextMenuStr =
 "|* %i __Quit::DialogHelloDir"
 ;
 
-enum {
-	kChangeText=1,
-	kQuit,
-};
+#include "DialogHelloDir-Text-enum.h"
 
 
 static void ConfigureTextMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#t", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#t");
 	}
 };
 

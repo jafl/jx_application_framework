@@ -14,19 +14,12 @@ static const JUtf8Byte* kAboutMenuStr =
 "|* %i __Quit::TestDirector"
 ;
 
-enum {
-	kAboutCmd=1,
-	kHelpCmd,
-	kTipCmd,
-	kPrintPSMenuCmd,
-	kPrintEPSCmd,
-	kQuitCmd,
-};
+#include "TestDirector-About-enum.h"
 
 
 static void ConfigureAboutMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#?", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#?");
 	}
 };
 

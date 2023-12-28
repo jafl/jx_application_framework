@@ -19,19 +19,7 @@ static const JUtf8Byte* kFileMenuStr =
 "|* %i __Close::TestTextEditDocument"
 ;
 
-enum {
-	kNewFileCmd=1,
-	kOpenFileCmd,
-	kSaveFileCmd,
-	kSaveFileAsCmd,
-	kSaveCopyAsCmd,
-	kRevertCmd,
-	kReadPrivateFmtCmd,
-	kWritePrivateFmtCmd,
-	kPageSetupCmd,
-	kPrintCmd,
-	kCloseCmd,
-};
+#include "TestTextEditDocument-File-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_file_new
 #define _H_jx_af_image_jx_jx_file_new
@@ -56,7 +44,7 @@ enum {
 
 static void ConfigureFileMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#f", JString::kNoCopy));
+		menu->SetShortcuts("#f");
 	}
 	menu->SetItemImage(kNewFileCmd + offset, jx_file_new);
 	menu->SetItemImage(kOpenFileCmd + offset, jx_file_open);

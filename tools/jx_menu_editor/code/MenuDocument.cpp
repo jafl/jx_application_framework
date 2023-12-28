@@ -49,6 +49,7 @@ MenuDocument::Create
 	)
 {
 	*doc = jnew MenuDocument(GetDocumentManager()->GetNewFileName(), false);
+	(**doc).DataReverted();
 	(**doc).Activate();
 	return true;
 }
@@ -87,6 +88,7 @@ MenuDocument::Create
 	{
 		*doc = jnew MenuDocument(fullName, true);
 		(**doc).ReadFile(input);
+		(**doc).DataReverted();
 		(**doc).Activate();
 		return true;
 	}
@@ -571,7 +573,7 @@ MenuDocument::GenerateCode()
 
 	// strings
 
-	JString stringsFullName = JCombinePathAndName(projRoot, JString("strings", JString::kNoCopy));
+	JString stringsFullName = JCombinePathAndName(projRoot, "strings");
 	stringsFullName         = JCombinePathAndName(stringsFullName, root);
 
 	JEditVCS(stringsFullName);
@@ -605,21 +607,21 @@ MenuDocument::FindProjectRoot
 	JString p = path, n;
 	do
 	{
-		n = JCombinePathAndName(p, JString("Makefile", JString::kNoCopy));
+		n = JCombinePathAndName(p, "Makefile");
 		if (JFileExists(n))
 		{
 			*root = p;
 			return true;
 		}
 
-		n = JCombinePathAndName(p, JString("Make.header", JString::kNoCopy));
+		n = JCombinePathAndName(p, "Make.header");
 		if (JFileExists(n))
 		{
 			*root = p;
 			return true;
 		}
 
-		n = JCombinePathAndName(p, JString("CMakeLists.txt", JString::kNoCopy));
+		n = JCombinePathAndName(p, "CMakeLists.txt");
 		if (JFileExists(n))
 		{
 			*root = p;

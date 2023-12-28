@@ -120,7 +120,7 @@ JParseArgsForExec
 			}
 			if (c == ';')
 			{
-				argList->Append(JString(";", JString::kNoCopy));
+				argList->Append(";");
 			}
 			iter.BeginMatch();
 		}

@@ -10,15 +10,12 @@ static const JUtf8Byte* kFontMenuStr =
 "|* %r %i __Greek::JXExprInput"
 ;
 
-enum {
-	kNormalFontCmd=1,
-	kGreekFontCmd,
-};
+#include "JXExprInput-Font-enum.h"
 
 
 static void ConfigureFontMenu(JXTextMenu* menu, const int offset = 0) {
-	if (menu->IsEmpty() && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#f", JString::kNoCopy));
+	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
+		menu->SetShortcuts("#f");
 	}
 };
 

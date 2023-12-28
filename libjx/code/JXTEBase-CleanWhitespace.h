@@ -13,13 +13,7 @@ static const JUtf8Byte* kCleanWhitespaceMenuStr =
 "|* %i CleanWSAlignSelCmd::JXTEBase"
 ;
 
-enum {
-	__ShowWhitespaceCmd=1,
-	__CleanAllWhitespaceCmd,
-	__CleanWhitespaceSelCmd,
-	__CleanAllWSAlignCmd,
-	__CleanWSAlignSelCmd,
-};
+#include "JXTEBase-CleanWhitespace-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_show_whitespace
 #define _H_jx_af_image_jx_jx_show_whitespace

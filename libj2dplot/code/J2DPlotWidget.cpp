@@ -4405,7 +4405,7 @@ J2DPlotWidget::DrawCursorLabels
 	}
 	JSize labelHeight	= p.GetLineHeight();
 	JSize cursorHeight	= GetCursorLabelHeight(p);
-	JSize strwidth		= p.GetStringWidth(JString("x1 = 0000000000", JString::kNoCopy));
+	JSize strwidth		= p.GetStringWidth("x1 = 0000000000");
 	JSize totalWidth	= 3 * strwidth + 2 * kCursorValueBuffer;
 	JSize axisWidth		= itsXAxisEnd - itsXAxisStart;
 	JCoordinate startx	= itsXAxisStart;

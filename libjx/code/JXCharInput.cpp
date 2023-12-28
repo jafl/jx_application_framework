@@ -29,7 +29,7 @@ JXCharInput::JXCharInput
 	:
 	JXInputField(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	GetText()->SetText(JString(" ", JString::kNoCopy));
+	GetText()->SetText(JString::space);
 	SetLengthLimits(1,1);
 }
 
@@ -110,7 +110,7 @@ JXCharInput::HandleKeyPress
 	JXInputField::HandleKeyPress(c, keySym, modifiers);
 	if (GetText()->IsEmpty())
 	{
-		GetText()->SetText(JString(" ", JString::kNoCopy));
+		GetText()->SetText(JString::space);
 	}
 	if (!willDie)
 	{

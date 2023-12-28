@@ -12,12 +12,7 @@ static const JUtf8Byte* kProgressDisplayMenuStr =
 "|* %i __VariableLengthBackground::TestDirector"
 ;
 
-enum {
-	kFixLenFGCmd=1,
-	kVarLenFGCmd,
-	kFixLenBGCmd,
-	kVarLenBGCmd,
-};
+#include "TestDirector-ProgressDisplay-enum.h"
 
 
 static void ConfigureProgressDisplayMenu(JXTextMenu* menu, const int offset = 0) {

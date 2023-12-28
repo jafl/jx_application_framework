@@ -38,7 +38,7 @@ JXStringCompletionMenu::JXStringCompletionMenu
 	const bool	allowTabChar
 	)
 	:
-	JXTextMenu(JString("*", JString::kNoCopy), te, kFixedLeft, kFixedTop, 0,0, 10,10),
+	JXTextMenu("*", te, kFixedLeft, kFixedTop, 0,0, 10,10),
 	itsAllowTabChar(allowTabChar)
 {
 	itsTE              = te;

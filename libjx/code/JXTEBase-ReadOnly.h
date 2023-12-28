@@ -9,9 +9,7 @@ static const JUtf8Byte* kReadOnlyMenuStr =
 "* %b %i ToggleReadOnlyCmd::JXTEBase"
 ;
 
-enum {
-	__ToggleReadOnlyCmd=1,
-};
+#include "JXTEBase-ReadOnly-enum.h"
 
 #ifndef _H_jx_af_image_jx_jx_edit_read_only
 #define _H_jx_af_image_jx_jx_edit_read_only

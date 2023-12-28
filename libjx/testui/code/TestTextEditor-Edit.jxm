@@ -1,5 +1,5 @@
 jx_menu_editor 0
-670 300
+676 258
 "TestTextEditor"
 "Edit"
 ' 
@@ -7,9 +7,9 @@ jx_menu_editor 0
 40
 100
 100
-100
-100
-100
+48
+118
+128
 75
 
 0

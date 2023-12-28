@@ -419,9 +419,7 @@ JXToolBar::ExtractItemNodes
 JTree*
 JXToolBar::BuildTree()
 {
-	auto* base = jnew JNamedTreeNode(nullptr, JString("BASE", JString::kNoCopy));
-	assert( base != nullptr );
-
+	auto* base = jnew JNamedTreeNode(nullptr, "BASE");
 	auto* tree = jnew JTree(base);
 
 	const JSize count = itsMenuBar->GetMenuCount();

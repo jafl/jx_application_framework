@@ -6,7 +6,7 @@
 
 MenuTitle::LayoutDocument_File "File"
 
-New::LayoutDocument "New... %k Ctrl-N %h s"
+New::LayoutDocument "New... %k Ctrl-N %h n"
 Open::LayoutDocument "Open... %k Ctrl-O %h o"
 Recent::LayoutDocument "Recent"
 Save::LayoutDocument "Save %k Ctrl-S %h s"

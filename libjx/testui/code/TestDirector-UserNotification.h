@@ -11,11 +11,7 @@ static const JUtf8Byte* kUserNotificationMenuStr =
 "|* %i __Error::TestDirector"
 ;
 
-enum {
-	kTestMessageCmd=1,
-	kTestWarningCmd,
-	kTestErrorCmd,
-};
+#include "TestDirector-UserNotification-enum.h"
 
 
 static void ConfigureUserNotificationMenu(JXTextMenu* menu, const int offset = 0) {

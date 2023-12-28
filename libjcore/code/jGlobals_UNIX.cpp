@@ -41,7 +41,7 @@ JGetDataDirectories
 {
 	if (systemDataFileDir.IsEmpty())
 	{
-		if (JProgramAvailable(JString("brew", JString::kNoCopy)))
+		if (JProgramAvailable("brew"))
 		{
 			const JUtf8Byte* argv[] = { "brew", "--prefix", nullptr };
 			JProcess* p;
@@ -67,11 +67,11 @@ JGetDataDirectories
 		else
 		{
 			JString s1, s2;
-			const JError err = JGetSymbolicLinkTarget(JString("/proc/self/exe", JString::kNoCopy), &s1);
+			const JError err = JGetSymbolicLinkTarget("/proc/self/exe", &s1);
 			if (err.OK())
 			{
 				JSplitPathAndName(s1, &systemDataFileDir, &s2);
-				systemDataFileDir = JCombinePathAndName(systemDataFileDir, JString("..", JString::kNoCopy));
+				systemDataFileDir = JCombinePathAndName(systemDataFileDir, "..");
 				systemDataFileDir = JCombinePathAndName(systemDataFileDir, kSystemDataFileDir);
 			}
 		}

@@ -68,6 +68,7 @@ JXChooseFontSizeDialog::BuildWindow
 	itsFontSize =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 120,20, 40,20);
+	assert( itsFontSize != nullptr );
 
 	auto* fontSizeLabel =
 		jnew JXStaticText(JGetString("fontSizeLabel::JXChooseFontSizeDialog::JXLayout"), window,

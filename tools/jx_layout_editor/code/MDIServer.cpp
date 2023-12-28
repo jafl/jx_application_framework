@@ -84,7 +84,7 @@ MDIServer::ChooseFiles()
 {
 	auto* dlog = JXChooseFileDialog::Create(
 		JXChooseFileDialog::kSelectMultipleFiles,
-		JString::empty, JString("*.jxl *.fd", JString::kNoCopy));
+		JString::empty, "*.jxl *.fd");
 
 	if (dlog->DoDialog())
 	{

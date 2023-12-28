@@ -438,7 +438,7 @@ JGetVCSRepositoryPath
 	{
 		int fromFD;
 		const JError err = JExecute(origPath,
-									JString("svn info --show-item url", JString::kNoCopy), nullptr,
+									"svn info --show-item url", nullptr,
 									kJIgnoreConnection, nullptr,
 									kJCreatePipe, &fromFD);
 		if (err.OK())

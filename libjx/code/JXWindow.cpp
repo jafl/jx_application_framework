@@ -1366,7 +1366,7 @@ JXWindow::AnalyzeWindowManager
 	auto* dir = jnew JXWindowDirector(JXGetApplication());
 	assert( dir != nullptr );
 
-	auto* w = jnew JXWindow(dir, 100, 100, JString("Testing Window Manager", JString::kNoCopy));
+	auto* w = jnew JXWindow(dir, 100, 100, "Testing Window Manager");
 	assert( w != nullptr );
 	w->itsExpandTask->Cancel();
 	w->itsExpandTask = nullptr;

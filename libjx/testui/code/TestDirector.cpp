@@ -621,15 +621,15 @@ TestDirector::HandleTestMenu
 
 	else if (index == kSendEmailCmd)
 	{
-		JXGetWebBrowser()->ShowURL(JString("mailto:me@example.com", JString::kNoCopy));
+		JXGetWebBrowser()->ShowURL("mailto:me@example.com");
 	}
 	else if (index == kShowFileContentCmd)
 	{
-		JXGetWebBrowser()->ShowURL(JString("file:/etc/hosts", JString::kNoCopy));
+		JXGetWebBrowser()->ShowURL("file:/etc/hosts");
 	}
 	else if (index == kShowWebPageCmd)
 	{
-		JXGetWebBrowser()->ShowURL(JString("http://example.com", JString::kNoCopy));
+		JXGetWebBrowser()->ShowURL("http://example.com");
 	}
 
 	else if (index == kTestDisabledMenuCmd)
@@ -641,7 +641,7 @@ TestDirector::HandleTestMenu
 	{
 		pid_t pid;
 		std::cout << std::endl;
-		const JError err = JExecute(JString("ls", JString::kNoCopy), &pid);
+		const JError err = JExecute("ls", &pid);
 		std::cout << std::endl;
 		if (err.OK())
 		{
@@ -881,7 +881,7 @@ TestDirector::HandleCSFMenu
 	}
 	else if (index == kChooseFileCustomCmd)
 	{
-		auto* dlog = JXChooseFileDialog::Create(JXChooseFileDialog::kSelectSingleFile, JString("./about_owner_docs", JString::kNoCopy), JString::empty, JGetString("CustomChooseFileInstructions::TestDirector"));
+		auto* dlog = JXChooseFileDialog::Create(JXChooseFileDialog::kSelectSingleFile, "./about_owner_docs", JString::empty, JGetString("CustomChooseFileInstructions::TestDirector"));
 		ok = dlog->DoDialog();
 		if (ok)
 		{

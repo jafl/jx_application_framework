@@ -37,8 +37,9 @@
 #include "jAssert.h"
 
 JSize JString::theDefaultMinLgSize = 5;	// 2^5 = 32 bytes
-const JString JString::empty("", JString::kNoCopy);
-const JString JString::newline("\n", JString::kNoCopy);
+const JString JString::empty("");
+const JString JString::space(" ");
+const JString JString::newline("\n");
 
 static thread_local JString*	theCurrentlyConstructingObject;
 static thread_local UCollator*	theCaseSensitiveCollator;

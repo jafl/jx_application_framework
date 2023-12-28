@@ -93,7 +93,7 @@
 #include "jStreamUtil.h"
 #include "jFileUtil.h"
 #include "jDirUtil.h"
-#include "JMinMax.h"
+#include "jGlobals.h"
 #include "jAssert.h"
 
 const JFileVersion JFileArray::kInitialVersion = 0;
@@ -381,7 +381,7 @@ JFileArray::OKToCreateEmbedded
 		}
 		else if (!fileIndex->EmbeddedFileIsClosed(index))
 		{
-			return FileAlreadyOpen(JString("embedded file", JString::kNoCopy));
+			return FileAlreadyOpen(JGetString("EmbeddedFile::JFileArray"));
 		}
 	}
 

@@ -2546,7 +2546,7 @@ JExprEditor::GetSpaceWidth
 	)
 	const
 {
-	return GetStringWidth(fontSize, JString(" ", JString::kNoCopy));
+	return GetStringWidth(fontSize, JString::space);
 }
 
 JSize

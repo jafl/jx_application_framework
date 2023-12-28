@@ -371,7 +371,7 @@ MainDialog::WriteTemplate()
 	tmplDirOK = itsTemplateDir->GetPath(&templateDir);
 	assert( tmplDirOK );
 
-	const JString testFile = JCombinePathAndName(templateDir, JString("_Binary_.fd", JString::kNoCopy));
+	const JString testFile = JCombinePathAndName(templateDir, "_Binary_.fd");
 	if (!JFileExists(testFile))
 	{
 		JGetUserNotification()->ReportError(JGetString("InvalidTmplDirError::MainDialog"));
@@ -429,7 +429,7 @@ MainDialog::WriteTemplate()
 	value.Append(currentYear);
 	value.Append(itsDevEmail->GetText()->GetText());
 	value.Append(itsDevURL->GetText()->GetText());
-	value.Append(itsNeedsMDICB->IsChecked() ? JString("-DUSE_MDI", JString::kNoCopy) : JString::empty);
+	value.Append(itsNeedsMDICB->IsChecked() ? "-DUSE_MDI" : JString::empty);
 	value.Append(itsBinaryName->GetText()->GetText());
 	value.Append(dirName);
 	value.Append(jxPath);
@@ -479,7 +479,7 @@ MainDialog::CopyAndAdjustTemplateFiles
 	{
 		return;
 	}
-	info->SetWildcardFilter(JString("*~ #*#", JString::kNoCopy), true);
+	info->SetWildcardFilter("*~ #*#", true);
 
 	const JSize count = info->GetEntryCount();
 	JString prefix;

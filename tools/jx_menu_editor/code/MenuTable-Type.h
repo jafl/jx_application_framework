@@ -11,11 +11,7 @@ static const JUtf8Byte* kTypeMenuStr =
 "|* %r %i __RadioButton::MenuTable"
 ;
 
-enum {
-	kPlainCmd=1,
-	kCheckboxCmd,
-	kRadioCmd,
-};
+#include "MenuTable-Type-enum.h"
 
 
 static void ConfigureTypeMenu(JXTextMenu* menu, const int offset = 0) {
