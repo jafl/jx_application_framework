@@ -141,17 +141,15 @@ JPrefsManager::SetData
 {
 	PrefItem item(id.GetID(), nullptr);
 	bool found;
-	const JIndex index =
-		itsData->SearchSortedOTI(item, JListT::kAnyMatch, &found);
+	const JIndex index = itsData->SearchSortedOTI(item, JListT::kAnyMatch, &found);
 	if (found)
 	{
-		item         = itsData->GetItem(index);
-		*(item.data) = data;
+		item       = itsData->GetItem(index);
+		*item.data = data;
 	}
 	else
 	{
 		item.data = jnew JString(data);
-		assert( item.data != nullptr );
 		itsData->InsertItemAtIndex(index, item);
 	}
 
@@ -335,10 +333,7 @@ JPrefsManager::LoadData
 
 		std::string data;
 		file->GetItem(JFAIndex(i), &data);
-		auto* s = jnew JString(data.c_str(), data.length());
-		assert( s != nullptr );
-
-		PrefItem item(id.GetID(), s);
+		PrefItem item(id.GetID(), jnew JString(data));
 		bool isDuplicate;
 		const JIndex j = itsData->GetInsertionSortIndex(item, &isDuplicate);
 		assert( !isDuplicate );

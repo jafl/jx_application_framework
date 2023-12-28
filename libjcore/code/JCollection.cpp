@@ -49,7 +49,7 @@ JCollection::ToString()
 	std::ostringstream s;
 	JBroadcaster::ToString().Print(s);
 	s << " (" << itsItemCount << " items)";
-	return JString(s.str().c_str());
+	return JString(s.str());
 }
 
 /******************************************************************************

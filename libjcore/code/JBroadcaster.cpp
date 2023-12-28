@@ -164,7 +164,7 @@ JBroadcaster::ToString()
 {
 	std::ostringstream s;
 	s << typeid(*this).name() << " (" << this << ")";
-	return JString(s.str().c_str());
+	return JString(s.str());
 }
 
 /******************************************************************************
