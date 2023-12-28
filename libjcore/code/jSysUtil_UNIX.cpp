@@ -49,8 +49,8 @@ JUserIsAdmin
 JString
 JGetHostName()
 {
-	JUtf8Byte hostName[255];
-	const int result = gethostname(hostName, 255);
+	JUtf8Byte hostName[1024];
+	const int result = gethostname(hostName, 1024);
 	assert( result == 0 );
 	return JString(hostName);
 }
@@ -125,19 +125,11 @@ jGetUserInfo
 		passwd* pwbuf = getpwuid(uid);
 		if (pwbuf != nullptr)
 		{
-			info->userName = jnew JString(pwbuf->pw_name);
-			assert( info->userName != nullptr );
-
-			info->realName = jnew JString(pwbuf->pw_gecos);
-			assert( info->realName != nullptr );
-
+			info->id            = uid;
+			info->userName      = jnew JString(pwbuf->pw_name);
+			info->realName      = jnew JString(pwbuf->pw_gecos);
 			info->homeDirectory = jnew JString(pwbuf->pw_dir);
-			assert( info->homeDirectory != nullptr );
-
-			info->shell = jnew JString(pwbuf->pw_shell);
-			assert( info->shell != nullptr );
-
-			info->id = uid;
+			info->shell         = jnew JString(pwbuf->pw_shell);
 			const bool inserted = theUserInfoMap.InsertSorted(*info, false);
 			assert( inserted );
 		}
@@ -320,10 +312,8 @@ jGetGroupInfo
 		group* grpbuf = getgrgid(gid);
 		if (grpbuf != nullptr)
 		{
-			info->groupName = jnew JString(grpbuf->gr_name);
-			assert( info->groupName != nullptr );
-
-			info->id = gid;
+			info->id            = gid;
+			info->groupName     = jnew JString(grpbuf->gr_name);
 			const bool inserted = groupInfoMap.InsertSorted(*info, false);
 			assert( inserted );
 		}

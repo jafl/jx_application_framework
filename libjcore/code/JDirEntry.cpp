@@ -41,8 +41,7 @@ JDirEntry::JDirEntry
 	const JString& fileName
 	)
 {
-	const JString fullName = JCombinePathAndName(pathName, fileName);
-	JDirEntryX(fullName);
+	JDirEntryX(JCombinePathAndName(pathName, fileName));
 }
 
 // private

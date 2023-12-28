@@ -498,7 +498,7 @@ JIndex i;
 
 	p.ShiftOrigin(2,0);
 
-	const JString helloStr("Hello", JString::kNoCopy);
+	const JString& helloStr = JGetString("Hello::TestWidget");
 
 	JPoint textPt(40,30);
 	p.String(  0.0, textPt, helloStr);
@@ -659,7 +659,7 @@ JIndex i;
 	p.Line(100,112, 200,112);
 
 	p.SetFontStyle(JFontStyle(false, false, 1, false));
-	p.String(130,155, JString("underline without dashes", JString::kNoCopy));
+	p.String(130,155, JGetString("FontTest::TestWidget"));
 
 	p.SetDashList(dashList, 3);		// test offset
 	p.Line(100,116, 200,116);

@@ -19,65 +19,65 @@
 
 using JInteger = long;
 
-const JInteger kJIntegerMin					= LONG_MIN;
-const JInteger kJIntegerMax					= LONG_MAX;
+constexpr JInteger kJIntegerMin					= LONG_MIN;
+constexpr JInteger kJIntegerMax					= LONG_MAX;
 
 using JUInt = unsigned long;
 
-const JUInt kJUIntMin						= 0;
-const JUInt kJUIntMax						= ULONG_MAX;
+constexpr JUInt kJUIntMin						= 0;
+constexpr JUInt kJUIntMax						= ULONG_MAX;
 
 using JFloat = double;
 
-const JFloat kJFloatMin						= DBL_MIN;
-const JFloat kJFloatMax						= DBL_MAX;
+constexpr JFloat kJFloatMin						= DBL_MIN;
+constexpr JFloat kJFloatMax						= DBL_MAX;
 
-const long kJFloatExponentMin				= DBL_MIN_10_EXP;
-const long kJFloatExponentMax				= DBL_MAX_10_EXP;
+constexpr long kJFloatExponentMin				= DBL_MIN_10_EXP;
+constexpr long kJFloatExponentMax				= DBL_MAX_10_EXP;
 
 	// specialized types
 
 using JSize = unsigned long;
 
-const JSize kJSizeMin						= 0;
-const JSize kJSizeMax						= ULONG_MAX;
+constexpr JSize kJSizeMin						= 0;
+constexpr JSize kJSizeMax						= ULONG_MAX;
 
 using JIndex = unsigned long;
 
-const JIndex kJIndexMin						= 0;
-const JIndex kJIndexMax						= ULONG_MAX;
+constexpr JIndex kJIndexMin						= 0;
+constexpr JIndex kJIndexMax						= ULONG_MAX;
 
 using JSignedIndex = long;
 
-const JSignedIndex kJSignedIndexMin			= LONG_MIN;
-const JSignedIndex kJSignedIndexMax			= LONG_MAX;
+constexpr JSignedIndex kJSignedIndexMin			= LONG_MIN;
+constexpr JSignedIndex kJSignedIndexMax			= LONG_MAX;
 
 using JUnsignedOffset = unsigned long;
 
-const JUnsignedOffset kJUnsignedOffsetMin	= 0;
-const JUnsignedOffset kJUnsignedOffsetMax	= ULONG_MAX;
+constexpr JUnsignedOffset kJUnsignedOffsetMin	= 0;
+constexpr JUnsignedOffset kJUnsignedOffsetMax	= ULONG_MAX;
 
 using JSignedOffset = long;
 
-const JSignedOffset kJSignedOffsetMin		= LONG_MIN;
-const JSignedOffset kJSignedOffsetMax		= LONG_MAX;
+constexpr JSignedOffset kJSignedOffsetMin		= LONG_MIN;
+constexpr JSignedOffset kJSignedOffsetMax		= LONG_MAX;
 
 using JCoordinate = long;
 
-const JCoordinate kJCoordinateMin			= LONG_MIN;
-const JCoordinate kJCoordinateMax			= LONG_MAX;
+constexpr JCoordinate kJCoordinateMin			= LONG_MIN;
+constexpr JCoordinate kJCoordinateMax			= LONG_MAX;
 
 using JFileVersion = unsigned long;
 
-const JFileVersion kJFileVersionMin			= 0;
-const JFileVersion kJFileVersionMax			= ULONG_MAX;
+constexpr JFileVersion kJFileVersionMin			= 0;
+constexpr JFileVersion kJFileVersionMax			= ULONG_MAX;
 
 	// utf-8 characters
 
 using JUtf8Byte = char;
 
-const JUtf8Byte kJUtf8ByteMin				= CHAR_MIN;
-const JUtf8Byte kJUtf8ByteMax				= CHAR_MAX;
+constexpr JUtf8Byte kJUtf8ByteMin				= CHAR_MIN;
+constexpr JUtf8Byte kJUtf8ByteMax				= CHAR_MAX;
 
 	// iterators
 
@@ -196,11 +196,11 @@ static_assert(sizeof(unsigned long) == 4 || sizeof(unsigned int) == 4,
 using JUInt32 = std::conditional_t<sizeof(unsigned long) == 4, unsigned long, unsigned int>;
 using JInt32  = std::conditional_t<sizeof(  signed long) == 4,   signed long,   signed int>;
 
-const JUInt32 kJUInt32Min = 0;
-const JUInt32 kJUInt32Max = sizeof(unsigned long) == 4 ? JUInt32(ULONG_MAX) : UINT_MAX;
+constexpr JUInt32 kJUInt32Min = 0;
+constexpr JUInt32 kJUInt32Max = sizeof(unsigned long) == 4 ? JUInt32(ULONG_MAX) : UINT_MAX;
 
-const JInt32 kJInt32Min = sizeof(signed long) == 4 ? JInt32(LONG_MIN) : INT_MIN;
-const JInt32 kJInt32Max = sizeof(signed long) == 4 ? JInt32(LONG_MAX) : INT_MAX;
+constexpr JInt32 kJInt32Min = sizeof(signed long) == 4 ? JInt32(LONG_MIN) : INT_MIN;
+constexpr JInt32 kJInt32Max = sizeof(signed long) == 4 ? JInt32(LONG_MAX) : INT_MAX;
 
 static_assert(sizeof(unsigned long long) == 8 || sizeof(unsigned long) == 8,
 			  "unable to find a 8 byte unsigned integer type");
@@ -208,11 +208,11 @@ static_assert(sizeof(unsigned long long) == 8 || sizeof(unsigned long) == 8,
 using JUInt64 = std::conditional_t<sizeof(unsigned long long) == 8, unsigned long long, unsigned long>;
 using JInt64  = std::conditional_t<sizeof(  signed long long) == 8,   signed long long,   signed long>;
 
-const JUInt64 kJUInt64Min = 0;
-const JUInt64 kJUInt64Max = sizeof(unsigned long long) == 8 ? JUInt64(ULLONG_MAX) : ULONG_MAX;
+constexpr JUInt64 kJUInt64Min = 0;
+constexpr JUInt64 kJUInt64Max = sizeof(unsigned long long) == 8 ? JUInt64(ULLONG_MAX) : ULONG_MAX;
 
-const JInt64 kJInt64Min = sizeof(signed long long) == 8 ? JInt64(LLONG_MIN) : LONG_MIN;
-const JInt64 kJInt64Max = sizeof(signed long long) == 8 ? JInt64(LLONG_MAX) : LONG_MAX;
+constexpr JInt64 kJInt64Min = sizeof(signed long long) == 8 ? JInt64(LLONG_MIN) : LONG_MIN;
+constexpr JInt64 kJInt64Max = sizeof(signed long long) == 8 ? JInt64(LLONG_MAX) : LONG_MAX;
 
 // So far, all machines have word-sized longs
 using JUWord = unsigned long;
@@ -243,7 +243,7 @@ using JDualHashValue = JWord;
 	using JFStreamOpenMode = std::ios_base::openmode;
 	using JIOStreamSeekDir = std::ios_base::seekdir;
 
-	const JFStreamOpenMode kJBinaryModifier = std::ios_base::binary;
+	constexpr JFStreamOpenMode kJBinaryModifier = std::ios_base::binary;
 
 #else
 
@@ -251,7 +251,7 @@ using JDualHashValue = JWord;
 
 #endif
 
-const JFStreamOpenMode kJBinaryFile = std::ios::in | std::ios::out | kJBinaryModifier;
-const JFStreamOpenMode kJTextFile   = std::ios::in | std::ios::out;
+constexpr JFStreamOpenMode kJBinaryFile = std::ios::in | std::ios::out | kJBinaryModifier;
+constexpr JFStreamOpenMode kJTextFile   = std::ios::in | std::ios::out;
 
 #endif

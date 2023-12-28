@@ -349,7 +349,7 @@ bool
 JStringManager::MergeFile
 	(
 	const JString&	fileName,
-	const bool	debug
+	const bool		debug
 	)
 {
 	std::ifstream input(fileName.GetBytes());
