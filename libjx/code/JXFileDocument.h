@@ -221,10 +221,10 @@ inline void
 JXFileDocument::DataModified()
 {
 	if (itsSavedFlag)
-		{
+	{
 		itsSavedFlag = false;
 		AdjustWindowTitle();
-		}
+	}
 
 	itsNeedSafetySaveFlag = true;
 }

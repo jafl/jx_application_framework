@@ -26,6 +26,7 @@
 #include <jx-af/jx/JXGetStringDialog.h>
 #include <jx-af/jx/JXWebBrowser.h>
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
+#include <jx-af/jx/JXUrgentFunctionTask.h>
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jDirUtil.h>
@@ -88,8 +89,15 @@ MenuDocument::Create
 	{
 		*doc = jnew MenuDocument(fullName, true);
 		(**doc).ReadFile(input);
-		(**doc).DataReverted();
 		(**doc).Activate();
+
+		MenuDocument* d = *doc;
+		auto* task = jnew JXUrgentFunctionTask(d, std::function([d]()
+		{
+			d->DataReverted();
+		}));
+		task->Go();
+
 		return true;
 	}
 	else if (status == kNeedNewerVersion)
@@ -149,16 +157,16 @@ MenuDocument::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 670,300, JString::empty);
+	auto* window = jnew JXWindow(this, 920,300, JString::empty);
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 670,30);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 920,30);
 	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(GetPrefsManager(), kMenuDocToolBarID, menuBar, window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 670,270);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 920,270);
 	assert( itsToolBar != nullptr );
 
 // end JXLayout
