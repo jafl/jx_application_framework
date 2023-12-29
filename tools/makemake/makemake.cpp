@@ -58,16 +58,16 @@ static const JUtf8Byte* kDefOutputSuffix = ".o";
 
 static JRegex* globalIgnorePattern = nullptr;
 
-static const JRegex objFileSuffix     = "^\\.(o|a|so|class|jar) ";
-static       JRegex noParseFileSuffix = "^\\.(java|e|m[23])$";		// modified by GetOptions()
-static const JRegex javaObjFileSuffix = "^\\.(java|class|jar)$";
-static const JRegex suffixMapPattern  = "^(\\.[^.]+)(\\.[^.]+)$";
-static const JRegex noParsePattern    = "\\.([^.]+)";
+static const JRegex objFileSuffix("^\\.(o|a|so|class|jar) ");
+static       JRegex noParseFileSuffix("^\\.(java|e|m[23])$");		// modified by GetOptions()
+static const JRegex javaObjFileSuffix("^\\.(java|class|jar)$");
+static const JRegex suffixMapPattern("^(\\.[^.]+)(\\.[^.]+)$");
+static const JRegex noParsePattern("\\.([^.]+)");
 
 // .in_suffix [.out_suffix ]name
 
-static const JRegex linePattern =
-	"^(?P<inSuffix>\\.[^ ]+) +(?:(?P<outSuffix>\\.[^ ]+) +)?(?P<target>.+)$";
+static const JRegex linePattern(
+	"^(?P<inSuffix>\\.[^ ]+) +(?:(?P<outSuffix>\\.[^ ]+) +)?(?P<target>.+)$");
 
 // Prototypes
 
@@ -1614,7 +1614,7 @@ ParseHeaderFile
 
  ******************************************************************************/
 
-static const JRegex includePattern = "^\\s*#\\s*include\\s*([<\"])(.+?)[>\"]";
+static const JRegex includePattern("^\\s*#\\s*include\\s*([<\"])(.+?)[>\"]");
 
 bool
 GetNextIncludedFile

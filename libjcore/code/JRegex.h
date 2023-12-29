@@ -35,8 +35,8 @@ public:
 public:
 
 	JRegex();
-	JRegex(const JString& pattern);
-	JRegex(const JUtf8Byte* pattern);
+	explicit JRegex(const JString& pattern, const JUtf8Byte* flags = nullptr);
+	explicit JRegex(const JUtf8Byte* pattern, const JUtf8Byte* flags = nullptr);
 
 	virtual ~JRegex();
 
@@ -118,6 +118,7 @@ private:
 
 	void CopyPatternRegex(const JRegex& source);
 
+	void ProcessFlags(const JUtf8Byte* flags);
 	void SetCompileOption(const int option, const bool setClear);
 	void SetExecuteOption(const int option, const bool setClear);
 	void RawSetOption(int* flags, const int option, const bool setClear);

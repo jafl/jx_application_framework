@@ -416,7 +416,7 @@ JXUnpackFileNames
 
  ******************************************************************************/
 
-static const JRegex urlPattern = "://(.+?)/";
+static const JRegex urlPattern("://(.+?)/");
 
 void
 JXReportUnreachableHosts

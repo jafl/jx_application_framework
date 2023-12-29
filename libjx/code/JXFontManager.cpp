@@ -26,7 +26,7 @@
 static const JUtf8Byte* kItalicStr  = "-i";
 static const JUtf8Byte* kObliqueStr = "-o";
 
-static const JRegex nxmRegex = "^([0-9]+)x([0-9]+)$";
+static const JRegex nxmRegex("^([0-9]+)x([0-9]+)$");
 
 #if FC_MAJOR < 2 || (FC_MAJOR == 2 && FC_MINOR < 3)
 	#define FcStrFree free
@@ -932,7 +932,7 @@ JXFontManager::BuildTrueTypeFontName
 
  ******************************************************************************/
 
-static const JRegex nameEndMarkerPattern = "[:,]";
+static const JRegex nameEndMarkerPattern("[:,]");
 
 void
 JXFontManager::TrimTrueTypeFontName

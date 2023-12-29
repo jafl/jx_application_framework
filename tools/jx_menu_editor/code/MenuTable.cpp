@@ -757,7 +757,7 @@ MenuTable::CreateXInputField
 
  ******************************************************************************/
 
-static const JRegex enumPattern = "^[_a-zA-Z][_a-zA-Z0-9]+$";
+static const JRegex enumPattern("^[_a-z][_a-z0-9]+$", "i");
 
 bool
 MenuTable::ExtractInputData
@@ -1199,7 +1199,7 @@ MenuTable::BuildIconMenu()
 
  ******************************************************************************/
 
-static const JRegex excludeIconPattern = "_busy|_large|_selected|_pushed|new_planet_software";
+static const JRegex excludeIconPattern("_busy|_large|_selected|_pushed|new_planet_software");
 
 void
 MenuTable::LoadIcons
@@ -1525,8 +1525,8 @@ MenuTable::WriteMenuItem
 
  ******************************************************************************/
 
-static const JRegex actionUsePattern   = "\"\\s*([^\\s\";]+)\\s*\"?;?";
-static const JRegex emptyActionPattern = "\"(\\s*\"|;)";
+static const JRegex actionUsePattern("\"\\s*([^\\s\";]+)\\s*\"?;?");
+static const JRegex emptyActionPattern("\"(\\s*\"|;)");
 
 static const JString coreActionDefsFile = JString(JX_INCLUDE_PATH "/jx/jXActionDefs.h", JString::kNoCopy);
 
@@ -1660,7 +1660,7 @@ MenuTable::Import
 
  ******************************************************************************/
 
-static const JRegex actionDefPattern   = "#define\\s+([^\\s]+)\\s+\"([^\"]+)\"";
+static const JRegex actionDefPattern("#define\\s+([^\\s]+)\\s+\"([^\"]+)\"");
 
 void
 MenuTable::ImportActionDefs
@@ -1728,7 +1728,7 @@ MenuTable::FillInItemIDs
 
  ******************************************************************************/
 
-static const JRegex invalidCharPattern = "[^_a-zA-Z0-9]+";
+static const JRegex invalidCharPattern("[^_a-z0-9]+", "i");
 
 void
 MenuTable::GenerateUniqueID

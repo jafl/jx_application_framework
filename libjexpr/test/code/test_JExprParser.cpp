@@ -24,7 +24,7 @@ int main()
 
 JTEST(Patterns)
 {
-	JRegex r = "[[:alpha:]`][[:alnum:]`_]*";
+	JRegex r("[[:alpha:]`][[:alnum:]`_]*");
 	JAssertTrue(r.Match(JString("\xCF\x80", JString::kNoCopy)));
 }
 

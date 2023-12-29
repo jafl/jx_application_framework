@@ -183,7 +183,7 @@ JVariableList::PopOffEvalStack
 
  ******************************************************************************/
 
-static const JRegex namePattern = "^(\\p{L}|`)(\\p{L}|\\d|`|_)*$";
+static const JRegex namePattern("^(\\p{L}|`)(\\p{L}|\\d|`|_)*$");
 
 bool
 JVariableList::NameValid
@@ -212,7 +212,7 @@ JVariableList::OKToRemoveVariable
 	const JSize count = itsVarUserList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		if ((itsVarUserList->GetItem(i))->UsesVariable(variableIndex))
+		if (itsVarUserList->GetItem(i)->UsesVariable(variableIndex))
 		{
 			return false;
 		}

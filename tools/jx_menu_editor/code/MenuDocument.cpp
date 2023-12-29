@@ -453,7 +453,7 @@ MenuDocument::WriteTextFile
 
  ******************************************************************************/
 
-static const JRegex invalidCharPattern = "[^_a-zA-Z0-9]+";
+static const JRegex invalidCharPattern("[^_a-z0-9]+", "i");
 
 void
 MenuDocument::GenerateCode()

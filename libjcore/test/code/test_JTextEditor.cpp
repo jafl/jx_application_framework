@@ -664,7 +664,7 @@ JTEST(ReplaceAll)
 	JAssertStringsEqual("Fourscor\xC3\xA9 and s\xC3\xA9" "v\xC3\xA9" "n y\xC3\xA9" "ars ago...", text.GetText());
 	JAssertEqual(charCount, text.GetText().GetCharacterCount());
 
-	JRegex r1 = "four";
+	JRegex r1("four");
 	r1.SetCaseSensitive(false);
 	found = te.ReplaceAll(
 		r1, true,

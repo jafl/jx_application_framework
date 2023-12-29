@@ -1156,7 +1156,7 @@ J2DPlotWidget::CalledBySetPlotDecPlaces
 
  ******************************************************************************/
 
-static const JRegex exponentPattern = "[eE]";
+static const JRegex exponentPattern("e", "i");
 
 JSize
 J2DPlotWidget::GetDecPlaces

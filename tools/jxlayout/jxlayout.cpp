@@ -1047,7 +1047,7 @@ ParseGravity
 
  ******************************************************************************/
 
-static const JRegex illegalCChar = "[^_A-Za-z0-9]+";
+static const JRegex illegalCChar("[^_a-z0-9]+", "i");
 
 void
 GetTempVarName

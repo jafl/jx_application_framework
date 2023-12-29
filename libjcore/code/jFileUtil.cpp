@@ -267,7 +267,7 @@ JCombineRootAndSuffix
 
  ******************************************************************************/
 
-static const JRegex suffixPattern = "\\.([^.]*[^.0-9][^.]*)$";
+static const JRegex suffixPattern("\\.([^.]*[^.0-9][^.]*)$");
 
 bool
 JSplitRootAndSuffix

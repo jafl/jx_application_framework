@@ -389,7 +389,7 @@ void TestRegex(const JString& s)
 	JUtf8Character c;
 	JIndex j;
 
-	JRegex r = ".3";
+	JRegex r(".3");
 
 	JAssertTrue(i.Next(r));
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
@@ -442,7 +442,7 @@ JTEST(Regex)
 
 	JString s1("aaaaaaa", JUtf8ByteRange(2,5));
 	JStringIterator iter1(s1);
-	JRegex r1 = "a+";
+	JRegex r1("a+");
 	JAssertTrue(iter1.Next(r1));
 	const JStringMatch& m1 = iter1.GetLastMatch();
 	JAssertStringsEqual("aaaa", m1.GetString());

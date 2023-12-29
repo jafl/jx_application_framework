@@ -78,7 +78,7 @@ JSpellChecker::~JSpellChecker()
 
  *****************************************************************************/
 
-static const JRegex resultSplitPattern = "\\s*,\\s*";
+static const JRegex resultSplitPattern("\\s*,\\s*");
 
 bool
 JSpellChecker::CheckWord

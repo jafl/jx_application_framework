@@ -228,7 +228,7 @@ JAnalyzeWhitespace
 
  ******************************************************************************/
 
-static const JRegex theExtraLinesPattern = "\n{3,}";
+static const JRegex theExtraLinesPattern("\n{3,}");
 
 void
 JReadUNIXManOutput
@@ -322,7 +322,7 @@ JReadUNIXManOutput
 
  ******************************************************************************/
 
-const JRegex theUNIXTerminalFormatPattern = "\033\\[([0-9]+(?:;[0-9]+)*)?m";
+const JRegex theUNIXTerminalFormatPattern("\033\\[([0-9]+(?:;[0-9]+)*)?m");
 
 JStyledText::TextRange
 JPasteUNIXTerminalOutput
@@ -445,10 +445,10 @@ JPasteUNIXTerminalOutput
 
  ******************************************************************************/
 
-static const JRegex theBoldPattern       = "\\B\\*((?>[^*]+))\\*\\B";
-static const JRegex theItalicPattern     = "\\B-((?>[^-]+))-\\B";
-static const JRegex theUnderlinePattern  = "\\b_((?>[^_]+))_\\b";
-static const JRegex theFixedWidthPattern = "`((?>[^`]+))`";
+static const JRegex theBoldPattern("\\B\\*((?>[^*]+))\\*\\B");
+static const JRegex theItalicPattern("\\B-((?>[^-]+))-\\B");
+static const JRegex theUnderlinePattern("\\b_((?>[^_]+))_\\b");
+static const JRegex theFixedWidthPattern("`((?>[^`]+))`");
 
 void
 jReplaceMarkdownPattern

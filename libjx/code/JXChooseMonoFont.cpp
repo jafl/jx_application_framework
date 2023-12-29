@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <jx-af/jcore/jAssert.h>
 
-static const JRegex fontRegex = "^[1-9][0-9]*x[1-9][0-9]*$";
+static const JRegex fontRegex("^[1-9][0-9]*x[1-9][0-9]*$");
 
 // JBroadcaster message types
 

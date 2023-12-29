@@ -103,7 +103,7 @@ static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 
 #if defined JMOUNT_MACOS
 
-static const JRegex theLinePattern = "^((?:msdos|exfat|ntfs):/)?(/[^\\s]+)\\s+on\\s+(/[^)]+?)\\s+\\((.+)\\)";
+static const JRegex theLinePattern("^((?:msdos|exfat|ntfs):/)?(/[^\\s]+)\\s+on\\s+(/[^)]+?)\\s+\\((.+)\\)");
 
 bool
 JGetUserMountPointList

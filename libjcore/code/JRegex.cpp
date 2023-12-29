@@ -73,6 +73,9 @@ const JString JRegex::theSpecialCharList(".[]\\?*+{}|()^$", JString::kNoCopy);
 	successfully compiled, which can be rather inconvenient if you make a
 	mistake.  So don't make mistakes (or don't use that constructor). :-)
 
+	Supported flags:
+		i	case-insensitive
+
  *****************************************************************************/
 
 JRegex::JRegex()
@@ -85,10 +88,10 @@ JRegex::JRegex()
 {
 }
 
-
 JRegex::JRegex
 	(
-	const JString& pattern
+	const JString&		pattern,
+	const JUtf8Byte*	flags
 	)
 	:
 	itsPattern(false),
@@ -98,12 +101,13 @@ JRegex::JRegex
 	itsEFlags(defaultEFlags)
 {
 	SetPatternOrDie(pattern); // Nothing else to do in a constructor
+	ProcessFlags(flags);
 }
 
-
 JRegex::JRegex
 	(
-	const JUtf8Byte* pattern
+	const JUtf8Byte* pattern,
+	const JUtf8Byte* flags
 	)
 	:
 	itsPattern(false),
@@ -113,6 +117,7 @@ JRegex::JRegex
 	itsEFlags(defaultEFlags)
 {
 	SetPatternOrDie(pattern); // Nothing else to do in a constructor
+	ProcessFlags(flags);
 }
 
 /******************************************************************************
@@ -442,6 +447,23 @@ JRegex::RestoreDefaults()
 	}
 
 	return Compile();
+}
+
+/******************************************************************************
+ ProcessFlags (private)
+
+ *****************************************************************************/
+
+void
+JRegex::ProcessFlags
+	(
+	const JUtf8Byte* flags
+	)
+{
+	if (flags != nullptr && strchr(flags, 'i') != nullptr)
+	{
+		SetCaseSensitive(false);
+	}
 }
 
 /******************************************************************************

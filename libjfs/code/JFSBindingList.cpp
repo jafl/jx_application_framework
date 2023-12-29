@@ -517,7 +517,7 @@ JFSBindingList::GetBinding
 
  *****************************************************************************/
 
-static const JRegex fileNamePattern = "[~#]+$";
+static const JRegex fileNamePattern("[~#]+$");
 
 void
 JFSBindingList::CleanFileName

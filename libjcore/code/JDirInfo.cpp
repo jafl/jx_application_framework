@@ -1078,7 +1078,7 @@ JDirInfo::ClearWildcardFilter()
 
  ******************************************************************************/
 
-static const JRegex theFilterSplitPattern = "\\s+";
+static const JRegex theFilterSplitPattern("\\s+");
 
 bool
 JDirInfo::BuildRegexFromWildcardFilter

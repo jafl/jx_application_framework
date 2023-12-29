@@ -601,7 +601,7 @@ MainDialog::ReadPrefs
 
  ******************************************************************************/
 
-static const JRegex jxVersPattern = "JX-([0-9.]+)";
+static const JRegex jxVersPattern("JX-([0-9.]+)");
 
 void
 MainDialog::UpdatePath
@@ -622,8 +622,8 @@ MainDialog::UpdatePath
 
  ******************************************************************************/
 
-static const JRegex hostPattern = "[^/]+://[^/]+/";
-static const JRegex projPattern = ".+/JX-[0-9.]+/+programs/";
+static const JRegex hostPattern("[^/]+://[^/]+/");
+static const JRegex projPattern(".+/JX-[0-9.]+/+programs/");
 
 void
 MainDialog::WritePrefs

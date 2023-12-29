@@ -1274,8 +1274,8 @@ JCleanPath
 	)
 {
 	// inside function to ensure initialization
-	static const JRegex trailingDotPattern = "(?:/\\.)+$";
-	static const JRegex multiSlashPattern  = "(?<!:)/{2,}";
+	static const JRegex trailingDotPattern("(?:/\\.)+$");
+	static const JRegex multiSlashPattern("(?<!:)/{2,}");
 
 	JStringIterator iter(path);
 	if (path->StartsWith("file://"))

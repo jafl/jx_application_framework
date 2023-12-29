@@ -1957,7 +1957,7 @@ JStyledText::CleanText
 
  ******************************************************************************/
 
-static JRegex illegalCharRegex = "[\\0\x01-\x08\x0B\x0E-\x1F\x7F]+";
+static JRegex illegalCharRegex("[\\0\x01-\x08\x0B\x0E-\x1F\x7F]+");
 
 bool
 JStyledText::ContainsIllegalChars
@@ -3388,7 +3388,7 @@ JStyledText::CRMGetPrefix
 
  ******************************************************************************/
 
-static const JRegex defaultCRMPrefixRegex = "^[ \t]*";
+static const JRegex defaultCRMPrefixRegex("^[ \t]*");
 
 JStyledText::TextRange
 JStyledText::CRMMatchPrefix

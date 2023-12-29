@@ -46,6 +46,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 //		Switched to an exponential reallocation model.
 //	JList, JHashTable, etc:
 //		*** Renamed "element" to "item"
+//	JRegex:
+//		Made constructors explicit and added optional flags argument.
 
 // version 4.0.0:
 //	*** Upgraded to C++20

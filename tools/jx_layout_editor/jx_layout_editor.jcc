@@ -8,6 +8,10 @@ T
 F
 "./code/main.cpp"
 T
+2 "App.cpp"
+F
+"./code/App.cpp"
+T
 2 "App-Help.jxm"
 F
 "./code/App-Help.jxm"
@@ -111,10 +115,6 @@ T
 2 "help.html"
 F
 "./release/doc/help.html"
-T
-2 "App.cpp"
-F
-"./code/App.cpp"
 F
 F
 # tasks
@@ -124,7 +124,7 @@ T "./" "jxlayout --choose --require-obj-names --post-cmd \"jcc --force-reload-op
 F
 # build settings
 1
-F
+T
 "jx_layout_editor"
 "${LIB_DEPS}"
 "make -k all"
