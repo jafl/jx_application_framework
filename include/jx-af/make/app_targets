@@ -59,10 +59,6 @@ push_version:
 push_help:
 	@scp release/doc/help.html jafl,${FORGE_NAME}@web.sourceforge.net:htdocs/
 
-.PHONY : update_homebrew_formula
-update_homebrew_formula:
-	@${JX_ROOT}/bin/update_homebrew_formula ${APP_NAME}
-
 .PHONY : test_snap
 test_snap:
 	@chmod a+r snap/gui/*
