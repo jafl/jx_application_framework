@@ -17,8 +17,6 @@
 #include <jx-af/jcore/jMouseUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-static const JUtf8Byte* kDNDClassID = "BaseWidget";
-
 /******************************************************************************
  Constructor
 
@@ -74,6 +72,8 @@ BaseWidget::~BaseWidget()
 
 /******************************************************************************
  StreamOut (virtual)
+
+	Remember to keep LayoutDocument::ReadFile in sync!
 
  ******************************************************************************/
 
@@ -182,7 +182,7 @@ BaseWidget::HandleMouseDrag
 			itsWaitingForDragFlag = false;
 			itsClearIfNotDNDFlag  = false;
 
-			auto* data = jnew LayoutSelection(itsLayout, kDNDClassID);
+			auto* data = jnew LayoutSelection(itsLayout, LocalToGlobal(itsStartPt));
 			BeginDND(pt, buttonStates, modifiers, data);
 		}
 	}
@@ -210,41 +210,6 @@ BaseWidget::HandleMouseUp
 	{
 		itsLayout->ClearSelection();
 		SetSelected(true);
-	}
-}
-
-/******************************************************************************
- GetSelectionData (virtual protected)
-
-	This is called when DND is terminated by a drop or when the target
-	requests the data during a drag, but only if the delayed evaluation
-	constructor for JXSelectionData was used.
-
-	id is the string passed to the JXSelectionData constructor.
-
- ******************************************************************************/
-
-void
-BaseWidget::GetSelectionData
-	(
-	JXSelectionData*	data,
-	const JString&		id
-	)
-{
-	if (id == kDNDClassID)
-	{
-		auto* layoutData = dynamic_cast<LayoutSelection*>(data);
-		assert( layoutData != nullptr );
-
-		JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
-		itsLayout->GetSelectedWidgets(&widgetList);
-		assert( !widgetList.IsEmpty() );
-
-		layoutData->SetData(widgetList);
-	}
-	else
-	{
-		JXWidget::GetSelectionData(data, id);
 	}
 }
 

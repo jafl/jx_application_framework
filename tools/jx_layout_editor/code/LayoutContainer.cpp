@@ -20,12 +20,11 @@
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/JXDragPainter.h>
 #include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jAssert.h>
 
 #include "LayoutContainer-Edit.h"
-
-const JSize kMaxUndoCount = 100;	// maximum length of itsUndoList
 
 /******************************************************************************
  Constructor
@@ -48,17 +47,15 @@ LayoutContainer::LayoutContainer
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsDoc(doc),
 	itsGridSpacing(10),
-	itsUndoList(jnew JPtrArray<LayoutUndo>(JPtrArrayT::kDeleteAll, kMaxUndoCount+1)),
-	itsFirstRedoIndex(1),
-	itsLastSaveRedoIndex(itsFirstRedoIndex),
-	itsUndoState(kIdle),
+	itsUndoChain(jnew JUndoRedoChain(true)),
 	itsResizeUndo(nullptr),
-	itsIgnoreResizeFlag(false)
+	itsIgnoreResizeFlag(false),
+	itsDropRectList(nullptr)
 {
 	SetBorderWidth(10);
 
-	itsLayoutXAtom =
-		GetDisplay()->RegisterXAtom(LayoutSelection::GetXAtomName());
+	itsLayoutDataXAtom = GetDisplay()->RegisterXAtom(LayoutSelection::GetDataXAtomName());
+	itsLayoutMetaXAtom = GetDisplay()->RegisterXAtom(LayoutSelection::GetMetaXAtomName());
 
 	itsEditMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::LayoutContainer_Edit"));
 	itsEditMenu->SetMenuItems(kEditMenuStr);
@@ -76,7 +73,8 @@ LayoutContainer::LayoutContainer
 
 LayoutContainer::~LayoutContainer()
 {
-	jdelete itsUndoList;
+	jdelete itsUndoChain;
+	jdelete itsDropRectList;
 }
 
 /******************************************************************************
@@ -179,6 +177,25 @@ LayoutContainer::RemoveSelectedWidgets()
 }
 
 /******************************************************************************
+ Clear
+
+ ******************************************************************************/
+
+void
+LayoutContainer::Clear
+	(
+	const bool isUndoRedo
+	)
+{
+	DeleteEnclosedObjects();
+
+	if (!isUndoRedo)
+	{
+		ClearUndo();
+	}
+}
+
+/******************************************************************************
  Draw (virtual protected)
 
  ******************************************************************************/
@@ -228,6 +245,35 @@ LayoutContainer::DrawBorder
 	}
 	p.SetFilling(true);
 	p.Rect(frame);
+}
+
+/******************************************************************************
+ DrawOver (virtual protected)
+
+	Draw DND outlines.
+
+ ******************************************************************************/
+
+void
+LayoutContainer::DrawOver
+	(
+	JXWindowPainter&	p,
+	const JRect&		rect
+	)
+{
+	if (itsDropRectList == nullptr || (itsDropPt.x == -1 && itsDropPt.y == -1))
+	{
+		return;
+	}
+
+	p.SetPenColor(JColorManager::GetDefaultSelectionColor());
+
+	for (auto r : *itsDropRectList)
+	{
+		r.Shift(itsDropPt);
+		r.Shift(-itsDropOffset);
+		p.Rect(r);
+	}
 }
 
 /******************************************************************************
@@ -374,21 +420,51 @@ LayoutContainer::WillAcceptDrop
 		return false;
 	}
 
-	auto* widget = dynamic_cast<const BaseWidget*>(source);
-	if (widget != nullptr && widget->GetLayoutContainer() == this)
-	{
-		return true;
-	}
-
+	bool found = false;
 	for (auto type : typeList)
 	{
-		if (type == itsLayoutXAtom)
+		if (type == itsLayoutMetaXAtom)
 		{
-			return true;
+			JXSelectionManager* selMgr = GetSelectionManager();
+			JXDNDManager* dndMgr       = GetDNDManager();
+			const Atom selName         = dndMgr->GetDNDSelectionName();
+
+			unsigned char* data = nullptr;
+			JSize dataLength;
+			Atom returnType;
+			JXSelectionManager::DeleteMethod delMethod;
+			if (selMgr->GetData(selName, CurrentTime, itsLayoutMetaXAtom,
+								&returnType, &data, &dataLength, &delMethod))
+			{
+				if (returnType == itsLayoutMetaXAtom)
+				{
+					const std::string s((char*) data, dataLength);
+					std::istringstream input(s);
+
+					itsDropRectList = jnew JArray<JRect>;
+					JRect bounds;
+					LayoutSelection::ReadMetaData(input, &bounds, &itsDropOffset, itsDropRectList);
+
+					if (GetAperture().Contains(bounds))
+					{
+						itsDropPt.Set(-1,-1);
+						found = true;
+					}
+					else
+					{
+						jdelete itsDropRectList;
+						itsDropRectList = nullptr;
+					}
+				}
+
+				selMgr->DeleteData(&data, delMethod);
+			}
+
+			break;
 		}
 	}
 
-	return false;
+	return found;
 }
 
 /******************************************************************************
@@ -413,7 +489,8 @@ LayoutContainer::HandleDNDHere
 	const JXWidget* source
 	)
 {
-	// todo: show rects
+	itsDropPt = pt;
+	Refresh();	// draw outlines
 }
 
 /******************************************************************************
@@ -424,7 +501,8 @@ LayoutContainer::HandleDNDHere
 void
 LayoutContainer::HandleDNDLeave()
 {
-	Refresh();
+	jdelete itsDropRectList;
+	itsDropRectList = nullptr;
 }
 
 /******************************************************************************
@@ -442,13 +520,6 @@ LayoutContainer::HandleDNDDrop
 	const JXWidget*		source
 	)
 {
-	auto* widget = dynamic_cast<const BaseWidget*>(source);
-	if (widget != nullptr && widget->GetLayoutContainer() == this)
-	{
-		// todo: move widgets
-		return;
-	}
-
 	JXSelectionManager* selMgr = GetSelectionManager();
 	JXDNDManager* dndMgr       = GetDNDManager();
 	const Atom selName         = dndMgr->GetDNDSelectionName();
@@ -457,10 +528,10 @@ LayoutContainer::HandleDNDDrop
 	JSize dataLength;
 	Atom returnType;
 	JXSelectionManager::DeleteMethod delMethod;
-	if (selMgr->GetData(selName, time, itsLayoutXAtom,
+	if (selMgr->GetData(selName, time, itsLayoutDataXAtom,
 						&returnType, &data, &dataLength, &delMethod))
 	{
-		if (returnType == itsLayoutXAtom)
+		if (returnType == itsLayoutDataXAtom)
 		{
 			const std::string s((char*) data, dataLength);
 			std::istringstream input(s);
@@ -482,7 +553,34 @@ LayoutContainer::HandleDNDDrop
 		selMgr->DeleteData(&data, delMethod);
 	}
 
+	HandleDNDLeave();
 	Refresh();
+}
+
+/******************************************************************************
+ DNDFinish (virtual protected)
+
+	This is called when DND is terminated, but before the actual data
+	transfer.
+
+	If it is not a drop, or the drop target is not within the same
+	application, target is nullptr.
+
+ ******************************************************************************/
+
+void
+LayoutContainer::DNDFinish
+	(
+	const bool			isDrop,
+	const JXContainer*	target
+	)
+{
+	if (isDrop)
+	{
+		return;
+	}
+
+	// todo: deserialize & put widgets back where they were
 }
 
 /******************************************************************************
@@ -510,8 +608,11 @@ LayoutContainer::AppendEditMenuToToolBar
 void
 LayoutContainer::UpdateEditMenu()
 {
-	itsEditMenu->SetItemEnabled(kUndoCmd, itsFirstRedoIndex > 1);
-	itsEditMenu->SetItemEnabled(kRedoCmd, itsFirstRedoIndex <= itsUndoList->GetItemCount());
+	bool canUndo, canRedo;
+	itsUndoChain->HasMultipleUndo(&canUndo, &canRedo);
+
+	itsEditMenu->SetItemEnabled(kUndoCmd, canUndo);
+	itsEditMenu->SetItemEnabled(kRedoCmd, canRedo);
 	itsEditMenu->SetItemEnabled(kClearCmd, HasSelection());
 	itsEditMenu->EnableItem(kSelectAllCmd);
 }
@@ -529,11 +630,11 @@ LayoutContainer::HandleEditMenu
 {
 	if (index == kUndoCmd)
 	{
-		Undo();
+		itsUndoChain->Undo();
 	}
 	else if (index == kRedoCmd)
 	{
-		Redo();
+		itsUndoChain->Redo();
 	}
 
 	else if (index == kClearCmd)
@@ -548,98 +649,9 @@ LayoutContainer::HandleEditMenu
 }
 
 /******************************************************************************
- Undo
-
- ******************************************************************************/
-
-void
-LayoutContainer::Undo()
-{
-	assert( itsUndoState == kIdle );
-
-	LayoutUndo* undo;
-	if (GetCurrentUndo(&undo))
-	{
-		itsUndoState = kUndo;
-		undo->Undo();
-		itsUndoState = kIdle;
-	}
-}
-
-/******************************************************************************
- Redo
-
- ******************************************************************************/
-
-void
-LayoutContainer::Redo()
-{
-	assert( itsUndoState == kIdle );
-
-	LayoutUndo* undo;
-	if (GetCurrentRedo(&undo))
-	{
-		itsUndoState = kRedo;
-		undo->Undo();
-		itsUndoState = kIdle;
-	}
-}
-
-/******************************************************************************
- GetCurrentUndo (private)
-
- ******************************************************************************/
-
-bool
-LayoutContainer::GetCurrentUndo
-	(
-	LayoutUndo** undo
-	)
-	const
-{
-	if (itsFirstRedoIndex > 1)
-	{
-		*undo = itsUndoList->GetItem(itsFirstRedoIndex - 1);
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-/******************************************************************************
- GetCurrentRedo (private)
-
- ******************************************************************************/
-
-bool
-LayoutContainer::GetCurrentRedo
-	(
-	LayoutUndo** redo
-	)
-	const
-{
-	if (itsFirstRedoIndex <= itsUndoList->GetItemCount())
-	{
-		*redo = itsUndoList->GetItem(itsFirstRedoIndex);
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-/******************************************************************************
  NewUndo (private)
 
 	Register a new Undo object.
-
-	itsFirstRedoIndex points to the first redo object in itsUndoList.
-	1 <= itsFirstRedoIndex <= itsUndoList->GetItemCount()+1
-	Minimum => everything is redo
-	Maximum => everything is undo
 
  ******************************************************************************/
 
@@ -650,107 +662,7 @@ LayoutContainer::NewUndo
 	)
 {
 	itsResizeUndo = nullptr;
-
-	if (itsUndoState == kIdle)
-	{
-		// clear redo objects
-
-		const JSize undoCount = itsUndoList->GetItemCount();
-		for (JIndex i=undoCount; i>=itsFirstRedoIndex; i--)
-		{
-			itsUndoList->DeleteItem(i);
-		}
-
-		if (itsLastSaveRedoIndex > 0 &&
-			itsFirstRedoIndex < JIndex(itsLastSaveRedoIndex))
-		{
-			ClearLastSaveLocation();
-		}
-
-		// save the new object
-
-		itsUndoList->Append(undo);
-		itsFirstRedoIndex++;
-
-		ClearOutdatedUndo();
-		assert( !itsUndoList->IsEmpty() );
-	}
-
-	else if (itsUndoState == kUndo)
-	{
-		assert( itsFirstRedoIndex > 1 );
-
-		itsFirstRedoIndex--;
-		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
-
-		undo->SetRedo(true);
-	}
-
-	else if (itsUndoState == kRedo)
-	{
-		assert( itsFirstRedoIndex <= itsUndoList->GetItemCount() );
-
-		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
-		itsFirstRedoIndex++;
-
-		undo->SetRedo(false);
-	}
-}
-
-/******************************************************************************
- ReplaceUndo
-
- ******************************************************************************/
-
-void
-LayoutContainer::ReplaceUndo
-	(
-	LayoutUndo* oldUndo,
-	LayoutUndo* newUndo
-	)
-{
-#ifndef NDEBUG
-
-	assert( itsUndoState != kIdle );
-
-	if (itsUndoState == kUndo)
-	{
-		assert( itsFirstRedoIndex > 1 &&
-				oldUndo == itsUndoList->GetItem(itsFirstRedoIndex - 1) );
-	}
-	else if (itsUndoState == kRedo)
-	{
-		assert( itsFirstRedoIndex <= itsUndoList->GetItemCount() &&
-				oldUndo == itsUndoList->GetItem(itsFirstRedoIndex) );
-	}
-
-#endif
-
-	NewUndo(newUndo);
-}
-
-/******************************************************************************
- ClearOutdatedUndo (private)
-
- ******************************************************************************/
-
-void
-LayoutContainer::ClearOutdatedUndo()
-{
-	while (itsUndoList->GetItemCount() > kMaxUndoCount)
-	{
-		itsUndoList->DeleteItem(1);
-		itsFirstRedoIndex--;
-		itsLastSaveRedoIndex--;
-
-		// If we have to throw out redo's, we have to toss everything.
-
-		if (itsFirstRedoIndex == 0)
-		{
-			ClearUndo();
-			break;
-		}
-	}
+	itsUndoChain->NewUndo(undo);
 }
 
 /******************************************************************************
@@ -765,7 +677,5 @@ void
 LayoutContainer::ClearUndo()
 {
 	itsResizeUndo = nullptr;
-	itsUndoList->CleanOut();
-	itsFirstRedoIndex = 1;
-	ClearLastSaveLocation();
+	itsUndoChain->ClearUndo();
 }

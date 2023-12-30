@@ -34,6 +34,9 @@ public:
 
 	void	DataChanged();
 
+	static void	WriteWidget(std::ostream& output, const JXContainer* obj,
+							JPtrArray<JXWidget>* widgetList);
+
 protected:
 
 	LayoutDocument(const JString& fullName, const bool onDisk);
@@ -61,6 +64,7 @@ private:
 	void	BuildWindow();
 	void	ReadFile(std::istream& input, const bool isUndoRedo = false);
 	void	SetLayoutSize(const JCoordinate w, const JCoordinate h);
+	void	SetDataReverted();
 
 	static void			ImportFDesignFile(std::istream& input);
 	bool				ImportFDesignLayout(std::istream& input);

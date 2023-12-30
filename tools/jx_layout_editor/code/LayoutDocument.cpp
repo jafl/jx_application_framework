@@ -22,6 +22,7 @@
 #include <jx-af/jx/JXGetStringDialog.h>
 #include <jx-af/jx/JXWebBrowser.h>
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
@@ -50,6 +51,7 @@ LayoutDocument::Create
 	if (dlog->DoDialog())
 	{
 		*doc = jnew LayoutDocument(dlog->GetString(), false);
+		(**doc).SetDataReverted();
 		(**doc).Activate();
 		return true;
 	}
@@ -104,6 +106,7 @@ LayoutDocument::Create
 	{
 		auto* doc = jnew LayoutDocument(fullName, true);
 		doc->ReadFile(input);
+		doc->SetDataReverted();
 		doc->Activate();
 		return true;
 	}
@@ -184,7 +187,7 @@ LayoutDocument::BuildWindow()
 	window->SetWMClass(GetWMClassInstance(), GetLayoutDocumentClass());
 	window->SetMinSize(200, 100);
 
-	JXImage* image = jnew JXImage(GetDisplay(), main_window_icon);
+	auto* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);
 
 	itsLayout =
@@ -211,7 +214,7 @@ LayoutDocument::BuildWindow()
 	itsPrefsMenu->AttachHandler(this, &LayoutDocument::HandlePrefsMenu);
 	ConfigurePreferencesMenu(itsPrefsMenu);
 
-	JXTextMenu* helpMenu = GetApplication()->CreateHelpMenu(itsMenuBar, "MainHelp");
+	auto* helpMenu = GetApplication()->CreateHelpMenu(itsMenuBar, "MainHelp");
 
 	// must be done after creating widgets
 
@@ -318,8 +321,6 @@ LayoutDocument::ReadFile
 /******************************************************************************
  WriteTextFile (virtual protected)
 
-	This must be overridden if WriteFile() is not overridden.
-
  ******************************************************************************/
 
 void
@@ -338,27 +339,43 @@ LayoutDocument::WriteTextFile
 
 	itsLayout->ForEach([&output, &widgetList](const JXContainer* obj)
 	{
-		auto* widget = dynamic_cast<const BaseWidget*>(obj);
-		if (widget == nullptr)
-		{
-			return;		// used for rendering
-		}
-
-		auto* encl = dynamic_cast<const JXWidget*>(obj->GetEnclosure());
-		assert( encl != nullptr );
-
-		JIndex enclosureIndex;
-		widgetList.Find(encl, &enclosureIndex);		// zero if not found
-
-		output << true << std::endl;
-		output << enclosureIndex << std::endl;
-		widget->StreamOut(output);
-
-		widgetList.Append(const_cast<BaseWidget*>(widget));
+		WriteWidget(output, obj, &widgetList);
 	},
 	true);
 
 	output << false << std::endl;
+}
+
+/******************************************************************************
+ WriteWidget (static)
+
+ ******************************************************************************/
+
+void
+LayoutDocument::WriteWidget
+	(
+	std::ostream&			output,
+	const JXContainer*		obj,
+	JPtrArray<JXWidget>*	widgetList
+	)
+{
+	auto* widget = dynamic_cast<const BaseWidget*>(obj);
+	if (widget == nullptr)
+	{
+		return;		// used for rendering
+	}
+
+	auto* encl = dynamic_cast<const JXWidget*>(obj->GetEnclosure());
+	assert( encl != nullptr );
+
+	JIndex enclosureIndex;
+	widgetList->Find(encl, &enclosureIndex);		// zero if not found
+
+	output << true << std::endl;
+	output << enclosureIndex << std::endl;
+	widget->StreamOut(output);
+
+	widgetList->Append(const_cast<BaseWidget*>(widget));
 }
 
 /******************************************************************************
@@ -379,7 +396,7 @@ LayoutDocument::DiscardChanges()
 	if (status == kFileReadable)
 	{
 		ReadFile(input);
-		DataReverted();
+		SetDataReverted();
 	}
 	else
 	{
@@ -395,7 +412,7 @@ LayoutDocument::DiscardChanges()
 void
 LayoutDocument::DataChanged()
 {
-	if (itsLayout != nullptr && itsLayout->IsAtLastSaveLocation())
+	if (itsLayout != nullptr && itsLayout->GetUndoRedoChain()->IsAtLastSaveLocation())
 	{
 		DataReverted(true);
 	}
@@ -403,6 +420,19 @@ LayoutDocument::DataChanged()
 	{
 		DataModified();
 	}
+}
+
+/******************************************************************************
+ SetDataReverted
+
+ ******************************************************************************/
+
+void
+LayoutDocument::SetDataReverted()
+{
+	itsLayout->GetUndoRedoChain()->ClearUndo();
+	itsLayout->GetUndoRedoChain()->SetLastSaveLocation();
+	DataReverted();
 }
 
 /******************************************************************************
@@ -554,7 +584,7 @@ LayoutDocument::ImportFDesignFile
 		auto* doc = jnew LayoutDocument(JString::empty, false);
 		if (doc->ImportFDesignLayout(input))
 		{
-			doc->DataReverted();
+			doc->SetDataReverted();
 			doc->Activate();
 		}
 		else

@@ -10,6 +10,8 @@
 
 #include <jx-af/jx/JXSelectionManager.h>
 
+class JPoint;
+class JRect;
 class LayoutContainer;
 class BaseWidget;
 
@@ -17,13 +19,15 @@ class LayoutSelection : public JXSelectionData
 {
 public:
 
-	LayoutSelection(LayoutContainer* layout, const JUtf8Byte* id);
+	LayoutSelection(LayoutContainer* layout, const JPoint& pt);
 
 	~LayoutSelection() override;
 
-	void	SetData(const JPtrArray<BaseWidget>& list);
+	static const JUtf8Byte*	GetDataXAtomName();
+	static const JUtf8Byte*	GetMetaXAtomName();
 
-	static const JUtf8Byte*	GetXAtomName();
+	static void	ReadMetaData(std::istream& input, JRect* bounds, JPoint* offset,
+							 JArray<JRect>* rectList);
 
 protected:
 
@@ -36,8 +40,10 @@ private:
 
 	LayoutContainer*	itsLayout;	// not owned; can be nullptr
 	JString				itsData;
+	JString				itsMetaData;
 
-	Atom	itsXAtom;
+	Atom	itsDataXAtom;
+	Atom	itsMetaXAtom;
 };
 
 #endif

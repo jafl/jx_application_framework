@@ -11,6 +11,7 @@
 #include "LayoutDocument.h"
 #include "LayoutContainer.h"
 #include <sstream>
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -54,6 +55,6 @@ LayoutUndo::Undo()
 	itsDoc->ReadFile(input, true);
 
 	LayoutDocument* doc = itsDoc;
-	itsDoc->GetLayoutContainer()->ReplaceUndo(this, newUndo);		// deletes us
+	itsDoc->GetLayoutContainer()->GetUndoRedoChain()->ReplaceUndo(this, newUndo);	// deletes us
 	doc->DataChanged();
 }

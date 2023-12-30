@@ -51,8 +51,6 @@ protected:
 						  const JXButtonStates& buttonStates,
 						  const JXKeyModifiers& modifiers) override;
 
-	void	GetSelectionData(JXSelectionData* data,
-							 const JString& id) override;
 	Atom	GetDNDAction(const JXContainer* target,
 						 const JXButtonStates& buttonStates,
 						 const JXKeyModifiers& modifiers) override;

@@ -13,6 +13,7 @@
 class JXMenuBar;
 class JXTextMenu;
 class JXToolBar;
+class JUndoRedoChain;
 class LayoutDocument;
 class LayoutUndo;
 class BaseWidget;
@@ -35,17 +36,16 @@ public:
 	void	RemoveSelectedWidgets();
 	void	Clear(const bool isUndoRedo);
 
-	bool	IsAtLastSaveLocation() const;
-	void	SetLastSaveLocation();
+	JUndoRedoChain*	GetUndoRedoChain();
+	void			SetIgnoreResize(const bool ignore);
 
 	void	AppendEditMenuToToolBar(JXToolBar* toolBar) const;
-	void	ReplaceUndo(LayoutUndo* oldUndo, LayoutUndo* newUndo);
-	void	SetIgnoreResize(const bool ignore);
 
 protected:
 
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+	void	DrawOver(JXWindowPainter& p, const JRect& rect) override;
 
 	void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 	void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
@@ -69,72 +69,41 @@ protected:
 	void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 						  const Atom action, const Time time,
 						  const JXWidget* source) override;
-
-private:
-
-	enum UndoState
-	{
-		kIdle,
-		kUndo,
-		kRedo
-	};
-
+	void	DNDFinish(const bool isDrop, const JXContainer* target) override;
 
 private:
 
 	LayoutDocument*	itsDoc;
 	JSize			itsGridSpacing;
-	Atom			itsLayoutXAtom;
+	Atom			itsLayoutDataXAtom;
+	Atom			itsLayoutMetaXAtom;
 
 	JXTextMenu*	itsEditMenu;
 
-	JPtrArray<LayoutUndo>*	itsUndoList;
-	JIndex					itsFirstRedoIndex;		// range [1:count+1]
-	JInteger				itsLastSaveRedoIndex;	// index where text was saved -- can be outside range of itsUndoList!
-	UndoState				itsUndoState;
-	LayoutUndo*				itsResizeUndo;			// nullptr unless windows is resizing
-	bool					itsIgnoreResizeFlag;
+	JUndoRedoChain*	itsUndoChain;
+	LayoutUndo*		itsResizeUndo;			// nullptr unless windows is resizing; part of itsUndoList
+	bool			itsIgnoreResizeFlag;
 
 	// used during drag
 
 	JPoint	itsStartPt;
 	JPoint	itsPrevPt;
 
+	// used during DND
+
+	JPoint			itsDropPt;
+	JPoint			itsDropOffset;
+	JArray<JRect>*	itsDropRectList;				// nullptr unless DND
+
 private:
 
-	void	Undo();
-	void	Redo();
-	bool	GetCurrentUndo(LayoutUndo** undo) const;
-	bool	GetCurrentRedo(LayoutUndo** redo) const;
 	void	NewUndo(LayoutUndo* undo);
-	void	ClearOutdatedUndo();
 	void	ClearUndo();
-
-	void	ClearLastSaveLocation();
 
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex index);
 };
 
-
-/******************************************************************************
- Clear
-
- ******************************************************************************/
-
-inline void
-LayoutContainer::Clear
-	(
-	const bool isUndoRedo
-	)
-{
-	DeleteEnclosedObjects();
-
-	if (!isUndoRedo)
-	{
-		ClearUndo();
-	}
-}
 
 /******************************************************************************
  SetIgnoreResize
@@ -151,28 +120,14 @@ LayoutContainer::SetIgnoreResize
 }
 
 /******************************************************************************
- Last save location
+ GetUndoRedoChain
 
  ******************************************************************************/
 
-inline bool
-LayoutContainer::IsAtLastSaveLocation()
-	const
+inline JUndoRedoChain*
+LayoutContainer::GetUndoRedoChain()
 {
-	return (itsLastSaveRedoIndex > 0 &&
-			JIndex(itsLastSaveRedoIndex) == itsFirstRedoIndex);
-}
-
-inline void
-LayoutContainer::SetLastSaveLocation()
-{
-	itsLastSaveRedoIndex = itsFirstRedoIndex;
-}
-
-inline void
-LayoutContainer::ClearLastSaveLocation()
-{
-	itsLastSaveRedoIndex = 0;
+	return itsUndoChain;
 }
 
 #endif

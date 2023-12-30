@@ -1,7 +1,7 @@
 /******************************************************************************
  LayoutSelection.cpp
 
-	text/x-jx-layout with DELETE support for DND.
+	text/x-jx-layout-data & text/x-jx-layout-meta with DELETE support for DND.
 
 	BASE CLASS = JXSelectionData
 
@@ -10,13 +10,16 @@
  ******************************************************************************/
 
 #include "LayoutSelection.h"
+#include "LayoutDocument.h"
 #include "LayoutContainer.h"
 #include "BaseWidget.h"
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jcore/JTableSelection.h>
+#include <sstream>
 #include <jx-af/jcore/jAssert.h>
 
-static const JUtf8Byte* kXAtomName = "text/x-jx-layout";
+static const JUtf8Byte* kDataXAtomName = "text/x-jx-layout-data";
+static const JUtf8Byte* kMetaXAtomName = "text/x-jx-layout-meta";
 
 /******************************************************************************
  Constructor
@@ -26,15 +29,58 @@ static const JUtf8Byte* kXAtomName = "text/x-jx-layout";
 LayoutSelection::LayoutSelection
 	(
 	LayoutContainer*	layout,
-	const JUtf8Byte*	id
+	const JPoint&		pt
 	)
 	:
-	JXSelectionData(layout, id),
+	JXSelectionData(layout->GetDisplay()),
 	itsLayout(layout)
 {
 	assert( itsLayout != nullptr );
 
 	ClearWhenGoingAway(itsLayout, &itsLayout);
+
+	// data
+
+	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
+	itsLayout->GetSelectedWidgets(&widgetList);
+	assert( !widgetList.IsEmpty() );
+
+	JPtrArray<JXWidget> widgetIndexList(JPtrArrayT::kForgetAll);
+	JRect bounds;
+
+	std::ostringstream data;
+	for (auto* widget : widgetList)
+	{
+		LayoutDocument::WriteWidget(data, widget, &widgetIndexList);
+
+		widget->ForEach([&data, &widgetIndexList](const JXContainer* obj)
+		{
+			LayoutDocument::WriteWidget(data, obj, &widgetIndexList);
+		},
+		true);
+
+		const JRect r = widget->GetFrameGlobal();
+		bounds        = bounds.IsEmpty() ? r : JCovering(bounds, r);
+	}
+	data << false;
+	itsData = data.str();
+
+	// meta
+
+	const JPoint offset = bounds.topLeft();
+	bounds.Shift(-offset);
+
+	std::ostringstream meta;
+	meta << bounds;
+	meta << ' ' << (pt - offset);
+	meta << ' ' << widgetList.GetItemCount();
+	for (auto* widget : widgetList)
+	{
+		JRect r = widget->GetFrameGlobal();
+		r.Shift(-offset);
+		meta << ' ' << r;
+	}
+	itsMetaData = meta.str();
 }
 
 /******************************************************************************
@@ -57,32 +103,8 @@ LayoutSelection::AddTypes
 	const Atom selectionName
 	)
 {
-	itsXAtom = AddType(kXAtomName);
-}
-
-/******************************************************************************
- SetData
-
- ******************************************************************************/
-
-void
-LayoutSelection::SetData
-	(
-	const JPtrArray<BaseWidget>& list
-	)
-{
-	std::ostringstream output;
-
-	for (auto* widget : list)
-	{
-		output << true << ' ';
-		widget->StreamOut(output);
-		output << ' ';
-	}
-
-	output << false;
-
-	itsData = output.str();
+	itsDataXAtom = AddType(kDataXAtomName);
+	itsMetaXAtom = AddType(kMetaXAtomName);
 }
 
 /******************************************************************************
@@ -105,14 +127,16 @@ LayoutSelection::ConvertData
 
 	JXSelectionManager* selMgr = GetSelectionManager();
 
-	if (requestType == itsXAtom)
+	if (requestType == itsDataXAtom || requestType == itsMetaXAtom)
 	{
-		*returnType = itsXAtom;
-		*dataLength = itsData.GetByteCount();
-		*data       = jnew unsigned char[ *dataLength ];
+		const JString& s = requestType == itsMetaXAtom ? itsMetaData : itsData;
+
+		*returnType = requestType;
+		*dataLength = s.GetByteCount();
+		*data       = jnew_allow_null unsigned char[ *dataLength ];
 		if (*data != nullptr)
 		{
-			memcpy(*data, itsData.GetRawBytes(), *dataLength);
+			memcpy(*data, s.GetRawBytes(), *dataLength);
 			return true;
 		}
 	}
@@ -135,12 +159,45 @@ LayoutSelection::ConvertData
 }
 
 /******************************************************************************
- GetXAtomName (static)
+ ReadMetaData (static)
+
+ ******************************************************************************/
+
+void
+LayoutSelection::ReadMetaData
+	(
+	std::istream&	input,
+	JRect*			bounds,
+	JPoint*			offset,
+	JArray<JRect>*	rectList
+	)
+{
+	input >> *bounds >> *offset;
+
+	JSize count;
+	input >> count;
+
+	JRect r;
+	for (JIndex i=1; i<=count; i++)
+	{
+		input >> r;
+		rectList->AppendItem(r);
+	}
+}
+
+/******************************************************************************
+ Get*XAtomName (static)
 
  ******************************************************************************/
 
 const JUtf8Byte*
-LayoutSelection::GetXAtomName()
+LayoutSelection::GetDataXAtomName()
 {
-	return kXAtomName;
+	return kDataXAtomName;
+}
+
+const JUtf8Byte*
+LayoutSelection::GetMetaXAtomName()
+{
+	return kMetaXAtomName;
 }
