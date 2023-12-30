@@ -51,7 +51,7 @@ LayoutUndo::Undo()
 {
 	auto* newUndo = jnew LayoutUndo(itsDoc);
 
-	std::istringstream input(itsData.GetRawBytes(), itsData.GetByteCount());
+	std::istringstream input(itsData.GetBytes());
 	itsDoc->ReadFile(input, true);
 
 	LayoutDocument* doc = itsDoc;
