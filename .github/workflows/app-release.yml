@@ -46,13 +46,13 @@ jobs:
     name: Publish version
     runs-on: ubuntu-latest
     needs: [ update-sourceforge ]
-    shell: bash
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Update version & docs
+        shell: bash
         run: |
           echo "${{ secrets.ssh-key }}" > ssh-key
           chmod 0600 ssh-key
