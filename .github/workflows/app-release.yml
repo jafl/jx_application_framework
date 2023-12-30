@@ -10,7 +10,7 @@ on:
         required: true
       ssh-key:
         required: true
-      update-homebrew
+      update-homebrew:
         required: false
         default: ""
 
