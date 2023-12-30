@@ -14,7 +14,6 @@ on:
         required: true
       update-homebrew:
         required: false
-        default: ""
 
 jobs:
   upload-release-pkgs:
