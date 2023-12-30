@@ -44,6 +44,7 @@ jobs:
 
   publish-version:
     name: Publish version
+    runs-on: ubuntu-latest
     needs: [ update-sourceforge ]
     steps:
       - uses: actions/checkout@v4
