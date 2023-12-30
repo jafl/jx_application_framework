@@ -22,7 +22,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 
 // version 4.1.0:
 //
-// YOU MUST FULLY UPGRADE TO VERSION 4.0.0 BEFORE UPGRADING TO 4.1.0 BECAUSE:
+// YOU SHOULD FULLY UPGRADE TO VERSION 4.0.0 BEFORE UPGRADING TO 4.1.0 TO CATCH
+// ALL HARD-CODED STRINGS BECAUSE:
 //	JString:
 //		Removed "explicit" from JString(const JUtf8Byte*, const Copy)
 //		and made the default kNoCopy.
@@ -47,7 +48,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 //	JList, JHashTable, etc:
 //		*** Renamed "element" to "item"
 //	JRegex:
-//		Made constructors explicit and added optional flags argument.
+//		*** Made constructors explicit and added optional flags argument.
+//	Refactored JUndoRedoChain out of JStyledText.
 
 // version 4.0.0:
 //	*** Upgraded to C++20

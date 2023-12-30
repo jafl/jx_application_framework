@@ -12,6 +12,7 @@
 
 #include <jx-af/jx/JXScrollableWidget.h>
 
+class JUndoRedoChain;
 class JUndo;
 
 class UndoWidget : public JXScrollableWidget
@@ -30,13 +31,11 @@ public:
 
 	~UndoWidget() override;
 
-	// needed by undo
-	
 	void	Undo();
 	void	Redo();
-	bool	HasUndo() const;
-	bool	HasRedo() const;
-	
+
+	JUndoRedoChain*	GetUndoRedoChain();
+
 protected:
 	
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
@@ -52,38 +51,36 @@ protected:
 
 private:
 
-	// needed by undo
-
-	enum UndoState
-	{
-		kIdle,
-		kUndo,
-		kRedo
-	};
-
-private:
-
 	// used during drag
 
-	JPoint				itsStartPt;
-	JPoint				itsPrevPt;
-	JArray<JPoint>* 	itsPoints;
+	JPoint			itsStartPt;
+	JPoint			itsPrevPt;
+	JArray<JPoint>* itsPoints;
 
 	// used for undo
-	
-	JPtrArray<JUndo>*	itsUndoList;		
-	JIndex				itsFirstRedoIndex;	// range [1:count+1]
-	UndoState			itsUndoState;
+
+	JUndoRedoChain*	itsUndoChain;
 	
 private:
 
 	// needed by undo
 
-	bool 	GetCurrentRedo(JUndo** undo) const;
-	bool	GetCurrentUndo(JUndo** undo) const;
-	void 	NewUndo(JUndo* undo);
 	void 	AddLine(const JPoint& start, const JPoint& end);
 	void 	RemoveLastLine(); 
 };
+
+
+/******************************************************************************
+ Redo (public)
+
+	This is the function that is called when the user asks to redo.
+
+ ******************************************************************************/
+
+inline JUndoRedoChain*
+UndoWidget::GetUndoRedoChain()
+{
+	return itsUndoChain;
+}
 
 #endif

@@ -35,6 +35,7 @@
  ******************************************************************************/
 
 #include "JStyledText.h"
+#include "JUndoRedoChain.h"
 #include "JSTUndoTyping.h"
 #include "JSTUndoPaste.h"
 #include "JSTUndoMove.h"
@@ -61,8 +62,6 @@
 using FontIterator = JRunArrayIterator<JFont>;
 
 const JFileVersion kCurrentPrivateFormatVersion = 1;
-
-const JSize kDefaultMaxUndoCount = 100;
 
 const JSize kUNIXLineWidth    = 75;
 const JSize kUNIXTabCharCount = 8;
@@ -99,28 +98,15 @@ JStyledText::JStyledText
 	itsDefaultFont(JFontManager::GetDefaultFont()),
 	itsCharInWordFn(nullptr)
 {
-	itsStyles = jnew JRunArray<JFont>;
-	assert( itsStyles != nullptr );
+	itsStyles    = jnew JRunArray<JFont>;
+	itsUndoChain = jnew JUndoRedoChain(useMultipleUndo);
 
-	itsUndo              = nullptr;
-	itsUndoList          = nullptr;
-	itsFirstRedoIndex    = 1;
-	itsLastSaveRedoIndex = itsFirstRedoIndex;
-	itsUndoState         = kIdle;
-	itsMaxUndoCount      = kDefaultMaxUndoCount;
 	itsTabToSpacesFlag   = false;
 	itsAutoIndentFlag    = false;
-
 	itsCRMLineWidth      = kUNIXLineWidth;
 	itsCRMTabCharCount   = kUNIXTabCharCount;
 	itsCRMRuleList       = nullptr;
 	itsOwnsCRMRulesFlag  = false;
-
-	if (useMultipleUndo)
-	{
-		itsUndoList = jnew JPtrArray<JSTUndoBase>(JPtrArrayT::kDeleteAll,
-												  itsMaxUndoCount+1);
-	}
 }
 
 /******************************************************************************
@@ -148,27 +134,22 @@ JStyledText::JStyledText
 	itsCRMTabCharCount( source.itsCRMTabCharCount )
 {
 	itsStyles = jnew JRunArray<JFont>(*source.itsStyles);
-	assert( itsStyles != nullptr );
 
 	if (source.itsCharInWordFn != nullptr)
 	{
 		itsCharInWordFn = jnew std::function(*source.itsCharInWordFn);
-		assert( itsCharInWordFn != nullptr );
 	}
 
-	itsUndo              = nullptr;
-	itsUndoList          = nullptr;
-	itsFirstRedoIndex    = 1;
-	itsLastSaveRedoIndex = itsFirstRedoIndex;
-	itsUndoState         = kIdle;
-	itsMaxUndoCount      = source.itsMaxUndoCount;
+	bool canUndo, canRedo;
+	itsUndoChain = jnew JUndoRedoChain(
+		source.itsUndoChain->HasMultipleUndo(&canUndo, &canRedo));
+	itsUndoChain->SetUndoDepth(source.itsUndoChain->GetUndoDepth());
 
 	itsCRMRuleList       = nullptr;
 	itsOwnsCRMRulesFlag  = false;
 	if (source.itsCRMRuleList != nullptr)
 	{
-		itsCRMRuleList = jnew CRMRuleList(*source.itsCRMRuleList);
-
+		itsCRMRuleList      = jnew CRMRuleList(*source.itsCRMRuleList);
 		itsOwnsCRMRulesFlag = true;
 	}
 }
@@ -181,8 +162,7 @@ JStyledText::JStyledText
 JStyledText::~JStyledText()
 {
 	jdelete itsStyles;
-	jdelete itsUndo;
-	jdelete itsUndoList;
+	jdelete itsUndoChain;
 	jdelete itsCharInWordFn;
 
 	ClearCRMRuleList();
@@ -1380,9 +1360,9 @@ JStyledText::SetFontName
 	{
 		AdjustFontToDisplayGlyphs(range, itsText, itsStyles);
 
-		if (undo != nullptr)
+		if (undo != nullptr && isNew)
 		{
-			NewUndo(undo, isNew);
+			itsUndoChain->NewUndo(undo);
 		}
 		BroadcastTextChanged(range, 0, 0, false, false);
 	}
@@ -1538,9 +1518,9 @@ JStyledText::SetFont
 
 	AdjustFontToDisplayGlyphs(range, itsText, itsStyles);
 
-	if (undo != nullptr)
+	if (undo != nullptr && isNew)
 	{
-		NewUndo(undo, isNew);
+		itsUndoChain->NewUndo(undo);
 	}
 	BroadcastTextChanged(range, 0, 0, false, false);
 }
@@ -1613,16 +1593,18 @@ JStyledText::SetAllFontNameAndSize
 	const TextRange& all = SelectAll();
 	AdjustFontToDisplayGlyphs(all, itsText, itsStyles);
 
-	if (itsUndoList != nullptr)
+	JPtrArray<JUndo>* list;
+	JUndo* undo;
+	if (itsUndoChain->GetUndoList(&list))
 	{
-		for (auto* u : *itsUndoList)
+		for (auto* u : *list)
 		{
-			u->SetFont(name, size);
+			dynamic_cast<JSTUndoBase*>(u)->SetFont(name, size);
 		}
 	}
-	else if (itsUndo != nullptr)
+	else if (itsUndoChain->GetCurrentUndo(&undo))
 	{
-		itsUndo->SetFont(name, size);
+		dynamic_cast<JSTUndoBase*>(undo)->SetFont(name, size);
 	}
 
 	itsDefaultFont.Set(name, size, itsDefaultFont.GetStyle());
@@ -1691,7 +1673,10 @@ JStyledText::Paste
 	const TextCount pasteCount = PrivatePaste(range, text, style);
 	newUndo->SetCount(pasteCount);
 
-	NewUndo(newUndo, isNew);
+	if (isNew)
+	{
+		itsUndoChain->NewUndo(newUndo);
+	}
 
 	const JInteger charDelta = pasteCount.charCount - range.charRange.GetCount(),
 				   byteDelta = pasteCount.byteCount - range.byteRange.GetCount();
@@ -2106,7 +2091,7 @@ JStyledText::DeleteText
 
 	PrivateDeleteText(range);
 
-	NewUndo(newUndo, true);
+	itsUndoChain->NewUndo(newUndo);
 
 	BroadcastTextChanged(TextRange(range.GetFirst(), TextCount(0,0)),
 		- (JInteger) range.charRange.GetCount(),
@@ -2196,7 +2181,10 @@ JStyledText::InsertCharacter
 		*count += indentCount;
 	}
 
-	NewUndo(typingUndo, isNew);
+	if (isNew)
+	{
+		itsUndoChain->NewUndo(typingUndo);
+	}
 
 	const JInteger charDelta = count->charCount - replaceRange.charRange.GetCount(),
 				   byteDelta = count->byteCount - replaceRange.byteRange.GetCount();
@@ -2311,7 +2299,10 @@ JStyledText::BackwardDelete
 
 	iter.RemoveLastMatch();		// invalidates match
 
-	NewUndo(typingUndo, isNew);
+	if (isNew)
+	{
+		itsUndoChain->NewUndo(typingUndo);
+	}
 
 	TextIndex returnIndex;
 	if (iter.AtEnd())
@@ -2426,7 +2417,10 @@ JStyledText::ForwardDelete
 
 	iter.RemoveLastMatch();		// invalidates match
 
-	NewUndo(typingUndo, isNew);
+	if (isNew)
+	{
+		itsUndoChain->NewUndo(typingUndo);
+	}
 
 	iter.Invalidate();
 
@@ -2597,7 +2591,10 @@ JStyledText::Outdent
 
 	undo->SetCount(TextCount(cr.GetCount(), range.byteRange.GetCount() - deleteCount));
 
-	NewUndo(undo, isNew);
+	if (isNew)
+	{
+		itsUndoChain->NewUndo(undo);
+	}
 
 	textIter.Invalidate();
 
@@ -2686,7 +2683,10 @@ JStyledText::Indent
 
 	undo->SetCount(TextCount(cr.GetCount(), range.byteRange.GetCount() + insertCount));
 
-	NewUndo(undo, isNew);
+	if (isNew)
+	{
+		itsUndoChain->NewUndo(undo);
+	}
 
 	const JUtf8ByteRange br(range.byteRange.first, range.byteRange.last + insertCount);
 	const TextRange tr(cr, br);
@@ -2764,7 +2764,10 @@ JStyledText::MoveText
 	const TextCount insertCount = InsertText(destIndex, text, styles);
 	undo->SetCount(insertCount);
 
-	NewUndo(undo, isNew);
+	if (isNew)
+	{
+		itsUndoChain->NewUndo(undo);
+	}
 
 	newRange->Set(destIndex, insertCount);
 	BroadcastTextChanged(*newRange, insertCount.charCount, insertCount.byteCount, false);
@@ -4039,16 +4042,7 @@ JStyledText::CRMGetTabWidth
 void
 JStyledText::Undo()
 {
-	assert( itsUndoState == kIdle );
-
-	JSTUndoBase* undo;
-	if (GetCurrentUndo(&undo))
-	{
-		itsUndoState = kUndo;
-		undo->Deactivate();
-		undo->Undo();
-		itsUndoState = kIdle;
-	}
+	itsUndoChain->Undo();
 }
 
 /******************************************************************************
@@ -4059,16 +4053,7 @@ JStyledText::Undo()
 void
 JStyledText::Redo()
 {
-	assert( itsUndoState == kIdle );
-
-	JSTUndoBase* undo;
-	if (GetCurrentRedo(&undo))
-	{
-		itsUndoState = kRedo;
-		undo->Deactivate();
-		undo->Undo();
-		itsUndoState = kIdle;
-	}
+	itsUndoChain->Redo();
 }
 
 /******************************************************************************
@@ -4079,11 +4064,7 @@ JStyledText::Redo()
 void
 JStyledText::DeactivateCurrentUndo()
 {
-	JSTUndoBase* undo = nullptr;
-	if (GetCurrentUndo(&undo))
-	{
-		undo->Deactivate();
-	}
+	itsUndoChain->DeactivateCurrentUndo();
 }
 
 /******************************************************************************
@@ -4097,231 +4078,7 @@ JStyledText::DeactivateCurrentUndo()
 void
 JStyledText::ClearUndo()
 {
-	jdelete itsUndo;
-	itsUndo = nullptr;
-
-	if (itsUndoList != nullptr)
-	{
-		itsUndoList->CleanOut();
-	}
-	itsFirstRedoIndex = 1;
-	ClearLastSaveLocation();
-}
-
-/******************************************************************************
- SetUndoDepth
-
- ******************************************************************************/
-
-void
-JStyledText::SetUndoDepth
-	(
-	const JSize maxUndoCount
-	)
-{
-	assert( maxUndoCount > 0 );
-
-	itsMaxUndoCount = maxUndoCount;
-	ClearOutdatedUndo();
-}
-
-/******************************************************************************
- GetCurrentUndo (private)
-
- ******************************************************************************/
-
-bool
-JStyledText::GetCurrentUndo
-	(
-	JSTUndoBase** undo
-	)
-	const
-{
-	if (itsUndoList != nullptr && itsFirstRedoIndex > 1)
-	{
-		*undo = itsUndoList->GetItem(itsFirstRedoIndex - 1);
-		return true;
-	}
-	else if (itsUndoList != nullptr)
-	{
-		return false;
-	}
-	else
-	{
-		*undo = itsUndo;
-		return *undo != nullptr;
-	}
-}
-
-/******************************************************************************
- GetCurrentRedo (private)
-
- ******************************************************************************/
-
-bool
-JStyledText::GetCurrentRedo
-	(
-	JSTUndoBase** redo
-	)
-	const
-{
-	if (itsUndoList != nullptr && itsFirstRedoIndex <= itsUndoList->GetItemCount())
-	{
-		*redo = itsUndoList->GetItem(itsFirstRedoIndex);
-		return true;
-	}
-	else if (itsUndoList != nullptr)
-	{
-		return false;
-	}
-	else
-	{
-		*redo = itsUndo;
-		return *redo != nullptr;
-	}
-}
-
-/******************************************************************************
- NewUndo (private)
-
-	Register a new Undo object.
-
-	itsFirstRedoIndex points to the first redo object in itsUndoList.
-	1 <= itsFirstRedoIndex <= itsUndoList->GetItemCount()+1
-	Minimum => everything is redo
-	Maximum => everything is undo
-
- ******************************************************************************/
-
-void
-JStyledText::NewUndo
-	(
-	JSTUndoBase*	undo,
-	const bool		isNew
-	)
-{
-	if (!isNew)
-	{
-		return;
-	}
-
-	if (itsUndoList != nullptr && itsUndoState == kIdle)
-	{
-		// clear redo objects
-
-		const JSize undoCount = itsUndoList->GetItemCount();
-		for (JIndex i=undoCount; i>=itsFirstRedoIndex; i--)
-		{
-			itsUndoList->DeleteItem(i);
-		}
-
-		if (itsLastSaveRedoIndex > 0 &&
-			itsFirstRedoIndex < JIndex(itsLastSaveRedoIndex))
-		{
-			ClearLastSaveLocation();
-		}
-
-		// save the new object
-
-		itsUndoList->Append(undo);
-		itsFirstRedoIndex++;
-
-		ClearOutdatedUndo();
-		assert( !itsUndoList->IsEmpty() );
-	}
-
-	else if (itsUndoList != nullptr && itsUndoState == kUndo)
-	{
-		assert( itsFirstRedoIndex > 1 );
-
-		itsFirstRedoIndex--;
-		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
-
-		undo->SetRedo(true);
-		undo->Deactivate();
-	}
-
-	else if (itsUndoList != nullptr && itsUndoState == kRedo)
-	{
-		assert( itsFirstRedoIndex <= itsUndoList->GetItemCount() );
-
-		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
-		itsFirstRedoIndex++;
-
-		undo->SetRedo(false);
-		undo->Deactivate();
-	}
-
-	else
-	{
-		jdelete itsUndo;
-		itsUndo = undo;
-	}
-}
-
-/******************************************************************************
- ReplaceUndo (private)
-
- ******************************************************************************/
-
-void
-JStyledText::ReplaceUndo
-	(
-	JSTUndoBase* oldUndo,
-	JSTUndoBase* newUndo
-	)
-{
-#ifndef NDEBUG
-
-	assert( itsUndoState != kIdle );
-
-	if (itsUndoList != nullptr && itsUndoState == kUndo)
-	{
-		assert( itsFirstRedoIndex > 1 &&
-				oldUndo == itsUndoList->GetItem(itsFirstRedoIndex - 1) );
-	}
-	else if (itsUndoList != nullptr && itsUndoState == kRedo)
-	{
-		assert( itsFirstRedoIndex <= itsUndoList->GetItemCount() &&
-				oldUndo == itsUndoList->GetItem(itsFirstRedoIndex) );
-	}
-	else
-	{
-		assert( oldUndo == itsUndo );
-	}
-
-#endif
-
-	NewUndo(newUndo, true);
-}
-
-/******************************************************************************
- ClearOutdatedUndo (private)
-
- ******************************************************************************/
-
-void
-JStyledText::ClearOutdatedUndo()
-{
-	if (itsUndoList == nullptr)
-	{
-		return;
-	}
-
-	while (itsUndoList->GetItemCount() > itsMaxUndoCount)
-	{
-		itsUndoList->DeleteItem(1);
-		itsFirstRedoIndex--;
-		itsLastSaveRedoIndex--;
-
-		// If we have to throw out redo's, we have to toss everything.
-
-		if (itsFirstRedoIndex == 0)
-		{
-			ClearUndo();
-			break;
-		}
-	}
+	itsUndoChain->ClearUndo();
 }
 
 /******************************************************************************
@@ -4344,8 +4101,8 @@ JStyledText::GetTypingUndo
 {
 	JSTUndoTyping* typingUndo = nullptr;
 
-	JSTUndoBase* undo = nullptr;
-	if (GetCurrentUndo(&undo) &&
+	JUndo* undo = nullptr;
+	if (itsUndoChain->GetCurrentUndo(&undo) &&
 		(typingUndo = dynamic_cast<JSTUndoTyping*>(undo)) != nullptr &&
 		 typingUndo->IsActive() &&
 		 typingUndo->MatchesCurrentIndex(start))
@@ -4382,8 +4139,8 @@ JStyledText::GetStyleUndo
 {
 	JSTUndoStyle* styleUndo = nullptr;
 
-	JSTUndoBase* undo = nullptr;
-	if (GetCurrentUndo(&undo) &&
+	JUndo* undo = nullptr;
+	if (itsUndoChain->GetCurrentUndo(&undo) &&
 		(styleUndo = dynamic_cast<JSTUndoStyle*>(undo)) != nullptr &&
 		 styleUndo->IsActive() &&
 		 styleUndo->SameRange(range))
@@ -4443,8 +4200,8 @@ JStyledText::GetTabShiftUndo
 {
 	JSTUndoTabShift* tabShiftUndo = nullptr;
 
-	JSTUndoBase* undo = nullptr;
-	if (GetCurrentUndo(&undo) &&
+	JUndo* undo = nullptr;
+	if (itsUndoChain->GetCurrentUndo(&undo) &&
 		(tabShiftUndo = dynamic_cast<JSTUndoTabShift*>(undo)) != nullptr &&
 		 tabShiftUndo->IsActive() &&
 		 tabShiftUndo->SameStartIndex(range))

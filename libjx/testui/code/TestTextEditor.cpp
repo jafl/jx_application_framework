@@ -10,6 +10,7 @@
 #include "TestTextEditor.h"
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXPSPrinter.h>
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/jAssert.h>
 
 #include "TestTextEditor-Edit.h"
@@ -135,7 +136,7 @@ TestTextEditor::UpdateCustomEditMenuItems()
 		editMenu->CheckItem(itsAutoIndentCmdIndex);
 	}
 
-	const JSize undoDepth = GetText()->GetUndoDepth();
+	const JSize undoDepth = GetText()->GetUndoRedoChain()->GetUndoDepth();
 	for (JUnsignedOffset i=0; i<kUndoDepthCount; i++)
 	{
 		const JIndex itemIndex = itsFirstUndoDepthCmdIndex + i;
@@ -167,7 +168,7 @@ TestTextEditor::HandleCustomEditMenuItems
 	}
 	else if (itsFirstUndoDepthCmdIndex > 0 && index >= itsFirstUndoDepthCmdIndex)
 	{
-		GetText()->SetUndoDepth(kUndoDepth[ index - itsFirstUndoDepthCmdIndex ]);
+		GetText()->GetUndoRedoChain()->SetUndoDepth(kUndoDepth[ index - itsFirstUndoDepthCmdIndex ]);
 		return true;
 	}
 	else

@@ -127,6 +127,7 @@
 #include "JFontManager.h"
 #include "JListUtil.h"
 #include "JUndo.h"
+#include "JUndoRedoChain.h"
 #include "JRunArrayIterator.h"
 #include "JRegex.h"
 #include "JStringIterator.h"
@@ -1608,12 +1609,12 @@ JTextEditor::GetCmdStatus
 		}
 
 		bool canUndo, canRedo;
-		if (itsText->HasMultipleUndo(&canUndo, &canRedo))
+		if (itsText->GetUndoRedoChain()->HasMultipleUndo(&canUndo, &canRedo))
 		{
 			flags.SetItem(kUndoCmd, canUndo);
 			flags.SetItem(kRedoCmd, canRedo);
 		}
-		else if (itsText->HasSingleUndo())
+		else if (itsText->GetUndoRedoChain()->HasSingleUndo())
 		{
 			flags.SetItem(kUndoCmd, true);
 			flags.SetItem(kRedoCmd, false);

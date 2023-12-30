@@ -17,6 +17,7 @@
 
 class JRegex;
 class JInterpolate;
+class JUndoRedoChain;
 class JUndo;
 class JSTUndoBase;
 class JSTUndoTextBase;
@@ -358,19 +359,13 @@ public:
 	bool	WillAutoIndent() const;
 	void	ShouldAutoIndent(const bool indent = true);
 
-	bool	HasSingleUndo() const;
-	bool	HasMultipleUndo(bool* canUndo, bool* canRedo) const;
 	void	Undo();
 	void	Redo();
 	void	ClearUndo();
 	void	DeactivateCurrentUndo();
 
-	JSize	GetUndoDepth() const;
-	void	SetUndoDepth(const JSize maxUndoCount);
-
-	bool	IsAtLastSaveLocation() const;
-	void	SetLastSaveLocation();
-	void	ClearLastSaveLocation();
+	JUndoRedoChain*			GetUndoRedoChain();
+	const JUndoRedoChain*	GetUndoRedoChain() const;
 
 	bool		Copy(const TextRange& range,
 					 JString* text, JRunArray<JFont>* style = nullptr) const;
@@ -462,13 +457,6 @@ protected:
 
 private:
 
-	enum UndoState
-	{
-		kIdle,
-		kUndo,
-		kRedo
-	};
-
 	enum CRMStatus
 	{
 		kFoundWord,
@@ -480,18 +468,12 @@ private:
 
 	JString				itsText;
 	JRunArray<JFont>*	itsStyles;
+	JUndoRedoChain*		itsUndoChain;
 	const bool			itsPasteStyledTextFlag;		// true => paste styled text
 	bool				itsTabToSpacesFlag;			// true => 1 tab -> itsCRMTabCharCount spaces
 	bool				itsAutoIndentFlag;			// true => auto-indent after newline
 
 	JFont	itsDefaultFont;
-
-	JSTUndoBase*			itsUndo;				// can be nullptr
-	JPtrArray<JSTUndoBase>*	itsUndoList;			// nullptr if not multiple undo
-	JIndex					itsFirstRedoIndex;		// range [1:count+1]
-	JInteger				itsLastSaveRedoIndex;	// index where text was saved -- can be outside range of itsUndoList!
-	UndoState				itsUndoState;
-	JSize					itsMaxUndoCount;		// maximum length of itsUndoList
 
 	std::function<bool(const JUtf8Character&)>*	itsCharInWordFn;	// null => default
 
@@ -506,11 +488,6 @@ private:
 	JFont	CalcInsertionFont(JStringIterator& iter,
 							  JRunArrayIterator<JFont>& styleIter) const;
 
-	bool				GetCurrentUndo(JSTUndoBase** undo) const;
-	bool				GetCurrentRedo(JSTUndoBase** redo) const;
-	void				NewUndo(JSTUndoBase* undo, const bool isNew);
-	void				ReplaceUndo(JSTUndoBase* oldUndo, JSTUndoBase* newUndo);
-	void				ClearOutdatedUndo();
 	JSTUndoTyping*		GetTypingUndo(const TextIndex& start, bool* isNew);
 	JSTUndoStyle*		GetStyleUndo(const TextRange& range, bool* isNew);
 	JSTUndoPaste*		GetPasteUndo(const TextRange& range, bool* isNew);
@@ -544,10 +521,10 @@ private:
 	void	AutoIndent(JSTUndoTyping* typingUndo, const TextIndex& insertIndex,
 					   TextCount* count);
 
-	bool			PrivateCleanRightMargin(const TextIndex& start, const bool coerce,
-											TextRange* textRange,
-											JString* newText, JRunArray<JFont>* newStyles,
-											TextIndex* newCaretIndex) const;
+	bool		PrivateCleanRightMargin(const TextIndex& start, const bool coerce,
+										TextRange* textRange,
+										JString* newText, JRunArray<JFont>* newStyles,
+										TextIndex* newCaretIndex) const;
 	bool		CRMGetRange(const TextIndex& caretIndex, const bool coerce,
 							TextRange* range, TextIndex* textStartIndex,
 							JString* firstLinePrefix, JSize* firstPrefixLength,
@@ -768,66 +745,21 @@ JStyledText::GetStyles()
 }
 
 /******************************************************************************
- Has undo
+ Undo chain
 
  ******************************************************************************/
 
-inline bool
-JStyledText::HasSingleUndo()
+inline JUndoRedoChain*
+JStyledText::GetUndoRedoChain()
+{
+	return itsUndoChain;
+}
+
+inline const JUndoRedoChain*
+JStyledText::GetUndoRedoChain()
 	const
 {
-	return itsUndo != nullptr;
-}
-
-inline bool
-JStyledText::HasMultipleUndo
-	(
-	bool* canUndo,
-	bool* canRedo
-	)
-	const
-{
-	*canUndo = itsFirstRedoIndex > 1;
-	*canRedo = itsUndoList != nullptr && itsFirstRedoIndex <= itsUndoList->GetItemCount();
-	return itsUndoList != nullptr;
-}
-
-/******************************************************************************
- GetUndoDepth
-
- ******************************************************************************/
-
-inline JSize
-JStyledText::GetUndoDepth()
-	const
-{
-	return itsMaxUndoCount;
-}
-
-/******************************************************************************
- Last save location
-
- ******************************************************************************/
-
-inline bool
-JStyledText::IsAtLastSaveLocation()
-	const
-{
-	return (itsUndoList != nullptr &&
-			itsLastSaveRedoIndex > 0 &&
-			JIndex(itsLastSaveRedoIndex) == itsFirstRedoIndex);
-}
-
-inline void
-JStyledText::SetLastSaveLocation()
-{
-	itsLastSaveRedoIndex = itsFirstRedoIndex;
-}
-
-inline void
-JStyledText::ClearLastSaveLocation()
-{
-	itsLastSaveRedoIndex = 0;
+	return itsUndoChain;
 }
 
 /******************************************************************************

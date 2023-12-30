@@ -12,6 +12,7 @@
 
 #include "JSTUndoTextBase.h"
 #include "JSTUndoPaste.h"
+#include "JUndoRedoChain.h"
 #include "jAssert.h"
 
 /******************************************************************************
@@ -70,7 +71,7 @@ JSTUndoTextBase::UndoText
 
 	newUndo->SetCount(pasteCount);
 
-	text->ReplaceUndo(this, newUndo);		// deletes us
+	text->GetUndoRedoChain()->ReplaceUndo(this, newUndo);		// deletes us
 
 	// NO instance variables past this point; we have been deleted
 

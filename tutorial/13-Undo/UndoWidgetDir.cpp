@@ -14,6 +14,7 @@
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -99,22 +100,10 @@ UndoWidgetDir::BuildWindow()
 void
 UndoWidgetDir::UpdateActionsMenu()
 {
-	if (itsWidget->HasUndo())
-	{
-		itsActionsMenu->EnableItem(kUndo);
-	}
-	else
-	{
-		itsActionsMenu->DisableItem(kUndo);
-	}
-	if (itsWidget->HasRedo())
-	{
-		itsActionsMenu->EnableItem(kRedo);
-	}
-	else
-	{
-		itsActionsMenu->DisableItem(kRedo);
-	}
+	bool hasUndo, hasRedo;
+	itsWidget->GetUndoRedoChain()->HasMultipleUndo(&hasUndo, &hasRedo);
+	itsActionsMenu->SetItemEnabled(kUndo, hasUndo);
+	itsActionsMenu->SetItemEnabled(kRedo, hasRedo);
 }
 
 /******************************************************************************

@@ -658,6 +658,17 @@ F
 "./code/jTextUtil.cpp"
 F
 T
+1 "undo"
+T
+2 "JUndo.cpp"
+F
+"./code/JUndo.cpp"
+T
+2 "JUndoRedoChain.cpp"
+F
+"./code/JUndoRedoChain.cpp"
+F
+T
 1 "memory manager"
 T
 2 "jNew.cpp"
@@ -745,10 +756,6 @@ T
 2 "jTime_UNIX.cpp"
 F
 "./code/jTime_UNIX.cpp"
-T
-2 "JUndo.cpp"
-F
-"./code/JUndo.cpp"
 T
 2 "jVCSUtil.cpp"
 F

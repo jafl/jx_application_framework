@@ -10,6 +10,7 @@
 #include "JTestManager.h"
 #include "JBroadcastTester.h"
 #include "StyledText.h"
+#include "JUndoRedoChain.h"
 #include "JStringIterator.h"
 #include "JInterpolate.h"
 #include "JRegex.h"
@@ -564,13 +565,13 @@ JTEST(ReplaceAllInRange)
 	bcastTest.Expect(JStyledText::kUndoFinished);
 
 	bool canUndo, canRedo;
-	JAssertTrue(text.HasSingleUndo());
-	JAssertFalse(text.HasMultipleUndo(&canUndo, &canRedo));
+	JAssertTrue(text.GetUndoRedoChain()->HasSingleUndo());
+	JAssertFalse(text.GetUndoRedoChain()->HasMultipleUndo(&canUndo, &canRedo));
 
 	text.Undo();
 
-	JAssertTrue(text.HasSingleUndo());
-	JAssertFalse(text.HasMultipleUndo(&canUndo, &canRedo));
+	JAssertTrue(text.GetUndoRedoChain()->HasSingleUndo());
+	JAssertFalse(text.GetUndoRedoChain()->HasMultipleUndo(&canUndo, &canRedo));
 
 	bcastTest.Expect(JStyledText::kTextChanged,
 		[] (const JBroadcaster::Message& m)
@@ -1072,8 +1073,8 @@ JTEST(DeleteText)
 	JAssertEqual(2, f.GetStyle().underlineCount);
 
 	bool canUndo, canRedo;
-	JAssertFalse(text.HasSingleUndo());
-	JAssertTrue(text.HasMultipleUndo(&canUndo, &canRedo));
+	JAssertFalse(text.GetUndoRedoChain()->HasSingleUndo());
+	JAssertTrue(text.GetUndoRedoChain()->HasMultipleUndo(&canUndo, &canRedo));
 	JAssertTrue(canUndo);
 	JAssertFalse(canRedo);
 
@@ -1095,7 +1096,7 @@ JTEST(DeleteText)
 
 	text.Undo();
 
-	JAssertTrue(text.HasMultipleUndo(&canUndo, &canRedo));
+	JAssertTrue(text.GetUndoRedoChain()->HasMultipleUndo(&canUndo, &canRedo));
 	JAssertTrue(canUndo);
 	JAssertTrue(canRedo);
 
@@ -1117,7 +1118,7 @@ JTEST(DeleteText)
 
 	text.Undo();
 
-	JAssertTrue(text.HasMultipleUndo(&canUndo, &canRedo));
+	JAssertTrue(text.GetUndoRedoChain()->HasMultipleUndo(&canUndo, &canRedo));
 	JAssertFalse(canUndo);
 	JAssertTrue(canRedo);
 

@@ -10,6 +10,7 @@
  ******************************************************************************/
 
 #include "JSTUndoStyle.h"
+#include "JUndoRedoChain.h"
 #include "jAssert.h"
 
 /******************************************************************************
@@ -58,7 +59,7 @@ JSTUndoStyle::Undo()
 
 	const JStyledText::TextRange r = itsRange;
 
-	text->ReplaceUndo(this, newUndo);		// deletes us
+	text->GetUndoRedoChain()->ReplaceUndo(this, newUndo);		// deletes us
 
 	// NO instance variables past this point; we have been deleted
 

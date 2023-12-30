@@ -25,6 +25,7 @@
 #include <jx-af/jx/JXChooseFileDialog.h>
 #include <jx-af/jx/jXGlobals.h>
 
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/jFStreamUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jFileUtil.h>
@@ -129,7 +130,7 @@ TestTextEditDocument::BuildWindow
 	assert( itsText != nullptr );
 	ListenTo(itsText, std::function([this](const JStyledText::TextChanged&)
 	{
-		if (itsText->IsAtLastSaveLocation())
+		if (itsText->GetUndoRedoChain()->IsAtLastSaveLocation())
 		{
 			DataReverted();
 		}
@@ -367,7 +368,7 @@ TestTextEditDocument::ReadFile
 		JStyledText::PlainTextFormat format;
 		itsText->ReadPlainText(fileName, &format);
 	}
-	itsText->SetLastSaveLocation();
+	itsText->GetUndoRedoChain()->SetLastSaveLocation();
 }
 
 /******************************************************************************
@@ -411,7 +412,7 @@ TestTextEditDocument::WriteTextFile
 		itsText->DeactivateCurrentUndo();
 		if (output.good())
 		{
-			itsText->SetLastSaveLocation();
+			itsText->GetUndoRedoChain()->SetLastSaveLocation();
 		}
 	}
 }

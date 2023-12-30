@@ -17,6 +17,7 @@
 #include "JXTEStyleMenu.h"
 #include "JXScrollbarSet.h"
 #include "JXScrollbar.h"
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -48,7 +49,7 @@ JXTextEditor::JXTextEditor
 {
 	WantInput(true, true);
 	ShouldAllowDragAndDrop(true);
-	GetText()->SetLastSaveLocation();
+	GetText()->GetUndoRedoChain()->SetLastSaveLocation();
 
 	scrollbarSet->GetVScrollbar()->SetScrollDelay(0);
 

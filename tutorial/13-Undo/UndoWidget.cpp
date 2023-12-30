@@ -16,6 +16,7 @@
 #include <jx-af/jx/JXDragPainter.h>
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -37,8 +38,7 @@ UndoWidget::UndoWidget
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
 {
-	itsFirstRedoIndex   = 1;
-	itsUndoState        = kIdle;
+	itsUndoChain = jnew JUndoRedoChain(true);
 
 	// This changes our Bounds, independent of what part of us
 	// is visible (our Frame).
@@ -50,10 +50,6 @@ UndoWidget::UndoWidget
 	// See JCollection.h, JList.h, and JArray.h for functionality
 
 	itsPoints = jnew JArray<JPoint>;
-	assert( itsPoints != nullptr );
-
-	itsUndoList = jnew JPtrArray<JUndo>(JPtrArrayT::kDeleteAll);
-	assert(itsUndoList != nullptr);
 }
 
 /******************************************************************************
@@ -67,8 +63,8 @@ UndoWidget::~UndoWidget()
 	// we must delete this JArray since it is a private instance variable.
 	jdelete itsPoints;
 
-	// This JPtrArray must also be deleted.
-	jdelete itsUndoList;
+	// This object must also be deleted.
+	jdelete itsUndoChain;
 }
 
 /******************************************************************************
@@ -249,7 +245,7 @@ UndoWidget::HandleMouseUp
 		// Create the undo object to undo the addition of this line
 
 		UndoLine* undo = jnew UndoLine(this);
-		NewUndo(undo);
+		itsUndoChain->NewUndo(undo);
 
 		// Tell the widget to redraw itself
 		Refresh();
@@ -266,21 +262,7 @@ UndoWidget::HandleMouseUp
 void
 UndoWidget::Undo()
 {
-	// This can't be called while Undo/Redo is being called.
-	assert( itsUndoState == kIdle );
-
-	// See if we have an undo object available.
-	JUndo* undo;
-	const bool hasUndo = GetCurrentUndo(&undo);
-
-	// Perform the undo.
-	if (hasUndo)
-	{
-		itsUndoState = kUndo;
-		undo->Deactivate();
-		undo->Undo();
-		itsUndoState = kIdle;
-	}
+	itsUndoChain->Undo();
 }
 
 /******************************************************************************
@@ -293,144 +275,7 @@ UndoWidget::Undo()
 void
 UndoWidget::Redo()
 {
-	// This can't be called while Undo/Redo is being called.
-	assert( itsUndoState == kIdle );
-
-	// See if we have an redo object available.
-	JUndo* undo;
-	const bool hasUndo = GetCurrentRedo(&undo);
-
-	// Perform the redo.
-	if (hasUndo)
-	{
-		itsUndoState = kRedo;
-		undo->Deactivate();
-		undo->Undo();
-		itsUndoState = kIdle;
-	}
-}
-
-/******************************************************************************
- GetCurrentUndo (private)
-
- ******************************************************************************/
-
-bool
-UndoWidget::GetCurrentUndo
-	(
-	JUndo** undo
-	)
-	const
-{
-	if (HasUndo())
-	{
-		*undo = itsUndoList->GetItem(itsFirstRedoIndex - 1);
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-/******************************************************************************
- GetCurrentRedo (private)
-
- ******************************************************************************/
-
-bool
-UndoWidget::GetCurrentRedo
-	(
-	JUndo** redo
-	)
-	const
-{
-	if (HasRedo())
-	{
-		*redo = itsUndoList->GetItem(itsFirstRedoIndex);
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-/******************************************************************************
- HasUndo (public)
-
- ******************************************************************************/
-
-bool
-UndoWidget::HasUndo()
-	const
-{
-	return itsFirstRedoIndex > 1;
-}
-
-/******************************************************************************
- HasRedo (public)
-
- ******************************************************************************/
-
-bool
-UndoWidget::HasRedo()
-	const
-{
-	return itsFirstRedoIndex <= itsUndoList->GetItemCount();
-}
-
-/******************************************************************************
- NewUndo (private)
-
- ******************************************************************************/
-
-void
-UndoWidget::NewUndo
-	(
-	JUndo* undo
-	)
-{
-	if (itsUndoList != nullptr && itsUndoState == kIdle)
-	{
-		// clear redo objects
-
-		const JSize undoCount = itsUndoList->GetItemCount();
-		for (JIndex i=undoCount; i>=itsFirstRedoIndex; i--)
-		{
-			itsUndoList->DeleteItem(i);
-		}
-
-		// save the new object
-
-		itsUndoList->Append(undo);
-		itsFirstRedoIndex++;
-
-		assert( !itsUndoList->IsEmpty() );
-	}
-
-	else if (itsUndoList != nullptr && itsUndoState == kUndo)
-	{
-		assert( itsFirstRedoIndex > 1 );
-
-		itsFirstRedoIndex--;
-		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
-
-		undo->SetRedo(true);
-		undo->Deactivate();
-	}
-
-	else if (itsUndoList != nullptr && itsUndoState == kRedo)
-	{
-		assert( itsFirstRedoIndex <= itsUndoList->GetItemCount() );
-
-		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
-		itsFirstRedoIndex++;
-
-		undo->SetRedo(false);
-		undo->Deactivate();
-	}
-
+	itsUndoChain->Redo();
 }
 
 /******************************************************************************
@@ -456,7 +301,7 @@ UndoWidget::AddLine
 
 	UndoLine* undo = jnew UndoLine(this);
 
-	NewUndo(undo);
+	itsUndoChain->NewUndo(undo);
 }
 
 /******************************************************************************
@@ -479,5 +324,5 @@ UndoWidget::RemoveLastLine()
 
 	RedoLine* redo = jnew RedoLine(this, start, end);
 
-	NewUndo(redo);
+	itsUndoChain->NewUndo(redo);
 }

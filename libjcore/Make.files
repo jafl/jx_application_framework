@@ -116,6 +116,8 @@
 .cpp ./code/JSTStyler
 .cpp ./code/JSpellChecker
 .cpp ./code/jTextUtil
+.cpp ./code/JUndo
+.cpp ./code/JUndoRedoChain
 .cpp ./code/jNew
 .cpp ./code/JMemoryManager
 .cpp ./code/JMMArrayTable
@@ -135,7 +137,6 @@
 .cpp ./code/jSysUtil_UNIX
 .cpp ./code/jTime
 .cpp ./code/jTime_UNIX
-.cpp ./code/JUndo
 .cpp ./code/jVCSUtil
 .cpp ./code/JWebBrowser
 .cpp ./code/jWebUtil
