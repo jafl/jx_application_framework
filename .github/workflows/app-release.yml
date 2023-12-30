@@ -9,13 +9,10 @@ on:
         required: true
     secrets:
       api-key:
-        type: string
         required: true
       ssh-key:
-        type: string
         required: true
       update-homebrew:
-        type: string
         required: false
         default: ""
 
