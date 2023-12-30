@@ -63,9 +63,9 @@ jobs:
     needs: [ upload-release-pkgs ]
     env:
       homebrew_secret: ${{ secrets.update-homebrew }}
-    if: ${{ env.homebrew_secret != '' }}
     steps:
       - name: Repository Dispatch
+        if: ${{ env.homebrew_secret != '' }}
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.update-homebrew }}
