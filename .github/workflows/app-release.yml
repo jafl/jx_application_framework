@@ -60,7 +60,7 @@ jobs:
     name: Update Homebrew Formulas
     runs-on: ubuntu-latest
     needs: [ upload-release-pkgs ]
-    if: ${{ secrets.update-homebrew != '' }}
+    if: secrets.update-homebrew != ''
     steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
