@@ -46,6 +46,7 @@ jobs:
     name: Publish version
     runs-on: ubuntu-latest
     needs: [ update-sourceforge ]
+    shell: bash
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,7 +56,11 @@ jobs:
         run: |
           echo "${{ secrets.ssh-key }}" > ssh-key
           chmod 0600 ssh-key
-          scp -o StrictHostKeyChecking=no -i ssh-key release/VERSION release/doc/* jafl,${{ inputs.forge-name }}@web.sourceforge.net:htdocs/;
+          f=release/VERSION
+          if [[ -d release/doc ]]; then
+            f="$f release/doc/*"
+          fi
+          scp -o StrictHostKeyChecking=no -i ssh-key $f jafl,${{ inputs.forge-name }}@web.sourceforge.net:htdocs/;
 
   update-homebrew:
     name: Update Homebrew Formulas
