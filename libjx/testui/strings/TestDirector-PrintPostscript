@@ -6,5 +6,5 @@
 
 MenuTitle::TestDirector_PrintPostscript "PrintPostscript"
 
-__PageSetup::TestDirector "Page setup..."
+__PageSetup::TestDirector "Page setup... %h g"
 __Print::TestDirector "Print... %k Ctrl-P %h p"

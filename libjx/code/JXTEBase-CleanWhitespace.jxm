@@ -18,7 +18,7 @@ jx_menu_editor 0
 1 "jx_show_whitespace.xpm"
 "Show whitespace"
 ""
-' 
+'h
 "ShowWhitespaceCmd"
 "__ShowWhitespaceCmd"
 0

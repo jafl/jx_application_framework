@@ -28,7 +28,7 @@ jx_menu_editor 0
 1 "jx_filter_wildcard.xpm"
 "Use wildcard filter"
 ""
-' 
+'w
 "__UseWildcardFilter"
 "kUseWildcardCmd"
 0
@@ -38,7 +38,7 @@ jx_menu_editor 0
 1 "jx_filter_regex.xpm"
 "Use regex filter"
 ""
-' 
+'r
 "__UseRegexFilter"
 "kUseRegexCmd"
 1

@@ -124,7 +124,7 @@ T "./" "jxlayout --choose --require-obj-names --post-cmd \"jcc --force-reload-op
 F
 # build settings
 1
-T
+F
 "jx_layout_editor"
 "${LIB_DEPS}"
 "make -k all"

@@ -1,14 +1,14 @@
 jx_menu_editor 0
-705 371
+797 371
 "TestTextEditDocument"
 "File"
 'f
 40
 40
-100
+153
 100
 50
-138
+158
 144
 75
 
@@ -48,7 +48,7 @@ jx_menu_editor 0
 0 ""
 "Save as..."
 ""
-' 
+'a
 "__SaveAs"
 "kSaveFileAsCmd"
 0
@@ -58,7 +58,7 @@ jx_menu_editor 0
 0 ""
 "Save a copy as..."
 ""
-' 
+'y
 "__SaveACopyAs"
 "kSaveCopyAsCmd"
 0
@@ -68,7 +68,7 @@ jx_menu_editor 0
 1 "jx_file_revert_to_saved.xpm"
 "Revert to saved"
 ""
-' 
+'r
 "__RevertToSaved"
 "kRevertCmd"
 1
@@ -98,7 +98,7 @@ jx_menu_editor 0
 0 ""
 "Page setup..."
 ""
-' 
+'g
 "__PageSetup"
 "kPageSetupCmd"
 0

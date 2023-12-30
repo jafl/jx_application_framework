@@ -7,6 +7,6 @@
 MenuTitle::TestFileListDirector_File "File"
 
 __ShowSelectedFilesInFileManager::TestFileListDirector "Show selected files in file manager %k Ctrl-Return %h s"
-__UseWildcardFilter::TestFileListDirector "Use wildcard filter"
-__UseRegexFilter::TestFileListDirector "Use regex filter"
+__UseWildcardFilter::TestFileListDirector "Use wildcard filter %h w"
+__UseRegexFilter::TestFileListDirector "Use regex filter %h r"
 __Close::TestFileListDirector "Close %k Ctrl-W %h c"

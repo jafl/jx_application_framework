@@ -6,7 +6,7 @@
 
 MenuTitle::JXTEBase_CleanWhitespace "CleanWhitespace"
 
-ShowWhitespaceCmd::JXTEBase "Show whitespace"
+ShowWhitespaceCmd::JXTEBase "Show whitespace %h h"
 CleanAllWhitespaceCmd::JXTEBase "Clean all whitespace %h w"
 CleanWhitespaceSelCmd::JXTEBase "Clean selected ws"
 CleanAllWSAlignCmd::JXTEBase "Clean all ws & alignment"

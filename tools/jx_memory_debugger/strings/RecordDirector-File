@@ -6,8 +6,8 @@
 
 MenuTitle::RecordDirector_File "File"
 
-OpenFiles::MDRecordDirector "Open selected items %k Return."
-__PageSetup::RecordDirector "Page setup..."
-Print::JX "Print... %k Ctrl-P"
-CloseWindow::JX "Close %k Ctrl-W"
-Quit::JX "Quit %k Ctrl-Q"
+OpenFiles::MDRecordDirector "Open selected items %k Return. %h o"
+__PageSetup::RecordDirector "Page setup... %h g"
+Print::JX "Print... %k Ctrl-P %h p"
+CloseWindow::JX "Close %k Ctrl-W %h c"
+Quit::JX "Quit %k Ctrl-Q %h q"

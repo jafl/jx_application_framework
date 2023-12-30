@@ -26,7 +26,6 @@ void
 JXMacWinPrefsDialog::EditPrefs()
 {
 	auto* dlog = jnew JXMacWinPrefsDialog;
-
 	if (dlog->DoDialog())
 	{
 		dlog->UpdateSettings();

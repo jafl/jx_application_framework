@@ -6,6 +6,6 @@
 
 MenuTitle::TestAnyTableDirector_File "File"
 
-__PageSetup::TestAnyTableDirector "Page setup..."
+__PageSetup::TestAnyTableDirector "Page setup... %h g"
 __Print::TestAnyTableDirector "Print... %h p"
 __Close::TestAnyTableDirector "Close %h c"

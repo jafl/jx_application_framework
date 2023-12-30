@@ -6,9 +6,9 @@
 
 MenuTitle::StatsDirector_Data "Data"
 
-GetRecords::MDStatsDirector "Get allocated records"
-SaveSnapshot::MDStatsDirector "Take snapshot"
-DiffSnapshot::MDStatsDirector "Compare with latest snapshot"
+GetRecords::MDStatsDirector "Get allocated records %h a"
+SaveSnapshot::MDStatsDirector "Take snapshot %h s"
+DiffSnapshot::MDStatsDirector "Compare with latest snapshot %h c"
 ShowAppRecordsAction::MDStatsDirector "Show application records"
 ShowBucket1RecordsAction::MDStatsDirector "Show bucket #1 records"
 ShowBucket2RecordsAction::MDStatsDirector "Show bucket #2 records"

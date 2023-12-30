@@ -18,7 +18,7 @@ jx_menu_editor 0
 0 ""
 "New main window"
 ""
-' 
+'w
 "__NewMainWindow"
 "kNewTestDirectorCmd"
 1
@@ -58,7 +58,7 @@ jx_menu_editor 0
 0 ""
 "Input fields"
 "Ctrl-I"
-' 
+'f
 "__InputFields"
 "kTestInputCmd"
 0
@@ -68,7 +68,7 @@ jx_menu_editor 0
 0 ""
 "Buttons"
 "Ctrl-B"
-' 
+'b
 "__Buttons"
 "kTestButtonsCmd"
 0
@@ -78,7 +78,7 @@ jx_menu_editor 0
 0 ""
 "Popup menus"
 ""
-' 
+'p
 "__PopupMenus"
 "kTestPopupChoiceCmd"
 0
@@ -88,7 +88,7 @@ jx_menu_editor 0
 0 ""
 "Sliders"
 ""
-' 
+'s
 "__Sliders"
 "kTestSliderCmd"
 1
@@ -98,7 +98,7 @@ jx_menu_editor 0
 0 ""
 "Partitions"
 ""
-' 
+'r
 "__Partitions"
 "kTestPartitionsCmd"
 0
@@ -108,7 +108,7 @@ jx_menu_editor 0
 0 ""
 "Tab group"
 ""
-' 
+'t
 "__TabGroup"
 "kTestTabGroupCmd"
 0
@@ -118,7 +118,7 @@ jx_menu_editor 0
 0 ""
 "String table"
 ""
-' 
+'i
 "__StringTable"
 "kTestStrTableCmd"
 0
@@ -128,7 +128,7 @@ jx_menu_editor 0
 0 ""
 "Number table"
 ""
-' 
+'n
 "__NumberTable"
 "kTestNumTableCmd"
 0
@@ -138,7 +138,7 @@ jx_menu_editor 0
 0 ""
 "Text editor"
 "Ctrl-O"
-' 
+'e
 "__TextEditor"
 "kTestTextEditorCmd"
 0
@@ -148,7 +148,7 @@ jx_menu_editor 0
 0 ""
 "Linked documents"
 "Super-O"
-' 
+'l
 "__LinkedDocuments"
 "kTestLinkedDocCmd"
 0
@@ -158,7 +158,7 @@ jx_menu_editor 0
 0 ""
 "Drag-And-Drop (text)"
 "Hyper-O"
-' 
+'d
 "__DragAndDropText"
 "kTestDNDTextCmd"
 0
@@ -168,7 +168,7 @@ jx_menu_editor 0
 0 ""
 "Image viewer"
 "Ctrl-I"
-' 
+'m
 "__ImageViewer"
 "kTestImageViewCmd"
 0
