@@ -37,6 +37,8 @@ public:
 	bool	IsSelected() const;
 	void	SetSelected(const bool on);
 
+	JPoint	GetDragStartPointGlobal() const;
+
 protected:
 
 	void	DrawSelection(JXWindowPainter& p, const JRect& rect);
@@ -54,6 +56,7 @@ protected:
 	Atom	GetDNDAction(const JXContainer* target,
 						 const JXButtonStates& buttonStates,
 						 const JXKeyModifiers& modifiers) override;
+	void	DNDFinish(const bool isDrop, const JXContainer* target) override;
 
 private:
 
@@ -134,6 +137,18 @@ BaseWidget::SetSelected
 		itsSelectedFlag = on;
 		Refresh();
 	}
+}
+
+/******************************************************************************
+ GetDragStartPointGlobal
+
+ ******************************************************************************/
+
+inline JPoint
+BaseWidget::GetDragStartPointGlobal()
+	const
+{
+	return LocalToGlobal(itsStartPt);
 }
 
 #endif

@@ -276,8 +276,6 @@ LayoutDocument::ReadFile
 
 	JPtrArray<JXWidget> widgetList(JPtrArrayT::kForgetAll);
 
-	JString className, varName;
-	JRect frame;
 	while (!input.eof() && !input.fail())
 	{
 		bool keepGoing;
@@ -287,35 +285,56 @@ LayoutDocument::ReadFile
 			break;
 		}
 
-		JIndex enclosureIndex;
-		int hs, vs;
-		input >> enclosureIndex >> className >> hs >> vs >> frame;
-
-		JXWidget* e =
-			enclosureIndex == 0 ? itsLayout :
-			widgetList.GetItem(enclosureIndex);
-
-		const JXWidget::HSizingOption hS = (JXWidget::HSizingOption) hs;
-		const JXWidget::VSizingOption vS = (JXWidget::VSizingOption) vs;
-
-		const JCoordinate x = frame.left;
-		const JCoordinate y = frame.top;
-		const JCoordinate w = frame.width();
-		const JCoordinate h = frame.height();
-
-		JXWidget* widget = nullptr;
-		if (className == "TextButton")
-		{
-			widget = jnew TextButton(itsLayout, input, e, hS,vS, x,y,w,h);
-		}
-		else
-		{
-			assert( className == "CustomWidget" );
-			widget = jnew CustomWidget(itsLayout, input, e, hS,vS, x,y,w,h);
-		}
-
-		widgetList.Append(widget);
+		ReadWidget(input, itsLayout, &widgetList);
 	}
+}
+
+/******************************************************************************
+ ReadWidget
+
+ ******************************************************************************/
+
+BaseWidget*
+LayoutDocument::ReadWidget
+	(
+	std::istream&			input,
+	JXWidget*				defaultEnclosure,
+	JPtrArray<JXWidget>*	widgetList
+	)
+	const
+{
+	JString className;
+	JRect frame;
+
+	JIndex enclosureIndex;
+	int hs, vs;
+	input >> enclosureIndex >> className >> hs >> vs >> frame;
+
+	JXWidget* e =
+		enclosureIndex == 0 ? defaultEnclosure :
+		widgetList->GetItem(enclosureIndex);
+
+	const JXWidget::HSizingOption hS = (JXWidget::HSizingOption) hs;
+	const JXWidget::VSizingOption vS = (JXWidget::VSizingOption) vs;
+
+	const JCoordinate x = frame.left;
+	const JCoordinate y = frame.top;
+	const JCoordinate w = frame.width();
+	const JCoordinate h = frame.height();
+
+	BaseWidget* widget = nullptr;
+	if (className == "TextButton")
+	{
+		widget = jnew TextButton(itsLayout, input, e, hS,vS, x,y,w,h);
+	}
+	else
+	{
+		assert( className == "CustomWidget" );
+		widget = jnew CustomWidget(itsLayout, input, e, hS,vS, x,y,w,h);
+	}
+
+	widgetList->Append(widget);
+	return widget;
 }
 
 /******************************************************************************

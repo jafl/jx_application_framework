@@ -1,14 +1,3 @@
-drag:
-	remove selected widgets, replace with frames
-	cancel: put back where they were
-	drop: place at last frame location
-
-	in other window, deserialize to the drop location
-
-	align to grid - shift key to turn off
-
------
-
 create widget by cmd-dragging rectangle
 	after release, select widget type and then create it - sets correct container
 

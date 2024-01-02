@@ -1386,8 +1386,8 @@ JXWidget::DNDFinish
 /******************************************************************************
  DNDCompletelyFinished (virtual protected)
 
-	This *may* be called when DND is terminated.  It is guaranteed to be
-	called *after* the data has been transferred.
+	This *may* be called when DND is terminated.  If called, it is
+	guaranteed to be *after* the data has been transferred.
 
 	If the drop is within the application, this is guaranteed to be called.
 	Otherwise, don't count on it.  And don't blame me -- it's a result of

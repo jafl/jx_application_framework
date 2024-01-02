@@ -88,7 +88,7 @@ BaseWidget::StreamOut
 
 	output << (int) GetHSizing() << std::endl;
 	output << (int) GetVSizing() << std::endl;
-	output << GetEnclosure()->GlobalToLocal(GetFrameGlobal()) << std::endl;
+	output << GetFrame() << std::endl;
 
 	// read by ctor
 
@@ -182,6 +182,8 @@ BaseWidget::HandleMouseDrag
 			itsWaitingForDragFlag = false;
 			itsClearIfNotDNDFlag  = false;
 
+			itsLayout->SetSelectedWidgetsVisible(false);
+
 			auto* data = jnew LayoutSelection(itsLayout, LocalToGlobal(itsStartPt));
 			BeginDND(pt, buttonStates, modifiers, data);
 		}
@@ -230,13 +232,42 @@ BaseWidget::GetDNDAction
 	)
 {
 	const JXMenu::Style style = JXMenu::GetDisplayStyle();
-	if ((style == JXMenu::kMacintoshStyle && modifiers.meta()) ||
-		(style == JXMenu::kWindowsStyle   && modifiers.control()))
+	bool move =
+		(style == JXMenu::kMacintoshStyle && modifiers.meta()) ||
+		(style == JXMenu::kWindowsStyle   && modifiers.control());
+
+	if (target == itsLayout)
 	{
-		return GetDNDManager()->GetDNDActionMoveXAtom();
+		move = !move;
 	}
-	else
+
+	itsLayout->SetSelectedWidgetsVisible(!move);
+
+	return (move ?
+			GetDNDManager()->GetDNDActionMoveXAtom() : 
+			GetDNDManager()->GetDNDActionCopyXAtom());
+}
+
+/******************************************************************************
+ DNDFinish (virtual protected)
+
+	This is called when DND is terminated, but before the actual data
+	transfer.
+
+	If it is not a drop, or the drop target is not within the same
+	application, target is nullptr.
+
+ ******************************************************************************/
+
+void
+BaseWidget::DNDFinish
+	(
+	const bool			isDrop,
+	const JXContainer*	target
+	)
+{
+	if (!isDrop)
 	{
-		return GetDNDManager()->GetDNDActionCopyXAtom();
+		itsLayout->SetSelectedWidgetsVisible(true);
 	}
 }

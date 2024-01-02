@@ -159,6 +159,25 @@ LayoutContainer::GetSelectedWidgets
 }
 
 /******************************************************************************
+ SetSelectedWidgetsVisible
+
+ ******************************************************************************/
+
+void
+LayoutContainer::SetSelectedWidgetsVisible
+	(
+	const bool visible
+	)
+{
+	JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+	GetSelectedWidgets(&list);
+	for (auto* w : list)
+	{
+		w->SetVisible(visible);
+	}
+}
+
+/******************************************************************************
  RemoveSelectedWidgets
 
  ******************************************************************************/
@@ -193,6 +212,40 @@ LayoutContainer::Clear
 	{
 		ClearUndo();
 	}
+}
+
+/******************************************************************************
+ SnapToGrid
+
+ ******************************************************************************/
+
+JPoint
+LayoutContainer::SnapToGrid
+	(
+	const JPoint& pt
+	)
+	const
+{
+	if (GetDisplay()->GetLatestKeyModifiers().shift())
+	{
+		return pt;
+	}
+
+	return JPoint(
+		JRound(pt.x / JFloat(itsGridSpacing)) * itsGridSpacing,
+		JRound(pt.y / JFloat(itsGridSpacing)) * itsGridSpacing);
+}
+
+void
+LayoutContainer::SnapToGrid
+	(
+	JXContainer* obj
+	)
+	const
+{
+	const JPoint tl = obj->GetFrame().topLeft();
+	const JPoint d  = SnapToGrid(tl) - tl;
+	obj->Move(d.x, d.y);
 }
 
 /******************************************************************************
@@ -272,6 +325,10 @@ LayoutContainer::DrawOver
 	{
 		r.Shift(itsDropPt);
 		r.Shift(-itsDropOffset);
+
+		const JPoint d = SnapToGrid(r.topLeft());
+		r.Shift(d - r.topLeft());
+
 		p.Rect(r);
 	}
 }
@@ -443,7 +500,7 @@ LayoutContainer::WillAcceptDrop
 
 					itsDropRectList = jnew JArray<JRect>;
 					JRect bounds;
-					LayoutSelection::ReadMetaData(input, &bounds, &itsDropOffset, itsDropRectList);
+					LayoutSelection::ReadMetaData(input, &itsBoundsOffset, &bounds, &itsDropOffset, itsDropRectList);
 
 					if (GetAperture().Contains(bounds))
 					{
@@ -520,6 +577,33 @@ LayoutContainer::HandleDNDDrop
 	const JXWidget*		source
 	)
 {
+	const BaseWidget* sourceWidget = dynamic_cast<const BaseWidget*>(source);
+	if (sourceWidget != nullptr && sourceWidget->GetLayoutContainer() == this &&
+		action == GetDNDManager()->GetDNDActionMoveXAtom())
+	{
+		auto* newUndo = jnew LayoutUndo(itsDoc);
+
+		const JPoint pt1G  = sourceWidget->GetDragStartPointGlobal();
+		const JPoint pt2G  = LocalToGlobal(pt);
+		const JPoint delta = pt2G - pt1G;
+
+		JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+		GetSelectedWidgets(&list);
+		for (auto* w : list)
+		{
+			w->SetVisible(true);
+			w->Move(delta.x, delta.y);
+			SnapToGrid(w);
+		}
+
+		NewUndo(newUndo);
+		itsDoc->DataChanged();
+
+		HandleDNDLeave();
+		Refresh();
+		return;
+	}
+
 	JXSelectionManager* selMgr = GetSelectionManager();
 	JXDNDManager* dndMgr       = GetDNDManager();
 	const Atom selName         = dndMgr->GetDNDSelectionName();
@@ -533,20 +617,45 @@ LayoutContainer::HandleDNDDrop
 	{
 		if (returnType == itsLayoutDataXAtom)
 		{
+			auto* newUndo = jnew LayoutUndo(itsDoc);
+			bool changed  = false;
+
+			JPoint delta = -itsBoundsOffset;
+			delta += pt;
+			delta -= itsDropOffset;
+
 			const std::string s((char*) data, dataLength);
 			std::istringstream input(s);
 
-			// todo: deserialize & place
-
-			if (!input.fail())
+			JPtrArray<JXWidget> widgetList(JPtrArrayT::kForgetAll);
+			while (!input.eof() && !input.fail())
 			{
-				// todo: select new widgets
-				itsDoc->DataChanged();
-
-				if (action == dndMgr->GetDNDActionMoveXAtom())
+				bool keepGoing;
+				input >> keepGoing;
+				if (!keepGoing)
 				{
-					selMgr->SendDeleteRequest(selName, time);
+					break;
 				}
+
+				BaseWidget* widget = itsDoc->ReadWidget(input, this, &widgetList);
+				widget->Move(delta.x, delta.y);
+				SnapToGrid(widget);
+				changed = true;
+			}
+
+			if (!input.fail() && action == dndMgr->GetDNDActionMoveXAtom())
+			{
+				selMgr->SendDeleteRequest(selName, time);
+			}
+
+			if (changed)
+			{
+				NewUndo(newUndo);
+				itsDoc->DataChanged();
+			}
+			else
+			{
+				jdelete newUndo;
 			}
 		}
 
@@ -555,32 +664,6 @@ LayoutContainer::HandleDNDDrop
 
 	HandleDNDLeave();
 	Refresh();
-}
-
-/******************************************************************************
- DNDFinish (virtual protected)
-
-	This is called when DND is terminated, but before the actual data
-	transfer.
-
-	If it is not a drop, or the drop target is not within the same
-	application, target is nullptr.
-
- ******************************************************************************/
-
-void
-LayoutContainer::DNDFinish
-	(
-	const bool			isDrop,
-	const JXContainer*	target
-	)
-{
-	if (isDrop)
-	{
-		return;
-	}
-
-	// todo: deserialize & put widgets back where they were
 }
 
 /******************************************************************************

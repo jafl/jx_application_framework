@@ -19,15 +19,16 @@ class LayoutSelection : public JXSelectionData
 {
 public:
 
-	LayoutSelection(LayoutContainer* layout, const JPoint& pt);
+	LayoutSelection(LayoutContainer* layout, const JPoint& ptG);
 
 	~LayoutSelection() override;
 
 	static const JUtf8Byte*	GetDataXAtomName();
 	static const JUtf8Byte*	GetMetaXAtomName();
 
-	static void	ReadMetaData(std::istream& input, JRect* bounds, JPoint* offset,
-							 JArray<JRect>* rectList);
+	static void	ReadMetaData(std::istream& input,
+							 JPoint* boundsOffset, JRect* bounds,
+							 JPoint* mouseOffset, JArray<JRect>* rectList);
 
 protected:
 

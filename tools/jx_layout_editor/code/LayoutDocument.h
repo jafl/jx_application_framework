@@ -34,6 +34,8 @@ public:
 
 	void	DataChanged();
 
+	BaseWidget*	ReadWidget(std::istream& input, JXWidget* defaultEnclosure,
+						   JPtrArray<JXWidget>* widgetList) const;
 	static void	WriteWidget(std::ostream& output, const JXContainer* obj,
 							JPtrArray<JXWidget>* widgetList);
 

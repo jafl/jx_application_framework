@@ -29,7 +29,7 @@ static const JUtf8Byte* kMetaXAtomName = "text/x-jx-layout-meta";
 LayoutSelection::LayoutSelection
 	(
 	LayoutContainer*	layout,
-	const JPoint&		pt
+	const JPoint&		ptG
 	)
 	:
 	JXSelectionData(layout->GetDisplay()),
@@ -59,7 +59,7 @@ LayoutSelection::LayoutSelection
 		},
 		true);
 
-		const JRect r = widget->GetFrameGlobal();
+		const JRect r = widget->GetFrame();
 		bounds        = bounds.IsEmpty() ? r : JCovering(bounds, r);
 	}
 	data << false;
@@ -71,12 +71,13 @@ LayoutSelection::LayoutSelection
 	bounds.Shift(-offset);
 
 	std::ostringstream meta;
-	meta << bounds;
-	meta << ' ' << (pt - offset);
+	meta << offset;
+	meta << ' ' << bounds;
+	meta << ' ' << (layout->GlobalToLocal(ptG) - offset);
 	meta << ' ' << widgetList.GetItemCount();
 	for (auto* widget : widgetList)
 	{
-		JRect r = widget->GetFrameGlobal();
+		JRect r = widget->GetFrame();
 		r.Shift(-offset);
 		meta << ' ' << r;
 	}
@@ -167,12 +168,13 @@ void
 LayoutSelection::ReadMetaData
 	(
 	std::istream&	input,
+	JPoint*			boundsOffset,
 	JRect*			bounds,
-	JPoint*			offset,
+	JPoint*			mouseOffset,
 	JArray<JRect>*	rectList
 	)
 {
-	input >> *bounds >> *offset;
+	input >> *boundsOffset >> *bounds >> *mouseOffset;
 
 	JSize count;
 	input >> count;

@@ -33,6 +33,7 @@ public:
 	void	SelectAllWidgets();
 	void	ClearSelection();
 	void	GetSelectedWidgets(JPtrArray<BaseWidget>* list) const;
+	void	SetSelectedWidgetsVisible(const bool visible);
 	void	RemoveSelectedWidgets();
 	void	Clear(const bool isUndoRedo);
 
@@ -69,7 +70,6 @@ protected:
 	void	HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 						  const Atom action, const Time time,
 						  const JXWidget* source) override;
-	void	DNDFinish(const bool isDrop, const JXContainer* target) override;
 
 private:
 
@@ -93,9 +93,13 @@ private:
 
 	JPoint			itsDropPt;
 	JPoint			itsDropOffset;
-	JArray<JRect>*	itsDropRectList;				// nullptr unless DND
+	JArray<JRect>*	itsDropRectList;		// nullptr unless DND
+	JPoint			itsBoundsOffset;
 
 private:
+
+	JPoint	SnapToGrid(const JPoint& pt) const;
+	void	SnapToGrid(JXContainer* w) const;
 
 	void	NewUndo(LayoutUndo* undo);
 	void	ClearUndo();
