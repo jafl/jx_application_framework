@@ -96,29 +96,31 @@ F
 F
 T
 1 "misc"
-T
-2 "strings"
 F
-"./strings/strings"
 T
-2 "license"
-F
-"./strings/license"
+1 "layouts"
 T
 2 "jx_layout_editor.fd"
 F
 "./jx_layout_editor.fd"
 F
 T
-1 "help"
+1 "strings"
 T
-2 "ChangeLog.html"
+2 "strings"
 F
-"./release/doc/ChangeLog.html"
+"./strings/strings"
+F
+T
+1 "help"
 T
 2 "help.html"
 F
 "./release/doc/help.html"
+T
+2 "ChangeLog.html"
+F
+"./release/doc/ChangeLog.html"
 F
 F
 # tasks
@@ -128,7 +130,7 @@ T "./" "/bin/bash -c \"cp jx_layout_editor ~/bin\"" "" FFFFFFF "Install" "" "" F
 F
 # build settings
 1
-F
+T
 "jx_layout_editor"
 "${LIB_DEPS}"
 "make -k all"

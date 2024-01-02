@@ -1,8 +1,6 @@
 enforce that all selected widgets have the same container
 	if not, ignore shift
 
-name of layout must be a valid C class name
-
 align selected: top,bottom,center; right,left,center
 
 shift

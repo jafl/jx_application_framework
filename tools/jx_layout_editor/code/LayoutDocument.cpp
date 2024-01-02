@@ -13,6 +13,7 @@
 #include "CustomWidget.h"
 #include "TextButton.h"
 #include "MDIServer.h"
+#include "util.h"
 #include "globals.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
@@ -50,10 +51,17 @@ LayoutDocument::Create
 
 	if (dlog->DoDialog())
 	{
-		*doc = jnew LayoutDocument(dlog->GetString(), false);
-		(**doc).SetDataReverted();
-		(**doc).Activate();
-		return true;
+		if (!IsValidIdentifier(dlog->GetString()))
+		{
+			JGetUserNotification()->ReportError(JGetString("LayoutNameMustBeValidIdentifier::LayoutDocument"));
+		}
+		else
+		{
+			*doc = jnew LayoutDocument(dlog->GetString(), false);
+			(**doc).SetDataReverted();
+			(**doc).Activate();
+			return true;
+		}
 	}
 
 	*doc = nullptr;
