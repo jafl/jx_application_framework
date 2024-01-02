@@ -932,10 +932,12 @@ LayoutDocument::GetTempFDesignVarName
 	const JPtrArray<JString>& objNames
 	)
 {
+	const JString& base = JGetString("VarNameBase::LayoutContainer");
+
 	JString varName;
 	for (JIndex i=1; i<=INT_MAX; i++)
 	{
-		varName = "obj" + JString((JUInt64) i);
+		varName = base + JString((JUInt64) i);
 
 		bool unique = true;
 		for (const auto* usedName : objNames)

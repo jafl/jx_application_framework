@@ -215,6 +215,37 @@ LayoutContainer::Clear
 }
 
 /******************************************************************************
+ GenerateUniqueVarName
+
+ ******************************************************************************/
+
+JString
+LayoutContainer::GenerateUniqueVarName()
+	const
+{
+	const JString& base = JGetString("VarNameBase::LayoutContainer");
+
+	JUInt i = 0;
+	ForEach([&base, &i](const JXContainer* obj)
+	{
+		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		bool isMember;
+		if (widget != nullptr && widget->GetVarName(&isMember).StartsWith(base))
+		{
+			const JString s(widget->GetVarName(&isMember).GetBytes() + base.GetByteCount(), JString::kNoCopy);
+			JUInt j;
+			if (s.ConvertToUInt(&j) && j > i)
+			{
+				i = j;
+			}
+		}
+	},
+	true);
+
+	return base + JString((JUInt64) (i+1));
+}
+
+/******************************************************************************
  SnapToGrid
 
  ******************************************************************************/

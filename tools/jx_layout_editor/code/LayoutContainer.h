@@ -42,6 +42,8 @@ public:
 
 	void	AppendEditMenuToToolBar(JXToolBar* toolBar) const;
 
+	JString GenerateUniqueVarName() const;
+
 protected:
 
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;

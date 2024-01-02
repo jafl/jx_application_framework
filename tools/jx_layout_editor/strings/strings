@@ -61,6 +61,10 @@ NeedNewerVersion::LayoutDocument			"You need a newer version of this program to 
 UnsupportedFDesignVersion::LayoutDocument	"Unable to read .fd file with version $v"
 UnknownFile::LayoutDocument					"Unable to read this file."
 
+# LayoutContainer
+
+VarNameBase::LayoutContainer	"widget_"
+
 # TextButton
 
 DefaultLabel::TextButton	"Button"

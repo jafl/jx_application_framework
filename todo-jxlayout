@@ -1,5 +1,4 @@
-create widget by cmd-dragging rectangle
-	after release, select widget type and then create it - sets correct container
+grid options:  5, 10
 
 shift
 	arrow keys
@@ -8,12 +7,14 @@ shift
 resize
 	like window - any edge or corner
 	shift key to turn off grid
-undo
-	create/delete/move/resize/params
-	anything that marks document as dirty
 
 enforce that all selected widgets have the same container
 	if not, ignore shift
+
+-----
+
+create widget by cmd-dragging rectangle
+	after release, select widget type and then create it - sets correct container
 
 widget options
 	label, if appropriate
@@ -26,13 +27,6 @@ widget options
 
 align selected: top,bottom,center; right,left,center
 
-layout options
-	show grid - draw as background for MDWindow and every container type
-	snap to grid (none,5,10)
-	outline bounding rects
-		only for non-bordered widgets, e.g., checkbox
-		expand frame by +1 and set 1px border
-
 control tab order
 	show index in each item
 	cmd-click to select item without re-ordering
@@ -40,12 +34,19 @@ control tab order
 
 -----
 
+undo
+	create/resize/params
+	anything that marks document as dirty
+
 generate code when save
 	search for file_root .cpp .cc .hpp .h in same directory
 
 adjust for 1px border when button has ^M shortcut
 
-TabGroup: allow direct editing of all cards
-Partition: set number of compartments, for direct editing
+allow direct editing of content:
+	Toolbar
+	ScrollbarSet
+	TabGroup
+	Partition (set number of compartments & resize them)
 
-ensure stable translations:  assign fixed name for every widget?
+	draw grid inside

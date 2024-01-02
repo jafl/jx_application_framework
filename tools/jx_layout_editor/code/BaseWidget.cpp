@@ -39,6 +39,7 @@ BaseWidget::BaseWidget
 	itsMemberVarFlag(false),
 	itsSelectedFlag(false)
 {
+	itsVarName = itsLayout->GenerateUniqueVarName();
 }
 
 BaseWidget::BaseWidget
