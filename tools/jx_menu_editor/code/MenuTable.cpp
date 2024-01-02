@@ -1705,8 +1705,11 @@ MenuTable::FillInItemIDs
 
 		if (info.enumName->IsEmpty())
 		{
-			JString s("__");
-			s += *info.id;
+			JString s(*info.id);
+			if (!s.StartsWith("__"))
+			{
+				s.Prepend("__");
+			}
 
 			JStringIterator iter(&s);
 			if (iter.Next(kNamespaceOperator))

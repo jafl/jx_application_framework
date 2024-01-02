@@ -113,6 +113,7 @@ F
 # tasks
 4
 "makemake"
+T "./" "/bin/bash -c \"cp jx_menu_editor ~/bin\"" "" FFFFFFF "Install" "" "" F
 F
 # build settings
 1
