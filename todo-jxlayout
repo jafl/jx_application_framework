@@ -1,4 +1,9 @@
-grid options:  5, 10
+enforce that all selected widgets have the same container
+	if not, ignore shift
+
+name of layout must be a valid C class name
+
+align selected: top,bottom,center; right,left,center
 
 shift
 	arrow keys
@@ -7,9 +12,6 @@ shift
 resize
 	like window - any edge or corner
 	shift key to turn off grid
-
-enforce that all selected widgets have the same container
-	if not, ignore shift
 
 -----
 
@@ -25,23 +27,16 @@ widget options
 	validation (for input fields)
 	fit-to-enclosure
 
-align selected: top,bottom,center; right,left,center
+generate code when save
+	search for file_root .cpp .cc .hpp .h in same directory
 
-control tab order
-	show index in each item
-	cmd-click to select item without re-ordering
-	click to make object the next in list
+	adjust for 1px border when button has ^M shortcut
 
 -----
 
 undo
-	create/resize/params
+	create/resize/params/tab-order
 	anything that marks document as dirty
-
-generate code when save
-	search for file_root .cpp .cc .hpp .h in same directory
-
-adjust for 1px border when button has ^M shortcut
 
 allow direct editing of content:
 	Toolbar
@@ -50,3 +45,8 @@ allow direct editing of content:
 	Partition (set number of compartments & resize them)
 
 	draw grid inside
+
+control tab order
+	show index in each item
+	cmd-click to select item without re-ordering
+	click to make object the next in list

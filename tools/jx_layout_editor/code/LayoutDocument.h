@@ -53,6 +53,7 @@ private:
 
 	JXTextMenu*	itsFileMenu;
 	JXTextMenu*	itsPrefsMenu;
+	JXTextMenu*	itsGridMenu;
 
 // begin JXLayout
 
@@ -86,6 +87,9 @@ private:
 	void	HandleFileMenu(const JIndex index);
 
 	void	HandlePrefsMenu(const JIndex index);
+
+	void	UpdateGridMenu();
+	void	HandleGridMenu(const JIndex index);
 };
 
 

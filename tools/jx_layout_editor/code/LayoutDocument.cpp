@@ -162,6 +162,7 @@ LayoutDocument::~LayoutDocument()
 #include "main_window_icon.xpm"
 #include "LayoutDocument-File.h"
 #include "LayoutDocument-Preferences.h"
+#include "LayoutDocument-Grid.h"
 
 void
 LayoutDocument::BuildWindow()
@@ -213,6 +214,14 @@ LayoutDocument::BuildWindow()
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &LayoutDocument::HandlePrefsMenu);
 	ConfigurePreferencesMenu(itsPrefsMenu);
+
+	itsGridMenu = jnew JXTextMenu(itsPrefsMenu, kGridMenuCmd, itsMenuBar);
+	itsGridMenu->SetMenuItems(kGridMenuStr);
+	itsGridMenu->SetUpdateAction(JXMenu::kDisableNone);
+	itsGridMenu->AttachHandlers(this,
+		&LayoutDocument::UpdateGridMenu,
+		&LayoutDocument::HandleGridMenu);
+	ConfigureGridMenu(itsGridMenu);
 
 	auto* helpMenu = GetApplication()->CreateHelpMenu(itsMenuBar, "MainHelp");
 
@@ -584,6 +593,46 @@ LayoutDocument::HandlePrefsMenu
 	else if (index == kEditMacWinPrefsCmd)
 	{
 		JXMacWinPrefsDialog::EditPrefs();
+	}
+}
+
+/******************************************************************************
+ UpdateGridMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutDocument::UpdateGridMenu()
+{
+	const JSize w = itsLayout->GetGridSpacing();
+	if (w == 5)
+	{
+		itsGridMenu->CheckItem(kGrid5Cmd);
+	}
+	else if (w == 10)
+	{
+		itsGridMenu->CheckItem(kGrid10Cmd);
+	}
+}
+
+/******************************************************************************
+ HandleGridMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutDocument::HandleGridMenu
+	(
+	const JIndex index
+	)
+{
+	if (index == kGrid5Cmd)
+	{
+		itsLayout->SetGridSpacing(5);
+	}
+	if (index == kGrid10Cmd)
+	{
+		itsLayout->SetGridSpacing(10);
 	}
 }
 

@@ -6,7 +6,8 @@
 #define _H_LayoutDocument_Preferences
 
 static const JUtf8Byte* kPreferencesMenuStr =
-"* %i __EditToolBar::LayoutDocument"
+"* %i __Grid::LayoutDocument"
+"|* %i __EditToolBar::LayoutDocument"
 "|* %i __FileManager::LayoutDocument"
 "|* %i __MacWinXEmulation::LayoutDocument"
 ;

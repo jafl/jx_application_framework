@@ -1,5 +1,5 @@
 jx_menu_editor 0
-794 198
+794 290
 "LayoutDocument"
 "Preferences"
 'p
@@ -13,6 +13,16 @@ jx_menu_editor 0
 75
 
 0
+1
+0
+0 ""
+"Grid"
+""
+' 
+"__Grid"
+"kGridMenuCmd"
+0
+
 1
 0
 0 ""

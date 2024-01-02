@@ -55,6 +55,10 @@ T
 F
 "./code/LayoutDocument-Preferences.jxm"
 T
+2 "LayoutDocument-Grid.jxm"
+F
+"./code/LayoutDocument-Grid.jxm"
+T
 2 "LayoutContainer.cpp"
 F
 "./code/LayoutContainer.cpp"
@@ -120,7 +124,7 @@ F
 # tasks
 4
 "makemake"
-T "./" "jxlayout --choose --require-obj-names --post-cmd \"jcc --force-reload-open\" -cp code $project_name.fd" "" FFTTTTF "Compile layouts" "Meta-'" "&|3Ss+=IL_ywwy[Pm}cG::CBCommandManager" F
+T "./" "/bin/bash -c \"cp jx_layout_editor ~/bin\"" "" FFFFFFF "Install" "" "" F
 F
 # build settings
 1

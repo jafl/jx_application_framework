@@ -44,6 +44,9 @@ public:
 
 	JString GenerateUniqueVarName() const;
 
+	JSize	GetGridSpacing() const;
+	void	SetGridSpacing(const JSize w);
+
 protected:
 
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
@@ -134,6 +137,28 @@ inline JUndoRedoChain*
 LayoutContainer::GetUndoRedoChain()
 {
 	return itsUndoChain;
+}
+
+/******************************************************************************
+ GetUndoRedoChain
+
+ ******************************************************************************/
+
+inline JSize
+LayoutContainer::GetGridSpacing()
+	const
+{
+	return itsGridSpacing;
+}
+
+inline void
+LayoutContainer::SetGridSpacing
+	(
+	const JSize w
+	)
+{
+	itsGridSpacing = w;
+	Refresh();
 }
 
 #endif
