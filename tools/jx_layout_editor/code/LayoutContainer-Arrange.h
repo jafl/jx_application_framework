@@ -30,6 +30,26 @@ static const JUtf8Byte* kArrangeMenuStr =
 #define _H_align_right
 #include "align_right.xpm"
 #endif
+#ifndef _H_align_top
+#define _H_align_top
+#include "align_top.xpm"
+#endif
+#ifndef _H_align_middle
+#define _H_align_middle
+#include "align_middle.xpm"
+#endif
+#ifndef _H_align_bottom
+#define _H_align_bottom
+#include "align_bottom.xpm"
+#endif
+#ifndef _H_distr_horiz
+#define _H_distr_horiz
+#include "distr_horiz.xpm"
+#endif
+#ifndef _H_distr_vert
+#define _H_distr_vert
+#include "distr_vert.xpm"
+#endif
 
 static void ConfigureArrangeMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
@@ -38,6 +58,11 @@ static void ConfigureArrangeMenu(JXTextMenu* menu, const int offset = 0) {
 	menu->SetItemImage(kAlignLeftCmd + offset, align_left);
 	menu->SetItemImage(kAlignHorizCenterCmd + offset, align_center);
 	menu->SetItemImage(kAlignRightCmd + offset, align_right);
+	menu->SetItemImage(kAlignTopCmd + offset, align_top);
+	menu->SetItemImage(kAlignVertCenterCmd + offset, align_middle);
+	menu->SetItemImage(kAlignBottomCmd + offset, align_bottom);
+	menu->SetItemImage(kDistrHorizCmd + offset, distr_horiz);
+	menu->SetItemImage(kDistrVertCmd + offset, distr_vert);
 };
 
 #endif

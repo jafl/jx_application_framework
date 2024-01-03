@@ -45,7 +45,7 @@ jx_menu_editor 0
 
 1
 0
-0 ""
+0 "align_top.png"
 "Align top"
 ""
 't
@@ -55,7 +55,7 @@ jx_menu_editor 0
 
 1
 0
-0 ""
+0 "align_middle.png"
 "Align middle"
 ""
 'm
@@ -65,7 +65,7 @@ jx_menu_editor 0
 
 1
 0
-0 ""
+0 "align_bottom.png"
 "Align bottom"
 ""
 'b
@@ -75,7 +75,7 @@ jx_menu_editor 0
 
 1
 0
-0 ""
+0 "distr_horiz.png"
 "Distribute horizontally"
 ""
 'h
@@ -85,7 +85,7 @@ jx_menu_editor 0
 
 1
 0
-0 ""
+0 "distr_vert.png"
 "Distribute vertically"
 ""
 'v
