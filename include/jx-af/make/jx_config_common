@@ -81,13 +81,18 @@ image-build/%.xpm : image/%.gif
 .PHONY : .new_images
 .new_images:
 	@if [[ -d image && -d image-build ]]; then \
+       CHG=0; \
        for f1 in image/*; do \
          f2=$${f1%.*}.xpm; \
          f2=image-build/$${f2#*/}; \
          if [[ ! -f $$f2 ]]; then \
            ${MAKE} $$f2; \
+           CHG=1; \
          fi; \
        done; \
+       if [[ $$CHG == 1 ]]; then \
+         makemake; \
+       fi; \
      fi
 
 #
