@@ -27,7 +27,6 @@ JXImage::CreateFromPNG
 	)
 {
 	*image = jnew JXImage(display);
-	assert( *image != nullptr );
 
 	const JError err = (**image).ReadPNG(fileName);
 

@@ -711,6 +711,17 @@ JXImage::GetMask		// virtual
 void
 JXImage::SetMask
 	(
+	JImageMask* mask
+	)
+{
+	JXImageMask* xmask = dynamic_cast<JXImageMask*>(mask);
+	assert( xmask != nullptr );
+	SetMask(xmask);
+}
+
+void
+JXImage::SetMask
+	(
 	JXImageMask* mask
 	)
 {
@@ -726,6 +737,13 @@ JXImage::ClearMask()
 {
 	jdelete itsMask;
 	itsMask = nullptr;
+}
+
+JImageMask*
+JXImage::CreateEmptyMask()
+	const
+{
+	return jnew JXImageMask(itsDisplay, GetWidth(), GetHeight(), false);
 }
 
 /******************************************************************************
@@ -1138,7 +1156,7 @@ JXImage::SetImageData
 	const JSize			colorCount,
 	const JColorID*		colorTable,
 	unsigned short**	imageData,
-	const bool		hasMask,
+	const bool			hasMask,
 	const unsigned long	maskColor
 	)
 {

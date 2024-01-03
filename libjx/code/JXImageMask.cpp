@@ -29,7 +29,7 @@ JXImageMask::JXImageMask
 	JXDisplay*			display,
 	const JCoordinate	width,
 	const JCoordinate	height,
-	const bool		filled
+	const bool			filled
 	)
 	:
 	JXImage(display, width, height,

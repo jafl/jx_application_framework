@@ -53,6 +53,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 //	jListUtil:
 //		*** Removed JCompareIndices(), JCompareSizes(), JCompareCoordinates(),
 //			JCompareUInt64() in favor of <=>.
+//	JImage:
+//		Fixed ReadGD() to correctly apply a mask for true color png's.
+//		Added pure virtual CreateEmptyMask().
 
 // version 4.0.0:
 //	*** Upgraded to C++20

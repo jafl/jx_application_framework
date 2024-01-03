@@ -48,7 +48,9 @@ public:
 	virtual void		SetColor(const JCoordinate x, const JCoordinate y,
 								 const JColorID color) = 0;
 
-	virtual bool	GetMask(JImageMask** mask) const = 0;
+	virtual bool		GetMask(JImageMask** mask) const = 0;
+	virtual void		SetMask(JImageMask* mask) = 0;
+	virtual JImageMask*	CreateEmptyMask() const = 0;
 
 	JError	WriteGIF(const JString& fileName,
 					 const bool compressColorsToFit,

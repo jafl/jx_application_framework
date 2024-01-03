@@ -318,6 +318,9 @@ JImage::ReadGD
 	{
 		PrepareForImageData();
 
+		auto* mask   = CreateEmptyMask();
+		bool setMask = false;
+
 		for (JCoordinate x=0; x<itsWidth; x++)
 		{
 			for (JCoordinate y=0; y<itsHeight; y++)
@@ -329,10 +332,27 @@ JImage::ReadGD
 						gdImageGreen(image, c) * kGDColorScale,
 						gdImageBlue (image, c) * kGDColorScale));
 				SetColor(x,y, color);
+
+				if ((!hasMask && gdImageAlpha(image, c) == 0) ||
+					( hasMask && c != maskColor))
+				{
+					mask->AddPixel(x,y);
+					setMask = true;
+				}
 			}
 		}
 
 		ImageDataFinished();
+
+		if (setMask)
+		{
+			SetMask(mask);
+		}
+		else
+		{
+			jdelete mask;
+			mask = nullptr;
+		}
 
 		gdImageDestroy(image);
 		image = nullptr;

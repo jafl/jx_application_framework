@@ -271,6 +271,7 @@ T "./" "&make_default ; /bin/sh -c 'JMM_INITIALIZE=yes JMM_SHRED=yes JMM_RECORD_
 T "./" "&make_default ; /bin/sh -c 'JMM_INITIALIZE=yes JMM_SHRED=yes JMM_RECORD_ALLOCATED=yes JMM_PRINT_EXIT_STATS=yes ./$program --debug-ftc-vert' ; echo \"Remaining memory should be 1008 bytes\"" "" FFFTTFF "Debug FTC Vert" "Shift-F11" "" T
 T "./" "testjx -MDI" "" FFFFTTF "" "" "$svHlVFP`<D)#Cpy3gRi::CBCommandManager" F
 T "./" "testjx --pseudotranslate" "" FFFFTTF "" "" "$svHlVFP`<D)#Cpy3gRi::CBCommandManager" F
+T "./" "make jx.test.skip=true -kw" "" TFTTTFF "" "" "" F
 F
 # build settings
 1

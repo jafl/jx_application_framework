@@ -79,11 +79,13 @@ public:
 	JXDisplay*	GetDisplay() const;
 	JSize		GetDepth() const;
 
-	bool	HasMask() const;
-	bool	GetMask(JImageMask** mask) const override;
-	bool	GetMask(JXImageMask** mask) const;
-	void	SetMask(JXImageMask* mask);
-	void	ClearMask();
+	bool		HasMask() const;
+	bool		GetMask(JImageMask** mask) const override;
+	bool		GetMask(JXImageMask** mask) const;
+	void		SetMask(JImageMask* mask) override;
+	void		SetMask(JXImageMask* mask);
+	void		ClearMask();
+	JImageMask*	CreateEmptyMask() const override;
 
 	void	Draw(const Drawable drawable, JXGC* gc,
 				 const JRect& srcRect, const JRect& destRect) const;
