@@ -46,6 +46,8 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //	*** Removed most macros from jXActionDefs.h, because they should be private.
 //	JXContainer:
 //		Added AnyOf().
+//	JXInputField:
+//		Added SetValidationPattern().
 
 // version 4.0.0:
 //	Supports utf-8

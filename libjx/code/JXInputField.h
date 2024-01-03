@@ -51,6 +51,8 @@ public:
 	void	SetMaxLength(const JSize maxLength);
 	void	ClearMaxLength();
 
+	void	SetValidationPattern(JRegex* pattern, const JUtf8Byte* msgID);
+
 	virtual bool	InputValid();
 
 	bool	IsTableInput() const;
@@ -110,7 +112,10 @@ protected:
 private:
 
 	JSize	itsMinLength;
-	JSize	itsMaxLength;		// 0 => no maximum
+	JSize	itsMaxLength;			// 0 => no maximum
+
+	JRegex*				itsPattern;	// nullptr => no validation
+	const JUtf8Byte*	itsPatternMsgID;
 
 	JXTextMenu*		itsContextMenu;	// nullptr until first used
 	JXEditTable*	itsTable;		// can be nullptr; if not, it owns us

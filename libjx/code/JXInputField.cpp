@@ -16,6 +16,7 @@
 #include "JXColorManager.h"
 #include "jXConstants.h"
 #include "jXGlobals.h"
+#include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -107,6 +108,9 @@ JXInputField::JXInputFieldX()
 {
 	itsMinLength = 0;
 	itsMaxLength = 0;
+
+	itsPattern      = nullptr;
+	itsPatternMsgID = nullptr;
 
 	itsContextMenu = nullptr;
 	itsTable       = nullptr;
@@ -397,6 +401,26 @@ JXInputField::HandleDNDDrop
 }
 
 /******************************************************************************
+ SetValidationPattern
+
+	We take ownership of the JRegex object.
+
+ ******************************************************************************/
+
+void
+JXInputField::SetValidationPattern
+	(
+	JRegex*				pattern,
+	const JUtf8Byte*	msgID
+	)
+{
+	jdelete itsPattern;
+	itsPattern = pattern;
+
+	itsPatternMsgID = msgID;
+}
+
+/******************************************************************************
  InputValid (virtual)
 
  ******************************************************************************/
@@ -463,6 +487,10 @@ JXInputField::InputValid()
 			};
 			errorStr = JGetString("MaxNChar::JXInputField", map, sizeof(map));
 		}
+	}
+	else if (itsPattern != nullptr && !itsPattern->Match(GetText()->GetText()))
+	{
+		errorStr = JGetString(itsPatternMsgID);
 	}
 
 	if (errorStr.IsEmpty())
