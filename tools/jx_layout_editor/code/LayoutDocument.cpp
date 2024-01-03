@@ -13,7 +13,6 @@
 #include "CustomWidget.h"
 #include "TextButton.h"
 #include "MDIServer.h"
-#include "util.h"
 #include "globals.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>

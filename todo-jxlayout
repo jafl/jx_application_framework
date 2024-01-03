@@ -1,6 +1,9 @@
 resize
+	only if single selected widget
+
 	like window - any edge or corner
 	shift key to turn off grid
+	accumulate into single undo
 
 	meta-arrow keys
 
