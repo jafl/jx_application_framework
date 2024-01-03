@@ -23,7 +23,6 @@
 #include <jx-af/jx/JXCharInput.h>
 #include <jx-af/jx/JXColHeaderWidget.h>
 #include <jx-af/jx/JXImage.h>
-#include <jx-af/jx/JXGetStringDialog.h>
 #include <jx-af/jx/JXWebBrowser.h>
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
 #include <jx-af/jx/JXUrgentFunctionTask.h>

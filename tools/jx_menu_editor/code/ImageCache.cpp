@@ -62,7 +62,7 @@ ImageCache::GetImage
 
 	if (!itsMap->GetItem(trueName, image))
 	{
-		const JError err = JXImage::CreateFromXPM(itsDisplay, trueName, image);
+		const JError err = JXImage::CreateFromFile(itsDisplay, trueName, image);
 		if (!err.OK())
 		{
 			*image = nullptr;

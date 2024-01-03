@@ -1154,7 +1154,7 @@ MenuTable::HandleTypeMenu
  ******************************************************************************/
 
 static const JString coreIconPath(JX_INCLUDE_PATH "/image/jx", JString::kNoCopy);
-static const JString iconPattern("*.xpm", JString::kNoCopy);
+static const JString iconPattern("*.png *.xpm", JString::kNoCopy);
 
 static const char * empty_icon[] = {
 "1 1 1 1",
@@ -1172,7 +1172,7 @@ MenuTable::BuildIconMenu()
 	if (itsDoc->ExistsOnDisk() &&
 		MenuDocument::FindProjectRoot(itsDoc->GetFilePath(), &iconPath))
 	{
-		iconPath = JCombinePathAndName(iconPath, "image-build");
+		iconPath = JCombinePathAndName(iconPath, "image");
 		if (JDirInfo::Create(iconPath, &info))
 		{
 			info->ShowDirs(false);
