@@ -1006,9 +1006,7 @@ JXFTCCell::CompareHorizontally
 	JXFTCCell* const & c2
 	)
 {
-	return JCompareCoordinates(
-		c1->itsFrameG.left,
-		c2->itsFrameG.left);
+	return c1->itsFrameG.left <=> c2->itsFrameG.left;
 }
 
 std::weak_ordering
@@ -1018,7 +1016,5 @@ JXFTCCell::CompareVertically
 	JXFTCCell* const & c2
 	)
 {
-	return JCompareCoordinates(
-		c1->itsFrameG.top,
-		c2->itsFrameG.top);
+	return c1->itsFrameG.top <=> c2->itsFrameG.top;
 }

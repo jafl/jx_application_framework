@@ -50,6 +50,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 //	JRegex:
 //		*** Made constructors explicit and added optional flags argument.
 //	Refactored JUndoRedoChain out of JStyledText.
+//	jListUtil:
+//		*** Removed JCompareIndices(), JCompareSizes(), JCompareCoordinates(),
+//			JCompareUInt64() in favor of <=>.
 
 // version 4.0.0:
 //	*** Upgraded to C++20

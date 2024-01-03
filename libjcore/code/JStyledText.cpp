@@ -661,7 +661,10 @@ JStyledText::WritePrivateFormat
 	JPtrArray<JString> fontNameList(JPtrArrayT::kDeleteAll);
 	fontNameList.SetCompareFunction(JCompareStringsCaseSensitive);
 	JArray<JColorID> colorList;
-	colorList.SetCompareFunction(JCompareUInt64);
+	colorList.SetCompareFunction(std::function([](const JColorID c1, const JColorID c2)
+	{
+		return c1 <=> c2;
+	}));
 
 	FontIterator iter(style, JListT::kStartBefore, range.charRange.first);
 	do
@@ -5114,7 +5117,7 @@ JStyledText::CompareCharacterIndices
 	const TextIndex& j
 	)
 {
-	return JCompareIndices(i.charIndex, j.charIndex);
+	return i.charIndex <=> j.charIndex;
 }
 
 /******************************************************************************
@@ -5129,7 +5132,7 @@ JStyledText::CompareByteIndices
 	const TextIndex& j
 	)
 {
-	return JCompareIndices(i.byteIndex, j.byteIndex);
+	return i.byteIndex <=> j.byteIndex;
 }
 
 /******************************************************************************

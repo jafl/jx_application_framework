@@ -576,7 +576,7 @@ JDirEntry::CompareNames
 	JDirEntry * const & e2
 	)
 {
-	return JCompareStringsCaseInsensitive(&(e1->itsName), &(e2->itsName));
+	return JCompareStringsCaseInsensitive(&e1->itsName, &e2->itsName);
 }
 
 std::weak_ordering
@@ -586,7 +586,7 @@ JDirEntry::CompareSizes
 	JDirEntry * const & e2
 	)
 {
-	std::weak_ordering result = JCompareSizes(e1->itsSize, e2->itsSize);
+	std::weak_ordering result = e1->itsSize <=> e2->itsSize;
 	if (result == std::weak_ordering::equivalent)
 	{
 		result = CompareNames(e1, e2);
@@ -601,7 +601,7 @@ JDirEntry::CompareModTimes
 	JDirEntry * const & e2
 	)
 {
-	std::weak_ordering result = JCompareSizes(e1->itsModTime, e2->itsModTime);
+	std::weak_ordering result = e1->itsModTime <=> e2->itsModTime;
 	if (result == std::weak_ordering::equivalent)
 	{
 		result = CompareNames(e1, e2);

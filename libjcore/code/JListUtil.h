@@ -10,11 +10,6 @@
 
 #include "JList.h"
 
-std::weak_ordering JCompareIndices(const JIndex& i, const JIndex& j);
-std::weak_ordering JCompareSizes(const JSize& s1, const JSize& s2);
-std::weak_ordering JCompareCoordinates(const JCoordinate& x1, const JCoordinate& x2);
-std::weak_ordering JCompareUInt64(const JUInt64& i1, const JUInt64& i2);
-
 void	JAdjustIndexAfterInsert(const JIndex firstInsertedIndex, const JSize count,
 								JIndex* indexToAdjust);
 bool	JAdjustIndexAfterRemove(const JIndex firstRemovedIndex, const JSize count,

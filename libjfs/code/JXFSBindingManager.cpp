@@ -587,12 +587,12 @@ JXFSBindingManager::CompareCommands
 	const JString& c1 = b1->GetCommand(&t1, &s1);
 	const JString& c2 = b2->GetCommand(&t2, &s2);
 
-	std::weak_ordering result =
+	auto result =
 		JCompareStringsCaseSensitive(const_cast<JString*>(&c1),
 									 const_cast<JString*>(&c2));
 	if (result == std::weak_ordering::equivalent)
 	{
-		result = JCompareIndices(t1, t2);
+		result = t1 <=> t2;
 	}
 	return result;
 }

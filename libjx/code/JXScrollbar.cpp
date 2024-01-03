@@ -1045,7 +1045,7 @@ JXScrollbar::CompareScrolltabValues
 	JXScrolltab* const & t2
 	)
 {
-	return JCompareCoordinates(t1->GetValue(), t2->GetValue());
+	return t1->GetValue() <=> t2->GetValue();
 }
 
 /******************************************************************************

@@ -414,16 +414,5 @@ JProcess::ComparePID
 	JProcess* const & p2
 	)
 {
-	if (p1->GetPID() < p2->GetPID())
-	{
-		return std::weak_ordering::less;
-	}
-	else if (p1->GetPID() > p2->GetPID())
-	{
-		return std::weak_ordering::greater;
-	}
-	else
-	{
-		return std::weak_ordering::equivalent;
-	}
+	return p1->GetPID() <=> p2->GetPID();
 }

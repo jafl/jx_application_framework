@@ -469,7 +469,7 @@ JSTStyler::CompareTokenStarts
 	const TokenData& t2
 	)
 {
-	return JCompareIndices(t1.startIndex.charIndex, t2.startIndex.charIndex);
+	return t1.startIndex.charIndex <=> t2.startIndex.charIndex;
 }
 
 /******************************************************************************

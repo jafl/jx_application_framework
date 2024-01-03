@@ -88,7 +88,7 @@ jCompareUIDs
 	const jUIDInfo& i2
 	)
 {
-	return JCompareIndices(i1.id, i2.id);
+	return i1.id <=> i2.id;
 }
 
 static void
@@ -285,7 +285,7 @@ jCompareGIDs
 	const jGIDInfo& i2
 	)
 {
-	return JCompareIndices(i1.id, i2.id);
+	return i1.id <=> i2.id;
 }
 
 static bool

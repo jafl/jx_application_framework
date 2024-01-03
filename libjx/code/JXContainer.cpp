@@ -2831,9 +2831,7 @@ JXContainer::FTCCompareHorizontally
 	JXContainer* const & w2
 	)
 {
-	return JCompareCoordinates(
-		w1->GetFrameForFTC().left,
-		w2->GetFrameForFTC().left);
+	return w1->GetFrameForFTC().left <=> w2->GetFrameForFTC().left;
 }
 
 std::weak_ordering
@@ -2843,7 +2841,5 @@ JXContainer::FTCCompareVertically
 	JXContainer* const & w2
 	)
 {
-	return JCompareCoordinates(
-		w1->GetFrameForFTC().top,
-		w2->GetFrameForFTC().top);
+	return w1->GetFrameForFTC().top <=> w2->GetFrameForFTC().top;
 }

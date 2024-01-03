@@ -123,7 +123,7 @@ Record::CompareSizes
 	Record * const & r2
 	)
 {
-	std::weak_ordering result = JCompareSizes(r1->itsSize, r2->itsSize);
+	std::weak_ordering result = r1->itsSize <=> r2->itsSize;
 	if (result == std::weak_ordering::equivalent)
 	{
 		result = CompareFileNames(r1, r2);
@@ -138,9 +138,7 @@ Record::CompareData
 	Record * const & r2
 	)
 {
-	std::weak_ordering result =
-		JCompareStringsCaseInsensitive(&r1->itsData, &r2->itsData);
-
+	auto result = JCompareStringsCaseInsensitive(&r1->itsData, &r2->itsData);
 	if (result == std::weak_ordering::equivalent)
 	{
 		result = CompareFileNames(r1, r2);

@@ -4456,26 +4456,12 @@ JXWindow::CompareShortcuts
 	const Shortcut& s2
 	)
 {
-	if (s1.key < s2.key)
+	auto r = s1.key <=> s2.key;
+	if (r == std::weak_ordering::equivalent)
 	{
-		return std::weak_ordering::less;
+		r = s1.state <=> s2.state;
 	}
-	else if (s1.key > s2.key)
-	{
-		return std::weak_ordering::greater;
-	}
-	else if (s1.state < s2.state)
-	{
-		return std::weak_ordering::less;
-	}
-	else if (s1.state > s2.state)
-	{
-		return std::weak_ordering::greater;
-	}
-	else
-	{
-		return std::weak_ordering::equivalent;
-	}
+	return r;
 }
 
 /******************************************************************************

@@ -57,37 +57,16 @@ JCompareRGBValues
 	const JRGB& c2
 	)
 {
-	if (c1.red < c2.red)
+	auto r = c1.red <=> c2.red;
+	if (r == std::weak_ordering::equivalent)
 	{
-		return std::weak_ordering::less;
+		r = c1.green <=> c2.green;
 	}
-	else if (c1.red > c2.red)
+	if (r == std::weak_ordering::equivalent)
 	{
-		return std::weak_ordering::greater;
+		r = c1.blue <=> c2.blue;
 	}
-
-	else if (c1.green < c2.green)
-	{
-		return std::weak_ordering::less;
-	}
-	else if (c1.green > c2.green)
-	{
-		return std::weak_ordering::greater;
-	}
-
-	else if (c1.blue < c2.blue)
-	{
-		return std::weak_ordering::less;
-	}
-	else if (c1.blue > c2.blue)
-	{
-		return std::weak_ordering::greater;
-	}
-
-	else
-	{
-		return std::weak_ordering::equivalent;
-	}
+	return r;
 }
 
 /******************************************************************************

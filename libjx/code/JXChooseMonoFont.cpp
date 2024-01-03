@@ -215,14 +215,14 @@ JXChooseMonoFont::CompareFontNames
 	JUInt v1 = strtoul(s1->GetBytes(), &endPtr1, 10);
 	JUInt v2 = strtoul(s2->GetBytes(), &endPtr2, 10);
 
-	std::weak_ordering result = JCompareUInt64(v1, v2);
+	auto result = v1 <=> v2;
 	if (result == std::weak_ordering::equivalent)
 	{
 		// compare the value after the 'x'
 
 		v1     = strtoul(endPtr1+1, &endPtr1, 10);
 		v2     = strtoul(endPtr2+1, &endPtr2, 10);
-		result = JCompareUInt64(v1, v2);
+		result = v1 <=> v2;
 	}
 	return result;
 }

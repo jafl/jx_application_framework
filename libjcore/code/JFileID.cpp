@@ -64,9 +64,9 @@ operator==
 	const JFileID& rhs
 	)
 {
-	return lhs.itsValidFlag == rhs.itsValidFlag &&
-				lhs.itsDevice    == rhs.itsDevice    &&
-				lhs.itsINode     == rhs.itsINode;
+	return (lhs.itsValidFlag == rhs.itsValidFlag &&
+			lhs.itsDevice    == rhs.itsDevice    &&
+			lhs.itsINode     == rhs.itsINode);
 }
 
 /******************************************************************************

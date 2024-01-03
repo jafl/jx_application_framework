@@ -356,16 +356,5 @@ JXSelectionData::CompareAtoms
 	const Atom& atom2
 	)
 {
-	if (atom1 < atom2)
-	{
-		return std::weak_ordering::less;
-	}
-	else if (atom1 > atom2)
-	{
-		return std::weak_ordering::greater;
-	}
-	else
-	{
-		return std::weak_ordering::equivalent;
-	}
+	return atom1 <=> atom2;
 }

@@ -623,18 +623,12 @@ JFSFileTreeNode::CompareTypesAndNames
 	auto* n1 = dynamic_cast<JFSFileTreeNode*>(e1);
 	auto* n2 = dynamic_cast<JFSFileTreeNode*>(e2);
 
-	if (n1->itsDirEntry->GetType() < n2->itsDirEntry->GetType())
+	std::weak_ordering r = n1->itsDirEntry->GetType() <=> n2->itsDirEntry->GetType();
+	if (r == std::weak_ordering::equivalent)
 	{
-		return std::weak_ordering::less;
+		r = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
 	}
-	else if (n1->itsDirEntry->GetType() > n2->itsDirEntry->GetType())
-	{
-		return std::weak_ordering::greater;
-	}
-	else
-	{
-		return JNamedTreeNode::DynamicCastCompareNames(e1, e2);
-	}
+	return r;
 }
 
 /******************************************************************************
@@ -680,8 +674,8 @@ JFSFileTreeNode::CompareGroupNames
 
 	JString u1 = n1->itsDirEntry->GetGroupName();
 	JString u2 = n2->itsDirEntry->GetGroupName();
-	std::weak_ordering result = JCompareStringsCaseInsensitive(&u1, &u2);
 
+	auto result = JCompareStringsCaseInsensitive(&u1, &u2);
 	if (result == std::weak_ordering::equivalent)
 	{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
@@ -713,9 +707,7 @@ JFSFileTreeNode::CompareSizes
 		return std::weak_ordering::greater;
 	}
 
-	std::weak_ordering result =
-		JDirEntry::CompareSizes(n1->itsDirEntry, n2->itsDirEntry);
-
+	auto result = JDirEntry::CompareSizes(n1->itsDirEntry, n2->itsDirEntry);
 	if (result == std::weak_ordering::equivalent)
 	{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);
@@ -738,9 +730,7 @@ JFSFileTreeNode::CompareDates
 	auto* n1 = dynamic_cast<JFSFileTreeNode*>(e1);
 	auto* n2 = dynamic_cast<JFSFileTreeNode*>(e2);
 
-	std::weak_ordering result =
-		JDirEntry::CompareModTimes(n1->itsDirEntry, n2->itsDirEntry);
-
+	auto result = JDirEntry::CompareModTimes(n1->itsDirEntry, n2->itsDirEntry);
 	if (result == std::weak_ordering::equivalent)
 	{
 		result = JNamedTreeNode::DynamicCastCompareNames(e1, e2);

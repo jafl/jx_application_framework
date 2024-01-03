@@ -244,7 +244,7 @@ JNamedTreeNode::CompareNames
 	)
 {
 	std::weak_ordering result =
-		JCompareStringsCaseInsensitive(&(e1->itsName), &(e2->itsName));
+		JCompareStringsCaseInsensitive(&e1->itsName, &e2->itsName);
 	if (result == std::weak_ordering::equivalent)
 	{
 		result = JCompareStringsCaseSensitive(&e1->itsName, &e2->itsName);

@@ -418,5 +418,5 @@ JPrefsManager::ComparePrefIDs
 	const PrefItem& p2
 	)
 {
-	return JCompareIndices(p1.id, p2.id);
+	return p1.id <=> p2.id;
 }

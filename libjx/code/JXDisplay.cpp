@@ -1431,18 +1431,7 @@ JXDisplay::CompareXWindows
 	const WindowInfo& info2
 	)
 {
-	if (info1.xWindow < info2.xWindow)
-	{
-		return std::weak_ordering::less;
-	}
-	else if (info1.xWindow > info2.xWindow)
-	{
-		return std::weak_ordering::greater;
-	}
-	else
-	{
-		return std::weak_ordering::equivalent;
-	}
+	return info1.xWindow <=> info2.xWindow;
 }
 
 /******************************************************************************
