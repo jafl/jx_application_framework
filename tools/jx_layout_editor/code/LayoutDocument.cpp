@@ -21,10 +21,12 @@
 #include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXGetStringDialog.h>
+#include <jx-af/jx/JXInputField.h>
 #include <jx-af/jx/JXWebBrowser.h>
 #include <jx-af/jx/JXMacWinPrefsDialog.h>
 #include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>
@@ -49,19 +51,16 @@ LayoutDocument::Create
 		JGetString("NewLayoutNameWindowTitle::LayoutDocument"),
 		JGetString("EditLayoutNamePrompt::LayoutDocument"));
 
+	dlog->GetInputField()->SetValidationPattern(
+		jnew JRegex("^[_a-z][_a-z0-9]+$", "i"),
+		"LayoutNameMustBeValidIdentifier::LayoutDocument");
+
 	if (dlog->DoDialog())
 	{
-		if (!IsValidIdentifier(dlog->GetString()))
-		{
-			JGetUserNotification()->ReportError(JGetString("LayoutNameMustBeValidIdentifier::LayoutDocument"));
-		}
-		else
-		{
-			*doc = jnew LayoutDocument(dlog->GetString(), false);
-			(**doc).SetDataReverted();
-			(**doc).Activate();
-			return true;
-		}
+		*doc = jnew LayoutDocument(dlog->GetString(), false);
+		(**doc).SetDataReverted();
+		(**doc).Activate();
+		return true;
 	}
 
 	*doc = nullptr;

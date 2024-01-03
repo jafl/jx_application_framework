@@ -17,7 +17,7 @@ jx_menu_editor 0
 2
 0 ""
 "5"
-""
+"Ctrl-5"
 ' 
 "__Grid5"
 "kGrid5Cmd"
@@ -27,7 +27,7 @@ jx_menu_editor 0
 2
 0 ""
 "10"
-""
+"Ctrl-0"
 ' 
 "__Grid10"
 "kGrid10Cmd"

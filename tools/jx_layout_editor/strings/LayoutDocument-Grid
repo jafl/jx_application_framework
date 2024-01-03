@@ -6,5 +6,5 @@
 
 MenuTitle::LayoutDocument_Grid "Grid"
 
-__Grid5::LayoutDocument "5"
-__Grid10::LayoutDocument "10"
+__Grid5::LayoutDocument "5 %k Ctrl-5"
+__Grid10::LayoutDocument "10 %k Ctrl-0"
