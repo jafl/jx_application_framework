@@ -32,7 +32,7 @@ public:
 	bool	HasSelection() const;
 	void	SelectAllWidgets();
 	void	ClearSelection();
-	void	GetSelectedWidgets(JPtrArray<BaseWidget>* list) const;
+	bool	GetSelectedWidgets(JPtrArray<BaseWidget>* list) const;
 	void	SetSelectedWidgetsVisible(const bool visible);
 	void	RemoveSelectedWidgets();
 	void	Clear(const bool isUndoRedo);
@@ -84,6 +84,7 @@ private:
 	Atom			itsLayoutMetaXAtom;
 
 	JXTextMenu*	itsEditMenu;
+	JXTextMenu*	itsArrangeMenu;
 
 	JUndoRedoChain*	itsUndoChain;
 	LayoutUndo*		itsResizeUndo;			// nullptr unless windows is resizing; part of itsUndoList
@@ -111,6 +112,9 @@ private:
 
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex index);
+
+	void	UpdateArrangeMenu();
+	void	HandleArrangeMenu(const JIndex index);
 };
 
 

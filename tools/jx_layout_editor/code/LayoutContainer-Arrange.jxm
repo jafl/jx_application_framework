@@ -1,0 +1,96 @@
+jx_menu_editor 0
+920 309
+"LayoutContainer"
+"Arrange"
+'a
+40
+40
+200
+100
+40
+200
+200
+75
+
+0
+1
+0
+0 "align_left.png"
+"Align left"
+""
+'l
+"AlignLeft"
+"kAlignLeftCmd"
+0
+
+1
+0
+0 "align_center.png"
+"Align center"
+""
+'c
+"AlignCenter"
+"kAlignHorizCenterCmd"
+0
+
+1
+0
+0 "align_right.png"
+"Align right"
+""
+'r
+"AlignRight"
+"kAlignRightCmd"
+1
+
+1
+0
+0 ""
+"Align top"
+""
+'t
+"AlignTop"
+"kAlignTopCmd"
+0
+
+1
+0
+0 ""
+"Align middle"
+""
+'m
+"AlignMiddle"
+"kAlignVertCenterCmd"
+0
+
+1
+0
+0 ""
+"Align bottom"
+""
+'b
+"AlignBottom"
+"kAlignBottomCmd"
+1
+
+1
+0
+0 ""
+"Distribute horizontally"
+""
+'h
+"DistributeHorizontally"
+"kDistrHorizCmd"
+0
+
+1
+0
+0 ""
+"Distribute vertically"
+""
+'v
+"DistributeVertically"
+"kDistrVertCmd"
+0
+
+0

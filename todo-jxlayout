@@ -1,15 +1,13 @@
-enforce that all selected widgets have the same container
-	if not, ignore shift
+resize
+	like window - any edge or corner
+	shift key to turn off grid
 
-align selected: top,bottom,center; right,left,center
+arrange menu: icons
 
 shift
 	arrow keys
 	align to grid - shift key to turn off
 	accumulate into single undo
-resize
-	like window - any edge or corner
-	shift key to turn off grid
 
 -----
 
@@ -43,6 +41,7 @@ allow direct editing of content:
 	Partition (set number of compartments & resize them)
 
 	draw grid inside
++	enforce that all selected widgets have the same container
 
 control tab order
 	show index in each item

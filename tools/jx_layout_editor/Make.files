@@ -20,6 +20,5 @@
 .cpp ./code/CustomWidget
 .cpp ./code/CoreWidget
 .cpp ./code/TextButton
-.cpp ./code/util
 
 literal: ${LIB_DEPS}

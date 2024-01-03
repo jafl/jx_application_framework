@@ -67,6 +67,10 @@ T
 F
 "./code/LayoutContainer-Edit.jxm"
 T
+2 "LayoutContainer-Arrange.jxm"
+F
+"./code/LayoutContainer-Arrange.jxm"
+T
 2 "LayoutSelection.cpp"
 F
 "./code/LayoutSelection.cpp"
@@ -93,9 +97,6 @@ T
 2 "TextButton.cpp"
 F
 "./code/TextButton.cpp"
-F
-T
-1 "misc"
 F
 T
 1 "layouts"
@@ -130,7 +131,7 @@ T "./" "/bin/bash -c \"cp jx_layout_editor ~/bin\"" "" FFFFFFF "Install" "" "" F
 F
 # build settings
 1
-T
+F
 "jx_layout_editor"
 "${LIB_DEPS}"
 "make -k all"

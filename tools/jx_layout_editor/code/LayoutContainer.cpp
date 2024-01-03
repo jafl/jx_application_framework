@@ -25,6 +25,7 @@
 #include <jx-af/jcore/jAssert.h>
 
 #include "LayoutContainer-Edit.h"
+#include "LayoutContainer-Arrange.h"
 
 /******************************************************************************
  Constructor
@@ -64,6 +65,14 @@ LayoutContainer::LayoutContainer
 		&LayoutContainer::UpdateEditMenu,
 		&LayoutContainer::HandleEditMenu);
 	ConfigureEditMenu(itsEditMenu);
+
+	itsArrangeMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::LayoutContainer_Arrange"));
+	itsArrangeMenu->SetMenuItems(kArrangeMenuStr);
+	itsArrangeMenu->SetUpdateAction(JXMenu::kDisableAll);
+	itsArrangeMenu->AttachHandlers(this,
+		&LayoutContainer::UpdateArrangeMenu,
+		&LayoutContainer::HandleArrangeMenu);
+	ConfigureArrangeMenu(itsArrangeMenu);
 }
 
 /******************************************************************************
@@ -110,7 +119,7 @@ LayoutContainer::SelectAllWidgets()
 			widget->SetSelected(true);
 		}
 	},
-	true);
+	false);
 }
 
 /******************************************************************************
@@ -137,7 +146,7 @@ LayoutContainer::ClearSelection()
 
  ******************************************************************************/
 
-void
+bool
 LayoutContainer::GetSelectedWidgets
 	(
 	JPtrArray<BaseWidget>* list
@@ -156,6 +165,8 @@ LayoutContainer::GetSelectedWidgets
 		}
 	},
 	true);
+
+	return !list->IsEmpty();
 }
 
 /******************************************************************************
@@ -792,4 +803,163 @@ LayoutContainer::ClearUndo()
 {
 	itsResizeUndo = nullptr;
 	itsUndoChain->ClearUndo();
+}
+
+/******************************************************************************
+ UpdateArrangeMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutContainer::UpdateArrangeMenu()
+{
+	JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+	GetSelectedWidgets(&list);
+
+	if (list.GetItemCount() > 1)
+	{
+		itsArrangeMenu->EnableItem(kAlignLeftCmd);
+		itsArrangeMenu->EnableItem(kAlignHorizCenterCmd);
+		itsArrangeMenu->EnableItem(kAlignRightCmd);
+		itsArrangeMenu->EnableItem(kAlignTopCmd);
+		itsArrangeMenu->EnableItem(kAlignVertCenterCmd);
+		itsArrangeMenu->EnableItem(kAlignBottomCmd);
+	}
+
+	if (list.GetItemCount() > 2)
+	{
+		itsArrangeMenu->EnableItem(kDistrHorizCmd);
+		itsArrangeMenu->EnableItem(kDistrVertCmd);
+	}
+}
+
+/******************************************************************************
+ HandleArrangeMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutContainer::HandleArrangeMenu
+	(
+	const JIndex index
+	)
+{
+	JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+	GetSelectedWidgets(&list);
+
+	JRect bounds;
+	for (auto* w : list)
+	{
+		bounds = bounds.IsEmpty() ? w->GetFrame() : JCovering(bounds, w->GetFrame());
+	}
+
+	auto* newUndo = jnew LayoutUndo(itsDoc);
+
+	if (index == kAlignLeftCmd)
+	{
+		for (auto* w : list)
+		{
+			w->Move(bounds.left - w->GetFrame().left, 0);
+		}
+	}
+	else if (index == kAlignHorizCenterCmd)
+	{
+		const auto x = bounds.xcenter();
+		for (auto* w : list)
+		{
+			w->Move(x - w->GetFrame().xcenter(), 0);
+		}
+	}
+	else if (index == kAlignRightCmd)
+	{
+		for (auto* w : list)
+		{
+			w->Move(bounds.right - w->GetFrame().right, 0);
+		}
+	}
+
+	else if (index == kAlignTopCmd)
+	{
+		for (auto* w : list)
+		{
+			w->Move(0, bounds.top - w->GetFrame().top);
+		}
+	}
+	else if (index == kAlignVertCenterCmd)
+	{
+		const auto y = bounds.ycenter();
+		for (auto* w : list)
+		{
+			w->Move(0, y - w->GetFrame().ycenter());
+		}
+	}
+	else if (index == kAlignBottomCmd)
+	{
+		for (auto* w : list)
+		{
+			w->Move(0, bounds.bottom - w->GetFrame().bottom);
+		}
+	}
+
+	else if (index == kDistrHorizCmd)
+	{
+		JCoordinate w = bounds.width();
+		for (auto* widget : list)
+		{
+			w -= widget->GetFrameGlobal().width();
+		}
+
+		const auto count = list.GetItemCount();
+
+		w /= (count-1);
+		if (w > 0)
+		{
+			list.SetCompareFunction(std::function([](const BaseWidget* w1, const BaseWidget* w2)
+			{
+				return w1->GetFrameGlobal().left <=> w2->GetFrameGlobal().left;
+			}));
+			list.Sort();
+
+			auto x = bounds.left + list.GetFirstItem()->GetFrameGlobal().width();
+			for (JIndex i=2; i<=count; i++)
+			{
+				auto* widget = list.GetItem(i);
+				auto r       = widget->GetFrame();
+				widget->Move(x + w - r.left, 0);
+				x += w + r.width();
+			}
+		}
+	}
+	else if (index == kDistrVertCmd)
+	{
+		JCoordinate h = bounds.height();
+		for (auto* widget : list)
+		{
+			h -= widget->GetFrameGlobal().height();
+		}
+
+		const auto count = list.GetItemCount();
+
+		h /= (count-1);
+		if (h > 0)
+		{
+			list.SetCompareFunction(std::function([](const BaseWidget* w1, const BaseWidget* w2)
+			{
+				return w1->GetFrameGlobal().top <=> w2->GetFrameGlobal().top;
+			}));
+			list.Sort();
+
+			auto y = bounds.top + list.GetFirstItem()->GetFrameGlobal().height();
+			for (JIndex i=2; i<=count; i++)
+			{
+				auto* widget = list.GetItem(i);
+				auto r       = widget->GetFrame();
+				widget->Move(0, y + h - r.top);
+				y += h + r.height();
+			}
+		}
+	}
+
+	NewUndo(newUndo);
+	itsDoc->DataChanged();
 }
