@@ -1154,7 +1154,7 @@ MenuTable::HandleTypeMenu
  ******************************************************************************/
 
 static const JString coreIconPath(JX_INCLUDE_PATH "/image/jx", JString::kNoCopy);
-static const JString iconPattern("*.png *.xpm", JString::kNoCopy);
+static const JString iconPattern("*.png *.gif *.xpm", JString::kNoCopy);
 
 static const char * empty_icon[] = {
 "1 1 1 1",
@@ -1866,7 +1866,8 @@ MenuTable::GenerateCode
 
 			output << "#include ";
 			output << (isCoreIcon ? "<jx-af/image/jx/" : "\"");
-			n.Print(output);
+			r.Print(output);
+			output << ".xpm";
 			output << (isCoreIcon ? '>' : '"') << std::endl;
 
 			output << "#endif" << std::endl;
