@@ -73,6 +73,23 @@ image-build/%.xpm : image/%.png
 	magick convert $< $@
 	@perl -pi -e 's/static char/static const char/g' $@
 
+image-build/%.xpm : image/%.gif
+	@mkdir -p $(@D)
+	magick convert $< $@
+	@perl -pi -e 's/static char/static const char/g' $@
+
+.PHONY : new_images
+new_images:
+	@if [[ -d image && -d image-build ]]; then \
+       for f1 in image/*; do \
+         f2=$${f1%.*}.xpm; \
+         f2=image-build/$${f2#*/}; \
+         if [[ ! -f $$f2 ]]; then \
+           ${MAKE} $$f2; \
+         fi; \
+       done; \
+     fi
+
 #
 # useful functions
 #

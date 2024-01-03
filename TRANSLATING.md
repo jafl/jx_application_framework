@@ -16,12 +16,6 @@ The files are loaded in the following order:
 This ensures that default is available for any text that has not been
 translated and that the user's data overrides the system data.
 
-Layouts
-=======
-
-All layouts should be compiled using the `--require-obj-names` option to
-ensure that all labels have a fixed key for translations.
-
 Fonts
 =====
 
@@ -38,8 +32,11 @@ These control the default fonts and sizes displayed by the program.  Users
 can also override these values if they need bigger fonts for easier
 reading.
 
-Refer to DYNAMIC_LAYOUT.md for information on how layouts are adjusted to
-fit content and font size.
+Testing
+=======
 
 You can test your layouts by running your application with
 the `--pseudotranslate` option.
+
+Refer to DYNAMIC_LAYOUT.md for information on how layouts are adjusted to
+fit content and font size.

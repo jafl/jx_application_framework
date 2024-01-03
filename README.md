@@ -71,7 +71,6 @@ tools
   jx_menu_editor     Graphical editor for menus
   jx_project_wizard  Wizard to create skeleton JX application
                      and project file for use in Code Crusader 
-  jxlayout           Graphical window layout editor
   makemake           Builds Makefile from Make.files and Make.header
 
 ACE

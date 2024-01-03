@@ -8,7 +8,7 @@ APP_NAME := jx_layout_editor
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
-SEARCHDIRS := -I./code -I./image ${SEARCHDIRS}
+SEARCHDIRS := -I./code -I./image-build ${SEARCHDIRS}
 
 # makemake variables
 
