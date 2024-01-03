@@ -138,7 +138,19 @@ BaseWidget::HandleMouseDown
 
 	if (button == kJXLeftButton && clickCount == 1 && modifiers.shift())
 	{
-		SetSelected(!IsSelected());
+		if (!IsSelected())
+		{
+			JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+			if (!itsLayout->GetSelectedWidgets(&list) ||
+				list.GetFirstItem()->GetEnclosure() == GetEnclosure())
+			{
+				SetSelected(true);
+			}
+		}
+		else if (IsSelected())
+		{
+			SetSelected(false);
+		}
 	}
 	else if (button == kJXLeftButton && clickCount > 1)
 	{
