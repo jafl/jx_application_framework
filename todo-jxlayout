@@ -2,11 +2,11 @@ resize
 	like window - any edge or corner
 	shift key to turn off grid
 
-arrange menu: icons
+	meta-arrow keys
 
 shift
 	arrow keys
-	align to grid - shift key to turn off
+	shift key to turn off grid
 	accumulate into single undo
 
 -----

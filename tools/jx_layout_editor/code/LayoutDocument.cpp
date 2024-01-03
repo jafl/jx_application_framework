@@ -204,6 +204,8 @@ LayoutDocument::BuildWindow()
 							 0,0, 100,100);
 	itsLayout->FitToEnclosure();
 
+	GetWindow()->SetStepSize(itsLayout->GetGridSpacing(), itsLayout->GetGridSpacing());
+
 	// menus
 
 	itsFileMenu = itsMenuBar->PrependTextMenu(JGetString("MenuTitle::LayoutDocument_File"));
@@ -636,10 +638,12 @@ LayoutDocument::HandleGridMenu
 	if (index == kGrid5Cmd)
 	{
 		itsLayout->SetGridSpacing(5);
+		GetWindow()->SetStepSize(5,5);
 	}
 	if (index == kGrid10Cmd)
 	{
 		itsLayout->SetGridSpacing(10);
+		GetWindow()->SetStepSize(10,10);
 	}
 }
 
