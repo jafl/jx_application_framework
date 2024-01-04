@@ -53,6 +53,8 @@ LayoutContainer::LayoutContainer
 	itsIgnoreResizeFlag(false),
 	itsDropRectList(nullptr)
 {
+	WantInput(true);
+	SetFocusColor(JColorManager::GetDefaultBackColor());
 	SetBorderWidth(10);
 
 	itsLayoutDataXAtom = GetDisplay()->RegisterXAtom(LayoutSelection::GetDataXAtomName());
@@ -411,6 +413,21 @@ LayoutContainer::BoundsResized
 {
 	JXWidget::BoundsResized(dw,dh);
 	itsDoc->DataChanged();
+}
+
+/******************************************************************************
+ HandleKeyPress (virtual)
+
+ ******************************************************************************/
+
+void
+LayoutContainer::HandleKeyPress
+	(
+	const JUtf8Character&	c,
+	const int				keySym,
+	const JXKeyModifiers&	modifiers
+	)
+{
 }
 
 /******************************************************************************
@@ -831,6 +848,12 @@ LayoutContainer::UpdateArrangeMenu()
 		itsArrangeMenu->EnableItem(kDistrHorizCmd);
 		itsArrangeMenu->EnableItem(kDistrVertCmd);
 	}
+
+	if (!list.IsEmpty())
+	{
+		itsArrangeMenu->EnableItem(kExpandHorizCmd);
+		itsArrangeMenu->EnableItem(kExpandVertCmd);
+	}
 }
 
 /******************************************************************************
@@ -920,7 +943,7 @@ LayoutContainer::HandleArrangeMenu
 			}));
 			list.Sort();
 
-			auto x = bounds.left + list.GetFirstItem()->GetFrameGlobal().width();
+			auto x = bounds.left + list.GetFirstItem()->GetFrameWidth();
 			for (JIndex i=2; i<=count; i++)
 			{
 				auto* widget = list.GetItem(i);
@@ -949,7 +972,7 @@ LayoutContainer::HandleArrangeMenu
 			}));
 			list.Sort();
 
-			auto y = bounds.top + list.GetFirstItem()->GetFrameGlobal().height();
+			auto y = bounds.top + list.GetFirstItem()->GetFrameHeight();
 			for (JIndex i=2; i<=count; i++)
 			{
 				auto* widget = list.GetItem(i);
@@ -957,6 +980,27 @@ LayoutContainer::HandleArrangeMenu
 				widget->Move(0, y + h - r.top);
 				y += h + r.height();
 			}
+		}
+	}
+
+	else if (index == kExpandHorizCmd)
+	{
+		const JCoordinate w1 = GetFrameWidth();
+		for (auto* w : list)
+		{
+			const JRect r = w->GetFrame();
+			w->Place(0, r.top);
+			w->SetSize(w1, r.height());
+		}
+	}
+	else if (index == kExpandVertCmd)
+	{
+		const JCoordinate h = GetFrameHeight();
+		for (auto* w : list)
+		{
+			const JRect r = w->GetFrame();
+			w->Place(r.left, 0);
+			w->SetSize(r.width(), h);
 		}
 	}
 

@@ -13,7 +13,9 @@ static const JUtf8Byte* kArrangeMenuStr =
 "|* %i AlignMiddle::LayoutContainer"
 "|* %i AlignBottom::LayoutContainer %l"
 "|* %i DistributeHorizontally::LayoutContainer"
-"|* %i DistributeVertically::LayoutContainer"
+"|* %i DistributeVertically::LayoutContainer %l"
+"|* %i ExpandHorizontally::LayoutContainer"
+"|* %i ExpandVertically::LayoutContainer"
 ;
 
 #include "LayoutContainer-Arrange-enum.h"
@@ -50,6 +52,14 @@ static const JUtf8Byte* kArrangeMenuStr =
 #define _H_distr_vert
 #include "distr_vert.xpm"
 #endif
+#ifndef _H_expand_horiz
+#define _H_expand_horiz
+#include "expand_horiz.xpm"
+#endif
+#ifndef _H_expand_vert
+#define _H_expand_vert
+#include "expand_vert.xpm"
+#endif
 
 static void ConfigureArrangeMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
@@ -63,6 +73,8 @@ static void ConfigureArrangeMenu(JXTextMenu* menu, const int offset = 0) {
 	menu->SetItemImage(kAlignBottomCmd + offset, align_bottom);
 	menu->SetItemImage(kDistrHorizCmd + offset, distr_horiz);
 	menu->SetItemImage(kDistrVertCmd + offset, distr_vert);
+	menu->SetItemImage(kExpandHorizCmd + offset, expand_horiz);
+	menu->SetItemImage(kExpandVertCmd + offset, expand_vert);
 };
 
 #endif

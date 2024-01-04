@@ -47,6 +47,9 @@ public:
 	JSize	GetGridSpacing() const;
 	void	SetGridSpacing(const JSize w);
 
+	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
+						   const JXKeyModifiers& modifiers) override;
+
 protected:
 
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;

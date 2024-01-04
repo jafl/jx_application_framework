@@ -1,5 +1,5 @@
 jx_menu_editor 0
-920 309
+912 351
 "LayoutContainer"
 "Arrange"
 'a
@@ -91,6 +91,26 @@ jx_menu_editor 0
 'v
 "DistributeVertically"
 "kDistrVertCmd"
+1
+
+1
+0
+0 "expand_horiz.png"
+"Fit horizontally"
+""
+' 
+"ExpandHorizontally"
+"kExpandHorizCmd"
+0
+
+1
+0
+0 "expand_vert.png"
+"Fit vertically"
+""
+' 
+"ExpandVertically"
+"kExpandVertCmd"
 0
 
 0

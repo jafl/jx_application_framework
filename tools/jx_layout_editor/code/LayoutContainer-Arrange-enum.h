@@ -14,6 +14,8 @@ enum {
 	kAlignBottomCmd,
 	kDistrHorizCmd,
 	kDistrVertCmd,
+	kExpandHorizCmd,
+	kExpandVertCmd,
 };
 
 #endif
