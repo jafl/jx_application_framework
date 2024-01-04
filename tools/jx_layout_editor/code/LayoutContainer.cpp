@@ -107,6 +107,29 @@ LayoutContainer::HasSelection()
 }
 
 /******************************************************************************
+ GetSelectionCount
+
+ ******************************************************************************/
+
+JSize
+LayoutContainer::GetSelectionCount()
+	const
+{
+	JSize count = 0;
+	ForEach([&count](const JXContainer* obj)
+	{
+		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		if (widget != nullptr && widget->IsSelected())
+		{
+			count++;
+		}
+	},
+	true);
+
+	return count;
+}
+
+/******************************************************************************
  SelectAllWidgets
 
  ******************************************************************************/

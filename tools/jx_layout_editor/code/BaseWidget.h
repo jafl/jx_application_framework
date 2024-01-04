@@ -42,6 +42,9 @@ public:
 protected:
 
 	void	DrawSelection(JXWindowPainter& p, const JRect& rect);
+	void	DrawOver(JXWindowPainter& p, const JRect& rect) override;
+
+	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 							const JSize clickCount,
@@ -60,6 +63,22 @@ protected:
 
 private:
 
+	enum
+	{
+		kTopLeftHandle,
+		kTopHandle,
+		kTopRightHandle,
+		kRightHandle,
+		kBottomRightHandle,
+		kBottomHandle,
+		kBottomLeftHandle,
+		kLeftHandle,
+
+		kHandleCount
+	};
+
+private:
+
 	LayoutContainer*	itsLayout;
 	JString				itsVarName;		// can be empty
 	bool				itsMemberVarFlag;
@@ -72,6 +91,15 @@ private:
 	JSize	itsLastClickCount;
 	bool	itsWaitingForDragFlag;
 	bool	itsClearIfNotDNDFlag;
+
+	// used during resize drag
+
+	JRect			itsHandles[ kHandleCount ];
+	JCursorIndex	itsCursors[ kHandleCount ];
+
+private:
+
+	void	BaseWidgetX();
 };
 
 
@@ -115,7 +143,7 @@ BaseWidget::SetVarName
 }
 
 /******************************************************************************
- Selection
+ IsSelected
 
  ******************************************************************************/
 
@@ -124,19 +152,6 @@ BaseWidget::IsSelected()
 	const
 {
 	return itsSelectedFlag;
-}
-
-inline void
-BaseWidget::SetSelected
-	(
-	const bool on
-	)
-{
-	if (on != itsSelectedFlag)
-	{
-		itsSelectedFlag = on;
-		Refresh();
-	}
 }
 
 /******************************************************************************

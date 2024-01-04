@@ -13,9 +13,13 @@
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jx/JXMenu.h>
+#include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jMouseUtil.h>
+#include <X11/cursorfont.h>
 #include <jx-af/jcore/jAssert.h>
+
+const JCoordinate kHandleHalfWidth = 5;
 
 /******************************************************************************
  Constructor
@@ -39,6 +43,8 @@ BaseWidget::BaseWidget
 	itsMemberVarFlag(false),
 	itsSelectedFlag(false)
 {
+	BaseWidgetX();
+
 	itsVarName = itsLayout->GenerateUniqueVarName();
 }
 
@@ -59,7 +65,24 @@ BaseWidget::BaseWidget
 	itsLayout(layout),
 	itsSelectedFlag(false)
 {
+	BaseWidgetX();
+
 	input >> itsVarName >> itsMemberVarFlag;
+}
+
+// private
+
+void
+BaseWidget::BaseWidgetX()
+{
+	itsCursors[ kTopLeftHandle     ] = GetDisplay()->CreateBuiltInCursor("XC_top_left_corner", XC_top_left_corner);
+	itsCursors[ kTopHandle         ] = GetDisplay()->CreateBuiltInCursor("XC_top_side", XC_top_side);
+	itsCursors[ kTopRightHandle    ] = GetDisplay()->CreateBuiltInCursor("XC_top_right_corner", XC_top_right_corner);
+	itsCursors[ kRightHandle       ] = GetDisplay()->CreateBuiltInCursor("XC_right_side", XC_right_side);
+	itsCursors[ kBottomRightHandle ] = GetDisplay()->CreateBuiltInCursor("XC_bottom_right_corner", XC_bottom_right_corner);
+	itsCursors[ kBottomHandle      ] = GetDisplay()->CreateBuiltInCursor("XC_bottom_side", XC_bottom_side);
+	itsCursors[ kBottomLeftHandle  ] = GetDisplay()->CreateBuiltInCursor("XC_bottom_left_corner", XC_bottom_left_corner);
+	itsCursors[ kLeftHandle        ] = GetDisplay()->CreateBuiltInCursor("XC_left_side", XC_left_side);
 }
 
 /******************************************************************************
@@ -98,6 +121,24 @@ BaseWidget::StreamOut
 }
 
 /******************************************************************************
+ SetSelected
+
+ ******************************************************************************/
+
+void
+BaseWidget::SetSelected
+	(
+	const bool on
+	)
+{
+	if (on != itsSelectedFlag)
+	{
+		itsSelectedFlag = on;
+		itsLayout->Refresh();
+	}
+}
+
+/******************************************************************************
  DrawSelection (protected)
 
  ******************************************************************************/
@@ -113,6 +154,94 @@ BaseWidget::DrawSelection
 	{
 		p.SetPenColor(JColorManager::GetDefaultSelectionColor());
 		p.Rect(rect);
+	}
+}
+
+/******************************************************************************
+ DrawOver (virtual protected)
+
+ ******************************************************************************/
+
+void
+BaseWidget::DrawOver
+	(
+	JXWindowPainter&	p,
+	const JRect&		rect
+	)
+{
+	for (auto& r : itsHandles)
+	{
+		r.SetSize(0,0);
+	}
+
+	if (itsSelectedFlag && itsLayout->GetSelectionCount() == 1)
+	{
+		const JRect f = GetFrameLocal();
+
+		itsHandles[ kTopLeftHandle     ].Place(f.top, f.left);
+		itsHandles[ kTopHandle         ].Place(f.top, f.xcenter() - kHandleHalfWidth);
+		itsHandles[ kTopRightHandle    ].Place(f.top, f.right - 2*kHandleHalfWidth);
+		itsHandles[ kRightHandle       ].Place(f.ycenter() - kHandleHalfWidth, f.right - 2*kHandleHalfWidth);
+		itsHandles[ kBottomRightHandle ].Place(f.bottom - 2*kHandleHalfWidth, f.right - 2*kHandleHalfWidth);
+		itsHandles[ kBottomHandle      ].Place(f.bottom - 2*kHandleHalfWidth, f.xcenter() - kHandleHalfWidth);
+		itsHandles[ kBottomLeftHandle  ].Place(f.bottom - 2*kHandleHalfWidth, f.left);
+		itsHandles[ kLeftHandle        ].Place(f.ycenter() - kHandleHalfWidth, f.left);
+
+		itsHandles[ kTopLeftHandle     ].SetSize(2*kHandleHalfWidth, 2*kHandleHalfWidth);
+		itsHandles[ kTopRightHandle    ].SetSize(2*kHandleHalfWidth, 2*kHandleHalfWidth);
+		itsHandles[ kBottomRightHandle ].SetSize(2*kHandleHalfWidth, 2*kHandleHalfWidth);
+		itsHandles[ kBottomLeftHandle  ].SetSize(2*kHandleHalfWidth, 2*kHandleHalfWidth);
+
+		if (f.width() > 6*kHandleHalfWidth)
+		{
+			itsHandles[ kTopHandle    ].SetSize(2*kHandleHalfWidth, 2*kHandleHalfWidth);
+			itsHandles[ kBottomHandle ].SetSize(2*kHandleHalfWidth, 2*kHandleHalfWidth);
+		}
+
+		if (f.height() > 6*kHandleHalfWidth)
+		{
+			itsHandles[ kRightHandle ].SetSize(2*kHandleHalfWidth, 2*kHandleHalfWidth);
+			itsHandles[ kLeftHandle  ].SetSize(2*kHandleHalfWidth, 2*kHandleHalfWidth);
+		}
+
+		p.SetPenColor(JColorManager::GetDefaultSelectionColor());
+		p.SetFilling(true);
+		for (auto& r : itsHandles)
+		{
+			p.Rect(r);
+		}
+	}
+}
+
+/******************************************************************************
+ AdjustCursor (virtual protected)
+
+ ******************************************************************************/
+
+void
+BaseWidget::AdjustCursor
+	(
+	const JPoint&			pt,
+	const JXKeyModifiers&	modifiers
+	)
+{
+	bool found = false;
+
+	JUnsignedOffset i = 0;
+	for (auto& r : itsHandles)
+	{
+		if (r.Contains(pt))
+		{
+			DisplayCursor(itsCursors[i]);
+			found = true;
+			break;
+		}
+		i++;
+	}
+
+	if (!found)
+	{
+		JXWidget::AdjustCursor(pt, modifiers);
 	}
 }
 

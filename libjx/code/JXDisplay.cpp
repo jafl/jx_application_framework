@@ -874,7 +874,7 @@ JXDisplay::GetCursor
 	for (JIndex i=1; i<=count; i++)
 	{
 		const CursorInfo info = itsCursorList->GetItem(i);
-		if (*(info.name) == name)
+		if (*info.name == name)
 		{
 			*index = i;
 			return true;

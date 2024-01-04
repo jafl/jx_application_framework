@@ -103,6 +103,7 @@ CoreWidget::DrawOver
 	)
 {
 	DrawSelection(p, GetFrameLocal());
+	BaseWidget::DrawOver(p, rect);
 }
 
 /******************************************************************************

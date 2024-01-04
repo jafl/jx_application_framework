@@ -30,6 +30,7 @@ public:
 	~LayoutContainer() override;
 
 	bool	HasSelection() const;
+	JSize	GetSelectionCount() const;
 	void	SelectAllWidgets();
 	void	ClearSelection();
 	bool	GetSelectedWidgets(JPtrArray<BaseWidget>* list) const;
