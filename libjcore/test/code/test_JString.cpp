@@ -1044,19 +1044,19 @@ JTEST(CopyNormalizedBytes)
 
 JTEST(Normalization)
 {
-	JString s(false);
+	JString s(JString::kDoNotNormalize);
 	s.Set("a\0b", 3);
 	JAssertEqual(3, s.GetByteCount());
 
-	JString s1(false);
+	JString s1(JString::kDoNotNormalize);
 	s1 = "\xC3\xB6\xE2\x9C\x94";
 	JAssertStringsEqual("\xC3\xB6\xE2\x9C\x94", s1);
 
-	JString s2(false);
+	JString s2(JString::kDoNotNormalize);
 	s2 = "\x6F\xCC\x88\xE2\x9C\x94";
 	JAssertStringsEqual("\x6F\xCC\x88\xE2\x9C\x94", s2);
 
-	JString s3(true);
+	JString s3;
 	s3 = "\x6F\xCC\x88\xE2\x9C\x94";
 	JAssertStringsEqual("\xC3\xB6\xE2\x9C\x94", s3);
 }

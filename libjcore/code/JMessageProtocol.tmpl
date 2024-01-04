@@ -43,8 +43,8 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend),
 	itsByteBuffer(JMessageProtocolT::kDefaultBufferSize),
 	itsMessageList(JPtrArrayT::kDeleteAll),
-	itsSeparatorStr(false),
-	itsDisconnectStr(false)
+	itsSeparatorStr(JString::kDoNotNormalize),
+	itsDisconnectStr(JString::kDoNotNormalize)
 {
 	JMessageProtocolX();
 }
@@ -59,8 +59,8 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend),
 	itsByteBuffer(JMessageProtocolT::kDefaultBufferSize),
 	itsMessageList(JPtrArrayT::kDeleteAll),
-	itsSeparatorStr(false),
-	itsDisconnectStr(false)
+	itsSeparatorStr(JString::kDoNotNormalize),
+	itsDisconnectStr(JString::kDoNotNormalize)
 {
 	JMessageProtocolX();
 
@@ -195,7 +195,7 @@ template <ACE_PEER_STREAM_1>
 void
 JMessageProtocol<ACE_PEER_STREAM_2>::UpdateTokenPattern()
 {
-	JString pattern(false);
+	JString pattern(JString::kDoNotNormalize);
 	pattern  = JRegex::BackslashForLiteral(itsSeparatorStr);
 	pattern += "|";
 	pattern += JRegex::BackslashForLiteral(itsDisconnectStr);

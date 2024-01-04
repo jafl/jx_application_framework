@@ -59,13 +59,19 @@ public:
 		kCopy   = 1
 	};
 
+	enum NormalizeData
+	{
+		kDoNotNormalize = 0,
+		kNormalize      = 1
+	};
+
 	static const JString empty;
 	static const JString space;
 	static const JString newline;
 
 public:
 
-	JString() : JString(true) {};
+	JString(const NormalizeData normalize = kNormalize);
 	JString(const JString& str, const Copy copy = kCopy);
 	JString(const JString& str, const JCharacterRange& range, const Copy copy = kCopy);
 	JString(const JUtf8Byte* str, const Copy copy = kNoCopy) : JString(str, 0, copy) {};
@@ -74,7 +80,6 @@ public:
 	JString(const JUtf8Character& c) : JString(c.GetBytes(), 0) {};
 	JString(const std::string& str, const JUtf8ByteRange& range);
 
-	explicit JString(const bool normalize);		// prevent sneaky, incorrect, automatic construction from char*
 	explicit JString(JUtf8Byte* str, const Copy copy = kCopy) : JString(str, 0, copy) {};
 	explicit JString(const std::string& str) : JString(str, JUtf8ByteRange()) {};	// prevent sneaky automatic construction from char*
 

@@ -80,7 +80,7 @@ const JString JRegex::theSpecialCharList(".[]\\?*+{}|()^$", JString::kNoCopy);
 
 JRegex::JRegex()
 	:
-	itsPattern(false),
+	itsPattern(JString::kDoNotNormalize),
 	itsState(kEmpty),
 	itsRegex(nullptr),
 	itsCFlags(defaultCFlags),
@@ -94,7 +94,7 @@ JRegex::JRegex
 	const JUtf8Byte*	flags
 	)
 	:
-	itsPattern(false),
+	itsPattern(JString::kDoNotNormalize),
 	itsState(kEmpty),
 	itsRegex(nullptr),
 	itsCFlags(defaultCFlags),
@@ -110,7 +110,7 @@ JRegex::JRegex
 	const JUtf8Byte* flags
 	)
 	:
-	itsPattern(false),
+	itsPattern(JString::kDoNotNormalize),
 	itsState(kEmpty),
 	itsRegex(nullptr),
 	itsCFlags(defaultCFlags),

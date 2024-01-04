@@ -69,7 +69,7 @@ inline JUtf8Byte* alloc(const JSize lgSize)
 
 JString::JString
 	(
-	const bool normalize
+	const NormalizeData normalize
 	)
 	:
 	itsOwnerFlag(true),

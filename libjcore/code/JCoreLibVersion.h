@@ -45,6 +45,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 //		Removed unused constant kJLog10ToLog2.
 //	JString:
 //		Switched to an exponential reallocation model.
+//		*** Adjusted ctor to use NormalizeData enum instead of bool.
 //	JList, JHashTable, etc:
 //		*** Renamed "element" to "item"
 //	JRegex:

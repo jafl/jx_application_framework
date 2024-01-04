@@ -525,7 +525,7 @@ JTEST(BackslashForLiteral)
 
 JTEST(Null)
 {
-	JString s(false);
+	JString s(JString::kDoNotNormalize);
 	s.Set("a\0b", 3);
 
 	JRegex r(s);
@@ -536,7 +536,7 @@ JTEST(Null)
 
 	// test for JMessageProcotol
 
-	JString pattern(false);
+	JString pattern(JString::kDoNotNormalize);
 
 	s.Set("\n", 1);
 	pattern  = JRegex::BackslashForLiteral(s);
