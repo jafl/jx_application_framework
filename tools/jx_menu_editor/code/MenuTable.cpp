@@ -1058,15 +1058,25 @@ MenuTable::HandleTableMenu
 void
 MenuTable::AddItem()
 {
-	if (EndEditing())
+	if (!EndEditing())
 	{
-		ItemInfo info(JXMenu::kPlainType, 0,
-					  jnew JString, jnew JString,
-					  JUtf8Character(' '), jnew JString, jnew JString, false);
-		itsItemList->AppendItem(info);
-		AppendRows(1);
-		BeginEditing(JPoint(kEnumColumn, itsItemList->GetItemCount()));
+		return;
 	}
+
+	JIndex row = GetRowCount()+1;
+
+	JPoint cell;
+	if (GetTableSelection().GetSingleSelectedCell(&cell))
+	{
+		row = cell.y+1;
+	}
+
+	ItemInfo info(JXMenu::kPlainType, 0,
+				  jnew JString, jnew JString,
+				  JUtf8Character(' '), jnew JString, jnew JString, false);
+	itsItemList->InsertItemAtIndex(row, info);
+	InsertRows(row, 1);
+	BeginEditing(JPoint(kEnumColumn, row));
 }
 
 /******************************************************************************
