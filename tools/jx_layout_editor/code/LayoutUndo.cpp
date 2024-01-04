@@ -21,11 +21,13 @@
 
 LayoutUndo::LayoutUndo
 	(
-	LayoutDocument* doc
+	LayoutDocument*	doc,
+	const Type		type
 	)
 	:
 	JUndo(),
-	itsDoc(doc)
+	itsDoc(doc),
+	itsType(type)
 {
 	std::ostringstream output;
 	itsDoc->WriteTextFile(output, true);

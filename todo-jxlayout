@@ -7,11 +7,6 @@ resize
 
 	meta-arrow keys
 
-shift
-	arrow keys
-	shift key to turn off grid
-	accumulate into single undo
-
 -----
 
 create widget by cmd-dragging rectangle

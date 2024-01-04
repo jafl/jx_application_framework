@@ -17,16 +17,39 @@ class LayoutUndo : public JUndo
 {
 public:
 
-	LayoutUndo(LayoutDocument* doc);
+	enum Type
+	{
+		kUnclassifiedType,
+		kArrowType
+	};
+
+public:
+
+	LayoutUndo(LayoutDocument* doc, const Type type = kUnclassifiedType);
 
 	~LayoutUndo() override;
 
 	void	Undo() override;
+	Type	GetType() const;
 
 private:
 
 	LayoutDocument*	itsDoc;		// not owned
 	JString			itsData;
+	const Type		itsType;
 };
+
+
+/******************************************************************************
+ IsArrow
+
+ ******************************************************************************/
+
+inline LayoutUndo::Type
+LayoutUndo::GetType()
+	const
+{
+	return itsType;
+}
 
 #endif

@@ -85,7 +85,7 @@ TextButton::TextButtonX
 	const JCoordinate	h
 	)
 {
-	itsButton = jnew JXTextButton(label, this, kFixedLeft, kFixedTop, x,y,w,h);
+	itsButton = jnew JXTextButton(label, this, kHElastic, kVElastic, x,y,w,h);
 	SetWidget(itsButton);
 }
 

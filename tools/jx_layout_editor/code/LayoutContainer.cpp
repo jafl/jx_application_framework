@@ -22,6 +22,7 @@
 #include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jAssert.h>
 
 #include "LayoutContainer-Edit.h"
@@ -428,6 +429,107 @@ LayoutContainer::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
+	JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+	if (!GetSelectedWidgets(&list))
+	{
+		return;
+	}
+
+	LayoutUndo* undo;
+	bool isNew;
+	JUndo* tmpUndo;
+	if (itsUndoChain->GetCurrentUndo(&tmpUndo) &&
+		tmpUndo->IsActive() &&
+		dynamic_cast<LayoutUndo*>(tmpUndo)->GetType() == LayoutUndo::kArrowType)
+	{
+		undo  = dynamic_cast<LayoutUndo*>(tmpUndo);
+		isNew = false;
+	}
+	else
+	{
+		undo  = jnew LayoutUndo(itsDoc, LayoutUndo::kArrowType);
+		isNew = true;
+	}
+
+	bool changed  = false;
+
+	const JCoordinate delta = modifiers.shift() ? 1 : itsGridSpacing;
+
+	if (c == kJUpArrow && modifiers.meta())
+	{
+		for (auto* w : list)
+		{
+			w->AdjustSize(0, -delta);
+		}
+		changed = true;
+	}
+	else if (c == kJDownArrow && modifiers.meta())
+	{
+		for (auto* w : list)
+		{
+			w->AdjustSize(0, delta);
+		}
+		changed = true;
+	}
+	else if (c == kJLeftArrow && modifiers.meta())
+	{
+		for (auto* w : list)
+		{
+			w->AdjustSize(-delta, 0);
+		}
+		changed = true;
+	}
+	else if (c == kJRightArrow && modifiers.meta())
+	{
+		for (auto* w : list)
+		{
+			w->AdjustSize(delta, 0);
+		}
+		changed = true;
+	}
+
+	else if (c == kJUpArrow)
+	{
+		for (auto* w : list)
+		{
+			w->Move(0, -delta);
+		}
+		changed = true;
+	}
+	else if (c == kJDownArrow)
+	{
+		for (auto* w : list)
+		{
+			w->Move(0, delta);
+		}
+		changed = true;
+	}
+	else if (c == kJLeftArrow)
+	{
+		for (auto* w : list)
+		{
+			w->Move(-delta, 0);
+		}
+		changed = true;
+	}
+	else if (c == kJRightArrow)
+	{
+		for (auto* w : list)
+		{
+			w->Move(delta, 0);
+		}
+		changed = true;
+	}
+
+	if (isNew && changed)
+	{
+		NewUndo(undo);
+		itsDoc->DataChanged();
+	}
+	else if (isNew)
+	{
+		jdelete undo;
+	}
 }
 
 /******************************************************************************
