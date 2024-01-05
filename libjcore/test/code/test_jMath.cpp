@@ -56,9 +56,3 @@ JTEST(Truncate)
 	JAssertEqual(4, JTruncate(4.3));
 	JAssertEqual(4, JTruncate(4.9));
 }
-
-JTEST(Abs)
-{
-	JAssertEqual(5, JLAbs(5));
-	JAssertEqual(5, JLAbs(-5));
-}

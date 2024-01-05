@@ -733,10 +733,6 @@ T
 F
 "./code/JUpdateChecker.cpp"
 T
-2 "jMouseUtil.cpp"
-F
-"./code/jMouseUtil.cpp"
-T
 2 "JStopWatch.cpp"
 F
 "./code/JStopWatch.cpp"

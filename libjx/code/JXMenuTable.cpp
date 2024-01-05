@@ -686,8 +686,8 @@ JXMenuTable::MenuSelectItem
 
 		if (submenu != nullptr &&
 			(!checkMovement ||
-			 (JLAbs(itsCurrPt.x - itsPrevPt.x) <= kMoveSlowDelta &&
-			  JLAbs(itsCurrPt.y - itsPrevPt.y) <= kMoveSlowDelta)))
+			 (labs(itsCurrPt.x - itsPrevPt.x) <= kMoveSlowDelta &&
+			  labs(itsCurrPt.y - itsPrevPt.y) <= kMoveSlowDelta)))
 		{
 			if (itsOpenSubmenu != nullptr)
 			{

@@ -46,15 +46,6 @@ JLCeil
 }
 
 inline long
-JLAbs
-	(
-	const long x
-	)
-{
-	return (x >= 0 ? x : -x);
-}
-
-inline long
 JTruncate
 	(
 	const double x

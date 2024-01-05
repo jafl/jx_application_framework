@@ -413,7 +413,7 @@ LayoutContainer::EnclosingBoundsResized
 	const JCoordinate dhb
 	)
 {
-	if ((JLAbs(dwb) >= itsGridSpacing || JLAbs(dhb) >= itsGridSpacing) &&
+	if ((labs(dwb) >= JCoordinate(itsGridSpacing) || labs(dhb) >= JCoordinate(itsGridSpacing)) &&
 		!itsIgnoreResizeFlag && !CurrentUndoIs(LayoutUndo::kWindowResizeType))
 	{
 		auto* newUndo = jnew LayoutUndo(itsDoc, LayoutUndo::kWindowResizeType);
@@ -436,7 +436,7 @@ LayoutContainer::BoundsResized
 	)
 {
 	JXWidget::BoundsResized(dw,dh);
-	if (JLAbs(dw) >= itsGridSpacing || JLAbs(dh) >= itsGridSpacing)
+	if (labs(dw) >= JCoordinate(itsGridSpacing) || labs(dh) >= JCoordinate(itsGridSpacing))
 	{
 		itsDoc->DataModified();
 	}

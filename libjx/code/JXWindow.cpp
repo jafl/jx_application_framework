@@ -1384,8 +1384,8 @@ JXWindow::AnalyzeWindowManager
 		WaitForWM(d, w);
 		assert( w->itsIsMappedFlag );
 
-		if (JLAbs(w->itsWMFrameLoc.x - p) > kWMFrameSlop ||
-			JLAbs(w->itsWMFrameLoc.y - p) > kWMFrameSlop)
+		if (labs(w->itsWMFrameLoc.x - p) > kWMFrameSlop ||
+			labs(w->itsWMFrameLoc.y - p) > kWMFrameSlop)
 		{
 			behavior.frameCompensateFlag = !behavior.frameCompensateFlag;
 			d->SetWMBehavior(behavior);

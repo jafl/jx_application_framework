@@ -43,6 +43,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 //	jMath:
 //		*** Removed kJPi & kJE in favor of std::numbers.
 //		Removed unused constant kJLog10ToLog2.
+//		Removed JLAbs() in favor of labs().
 //	JString:
 //		Switched to an exponential reallocation model.
 //		*** Adjusted ctor to use NormalizeData enum instead of bool.
