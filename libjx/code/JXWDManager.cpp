@@ -25,6 +25,7 @@
 #include "JXDisplay.h"
 #include "JXImage.h"
 #include "JXColorManager.h"
+#include "JXFunctionTask.h"
 #include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
@@ -327,7 +328,13 @@ JXWDManager::UpdateWDMenu
 {
 	if (menu->IsOpen())
 	{
-		return;		// will update next time it is opened
+		auto* task = jnew JXFunctionTask(100, std::function([this, menu]()
+		{
+			UpdateWDMenu(menu);
+		}),
+		true);
+		task->Start();
+		return;
 	}
 
 	menu->SetMenuItems(kWindowsMenuStr);

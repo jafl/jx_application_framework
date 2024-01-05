@@ -58,6 +58,7 @@
 #include "JXDisplay.h"
 #include "JXColorManager.h"
 #include "JXChooseFileDialog.h"
+#include "JXFunctionTask.h"
 #include "jXGlobals.h"
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jFileUtil.h>
@@ -635,7 +636,13 @@ JXDocumentManager::UpdateDocumentMenu
 {
 	if (menu->IsOpen())
 	{
-		return;		// will update next time it is opened
+		auto* task = jnew JXFunctionTask(100, std::function([menu]()
+		{
+			JXGetDocumentManager()->UpdateDocumentMenu(menu);
+		}),
+		true);
+		task->Start();
+		return;
 	}
 
 	menu->RemoveAllItems();
