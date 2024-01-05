@@ -32,7 +32,7 @@ public:
 
 	LayoutContainer*	GetLayoutContainer() const;
 
-	void	DataChanged();
+	void	UpdateSaveState();
 
 	BaseWidget*	ReadWidget(std::istream& input, JXWidget* defaultEnclosure,
 						   JPtrArray<JXWidget>* widgetList) const;

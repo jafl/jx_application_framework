@@ -127,7 +127,7 @@ CustomWidget::Draw
 	const JRect&		rect
 	)
 {
-	p.String(rect, itsClassName, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
+	p.String(GetFrameLocal(), itsClassName, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

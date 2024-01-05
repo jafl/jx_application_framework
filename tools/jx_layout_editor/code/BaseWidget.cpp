@@ -14,6 +14,7 @@
 #include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jx/JXMenu.h>
 #include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jMouseUtil.h>
 #include <X11/cursorfont.h>
@@ -260,10 +261,21 @@ BaseWidget::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	itsStartPt = itsPrevPt = pt;
-	itsLastClickCount      = 0;
-	itsWaitingForDragFlag  = false;
-	itsClearIfNotDNDFlag   = false;
+	itsStartPtG = itsPrevPtG = LocalToGlobal(pt);
+	itsLastClickCount        = 0;
+	itsWaitingForDragFlag    = false;
+	itsClearIfNotDNDFlag     = false;
+	itsIsResizingFlag        = false;
+
+	itsResizeDragType = 0;
+	for (const auto& r : itsHandles)
+	{
+		if (r.Contains(pt))
+		{
+			return;
+		}
+		itsResizeDragType++;
+	}
 
 	if (button == kJXLeftButton && clickCount == 1 && modifiers.shift())
 	{
@@ -315,21 +327,116 @@ BaseWidget::HandleMouseDrag
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (itsWaitingForDragFlag)
+	const JPoint ptG = LocalToGlobal(pt);
+	const bool moved = JMouseMoved(itsStartPtG, ptG);
+
+	if (itsWaitingForDragFlag && moved)
 	{
 		assert( itsLayout->HasSelection() );
 
-		if (JMouseMoved(itsStartPt, pt))
-		{
-			itsWaitingForDragFlag = false;
-			itsClearIfNotDNDFlag  = false;
+		itsWaitingForDragFlag = false;
+		itsClearIfNotDNDFlag  = false;
 
-			itsLayout->SetSelectedWidgetsVisible(false);
+		itsLayout->SetSelectedWidgetsVisible(false);
 
-			auto* data = jnew LayoutSelection(itsLayout, LocalToGlobal(itsStartPt));
-			BeginDND(pt, buttonStates, modifiers, data);
-		}
+		auto* data = jnew LayoutSelection(itsLayout, itsStartPtG);
+		BeginDND(pt, buttonStates, modifiers, data);
+		return;
 	}
+	else if (!itsIsResizingFlag && itsResizeDragType < kHandleCount && moved)
+	{
+		itsIsResizingFlag = true;
+	}
+	else if (!itsIsResizingFlag)
+	{
+		return;
+	}
+
+	JPoint gridPtG =
+		itsLayout->LocalToGlobal(
+			itsLayout->SnapToGrid(
+				itsLayout->GlobalToLocal(ptG)));
+
+	JPoint delta = gridPtG - itsPrevPtG;
+	if (delta.x == 0 && delta.y == 0)
+	{
+		return;
+	}
+
+	LayoutUndo* undo = nullptr;
+	if (!itsLayout->CurrentUndoIs(LayoutUndo::kDragResizeType))
+	{
+		undo = jnew LayoutUndo(itsLayout->GetDocument(), LayoutUndo::kDragResizeType);
+	}
+
+	if (itsResizeDragType == kTopLeftHandle)
+	{
+		Move(delta.x, delta.y);
+		AdjustSize(-delta.x, -delta.y);
+
+		delta = itsLayout->SnapToGrid(this);
+		AdjustSize(-delta.x, -delta.y);
+	}
+	else if (itsResizeDragType == kTopHandle)
+	{
+		Move(0, delta.y);
+		AdjustSize(0, -delta.y);
+
+		delta = itsLayout->SnapToGrid(this);
+		AdjustSize(0, -delta.y);
+	}
+	else if (itsResizeDragType == kTopRightHandle)
+	{
+		Move(0, delta.y);
+		AdjustSize(delta.x, -delta.y);
+
+		delta = itsLayout->SnapToGrid(this);
+		AdjustSize(delta.x, -delta.y);
+	}
+	else if (itsResizeDragType == kRightHandle)
+	{
+		AdjustSize(delta.x, 0);
+
+		delta = itsLayout->SnapToGrid(this);
+		AdjustSize(delta.x, 0);
+	}
+	else if (itsResizeDragType == kBottomRightHandle)
+	{
+		AdjustSize(delta.x, delta.y);
+
+		delta = itsLayout->SnapToGrid(this);
+		AdjustSize(delta.x, delta.y);
+	}
+	else if (itsResizeDragType == kBottomHandle)
+	{
+		AdjustSize(0, delta.y);
+
+		delta = itsLayout->SnapToGrid(this);
+		AdjustSize(0, delta.y);
+	}
+	else if (itsResizeDragType == kBottomLeftHandle)
+	{
+		Move(delta.x, 0);
+		AdjustSize(-delta.x, delta.y);
+
+		delta = itsLayout->SnapToGrid(this);
+		AdjustSize(-delta.x, delta.y);
+	}
+	else if (itsResizeDragType == kLeftHandle)
+	{
+		Move(delta.x, 0);
+		AdjustSize(-delta.x, 0);
+
+		delta = itsLayout->SnapToGrid(this);
+		AdjustSize(-delta.x, 0);
+	}
+
+	if (undo != nullptr)
+	{
+		itsLayout->NewUndo(undo);
+	}
+
+	itsPrevPtG = gridPtG;
 }
 
 /******************************************************************************
@@ -346,6 +453,8 @@ BaseWidget::HandleMouseUp
 	const JXKeyModifiers&	modifiers
 	)
 {
+	itsLayout->GetUndoRedoChain()->DeactivateCurrentUndo();
+
 	if (itsWaitingForDragFlag && itsLastClickCount == 2)
 	{
 		// TODO:  edit parameters

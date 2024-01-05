@@ -175,16 +175,16 @@ LayoutDocument::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 500,300, JString::empty);
+	auto* window = jnew JXWindow(this, 601,300, JString::empty);
 
 	itsMenuBar =
 		jnew JXMenuBar(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 601,30);
 	assert( itsMenuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(GetPrefsManager(), kLayoutDocToolBarID, itsMenuBar, window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 601,270);
 	assert( itsToolBar != nullptr );
 
 // end JXLayout
@@ -244,7 +244,7 @@ LayoutDocument::BuildWindow()
 		itsToolBar->AppendButton(itsFileMenu, kSaveCmd);
 		itsToolBar->AppendButton(itsFileMenu, kSaveAllCmd);
 
-		itsLayout->AppendEditMenuToToolBar(itsToolBar);
+		itsLayout->AppendToToolBar(itsToolBar);
 		GetApplication()->AppendHelpMenuToToolBar(itsToolBar, helpMenu);
 	}
 }
@@ -441,12 +441,12 @@ LayoutDocument::DiscardChanges()
 }
 
 /******************************************************************************
- DataChanged
+ UpdateSaveState
 
  ******************************************************************************/
 
 void
-LayoutDocument::DataChanged()
+LayoutDocument::UpdateSaveState()
 {
 	if (itsLayout != nullptr && itsLayout->GetUndoRedoChain()->IsAtLastSaveLocation())
 	{

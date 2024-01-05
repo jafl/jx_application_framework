@@ -5,6 +5,7 @@ Internal Form Definition File
 
 Number of forms: 2
 Unit of measure: FL_COORD_PIXEL
+SnapGrid: 1
 
 =============== FORM ===============
 Name: AboutDialog
@@ -122,14 +123,14 @@ argument:
 
 =============== FORM ===============
 Name: LayoutDocument
-Width: 500
+Width: 601
 Height: 300
 Number of Objects: 3
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 500 300
+box: 0 0 601 300
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -147,7 +148,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 0 500 30
+box: 0 0 601 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -165,7 +166,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 0 30 500 270
+box: 0 30 601 270
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER

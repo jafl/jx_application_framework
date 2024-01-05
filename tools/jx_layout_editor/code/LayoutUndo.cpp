@@ -58,5 +58,5 @@ LayoutUndo::Undo()
 
 	LayoutDocument* doc = itsDoc;
 	itsDoc->GetLayoutContainer()->GetUndoRedoChain()->ReplaceUndo(this, newUndo);	// deletes us
-	doc->DataChanged();
+	doc->UpdateSaveState();
 }

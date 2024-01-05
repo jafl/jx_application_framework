@@ -10,7 +10,6 @@
 #include "LayoutContainer.h"
 #include "LayoutDocument.h"
 #include "LayoutSelection.h"
-#include "LayoutUndo.h"
 #include "BaseWidget.h"
 #include "globals.h"
 #include <jx-af/jx/JXDisplay.h>
@@ -50,7 +49,6 @@ LayoutContainer::LayoutContainer
 	itsDoc(doc),
 	itsGridSpacing(10),
 	itsUndoChain(jnew JUndoRedoChain(true)),
-	itsResizeUndo(nullptr),
 	itsIgnoreResizeFlag(false),
 	itsDropRectList(nullptr)
 {
@@ -229,7 +227,6 @@ LayoutContainer::RemoveSelectedWidgets()
 	list.DeleteAll();
 
 	NewUndo(newUndo);
-	itsDoc->DataChanged();
 }
 
 /******************************************************************************
@@ -247,7 +244,7 @@ LayoutContainer::Clear
 
 	if (!isUndoRedo)
 	{
-		ClearUndo();
+		itsUndoChain->ClearUndo();
 	}
 }
 
@@ -304,7 +301,7 @@ LayoutContainer::SnapToGrid
 		JRound(pt.y / JFloat(itsGridSpacing)) * itsGridSpacing);
 }
 
-void
+JPoint
 LayoutContainer::SnapToGrid
 	(
 	JXContainer* obj
@@ -314,6 +311,7 @@ LayoutContainer::SnapToGrid
 	const JPoint tl = obj->GetFrame().topLeft();
 	const JPoint d  = SnapToGrid(tl) - tl;
 	obj->Move(d.x, d.y);
+	return d;
 }
 
 /******************************************************************************
@@ -404,6 +402,8 @@ LayoutContainer::DrawOver
 /******************************************************************************
  EnclosingBoundsResized (virtual protected)
 
+	We sometimes get spurious resize events of 1 pixel, which we ignore.
+
  ******************************************************************************/
 
 void
@@ -413,11 +413,11 @@ LayoutContainer::EnclosingBoundsResized
 	const JCoordinate dhb
 	)
 {
-	if (!itsIgnoreResizeFlag && itsResizeUndo == nullptr)
+	if ((JLAbs(dwb) >= itsGridSpacing || JLAbs(dhb) >= itsGridSpacing) &&
+		!itsIgnoreResizeFlag && !CurrentUndoIs(LayoutUndo::kWindowResizeType))
 	{
-		auto* newUndo = jnew LayoutUndo(itsDoc);
-		NewUndo(newUndo);
-		itsResizeUndo = newUndo;
+		auto* newUndo = jnew LayoutUndo(itsDoc, LayoutUndo::kWindowResizeType);
+		NewUndo(newUndo, false);
 	}
 
 	JXWidget::EnclosingBoundsResized(dwb,dhb);
@@ -436,7 +436,10 @@ LayoutContainer::BoundsResized
 	)
 {
 	JXWidget::BoundsResized(dw,dh);
-	itsDoc->DataChanged();
+	if (JLAbs(dw) >= itsGridSpacing || JLAbs(dh) >= itsGridSpacing)
+	{
+		itsDoc->DataModified();
+	}
 }
 
 /******************************************************************************
@@ -458,23 +461,13 @@ LayoutContainer::HandleKeyPress
 		return;
 	}
 
-	LayoutUndo* undo;
-	bool isNew;
-	JUndo* tmpUndo;
-	if (itsUndoChain->GetCurrentUndo(&tmpUndo) &&
-		tmpUndo->IsActive() &&
-		dynamic_cast<LayoutUndo*>(tmpUndo)->GetType() == LayoutUndo::kArrowType)
+	LayoutUndo* undo = nullptr;
+	if (!CurrentUndoIs(LayoutUndo::kArrowType))
 	{
-		undo  = dynamic_cast<LayoutUndo*>(tmpUndo);
-		isNew = false;
-	}
-	else
-	{
-		undo  = jnew LayoutUndo(itsDoc, LayoutUndo::kArrowType);
-		isNew = true;
+		undo = jnew LayoutUndo(itsDoc, LayoutUndo::kArrowType);
 	}
 
-	bool changed  = false;
+	bool changed = false;
 
 	const JCoordinate delta = modifiers.shift() ? 1 : itsGridSpacing;
 
@@ -544,12 +537,11 @@ LayoutContainer::HandleKeyPress
 		changed = true;
 	}
 
-	if (isNew && changed)
+	if (changed && undo != nullptr)
 	{
 		NewUndo(undo);
-		itsDoc->DataChanged();
 	}
-	else if (isNew)
+	else if (undo != nullptr)
 	{
 		jdelete undo;
 	}
@@ -781,7 +773,6 @@ LayoutContainer::HandleDNDDrop
 		}
 
 		NewUndo(newUndo);
-		itsDoc->DataChanged();
 
 		HandleDNDLeave();
 		Refresh();
@@ -835,7 +826,6 @@ LayoutContainer::HandleDNDDrop
 			if (changed)
 			{
 				NewUndo(newUndo);
-				itsDoc->DataChanged();
 			}
 			else
 			{
@@ -851,12 +841,12 @@ LayoutContainer::HandleDNDDrop
 }
 
 /******************************************************************************
- AppendEditMenuToToolBar
+ AppendToToolBar
 
  ******************************************************************************/
 
 void
-LayoutContainer::AppendEditMenuToToolBar
+LayoutContainer::AppendToToolBar
 	(
 	JXToolBar* toolBar
 	)
@@ -865,6 +855,20 @@ LayoutContainer::AppendEditMenuToToolBar
 	toolBar->NewGroup();
 	toolBar->AppendButton(itsEditMenu, kUndoCmd);
 	toolBar->AppendButton(itsEditMenu, kRedoCmd);
+	toolBar->NewGroup();
+	toolBar->AppendButton(itsArrangeMenu, kAlignLeftCmd);
+	toolBar->AppendButton(itsArrangeMenu, kAlignHorizCenterCmd);
+	toolBar->AppendButton(itsArrangeMenu, kAlignRightCmd);
+	toolBar->NewGroup();
+	toolBar->AppendButton(itsArrangeMenu, kAlignTopCmd);
+	toolBar->AppendButton(itsArrangeMenu, kAlignVertCenterCmd);
+	toolBar->AppendButton(itsArrangeMenu, kAlignBottomCmd);
+	toolBar->NewGroup();
+	toolBar->AppendButton(itsArrangeMenu, kDistrHorizCmd);
+	toolBar->AppendButton(itsArrangeMenu, kDistrVertCmd);
+	toolBar->NewGroup();
+	toolBar->AppendButton(itsArrangeMenu, kExpandHorizCmd);
+	toolBar->AppendButton(itsArrangeMenu, kExpandVertCmd);
 }
 
 /******************************************************************************
@@ -916,7 +920,25 @@ LayoutContainer::HandleEditMenu
 }
 
 /******************************************************************************
- NewUndo (private)
+ CurrentUndoIs
+
+ ******************************************************************************/
+
+bool
+LayoutContainer::CurrentUndoIs
+	(
+	const LayoutUndo::Type type
+	)
+	const
+{
+	JUndo* tmpUndo;
+	return (itsUndoChain->GetCurrentUndo(&tmpUndo) &&
+			tmpUndo->IsActive() &&
+			dynamic_cast<LayoutUndo*>(tmpUndo)->GetType() == type);
+}
+
+/******************************************************************************
+ NewUndo
 
 	Register a new Undo object.
 
@@ -925,26 +947,15 @@ LayoutContainer::HandleEditMenu
 void
 LayoutContainer::NewUndo
 	(
-	LayoutUndo* undo
+	LayoutUndo*	undo,
+	const bool	setChanged
 	)
 {
-	itsResizeUndo = nullptr;
 	itsUndoChain->NewUndo(undo);
-}
-
-/******************************************************************************
- ClearUndo (private)
-
-	Avoid calling this whenever possible since it throws away -all-
-	undo information.
-
- ******************************************************************************/
-
-void
-LayoutContainer::ClearUndo()
-{
-	itsResizeUndo = nullptr;
-	itsUndoChain->ClearUndo();
+	if (setChanged)
+	{
+		itsDoc->UpdateSaveState();
+	}
 }
 
 /******************************************************************************
@@ -1130,5 +1141,4 @@ LayoutContainer::HandleArrangeMenu
 	}
 
 	NewUndo(newUndo);
-	itsDoc->DataChanged();
 }

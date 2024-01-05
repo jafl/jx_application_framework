@@ -9,13 +9,13 @@
 #define _H_LayoutContainer
 
 #include <jx-af/jx/JXWidget.h>
+#include "LayoutUndo.h"	// need defn of Type
 
 class JXMenuBar;
 class JXTextMenu;
 class JXToolBar;
 class JUndoRedoChain;
 class LayoutDocument;
-class LayoutUndo;
 class BaseWidget;
 
 class LayoutContainer : public JXWidget
@@ -29,6 +29,8 @@ public:
 
 	~LayoutContainer() override;
 
+	LayoutDocument*	GetDocument() const;
+
 	bool	HasSelection() const;
 	JSize	GetSelectionCount() const;
 	void	SelectAllWidgets();
@@ -39,14 +41,18 @@ public:
 	void	Clear(const bool isUndoRedo);
 
 	JUndoRedoChain*	GetUndoRedoChain();
+	bool			CurrentUndoIs(const LayoutUndo::Type type) const;
+	void			NewUndo(LayoutUndo* undo, const bool setChanged = true);
 	void			SetIgnoreResize(const bool ignore);
 
-	void	AppendEditMenuToToolBar(JXToolBar* toolBar) const;
+	void	AppendToToolBar(JXToolBar* toolBar) const;
 
 	JString GenerateUniqueVarName() const;
 
 	JSize	GetGridSpacing() const;
 	void	SetGridSpacing(const JSize w);
+	JPoint	SnapToGrid(const JPoint& pt) const;
+	JPoint	SnapToGrid(JXContainer* w) const;
 
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 						   const JXKeyModifiers& modifiers) override;
@@ -91,7 +97,6 @@ private:
 	JXTextMenu*	itsArrangeMenu;
 
 	JUndoRedoChain*	itsUndoChain;
-	LayoutUndo*		itsResizeUndo;			// nullptr unless windows is resizing; part of itsUndoList
 	bool			itsIgnoreResizeFlag;
 
 	// used during drag
@@ -108,12 +113,6 @@ private:
 
 private:
 
-	JPoint	SnapToGrid(const JPoint& pt) const;
-	void	SnapToGrid(JXContainer* w) const;
-
-	void	NewUndo(LayoutUndo* undo);
-	void	ClearUndo();
-
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex index);
 
@@ -121,6 +120,18 @@ private:
 	void	HandleArrangeMenu(const JIndex index);
 };
 
+
+/******************************************************************************
+ GetDocument
+
+ ******************************************************************************/
+
+inline LayoutDocument*
+LayoutContainer::GetDocument()
+	const
+{
+	return itsDoc;
+}
 
 /******************************************************************************
  SetIgnoreResize

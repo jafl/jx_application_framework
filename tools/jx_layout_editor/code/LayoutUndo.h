@@ -20,7 +20,9 @@ public:
 	enum Type
 	{
 		kUnclassifiedType,
-		kArrowType
+		kWindowResizeType,
+		kArrowType,
+		kDragResizeType
 	};
 
 public:

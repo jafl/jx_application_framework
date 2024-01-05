@@ -86,14 +86,16 @@ private:
 
 	// used during dragging
 
-	JPoint	itsStartPt;
-	JPoint	itsPrevPt;
+	JPoint	itsStartPtG;
+	JPoint	itsPrevPtG;
 	JSize	itsLastClickCount;
 	bool	itsWaitingForDragFlag;
 	bool	itsClearIfNotDNDFlag;
 
 	// used during resize drag
 
+	bool			itsIsResizingFlag;
+	JIndex			itsResizeDragType;
 	JRect			itsHandles[ kHandleCount ];
 	JCursorIndex	itsCursors[ kHandleCount ];
 
@@ -163,7 +165,7 @@ inline JPoint
 BaseWidget::GetDragStartPointGlobal()
 	const
 {
-	return LocalToGlobal(itsStartPt);
+	return itsStartPtG;
 }
 
 #endif

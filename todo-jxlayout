@@ -1,9 +1,3 @@
-resize
-	shift key to turn off grid
-	accumulate into single undo
-
------
-
 create widget by cmd-dragging rectangle
 	after release, select widget type and then create it - sets correct container
 
@@ -42,3 +36,5 @@ control tab order
 	show index in each item
 	cmd-click to select item without re-ordering
 	click to make object the next in list
+
+when show/hide toolbar, change window size to preserve LayoutContainer size
