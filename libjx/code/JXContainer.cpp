@@ -2185,7 +2185,7 @@ bool
 JXContainer::FTCBuildLayout
 	(
 	const bool	expandHorizontally,
-	JXFTCCell**		root
+	JXFTCCell**	root
 	)
 	const
 {
@@ -2222,7 +2222,8 @@ JXContainer::FTCBuildLayout
 
 	bool horizontal = !expandHorizontally, exact = true, first = true;
 	JSize count = 0, noChangeCount = 0;
-	do {
+	do
+	{
 		if (!exact)
 		{
 			objList.SetCompareFunction(horizontal ? FTCCompareHorizontally : FTCCompareVertically);

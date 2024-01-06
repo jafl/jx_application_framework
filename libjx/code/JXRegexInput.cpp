@@ -21,7 +21,7 @@
 JXRegexInput::JXRegexInput
 	(
 	JRegex*				testRegex,
-	const bool		widgetOwnsRegex,
+	const bool			widgetOwnsRegex,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,

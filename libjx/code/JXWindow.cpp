@@ -4095,7 +4095,7 @@ JXWindow::MenuItemInserted
 		Shortcut s = itsShortcuts->GetItem(i);
 		if (s.menu == menu && s.menuItem >= newItem)
 		{
-			(s.menuItem)++;
+			s.menuItem++;
 			itsShortcuts->SetItem(i, s);
 		}
 	}
@@ -4122,7 +4122,7 @@ JXWindow::MenuItemRemoved
 		Shortcut s = itsShortcuts->GetItem(i);
 		if (s.menu == menu && s.menuItem > oldItem)
 		{
-			(s.menuItem)--;
+			s.menuItem--;
 			itsShortcuts->SetItem(i, s);
 		}
 		else if (s.menu == menu && s.menuItem == oldItem)

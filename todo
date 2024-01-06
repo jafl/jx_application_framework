@@ -1,4 +1,6 @@
 jcc
+	search text dialog: remove file list, more space for separator above directory
+
 	EditTasksDialog: top partition gets larger every time it is opened
 		ftc for dialogs containing partition show bottom buttons off by several pixels
 

@@ -275,7 +275,7 @@ JXMenu::SetTitle
 	(
 	const JString&	title,
 	JXImage*		image,
-	const bool	menuOwnsImage
+	const bool		menuOwnsImage
 	)
 {
 	if (title.IsEmpty())
@@ -468,7 +468,7 @@ JXMenu::SetTitleFontStyle
 void
 JXMenu::SetToPopupChoice
 	(
-	const bool	isPopup,
+	const bool		isPopup,
 	const JIndex	initialChoice
 	)
 {

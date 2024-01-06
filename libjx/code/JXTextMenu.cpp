@@ -482,9 +482,7 @@ JXTextMenu::CreateMenuWindow
 	JXWindowDirector* supervisor
 	)
 {
-	auto* dir =
-		jnew JXTextMenuDirector(supervisor, this, itsTextMenuData);
-	return dir;
+	return jnew JXTextMenuDirector(supervisor, this, itsTextMenuData);
 }
 
 /******************************************************************************
