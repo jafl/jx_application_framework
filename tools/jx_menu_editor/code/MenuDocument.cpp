@@ -510,9 +510,14 @@ MenuDocument::GenerateCode()
 
 	JString title = itsMenuTitleInput->GetText()->GetText();
 	JStringIterator titleIter(&title);
+	JUtf8Character c;
 	while (titleIter.Next(invalidCharPattern))
 	{
 		titleIter.RemoveLastMatch();
+		if (titleIter.Next(&c, JStringIterator::kStay))
+		{
+			titleIter.SetNext(c.ToUpper(), JStringIterator::kStay);
+		}
 	}
 	titleIter.Invalidate();
 
