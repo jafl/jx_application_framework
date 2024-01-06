@@ -36,7 +36,7 @@ JXPTPrinter::JXPTPrinter()
 	:
 	JPTPrinter(),
 	itsDestination(kPrintToPrinter),
-	itsPrintCmd("lpr", JString::kNoCopy)
+	itsPrintCmd("lpr")
 {
 }
 

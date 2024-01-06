@@ -28,7 +28,7 @@ const JCoordinate kHeaderHeight = 20;
 
 // setup information
 
-static const JString kPrefsFileRoot("jx/jfs/edit_bindings_dialog", JString::kNoCopy);
+static const JString kPrefsFileRoot("jx/jfs/edit_bindings_dialog");
 const JFileVersion kCurrentPrefsVersion = 0;
 
 /******************************************************************************

@@ -454,7 +454,7 @@ JIndex i;
 	p.Line(ap.topLeft(), ap.bottomRight());
 	p.Line(ap.topRight(), ap.bottomLeft());
 
-	const JString timesFontName("Times", JString::kNoCopy);
+	const JString timesFontName("Times");
 
 	p.SetLineWidth(2);
 	p.SetFontName(timesFontName);

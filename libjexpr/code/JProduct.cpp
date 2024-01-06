@@ -18,7 +18,7 @@
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 
-static const JString kMultiplicationSymbol("\xC2\xB7", JString::kNoCopy);
+static const JString kMultiplicationSymbol("\xC2\xB7");
 
 /******************************************************************************
  Constructor

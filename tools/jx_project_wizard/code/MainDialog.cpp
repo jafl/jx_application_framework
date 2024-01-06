@@ -28,13 +28,13 @@
 
 const JSize kHistoryLength = 20;
 
-static const JString kDefaultURLText("https://", JString::kNoCopy);
-static const JString kDefaultOpenCmd("jcc $f", JString::kNoCopy);
+static const JString kDefaultURLText("https://");
+static const JString kDefaultOpenCmd("jcc $f");
 
 static const JUtf8Byte* kDefaultTemplateDir = TEMPLATE_ROOT;
 static const JUtf8Byte* kAppTemplateDir     = "app_template";
 
-static const JString kBinaryPrefixTag("_Binary_", JString::kNoCopy);
+static const JString kBinaryPrefixTag("_Binary_");
 
 static const JUtf8Byte* kTag[] =
 {

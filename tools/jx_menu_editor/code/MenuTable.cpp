@@ -1163,8 +1163,8 @@ MenuTable::HandleTypeMenu
 
  ******************************************************************************/
 
-static const JString coreIconPath(JX_INCLUDE_PATH "/image/jx", JString::kNoCopy);
-static const JString iconPattern("*.png *.gif *.xpm", JString::kNoCopy);
+static const JString coreIconPath(JX_INCLUDE_PATH "/image/jx");
+static const JString iconPattern("*.png *.gif *.xpm");
 
 static const char * empty_icon[] = {
 "1 1 1 1",
@@ -1538,7 +1538,7 @@ MenuTable::WriteMenuItem
 static const JRegex actionUsePattern("\"\\s*([^\\s\";]+)\\s*\"?;?");
 static const JRegex emptyActionPattern("\"(\\s*\"|;)");
 
-static const JString coreActionDefsFile = JString(JX_INCLUDE_PATH "/jx/jXActionDefs.h", JString::kNoCopy);
+static const JString coreActionDefsFile = JString(JX_INCLUDE_PATH "/jx/jXActionDefs.h");
 
 void
 MenuTable::Import

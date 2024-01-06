@@ -31,7 +31,7 @@ const JSize kHistoryLength = 20;
 
 // setup information
 
-static const JString kPrefsFileRoot("jx/jfs/run_file_dialog", JString::kNoCopy);
+static const JString kPrefsFileRoot("jx/jfs/run_file_dialog");
 const JFileVersion kCurrentPrefsVersion = 0;
 
 /******************************************************************************
@@ -205,7 +205,6 @@ JXFSRunFileDialog::BuildWindow
 
 	window->SetTitle(JGetString("WindowTitle::JXFSRunFileDialog"));
 	window->LockCurrentMinSize();
-	ftcContainer->SetNeedsInternalFTC();
 
 	ListenTo(itsChooseCmdButton);
 	ListenTo(itsHelpButton);

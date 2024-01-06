@@ -35,10 +35,10 @@ const JSize kHistoryLength = 20;
 
 // setup information
 
-static const JString kPrefsFileRoot("jx/jfs/run_cmd_dialog", JString::kNoCopy);
+static const JString kPrefsFileRoot("jx/jfs/run_cmd_dialog");
 const JFileVersion kCurrentPrefsVersion = 0;
 
-static const JString kSignalFileName("~/.jx/jfs/run_cmd_dialog.signal", JString::kNoCopy);
+static const JString kSignalFileName("~/.jx/jfs/run_cmd_dialog.signal");
 const Time kUpdateInterval = 1000;	// milliseconds
 
 /******************************************************************************
@@ -201,7 +201,6 @@ JXFSRunCommandDialog::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->LockCurrentMinSize();
 	window->ShouldFocusWhenShow(true);
-	ftcContainer->SetNeedsInternalFTC();
 
 	ListenTo(itsRunButton);
 	ListenTo(itsCloseButton);

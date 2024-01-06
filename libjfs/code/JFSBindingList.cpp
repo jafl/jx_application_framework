@@ -19,8 +19,8 @@
 #include <sstream>
 #include <jx-af/jcore/jAssert.h>
 
-static const JString kExtensionBindingRoot("jx/jfs/file_bindings", JString::kNoCopy);
-static const JString kSignalFileName("~/.jx/jfs/file_bindings.signal", JString::kNoCopy);
+static const JString kExtensionBindingRoot("jx/jfs/file_bindings");
+static const JString kSignalFileName("~/.jx/jfs/file_bindings.signal");
 
 const JFileVersion kCurrentBindingVersion = 2;
 
@@ -33,7 +33,7 @@ const JFileVersion kCurrentBindingVersion = 2;
 	// version 1 0:
 	//	Prepended version and write_version
 
-static const JString kDefaultCmd("jcc", JString::kNoCopy);
+static const JString kDefaultCmd("jcc");
 const JFSBinding::CommandType kDefaultCmdType = JFSBinding::kRunPlain;
 const bool kDefaultSingleFile             = false;
 

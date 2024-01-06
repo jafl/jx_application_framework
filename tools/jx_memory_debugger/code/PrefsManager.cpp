@@ -16,7 +16,7 @@
 
 const JFileVersion kCurrentPrefsFileVersion = 0;
 
-static const JString kDefaultOpenFileCmd("jcc $f:$l", JString::kNoCopy);
+static const JString kDefaultOpenFileCmd("jcc $f:$l");
 
 /******************************************************************************
  Constructor

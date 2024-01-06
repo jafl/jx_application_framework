@@ -245,9 +245,9 @@ JCreateTempFile
 	)
 {
 	// inside function to ensure initialization
-	static const JString theTmpDirForError("/tmp", JString::kNoCopy);
-	static const JString theTmpFilePrefix("temp_file_", JString::kNoCopy);
-	static const JString theTmpFileTemplate("XXXXXX", JString::kNoCopy);
+	static const JString theTmpDirForError("/tmp");
+	static const JString theTmpFilePrefix("temp_file_");
+	static const JString theTmpFileTemplate("XXXXXX");
 
 	JString p;
 	if (!JString::IsEmpty(path))

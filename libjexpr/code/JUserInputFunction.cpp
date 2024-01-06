@@ -31,7 +31,7 @@
 
 const JUtf8Character JUserInputFunction::kSwitchFontCharacter('`');
 
-static const JString kEmptyString("?", JString::kNoCopy);
+static const JString kEmptyString("?");
 
 const JCoordinate kHMarginWidth = 2;
 const JCoordinate kVMarginWidth = 1;

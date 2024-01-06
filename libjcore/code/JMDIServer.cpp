@@ -46,8 +46,8 @@ const JUtf8Byte kEndOfMessage = '\0';
 
 const JUtf8Byte* JMDIServer::kQuitOptionName = "--quit";
 
-static const JString kServerReadyMsg("JMDIServer ready", JString::kNoCopy);
-static const JString kServerBusyMsg ("JMDIServer busy",  JString::kNoCopy);
+static const JString kServerReadyMsg("JMDIServer ready");
+static const JString kServerBusyMsg ("JMDIServer busy");
 
 /******************************************************************************
  Constructor

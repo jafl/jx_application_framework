@@ -50,16 +50,16 @@
 #include "jAssert.h"
 
 #if defined JMOUNT_MACOS
-static const JString kMountCmd("mount", JString::kNoCopy);
+static const JString kMountCmd("mount");
 #elif defined JMOUNT_BSD
-static const JString kAvailInfoName(_PATH_FSTAB, JString::kNoCopy);
+static const JString kAvailInfoName(_PATH_FSTAB);
 #elif defined JMOUNT_SYSV
-static const JString kAvailInfoName(VFSTAB, JString::kNoCopy);
+static const JString kAvailInfoName(VFSTAB);
 static const JUtf8Byte* kMountedInfoName = MNTTAB;
 #elif defined _J_CYGWIN
 static const JUtf8Byte* kMountedInfoName = MOUNTED;
 #else
-static const JString kAvailInfoName(_PATH_FSTAB, JString::kNoCopy);
+static const JString kAvailInfoName(_PATH_FSTAB);
 static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 #endif
 

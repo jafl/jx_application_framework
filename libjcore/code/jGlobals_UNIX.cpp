@@ -24,8 +24,8 @@
 
  ******************************************************************************/
 
-static const JString kDefaultSystemRoot("/usr/local", JString::kNoCopy);
-static const JString kSystemDataFileDir("share/", JString::kNoCopy);
+static const JString kDefaultSystemRoot("/usr/local");
+static const JString kSystemDataFileDir("share/");
 static const JUtf8Byte* kUserDataFileDir = "~/.";
 
 static JString systemDataFileDir;

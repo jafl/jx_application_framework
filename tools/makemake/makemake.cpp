@@ -48,8 +48,8 @@ static const JUtf8Byte* kMakedependMarkerStr =
 static const JUtf8Byte* kObjDirArg   = "--obj-dir";
 static const JUtf8Byte* kNoStdIncArg = "--no-std-inc";
 
-static const JString kCurrentDir   ("./", JString::kNoCopy);
-static const JString kSysIncludeDir("/usr/include/", JString::kNoCopy);
+static const JString kCurrentDir   ("./");
+static const JString kSysIncludeDir("/usr/include/");
 
 static const JUtf8Byte* kDontInterpretFlag = "literal: ";
 const JSize kDontInterpretFlagLen          = strlen(kDontInterpretFlag);

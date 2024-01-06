@@ -58,11 +58,11 @@
 #include <stdarg.h>
 #include "jAssert.h"
 
-JString	JFontManager::theDefaultFontName("Helvetica", JString::kNoCopy);
+JString	JFontManager::theDefaultFontName("Helvetica");
 JSize	JFontManager::theDefaultFontSize    = 10;
 JSize	JFontManager::theDefaultRCHFontSize = 9;
 
-JString	JFontManager::theDefaultMonospaceFontName("Courier", JString::kNoCopy);
+JString	JFontManager::theDefaultMonospaceFontName("Courier");
 JSize	JFontManager::theDefaultMonospaceFontSize = 10;
 
 JArray<JFontManager::Font> JFontManager::theFontList;

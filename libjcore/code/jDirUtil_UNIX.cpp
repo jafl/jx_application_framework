@@ -1087,9 +1087,9 @@ JCreateTempDirectory
 	)
 {
 	// inside function to ensure initialization
-	static const JString theTmpDirForError("/tmp", JString::kNoCopy);
-	static const JString theTmpDirPrefix("temp_dir_", JString::kNoCopy);
-	static const JString theTmpDirTemplate("XXXXXX", JString::kNoCopy);
+	static const JString theTmpDirForError("/tmp");
+	static const JString theTmpDirPrefix("temp_dir_");
+	static const JString theTmpDirTemplate("XXXXXX");
 
 	JString p;
 	if (!JString::IsEmpty(path))

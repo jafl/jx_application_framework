@@ -58,7 +58,7 @@
 #include "jAssert.h"
 
 static const JUtf8Byte* kDataDirName = "string_data";
-static const JString kDefaultFileName("default", JString::kNoCopy);
+static const JString kDefaultFileName("default");
 bool JStringManager::thePseudotranslationFlag = false;
 
 // non-overridable strings
@@ -100,7 +100,7 @@ JStringManager::~JStringManager()
  *****************************************************************************/
 
 static const JUtf8Byte* theMissingStringKey = "StringNotFound::JStringManager";
-static const JString theMissingString("<string not found>", JString::kNoCopy);
+static const JString theMissingString("<string not found>");
 
 const JString&
 JStringManager::Get
