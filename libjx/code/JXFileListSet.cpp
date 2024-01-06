@@ -152,10 +152,6 @@ JXFileListSet::JXFileListSetX
 	itsFilterType = kNoFilter;
 	itsRegexSet->Hide();
 	itsWildcardSet->Hide();
-
-	SetNeedsInternalFTC();
-	itsWildcardSet->SetNeedsInternalFTC();
-	itsRegexSet->SetNeedsInternalFTC();
 }
 
 /******************************************************************************

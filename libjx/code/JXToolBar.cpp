@@ -112,6 +112,7 @@ JXToolBar::JXToolBar
 		jnew JXWidgetSet(this,
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, w,barHeight);
+	itsToolBarSet->ClearNeedsInternalFTC();
 
 	itsToolBarEnclosure =
 		jnew JXWidgetSet(this,
@@ -135,9 +136,6 @@ JXToolBar::JXToolBar
 
 	ListenTo(prefsMgr);
 	ListenTo(GetWindow());
-
-	SetNeedsInternalFTC();
-	itsToolBarEnclosure->SetNeedsInternalFTC();
 }
 
 /******************************************************************************

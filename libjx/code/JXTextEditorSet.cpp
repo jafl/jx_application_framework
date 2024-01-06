@@ -23,7 +23,7 @@
 JXTextEditorSet::JXTextEditorSet
 	(
 	JStyledText*		text,
-	const bool		ownsText,
+	const bool			ownsText,
 	JXTextEditor**		textEditor,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -51,14 +51,14 @@ JXTextEditorSet::JXTextEditorSet
 
 	(**textEditor).FitToEnclosure();
 
-	SetNeedsInternalFTC();
+	ClearNeedsInternalFTC();
 }
 
 JXTextEditorSet::JXTextEditorSet
 	(
 	JXMenuBar*			menuBar,
 	JStyledText*		text,
-	const bool		ownsText,
+	const bool			ownsText,
 	JXTextEditor**		textEditor,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -83,6 +83,8 @@ JXTextEditorSet::JXTextEditorSet
 	assert( *textEditor != nullptr );
 
 	(**textEditor).FitToEnclosure();
+
+	ClearNeedsInternalFTC();
 }
 
 /******************************************************************************

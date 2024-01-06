@@ -78,6 +78,7 @@ JXHorizDockPartition::JXHorizDockPartition
 	assert( itsDockList != nullptr );
 
 	CreateInitialCompartments();
+	ClearNeedsInternalFTC();
 }
 
 /******************************************************************************

@@ -29,7 +29,7 @@ JXWidgetSet::JXWidgetSet
 	)
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
-	itsNeedsInternalFTCFlag(false)
+	itsNeedsInternalFTCFlag(true)
 {
 }
 

@@ -122,12 +122,8 @@ JXHorizPartition::CreateCompartment
 	const JCoordinate	size
 	)
 {
-	auto* compartment =
-		jnew JXWidgetSet(this, kFixedLeft, kVElastic,
-						position,0, size, GetApertureHeight());
-	assert( compartment != nullptr );
-	compartment->SetNeedsInternalFTC();
-	return compartment;
+	return jnew JXWidgetSet(this, kFixedLeft, kVElastic,
+							position,0, size, GetApertureHeight());
 }
 
 /******************************************************************************

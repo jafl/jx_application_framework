@@ -78,6 +78,8 @@ JXDockWidget::JXDockWidget
 	auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXDockWidget::UpdateMinSize, this));
 	assert( task != nullptr );
 	task->Go();
+
+	ClearNeedsInternalFTC();
 }
 
 /******************************************************************************

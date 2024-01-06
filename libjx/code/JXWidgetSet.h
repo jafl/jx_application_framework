@@ -23,7 +23,7 @@ public:
 
 	~JXWidgetSet() override;
 
-	void	SetNeedsInternalFTC();
+	void	ClearNeedsInternalFTC();
 
 protected:
 
@@ -38,14 +38,14 @@ private:
 
 
 /******************************************************************************
- SetNeedsInternalFTC
+ ClearNeedsInternalFTC
 
  ******************************************************************************/
 
 inline void
-JXWidgetSet::SetNeedsInternalFTC()
+JXWidgetSet::ClearNeedsInternalFTC()
 {
-	itsNeedsInternalFTCFlag = true;
+	itsNeedsInternalFTCFlag = false;
 }
 
 #endif

@@ -49,8 +49,6 @@ JXPartition::JXPartition
 {
 	itsCompartments = jnew JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
 	assert( itsCompartments != nullptr );
-
-	SetNeedsInternalFTC();
 }
 
 /******************************************************************************

@@ -48,6 +48,9 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //		Added AnyOf().
 //	JXInputField:
 //		Added SetValidationPattern().
+//	JXWidgetSet:
+//		*** Flipped default internal FTC setting.  SetNeedsInternalFTC()
+//			changed to ClearNeedsInternalFTC().
 
 // version 4.0.0:
 //	Supports utf-8

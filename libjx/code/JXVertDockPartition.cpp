@@ -78,6 +78,7 @@ JXVertDockPartition::JXVertDockPartition
 	assert( itsDockList != nullptr );
 
 	CreateInitialCompartments();
+	ClearNeedsInternalFTC();
 }
 
 /******************************************************************************
