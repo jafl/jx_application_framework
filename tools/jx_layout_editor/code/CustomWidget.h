@@ -10,10 +10,10 @@
 
 #include "BaseWidget.h"
 
+class CustomWidgetPanel;
+
 class CustomWidget : public BaseWidget
 {
-	friend class JXRadioButton;
-
 public:
 
 	CustomWidget(LayoutContainer* layout, JXContainer* enclosure,
@@ -47,11 +47,16 @@ protected:
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
+	void	AddPanels(WidgetParametersDialog* dlog) override;
+	void	SavePanelData() override;
+
 private:
 
 	JString	itsClassName;
 	JString	itsCtorArgs;
 	bool	itsCreateFlag;
+
+	CustomWidgetPanel*	itsPanel;	// nullptr unless editing
 
 private:
 

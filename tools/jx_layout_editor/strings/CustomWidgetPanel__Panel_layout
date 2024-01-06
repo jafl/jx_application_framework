@@ -1,0 +1,4 @@
+0
+itsNeedsCreateCB::CustomWidgetPanel::Panel "Construct via Create()"
+constructorArgsLabel::CustomWidgetPanel::Panel "Ctor args:"
+classNameLabel::CustomWidgetPanel::Panel "Class name:"

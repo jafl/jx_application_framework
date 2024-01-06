@@ -69,3 +69,11 @@ VarNameBase::LayoutContainer	"widget_"
 # TextButton
 
 DefaultLabel::TextButton	"Button"
+
+# WidgetParametersDialog
+
+WindowTitle::WidgetParametersDialog	"Edit parameters"
+
+# CustomWidgetPanel
+
+ClassNameMustBeValid::CustomWidgetPanel	"Please enter a valid C++ class name."

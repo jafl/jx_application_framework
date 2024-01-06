@@ -1,0 +1,8 @@
+0
+variableNameLabel::WidgetParametersDialog::JXLayout "Variable name:"
+itsVSizingMenu::WidgetParametersDialog::JXLayout ""
+itsMemberVarCB::WidgetParametersDialog::JXLayout "Member variable"
+okButton::WidgetParametersDialog::JXLayout "OK"
+okButton::WidgetParametersDialog::shortcuts::JXLayout "^M"
+itsHSizingMenu::WidgetParametersDialog::JXLayout ""
+cancelButton::WidgetParametersDialog::JXLayout "Cancel"

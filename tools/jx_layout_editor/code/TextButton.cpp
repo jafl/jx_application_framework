@@ -110,7 +110,7 @@ TextButton::StreamOut
 	)
 	const
 {
-	output << JString("TextButton", JString::kNoCopy) << std::endl;
+	output << JString("TextButton") << std::endl;
 
 	BaseWidget::StreamOut(output);
 
@@ -118,22 +118,28 @@ TextButton::StreamOut
 }
 
 /******************************************************************************
- Label
+ AddPanels (virtual protected)
 
  ******************************************************************************/
 
-const JString&
-TextButton::GetLabel()
-	const
-{
-	return itsButton->GetLabel();
-}
-
 void
-TextButton::SetLabel
+TextButton::AddPanels
 	(
-	const JString& label
+	WidgetParametersDialog* dlog
 	)
 {
-	itsButton->SetLabel(label);
+//	itsPanel = jnew WidgetLabelPanel(dlog, itsClassName, itsCtorArgs, itsCreateFlag));
+}
+
+/******************************************************************************
+ SavePanelData (virtual protected)
+
+ ******************************************************************************/
+
+void
+TextButton::SavePanelData()
+{
+	// todo: extract values
+
+//	itsPanel = nullptr;
 }

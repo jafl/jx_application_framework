@@ -11,6 +11,7 @@
 #include <jx-af/jx/JXWidget.h>
 
 class LayoutContainer;
+class WidgetParametersDialog;
 
 class BaseWidget : public JXWidget
 {
@@ -32,7 +33,7 @@ public:
 	LayoutContainer*	GetLayoutContainer() const;
 
 	const JString&	GetVarName(bool* isMemberData) const;
-	void			SetVarName(const JString& name, const bool member);
+	void			SetVarName(const JString& name, const bool isMember);
 
 	bool	IsSelected() const;
 	void	SetSelected(const bool on);
@@ -40,6 +41,9 @@ public:
 	JPoint	GetDragStartPointGlobal() const;
 
 protected:
+
+	virtual void	AddPanels(WidgetParametersDialog* dlog) = 0;
+	virtual void	SavePanelData() = 0;
 
 	void	DrawSelection(JXWindowPainter& p, const JRect& rect);
 	void	DrawOver(JXWindowPainter& p, const JRect& rect) override;
@@ -81,7 +85,7 @@ private:
 
 	LayoutContainer*	itsLayout;
 	JString				itsVarName;		// can be empty
-	bool				itsMemberVarFlag;
+	bool				itsIsMemberVarFlag;
 	bool				itsSelectedFlag;
 
 	// used during dragging
@@ -129,7 +133,7 @@ BaseWidget::GetVarName
 	)
 	const
 {
-	*isMemberData = itsMemberVarFlag;
+	*isMemberData = itsIsMemberVarFlag;
 	return itsVarName;
 }
 
@@ -137,11 +141,11 @@ inline void
 BaseWidget::SetVarName
 	(
 	const JString&	name,
-	const bool		member
+	const bool		isMember
 	)
 {
-	itsVarName       = name;
-	itsMemberVarFlag = member;
+	itsVarName         = name;
+	itsIsMemberVarFlag = isMember;
 }
 
 /******************************************************************************

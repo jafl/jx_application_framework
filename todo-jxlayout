@@ -2,13 +2,15 @@ create widget by cmd-dragging rectangle
 	after release, select widget type and then create it - sets correct container
 
 widget options
+	variable name, local/instance
+	sizing
+
+	class name
+	ctor args
+
 	label, if appropriate
 	shortcuts, if appropriate
-	sizing
-	variable name, local/instance
-	ctor args
 	validation (for input fields)
-	fit-to-enclosure
 
 generate code when save
 	search for file_root .cpp .cc .hpp .h in same directory

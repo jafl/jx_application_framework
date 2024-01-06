@@ -20,5 +20,7 @@
 .cpp ./code/CustomWidget
 .cpp ./code/CoreWidget
 .cpp ./code/TextButton
+.cpp ./code/WidgetParametersDialog
+.cpp ./code/CustomWidgetPanel
 
 literal: ${LIB_DEPS}

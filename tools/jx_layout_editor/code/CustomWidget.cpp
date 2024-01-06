@@ -8,6 +8,8 @@
  ******************************************************************************/
 
 #include "CustomWidget.h"
+#include "WidgetParametersDialog.h"
+#include "CustomWidgetPanel.h"
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -106,7 +108,7 @@ CustomWidget::StreamOut
 	)
 	const
 {
-	output << JString("CustomWidget", JString::kNoCopy) << std::endl;
+	output << JString("CustomWidget") << std::endl;
 
 	BaseWidget::StreamOut(output);
 
@@ -144,4 +146,31 @@ CustomWidget::DrawBorder
 {
 	p.Rect(frame);
 	DrawSelection(p, frame);
+}
+
+/******************************************************************************
+ AddPanels (virtual protected)
+
+ ******************************************************************************/
+
+void
+CustomWidget::AddPanels
+	(
+	WidgetParametersDialog* dlog
+	)
+{
+	itsPanel = jnew CustomWidgetPanel(dlog, itsClassName, itsCtorArgs, itsCreateFlag);
+}
+
+/******************************************************************************
+ SavePanelData (virtual protected)
+
+ ******************************************************************************/
+
+void
+CustomWidget::SavePanelData()
+{
+	// todo: extract values
+
+	itsPanel = nullptr;
 }

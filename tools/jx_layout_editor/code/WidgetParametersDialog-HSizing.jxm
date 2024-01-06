@@ -1,0 +1,46 @@
+jx_menu_editor 0
+644 202
+"WidgetParametersDialog"
+"Horizontal sizing"
+' 
+40
+40
+96
+100
+40
+98
+120
+75
+
+0
+1
+2
+0 "align_left.png"
+"Fixed left"
+""
+' 
+"__FixedLeft"
+"kFixedLeftCmd"
+0
+
+1
+2
+0 "align_right.png"
+"Fixed right"
+""
+' 
+"__FixedRight"
+"kFixedRightCmd"
+0
+
+1
+2
+0 "expand_horiz.png"
+"Elastic"
+""
+' 
+"__Elastic"
+"kHElasticCmd"
+0
+
+0

@@ -12,6 +12,7 @@
 #include <jx-af/jcore/JFontStyle.h>
 
 class JXTextButton;
+class WidgetLabelPanel;
 
 class TextButton : public CoreWidget
 {
@@ -35,12 +36,15 @@ public:
 
 	void	StreamOut(std::ostream& output) const override;
 
-	const JString&	GetLabel() const;
-	void			SetLabel(const JString& label);
+protected:
+
+	void	AddPanels(WidgetParametersDialog* dlog) override;
+	void	SavePanelData() override;
 
 private:
 
-	JXTextButton*	itsButton;
+	JXTextButton*		itsButton;
+//	WidgetLabelPanel*	itsPanel;	// nullptr unless editing
 
 private:
 

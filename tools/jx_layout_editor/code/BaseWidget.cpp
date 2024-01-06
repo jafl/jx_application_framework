@@ -10,6 +10,7 @@
 #include "BaseWidget.h"
 #include "LayoutContainer.h"
 #include "LayoutSelection.h"
+#include "WidgetParametersDialog.h"
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jx/JXMenu.h>
@@ -41,7 +42,7 @@ BaseWidget::BaseWidget
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsLayout(layout),
-	itsMemberVarFlag(false),
+	itsIsMemberVarFlag(false),
 	itsSelectedFlag(false)
 {
 	BaseWidgetX();
@@ -68,7 +69,7 @@ BaseWidget::BaseWidget
 {
 	BaseWidgetX();
 
-	input >> itsVarName >> itsMemberVarFlag;
+	input >> itsVarName >> itsIsMemberVarFlag;
 }
 
 // private
@@ -118,7 +119,7 @@ BaseWidget::StreamOut
 	// read by ctor
 
 	output << itsVarName << std::endl;
-	output << itsMemberVarFlag << std::endl;
+	output << itsIsMemberVarFlag << std::endl;
 }
 
 /******************************************************************************
@@ -457,7 +458,23 @@ BaseWidget::HandleMouseUp
 
 	if (itsWaitingForDragFlag && itsLastClickCount == 2)
 	{
-		// TODO:  edit parameters
+		auto* dlog = jnew WidgetParametersDialog(itsVarName, itsIsMemberVarFlag,
+												 GetHSizing(), GetVSizing());
+		AddPanels(dlog);
+
+		auto* undo = jnew LayoutUndo(itsLayout->GetDocument());
+
+		if (dlog->DoDialog())
+		{
+			itsVarName = dlog->GetVarName(&itsIsMemberVarFlag);
+			SetSizing(dlog->GetHSizing(), dlog->GetVSizing());
+			SavePanelData();
+			itsLayout->NewUndo(undo);
+		}
+		else
+		{
+			jdelete undo;
+		}
 	}
 	else if (itsClearIfNotDNDFlag)
 	{

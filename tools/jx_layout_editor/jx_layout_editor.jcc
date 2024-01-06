@@ -99,6 +99,25 @@ F
 "./code/TextButton.cpp"
 F
 T
+1 "params"
+T
+2 "WidgetParametersDialog.cpp"
+F
+"./code/WidgetParametersDialog.cpp"
+T
+2 "WidgetParametersDialog-HSizing.jxm"
+F
+"./code/WidgetParametersDialog-HSizing.jxm"
+T
+2 "WidgetParametersDialog-VSizing.jxm"
+F
+"./code/WidgetParametersDialog-VSizing.jxm"
+T
+2 "CustomWidgetPanel.cpp"
+F
+"./code/CustomWidgetPanel.cpp"
+F
+T
 1 "layouts"
 T
 2 "jx_layout_editor.fd"

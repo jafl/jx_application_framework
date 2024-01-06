@@ -17,6 +17,7 @@
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXDocumentMenu.h>
 #include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXGetStringDialog.h>
@@ -216,6 +217,15 @@ LayoutDocument::BuildWindow()
 	ConfigureFileMenu(itsFileMenu);
 
 	jnew FileHistoryMenu(itsFileMenu, kRecentMenuCmd, itsMenuBar);
+
+	auto* docMenu =
+		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), itsMenuBar,
+							JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 10,10);
+	itsMenuBar->AppendMenu(docMenu);
+	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle)
+	{
+		docMenu->SetShortcuts(JGetString("WindowsMenuShortcut::JXGlobal"));
+	}
 
 	itsPrefsMenu = itsMenuBar->AppendTextMenu(JGetString("MenuTitle::LayoutDocument_Preferences"));
 	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
