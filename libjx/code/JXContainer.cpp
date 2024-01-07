@@ -511,7 +511,7 @@ JXContainer::ForEach
  AnyOf
 
 	Calls the given function for each enclosed object.  If recurse,
-	also calls ForEach() on each enclosed object.
+	also calls AnyOf() on each enclosed object.
 
 	If the function returns true, immediately returns true.  Otherwise,
 	returns false.
@@ -724,8 +724,6 @@ JXContainer::DispatchMouseUp
 /******************************************************************************
  GetHint
 
-	Returns true if this button has a hint.
-
  ******************************************************************************/
 
 bool
@@ -749,8 +747,6 @@ JXContainer::GetHint
 
 /******************************************************************************
  SetHint
-
-	Set the hint for this button.
 
  ******************************************************************************/
 
@@ -776,8 +772,6 @@ JXContainer::SetHint
 
 /******************************************************************************
  ClearHint
-
-	Remove the hint for this button.
 
  ******************************************************************************/
 

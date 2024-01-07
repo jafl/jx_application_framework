@@ -43,7 +43,7 @@ JXTextMenu::JXTextMenu
 JXTextMenu::JXTextMenu
 	(
 	JXImage*			image,
-	const bool		menuOwnsImage,
+	const bool			menuOwnsImage,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
