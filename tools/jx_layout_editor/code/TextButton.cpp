@@ -8,6 +8,7 @@
  ******************************************************************************/
 
 #include "TextButton.h"
+#include "WidgetLabelPanel.h"
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
@@ -29,7 +30,7 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(layout, enclosure, hSizing, vSizing, x,y, w,h)
+	CoreWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	TextButtonX(JGetString("DefaultLabel::TextButton"), x,y,w,h);
 }
@@ -38,6 +39,7 @@ TextButton::TextButton
 	(
 	LayoutContainer*	layout,
 	const JString&		label,
+	const JString&		shortcuts,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -47,7 +49,8 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(layout, enclosure, hSizing, vSizing, x,y, w,h)
+	CoreWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h),
+	itsShortcuts(shortcuts)
 {
 	TextButtonX(label, x,y,w,h);
 }
@@ -68,7 +71,7 @@ TextButton::TextButton
 	CoreWidget(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JString label;
-	input >> label;
+	input >> label >> itsShortcuts;
 
 	TextButtonX(label, x,y,w,h);
 }
@@ -112,9 +115,29 @@ TextButton::StreamOut
 {
 	output << JString("TextButton") << std::endl;
 
-	BaseWidget::StreamOut(output);
+	CoreWidget::StreamOut(output);
 
 	output << itsButton->GetLabel() << std::endl;
+	output << itsShortcuts << std::endl;
+}
+
+/******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+TextButton::ToString()
+	const
+{
+	JString s = CoreWidget::ToString();
+	if (!itsShortcuts.IsEmpty())
+	{
+		s += JString::newline;
+		s += JGetString("ShortcutsLabel::BaseWidget");
+		s += itsShortcuts;
+	}
+	return s;
 }
 
 /******************************************************************************
@@ -128,7 +151,7 @@ TextButton::AddPanels
 	WidgetParametersDialog* dlog
 	)
 {
-//	itsPanel = jnew WidgetLabelPanel(dlog, itsClassName, itsCtorArgs, itsCreateFlag));
+	itsPanel = jnew WidgetLabelPanel(dlog, itsButton->GetLabel(), itsShortcuts);
 }
 
 /******************************************************************************
@@ -139,7 +162,9 @@ TextButton::AddPanels
 void
 TextButton::SavePanelData()
 {
-	// todo: extract values
+	JString label;
+	itsPanel->GetValues(&label, &itsShortcuts);
+	itsButton->SetLabel(label);
 
-//	itsPanel = nullptr;
+	itsPanel = nullptr;
 }

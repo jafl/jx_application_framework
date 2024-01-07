@@ -14,7 +14,7 @@ class CoreWidget : public BaseWidget
 {
 public:
 
-	CoreWidget(LayoutContainer* layout, JXContainer* enclosure,
+	CoreWidget(LayoutContainer* layout, const bool wantsInput, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);

@@ -66,9 +66,27 @@ UnknownFile::LayoutDocument					"Unable to read this file."
 
 VarNameBase::LayoutContainer	"widget_"
 
+# BaseWidget
+
+VariableNameLabel::BaseWidget	"Variable name: "
+MemberFlagLabel::BaseWidget		" (member)"
+ShortcutsLabel::BaseWidget		"Shortcuts: "
+
 # TextButton
 
 DefaultLabel::TextButton	"Button"
+
+# TextCheckbox
+
+DefaultLabel::TextCheckbox	"Checkbox"
+
+# InputField
+
+RequiredLabel::InputField	"Required"
+MinLengthLabel::InputField	"Min length: "
+MaxLengthLabel::InputField	"Max length: "
+ValidationLabel:InputField	"Validation: "
+ErrorMsgLabel:InputField	"Error msg: "
 
 # WidgetParametersDialog
 

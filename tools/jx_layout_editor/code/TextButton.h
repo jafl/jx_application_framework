@@ -9,7 +9,6 @@
 #define _H_TextButton
 
 #include "CoreWidget.h"
-#include <jx-af/jcore/JFontStyle.h>
 
 class JXTextButton;
 class WidgetLabelPanel;
@@ -23,7 +22,7 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 	TextButton(LayoutContainer* layout, const JString& label,
-				JXContainer* enclosure,
+				const JString& shortcuts, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -35,6 +34,7 @@ public:
 	~TextButton() override;
 
 	void	StreamOut(std::ostream& output) const override;
+	JString	ToString() const override;
 
 protected:
 
@@ -44,7 +44,8 @@ protected:
 private:
 
 	JXTextButton*		itsButton;
-//	WidgetLabelPanel*	itsPanel;	// nullptr unless editing
+	JString				itsShortcuts;
+	WidgetLabelPanel*	itsPanel;	// nullptr unless editing
 
 private:
 

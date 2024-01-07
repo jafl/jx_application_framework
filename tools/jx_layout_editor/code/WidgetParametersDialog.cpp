@@ -86,6 +86,7 @@ WidgetParametersDialog::BuildWindow
 		jnew JXTextCheckbox(JGetString("itsMemberVarCB::WidgetParametersDialog::JXLayout"), itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,20, 130,20);
 	assert( itsMemberVarCB != nullptr );
+	itsMemberVarCB->SetShortcuts(JGetString("itsMemberVarCB::WidgetParametersDialog::shortcuts::JXLayout"));
 
 	itsHSizingMenu =
 		jnew JXTextMenu(JGetString("itsHSizingMenu::WidgetParametersDialog::JXLayout"), itsLatestContainer,

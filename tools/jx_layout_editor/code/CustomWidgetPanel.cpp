@@ -29,10 +29,11 @@ CustomWidgetPanel::CustomWidgetPanel
 
 	const JString&	className,
 	const JString&	ctorArgs,
-	const bool		needsCreate
+	const bool		needsCreate,
+	const bool		wantsInput
 	)
 {
-	BuildPanel(dlog, className, ctorArgs, needsCreate);
+	BuildPanel(dlog, className, ctorArgs, needsCreate, wantsInput);
 }
 
 /******************************************************************************
@@ -56,7 +57,8 @@ CustomWidgetPanel::BuildPanel
 
 	const JString&	className,
 	const JString&	ctorArgs,
-	const bool		needsCreate
+	const bool		needsCreate,
+	const bool		wantsInput
 	)
 {
 	JXWindow* window = dlog->GetWindow();
@@ -92,8 +94,15 @@ CustomWidgetPanel::BuildPanel
 
 	itsNeedsCreateCB =
 		jnew JXTextCheckbox(JGetString("itsNeedsCreateCB::CustomWidgetPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 160,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,70, 160,20);
 	assert( itsNeedsCreateCB != nullptr );
+	itsNeedsCreateCB->SetShortcuts(JGetString("itsNeedsCreateCB::CustomWidgetPanel::shortcuts::Panel"));
+
+	itsWantsInputCB =
+		jnew JXTextCheckbox(JGetString("itsWantsInputCB::CustomWidgetPanel::Panel"), container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 160,20);
+	assert( itsWantsInputCB != nullptr );
+	itsWantsInputCB->SetShortcuts(JGetString("itsWantsInputCB::CustomWidgetPanel::shortcuts::Panel"));
 
 // end Panel
 
@@ -107,4 +116,26 @@ CustomWidgetPanel::BuildPanel
 
 	itsCtorArgs->GetText()->SetText(ctorArgs);
 	itsNeedsCreateCB->SetState(needsCreate);
+
+	itsWantsInputCB->SetState(wantsInput);
+}
+
+/******************************************************************************
+ GetValues
+
+ ******************************************************************************/
+
+void
+CustomWidgetPanel::GetValues
+	(
+	JString*	className,
+	JString*	ctorArgs,
+	bool*		needsCreate,
+	bool*		wantsInput
+	)
+{
+	*className   = itsClassNameInput->GetText()->GetText();
+	*ctorArgs    = itsCtorArgs->GetText()->GetText();
+	*needsCreate = itsNeedsCreateCB->IsChecked();
+	*wantsInput  = itsWantsInputCB->IsChecked();
 }

@@ -269,7 +269,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Member variable
-shortcut: 
+shortcut: #M
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsMemberVarCB
@@ -352,7 +352,7 @@ argument:
 Name: CustomWidgetPanel__Panel__window
 Width: 460
 Height: 100
-Number of Objects: 6
+Number of Objects: 7
 
 --------------------
 class: FL_BOX
@@ -447,7 +447,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 70 160 20
+box: 280 70 160 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -455,15 +455,33 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Construct via Create()
-shortcut: 
+shortcut: #V
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsNeedsCreateCB
 callback: 
 argument: 
 
+--------------------
+class: FL_CHECKBUTTON
+type: FL_PUSH_BUTTON
+box: 20 70 160 20
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_YELLOW
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Wants keyboard input
+shortcut: #K
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: itsWantsInputCB
+callback: 
+argument: 
+
 =============== FORM ===============
-Name: WidgetLabelPanel__JXLayout__window
+Name: WidgetLabelPanel__Panel__window
 Width: 460
 Height: 70
 Number of Objects: 6
@@ -481,8 +499,8 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: 
+gravity: FL_NorthWest FL_NoGravity
+name: (container)
 callback: 
 argument: 
 
@@ -494,7 +512,7 @@ boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: 
 shortcut: 
@@ -530,7 +548,7 @@ boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: 
 shortcut: 
@@ -577,7 +595,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: InputFieldPanel__JXLayout__window
+Name: InputFieldPanel__Panel__window
 Width: 460
 Height: 100
 Number of Objects: 10
@@ -595,8 +613,8 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: 
+gravity: FL_NorthWest FL_NoGravity
+name: (container)
 callback: 
 argument: 
 
@@ -611,7 +629,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Required
-shortcut: 
+shortcut: #R
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsValueRequiredCB
@@ -626,7 +644,7 @@ boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: 
 shortcut: 
@@ -662,7 +680,7 @@ boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: 
 shortcut: 
@@ -722,16 +740,16 @@ label: Error message:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: (regexpErrorMessageLabe)l
+name: (regexpErrorMessageLabe)
 callback: 
 argument: 
 
 --------------------
-class: FL_TEXT
-type: FL_NORMAL_TEXT
+class: FL_BOX
+type: FL_NO_BOX
 box: 120 50 320 20
-boxtype: FL_FLAT_BOX
-colors: FL_COL1 FL_MCOL
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
@@ -739,7 +757,7 @@ lcol: FL_BLACK
 label: JXRegexInput
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsRegexInput
 callback: 
 argument: testRegex, true
@@ -752,7 +770,7 @@ boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: 
 shortcut: 
@@ -763,7 +781,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: SaveFileInputPanel__JXLayout__window
+Name: SaveFileInputPanel__Panel__window
 Width: 460
 Height: 40
 Number of Objects: 2
@@ -781,8 +799,8 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: 
+gravity: FL_NorthWest FL_NoGravity
+name: (container)
 callback: 
 argument: 
 
@@ -797,7 +815,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Allow spaces in file name
-shortcut: 
+shortcut: #S
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsAllowSpacesCB
@@ -805,7 +823,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: FileInputPanel__JXLayout__window
+Name: FileInputPanel__Panel__window
 Width: 460
 Height: 40
 Number of Objects: 5
@@ -823,8 +841,8 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: 
+gravity: FL_NorthWest FL_NoGravity
+name: (container)
 callback: 
 argument: 
 
@@ -838,8 +856,8 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: Allow Invalid file
-shortcut: 
+label: Allow invalid file
+shortcut: #I
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsAllowInvalidFileCB
@@ -857,7 +875,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Read
-shortcut: 
+shortcut: #R
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsRequireFileReadCB
@@ -875,7 +893,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Write
-shortcut: 
+shortcut: #W
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsRequireFileWriteCB
@@ -893,7 +911,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Exec
-shortcut: 
+shortcut: #E
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsRequireFileExecCB
@@ -901,7 +919,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: PathInputPanel__JXLayout__window
+Name: PathInputPanel__Panel__window
 Width: 460
 Height: 40
 Number of Objects: 3
@@ -919,8 +937,8 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: 
+gravity: FL_NorthWest FL_NoGravity
+name: (container)
 callback: 
 argument: 
 
@@ -934,8 +952,8 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: Allow Invalid path
-shortcut: 
+label: Allow invalid path
+shortcut: #I
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsAllowInvalidPathCB
@@ -953,7 +971,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Write
-shortcut: 
+shortcut: #W
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsRequirePathWritableCB
@@ -961,7 +979,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: IntegerInputPanel__JXLayout__window
+Name: IntegerInputPanel__Panel__window
 Width: 460
 Height: 40
 Number of Objects: 6
@@ -979,8 +997,8 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: 
+gravity: FL_NorthWest FL_NoGravity
+name: (container)
 callback: 
 argument: 
 
@@ -995,7 +1013,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Required
-shortcut: 
+shortcut: #R
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsIntRequiredCB
@@ -1010,7 +1028,7 @@ boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: 
 shortcut: 
@@ -1046,7 +1064,7 @@ boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: 
 shortcut: 
@@ -1075,7 +1093,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: FloatInputPanel__JXLayout__window
+Name: FloatInputPanel__Panel__window
 Width: 460
 Height: 40
 Number of Objects: 6
@@ -1093,8 +1111,8 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: 
+gravity: FL_NorthWest FL_NoGravity
+name: (container)
 callback: 
 argument: 
 
@@ -1109,7 +1127,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Required
-shortcut: 
+shortcut: #R
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsFloatRequiredCB
@@ -1124,7 +1142,7 @@ boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: 
 shortcut: 
@@ -1160,7 +1178,7 @@ boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: 
 shortcut: 
@@ -1189,7 +1207,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: ImageChooserPanel__JXLayout__window
+Name: ImageChooserPanel__Panel__window
 Width: 460
 Height: 40
 Number of Objects: 3
@@ -1207,8 +1225,8 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: 
+gravity: FL_NorthWest FL_NoGravity
+name: (container)
 callback: 
 argument: 
 
@@ -1319,10 +1337,10 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Window title:
-shortcut: 
+shortcut: #W
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: __WindowTitleRB
+name: itsWindowTitleCB
 callback: 
 argument: 
 
@@ -1337,10 +1355,10 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Custom container:
-shortcut: 
+shortcut: #U
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: __CustomContainerLabel
+name: itsCustomContainerCB
 callback: 
 argument: 
 
@@ -1352,7 +1370,7 @@ boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: 
 shortcut: 
@@ -1370,7 +1388,7 @@ boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: 
 shortcut: 
@@ -1406,7 +1424,7 @@ boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: 
 shortcut: 

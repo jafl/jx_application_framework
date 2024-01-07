@@ -15,7 +15,9 @@ static const JUtf8Byte* kArrangeMenuStr =
 "|* %i DistributeHorizontally::LayoutContainer"
 "|* %i DistributeVertically::LayoutContainer %l"
 "|* %i ExpandHorizontally::LayoutContainer"
-"|* %i ExpandVertically::LayoutContainer"
+"|* %i ExpandVertically::LayoutContainer %l"
+"|* %i DecrementTabIndex::LayoutContainer"
+"|* %i IncrementTabIndex::LayoutContainer"
 ;
 
 #include "LayoutContainer-Arrange-enum.h"
@@ -60,6 +62,14 @@ static const JUtf8Byte* kArrangeMenuStr =
 #define _H_expand_vert
 #include "expand_vert.xpm"
 #endif
+#ifndef _H_decr_tabindex
+#define _H_decr_tabindex
+#include "decr_tabindex.xpm"
+#endif
+#ifndef _H_incr_tabindex
+#define _H_incr_tabindex
+#include "incr_tabindex.xpm"
+#endif
 
 static void ConfigureArrangeMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
@@ -75,6 +85,8 @@ static void ConfigureArrangeMenu(JXTextMenu* menu, const int offset = 0) {
 	menu->SetItemImage(kDistrVertCmd + offset, distr_vert);
 	menu->SetItemImage(kExpandHorizCmd + offset, expand_horiz);
 	menu->SetItemImage(kExpandVertCmd + offset, expand_vert);
+	menu->SetItemImage(kDecrementTabIndexCmd + offset, decr_tabindex);
+	menu->SetItemImage(kIncrementTabIndexCmd + offset, incr_tabindex);
 };
 
 #endif

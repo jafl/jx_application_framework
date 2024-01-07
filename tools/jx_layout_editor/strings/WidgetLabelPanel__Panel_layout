@@ -1,0 +1,4 @@
+0
+shortcutsLabel::WidgetLabelPanel::Panel "Shortcuts:"
+shortcutsHelp::WidgetLabelPanel::Panel "#=Meta   ^=Ctrl   F1-F35=function keys"
+widgetLabelLabel::WidgetLabelPanel::Panel "Label:"

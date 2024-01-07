@@ -17,7 +17,7 @@ class BaseWidget : public JXWidget
 {
 public:
 
-	BaseWidget(LayoutContainer* layout, JXContainer* enclosure,
+	BaseWidget(LayoutContainer* layout, const bool wantsInput, JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -38,9 +38,17 @@ public:
 	bool	IsSelected() const;
 	void	SetSelected(const bool on);
 
+	bool	WantsInput() const;
+	bool	GetTabIndex(JIndex* i) const;
+	void	SetTabIndex(const JIndex i);
+
 	JPoint	GetDragStartPointGlobal() const;
 
+	JString	ToString() const override;
+
 protected:
+
+	void	SetWantsInput(const bool wantsInput);
 
 	virtual void	AddPanels(WidgetParametersDialog* dlog) = 0;
 	virtual void	SavePanelData() = 0;
@@ -87,6 +95,7 @@ private:
 	JString				itsVarName;		// can be empty
 	bool				itsIsMemberVarFlag;
 	bool				itsSelectedFlag;
+	JIndex				itsTabIndex;
 
 	// used during dragging
 
@@ -158,6 +167,34 @@ BaseWidget::IsSelected()
 	const
 {
 	return itsSelectedFlag;
+}
+
+/******************************************************************************
+ WantsInput
+
+ ******************************************************************************/
+
+inline bool
+BaseWidget::WantsInput()
+	const
+{
+	return itsTabIndex > 0;
+}
+
+/******************************************************************************
+ GetTabIndex
+
+ ******************************************************************************/
+
+inline bool
+BaseWidget::GetTabIndex
+	(
+	JIndex* i
+	)
+	const
+{
+	*i = itsTabIndex;
+	return itsTabIndex > 0;
 }
 
 /******************************************************************************

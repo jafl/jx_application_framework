@@ -1,5 +1,5 @@
 /******************************************************************************
- CustomWidget.cpp
+ InputField.cpp
 
 	BASE CLASS = BaseWidget
 
@@ -7,10 +7,12 @@
 
  ******************************************************************************/
 
-#include "CustomWidget.h"
-#include "WidgetParametersDialog.h"
-#include "CustomWidgetPanel.h"
+#include "InputField.h"
+#include "InputFieldPanel.h"
 #include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -18,7 +20,7 @@
 
  ******************************************************************************/
 
-CustomWidget::CustomWidget
+InputField::InputField
 	(
 	LayoutContainer*	layout,
 	JXContainer*		enclosure,
@@ -30,36 +32,15 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h),
-	itsCreateFlag(false)
+	BaseWidget(layout, true, enclosure, hSizing, vSizing, x,y, w,h),
+	itsIsRequiredFlag(false),
+	itsMinLength(0),
+	itsMaxLength(0)
 {
-	CustomWidgetX();
+	InputFieldX();
 }
 
-CustomWidget::CustomWidget
-	(
-	LayoutContainer*	layout,
-	const JString&		className,
-	const JString&		args,
-	const bool			create,
-	JXContainer*		enclosure,
-	const HSizingOption	hSizing,
-	const VSizingOption	vSizing,
-	const JCoordinate	x,
-	const JCoordinate	y,
-	const JCoordinate	w,
-	const JCoordinate	h
-	)
-	:
-	BaseWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h),
-	itsClassName(className),
-	itsCtorArgs(args),
-	itsCreateFlag(create)
-{
-	CustomWidgetX();
-}
-
-CustomWidget::CustomWidget
+InputField::InputField
 	(
 	LayoutContainer*	layout,
 	std::istream&		input,
@@ -74,17 +55,18 @@ CustomWidget::CustomWidget
 	:
 	BaseWidget(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	input >> itsClassName >> itsCtorArgs >> itsCreateFlag;
+	input >> itsIsRequiredFlag >> itsMinLength >> itsMaxLength;
+	input >> itsValidationPattern >> itsRegexErrorMsg;
 
-	CustomWidgetX();
+	InputFieldX();
 }
 
 // private
 
 void
-CustomWidget::CustomWidgetX()
+InputField::InputFieldX()
 {
-	SetBorderWidth(1);
+	SetBorderWidth(2);
 }
 
 /******************************************************************************
@@ -92,7 +74,7 @@ CustomWidget::CustomWidgetX()
 
  ******************************************************************************/
 
-CustomWidget::~CustomWidget()
+InputField::~InputField()
 {
 }
 
@@ -102,19 +84,64 @@ CustomWidget::~CustomWidget()
  ******************************************************************************/
 
 void
-CustomWidget::StreamOut
+InputField::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("CustomWidget") << std::endl;
+	output << JString("InputField") << std::endl;
 
 	BaseWidget::StreamOut(output);
 
-	output << itsClassName << std::endl;
-	output << itsCtorArgs << std::endl;
-	output << itsCreateFlag << std::endl;
+	output << itsIsRequiredFlag << std::endl;
+	output << itsMinLength << std::endl;
+	output << itsMaxLength << std::endl;
+	output << itsValidationPattern << std::endl;
+	output << itsRegexErrorMsg << std::endl;
+}
+
+/******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+InputField::ToString()
+	const
+{
+	JString s = BaseWidget::ToString();
+	if (itsIsRequiredFlag)
+	{
+		s += JString::newline;
+		s += JGetString("RequiredLabel::InputField");
+	}
+
+	if (itsMinLength > 0)
+	{
+		s += JString::newline;
+		s += JGetString("MinLengthLabel::InputField");
+		s += JString((JUInt64) itsMinLength);
+	}
+
+	if (itsMaxLength > 0)
+	{
+		s += JString::newline;
+		s += JGetString("MaxLengthLabel::InputField");
+		s += JString((JUInt64) itsMaxLength);
+	}
+
+	if (!itsValidationPattern.IsEmpty())
+	{
+		s += JString::newline;
+		s += JGetString("ValidationLabel:InputField");
+		s += itsValidationPattern;
+		s += JString::newline;
+		s += JGetString("ErrorMsgLabel:InputField");
+		s += itsRegexErrorMsg;
+	}
+
+	return s;
 }
 
 /******************************************************************************
@@ -123,13 +150,15 @@ CustomWidget::StreamOut
  ******************************************************************************/
 
 void
-CustomWidget::Draw
+InputField::Draw
 	(
 	JXWindowPainter&	p,
 	const JRect&		rect
 	)
 {
-	p.String(GetFrameLocal(), itsClassName, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
+	p.SetPenColor(JColorManager::GetWhiteColor());
+	p.SetFilling(true);
+	p.Rect(GetFrameLocal());
 }
 
 /******************************************************************************
@@ -138,13 +167,13 @@ CustomWidget::Draw
  ******************************************************************************/
 
 void
-CustomWidget::DrawBorder
+InputField::DrawBorder
 	(
 	JXWindowPainter&	p,
 	const JRect&		frame
 	)
 {
-	p.Rect(frame);
+	JXDrawDownFrame(p, frame, 2);
 	DrawSelection(p, frame);
 }
 
@@ -154,14 +183,14 @@ CustomWidget::DrawBorder
  ******************************************************************************/
 
 void
-CustomWidget::AddPanels
+InputField::AddPanels
 	(
 	WidgetParametersDialog* dlog
 	)
 {
 	itsPanel =
-		jnew CustomWidgetPanel(dlog, itsClassName, itsCtorArgs, itsCreateFlag,
-			WantsInput());
+		jnew InputFieldPanel(dlog, itsIsRequiredFlag, itsMinLength, itsMaxLength,
+			itsValidationPattern, itsRegexErrorMsg);
 }
 
 /******************************************************************************
@@ -170,10 +199,9 @@ CustomWidget::AddPanels
  ******************************************************************************/
 
 void
-CustomWidget::SavePanelData()
+InputField::SavePanelData()
 {
-	bool wantsInput;
-	itsPanel->GetValues(&itsClassName, &itsCtorArgs, &itsCreateFlag, &wantsInput);
-	SetWantsInput(wantsInput);
+	itsPanel->GetValues(&itsIsRequiredFlag, &itsMinLength, &itsMaxLength,
+						&itsValidationPattern, &itsRegexErrorMsg);
 	itsPanel = nullptr;
 }

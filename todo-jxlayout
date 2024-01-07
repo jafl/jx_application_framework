@@ -1,42 +1,71 @@
-create widget by cmd-dragging rectangle
-	after release, select widget type and then create it - sets correct container
-
-widget options
-	variable name, local/instance
-	sizing
-
-	class name
-	ctor args
-
-	label, if appropriate
-	shortcuts, if appropriate
-	validation (for input fields)
-
 generate code when save
 	search for file_root .cpp .cc .hpp .h in same directory
 
 	adjust for 1px border when button has ^M shortcut
 
+create widget by cmd-dragging rectangle
+	after release, select widget type and then create it - sets correct container
+	undo
+
 -----
 
-undo
-	create/resize/params/tab-order
-	anything that marks document as dirty
+JXImageButton
+	image
+JXSearchTextButton
+JXNewDirButton
+JXImageCheckbox
+	image
+JXCurrentPathMenu
+JXFileHistoryMenu
+JXImageMenu
+JXPathHistoryMenu
+JXStringHistoryMenu
+JXTextMenu
+	popup choice
+JXImageRadioButton
+JXProgressIndicator
+JXTextRadioButton
+JXImageWidget
+	image
+JXCharInput
+JXFileInput
+JXFloatInput
+JXIntegerInput
+JXPasswordInput
+JXPathInput
+JXRegexInput
+JXRegexReplaceInput
+JXSaveFileInput
+JXStaticText
+	text
+JXChooseMonoFont
+JXLevelControl
+JXSlider
 
 allow direct editing of content:
 	nested LayoutContainer - forward selection request, etc. to root LayoutContainer
-
-	Toolbar
-	ScrollbarSet
-	TabGroup
-	Partition (set number of compartments & resize them)
-
-	draw grid inside
 +	enforce that all selected widgets have the same container
 
-control tab order
-	show index in each item
-	cmd-click to select item without re-ordering
-	click to make object the next in list
+JXWidgetSet
+JXScrollbarSet
+JXToolBar
+JXRadioGroup
+JXHorizPartition
+	# of compartments - drag to resize
+JXVertPartition
+	# of compartments - drag to resize
+JXCardFile
+JXTabGroup
+JXBorderRect
+JXDownRect
+JXEmbossedRect
+JXEngravedRect
+JXFlatRect
+JXUpRect
+
+-----
 
 when show/hide toolbar, change window size to preserve LayoutContainer size
+
+widget options
+	allow specify colors?

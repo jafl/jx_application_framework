@@ -1,5 +1,5 @@
 jx_menu_editor 0
-850 351
+850 410
 "LayoutContainer"
 "Arrange"
 'a
@@ -111,6 +111,26 @@ jx_menu_editor 0
 'e
 "ExpandVertically"
 "kExpandVertCmd"
+1
+
+1
+0
+0 "decr_tabindex.png"
+"Decrement tab index"
+"Ctrl-minus"
+'d
+"DecrementTabIndex"
+"kDecrementTabIndexCmd"
+0
+
+1
+0
+0 "incr_tabindex.png"
+"Increment tab index"
+"Ctrl-plus"
+'i
+"IncrementTabIndex"
+"kIncrementTabIndexCmd"
 0
 
 0

@@ -9,7 +9,6 @@
 #define _H_CustomWidgetPanel
 
 class JString;
-class JXWindow;
 class JXInputField;
 class JXTextCheckbox;
 class WidgetParametersDialog;
@@ -19,9 +18,13 @@ class CustomWidgetPanel
 public:
 
 	CustomWidgetPanel(WidgetParametersDialog* dlog, const JString& className,
-					  const JString& ctorArgs, const bool needsCreate);
+					  const JString& ctorArgs, const bool needsCreate,
+					  const bool wantsInput);
 
 	~CustomWidgetPanel();
+
+	void	GetValues(JString* className, JString* ctorArgs, bool* needsCreate,
+					  bool* wantsInput);
 
 private:
 
@@ -30,13 +33,15 @@ private:
 	JXInputField*   itsClassNameInput;
 	JXInputField*   itsCtorArgs;
 	JXTextCheckbox* itsNeedsCreateCB;
+	JXTextCheckbox* itsWantsInputCB;
 
 // end Panel
 
 private:
 
 	void	BuildPanel(WidgetParametersDialog* dlog, const JString& className,
-						const JString& ctorArgs, const bool needsCreate);
+						const JString& ctorArgs, const bool needsCreate,
+						const bool wantsInput);
 };
 
 #endif

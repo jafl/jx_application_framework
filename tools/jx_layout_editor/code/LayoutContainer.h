@@ -49,6 +49,9 @@ public:
 
 	JString GenerateUniqueVarName() const;
 
+	JIndex	GetNextTabIndex() const;
+	void	TabIndexRemoved(const JIndex i);
+
 	JSize	GetGridSpacing() const;
 	void	SetGridSpacing(const JSize w);
 	JPoint	SnapToGrid(const JPoint& pt) const;

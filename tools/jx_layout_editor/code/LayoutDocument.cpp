@@ -12,6 +12,8 @@
 #include "LayoutContainer.h"
 #include "CustomWidget.h"
 #include "TextButton.h"
+#include "TextCheckbox.h"
+#include "InputField.h"
 #include "MDIServer.h"
 #include "globals.h"
 #include <jx-af/jx/JXWindow.h>
@@ -353,6 +355,14 @@ LayoutDocument::ReadWidget
 	if (className == "TextButton")
 	{
 		widget = jnew TextButton(itsLayout, input, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "TextCheckbox")
+	{
+		widget = jnew TextCheckbox(itsLayout, input, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "InputField")
+	{
+		widget = jnew InputField(itsLayout, input, e, hS,vS, x,y,w,h);
 	}
 	else
 	{
@@ -863,12 +873,15 @@ LayoutDocument::ImportFDesignLayout
 		BaseWidget* widget;
 		if (flClass == "FL_BUTTON")
 		{
-			widget = jnew TextButton(itsLayout, label, enclosure, hS,vS, x,y,w,h);
-
-			if (flType == "FL_RETURN_BUTTON")
-			{
-//				widget->SetShortcuts("^M");
-			}
+			widget = jnew TextButton(itsLayout, label, shortcuts, enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_CHECKBUTTON")
+		{
+			widget = jnew TextCheckbox(itsLayout, label, shortcuts, enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_INPUT" && flType == "FL_NORMAL_INPUT")
+		{
+			widget = jnew InputField(itsLayout, enclosure, hS,vS, x,y,w,h);
 		}
 		else // if (flClass == "FL_BOX" && flType == "FL_NO_BOX" && !label->IsEmpty())
 		{

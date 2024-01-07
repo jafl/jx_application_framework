@@ -16,6 +16,8 @@ enum {
 	kDistrVertCmd,
 	kExpandHorizCmd,
 	kExpandVertCmd,
+	kDecrementTabIndexCmd,
+	kIncrementTabIndexCmd,
 };
 
 #endif

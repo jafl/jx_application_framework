@@ -1,16 +1,16 @@
 /******************************************************************************
- CustomWidget.cpp
+ TextCheckbox.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = CoreWidget
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#include "CustomWidget.h"
-#include "WidgetParametersDialog.h"
-#include "CustomWidgetPanel.h"
-#include <jx-af/jx/JXWindowPainter.h>
+#include "TextCheckbox.h"
+#include "WidgetLabelPanel.h"
+#include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -18,7 +18,7 @@
 
  ******************************************************************************/
 
-CustomWidget::CustomWidget
+TextCheckbox::TextCheckbox
 	(
 	LayoutContainer*	layout,
 	JXContainer*		enclosure,
@@ -30,18 +30,16 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h),
-	itsCreateFlag(false)
+	CoreWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	CustomWidgetX();
+	TextCheckboxX(JGetString("DefaultLabel::TextCheckbox"), x,y,w,h);
 }
 
-CustomWidget::CustomWidget
+TextCheckbox::TextCheckbox
 	(
 	LayoutContainer*	layout,
-	const JString&		className,
-	const JString&		args,
-	const bool			create,
+	const JString&		label,
+	const JString&		shortcuts,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -51,15 +49,13 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h),
-	itsClassName(className),
-	itsCtorArgs(args),
-	itsCreateFlag(create)
+	CoreWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h),
+	itsShortcuts(shortcuts)
 {
-	CustomWidgetX();
+	TextCheckboxX(label, x,y,w,h);
 }
 
-CustomWidget::CustomWidget
+TextCheckbox::TextCheckbox
 	(
 	LayoutContainer*	layout,
 	std::istream&		input,
@@ -72,19 +68,28 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
+	CoreWidget(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	input >> itsClassName >> itsCtorArgs >> itsCreateFlag;
+	JString label;
+	input >> label >> itsShortcuts;
 
-	CustomWidgetX();
+	TextCheckboxX(label, x,y,w,h);
 }
 
 // private
 
 void
-CustomWidget::CustomWidgetX()
+TextCheckbox::TextCheckboxX
+	(
+	const JString&		label,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
+	)
 {
-	SetBorderWidth(1);
+	itsCheckbox = jnew JXTextCheckbox(label, this, kHElastic, kVElastic, x,y,w,h);
+	SetWidget(itsCheckbox);
 }
 
 /******************************************************************************
@@ -92,7 +97,7 @@ CustomWidget::CustomWidgetX()
 
  ******************************************************************************/
 
-CustomWidget::~CustomWidget()
+TextCheckbox::~TextCheckbox()
 {
 }
 
@@ -102,50 +107,37 @@ CustomWidget::~CustomWidget()
  ******************************************************************************/
 
 void
-CustomWidget::StreamOut
+TextCheckbox::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("CustomWidget") << std::endl;
+	output << JString("TextCheckbox") << std::endl;
 
-	BaseWidget::StreamOut(output);
+	CoreWidget::StreamOut(output);
 
-	output << itsClassName << std::endl;
-	output << itsCtorArgs << std::endl;
-	output << itsCreateFlag << std::endl;
+	output << itsCheckbox->GetLabel() << std::endl;
+	output << itsShortcuts << std::endl;
 }
 
 /******************************************************************************
- Draw (virtual protected)
+ ToString (virtual)
 
  ******************************************************************************/
 
-void
-CustomWidget::Draw
-	(
-	JXWindowPainter&	p,
-	const JRect&		rect
-	)
+JString
+TextCheckbox::ToString()
+	const
 {
-	p.String(GetFrameLocal(), itsClassName, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
-}
-
-/******************************************************************************
- DrawBorder (virtual protected)
-
- ******************************************************************************/
-
-void
-CustomWidget::DrawBorder
-	(
-	JXWindowPainter&	p,
-	const JRect&		frame
-	)
-{
-	p.Rect(frame);
-	DrawSelection(p, frame);
+	JString s = CoreWidget::ToString();
+	if (!itsShortcuts.IsEmpty())
+	{
+		s += JString::newline;
+		s += JGetString("ShortcutsLabel::BaseWidget");
+		s += itsShortcuts;
+	}
+	return s;
 }
 
 /******************************************************************************
@@ -154,14 +146,12 @@ CustomWidget::DrawBorder
  ******************************************************************************/
 
 void
-CustomWidget::AddPanels
+TextCheckbox::AddPanels
 	(
 	WidgetParametersDialog* dlog
 	)
 {
-	itsPanel =
-		jnew CustomWidgetPanel(dlog, itsClassName, itsCtorArgs, itsCreateFlag,
-			WantsInput());
+	itsPanel = jnew WidgetLabelPanel(dlog, itsCheckbox->GetLabel(), itsShortcuts);
 }
 
 /******************************************************************************
@@ -170,10 +160,11 @@ CustomWidget::AddPanels
  ******************************************************************************/
 
 void
-CustomWidget::SavePanelData()
+TextCheckbox::SavePanelData()
 {
-	bool wantsInput;
-	itsPanel->GetValues(&itsClassName, &itsCtorArgs, &itsCreateFlag, &wantsInput);
-	SetWantsInput(wantsInput);
+	JString label;
+	itsPanel->GetValues(&label, &itsShortcuts);
+	itsCheckbox->SetLabel(label);
+
 	itsPanel = nullptr;
 }

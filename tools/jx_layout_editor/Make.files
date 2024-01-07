@@ -20,7 +20,11 @@
 .cpp ./code/CustomWidget
 .cpp ./code/CoreWidget
 .cpp ./code/TextButton
+.cpp ./code/TextCheckbox
+.cpp ./code/InputField
 .cpp ./code/WidgetParametersDialog
 .cpp ./code/CustomWidgetPanel
+.cpp ./code/WidgetLabelPanel
+.cpp ./code/InputFieldPanel
 
 literal: ${LIB_DEPS}

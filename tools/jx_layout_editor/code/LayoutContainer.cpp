@@ -280,6 +280,53 @@ LayoutContainer::GenerateUniqueVarName()
 }
 
 /******************************************************************************
+ GetNextTabIndex
+
+ ******************************************************************************/
+
+JIndex
+LayoutContainer::GetNextTabIndex()
+	const
+{
+	JIndex i = 0;
+	ForEach([&i](const JXContainer* obj)
+	{
+		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		JIndex j;
+		if (widget != nullptr && widget->GetTabIndex(&j))
+		{
+			i = JMax(i, j);
+		}
+	},
+	true);
+
+	return i+1;
+}
+
+/******************************************************************************
+ TabIndexRemoved
+
+ ******************************************************************************/
+
+void
+LayoutContainer::TabIndexRemoved
+	(
+	const JIndex i
+	)
+{
+	ForEach([i](JXContainer* obj)
+	{
+		auto* widget = dynamic_cast<BaseWidget*>(obj);
+		JIndex j;
+		if (widget != nullptr && widget->GetTabIndex(&j) && j > i)
+		{
+			widget->SetTabIndex(j-1);
+		}
+	},
+	true);
+}
+
+/******************************************************************************
  SnapToGrid
 
  ******************************************************************************/
@@ -990,6 +1037,32 @@ LayoutContainer::UpdateArrangeMenu()
 		itsArrangeMenu->EnableItem(kExpandHorizCmd);
 		itsArrangeMenu->EnableItem(kExpandVertCmd);
 	}
+
+	const JIndex max = GetNextTabIndex()-1;
+	if (max > 0)
+	{
+		bool incr = true, decr = true;
+		JIndex i;
+		for (auto* w : list)
+		{
+			if (!w->GetTabIndex(&i))
+			{
+				continue;
+			}
+
+			if (i == 1)
+			{
+				decr = false;
+			}
+			if (i == max)
+			{
+				incr = false;
+			}
+		}
+
+		itsArrangeMenu->SetItemEnabled(kDecrementTabIndexCmd, decr);
+		itsArrangeMenu->SetItemEnabled(kIncrementTabIndexCmd, incr);
+	}
 }
 
 /******************************************************************************
@@ -1137,6 +1210,73 @@ LayoutContainer::HandleArrangeMenu
 			const JRect r = w->GetFrame();
 			w->Place(r.left, 0);
 			w->SetSize(r.width(), h);
+		}
+	}
+
+	else if (index == kDecrementTabIndexCmd)
+	{
+		list.SetCompareFunction(std::function([](const BaseWidget* w1, const BaseWidget* w2)
+		{
+			JIndex i1,i2;
+			w1->GetTabIndex(&i1);
+			w2->GetTabIndex(&i2);
+			return i1 <=> i2;
+		}));
+		list.Sort();
+
+		for (auto* w : list)
+		{
+			JIndex i;
+			if (w->GetTabIndex(&i) && i > 1)
+			{
+				AnyOf([i,w](const JXContainer* obj)
+				{
+					auto* widget = dynamic_cast<const BaseWidget*>(obj);
+					JIndex j;
+					if (widget != nullptr && widget != w &&
+						widget->GetTabIndex(&j) && j == i-1)
+					{
+						w->SetTabIndex(j);
+						const_cast<BaseWidget*>(widget)->SetTabIndex(i);
+						return true;
+					}
+					return false;
+				},
+				true);
+			}
+		}
+	}
+	else if (index == kIncrementTabIndexCmd)
+	{
+		list.SetCompareFunction(std::function([](const BaseWidget* w1, const BaseWidget* w2)
+		{
+			JIndex i1,i2;
+			w1->GetTabIndex(&i1);
+			w2->GetTabIndex(&i2);
+			return i2 <=> i1;
+		}));
+		list.Sort();
+
+		for (auto* w : list)
+		{
+			JIndex i;
+			if (w->GetTabIndex(&i))
+			{
+				AnyOf([i,w](const JXContainer* obj)
+				{
+					auto* widget = dynamic_cast<const BaseWidget*>(obj);
+					JIndex j;
+					if (widget != nullptr && widget != w &&
+						widget->GetTabIndex(&j) && j == i+1)
+					{
+						w->SetTabIndex(j);
+						const_cast<BaseWidget*>(widget)->SetTabIndex(i);
+						return true;
+					}
+					return false;
+				},
+				true);
+			}
 		}
 	}
 

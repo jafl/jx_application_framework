@@ -19,9 +19,12 @@
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jMouseUtil.h>
 #include <X11/cursorfont.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JCoordinate kHandleHalfWidth = 5;
+const JCoordinate kHandleHalfWidth      = 5;
+const JCoordinate kTabIndexHMarginWidth = 2;
+const JCoordinate kTabIndexVMarginWidth = 1;
 
 /******************************************************************************
  Constructor
@@ -31,6 +34,7 @@ const JCoordinate kHandleHalfWidth = 5;
 BaseWidget::BaseWidget
 	(
 	LayoutContainer*	layout,
+	const bool			wantsInput,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -43,11 +47,19 @@ BaseWidget::BaseWidget
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsLayout(layout),
 	itsIsMemberVarFlag(false),
-	itsSelectedFlag(false)
+	itsSelectedFlag(false),
+	itsTabIndex(0)
 {
 	BaseWidgetX();
 
+	// itsVarName must first be initialized
 	itsVarName = itsLayout->GenerateUniqueVarName();
+
+	// itsTabIndex must first be initialized
+	if (wantsInput)
+	{
+		itsTabIndex = itsLayout->GetNextTabIndex();
+	}
 }
 
 BaseWidget::BaseWidget
@@ -69,7 +81,7 @@ BaseWidget::BaseWidget
 {
 	BaseWidgetX();
 
-	input >> itsVarName >> itsIsMemberVarFlag;
+	input >> itsVarName >> itsIsMemberVarFlag >> itsTabIndex;
 }
 
 // private
@@ -120,6 +132,25 @@ BaseWidget::StreamOut
 
 	output << itsVarName << std::endl;
 	output << itsIsMemberVarFlag << std::endl;
+	output << itsTabIndex << std::endl;
+}
+
+/******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+BaseWidget::ToString()
+	const
+{
+	JString s = JGetString("VariableNameLabel::BaseWidget");
+	s += itsVarName;
+	if (itsIsMemberVarFlag)
+	{
+		s += JGetString("MemberFlagLabel::BaseWidget");
+	}
+	return s;
 }
 
 /******************************************************************************
@@ -138,6 +169,48 @@ BaseWidget::SetSelected
 		itsSelectedFlag = on;
 		itsLayout->Refresh();
 	}
+}
+
+/******************************************************************************
+ SetWantsInput (protected)
+
+ ******************************************************************************/
+
+void
+BaseWidget::SetWantsInput
+	(
+	const bool wantsInput
+	)
+{
+	if (wantsInput && itsTabIndex == 0)
+	{
+		itsTabIndex = itsLayout->GetNextTabIndex();
+	}
+	else if (!wantsInput && itsTabIndex > 0)
+	{
+		const JIndex i = itsTabIndex;
+		itsTabIndex    = 0;
+		itsLayout->TabIndexRemoved(i);
+	}
+}
+
+/******************************************************************************
+ SetTabIndex
+
+	Only allowed to set tab index for widgets that enabled it.
+
+ ******************************************************************************/
+
+void
+BaseWidget::SetTabIndex
+	(
+	const JIndex i
+	)
+{
+	assert( itsTabIndex > 0 );
+
+	itsTabIndex = i;
+	Refresh();
 }
 
 /******************************************************************************
@@ -171,15 +244,16 @@ BaseWidget::DrawOver
 	const JRect&		rect
 	)
 {
+	SetHint(ToString());
+
 	for (auto& r : itsHandles)
 	{
 		r.SetSize(0,0);
 	}
 
+	JRect f = GetFrameLocal();
 	if (itsSelectedFlag && itsLayout->GetSelectionCount() == 1)
 	{
-		const JRect f = GetFrameLocal();
-
 		itsHandles[ kTopLeftHandle     ].Place(f.top, f.left);
 		itsHandles[ kTopHandle         ].Place(f.top, f.xcenter() - kHandleHalfWidth);
 		itsHandles[ kTopRightHandle    ].Place(f.top, f.right - 2*kHandleHalfWidth);
@@ -212,6 +286,54 @@ BaseWidget::DrawOver
 		{
 			p.Rect(r);
 		}
+	}
+
+	p.ResetAllButClipping();
+	p.SetLineWidth(2);
+	p.SetPenColor(JColorManager::GetOrangeColor());
+
+	if (!itsSelectedFlag && GetHSizing() == JXWidget::kFixedLeft)
+	{
+		f.Shrink(1,0);
+		p.Line(f.topLeft(), f.bottomLeft());
+	}
+	else if (!itsSelectedFlag && GetHSizing() == JXWidget::kFixedRight)
+	{
+		f.Shrink(2,0);
+		p.Line(f.topRight(), f.bottomRight());
+	}
+
+	if (!itsSelectedFlag && GetVSizing() == JXWidget::kFixedTop)
+	{
+		f.Shrink(0,1);
+		p.Line(f.topLeft(), f.topRight());
+	}
+	else if (!itsSelectedFlag && GetVSizing() == JXWidget::kFixedBottom)
+	{
+		f.Shrink(0,2);
+		p.Line(f.bottomLeft(), f.bottomRight());
+	}
+
+	p.ResetAllButClipping();
+	p.SetFontSize(8);
+
+	if (itsTabIndex > 0)
+	{
+		const JString s((JUInt64) itsTabIndex);
+		const auto w = p.GetStringWidth(s);
+		const auto h = p.GetLineHeight();
+
+		JPoint pt(JMax(JSize(0), f.width()/4 - w/2 - kTabIndexHMarginWidth), 0);
+		JRect r;
+		r.Place(pt);
+		r.SetSize(w + 2*kTabIndexHMarginWidth, h + 2*kTabIndexVMarginWidth);
+		p.SetPenColor(JColorManager::GetGrayColor(70));
+		p.SetFilling(true);
+		p.Rect(r);
+
+		p.SetPenColor(JColorManager::GetBlackColor());
+		pt += JPoint(kTabIndexHMarginWidth, kTabIndexVMarginWidth);
+		p.String(pt, s);
 	}
 }
 
@@ -268,15 +390,19 @@ BaseWidget::HandleMouseDown
 	itsClearIfNotDNDFlag     = false;
 	itsIsResizingFlag        = false;
 
-	itsResizeDragType = 0;
-	for (const auto& r : itsHandles)
+	if (button == kJXLeftButton && clickCount == 1)
 	{
-		if (r.Contains(pt))
+		itsResizeDragType = 0;
+		for (const auto& r : itsHandles)
 		{
-			return;
+			if (r.Contains(pt))
+			{
+				return;
+			}
+			itsResizeDragType++;
 		}
-		itsResizeDragType++;
 	}
+	itsResizeDragType = kHandleCount;
 
 	if (button == kJXLeftButton && clickCount == 1 && modifiers.shift())
 	{
@@ -470,6 +596,7 @@ BaseWidget::HandleMouseUp
 			SetSizing(dlog->GetHSizing(), dlog->GetVSizing());
 			SavePanelData();
 			itsLayout->NewUndo(undo);
+			Refresh();
 		}
 		else
 		{

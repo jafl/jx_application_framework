@@ -97,6 +97,14 @@ T
 2 "TextButton.cpp"
 F
 "./code/TextButton.cpp"
+T
+2 "TextCheckbox.cpp"
+F
+"./code/TextCheckbox.cpp"
+T
+2 "InputField.cpp"
+F
+"./code/InputField.cpp"
 F
 T
 1 "params"
@@ -116,6 +124,14 @@ T
 2 "CustomWidgetPanel.cpp"
 F
 "./code/CustomWidgetPanel.cpp"
+T
+2 "WidgetLabelPanel.cpp"
+F
+"./code/WidgetLabelPanel.cpp"
+T
+2 "InputFieldPanel.cpp"
+F
+"./code/InputFieldPanel.cpp"
 F
 T
 1 "layouts"

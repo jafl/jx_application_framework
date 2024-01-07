@@ -1,0 +1,26 @@
+/* XPM */
+static const char *decr_tabindex[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c None",
+". c black",
+"X c gray80",
+"o c white",
+/* pixels */
+"                ",
+" ..........     ",
+" .oooooooo.     ",
+" .oooooooo.     ",
+" .oooooooo.     ",
+" .oooooooo..... ",
+" .oooooooo.XXX. ",
+" .oooooooo.XXX. ",
+" .oooooooo.XXX. ",
+" .oooooooo.XXX. ",
+" ..........XXX. ",
+"     .XXXXXXXX. ",
+"     .XXXXXXXX. ",
+"     .XXXXXXXX. ",
+"     .......... ",
+"                "
+};

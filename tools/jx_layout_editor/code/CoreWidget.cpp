@@ -19,6 +19,7 @@
 CoreWidget::CoreWidget
 	(
 	LayoutContainer*	layout,
+	const bool			wantsInput,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -28,7 +29,7 @@ CoreWidget::CoreWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(layout, enclosure, hSizing, vSizing, x,y, w,h)
+	BaseWidget(layout, wantsInput, enclosure, hSizing, vSizing, x,y, w,h)
 {
 }
 
