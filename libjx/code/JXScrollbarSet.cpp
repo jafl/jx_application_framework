@@ -39,7 +39,6 @@ JXScrollbarSet::JXScrollbarSet
 {
 	itsScrollEnclosure =
 		jnew JXWidgetSet(this, kHElastic, kVElastic, 0,0, w,h);
-	itsScrollEnclosure->ClearNeedsInternalFTC();
 
 	itsHScrollbar =
 		jnew JXScrollbar(this, kHElastic, kFixedBottom,
@@ -50,6 +49,9 @@ JXScrollbarSet::JXScrollbarSet
 		jnew JXScrollbar(this, kFixedRight, kVElastic,
 						w-kScrollBarWidth,0, kScrollBarWidth,h-kScrollBarWidth);
 	itsVScrollbar->Hide();
+
+	ClearNeedsInternalFTC();
+	itsScrollEnclosure->ClearNeedsInternalFTC();
 }
 
 /******************************************************************************
