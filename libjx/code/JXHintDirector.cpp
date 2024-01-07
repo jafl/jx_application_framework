@@ -52,8 +52,7 @@ JXHintDirector::JXHintDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	const JRect frameR =
-		widget->GetWindow()->GlobalToRoot(widget->LocalToGlobal(rect));
+	const JRect frameR = widget->GetWindow()->GlobalToRoot(widget->LocalToGlobal(rect));
 	BuildWindow(frameR, text);
 }
 
@@ -94,14 +93,8 @@ JXHintDirector::BuildWindow
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 kHMargin, kVMargin, 0,0);
 
-	JCoordinate ascent = 0, descent = 0;
-	if (!text.IsEmpty())
-	{
-		textWidget->GetText()->GetFont(1).GetLineHeight(window->GetFontManager(), &ascent, &descent);
-	}
-
 	const JCoordinate w = 2*kHMargin + textWidget->GetFrameWidth();
-	const JCoordinate h = 2*kVMargin + ascent + descent;
+	const JCoordinate h = 2*kVMargin + textWidget->GetFrameHeight();
 	window->SetSize(w,h);
 
 	// place window
