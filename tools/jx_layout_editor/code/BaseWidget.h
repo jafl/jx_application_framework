@@ -10,6 +10,7 @@
 
 #include <jx-af/jx/JXWidget.h>
 
+class JStringManager;
 class LayoutContainer;
 class WidgetParametersDialog;
 
@@ -44,11 +45,26 @@ public:
 
 	JPoint	GetDragStartPointGlobal() const;
 
+	void	GenerateCode(std::ostream& output, const JString& indent,
+						 JPtrArray<JString>* objTypes,
+						 JPtrArray<JString>* objNames,
+						 JStringManager* stringdb) const;
+
 	JString	ToString() const override;
 
 protected:
 
 	void	SetWantsInput(const bool wantsInput);
+
+	virtual JString	GetClassName() const = 0;
+	virtual JString	GetCtor() const;
+	virtual void	PrintCtorArgsWithComma(std::ostream& output,
+										   const JString& varName,
+										   JStringManager* stringdb) const = 0;
+	virtual void	PrintConfiguration(std::ostream& output,
+									   const JString& indent,
+									   const JString& varName,
+									   JStringManager* stringdb) const = 0;
 
 	virtual void	AddPanels(WidgetParametersDialog* dlog) = 0;
 	virtual void	SavePanelData() = 0;

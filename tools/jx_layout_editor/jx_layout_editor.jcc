@@ -59,6 +59,10 @@ T
 F
 "./code/LayoutDocument-Grid.jxm"
 T
+2 "LayoutConfigDialog.cpp"
+F
+"./code/LayoutConfigDialog.cpp"
+T
 2 "LayoutContainer.cpp"
 F
 "./code/LayoutContainer.cpp"
@@ -93,6 +97,10 @@ T
 2 "CoreWidget.cpp"
 F
 "./code/CoreWidget.cpp"
+T
+2 "TextButtonBase.cpp"
+F
+"./code/TextButtonBase.cpp"
 T
 2 "TextButton.cpp"
 F
@@ -166,7 +174,7 @@ T "./" "/bin/bash -c \"cp jx_layout_editor ~/bin\"" "" FFFFFFF "Install" "" "" F
 F
 # build settings
 1
-F
+T
 "jx_layout_editor"
 "${LIB_DEPS}"
 "make -k all"

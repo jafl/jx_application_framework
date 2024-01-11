@@ -9,6 +9,7 @@
 
 #include "InputField.h"
 #include "InputFieldPanel.h"
+#include "LayoutContainer.h"
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jcore/JColorManager.h>
@@ -35,7 +36,9 @@ InputField::InputField
 	BaseWidget(layout, true, enclosure, hSizing, vSizing, x,y, w,h),
 	itsIsRequiredFlag(false),
 	itsMinLength(0),
-	itsMaxLength(0)
+	itsMaxLength(0),
+	itsWordWrapFlag(false),
+	itsAcceptNewlineFlag(false)
 {
 	InputFieldX();
 }
@@ -57,6 +60,7 @@ InputField::InputField
 {
 	input >> itsIsRequiredFlag >> itsMinLength >> itsMaxLength;
 	input >> itsValidationPattern >> itsRegexErrorMsg;
+	input >> itsWordWrapFlag >> itsAcceptNewlineFlag;
 
 	InputFieldX();
 }
@@ -99,6 +103,8 @@ InputField::StreamOut
 	output << itsMaxLength << std::endl;
 	output << itsValidationPattern << std::endl;
 	output << itsRegexErrorMsg << std::endl;
+	output << itsWordWrapFlag << std::endl;
+	output << itsAcceptNewlineFlag << std::endl;
 }
 
 /******************************************************************************
@@ -111,6 +117,10 @@ InputField::ToString()
 	const
 {
 	JString s = BaseWidget::ToString();
+
+	s += JString::newline;
+	s += "JXInputField";
+
 	if (itsIsRequiredFlag)
 	{
 		s += JString::newline;
@@ -139,6 +149,18 @@ InputField::ToString()
 		s += JString::newline;
 		s += JGetString("ErrorMsgLabel:InputField");
 		s += itsRegexErrorMsg;
+	}
+
+	if (itsWordWrapFlag)
+	{
+		s += JString::newline;
+		s += JGetString("WordWrap::InputField");
+	}
+
+	if (itsWordWrapFlag)
+	{
+		s += JString::newline;
+		s += JGetString("AcceptNewline::InputField");
 	}
 
 	return s;
@@ -178,6 +200,84 @@ InputField::DrawBorder
 }
 
 /******************************************************************************
+ GetClassName (virtual protected)
+
+ ******************************************************************************/
+
+JString
+InputField::GetClassName()
+	const
+{
+	return "JXTextButton";
+}
+
+/******************************************************************************
+ PrintCtorArgsWithComma (virtual protected)
+
+ ******************************************************************************/
+
+void
+InputField::PrintCtorArgsWithComma
+	(
+	std::ostream&	output,
+	const JString&	varName,
+	JStringManager* stringdb
+	)
+	const
+{
+	if (itsWordWrapFlag || itsAcceptNewlineFlag)
+	{
+		output << itsWordWrapFlag << ", " << itsAcceptNewlineFlag << ',';
+	}
+}
+
+/******************************************************************************
+ PrintConfiguration (virtual protected)
+
+ ******************************************************************************/
+
+void
+InputField::PrintConfiguration
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	const JString&	varName,
+	JStringManager*	stringdb
+	)
+	const
+{
+	if (itsMinLength > 1)
+	{
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetMinLength(" << itsMinLength << ");" << std::endl;
+	}
+	else if (itsIsRequiredFlag)
+	{
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetIsRequired();" << std::endl;
+	}
+
+	if (itsMaxLength > 0)
+	{
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetMaxLength(" << itsMaxLength << ");" << std::endl;
+	}
+
+	if (!itsValidationPattern.IsEmpty())
+	{
+		const JString id = varName + "::validation" + GetLayoutContainer()->GetStringNamespace();
+		stringdb->SetItem(id, itsRegexErrorMsg, JPtrArrayT::kDelete);
+
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetValidationPattern(" << itsValidationPattern << ", " << id << ");" << std::endl;
+	}
+}
+
+/******************************************************************************
  AddPanels (virtual protected)
 
  ******************************************************************************/
@@ -190,7 +290,8 @@ InputField::AddPanels
 {
 	itsPanel =
 		jnew InputFieldPanel(dlog, itsIsRequiredFlag, itsMinLength, itsMaxLength,
-			itsValidationPattern, itsRegexErrorMsg);
+			itsValidationPattern, itsRegexErrorMsg,
+			itsWordWrapFlag, itsAcceptNewlineFlag);
 }
 
 /******************************************************************************
@@ -202,6 +303,7 @@ void
 InputField::SavePanelData()
 {
 	itsPanel->GetValues(&itsIsRequiredFlag, &itsMinLength, &itsMaxLength,
-						&itsValidationPattern, &itsRegexErrorMsg);
+						&itsValidationPattern, &itsRegexErrorMsg,
+						&itsWordWrapFlag, &itsAcceptNewlineFlag);
 	itsPanel = nullptr;
 }

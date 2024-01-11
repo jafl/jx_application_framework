@@ -35,6 +35,15 @@ protected:
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
+	JString	GetClassName() const override;
+	void	PrintCtorArgsWithComma(std::ostream& output,
+								   const JString& varName,
+								   JStringManager* stringdb) const override;
+	void	PrintConfiguration(std::ostream& output,
+							   const JString& indent,
+							   const JString& varName,
+							   JStringManager* stringdb) const override;
+
 	void	AddPanels(WidgetParametersDialog* dlog) override;
 	void	SavePanelData() override;
 
@@ -45,6 +54,8 @@ private:
 	JInteger			itsMaxLength;
 	JString				itsValidationPattern;
 	JString				itsRegexErrorMsg;
+	bool				itsWordWrapFlag;
+	bool				itsAcceptNewlineFlag;
 	InputFieldPanel*	itsPanel;	// nullptr unless editing
 
 private:

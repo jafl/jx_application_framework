@@ -23,13 +23,15 @@ public:
 
 	InputFieldPanel(WidgetParametersDialog* dlog, const bool required,
 					const JInteger minLength, const JInteger maxLength,
-					const JString& regexPattern, const JString& regexErrorMsg);
+					const JString& regexPattern, const JString& regexErrorMsg,
+					const bool wordWrap, const bool newlines);
 
 	~InputFieldPanel();
 
 	void	GetValues(bool* required,
 					  JInteger* minLength, JInteger* maxLength,
-					  JString* regexPattern, JString* regexErrorMsg);
+					  JString* regexPattern, JString* regexErrorMsg,
+					  bool* wordWrap, bool* newlines);
 
 private:
 
@@ -40,6 +42,8 @@ private:
 	JXIntegerInput* itsMaxLengthInput;
 	JXRegexInput*   itsRegexInput;
 	JXInputField*   itsRegexErrorMsgInput;
+	JXTextCheckbox* itsWordWrapCB;
+	JXTextCheckbox* itsAllowNewlinesCB;
 
 // end Panel
 
@@ -47,7 +51,8 @@ private:
 
 	void	BuildPanel(WidgetParametersDialog* dlog, const bool required,
 						const JInteger minLength, const JInteger maxLength,
-						const JString& regexPattern, const JString& regexErrorMsg);
+						const JString& regexPattern, const JString& regexErrorMsg,
+						const bool wordWrap, const bool newlines);
 
 	void	ConfigureInput(JXIntegerInput* field, const JInteger value);
 };

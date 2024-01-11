@@ -1,7 +1,7 @@
 /******************************************************************************
  TextCheckbox.cpp
 
-	BASE CLASS = CoreWidget
+	BASE CLASS = TextButtonBase
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -30,7 +30,7 @@ TextCheckbox::TextCheckbox
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h)
+	TextButtonBase(layout, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	TextCheckboxX(JGetString("DefaultLabel::TextCheckbox"), x,y,w,h);
 }
@@ -49,7 +49,7 @@ TextCheckbox::TextCheckbox
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h),
+	TextButtonBase(layout, enclosure, hSizing, vSizing, x,y, w,h),
 	itsShortcuts(shortcuts)
 {
 	TextCheckboxX(label, x,y,w,h);
@@ -68,7 +68,7 @@ TextCheckbox::TextCheckbox
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
+	TextButtonBase(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JString label;
 	input >> label >> itsShortcuts;
@@ -115,7 +115,7 @@ TextCheckbox::StreamOut
 {
 	output << JString("TextCheckbox") << std::endl;
 
-	CoreWidget::StreamOut(output);
+	TextButtonBase::StreamOut(output);
 
 	output << itsCheckbox->GetLabel() << std::endl;
 	output << itsShortcuts << std::endl;
@@ -130,7 +130,7 @@ JString
 TextCheckbox::ToString()
 	const
 {
-	JString s = CoreWidget::ToString();
+	JString s = TextButtonBase::ToString();
 	if (!itsShortcuts.IsEmpty())
 	{
 		s += JString::newline;
@@ -138,6 +138,53 @@ TextCheckbox::ToString()
 		s += itsShortcuts;
 	}
 	return s;
+}
+
+/******************************************************************************
+ GetClassName (virtual protected)
+
+ ******************************************************************************/
+
+JString
+TextCheckbox::GetClassName()
+	const
+{
+	return "JXTextCheckbox";
+}
+
+/******************************************************************************
+ PrintCtorArgsWithComma (virtual protected)
+
+ ******************************************************************************/
+
+void
+TextCheckbox::PrintCtorArgsWithComma
+	(
+	std::ostream&	output,
+	const JString&	varName,
+	JStringManager* stringdb
+	)
+	const
+{
+	SharedPrintCtorArgsWithComma(output, varName, itsCheckbox->GetLabel(), stringdb);
+}
+
+/******************************************************************************
+ PrintConfiguration (virtual protected)
+
+ ******************************************************************************/
+
+void
+TextCheckbox::PrintConfiguration
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	const JString&	varName,
+	JStringManager*	stringdb
+	)
+	const
+{
+	SharedPrintConfiguration(output, indent, varName, itsShortcuts, stringdb);
 }
 
 /******************************************************************************

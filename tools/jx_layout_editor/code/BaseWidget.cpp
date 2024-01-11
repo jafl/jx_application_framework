@@ -19,6 +19,7 @@
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jMouseUtil.h>
 #include <X11/cursorfont.h>
+#include <jx-af/jcore/JStringManager.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -151,6 +152,75 @@ BaseWidget::ToString()
 		s += JGetString("MemberFlagLabel::BaseWidget");
 	}
 	return s;
+}
+
+/******************************************************************************
+ GenerateCode
+
+ ******************************************************************************/
+
+void
+BaseWidget::GenerateCode
+	(
+	std::ostream&		output,
+	const JString&		indent,
+	JPtrArray<JString>*	objTypes,
+	JPtrArray<JString>*	objNames,
+	JStringManager*		stringdb
+	)
+	const
+{
+	indent.Print(output);
+	if (itsIsMemberVarFlag)
+	{
+		objTypes->Append(GetClassName());
+		objNames->Append(itsVarName);
+	}
+	else
+	{
+		output << "auto* ";
+	}
+	itsVarName.Print(output);
+	output << " =" << std::endl;
+
+	indent.Print(output);
+	indent.Print(output);
+	GetCtor().Print(output);
+	output << '(';
+	PrintCtorArgsWithComma(output, itsVarName, stringdb);
+	itsLayout->GetEnclosureName().Print(output);
+	output << ',' << std::endl;
+
+	indent.Print(output);
+	indent.Print(output);
+	indent.Print(output);
+	indent.Print(output);
+	indent.Print(output);
+	output << "JXWidget::"
+		<< (GetHSizing() == kFixedLeft  ? "kFixedLeft" :
+			GetHSizing() == kFixedRight ? "kFixedRight" : "kHElastic") << ", ";
+	output << "JXWidget::"
+		<< (GetVSizing() == kFixedTop    ? "kFixedTop" :
+			GetVSizing() == kFixedBottom ? "kFixedBottom" : "kVElastic") << ", ";
+
+	const JRect f = GetFrame();
+	output << f.left << ',' << f.top << ", " << f.width() << ',' << f.height();
+	output << ");" << std::endl;
+
+	PrintConfiguration(output, indent, itsVarName, stringdb);
+	output << std::endl;
+}
+
+/******************************************************************************
+ GetCtor (virtual protected)
+
+ ******************************************************************************/
+
+JString
+BaseWidget::GetCtor()
+	const
+{
+	return "jnew " + GetClassName();
 }
 
 /******************************************************************************

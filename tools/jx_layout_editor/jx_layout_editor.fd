@@ -597,13 +597,13 @@ argument:
 =============== FORM ===============
 Name: InputFieldPanel__Panel__window
 Width: 460
-Height: 100
-Number of Objects: 10
+Height: 120
+Number of Objects: 12
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 460 100
+box: 0 0 460 120
 boxtype: FL_SHADOW_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -711,7 +711,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 50 100 20
+box: 20 70 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -729,7 +729,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 70 100 20
+box: 20 90 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -747,7 +747,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 120 50 320 20
+box: 120 70 320 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -765,7 +765,7 @@ argument: testRegex, true
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 120 70 321 20
+box: 120 90 321 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -777,6 +777,42 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsRegexErrorMsgInput
+callback: 
+argument: 
+
+--------------------
+class: FL_CHECKBUTTON
+type: FL_PUSH_BUTTON
+box: 20 40 180 20
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_YELLOW
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Wrap text to multiple lines
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: itsWordWrapCB
+callback: 
+argument: 
+
+--------------------
+class: FL_CHECKBUTTON
+type: FL_PUSH_BUTTON
+box: 220 40 120 20
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_YELLOW
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Allow newlines
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: itsAllowNewlinesCB
 callback: 
 argument: 
 

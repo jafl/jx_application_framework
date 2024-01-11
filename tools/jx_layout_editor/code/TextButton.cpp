@@ -1,7 +1,7 @@
 /******************************************************************************
  TextButton.cpp
 
-	BASE CLASS = CoreWidget
+	BASE CLASS = TextButtonBase
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -9,6 +9,7 @@
 
 #include "TextButton.h"
 #include "WidgetLabelPanel.h"
+#include "LayoutContainer.h"
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
@@ -30,7 +31,7 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h)
+	TextButtonBase(layout, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	TextButtonX(JGetString("DefaultLabel::TextButton"), x,y,w,h);
 }
@@ -49,7 +50,7 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h),
+	TextButtonBase(layout, enclosure, hSizing, vSizing, x,y, w,h),
 	itsShortcuts(shortcuts)
 {
 	TextButtonX(label, x,y,w,h);
@@ -68,7 +69,7 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
+	TextButtonBase(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JString label;
 	input >> label >> itsShortcuts;
@@ -115,7 +116,7 @@ TextButton::StreamOut
 {
 	output << JString("TextButton") << std::endl;
 
-	CoreWidget::StreamOut(output);
+	TextButtonBase::StreamOut(output);
 
 	output << itsButton->GetLabel() << std::endl;
 	output << itsShortcuts << std::endl;
@@ -130,7 +131,7 @@ JString
 TextButton::ToString()
 	const
 {
-	JString s = CoreWidget::ToString();
+	JString s = TextButtonBase::ToString();
 	if (!itsShortcuts.IsEmpty())
 	{
 		s += JString::newline;
@@ -138,6 +139,53 @@ TextButton::ToString()
 		s += itsShortcuts;
 	}
 	return s;
+}
+
+/******************************************************************************
+ GetClassName (virtual protected)
+
+ ******************************************************************************/
+
+JString
+TextButton::GetClassName()
+	const
+{
+	return "JXTextButton";
+}
+
+/******************************************************************************
+ PrintCtorArgsWithComma (virtual protected)
+
+ ******************************************************************************/
+
+void
+TextButton::PrintCtorArgsWithComma
+	(
+	std::ostream&	output,
+	const JString&	varName,
+	JStringManager* stringdb
+	)
+	const
+{
+	SharedPrintCtorArgsWithComma(output, varName, itsButton->GetLabel(), stringdb);
+}
+
+/******************************************************************************
+ PrintConfiguration (virtual protected)
+
+ ******************************************************************************/
+
+void
+TextButton::PrintConfiguration
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	const JString&	varName,
+	JStringManager*	stringdb
+	)
+	const
+{
+	SharedPrintConfiguration(output, indent, varName, itsShortcuts, stringdb);
 }
 
 /******************************************************************************

@@ -149,6 +149,71 @@ CustomWidget::DrawBorder
 }
 
 /******************************************************************************
+ GetClassName (virtual protected)
+
+ ******************************************************************************/
+
+JString
+CustomWidget::GetClassName()
+	const
+{
+	return itsClassName;
+}
+
+/******************************************************************************
+ GetCtor (virtual protected)
+
+ ******************************************************************************/
+
+JString
+CustomWidget::GetCtor()
+	const
+{
+	return itsCreateFlag ? (itsClassName + "::Create") : ("jnew " + itsClassName);
+}
+
+/******************************************************************************
+ PrintCtorArgsWithComma (virtual protected)
+
+ ******************************************************************************/
+
+void
+CustomWidget::PrintCtorArgsWithComma
+	(
+	std::ostream&	output,
+	const JString&	varName,
+	JStringManager* stringdb
+	)
+	const
+{
+	if (!itsCtorArgs.IsEmpty())
+	{
+		output << itsCtorArgs;
+		if (itsCtorArgs.GetLastCharacter() != ',')
+		{
+			output << ',';
+		}
+	}
+}
+
+/******************************************************************************
+ PrintConfiguration (virtual protected)
+
+ ******************************************************************************/
+
+void
+CustomWidget::PrintConfiguration
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	const JString&	varName,
+	JStringManager*	stringdb
+	)
+	const
+{
+}
+
+/******************************************************************************
  AddPanels (virtual protected)
 
  ******************************************************************************/

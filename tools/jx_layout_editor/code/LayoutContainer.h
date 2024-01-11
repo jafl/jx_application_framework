@@ -11,6 +11,7 @@
 #include <jx-af/jx/JXWidget.h>
 #include "LayoutUndo.h"	// need defn of Type
 
+class JStringManager;
 class JXMenuBar;
 class JXTextMenu;
 class JXToolBar;
@@ -46,6 +47,13 @@ public:
 	void			SetIgnoreResize(const bool ignore);
 
 	void	AppendToToolBar(JXToolBar* toolBar) const;
+
+	void	GenerateCode(std::ostream& output, const JString& indent,
+						 JPtrArray<JString>* objTypes,
+						 JPtrArray<JString>* objNames,
+						 JStringManager* stringdb) const;
+	JString	GetEnclosureName() const;
+	JString	GetStringNamespace() const;
 
 	JString GenerateUniqueVarName() const;
 
@@ -121,6 +129,9 @@ private:
 
 	void	UpdateArrangeMenu();
 	void	HandleArrangeMenu(const JIndex index);
+
+	static std::weak_ordering
+		CompareTabOrder(BaseWidget *const w1, BaseWidget *const w2);
 };
 
 

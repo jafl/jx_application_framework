@@ -57,7 +57,7 @@ You have just upgraded from version $vers"
 NeedNewerVersion::MenuDocument	"You need a newer version of this program to read this file."
 UnknownFile::MenuDocument		"Unable to read this file."
 
-NoProjectRoot::MenuDocument	"Unable to find the project root directory.  This is required to write the string data files."
+NoProjectRoot::MenuDocument	"Unable to find the project root directory.  This is required to write the string data file."
 
 CodeDirectoryNotWritable::MenuDocument	"Unable to create temporary file in $path
 

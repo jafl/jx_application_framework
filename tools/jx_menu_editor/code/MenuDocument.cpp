@@ -477,7 +477,7 @@ MenuDocument::GenerateCode()
 	JString projRoot;
 	if (!FindProjectRoot(path, &projRoot))
 	{
-		JGetUserNotification()->ReportError(JGetString(""));
+		JGetUserNotification()->ReportError(JGetString("NoProjectRoot::MenuDocument"));
 		return;
 	}
 

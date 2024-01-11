@@ -1,0 +1,9 @@
+0
+itsCustomContainerCB::LayoutConfigDialog::shortcuts::JXLayout "#U"
+okButton::LayoutConfigDialog::shortcuts::JXLayout "^M"
+codeTagLabel::LayoutConfigDialog::JXLayout "Code tag:"
+itsWindowTitleCB::LayoutConfigDialog::shortcuts::JXLayout "#W"
+itsWindowTitleCB::LayoutConfigDialog::JXLayout "Window title:"
+okButton::LayoutConfigDialog::JXLayout "OK"
+itsCustomContainerCB::LayoutConfigDialog::JXLayout "Custom container:"
+cancelButton::LayoutConfigDialog::JXLayout "Cancel"

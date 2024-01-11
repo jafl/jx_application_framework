@@ -30,11 +30,17 @@
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jTextUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jVCSUtil.h>
+#include <jx-af/jcore/jProcessUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kFileSignature = "jx_layout_editor";
 const JFileVersion kCurrentFileVersion = 0;
+
+static const JUtf8Byte* kBeginCodeDelimiterPrefix = "// begin ";
+static const JUtf8Byte* kEndCodeDelimiterPrefix   = "// end ";
 
 /******************************************************************************
  Create (static)
@@ -143,7 +149,8 @@ LayoutDocument::LayoutDocument
 	)
 	:
 	JXFileDocument(JXGetApplication(), fullName, onDisk, false, ".jxl"),
-	itsLayout(nullptr)
+	itsLayout(nullptr),
+	itsCodeTag("JXLayout")
 {
 	BuildWindow();
 }
@@ -664,6 +671,447 @@ LayoutDocument::HandleGridMenu
 		itsLayout->SetGridSpacing(10);
 		GetWindow()->SetStepSize(10,10);
 	}
+}
+
+/******************************************************************************
+ GenerateCode (private)
+
+ ******************************************************************************/
+
+static const JUtf8Byte* kSourceFileSuffixList[] = { "cc", "cpp", "cxx", nullptr };
+static const JUtf8Byte* kHeaderFileSuffixList[] = { "h", "hh", "hpp", nullptr };
+
+bool
+LayoutDocument::GenerateCode()
+	const
+{
+	bool onDisk;
+	const JString fullName = GetFullName(&onDisk);
+	assert( onDisk );
+
+	JString path, name, root, suffix;
+	JSplitPathAndName(fullName, &path, &name);
+	JSplitRootAndSuffix(name, &root, &suffix);
+
+	JString projRoot;
+	if (!FindProjectRoot(path, &projRoot))
+	{
+		JGetUserNotification()->ReportError(JGetString("NoProjectRoot::LayoutDocument"));
+		return false;
+	}
+
+	JString sourceFullName = JCombinePathAndName(path, root);
+	if (!FindInputFile(&sourceFullName, kSourceFileSuffixList))
+	{
+		JGetUserNotification()->ReportError(JGetString("NoSourceFile::LayoutDocument"));
+		return false;
+	}
+
+	JString headerFullName = JCombinePathAndName(path, root);
+	if (!FindInputFile(&headerFullName, kHeaderFileSuffixList))
+	{
+		JGetUserNotification()->ReportError(JGetString("NoHeaderFile::LayoutDocument"));
+		return false;
+	}
+
+	bool changed = false;
+
+	//
+	// source
+	//
+
+	JString tempSourceFullName;
+	JError err = JCreateTempFile(&path, nullptr, &tempSourceFullName);
+	if (!err.OK())
+	{
+		const JUtf8Byte* map[] =
+		{
+			"path", path.GetBytes(),
+			"err",  err.GetMessage().GetBytes()
+		};
+		JGetUserNotification()->ReportError(JGetString("CodeDirectoryNotWritable::LayoutDocument", map, sizeof(map)));
+		return false;
+	}
+	std::ifstream sourceInput(sourceFullName.GetBytes());
+	std::ofstream sourceOutput(tempSourceFullName.GetBytes());
+	sourceOutput << std::boolalpha;
+
+	JString indent;
+	if (!CopyBeforeCodeDelimiter(sourceInput, sourceOutput, &indent))
+	{
+		JString p,n;
+		JSplitPathAndName(sourceFullName, &p, &n);
+		const JUtf8Byte* map[] =
+		{
+			"f", n.GetBytes()
+		};
+		JGetUserNotification()->ReportError(JGetString("NoStartDelimiter::LayoutDocument", map, sizeof(map)));
+		sourceOutput.close();
+		JRemoveFile(tempSourceFullName);
+		return false;
+	}
+
+	JPtrArray<JString> objTypes(JPtrArrayT::kDeleteAll),
+					   objNames(JPtrArrayT::kDeleteAll);
+	JStringManager stringdb;
+	itsLayout->GenerateCode(sourceOutput, indent, &objTypes, &objNames, &stringdb);
+
+	bool done = CopyAfterCodeDelimiter(sourceInput, sourceOutput);
+	sourceInput.close();
+	sourceOutput.close();
+
+	if (!done)
+	{
+		JString p,n;
+		JSplitPathAndName(sourceFullName, &p, &n);
+		const JUtf8Byte* map[] =
+		{
+			"f", n.GetBytes()
+		};
+		JGetUserNotification()->ReportError(JGetString("NoEndDelimiter::LayoutDocument", map, sizeof(map)));
+		JRemoveFile(tempSourceFullName);
+		return false;
+	}
+
+	// check if source file actually changed
+
+	JString origText, newText;
+	JReadFile(sourceFullName, &origText);
+	JReadFile(tempSourceFullName, &newText);
+	if (newText != origText)
+	{
+		JEditVCS(sourceFullName);
+		JRenameFile(tempSourceFullName, sourceFullName, true);
+		changed = true;
+	}
+	else
+	{
+		JRemoveFile(tempSourceFullName);
+	}
+
+	//
+	// header
+	//
+
+	JString tempHeaderFullName;
+	err = JCreateTempFile(&path, nullptr, &tempHeaderFullName);
+	if (!err.OK())
+	{
+		const JUtf8Byte* map[] =
+		{
+			"path", path.GetBytes(),
+			"err",  err.GetMessage().GetBytes()
+		};
+		JGetUserNotification()->ReportError(JGetString("CodeDirectoryNotWritable::LayoutDocument", map, sizeof(map)));
+		return false;
+	}
+	std::ifstream headerInput(headerFullName.GetBytes());
+	std::ofstream headerOutput(tempHeaderFullName.GetBytes());
+
+	if (!CopyBeforeCodeDelimiter(headerInput, headerOutput, &indent))
+	{
+		JString p,n;
+		JSplitPathAndName(headerFullName, &p, &n);
+		const JUtf8Byte* map[] =
+		{
+			"f", n.GetBytes()
+		};
+		JGetUserNotification()->ReportError(JGetString("NoStartDelimiter::LayoutDocument", map, sizeof(map)));
+		headerOutput.close();
+		JRemoveFile(tempHeaderFullName);
+		return false;
+	}
+
+	GenerateHeader(headerOutput, objTypes, objNames, indent);
+
+	done = CopyAfterCodeDelimiter(headerInput, headerOutput);
+	headerInput.close();
+	headerOutput.close();
+
+	if (!done)
+	{
+		JString p,n;
+		JSplitPathAndName(headerFullName, &p, &n);
+		const JUtf8Byte* map[] =
+		{
+			"f", n.GetBytes()
+		};
+		JGetUserNotification()->ReportError(JGetString("NoEndDelimiter::LayoutDocument", map, sizeof(map)));
+		JRemoveFile(tempHeaderFullName);
+		return false;
+	}
+
+	// check if header file actually changed
+
+	JReadFile(headerFullName, &origText);
+	JReadFile(tempHeaderFullName, &newText);
+	if (newText != origText)
+	{
+		JEditVCS(headerFullName);
+		JRenameFile(tempHeaderFullName, headerFullName, true);
+		changed = true;
+	}
+	else
+	{
+		JRemoveFile(tempHeaderFullName);
+	}
+
+	//
+	// string database
+	//
+
+	JString stringsFullName = JCombinePathAndName(projRoot, "strings");
+	stringsFullName         = JCombinePathAndName(stringsFullName, root);
+	stringsFullName        += "_layout";
+
+	if (stringdb.GetItemCount() > 0)
+	{
+		JEditVCS(stringsFullName);
+		std::ofstream output(stringsFullName.GetBytes());
+		stringdb.WriteFile(output);
+		JGetString("StringsFooter::LayoutDocument").Print(output);
+	}
+	else
+	{
+		JRemoveVCS(stringsFullName);
+		JRemoveFile(stringsFullName);
+	}
+
+	if (changed && JProgramAvailable(CODE_CRUSADER_BINARY))
+	{
+		const JError err = JExecute(CODE_CRUSADER_BINARY " --force-reload-open", nullptr);
+		err.ReportIfError();
+	}
+
+	return true;
+}
+
+/******************************************************************************
+ FindProjectRoot (static)
+
+	Search directory tree up to root.
+
+ ******************************************************************************/
+
+bool
+LayoutDocument::FindProjectRoot
+	(
+	const JString&	path,
+	JString*		root
+	)
+{
+	JString p = path, n;
+	do
+	{
+		n = JCombinePathAndName(p, "Makefile");
+		if (JFileExists(n))
+		{
+			*root = p;
+			return true;
+		}
+
+		n = JCombinePathAndName(p, "Make.header");
+		if (JFileExists(n))
+		{
+			*root = p;
+			return true;
+		}
+
+		n = JCombinePathAndName(p, "CMakeLists.txt");
+		if (JFileExists(n))
+		{
+			*root = p;
+			return true;
+		}
+
+		JSplitPathAndName(p, &p, &n);
+	}
+	while (!JIsRootDirectory(p));
+
+	root->Clear();
+	return false;
+}
+
+/******************************************************************************
+ FindInputFile (static private)
+
+ ******************************************************************************/
+
+bool
+LayoutDocument::FindInputFile
+	(
+	JString*			root,
+	const JUtf8Byte*	suffixList[]
+	)
+{
+	const JUtf8Byte* s = *suffixList;
+	JString fullName;
+	while (s != nullptr)
+	{
+		fullName = JCombineRootAndSuffix(*root,  s);
+		if (JFileReadable(fullName))
+		{
+			root->Set(fullName);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/******************************************************************************
+ CopyBeforeCodeDelimiter (private)
+
+ ******************************************************************************/
+
+bool
+LayoutDocument::CopyBeforeCodeDelimiter
+	(
+	std::istream&	input,
+	std::ostream&	output,
+	JString*		indent
+	)
+	const
+{
+	JString buffer;
+
+	const JString delim = kBeginCodeDelimiterPrefix + itsCodeTag;
+	while (!input.eof() && !input.fail())
+	{
+		const JString line = JReadLine(input);
+		line.Print(output);
+		output << '\n';
+		if (line == delim)
+		{
+			output << '\n';
+			break;
+		}
+
+		buffer += line;
+		buffer += "\n";
+	}
+
+	bool useSpaces, isMixed;
+	JAnalyzeWhitespace(buffer, 4, false, &useSpaces, &isMixed);
+	*indent = useSpaces ? "    " : "\t";
+
+	return !input.eof() && !input.fail();
+}
+
+/******************************************************************************
+ CopyAfterCodeDelimiter (private)
+
+	Skips everything before end delimiter and then copies the rest.
+
+ ******************************************************************************/
+
+bool
+LayoutDocument::CopyAfterCodeDelimiter
+	(
+	std::istream& input,
+	std::ostream& output
+	)
+	const
+{
+	const JString delim = kEndCodeDelimiterPrefix + itsCodeTag;
+
+	// skip lines before end delimiter
+
+	while (!input.eof() && !input.fail())
+	{
+		const JString line = JReadLine(input);
+		if (line == delim)
+		{
+			break;
+		}
+	}
+
+	if (input.eof() || input.fail())
+	{
+		return false;
+	}
+
+	// include end delimiter
+
+	delim.Print(output);
+	output << std::endl;
+
+	// copy lines after end delimiter
+
+	while (true)
+	{
+		const JString line = JReadLine(input);
+		if ((input.eof() || input.fail()) && line.IsEmpty())
+		{
+			break;	// avoid creating extra empty lines
+		}
+		line.Print(output);
+		output << std::endl;
+	}
+
+	return true;
+}
+
+/******************************************************************************
+ GenerateHeader
+
+ ******************************************************************************/
+
+void
+LayoutDocument::GenerateHeader
+	(
+	std::ostream&				output,
+	const JPtrArray<JString>&	objTypes,
+	const JPtrArray<JString>&	objNames,
+	const JString&				indent
+	)
+	const
+{
+	const JSize count = objTypes.GetItemCount();
+	assert( count == objNames.GetItemCount() );
+
+	// get width of longest type
+
+	JSize maxLen = 0;
+	for (const auto* type : objTypes)
+	{
+		maxLen = JMax(maxLen, type->GetCharacterCount());
+	}
+
+	// declare each object
+
+	for (JIndex i=1; i<=count; i++)
+	{
+		indent.Print(output);
+
+		const JString* type = objTypes.GetItem(i);
+		type->Print(output);
+		output << '*';
+
+		const JSize len = type->GetCharacterCount();
+		for (JIndex j=len+1; j<=maxLen+1; j++)
+		{
+			output << ' ';
+		}
+		objNames.GetItem(i)->Print(output);
+		output << ';' << std::endl;
+	}
+
+	// need blank line to conform to expectations of CopyAfterCodeDelimiter
+
+	output << std::endl;
+}
+
+/******************************************************************************
+ GetCodeTag
+
+ ******************************************************************************/
+
+const JString&
+LayoutDocument::GetCodeTag()
+	const
+{
+	return itsCodeTag;
 }
 
 /******************************************************************************

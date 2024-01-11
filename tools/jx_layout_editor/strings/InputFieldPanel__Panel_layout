@@ -1,6 +1,8 @@
 0
+itsAllowNewlinesCB::InputFieldPanel::Panel "Allow newlines"
 maximumLengthLabel::InputFieldPanel::Panel "Max length:"
 itsValueRequiredCB::InputFieldPanel::Panel "Required"
+itsWordWrapCB::InputFieldPanel::Panel "Wrap text to multiple lines"
 minimumLengthLabel::InputFieldPanel::Panel "Min length:"
 itsValueRequiredCB::InputFieldPanel::shortcuts::Panel "#R"
 regExpValidationLabel::InputFieldPanel::Panel "Regexp:"

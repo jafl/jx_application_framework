@@ -8,12 +8,12 @@
 #ifndef _H_TextCheckbox
 #define _H_TextCheckbox
 
-#include "CoreWidget.h"
+#include "TextButtonBase.h"
 
 class JXTextCheckbox;
 class WidgetLabelPanel;
 
-class TextCheckbox : public CoreWidget
+class TextCheckbox : public TextButtonBase
 {
 public:
 
@@ -37,6 +37,15 @@ public:
 	JString	ToString() const override;
 
 protected:
+
+	JString	GetClassName() const override;
+	void	PrintCtorArgsWithComma(std::ostream& output,
+								   const JString& varName,
+								   JStringManager* stringdb) const override;
+	void	PrintConfiguration(std::ostream& output,
+							   const JString& indent,
+							   const JString& varName,
+							   JStringManager* stringdb) const override;
 
 	void	AddPanels(WidgetParametersDialog* dlog) override;
 	void	SavePanelData() override;

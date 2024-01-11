@@ -29,6 +29,7 @@ public:
 	~LayoutDocument() override;
 
 	const JString&	GetName() const override;
+	const JString&	GetCodeTag() const;
 
 	LayoutContainer*	GetLayoutContainer() const;
 
@@ -38,6 +39,8 @@ public:
 						   JPtrArray<JXWidget>* widgetList) const;
 	static void	WriteWidget(std::ostream& output, const JXContainer* obj,
 							JPtrArray<JXWidget>* widgetList);
+
+	static bool	FindProjectRoot(const JString& path, JString* root);
 
 protected:
 
@@ -50,6 +53,7 @@ private:
 
 	LayoutContainer*	itsLayout;
 	mutable JString		itsDocName;		// so GetName() can return JString&
+	JString				itsCodeTag;
 
 	JXTextMenu*	itsFileMenu;
 	JXTextMenu*	itsPrefsMenu;
@@ -69,6 +73,23 @@ private:
 	void	SetLayoutSize(const JCoordinate w, const JCoordinate h);
 	void	SetDataReverted();
 
+	bool	GenerateCode() const;
+	bool	CopyBeforeCodeDelimiter(std::istream& input, std::ostream& output,
+									JString* indent) const;
+	bool	CopyAfterCodeDelimiter(std::istream& input, std::ostream& output) const;
+	void	GenerateHeader(std::ostream& output, const JPtrArray<JString>& objTypes,
+							const JPtrArray<JString>& objNames, const JString& indent) const;
+
+	static bool	FindInputFile(JString* path, const JUtf8Byte* suffixList[]);
+
+	void	UpdateFileMenu();
+	void	HandleFileMenu(const JIndex index);
+
+	void	HandlePrefsMenu(const JIndex index);
+
+	void	UpdateGridMenu();
+	void	HandleGridMenu(const JIndex index);
+
 	static void			ImportFDesignFile(std::istream& input);
 	bool				ImportFDesignLayout(std::istream& input);
 	static JString		ReadFDesignString(std::istream& input, const JUtf8Byte* marker);
@@ -82,14 +103,6 @@ private:
 											JIndex* enclIndex);
 	static void			SplitFDesignClassNameAndArgs(const JString& str,
 													 JString* name, JString* args);
-
-	void	UpdateFileMenu();
-	void	HandleFileMenu(const JIndex index);
-
-	void	HandlePrefsMenu(const JIndex index);
-
-	void	UpdateGridMenu();
-	void	HandleGridMenu(const JIndex index);
 };
 
 

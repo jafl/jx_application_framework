@@ -33,10 +33,12 @@ InputFieldPanel::InputFieldPanel
 	const JInteger	minLength,
 	const JInteger	maxLength,
 	const JString&	regexPattern,
-	const JString&	regexErrorMsg
+	const JString&	regexErrorMsg,
+	const bool		wordWrap,
+	const bool		newlines
 	)
 {
-	BuildPanel(dlog, required, minLength, maxLength, regexPattern, regexErrorMsg);
+	BuildPanel(dlog, required, minLength, maxLength, regexPattern, regexErrorMsg, wordWrap, newlines);
 }
 
 /******************************************************************************
@@ -62,7 +64,9 @@ InputFieldPanel::BuildPanel
 	const JInteger	minLength,
 	const JInteger	maxLength,
 	const JString&	regexPattern,
-	const JString&	regexErrorMsg
+	const JString&	regexErrorMsg,
+	const bool		wordWrap,
+	const bool		newlines
 	)
 {
 	auto* window    = dlog->GetWindow();
@@ -72,7 +76,7 @@ InputFieldPanel::BuildPanel
 
 	auto* container =
 		jnew JXWidgetSet(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,100);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,120);
 	assert( container != nullptr );
 
 	itsValueRequiredCB =
@@ -105,25 +109,35 @@ InputFieldPanel::BuildPanel
 
 	auto* regExpValidationLabel =
 		jnew JXStaticText(JGetString("regExpValidationLabel::InputFieldPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 100,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 100,20);
 	assert( regExpValidationLabel != nullptr );
 	regExpValidationLabel->SetToLabel();
 
 	auto* regexpErrorMessageLabe =
 		jnew JXStaticText(JGetString("regexpErrorMessageLabe::InputFieldPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 100,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 100,20);
 	assert( regexpErrorMessageLabe != nullptr );
 	regexpErrorMessageLabe->SetToLabel();
 
 	itsRegexInput =
 		jnew JXRegexInput(testRegex, true, container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,50, 320,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,70, 320,20);
 	assert( itsRegexInput != nullptr );
 
 	itsRegexErrorMsgInput =
 		jnew JXInputField(container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,70, 321,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,90, 321,20);
 	assert( itsRegexErrorMsgInput != nullptr );
+
+	itsWordWrapCB =
+		jnew JXTextCheckbox(JGetString("itsWordWrapCB::InputFieldPanel::Panel"), container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 180,20);
+	assert( itsWordWrapCB != nullptr );
+
+	itsAllowNewlinesCB =
+		jnew JXTextCheckbox(JGetString("itsAllowNewlinesCB::InputFieldPanel::Panel"), container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,40, 120,20);
+	assert( itsAllowNewlinesCB != nullptr );
 
 // end Panel
 
@@ -133,6 +147,24 @@ InputFieldPanel::BuildPanel
 
 	ConfigureInput(itsMinLengthInput, minLength);
 	ConfigureInput(itsMaxLengthInput, maxLength);
+
+	ListenTo(itsMinLengthInput->GetText(), std::function([this](const JStyledText::TextSet&)
+	{
+		JInteger v;
+		if (itsMinLengthInput->GetValue(&v))
+		{
+			itsMaxLengthInput->SetLowerLimit(v);
+		}
+	}));
+
+	ListenTo(itsMinLengthInput->GetText(), std::function([this](const JStyledText::TextChanged&)
+	{
+		JInteger v;
+		if (itsMinLengthInput->GetValue(&v))
+		{
+			itsMaxLengthInput->SetLowerLimit(v);
+		}
+	}));
 
 	itsRegexInput->SetIsRequired(false);
 	itsRegexInput->GetText()->SetText(regexPattern);
@@ -147,6 +179,9 @@ InputFieldPanel::BuildPanel
 	{
 		itsRegexErrorMsgInput->SetIsRequired(!itsRegexInput->GetText()->IsEmpty());
 	}));
+
+	itsWordWrapCB->SetState(wordWrap);
+	itsAllowNewlinesCB->SetState(newlines);
 }
 
 /******************************************************************************
@@ -184,7 +219,9 @@ InputFieldPanel::GetValues
 	JInteger*	minLength,
 	JInteger*	maxLength,
 	JString*	regexPattern,
-	JString*	regexErrorMsg
+	JString*	regexErrorMsg,
+	bool*		wordWrap,
+	bool*		newlines
 	)
 {
 	*required      = itsValueRequiredCB->IsChecked();
@@ -193,4 +230,7 @@ InputFieldPanel::GetValues
 
 	itsMinLengthInput->GetValue(minLength);
 	itsMaxLengthInput->GetValue(maxLength);
+
+	*wordWrap = itsWordWrapCB->IsChecked();
+	*newlines = itsAllowNewlinesCB->IsChecked();
 }

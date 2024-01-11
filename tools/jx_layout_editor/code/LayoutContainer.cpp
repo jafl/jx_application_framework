@@ -249,6 +249,81 @@ LayoutContainer::Clear
 }
 
 /******************************************************************************
+ GenerateCode (private)
+
+ ******************************************************************************/
+
+void
+LayoutContainer::GenerateCode
+	(
+	std::ostream&		output,
+	const JString&		indent,
+	JPtrArray<JString>*	objTypes,
+	JPtrArray<JString>*	objNames,
+	JStringManager*		stringdb
+	)
+	const
+{
+	JPtrArray<BaseWidget> inputWidgets(JPtrArrayT::kForgetAll);
+	ForEach([&output, &indent, objTypes, objNames, stringdb, &inputWidgets](const JXContainer* obj)
+	{
+		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		if (widget == nullptr)
+		{
+			return;
+		}
+
+		if (widget->WantsInput())
+		{
+			inputWidgets.Append(const_cast<BaseWidget*>(widget));
+		}
+		else
+		{
+			widget->GenerateCode(output, indent, objTypes, objNames, stringdb);
+		}
+	},
+	true);
+
+	// ensure tab order is maintained
+
+	inputWidgets.SetCompareFunction(CompareTabOrder);
+	inputWidgets.Sort();
+
+	for (auto* widget: inputWidgets)
+	{
+		widget->GenerateCode(output, indent, objTypes, objNames, stringdb);
+	}
+}
+
+/******************************************************************************
+ GetEnclosureName
+
+ ******************************************************************************/
+
+JString
+LayoutContainer::GetEnclosureName()
+	const
+{
+	return "window";
+}
+
+/******************************************************************************
+ GetStringNamespace
+
+ ******************************************************************************/
+
+JString
+LayoutContainer::GetStringNamespace()
+	const
+{
+	JString ns("::");
+	ns += itsDoc->GetName();
+	ns += "::";
+	ns += itsDoc->GetCodeTag();
+	return ns;
+}
+
+/******************************************************************************
  GenerateUniqueVarName
 
  ******************************************************************************/
@@ -1215,13 +1290,7 @@ LayoutContainer::HandleArrangeMenu
 
 	else if (index == kDecrementTabIndexCmd)
 	{
-		list.SetCompareFunction(std::function([](const BaseWidget* w1, const BaseWidget* w2)
-		{
-			JIndex i1,i2;
-			w1->GetTabIndex(&i1);
-			w2->GetTabIndex(&i2);
-			return i1 <=> i2;
-		}));
+		list.SetCompareFunction(CompareTabOrder);
 		list.Sort();
 
 		for (auto* w : list)
@@ -1281,4 +1350,22 @@ LayoutContainer::HandleArrangeMenu
 	}
 
 	NewUndo(newUndo);
+}
+
+/******************************************************************************
+ CompareTabOrder (static private)
+
+ ******************************************************************************/
+
+std::weak_ordering
+LayoutContainer::CompareTabOrder
+	(
+	BaseWidget *const w1,
+	BaseWidget *const w2
+	)
+{
+	JIndex i1,i2;
+	w1->GetTabIndex(&i1);
+	w2->GetTabIndex(&i2);
+	return i1 <=> i2;
 }

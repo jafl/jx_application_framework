@@ -1,7 +1,24 @@
+LayoutConfigDialog
+	itsCodeTag, etc.
+
 generate code when save
 	search for file_root .cpp .cc .hpp .h in same directory
 
 	adjust for 1px border when button has ^M shortcut
+
+	JXStaticText
+		FL_ALIGN_CENTER: SetToLabel(true)
+		!FL_ALIGN_TOP: SetToLabel()
+
+	shortcuts
+	colors
+
+	flStyle FIXED: SetFont(JFontManager::GetDefaultMonospaceFont())
+	flStyle TIMES: SetFontName("Times")
+	flSize: !FL_NORMAL_SIZE: ->SetFontSize(...)
+	flStyle BOLD
+	flStyle ITALIC
+	flColor
 
 create widget by cmd-dragging rectangle
 	after release, select widget type and then create it - sets correct container
@@ -9,35 +26,28 @@ create widget by cmd-dragging rectangle
 
 -----
 
-JXImageButton
-	image
-JXSearchTextButton
-JXNewDirButton
-JXImageCheckbox
-	image
-JXCurrentPathMenu
-JXFileHistoryMenu
-JXImageMenu
-JXPathHistoryMenu
-JXStringHistoryMenu
-JXTextMenu
-	popup choice
-JXImageRadioButton
-JXProgressIndicator
+JXStaticText
+	text
 JXTextRadioButton
 JXImageWidget
 	image
+JXImageButton
+	image
+JXImageCheckbox
+	image
+JXTextMenu
+	popup choice
+JXImageRadioButton
+	image
+JXProgressIndicator
 JXCharInput
 JXFileInput
 JXFloatInput
 JXIntegerInput
 JXPasswordInput
+	same as JXInputField
 JXPathInput
-JXRegexInput
-JXRegexReplaceInput
 JXSaveFileInput
-JXStaticText
-	text
 JXChooseMonoFont
 JXLevelControl
 JXSlider

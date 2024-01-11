@@ -35,17 +35,20 @@ public:
 
 	void	StreamOut(std::ostream& output) const override;
 
-	const JString&	GetClassName() const;
-	bool			NeedsCreate() const;
-	void			SetClassName(const JString& name, const bool create);
-
-	const JString&	GetCtorArgs() const;
-	void			SetCtorArgs(const JString& args);
-
 protected:
 
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
+
+	JString	GetClassName() const override;
+	JString	GetCtor() const override;
+	void	PrintCtorArgsWithComma(std::ostream& output,
+								   const JString& varName,
+								   JStringManager* stringdb) const override;
+	void	PrintConfiguration(std::ostream& output,
+							   const JString& indent,
+							   const JString& varName,
+							   JStringManager* stringdb) const override;
 
 	void	AddPanels(WidgetParametersDialog* dlog) override;
 	void	SavePanelData() override;
@@ -62,57 +65,5 @@ private:
 
 	void	CustomWidgetX();
 };
-
-
-/******************************************************************************
- Class name
-
- ******************************************************************************/
-
-inline const JString&
-CustomWidget::GetClassName()
-	const
-{
-	return itsClassName;
-}
-
-inline bool
-CustomWidget::NeedsCreate()
-	const
-{
-	return itsCreateFlag;
-}
-
-inline void
-CustomWidget::SetClassName
-	(
-	const JString&	name,
-	const bool		create
-	)
-{
-	itsClassName  = name;
-	itsCreateFlag = create;
-}
-
-/******************************************************************************
- Constructor arguments
-
- ******************************************************************************/
-
-inline const JString&
-CustomWidget::GetCtorArgs()
-	const
-{
-	return itsCtorArgs;
-}
-
-inline void
-CustomWidget::SetCtorArgs
-	(
-	const JString& name
-	)
-{
-	itsCtorArgs = name;
-}
 
 #endif
