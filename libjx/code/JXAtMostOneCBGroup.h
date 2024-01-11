@@ -20,7 +20,7 @@ public:
 
 	JXAtMostOneCBGroup();
 	JXAtMostOneCBGroup(const JPtrArray<JXCheckbox>& cbList);
-	JXAtMostOneCBGroup(const JSize	count, JXCheckbox* cb1, JXCheckbox* cb2, ...);
+	JXAtMostOneCBGroup(const JSize count, JXCheckbox* cb1, JXCheckbox* cb2, ...);
 
 	~JXAtMostOneCBGroup() override;
 

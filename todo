@@ -49,6 +49,7 @@ JTextEditor:
 
 jcc
 	raku (perl6)
+	typescript
 
 medic for go: delve back-end
 	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md

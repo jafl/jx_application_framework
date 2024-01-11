@@ -636,10 +636,10 @@ JXDocumentManager::UpdateDocumentMenu
 {
 	if (menu->IsOpen())
 	{
-		auto* task = jnew JXFunctionTask(100, std::function([menu]()
+		auto* task = jnew JXFunctionTask(100, [menu]()
 		{
 			JXGetDocumentManager()->UpdateDocumentMenu(menu);
-		}),
+		},
 		true);
 		task->Start();
 		return;

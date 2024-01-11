@@ -328,10 +328,10 @@ JXWDManager::UpdateWDMenu
 {
 	if (menu->IsOpen())
 	{
-		auto* task = jnew JXFunctionTask(100, std::function([this, menu]()
+		auto* task = jnew JXFunctionTask(100, [this, menu]()
 		{
 			UpdateWDMenu(menu);
-		}),
+		},
 		true);
 		task->Start();
 		return;
