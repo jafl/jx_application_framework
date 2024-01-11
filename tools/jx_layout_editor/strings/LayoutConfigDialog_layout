@@ -2,6 +2,7 @@
 itsCustomContainerCB::LayoutConfigDialog::shortcuts::JXLayout "#U"
 okButton::LayoutConfigDialog::shortcuts::JXLayout "^M"
 codeTagLabel::LayoutConfigDialog::JXLayout "Code tag:"
+itsAdjustContentCB::LayoutConfigDialog::JXLayout "Adjust contents to fit container"
 itsWindowTitleCB::LayoutConfigDialog::shortcuts::JXLayout "#W"
 itsWindowTitleCB::LayoutConfigDialog::JXLayout "Window title:"
 okButton::LayoutConfigDialog::JXLayout "OK"

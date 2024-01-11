@@ -120,3 +120,7 @@ WindowTitle::WidgetParametersDialog	"Edit parameters"
 # CustomWidgetPanel
 
 ClassNameMustBeValid::CustomWidgetPanel	"Please enter a valid C++ class name."
+
+# InputFieldPanel
+
+MinLessThanMax::InputFieldPanel	"The minimum length must be less than the maximum length."

@@ -1,7 +1,7 @@
 /******************************************************************************
  WidgetLabelPanel.cpp
 
-	BASE CLASS = None
+	BASE CLASS = WidgetPanelBase
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -96,7 +96,7 @@ WidgetLabelPanel::BuildPanel
 
 // end Panel
 
-	dlog->AddPanel(container);
+	dlog->AddPanel(this, container);
 
 	itsLabelInput->SetIsRequired();
 	itsLabelInput->GetText()->SetText(label);

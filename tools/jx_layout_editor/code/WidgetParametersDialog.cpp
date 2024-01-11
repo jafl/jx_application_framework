@@ -8,6 +8,7 @@
  ******************************************************************************/
 
 #include "WidgetParametersDialog.h"
+#include "WidgetPanelBase.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXWidgetSet.h>
 #include <jx-af/jx/JXStaticText.h>
@@ -33,7 +34,8 @@ WidgetParametersDialog::WidgetParametersDialog
 	:
 	JXModalDialogDirector(),
 	itsHSizingIndex(hSizing+1),
-	itsVSizingIndex(vSizing+1)
+	itsVSizingIndex(vSizing+1),
+	itsPanelList(jnew JPtrArray<WidgetPanelBase>(JPtrArrayT::kForgetAll))
 {
 	BuildWindow(varName, isMemberVar);
 }
@@ -45,6 +47,7 @@ WidgetParametersDialog::WidgetParametersDialog
 
 WidgetParametersDialog::~WidgetParametersDialog()
 {
+	jdelete itsPanelList;
 }
 
 /******************************************************************************
@@ -158,12 +161,43 @@ WidgetParametersDialog::BuildWindow
 void
 WidgetParametersDialog::AddPanel
 	(
-	JXWidgetSet* panel
+	WidgetPanelBase*	panel,
+	JXWidgetSet*		container
 	)
 {
-	GetWindow()->AdjustSize(0, panel->GetFrameHeight());
-	panel->Place(0, itsLatestContainer->GetFrame().bottom);
-	itsLatestContainer = panel;
+	itsPanelList->Append(panel);
+
+	GetWindow()->AdjustSize(0, container->GetFrameHeight());
+	container->Place(0, itsLatestContainer->GetFrame().bottom);
+	itsLatestContainer = container;
+}
+
+/******************************************************************************
+ OKToDeactivate (virtual protected)
+
+ ******************************************************************************/
+
+bool
+WidgetParametersDialog::OKToDeactivate()
+{
+	if (!JXModalDialogDirector::OKToDeactivate())
+	{
+		return false;
+	}
+	else if (Cancelled())
+	{
+		return true;
+	}
+
+	for (auto* panel : *itsPanelList)
+	{
+		if (!panel->Validate())
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 /******************************************************************************

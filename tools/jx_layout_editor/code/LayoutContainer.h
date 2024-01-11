@@ -31,6 +31,7 @@ public:
 	~LayoutContainer() override;
 
 	LayoutDocument*	GetDocument() const;
+	JXTextMenu*		GetEditMenu() const;
 
 	bool	HasSelection() const;
 	JSize	GetSelectionCount() const;
@@ -145,6 +146,18 @@ LayoutContainer::GetDocument()
 	const
 {
 	return itsDoc;
+}
+
+/******************************************************************************
+ GetEditMenu
+
+ ******************************************************************************/
+
+inline JXTextMenu*
+LayoutContainer::GetEditMenu()
+	const
+{
+	return itsEditMenu;
 }
 
 /******************************************************************************

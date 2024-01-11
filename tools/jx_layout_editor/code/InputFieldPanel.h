@@ -9,6 +9,7 @@
 #define _H_InputFieldPanel
 
 #include <jx-af/jcore/JBroadcaster.h>
+#include "WidgetPanelBase.h"
 
 class JString;
 class JXInputField;
@@ -17,7 +18,7 @@ class JXRegexInput;
 class JXTextCheckbox;
 class WidgetParametersDialog;
 
-class InputFieldPanel : public JBroadcaster
+class InputFieldPanel : public WidgetPanelBase, public JBroadcaster
 {
 public:
 
@@ -27,6 +28,8 @@ public:
 					const bool wordWrap, const bool newlines);
 
 	~InputFieldPanel();
+
+	bool	Validate() const override;
 
 	void	GetValues(bool* required,
 					  JInteger* minLength, JInteger* maxLength,

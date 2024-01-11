@@ -53,9 +53,14 @@ private:
 
 	LayoutContainer*	itsLayout;
 	mutable JString		itsDocName;		// so GetName() can return JString&
-	JString				itsCodeTag;
+
+	JString	itsWindowTitle;
+	JString	itsContainerName;
+	JString	itsCodeTag;
+	bool	itsAdjustContainerToFitFlag;
 
 	JXTextMenu*	itsFileMenu;
+	JXTextMenu*	itsLayoutMenu;
 	JXTextMenu*	itsPrefsMenu;
 	JXTextMenu*	itsGridMenu;
 
@@ -84,6 +89,8 @@ private:
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);
+
+	void	HandleLayoutMenu(const JIndex index);
 
 	void	HandlePrefsMenu(const JIndex index);
 

@@ -8,12 +8,14 @@
 #ifndef _H_CustomWidgetPanel
 #define _H_CustomWidgetPanel
 
+#include "WidgetPanelBase.h"
+
 class JString;
 class JXInputField;
 class JXTextCheckbox;
 class WidgetParametersDialog;
 
-class CustomWidgetPanel
+class CustomWidgetPanel : public WidgetPanelBase
 {
 public:
 

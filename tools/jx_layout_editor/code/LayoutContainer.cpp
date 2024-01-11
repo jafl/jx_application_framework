@@ -1111,32 +1111,33 @@ LayoutContainer::UpdateArrangeMenu()
 	{
 		itsArrangeMenu->EnableItem(kExpandHorizCmd);
 		itsArrangeMenu->EnableItem(kExpandVertCmd);
-	}
 
-	const JIndex max = GetNextTabIndex()-1;
-	if (max > 0)
-	{
-		bool incr = true, decr = true;
-		JIndex i;
-		for (auto* w : list)
+		const JIndex max = GetNextTabIndex()-1;
+		if (max > 0)
 		{
-			if (!w->GetTabIndex(&i))
+			bool found = false, incr = true, decr = true;
+			JIndex i;
+			for (auto* w : list)
 			{
-				continue;
+				if (!w->GetTabIndex(&i))
+				{
+					continue;
+				}
+
+				found = true;
+				if (i == 1)
+				{
+					decr = false;
+				}
+				if (i == max)
+				{
+					incr = false;
+				}
 			}
 
-			if (i == 1)
-			{
-				decr = false;
-			}
-			if (i == max)
-			{
-				incr = false;
-			}
+			itsArrangeMenu->SetItemEnabled(kDecrementTabIndexCmd, found && decr);
+			itsArrangeMenu->SetItemEnabled(kIncrementTabIndexCmd, found && incr);
 		}
-
-		itsArrangeMenu->SetItemEnabled(kDecrementTabIndexCmd, decr);
-		itsArrangeMenu->SetItemEnabled(kIncrementTabIndexCmd, incr);
 	}
 }
 

@@ -8,12 +8,15 @@
 #ifndef _H_WidgetLabelPanel
 #define _H_WidgetLabelPanel
 
+#include "WidgetPanelBase.h"
+
 class JString;
 class JXInputField;
 class JXTextCheckbox;
 class WidgetParametersDialog;
+class WidgetPanelBase;
 
-class WidgetLabelPanel
+class WidgetLabelPanel : public WidgetPanelBase
 {
 public:
 

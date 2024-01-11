@@ -51,6 +51,10 @@ T
 F
 "./code/LayoutDocument-File.jxm"
 T
+2 "LayoutDocument-Layout.jxm"
+F
+"./code/LayoutDocument-Layout.jxm"
+T
 2 "LayoutDocument-Preferences.jxm"
 F
 "./code/LayoutDocument-Preferences.jxm"
@@ -129,6 +133,10 @@ T
 F
 "./code/WidgetParametersDialog-VSizing.jxm"
 T
+2 "WidgetPanelBase.cpp"
+F
+"./code/WidgetPanelBase.cpp"
+T
 2 "CustomWidgetPanel.cpp"
 F
 "./code/CustomWidgetPanel.cpp"
@@ -174,7 +182,7 @@ T "./" "/bin/bash -c \"cp jx_layout_editor ~/bin\"" "" FFFFFFF "Install" "" "" F
 F
 # build settings
 1
-T
+F
 "jx_layout_editor"
 "${LIB_DEPS}"
 "make -k all"

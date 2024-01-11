@@ -1,7 +1,7 @@
 /******************************************************************************
  InputFieldPanel.cpp
 
-	BASE CLASS = JBroadcaster
+	BASE CLASS = WidgetPanelBase, JBroadcaster
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -141,30 +141,12 @@ InputFieldPanel::BuildPanel
 
 // end Panel
 
-	dlog->AddPanel(container);
+	dlog->AddPanel(this, container);
 
 	itsValueRequiredCB->SetState(required);
 
 	ConfigureInput(itsMinLengthInput, minLength);
 	ConfigureInput(itsMaxLengthInput, maxLength);
-
-	ListenTo(itsMinLengthInput->GetText(), std::function([this](const JStyledText::TextSet&)
-	{
-		JInteger v;
-		if (itsMinLengthInput->GetValue(&v))
-		{
-			itsMaxLengthInput->SetLowerLimit(v);
-		}
-	}));
-
-	ListenTo(itsMinLengthInput->GetText(), std::function([this](const JStyledText::TextChanged&)
-	{
-		JInteger v;
-		if (itsMinLengthInput->GetValue(&v))
-		{
-			itsMaxLengthInput->SetLowerLimit(v);
-		}
-	}));
 
 	itsRegexInput->SetIsRequired(false);
 	itsRegexInput->GetText()->SetText(regexPattern);
@@ -204,6 +186,30 @@ InputFieldPanel::ConfigureInput
 	else
 	{
 		field->GetText()->SetText(JString::empty);
+	}
+}
+
+/******************************************************************************
+ Validate (virtual)
+
+ ******************************************************************************/
+
+bool
+InputFieldPanel::Validate()
+	const
+{
+	JInteger min, max;
+	if (itsMinLengthInput->GetValue(&min) &&
+		itsMaxLengthInput->GetValue(&max) &&
+		max > min)
+	{
+		JGetUserNotification()->ReportError(JGetString("MinLessThanMax::InputFieldPanel"));
+		itsMinLengthInput->Focus();
+		return false;
+	}
+	else
+	{
+		return true;
 	}
 }
 

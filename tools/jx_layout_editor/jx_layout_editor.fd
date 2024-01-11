@@ -711,7 +711,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 70 100 20
+box: 20 40 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -729,7 +729,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 20 90 100 20
+box: 20 60 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -747,7 +747,7 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 120 70 320 20
+box: 120 40 320 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -765,7 +765,7 @@ argument: testRegex, true
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 120 90 321 20
+box: 120 60 321 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -783,7 +783,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 20 40 180 20
+box: 20 90 180 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -801,7 +801,7 @@ argument:
 --------------------
 class: FL_CHECKBUTTON
 type: FL_PUSH_BUTTON
-box: 220 40 120 20
+box: 220 90 120 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1305,13 +1305,13 @@ argument:
 =============== FORM ===============
 Name: LayoutConfigDialog
 Width: 460
-Height: 150
-Number of Objects: 9
+Height: 180
+Number of Objects: 10
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 460 150
+box: 0 0 460 180
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1329,7 +1329,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_RETURN_BUTTON
-box: 290 120 60 20
+box: 290 150 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1347,7 +1347,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 120 120 60 20
+box: 120 150 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1467,6 +1467,24 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsCodeTagInput
+callback: 
+argument: 
+
+--------------------
+class: FL_CHECKBUTTON
+type: FL_PUSH_BUTTON
+box: 40 110 210 20
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_YELLOW
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Adjust contents to fit container
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: itsAdjustContentCB
 callback: 
 argument: 
 

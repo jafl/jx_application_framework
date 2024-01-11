@@ -25,6 +25,7 @@
 .cpp ./code/TextCheckbox
 .cpp ./code/InputField
 .cpp ./code/WidgetParametersDialog
+.cpp ./code/WidgetPanelBase
 .cpp ./code/CustomWidgetPanel
 .cpp ./code/WidgetLabelPanel
 .cpp ./code/InputFieldPanel

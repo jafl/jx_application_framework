@@ -15,6 +15,7 @@ class JXWidgetSet;
 class JXInputField;
 class JXTextCheckbox;
 class JXTextMenu;
+class WidgetPanelBase;
 
 class WidgetParametersDialog : public JXModalDialogDirector
 {
@@ -26,17 +27,23 @@ public:
 
 	~WidgetParametersDialog() override;
 
-	void	AddPanel(JXWidgetSet* panel);
+	void	AddPanel(WidgetPanelBase* panel, JXWidgetSet* container);
 
 	const JString&	GetVarName(bool* isMemberData) const;
 
 	JXWidget::HSizingOption	GetHSizing() const;
 	JXWidget::VSizingOption	GetVSizing() const;
 
+protected:
+
+	bool	OKToDeactivate() override;
+
 private:
 
 	JIndex	itsHSizingIndex;
 	JIndex	itsVSizingIndex;
+
+	JPtrArray<WidgetPanelBase>*	itsPanelList;
 
 // begin JXLayout
 

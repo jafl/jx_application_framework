@@ -10,6 +10,7 @@
 #include "LayoutDocument.h"
 #include "FileHistoryMenu.h"
 #include "LayoutContainer.h"
+#include "LayoutConfigDialog.h"
 #include "CustomWidget.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
@@ -41,6 +42,8 @@ const JFileVersion kCurrentFileVersion = 0;
 
 static const JUtf8Byte* kBeginCodeDelimiterPrefix = "// begin ";
 static const JUtf8Byte* kEndCodeDelimiterPrefix   = "// end ";
+
+const JString kDefaultLayoutTag("JXLayout");
 
 /******************************************************************************
  Create (static)
@@ -150,7 +153,7 @@ LayoutDocument::LayoutDocument
 	:
 	JXFileDocument(JXGetApplication(), fullName, onDisk, false, ".jxl"),
 	itsLayout(nullptr),
-	itsCodeTag("JXLayout")
+	itsAdjustContainerToFitFlag(false)
 {
 	BuildWindow();
 }
@@ -177,6 +180,7 @@ LayoutDocument::~LayoutDocument()
 
 #include "main_window_icon.xpm"
 #include "LayoutDocument-File.h"
+#include "LayoutDocument-Layout.h"
 #include "LayoutDocument-Preferences.h"
 #include "LayoutDocument-Grid.h"
 
@@ -226,6 +230,13 @@ LayoutDocument::BuildWindow()
 	ConfigureFileMenu(itsFileMenu);
 
 	jnew FileHistoryMenu(itsFileMenu, kRecentMenuCmd, itsMenuBar);
+
+	itsLayoutMenu = itsMenuBar->PrependTextMenu(JGetString("MenuTitle::LayoutDocument_Layout"));
+	itsMenuBar->InsertMenuAfter(itsLayout->GetEditMenu(), itsLayoutMenu);
+	itsLayoutMenu->SetMenuItems(kLayoutMenuStr);
+	itsLayoutMenu->SetUpdateAction(JXMenu::kDisableNone);
+	itsLayoutMenu->AttachHandler(this, &LayoutDocument::HandleLayoutMenu);
+	ConfigureLayoutMenu(itsLayoutMenu);
 
 	auto* docMenu =
 		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), itsMenuBar,
@@ -607,6 +618,29 @@ LayoutDocument::HandleFileMenu
 }
 
 /******************************************************************************
+ HandleLayoutMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutDocument::HandleLayoutMenu
+	(
+	const JIndex index
+	)
+{
+	if (index == kEditConfigCmd)
+	{
+		auto* dlog = jnew LayoutConfigDialog(itsWindowTitle, itsContainerName,
+											 itsCodeTag, itsAdjustContainerToFitFlag);
+		if (dlog->DoDialog())
+		{
+			dlog->GetConfig(&itsWindowTitle, &itsContainerName,
+							&itsCodeTag, &itsAdjustContainerToFitFlag);
+		}
+	}
+}
+
+/******************************************************************************
  HandlePrefsMenu (private)
 
  ******************************************************************************/
@@ -975,7 +1009,7 @@ LayoutDocument::CopyBeforeCodeDelimiter
 {
 	JString buffer;
 
-	const JString delim = kBeginCodeDelimiterPrefix + itsCodeTag;
+	const JString delim = kBeginCodeDelimiterPrefix + GetCodeTag();
 	while (!input.eof() && !input.fail())
 	{
 		const JString line = JReadLine(input);
@@ -1013,7 +1047,7 @@ LayoutDocument::CopyAfterCodeDelimiter
 	)
 	const
 {
-	const JString delim = kEndCodeDelimiterPrefix + itsCodeTag;
+	const JString delim = kEndCodeDelimiterPrefix + GetCodeTag();
 
 	// skip lines before end delimiter
 
@@ -1111,7 +1145,7 @@ const JString&
 LayoutDocument::GetCodeTag()
 	const
 {
-	return itsCodeTag;
+	return itsCodeTag.IsEmpty() ? kDefaultLayoutTag : itsCodeTag;
 }
 
 /******************************************************************************

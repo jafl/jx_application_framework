@@ -1,7 +1,7 @@
 /******************************************************************************
  CustomWidgetPanel.cpp
 
-	BASE CLASS = None
+	BASE CLASS = WidgetPanelBase
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -106,7 +106,7 @@ CustomWidgetPanel::BuildPanel
 
 // end Panel
 
-	dlog->AddPanel(container);
+	dlog->AddPanel(this, container);
 
 	itsClassNameInput->SetIsRequired();
 	itsClassNameInput->SetValidationPattern(

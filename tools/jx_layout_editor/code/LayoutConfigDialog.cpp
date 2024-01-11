@@ -25,14 +25,15 @@
 
 LayoutConfigDialog::LayoutConfigDialog
 	(
-	const JString& windowTitle,
-	const JString& containerName,
-	const JString& codeTag
+	const JString&	windowTitle,
+	const JString&	containerName,
+	const JString&	codeTag,
+	const bool		adjustToFit
 	)
 	:
 	JXModalDialogDirector()
 {
-	BuildWindow(windowTitle, containerName, codeTag);
+	BuildWindow(windowTitle, containerName, codeTag, adjustToFit);
 }
 
 /******************************************************************************
@@ -52,24 +53,25 @@ LayoutConfigDialog::~LayoutConfigDialog()
 void
 LayoutConfigDialog::BuildWindow
 	(
-	const JString& windowTitle,
-	const JString& containerName,
-	const JString& codeTag
+	const JString&	windowTitle,
+	const JString&	containerName,
+	const JString&	codeTag,
+	const bool		adjustToFit
 	)
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 460,150, JString::empty);
+	auto* window = jnew JXWindow(this, 460,180, JString::empty);
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::LayoutConfigDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 290,120, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 290,150, 60,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::LayoutConfigDialog::shortcuts::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::LayoutConfigDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 120,120, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 120,150, 60,20);
 	assert( cancelButton != nullptr );
 
 	itsWindowTitleCB =
@@ -105,20 +107,30 @@ LayoutConfigDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 150,80, 290,20);
 	assert( itsCodeTagInput != nullptr );
 
+	itsAdjustContentCB =
+		jnew JXTextCheckbox(JGetString("itsAdjustContentCB::LayoutConfigDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,110, 210,20);
+	assert( itsAdjustContentCB != nullptr );
+
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::LayoutConfigDialog"));
 	SetButtons(okButton, cancelButton);
 
 	jnew JXAtMostOneCBGroup(2, itsWindowTitleCB, itsCustomContainerCB);
-	if (!windowTitle.IsEmpty())
-	{
-		itsWindowTitleCB->SetState(true);
-	}
-	else
+	if (!containerName.IsEmpty())
 	{
 		itsCustomContainerCB->SetState(true);
 	}
+	else
+	{
+		itsWindowTitleCB->SetState(true);
+	}
+
+	itsWindowTitleInput->GetText()->SetText(windowTitle);
+	itsContainerInput->GetText()->SetText(containerName);
+	itsCodeTagInput->GetText()->SetText(codeTag);
+	itsAdjustContentCB->SetState(adjustToFit);
 
 	UpdateDisplay();
 
@@ -144,14 +156,24 @@ LayoutConfigDialog::UpdateDisplay()
 	if (itsWindowTitleCB->IsChecked())
 	{
 		itsWindowTitleInput->Activate();
+		itsWindowTitleInput->SetIsRequired();
+
 		itsContainerInput->Deactivate();
+		itsContainerInput->SetIsRequired(false);
 		itsCodeTagInput->Deactivate();
+		itsCodeTagInput->SetIsRequired(false);
+		itsAdjustContentCB->Deactivate();
 	}
 	else
 	{
 		itsWindowTitleInput->Deactivate();
+		itsWindowTitleInput->SetIsRequired(false);
+
 		itsContainerInput->Activate();
+		itsContainerInput->SetIsRequired();
 		itsCodeTagInput->Activate();
+		itsCodeTagInput->SetIsRequired();
+		itsAdjustContentCB->Activate();
 	}
 }
 
@@ -163,9 +185,10 @@ LayoutConfigDialog::UpdateDisplay()
 void
 LayoutConfigDialog::GetConfig
 	(
-	JString* windowTitle,
-	JString* containerName,
-	JString* codeTag
+	JString*	windowTitle,
+	JString*	containerName,
+	JString*	codeTag,
+	bool*		adjustToFit
 	)
 	const
 {
@@ -174,11 +197,13 @@ LayoutConfigDialog::GetConfig
 		*windowTitle = itsWindowTitleInput->GetText()->GetText();
 		containerName->Clear();
 		codeTag->Clear();
+		*adjustToFit = false;
 	}
 	else
 	{
 		windowTitle->Clear();
 		*containerName = itsContainerInput->GetText()->GetText();
 		*codeTag       = itsCodeTagInput->GetText()->GetText();
+		*adjustToFit   = itsAdjustContentCB->IsChecked();
 	}
 }
