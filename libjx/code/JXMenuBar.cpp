@@ -287,6 +287,12 @@ JXMenuBar::InsertMenuBefore
 	const bool found = itsMenus->Find(existingMenu, &menuIndex);
 	if (found)
 	{
+		JIndex i;
+		if (itsMenus->Find(newMenu, &i) && i < menuIndex)
+		{
+			menuIndex--;
+		}
+
 		InsertMenu(menuIndex, newMenu);
 	}
 	else
@@ -309,6 +315,12 @@ JXMenuBar::InsertMenuAfter
 	const bool found = itsMenus->Find(existingMenu, &menuIndex);
 	if (found)
 	{
+		JIndex i;
+		if (itsMenus->Find(newMenu, &i) && i < menuIndex)
+		{
+			menuIndex--;
+		}
+
 		InsertMenu(menuIndex+1, newMenu);
 	}
 	else
