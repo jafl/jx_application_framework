@@ -12,38 +12,39 @@
 
 class JXInputField;
 class JXTextCheckbox;
+class JXRadioGroup;
+class JXTextRadioButton;
 
 class LayoutConfigDialog : public JXModalDialogDirector
 {
 public:
 
-	LayoutConfigDialog(const JString& windowTitle,
-						const JString& containerName, const JString& codeTag,
-						const bool adjustToFit);
+	LayoutConfigDialog(const JString& codeTag, const JString& windowTitle,
+						const JString& containerName, const bool adjustToFit);
 
 	~LayoutConfigDialog() override;
 
-	void	GetConfig(JString* windowTitle, JString* containerName,
-					  JString* codeTag, bool* adjustToFit) const;
+	void	GetConfig(JString* codeTag, JString* windowTitle,
+					  JString* containerName, bool* adjustToFit) const;
 
 private:
 
 // begin JXLayout
 
-	JXTextCheckbox* itsWindowTitleCB;
-	JXTextCheckbox* itsCustomContainerCB;
-	JXInputField*   itsWindowTitleInput;
-	JXInputField*   itsContainerInput;
-	JXInputField*   itsCodeTagInput;
-	JXTextCheckbox* itsAdjustContentCB;
+	JXRadioGroup*      itsLayoutTypeRG;
+	JXInputField*      itsCodeTagInput;
+	JXTextRadioButton* itsWindowTitleRB;
+	JXTextRadioButton* itsCustomContainerRB;
+	JXInputField*      itsWindowTitleInput;
+	JXInputField*      itsContainerInput;
+	JXTextCheckbox*    itsAdjustContentCB;
 
 // end JXLayout
 
 private:
 
-	void	BuildWindow(const JString& windowTitle,
-						const JString& containerName, const JString& codeTag,
-						const bool adjustToFit);
+	void	BuildWindow(const JString& codeTag, const JString& windowTitle,
+						const JString& containerName, const bool adjustToFit);
 
 	void UpdateDisplay();
 };

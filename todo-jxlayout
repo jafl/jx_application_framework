@@ -1,5 +1,6 @@
-LayoutConfigDialog
-	itsCodeTag, etc.
+create widget by cmd-dragging rectangle
+	after release, select widget type and then create it - sets correct container
+	undo
 
 generate code when save
 	search for file_root .cpp .cc .hpp .h in same directory
@@ -19,10 +20,6 @@ generate code when save
 	flStyle BOLD
 	flStyle ITALIC
 	flColor
-
-create widget by cmd-dragging rectangle
-	after release, select widget type and then create it - sets correct container
-	undo
 
 -----
 
@@ -54,7 +51,7 @@ JXSlider
 
 allow direct editing of content:
 	nested LayoutContainer - forward selection request, etc. to root LayoutContainer
-+	enforce that all selected widgets have the same container
+	ctrl-click on LayoutContainer switches drag to containing BaseWidget
 
 JXWidgetSet
 JXScrollbarSet

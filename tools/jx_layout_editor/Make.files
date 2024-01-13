@@ -13,12 +13,13 @@
 .cpp ./code/MDIServer
 .cpp ./code/AboutDialog
 .cpp ./code/LayoutDocument
-.cpp ./code/LayoutConfigDialog
 .cpp ./code/LayoutContainer
+.cpp ./code/LayoutConfigDialog
 .cpp ./code/LayoutSelection
 .cpp ./code/LayoutUndo
 .cpp ./code/BaseWidget
 .cpp ./code/CustomWidget
+.cpp ./code/WidgetSet
 .cpp ./code/CoreWidget
 .cpp ./code/TextButtonBase
 .cpp ./code/TextButton

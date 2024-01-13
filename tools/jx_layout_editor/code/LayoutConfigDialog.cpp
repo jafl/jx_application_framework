@@ -13,10 +13,19 @@
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXInputField.h>
 #include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXRadioGroup.h>
+#include <jx-af/jx/JXTextRadioButton.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXAtMostOneCBGroup.h>
 #include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/jAssert.h>
+
+enum
+{
+	kWindowContainer = 1,
+	kCustomContainer
+};
 
 /******************************************************************************
  Constructor
@@ -25,15 +34,15 @@
 
 LayoutConfigDialog::LayoutConfigDialog
 	(
+	const JString&	codeTag,
 	const JString&	windowTitle,
 	const JString&	containerName,
-	const JString&	codeTag,
 	const bool		adjustToFit
 	)
 	:
 	JXModalDialogDirector()
 {
-	BuildWindow(windowTitle, containerName, codeTag, adjustToFit);
+	BuildWindow(codeTag, windowTitle, containerName, adjustToFit);
 }
 
 /******************************************************************************
@@ -53,15 +62,25 @@ LayoutConfigDialog::~LayoutConfigDialog()
 void
 LayoutConfigDialog::BuildWindow
 	(
+	const JString&	codeTag,
 	const JString&	windowTitle,
 	const JString&	containerName,
-	const JString&	codeTag,
 	const bool		adjustToFit
 	)
 {
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 460,180, JString::empty);
+
+	itsLayoutTypeRG =
+		jnew JXRadioGroup(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 440,130);
+	assert( itsLayoutTypeRG != nullptr );
+
+	itsCodeTagInput =
+		jnew JXInputField(itsLayoutTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 140,10, 290,20);
+	assert( itsCodeTagInput != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::LayoutConfigDialog::JXLayout"), window,
@@ -74,72 +93,67 @@ LayoutConfigDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 120,150, 60,20);
 	assert( cancelButton != nullptr );
 
-	itsWindowTitleCB =
-		jnew JXTextCheckbox(JGetString("itsWindowTitleCB::LayoutConfigDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 130,20);
-	assert( itsWindowTitleCB != nullptr );
-	itsWindowTitleCB->SetShortcuts(JGetString("itsWindowTitleCB::LayoutConfigDialog::shortcuts::JXLayout"));
+	itsWindowTitleRB =
+		jnew JXTextRadioButton(1, JGetString("itsWindowTitleRB::LayoutConfigDialog::JXLayout"), itsLayoutTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 130,20);
+	assert( itsWindowTitleRB != nullptr );
+	itsWindowTitleRB->SetShortcuts(JGetString("itsWindowTitleRB::LayoutConfigDialog::shortcuts::JXLayout"));
 
-	itsCustomContainerCB =
-		jnew JXTextCheckbox(JGetString("itsCustomContainerCB::LayoutConfigDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 130,20);
-	assert( itsCustomContainerCB != nullptr );
-	itsCustomContainerCB->SetShortcuts(JGetString("itsCustomContainerCB::LayoutConfigDialog::shortcuts::JXLayout"));
+	itsCustomContainerRB =
+		jnew JXTextRadioButton(2, JGetString("itsCustomContainerRB::LayoutConfigDialog::JXLayout"), itsLayoutTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 130,20);
+	assert( itsCustomContainerRB != nullptr );
+	itsCustomContainerRB->SetShortcuts(JGetString("itsCustomContainerRB::LayoutConfigDialog::shortcuts::JXLayout"));
 
 	itsWindowTitleInput =
-		jnew JXInputField(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 150,20, 290,20);
+		jnew JXInputField(itsLayoutTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 140,40, 290,20);
 	assert( itsWindowTitleInput != nullptr );
 
 	itsContainerInput =
-		jnew JXInputField(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 150,50, 290,20);
+		jnew JXInputField(itsLayoutTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 140,70, 290,20);
 	assert( itsContainerInput != nullptr );
 
+	itsAdjustContentCB =
+		jnew JXTextCheckbox(JGetString("itsAdjustContentCB::LayoutConfigDialog::JXLayout"), itsLayoutTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,100, 210,20);
+	assert( itsAdjustContentCB != nullptr );
+	itsAdjustContentCB->SetShortcuts(JGetString("itsAdjustContentCB::LayoutConfigDialog::shortcuts::JXLayout"));
+
 	auto* codeTagLabel =
-		jnew JXStaticText(JGetString("codeTagLabel::LayoutConfigDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,80, 110,20);
+		jnew JXStaticText(JGetString("codeTagLabel::LayoutConfigDialog::JXLayout"), itsLayoutTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 130,20);
 	assert( codeTagLabel != nullptr );
 	codeTagLabel->SetToLabel();
-
-	itsCodeTagInput =
-		jnew JXInputField(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 150,80, 290,20);
-	assert( itsCodeTagInput != nullptr );
-
-	itsAdjustContentCB =
-		jnew JXTextCheckbox(JGetString("itsAdjustContentCB::LayoutConfigDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,110, 210,20);
-	assert( itsAdjustContentCB != nullptr );
 
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::LayoutConfigDialog"));
 	SetButtons(okButton, cancelButton);
 
-	jnew JXAtMostOneCBGroup(2, itsWindowTitleCB, itsCustomContainerCB);
-	if (!containerName.IsEmpty())
-	{
-		itsCustomContainerCB->SetState(true);
-	}
-	else
-	{
-		itsWindowTitleCB->SetState(true);
-	}
+	itsCodeTagInput->GetText()->SetText(codeTag);
+
+	itsCodeTagInput->SetIsRequired();
+	itsCodeTagInput->SetValidationPattern(
+		jnew JRegex("^[_a-z][_a-z0-9]+$", "i"),
+		"CodeTagMustBeValidIdentifier::LayoutConfigDialog");
+
+	itsLayoutTypeRG->SetBorderWidth(0);
+	itsLayoutTypeRG->SelectItem(
+		!containerName.IsEmpty() ? kCustomContainer : kWindowContainer);
 
 	itsWindowTitleInput->GetText()->SetText(windowTitle);
 	itsContainerInput->GetText()->SetText(containerName);
-	itsCodeTagInput->GetText()->SetText(codeTag);
 	itsAdjustContentCB->SetState(adjustToFit);
+
+	itsContainerInput->SetValidationPattern(
+		jnew JRegex("^[_a-z][_a-z0-9]+$", "i"),
+		"ContainerNameMustBeValidIdentifier::LayoutConfigDialog");
 
 	UpdateDisplay();
 
-	ListenTo(itsWindowTitleCB, std::function([this](const JXCheckbox::Pushed&)
-	{
-		UpdateDisplay();
-	}));
-
-	ListenTo(itsCustomContainerCB, std::function([this](const JXCheckbox::Pushed&)
+	ListenTo(itsLayoutTypeRG, std::function([this](const JXRadioGroup::SelectionChanged&)
 	{
 		UpdateDisplay();
 	}));
@@ -153,15 +167,13 @@ LayoutConfigDialog::BuildWindow
 void
 LayoutConfigDialog::UpdateDisplay()
 {
-	if (itsWindowTitleCB->IsChecked())
+	if (itsLayoutTypeRG->GetSelectedItem() == kWindowContainer)
 	{
 		itsWindowTitleInput->Activate();
 		itsWindowTitleInput->SetIsRequired();
 
 		itsContainerInput->Deactivate();
 		itsContainerInput->SetIsRequired(false);
-		itsCodeTagInput->Deactivate();
-		itsCodeTagInput->SetIsRequired(false);
 		itsAdjustContentCB->Deactivate();
 	}
 	else
@@ -171,8 +183,6 @@ LayoutConfigDialog::UpdateDisplay()
 
 		itsContainerInput->Activate();
 		itsContainerInput->SetIsRequired();
-		itsCodeTagInput->Activate();
-		itsCodeTagInput->SetIsRequired();
 		itsAdjustContentCB->Activate();
 	}
 }
@@ -185,25 +195,25 @@ LayoutConfigDialog::UpdateDisplay()
 void
 LayoutConfigDialog::GetConfig
 	(
+	JString*	codeTag,
 	JString*	windowTitle,
 	JString*	containerName,
-	JString*	codeTag,
 	bool*		adjustToFit
 	)
 	const
 {
-	if (itsWindowTitleCB->IsChecked())
+	if (itsLayoutTypeRG->GetSelectedItem() == kWindowContainer)
 	{
+		codeTag->Clear();
 		*windowTitle = itsWindowTitleInput->GetText()->GetText();
 		containerName->Clear();
-		codeTag->Clear();
 		*adjustToFit = false;
 	}
 	else
 	{
+		*codeTag = itsCodeTagInput->GetText()->GetText();
 		windowTitle->Clear();
 		*containerName = itsContainerInput->GetText()->GetText();
-		*codeTag       = itsCodeTagInput->GetText()->GetText();
 		*adjustToFit   = itsAdjustContentCB->IsChecked();
 	}
 }

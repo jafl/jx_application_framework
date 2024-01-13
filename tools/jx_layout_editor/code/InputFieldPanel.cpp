@@ -16,6 +16,7 @@
 #include <jx-af/jx/JXIntegerInput.h>
 #include <jx-af/jx/JXRegexInput.h>
 #include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXFocusWidgetTask.h>
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/jAssert.h>
@@ -109,35 +110,37 @@ InputFieldPanel::BuildPanel
 
 	auto* regExpValidationLabel =
 		jnew JXStaticText(JGetString("regExpValidationLabel::InputFieldPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 100,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 100,20);
 	assert( regExpValidationLabel != nullptr );
 	regExpValidationLabel->SetToLabel();
 
 	auto* regexpErrorMessageLabe =
 		jnew JXStaticText(JGetString("regexpErrorMessageLabe::InputFieldPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 100,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 100,20);
 	assert( regexpErrorMessageLabe != nullptr );
 	regexpErrorMessageLabe->SetToLabel();
 
 	itsRegexInput =
 		jnew JXRegexInput(testRegex, true, container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,70, 320,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,40, 320,20);
 	assert( itsRegexInput != nullptr );
 
 	itsRegexErrorMsgInput =
 		jnew JXInputField(container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,90, 321,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,60, 321,20);
 	assert( itsRegexErrorMsgInput != nullptr );
 
 	itsWordWrapCB =
 		jnew JXTextCheckbox(JGetString("itsWordWrapCB::InputFieldPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 180,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 180,20);
 	assert( itsWordWrapCB != nullptr );
+	itsWordWrapCB->SetShortcuts(JGetString("itsWordWrapCB::InputFieldPanel::shortcuts::Panel"));
 
 	itsAllowNewlinesCB =
 		jnew JXTextCheckbox(JGetString("itsAllowNewlinesCB::InputFieldPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,40, 120,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,90, 120,20);
 	assert( itsAllowNewlinesCB != nullptr );
+	itsAllowNewlinesCB->SetShortcuts(JGetString("itsAllowNewlinesCB::InputFieldPanel::shortcuts::Panel"));
 
 // end Panel
 
@@ -201,10 +204,11 @@ InputFieldPanel::Validate()
 	JInteger min, max;
 	if (itsMinLengthInput->GetValue(&min) &&
 		itsMaxLengthInput->GetValue(&max) &&
-		max > min)
+		max < min)
 	{
-		JGetUserNotification()->ReportError(JGetString("MinLessThanMax::InputFieldPanel"));
-		itsMinLengthInput->Focus();
+		JGetUserNotification()->ReportError(
+			JGetString("MinLessThanMax::InputFieldPanel"));
+		JXFocusWidgetTask::Focus(itsMinLengthInput);
 		return false;
 	}
 	else

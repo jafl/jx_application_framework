@@ -51,10 +51,6 @@ T
 F
 "./code/LayoutDocument-File.jxm"
 T
-2 "LayoutDocument-Layout.jxm"
-F
-"./code/LayoutDocument-Layout.jxm"
-T
 2 "LayoutDocument-Preferences.jxm"
 F
 "./code/LayoutDocument-Preferences.jxm"
@@ -62,10 +58,6 @@ T
 2 "LayoutDocument-Grid.jxm"
 F
 "./code/LayoutDocument-Grid.jxm"
-T
-2 "LayoutConfigDialog.cpp"
-F
-"./code/LayoutConfigDialog.cpp"
 T
 2 "LayoutContainer.cpp"
 F
@@ -75,9 +67,17 @@ T
 F
 "./code/LayoutContainer-Edit.jxm"
 T
+2 "LayoutContainer-Layout.jxm"
+F
+"./code/LayoutContainer-Layout.jxm"
+T
 2 "LayoutContainer-Arrange.jxm"
 F
 "./code/LayoutContainer-Arrange.jxm"
+T
+2 "LayoutConfigDialog.cpp"
+F
+"./code/LayoutConfigDialog.cpp"
 T
 2 "LayoutSelection.cpp"
 F
@@ -97,6 +97,10 @@ T
 2 "CustomWidget.cpp"
 F
 "./code/CustomWidget.cpp"
+T
+2 "WidgetSet.cpp"
+F
+"./code/WidgetSet.cpp"
 T
 2 "CoreWidget.cpp"
 F
@@ -166,13 +170,13 @@ F
 T
 1 "help"
 T
-2 "help.html"
-F
-"./release/doc/help.html"
-T
 2 "ChangeLog.html"
 F
 "./release/doc/ChangeLog.html"
+T
+2 "help.html"
+F
+"./release/doc/help.html"
 F
 F
 # tasks

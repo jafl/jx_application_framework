@@ -145,7 +145,10 @@ JString
 BaseWidget::ToString()
 	const
 {
-	JString s = JGetString("VariableNameLabel::BaseWidget");
+	JString s = GetClassName();
+	s += JString::newline;
+
+	s += JGetString("VariableNameLabel::BaseWidget");
 	s += itsVarName;
 	if (itsIsMemberVarFlag)
 	{
@@ -221,6 +224,39 @@ BaseWidget::GetCtor()
 	const
 {
 	return "jnew " + GetClassName();
+}
+
+/******************************************************************************
+ PrintCtorArgsWithComma (virtual protected)
+
+ ******************************************************************************/
+
+void
+BaseWidget::PrintCtorArgsWithComma
+	(
+	std::ostream&	output,
+	const JString&	varName,
+	JStringManager* stringdb
+	)
+	const
+{
+}
+
+/******************************************************************************
+ PrintConfiguration (virtual protected)
+
+ ******************************************************************************/
+
+void
+BaseWidget::PrintConfiguration
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	const JString&	varName,
+	JStringManager*	stringdb
+	)
+	const
+{
 }
 
 /******************************************************************************
@@ -735,4 +771,27 @@ BaseWidget::DNDFinish
 	{
 		itsLayout->SetSelectedWidgetsVisible(true);
 	}
+}
+
+/******************************************************************************
+ AddPanels (virtual protected)
+
+ ******************************************************************************/
+
+void
+BaseWidget::AddPanels
+	(
+	WidgetParametersDialog* dlog
+	)
+{
+}
+
+/******************************************************************************
+ SavePanelData (virtual protected)
+
+ ******************************************************************************/
+
+void
+BaseWidget::SavePanelData()
+{
 }

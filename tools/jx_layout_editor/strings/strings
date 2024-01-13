@@ -85,6 +85,9 @@ StringsFooter::LayoutDocument
 
 WindowTitle::LayoutConfigDialog	"Layout Configuration"
 
+ContainerNameMustBeValidIdentifier::LayoutConfigDialog	"The container name must be a valid C++ class name."
+CodeTagMustBeValidIdentifier::LayoutConfigDialog		"The code tag must be a valid C++ class name."
+
 # LayoutContainer
 
 VarNameBase::LayoutContainer	"widget_"
@@ -124,3 +127,7 @@ ClassNameMustBeValid::CustomWidgetPanel	"Please enter a valid C++ class name."
 # InputFieldPanel
 
 MinLessThanMax::InputFieldPanel	"The minimum length must be less than the maximum length."
+
+# WidgetLabelPanel
+
+MismatchedWindowsKey::WidgetLabelPanel	"The label does not contain any of the key shortcuts."

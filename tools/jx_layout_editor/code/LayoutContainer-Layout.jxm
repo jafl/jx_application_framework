@@ -1,0 +1,36 @@
+jx_menu_editor 0
+719 187
+"LayoutContainer"
+"Layout"
+'l
+40
+40
+141
+100
+40
+137
+116
+75
+
+0
+1
+0
+0 ""
+"Edit configuration..."
+""
+'c
+"EditConfiguration"
+"kEditConfigCmd"
+1
+
+1
+0
+0 "select_parent.png"
+"Select container"
+""
+'s
+"SelectParent"
+"kSelectParentCmd"
+0
+
+0

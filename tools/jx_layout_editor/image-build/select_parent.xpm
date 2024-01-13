@@ -1,0 +1,28 @@
+/* XPM */
+static const char *select_parent[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 6 1 ",
+"  c None",
+". c black",
+"X c #98FFFF",
+"o c #99FFFF",
+"O c #9AFFFF",
+"+ c gray80",
+/* pixels */
+"                ",
+" oooooooooooooo ",
+" o++++++++++++o ",
+" o++++++++++++o ",
+" o++++++++++++o ",
+" o++++++++++++o ",
+" o++++......++o ",
+" o++++.++++.++o ",
+" o++++.++++.++o ",
+" o++++.++++.++o ",
+" o++++.++++.++o ",
+" o++++.++++.++o ",
+" o++++......++o ",
+" o++++++++++++o ",
+" oooooooooooooo ",
+"                "
+};

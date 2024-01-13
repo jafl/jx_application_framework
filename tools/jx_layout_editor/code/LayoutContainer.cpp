@@ -11,6 +11,7 @@
 #include "LayoutDocument.h"
 #include "LayoutSelection.h"
 #include "BaseWidget.h"
+#include "LayoutConfigDialog.h"
 #include "globals.h"
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXMenuBar.h>
@@ -25,7 +26,11 @@
 #include <jx-af/jcore/jAssert.h>
 
 #include "LayoutContainer-Edit.h"
+#include "LayoutContainer-Layout.h"
 #include "LayoutContainer-Arrange.h"
+
+const JUtf8Byte* kDefaultLayoutTag = "JXLayout";
+const JString kDefaultContainerName("window");
 
 /******************************************************************************
  Constructor
@@ -48,6 +53,8 @@ LayoutContainer::LayoutContainer
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsDoc(doc),
 	itsGridSpacing(10),
+	itsCodeTag(kDefaultLayoutTag),
+	itsAdjustContainerToFitFlag(false),
 	itsUndoChain(jnew JUndoRedoChain(true)),
 	itsIgnoreResizeFlag(false),
 	itsDropRectList(nullptr)
@@ -66,6 +73,14 @@ LayoutContainer::LayoutContainer
 		&LayoutContainer::UpdateEditMenu,
 		&LayoutContainer::HandleEditMenu);
 	ConfigureEditMenu(itsEditMenu);
+
+	itsLayoutMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::LayoutDocument_Layout"));
+	itsLayoutMenu->SetMenuItems(kLayoutMenuStr);
+	itsLayoutMenu->SetUpdateAction(JXMenu::kDisableNone);
+	itsLayoutMenu->AttachHandlers(this,
+		&LayoutContainer::UpdateLayoutMenu,
+		&LayoutContainer::HandleLayoutMenu);
+	ConfigureLayoutMenu(itsLayoutMenu);
 
 	itsArrangeMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::LayoutContainer_Arrange"));
 	itsArrangeMenu->SetMenuItems(kArrangeMenuStr);
@@ -249,6 +264,41 @@ LayoutContainer::Clear
 }
 
 /******************************************************************************
+ ReadConfig
+
+ ******************************************************************************/
+
+void
+LayoutContainer::ReadConfig
+	(
+	std::istream&		input,
+	const JFileVersion	vers
+	)
+{
+	input >> itsCodeTag;
+	input >> itsWindowTitle;
+	input >> itsContainerName >> itsAdjustContainerToFitFlag;
+}
+
+/******************************************************************************
+ WriteConfig
+
+ ******************************************************************************/
+
+void
+LayoutContainer::WriteConfig
+	(
+	std::ostream& output
+	)
+	const
+{
+	output << itsCodeTag << std::endl;
+	output << itsWindowTitle << std::endl;
+	output << itsContainerName << std::endl;
+	output << itsAdjustContainerToFitFlag << std::endl;
+}
+
+/******************************************************************************
  GenerateCode (private)
 
  ******************************************************************************/
@@ -264,6 +314,41 @@ LayoutContainer::GenerateCode
 	)
 	const
 {
+	JString containerApName;
+	if (!itsWindowTitle.IsEmpty())
+	{
+		const JString id = "WindowTitle" + GetStringNamespace();
+		stringdb->SetItem(id, itsWindowTitle, JPtrArrayT::kDelete);
+
+		indent.Print(output);
+		output << "auto* window = jnew JXWindow(this, ";
+		output << GetFrameWidth() << ',' << GetFrameHeight();
+		output << ", " << id << ");" << std::endl;
+		output << std::endl;
+	}
+	else if (itsAdjustContainerToFitFlag)
+	{
+		assert( !itsContainerName.IsEmpty() );
+		containerApName = itsCodeTag + "_Aperture";
+
+		indent.Print(output);
+		output << "const JRect ";
+		containerApName.Print(output);
+		output << " = ";
+		itsContainerName.Print(output);
+		output << "->GetAperture();" << std::endl;
+
+		indent.Print(output);
+		itsContainerName.Print(output);
+		output << "->AdjustSize(" << GetFrameWidth() << " - ";
+		containerApName.Print(output);
+		output << ".width(), " << GetFrameHeight() << " - ";
+		containerApName.Print(output);
+		output << ".height());" << std::endl;
+
+		output << std::endl;
+	}
+
 	JPtrArray<BaseWidget> inputWidgets(JPtrArrayT::kForgetAll);
 	ForEach([&output, &indent, objTypes, objNames, stringdb, &inputWidgets](const JXContainer* obj)
 	{
@@ -293,6 +378,20 @@ LayoutContainer::GenerateCode
 	{
 		widget->GenerateCode(output, indent, objTypes, objNames, stringdb);
 	}
+
+	// reset enclosure size
+
+	if (itsAdjustContainerToFitFlag)
+	{
+		indent.Print(output);
+		itsContainerName.Print(output);
+		output << "->SetSize(";
+		containerApName.Print(output);
+		output << ".width(), ";
+		containerApName.Print(output);
+		output << ".height());" << std::endl;
+		output << std::endl;
+	}
 }
 
 /******************************************************************************
@@ -304,7 +403,7 @@ JString
 LayoutContainer::GetEnclosureName()
 	const
 {
-	return "window";
+	return itsContainerName.IsEmpty() ? kDefaultContainerName : itsContainerName;
 }
 
 /******************************************************************************
@@ -319,7 +418,7 @@ LayoutContainer::GetStringNamespace()
 	JString ns("::");
 	ns += itsDoc->GetName();
 	ns += "::";
-	ns += itsDoc->GetCodeTag();
+	ns += GetCodeTag();
 	return ns;
 }
 
@@ -1077,6 +1176,67 @@ LayoutContainer::NewUndo
 	if (setChanged)
 	{
 		itsDoc->UpdateSaveState();
+	}
+}
+
+/******************************************************************************
+ UpdateLayoutMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutContainer::UpdateLayoutMenu()
+{
+	JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+	GetSelectedWidgets(&list);
+
+	itsLayoutMenu->SetItemEnabled(kSelectParentCmd, list.GetItemCount() == 1);
+}
+
+/******************************************************************************
+ HandleLayoutMenu (private)
+
+ ******************************************************************************/
+
+void
+LayoutContainer::HandleLayoutMenu
+	(
+	const JIndex index
+	)
+{
+	if (index == kEditConfigCmd)
+	{
+		auto* dlog = jnew LayoutConfigDialog(itsCodeTag, itsWindowTitle,
+											 itsContainerName, itsAdjustContainerToFitFlag);
+		if (dlog->DoDialog())
+		{
+			auto* newUndo = jnew LayoutUndo(itsDoc);
+
+			dlog->GetConfig(&itsCodeTag, &itsWindowTitle,
+							&itsContainerName, &itsAdjustContainerToFitFlag);
+
+			NewUndo(newUndo);
+		}
+	}
+
+	else if (index == kSelectParentCmd)
+	{
+		JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+		GetSelectedWidgets(&list);
+
+		JXContainer* parent = list.GetFirstItem()->GetEnclosure();
+		while (parent != nullptr)
+		{
+			BaseWidget* w = dynamic_cast<BaseWidget*>(parent);
+			if (w != nullptr)
+			{
+				w->SetSelected(true);
+				list.GetFirstItem()->SetSelected(false);
+				break;
+			}
+
+			parent = parent->GetEnclosure();
+		}
 	}
 }
 

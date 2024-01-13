@@ -10,11 +10,11 @@
 #include "LayoutDocument.h"
 #include "FileHistoryMenu.h"
 #include "LayoutContainer.h"
-#include "LayoutConfigDialog.h"
 #include "CustomWidget.h"
+#include "InputField.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
-#include "InputField.h"
+#include "WidgetSet.h"
 #include "MDIServer.h"
 #include "globals.h"
 #include <jx-af/jx/JXWindow.h>
@@ -42,8 +42,6 @@ const JFileVersion kCurrentFileVersion = 0;
 
 static const JUtf8Byte* kBeginCodeDelimiterPrefix = "// begin ";
 static const JUtf8Byte* kEndCodeDelimiterPrefix   = "// end ";
-
-const JString kDefaultLayoutTag("JXLayout");
 
 /******************************************************************************
  Create (static)
@@ -152,8 +150,7 @@ LayoutDocument::LayoutDocument
 	)
 	:
 	JXFileDocument(JXGetApplication(), fullName, onDisk, false, ".jxl"),
-	itsLayout(nullptr),
-	itsAdjustContainerToFitFlag(false)
+	itsLayout(nullptr)
 {
 	BuildWindow();
 }
@@ -180,7 +177,6 @@ LayoutDocument::~LayoutDocument()
 
 #include "main_window_icon.xpm"
 #include "LayoutDocument-File.h"
-#include "LayoutDocument-Layout.h"
 #include "LayoutDocument-Preferences.h"
 #include "LayoutDocument-Grid.h"
 
@@ -206,7 +202,7 @@ LayoutDocument::BuildWindow()
 	AdjustWindowTitle();
 	window->SetCloseAction(JXWindow::kCloseDirector);
 	window->SetWMClass(GetWMClassInstance(), GetLayoutDocumentClass());
-	window->SetMinSize(200, 100);
+	window->SetMinSize(200, 60);
 
 	auto* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);
@@ -230,13 +226,6 @@ LayoutDocument::BuildWindow()
 	ConfigureFileMenu(itsFileMenu);
 
 	jnew FileHistoryMenu(itsFileMenu, kRecentMenuCmd, itsMenuBar);
-
-	itsLayoutMenu = itsMenuBar->PrependTextMenu(JGetString("MenuTitle::LayoutDocument_Layout"));
-	itsMenuBar->InsertMenuAfter(itsLayout->GetEditMenu(), itsLayoutMenu);
-	itsLayoutMenu->SetMenuItems(kLayoutMenuStr);
-	itsLayoutMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsLayoutMenu->AttachHandler(this, &LayoutDocument::HandleLayoutMenu);
-	ConfigureLayoutMenu(itsLayoutMenu);
 
 	auto* docMenu =
 		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), itsMenuBar,
@@ -321,6 +310,8 @@ LayoutDocument::ReadFile
 	input >> w >> h;
 	SetLayoutSize(w,h);
 
+	itsLayout->ReadConfig(input, vers);
+
 	JPtrArray<JXWidget> widgetList(JPtrArrayT::kForgetAll);
 
 	while (!input.eof() && !input.fail())
@@ -370,7 +361,11 @@ LayoutDocument::ReadWidget
 	const JCoordinate h = frame.height();
 
 	BaseWidget* widget = nullptr;
-	if (className == "TextButton")
+	if (className == "InputField")
+	{
+		widget = jnew InputField(itsLayout, input, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "TextButton")
 	{
 		widget = jnew TextButton(itsLayout, input, e, hS,vS, x,y,w,h);
 	}
@@ -378,9 +373,9 @@ LayoutDocument::ReadWidget
 	{
 		widget = jnew TextCheckbox(itsLayout, input, e, hS,vS, x,y,w,h);
 	}
-	else if (className == "InputField")
+	else if (className == "WidgetSet")
 	{
-		widget = jnew InputField(itsLayout, input, e, hS,vS, x,y,w,h);
+		widget = jnew WidgetSet(itsLayout, input, e, hS,vS, x,y,w,h);
 	}
 	else
 	{
@@ -409,6 +404,8 @@ LayoutDocument::WriteTextFile
 	output << itsLayout->GetApertureWidth() << std::endl;
 	output << itsLayout->GetApertureHeight() << std::endl;
 
+	itsLayout->WriteConfig(output);
+
 	JPtrArray<JXWidget> widgetList(JPtrArrayT::kForgetAll);
 
 	itsLayout->ForEach([&output, &widgetList](const JXContainer* obj)
@@ -418,6 +415,11 @@ LayoutDocument::WriteTextFile
 	true);
 
 	output << false << std::endl;
+
+	if (!safetySave)
+	{
+		GenerateCode();
+	}
 }
 
 /******************************************************************************
@@ -569,6 +571,7 @@ LayoutDocument::HandleFileMenu
 	else if (index == kSaveCmd)
 	{
 		SaveInCurrentFile();
+		itsLayout->GetUndoRedoChain()->DeactivateCurrentUndo();
 	}
 	else if (index == kSaveAsCmd)
 	{
@@ -580,6 +583,7 @@ LayoutDocument::HandleFileMenu
 		}
 
 		SaveInNewFile();
+		itsLayout->GetUndoRedoChain()->DeactivateCurrentUndo();
 	}
 	else if (index == kSaveCopyAsCmd)
 	{
@@ -614,29 +618,6 @@ LayoutDocument::HandleFileMenu
 	else if (index == kQuitCmd)
 	{
 		GetApplication()->Quit();
-	}
-}
-
-/******************************************************************************
- HandleLayoutMenu (private)
-
- ******************************************************************************/
-
-void
-LayoutDocument::HandleLayoutMenu
-	(
-	const JIndex index
-	)
-{
-	if (index == kEditConfigCmd)
-	{
-		auto* dlog = jnew LayoutConfigDialog(itsWindowTitle, itsContainerName,
-											 itsCodeTag, itsAdjustContainerToFitFlag);
-		if (dlog->DoDialog())
-		{
-			dlog->GetConfig(&itsWindowTitle, &itsContainerName,
-							&itsCodeTag, &itsAdjustContainerToFitFlag);
-		}
 	}
 }
 
@@ -978,16 +959,17 @@ LayoutDocument::FindInputFile
 	const JUtf8Byte*	suffixList[]
 	)
 {
-	const JUtf8Byte* s = *suffixList;
+	const JUtf8Byte** s = suffixList;
 	JString fullName;
-	while (s != nullptr)
+	while (*s != nullptr)
 	{
-		fullName = JCombineRootAndSuffix(*root,  s);
+		fullName = JCombineRootAndSuffix(*root,  *s);
 		if (JFileReadable(fullName))
 		{
 			root->Set(fullName);
 			return true;
 		}
+		s++;
 	}
 
 	return false;
@@ -1009,7 +991,7 @@ LayoutDocument::CopyBeforeCodeDelimiter
 {
 	JString buffer;
 
-	const JString delim = kBeginCodeDelimiterPrefix + GetCodeTag();
+	const JString delim = kBeginCodeDelimiterPrefix + itsLayout->GetCodeTag();
 	while (!input.eof() && !input.fail())
 	{
 		const JString line = JReadLine(input);
@@ -1047,7 +1029,7 @@ LayoutDocument::CopyAfterCodeDelimiter
 	)
 	const
 {
-	const JString delim = kEndCodeDelimiterPrefix + GetCodeTag();
+	const JString delim = kEndCodeDelimiterPrefix + itsLayout->GetCodeTag();
 
 	// skip lines before end delimiter
 
@@ -1134,18 +1116,6 @@ LayoutDocument::GenerateHeader
 	// need blank line to conform to expectations of CopyAfterCodeDelimiter
 
 	output << std::endl;
-}
-
-/******************************************************************************
- GetCodeTag
-
- ******************************************************************************/
-
-const JString&
-LayoutDocument::GetCodeTag()
-	const
-{
-	return itsCodeTag.IsEmpty() ? kDefaultLayoutTag : itsCodeTag;
 }
 
 /******************************************************************************
@@ -1353,7 +1323,11 @@ LayoutDocument::ImportFDesignLayout
 		h = localFrame.height();
 
 		BaseWidget* widget;
-		if (flClass == "FL_BUTTON")
+		if (flClass == "FL_INPUT" && flType == "FL_NORMAL_INPUT")
+		{
+			widget = jnew InputField(itsLayout, enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_BUTTON")
 		{
 			widget = jnew TextButton(itsLayout, label, shortcuts, enclosure, hS,vS, x,y,w,h);
 		}
@@ -1361,9 +1335,9 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew TextCheckbox(itsLayout, label, shortcuts, enclosure, hS,vS, x,y,w,h);
 		}
-		else if (flClass == "FL_INPUT" && flType == "FL_NORMAL_INPUT")
+		else if (flClass == "FL_BOX" && flType == "FL_SHADOW_BOX")
 		{
-			widget = jnew InputField(itsLayout, enclosure, hS,vS, x,y,w,h);
+			widget = jnew WidgetSet(itsLayout, enclosure, hS,vS, x,y,w,h);
 		}
 		else // if (flClass == "FL_BOX" && flType == "FL_NO_BOX" && !label->IsEmpty())
 		{

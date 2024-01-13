@@ -32,6 +32,7 @@ public:
 
 	LayoutDocument*	GetDocument() const;
 	JXTextMenu*		GetEditMenu() const;
+	const JString&	GetCodeTag() const;
 
 	bool	HasSelection() const;
 	JSize	GetSelectionCount() const;
@@ -41,6 +42,9 @@ public:
 	void	SetSelectedWidgetsVisible(const bool visible);
 	void	RemoveSelectedWidgets();
 	void	Clear(const bool isUndoRedo);
+
+	void	ReadConfig(std::istream& input, const JFileVersion vers);
+	void	WriteConfig(std::ostream& output) const;
 
 	JUndoRedoChain*	GetUndoRedoChain();
 	bool			CurrentUndoIs(const LayoutUndo::Type type) const;
@@ -105,7 +109,13 @@ private:
 	Atom			itsLayoutDataXAtom;
 	Atom			itsLayoutMetaXAtom;
 
+	JString	itsCodeTag;
+	JString	itsWindowTitle;
+	JString	itsContainerName;
+	bool	itsAdjustContainerToFitFlag;
+
 	JXTextMenu*	itsEditMenu;
+	JXTextMenu*	itsLayoutMenu;
 	JXTextMenu*	itsArrangeMenu;
 
 	JUndoRedoChain*	itsUndoChain;
@@ -127,6 +137,9 @@ private:
 
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex index);
+
+	void	UpdateLayoutMenu();
+	void	HandleLayoutMenu(const JIndex index);
 
 	void	UpdateArrangeMenu();
 	void	HandleArrangeMenu(const JIndex index);
@@ -158,6 +171,18 @@ LayoutContainer::GetEditMenu()
 	const
 {
 	return itsEditMenu;
+}
+
+/******************************************************************************
+ GetCodeTag
+
+ ******************************************************************************/
+
+inline const JString&
+LayoutContainer::GetCodeTag()
+	const
+{
+	return itsCodeTag;
 }
 
 /******************************************************************************

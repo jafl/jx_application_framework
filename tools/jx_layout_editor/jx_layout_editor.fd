@@ -791,7 +791,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Wrap text to multiple lines
-shortcut: 
+shortcut: #W
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsWordWrapCB
@@ -809,7 +809,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Allow newlines
-shortcut: 
+shortcut: #N
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsAllowNewlinesCB
@@ -1306,7 +1306,7 @@ argument:
 Name: LayoutConfigDialog
 Width: 460
 Height: 180
-Number of Objects: 10
+Number of Objects: 11
 
 --------------------
 class: FL_BOX
@@ -1323,6 +1323,42 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_FRAME
+type: FL_ENGRAVED_FRAME
+box: 10 10 440 130
+boxtype: FL_NO_BOX
+colors: FL_BLACK FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: itsLayoutTypeRG
+callback: 
+argument: 
+
+--------------------
+class: FL_INPUT
+type: FL_NORMAL_INPUT
+box: 150 20 290 20
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: itsCodeTagInput
 callback: 
 argument: 
 
@@ -1364,8 +1400,8 @@ argument:
 
 --------------------
 class: FL_CHECKBUTTON
-type: FL_PUSH_BUTTON
-box: 20 20 130 20
+type: FL_RADIO_BUTTON
+box: 20 50 130 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1376,14 +1412,14 @@ label: Window title:
 shortcut: #W
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: itsWindowTitleCB
+name: itsWindowTitleRB
 callback: 
-argument: 
+argument: 1
 
 --------------------
 class: FL_CHECKBUTTON
-type: FL_PUSH_BUTTON
-box: 20 50 130 20
+type: FL_RADIO_BUTTON
+box: 20 80 130 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
 alignment: FL_ALIGN_CENTER
@@ -1394,14 +1430,14 @@ label: Custom container:
 shortcut: #U
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
-name: itsCustomContainerCB
+name: itsCustomContainerRB
 callback: 
-argument: 
+argument: 2
 
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 150 20 290 20
+box: 150 50 290 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -1419,7 +1455,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: FL_NORMAL_INPUT
-box: 150 50 290 20
+box: 150 80 290 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -1435,9 +1471,27 @@ callback:
 argument: 
 
 --------------------
+class: FL_CHECKBUTTON
+type: FL_PUSH_BUTTON
+box: 40 110 210 20
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_YELLOW
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Adjust contents to fit container
+shortcut: #F
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: itsAdjustContentCB
+callback: 
+argument: 
+
+--------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 40 80 110 20
+box: 20 20 130 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -1449,42 +1503,6 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: (codeTagLabel)
-callback: 
-argument: 
-
---------------------
-class: FL_INPUT
-type: FL_NORMAL_INPUT
-box: 150 80 290 20
-boxtype: FL_DOWN_BOX
-colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: 
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
-name: itsCodeTagInput
-callback: 
-argument: 
-
---------------------
-class: FL_CHECKBUTTON
-type: FL_PUSH_BUTTON
-box: 40 110 210 20
-boxtype: FL_NO_BOX
-colors: FL_COL1 FL_YELLOW
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: Adjust contents to fit container
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
-name: itsAdjustContentCB
 callback: 
 argument: 
 

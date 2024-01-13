@@ -60,14 +60,14 @@ protected:
 	virtual JString	GetCtor() const;
 	virtual void	PrintCtorArgsWithComma(std::ostream& output,
 										   const JString& varName,
-										   JStringManager* stringdb) const = 0;
+										   JStringManager* stringdb) const;
 	virtual void	PrintConfiguration(std::ostream& output,
 									   const JString& indent,
 									   const JString& varName,
-									   JStringManager* stringdb) const = 0;
+									   JStringManager* stringdb) const;
 
-	virtual void	AddPanels(WidgetParametersDialog* dlog) = 0;
-	virtual void	SavePanelData() = 0;
+	virtual void	AddPanels(WidgetParametersDialog* dlog);
+	virtual void	SavePanelData();
 
 	void	DrawSelection(JXWindowPainter& p, const JRect& rect);
 	void	DrawOver(JXWindowPainter& p, const JRect& rect) override;
