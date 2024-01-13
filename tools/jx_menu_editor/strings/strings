@@ -115,6 +115,7 @@ IDCannotIncludeSpace::MenuTable			"The ID cannot contain spaces."
 EnumMustBeValidIdentifier::MenuTable	"The enum name must be a valid C identifier."
 WarnInvalidShortcut::MenuTable			"This is not a valid shortcut.  Do you want to keep it?"
 
+MismatchedWindowsKey::MenuTable	"This menu item's text does not contain the key shortcut."
 DuplicateWindowsKey::MenuTable	"These two menu items have the same key shortcut."
 
 ConfigureMenuHeader::MenuTable

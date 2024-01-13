@@ -80,19 +80,18 @@ F
 "./code/ImageCache.cpp"
 F
 T
+1 "layouts"
+T
+2 "jx_menu_editor.fd"
+F
+"./jx_menu_editor.fd"
+F
+T
 1 "misc"
 T
 2 "strings"
 F
 "./strings/strings"
-T
-2 "license"
-F
-"./strings/license"
-T
-2 "jx_menu_editor.fd"
-F
-"./jx_menu_editor.fd"
 F
 T
 1 "help"

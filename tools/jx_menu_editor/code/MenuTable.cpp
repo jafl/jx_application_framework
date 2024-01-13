@@ -865,6 +865,14 @@ MenuTable::ValidateWindowsKeys()
 			continue;
 		}
 
+		if (!itsItemList->GetItem(i).text->Contains(key1, JString::kIgnoreCase))
+		{
+			SelectSingleCell(JPoint(kWindowsKeyColumn, i));
+			JGetUserNotification()->ReportError(
+				JGetString("MismatchedWindowsKey::MenuTable"));
+			return false;
+		}
+
 		for (JIndex j=1; j<i; j++)
 		{
 			const auto key2 = itsItemList->GetItem(j).windowsKey;
