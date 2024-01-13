@@ -14,6 +14,7 @@
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXInputField.h>
 #include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXFocusWidgetTask.h>
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/jAssert.h>
@@ -102,6 +103,44 @@ WidgetLabelPanel::BuildPanel
 	itsLabelInput->GetText()->SetText(label);
 
 	itsShortcutsInput->GetText()->SetText(shortcuts);
+}
+
+/******************************************************************************
+ Validate (virtual)
+
+ ******************************************************************************/
+
+bool
+WidgetLabelPanel::Validate()
+	const
+{
+	const JString& shortcuts = itsShortcutsInput->GetText()->GetText();
+	if (!shortcuts.IsEmpty())
+	{
+		bool found = false;
+
+		JStringIterator iter(shortcuts);
+		JUtf8Character c;
+		while (iter.Next(&c))
+		{
+			if (c.IsAlnum() &&
+				itsLabelInput->GetText()->GetText().Contains(c, JString::kIgnoreCase))
+			{
+				found = true;
+				break;
+			}
+		}
+
+		if (!found)
+		{
+			JGetUserNotification()->ReportError(
+				JGetString("MismatchedWindowsKey::WidgetLabelPanel"));
+			JXFocusWidgetTask::Focus(itsShortcutsInput);
+			return false;
+		}
+	}
+
+	return true;
 }
 
 /******************************************************************************

@@ -25,6 +25,8 @@ public:
 
 	~WidgetLabelPanel();
 
+	bool	Validate() const override;
+
 	void	GetValues(JString* label, JString* shortcuts);
 
 private:
