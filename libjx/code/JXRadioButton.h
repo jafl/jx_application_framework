@@ -54,8 +54,8 @@ private:
 
 	JIndex			itsID;
 	JXRadioGroup*	itsRadioGroup;
-	bool		itsIsCheckedFlag;
-	bool		itsIsPushedFlag;
+	bool			itsIsCheckedFlag;
+	bool			itsIsPushedFlag;
 
 private:
 

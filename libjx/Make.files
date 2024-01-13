@@ -233,5 +233,6 @@
 .cpp ./code/JXChooseColorDialog
 .cpp ./code/JXColorWheel
 .cpp ./code/JXGetStringDialog
+.cpp ./code/JXFocusWidgetTask
 .cpp ./code/jXUtil
 .cpp ./code/JXAssert

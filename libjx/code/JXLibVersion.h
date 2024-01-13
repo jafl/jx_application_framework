@@ -51,6 +51,7 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //	JXWidgetSet:
 //		*** Flipped default internal FTC setting.  SetNeedsInternalFTC()
 //			changed to ClearNeedsInternalFTC().
+//	Created JXFocusWidgetTask for use when validating dialogs.
 
 // version 4.0.0:
 //	Supports utf-8

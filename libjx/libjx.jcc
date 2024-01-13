@@ -1053,6 +1053,10 @@ T
 F
 "./code/JXGetStringDialog.cpp"
 T
+2 "JXFocusWidgetTask.cpp"
+F
+"./code/JXFocusWidgetTask.cpp"
+T
 2 "jXUtil.cpp"
 F
 "./code/jXUtil.cpp"
