@@ -90,6 +90,14 @@ F
 T
 1 "widgets"
 T
+2 "ChooseWidgetDialog.cpp"
+F
+"./code/ChooseWidgetDialog.cpp"
+T
+2 "ChooseWidgetDialog-Widget.jxm"
+F
+"./code/ChooseWidgetDialog-Widget.jxm"
+T
 2 "BaseWidget.cpp"
 F
 "./code/BaseWidget.cpp"

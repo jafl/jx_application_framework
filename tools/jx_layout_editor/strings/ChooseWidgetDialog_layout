@@ -1,0 +1,5 @@
+0
+okButton::ChooseWidgetDialog::shortcuts::JXLayout "^M"
+itsWidgetMenu::ChooseWidgetDialog::JXLayout "Choose widget"
+okButton::ChooseWidgetDialog::JXLayout "OK"
+cancelButton::ChooseWidgetDialog::JXLayout "Cancel"

@@ -10,11 +10,6 @@
 #include "LayoutDocument.h"
 #include "FileHistoryMenu.h"
 #include "LayoutContainer.h"
-#include "CustomWidget.h"
-#include "InputField.h"
-#include "TextButton.h"
-#include "TextCheckbox.h"
-#include "WidgetSet.h"
 #include "MDIServer.h"
 #include "globals.h"
 #include <jx-af/jx/JXWindow.h>
@@ -311,80 +306,6 @@ LayoutDocument::ReadFile
 	SetLayoutSize(w,h);
 
 	itsLayout->ReadConfig(input, vers);
-
-	JPtrArray<JXWidget> widgetList(JPtrArrayT::kForgetAll);
-
-	while (!input.eof() && !input.fail())
-	{
-		bool keepGoing;
-		input >> keepGoing;
-		if (!keepGoing)
-		{
-			break;
-		}
-
-		ReadWidget(input, itsLayout, &widgetList);
-	}
-}
-
-/******************************************************************************
- ReadWidget
-
- ******************************************************************************/
-
-BaseWidget*
-LayoutDocument::ReadWidget
-	(
-	std::istream&			input,
-	JXWidget*				defaultEnclosure,
-	JPtrArray<JXWidget>*	widgetList
-	)
-	const
-{
-	JString className;
-	JRect frame;
-
-	JIndex enclosureIndex;
-	int hs, vs;
-	input >> enclosureIndex >> className >> hs >> vs >> frame;
-
-	JXWidget* e =
-		enclosureIndex == 0 ? defaultEnclosure :
-		widgetList->GetItem(enclosureIndex);
-
-	const JXWidget::HSizingOption hS = (JXWidget::HSizingOption) hs;
-	const JXWidget::VSizingOption vS = (JXWidget::VSizingOption) vs;
-
-	const JCoordinate x = frame.left;
-	const JCoordinate y = frame.top;
-	const JCoordinate w = frame.width();
-	const JCoordinate h = frame.height();
-
-	BaseWidget* widget = nullptr;
-	if (className == "InputField")
-	{
-		widget = jnew InputField(itsLayout, input, e, hS,vS, x,y,w,h);
-	}
-	else if (className == "TextButton")
-	{
-		widget = jnew TextButton(itsLayout, input, e, hS,vS, x,y,w,h);
-	}
-	else if (className == "TextCheckbox")
-	{
-		widget = jnew TextCheckbox(itsLayout, input, e, hS,vS, x,y,w,h);
-	}
-	else if (className == "WidgetSet")
-	{
-		widget = jnew WidgetSet(itsLayout, input, e, hS,vS, x,y,w,h);
-	}
-	else
-	{
-		assert( className == "CustomWidget" );
-		widget = jnew CustomWidget(itsLayout, input, e, hS,vS, x,y,w,h);
-	}
-
-	widgetList->Append(widget);
-	return widget;
 }
 
 /******************************************************************************
@@ -406,52 +327,10 @@ LayoutDocument::WriteTextFile
 
 	itsLayout->WriteConfig(output);
 
-	JPtrArray<JXWidget> widgetList(JPtrArrayT::kForgetAll);
-
-	itsLayout->ForEach([&output, &widgetList](const JXContainer* obj)
-	{
-		WriteWidget(output, obj, &widgetList);
-	},
-	true);
-
-	output << false << std::endl;
-
 	if (!safetySave)
 	{
 		GenerateCode();
 	}
-}
-
-/******************************************************************************
- WriteWidget (static)
-
- ******************************************************************************/
-
-void
-LayoutDocument::WriteWidget
-	(
-	std::ostream&			output,
-	const JXContainer*		obj,
-	JPtrArray<JXWidget>*	widgetList
-	)
-{
-	auto* widget = dynamic_cast<const BaseWidget*>(obj);
-	if (widget == nullptr)
-	{
-		return;		// used for rendering
-	}
-
-	auto* encl = dynamic_cast<const JXWidget*>(obj->GetEnclosure());
-	assert( encl != nullptr );
-
-	JIndex enclosureIndex;
-	widgetList->Find(encl, &enclosureIndex);		// zero if not found
-
-	output << true << std::endl;
-	output << enclosureIndex << std::endl;
-	widget->StreamOut(output);
-
-	widgetList->Append(const_cast<BaseWidget*>(widget));
 }
 
 /******************************************************************************
@@ -1149,6 +1028,12 @@ LayoutDocument::ImportFDesignFile
  ImportFDesignLayout
 
  ******************************************************************************/
+
+#include "CustomWidget.h"
+#include "InputField.h"
+#include "TextButton.h"
+#include "TextCheckbox.h"
+#include "WidgetSet.h"
 
 // Form fields
 

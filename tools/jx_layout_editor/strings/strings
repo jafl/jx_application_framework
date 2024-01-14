@@ -92,6 +92,10 @@ CodeTagMustBeValidIdentifier::LayoutConfigDialog		"The code tag must be a valid 
 
 VarNameBase::LayoutContainer	"widget_"
 
+# ChooseWidgetDialog
+
+WindowTitle::ChooseWidgetDialog	"Select Widget"
+
 # BaseWidget
 
 VariableNameLabel::BaseWidget	"Variable name: "

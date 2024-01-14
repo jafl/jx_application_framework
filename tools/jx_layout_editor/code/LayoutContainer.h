@@ -73,6 +73,9 @@ public:
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 						   const JXKeyModifiers& modifiers) override;
 
+	static void	WriteWidget(std::ostream& output, const JXContainer* obj,
+							JPtrArray<JXWidget>* widgetList);
+
 protected:
 
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
@@ -132,8 +135,13 @@ private:
 	JPoint			itsDropOffset;
 	JArray<JRect>*	itsDropRectList;		// nullptr unless DND
 	JPoint			itsBoundsOffset;
+	bool			itsCreateDragFlag;
 
 private:
+
+	BaseWidget*	ReadWidget(std::istream& input, JXWidget* defaultEnclosure,
+						   JPtrArray<JXWidget>* widgetList);
+	BaseWidget*	CreateWidget(const JIndex index, const JRect& rect);
 
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex index);

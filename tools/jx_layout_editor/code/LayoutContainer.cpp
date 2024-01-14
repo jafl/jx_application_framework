@@ -10,8 +10,13 @@
 #include "LayoutContainer.h"
 #include "LayoutDocument.h"
 #include "LayoutSelection.h"
-#include "BaseWidget.h"
+#include "CustomWidget.h"
+#include "InputField.h"
+#include "TextButton.h"
+#include "TextCheckbox.h"
+#include "WidgetSet.h"
 #include "LayoutConfigDialog.h"
+#include "ChooseWidgetDialog.h"
 #include "globals.h"
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXMenuBar.h>
@@ -81,6 +86,7 @@ LayoutContainer::LayoutContainer
 		&LayoutContainer::UpdateLayoutMenu,
 		&LayoutContainer::HandleLayoutMenu);
 	ConfigureLayoutMenu(itsLayoutMenu);
+	itsLayoutMenu->DisableItem(kCreateHintIndex);
 
 	itsArrangeMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::LayoutContainer_Arrange"));
 	itsArrangeMenu->SetMenuItems(kArrangeMenuStr);
@@ -278,6 +284,118 @@ LayoutContainer::ReadConfig
 	input >> itsCodeTag;
 	input >> itsWindowTitle;
 	input >> itsContainerName >> itsAdjustContainerToFitFlag;
+
+	JPtrArray<JXWidget> widgetList(JPtrArrayT::kForgetAll);
+
+	while (!input.eof() && !input.fail())
+	{
+		bool keepGoing;
+		input >> keepGoing;
+		if (!keepGoing)
+		{
+			break;
+		}
+
+		ReadWidget(input, this, &widgetList);
+	}
+}
+
+/******************************************************************************
+ ReadWidget (private)
+
+ ******************************************************************************/
+
+BaseWidget*
+LayoutContainer::ReadWidget
+	(
+	std::istream&			input,
+	JXWidget*				defaultEnclosure,
+	JPtrArray<JXWidget>*	widgetList
+	)
+{
+	JString className;
+	JRect frame;
+
+	JIndex enclosureIndex;
+	int hs, vs;
+	input >> enclosureIndex >> className >> hs >> vs >> frame;
+
+	JXWidget* e =
+		enclosureIndex == 0 ? defaultEnclosure :
+		widgetList->GetItem(enclosureIndex);
+
+	const JXWidget::HSizingOption hS = (JXWidget::HSizingOption) hs;
+	const JXWidget::VSizingOption vS = (JXWidget::VSizingOption) vs;
+
+	const JCoordinate x = frame.left;
+	const JCoordinate y = frame.top;
+	const JCoordinate w = frame.width();
+	const JCoordinate h = frame.height();
+
+	BaseWidget* widget = nullptr;
+	if (className == "InputField")
+	{
+		widget = jnew InputField(this, input, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "TextButton")
+	{
+		widget = jnew TextButton(this, input, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "TextCheckbox")
+	{
+		widget = jnew TextCheckbox(this, input, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "WidgetSet")
+	{
+		widget = jnew WidgetSet(this, input, e, hS,vS, x,y,w,h);
+	}
+	else
+	{
+		assert( className == "CustomWidget" );
+		widget = jnew CustomWidget(this, input, e, hS,vS, x,y,w,h);
+	}
+
+	widgetList->Append(widget);
+	return widget;
+}
+
+/******************************************************************************
+ CreateWidget (private)
+
+ ******************************************************************************/
+
+#include "ChooseWidgetDialog-Widget-enum.h"
+
+BaseWidget*
+LayoutContainer::CreateWidget
+	(
+	const JIndex	index,
+	const JRect&	rect
+	)
+{
+	const JCoordinate x = rect.left, y = rect.top, w = rect.width(), h = rect.height();
+
+	if (index == kInputFieldIndex)
+	{
+		return jnew InputField(this, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kTextButtonIndex)
+	{
+		return jnew TextButton(this, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kTextCheckboxIndex)
+	{
+		return jnew TextCheckbox(this, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kWidgetSetIndex)
+	{
+		return jnew WidgetSet(this, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else
+	{
+		assert( index == kCustomWidgetIndex );
+		return jnew CustomWidget(this, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
 }
 
 /******************************************************************************
@@ -296,6 +414,48 @@ LayoutContainer::WriteConfig
 	output << itsWindowTitle << std::endl;
 	output << itsContainerName << std::endl;
 	output << itsAdjustContainerToFitFlag << std::endl;
+
+	JPtrArray<JXWidget> widgetList(JPtrArrayT::kForgetAll);
+
+	ForEach([&output, &widgetList](const JXContainer* obj)
+	{
+		WriteWidget(output, obj, &widgetList);
+	},
+	true);
+
+	output << false << std::endl;
+}
+
+/******************************************************************************
+ WriteWidget (static)
+
+ ******************************************************************************/
+
+void
+LayoutContainer::WriteWidget
+	(
+	std::ostream&			output,
+	const JXContainer*		obj,
+	JPtrArray<JXWidget>*	widgetList
+	)
+{
+	auto* widget = dynamic_cast<const BaseWidget*>(obj);
+	if (widget == nullptr)
+	{
+		return;		// used for rendering
+	}
+
+	auto* encl = dynamic_cast<const JXWidget*>(obj->GetEnclosure());
+	assert( encl != nullptr );
+
+	JIndex enclosureIndex;
+	widgetList->Find(encl, &enclosureIndex);		// zero if not found
+
+	output << true << std::endl;
+	output << enclosureIndex << std::endl;
+	widget->StreamOut(output);
+
+	widgetList->Append(const_cast<BaseWidget*>(widget));
 }
 
 /******************************************************************************
@@ -776,16 +936,24 @@ LayoutContainer::HandleKeyPress
 void
 LayoutContainer::HandleMouseDown
 	(
-	const JPoint&			pt,
+	const JPoint&			origPt,
 	const JXMouseButton		button,
 	const JSize				clickCount,
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers
 	)
 {
+	JPoint pt         = origPt;
+	itsCreateDragFlag = modifiers.meta();
+
 	if (button == kJXLeftButton && clickCount == 1)
 	{
 		ClearSelection();
+
+		if (itsCreateDragFlag && !modifiers.shift())
+		{
+			pt = SnapToGrid(pt);
+		}
 
 		JPainter* p = CreateDragInsidePainter();
 		p->Rect(JRect(pt, pt));
@@ -802,28 +970,37 @@ LayoutContainer::HandleMouseDown
 void
 LayoutContainer::HandleMouseDrag
 	(
-	const JPoint&			pt,
+	const JPoint&			origPt,
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers
 	)
 {
+	JPoint pt = origPt;
+	if (itsCreateDragFlag && !modifiers.shift())
+	{
+		pt = SnapToGrid(pt);
+	}
+
 	JPainter* p = nullptr;
 	if (buttonStates.left() && pt != itsPrevPt && GetDragPainter(&p))	// no painter for multiple click
 	{
 		const JRect r(itsStartPt, pt);
-		const JRect r1 = LocalToGlobal(r);
-		ForEach([&r1](JXContainer* obj)
+		if (!itsCreateDragFlag)
 		{
-			auto* widget = dynamic_cast<BaseWidget*>(obj);
-			if (widget == nullptr)
+			const JRect r1 = LocalToGlobal(r);
+			ForEach([&r1](JXContainer* obj)
 			{
-				return;		// used for rendering
-			}
+				auto* widget = dynamic_cast<BaseWidget*>(obj);
+				if (widget == nullptr)
+				{
+					return;		// used for rendering
+				}
 
-			JRect r2;
-			widget->SetSelected(JIntersection(obj->GetFrameGlobal(), r1, &r2));
-		},
-		false);
+				JRect r2;
+				widget->SetSelected(JIntersection(obj->GetFrameGlobal(), r1, &r2));
+			},
+			false);
+		}
 
 		Redraw();
 		p->Rect(r);
@@ -840,16 +1017,37 @@ LayoutContainer::HandleMouseDrag
 void
 LayoutContainer::HandleMouseUp
 	(
-	const JPoint&			pt,
+	const JPoint&			origPt,
 	const JXMouseButton		button,
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers
 	)
 {
+	JPoint pt = origPt;
+	if (itsCreateDragFlag && !modifiers.shift())
+	{
+		pt = SnapToGrid(pt);
+	}
+
 	JPainter* p = nullptr;
 	if (button == kJXLeftButton && GetDragPainter(&p))	// no painter for multiple click
 	{
-		p->Rect(JRect(itsStartPt, itsPrevPt));
+		if (itsCreateDragFlag)
+		{
+			auto* dlog = jnew ChooseWidgetDialog;
+			if (dlog->DoDialog())
+			{
+				auto* undo = jnew LayoutUndo(itsDoc);
+
+				BaseWidget* widget = CreateWidget(dlog->GetWidgetIndex(), JRect(itsStartPt, pt));
+				Refresh();
+				widget->EditConfiguration(false);
+
+				NewUndo(undo);
+			}
+		}
+
+		Refresh();
 		DeleteDragPainter();
 	}
 }
@@ -1033,7 +1231,7 @@ LayoutContainer::HandleDNDDrop
 					break;
 				}
 
-				BaseWidget* widget = itsDoc->ReadWidget(input, this, &widgetList);
+				BaseWidget* widget = ReadWidget(input, this, &widgetList);
 				widget->Move(delta.x, delta.y);
 				SnapToGrid(widget);
 				changed = true;

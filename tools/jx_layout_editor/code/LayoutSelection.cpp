@@ -51,11 +51,11 @@ LayoutSelection::LayoutSelection
 	std::ostringstream data;
 	for (auto* widget : widgetList)
 	{
-		LayoutDocument::WriteWidget(data, widget, &widgetIndexList);
+		LayoutContainer::WriteWidget(data, widget, &widgetIndexList);
 
 		widget->ForEach([&data, &widgetIndexList](const JXContainer* obj)
 		{
-			LayoutDocument::WriteWidget(data, obj, &widgetIndexList);
+			LayoutContainer::WriteWidget(data, obj, &widgetIndexList);
 		},
 		true);
 

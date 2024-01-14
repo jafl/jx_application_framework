@@ -1,0 +1,66 @@
+jx_menu_editor 0
+920 300
+"ChooseWidgetDialog"
+"Widget"
+' 
+40
+40
+200
+100
+40
+200
+200
+75
+
+0
+1
+0
+0 ""
+"Custom widget"
+""
+' 
+"__CustomWidget"
+"kCustomWidgetIndex"
+1
+
+1
+0
+0 ""
+"Input field"
+""
+' 
+"__InputField"
+"kInputFieldIndex"
+1
+
+1
+0
+0 ""
+"Text button"
+""
+' 
+"__TextButton"
+"kTextButtonIndex"
+0
+
+1
+0
+0 ""
+"Text checkbox"
+""
+' 
+"__TextCheckbox"
+"kTextCheckboxIndex"
+1
+
+1
+0
+0 ""
+"Widget set"
+""
+' 
+"__WidgetSet"
+"kWidgetSetIndex"
+0
+
+0

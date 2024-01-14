@@ -8,3 +8,4 @@ MenuTitle::LayoutContainer_Layout "Layout"
 
 EditConfiguration::LayoutContainer "Edit configuration... %h c"
 SelectParent::LayoutContainer "Select container %h s"
+__MetaDragToPlaceNewWidget::LayoutContainer "Meta-drag to place new widget"

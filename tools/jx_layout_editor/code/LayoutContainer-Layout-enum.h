@@ -8,6 +8,7 @@
 enum {
 	kEditConfigCmd=1,
 	kSelectParentCmd,
+	kCreateHintIndex,
 };
 
 #endif

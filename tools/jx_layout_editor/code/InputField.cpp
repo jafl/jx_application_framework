@@ -118,9 +118,6 @@ InputField::ToString()
 {
 	JString s = BaseWidget::ToString();
 
-	s += JString::newline;
-	s += "JXInputField";
-
 	if (itsIsRequiredFlag)
 	{
 		s += JString::newline;
@@ -208,7 +205,7 @@ JString
 InputField::GetClassName()
 	const
 {
-	return "JXTextButton";
+	return "JXInputField";
 }
 
 /******************************************************************************

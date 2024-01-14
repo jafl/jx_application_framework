@@ -45,6 +45,7 @@ public:
 
 	JPoint	GetDragStartPointGlobal() const;
 
+	void	EditConfiguration(const bool createUndo = true);
 	void	GenerateCode(std::ostream& output, const JString& indent,
 						 JPtrArray<JString>* objTypes,
 						 JPtrArray<JString>* objNames,

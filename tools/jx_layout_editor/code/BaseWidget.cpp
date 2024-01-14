@@ -158,6 +158,45 @@ BaseWidget::ToString()
 }
 
 /******************************************************************************
+ EditConfiguration
+
+ ******************************************************************************/
+
+void
+BaseWidget::EditConfiguration
+	(
+	const bool createUndo
+	)
+{
+	auto* dlog = jnew WidgetParametersDialog(itsVarName, itsIsMemberVarFlag,
+											 GetHSizing(), GetVSizing());
+	AddPanels(dlog);
+
+	LayoutUndo* undo = nullptr;
+	if (createUndo)
+	{
+		undo = jnew LayoutUndo(itsLayout->GetDocument());
+	}
+
+	if (dlog->DoDialog())
+	{
+		itsVarName = dlog->GetVarName(&itsIsMemberVarFlag);
+		SetSizing(dlog->GetHSizing(), dlog->GetVSizing());
+		SavePanelData();
+		Refresh();
+
+		if (undo != nullptr)
+		{
+			itsLayout->NewUndo(undo);
+		}
+	}
+	else
+	{
+		jdelete undo;
+	}
+}
+
+/******************************************************************************
  GenerateCode
 
  ******************************************************************************/
@@ -690,24 +729,7 @@ BaseWidget::HandleMouseUp
 
 	if (itsWaitingForDragFlag && itsLastClickCount == 2)
 	{
-		auto* dlog = jnew WidgetParametersDialog(itsVarName, itsIsMemberVarFlag,
-												 GetHSizing(), GetVSizing());
-		AddPanels(dlog);
-
-		auto* undo = jnew LayoutUndo(itsLayout->GetDocument());
-
-		if (dlog->DoDialog())
-		{
-			itsVarName = dlog->GetVarName(&itsIsMemberVarFlag);
-			SetSizing(dlog->GetHSizing(), dlog->GetVSizing());
-			SavePanelData();
-			itsLayout->NewUndo(undo);
-			Refresh();
-		}
-		else
-		{
-			jdelete undo;
-		}
+		EditConfiguration();
 	}
 	else if (itsClearIfNotDNDFlag)
 	{

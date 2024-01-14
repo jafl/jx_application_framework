@@ -1,14 +1,14 @@
 jx_menu_editor 0
-719 187
+826 204
 "LayoutContainer"
 "Layout"
 'l
 40
 40
-141
+193
 100
 40
-137
+196
 116
 75
 
@@ -31,6 +31,16 @@ jx_menu_editor 0
 's
 "SelectParent"
 "kSelectParentCmd"
+1
+
+1
+0
+0 ""
+"Meta-drag to place new widget"
+""
+' 
+"__MetaDragToPlaceNewWidget"
+"kCreateHintIndex"
 0
 
 0

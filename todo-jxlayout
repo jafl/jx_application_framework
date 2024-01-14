@@ -1,7 +1,3 @@
-create widget by cmd-dragging rectangle
-	after release, select widget type and then create it - sets correct container
-	undo
-
 generate code when save
 	search for file_root .cpp .cc .hpp .h in same directory
 

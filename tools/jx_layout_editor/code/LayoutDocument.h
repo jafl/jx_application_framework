@@ -34,11 +34,6 @@ public:
 
 	void	UpdateSaveState();
 
-	BaseWidget*	ReadWidget(std::istream& input, JXWidget* defaultEnclosure,
-						   JPtrArray<JXWidget>* widgetList) const;
-	static void	WriteWidget(std::ostream& output, const JXContainer* obj,
-							JPtrArray<JXWidget>* widgetList);
-
 	static bool	FindProjectRoot(const JString& path, JString* root);
 
 protected:
