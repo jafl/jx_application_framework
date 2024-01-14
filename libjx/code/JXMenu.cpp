@@ -1335,8 +1335,7 @@ JXMenu::DrawBorder
 	menu must not be visible, because this would confuse the user.  We also
 	require that the menu is not in a menu bar and is not a sub-menu.
 
-	Try to avoid using this feature since it will usually not be obvious
-	to the user that a menu can be popped up at all.
+	This should only be used where a user could expect to use a context menu.
 
  ******************************************************************************/
 
@@ -1359,7 +1358,7 @@ JXMenu::PopUp
 		if (Open())
 		{
 			return GetDisplay()->SwitchDrag(mouseOwner, pt, buttonStates, modifiers,
-											  itsMenuDirector->GetMenuTable());
+											itsMenuDirector->GetMenuTable());
 		}
 	}
 
