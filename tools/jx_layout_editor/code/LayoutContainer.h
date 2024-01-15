@@ -136,6 +136,7 @@ private:
 	JArray<JRect>*	itsDropRectList;		// nullptr unless DND
 	JPoint			itsBoundsOffset;
 	bool			itsCreateDragFlag;
+	JRect			itsCreateRect;
 
 private:
 

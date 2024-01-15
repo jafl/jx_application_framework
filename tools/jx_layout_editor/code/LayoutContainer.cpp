@@ -721,6 +721,12 @@ LayoutContainer::Draw
 		}
 		x += itsGridSpacing;
 	}
+
+	JPainter* dp = nullptr;
+	if (!itsCreateRect.IsEmpty() && GetDragPainter(&dp))
+	{
+		dp->Rect(itsCreateRect);
+	}
 }
 
 /******************************************************************************
@@ -1034,12 +1040,14 @@ LayoutContainer::HandleMouseUp
 	{
 		if (itsCreateDragFlag)
 		{
+			itsCreateRect = JRect(itsStartPt, pt);
+
 			auto* dlog = jnew ChooseWidgetDialog;
 			if (dlog->DoDialog())
 			{
 				auto* undo = jnew LayoutUndo(itsDoc);
 
-				BaseWidget* widget = CreateWidget(dlog->GetWidgetIndex(), JRect(itsStartPt, pt));
+				BaseWidget* widget = CreateWidget(dlog->GetWidgetIndex(), itsCreateRect);
 				Refresh();
 				widget->EditConfiguration(false);
 
@@ -1047,9 +1055,12 @@ LayoutContainer::HandleMouseUp
 			}
 		}
 
-		Refresh();
 		DeleteDragPainter();
+		Refresh();
 	}
+
+	itsCreateDragFlag = false;
+	itsCreateRect.Set(0,0,0,0);
 }
 
 /******************************************************************************
