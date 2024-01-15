@@ -24,7 +24,6 @@
 InputField::InputField
 	(
 	LayoutContainer*	layout,
-	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -33,7 +32,7 @@ InputField::InputField
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(layout, true, enclosure, hSizing, vSizing, x,y, w,h),
+	BaseWidget(true, layout, hSizing, vSizing, x,y, w,h),
 	itsIsRequiredFlag(false),
 	itsMinLength(0),
 	itsMaxLength(0),
@@ -45,9 +44,8 @@ InputField::InputField
 
 InputField::InputField
 	(
-	LayoutContainer*	layout,
 	std::istream&		input,
-	JXContainer*		enclosure,
+	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -56,7 +54,7 @@ InputField::InputField
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
+	BaseWidget(input, layout, hSizing, vSizing, x,y, w,h)
 {
 	input >> itsIsRequiredFlag >> itsMinLength >> itsMaxLength;
 	input >> itsValidationPattern >> itsRegexErrorMsg;
@@ -193,7 +191,6 @@ InputField::DrawBorder
 	)
 {
 	JXDrawDownFrame(p, frame, 2);
-	DrawSelection(p, frame);
 }
 
 /******************************************************************************
@@ -265,7 +262,7 @@ InputField::PrintConfiguration
 
 	if (!itsValidationPattern.IsEmpty())
 	{
-		const JString id = varName + "::validation" + GetLayoutContainer()->GetStringNamespace();
+		const JString id = varName + "::validation" + GetParentContainer()->GetStringNamespace();
 		stringdb->SetItem(id, itsRegexErrorMsg, JPtrArrayT::kDelete);
 
 		indent.Print(output);

@@ -20,7 +20,6 @@
 TextButtonBase::TextButtonBase
 	(
 	LayoutContainer*	layout,
-	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -29,15 +28,14 @@ TextButtonBase::TextButtonBase
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h)
+	CoreWidget(false, layout, hSizing, vSizing, x,y, w,h)
 {
 }
 
 TextButtonBase::TextButtonBase
 	(
-	LayoutContainer*	layout,
 	std::istream&		input,
-	JXContainer*		enclosure,
+	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -46,7 +44,7 @@ TextButtonBase::TextButtonBase
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
+	CoreWidget(input, layout, hSizing, vSizing, x,y, w,h)
 {
 }
 
@@ -74,7 +72,7 @@ TextButtonBase::SharedPrintCtorArgsWithComma
 	)
 	const
 {
-	const JString id = varName + GetLayoutContainer()->GetStringNamespace();
+	const JString id = varName + GetParentContainer()->GetStringNamespace();
 	stringdb->SetItem(id, label, JPtrArrayT::kDelete);
 
 	output << "JGetString(" << id << "),";
@@ -98,7 +96,7 @@ TextButtonBase::SharedPrintConfiguration
 {
 	if (!shortcuts.IsEmpty())
 	{
-		const JString id = varName + "::shortcuts" + GetLayoutContainer()->GetStringNamespace();
+		const JString id = varName + "::shortcuts" + GetParentContainer()->GetStringNamespace();
 		stringdb->SetItem(id, shortcuts, JPtrArrayT::kDelete);
 
 		indent.Print(output);

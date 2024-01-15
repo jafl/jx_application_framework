@@ -533,7 +533,13 @@ LayoutDocument::HandlePrefsMenu
 void
 LayoutDocument::UpdateGridMenu()
 {
-	const JSize w = itsLayout->GetGridSpacing();
+	JXWidget* widget = nullptr;
+	const bool ok = GetWindow()->GetFocusWidget(&widget);
+	assert( ok );
+	LayoutContainer* layout = dynamic_cast<LayoutContainer*>(widget);
+	assert( layout != nullptr );
+
+	const JSize w = layout->GetGridSpacing();
 	if (w == 5)
 	{
 		itsGridMenu->CheckItem(kGrid5Cmd);
@@ -555,15 +561,27 @@ LayoutDocument::HandleGridMenu
 	const JIndex index
 	)
 {
+	JXWidget* widget = nullptr;
+	const bool ok = GetWindow()->GetFocusWidget(&widget);
+	assert( ok );
+	LayoutContainer* layout = dynamic_cast<LayoutContainer*>(widget);
+	assert( layout != nullptr );
+
 	if (index == kGrid5Cmd)
 	{
-		itsLayout->SetGridSpacing(5);
-		GetWindow()->SetStepSize(5,5);
+		layout->SetGridSpacing(5);
+		if (layout == itsLayout)
+		{
+			GetWindow()->SetStepSize(5,5);
+		}
 	}
 	if (index == kGrid10Cmd)
 	{
-		itsLayout->SetGridSpacing(10);
-		GetWindow()->SetStepSize(10,10);
+		layout->SetGridSpacing(10);
+		if (layout == itsLayout)
+		{
+			GetWindow()->SetStepSize(10,10);
+		}
 	}
 }
 
@@ -1184,11 +1202,15 @@ LayoutDocument::ImportFDesignLayout
 
 		JRect frame(y, x, y+h, x+w);
 		JIndex enclIndex;
-		JXWidget* enclosure;
+		LayoutContainer* enclosure;
 		JRect localFrame = frame;
 		if (GetFDesignEnclosure(frame, rectList, &enclIndex))
 		{
-			enclosure = widgetList.GetItem(enclIndex);
+			const bool ok = widgetList.GetItem(enclIndex)->GetLayoutContainer(&enclosure);
+			if (!ok)
+			{
+				return false;
+			}
 
 			const JRect enclFrame = rectList.GetItem(enclIndex);
 			localFrame.Shift(-enclFrame.topLeft());
@@ -1210,25 +1232,25 @@ LayoutDocument::ImportFDesignLayout
 		BaseWidget* widget;
 		if (flClass == "FL_INPUT" && flType == "FL_NORMAL_INPUT")
 		{
-			widget = jnew InputField(itsLayout, enclosure, hS,vS, x,y,w,h);
+			widget = jnew InputField(enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_BUTTON")
 		{
-			widget = jnew TextButton(itsLayout, label, shortcuts, enclosure, hS,vS, x,y,w,h);
+			widget = jnew TextButton(label, shortcuts, enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_CHECKBUTTON")
 		{
-			widget = jnew TextCheckbox(itsLayout, label, shortcuts, enclosure, hS,vS, x,y,w,h);
+			widget = jnew TextCheckbox(label, shortcuts, enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_BOX" && flType == "FL_SHADOW_BOX")
 		{
-			widget = jnew WidgetSet(itsLayout, enclosure, hS,vS, x,y,w,h);
+			widget = jnew WidgetSet(enclosure, hS,vS, x,y,w,h);
 		}
 		else // if (flClass == "FL_BOX" && flType == "FL_NO_BOX" && !label->IsEmpty())
 		{
 			SplitFDesignClassNameAndArgs(label, &className, &argList);
 
-			widget = jnew CustomWidget(itsLayout, className, argList, false,
+			widget = jnew CustomWidget(className, argList, false,
 										enclosure, hS,vS, x,y,w,h);
 		}
 

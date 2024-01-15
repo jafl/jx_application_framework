@@ -16,11 +16,11 @@ class WidgetSet : public BaseWidget
 {
 public:
 
-	WidgetSet(LayoutContainer* layout, JXContainer* enclosure,
+	WidgetSet(LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	WidgetSet(LayoutContainer* layout, std::istream& input, JXContainer* enclosure,
+	WidgetSet(std::istream& input, LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -28,6 +28,7 @@ public:
 	~WidgetSet() override;
 
 	void	StreamOut(std::ostream& output) const override;
+	bool	GetLayoutContainer(LayoutContainer** layout) const override;
 
 protected:
 
@@ -35,6 +36,14 @@ protected:
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
 	JString	GetClassName() const override;
+
+private:
+
+	LayoutContainer*	itsLayout;
+
+private:
+
+	void	WidgetSetX(LayoutContainer* layout);
 };
 
 #endif

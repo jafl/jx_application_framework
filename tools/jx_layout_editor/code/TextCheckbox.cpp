@@ -21,7 +21,6 @@
 TextCheckbox::TextCheckbox
 	(
 	LayoutContainer*	layout,
-	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -30,17 +29,16 @@ TextCheckbox::TextCheckbox
 	const JCoordinate	h
 	)
 	:
-	TextButtonBase(layout, enclosure, hSizing, vSizing, x,y, w,h)
+	TextButtonBase(layout, hSizing, vSizing, x,y, w,h)
 {
 	TextCheckboxX(JGetString("DefaultLabel::TextCheckbox"), x,y,w,h);
 }
 
 TextCheckbox::TextCheckbox
 	(
-	LayoutContainer*	layout,
 	const JString&		label,
 	const JString&		shortcuts,
-	JXContainer*		enclosure,
+	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -49,7 +47,7 @@ TextCheckbox::TextCheckbox
 	const JCoordinate	h
 	)
 	:
-	TextButtonBase(layout, enclosure, hSizing, vSizing, x,y, w,h),
+	TextButtonBase(layout, hSizing, vSizing, x,y, w,h),
 	itsShortcuts(shortcuts)
 {
 	TextCheckboxX(label, x,y,w,h);
@@ -57,9 +55,8 @@ TextCheckbox::TextCheckbox
 
 TextCheckbox::TextCheckbox
 	(
-	LayoutContainer*	layout,
 	std::istream&		input,
-	JXContainer*		enclosure,
+	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -68,7 +65,7 @@ TextCheckbox::TextCheckbox
 	const JCoordinate	h
 	)
 	:
-	TextButtonBase(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
+	TextButtonBase(input, layout, hSizing, vSizing, x,y, w,h)
 {
 	JString label;
 	input >> label >> itsShortcuts;

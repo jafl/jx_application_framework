@@ -22,7 +22,6 @@
 TextButton::TextButton
 	(
 	LayoutContainer*	layout,
-	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -31,17 +30,16 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	TextButtonBase(layout, enclosure, hSizing, vSizing, x,y, w,h)
+	TextButtonBase(layout, hSizing, vSizing, x,y, w,h)
 {
 	TextButtonX(JGetString("DefaultLabel::TextButton"), x,y,w,h);
 }
 
 TextButton::TextButton
 	(
-	LayoutContainer*	layout,
 	const JString&		label,
 	const JString&		shortcuts,
-	JXContainer*		enclosure,
+	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -50,7 +48,7 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	TextButtonBase(layout, enclosure, hSizing, vSizing, x,y, w,h),
+	TextButtonBase(layout, hSizing, vSizing, x,y, w,h),
 	itsShortcuts(shortcuts)
 {
 	TextButtonX(label, x,y,w,h);
@@ -58,9 +56,8 @@ TextButton::TextButton
 
 TextButton::TextButton
 	(
-	LayoutContainer*	layout,
 	std::istream&		input,
-	JXContainer*		enclosure,
+	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -69,7 +66,7 @@ TextButton::TextButton
 	const JCoordinate	h
 	)
 	:
-	TextButtonBase(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
+	TextButtonBase(input, layout, hSizing, vSizing, x,y, w,h)
 {
 	JString label;
 	input >> label >> itsShortcuts;
@@ -151,6 +148,23 @@ TextButton::GetClassName()
 	const
 {
 	return "JXTextButton";
+}
+
+/******************************************************************************
+ GetFrameForCode (virtual protected)
+
+ ******************************************************************************/
+
+JRect
+TextButton::GetFrameForCode()
+	const
+{
+	JRect r = GetFrame();
+	if (itsShortcuts.Contains("^M", JString::kIgnoreCase))
+	{
+		r.Expand(1,1);
+	}
+	return r;
 }
 
 /******************************************************************************

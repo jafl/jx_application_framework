@@ -134,4 +134,4 @@ MinLessThanMax::InputFieldPanel	"The minimum length must be less than the maximu
 
 # WidgetLabelPanel
 
-MismatchedWindowsKey::WidgetLabelPanel	"The label does not contain any of the key shortcuts."
+MismatchedShortcutKey::WidgetLabelPanel	"The label does not contain any of the key shortcuts."

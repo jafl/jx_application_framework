@@ -8,6 +8,7 @@
  ******************************************************************************/
 
 #include "WidgetSet.h"
+#include "LayoutContainer.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -18,7 +19,6 @@
 WidgetSet::WidgetSet
 	(
 	LayoutContainer*	layout,
-	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -27,15 +27,15 @@ WidgetSet::WidgetSet
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(layout, false, enclosure, hSizing, vSizing, x,y, w,h)
+	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h)
 {
+	WidgetSetX(layout);
 }
 
 WidgetSet::WidgetSet
 	(
-	LayoutContainer*	layout,
 	std::istream&		input,
-	JXContainer*		enclosure,
+	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -44,8 +44,21 @@ WidgetSet::WidgetSet
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
+	BaseWidget(input, layout, hSizing, vSizing, x,y, w,h)
 {
+	WidgetSetX(layout);
+}
+
+// private
+
+void
+WidgetSet::WidgetSetX
+	(
+	LayoutContainer* layout
+	)
+{
+	itsLayout = jnew LayoutContainer(layout, this, this, kHElastic, kVElastic, 0,0, 100,100);
+	itsLayout->FitToEnclosure();
 }
 
 /******************************************************************************
@@ -72,6 +85,24 @@ WidgetSet::StreamOut
 	output << JString("WidgetSet") << std::endl;
 
 	BaseWidget::StreamOut(output);
+}
+
+/******************************************************************************
+ GetLayoutContainer (virtual)
+
+	Some widgets can contain other widgets.
+
+ ******************************************************************************/
+
+bool
+WidgetSet::GetLayoutContainer
+	(
+	LayoutContainer** layout
+	)
+	const
+{
+	*layout = itsLayout;
+	return true;
 }
 
 /******************************************************************************

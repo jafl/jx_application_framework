@@ -18,11 +18,11 @@ class BaseWidget : public JXWidget
 {
 public:
 
-	BaseWidget(LayoutContainer* layout, const bool wantsInput, JXContainer* enclosure,
+	BaseWidget(const bool wantsInput, LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	BaseWidget(LayoutContainer* layout, std::istream& input, JXContainer* enclosure,
+	BaseWidget(std::istream& input, LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -31,7 +31,8 @@ public:
 
 	virtual void	StreamOut(std::ostream& output) const;
 
-	LayoutContainer*	GetLayoutContainer() const;
+	LayoutContainer*	GetParentContainer() const;
+	virtual bool		GetLayoutContainer(LayoutContainer** layout) const;
 
 	const JString&	GetVarName(bool* isMemberData) const;
 	void			SetVarName(const JString& name, const bool isMember);
@@ -59,6 +60,7 @@ protected:
 
 	virtual JString	GetClassName() const = 0;
 	virtual JString	GetCtor() const;
+	virtual JRect	GetFrameForCode() const;
 	virtual void	PrintCtorArgsWithComma(std::ostream& output,
 										   const JString& varName,
 										   JStringManager* stringdb) const;
@@ -70,7 +72,6 @@ protected:
 	virtual void	AddPanels(WidgetParametersDialog* dlog);
 	virtual void	SavePanelData();
 
-	void	DrawSelection(JXWindowPainter& p, const JRect& rect);
 	void	DrawOver(JXWindowPainter& p, const JRect& rect) override;
 
 	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
@@ -108,7 +109,7 @@ private:
 
 private:
 
-	LayoutContainer*	itsLayout;
+	LayoutContainer*	itsParent;
 	JString				itsVarName;		// can be empty
 	bool				itsIsMemberVarFlag;
 	bool				itsSelectedFlag;
@@ -136,15 +137,15 @@ private:
 
 
 /******************************************************************************
- GetLayoutContainer
+ GetParentContainer
 
  ******************************************************************************/
 
 inline LayoutContainer*
-BaseWidget::GetLayoutContainer()
+BaseWidget::GetParentContainer()
 	const
 {
-	return itsLayout;
+	return itsParent;
 }
 
 /******************************************************************************

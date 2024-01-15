@@ -16,11 +16,11 @@ class InputField : public BaseWidget
 {
 public:
 
-	InputField(LayoutContainer* layout, JXContainer* enclosure,
+	InputField(LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	InputField(LayoutContainer* layout, std::istream& input, JXContainer* enclosure,
+	InputField(std::istream& input, LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);

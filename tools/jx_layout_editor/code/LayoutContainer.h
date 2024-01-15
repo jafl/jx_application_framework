@@ -27,6 +27,11 @@ public:
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
+	LayoutContainer(LayoutContainer* parent, BaseWidget* owner,
+					JXContainer* enclosure,
+					const HSizingOption hSizing, const VSizingOption vSizing,
+					const JCoordinate x, const JCoordinate y,
+					const JCoordinate w, const JCoordinate h);
 
 	~LayoutContainer() override;
 
@@ -38,7 +43,7 @@ public:
 	JSize	GetSelectionCount() const;
 	void	SelectAllWidgets();
 	void	ClearSelection();
-	bool	GetSelectedWidgets(JPtrArray<BaseWidget>* list) const;
+	bool	GetSelectedWidgets(JPtrArray<BaseWidget>* list, const bool all = false) const;
 	void	SetSelectedWidgetsVisible(const bool visible);
 	void	RemoveSelectedWidgets();
 	void	Clear(const bool isUndoRedo);
@@ -57,8 +62,9 @@ public:
 						 JPtrArray<JString>* objTypes,
 						 JPtrArray<JString>* objNames,
 						 JStringManager* stringdb) const;
-	JString	GetEnclosureName() const;
-	JString	GetStringNamespace() const;
+
+	const JString&	GetEnclosureName() const;
+	JString			GetStringNamespace() const;
 
 	JString GenerateUniqueVarName() const;
 
@@ -74,7 +80,7 @@ public:
 						   const JXKeyModifiers& modifiers) override;
 
 	static void	WriteWidget(std::ostream& output, const JXContainer* obj,
-							JPtrArray<JXWidget>* widgetList);
+							JPtrArray<BaseWidget>* widgetList);
 
 protected:
 
@@ -108,9 +114,14 @@ protected:
 private:
 
 	LayoutDocument*	itsDoc;
-	JSize			itsGridSpacing;
-	Atom			itsLayoutDataXAtom;
-	Atom			itsLayoutMetaXAtom;
+
+	// both are nullptr if root
+	LayoutContainer*	itsParent;
+	BaseWidget*			itsOwner;
+
+	JSize	itsGridSpacing;
+	Atom	itsLayoutDataXAtom;
+	Atom	itsLayoutMetaXAtom;
 
 	JString	itsCodeTag;
 	JString	itsWindowTitle;
@@ -121,7 +132,7 @@ private:
 	JXTextMenu*	itsLayoutMenu;
 	JXTextMenu*	itsArrangeMenu;
 
-	JUndoRedoChain*	itsUndoChain;
+	JUndoRedoChain*	itsUndoChain;			// nullptr if not root
 	bool			itsIgnoreResizeFlag;
 
 	// used during drag
@@ -140,8 +151,10 @@ private:
 
 private:
 
-	BaseWidget*	ReadWidget(std::istream& input, JXWidget* defaultEnclosure,
-						   JPtrArray<JXWidget>* widgetList);
+	void	LayoutContainerX();
+
+	BaseWidget*	ReadWidget(std::istream& input, LayoutContainer* defaultEnclosure,
+						   JPtrArray<BaseWidget>* widgetList);
 	BaseWidget*	CreateWidget(const JIndex index, const JRect& rect);
 
 	void	UpdateEditMenu();
@@ -152,6 +165,8 @@ private:
 
 	void	UpdateArrangeMenu();
 	void	HandleArrangeMenu(const JIndex index);
+
+	void	AdjustTabOrder(JPtrArray<BaseWidget>* list, const JInteger delta);
 
 	static std::weak_ordering
 		CompareTabOrder(BaseWidget *const w1, BaseWidget *const w2);
@@ -191,7 +206,7 @@ inline const JString&
 LayoutContainer::GetCodeTag()
 	const
 {
-	return itsCodeTag;
+	return itsParent != nullptr ? itsParent->GetCodeTag() : itsCodeTag;
 }
 
 /******************************************************************************
@@ -216,7 +231,7 @@ LayoutContainer::SetIgnoreResize
 inline JUndoRedoChain*
 LayoutContainer::GetUndoRedoChain()
 {
-	return itsUndoChain;
+	return itsParent != nullptr ? itsParent->GetUndoRedoChain() : itsUndoChain;
 }
 
 /******************************************************************************

@@ -18,9 +18,8 @@
 
 CoreWidget::CoreWidget
 	(
-	LayoutContainer*	layout,
 	const bool			wantsInput,
-	JXContainer*		enclosure,
+	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -29,15 +28,14 @@ CoreWidget::CoreWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(layout, wantsInput, enclosure, hSizing, vSizing, x,y, w,h)
+	BaseWidget(wantsInput, layout, hSizing, vSizing, x,y, w,h)
 {
 }
 
 CoreWidget::CoreWidget
 	(
-	LayoutContainer*	layout,
 	std::istream&		input,
-	JXContainer*		enclosure,
+	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -46,7 +44,7 @@ CoreWidget::CoreWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(layout, input, enclosure, hSizing, vSizing, x,y, w,h)
+	BaseWidget(input, layout, hSizing, vSizing, x,y, w,h)
 {
 }
 
@@ -71,8 +69,6 @@ CoreWidget::Draw
 	const JRect&		rect
 	)
 {
-	DrawSelection(p, rect);
-
 	itsWidget->Place(rect.left, rect.top);
 	itsWidget->SetSize(rect.width(), rect.height());
 }
@@ -89,22 +85,6 @@ CoreWidget::DrawBorder
 	const JRect&		frame
 	)
 {
-}
-
-/******************************************************************************
- DrawOver (virtual protected)
-
- ******************************************************************************/
-
-void
-CoreWidget::DrawOver
-	(
-	JXWindowPainter&	p,
-	const JRect&		rect
-	)
-{
-	DrawSelection(p, GetFrameLocal());
-	BaseWidget::DrawOver(p, rect);
 }
 
 /******************************************************************************

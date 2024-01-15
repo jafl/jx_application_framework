@@ -45,7 +45,7 @@ LayoutSelection::LayoutSelection
 	itsLayout->GetSelectedWidgets(&widgetList);
 	assert( !widgetList.IsEmpty() );
 
-	JPtrArray<JXWidget> widgetIndexList(JPtrArrayT::kForgetAll);
+	JPtrArray<BaseWidget> widgetIndexList(JPtrArrayT::kForgetAll);
 	JRect bounds;
 
 	std::ostringstream data;

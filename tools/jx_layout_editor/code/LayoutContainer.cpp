@@ -36,6 +36,7 @@
 
 const JUtf8Byte* kDefaultLayoutTag = "JXLayout";
 const JString kDefaultContainerName("window");
+const JCoordinate kDefaultGridSpacing = 10;
 
 /******************************************************************************
  Constructor
@@ -57,19 +58,17 @@ LayoutContainer::LayoutContainer
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsDoc(doc),
-	itsGridSpacing(10),
+	itsParent(nullptr),
+	itsOwner(nullptr),
+	itsGridSpacing(kDefaultGridSpacing),
 	itsCodeTag(kDefaultLayoutTag),
 	itsAdjustContainerToFitFlag(false),
 	itsUndoChain(jnew JUndoRedoChain(true)),
 	itsIgnoreResizeFlag(false),
 	itsDropRectList(nullptr)
 {
-	WantInput(true);
-	SetFocusColor(JColorManager::GetDefaultBackColor());
+	LayoutContainerX();
 	SetBorderWidth(10);
-
-	itsLayoutDataXAtom = GetDisplay()->RegisterXAtom(LayoutSelection::GetDataXAtomName());
-	itsLayoutMetaXAtom = GetDisplay()->RegisterXAtom(LayoutSelection::GetMetaXAtomName());
 
 	itsEditMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::LayoutContainer_Edit"));
 	itsEditMenu->SetMenuItems(kEditMenuStr);
@@ -81,12 +80,11 @@ LayoutContainer::LayoutContainer
 
 	itsLayoutMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::LayoutDocument_Layout"));
 	itsLayoutMenu->SetMenuItems(kLayoutMenuStr);
-	itsLayoutMenu->SetUpdateAction(JXMenu::kDisableNone);
+	itsLayoutMenu->SetUpdateAction(JXMenu::kDisableAll);
 	itsLayoutMenu->AttachHandlers(this,
 		&LayoutContainer::UpdateLayoutMenu,
 		&LayoutContainer::HandleLayoutMenu);
 	ConfigureLayoutMenu(itsLayoutMenu);
-	itsLayoutMenu->DisableItem(kCreateHintIndex);
 
 	itsArrangeMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::LayoutContainer_Arrange"));
 	itsArrangeMenu->SetMenuItems(kArrangeMenuStr);
@@ -95,6 +93,60 @@ LayoutContainer::LayoutContainer
 		&LayoutContainer::UpdateArrangeMenu,
 		&LayoutContainer::HandleArrangeMenu);
 	ConfigureArrangeMenu(itsArrangeMenu);
+}
+
+LayoutContainer::LayoutContainer
+	(
+	LayoutContainer*	parent,
+	BaseWidget*			owner,
+	JXContainer*		enclosure,
+	const HSizingOption	hSizing,
+	const VSizingOption	vSizing,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
+	)
+	:
+	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
+	itsDoc(parent->itsDoc),
+	itsParent(parent),
+	itsOwner(owner),
+	itsGridSpacing(kDefaultGridSpacing),
+	itsAdjustContainerToFitFlag(false),
+	itsEditMenu(parent->itsEditMenu),
+	itsLayoutMenu(parent->itsLayoutMenu),
+	itsArrangeMenu(parent->itsArrangeMenu),
+	itsUndoChain(nullptr),
+	itsIgnoreResizeFlag(false),
+	itsDropRectList(nullptr)
+{
+	LayoutContainerX();
+	SetBorderWidth(1);
+
+	itsEditMenu->AttachHandlers(this,
+		&LayoutContainer::UpdateEditMenu,
+		&LayoutContainer::HandleEditMenu);
+
+	itsLayoutMenu->AttachHandlers(this,
+		&LayoutContainer::UpdateLayoutMenu,
+		&LayoutContainer::HandleLayoutMenu);
+
+	itsArrangeMenu->AttachHandlers(this,
+		&LayoutContainer::UpdateArrangeMenu,
+		&LayoutContainer::HandleArrangeMenu);
+}
+
+// private
+
+void
+LayoutContainer::LayoutContainerX()
+{
+	WantInput(true);
+	SetFocusColor(JColorManager::GetDefaultBackColor());
+
+	itsLayoutDataXAtom = GetDisplay()->RegisterXAtom(LayoutSelection::GetDataXAtomName());
+	itsLayoutMetaXAtom = GetDisplay()->RegisterXAtom(LayoutSelection::GetMetaXAtomName());
 }
 
 /******************************************************************************
@@ -122,7 +174,7 @@ LayoutContainer::HasSelection()
 		auto* widget = dynamic_cast<const BaseWidget*>(obj);
 		return widget != nullptr && widget->IsSelected();
 	},
-	true);
+	false);
 }
 
 /******************************************************************************
@@ -143,7 +195,7 @@ LayoutContainer::GetSelectionCount()
 			count++;
 		}
 	},
-	true);
+	false);
 
 	return count;
 }
@@ -175,6 +227,12 @@ LayoutContainer::SelectAllWidgets()
 void
 LayoutContainer::ClearSelection()
 {
+	if (itsParent != nullptr)
+	{
+		itsParent->ClearSelection();
+		return;
+	}
+
 	ForEach([](JXContainer* obj)
 	{
 		auto* widget = dynamic_cast<BaseWidget*>(obj);
@@ -194,10 +252,16 @@ LayoutContainer::ClearSelection()
 bool
 LayoutContainer::GetSelectedWidgets
 	(
-	JPtrArray<BaseWidget>* list
+	JPtrArray<BaseWidget>*	list,
+	const bool				all
 	)
 	const
 {
+	if (all && itsParent != nullptr)
+	{
+		return itsParent->GetSelectedWidgets(list, all);
+	}
+
 	list->CleanOut();
 	list->SetCleanUpAction(JPtrArrayT::kForgetAll);
 
@@ -209,7 +273,7 @@ LayoutContainer::GetSelectedWidgets
 			list->Append(const_cast<BaseWidget*>(widget));
 		}
 	},
-	true);
+	all);
 
 	return !list->IsEmpty();
 }
@@ -261,6 +325,8 @@ LayoutContainer::Clear
 	const bool isUndoRedo
 	)
 {
+	assert( itsUndoChain != nullptr );
+
 	DeleteEnclosedObjects();
 
 	if (!isUndoRedo)
@@ -285,7 +351,7 @@ LayoutContainer::ReadConfig
 	input >> itsWindowTitle;
 	input >> itsContainerName >> itsAdjustContainerToFitFlag;
 
-	JPtrArray<JXWidget> widgetList(JPtrArrayT::kForgetAll);
+	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
 
 	while (!input.eof() && !input.fail())
 	{
@@ -309,20 +375,23 @@ BaseWidget*
 LayoutContainer::ReadWidget
 	(
 	std::istream&			input,
-	JXWidget*				defaultEnclosure,
-	JPtrArray<JXWidget>*	widgetList
+	LayoutContainer*		defaultEnclosure,
+	JPtrArray<BaseWidget>*	widgetList
 	)
 {
 	JString className;
 	JRect frame;
 
-	JIndex enclosureIndex;
+	JIndex parentIndex;
 	int hs, vs;
-	input >> enclosureIndex >> className >> hs >> vs >> frame;
+	input >> parentIndex >> className >> hs >> vs >> frame;
 
-	JXWidget* e =
-		enclosureIndex == 0 ? defaultEnclosure :
-		widgetList->GetItem(enclosureIndex);
+	LayoutContainer* e = defaultEnclosure;
+	if (parentIndex > 0)
+	{
+		const bool ok = widgetList->GetItem(parentIndex)->GetLayoutContainer(&e);
+		assert( ok );
+	}
 
 	const JXWidget::HSizingOption hS = (JXWidget::HSizingOption) hs;
 	const JXWidget::VSizingOption vS = (JXWidget::VSizingOption) vs;
@@ -335,24 +404,24 @@ LayoutContainer::ReadWidget
 	BaseWidget* widget = nullptr;
 	if (className == "InputField")
 	{
-		widget = jnew InputField(this, input, e, hS,vS, x,y,w,h);
+		widget = jnew InputField(input, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "TextButton")
 	{
-		widget = jnew TextButton(this, input, e, hS,vS, x,y,w,h);
+		widget = jnew TextButton(input, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "TextCheckbox")
 	{
-		widget = jnew TextCheckbox(this, input, e, hS,vS, x,y,w,h);
+		widget = jnew TextCheckbox(input, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "WidgetSet")
 	{
-		widget = jnew WidgetSet(this, input, e, hS,vS, x,y,w,h);
+		widget = jnew WidgetSet(input, e, hS,vS, x,y,w,h);
 	}
 	else
 	{
 		assert( className == "CustomWidget" );
-		widget = jnew CustomWidget(this, input, e, hS,vS, x,y,w,h);
+		widget = jnew CustomWidget(input, e, hS,vS, x,y,w,h);
 	}
 
 	widgetList->Append(widget);
@@ -377,24 +446,24 @@ LayoutContainer::CreateWidget
 
 	if (index == kInputFieldIndex)
 	{
-		return jnew InputField(this, this, kFixedLeft,kFixedTop, x,y,w,h);
+		return jnew InputField(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kTextButtonIndex)
 	{
-		return jnew TextButton(this, this, kFixedLeft,kFixedTop, x,y,w,h);
+		return jnew TextButton(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kTextCheckboxIndex)
 	{
-		return jnew TextCheckbox(this, this, kFixedLeft,kFixedTop, x,y,w,h);
+		return jnew TextCheckbox(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kWidgetSetIndex)
 	{
-		return jnew WidgetSet(this, this, kFixedLeft,kFixedTop, x,y,w,h);
+		return jnew WidgetSet(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else
 	{
 		assert( index == kCustomWidgetIndex );
-		return jnew CustomWidget(this, this, kFixedLeft,kFixedTop, x,y,w,h);
+		return jnew CustomWidget(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 }
 
@@ -415,7 +484,7 @@ LayoutContainer::WriteConfig
 	output << itsContainerName << std::endl;
 	output << itsAdjustContainerToFitFlag << std::endl;
 
-	JPtrArray<JXWidget> widgetList(JPtrArrayT::kForgetAll);
+	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
 
 	ForEach([&output, &widgetList](const JXContainer* obj)
 	{
@@ -436,7 +505,7 @@ LayoutContainer::WriteWidget
 	(
 	std::ostream&			output,
 	const JXContainer*		obj,
-	JPtrArray<JXWidget>*	widgetList
+	JPtrArray<BaseWidget>*	widgetList
 	)
 {
 	auto* widget = dynamic_cast<const BaseWidget*>(obj);
@@ -445,14 +514,13 @@ LayoutContainer::WriteWidget
 		return;		// used for rendering
 	}
 
-	auto* encl = dynamic_cast<const JXWidget*>(obj->GetEnclosure());
-	assert( encl != nullptr );
+	BaseWidget* parent = widget->GetParentContainer()->itsOwner;
 
-	JIndex enclosureIndex;
-	widgetList->Find(encl, &enclosureIndex);		// zero if not found
+	JIndex parentIndex;
+	widgetList->Find(parent, &parentIndex);		// zero if not found; enables drag-and-drop to different layout
 
 	output << true << std::endl;
-	output << enclosureIndex << std::endl;
+	output << parentIndex << std::endl;
 	widget->StreamOut(output);
 
 	widgetList->Append(const_cast<BaseWidget*>(widget));
@@ -559,11 +627,14 @@ LayoutContainer::GenerateCode
 
  ******************************************************************************/
 
-JString
+const JString&
 LayoutContainer::GetEnclosureName()
 	const
 {
-	return itsContainerName.IsEmpty() ? kDefaultContainerName : itsContainerName;
+	bool b;
+	return (itsOwner != nullptr ? itsOwner->GetVarName(&b) :
+			!itsContainerName.IsEmpty() ? itsContainerName :
+			kDefaultContainerName);
 }
 
 /******************************************************************************
@@ -591,6 +662,11 @@ JString
 LayoutContainer::GenerateUniqueVarName()
 	const
 {
+	if (itsParent != nullptr)
+	{
+		return itsParent->GenerateUniqueVarName();
+	}
+
 	const JString& base = JGetString("VarNameBase::LayoutContainer");
 
 	JUInt i = 0;
@@ -622,6 +698,11 @@ JIndex
 LayoutContainer::GetNextTabIndex()
 	const
 {
+	if (itsParent != nullptr)
+	{
+		return itsParent->GetNextTabIndex();
+	}
+
 	JIndex i = 0;
 	ForEach([&i](const JXContainer* obj)
 	{
@@ -648,6 +729,12 @@ LayoutContainer::TabIndexRemoved
 	const JIndex i
 	)
 {
+	if (itsParent != nullptr)
+	{
+		return itsParent->TabIndexRemoved(i);
+		return;
+	}
+
 	ForEach([i](JXContainer* obj)
 	{
 		auto* widget = dynamic_cast<BaseWidget*>(obj);
@@ -747,7 +834,9 @@ LayoutContainer::DrawBorder
 	}
 	else
 	{
-		p.SetPenColor(JColorManager::GetBlackColor());
+		p.SetPenColor(itsParent == nullptr ? JColorManager::GetBlackColor() :
+					  HasFocus() ? JColorManager::GetYellowColor() :
+					  JColorManager::GetWhiteColor());
 	}
 	p.SetFilling(true);
 	p.Rect(frame);
@@ -800,8 +889,11 @@ LayoutContainer::EnclosingBoundsResized
 	const JCoordinate dhb
 	)
 {
-	if ((labs(dwb) >= JCoordinate(itsGridSpacing) || labs(dhb) >= JCoordinate(itsGridSpacing)) &&
-		!itsIgnoreResizeFlag && !CurrentUndoIs(LayoutUndo::kWindowResizeType))
+	if (itsParent == nullptr &&
+		(labs(dwb) >= JCoordinate(itsGridSpacing) ||
+		 labs(dhb) >= JCoordinate(itsGridSpacing)) &&
+		!itsIgnoreResizeFlag &&
+		!CurrentUndoIs(LayoutUndo::kWindowResizeType))
 	{
 		auto* newUndo = jnew LayoutUndo(itsDoc, LayoutUndo::kWindowResizeType);
 		NewUndo(newUndo, false);
@@ -823,7 +915,9 @@ LayoutContainer::BoundsResized
 	)
 {
 	JXWidget::BoundsResized(dw,dh);
-	if (labs(dw) >= JCoordinate(itsGridSpacing) || labs(dh) >= JCoordinate(itsGridSpacing))
+	if (itsParent == nullptr &&
+		(labs(dw) >= JCoordinate(itsGridSpacing) ||
+		 labs(dh) >= JCoordinate(itsGridSpacing)))
 	{
 		itsDoc->DataModified();
 	}
@@ -1041,6 +1135,8 @@ LayoutContainer::HandleMouseUp
 		if (itsCreateDragFlag)
 		{
 			itsCreateRect = JRect(itsStartPt, pt);
+			itsCreateRect.bottom--;
+			itsCreateRect.right--;
 
 			auto* dlog = jnew ChooseWidgetDialog;
 			if (dlog->DoDialog())
@@ -1184,7 +1280,7 @@ LayoutContainer::HandleDNDDrop
 	)
 {
 	const BaseWidget* sourceWidget = dynamic_cast<const BaseWidget*>(source);
-	if (sourceWidget != nullptr && sourceWidget->GetLayoutContainer() == this &&
+	if (sourceWidget != nullptr && sourceWidget->GetParentContainer() == this &&
 		action == GetDNDManager()->GetDNDActionMoveXAtom())
 	{
 		auto* newUndo = jnew LayoutUndo(itsDoc);
@@ -1232,7 +1328,7 @@ LayoutContainer::HandleDNDDrop
 			const std::string s((char*) data, dataLength);
 			std::istringstream input(s);
 
-			JPtrArray<JXWidget> widgetList(JPtrArrayT::kForgetAll);
+			JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
 			while (!input.eof() && !input.fail())
 			{
 				bool keepGoing;
@@ -1309,13 +1405,20 @@ LayoutContainer::AppendToToolBar
 void
 LayoutContainer::UpdateEditMenu()
 {
-	bool canUndo, canRedo;
-	itsUndoChain->HasMultipleUndo(&canUndo, &canRedo);
+	if (itsUndoChain != nullptr)
+	{
+		bool canUndo, canRedo;
+		itsUndoChain->HasMultipleUndo(&canUndo, &canRedo);
 
-	itsEditMenu->SetItemEnabled(kUndoCmd, canUndo);
-	itsEditMenu->SetItemEnabled(kRedoCmd, canRedo);
-	itsEditMenu->SetItemEnabled(kClearCmd, HasSelection());
-	itsEditMenu->EnableItem(kSelectAllCmd);
+		itsEditMenu->SetItemEnabled(kUndoCmd, canUndo);
+		itsEditMenu->SetItemEnabled(kRedoCmd, canRedo);
+	}
+
+	if (HasFocus())
+	{
+		itsEditMenu->SetItemEnabled(kClearCmd, HasSelection());
+		itsEditMenu->EnableItem(kSelectAllCmd);
+	}
 }
 
 /******************************************************************************
@@ -1329,21 +1432,21 @@ LayoutContainer::HandleEditMenu
 	const JIndex index
 	)
 {
-	if (index == kUndoCmd)
+	if (index == kUndoCmd && itsUndoChain != nullptr)
 	{
 		itsUndoChain->Undo();
 	}
-	else if (index == kRedoCmd)
+	else if (index == kRedoCmd && itsUndoChain != nullptr)
 	{
 		itsUndoChain->Redo();
 	}
 
-	else if (index == kClearCmd)
+	else if (index == kClearCmd && HasFocus())
 	{
 		RemoveSelectedWidgets();
 	}
 
-	else if (index == kSelectAllCmd)
+	else if (index == kSelectAllCmd && HasFocus())
 	{
 		SelectAllWidgets();
 	}
@@ -1361,6 +1464,11 @@ LayoutContainer::CurrentUndoIs
 	)
 	const
 {
+	if (itsParent != nullptr)
+	{
+		return itsParent->CurrentUndoIs(type);
+	}
+
 	JUndo* tmpUndo;
 	return (itsUndoChain->GetCurrentUndo(&tmpUndo) &&
 			tmpUndo->IsActive() &&
@@ -1381,6 +1489,12 @@ LayoutContainer::NewUndo
 	const bool	setChanged
 	)
 {
+	if (itsParent != nullptr)
+	{
+		itsParent->NewUndo(undo, setChanged);
+		return;
+	}
+
 	itsUndoChain->NewUndo(undo);
 	if (setChanged)
 	{
@@ -1396,10 +1510,15 @@ LayoutContainer::NewUndo
 void
 LayoutContainer::UpdateLayoutMenu()
 {
-	JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
-	GetSelectedWidgets(&list);
+	itsLayoutMenu->EnableItem(kEditConfigCmd);
 
-	itsLayoutMenu->SetItemEnabled(kSelectParentCmd, list.GetItemCount() == 1);
+	if (HasFocus() && itsParent != nullptr)
+	{
+		JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+		GetSelectedWidgets(&list);
+
+		itsLayoutMenu->SetItemEnabled(kSelectParentCmd, !list.IsEmpty());
+	}
 }
 
 /******************************************************************************
@@ -1413,7 +1532,7 @@ LayoutContainer::HandleLayoutMenu
 	const JIndex index
 	)
 {
-	if (index == kEditConfigCmd)
+	if (index == kEditConfigCmd && itsParent == nullptr)
 	{
 		auto* dlog = jnew LayoutConfigDialog(itsCodeTag, itsWindowTitle,
 											 itsContainerName, itsAdjustContainerToFitFlag);
@@ -1428,7 +1547,7 @@ LayoutContainer::HandleLayoutMenu
 		}
 	}
 
-	else if (index == kSelectParentCmd)
+	else if (index == kSelectParentCmd && HasFocus())
 	{
 		JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
 		GetSelectedWidgets(&list);
@@ -1439,8 +1558,8 @@ LayoutContainer::HandleLayoutMenu
 			BaseWidget* w = dynamic_cast<BaseWidget*>(parent);
 			if (w != nullptr)
 			{
-				w->SetSelected(true);
 				list.GetFirstItem()->SetSelected(false);
+				w->SetSelected(true);
 				break;
 			}
 
@@ -1480,6 +1599,11 @@ LayoutContainer::UpdateArrangeMenu()
 	{
 		itsArrangeMenu->EnableItem(kExpandHorizCmd);
 		itsArrangeMenu->EnableItem(kExpandVertCmd);
+	}
+
+	if (itsParent == nullptr)
+	{
+		GetSelectedWidgets(&list, true);
 
 		const JIndex max = GetNextTabIndex()-1;
 		if (max > 0)
@@ -1524,61 +1648,73 @@ LayoutContainer::HandleArrangeMenu
 	JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
 	GetSelectedWidgets(&list);
 
+	const bool focus = HasFocus();
+
 	JRect bounds;
-	for (auto* w : list)
+	if (focus)
 	{
-		bounds = bounds.IsEmpty() ? w->GetFrame() : JCovering(bounds, w->GetFrame());
+		for (auto* w : list)
+		{
+			bounds = bounds.IsEmpty() ? w->GetFrame() : JCovering(bounds, w->GetFrame());
+		}
 	}
 
 	auto* newUndo = jnew LayoutUndo(itsDoc);
+	bool changed  = false;
 
-	if (index == kAlignLeftCmd)
+	if (index == kAlignLeftCmd && focus)
 	{
 		for (auto* w : list)
 		{
 			w->Move(bounds.left - w->GetFrame().left, 0);
 		}
+		changed = true;
 	}
-	else if (index == kAlignHorizCenterCmd)
+	else if (index == kAlignHorizCenterCmd && focus)
 	{
 		const auto x = bounds.xcenter();
 		for (auto* w : list)
 		{
 			w->Move(x - w->GetFrame().xcenter(), 0);
 		}
+		changed = true;
 	}
-	else if (index == kAlignRightCmd)
+	else if (index == kAlignRightCmd && focus)
 	{
 		for (auto* w : list)
 		{
 			w->Move(bounds.right - w->GetFrame().right, 0);
 		}
+		changed = true;
 	}
 
-	else if (index == kAlignTopCmd)
+	else if (index == kAlignTopCmd && focus)
 	{
 		for (auto* w : list)
 		{
 			w->Move(0, bounds.top - w->GetFrame().top);
 		}
+		changed = true;
 	}
-	else if (index == kAlignVertCenterCmd)
+	else if (index == kAlignVertCenterCmd && focus)
 	{
 		const auto y = bounds.ycenter();
 		for (auto* w : list)
 		{
 			w->Move(0, y - w->GetFrame().ycenter());
 		}
+		changed = true;
 	}
-	else if (index == kAlignBottomCmd)
+	else if (index == kAlignBottomCmd && focus)
 	{
 		for (auto* w : list)
 		{
 			w->Move(0, bounds.bottom - w->GetFrame().bottom);
 		}
+		changed = true;
 	}
 
-	else if (index == kDistrHorizCmd)
+	else if (index == kDistrHorizCmd && focus)
 	{
 		JCoordinate w = bounds.width();
 		for (auto* widget : list)
@@ -1606,8 +1742,9 @@ LayoutContainer::HandleArrangeMenu
 				x += w + r.width();
 			}
 		}
+		changed = true;
 	}
-	else if (index == kDistrVertCmd)
+	else if (index == kDistrVertCmd && focus)
 	{
 		JCoordinate h = bounds.height();
 		for (auto* widget : list)
@@ -1635,9 +1772,10 @@ LayoutContainer::HandleArrangeMenu
 				y += h + r.height();
 			}
 		}
+		changed = true;
 	}
 
-	else if (index == kExpandHorizCmd)
+	else if (index == kExpandHorizCmd && focus)
 	{
 		const JCoordinate w1 = GetFrameWidth();
 		for (auto* w : list)
@@ -1646,8 +1784,9 @@ LayoutContainer::HandleArrangeMenu
 			w->Place(0, r.top);
 			w->SetSize(w1, r.height());
 		}
+		changed = true;
 	}
-	else if (index == kExpandVertCmd)
+	else if (index == kExpandVertCmd && focus)
 	{
 		const JCoordinate h = GetFrameHeight();
 		for (auto* w : list)
@@ -1656,70 +1795,72 @@ LayoutContainer::HandleArrangeMenu
 			w->Place(r.left, 0);
 			w->SetSize(r.width(), h);
 		}
+		changed = true;
 	}
 
-	else if (index == kDecrementTabIndexCmd)
+	else if (index == kDecrementTabIndexCmd && itsParent == nullptr)
 	{
-		list.SetCompareFunction(CompareTabOrder);
-		list.Sort();
+		GetSelectedWidgets(&list, true);
+		AdjustTabOrder(&list, -1);
+		changed = true;
+	}
+	else if (index == kIncrementTabIndexCmd && itsParent == nullptr)
+	{
+		GetSelectedWidgets(&list, true);
+		AdjustTabOrder(&list, +1);
+		changed = true;
+	}
 
-		for (auto* w : list)
+	if (changed)
+	{
+		NewUndo(newUndo);
+	}
+	else
+	{
+		jdelete newUndo;
+	}
+}
+
+/******************************************************************************
+ AdjustTabOrder (private)
+
+ ******************************************************************************/
+
+void
+LayoutContainer::AdjustTabOrder
+	(
+	JPtrArray<BaseWidget>*	list,
+	const JInteger			delta
+	)
+{
+	list->SetCompareFunction(CompareTabOrder);
+	if (delta > 0)
+	{
+		list->SetSortOrder(JListT::kSortDescending);
+	}
+	list->Sort();
+
+	for (auto* w : *list)
+	{
+		JIndex i;
+		if (w->GetTabIndex(&i) && (delta > 0 || i > 1))
 		{
-			JIndex i;
-			if (w->GetTabIndex(&i) && i > 1)
+			AnyOf([i,w,delta](const JXContainer* obj)
 			{
-				AnyOf([i,w](const JXContainer* obj)
+				auto* widget = dynamic_cast<const BaseWidget*>(obj);
+				JIndex j;
+				if (widget != nullptr && widget != w &&
+					widget->GetTabIndex(&j) && j == i+delta)
 				{
-					auto* widget = dynamic_cast<const BaseWidget*>(obj);
-					JIndex j;
-					if (widget != nullptr && widget != w &&
-						widget->GetTabIndex(&j) && j == i-1)
-					{
-						w->SetTabIndex(j);
-						const_cast<BaseWidget*>(widget)->SetTabIndex(i);
-						return true;
-					}
-					return false;
-				},
-				true);
-			}
+					w->SetTabIndex(j);
+					const_cast<BaseWidget*>(widget)->SetTabIndex(i);
+					return true;
+				}
+				return false;
+			},
+			true);
 		}
 	}
-	else if (index == kIncrementTabIndexCmd)
-	{
-		list.SetCompareFunction(std::function([](const BaseWidget* w1, const BaseWidget* w2)
-		{
-			JIndex i1,i2;
-			w1->GetTabIndex(&i1);
-			w2->GetTabIndex(&i2);
-			return i2 <=> i1;
-		}));
-		list.Sort();
-
-		for (auto* w : list)
-		{
-			JIndex i;
-			if (w->GetTabIndex(&i))
-			{
-				AnyOf([i,w](const JXContainer* obj)
-				{
-					auto* widget = dynamic_cast<const BaseWidget*>(obj);
-					JIndex j;
-					if (widget != nullptr && widget != w &&
-						widget->GetTabIndex(&j) && j == i+1)
-					{
-						w->SetTabIndex(j);
-						const_cast<BaseWidget*>(widget)->SetTabIndex(i);
-						return true;
-					}
-					return false;
-				},
-				true);
-			}
-		}
-	}
-
-	NewUndo(newUndo);
 }
 
 /******************************************************************************

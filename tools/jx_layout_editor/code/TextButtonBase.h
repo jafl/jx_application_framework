@@ -14,11 +14,11 @@ class TextButtonBase : public CoreWidget
 {
 public:
 
-	TextButtonBase(LayoutContainer* layout, JXContainer* enclosure,
+	TextButtonBase(LayoutContainer* layout,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
-	TextButtonBase(LayoutContainer* layout, std::istream& input, JXContainer* enclosure,
+	TextButtonBase(std::istream& input, LayoutContainer* layout,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);

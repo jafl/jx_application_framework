@@ -1,7 +1,9 @@
-generate code when save
-	search for file_root .cpp .cc .hpp .h in same directory
+snap-to-grid for bottom & right is offset
 
-	adjust for 1px border when button has ^M shortcut
+ctrl-click on LayoutContainer switches drag to containing BaseWidget
+
+generate code when save
+	keep widget order the same!
 
 	JXStaticText
 		FL_ALIGN_CENTER: SetToLabel(true)
@@ -45,9 +47,7 @@ JXChooseMonoFont
 JXLevelControl
 JXSlider
 
-allow direct editing of content:
-	nested LayoutContainer - forward selection request, etc. to root LayoutContainer
-	ctrl-click on LayoutContainer switches drag to containing BaseWidget
+-----
 
 JXWidgetSet
 JXScrollbarSet

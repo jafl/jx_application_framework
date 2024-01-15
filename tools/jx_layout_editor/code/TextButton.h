@@ -17,16 +17,16 @@ class TextButton : public TextButtonBase
 {
 public:
 
-	TextButton(LayoutContainer* layout, JXContainer* enclosure,
+	TextButton(LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	TextButton(LayoutContainer* layout, const JString& label,
-				const JString& shortcuts, JXContainer* enclosure,
+	TextButton(const JString& label, const JString& shortcuts,
+				LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	TextButton(LayoutContainer* layout, std::istream& input, JXContainer* enclosure,
+	TextButton(std::istream& input, LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -39,6 +39,7 @@ public:
 protected:
 
 	JString	GetClassName() const override;
+	JRect	GetFrameForCode() const override;
 	void	PrintCtorArgsWithComma(std::ostream& output,
 								   const JString& varName,
 								   JStringManager* stringdb) const override;

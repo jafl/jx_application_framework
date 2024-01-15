@@ -16,17 +16,16 @@ class CustomWidget : public BaseWidget
 {
 public:
 
-	CustomWidget(LayoutContainer* layout, JXContainer* enclosure,
-				const HSizingOption hSizing, const VSizingOption vSizing,
-				const JCoordinate x, const JCoordinate y,
-				const JCoordinate w, const JCoordinate h);
 	CustomWidget(LayoutContainer* layout,
-				const JString& className, const JString& args, const bool create,
-				JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	CustomWidget(LayoutContainer* layout, std::istream& input, JXContainer* enclosure,
+	CustomWidget(const JString& className, const JString& args, const bool create,
+				LayoutContainer* layout,
+				const HSizingOption hSizing, const VSizingOption vSizing,
+				const JCoordinate x, const JCoordinate y,
+				const JCoordinate w, const JCoordinate h);
+	CustomWidget(std::istream& input, LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);

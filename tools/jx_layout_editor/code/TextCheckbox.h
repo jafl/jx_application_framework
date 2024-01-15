@@ -17,16 +17,16 @@ class TextCheckbox : public TextButtonBase
 {
 public:
 
-	TextCheckbox(LayoutContainer* layout, JXContainer* enclosure,
+	TextCheckbox(LayoutContainer* layout,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
-	TextCheckbox(LayoutContainer* layout, const JString& label,
-				 const JString& shortcuts, JXContainer* enclosure,
+	TextCheckbox(const JString& label, const JString& shortcuts,
+				 LayoutContainer* layout,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
-	TextCheckbox(LayoutContainer* layout, std::istream& input, JXContainer* enclosure,
+	TextCheckbox(std::istream& input, LayoutContainer* layout,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);

@@ -34,9 +34,8 @@ const JCoordinate kTabIndexVMarginWidth = 1;
 
 BaseWidget::BaseWidget
 	(
-	LayoutContainer*	layout,
 	const bool			wantsInput,
-	JXContainer*		enclosure,
+	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -45,8 +44,8 @@ BaseWidget::BaseWidget
 	const JCoordinate	h
 	)
 	:
-	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
-	itsLayout(layout),
+	JXWidget(layout, hSizing, vSizing, x,y, w,h),
+	itsParent(layout),
 	itsIsMemberVarFlag(false),
 	itsSelectedFlag(false),
 	itsTabIndex(0)
@@ -54,20 +53,19 @@ BaseWidget::BaseWidget
 	BaseWidgetX();
 
 	// itsVarName must first be initialized
-	itsVarName = itsLayout->GenerateUniqueVarName();
+	itsVarName = itsParent->GenerateUniqueVarName();
 
 	// itsTabIndex must first be initialized
 	if (wantsInput)
 	{
-		itsTabIndex = itsLayout->GetNextTabIndex();
+		itsTabIndex = itsParent->GetNextTabIndex();
 	}
 }
 
 BaseWidget::BaseWidget
 	(
-	LayoutContainer*	layout,
 	std::istream&		input,
-	JXContainer*		enclosure,
+	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
 	const JCoordinate	x,
@@ -76,8 +74,8 @@ BaseWidget::BaseWidget
 	const JCoordinate	h
 	)
 	:
-	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
-	itsLayout(layout),
+	JXWidget(layout, hSizing, vSizing, x,y, w,h),
+	itsParent(layout),
 	itsSelectedFlag(false)
 {
 	BaseWidgetX();
@@ -158,6 +156,24 @@ BaseWidget::ToString()
 }
 
 /******************************************************************************
+ GetLayoutContainer (virtual)
+
+	Some widgets can contain other widgets.
+
+ ******************************************************************************/
+
+bool
+BaseWidget::GetLayoutContainer
+	(
+	LayoutContainer** layout
+	)
+	const
+{
+	*layout = nullptr;
+	return false;
+}
+
+/******************************************************************************
  EditConfiguration
 
  ******************************************************************************/
@@ -175,7 +191,7 @@ BaseWidget::EditConfiguration
 	LayoutUndo* undo = nullptr;
 	if (createUndo)
 	{
-		undo = jnew LayoutUndo(itsLayout->GetDocument());
+		undo = jnew LayoutUndo(itsParent->GetDocument());
 	}
 
 	if (dlog->DoDialog())
@@ -187,7 +203,7 @@ BaseWidget::EditConfiguration
 
 		if (undo != nullptr)
 		{
-			itsLayout->NewUndo(undo);
+			itsParent->NewUndo(undo);
 		}
 	}
 	else
@@ -230,7 +246,7 @@ BaseWidget::GenerateCode
 	GetCtor().Print(output);
 	output << '(';
 	PrintCtorArgsWithComma(output, itsVarName, stringdb);
-	itsLayout->GetEnclosureName().Print(output);
+	itsParent->GetEnclosureName().Print(output);
 	output << ',' << std::endl;
 
 	indent.Print(output);
@@ -245,7 +261,7 @@ BaseWidget::GenerateCode
 		<< (GetVSizing() == kFixedTop    ? "kFixedTop" :
 			GetVSizing() == kFixedBottom ? "kFixedBottom" : "kVElastic") << ", ";
 
-	const JRect f = GetFrame();
+	const JRect f = GetFrameForCode();
 	output << f.left << ',' << f.top << ", " << f.width() << ',' << f.height();
 	output << ");" << std::endl;
 
@@ -263,6 +279,18 @@ BaseWidget::GetCtor()
 	const
 {
 	return "jnew " + GetClassName();
+}
+
+/******************************************************************************
+ GetFrameForCode (virtual protected)
+
+ ******************************************************************************/
+
+JRect
+BaseWidget::GetFrameForCode()
+	const
+{
+	return GetFrame();
 }
 
 /******************************************************************************
@@ -312,7 +340,13 @@ BaseWidget::SetSelected
 	if (on != itsSelectedFlag)
 	{
 		itsSelectedFlag = on;
-		itsLayout->Refresh();
+		itsParent->Refresh();
+
+		if (itsSelectedFlag)
+		{
+			const bool ok = itsParent->Focus();
+			assert( ok );
+		}
 	}
 }
 
@@ -329,13 +363,13 @@ BaseWidget::SetWantsInput
 {
 	if (wantsInput && itsTabIndex == 0)
 	{
-		itsTabIndex = itsLayout->GetNextTabIndex();
+		itsTabIndex = itsParent->GetNextTabIndex();
 	}
 	else if (!wantsInput && itsTabIndex > 0)
 	{
 		const JIndex i = itsTabIndex;
 		itsTabIndex    = 0;
-		itsLayout->TabIndexRemoved(i);
+		itsParent->TabIndexRemoved(i);
 	}
 }
 
@@ -359,25 +393,6 @@ BaseWidget::SetTabIndex
 }
 
 /******************************************************************************
- DrawSelection (protected)
-
- ******************************************************************************/
-
-void
-BaseWidget::DrawSelection
-	(
-	JXWindowPainter&	p,
-	const JRect&		rect
-	)
-{
-	if (itsSelectedFlag)
-	{
-		p.SetPenColor(JColorManager::GetDefaultSelectionColor());
-		p.Rect(rect);
-	}
-}
-
-/******************************************************************************
  DrawOver (virtual protected)
 
  ******************************************************************************/
@@ -397,7 +412,13 @@ BaseWidget::DrawOver
 	}
 
 	JRect f = GetFrameLocal();
-	if (itsSelectedFlag && itsLayout->GetSelectionCount() == 1)
+	if (itsSelectedFlag)
+	{
+		p.SetPenColor(JColorManager::GetDefaultSelectionColor());
+		p.Rect(f);
+	}
+
+	if (itsSelectedFlag && itsParent->GetSelectionCount() == 1)
 	{
 		itsHandles[ kTopLeftHandle     ].Place(f.top, f.left);
 		itsHandles[ kTopHandle         ].Place(f.top, f.xcenter() - kHandleHalfWidth);
@@ -549,12 +570,12 @@ BaseWidget::HandleMouseDown
 	}
 	itsResizeDragType = kHandleCount;
 
-	if (button == kJXLeftButton && clickCount == 1 && modifiers.shift())
+	if (button == kJXLeftButton && modifiers.shift())
 	{
 		if (!IsSelected())
 		{
 			JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
-			if (!itsLayout->GetSelectedWidgets(&list) ||
+			if (!itsParent->GetSelectedWidgets(&list, true) ||
 				list.GetFirstItem()->GetEnclosure() == GetEnclosure())
 			{
 				SetSelected(true);
@@ -567,7 +588,7 @@ BaseWidget::HandleMouseDown
 	}
 	else if (button == kJXLeftButton && clickCount > 1)
 	{
-		itsWaitingForDragFlag = itsLayout->HasSelection();
+		itsWaitingForDragFlag = itsParent->HasSelection();
 		itsLastClickCount     = clickCount;		// save for HandleMouseUp()
 	}
 	else if (button == kJXLeftButton)
@@ -580,7 +601,7 @@ BaseWidget::HandleMouseDown
 		}
 		else
 		{
-			itsLayout->ClearSelection();
+			itsParent->ClearSelection();
 			SetSelected(true);
 		}
 	}
@@ -604,14 +625,14 @@ BaseWidget::HandleMouseDrag
 
 	if (itsWaitingForDragFlag && moved)
 	{
-		assert( itsLayout->HasSelection() );
+		assert( itsParent->HasSelection() );
 
 		itsWaitingForDragFlag = false;
 		itsClearIfNotDNDFlag  = false;
 
-		itsLayout->SetSelectedWidgetsVisible(false);
+		itsParent->SetSelectedWidgetsVisible(false);
 
-		auto* data = jnew LayoutSelection(itsLayout, itsStartPtG);
+		auto* data = jnew LayoutSelection(itsParent, itsStartPtG);
 		BeginDND(pt, buttonStates, modifiers, data);
 		return;
 	}
@@ -625,9 +646,9 @@ BaseWidget::HandleMouseDrag
 	}
 
 	JPoint gridPtG =
-		itsLayout->LocalToGlobal(
-			itsLayout->SnapToGrid(
-				itsLayout->GlobalToLocal(ptG)));
+		itsParent->LocalToGlobal(
+			itsParent->SnapToGrid(
+				itsParent->GlobalToLocal(ptG)));
 
 	JPoint delta = gridPtG - itsPrevPtG;
 	if (delta.x == 0 && delta.y == 0)
@@ -636,9 +657,9 @@ BaseWidget::HandleMouseDrag
 	}
 
 	LayoutUndo* undo = nullptr;
-	if (!itsLayout->CurrentUndoIs(LayoutUndo::kDragResizeType))
+	if (!itsParent->CurrentUndoIs(LayoutUndo::kDragResizeType))
 	{
-		undo = jnew LayoutUndo(itsLayout->GetDocument(), LayoutUndo::kDragResizeType);
+		undo = jnew LayoutUndo(itsParent->GetDocument(), LayoutUndo::kDragResizeType);
 	}
 
 	if (itsResizeDragType == kTopLeftHandle)
@@ -646,7 +667,7 @@ BaseWidget::HandleMouseDrag
 		Move(delta.x, delta.y);
 		AdjustSize(-delta.x, -delta.y);
 
-		delta = itsLayout->SnapToGrid(this);
+		delta = itsParent->SnapToGrid(this);
 		AdjustSize(-delta.x, -delta.y);
 	}
 	else if (itsResizeDragType == kTopHandle)
@@ -654,7 +675,7 @@ BaseWidget::HandleMouseDrag
 		Move(0, delta.y);
 		AdjustSize(0, -delta.y);
 
-		delta = itsLayout->SnapToGrid(this);
+		delta = itsParent->SnapToGrid(this);
 		AdjustSize(0, -delta.y);
 	}
 	else if (itsResizeDragType == kTopRightHandle)
@@ -662,28 +683,28 @@ BaseWidget::HandleMouseDrag
 		Move(0, delta.y);
 		AdjustSize(delta.x, -delta.y);
 
-		delta = itsLayout->SnapToGrid(this);
+		delta = itsParent->SnapToGrid(this);
 		AdjustSize(delta.x, -delta.y);
 	}
 	else if (itsResizeDragType == kRightHandle)
 	{
 		AdjustSize(delta.x, 0);
 
-		delta = itsLayout->SnapToGrid(this);
+		delta = itsParent->SnapToGrid(this);
 		AdjustSize(delta.x, 0);
 	}
 	else if (itsResizeDragType == kBottomRightHandle)
 	{
 		AdjustSize(delta.x, delta.y);
 
-		delta = itsLayout->SnapToGrid(this);
+		delta = itsParent->SnapToGrid(this);
 		AdjustSize(delta.x, delta.y);
 	}
 	else if (itsResizeDragType == kBottomHandle)
 	{
 		AdjustSize(0, delta.y);
 
-		delta = itsLayout->SnapToGrid(this);
+		delta = itsParent->SnapToGrid(this);
 		AdjustSize(0, delta.y);
 	}
 	else if (itsResizeDragType == kBottomLeftHandle)
@@ -691,7 +712,7 @@ BaseWidget::HandleMouseDrag
 		Move(delta.x, 0);
 		AdjustSize(-delta.x, delta.y);
 
-		delta = itsLayout->SnapToGrid(this);
+		delta = itsParent->SnapToGrid(this);
 		AdjustSize(-delta.x, delta.y);
 	}
 	else if (itsResizeDragType == kLeftHandle)
@@ -699,13 +720,13 @@ BaseWidget::HandleMouseDrag
 		Move(delta.x, 0);
 		AdjustSize(-delta.x, 0);
 
-		delta = itsLayout->SnapToGrid(this);
+		delta = itsParent->SnapToGrid(this);
 		AdjustSize(-delta.x, 0);
 	}
 
 	if (undo != nullptr)
 	{
-		itsLayout->NewUndo(undo);
+		itsParent->NewUndo(undo);
 	}
 
 	itsPrevPtG = gridPtG;
@@ -725,7 +746,7 @@ BaseWidget::HandleMouseUp
 	const JXKeyModifiers&	modifiers
 	)
 {
-	itsLayout->GetUndoRedoChain()->DeactivateCurrentUndo();
+	itsParent->GetUndoRedoChain()->DeactivateCurrentUndo();
 
 	if (itsWaitingForDragFlag && itsLastClickCount == 2)
 	{
@@ -733,7 +754,7 @@ BaseWidget::HandleMouseUp
 	}
 	else if (itsClearIfNotDNDFlag)
 	{
-		itsLayout->ClearSelection();
+		itsParent->ClearSelection();
 		SetSelected(true);
 	}
 }
@@ -759,12 +780,12 @@ BaseWidget::GetDNDAction
 		(style == JXMenu::kMacintoshStyle && modifiers.meta()) ||
 		(style == JXMenu::kWindowsStyle   && modifiers.control());
 
-	if (target == itsLayout)
+	if (target == itsParent)
 	{
 		move = !move;
 	}
 
-	itsLayout->SetSelectedWidgetsVisible(!move);
+	itsParent->SetSelectedWidgetsVisible(!move);
 
 	return (move ?
 			GetDNDManager()->GetDNDActionMoveXAtom() : 
@@ -791,7 +812,7 @@ BaseWidget::DNDFinish
 {
 	if (!isDrop)
 	{
-		itsLayout->SetSelectedWidgetsVisible(true);
+		itsParent->SetSelectedWidgetsVisible(true);
 	}
 }
 

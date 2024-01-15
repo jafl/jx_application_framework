@@ -115,7 +115,7 @@ WidgetLabelPanel::Validate()
 	const
 {
 	const JString& shortcuts = itsShortcutsInput->GetText()->GetText();
-	if (!shortcuts.IsEmpty())
+	if (shortcuts.Contains("#"))
 	{
 		bool found = false;
 
@@ -123,7 +123,7 @@ WidgetLabelPanel::Validate()
 		JUtf8Character c;
 		while (iter.Next(&c))
 		{
-			if (c.IsAlnum() &&
+			if (c == '#' && iter.Next(&c) && c.IsAlnum() &&
 				itsLabelInput->GetText()->GetText().Contains(c, JString::kIgnoreCase))
 			{
 				found = true;
@@ -134,7 +134,7 @@ WidgetLabelPanel::Validate()
 		if (!found)
 		{
 			JGetUserNotification()->ReportError(
-				JGetString("MismatchedWindowsKey::WidgetLabelPanel"));
+				JGetString("MismatchedShortcutKey::WidgetLabelPanel"));
 			JXFocusWidgetTask::Focus(itsShortcutsInput);
 			return false;
 		}
