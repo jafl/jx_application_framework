@@ -14,7 +14,6 @@ class JString;
 class JXInputField;
 class JXTextCheckbox;
 class WidgetParametersDialog;
-class WidgetPanelBase;
 
 class WidgetLabelPanel : public WidgetPanelBase
 {

@@ -31,5 +31,6 @@
 .cpp ./code/CustomWidgetPanel
 .cpp ./code/WidgetLabelPanel
 .cpp ./code/InputFieldPanel
+.cpp ./code/FileInputPanel
 
 literal: ${LIB_DEPS}

@@ -147,10 +147,6 @@ LayoutConfigDialog::BuildWindow
 	itsContainerInput->GetText()->SetText(containerName);
 	itsAdjustContentCB->SetState(adjustToFit);
 
-	itsContainerInput->SetValidationPattern(
-		jnew JRegex("^[_a-z][_a-z0-9]+$", "i"),
-		"ContainerNameMustBeValidIdentifier::LayoutConfigDialog");
-
 	UpdateDisplay();
 
 	ListenTo(itsLayoutTypeRG, std::function([this](const JXRadioGroup::SelectionChanged&)
@@ -170,7 +166,6 @@ LayoutConfigDialog::UpdateDisplay()
 	if (itsLayoutTypeRG->GetSelectedItem() == kWindowContainer)
 	{
 		itsWindowTitleInput->Activate();
-		itsWindowTitleInput->SetIsRequired();
 
 		itsContainerInput->Deactivate();
 		itsContainerInput->SetIsRequired(false);
@@ -179,11 +174,43 @@ LayoutConfigDialog::UpdateDisplay()
 	else
 	{
 		itsWindowTitleInput->Deactivate();
-		itsWindowTitleInput->SetIsRequired(false);
 
 		itsContainerInput->Activate();
 		itsContainerInput->SetIsRequired();
 		itsAdjustContentCB->Activate();
+	}
+}
+
+/******************************************************************************
+ OKToDeactivate (virtual protected)
+
+	Only validate container name if option is selected
+
+ ******************************************************************************/
+
+static const JRegex idPattern("^[_a-z][_a-z0-9]+$", "i");
+
+bool
+LayoutConfigDialog::OKToDeactivate()
+{
+	if (!JXModalDialogDirector::OKToDeactivate())
+	{
+		return false;
+	}
+	else if (Cancelled())
+	{
+		return true;
+	}
+
+	if (itsLayoutTypeRG->GetSelectedItem() == kCustomContainer &&
+		!idPattern.Match(itsContainerInput->GetText()->GetText()))
+	{
+		JGetUserNotification()->ReportError(JGetString("ContainerNameMustBeValidIdentifier::LayoutConfigDialog"));
+		return false;
+	}
+	else
+	{
+		return true;
 	}
 }
 
@@ -202,16 +229,16 @@ LayoutConfigDialog::GetConfig
 	)
 	const
 {
+	*codeTag = itsCodeTagInput->GetText()->GetText();
+
 	if (itsLayoutTypeRG->GetSelectedItem() == kWindowContainer)
 	{
-		codeTag->Clear();
 		*windowTitle = itsWindowTitleInput->GetText()->GetText();
 		containerName->Clear();
 		*adjustToFit = false;
 	}
 	else
 	{
-		*codeTag = itsCodeTagInput->GetText()->GetText();
 		windowTitle->Clear();
 		*containerName = itsContainerInput->GetText()->GetText();
 		*adjustToFit   = itsAdjustContentCB->IsChecked();

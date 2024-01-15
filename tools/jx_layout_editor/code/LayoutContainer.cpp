@@ -543,15 +543,24 @@ LayoutContainer::GenerateCode
 	const
 {
 	JString containerApName;
-	if (!itsWindowTitle.IsEmpty())
+	if (itsContainerName.IsEmpty())
 	{
-		const JString id = "WindowTitle" + GetStringNamespace();
-		stringdb->SetItem(id, itsWindowTitle, JPtrArrayT::kDelete);
-
 		indent.Print(output);
 		output << "auto* window = jnew JXWindow(this, ";
-		output << GetFrameWidth() << ',' << GetFrameHeight();
-		output << ", " << id << ");" << std::endl;
+		output << GetApertureWidth() << ',' << GetApertureHeight();
+		output << ", ";
+		if (!itsWindowTitle.IsEmpty())
+		{
+			const JString id = "WindowTitle" + GetStringNamespace();
+			stringdb->SetItem(id, itsWindowTitle, JPtrArrayT::kDelete);
+			output << id;
+		}
+		else
+		{
+			output << "JString::empty";
+		}
+		output << ");" << std::endl;
+
 		output << std::endl;
 	}
 	else if (itsAdjustContainerToFitFlag)
@@ -568,9 +577,9 @@ LayoutContainer::GenerateCode
 
 		indent.Print(output);
 		itsContainerName.Print(output);
-		output << "->AdjustSize(" << GetFrameWidth() << " - ";
+		output << "->AdjustSize(" << GetApertureWidth() << " - ";
 		containerApName.Print(output);
-		output << ".width(), " << GetFrameHeight() << " - ";
+		output << ".width(), " << GetApertureHeight() << " - ";
 		containerApName.Print(output);
 		output << ".height());" << std::endl;
 
@@ -578,7 +587,8 @@ LayoutContainer::GenerateCode
 	}
 
 	JPtrArray<BaseWidget> inputWidgets(JPtrArrayT::kForgetAll);
-	ForEach([&output, &indent, objTypes, objNames, stringdb, &inputWidgets](const JXContainer* obj)
+	JPtrArray<BaseWidget> otherWidgets(JPtrArrayT::kForgetAll);
+	ForEach([&inputWidgets, &otherWidgets](const JXContainer* obj)
 	{
 		auto* widget = dynamic_cast<const BaseWidget*>(obj);
 		if (widget == nullptr)
@@ -592,10 +602,20 @@ LayoutContainer::GenerateCode
 		}
 		else
 		{
-			widget->GenerateCode(output, indent, objTypes, objNames, stringdb);
+			otherWidgets.Append(const_cast<BaseWidget*>(widget));
 		}
 	},
 	true);
+
+	// ensure stable ordering
+
+	otherWidgets.SetCompareFunction(CompareLocations);
+	otherWidgets.Sort();
+
+	for (auto* widget: otherWidgets)
+	{
+		widget->GenerateCode(output, indent, objTypes, objNames, stringdb);
+	}
 
 	// ensure tab order is maintained
 
@@ -620,6 +640,29 @@ LayoutContainer::GenerateCode
 		output << ".height());" << std::endl;
 		output << std::endl;
 	}
+}
+
+/******************************************************************************
+ CompareLocations (static private)
+
+ ******************************************************************************/
+
+std::weak_ordering
+LayoutContainer::CompareLocations
+	(
+	BaseWidget *const w1,
+	BaseWidget *const w2
+	)
+{
+	const JPoint pt1 = w1->GetFrameGlobal().topLeft();
+	const JPoint pt2 = w2->GetFrameGlobal().topLeft();
+
+	std::weak_ordering r = pt1.y <=> pt2.y;
+	if (r == std::weak_ordering::equivalent)
+	{
+		r = pt1.x <=> pt2.x;
+	}
+	return r;
 }
 
 /******************************************************************************

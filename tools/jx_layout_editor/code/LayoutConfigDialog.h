@@ -27,6 +27,10 @@ public:
 	void	GetConfig(JString* codeTag, JString* windowTitle,
 					  JString* containerName, bool* adjustToFit) const;
 
+protected:
+
+	bool	OKToDeactivate() override;
+
 private:
 
 // begin JXLayout

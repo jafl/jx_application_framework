@@ -169,6 +169,8 @@ private:
 	void	AdjustTabOrder(JPtrArray<BaseWidget>* list, const JInteger delta);
 
 	static std::weak_ordering
+		CompareLocations(BaseWidget *const w1, BaseWidget *const w2);
+	static std::weak_ordering
 		CompareTabOrder(BaseWidget *const w1, BaseWidget *const w2);
 };
 

@@ -3,8 +3,6 @@ snap-to-grid for bottom & right is offset
 ctrl-click on LayoutContainer switches drag to containing BaseWidget
 
 generate code when save
-	keep widget order the same!
-
 	JXStaticText
 		FL_ALIGN_CENTER: SetToLabel(true)
 		!FL_ALIGN_TOP: SetToLabel()
