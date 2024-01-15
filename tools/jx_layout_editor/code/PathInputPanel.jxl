@@ -1,0 +1,39 @@
+jx_layout_editor 0
+460
+40
+"Panel"
+""
+"window"
+0
+1
+0
+"WidgetSet"
+0
+0
+0 0 40 460
+"container"
+0
+0
+1
+1
+"TextCheckbox"
+0
+0
+10 200 30 260
+"itsRequirePathWritableCB"
+1
+0
+"Write"
+"#W"
+1
+1
+"TextCheckbox"
+0
+0
+10 20 30 150
+"itsAllowInvalidPathCB"
+1
+0
+"Allow invalid path"
+"#I"
+0

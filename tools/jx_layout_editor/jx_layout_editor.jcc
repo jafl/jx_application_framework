@@ -160,6 +160,22 @@ T
 2 "InputFieldPanel.cpp"
 F
 "./code/InputFieldPanel.cpp"
+T
+2 "FileInputPanel.cpp"
+F
+"./code/FileInputPanel.cpp"
+T
+2 "FileInputPanel.jxl"
+F
+"./code/FileInputPanel.jxl"
+T
+2 "PathInputPanel.cpp"
+F
+"./code/PathInputPanel.cpp"
+T
+2 "PathInputPanel.jxl"
+F
+"./code/PathInputPanel.jxl"
 F
 T
 1 "layouts"

@@ -1,3 +1,7 @@
+JXStaticText
+	text
+	center
+
 snap-to-grid for bottom & right is offset
 
 ctrl-click on LayoutContainer switches drag to containing BaseWidget
@@ -19,8 +23,6 @@ generate code when save
 
 -----
 
-JXStaticText
-	text
 JXTextRadioButton
 JXImageWidget
 	image
