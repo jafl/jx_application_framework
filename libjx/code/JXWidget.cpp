@@ -353,8 +353,7 @@ JXWidget::HasFocus()
 	const
 {
 	JXWidget* focusWidget;
-	return GetWindow()->GetFocusWidget(&focusWidget) &&
-			focusWidget == this;
+	return GetWindow()->GetFocusWidget(&focusWidget) && focusWidget == this;
 }
 
 /******************************************************************************
