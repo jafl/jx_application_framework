@@ -217,6 +217,8 @@ if [[ ! -e libjcore/code/jStringData.h && $1 != package ]]; then
 fi
 
 if [[ $1 != package ]]; then
-	touch libjx/image-build/*;
 	touch libjexpr/code/JExprParserY.cpp libjexpr/code/JExprParserY.hpp;
+	for d in `find . -name image-build`; do
+		touch $d/*;
+	done
 fi
