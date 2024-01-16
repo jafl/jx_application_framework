@@ -1086,6 +1086,14 @@ LayoutContainer::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
+	if (itsOwner != nullptr &&
+		button == kJXLeftButton && clickCount == 1 && modifiers.control())
+	{
+		itsOwner->PrepareToAcceptDrag();
+		GetDisplay()->SwitchDrag(this, origPt, buttonStates, modifiers, itsOwner);
+		return;
+	}
+
 	JPoint pt         = origPt;
 	itsCreateDragFlag = modifiers.meta();
 

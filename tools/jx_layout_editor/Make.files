@@ -33,5 +33,6 @@
 .cpp ./code/InputFieldPanel
 .cpp ./code/FileInputPanel
 .cpp ./code/PathInputPanel
+.cpp ./code/SaveFileInputPanel
 
 literal: ${LIB_DEPS}

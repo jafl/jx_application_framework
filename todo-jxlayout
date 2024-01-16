@@ -4,8 +4,6 @@ JXStaticText
 
 snap-to-grid for bottom & right is offset
 
-ctrl-click on LayoutContainer switches drag to containing BaseWidget
-
 generate code when save
 	JXStaticText
 		FL_ALIGN_CENTER: SetToLabel(true)

@@ -48,7 +48,8 @@ BaseWidget::BaseWidget
 	itsParent(layout),
 	itsIsMemberVarFlag(false),
 	itsSelectedFlag(false),
-	itsTabIndex(0)
+	itsTabIndex(0),
+	itsExpectingDragFlag(false)
 {
 	BaseWidgetX();
 
@@ -76,7 +77,8 @@ BaseWidget::BaseWidget
 	:
 	JXWidget(layout, hSizing, vSizing, x,y, w,h),
 	itsParent(layout),
-	itsSelectedFlag(false)
+	itsSelectedFlag(false),
+	itsExpectingDragFlag(false)
 {
 	BaseWidgetX();
 
@@ -533,6 +535,40 @@ BaseWidget::AdjustCursor
 	{
 		JXWidget::AdjustCursor(pt, modifiers);
 	}
+}
+
+/******************************************************************************
+ StealMouse (virtual protected)
+
+	Grab mouse when in resize handles.
+
+ ******************************************************************************/
+
+bool
+BaseWidget::StealMouse
+	(
+	const int			eventType,
+	const JPoint&		ptG,
+	const JXMouseButton	button,
+	const unsigned int	state
+	)
+{
+	if (itsExpectingDragFlag)
+	{
+		itsExpectingDragFlag = false;
+		return true;
+	}
+
+	const JPoint pt = GlobalToLocal(ptG);
+	for (auto& r : itsHandles)
+	{
+		if (r.Contains(pt))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 /******************************************************************************

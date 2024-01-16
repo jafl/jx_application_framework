@@ -86,9 +86,6 @@ T
 2 "LayoutUndo.cpp"
 F
 "./code/LayoutUndo.cpp"
-F
-T
-1 "widgets"
 T
 2 "ChooseWidgetDialog.cpp"
 F
@@ -97,6 +94,9 @@ T
 2 "ChooseWidgetDialog-Widget.jxm"
 F
 "./code/ChooseWidgetDialog-Widget.jxm"
+F
+T
+1 "widgets"
 T
 2 "BaseWidget.cpp"
 F
@@ -176,6 +176,14 @@ T
 2 "PathInputPanel.jxl"
 F
 "./code/PathInputPanel.jxl"
+T
+2 "SaveFileInputPanel.cpp"
+F
+"./code/SaveFileInputPanel.cpp"
+T
+2 "SaveFileInputPanel.jxl"
+F
+"./code/SaveFileInputPanel.jxl"
 F
 T
 1 "layouts"

@@ -1340,7 +1340,7 @@ JXDisplay::WindowCreated
 		window->AcceptSaveYourself(true);
 		if (itsWindowList->GetItemCount() > 1)
 		{
-			((itsWindowList->GetItem(2)).window)->AcceptSaveYourself(false);
+			itsWindowList->GetItem(2).window->AcceptSaveYourself(false);
 		}
 	}
 }

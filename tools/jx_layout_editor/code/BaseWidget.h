@@ -52,6 +52,8 @@ public:
 						 JPtrArray<JString>* objNames,
 						 JStringManager* stringdb) const;
 
+	void	PrepareToAcceptDrag();
+
 	JString	ToString() const override;
 
 protected:
@@ -75,6 +77,10 @@ protected:
 	void	DrawOver(JXWindowPainter& p, const JRect& rect) override;
 
 	void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers) override;
+
+	bool	StealMouse(const int eventType, const JPoint& ptG,
+					   const JXMouseButton button,
+					   const unsigned int state) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 							const JSize clickCount,
@@ -122,6 +128,8 @@ private:
 	JSize	itsLastClickCount;
 	bool	itsWaitingForDragFlag;
 	bool	itsClearIfNotDNDFlag;
+
+	bool	itsExpectingDragFlag;	// receive drag from child LayoutContainer
 
 	// used during resize drag
 
@@ -225,6 +233,17 @@ BaseWidget::GetDragStartPointGlobal()
 	const
 {
 	return itsStartPtG;
+}
+
+/******************************************************************************
+ PrepareToAcceptDrag
+
+ ******************************************************************************/
+
+inline void
+BaseWidget::PrepareToAcceptDrag()
+{
+	itsExpectingDragFlag = true;
 }
 
 #endif
