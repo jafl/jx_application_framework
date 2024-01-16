@@ -9,6 +9,8 @@ enum {
 	kCustomWidgetIndex=1,
 	kStaticTextIndex,
 	kInputFieldIndex,
+	kIntegerInputIndex,
+	kFloatInputIndex,
 	kTextButtonIndex,
 	kTextCheckboxIndex,
 	kWidgetSetIndex,

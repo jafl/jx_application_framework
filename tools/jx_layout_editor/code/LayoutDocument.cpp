@@ -1048,7 +1048,9 @@ LayoutDocument::ImportFDesignFile
  ******************************************************************************/
 
 #include "CustomWidget.h"
+#include "FloatInput.h"
 #include "InputField.h"
+#include "IntegerInput.h"
 #include "StaticText.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
@@ -1231,9 +1233,17 @@ LayoutDocument::ImportFDesignLayout
 		h = localFrame.height();
 
 		BaseWidget* widget;
-		if (flClass == "FL_INPUT" && flType == "FL_NORMAL_INPUT")
+		if (flClass == "FL_INPUT" && flType == "FL_FLOAT_INPUT")
+		{
+			widget = jnew FloatInput(enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_INPUT" && flType == "FL_NORMAL_INPUT")
 		{
 			widget = jnew InputField(enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_INPUT" && flType == "FL_INT_INPUT")
+		{
+			widget = jnew IntegerInput(enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_TEXT" && flType == "FL_NORMAL_TEXT")
 		{

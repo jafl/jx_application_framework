@@ -41,6 +41,26 @@ jx_menu_editor 0
 ' 
 "__InputField"
 "kInputFieldIndex"
+0
+
+1
+0
+0 ""
+"Integer input"
+""
+' 
+"__IntegerInput"
+"kIntegerInputIndex"
+0
+
+1
+0
+0 ""
+"Float input"
+""
+' 
+"__FloatInput"
+"kFloatInputIndex"
 1
 
 1

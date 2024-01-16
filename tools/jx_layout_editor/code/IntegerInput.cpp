@@ -1,5 +1,5 @@
 /******************************************************************************
- InputField.cpp
+ IntegerInput.cpp
 
 	BASE CLASS = InputFieldBase
 
@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "InputField.h"
-#include "InputFieldPanel.h"
+#include "IntegerInput.h"
+#include "IntegerInputPanel.h"
 #include "LayoutContainer.h"
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/jXPainterUtil.h>
@@ -21,7 +21,7 @@
 
  ******************************************************************************/
 
-InputField::InputField
+IntegerInput::IntegerInput
 	(
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
@@ -34,14 +34,14 @@ InputField::InputField
 	:
 	InputFieldBase(layout, hSizing, vSizing, x,y, w,h),
 	itsIsRequiredFlag(false),
-	itsMinLength(0),
-	itsMaxLength(0),
-	itsWordWrapFlag(false),
-	itsAcceptNewlineFlag(false)
+	itsHasMinValue(false),
+	itsMinValue(0),
+	itsHasMaxValue(false),
+	itsMaxValue(0)
 {
 }
 
-InputField::InputField
+IntegerInput::IntegerInput
 	(
 	std::istream&		input,
 	LayoutContainer*	layout,
@@ -55,9 +55,9 @@ InputField::InputField
 	:
 	InputFieldBase(input, layout, hSizing, vSizing, x,y, w,h)
 {
-	input >> itsIsRequiredFlag >> itsMinLength >> itsMaxLength;
-	input >> itsValidationPattern >> itsRegexErrorMsg;
-	input >> itsWordWrapFlag >> itsAcceptNewlineFlag;
+	input >> itsIsRequiredFlag;
+	input >> itsHasMinValue >> itsMinValue;
+	input >> itsHasMaxValue >> itsMaxValue;
 }
 
 /******************************************************************************
@@ -65,7 +65,7 @@ InputField::InputField
 
  ******************************************************************************/
 
-InputField::~InputField()
+IntegerInput::~IntegerInput()
 {
 }
 
@@ -75,23 +75,19 @@ InputField::~InputField()
  ******************************************************************************/
 
 void
-InputField::StreamOut
+IntegerInput::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("InputField") << std::endl;
+	output << JString("IntegerInput") << std::endl;
 
 	InputFieldBase::StreamOut(output);
 
 	output << itsIsRequiredFlag << std::endl;
-	output << itsMinLength << std::endl;
-	output << itsMaxLength << std::endl;
-	output << itsValidationPattern << std::endl;
-	output << itsRegexErrorMsg << std::endl;
-	output << itsWordWrapFlag << std::endl;
-	output << itsAcceptNewlineFlag << std::endl;
+	output << itsHasMinValue << ' ' << itsMinValue << std::endl;
+	output << itsHasMaxValue << ' ' << itsMaxValue << std::endl;
 }
 
 /******************************************************************************
@@ -100,7 +96,7 @@ InputField::StreamOut
  ******************************************************************************/
 
 JString
-InputField::ToString()
+IntegerInput::ToString()
 	const
 {
 	JString s = InputFieldBase::ToString();
@@ -111,40 +107,18 @@ InputField::ToString()
 		s += JGetString("RequiredLabel::InputField");
 	}
 
-	if (itsMinLength > 0)
+	if (itsHasMinValue)
 	{
 		s += JString::newline;
-		s += JGetString("MinLengthLabel::InputField");
-		s += JString((JUInt64) itsMinLength);
+		s += JGetString("MinValueLabel::InputField");
+		s += JString((JUInt64) itsMinValue);
 	}
 
-	if (itsMaxLength > 0)
+	if (itsHasMaxValue)
 	{
 		s += JString::newline;
-		s += JGetString("MaxLengthLabel::InputField");
-		s += JString((JUInt64) itsMaxLength);
-	}
-
-	if (!itsValidationPattern.IsEmpty())
-	{
-		s += JString::newline;
-		s += JGetString("ValidationLabel:InputField");
-		s += itsValidationPattern;
-		s += JString::newline;
-		s += JGetString("ErrorMsgLabel:InputField");
-		s += itsRegexErrorMsg;
-	}
-
-	if (itsWordWrapFlag)
-	{
-		s += JString::newline;
-		s += JGetString("WordWrap::InputField");
-	}
-
-	if (itsAcceptNewlineFlag)
-	{
-		s += JString::newline;
-		s += JGetString("AcceptNewline::InputField");
+		s += JGetString("MaxValueLabel::InputField");
+		s += JString((JUInt64) itsMaxValue);
 	}
 
 	return s;
@@ -156,30 +130,10 @@ InputField::ToString()
  ******************************************************************************/
 
 JString
-InputField::GetClassName()
+IntegerInput::GetClassName()
 	const
 {
-	return "JXInputField";
-}
-
-/******************************************************************************
- PrintCtorArgsWithComma (virtual protected)
-
- ******************************************************************************/
-
-void
-InputField::PrintCtorArgsWithComma
-	(
-	std::ostream&	output,
-	const JString&	varName,
-	JStringManager* stringdb
-	)
-	const
-{
-	if (itsWordWrapFlag || itsAcceptNewlineFlag)
-	{
-		output << itsWordWrapFlag << ", " << itsAcceptNewlineFlag << ',';
-	}
+	return "JXIntegerInput";
 }
 
 /******************************************************************************
@@ -188,7 +142,7 @@ InputField::PrintCtorArgsWithComma
  ******************************************************************************/
 
 void
-InputField::PrintConfiguration
+IntegerInput::PrintConfiguration
 	(
 	std::ostream&	output,
 	const JString&	indent,
@@ -199,14 +153,7 @@ InputField::PrintConfiguration
 {
 	bool used = false;
 
-	if (itsMinLength > 1)
-	{
-		indent.Print(output);
-		varName.Print(output);
-		output << "->SetMinLength(" << itsMinLength << ");" << std::endl;
-		used = true;
-	}
-	else if (itsIsRequiredFlag)
+	if (itsIsRequiredFlag)
 	{
 		indent.Print(output);
 		varName.Print(output);
@@ -214,22 +161,19 @@ InputField::PrintConfiguration
 		used = true;
 	}
 
-	if (itsMaxLength > 0)
+	if (itsHasMinValue)
 	{
 		indent.Print(output);
 		varName.Print(output);
-		output << "->SetMaxLength(" << itsMaxLength << ");" << std::endl;
+		output << "->SetLowerLimit(" << itsMinValue << ");" << std::endl;
 		used = true;
 	}
 
-	if (!itsValidationPattern.IsEmpty())
+	if (itsHasMaxValue)
 	{
-		const JString id = varName + "::validation" + GetParentContainer()->GetStringNamespace();
-		stringdb->SetItem(id, itsRegexErrorMsg, JPtrArrayT::kDelete);
-
 		indent.Print(output);
 		varName.Print(output);
-		output << "->SetValidationPattern(" << itsValidationPattern << ", " << id << ");" << std::endl;
+		output << "->SetUpperLimit(" << itsMaxValue << ");" << std::endl;
 		used = true;
 	}
 
@@ -245,15 +189,15 @@ InputField::PrintConfiguration
  ******************************************************************************/
 
 void
-InputField::AddPanels
+IntegerInput::AddPanels
 	(
 	WidgetParametersDialog* dlog
 	)
 {
 	itsPanel =
-		jnew InputFieldPanel(dlog, itsIsRequiredFlag, itsMinLength, itsMaxLength,
-			itsValidationPattern, itsRegexErrorMsg,
-			itsWordWrapFlag, itsAcceptNewlineFlag);
+		jnew IntegerInputPanel(dlog, itsIsRequiredFlag,
+			itsHasMinValue, itsMinValue,
+			itsHasMaxValue, itsMaxValue);
 }
 
 /******************************************************************************
@@ -262,10 +206,10 @@ InputField::AddPanels
  ******************************************************************************/
 
 void
-InputField::SavePanelData()
+IntegerInput::SavePanelData()
 {
-	itsPanel->GetValues(&itsIsRequiredFlag, &itsMinLength, &itsMaxLength,
-						&itsValidationPattern, &itsRegexErrorMsg,
-						&itsWordWrapFlag, &itsAcceptNewlineFlag);
+	itsPanel->GetValues(&itsIsRequiredFlag,
+						&itsHasMinValue, &itsMinValue,
+						&itsHasMaxValue, &itsMaxValue);
 	itsPanel = nullptr;
 }

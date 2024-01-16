@@ -106,13 +106,29 @@ T
 F
 "./code/CustomWidget.cpp"
 T
-2 "WidgetSet.cpp"
-F
-"./code/WidgetSet.cpp"
-T
 2 "CoreWidget.cpp"
 F
 "./code/CoreWidget.cpp"
+T
+2 "FloatInput.cpp"
+F
+"./code/FloatInput.cpp"
+T
+2 "InputFieldBase.cpp"
+F
+"./code/InputFieldBase.cpp"
+T
+2 "InputField.cpp"
+F
+"./code/InputField.cpp"
+T
+2 "IntegerInput.cpp"
+F
+"./code/IntegerInput.cpp"
+T
+2 "StaticText.cpp"
+F
+"./code/StaticText.cpp"
 T
 2 "TextButtonBase.cpp"
 F
@@ -126,13 +142,9 @@ T
 F
 "./code/TextCheckbox.cpp"
 T
-2 "StaticText.cpp"
+2 "WidgetSet.cpp"
 F
-"./code/StaticText.cpp"
-T
-2 "InputField.cpp"
-F
-"./code/InputField.cpp"
+"./code/WidgetSet.cpp"
 F
 T
 1 "params"
@@ -177,9 +189,29 @@ T
 F
 "./code/FileInputPanel.jxl"
 T
+2 "FloatInputPanel.cpp"
+F
+"./code/FloatInputPanel.cpp"
+T
+2 "FloatInputPanel.jxl"
+F
+"./code/FloatInputPanel.jxl"
+T
 2 "InputFieldPanel.cpp"
 F
 "./code/InputFieldPanel.cpp"
+T
+2 "InputFieldPanel.jxl"
+F
+"./code/InputFieldPanel.jxl"
+T
+2 "IntegerInputPanel.cpp"
+F
+"./code/IntegerInputPanel.cpp"
+T
+2 "IntegerInputPanel.jxl"
+F
+"./code/IntegerInputPanel.jxl"
 T
 2 "PathInputPanel.cpp"
 F

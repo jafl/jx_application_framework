@@ -102,13 +102,17 @@ VariableNameLabel::BaseWidget	"Variable name: "
 MemberFlagLabel::BaseWidget		" (member)"
 ShortcutsLabel::BaseWidget		"Shortcuts: "
 
-# TextButton
+# InputField
 
-DefaultLabel::TextButton	"Button"
-
-# TextCheckbox
-
-DefaultLabel::TextCheckbox	"Checkbox"
+RequiredLabel::InputField	"Required"
+MinLengthLabel::InputField	"Min length: "
+MaxLengthLabel::InputField	"Max length: "
+ValidationLabel:InputField	"Validation: "
+ErrorMsgLabel:InputField	"Error msg: "
+WordWrap::InputField		"Word wrapping"
+AcceptNewline::InputField	"Accepts newline"
+MinValueLabel::InputField	"Min value: "
+MaxValueLabel::InputField	"Max value: "
 
 # StaticText
 
@@ -119,15 +123,13 @@ WordWrap::StaticText	"Word wrapping"
 Selectable::StaticText	"Selectable"
 Styleable::StaticText	"Stylable"
 
-# InputField
+# TextButton
 
-RequiredLabel::InputField	"Required"
-MinLengthLabel::InputField	"Min length: "
-MaxLengthLabel::InputField	"Max length: "
-ValidationLabel:InputField	"Validation: "
-ErrorMsgLabel:InputField	"Error msg: "
-WordWrap::InputField		"Word wrapping"
-AcceptNewline::InputField	"Accepts newline"
+DefaultLabel::TextButton	"Button"
+
+# TextCheckbox
+
+DefaultLabel::TextCheckbox	"Checkbox"
 
 # WidgetParametersDialog
 
@@ -140,6 +142,10 @@ ClassNameMustBeValid::CustomWidgetPanel	"Please enter a valid C++ class name."
 # InputFieldPanel
 
 MinLessThanMax::InputFieldPanel	"The minimum length must be less than the maximum length."
+
+# ValueInputPanel
+
+MinLessThanMax::ValueInputPanel	"The minimum value must be less than the maximum value."
 
 # WidgetLabelPanel
 

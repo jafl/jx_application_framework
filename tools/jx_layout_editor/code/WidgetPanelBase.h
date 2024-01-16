@@ -8,6 +8,10 @@
 #ifndef _H_WidgetPanelBase
 #define _H_WidgetPanelBase
 
+#include <jx-af/jcore/jTypes.h>
+
+class WidgetParametersDialog;
+
 class WidgetPanelBase
 {
 public:

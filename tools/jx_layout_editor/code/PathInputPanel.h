@@ -11,7 +11,6 @@
 #include "WidgetPanelBase.h"
 
 class JXTextCheckbox;
-class WidgetParametersDialog;
 
 class PathInputPanel : public WidgetPanelBase
 {

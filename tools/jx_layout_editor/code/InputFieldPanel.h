@@ -16,7 +16,6 @@ class JXInputField;
 class JXIntegerInput;
 class JXRegexInput;
 class JXTextCheckbox;
-class WidgetParametersDialog;
 
 class InputFieldPanel : public WidgetPanelBase, public JBroadcaster
 {

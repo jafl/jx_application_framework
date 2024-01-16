@@ -1,31 +1,31 @@
 /******************************************************************************
- InputField.h
+ FloatInput.h
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#ifndef _H_InputField
-#define _H_InputField
+#ifndef _H_FloatInput
+#define _H_FloatInput
 
 #include "InputFieldBase.h"
 
-class InputFieldPanel;
+class FloatInputPanel;
 
-class InputField : public InputFieldBase
+class FloatInput : public InputFieldBase
 {
 public:
 
-	InputField(LayoutContainer* layout,
+	FloatInput(LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	InputField(std::istream& input, LayoutContainer* layout,
+	FloatInput(std::istream& input, LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	~InputField() override;
+	~FloatInput() override;
 
 	void	StreamOut(std::ostream& output) const override;
 	JString	ToString() const override;
@@ -33,9 +33,6 @@ public:
 protected:
 
 	JString	GetClassName() const override;
-	void	PrintCtorArgsWithComma(std::ostream& output,
-								   const JString& varName,
-								   JStringManager* stringdb) const override;
 	void	PrintConfiguration(std::ostream& output,
 							   const JString& indent,
 							   const JString& varName,
@@ -47,13 +44,11 @@ protected:
 private:
 
 	bool				itsIsRequiredFlag;
-	JInteger			itsMinLength;
-	JInteger			itsMaxLength;
-	JString				itsValidationPattern;
-	JString				itsRegexErrorMsg;
-	bool				itsWordWrapFlag;
-	bool				itsAcceptNewlineFlag;
-	InputFieldPanel*	itsPanel;	// nullptr unless editing
+	bool				itsHasMinValue;
+	JFloat				itsMinValue;
+	bool				itsHasMaxValue;
+	JFloat				itsMaxValue;
+	FloatInputPanel*	itsPanel;	// nullptr unless editing
 };
 
 #endif

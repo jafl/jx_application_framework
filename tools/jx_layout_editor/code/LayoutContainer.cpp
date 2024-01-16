@@ -368,7 +368,9 @@ LayoutContainer::ReadConfig
  ******************************************************************************/
 
 #include "CustomWidget.h"
+#include "FloatInput.h"
 #include "InputField.h"
+#include "IntegerInput.h"
 #include "StaticText.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
@@ -405,9 +407,17 @@ LayoutContainer::ReadWidget
 	const JCoordinate h = frame.height();
 
 	BaseWidget* widget = nullptr;
-	if (className == "InputField")
+	if (className == "FloatInput")
+	{
+		widget = jnew FloatInput(input, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "InputField")
 	{
 		widget = jnew InputField(input, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "IntegerInput")
+	{
+		widget = jnew IntegerInput(input, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "StaticText")
 	{
@@ -451,9 +461,17 @@ LayoutContainer::CreateWidget
 {
 	const JCoordinate x = rect.left, y = rect.top, w = rect.width(), h = rect.height();
 
-	if (index == kInputFieldIndex)
+	if (index == kFloatInputIndex)
+	{
+		return jnew FloatInput(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kInputFieldIndex)
 	{
 		return jnew InputField(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kIntegerInputIndex)
+	{
+		return jnew IntegerInput(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kStaticTextIndex)
 	{
