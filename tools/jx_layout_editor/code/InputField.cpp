@@ -240,17 +240,21 @@ InputField::PrintConfiguration
 	)
 	const
 {
+	bool used = false;
+
 	if (itsMinLength > 1)
 	{
 		indent.Print(output);
 		varName.Print(output);
 		output << "->SetMinLength(" << itsMinLength << ");" << std::endl;
+		used = true;
 	}
 	else if (itsIsRequiredFlag)
 	{
 		indent.Print(output);
 		varName.Print(output);
 		output << "->SetIsRequired();" << std::endl;
+		used = true;
 	}
 
 	if (itsMaxLength > 0)
@@ -258,6 +262,7 @@ InputField::PrintConfiguration
 		indent.Print(output);
 		varName.Print(output);
 		output << "->SetMaxLength(" << itsMaxLength << ");" << std::endl;
+		used = true;
 	}
 
 	if (!itsValidationPattern.IsEmpty())
@@ -268,6 +273,12 @@ InputField::PrintConfiguration
 		indent.Print(output);
 		varName.Print(output);
 		output << "->SetValidationPattern(" << itsValidationPattern << ", " << id << ");" << std::endl;
+		used = true;
+	}
+
+	if (!used)
+	{
+		BaseWidget::PrintConfiguration(output, indent, varName, stringdb);
 	}
 }
 

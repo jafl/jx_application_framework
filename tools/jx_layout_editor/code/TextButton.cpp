@@ -199,7 +199,10 @@ TextButton::PrintConfiguration
 	)
 	const
 {
-	SharedPrintConfiguration(output, indent, varName, itsShortcuts, stringdb);
+	if (!SharedPrintConfiguration(output, indent, varName, itsShortcuts, stringdb))
+	{
+		TextButtonBase::PrintConfiguration(output, indent, varName, stringdb);
+	}
 }
 
 /******************************************************************************

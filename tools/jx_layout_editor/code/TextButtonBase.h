@@ -31,7 +31,7 @@ protected:
 										 const JString& varName,
 										 const JString& label,
 										 JStringManager* stringdb) const;
-	void	SharedPrintConfiguration(std::ostream& output,
+	bool	SharedPrintConfiguration(std::ostream& output,
 									 const JString& indent,
 									 const JString& varName,
 									 const JString& shortcuts,

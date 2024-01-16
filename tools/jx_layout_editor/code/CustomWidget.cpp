@@ -193,23 +193,6 @@ CustomWidget::PrintCtorArgsWithComma
 }
 
 /******************************************************************************
- PrintConfiguration (virtual protected)
-
- ******************************************************************************/
-
-void
-CustomWidget::PrintConfiguration
-	(
-	std::ostream&	output,
-	const JString&	indent,
-	const JString&	varName,
-	JStringManager*	stringdb
-	)
-	const
-{
-}
-
-/******************************************************************************
  AddPanels (virtual protected)
 
  ******************************************************************************/

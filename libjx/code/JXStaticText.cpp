@@ -2,8 +2,8 @@
  JXStaticText.cpp
 
 	Maintains a text string.  Note that the font changing routines are
-	merely for convenience.  Full control over the styles is just a matter
-	of using the JTextEditor functions.
+	merely for convenience.  Full control over the styles is available
+	via the JTextEditor base class.
 
 	BASE CLASS = JXTEBase
 

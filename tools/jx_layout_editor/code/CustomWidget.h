@@ -44,10 +44,6 @@ protected:
 	void	PrintCtorArgsWithComma(std::ostream& output,
 								   const JString& varName,
 								   JStringManager* stringdb) const override;
-	void	PrintConfiguration(std::ostream& output,
-							   const JString& indent,
-							   const JString& varName,
-							   JStringManager* stringdb) const override;
 
 	void	AddPanels(WidgetParametersDialog* dlog) override;
 	void	SavePanelData() override;

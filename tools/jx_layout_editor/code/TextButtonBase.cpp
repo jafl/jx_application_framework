@@ -83,7 +83,7 @@ TextButtonBase::SharedPrintCtorArgsWithComma
 
  ******************************************************************************/
 
-void
+bool
 TextButtonBase::SharedPrintConfiguration
 	(
 	std::ostream&	output,
@@ -102,5 +102,10 @@ TextButtonBase::SharedPrintConfiguration
 		indent.Print(output);
 		varName.Print(output);
 		output << "->SetShortcuts(JGetString(" << id << "));" << std::endl;
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
