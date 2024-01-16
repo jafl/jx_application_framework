@@ -1,0 +1,103 @@
+jx_layout_editor 0
+460
+130
+"Panel"
+""
+"window"
+0
+1
+0
+"WidgetSet"
+0
+0
+0 0 130 460
+"container"
+0
+0
+1
+1
+"TextCheckbox"
+0
+0
+100 20 120 190
+"itsWordWrapCB"
+1
+0
+"Wrap text to multiple lines"
+"#W"
+1
+1
+"InputField"
+0
+0
+30 20 90 440
+"itsTextInput"
+1
+1
+0
+0
+0
+""
+""
+0
+0
+1
+1
+"StaticText"
+0
+0
+10 20 30 60
+"textLabel"
+0
+0
+"Text:"
+1
+0
+0
+0
+0
+1
+1
+"TextCheckbox"
+0
+0
+100 230 120 320
+"itsSelectableCB"
+1
+0
+"Selectable"
+"#E"
+1
+1
+"TextCheckbox"
+0
+0
+100 360 120 440
+"itsStyleableCB"
+1
+0
+"Styleable"
+"#Y"
+1
+1
+"TextCheckbox"
+0
+0
+10 280 30 340
+"itsLabelCB"
+1
+0
+"Label"
+"#L"
+1
+1
+"TextCheckbox"
+0
+0
+10 360 30 440
+"itsCenterHorizCB"
+1
+0
+"Centered"
+"#N"
+0

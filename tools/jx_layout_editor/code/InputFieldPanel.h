@@ -58,6 +58,7 @@ private:
 						const bool wordWrap, const bool newlines);
 
 	void	ConfigureInput(JXIntegerInput* field, const JInteger value);
+	void	UpdateDisplay() const;
 };
 
 #endif

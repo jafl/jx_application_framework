@@ -26,6 +26,16 @@ jx_menu_editor 0
 1
 0
 0 ""
+"Static text"
+""
+' 
+"__StaticText"
+"kStaticTextIndex"
+1
+
+1
+0
+0 ""
 "Input field"
 ""
 ' 

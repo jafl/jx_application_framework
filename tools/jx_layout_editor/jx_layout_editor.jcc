@@ -126,6 +126,10 @@ T
 F
 "./code/TextCheckbox.cpp"
 T
+2 "StaticText.cpp"
+F
+"./code/StaticText.cpp"
+T
 2 "InputField.cpp"
 F
 "./code/InputField.cpp"
@@ -153,13 +157,17 @@ T
 F
 "./code/CustomWidgetPanel.cpp"
 T
+2 "CustomWidgetPanel.jxl"
+F
+"./code/CustomWidgetPanel.jxl"
+T
 2 "WidgetLabelPanel.cpp"
 F
 "./code/WidgetLabelPanel.cpp"
 T
-2 "InputFieldPanel.cpp"
+2 "WidgetLabelPanel.jxl"
 F
-"./code/InputFieldPanel.cpp"
+"./code/WidgetLabelPanel.jxl"
 T
 2 "FileInputPanel.cpp"
 F
@@ -168,6 +176,10 @@ T
 2 "FileInputPanel.jxl"
 F
 "./code/FileInputPanel.jxl"
+T
+2 "InputFieldPanel.cpp"
+F
+"./code/InputFieldPanel.cpp"
 T
 2 "PathInputPanel.cpp"
 F
@@ -184,6 +196,14 @@ T
 2 "SaveFileInputPanel.jxl"
 F
 "./code/SaveFileInputPanel.jxl"
+T
+2 "StaticTextPanel.cpp"
+F
+"./code/StaticTextPanel.cpp"
+T
+2 "StaticTextPanel.jxl"
+F
+"./code/StaticTextPanel.jxl"
 F
 T
 1 "layouts"

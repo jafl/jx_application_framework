@@ -110,6 +110,15 @@ DefaultLabel::TextButton	"Button"
 
 DefaultLabel::TextCheckbox	"Checkbox"
 
+# StaticText
+
+DefaultText::StaticText	"Label"
+IsLabel::StaticText		"Label"
+Centered::StaticText	" (centered)"
+WordWrap::StaticText	"Word wrapping"
+Selectable::StaticText	"Selectable"
+Styleable::StaticText	"Stylable"
+
 # InputField
 
 RequiredLabel::InputField	"Required"

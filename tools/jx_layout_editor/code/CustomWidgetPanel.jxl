@@ -1,0 +1,101 @@
+jx_layout_editor 0
+460
+100
+"Panel"
+""
+"window"
+0
+1
+0
+"WidgetSet"
+0
+0
+0 0 100 460
+"container"
+0
+0
+1
+1
+"TextCheckbox"
+0
+0
+70 20 90 180
+"itsWantsInputCB"
+1
+0
+"Wants keyboard input"
+"#K"
+1
+1
+"TextCheckbox"
+0
+0
+70 280 90 440
+"itsNeedsCreateCB"
+1
+0
+"Construct via Create()"
+"#V"
+1
+1
+"StaticText"
+0
+0
+39 20 59 100
+"constructorArgsLabel"
+0
+0
+"Ctor args:"
+1
+0
+0
+0
+0
+1
+1
+"InputField"
+0
+0
+40 100 60 440
+"itsCtorArgs"
+1
+2
+0
+0
+0
+""
+""
+0
+0
+1
+1
+"StaticText"
+0
+0
+10 20 30 100
+"classNameLabel"
+0
+0
+"Class name:"
+1
+0
+0
+0
+0
+1
+1
+"InputField"
+0
+0
+10 100 30 440
+"itsClassNameInput"
+1
+1
+0
+0
+0
+""
+""
+0
+0
+0

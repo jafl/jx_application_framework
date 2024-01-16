@@ -1049,6 +1049,7 @@ LayoutDocument::ImportFDesignFile
 
 #include "CustomWidget.h"
 #include "InputField.h"
+#include "StaticText.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
 #include "WidgetSet.h"
@@ -1234,6 +1235,10 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew InputField(enclosure, hS,vS, x,y,w,h);
 		}
+		else if (flClass == "FL_TEXT" && flType == "FL_NORMAL_TEXT")
+		{
+			widget = jnew StaticText(label, enclosure, hS,vS, x,y,w,h);
+		}
 		else if (flClass == "FL_BUTTON")
 		{
 			widget = jnew TextButton(label, shortcuts, enclosure, hS,vS, x,y,w,h);
@@ -1249,6 +1254,10 @@ LayoutDocument::ImportFDesignLayout
 		else // if (flClass == "FL_BOX" && flType == "FL_NO_BOX" && !label->IsEmpty())
 		{
 			SplitFDesignClassNameAndArgs(label, &className, &argList);
+			if (argList.IsEmpty())
+			{
+				argList = argument;
+			}
 
 			widget = jnew CustomWidget(className, argList, false,
 										enclosure, hS,vS, x,y,w,h);

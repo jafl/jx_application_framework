@@ -67,33 +67,28 @@ WidgetLabelPanel::BuildPanel
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,70);
 	assert( container != nullptr );
 
+	auto* widgetLabelLabel =
+		jnew JXStaticText(JGetString("widgetLabelLabel::WidgetLabelPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 80,20);
+	widgetLabelLabel->SetToLabel(false);
+
+	auto* shortcutsLabel =
+		jnew JXStaticText(JGetString("shortcutsLabel::WidgetLabelPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 80,20);
+	shortcutsLabel->SetToLabel(false);
+
+	auto* shortcutsHelp =
+		jnew JXStaticText(JGetString("shortcutsHelp::WidgetLabelPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 170,40, 270,20);
+	shortcutsHelp->SetToLabel(false);
+
 	itsLabelInput =
 		jnew JXInputField(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,10, 340,20);
-	assert( itsLabelInput != nullptr );
-
-	auto* widgetLabelLabel =
-		jnew JXStaticText(JGetString("widgetLabelLabel::WidgetLabelPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 80,20);
-	assert( widgetLabelLabel != nullptr );
-	widgetLabelLabel->SetToLabel();
 
 	itsShortcutsInput =
 		jnew JXInputField(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,40, 60,20);
-	assert( itsShortcutsInput != nullptr );
-
-	auto* shortcutsLabel =
-		jnew JXStaticText(JGetString("shortcutsLabel::WidgetLabelPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 80,20);
-	assert( shortcutsLabel != nullptr );
-	shortcutsLabel->SetToLabel();
-
-	auto* shortcutsHelp =
-		jnew JXStaticText(JGetString("shortcutsHelp::WidgetLabelPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 170,40, 270,20);
-	assert( shortcutsHelp != nullptr );
-	shortcutsHelp->SetToLabel();
 
 // end Panel
 

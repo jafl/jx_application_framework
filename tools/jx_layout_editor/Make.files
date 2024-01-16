@@ -25,14 +25,16 @@
 .cpp ./code/TextButtonBase
 .cpp ./code/TextButton
 .cpp ./code/TextCheckbox
+.cpp ./code/StaticText
 .cpp ./code/InputField
 .cpp ./code/WidgetParametersDialog
 .cpp ./code/WidgetPanelBase
 .cpp ./code/CustomWidgetPanel
 .cpp ./code/WidgetLabelPanel
-.cpp ./code/InputFieldPanel
 .cpp ./code/FileInputPanel
+.cpp ./code/InputFieldPanel
 .cpp ./code/PathInputPanel
 .cpp ./code/SaveFileInputPanel
+.cpp ./code/StaticTextPanel
 
 literal: ${LIB_DEPS}

@@ -7,6 +7,7 @@
 MenuTitle::ChooseWidgetDialog_Widget "Widget"
 
 __CustomWidget::ChooseWidgetDialog "Custom widget"
+__StaticText::ChooseWidgetDialog "Static text"
 __InputField::ChooseWidgetDialog "Input field"
 __TextButton::ChooseWidgetDialog "Text button"
 __TextCheckbox::ChooseWidgetDialog "Text checkbox"

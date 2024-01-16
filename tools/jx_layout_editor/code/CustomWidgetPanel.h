@@ -32,10 +32,10 @@ private:
 
 // begin Panel
 
+	JXTextCheckbox* itsWantsInputCB;
+	JXTextCheckbox* itsNeedsCreateCB;
 	JXInputField*   itsClassNameInput;
 	JXInputField*   itsCtorArgs;
-	JXTextCheckbox* itsNeedsCreateCB;
-	JXTextCheckbox* itsWantsInputCB;
 
 // end Panel
 

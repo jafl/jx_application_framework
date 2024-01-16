@@ -328,6 +328,7 @@ BaseWidget::PrintConfiguration
 {
 	if (!itsIsMemberVarFlag)	// avoid "unused variable" warning
 	{
+		indent.Print(output);
 		output << "assert( ";
 		varName.Print(output);
 		output << " != nullptr );" << std::endl;

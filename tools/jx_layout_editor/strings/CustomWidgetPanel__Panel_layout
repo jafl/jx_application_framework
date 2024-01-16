@@ -1,7 +1,0 @@
-0
-itsNeedsCreateCB::CustomWidgetPanel::Panel "Construct via Create()"
-itsWantsInputCB::CustomWidgetPanel::Panel "Wants keyboard input"
-constructorArgsLabel::CustomWidgetPanel::Panel "Ctor args:"
-classNameLabel::CustomWidgetPanel::Panel "Class name:"
-itsWantsInputCB::CustomWidgetPanel::shortcuts::Panel "#K"
-itsNeedsCreateCB::CustomWidgetPanel::shortcuts::Panel "#V"

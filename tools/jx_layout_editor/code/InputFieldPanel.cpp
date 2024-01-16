@@ -157,16 +157,18 @@ InputFieldPanel::BuildPanel
 
 	ListenTo(itsRegexInput->GetText(), std::function([this](const JStyledText::TextSet&)
 	{
-		itsRegexErrorMsgInput->SetIsRequired(!itsRegexInput->GetText()->IsEmpty());
+		UpdateDisplay();
 	}));
 
 	ListenTo(itsRegexInput->GetText(), std::function([this](const JStyledText::TextChanged&)
 	{
-		itsRegexErrorMsgInput->SetIsRequired(!itsRegexInput->GetText()->IsEmpty());
+		UpdateDisplay();
 	}));
 
 	itsWordWrapCB->SetState(wordWrap);
 	itsAllowNewlinesCB->SetState(newlines);
+
+	UpdateDisplay();
 }
 
 /******************************************************************************
@@ -186,10 +188,18 @@ InputFieldPanel::ConfigureInput
 	{
 		field->SetValue(value);
 	}
-	else
-	{
-		field->GetText()->SetText(JString::empty);
-	}
+}
+
+/******************************************************************************
+ UpdateDisplay (private)
+
+ ******************************************************************************/
+
+void
+InputFieldPanel::UpdateDisplay()
+	const
+{
+	itsRegexErrorMsgInput->SetIsRequired(!itsRegexInput->GetText()->IsEmpty());
 }
 
 /******************************************************************************

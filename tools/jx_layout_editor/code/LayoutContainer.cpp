@@ -10,13 +10,9 @@
 #include "LayoutContainer.h"
 #include "LayoutDocument.h"
 #include "LayoutSelection.h"
-#include "CustomWidget.h"
-#include "InputField.h"
-#include "TextButton.h"
-#include "TextCheckbox.h"
-#include "WidgetSet.h"
 #include "LayoutConfigDialog.h"
 #include "ChooseWidgetDialog.h"
+#include "BaseWidget.h"
 #include "globals.h"
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXMenuBar.h>
@@ -371,6 +367,13 @@ LayoutContainer::ReadConfig
 
  ******************************************************************************/
 
+#include "CustomWidget.h"
+#include "InputField.h"
+#include "StaticText.h"
+#include "TextButton.h"
+#include "TextCheckbox.h"
+#include "WidgetSet.h"
+
 BaseWidget*
 LayoutContainer::ReadWidget
 	(
@@ -405,6 +408,10 @@ LayoutContainer::ReadWidget
 	if (className == "InputField")
 	{
 		widget = jnew InputField(input, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "StaticText")
+	{
+		widget = jnew StaticText(input, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "TextButton")
 	{
@@ -447,6 +454,10 @@ LayoutContainer::CreateWidget
 	if (index == kInputFieldIndex)
 	{
 		return jnew InputField(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kStaticTextIndex)
+	{
+		return jnew StaticText(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kTextButtonIndex)
 	{

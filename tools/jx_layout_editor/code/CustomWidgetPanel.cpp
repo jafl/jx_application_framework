@@ -70,39 +70,33 @@ CustomWidgetPanel::BuildPanel
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,100);
 	assert( container != nullptr );
 
+	auto* classNameLabel =
+		jnew JXStaticText(JGetString("classNameLabel::CustomWidgetPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 80,20);
+	classNameLabel->SetToLabel(false);
+
+	auto* constructorArgsLabel =
+		jnew JXStaticText(JGetString("constructorArgsLabel::CustomWidgetPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,39, 80,20);
+	constructorArgsLabel->SetToLabel(false);
+
+	itsWantsInputCB =
+		jnew JXTextCheckbox(JGetString("itsWantsInputCB::CustomWidgetPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 160,20);
+	itsWantsInputCB->SetShortcuts(JGetString("itsWantsInputCB::shortcuts::CustomWidgetPanel::Panel"));
+
+	itsNeedsCreateCB =
+		jnew JXTextCheckbox(JGetString("itsNeedsCreateCB::CustomWidgetPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,70, 160,20);
+	itsNeedsCreateCB->SetShortcuts(JGetString("itsNeedsCreateCB::shortcuts::CustomWidgetPanel::Panel"));
+
 	itsClassNameInput =
 		jnew JXInputField(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,10, 340,20);
-	assert( itsClassNameInput != nullptr );
-
-	auto* classNameLabel =
-		jnew JXStaticText(JGetString("classNameLabel::CustomWidgetPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 80,20);
-	assert( classNameLabel != nullptr );
-	classNameLabel->SetToLabel();
 
 	itsCtorArgs =
 		jnew JXInputField(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,40, 340,20);
-	assert( itsCtorArgs != nullptr );
-
-	auto* constructorArgsLabel =
-		jnew JXStaticText(JGetString("constructorArgsLabel::CustomWidgetPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,39, 80,20);
-	assert( constructorArgsLabel != nullptr );
-	constructorArgsLabel->SetToLabel();
-
-	itsNeedsCreateCB =
-		jnew JXTextCheckbox(JGetString("itsNeedsCreateCB::CustomWidgetPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,70, 160,20);
-	assert( itsNeedsCreateCB != nullptr );
-	itsNeedsCreateCB->SetShortcuts(JGetString("itsNeedsCreateCB::CustomWidgetPanel::shortcuts::Panel"));
-
-	itsWantsInputCB =
-		jnew JXTextCheckbox(JGetString("itsWantsInputCB::CustomWidgetPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 160,20);
-	assert( itsWantsInputCB != nullptr );
-	itsWantsInputCB->SetShortcuts(JGetString("itsWantsInputCB::CustomWidgetPanel::shortcuts::Panel"));
 
 // end Panel
 
