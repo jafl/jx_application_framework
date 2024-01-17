@@ -86,7 +86,6 @@ StringsFooter::LayoutDocument
 WindowTitle::LayoutConfigDialog	"Layout Configuration"
 
 ContainerNameMustBeValidIdentifier::LayoutConfigDialog	"The container name must be a valid C++ class name."
-CodeTagMustBeValidIdentifier::LayoutConfigDialog		"The code tag must be a valid C++ class name."
 
 # LayoutContainer
 
@@ -131,9 +130,15 @@ DefaultLabel::TextButton	"Button"
 
 DefaultLabel::TextCheckbox	"Checkbox"
 
+# TextRadioButton
+
+DefaultLabel::TextRadioButton	"Radio button"
+IDLabel::TextRadioButton		"ID: "
+
 # WidgetParametersDialog
 
 WindowTitle::WidgetParametersDialog	"Edit parameters"
+VariableNameMustBeValidIdentifier::WidgetParametersDialog	"The variable name must be a valid C++ identifier."
 
 # CustomWidgetPanel
 

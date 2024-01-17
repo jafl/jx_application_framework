@@ -25,7 +25,7 @@ public:
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	CustomWidget(std::istream& input, LayoutContainer* layout,
+	CustomWidget(std::istream& input, const JFileVersion vers, LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -33,6 +33,7 @@ public:
 	~CustomWidget() override;
 
 	void	StreamOut(std::ostream& output) const override;
+	JString	ToString() const override;
 
 protected:
 

@@ -12,6 +12,7 @@
 #include "LayoutContainer.h"
 #include "MDIServer.h"
 #include "globals.h"
+#include "fileVersions.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
@@ -33,7 +34,6 @@
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kFileSignature = "jx_layout_editor";
-const JFileVersion kCurrentFileVersion = 0;
 
 static const JUtf8Byte* kBeginCodeDelimiterPrefix = "// begin ";
 static const JUtf8Byte* kEndCodeDelimiterPrefix   = "// end ";
@@ -197,7 +197,7 @@ LayoutDocument::BuildWindow()
 	AdjustWindowTitle();
 	window->SetCloseAction(JXWindow::kCloseDirector);
 	window->SetWMClass(GetWMClassInstance(), GetLayoutDocumentClass());
-	window->SetMinSize(200, 60);
+	window->SetMinSize(70, 60);
 
 	auto* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);
@@ -1048,12 +1048,16 @@ LayoutDocument::ImportFDesignFile
  ******************************************************************************/
 
 #include "CustomWidget.h"
+#include "CharInput.h"
 #include "FloatInput.h"
 #include "InputField.h"
 #include "IntegerInput.h"
+#include "PasswordInput.h"
+#include "RadioGroup.h"
 #include "StaticText.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
+#include "TextRadioButton.h"
 #include "WidgetSet.h"
 
 // Form fields
@@ -1233,7 +1237,11 @@ LayoutDocument::ImportFDesignLayout
 		h = localFrame.height();
 
 		BaseWidget* widget;
-		if (flClass == "FL_INPUT" && flType == "FL_FLOAT_INPUT")
+		if (label == "JXCharInput")
+		{
+			widget = jnew CharInput(enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_INPUT" && flType == "FL_FLOAT_INPUT")
 		{
 			widget = jnew FloatInput(enclosure, hS,vS, x,y,w,h);
 		}
@@ -1245,6 +1253,14 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew IntegerInput(enclosure, hS,vS, x,y,w,h);
 		}
+		else if (flClass == "FL_INPUT" && flType == "FL_SECRET_INPUT")
+		{
+			widget = jnew PasswordInput(enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_FRAME" && flType == "FL_ENGRAVED_FRAME")
+		{
+			widget = jnew RadioGroup(enclosure, hS,vS, x,y,w,h);
+		}
 		else if (flClass == "FL_TEXT" && flType == "FL_NORMAL_TEXT")
 		{
 			widget = jnew StaticText(label, enclosure, hS,vS, x,y,w,h);
@@ -1253,9 +1269,13 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew TextButton(label, shortcuts, enclosure, hS,vS, x,y,w,h);
 		}
-		else if (flClass == "FL_CHECKBUTTON")
+		else if (flClass == "FL_CHECKBUTTON" && flType == "FL_PUSH_BUTTON")
 		{
 			widget = jnew TextCheckbox(label, shortcuts, enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_CHECKBUTTON" && flType == "FL_RADIO_BUTTON")
+		{
+			widget = jnew TextRadioButton(argument, label, shortcuts, enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_BOX" && flType == "FL_SHADOW_BOX")
 		{

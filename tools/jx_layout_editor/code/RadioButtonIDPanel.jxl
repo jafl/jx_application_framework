@@ -1,0 +1,49 @@
+jx_layout_editor 1
+460
+40
+"Panel"
+""
+"window"
+0
+1
+0
+"WidgetSet"
+0
+0
+0 0 40 460
+"container"
+0
+0
+1
+1
+"InputField"
+0
+0
+10 100 30 440
+"itsIDInput"
+1
+1
+1
+0
+0
+"^([_a-z][_a-z0-9]+|[1-9][0-9]*)$"
+"i"
+"i"
+0
+1
+1
+1
+"StaticText"
+0
+0
+10 20 30 100
+"idLabel"
+0
+0
+"ID:"
+1
+0
+0
+0
+0
+0

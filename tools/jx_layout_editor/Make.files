@@ -21,14 +21,18 @@
 .cpp ./code/BaseWidget
 .cpp ./code/CustomWidget
 .cpp ./code/CoreWidget
+.cpp ./code/CharInput
 .cpp ./code/FloatInput
 .cpp ./code/InputFieldBase
 .cpp ./code/InputField
 .cpp ./code/IntegerInput
+.cpp ./code/PasswordInput
+.cpp ./code/RadioGroup
 .cpp ./code/StaticText
 .cpp ./code/TextButtonBase
 .cpp ./code/TextButton
 .cpp ./code/TextCheckbox
+.cpp ./code/TextRadioButton
 .cpp ./code/WidgetSet
 .cpp ./code/WidgetParametersDialog
 .cpp ./code/WidgetPanelBase
@@ -39,6 +43,7 @@
 .cpp ./code/InputFieldPanel
 .cpp ./code/IntegerInputPanel
 .cpp ./code/PathInputPanel
+.cpp ./code/RadioButtonIDPanel
 .cpp ./code/SaveFileInputPanel
 .cpp ./code/StaticTextPanel
 

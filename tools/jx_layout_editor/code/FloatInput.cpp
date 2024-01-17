@@ -44,6 +44,7 @@ FloatInput::FloatInput
 FloatInput::FloatInput
 	(
 	std::istream&		input,
+	const JFileVersion	vers,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -53,7 +54,7 @@ FloatInput::FloatInput
 	const JCoordinate	h
 	)
 	:
-	InputFieldBase(input, layout, hSizing, vSizing, x,y, w,h)
+	InputFieldBase(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 	input >> itsIsRequiredFlag;
 	input >> itsHasMinValue >> itsMinValue;

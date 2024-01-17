@@ -26,7 +26,7 @@ public:
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
-	TextCheckbox(std::istream& input, LayoutContainer* layout,
+	TextCheckbox(std::istream& input, const JFileVersion vers, LayoutContainer* layout,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);

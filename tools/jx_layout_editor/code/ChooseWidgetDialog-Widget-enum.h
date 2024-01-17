@@ -11,8 +11,12 @@ enum {
 	kInputFieldIndex,
 	kIntegerInputIndex,
 	kFloatInputIndex,
+	kCharInputIndex,
+	kPasswordInputIndex,
 	kTextButtonIndex,
 	kTextCheckboxIndex,
+	kRadioGroupIndex,
+	kTextRadioButtonIndex,
 	kWidgetSetIndex,
 };
 

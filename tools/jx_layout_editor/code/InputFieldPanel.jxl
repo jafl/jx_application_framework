@@ -1,4 +1,4 @@
-jx_layout_editor 0
+jx_layout_editor 1
 460
 120
 "Panel"
@@ -19,61 +19,61 @@ jx_layout_editor 0
 "TextCheckbox"
 0
 0
-90 220 110 340
-"itsAllowNewlinesCB"
+10 20 30 100
+"itsValueRequiredCB"
 1
 0
-"Allow newlines"
-"#N"
+"Required"
+"#R"
 1
 1
-"TextCheckbox"
+"IntegerInput"
 0
 0
-90 20 110 200
-"itsWordWrapCB"
-1
-0
-"Wrap text to multiple lines"
-"#W"
+10 190 30 230
+"itsMinLengthInput"
 1
 1
-"InputField"
 0
-0
-60 120 80 441
-"itsRegexErrorMsgInput"
-1
-4
-0
-0
-0
-""
-""
-0
-0
-1
-1
-"CustomWidget"
-0
-0
-40 120 60 440
-"itsRegexInput"
-1
-3
-"JXRegexInput"
-"testRegex, true"
-0
+0 0
+0 0
 1
 1
 "StaticText"
 0
 0
-60 20 80 120
-"regexpErrorMessageLabel"
+10 120 30 190
+"minimumLengthLabel"
 0
 0
-"Error message:"
+"Min length:"
+1
+0
+0
+0
+0
+1
+1
+"IntegerInput"
+0
+0
+10 330 30 370
+"itsMaxLengthInput"
+1
+2
+0
+0 0
+0 0
+1
+1
+"StaticText"
+0
+0
+10 250 30 330
+"maximumLengthLabel"
+0
+0
+"Max length:"
 1
 0
 0
@@ -99,11 +99,11 @@ jx_layout_editor 0
 "StaticText"
 0
 0
-10 250 30 330
-"maximumLengthLabel"
+60 20 80 120
+"regexpErrorMessageLabel"
 0
 0
-"Max length:"
+"Error message:"
 1
 0
 0
@@ -111,52 +111,85 @@ jx_layout_editor 0
 0
 1
 1
-"IntegerInput"
+"CustomWidget"
 0
 0
-10 330 30 370
-"itsMaxLengthInput"
+40 120 60 360
+"itsRegexInput"
 1
-2
-0
-0 0
-0 0
-1
-1
-"StaticText"
-0
-0
-10 120 30 190
-"minimumLengthLabel"
-0
-0
-"Min length:"
-1
-0
-0
-0
+3
+"JXRegexInput"
+"testRegex, true"
 0
 1
 1
-"IntegerInput"
+"InputField"
 0
 0
-10 190 30 230
-"itsMinLengthInput"
+60 120 80 441
+"itsRegexErrorMsgInput"
 1
-1
+5
 0
-0 0
-0 0
+0
+0
+""
+""
+""
+0
+0
 1
 1
 "TextCheckbox"
 0
 0
-10 20 30 100
-"itsValueRequiredCB"
+90 20 110 200
+"itsWordWrapCB"
 1
 0
-"Required"
-"#R"
+"Wrap text to multiple lines"
+"#W"
+1
+1
+"TextCheckbox"
+0
+0
+90 220 110 340
+"itsAllowNewlinesCB"
+1
+0
+"Allow newlines"
+"#N"
+1
+1
+"StaticText"
+0
+0
+40 360 60 400
+"regexFlagsLabel"
+0
+0
+"Flags:"
+1
+0
+0
+0
+0
+1
+1
+"InputField"
+0
+0
+40 400 60 440
+"itsRegexFlagsInput"
+1
+4
+0
+0
+0
+""
+""
+""
+0
+0
 0

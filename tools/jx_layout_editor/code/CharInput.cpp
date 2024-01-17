@@ -1,14 +1,13 @@
 /******************************************************************************
- CoreWidget.cpp
+ CharInput.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = InputFieldBase
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#include "CoreWidget.h"
-#include <jx-af/jx/JXWindowPainter.h>
+#include "CharInput.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -16,9 +15,8 @@
 
  ******************************************************************************/
 
-CoreWidget::CoreWidget
+CharInput::CharInput
 	(
-	const bool			wantsInput,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -28,11 +26,11 @@ CoreWidget::CoreWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(wantsInput, layout, hSizing, vSizing, x,y, w,h)
+	InputFieldBase(layout, hSizing, vSizing, x,y, w,h)
 {
 }
 
-CoreWidget::CoreWidget
+CharInput::CharInput
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -45,7 +43,7 @@ CoreWidget::CoreWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	InputFieldBase(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 }
 
@@ -54,55 +52,35 @@ CoreWidget::CoreWidget
 
  ******************************************************************************/
 
-CoreWidget::~CoreWidget()
+CharInput::~CharInput()
 {
 }
 
 /******************************************************************************
- Draw (virtual protected)
+ StreamOut (virtual)
 
  ******************************************************************************/
 
 void
-CoreWidget::Draw
+CharInput::StreamOut
 	(
-	JXWindowPainter&	p,
-	const JRect&		rect
+	std::ostream& output
 	)
+	const
 {
-	itsWidget->Place(rect.left, rect.top);
-	itsWidget->SetSize(rect.width(), rect.height());
+	output << JString("CharInput") << std::endl;
+
+	InputFieldBase::StreamOut(output);
 }
 
 /******************************************************************************
- DrawBorder (virtual protected)
+ GetClassName (virtual protected)
 
  ******************************************************************************/
 
-void
-CoreWidget::DrawBorder
-	(
-	JXWindowPainter&	p,
-	const JRect&		frame
-	)
+JString
+CharInput::GetClassName()
+	const
 {
-}
-
-/******************************************************************************
- StealMouse (virtual protected)
-
-	Don't pass mouse clicks to rendered widget.
-
- ******************************************************************************/
-
-bool
-CoreWidget::StealMouse
-	(
-	const int			eventType,
-	const JPoint&		ptG,
-	const JXMouseButton	button,
-	const unsigned int	state
-	)
-{
-	return true;
+	return "JXCharInput";
 }

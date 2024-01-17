@@ -14,6 +14,7 @@
 #include "ChooseWidgetDialog.h"
 #include "BaseWidget.h"
 #include "globals.h"
+#include "fileVersions.h"
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
@@ -358,7 +359,7 @@ LayoutContainer::ReadConfig
 			break;
 		}
 
-		ReadWidget(input, this, &widgetList);
+		ReadWidget(input, vers, this, &widgetList);
 	}
 }
 
@@ -368,18 +369,23 @@ LayoutContainer::ReadConfig
  ******************************************************************************/
 
 #include "CustomWidget.h"
+#include "CharInput.h"
 #include "FloatInput.h"
 #include "InputField.h"
 #include "IntegerInput.h"
+#include "PasswordInput.h"
+#include "RadioGroup.h"
 #include "StaticText.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
+#include "TextRadioButton.h"
 #include "WidgetSet.h"
 
 BaseWidget*
 LayoutContainer::ReadWidget
 	(
 	std::istream&			input,
+	const JFileVersion		vers,
 	LayoutContainer*		defaultEnclosure,
 	JPtrArray<BaseWidget>*	widgetList
 	)
@@ -407,38 +413,54 @@ LayoutContainer::ReadWidget
 	const JCoordinate h = frame.height();
 
 	BaseWidget* widget = nullptr;
-	if (className == "FloatInput")
+	if (className == "CharInput")
 	{
-		widget = jnew FloatInput(input, e, hS,vS, x,y,w,h);
+		widget = jnew CharInput(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "FloatInput")
+	{
+		widget = jnew FloatInput(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "InputField")
 	{
-		widget = jnew InputField(input, e, hS,vS, x,y,w,h);
+		widget = jnew InputField(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "IntegerInput")
 	{
-		widget = jnew IntegerInput(input, e, hS,vS, x,y,w,h);
+		widget = jnew IntegerInput(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "PasswordInput")
+	{
+		widget = jnew PasswordInput(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "RadioGroup")
+	{
+		widget = jnew RadioGroup(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "StaticText")
 	{
-		widget = jnew StaticText(input, e, hS,vS, x,y,w,h);
+		widget = jnew StaticText(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "TextButton")
 	{
-		widget = jnew TextButton(input, e, hS,vS, x,y,w,h);
+		widget = jnew TextButton(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "TextCheckbox")
 	{
-		widget = jnew TextCheckbox(input, e, hS,vS, x,y,w,h);
+		widget = jnew TextCheckbox(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "TextRadioButton")
+	{
+		widget = jnew TextRadioButton(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "WidgetSet")
 	{
-		widget = jnew WidgetSet(input, e, hS,vS, x,y,w,h);
+		widget = jnew WidgetSet(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else
 	{
 		assert( className == "CustomWidget" );
-		widget = jnew CustomWidget(input, e, hS,vS, x,y,w,h);
+		widget = jnew CustomWidget(input, vers, e, hS,vS, x,y,w,h);
 	}
 
 	widgetList->Append(widget);
@@ -461,7 +483,11 @@ LayoutContainer::CreateWidget
 {
 	const JCoordinate x = rect.left, y = rect.top, w = rect.width(), h = rect.height();
 
-	if (index == kFloatInputIndex)
+	if (index == kCharInputIndex)
+	{
+		return jnew CharInput(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kFloatInputIndex)
 	{
 		return jnew FloatInput(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
@@ -472,6 +498,14 @@ LayoutContainer::CreateWidget
 	else if (index == kIntegerInputIndex)
 	{
 		return jnew IntegerInput(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kPasswordInputIndex)
+	{
+		return jnew PasswordInput(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kRadioGroupIndex)
+	{
+		return jnew RadioGroup(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kStaticTextIndex)
 	{
@@ -484,6 +518,10 @@ LayoutContainer::CreateWidget
 	else if (index == kTextCheckboxIndex)
 	{
 		return jnew TextCheckbox(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kTextRadioButtonIndex)
+	{
+		return jnew TextRadioButton(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kWidgetSetIndex)
 	{
@@ -1418,7 +1456,7 @@ LayoutContainer::HandleDNDDrop
 					break;
 				}
 
-				BaseWidget* widget = ReadWidget(input, this, &widgetList);
+				BaseWidget* widget = ReadWidget(input, kCurrentFileVersion, this, &widgetList);
 				widget->Move(delta.x, delta.y);
 				SnapToGrid(widget);
 				changed = true;

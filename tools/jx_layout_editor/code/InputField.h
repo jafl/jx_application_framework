@@ -20,7 +20,7 @@ public:
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	InputField(std::istream& input, LayoutContainer* layout,
+	InputField(std::istream& input, const JFileVersion vers, LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -50,6 +50,7 @@ private:
 	JInteger			itsMinLength;
 	JInteger			itsMaxLength;
 	JString				itsValidationPattern;
+	JString				itsValidationFlags;
 	JString				itsRegexErrorMsg;
 	bool				itsWordWrapFlag;
 	bool				itsAcceptNewlineFlag;

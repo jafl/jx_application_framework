@@ -1,31 +1,31 @@
 /******************************************************************************
- WidgetSet.h
+ RadioGroup.h
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#ifndef _H_WidgetSet
-#define _H_WidgetSet
+#ifndef _H_RadioGroup
+#define _H_RadioGroup
 
 #include "BaseWidget.h"
 
-class WidgetSetPanel;
+class RadioGroupPanel;
 
-class WidgetSet : public BaseWidget
+class RadioGroup : public BaseWidget
 {
 public:
 
-	WidgetSet(LayoutContainer* layout,
+	RadioGroup(LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	WidgetSet(std::istream& input, const JFileVersion vers, LayoutContainer* layout,
+	RadioGroup(std::istream& input, const JFileVersion vers, LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	~WidgetSet() override;
+	~RadioGroup() override;
 
 	void	StreamOut(std::ostream& output) const override;
 	bool	GetLayoutContainer(LayoutContainer** layout) const override;
@@ -43,7 +43,7 @@ private:
 
 private:
 
-	void	WidgetSetX(LayoutContainer* layout);
+	void	RadioGroupX(LayoutContainer* layout);
 };
 
 #endif

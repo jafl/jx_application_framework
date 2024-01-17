@@ -36,12 +36,12 @@ private:
 // begin JXLayout
 
 	JXRadioGroup*      itsLayoutTypeRG;
-	JXInputField*      itsCodeTagInput;
 	JXTextRadioButton* itsWindowTitleRB;
 	JXTextRadioButton* itsCustomContainerRB;
+	JXTextCheckbox*    itsAdjustContentCB;
+	JXInputField*      itsCodeTagInput;
 	JXInputField*      itsWindowTitleInput;
 	JXInputField*      itsContainerInput;
-	JXTextCheckbox*    itsAdjustContentCB;
 
 // end JXLayout
 

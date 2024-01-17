@@ -79,6 +79,10 @@ T
 F
 "./code/LayoutConfigDialog.cpp"
 T
+2 "LayoutConfigDialog.jxl"
+F
+"./code/LayoutConfigDialog.jxl"
+T
 2 "LayoutSelection.cpp"
 F
 "./code/LayoutSelection.cpp"
@@ -110,6 +114,10 @@ T
 F
 "./code/CoreWidget.cpp"
 T
+2 "CharInput.cpp"
+F
+"./code/CharInput.cpp"
+T
 2 "FloatInput.cpp"
 F
 "./code/FloatInput.cpp"
@@ -126,6 +134,14 @@ T
 F
 "./code/IntegerInput.cpp"
 T
+2 "PasswordInput.cpp"
+F
+"./code/PasswordInput.cpp"
+T
+2 "RadioGroup.cpp"
+F
+"./code/RadioGroup.cpp"
+T
 2 "StaticText.cpp"
 F
 "./code/StaticText.cpp"
@@ -141,6 +157,10 @@ T
 2 "TextCheckbox.cpp"
 F
 "./code/TextCheckbox.cpp"
+T
+2 "TextRadioButton.cpp"
+F
+"./code/TextRadioButton.cpp"
 T
 2 "WidgetSet.cpp"
 F
@@ -220,6 +240,14 @@ T
 2 "PathInputPanel.jxl"
 F
 "./code/PathInputPanel.jxl"
+T
+2 "RadioButtonIDPanel.cpp"
+F
+"./code/RadioButtonIDPanel.cpp"
+T
+2 "RadioButtonIDPanel.jxl"
+F
+"./code/RadioButtonIDPanel.jxl"
 T
 2 "SaveFileInputPanel.cpp"
 F

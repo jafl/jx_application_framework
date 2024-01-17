@@ -1,5 +1,5 @@
 /******************************************************************************
- CustomWidget.cpp
+ TextRadioButton.cpp
 
 	BASE CLASS = BaseWidget
 
@@ -7,18 +7,26 @@
 
  ******************************************************************************/
 
-#include "CustomWidget.h"
-#include "WidgetParametersDialog.h"
-#include "CustomWidgetPanel.h"
+#include "TextRadioButton.h"
+#include "RadioButtonIDPanel.h"
+#include "WidgetLabelPanel.h"
+#include "LayoutContainer.h"
 #include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
+
+const JCoordinate kMarginWidth   = 5;
+const JCoordinate kBoxHeight     = 12;
+const JCoordinate kBoxHalfHeight = 6;
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-CustomWidget::CustomWidget
+TextRadioButton::TextRadioButton
 	(
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
@@ -30,16 +38,15 @@ CustomWidget::CustomWidget
 	)
 	:
 	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
-	itsCreateFlag(false)
+	itsLabel(JGetString("DefaultLabel::TextRadioButton"))
 {
-	CustomWidgetX();
 }
 
-CustomWidget::CustomWidget
+TextRadioButton::TextRadioButton
 	(
-	const JString&		className,
-	const JString&		args,
-	const bool			create,
+	const JString&		id,
+	const JString&		label,
+	const JString&		shortcuts,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -50,14 +57,13 @@ CustomWidget::CustomWidget
 	)
 	:
 	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
-	itsClassName(className),
-	itsCtorArgs(args),
-	itsCreateFlag(create)
+	itsID(id),
+	itsLabel(label),
+	itsShortcuts(shortcuts)
 {
-	CustomWidgetX();
 }
 
-CustomWidget::CustomWidget
+TextRadioButton::TextRadioButton
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -72,17 +78,7 @@ CustomWidget::CustomWidget
 	:
 	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	input >> itsClassName >> itsCtorArgs >> itsCreateFlag;
-
-	CustomWidgetX();
-}
-
-// private
-
-void
-CustomWidget::CustomWidgetX()
-{
-	SetBorderWidth(1);
+	input >> itsID >> itsLabel >> itsShortcuts;
 }
 
 /******************************************************************************
@@ -90,7 +86,7 @@ CustomWidget::CustomWidgetX()
 
  ******************************************************************************/
 
-CustomWidget::~CustomWidget()
+TextRadioButton::~TextRadioButton()
 {
 }
 
@@ -100,19 +96,19 @@ CustomWidget::~CustomWidget()
  ******************************************************************************/
 
 void
-CustomWidget::StreamOut
+TextRadioButton::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("CustomWidget") << std::endl;
+	output << JString("TextRadioButton") << std::endl;
 
 	BaseWidget::StreamOut(output);
 
-	output << itsClassName << std::endl;
-	output << itsCtorArgs << std::endl;
-	output << itsCreateFlag << std::endl;
+	output << itsID << std::endl;
+	output << itsLabel << std::endl;
+	output << itsShortcuts << std::endl;
 }
 
 /******************************************************************************
@@ -121,29 +117,21 @@ CustomWidget::StreamOut
  ******************************************************************************/
 
 JString
-CustomWidget::ToString()
+TextRadioButton::ToString()
 	const
 {
 	JString s = BaseWidget::ToString();
 
-	if (!itsCtorArgs.IsEmpty() && !itsCreateFlag)
-	{
-		s += JString::newline;
-		s += "jnew ";
-		s += itsClassName;
-		s += "(";
-		s += itsCtorArgs;
-		s += " ...);";
-	}
-	else if (!itsCtorArgs.IsEmpty())
-	{
-		s += JString::newline;
-		s += itsClassName;
-		s += "::Create(";
-		s += itsCtorArgs;
-		s += " ...);";
-	}
+	s += JString::newline;
+	s += JGetString("IDLabel::TextRadioButton");
+	s += itsID;
 
+	if (!itsShortcuts.IsEmpty())
+	{
+		s += JString::newline;
+		s += JGetString("ShortcutsLabel::BaseWidget");
+		s += itsShortcuts;
+	}
 	return s;
 }
 
@@ -153,13 +141,26 @@ CustomWidget::ToString()
  ******************************************************************************/
 
 void
-CustomWidget::Draw
+TextRadioButton::Draw
 	(
 	JXWindowPainter&	p,
 	const JRect&		rect
 	)
 {
-	p.String(GetFrameLocal(), itsClassName, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
+	const JRect bounds  = GetBounds();
+	const JCoordinate y = bounds.ycenter();
+
+	// draw button
+
+	const JRect boxRect(y - kBoxHalfHeight, kMarginWidth,
+						y + kBoxHalfHeight, kMarginWidth + kBoxHeight);
+	JXDrawUpDiamond(p, boxRect, kJXDefaultBorderWidth, true, JColorManager::GetDefaultBackColor());
+
+	// draw text
+
+	JRect textRect  = bounds;
+	textRect.left  += 2*kMarginWidth + kBoxHeight;
+	p.String(textRect, itsLabel, JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************
@@ -168,13 +169,12 @@ CustomWidget::Draw
  ******************************************************************************/
 
 void
-CustomWidget::DrawBorder
+TextRadioButton::DrawBorder
 	(
 	JXWindowPainter&	p,
 	const JRect&		frame
 	)
 {
-	p.Rect(frame);
 }
 
 /******************************************************************************
@@ -183,22 +183,10 @@ CustomWidget::DrawBorder
  ******************************************************************************/
 
 JString
-CustomWidget::GetClassName()
+TextRadioButton::GetClassName()
 	const
 {
-	return itsClassName;
-}
-
-/******************************************************************************
- GetCtor (virtual protected)
-
- ******************************************************************************/
-
-JString
-CustomWidget::GetCtor()
-	const
-{
-	return itsCreateFlag ? (itsClassName + "::Create") : ("jnew " + itsClassName);
+	return "JXTextRadioButton";
 }
 
 /******************************************************************************
@@ -207,7 +195,7 @@ CustomWidget::GetCtor()
  ******************************************************************************/
 
 void
-CustomWidget::PrintCtorArgsWithComma
+TextRadioButton::PrintCtorArgsWithComma
 	(
 	std::ostream&	output,
 	const JString&	varName,
@@ -215,13 +203,42 @@ CustomWidget::PrintCtorArgsWithComma
 	)
 	const
 {
-	if (!itsCtorArgs.IsEmpty())
+	itsID.Print(output);
+	output << ", ";
+
+	const JString id = varName + GetParentContainer()->GetStringNamespace();
+	stringdb->SetItem(id, itsLabel, JPtrArrayT::kDelete);
+
+	output << "JGetString(" << id << "),";
+}
+
+/******************************************************************************
+ PrintConfiguration (virtual protected)
+
+ ******************************************************************************/
+
+void
+TextRadioButton::PrintConfiguration
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	const JString&	varName,
+	JStringManager*	stringdb
+	)
+	const
+{
+	if (!itsShortcuts.IsEmpty())
 	{
-		itsCtorArgs.Print(output);
-		if (itsCtorArgs.GetLastCharacter() != ',')
-		{
-			output << ',';
-		}
+		const JString id = varName + "::shortcuts" + GetParentContainer()->GetStringNamespace();
+		stringdb->SetItem(id, itsShortcuts, JPtrArrayT::kDelete);
+
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetShortcuts(JGetString(" << id << "));" << std::endl;
+	}
+	else
+	{
+		BaseWidget::PrintConfiguration(output, indent, varName, stringdb);
 	}
 }
 
@@ -231,14 +248,13 @@ CustomWidget::PrintCtorArgsWithComma
  ******************************************************************************/
 
 void
-CustomWidget::AddPanels
+TextRadioButton::AddPanels
 	(
 	WidgetParametersDialog* dlog
 	)
 {
-	itsPanel =
-		jnew CustomWidgetPanel(dlog, itsClassName, itsCtorArgs, itsCreateFlag,
-			WantsInput());
+	itsIDPanel    = jnew RadioButtonIDPanel(dlog, itsID);
+	itsLabelPanel = jnew WidgetLabelPanel(dlog, itsLabel, itsShortcuts);
 }
 
 /******************************************************************************
@@ -247,10 +263,11 @@ CustomWidget::AddPanels
  ******************************************************************************/
 
 void
-CustomWidget::SavePanelData()
+TextRadioButton::SavePanelData()
 {
-	bool wantsInput;
-	itsPanel->GetValues(&itsClassName, &itsCtorArgs, &itsCreateFlag, &wantsInput);
-	SetWantsInput(wantsInput);
-	itsPanel = nullptr;
+	itsIDPanel->GetValues(&itsID);
+	itsLabelPanel->GetValues(&itsLabel, &itsShortcuts);
+
+	itsIDPanel    = nullptr;
+	itsLabelPanel = nullptr;
 }

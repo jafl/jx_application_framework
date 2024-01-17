@@ -1,5 +1,5 @@
 /******************************************************************************
- CoreWidget.cpp
+ RadioGroup.cpp
 
 	BASE CLASS = BaseWidget
 
@@ -7,8 +7,10 @@
 
  ******************************************************************************/
 
-#include "CoreWidget.h"
+#include "RadioGroup.h"
+#include "LayoutContainer.h"
 #include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -16,9 +18,8 @@
 
  ******************************************************************************/
 
-CoreWidget::CoreWidget
+RadioGroup::RadioGroup
 	(
-	const bool			wantsInput,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -28,11 +29,12 @@ CoreWidget::CoreWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(wantsInput, layout, hSizing, vSizing, x,y, w,h)
+	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h)
 {
+	RadioGroupX(layout);
 }
 
-CoreWidget::CoreWidget
+RadioGroup::RadioGroup
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -47,6 +49,21 @@ CoreWidget::CoreWidget
 	:
 	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
+	RadioGroupX(layout);
+}
+
+// private
+
+void
+RadioGroup::RadioGroupX
+	(
+	LayoutContainer* layout
+	)
+{
+	SetBorderWidth(2);
+
+	itsLayout = jnew LayoutContainer(layout, this, this, kHElastic, kVElastic, 0,0, 100,100);
+	itsLayout->FitToEnclosure();
 }
 
 /******************************************************************************
@@ -54,8 +71,43 @@ CoreWidget::CoreWidget
 
  ******************************************************************************/
 
-CoreWidget::~CoreWidget()
+RadioGroup::~RadioGroup()
 {
+}
+
+/******************************************************************************
+ StreamOut (virtual)
+
+ ******************************************************************************/
+
+void
+RadioGroup::StreamOut
+	(
+	std::ostream& output
+	)
+	const
+{
+	output << JString("RadioGroup") << std::endl;
+
+	BaseWidget::StreamOut(output);
+}
+
+/******************************************************************************
+ GetLayoutContainer (virtual)
+
+	Some widgets can contain other widgets.
+
+ ******************************************************************************/
+
+bool
+RadioGroup::GetLayoutContainer
+	(
+	LayoutContainer** layout
+	)
+	const
+{
+	*layout = itsLayout;
+	return true;
 }
 
 /******************************************************************************
@@ -64,14 +116,12 @@ CoreWidget::~CoreWidget()
  ******************************************************************************/
 
 void
-CoreWidget::Draw
+RadioGroup::Draw
 	(
 	JXWindowPainter&	p,
 	const JRect&		rect
 	)
 {
-	itsWidget->Place(rect.left, rect.top);
-	itsWidget->SetSize(rect.width(), rect.height());
 }
 
 /******************************************************************************
@@ -80,29 +130,23 @@ CoreWidget::Draw
  ******************************************************************************/
 
 void
-CoreWidget::DrawBorder
+RadioGroup::DrawBorder
 	(
 	JXWindowPainter&	p,
 	const JRect&		frame
 	)
 {
+	JXDrawEngravedFrame(p, frame, 1, 0, 1);
 }
 
 /******************************************************************************
- StealMouse (virtual protected)
-
-	Don't pass mouse clicks to rendered widget.
+ GetClassName (virtual protected)
 
  ******************************************************************************/
 
-bool
-CoreWidget::StealMouse
-	(
-	const int			eventType,
-	const JPoint&		ptG,
-	const JXMouseButton	button,
-	const unsigned int	state
-	)
+JString
+RadioGroup::GetClassName()
+	const
 {
-	return true;
+	return "JXRadioGroup";
 }

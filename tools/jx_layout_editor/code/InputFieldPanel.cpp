@@ -17,8 +17,9 @@
 #include <jx-af/jx/JXRegexInput.h>
 #include <jx-af/jx/JXTextCheckbox.h>
 #include <jx-af/jx/JXFocusWidgetTask.h>
-#include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -34,12 +35,15 @@ InputFieldPanel::InputFieldPanel
 	const JInteger	minLength,
 	const JInteger	maxLength,
 	const JString&	regexPattern,
+	const JString&	regexFlags,
 	const JString&	regexErrorMsg,
 	const bool		wordWrap,
 	const bool		newlines
 	)
 {
-	BuildPanel(dlog, required, minLength, maxLength, regexPattern, regexErrorMsg, wordWrap, newlines);
+	BuildPanel(dlog, required, minLength, maxLength,
+				regexPattern, regexFlags, regexErrorMsg,
+				wordWrap, newlines);
 }
 
 /******************************************************************************
@@ -65,6 +69,7 @@ InputFieldPanel::BuildPanel
 	const JInteger	minLength,
 	const JInteger	maxLength,
 	const JString&	regexPattern,
+	const JString&	regexFlags,
 	const JString&	regexErrorMsg,
 	const bool		wordWrap,
 	const bool		newlines
@@ -81,66 +86,64 @@ InputFieldPanel::BuildPanel
 	assert( container != nullptr );
 
 	itsValueRequiredCB =
-		jnew JXTextCheckbox(JGetString("itsValueRequiredCB::InputFieldPanel::Panel"), container,
+		jnew JXTextCheckbox(JGetString("itsValueRequiredCB::InputFieldPanel::Panel"),container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 80,20);
-	assert( itsValueRequiredCB != nullptr );
-	itsValueRequiredCB->SetShortcuts(JGetString("itsValueRequiredCB::InputFieldPanel::shortcuts::Panel"));
+	itsValueRequiredCB->SetShortcuts(JGetString("itsValueRequiredCB::shortcuts::InputFieldPanel::Panel"));
+
+	auto* minimumLengthLabel =
+		jnew JXStaticText(JGetString("minimumLengthLabel::InputFieldPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,10, 70,20);
+	minimumLengthLabel->SetToLabel(false);
+
+	auto* maximumLengthLabel =
+		jnew JXStaticText(JGetString("maximumLengthLabel::InputFieldPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,10, 80,20);
+	maximumLengthLabel->SetToLabel(false);
+
+	auto* regExpValidationLabel =
+		jnew JXStaticText(JGetString("regExpValidationLabel::InputFieldPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 100,20);
+	regExpValidationLabel->SetToLabel(false);
+
+	auto* regexFlagsLabel =
+		jnew JXStaticText(JGetString("regexFlagsLabel::InputFieldPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 360,40, 40,20);
+	regexFlagsLabel->SetToLabel(false);
+
+	auto* regexpErrorMessageLabel =
+		jnew JXStaticText(JGetString("regexpErrorMessageLabel::InputFieldPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 100,20);
+	regexpErrorMessageLabel->SetToLabel(false);
+
+	itsWordWrapCB =
+		jnew JXTextCheckbox(JGetString("itsWordWrapCB::InputFieldPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 180,20);
+	itsWordWrapCB->SetShortcuts(JGetString("itsWordWrapCB::shortcuts::InputFieldPanel::Panel"));
+
+	itsAllowNewlinesCB =
+		jnew JXTextCheckbox(JGetString("itsAllowNewlinesCB::InputFieldPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,90, 120,20);
+	itsAllowNewlinesCB->SetShortcuts(JGetString("itsAllowNewlinesCB::shortcuts::InputFieldPanel::Panel"));
 
 	itsMinLengthInput =
 		jnew JXIntegerInput(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,10, 40,20);
-	assert( itsMinLengthInput != nullptr );
-
-	auto* minimumLengthLabel =
-		jnew JXStaticText(JGetString("minimumLengthLabel::InputFieldPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,10, 70,20);
-	assert( minimumLengthLabel != nullptr );
-	minimumLengthLabel->SetToLabel();
 
 	itsMaxLengthInput =
 		jnew JXIntegerInput(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 330,10, 40,20);
-	assert( itsMaxLengthInput != nullptr );
-
-	auto* maximumLengthLabel =
-		jnew JXStaticText(JGetString("maximumLengthLabel::InputFieldPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,10, 80,20);
-	assert( maximumLengthLabel != nullptr );
-	maximumLengthLabel->SetToLabel();
-
-	auto* regExpValidationLabel =
-		jnew JXStaticText(JGetString("regExpValidationLabel::InputFieldPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 100,20);
-	assert( regExpValidationLabel != nullptr );
-	regExpValidationLabel->SetToLabel();
-
-	auto* regexpErrorMessageLabe =
-		jnew JXStaticText(JGetString("regexpErrorMessageLabe::InputFieldPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 100,20);
-	assert( regexpErrorMessageLabe != nullptr );
-	regexpErrorMessageLabe->SetToLabel();
 
 	itsRegexInput =
-		jnew JXRegexInput(testRegex, true, container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,40, 320,20);
-	assert( itsRegexInput != nullptr );
+		jnew JXRegexInput(testRegex, true,container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,40, 240,20);
+
+	itsRegexFlagsInput =
+		jnew JXInputField(container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,40, 40,20);
 
 	itsRegexErrorMsgInput =
 		jnew JXInputField(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,60, 321,20);
-	assert( itsRegexErrorMsgInput != nullptr );
-
-	itsWordWrapCB =
-		jnew JXTextCheckbox(JGetString("itsWordWrapCB::InputFieldPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 180,20);
-	assert( itsWordWrapCB != nullptr );
-	itsWordWrapCB->SetShortcuts(JGetString("itsWordWrapCB::InputFieldPanel::shortcuts::Panel"));
-
-	itsAllowNewlinesCB =
-		jnew JXTextCheckbox(JGetString("itsAllowNewlinesCB::InputFieldPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,90, 120,20);
-	assert( itsAllowNewlinesCB != nullptr );
-	itsAllowNewlinesCB->SetShortcuts(JGetString("itsAllowNewlinesCB::InputFieldPanel::shortcuts::Panel"));
 
 // end Panel
 
@@ -152,7 +155,12 @@ InputFieldPanel::BuildPanel
 	ConfigureInput(itsMaxLengthInput, maxLength);
 
 	itsRegexInput->SetIsRequired(false);
+	itsRegexInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 	itsRegexInput->GetText()->SetText(regexPattern);
+
+	itsRegexFlagsInput->SetFont(JFontManager::GetDefaultMonospaceFont());
+	itsRegexFlagsInput->GetText()->SetText(regexFlags);
+
 	itsRegexErrorMsgInput->GetText()->SetText(regexErrorMsg);
 
 	ListenTo(itsRegexInput->GetText(), std::function([this](const JStyledText::TextSet&)
@@ -239,6 +247,7 @@ InputFieldPanel::GetValues
 	JInteger*	minLength,
 	JInteger*	maxLength,
 	JString*	regexPattern,
+	JString*	regexFlags,
 	JString*	regexErrorMsg,
 	bool*		wordWrap,
 	bool*		newlines
@@ -246,6 +255,7 @@ InputFieldPanel::GetValues
 {
 	*required      = itsValueRequiredCB->IsChecked();
 	*regexPattern  = itsRegexInput->GetText()->GetText();
+	*regexFlags    = itsRegexFlagsInput->GetText()->GetText();
 	*regexErrorMsg = itsRegexErrorMsgInput->GetText()->GetText();
 
 	itsMinLengthInput->GetValue(minLength);

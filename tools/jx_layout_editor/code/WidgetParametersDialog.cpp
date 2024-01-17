@@ -16,7 +16,9 @@
 #include <jx-af/jx/JXTextCheckbox.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXTextMenu.h>
-#include <jx-af/jx/jXGlobals.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -117,7 +119,13 @@ WidgetParametersDialog::BuildWindow
 	window->SetTitle(JGetString("WindowTitle::WidgetParametersDialog"));
 	SetButtons(okButton, cancelButton);
 
+	itsVarNameInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 	itsVarNameInput->GetText()->SetText(varName);
+	itsVarNameInput->SetIsRequired();
+	itsVarNameInput->SetValidationPattern(
+		jnew JRegex("^[_a-z][_a-z0-9]+$", "i"),
+		"VariableNameMustBeValidIdentifier::WidgetParametersDialog");
+
 	itsMemberVarCB->SetState(isMemberVar);
 
 	itsHSizingMenu->SetTitleText(JGetString("MenuTitle::WidgetParametersDialog_HSizing"));

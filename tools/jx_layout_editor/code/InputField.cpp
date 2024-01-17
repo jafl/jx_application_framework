@@ -44,6 +44,7 @@ InputField::InputField
 InputField::InputField
 	(
 	std::istream&		input,
+	const JFileVersion	vers,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -53,10 +54,15 @@ InputField::InputField
 	const JCoordinate	h
 	)
 	:
-	InputFieldBase(input, layout, hSizing, vSizing, x,y, w,h)
+	InputFieldBase(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 	input >> itsIsRequiredFlag >> itsMinLength >> itsMaxLength;
-	input >> itsValidationPattern >> itsRegexErrorMsg;
+	input >> itsValidationPattern;
+	if (vers >= 1)
+	{
+		input >> itsValidationFlags;
+	}
+	input >> itsRegexErrorMsg;
 	input >> itsWordWrapFlag >> itsAcceptNewlineFlag;
 }
 
@@ -89,6 +95,7 @@ InputField::StreamOut
 	output << itsMinLength << std::endl;
 	output << itsMaxLength << std::endl;
 	output << itsValidationPattern << std::endl;
+	output << itsValidationFlags << std::endl;
 	output << itsRegexErrorMsg << std::endl;
 	output << itsWordWrapFlag << std::endl;
 	output << itsAcceptNewlineFlag << std::endl;
@@ -130,6 +137,12 @@ InputField::ToString()
 		s += JString::newline;
 		s += JGetString("ValidationLabel:InputField");
 		s += itsValidationPattern;
+		if (!itsValidationFlags.IsEmpty())
+		{
+			s += "   (";
+			s += itsValidationFlags;
+			s += ")";
+		}
 		s += JString::newline;
 		s += JGetString("ErrorMsgLabel:InputField");
 		s += itsRegexErrorMsg;
@@ -229,7 +242,12 @@ InputField::PrintConfiguration
 
 		indent.Print(output);
 		varName.Print(output);
-		output << "->SetValidationPattern(" << itsValidationPattern << ", " << id << ");" << std::endl;
+		output << "->SetValidationPattern(jnew JRegex(" << itsValidationPattern;
+		if (!itsValidationFlags.IsEmpty())
+		{
+			output << ", " << itsValidationFlags;
+		}
+		output << "), " << id << ");" << std::endl;
 		used = true;
 	}
 
@@ -252,7 +270,7 @@ InputField::AddPanels
 {
 	itsPanel =
 		jnew InputFieldPanel(dlog, itsIsRequiredFlag, itsMinLength, itsMaxLength,
-			itsValidationPattern, itsRegexErrorMsg,
+			itsValidationPattern, itsValidationFlags, itsRegexErrorMsg,
 			itsWordWrapFlag, itsAcceptNewlineFlag);
 }
 
@@ -265,7 +283,7 @@ void
 InputField::SavePanelData()
 {
 	itsPanel->GetValues(&itsIsRequiredFlag, &itsMinLength, &itsMaxLength,
-						&itsValidationPattern, &itsRegexErrorMsg,
+						&itsValidationPattern, &itsValidationFlags, &itsRegexErrorMsg,
 						&itsWordWrapFlag, &itsAcceptNewlineFlag);
 	itsPanel = nullptr;
 }

@@ -1,4 +1,15 @@
+JXFileInput
+JXPathInput
+JXSaveFileInput
+
+	then testjx TestInputFieldsDialog
+
+
+
 snap-to-grid for bottom & right is offset
+
+testjx
+	AboutDialog - font size should be 10px
 
 generate code when save
 	JXStaticText
@@ -17,7 +28,6 @@ generate code when save
 
 -----
 
-JXTextRadioButton
 JXImageWidget
 	image
 JXImageButton
@@ -29,12 +39,6 @@ JXTextMenu
 JXImageRadioButton
 	image
 JXProgressIndicator
-JXCharInput
-JXFileInput
-JXPasswordInput
-	same as JXInputField
-JXPathInput
-JXSaveFileInput
 JXChooseMonoFont
 JXLevelControl
 JXSlider
@@ -43,7 +47,6 @@ JXSlider
 
 JXScrollbarSet
 JXToolBar
-JXRadioGroup
 JXHorizPartition
 	# of compartments - drag to resize
 JXVertPartition

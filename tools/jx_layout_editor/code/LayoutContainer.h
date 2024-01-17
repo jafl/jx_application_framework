@@ -153,7 +153,8 @@ private:
 
 	void	LayoutContainerX();
 
-	BaseWidget*	ReadWidget(std::istream& input, LayoutContainer* defaultEnclosure,
+	BaseWidget*	ReadWidget(std::istream& input, const JFileVersion vers,
+						   LayoutContainer* defaultEnclosure,
 						   JPtrArray<BaseWidget>* widgetList);
 	BaseWidget*	CreateWidget(const JIndex index, const JRect& rect);
 

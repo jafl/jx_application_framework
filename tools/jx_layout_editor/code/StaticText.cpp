@@ -65,6 +65,7 @@ StaticText::StaticText
 StaticText::StaticText
 	(
 	std::istream&		input,
+	const JFileVersion	vers,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -74,7 +75,7 @@ StaticText::StaticText
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(input, layout, hSizing, vSizing, x,y, w,h)
+	CoreWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 	JString text;
 	input >> text >> itsIsLabelFlag >> itsCenterHorizFlag;

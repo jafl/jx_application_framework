@@ -37,6 +37,7 @@ InputFieldBase::InputFieldBase
 InputFieldBase::InputFieldBase
 	(
 	std::istream&		input,
+	const JFileVersion	vers,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -46,7 +47,7 @@ InputFieldBase::InputFieldBase
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, layout, hSizing, vSizing, x,y, w,h)
+	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 	InputFieldBaseX();
 }

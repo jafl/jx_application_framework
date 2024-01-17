@@ -35,6 +35,7 @@ TextButtonBase::TextButtonBase
 TextButtonBase::TextButtonBase
 	(
 	std::istream&		input,
+	const JFileVersion	vers,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -44,7 +45,7 @@ TextButtonBase::TextButtonBase
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(input, layout, hSizing, vSizing, x,y, w,h)
+	CoreWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 }
 

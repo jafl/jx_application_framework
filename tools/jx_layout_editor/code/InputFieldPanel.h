@@ -23,7 +23,8 @@ public:
 
 	InputFieldPanel(WidgetParametersDialog* dlog, const bool required,
 					const JInteger minLength, const JInteger maxLength,
-					const JString& regexPattern, const JString& regexErrorMsg,
+					const JString& regexPattern, const JString&	regexFlags,
+					const JString& regexErrorMsg,
 					const bool wordWrap, const bool newlines);
 
 	~InputFieldPanel();
@@ -32,7 +33,8 @@ public:
 
 	void	GetValues(bool* required,
 					  JInteger* minLength, JInteger* maxLength,
-					  JString* regexPattern, JString* regexErrorMsg,
+					  JString* regexPattern, JString* regexFlags,
+					  JString* regexErrorMsg,
 					  bool* wordWrap, bool* newlines);
 
 private:
@@ -40,12 +42,13 @@ private:
 // begin Panel
 
 	JXTextCheckbox* itsValueRequiredCB;
+	JXTextCheckbox* itsWordWrapCB;
+	JXTextCheckbox* itsAllowNewlinesCB;
 	JXIntegerInput* itsMinLengthInput;
 	JXIntegerInput* itsMaxLengthInput;
 	JXRegexInput*   itsRegexInput;
+	JXInputField*   itsRegexFlagsInput;
 	JXInputField*   itsRegexErrorMsgInput;
-	JXTextCheckbox* itsWordWrapCB;
-	JXTextCheckbox* itsAllowNewlinesCB;
 
 // end Panel
 
@@ -53,7 +56,8 @@ private:
 
 	void	BuildPanel(WidgetParametersDialog* dlog, const bool required,
 						const JInteger minLength, const JInteger maxLength,
-						const JString& regexPattern, const JString& regexErrorMsg,
+						const JString& regexPattern, const JString&	regexFlags,
+						const JString& regexErrorMsg,
 						const bool wordWrap, const bool newlines);
 
 	void	ConfigureInput(JXIntegerInput* field, const JInteger value);

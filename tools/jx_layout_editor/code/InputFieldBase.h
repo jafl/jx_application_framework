@@ -18,7 +18,7 @@ public:
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
-	InputFieldBase(std::istream& input, LayoutContainer* layout,
+	InputFieldBase(std::istream& input, const JFileVersion vers, LayoutContainer* layout,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);

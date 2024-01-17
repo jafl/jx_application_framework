@@ -1,5 +1,5 @@
 jx_menu_editor 0
-920 300
+914 517
 "ChooseWidgetDialog"
 "Widget"
 ' 
@@ -61,6 +61,26 @@ jx_menu_editor 0
 ' 
 "__FloatInput"
 "kFloatInputIndex"
+0
+
+1
+0
+0 ""
+"Character input"
+""
+' 
+"__CharacterInput"
+"kCharInputIndex"
+0
+
+1
+0
+0 ""
+"Password input"
+""
+' 
+"__PasswordInput"
+"kPasswordInputIndex"
 1
 
 1
@@ -81,6 +101,26 @@ jx_menu_editor 0
 ' 
 "__TextCheckbox"
 "kTextCheckboxIndex"
+1
+
+1
+0
+0 ""
+"Radio group"
+""
+' 
+"__RadioGroup"
+"kRadioGroupIndex"
+0
+
+1
+0
+0 ""
+"Text radio button"
+""
+' 
+"__TextRadioButton"
+"kTextRadioButtonIndex"
 1
 
 1

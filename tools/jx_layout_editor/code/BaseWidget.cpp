@@ -66,6 +66,7 @@ BaseWidget::BaseWidget
 BaseWidget::BaseWidget
 	(
 	std::istream&		input,
+	const JFileVersion	vers,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,

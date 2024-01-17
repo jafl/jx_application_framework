@@ -56,6 +56,7 @@ TextCheckbox::TextCheckbox
 TextCheckbox::TextCheckbox
 	(
 	std::istream&		input,
+	const JFileVersion	vers,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -65,7 +66,7 @@ TextCheckbox::TextCheckbox
 	const JCoordinate	h
 	)
 	:
-	TextButtonBase(input, layout, hSizing, vSizing, x,y, w,h)
+	TextButtonBase(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 	JString label;
 	input >> label >> itsShortcuts;
