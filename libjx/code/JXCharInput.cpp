@@ -108,12 +108,12 @@ JXCharInput::HandleKeyPress
 
 	SelectAll();
 	JXInputField::HandleKeyPress(c, keySym, modifiers);
-	if (GetText()->IsEmpty())
-	{
-		GetText()->SetText(JString::space);
-	}
 	if (!willDie)
 	{
+		if (GetText()->IsEmpty())
+		{
+			GetText()->SetText(JString::space);
+		}
 		SelectAll();
 	}
 }
