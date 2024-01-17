@@ -32,13 +32,12 @@ JXRadioButton::JXRadioButton
 	const JCoordinate	h
 	)
 	:
-	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
+	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
+	itsID(id),
+	itsRadioGroup(enclosure),
+	itsIsCheckedFlag(false),
+	itsIsPushedFlag(false)
 {
-	itsID            = id;
-	itsRadioGroup    = enclosure;
-	itsIsCheckedFlag = false;
-	itsIsPushedFlag  = false;
-
 	itsRadioGroup->NewButton(this);
 }
 

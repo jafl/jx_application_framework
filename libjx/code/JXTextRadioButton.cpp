@@ -40,13 +40,12 @@ JXTextRadioButton::JXTextRadioButton
 	:
 	JXRadioButton(id, enclosure, hSizing, vSizing, x,y, w,h),
 	itsLabel(label),
-	itsFont(JFontManager::GetDefaultFont())
+	itsShortcuts(nullptr),
+	itsULIndex(0),
+	itsFont(JFontManager::GetDefaultFont()),
+	itsNormalColor(JColorManager::GetDefaultBackColor()),
+	itsPushedColor(JColorManager::GetDefaultSelButtonColor())
 {
-	itsShortcuts = nullptr;
-	itsULIndex   = 0;
-
-	itsNormalColor = JColorManager::GetDefaultBackColor();
-	itsPushedColor = JColorManager::GetDefaultSelButtonColor();
 }
 
 /******************************************************************************

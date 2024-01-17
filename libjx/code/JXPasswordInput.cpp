@@ -156,9 +156,9 @@ JXPasswordInput::Draw
 
 	// warn if Caps Lock is on
 
-	if ((GetDisplay()->GetLatestKeyModifiers()).shiftLock())
+	if (GetDisplay()->GetLatestKeyModifiers().shiftLock())
 	{
-		JXImage* img = (GetDisplay()->GetImageCache())->GetImage(jx_caps_lock_on);
+		JXImage* img = GetDisplay()->GetImageCache()->GetImage(jx_caps_lock_on);
 		p.Image(*img, img->GetBounds(),
 						  b.right - img->GetWidth() - 1,
 						  b.ycenter() - img->GetHeight()/2);
