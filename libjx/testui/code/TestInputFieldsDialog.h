@@ -33,12 +33,12 @@ private:
 
 // begin JXLayout
 
+	JXTextButton*   itsChoosePathButton;
+	JXTextButton*   itsChooseFileButton;
 	JXIntegerInput* itsLowerValue;
 	JXIntegerInput* itsUpperValue;
 	JXPathInput*    itsPathInput;
 	JXFileInput*    itsFileInput;
-	JXTextButton*   itsChoosePathButton;
-	JXTextButton*   itsChooseFileButton;
 
 // end JXLayout
 

@@ -4,10 +4,6 @@
 
 Name	"testjx"
 
-# AboutDialog
-
-WindowTitle::AboutDialog	"About this silly program"
-
 # TestDirector
 
 WindowTitle::TestDirector		"Test Director"
@@ -81,10 +77,6 @@ XFontMenuLastItem::TestWidget	"I wish Netscape's bookmark list would scroll like
 Hello::TestWidget		"Hello"
 FontTest::TestWidget	"underline without dashes"
 
-# ResizeWidgetDialog
-
-WindowTitle::ResizeWidgetDialog	"Change widget size"
-
 # TestImageDirector
 
 WindowTitle::TestImageDirector			"Test Image"
@@ -150,10 +142,6 @@ MiddleClickInstr::TestCompartment	"Middle click to delete"
 RightClickInstr::TestCompartment	"Right click to insert after"
 ElasticLabel::TestCompartment		"(elastic)"
 
-# SetElasticDialog
-
-WindowTitle::SetElasticDialog	"Set elastic compartment"
-
 # TestButtonsDialog
 
 WindowTitle::TestButtonsDialog		"Testing Buttons"
@@ -167,7 +155,6 @@ Encouragement::TestButtonsDialog	"Hey!  Cheer up!"
 
 # TestInputFieldsDialog
 
-WindowTitle::TestInputFieldsDialog	"Testing Input Fields"
 Text2::TestInputFieldsDialog		"required"
 Text4::TestInputFieldsDialog		"max 10"
 Password::TestInputFieldsDialog		"password"
@@ -176,7 +163,6 @@ MinMaxError::TestInputFieldsDialog	"Low must be less than high."
 
 # TestPopupChoiceDialog
 
-WindowTitle::TestPopupChoiceDialog			"Testing PopupChoice Menus"
 FontMenuLabel::TestPopupChoiceDialog		"Font"
 FontSizeMenuLabel::TestPopupChoiceDialog	"Size"
 ImageMenuLabel::TestPopupChoiceDialog		"Icons"

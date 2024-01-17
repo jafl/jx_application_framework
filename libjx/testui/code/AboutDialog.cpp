@@ -45,7 +45,7 @@ AboutDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 100,100, JString::empty);
+	auto* window = jnew JXWindow(this, 100,100, JGetString("WindowTitle::AboutDialog::JXLayout"));
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::AboutDialog::JXLayout"),window,
@@ -54,6 +54,7 @@ AboutDialog::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::AboutDialog"));
 	SetButtons(okButton, nullptr);
+
+	okButton->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 }

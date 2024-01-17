@@ -1,4 +1,5 @@
 0
+WindowTitle::ResizeWidgetDialog::JXLayout "Change widget size"
 heightLabel::ResizeWidgetDialog::JXLayout "Height:"
 okButton::ResizeWidgetDialog::JXLayout "OK"
 okButton::shortcuts::ResizeWidgetDialog::JXLayout "^M"

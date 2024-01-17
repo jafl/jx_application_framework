@@ -50,7 +50,7 @@ TestPopupChoiceDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 230,170, JString::empty);
+	auto* window = jnew JXWindow(this, 230,170, JGetString("WindowTitle::TestPopupChoiceDialog::JXLayout"));
 
 	auto* fontMenu =
 		jnew JXFontNameMenu(JGetString("FontMenuLabel::TestPopupChoiceDialog"), true,window,
@@ -92,12 +92,12 @@ TestPopupChoiceDialog::BuildWindow()
 	JXDisplay* display = window->GetDisplay();
 
 	static const JColorID kSmileyColor[] =
-{
+	{
 		JColorManager::GetWhiteColor(),
 		JColorManager::GetRedColor(),
 		JColorManager::GetBlueColor(),
 		JColorManager::GetBlackColor()
-};
+	};
 
 	JXImage* titleImage = nullptr;
 	for (JUnsignedOffset i=0; i<kSmileyBitmapCount; i++)

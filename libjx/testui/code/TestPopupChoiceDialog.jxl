@@ -2,33 +2,34 @@ jx_layout_editor 1
 230
 170
 "JXLayout"
-""
+"Testing PopupChoice Menus"
 ""
 0
+
 1
 0
-"CustomWidget"
-2
-0
-100 20 130 210
-"iconMenu"
+"TextButton"
 0
 0
-"JXImageMenu"
-"JGetString(\"ImageMenuLabel::TestPopupChoiceDialog\"), 2,"
+140 30 160 100
+"cancelButton"
 0
+0
+"Cancel"
+""
+
 1
 0
-"CustomWidget"
-2
+"TextButton"
+1
 0
-60 20 90 210
-"sizeMenu"
+140 130 160 200
+"okButton"
 0
 0
-"JXFontSizeMenu"
-"fontMenu, JGetString(\"FontSizeMenuLabel::TestPopupChoiceDialog\"),"
-0
+"OK"
+"^M"
+
 1
 0
 "CustomWidget"
@@ -41,26 +42,31 @@ jx_layout_editor 1
 "JXFontNameMenu"
 "JGetString(\"FontMenuLabel::TestPopupChoiceDialog\"), true,"
 0
+
 1
 0
-"TextButton"
+"CustomWidget"
+2
+0
+60 20 90 210
+"sizeMenu"
+0
+0
+"JXFontSizeMenu"
+"fontMenu, JGetString(\"FontSizeMenuLabel::TestPopupChoiceDialog\"),"
+0
+
 1
 0
-140 130 160 200
-"okButton"
+"CustomWidget"
+2
+0
+100 20 130 210
+"iconMenu"
 0
 0
-"OK"
-"^M"
-1
+"JXImageMenu"
+"JGetString(\"ImageMenuLabel::TestPopupChoiceDialog\"), 2,"
 0
-"TextButton"
-0
-0
-140 30 160 100
-"cancelButton"
-0
-0
-"Cancel"
-""
+
 0

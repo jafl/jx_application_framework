@@ -52,7 +52,7 @@ ResizeWidgetDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 160,120, JString::empty);
+	auto* window = jnew JXWindow(this, 160,120, JGetString("WindowTitle::ResizeWidgetDialog::JXLayout"));
 
 	auto* widthLabel =
 		jnew JXStaticText(JGetString("widthLabel::ResizeWidgetDialog::JXLayout"),window,
@@ -84,7 +84,6 @@ ResizeWidgetDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::ResizeWidgetDialog"));
 	SetButtons(okButton, cancelButton);
 
 	const JRect r = widget->GetBoundsGlobal();

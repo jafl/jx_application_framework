@@ -54,7 +54,7 @@ SetElasticDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 200,90, JString::empty);
+	auto* window = jnew JXWindow(this, 200,90, JGetString("WindowTitle::SetElasticDialog::JXLayout"));
 
 	auto* elasticLabel =
 		jnew JXStaticText(JGetString("elasticLabel::SetElasticDialog::JXLayout"),window,
@@ -77,7 +77,6 @@ SetElasticDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::SetElasticDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsElasticIndex->SetValue(index);
