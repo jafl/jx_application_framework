@@ -1,10 +1,11 @@
-jx_layout_editor 0
+jx_layout_editor 1
 460
 70
 "Panel"
 ""
 "window"
 0
+
 1
 0
 "WidgetSet"
@@ -14,52 +15,7 @@ jx_layout_editor 0
 "container"
 0
 0
-1
-1
-"StaticText"
-0
-0
-40 170 60 440
-"shortcutsHelp"
-0
-0
-"#=Meta   ^=Ctrl   F1-F35=function keys"
-1
-0
-0
-0
-0
-1
-1
-"StaticText"
-0
-0
-40 20 60 100
-"shortcutsLabel"
-0
-0
-"Shortcuts:"
-1
-0
-0
-0
-0
-1
-1
-"InputField"
-0
-0
-40 100 60 160
-"itsShortcutsInput"
-1
-2
-0
-0
-0
-""
-""
-0
-0
+
 1
 1
 "StaticText"
@@ -75,6 +31,7 @@ jx_layout_editor 0
 0
 0
 0
+
 1
 1
 "InputField"
@@ -89,6 +46,58 @@ jx_layout_editor 0
 0
 ""
 ""
+""
 0
 0
+
+1
+1
+"StaticText"
+0
+0
+40 20 60 100
+"shortcutsLabel"
+0
+0
+"Shortcuts:"
+1
+0
+0
+0
+0
+
+1
+1
+"InputField"
+0
+0
+40 100 60 160
+"itsShortcutsInput"
+1
+2
+0
+0
+0
+""
+""
+""
+0
+0
+
+1
+1
+"StaticText"
+0
+0
+40 170 60 440
+"shortcutsHelp"
+0
+0
+"#=Meta   ^=Ctrl   F1-F35=function keys"
+1
+0
+0
+0
+0
+
 0

@@ -5,6 +5,7 @@ jx_layout_editor 1
 ""
 "window"
 0
+
 1
 0
 "WidgetSet"
@@ -14,6 +15,23 @@ jx_layout_editor 1
 "container"
 0
 0
+
+1
+1
+"StaticText"
+0
+0
+10 20 30 100
+"idLabel"
+0
+0
+"ID:"
+1
+0
+0
+0
+0
+
 1
 1
 "InputField"
@@ -31,19 +49,5 @@ jx_layout_editor 1
 "i"
 0
 1
-1
-1
-"StaticText"
-0
-0
-10 20 30 100
-"idLabel"
-0
-0
-"ID:"
-1
-0
-0
-0
-0
+
 0

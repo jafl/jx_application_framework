@@ -8,27 +8,19 @@ jx_layout_editor 1
 
 1
 0
-"TextButton"
+"StaticText"
 0
 0
-170 180 190 250
-"cancelButton"
+20 10 40 110
+"stringLabel"
 0
 0
-"Cancel"
-""
-
+"Any string:"
 1
 0
-"TextButton"
-1
-0
-170 390 190 460
-"okButton"
 0
 0
-"OK"
-"^M"
+0
 
 1
 0
@@ -45,6 +37,80 @@ jx_layout_editor 1
 ""
 ""
 ""
+0
+0
+
+1
+0
+"StaticText"
+1
+0
+20 300 40 380
+"numberLabel"
+0
+0
+"Any number:"
+1
+0
+0
+0
+0
+
+1
+0
+"FloatInput"
+1
+0
+20 380 40 470
+"f1"
+0
+5
+0
+0 0
+0 0
+
+1
+0
+"StaticText"
+1
+0
+20 480 40 550
+"intLabel"
+0
+0
+"Any int:"
+1
+0
+0
+0
+0
+
+1
+0
+"IntegerInput"
+1
+0
+20 550 40 600
+"i1"
+0
+9
+0
+0 0
+0 0
+
+1
+0
+"StaticText"
+0
+0
+40 10 60 110
+"reqStringLabel"
+0
+0
+"Req'd string:"
+1
+0
+0
 0
 0
 
@@ -68,6 +134,80 @@ jx_layout_editor 1
 
 1
 0
+"StaticText"
+1
+0
+40 300 60 380
+"positiveLabel"
+0
+0
+">-3.2 :"
+1
+0
+0
+0
+0
+
+1
+0
+"FloatInput"
+1
+0
+40 380 60 470
+"f2"
+0
+6
+0
+0 0
+0 0
+
+1
+0
+"StaticText"
+1
+0
+40 480 60 550
+"lowIntLabel"
+0
+0
+"Low (>-3):"
+1
+0
+0
+0
+0
+
+1
+0
+"IntegerInput"
+1
+0
+40 550 60 600
+"itsLowerValue"
+1
+10
+0
+0 0
+0 0
+
+1
+0
+"StaticText"
+0
+0
+60 10 80 110
+"max5Label"
+0
+0
+"max 5 chars:"
+1
+0
+0
+0
+0
+
+1
+0
 "InputField"
 2
 0
@@ -81,6 +221,80 @@ jx_layout_editor 1
 ""
 ""
 ""
+0
+0
+
+1
+0
+"StaticText"
+1
+0
+60 300 80 380
+"negativeLabel"
+0
+0
+"<-3.2 :"
+1
+0
+0
+0
+0
+
+1
+0
+"FloatInput"
+1
+0
+60 380 80 470
+"f3"
+0
+7
+0
+0 0
+0 0
+
+1
+0
+"StaticText"
+1
+0
+60 480 80 550
+"highIntLabel"
+0
+0
+"High (<8):"
+1
+0
+0
+0
+0
+
+1
+0
+"IntegerInput"
+1
+0
+60 550 80 600
+"itsUpperValue"
+1
+11
+0
+0 0
+0 0
+
+1
+0
+"StaticText"
+0
+0
+80 10 100 110
+"max10Label"
+0
+0
+"req'd max 10 chars:"
+1
+0
+0
 0
 0
 
@@ -104,222 +318,6 @@ jx_layout_editor 1
 
 1
 0
-"FloatInput"
-1
-0
-20 380 40 470
-"f1"
-0
-5
-0
-0 0
-0 0
-
-1
-0
-"FloatInput"
-1
-0
-40 380 60 470
-"f2"
-0
-6
-0
-0 0
-0 0
-
-1
-0
-"FloatInput"
-1
-0
-60 380 80 470
-"f3"
-0
-7
-0
-0 0
-0 0
-
-1
-0
-"FloatInput"
-1
-0
-80 380 100 470
-"f4"
-0
-8
-0
-0 0
-0 0
-
-1
-0
-"IntegerInput"
-1
-0
-20 550 40 600
-"i1"
-0
-9
-0
-0 0
-0 0
-
-1
-0
-"IntegerInput"
-1
-0
-40 550 60 600
-"itsLowerValue"
-1
-10
-0
-0 0
-0 0
-
-1
-0
-"IntegerInput"
-1
-0
-60 550 80 600
-"itsUpperValue"
-1
-11
-0
-0 0
-0 0
-
-1
-0
-"IntegerInput"
-1
-0
-80 550 100 600
-"i4"
-0
-12
-0
-0 0
-0 0
-
-1
-0
-"StaticText"
-0
-0
-20 10 40 110
-"stringLabel"
-0
-0
-"Any string:"
-1
-0
-0
-0
-0
-
-1
-0
-"StaticText"
-0
-0
-40 10 60 110
-"reqStringLabel"
-0
-0
-"Req'd string:"
-1
-0
-0
-0
-0
-
-1
-0
-"StaticText"
-0
-0
-60 10 80 110
-"max5Label"
-0
-0
-"max 5 chars:"
-1
-0
-0
-0
-0
-
-1
-0
-"StaticText"
-0
-0
-80 10 100 110
-"max10Label"
-0
-0
-"req'd max 10 chars:"
-1
-0
-0
-0
-0
-
-1
-0
-"StaticText"
-1
-0
-20 300 40 380
-"numberLabel"
-0
-0
-"Any number:"
-1
-0
-0
-0
-0
-
-1
-0
-"StaticText"
-1
-0
-40 300 60 380
-"positiveLabel"
-0
-0
-">-3.2 :"
-1
-0
-0
-0
-0
-
-1
-0
-"StaticText"
-1
-0
-60 300 80 380
-"negativeLabel"
-0
-0
-"<-3.2 :"
-1
-0
-0
-0
-0
-
-1
-0
 "StaticText"
 1
 0
@@ -336,35 +334,16 @@ jx_layout_editor 1
 
 1
 0
-"StaticText"
+"FloatInput"
 1
 0
-40 480 60 550
-"lowIntLabel"
+80 380 100 470
+"f4"
 0
+8
 0
-"Low (>-3):"
-1
-0
-0
-0
-0
-
-1
-0
-"StaticText"
-1
-0
-60 480 80 550
-"highIntLabel"
-0
-0
-"High (<8):"
-1
-0
-0
-0
-0
+0 0
+0 0
 
 1
 0
@@ -384,14 +363,27 @@ jx_layout_editor 1
 
 1
 0
-"StaticText"
+"IntegerInput"
 1
 0
-20 480 40 550
-"intLabel"
+80 550 100 600
+"i4"
+0
+12
+0
+0 0
+0 0
+
+1
+0
+"StaticText"
 0
 0
-"Any int:"
+110 10 130 110
+"pwLabel"
+0
+0
+"Password:"
 1
 0
 0
@@ -413,22 +405,6 @@ jx_layout_editor 1
 "StaticText"
 0
 0
-110 10 130 110
-"pwLabel"
-0
-0
-"Password:"
-1
-0
-0
-0
-0
-
-1
-0
-"StaticText"
-0
-0
 110 300 130 340
 "pathLabel"
 0
@@ -442,19 +418,28 @@ jx_layout_editor 1
 
 1
 0
-"StaticText"
+"PathInput"
+2
+0
+110 340 130 550
+"itsPathInput"
+1
+15
 0
 0
-130 300 150 340
-"fileLabel"
 0
-0
-"File:"
+
 1
 0
+"TextButton"
 0
 0
+110 550 130 600
+"itsChoosePathButton"
+1
 0
+"Choose"
+""
 
 1
 0
@@ -484,13 +469,16 @@ jx_layout_editor 1
 
 1
 0
-"PathInput"
-2
+"StaticText"
 0
-110 340 130 550
-"itsPathInput"
+0
+130 300 150 340
+"fileLabel"
+0
+0
+"File:"
 1
-15
+0
 0
 0
 0
@@ -515,8 +503,8 @@ jx_layout_editor 1
 "TextButton"
 0
 0
-110 550 130 600
-"itsChoosePathButton"
+130 550 150 600
+"itsChooseFileButton"
 1
 0
 "Choose"
@@ -527,11 +515,23 @@ jx_layout_editor 1
 "TextButton"
 0
 0
-130 550 150 600
-"itsChooseFileButton"
+170 180 190 250
+"cancelButton"
+0
+0
+"Cancel"
+""
+
 1
 0
-"Choose"
-""
+"TextButton"
+1
+0
+170 390 190 460
+"okButton"
+0
+0
+"OK"
+"^M"
 
 0

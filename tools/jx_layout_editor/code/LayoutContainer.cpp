@@ -570,13 +570,28 @@ LayoutContainer::WriteConfig
 	output << itsAdjustContainerToFitFlag << std::endl;
 	output << std::endl;
 
-	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
-
-	ForEach([&output, &widgetList](const JXContainer* obj)
+	JPtrArray<BaseWidget> sortedList(JPtrArrayT::kForgetAll);
+	ForEach([&sortedList](const JXContainer* obj)
 	{
-		WriteWidget(output, obj, &widgetList);
+		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		if (widget == nullptr)
+		{
+			return;
+		}
+
+		sortedList.Append(const_cast<BaseWidget*>(widget));
 	},
 	true);
+
+	sortedList.SetCompareFunction(CompareLocations);
+	sortedList.Sort();
+
+	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
+
+	for (auto* widget: sortedList)
+	{
+		WriteWidget(output, widget, &widgetList);
+	}
 
 	output << false << std::endl;
 }
