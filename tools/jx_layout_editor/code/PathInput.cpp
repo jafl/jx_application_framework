@@ -1,5 +1,5 @@
 /******************************************************************************
- IntegerInput.cpp
+ PathInput.cpp
 
 	BASE CLASS = InputFieldBase
 
@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "IntegerInput.h"
-#include "IntegerInputPanel.h"
+#include "PathInput.h"
+#include "PathInputPanel.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -17,7 +17,7 @@
 
  ******************************************************************************/
 
-IntegerInput::IntegerInput
+PathInput::PathInput
 	(
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
@@ -29,15 +29,13 @@ IntegerInput::IntegerInput
 	)
 	:
 	InputFieldBase(layout, hSizing, vSizing, x,y, w,h),
-	itsIsRequiredFlag(false),
-	itsHasMinValue(false),
-	itsMinValue(0),
-	itsHasMaxValue(false),
-	itsMaxValue(0)
+	itsPathRequiredFlag(true),
+	itsAllowInvalidFlag(false),
+	itsWriteFlag(false)
 {
 }
 
-IntegerInput::IntegerInput
+PathInput::PathInput
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -52,9 +50,8 @@ IntegerInput::IntegerInput
 	:
 	InputFieldBase(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	input >> itsIsRequiredFlag;
-	input >> itsHasMinValue >> itsMinValue;
-	input >> itsHasMaxValue >> itsMaxValue;
+	input >> itsPathRequiredFlag >> itsAllowInvalidFlag;
+	input >> itsWriteFlag;
 }
 
 /******************************************************************************
@@ -62,7 +59,7 @@ IntegerInput::IntegerInput
 
  ******************************************************************************/
 
-IntegerInput::~IntegerInput()
+PathInput::~PathInput()
 {
 }
 
@@ -72,19 +69,19 @@ IntegerInput::~IntegerInput()
  ******************************************************************************/
 
 void
-IntegerInput::StreamOut
+PathInput::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("IntegerInput") << std::endl;
+	output << JString("PathInput") << std::endl;
 
 	InputFieldBase::StreamOut(output);
 
-	output << itsIsRequiredFlag << std::endl;
-	output << itsHasMinValue << ' ' << itsMinValue << std::endl;
-	output << itsHasMaxValue << ' ' << itsMaxValue << std::endl;
+	output << itsPathRequiredFlag << std::endl;
+	output << itsAllowInvalidFlag << std::endl;
+	output << itsWriteFlag << std::endl;
 }
 
 /******************************************************************************
@@ -93,29 +90,27 @@ IntegerInput::StreamOut
  ******************************************************************************/
 
 JString
-IntegerInput::ToString()
+PathInput::ToString()
 	const
 {
 	JString s = InputFieldBase::ToString();
 
-	if (itsIsRequiredFlag)
+	if (itsPathRequiredFlag)
 	{
 		s += JString::newline;
 		s += JGetString("RequiredLabel::InputField");
 	}
 
-	if (itsHasMinValue)
+	if (itsAllowInvalidFlag)
 	{
 		s += JString::newline;
-		s += JGetString("MinValueLabel::InputField");
-		s += JString((JUInt64) itsMinValue);
+		s += JGetString("AllowInvalidFile::FileInput");
 	}
 
-	if (itsHasMaxValue)
+	if (itsWriteFlag)
 	{
 		s += JString::newline;
-		s += JGetString("MaxValueLabel::InputField");
-		s += JString((JUInt64) itsMaxValue);
+		s += JGetString("RequireWritable::PathInput");
 	}
 
 	return s;
@@ -127,10 +122,10 @@ IntegerInput::ToString()
  ******************************************************************************/
 
 JString
-IntegerInput::GetClassName()
+PathInput::GetClassName()
 	const
 {
-	return "JXIntegerInput";
+	return "JXPathInput";
 }
 
 /******************************************************************************
@@ -139,7 +134,7 @@ IntegerInput::GetClassName()
  ******************************************************************************/
 
 void
-IntegerInput::PrintConfiguration
+PathInput::PrintConfiguration
 	(
 	std::ostream&	output,
 	const JString&	indent,
@@ -148,36 +143,17 @@ IntegerInput::PrintConfiguration
 	)
 	const
 {
-	bool used = false;
+	indent.Print(output);
+	varName.Print(output);
+	output << "->SetIsRequired(" << itsPathRequiredFlag << ");" << std::endl;
 
-	if (itsIsRequiredFlag)
-	{
-		indent.Print(output);
-		varName.Print(output);
-		output << "->SetIsRequired();" << std::endl;
-		used = true;
-	}
+	indent.Print(output);
+	varName.Print(output);
+	output << "->ShouldAllowInvalidPath(" << itsAllowInvalidFlag << ");" << std::endl;
 
-	if (itsHasMinValue)
-	{
-		indent.Print(output);
-		varName.Print(output);
-		output << "->SetLowerLimit(" << itsMinValue << ");" << std::endl;
-		used = true;
-	}
-
-	if (itsHasMaxValue)
-	{
-		indent.Print(output);
-		varName.Print(output);
-		output << "->SetUpperLimit(" << itsMaxValue << ");" << std::endl;
-		used = true;
-	}
-
-	if (!used)
-	{
-		InputFieldBase::PrintConfiguration(output, indent, varName, stringdb);
-	}
+	indent.Print(output);
+	varName.Print(output);
+	output << "->ShouldRequireWritable(" << itsWriteFlag << ");" << std::endl;
 }
 
 /******************************************************************************
@@ -186,15 +162,13 @@ IntegerInput::PrintConfiguration
  ******************************************************************************/
 
 void
-IntegerInput::AddPanels
+PathInput::AddPanels
 	(
 	WidgetParametersDialog* dlog
 	)
 {
 	itsPanel =
-		jnew IntegerInputPanel(dlog, itsIsRequiredFlag,
-			itsHasMinValue, itsMinValue,
-			itsHasMaxValue, itsMaxValue);
+		jnew PathInputPanel(dlog, itsPathRequiredFlag, itsAllowInvalidFlag, itsWriteFlag);
 }
 
 /******************************************************************************
@@ -203,10 +177,8 @@ IntegerInput::AddPanels
  ******************************************************************************/
 
 void
-IntegerInput::SavePanelData()
+PathInput::SavePanelData()
 {
-	itsPanel->GetValues(&itsIsRequiredFlag,
-						&itsHasMinValue, &itsMinValue,
-						&itsHasMaxValue, &itsMaxValue);
+	itsPanel->GetValues(&itsPathRequiredFlag, &itsAllowInvalidFlag, &itsWriteFlag);
 	itsPanel = nullptr;
 }

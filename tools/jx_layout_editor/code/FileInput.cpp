@@ -1,5 +1,5 @@
 /******************************************************************************
- IntegerInput.cpp
+ FileInput.cpp
 
 	BASE CLASS = InputFieldBase
 
@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "IntegerInput.h"
-#include "IntegerInputPanel.h"
+#include "FileInput.h"
+#include "FileInputPanel.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -17,7 +17,7 @@
 
  ******************************************************************************/
 
-IntegerInput::IntegerInput
+FileInput::FileInput
 	(
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
@@ -29,15 +29,15 @@ IntegerInput::IntegerInput
 	)
 	:
 	InputFieldBase(layout, hSizing, vSizing, x,y, w,h),
-	itsIsRequiredFlag(false),
-	itsHasMinValue(false),
-	itsMinValue(0),
-	itsHasMaxValue(false),
-	itsMaxValue(0)
+	itsFileRequiredFlag(true),
+	itsAllowInvalidFlag(false),
+	itsReadFlag(true),
+	itsWriteFlag(true),
+	itsExecFlag(false)
 {
 }
 
-IntegerInput::IntegerInput
+FileInput::FileInput
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -52,9 +52,8 @@ IntegerInput::IntegerInput
 	:
 	InputFieldBase(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	input >> itsIsRequiredFlag;
-	input >> itsHasMinValue >> itsMinValue;
-	input >> itsHasMaxValue >> itsMaxValue;
+	input >> itsFileRequiredFlag >> itsAllowInvalidFlag;
+	input >> itsReadFlag >> itsWriteFlag >> itsExecFlag;
 }
 
 /******************************************************************************
@@ -62,7 +61,7 @@ IntegerInput::IntegerInput
 
  ******************************************************************************/
 
-IntegerInput::~IntegerInput()
+FileInput::~FileInput()
 {
 }
 
@@ -72,19 +71,21 @@ IntegerInput::~IntegerInput()
  ******************************************************************************/
 
 void
-IntegerInput::StreamOut
+FileInput::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("IntegerInput") << std::endl;
+	output << JString("FileInput") << std::endl;
 
 	InputFieldBase::StreamOut(output);
 
-	output << itsIsRequiredFlag << std::endl;
-	output << itsHasMinValue << ' ' << itsMinValue << std::endl;
-	output << itsHasMaxValue << ' ' << itsMaxValue << std::endl;
+	output << itsFileRequiredFlag << std::endl;
+	output << itsAllowInvalidFlag << std::endl;
+	output << itsReadFlag << std::endl;
+	output << itsWriteFlag << std::endl;
+	output << itsExecFlag << std::endl;
 }
 
 /******************************************************************************
@@ -93,29 +94,49 @@ IntegerInput::StreamOut
  ******************************************************************************/
 
 JString
-IntegerInput::ToString()
+FileInput::ToString()
 	const
 {
 	JString s = InputFieldBase::ToString();
 
-	if (itsIsRequiredFlag)
+	if (itsFileRequiredFlag)
 	{
 		s += JString::newline;
 		s += JGetString("RequiredLabel::InputField");
 	}
 
-	if (itsHasMinValue)
+	if (itsAllowInvalidFlag)
 	{
 		s += JString::newline;
-		s += JGetString("MinValueLabel::InputField");
-		s += JString((JUInt64) itsMinValue);
+		s += JGetString("AllowInvalidFile::FileInput");
 	}
 
-	if (itsHasMaxValue)
+	s += JString::newline;
+	if (itsReadFlag)
 	{
-		s += JString::newline;
-		s += JGetString("MaxValueLabel::InputField");
-		s += JString((JUInt64) itsMaxValue);
+		s += "r ";
+	}
+	else
+	{
+		s += "- ";
+	}
+
+	if (itsWriteFlag)
+	{
+		s += "w ";
+	}
+	else
+	{
+		s += "- ";
+	}
+
+	if (itsExecFlag)
+	{
+		s += "x";
+	}
+	else
+	{
+		s += "-";
 	}
 
 	return s;
@@ -127,10 +148,10 @@ IntegerInput::ToString()
  ******************************************************************************/
 
 JString
-IntegerInput::GetClassName()
+FileInput::GetClassName()
 	const
 {
-	return "JXIntegerInput";
+	return "JXFileInput";
 }
 
 /******************************************************************************
@@ -139,7 +160,7 @@ IntegerInput::GetClassName()
  ******************************************************************************/
 
 void
-IntegerInput::PrintConfiguration
+FileInput::PrintConfiguration
 	(
 	std::ostream&	output,
 	const JString&	indent,
@@ -148,36 +169,25 @@ IntegerInput::PrintConfiguration
 	)
 	const
 {
-	bool used = false;
+	indent.Print(output);
+	varName.Print(output);
+	output << "->SetIsRequired(" << itsFileRequiredFlag << ");" << std::endl;
 
-	if (itsIsRequiredFlag)
-	{
-		indent.Print(output);
-		varName.Print(output);
-		output << "->SetIsRequired();" << std::endl;
-		used = true;
-	}
+	indent.Print(output);
+	varName.Print(output);
+	output << "->ShouldAllowInvalidFile(" << itsAllowInvalidFlag << ");" << std::endl;
 
-	if (itsHasMinValue)
-	{
-		indent.Print(output);
-		varName.Print(output);
-		output << "->SetLowerLimit(" << itsMinValue << ");" << std::endl;
-		used = true;
-	}
+	indent.Print(output);
+	varName.Print(output);
+	output << "->ShouldRequireReadable(" << itsReadFlag << ");" << std::endl;
 
-	if (itsHasMaxValue)
-	{
-		indent.Print(output);
-		varName.Print(output);
-		output << "->SetUpperLimit(" << itsMaxValue << ");" << std::endl;
-		used = true;
-	}
+	indent.Print(output);
+	varName.Print(output);
+	output << "->ShouldRequireWritable(" << itsWriteFlag << ");" << std::endl;
 
-	if (!used)
-	{
-		InputFieldBase::PrintConfiguration(output, indent, varName, stringdb);
-	}
+	indent.Print(output);
+	varName.Print(output);
+	output << "->ShouldRequireExecutable(" << itsExecFlag << ");" << std::endl;
 }
 
 /******************************************************************************
@@ -186,15 +196,14 @@ IntegerInput::PrintConfiguration
  ******************************************************************************/
 
 void
-IntegerInput::AddPanels
+FileInput::AddPanels
 	(
 	WidgetParametersDialog* dlog
 	)
 {
 	itsPanel =
-		jnew IntegerInputPanel(dlog, itsIsRequiredFlag,
-			itsHasMinValue, itsMinValue,
-			itsHasMaxValue, itsMaxValue);
+		jnew FileInputPanel(dlog, itsFileRequiredFlag, itsAllowInvalidFlag,
+			itsReadFlag, itsWriteFlag, itsExecFlag);
 }
 
 /******************************************************************************
@@ -203,10 +212,9 @@ IntegerInput::AddPanels
  ******************************************************************************/
 
 void
-IntegerInput::SavePanelData()
+FileInput::SavePanelData()
 {
-	itsPanel->GetValues(&itsIsRequiredFlag,
-						&itsHasMinValue, &itsMinValue,
-						&itsHasMaxValue, &itsMaxValue);
+	itsPanel->GetValues(&itsFileRequiredFlag, &itsAllowInvalidFlag,
+						&itsReadFlag, &itsWriteFlag, &itsExecFlag);
 	itsPanel = nullptr;
 }

@@ -81,6 +81,26 @@ jx_menu_editor 0
 ' 
 "__PasswordInput"
 "kPasswordInputIndex"
+0
+
+1
+0
+0 ""
+"File input"
+""
+' 
+"__FileInput"
+"kFileInputIndex"
+0
+
+1
+0
+0 ""
+"Path input"
+""
+' 
+"__PathInput"
+"kPathInputIndex"
 1
 
 1

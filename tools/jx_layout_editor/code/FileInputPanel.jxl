@@ -1,4 +1,4 @@
-jx_layout_editor 0
+jx_layout_editor 1
 460
 40
 "Panel"
@@ -19,34 +19,12 @@ jx_layout_editor 0
 "TextCheckbox"
 0
 0
-10 20 30 150
-"itsAllowInvalidFileCB"
+10 10 30 90
+"itsFileRequiredCB"
 1
 0
-"Allow invalid file"
-"#I"
-1
-1
-"TextCheckbox"
-0
-0
-10 200 30 260
-"itsRequireFileReadCB"
-1
-0
-"Read"
+"Required"
 "#R"
-1
-1
-"TextCheckbox"
-0
-0
-10 290 30 350
-"itsRequireFileWriteCB"
-1
-0
-"Write"
-"#W"
 1
 1
 "TextCheckbox"
@@ -58,4 +36,37 @@ jx_layout_editor 0
 0
 "Exec"
 "#E"
+1
+1
+"TextCheckbox"
+0
+0
+10 310 30 370
+"itsRequireFileWriteCB"
+1
+0
+"Write"
+"#W"
+1
+1
+"TextCheckbox"
+0
+0
+10 240 30 300
+"itsRequireFileReadCB"
+1
+0
+"Read"
+"#R"
+1
+1
+"TextCheckbox"
+0
+0
+10 110 30 230
+"itsAllowInvalidFileCB"
+1
+0
+"Allow invalid file"
+"#I"
 0

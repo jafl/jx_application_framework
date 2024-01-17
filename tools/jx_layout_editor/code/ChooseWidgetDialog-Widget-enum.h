@@ -13,6 +13,8 @@ enum {
 	kFloatInputIndex,
 	kCharInputIndex,
 	kPasswordInputIndex,
+	kFileInputIndex,
+	kPathInputIndex,
 	kTextButtonIndex,
 	kTextCheckboxIndex,
 	kRadioGroupIndex,

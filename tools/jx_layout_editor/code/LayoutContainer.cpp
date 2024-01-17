@@ -370,10 +370,12 @@ LayoutContainer::ReadConfig
 
 #include "CustomWidget.h"
 #include "CharInput.h"
+#include "FileInput.h"
 #include "FloatInput.h"
 #include "InputField.h"
 #include "IntegerInput.h"
 #include "PasswordInput.h"
+#include "PathInput.h"
 #include "RadioGroup.h"
 #include "StaticText.h"
 #include "TextButton.h"
@@ -417,6 +419,10 @@ LayoutContainer::ReadWidget
 	{
 		widget = jnew CharInput(input, vers, e, hS,vS, x,y,w,h);
 	}
+	else if (className == "FileInput")
+	{
+		widget = jnew FileInput(input, vers, e, hS,vS, x,y,w,h);
+	}
 	else if (className == "FloatInput")
 	{
 		widget = jnew FloatInput(input, vers, e, hS,vS, x,y,w,h);
@@ -432,6 +438,10 @@ LayoutContainer::ReadWidget
 	else if (className == "PasswordInput")
 	{
 		widget = jnew PasswordInput(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "PathInput")
+	{
+		widget = jnew PathInput(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "RadioGroup")
 	{
@@ -487,6 +497,10 @@ LayoutContainer::CreateWidget
 	{
 		return jnew CharInput(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
+	else if (index == kFileInputIndex)
+	{
+		return jnew FloatInput(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
 	else if (index == kFloatInputIndex)
 	{
 		return jnew FloatInput(this, kFixedLeft,kFixedTop, x,y,w,h);
@@ -502,6 +516,10 @@ LayoutContainer::CreateWidget
 	else if (index == kPasswordInputIndex)
 	{
 		return jnew PasswordInput(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kPathInputIndex)
+	{
+		return jnew PathInput(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kRadioGroupIndex)
 	{
@@ -550,6 +568,7 @@ LayoutContainer::WriteConfig
 	output << itsWindowTitle << std::endl;
 	output << itsContainerName << std::endl;
 	output << itsAdjustContainerToFitFlag << std::endl;
+	output << std::endl;
 
 	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
 
@@ -589,6 +608,7 @@ LayoutContainer::WriteWidget
 	output << true << std::endl;
 	output << parentIndex << std::endl;
 	widget->StreamOut(output);
+	output << std::endl;
 
 	widgetList->Append(const_cast<BaseWidget*>(widget));
 }
@@ -620,7 +640,7 @@ LayoutContainer::GenerateCode
 		{
 			const JString id = "WindowTitle" + GetStringNamespace();
 			stringdb->SetItem(id, itsWindowTitle, JPtrArrayT::kDelete);
-			output << id;
+			output << "JGetString(" << id << ")";
 		}
 		else
 		{

@@ -101,6 +101,11 @@ VariableNameLabel::BaseWidget	"Variable name: "
 MemberFlagLabel::BaseWidget		" (member)"
 ShortcutsLabel::BaseWidget		"Shortcuts: "
 
+# FileInput
+
+AllowInvalidFile::FileInput	"Allow invalid file"
+
+
 # InputField
 
 RequiredLabel::InputField	"Required"
@@ -112,6 +117,10 @@ WordWrap::InputField		"Word wrapping"
 AcceptNewline::InputField	"Accepts newline"
 MinValueLabel::InputField	"Min value: "
 MaxValueLabel::InputField	"Max value: "
+
+# PathInput
+
+RequireWritable::PathInput	"Require writable"
 
 # StaticText
 

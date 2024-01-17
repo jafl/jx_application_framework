@@ -118,6 +118,10 @@ T
 F
 "./code/CharInput.cpp"
 T
+2 "FileInput.cpp"
+F
+"./code/FileInput.cpp"
+T
 2 "FloatInput.cpp"
 F
 "./code/FloatInput.cpp"
@@ -137,6 +141,10 @@ T
 2 "PasswordInput.cpp"
 F
 "./code/PasswordInput.cpp"
+T
+2 "PathInput.cpp"
+F
+"./code/PathInput.cpp"
 T
 2 "RadioGroup.cpp"
 F

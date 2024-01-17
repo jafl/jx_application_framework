@@ -9,10 +9,6 @@
 
 #include "FloatInput.h"
 #include "FloatInputPanel.h"
-#include "LayoutContainer.h"
-#include <jx-af/jx/JXWindowPainter.h>
-#include <jx-af/jx/jXPainterUtil.h>
-#include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 

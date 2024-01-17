@@ -24,11 +24,12 @@ PathInputPanel::PathInputPanel
 	(
 	WidgetParametersDialog* dlog,
 
+	const bool required,
 	const bool invalid,
 	const bool write
 	)
 {
-	BuildPanel(dlog, invalid, write);
+	BuildPanel(dlog, required, invalid, write);
 }
 
 /******************************************************************************
@@ -50,6 +51,7 @@ PathInputPanel::BuildPanel
 	(
 	WidgetParametersDialog* dlog,
 
+	const bool required,
 	const bool invalid,
 	const bool write
 	)
@@ -61,21 +63,28 @@ PathInputPanel::BuildPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
+	assert( container != nullptr );
+
+	itsPathRequiredCB =
+		jnew JXTextCheckbox(JGetString("itsPathRequiredCB::PathInputPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 80,20);
+	itsPathRequiredCB->SetShortcuts(JGetString("itsPathRequiredCB::shortcuts::PathInputPanel::Panel"));
 
 	itsAllowInvalidPathCB =
 		jnew JXTextCheckbox(JGetString("itsAllowInvalidPathCB::PathInputPanel::Panel"),container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 130,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,10, 130,20);
 	itsAllowInvalidPathCB->SetShortcuts(JGetString("itsAllowInvalidPathCB::shortcuts::PathInputPanel::Panel"));
 
 	itsRequirePathWritableCB =
 		jnew JXTextCheckbox(JGetString("itsRequirePathWritableCB::PathInputPanel::Panel"),container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 200,10, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,10, 60,20);
 	itsRequirePathWritableCB->SetShortcuts(JGetString("itsRequirePathWritableCB::shortcuts::PathInputPanel::Panel"));
 
 // end Panel
 
 	dlog->AddPanel(this, container);
 
+	itsPathRequiredCB->SetState(required);
 	itsAllowInvalidPathCB->SetState(invalid);
 	itsRequirePathWritableCB->SetState(write);
 }
@@ -88,10 +97,12 @@ PathInputPanel::BuildPanel
 void
 PathInputPanel::GetValues
 	(
+	bool* required,
 	bool* invalid,
 	bool* write
 	)
 {
-	*invalid = itsAllowInvalidPathCB->IsChecked();
-	*write   = itsRequirePathWritableCB->IsChecked();
+	*required = itsPathRequiredCB->IsChecked();
+	*invalid  = itsAllowInvalidPathCB->IsChecked();
+	*write    = itsRequirePathWritableCB->IsChecked();
 }

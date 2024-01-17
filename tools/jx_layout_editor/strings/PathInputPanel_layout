@@ -1,7 +1,9 @@
 0
 itsRequirePathWritableCB::shortcuts::PathInputPanel::Panel "#W"
+itsPathRequiredCB::shortcuts::PathInputPanel::Panel "#R"
 itsAllowInvalidPathCB::shortcuts::PathInputPanel::Panel "#I"
 itsAllowInvalidPathCB::PathInputPanel::Panel "Allow invalid path"
+itsPathRequiredCB::PathInputPanel::Panel "Required"
 itsRequirePathWritableCB::PathInputPanel::Panel "Write"
 
 

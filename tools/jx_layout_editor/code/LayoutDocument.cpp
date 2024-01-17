@@ -1049,10 +1049,12 @@ LayoutDocument::ImportFDesignFile
 
 #include "CustomWidget.h"
 #include "CharInput.h"
+#include "FileInput.h"
 #include "FloatInput.h"
 #include "InputField.h"
 #include "IntegerInput.h"
 #include "PasswordInput.h"
+#include "PathInput.h"
 #include "RadioGroup.h"
 #include "StaticText.h"
 #include "TextButton.h"
@@ -1241,6 +1243,10 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew CharInput(enclosure, hS,vS, x,y,w,h);
 		}
+		else if (label == "JXFileInput")
+		{
+			widget = jnew FileInput(enclosure, hS,vS, x,y,w,h);
+		}
 		else if (flClass == "FL_INPUT" && flType == "FL_FLOAT_INPUT")
 		{
 			widget = jnew FloatInput(enclosure, hS,vS, x,y,w,h);
@@ -1256,6 +1262,10 @@ LayoutDocument::ImportFDesignLayout
 		else if (flClass == "FL_INPUT" && flType == "FL_SECRET_INPUT")
 		{
 			widget = jnew PasswordInput(enclosure, hS,vS, x,y,w,h);
+		}
+		else if (label == "JXPathInput")
+		{
+			widget = jnew PathInput(enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_FRAME" && flType == "FL_ENGRAVED_FRAME")
 		{

@@ -24,13 +24,14 @@ FileInputPanel::FileInputPanel
 	(
 	WidgetParametersDialog* dlog,
 
+	const bool required,
 	const bool invalid,
 	const bool read,
 	const bool write,
 	const bool exec
 	)
 {
-	BuildPanel(dlog, invalid, read, write, exec);
+	BuildPanel(dlog, required, invalid, read, write, exec);
 }
 
 /******************************************************************************
@@ -52,6 +53,7 @@ FileInputPanel::BuildPanel
 	(
 	WidgetParametersDialog* dlog,
 
+	const bool required,
 	const bool invalid,
 	const bool read,
 	const bool write,
@@ -65,20 +67,26 @@ FileInputPanel::BuildPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
+	assert( container != nullptr );
+
+	itsFileRequiredCB =
+		jnew JXTextCheckbox(JGetString("itsFileRequiredCB::FileInputPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 80,20);
+	itsFileRequiredCB->SetShortcuts(JGetString("itsFileRequiredCB::shortcuts::FileInputPanel::Panel"));
 
 	itsAllowInvalidFileCB =
 		jnew JXTextCheckbox(JGetString("itsAllowInvalidFileCB::FileInputPanel::Panel"),container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 130,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,10, 120,20);
 	itsAllowInvalidFileCB->SetShortcuts(JGetString("itsAllowInvalidFileCB::shortcuts::FileInputPanel::Panel"));
 
 	itsRequireFileReadCB =
 		jnew JXTextCheckbox(JGetString("itsRequireFileReadCB::FileInputPanel::Panel"),container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 200,10, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 240,10, 60,20);
 	itsRequireFileReadCB->SetShortcuts(JGetString("itsRequireFileReadCB::shortcuts::FileInputPanel::Panel"));
 
 	itsRequireFileWriteCB =
 		jnew JXTextCheckbox(JGetString("itsRequireFileWriteCB::FileInputPanel::Panel"),container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,10, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,10, 60,20);
 	itsRequireFileWriteCB->SetShortcuts(JGetString("itsRequireFileWriteCB::shortcuts::FileInputPanel::Panel"));
 
 	itsRequireFileExecCB =
@@ -90,6 +98,7 @@ FileInputPanel::BuildPanel
 
 	dlog->AddPanel(this, container);
 
+	itsFileRequiredCB->SetState(required);
 	itsAllowInvalidFileCB->SetState(invalid);
 	itsRequireFileReadCB->SetState(read);
 	itsRequireFileWriteCB->SetState(write);
@@ -104,14 +113,16 @@ FileInputPanel::BuildPanel
 void
 FileInputPanel::GetValues
 	(
+	bool* required,
 	bool* invalid,
 	bool* read,
 	bool* write,
 	bool* exec
 	)
 {
-	*invalid = itsAllowInvalidFileCB->IsChecked();
-	*read    = itsRequireFileReadCB->IsChecked();
-	*write   = itsRequireFileWriteCB->IsChecked();
-	*exec    = itsRequireFileExecCB->IsChecked();
+	*required = itsFileRequiredCB->IsChecked();
+	*invalid  = itsAllowInvalidFileCB->IsChecked();
+	*read     = itsRequireFileReadCB->IsChecked();
+	*write    = itsRequireFileWriteCB->IsChecked();
+	*exec     = itsRequireFileExecCB->IsChecked();
 }
