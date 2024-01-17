@@ -31,7 +31,7 @@ jobs:
             ${{ runner.os }}-sonar-cache-
 
       - name: Install sonar-scanner and build-wrapper
-        uses: sonarsource/sonarcloud-github-c-cpp@v1
+        uses: sonarsource/sonarcloud-github-c-cpp@v2
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
