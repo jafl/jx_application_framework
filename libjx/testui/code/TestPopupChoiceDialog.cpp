@@ -52,31 +52,30 @@ TestPopupChoiceDialog::BuildWindow()
 
 	auto* window = jnew JXWindow(this, 230,170, JString::empty);
 
+	auto* fontMenu =
+		jnew JXFontNameMenu(JGetString("FontMenuLabel::TestPopupChoiceDialog"), true,window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 190,30);
+	assert( fontMenu != nullptr );
+
+	auto* sizeMenu =
+		jnew JXFontSizeMenu(fontMenu, JGetString("FontSizeMenuLabel::TestPopupChoiceDialog"),window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,60, 190,30);
+	assert( sizeMenu != nullptr );
+
+	auto* iconMenu =
+		jnew JXImageMenu(JGetString("ImageMenuLabel::TestPopupChoiceDialog"), 2,window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,100, 190,30);
+	assert( iconMenu != nullptr );
+
 	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::TestPopupChoiceDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::TestPopupChoiceDialog::JXLayout"),window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,140, 70,20);
 	assert( cancelButton != nullptr );
 
 	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::TestPopupChoiceDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,140, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::TestPopupChoiceDialog::shortcuts::JXLayout"));
-
-	auto* fontMenu =
-		jnew JXFontNameMenu(JGetString("FontMenuLabel::TestPopupChoiceDialog"), true, window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 190,30);
-	assert( fontMenu != nullptr );
-
-	auto* sizeMenu =
-		jnew JXFontSizeMenu(fontMenu, JGetString("FontSizeMenuLabel::TestPopupChoiceDialog"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 190,30);
-	assert( sizeMenu != nullptr );
-
-	auto* iconMenu =
-		jnew JXImageMenu(JGetString("ImageMenuLabel::TestPopupChoiceDialog"), 2, window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 190,30);
-	assert( iconMenu != nullptr );
+		jnew JXTextButton(JGetString("okButton::TestPopupChoiceDialog::JXLayout"),window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 129,139, 72,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::TestPopupChoiceDialog::JXLayout"));
 
 // end JXLayout
 

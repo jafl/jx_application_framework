@@ -1,0 +1,57 @@
+jx_layout_editor 1
+200
+90
+"JXLayout"
+""
+""
+0
+1
+0
+"StaticText"
+0
+0
+20 10 40 140
+"elasticLabel"
+0
+0
+"Elastic compartment:"
+1
+0
+0
+0
+0
+1
+0
+"IntegerInput"
+2
+0
+20 140 40 180
+"itsElasticIndex"
+1
+1
+0
+0 0
+0 0
+1
+0
+"TextButton"
+1
+0
+60 120 80 170
+"okButton"
+0
+0
+"OK"
+"^M"
+1
+0
+"TextButton"
+1
+0
+60 30 80 80
+"cancelButton"
+0
+0
+"Cancel"
+""
+0

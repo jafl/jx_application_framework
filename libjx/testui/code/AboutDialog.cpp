@@ -48,11 +48,9 @@ AboutDialog::BuildWindow()
 	auto* window = jnew JXWindow(this, 100,100, JString::empty);
 
 	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::AboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::AboutDialog::JXLayout"),window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,35, 80,30);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::AboutDialog::shortcuts::JXLayout"));
-	okButton->SetFontSize(JFontManager::GetDefaultFontSize()-2);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::AboutDialog::JXLayout"));
 
 // end JXLayout
 

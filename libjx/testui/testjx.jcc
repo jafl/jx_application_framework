@@ -28,6 +28,10 @@ T
 F
 "./code/AboutDialog.cpp"
 T
+2 "AboutDialog.jxl"
+F
+"./code/AboutDialog.jxl"
+T
 2 "TestPGTask.cpp"
 F
 "./code/TestPGTask.cpp"
@@ -87,6 +91,10 @@ T
 F
 "./code/ResizeWidgetDialog.cpp"
 T
+2 "ResizeWidgetDialog.jxl"
+F
+"./code/ResizeWidgetDialog.jxl"
+T
 2 "AnimateWindowIconTask.cpp"
 F
 "./code/AnimateWindowIconTask.cpp"
@@ -138,6 +146,10 @@ T
 F
 "./code/SetElasticDialog.cpp"
 T
+2 "SetElasticDialog.jxl"
+F
+"./code/SetElasticDialog.jxl"
+T
 2 "TestFileListDirector.cpp"
 F
 "./code/TestFileListDirector.cpp"
@@ -160,6 +172,10 @@ T
 2 "TestPopupChoiceDialog.cpp"
 F
 "./code/TestPopupChoiceDialog.cpp"
+T
+2 "TestPopupChoiceDialog.jxl"
+F
+"./code/TestPopupChoiceDialog.jxl"
 F
 T
 1 "Tables"
