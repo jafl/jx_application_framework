@@ -374,13 +374,16 @@ LayoutContainer::ReadConfig
 #include "FloatInput.h"
 #include "InputField.h"
 #include "IntegerInput.h"
+#include "MenuBar.h"
 #include "PasswordInput.h"
 #include "PathInput.h"
 #include "RadioGroup.h"
+#include "ScrollbarSet.h"
 #include "StaticText.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
 #include "TextRadioButton.h"
+#include "ToolBar.h"
 #include "WidgetSet.h"
 
 BaseWidget*
@@ -435,6 +438,10 @@ LayoutContainer::ReadWidget
 	{
 		widget = jnew IntegerInput(input, vers, e, hS,vS, x,y,w,h);
 	}
+	else if (className == "MenuBar")
+	{
+		widget = jnew MenuBar(input, vers, e, hS,vS, x,y,w,h);
+	}
 	else if (className == "PasswordInput")
 	{
 		widget = jnew PasswordInput(input, vers, e, hS,vS, x,y,w,h);
@@ -446,6 +453,10 @@ LayoutContainer::ReadWidget
 	else if (className == "RadioGroup")
 	{
 		widget = jnew RadioGroup(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "ScrollbarSet")
+	{
+		widget = jnew ScrollbarSet(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "StaticText")
 	{
@@ -462,6 +473,10 @@ LayoutContainer::ReadWidget
 	else if (className == "TextRadioButton")
 	{
 		widget = jnew TextRadioButton(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "ToolBar")
+	{
+		widget = jnew ToolBar(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "WidgetSet")
 	{
@@ -513,6 +528,10 @@ LayoutContainer::CreateWidget
 	{
 		return jnew IntegerInput(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
+	else if (index == kMenuBarIndex)
+	{
+		return jnew MenuBar(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
 	else if (index == kPasswordInputIndex)
 	{
 		return jnew PasswordInput(this, kFixedLeft,kFixedTop, x,y,w,h);
@@ -524,6 +543,10 @@ LayoutContainer::CreateWidget
 	else if (index == kRadioGroupIndex)
 	{
 		return jnew RadioGroup(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kScrollbarSetIndex)
+	{
+		return jnew ScrollbarSet(this, kHElastic,kVElastic, x,y,w,h);
 	}
 	else if (index == kStaticTextIndex)
 	{
@@ -540,6 +563,10 @@ LayoutContainer::CreateWidget
 	else if (index == kTextRadioButtonIndex)
 	{
 		return jnew TextRadioButton(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kToolBarIndex)
+	{
+		return jnew ToolBar(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kWidgetSetIndex)
 	{
@@ -772,12 +799,11 @@ LayoutContainer::CompareLocations
 
  ******************************************************************************/
 
-const JString&
+JString
 LayoutContainer::GetEnclosureName()
 	const
 {
-	bool b;
-	return (itsOwner != nullptr ? itsOwner->GetVarName(&b) :
+	return (itsOwner != nullptr ? itsOwner->GetEnclosureName() :
 			!itsContainerName.IsEmpty() ? itsContainerName :
 			kDefaultContainerName);
 }
@@ -1189,7 +1215,7 @@ LayoutContainer::HandleMouseDown
 	)
 {
 	if (itsOwner != nullptr &&
-		button == kJXLeftButton && clickCount == 1 && modifiers.control())
+		button == kJXLeftButton && modifiers.control())
 	{
 		itsOwner->PrepareToAcceptDrag();
 		GetDisplay()->SwitchDrag(this, origPt, buttonStates, modifiers, itsOwner);

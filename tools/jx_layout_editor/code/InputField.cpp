@@ -188,7 +188,7 @@ InputField::PrintCtorArgsWithComma
 {
 	if (itsWordWrapFlag || itsAcceptNewlineFlag)
 	{
-		output << itsWordWrapFlag << ", " << itsAcceptNewlineFlag << ',';
+		output << itsWordWrapFlag << ", " << itsAcceptNewlineFlag << ", ";
 	}
 }
 

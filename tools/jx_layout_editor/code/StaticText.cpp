@@ -43,6 +43,7 @@ StaticText::StaticText
 StaticText::StaticText
 	(
 	const JString&		text,
+	const bool			center,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -54,7 +55,7 @@ StaticText::StaticText
 	:
 	CoreWidget(false, layout, hSizing, vSizing, x,y, w,h),
 	itsIsLabelFlag(true),
-	itsCenterHorizFlag(false),
+	itsCenterHorizFlag(center),
 	itsWordWrapFlag(false),
 	itsSelectableFlag(false),
 	itsStyleableFlag(false)
@@ -217,8 +218,8 @@ StaticText::PrintCtorArgsWithComma
 	if (itsWordWrapFlag || itsSelectableFlag || itsStyleableFlag)
 	{
 		output << itsWordWrapFlag << ", ";
-		output << itsSelectableFlag << ',';
-		output << itsStyleableFlag << ',';
+		output << itsSelectableFlag << ", ";
+		output << itsStyleableFlag << ", ";
 		output << "nullptr, ";		// JXScrollbarSet
 	}
 }

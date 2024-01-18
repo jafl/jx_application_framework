@@ -81,12 +81,12 @@ CustomWidgetPanel::BuildPanel
 	constructorArgsLabel->SetToLabel(false);
 
 	itsWantsInputCB =
-		jnew JXTextCheckbox(JGetString("itsWantsInputCB::CustomWidgetPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsWantsInputCB::CustomWidgetPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 160,20);
 	itsWantsInputCB->SetShortcuts(JGetString("itsWantsInputCB::shortcuts::CustomWidgetPanel::Panel"));
 
 	itsNeedsCreateCB =
-		jnew JXTextCheckbox(JGetString("itsNeedsCreateCB::CustomWidgetPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsNeedsCreateCB::CustomWidgetPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,70, 160,20);
 	itsNeedsCreateCB->SetShortcuts(JGetString("itsNeedsCreateCB::shortcuts::CustomWidgetPanel::Panel"));
 

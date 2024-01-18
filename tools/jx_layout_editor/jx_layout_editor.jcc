@@ -47,6 +47,10 @@ T
 F
 "./code/LayoutDocument.cpp"
 T
+2 "LayoutDocument.jxl"
+F
+"./code/LayoutDocument.jxl"
+T
 2 "LayoutDocument-File.jxm"
 F
 "./code/LayoutDocument-File.jxm"
@@ -138,6 +142,10 @@ T
 F
 "./code/IntegerInput.cpp"
 T
+2 "MenuBar.cpp"
+F
+"./code/MenuBar.cpp"
+T
 2 "PasswordInput.cpp"
 F
 "./code/PasswordInput.cpp"
@@ -149,6 +157,10 @@ T
 2 "RadioGroup.cpp"
 F
 "./code/RadioGroup.cpp"
+T
+2 "ScrollbarSet.cpp"
+F
+"./code/ScrollbarSet.cpp"
 T
 2 "StaticText.cpp"
 F
@@ -169,6 +181,10 @@ T
 2 "TextRadioButton.cpp"
 F
 "./code/TextRadioButton.cpp"
+T
+2 "ToolBar.cpp"
+F
+"./code/ToolBar.cpp"
 T
 2 "WidgetSet.cpp"
 F
@@ -272,6 +288,14 @@ T
 2 "StaticTextPanel.jxl"
 F
 "./code/StaticTextPanel.jxl"
+T
+2 "ToolBarPanel.cpp"
+F
+"./code/ToolBarPanel.cpp"
+T
+2 "ToolBarPanel.jxl"
+F
+"./code/ToolBarPanel.jxl"
 F
 T
 1 "layouts"

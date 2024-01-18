@@ -11,10 +11,12 @@
 #include "LayoutContainer.h"
 #include "LayoutSelection.h"
 #include "WidgetParametersDialog.h"
-#include <jx-af/jx/JXWindowPainter.h>
-#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenu.h>
 #include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/JXUrgentFunctionTask.h>
 #include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jMouseUtil.h>
@@ -49,7 +51,9 @@ BaseWidget::BaseWidget
 	itsIsMemberVarFlag(false),
 	itsSelectedFlag(false),
 	itsTabIndex(0),
-	itsExpectingDragFlag(false)
+	itsExpectingDragFlag(false),
+	itsLastExpectingTime(0),
+	itsExpectingClickCount(0)
 {
 	BaseWidgetX();
 
@@ -79,7 +83,9 @@ BaseWidget::BaseWidget
 	JXWidget(layout, hSizing, vSizing, x,y, w,h),
 	itsParent(layout),
 	itsSelectedFlag(false),
-	itsExpectingDragFlag(false)
+	itsExpectingDragFlag(false),
+	itsLastExpectingTime(0),
+	itsExpectingClickCount(0)
 {
 	BaseWidgetX();
 
@@ -310,6 +316,18 @@ BaseWidget::PrintCtorArgsWithComma
 	)
 	const
 {
+}
+
+/******************************************************************************
+ GetEnclosureName (virtual protected)
+
+ ******************************************************************************/
+
+JString
+BaseWidget::GetEnclosureName()
+	const
+{
+	return itsVarName;
 }
 
 /******************************************************************************
@@ -546,6 +564,28 @@ BaseWidget::AdjustCursor
 }
 
 /******************************************************************************
+ PrepareToAcceptDrag
+
+ ******************************************************************************/
+
+void
+BaseWidget::PrepareToAcceptDrag()
+{
+	itsExpectingDragFlag = true;
+
+	const time_t now = time(NULL);
+	if (now <= itsLastExpectingTime + 1)
+	{
+		itsExpectingClickCount++;
+	}
+	else
+	{
+		itsLastExpectingTime   = now;
+		itsExpectingClickCount = 1;
+	}
+}
+
+/******************************************************************************
  StealMouse (virtual protected)
 
 	Grab mouse when in resize handles.
@@ -589,11 +629,19 @@ BaseWidget::HandleMouseDown
 	(
 	const JPoint&			pt,
 	const JXMouseButton		button,
-	const JSize				clickCount,
+	const JSize				origClickCount,
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers
 	)
 {
+	const time_t now = time(NULL);
+	if (now > itsLastExpectingTime + 1)
+	{
+		itsExpectingClickCount = 0;
+	}
+
+	const JSize clickCount = JMax(origClickCount, itsExpectingClickCount);
+
 	itsStartPtG = itsPrevPtG = LocalToGlobal(pt);
 	itsLastClickCount        = 0;
 	itsWaitingForDragFlag    = false;
@@ -794,7 +842,11 @@ BaseWidget::HandleMouseUp
 
 	if (itsWaitingForDragFlag && itsLastClickCount == 2)
 	{
-		EditConfiguration();
+		auto* task = jnew JXUrgentFunctionTask(this, [this]()
+		{
+			EditConfiguration();
+		});
+		task->Go();
 	}
 	else if (itsClearIfNotDNDFlag)
 	{

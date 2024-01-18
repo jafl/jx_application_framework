@@ -1,5 +1,5 @@
 /******************************************************************************
- CustomWidget.cpp
+ ToolBar.cpp
 
 	BASE CLASS = BaseWidget
 
@@ -7,18 +7,22 @@
 
  ******************************************************************************/
 
-#include "CustomWidget.h"
-#include "WidgetParametersDialog.h"
-#include "CustomWidgetPanel.h"
+#include "ToolBar.h"
+#include "LayoutContainer.h"
+#include "ToolBarPanel.h"
 #include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
+
+const JCoordinate kButtonBarHeight = 30;
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-CustomWidget::CustomWidget
+ToolBar::ToolBar
 	(
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
@@ -29,17 +33,16 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
-	itsCreateFlag(false)
+	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h)
 {
-	CustomWidgetX();
+	ToolBarX(layout);
 }
 
-CustomWidget::CustomWidget
+ToolBar::ToolBar
 	(
-	const JString&		className,
-	const JString&		args,
-	const bool			create,
+	const JString&		prefsMgr,
+	const JString&		prefID,
+	const JString&		menuBar,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -50,14 +53,14 @@ CustomWidget::CustomWidget
 	)
 	:
 	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
-	itsClassName(className),
-	itsCtorArgs(args),
-	itsCreateFlag(create)
+	itsPrefsMgr(prefsMgr),
+	itsPrefID(prefID),
+	itsMenuBar(menuBar)
 {
-	CustomWidgetX();
+	ToolBarX(layout);
 }
 
-CustomWidget::CustomWidget
+ToolBar::ToolBar
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -72,17 +75,23 @@ CustomWidget::CustomWidget
 	:
 	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	input >> itsClassName >> itsCtorArgs >> itsCreateFlag;
+	ToolBarX(layout);
 
-	CustomWidgetX();
+	input >> itsPrefsMgr >> itsPrefID >> itsMenuBar;
 }
 
 // private
 
 void
-CustomWidget::CustomWidgetX()
+ToolBar::ToolBarX
+	(
+	LayoutContainer* layout
+	)
 {
-	SetBorderWidth(1);
+	itsLayout = jnew LayoutContainer(layout, this, this, kHElastic, kVElastic, 0,0, 100,100);
+	itsLayout->FitToEnclosure();
+	itsLayout->Move(0, kButtonBarHeight);
+	itsLayout->AdjustSize(0, -kButtonBarHeight);
 }
 
 /******************************************************************************
@@ -90,7 +99,7 @@ CustomWidget::CustomWidgetX()
 
  ******************************************************************************/
 
-CustomWidget::~CustomWidget()
+ToolBar::~ToolBar()
 {
 }
 
@@ -100,19 +109,19 @@ CustomWidget::~CustomWidget()
  ******************************************************************************/
 
 void
-CustomWidget::StreamOut
+ToolBar::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("CustomWidget") << std::endl;
+	output << JString("ToolBar") << std::endl;
 
 	BaseWidget::StreamOut(output);
 
-	output << itsClassName << std::endl;
-	output << itsCtorArgs << std::endl;
-	output << itsCreateFlag << std::endl;
+	output << itsPrefsMgr << std::endl;
+	output << itsPrefID << std::endl;
+	output << itsMenuBar << std::endl;
 }
 
 /******************************************************************************
@@ -121,30 +130,42 @@ CustomWidget::StreamOut
  ******************************************************************************/
 
 JString
-CustomWidget::ToString()
+ToolBar::ToString()
 	const
 {
 	JString s = BaseWidget::ToString();
 
-	if (!itsCtorArgs.IsEmpty() && !itsCreateFlag)
-	{
-		s += JString::newline;
-		s += "jnew ";
-		s += itsClassName;
-		s += "(";
-		s += itsCtorArgs;
-		s += " ...);";
-	}
-	else if (!itsCtorArgs.IsEmpty())
-	{
-		s += JString::newline;
-		s += itsClassName;
-		s += "::Create(";
-		s += itsCtorArgs;
-		s += " ...);";
-	}
+	s += JString::newline;
+	s += JGetString("PrefsManagerLabel::ToolBar");
+	s += itsPrefsMgr;
+
+	s += JString::newline;
+	s += JGetString("PrefIDLabel::ToolBar");
+	s += itsPrefID;
+
+	s += JString::newline;
+	s += JGetString("MenuBarLabel::ToolBar");
+	s += itsMenuBar;
 
 	return s;
+}
+
+/******************************************************************************
+ GetLayoutContainer (virtual)
+
+	Some widgets can contain other widgets.
+
+ ******************************************************************************/
+
+bool
+ToolBar::GetLayoutContainer
+	(
+	LayoutContainer** layout
+	)
+	const
+{
+	*layout = itsLayout;
+	return true;
 }
 
 /******************************************************************************
@@ -153,13 +174,15 @@ CustomWidget::ToString()
  ******************************************************************************/
 
 void
-CustomWidget::Draw
+ToolBar::Draw
 	(
 	JXWindowPainter&	p,
 	const JRect&		rect
 	)
 {
-	p.String(GetFrameLocal(), itsClassName, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
+	JRect r  = GetAperture();
+	r.bottom = r.top + kButtonBarHeight;
+	p.String(r, "JXToolBar", JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************
@@ -168,13 +191,12 @@ CustomWidget::Draw
  ******************************************************************************/
 
 void
-CustomWidget::DrawBorder
+ToolBar::DrawBorder
 	(
 	JXWindowPainter&	p,
 	const JRect&		frame
 	)
 {
-	p.Rect(frame);
 }
 
 /******************************************************************************
@@ -183,22 +205,10 @@ CustomWidget::DrawBorder
  ******************************************************************************/
 
 JString
-CustomWidget::GetClassName()
+ToolBar::GetClassName()
 	const
 {
-	return itsClassName;
-}
-
-/******************************************************************************
- GetCtor (virtual protected)
-
- ******************************************************************************/
-
-JString
-CustomWidget::GetCtor()
-	const
-{
-	return itsCreateFlag ? (itsClassName + "::Create") : ("jnew " + itsClassName);
+	return "JXToolBar";
 }
 
 /******************************************************************************
@@ -207,7 +217,7 @@ CustomWidget::GetCtor()
  ******************************************************************************/
 
 void
-CustomWidget::PrintCtorArgsWithComma
+ToolBar::PrintCtorArgsWithComma
 	(
 	std::ostream&	output,
 	const JString&	varName,
@@ -215,14 +225,12 @@ CustomWidget::PrintCtorArgsWithComma
 	)
 	const
 {
-	if (!itsCtorArgs.IsEmpty())
-	{
-		itsCtorArgs.Print(output);
-		if (itsCtorArgs.GetLastCharacter() != ',')
-		{
-			output << ", ";
-		}
-	}
+	itsPrefsMgr.Print(output);
+	output << ", ";
+	itsPrefID.Print(output);
+	output << ", ";
+	itsMenuBar.Print(output);
+	output << ", ";
 }
 
 /******************************************************************************
@@ -231,14 +239,12 @@ CustomWidget::PrintCtorArgsWithComma
  ******************************************************************************/
 
 void
-CustomWidget::AddPanels
+ToolBar::AddPanels
 	(
 	WidgetParametersDialog* dlog
 	)
 {
-	itsPanel =
-		jnew CustomWidgetPanel(dlog, itsClassName, itsCtorArgs, itsCreateFlag,
-			WantsInput());
+	itsPanel = jnew ToolBarPanel(dlog, itsPrefsMgr, itsPrefID, itsMenuBar);
 }
 
 /******************************************************************************
@@ -247,10 +253,8 @@ CustomWidget::AddPanels
  ******************************************************************************/
 
 void
-CustomWidget::SavePanelData()
+ToolBar::SavePanelData()
 {
-	bool wantsInput;
-	itsPanel->GetValues(&itsClassName, &itsCtorArgs, &itsCreateFlag, &wantsInput);
-	SetWantsInput(wantsInput);
+	itsPanel->GetValues(&itsPrefsMgr, &itsPrefID, &itsMenuBar);
 	itsPanel = nullptr;
 }

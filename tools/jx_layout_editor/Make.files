@@ -27,14 +27,17 @@
 .cpp ./code/InputFieldBase
 .cpp ./code/InputField
 .cpp ./code/IntegerInput
+.cpp ./code/MenuBar
 .cpp ./code/PasswordInput
 .cpp ./code/PathInput
 .cpp ./code/RadioGroup
+.cpp ./code/ScrollbarSet
 .cpp ./code/StaticText
 .cpp ./code/TextButtonBase
 .cpp ./code/TextButton
 .cpp ./code/TextCheckbox
 .cpp ./code/TextRadioButton
+.cpp ./code/ToolBar
 .cpp ./code/WidgetSet
 .cpp ./code/WidgetParametersDialog
 .cpp ./code/WidgetPanelBase
@@ -48,5 +51,6 @@
 .cpp ./code/RadioButtonIDPanel
 .cpp ./code/SaveFileInputPanel
 .cpp ./code/StaticTextPanel
+.cpp ./code/ToolBarPanel
 
 literal: ${LIB_DEPS}

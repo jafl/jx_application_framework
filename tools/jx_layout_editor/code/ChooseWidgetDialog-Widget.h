@@ -19,6 +19,10 @@ static const JUtf8Byte* kWidgetMenuStr =
 "|* %i __TextCheckbox::ChooseWidgetDialog %l"
 "|* %i __RadioGroup::ChooseWidgetDialog"
 "|* %i __TextRadioButton::ChooseWidgetDialog %l"
+"|* %i __MenuBar::ChooseWidgetDialog"
+"|* %i __TextMenu::ChooseWidgetDialog %l"
+"|* %i __ScrollbarSet::ChooseWidgetDialog"
+"|* %i __ToolBar::ChooseWidgetDialog"
 "|* %i __WidgetSet::ChooseWidgetDialog"
 ;
 

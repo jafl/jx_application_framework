@@ -21,7 +21,7 @@ public:
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
-	StaticText(const JString& text,
+	StaticText(const JString& text, const bool center,
 				LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,

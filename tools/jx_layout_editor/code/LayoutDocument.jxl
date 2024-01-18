@@ -1,0 +1,32 @@
+jx_layout_editor 1
+601
+300
+"JXLayout"
+""
+""
+0
+
+1
+0
+"MenuBar"
+2
+0
+0 0 30 601
+"itsMenuBar"
+1
+0
+
+1
+0
+"ToolBar"
+2
+2
+30 0 300 601
+"itsToolBar"
+1
+0
+"GetPrefsManager()"
+"kLayoutDocToolBarID"
+"itsMenuBar"
+
+0

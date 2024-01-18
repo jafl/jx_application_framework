@@ -63,8 +63,8 @@ public:
 						 JPtrArray<JString>* objNames,
 						 JStringManager* stringdb) const;
 
-	const JString&	GetEnclosureName() const;
-	JString			GetStringNamespace() const;
+	JString	GetEnclosureName() const;
+	JString	GetStringNamespace() const;
 
 	JString GenerateUniqueVarName() const;
 

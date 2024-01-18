@@ -10,8 +10,6 @@
 
 #include "BaseWidget.h"
 
-class WidgetSetPanel;
-
 class WidgetSet : public BaseWidget
 {
 public:

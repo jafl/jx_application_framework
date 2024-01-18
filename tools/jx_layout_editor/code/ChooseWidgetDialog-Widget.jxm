@@ -146,6 +146,46 @@ jx_menu_editor 0
 1
 0
 0 ""
+"Menu bar"
+""
+' 
+"__MenuBar"
+"kMenuBarIndex"
+0
+
+1
+0
+0 ""
+"Text menu"
+""
+' 
+"__TextMenu"
+"kTextMenuIndex"
+1
+
+1
+0
+0 ""
+"Scrollbar set"
+""
+' 
+"__ScrollbarSet"
+"kScrollbarSetIndex"
+0
+
+1
+0
+0 ""
+"Tool bar"
+""
+' 
+"__ToolBar"
+"kToolBarIndex"
+0
+
+1
+0
+0 ""
 "Widget set"
 ""
 ' 

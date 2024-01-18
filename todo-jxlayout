@@ -1,25 +1,8 @@
-JXSaveFileInput
-
-	then testjx TestInputFieldsDialog
-
-
+when show/hide toolbar, change window size to preserve LayoutContainer size
+	toolbar: if does not contain JXScrollBarSet, adjust window size
+	send prep & done messages
 
 snap-to-grid for bottom & right is offset
-
-generate code when save
-	JXStaticText
-		FL_ALIGN_CENTER: SetToLabel(true)
-		!FL_ALIGN_TOP: SetToLabel()
-
-	shortcuts
-	colors
-
-	flStyle FIXED: SetFont(JFontManager::GetDefaultMonospaceFont())
-	flStyle TIMES: SetFontName("Times")
-	flSize: !FL_NORMAL_SIZE: ->SetFontSize(...)
-	flStyle BOLD
-	flStyle ITALIC
-	flColor
 
 -----
 
@@ -33,6 +16,7 @@ JXTextMenu
 	popup choice
 JXImageRadioButton
 	image
+JXSaveFileInput
 JXProgressIndicator
 JXChooseMonoFont
 JXLevelControl
@@ -40,24 +24,15 @@ JXSlider
 
 -----
 
-JXScrollbarSet
-JXToolBar
 JXHorizPartition
 	# of compartments - drag to resize
 JXVertPartition
 	# of compartments - drag to resize
-JXCardFile
 JXTabGroup
+
 JXBorderRect
 JXDownRect
 JXEmbossedRect
 JXEngravedRect
 JXFlatRect
 JXUpRect
-
------
-
-when show/hide toolbar, change window size to preserve LayoutContainer size
-
-widget options
-	allow specify colors?

@@ -54,6 +54,7 @@ public:
 
 	void	PrepareToAcceptDrag();
 
+	virtual JString	GetEnclosureName() const;
 	JString	ToString() const override;
 
 protected:
@@ -130,6 +131,8 @@ private:
 	bool	itsClearIfNotDNDFlag;
 
 	bool	itsExpectingDragFlag;	// receive drag from child LayoutContainer
+	time_t	itsLastExpectingTime;
+	JSize	itsExpectingClickCount;
 
 	// used during resize drag
 
@@ -233,17 +236,6 @@ BaseWidget::GetDragStartPointGlobal()
 	const
 {
 	return itsStartPtG;
-}
-
-/******************************************************************************
- PrepareToAcceptDrag
-
- ******************************************************************************/
-
-inline void
-BaseWidget::PrepareToAcceptDrag()
-{
-	itsExpectingDragFlag = true;
 }
 
 #endif

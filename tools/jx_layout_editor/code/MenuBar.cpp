@@ -1,15 +1,15 @@
 /******************************************************************************
- TextButtonBase.cpp
+ MenuBar.cpp
 
-	BASE CLASS = CoreWidget
+	BASE CLASS = BaseWidget
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#include "TextButtonBase.h"
-#include "LayoutContainer.h"
-#include <jx-af/jcore/JStringManager.h>
+#include "MenuBar.h"
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -17,7 +17,7 @@
 
  ******************************************************************************/
 
-TextButtonBase::TextButtonBase
+MenuBar::MenuBar
 	(
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
@@ -28,11 +28,12 @@ TextButtonBase::TextButtonBase
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(false, layout, hSizing, vSizing, x,y, w,h)
+	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h)
 {
+	MenuBarX(layout);
 }
 
-TextButtonBase::TextButtonBase
+MenuBar::MenuBar
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -45,8 +46,20 @@ TextButtonBase::TextButtonBase
 	const JCoordinate	h
 	)
 	:
-	CoreWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
+	MenuBarX(layout);
+}
+
+// private
+
+void
+MenuBar::MenuBarX
+	(
+	LayoutContainer* layout
+	)
+{
+	SetBorderWidth(2);
 }
 
 /******************************************************************************
@@ -54,59 +67,65 @@ TextButtonBase::TextButtonBase
 
  ******************************************************************************/
 
-TextButtonBase::~TextButtonBase()
+MenuBar::~MenuBar()
 {
 }
 
 /******************************************************************************
- SharedPrintCtorArgsWithComma (protected)
+ StreamOut (virtual)
 
  ******************************************************************************/
 
 void
-TextButtonBase::SharedPrintCtorArgsWithComma
+MenuBar::StreamOut
 	(
-	std::ostream&	output,
-	const JString&	varName,
-	const JString&	label,
-	JStringManager* stringdb
+	std::ostream& output
 	)
 	const
 {
-	const JString id = varName + GetParentContainer()->GetStringNamespace();
-	stringdb->SetItem(id, label, JPtrArrayT::kDelete);
+	output << JString("MenuBar") << std::endl;
 
-	output << "JGetString(" << id << "), ";
+	BaseWidget::StreamOut(output);
 }
 
 /******************************************************************************
- SharedPrintConfiguration (protected)
+ Draw (virtual protected)
 
  ******************************************************************************/
 
-bool
-TextButtonBase::SharedPrintConfiguration
+void
+MenuBar::Draw
 	(
-	std::ostream&	output,
-	const JString&	indent,
-	const JString&	varName,
-	const JString&	shortcuts,
-	JStringManager*	stringdb
+	JXWindowPainter&	p,
+	const JRect&		rect
 	)
+{
+	p.String(GetAperture(), "JXMenuBar", JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
+}
+
+/******************************************************************************
+ DrawBorder (virtual protected)
+
+ ******************************************************************************/
+
+void
+MenuBar::DrawBorder
+	(
+	JXWindowPainter&	p,
+	const JRect&		frame
+	)
+{
+	JXDrawUpFrame(p, frame, 2);
+}
+
+/******************************************************************************
+ GetClassName (virtual protected)
+
+ ******************************************************************************/
+
+JString
+MenuBar::GetClassName()
 	const
 {
-	if (!shortcuts.IsEmpty())
-	{
-		const JString id = varName + "::shortcuts" + GetParentContainer()->GetStringNamespace();
-		stringdb->SetItem(id, shortcuts, JPtrArrayT::kDelete);
-
-		indent.Print(output);
-		varName.Print(output);
-		output << "->SetShortcuts(JGetString(" << id << "));" << std::endl;
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return "JXMenuBar";
 }

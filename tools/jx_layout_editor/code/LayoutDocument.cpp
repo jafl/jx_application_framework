@@ -185,12 +185,10 @@ LayoutDocument::BuildWindow()
 	itsMenuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 601,30);
-	assert( itsMenuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(GetPrefsManager(), kLayoutDocToolBarID, itsMenuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 601,270);
-	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
@@ -1053,13 +1051,16 @@ LayoutDocument::ImportFDesignFile
 #include "FloatInput.h"
 #include "InputField.h"
 #include "IntegerInput.h"
+#include "MenuBar.h"
 #include "PasswordInput.h"
 #include "PathInput.h"
 #include "RadioGroup.h"
+#include "ScrollbarSet.h"
 #include "StaticText.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
 #include "TextRadioButton.h"
+#include "ToolBar.h"
 #include "WidgetSet.h"
 
 // Form fields
@@ -1259,6 +1260,10 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew IntegerInput(enclosure, hS,vS, x,y,w,h);
 		}
+		else if (label == "JXMenuBar")
+		{
+			widget = jnew MenuBar(enclosure, hS,vS, x,y,w,h);
+		}
 		else if (flClass == "FL_INPUT" && flType == "FL_SECRET_INPUT")
 		{
 			widget = jnew PasswordInput(enclosure, hS,vS, x,y,w,h);
@@ -1271,9 +1276,14 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew RadioGroup(enclosure, hS,vS, x,y,w,h);
 		}
+		else if (label == "JXScrollbarSet")
+		{
+			widget = jnew ScrollbarSet(enclosure, hS,vS, x,y,w,h);
+		}
 		else if (flClass == "FL_TEXT" && flType == "FL_NORMAL_TEXT")
 		{
-			widget = jnew StaticText(label, enclosure, hS,vS, x,y,w,h);
+			widget = jnew StaticText(label, labelAlign.Contains("FL_ALIGN_CENTER"),
+									 enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_BUTTON")
 		{
@@ -1286,6 +1296,18 @@ LayoutDocument::ImportFDesignLayout
 		else if (flClass == "FL_CHECKBUTTON" && flType == "FL_RADIO_BUTTON")
 		{
 			widget = jnew TextRadioButton(argument, label, shortcuts, enclosure, hS,vS, x,y,w,h);
+		}
+		else if (label == "JXToolBar")
+		{
+			JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
+			argument.Split(",", &argList);
+			for (auto* s : argList)
+			{
+				s->TrimWhitespace();
+			}
+			widget = jnew ToolBar(
+				*argList.GetItem(1), *argList.GetItem(2), *argList.GetItem(3),
+				enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_BOX" && flType == "FL_SHADOW_BOX")
 		{

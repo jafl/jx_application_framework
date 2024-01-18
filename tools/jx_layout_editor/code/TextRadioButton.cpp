@@ -209,7 +209,7 @@ TextRadioButton::PrintCtorArgsWithComma
 	const JString id = varName + GetParentContainer()->GetStringNamespace();
 	stringdb->SetItem(id, itsLabel, JPtrArrayT::kDelete);
 
-	output << "JGetString(" << id << "),";
+	output << "JGetString(" << id << "), ";
 }
 
 /******************************************************************************

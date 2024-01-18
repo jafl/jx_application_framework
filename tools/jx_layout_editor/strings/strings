@@ -144,6 +144,12 @@ DefaultLabel::TextCheckbox	"Checkbox"
 DefaultLabel::TextRadioButton	"Radio button"
 IDLabel::TextRadioButton		"ID: "
 
+# ToolBar
+
+PrefsManagerLabel::ToolBar	"Prefs mgr:"
+PrefIDLabel::ToolBar		"Pref ID:"
+MenuBarLabel::ToolBar		"Menu bar:"
+
 # WidgetParametersDialog
 
 WindowTitle::WidgetParametersDialog	"Edit parameters"

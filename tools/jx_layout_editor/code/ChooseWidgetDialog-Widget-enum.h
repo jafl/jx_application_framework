@@ -19,6 +19,10 @@ enum {
 	kTextCheckboxIndex,
 	kRadioGroupIndex,
 	kTextRadioButtonIndex,
+	kMenuBarIndex,
+	kTextMenuIndex,
+	kScrollbarSetIndex,
+	kToolBarIndex,
 	kWidgetSetIndex,
 };
 
