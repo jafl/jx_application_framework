@@ -12,8 +12,10 @@
 
 #include <jx-af/jcore/jTypes.h>
 
-const JFileVersion kCurrentFileVersion = 2;
+const JFileVersion kCurrentFileVersion = 3;
 
+// version 3:
+//	adds itsXWMClass to LayoutContainer
 // version 2:
 //	adds itsDependencyNames to CustomWidget
 // version 1:

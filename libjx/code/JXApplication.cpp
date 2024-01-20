@@ -70,6 +70,7 @@ JXApplication::JXApplication
 	int*				argc,
 	char*				argv[],
 	const JUtf8Byte*	appSignature,
+	const JUtf8Byte*	wmName,
 	const JUtf8Byte**	defaultStringData
 	)
 	:
@@ -83,6 +84,7 @@ JXApplication::JXApplication
 	itsLastIdleTaskTime(0),
 	itsWaitForChildCounter(0),
 	itsSignature(appSignature),
+	itsWMName(wmName),
 	itsRestartCmd(argv[0]),
 	itsRequestQuitFlag(false),
 	itsIsQuittingFlag(false)

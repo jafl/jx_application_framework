@@ -346,6 +346,12 @@ LayoutContainer::ReadConfig
 {
 	input >> itsCodeTag;
 	input >> itsWindowTitle;
+
+	if (vers >= 3)
+	{
+		input >> itsXWMClass;
+	}
+
 	input >> itsContainerName >> itsAdjustContainerToFitFlag;
 
 	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
@@ -593,6 +599,7 @@ LayoutContainer::WriteConfig
 {
 	output << itsCodeTag << std::endl;
 	output << itsWindowTitle << std::endl;
+	output << itsXWMClass << std::endl;
 	output << itsContainerName << std::endl;
 	output << itsAdjustContainerToFitFlag << std::endl;
 	output << std::endl;
@@ -689,6 +696,13 @@ LayoutContainer::GenerateCode
 			output << "JString::empty";
 		}
 		output << ");" << std::endl;
+
+		if (!itsXWMClass.IsEmpty())
+		{
+			indent.Print(output);
+			output << "window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), ";
+			output << itsXWMClass << ");" << std::endl;
+		}
 
 		output << std::endl;
 	}
@@ -1751,13 +1765,13 @@ LayoutContainer::HandleLayoutMenu
 {
 	if (index == kEditConfigCmd && itsParent == nullptr)
 	{
-		auto* dlog = jnew LayoutConfigDialog(itsCodeTag, itsWindowTitle,
+		auto* dlog = jnew LayoutConfigDialog(itsCodeTag, itsWindowTitle, itsXWMClass,
 											 itsContainerName, itsAdjustContainerToFitFlag);
 		if (dlog->DoDialog())
 		{
 			auto* newUndo = jnew LayoutUndo(itsDoc);
 
-			dlog->GetConfig(&itsCodeTag, &itsWindowTitle,
+			dlog->GetConfig(&itsCodeTag, &itsWindowTitle, &itsXWMClass,
 							&itsContainerName, &itsAdjustContainerToFitFlag);
 
 			NewUndo(newUndo);

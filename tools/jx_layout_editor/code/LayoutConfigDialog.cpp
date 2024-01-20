@@ -36,13 +36,14 @@ LayoutConfigDialog::LayoutConfigDialog
 	(
 	const JString&	codeTag,
 	const JString&	windowTitle,
+	const JString&	xwmClass,
 	const JString&	containerName,
 	const bool		adjustToFit
 	)
 	:
 	JXModalDialogDirector()
 {
-	BuildWindow(codeTag, windowTitle, containerName, adjustToFit);
+	BuildWindow(codeTag, windowTitle, xwmClass, containerName, adjustToFit);
 }
 
 /******************************************************************************
@@ -64,17 +65,18 @@ LayoutConfigDialog::BuildWindow
 	(
 	const JString&	codeTag,
 	const JString&	windowTitle,
+	const JString&	xwmClass,
 	const JString&	containerName,
 	const bool		adjustToFit
 	)
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 460,180, JString::empty);
+	auto* window = jnew JXWindow(this, 460,210, JString::empty);
 
 	itsLayoutTypeRG =
 		jnew JXRadioGroup(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 440,130);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 440,160);
 
 	auto* codeTagLabel =
 		jnew JXStaticText(JGetString("codeTagLabel::LayoutConfigDialog::JXLayout"),itsLayoutTypeRG,
@@ -82,28 +84,33 @@ LayoutConfigDialog::BuildWindow
 	codeTagLabel->SetToLabel(false);
 
 	itsWindowTitleRB =
-		jnew JXTextRadioButton(kWindowContainer, JGetString("itsWindowTitleRB::LayoutConfigDialog::JXLayout"),itsLayoutTypeRG,
+		jnew JXTextRadioButton(kWindowContainer, JGetString("itsWindowTitleRB::LayoutConfigDialog::JXLayout"), itsLayoutTypeRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 130,20);
 	itsWindowTitleRB->SetShortcuts(JGetString("itsWindowTitleRB::shortcuts::LayoutConfigDialog::JXLayout"));
 
+	auto* wmClassLabel =
+		jnew JXStaticText(JGetString("wmClassLabel::LayoutConfigDialog::JXLayout"),itsLayoutTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,70, 110,20);
+	wmClassLabel->SetToLabel(false);
+
 	itsCustomContainerRB =
-		jnew JXTextRadioButton(kCustomContainer, JGetString("itsCustomContainerRB::LayoutConfigDialog::JXLayout"),itsLayoutTypeRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 130,20);
+		jnew JXTextRadioButton(kCustomContainer, JGetString("itsCustomContainerRB::LayoutConfigDialog::JXLayout"), itsLayoutTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,100, 130,20);
 	itsCustomContainerRB->SetShortcuts(JGetString("itsCustomContainerRB::shortcuts::LayoutConfigDialog::JXLayout"));
 
 	itsAdjustContentCB =
-		jnew JXTextCheckbox(JGetString("itsAdjustContentCB::LayoutConfigDialog::JXLayout"),itsLayoutTypeRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,100, 210,20);
+		jnew JXTextCheckbox(JGetString("itsAdjustContentCB::LayoutConfigDialog::JXLayout"), itsLayoutTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,130, 210,20);
 	itsAdjustContentCB->SetShortcuts(JGetString("itsAdjustContentCB::shortcuts::LayoutConfigDialog::JXLayout"));
 
 	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::LayoutConfigDialog::JXLayout"),window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 120,150, 60,20);
+		jnew JXTextButton(JGetString("cancelButton::LayoutConfigDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 120,180, 60,20);
 	assert( cancelButton != nullptr );
 
 	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::LayoutConfigDialog::JXLayout"),window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 289,149, 62,22);
+		jnew JXTextButton(JGetString("okButton::LayoutConfigDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 289,179, 62,22);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::LayoutConfigDialog::JXLayout"));
 
 	itsCodeTagInput =
@@ -116,9 +123,13 @@ LayoutConfigDialog::BuildWindow
 		jnew JXInputField(itsLayoutTypeRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 140,40, 290,20);
 
-	itsContainerInput =
+	itsXResourceClass =
 		jnew JXInputField(itsLayoutTypeRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 140,70, 290,20);
+
+	itsContainerInput =
+		jnew JXInputField(itsLayoutTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 140,100, 290,20);
 
 // end JXLayout
 
@@ -132,6 +143,8 @@ LayoutConfigDialog::BuildWindow
 		!containerName.IsEmpty() ? kCustomContainer : kWindowContainer);
 
 	itsWindowTitleInput->GetText()->SetText(windowTitle);
+	itsXResourceClass->GetText()->SetText(xwmClass);
+
 	itsContainerInput->GetText()->SetText(containerName);
 	itsAdjustContentCB->SetState(adjustToFit);
 
@@ -213,6 +226,7 @@ LayoutConfigDialog::GetConfig
 	(
 	JString*	codeTag,
 	JString*	windowTitle,
+	JString*	xwmClass,
 	JString*	containerName,
 	bool*		adjustToFit
 	)
@@ -223,12 +237,14 @@ LayoutConfigDialog::GetConfig
 	if (itsLayoutTypeRG->GetSelectedItem() == kWindowContainer)
 	{
 		*windowTitle = itsWindowTitleInput->GetText()->GetText();
+		*xwmClass    = itsXResourceClass->GetText()->GetText();
 		containerName->Clear();
 		*adjustToFit = false;
 	}
 	else
 	{
 		windowTitle->Clear();
+		xwmClass->Clear();
 		*containerName = itsContainerInput->GetText()->GetText();
 		*adjustToFit   = itsAdjustContentCB->IsChecked();
 	}

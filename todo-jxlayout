@@ -1,23 +1,25 @@
+JXImageWidget
+	image
+JXTextMenu
+	popup choice
+
+LayoutConfigDialog:
+	SetMinSize/SetMaxSize/etc
+
+-----
+
 when show/hide toolbar, change window size to preserve LayoutContainer size
 	toolbar: if does not contain JXScrollBarSet, adjust window size
 	send prep & done messages
 
 snap-to-grid for bottom & right is offset
 
-LayoutConfigDialog:
-	SetWMClass
-	SetMinSize/SetMaxSize/etc
-
 -----
 
-JXImageWidget
-	image
 JXImageButton
 	image
 JXImageCheckbox
 	image
-JXTextMenu
-	popup choice
 JXImageRadioButton
 	image
 JXSaveFileInput

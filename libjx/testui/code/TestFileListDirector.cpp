@@ -15,9 +15,9 @@
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXFileListSet.h>
 #include <jx-af/jx/JXFileListTable.h>
+#include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/JDirInfo.h>
 #include <jx-af/jcore/jDirUtil.h>
-#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -66,7 +66,8 @@ TestFileListDirector::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 400,330, JString::empty);
+	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestFileListDirector::JXLayout"));
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestFileListDirector");
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -79,8 +80,6 @@ TestFileListDirector::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::TestFileListDirector"));
-	window->SetWMClass("testjx", "TestFileListDirector");
 	window->SetMinSize(150, 150);
 
 	itsFileMenu = menuBar->PrependTextMenu(JGetString("MenuTitle::TestFileListDirector_File"));

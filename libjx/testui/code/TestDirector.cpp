@@ -187,6 +187,7 @@ TestDirector::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestDirector::JXLayout"));
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestDirector");
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -203,8 +204,6 @@ TestDirector::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 400,300);
 
 // end JXLayout
-
-	window->SetWMClass("testjx", "TestDirector");
 
 	window->SetMinSize(150,150);
 	if (isMaster)

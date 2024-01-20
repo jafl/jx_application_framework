@@ -98,10 +98,6 @@ $err"
 
 UnrecognizedFormat::TestImageDirector	"Unable to find a known image format."
 
-# TestFileListDirector
-
-WindowTitle::TestFileListDirector	"File List"
-
 # TestSliderDirector
 
 WindowTitle::TestSliderDirector					"Testing Sliders"

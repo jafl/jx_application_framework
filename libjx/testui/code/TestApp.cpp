@@ -40,7 +40,7 @@ TestApp::TestApp
 	const bool	wantMDI
 	)
 	:
-	JXApplication(argc, argv, kAppSignature, kDefaultStringData)
+	JXApplication(argc, argv, kAppSignature, kAppSignature, kDefaultStringData)
 {
 	itsMainDirector = nullptr;
 

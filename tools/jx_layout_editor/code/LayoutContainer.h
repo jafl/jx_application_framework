@@ -125,6 +125,7 @@ private:
 
 	JString	itsCodeTag;
 	JString	itsWindowTitle;
+	JString	itsXWMClass;
 	JString	itsContainerName;
 	bool	itsAdjustContainerToFitFlag;
 

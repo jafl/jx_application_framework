@@ -19,12 +19,14 @@ class LayoutConfigDialog : public JXModalDialogDirector
 {
 public:
 
-	LayoutConfigDialog(const JString& codeTag, const JString& windowTitle,
+	LayoutConfigDialog(const JString& codeTag,
+						const JString& windowTitle, const JString& xwmClass,
 						const JString& containerName, const bool adjustToFit);
 
 	~LayoutConfigDialog() override;
 
-	void	GetConfig(JString* codeTag, JString* windowTitle,
+	void	GetConfig(JString* codeTag,
+					  JString* windowTitle, JString* xwmClass,
 					  JString* containerName, bool* adjustToFit) const;
 
 protected:
@@ -41,13 +43,15 @@ private:
 	JXTextCheckbox*    itsAdjustContentCB;
 	JXInputField*      itsCodeTagInput;
 	JXInputField*      itsWindowTitleInput;
+	JXInputField*      itsXResourceClass;
 	JXInputField*      itsContainerInput;
 
 // end JXLayout
 
 private:
 
-	void	BuildWindow(const JString& codeTag, const JString& windowTitle,
+	void	BuildWindow(const JString& codeTag,
+						const JString& windowTitle, const JString& xwmClass,
 						const JString& containerName, const bool adjustToFit);
 
 	void UpdateDisplay();

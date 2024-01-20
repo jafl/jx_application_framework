@@ -19,9 +19,9 @@
 #include <jx-af/jx/JXRowHeaderWidget.h>
 #include <jx-af/jx/JXColHeaderWidget.h>
 #include <jx-af/jx/JXPSPrinter.h>
+#include <jx-af/jx/jXGlobals.h>
 
 #include <jx-af/jcore/JFloatTableData.h>
-#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -70,6 +70,7 @@ TestFloatTableDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestFloatTableDirector::JXLayout"));
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestFloatTableDirector");
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -105,7 +106,6 @@ TestFloatTableDirector::BuildWindow()
 
 // end JXLayout
 
-	window->SetWMClass("testjx", "TestFloatTableDirector");
 	window->SetMinSize(150,150);
 
 	itsColHeader->TurnOnColResizing();

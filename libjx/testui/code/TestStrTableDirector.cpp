@@ -17,9 +17,9 @@
 #include <jx-af/jx/JXRowHeaderWidget.h>
 #include <jx-af/jx/JXColHeaderWidget.h>
 #include <jx-af/jx/JXPSPrinter.h>
+#include <jx-af/jx/jXGlobals.h>
 
 #include <jx-af/jcore/JStringTableData.h>
-#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -68,6 +68,7 @@ TestStrTableDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestStrTableDirector::JXLayout"));
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestStrTableDirector");
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -93,7 +94,6 @@ TestStrTableDirector::BuildWindow()
 
 // end JXLayout
 
-	window->SetWMClass("testjx", "TestStrTableDirector");
 	window->SetMinSize(150,150);
 
 	itsTable->TurnOnRowResizing(itsRowHeader);

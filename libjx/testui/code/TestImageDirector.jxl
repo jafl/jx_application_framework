@@ -1,8 +1,9 @@
-jx_layout_editor 1
+jx_layout_editor 3
 400
 330
 "JXLayout"
 "Test Image"
+"TestImageDirector"
 ""
 0
 
@@ -38,5 +39,6 @@ jx_layout_editor 1
 "TestImageWidget"
 "this, scrollbarSet"
 0
+""
 
 0

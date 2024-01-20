@@ -52,6 +52,9 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //		*** Flipped default internal FTC setting.  SetNeedsInternalFTC()
 //			changed to ClearNeedsInternalFTC().
 //	Created JXFocusWidgetTask for use when validating dialogs.
+//	JXApplication:
+//		*** Added wmName ctor arg to simplify window manager data and make it
+//			possible to provide the wmClass in jx_layout_editor.
 
 // version 4.0.0:
 //	Supports utf-8

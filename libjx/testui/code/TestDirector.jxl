@@ -1,8 +1,9 @@
-jx_layout_editor 1
+jx_layout_editor 3
 400
 330
 "JXLayout"
 "Test Director"
+"TestDirector"
 ""
 0
 
@@ -38,5 +39,6 @@ jx_layout_editor 1
 "TestWidget"
 "isMaster, testWidgetIsImage, menuBar, scrollbarSet"
 0
+""
 
 0

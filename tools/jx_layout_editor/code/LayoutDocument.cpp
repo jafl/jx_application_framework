@@ -181,6 +181,7 @@ LayoutDocument::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 601,300, JString::empty);
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "jx_layout_editor_document");
 
 	itsMenuBar =
 		jnew JXMenuBar(window,

@@ -1,8 +1,9 @@
-jx_layout_editor 1
+jx_layout_editor 3
 400
 330
 "JXLayout"
-""
+"File List"
+"TestFileListDirector"
 ""
 0
 
@@ -28,5 +29,6 @@ jx_layout_editor 1
 "JXFileListSet"
 "menuBar"
 0
+""
 
 0

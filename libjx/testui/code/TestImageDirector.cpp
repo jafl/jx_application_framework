@@ -22,8 +22,8 @@
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jx/JXChooseFileDialog.h>
 #include <jx-af/jx/JXSaveFileDialog.h>
+#include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jFileUtil.h>
-#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -74,6 +74,7 @@ TestImageDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestImageDirector::JXLayout"));
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestImageDirector");
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -87,11 +88,10 @@ TestImageDirector::BuildWindow()
 
 	itsImageWidget =
 		jnew TestImageWidget(this, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 385,285);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 400,300);
 
 // end JXLayout
 
-	window->SetWMClass("testjx", "TestImageDirector");
 	window->SetMinSize(100,100);
 
 	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestImageDirector_File"));

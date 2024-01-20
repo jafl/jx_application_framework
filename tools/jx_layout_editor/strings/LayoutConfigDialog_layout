@@ -1,5 +1,6 @@
 0
 itsCodeTagInput::validation::LayoutConfigDialog::JXLayout "The code tag must be a valid C++ identifier."
+wmClassLabel::LayoutConfigDialog::JXLayout "X11 WM class:"
 itsAdjustContentCB::LayoutConfigDialog::JXLayout "Adjust contents to fit container"
 itsWindowTitleRB::LayoutConfigDialog::JXLayout "Window title:"
 itsCustomContainerRB::shortcuts::LayoutConfigDialog::JXLayout "#U"

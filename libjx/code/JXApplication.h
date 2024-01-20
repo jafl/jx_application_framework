@@ -38,12 +38,14 @@ public:
 
 public:
 
-	JXApplication(int* argc, char* argv[], const JUtf8Byte* appSignature,
+	JXApplication(int* argc, char* argv[],
+				  const JUtf8Byte* appSignature, const JUtf8Byte* wmName,
 				  const JUtf8Byte** defaultStringData);
 
 	~JXApplication() override;
 
 	const JString&	GetSignature() const;
+	const JString&	GetWMName() const;
 
 	void			Run();
 	void			Suspend() override;
@@ -135,6 +137,7 @@ private:
 	std::recursive_mutex*	itsTaskMutex;
 
 	JString	itsSignature;
+	JString	itsWMName;
 	JString	itsRestartCmd;		// for session managers
 	bool	itsRequestQuitFlag;
 	bool	itsIsQuittingFlag;
@@ -255,6 +258,18 @@ JXApplication::GetSignature()
 	const
 {
 	return itsSignature;
+}
+
+/******************************************************************************
+ GetWMName
+
+ ******************************************************************************/
+
+inline const JString&
+JXApplication::GetWMName()
+	const
+{
+	return itsWMName;
 }
 
 /******************************************************************************
