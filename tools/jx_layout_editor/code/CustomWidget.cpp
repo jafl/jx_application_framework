@@ -74,6 +74,11 @@ CustomWidget::CustomWidget
 {
 	input >> itsClassName >> itsCtorArgs >> itsCreateFlag;
 
+	if (vers >= 2)
+	{
+		input >> itsDependencyNames;
+	}
+
 	CustomWidgetX();
 }
 
@@ -113,6 +118,7 @@ CustomWidget::StreamOut
 	output << itsClassName << std::endl;
 	output << itsCtorArgs << std::endl;
 	output << itsCreateFlag << std::endl;
+	output << itsDependencyNames << std::endl;
 }
 
 /******************************************************************************
@@ -226,6 +232,49 @@ CustomWidget::PrintCtorArgsWithComma
 }
 
 /******************************************************************************
+ WaitForCodeDependency (virtual protected)
+
+	Return true if need to wait for another object to be created first.
+
+ ******************************************************************************/
+
+bool
+CustomWidget::WaitForCodeDependency
+	(
+	const JPtrArray<JString>& objNames
+	)
+	const
+{
+	if (itsDependencyNames.IsEmpty())
+	{
+		return false;
+	}
+
+	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
+	itsDependencyNames.Split(",", &list);
+
+	for (auto* d : list)
+	{
+		bool found = false;
+		for (auto* n : objNames)
+		{
+			if (*n == *d)
+			{
+				found = true;
+				break;
+			}
+		}
+
+		if (!found)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/******************************************************************************
  AddPanels (virtual protected)
 
  ******************************************************************************/
@@ -238,7 +287,7 @@ CustomWidget::AddPanels
 {
 	itsPanel =
 		jnew CustomWidgetPanel(dlog, itsClassName, itsCtorArgs, itsCreateFlag,
-			WantsInput());
+			itsDependencyNames, WantsInput());
 }
 
 /******************************************************************************
@@ -250,7 +299,8 @@ void
 CustomWidget::SavePanelData()
 {
 	bool wantsInput;
-	itsPanel->GetValues(&itsClassName, &itsCtorArgs, &itsCreateFlag, &wantsInput);
+	itsPanel->GetValues(&itsClassName, &itsCtorArgs, &itsCreateFlag,
+						&itsDependencyNames, &wantsInput);
 	SetWantsInput(wantsInput);
 	itsPanel = nullptr;
 }

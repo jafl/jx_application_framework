@@ -4,6 +4,10 @@ when show/hide toolbar, change window size to preserve LayoutContainer size
 
 snap-to-grid for bottom & right is offset
 
+LayoutConfigDialog:
+	SetWMClass
+	SetMinSize/SetMaxSize/etc
+
 -----
 
 JXImageWidget

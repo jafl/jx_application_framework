@@ -13,6 +13,8 @@
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jAssert.h>
 
+const JCoordinate kScrollbarWidth = 15;
+
 /******************************************************************************
  Constructor
 
@@ -62,7 +64,7 @@ ScrollbarSet::ScrollbarSetX
 {
 	itsLayout = jnew LayoutContainer(layout, this, this, kHElastic, kVElastic, 0,0, 100,100);
 	itsLayout->FitToEnclosure();
-	itsLayout->AdjustSize(-15, -15);
+	itsLayout->AdjustSize(-kScrollbarWidth, -kScrollbarWidth);
 }
 
 /******************************************************************************
@@ -163,4 +165,28 @@ ScrollbarSet::GetEnclosureName()
 {
 	bool b;
 	return GetVarName(&b) + "->GetScrollEnclosure()";
+}
+
+/******************************************************************************
+ PrepareToGenerateCode (virtual)
+
+ ******************************************************************************/
+
+void
+ScrollbarSet::PrepareToGenerateCode()
+	const
+{
+	itsLayout->AdjustSize(kScrollbarWidth, kScrollbarWidth);
+}
+
+/******************************************************************************
+ GenerateCodeFinished (virtual)
+
+ ******************************************************************************/
+
+void
+ScrollbarSet::GenerateCodeFinished()
+	const
+{
+	itsLayout->AdjustSize(-kScrollbarWidth, -kScrollbarWidth);
 }

@@ -47,10 +47,13 @@ public:
 	JPoint	GetDragStartPointGlobal() const;
 
 	void	EditConfiguration(const bool createUndo = true);
-	void	GenerateCode(std::ostream& output, const JString& indent,
+	bool	GenerateCode(std::ostream& output, const JString& indent,
 						 JPtrArray<JString>* objTypes,
 						 JPtrArray<JString>* objNames,
 						 JStringManager* stringdb) const;
+
+	virtual void	PrepareToGenerateCode() const;
+	virtual void	GenerateCodeFinished() const;
 
 	void	PrepareToAcceptDrag();
 
@@ -71,6 +74,7 @@ protected:
 									   const JString& indent,
 									   const JString& varName,
 									   JStringManager* stringdb) const;
+	virtual bool	WaitForCodeDependency(const JPtrArray<JString>& objNames) const;
 
 	virtual void	AddPanels(WidgetParametersDialog* dlog);
 	virtual void	SavePanelData();

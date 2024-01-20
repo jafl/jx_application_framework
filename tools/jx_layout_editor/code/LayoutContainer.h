@@ -58,7 +58,7 @@ public:
 
 	void	AppendToToolBar(JXToolBar* toolBar) const;
 
-	void	GenerateCode(std::ostream& output, const JString& indent,
+	bool	GenerateCode(std::ostream& output, const JString& indent,
 						 JPtrArray<JString>* objTypes,
 						 JPtrArray<JString>* objNames,
 						 JStringManager* stringdb) const;

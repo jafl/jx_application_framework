@@ -45,6 +45,7 @@ protected:
 	void	PrintCtorArgsWithComma(std::ostream& output,
 								   const JString& varName,
 								   JStringManager* stringdb) const override;
+	bool	WaitForCodeDependency(const JPtrArray<JString>& objNames) const override;
 
 	void	AddPanels(WidgetParametersDialog* dlog) override;
 	void	SavePanelData() override;
@@ -54,6 +55,7 @@ private:
 	JString	itsClassName;
 	JString	itsCtorArgs;
 	bool	itsCreateFlag;
+	JString	itsDependencyNames;
 
 	CustomWidgetPanel*	itsPanel;	// nullptr unless editing
 

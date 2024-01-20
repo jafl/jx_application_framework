@@ -664,7 +664,10 @@ LayoutDocument::GenerateCode()
 	JPtrArray<JString> objTypes(JPtrArrayT::kDeleteAll),
 					   objNames(JPtrArrayT::kDeleteAll);
 	JStringManager stringdb;
-	itsLayout->GenerateCode(sourceOutput, indent, &objTypes, &objNames, &stringdb);
+	if (!itsLayout->GenerateCode(sourceOutput, indent, &objTypes, &objNames, &stringdb))
+	{
+		return false;
+	}
 
 	bool done = CopyAfterCodeDelimiter(sourceInput, sourceOutput);
 	sourceInput.close();

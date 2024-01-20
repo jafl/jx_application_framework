@@ -1,6 +1,6 @@
 jx_layout_editor 1
 460
-100
+130
 "Panel"
 ""
 "window"
@@ -11,7 +11,7 @@ jx_layout_editor 1
 "WidgetSet"
 0
 0
-0 0 100 460
+0 0 130 460
 "container"
 0
 0
@@ -86,10 +86,44 @@ jx_layout_editor 1
 
 1
 1
+"StaticText"
+0
+0
+70 20 90 100
+"dependencyLabel"
+0
+0
+"Depends on:"
+1
+0
+0
+0
+0
+
+1
+1
+"InputField"
+0
+0
+70 100 90 440
+"itsDependencyInput"
+1
+3
+0
+0
+0
+"^[_a-z][_a-z0-9,]+$"
+"i"
+"The dependencies must be valid C++ identifiers, separated by commas."
+0
+0
+
+1
+1
 "TextCheckbox"
 0
 0
-70 20 90 180
+100 20 120 180
 "itsWantsInputCB"
 1
 0
@@ -101,7 +135,7 @@ jx_layout_editor 1
 "TextCheckbox"
 0
 0
-70 280 90 440
+100 280 120 440
 "itsNeedsCreateCB"
 1
 0

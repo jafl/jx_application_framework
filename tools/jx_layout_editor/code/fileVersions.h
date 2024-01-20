@@ -12,8 +12,10 @@
 
 #include <jx-af/jcore/jTypes.h>
 
-const JFileVersion kCurrentFileVersion = 1;
+const JFileVersion kCurrentFileVersion = 2;
 
+// version 2:
+//	adds itsDependencyNames to CustomWidget
 // version 1:
 //	adds itsValidationFlags to InputField
 

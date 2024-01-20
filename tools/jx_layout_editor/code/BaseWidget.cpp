@@ -226,7 +226,7 @@ BaseWidget::EditConfiguration
 
  ******************************************************************************/
 
-void
+bool
 BaseWidget::GenerateCode
 	(
 	std::ostream&		output,
@@ -237,6 +237,11 @@ BaseWidget::GenerateCode
 	)
 	const
 {
+	if (WaitForCodeDependency(*objNames))
+	{
+		return false;
+	}
+
 	indent.Print(output);
 	if (itsIsMemberVarFlag)
 	{
@@ -276,6 +281,46 @@ BaseWidget::GenerateCode
 
 	PrintConfiguration(output, indent, itsVarName, stringdb);
 	output << std::endl;
+	return true;
+}
+
+/******************************************************************************
+ PrepareToGenerateCode (virtual)
+
+ ******************************************************************************/
+
+void
+BaseWidget::PrepareToGenerateCode()
+	const
+{
+}
+
+/******************************************************************************
+ GenerateCodeFinished (virtual)
+
+ ******************************************************************************/
+
+void
+BaseWidget::GenerateCodeFinished()
+	const
+{
+}
+
+/******************************************************************************
+ WaitForCodeDependency (virtual protected)
+
+	Return true if need to wait for another object to be created first.
+
+ ******************************************************************************/
+
+bool
+BaseWidget::WaitForCodeDependency
+	(
+	const JPtrArray<JString>& objNames
+	)
+	const
+{
+	return false;
 }
 
 /******************************************************************************

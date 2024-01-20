@@ -20,12 +20,12 @@ public:
 
 	CustomWidgetPanel(WidgetParametersDialog* dlog, const JString& className,
 					  const JString& ctorArgs, const bool needsCreate,
-					  const bool wantsInput);
+					  const JString& deps, const bool wantsInput);
 
 	~CustomWidgetPanel();
 
 	void	GetValues(JString* className, JString* ctorArgs, bool* needsCreate,
-					  bool* wantsInput);
+					  JString* deps, bool* wantsInput);
 
 private:
 
@@ -35,6 +35,7 @@ private:
 	JXTextCheckbox* itsNeedsCreateCB;
 	JXInputField*   itsClassNameInput;
 	JXInputField*   itsCtorArgs;
+	JXInputField*   itsDependencyInput;
 
 // end Panel
 
@@ -42,7 +43,7 @@ private:
 
 	void	BuildPanel(WidgetParametersDialog* dlog, const JString& className,
 						const JString& ctorArgs, const bool needsCreate,
-						const bool wantsInput);
+						const JString& deps, const bool wantsInput);
 };
 
 #endif

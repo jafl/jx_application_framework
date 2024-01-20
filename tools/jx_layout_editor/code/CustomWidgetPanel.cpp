@@ -30,10 +30,11 @@ CustomWidgetPanel::CustomWidgetPanel
 	const JString&	className,
 	const JString&	ctorArgs,
 	const bool		needsCreate,
+	const JString&	deps,
 	const bool		wantsInput
 	)
 {
-	BuildPanel(dlog, className, ctorArgs, needsCreate, wantsInput);
+	BuildPanel(dlog, className, ctorArgs, needsCreate, deps, wantsInput);
 }
 
 /******************************************************************************
@@ -58,6 +59,7 @@ CustomWidgetPanel::BuildPanel
 	const JString&	className,
 	const JString&	ctorArgs,
 	const bool		needsCreate,
+	const JString&	deps,
 	const bool		wantsInput
 	)
 {
@@ -67,7 +69,7 @@ CustomWidgetPanel::BuildPanel
 
 	auto* container =
 		jnew JXWidgetSet(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,100);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,130);
 	assert( container != nullptr );
 
 	auto* classNameLabel =
@@ -80,14 +82,19 @@ CustomWidgetPanel::BuildPanel
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,39, 80,20);
 	constructorArgsLabel->SetToLabel(false);
 
+	auto* dependencyLabel =
+		jnew JXStaticText(JGetString("dependencyLabel::CustomWidgetPanel::Panel"),container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 80,20);
+	dependencyLabel->SetToLabel(false);
+
 	itsWantsInputCB =
 		jnew JXTextCheckbox(JGetString("itsWantsInputCB::CustomWidgetPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 160,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 160,20);
 	itsWantsInputCB->SetShortcuts(JGetString("itsWantsInputCB::shortcuts::CustomWidgetPanel::Panel"));
 
 	itsNeedsCreateCB =
 		jnew JXTextCheckbox(JGetString("itsNeedsCreateCB::CustomWidgetPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,70, 160,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,100, 160,20);
 	itsNeedsCreateCB->SetShortcuts(JGetString("itsNeedsCreateCB::shortcuts::CustomWidgetPanel::Panel"));
 
 	itsClassNameInput =
@@ -97,6 +104,11 @@ CustomWidgetPanel::BuildPanel
 	itsCtorArgs =
 		jnew JXInputField(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,40, 340,20);
+
+	itsDependencyInput =
+		jnew JXInputField(container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,70, 340,20);
+	itsDependencyInput->SetValidationPattern(jnew JRegex("^[_a-z][_a-z0-9,]+$", "i"), "itsDependencyInput::validation::CustomWidgetPanel::Panel");
 
 // end Panel
 
@@ -110,6 +122,8 @@ CustomWidgetPanel::BuildPanel
 
 	itsCtorArgs->GetText()->SetText(ctorArgs);
 	itsNeedsCreateCB->SetState(needsCreate);
+
+	itsDependencyInput->GetText()->SetText(deps);
 
 	itsWantsInputCB->SetState(wantsInput);
 }
@@ -125,11 +139,13 @@ CustomWidgetPanel::GetValues
 	JString*	className,
 	JString*	ctorArgs,
 	bool*		needsCreate,
+	JString*	deps,
 	bool*		wantsInput
 	)
 {
 	*className   = itsClassNameInput->GetText()->GetText();
 	*ctorArgs    = itsCtorArgs->GetText()->GetText();
+	*deps        = itsDependencyInput->GetText()->GetText();
 	*needsCreate = itsNeedsCreateCB->IsChecked();
 	*wantsInput  = itsWantsInputCB->IsChecked();
 }

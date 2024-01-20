@@ -91,6 +91,8 @@ ContainerNameMustBeValidIdentifier::LayoutConfigDialog	"The container name must 
 
 VarNameBase::LayoutContainer	"widget_"
 
+CircularDependency::LayoutContainer	"Code generation failed because there is a circular dependency between widgets."
+
 # ChooseWidgetDialog
 
 WindowTitle::ChooseWidgetDialog	"Select Widget"

@@ -656,11 +656,11 @@ LayoutContainer::WriteWidget
 }
 
 /******************************************************************************
- GenerateCode (private)
+ GenerateCode
 
  ******************************************************************************/
 
-void
+bool
 LayoutContainer::GenerateCode
 	(
 	std::ostream&		output,
@@ -725,6 +725,7 @@ LayoutContainer::GenerateCode
 			return;
 		}
 
+		widget->PrepareToGenerateCode();
 		if (widget->WantsInput())
 		{
 			inputWidgets.Append(const_cast<BaseWidget*>(widget));
@@ -741,9 +742,31 @@ LayoutContainer::GenerateCode
 	otherWidgets.SetCompareFunction(CompareLocations);
 	otherWidgets.Sort();
 
-	for (auto* widget: otherWidgets)
+	JPtrArrayIterator<BaseWidget> iter(&otherWidgets);
+	while (!otherWidgets.IsEmpty())
 	{
-		widget->GenerateCode(output, indent, objTypes, objNames, stringdb);
+		const JSize origCount = otherWidgets.GetItemCount();
+
+		iter.MoveTo(JListT::kStartAtBeginning, 0);
+		BaseWidget* widget;
+		while (iter.Next(&widget))
+		{
+			if (widget->GenerateCode(output, indent, objTypes, objNames, stringdb))
+			{
+				iter.RemovePrev();
+			}
+			else
+			{
+				otherWidgets.MoveItemToIndex(1, otherWidgets.GetItemCount());
+			}
+		}
+
+		if (otherWidgets.GetItemCount() == origCount)
+		{
+			JGetUserNotification()->ReportError(
+				JString("CircularDependency::LayoutContainer"));
+			return false;
+		}
 	}
 
 	// ensure tab order is maintained
@@ -753,8 +776,21 @@ LayoutContainer::GenerateCode
 
 	for (auto* widget: inputWidgets)
 	{
-		widget->GenerateCode(output, indent, objTypes, objNames, stringdb);
+		const bool ok = widget->GenerateCode(output, indent, objTypes, objNames, stringdb);
+		assert( ok );
 	}
+
+	// clean up
+
+	ForEach([](const JXContainer* obj)
+	{
+		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		if (widget != nullptr)
+		{
+			widget->GenerateCodeFinished();
+		}
+	},
+	true);
 
 	// reset enclosure size
 
@@ -769,6 +805,8 @@ LayoutContainer::GenerateCode
 		output << ".height());" << std::endl;
 		output << std::endl;
 	}
+
+	return true;
 }
 
 /******************************************************************************
