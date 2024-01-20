@@ -73,7 +73,7 @@ TestImageDirector::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 400,330, JString::empty);
+	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestImageDirector::JXLayout"));
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -85,9 +85,12 @@ TestImageDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( scrollbarSet != nullptr );
 
+	itsImageWidget =
+		jnew TestImageWidget(this, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 385,285);
+
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::TestImageDirector"));
 	window->SetWMClass("testjx", "TestImageDirector");
 	window->SetMinSize(100,100);
 
@@ -97,12 +100,6 @@ TestImageDirector::BuildWindow()
 		&TestImageDirector::UpdateFileMenu,
 		&TestImageDirector::HandleFileMenu);
 	ConfigureFileMenu(itsFileMenu);
-
-	itsImageWidget =
-		jnew TestImageWidget(this, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-							 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsImageWidget != nullptr );
-	itsImageWidget->FitToEnclosure();
 }
 
 /******************************************************************************

@@ -25,6 +25,7 @@
 #include <jx-af/jx/JXWindowIcon.h>
 #include <jx-af/jx/JXFontManager.h>
 #include <jx-af/jx/JXCursor.h>
+#include <jx-af/jx/JXUrgentFunctionTask.h>
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jx/jXUtil.h>
 #include <X11/cursorfont.h>
@@ -120,8 +121,8 @@ static const char * home_xpm[] = {
 
 TestWidget::TestWidget
 	(
-	const bool		isMaster,
-	const bool		isImage,
+	const bool			isMaster,
+	const bool			isImage,
 	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -296,14 +297,18 @@ TestWidget::TestWidget
 
 	// drops on iconfied window
 
-	JXWindowIcon* windowIcon;
-	const bool hasIconWindow = GetWindow()->GetIconWidget(&windowIcon);
-	assert( hasIconWindow );
-	ListenTo(windowIcon, std::function([this](const JXWindowIcon::HandleDrop& data)
+	auto* task = jnew JXUrgentFunctionTask(this, [this]()
 	{
-		HandleDNDDrop(JPoint(0,0), data.GetTypeList(), data.GetAction(),
-					  data.GetTime(), data.GetSource());
-	}));
+		JXWindowIcon* windowIcon;
+		const bool hasIconWindow = GetWindow()->GetIconWidget(&windowIcon);
+		assert( hasIconWindow );
+		ListenTo(windowIcon, std::function([this](const JXWindowIcon::HandleDrop& data)
+		{
+			HandleDNDDrop(JPoint(0,0), data.GetTypeList(), data.GetAction(),
+						  data.GetTime(), data.GetSource());
+		}));
+	});
+	task->Go();
 }
 
 /******************************************************************************

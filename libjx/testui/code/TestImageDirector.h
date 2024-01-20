@@ -14,9 +14,9 @@
 #include <jx-af/jcore/JImage.h>		// for FileType
 
 class JXTextMenu;
-class JXImageWidget;
 class JXPSPrinter;
 class JXEPSPrinter;
+class TestImageWidget;
 
 class TestImageDirector : public JXWindowDirector
 {
@@ -31,15 +31,14 @@ public:
 private:
 
 	JString			itsFileName;
-
-	JXImageWidget*	itsImageWidget;			// owned by its enclosure
-	JXTextMenu*		itsFileMenu;			// owned by the menu bar
+	JXTextMenu*		itsFileMenu;	// owned by the menu bar
 
 	JXPSPrinter*	itsPSPrinter;
 	JXEPSPrinter*	itsEPSPrinter;
 
 // begin JXLayout
 
+	TestImageWidget* itsImageWidget;
 
 // end JXLayout
 

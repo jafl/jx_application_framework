@@ -19,7 +19,7 @@ JString::Split
 	const Separator&	separator,		
 	JPtrArray<JString>*	partList,
 	const JSize			limit,
-	const bool		includeSeparators
+	const bool			includeSeparators
 	)
 	const
 {

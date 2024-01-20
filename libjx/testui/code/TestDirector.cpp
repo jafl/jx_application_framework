@@ -186,7 +186,7 @@ TestDirector::BuildWindow
 
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 400,330, JString::empty);
+	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestDirector::JXLayout"));
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -198,9 +198,12 @@ TestDirector::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( scrollbarSet != nullptr );
 
+	itsWidget =
+		jnew TestWidget(isMaster, testWidgetIsImage, menuBar, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 400,300);
+
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::TestDirector"));
 	window->SetWMClass("testjx", "TestDirector");
 
 	window->SetMinSize(150,150);
@@ -224,30 +227,25 @@ TestDirector::BuildWindow
 		itsAnimIconTask->Stop();
 	}));
 
+	itsWidget->SetSingleFocusWidget();
+
 	// menus
 
-	JXImage* aboutTitleImage =
-		jnew JXImage(display, kSmileyBitmap[ kHappySmileyIndex ], JColorManager::GetRedColor());
-	assert( aboutTitleImage != nullptr );
-	itsAboutMenu = menuBar->AppendTextMenu(aboutTitleImage, true);
-	itsAboutMenu->SetMenuItems(kAboutMenuStr);
-	itsAboutMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsAboutMenu->AttachHandlers(this,
-		&TestDirector::UpdateAboutMenu,
-		&TestDirector::HandleAboutMenu);
-	ConfigureAboutMenu(itsAboutMenu);
+	if (isMaster)
+	{
+		itsDisplayMenu =
+			jnew JXDisplayMenu(JGetString("DisplayMenuTitle::TestDirector"), menuBar,
+							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
+							  0,0, 10,10);
+		assert( itsDisplayMenu != nullptr );
+		menuBar->PrependMenu(itsDisplayMenu);
+	}
+	else
+	{
+		itsDisplayMenu = nullptr;
+	}
 
-	itsAnimHelpTask = jnew AnimateHelpMenuTask(itsAboutMenu, kHelpCmd);
-
-	itsPrintPSMenu = jnew JXTextMenu(itsAboutMenu, kPrintPSMenuCmd, menuBar);
-	itsPrintPSMenu->SetMenuItems(kPrintPostscriptMenuStr);
-	itsPrintPSMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsPrintPSMenu->AttachHandlers(this,
-		&TestDirector::UpdatePrintPSMenu,
-		&TestDirector::HandlePrintPSMenu);
-	ConfigurePrintPostscriptMenu(itsPrintPSMenu);
-
-	itsTestMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestDirector_Test"));
+	itsTestMenu = menuBar->PrependTextMenu(JGetString("MenuTitle::TestDirector_Test"));
 	itsTestMenu->SetMenuItems(kTestMenuStr);
 	itsTestMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsTestMenu->AttachHandlers(this,
@@ -279,29 +277,26 @@ TestDirector::BuildWindow
 		&TestDirector::HandlePGMenu);
 	ConfigureProgressDisplayMenu(itsPGMenu);
 
-	if (isMaster)
-	{
-		itsDisplayMenu =
-			jnew JXDisplayMenu(JGetString("DisplayMenuTitle::TestDirector"), menuBar,
-							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
-							  0,0, 10,10);
-		assert( itsDisplayMenu != nullptr );
-		menuBar->AppendMenu(itsDisplayMenu);
-	}
-	else
-	{
-		itsDisplayMenu = nullptr;
-	}
+	JXImage* aboutTitleImage =
+		jnew JXImage(display, kSmileyBitmap[ kHappySmileyIndex ], JColorManager::GetRedColor());
+	assert( aboutTitleImage != nullptr );
+	itsAboutMenu = menuBar->PrependTextMenu(aboutTitleImage, true);
+	itsAboutMenu->SetMenuItems(kAboutMenuStr);
+	itsAboutMenu->SetUpdateAction(JXMenu::kDisableNone);
+	itsAboutMenu->AttachHandlers(this,
+		&TestDirector::UpdateAboutMenu,
+		&TestDirector::HandleAboutMenu);
+	ConfigureAboutMenu(itsAboutMenu);
 
-	itsWidget =
-		jnew TestWidget(isMaster, testWidgetIsImage,
-					   menuBar, scrollbarSet,
-					   scrollbarSet->GetScrollEnclosure(),
-					   JXWidget::kHElastic, JXWidget::kVElastic,
-					   0,0, 10,10);
-	assert( itsWidget != nullptr );
-	itsWidget->FitToEnclosure(true, true);
-	itsWidget->SetSingleFocusWidget();
+	itsAnimHelpTask = jnew AnimateHelpMenuTask(itsAboutMenu, kHelpCmd);
+
+	itsPrintPSMenu = jnew JXTextMenu(itsAboutMenu, kPrintPSMenuCmd, menuBar);
+	itsPrintPSMenu->SetMenuItems(kPrintPostscriptMenuStr);
+	itsPrintPSMenu->SetUpdateAction(JXMenu::kDisableNone);
+	itsPrintPSMenu->AttachHandlers(this,
+		&TestDirector::UpdatePrintPSMenu,
+		&TestDirector::HandlePrintPSMenu);
+	ConfigurePrintPostscriptMenu(itsPrintPSMenu);
 
 	BuildIconMenus(window, menuBar);
 

@@ -36,16 +36,11 @@ private:
 
 // begin JXLayout
 
-
-// end JXLayout
-
-// begin tablelayout
-
 	TestStringTable*   itsTable;
 	JXColHeaderWidget* itsColHeader;
 	JXRowHeaderWidget* itsRowHeader;
 
-// end tablelayout
+// end JXLayout
 
 private:
 

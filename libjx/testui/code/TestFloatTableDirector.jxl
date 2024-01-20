@@ -1,0 +1,100 @@
+jx_layout_editor 2
+400
+330
+"JXLayout"
+"Test Number Table"
+""
+0
+
+1
+0
+"MenuBar"
+2
+0
+0 0 30 320
+"menuBar"
+0
+0
+
+1
+0
+"StaticText"
+1
+0
+10 320 30 370
+"rangeLabel"
+0
+0
+"-5 to 5:"
+1
+0
+0
+0
+0
+
+1
+0
+"FloatInput"
+1
+0
+10 370 30 400
+"extraInput"
+0
+1
+0
+0 0
+0 0
+
+1
+0
+"ScrollbarSet"
+2
+2
+30 0 330 400
+"scrollbarSet"
+0
+0
+
+1
+4
+"CustomWidget"
+2
+0
+0 10 20 385
+"itsColHeader"
+1
+0
+"JXColHeaderWidget"
+"itsTable, scrollbarSet"
+0
+"itsTable"
+
+1
+4
+"CustomWidget"
+0
+2
+20 0 285 10
+"itsRowHeader"
+1
+0
+"JXRowHeaderWidget"
+"itsTable, scrollbarSet"
+0
+"itsTable"
+
+1
+4
+"CustomWidget"
+2
+2
+20 10 285 385
+"itsTable"
+1
+0
+"TestFloatTable"
+"itsData, menuBar, scrollbarSet"
+0
+""
+
+0

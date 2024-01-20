@@ -1,0 +1,42 @@
+jx_layout_editor 1
+400
+330
+"JXLayout"
+"Test Image"
+""
+0
+
+1
+0
+"MenuBar"
+2
+0
+0 0 30 400
+"menuBar"
+0
+0
+
+1
+0
+"ScrollbarSet"
+2
+2
+30 0 330 400
+"scrollbarSet"
+0
+0
+
+1
+2
+"CustomWidget"
+2
+2
+0 0 285 385
+"itsImageWidget"
+1
+0
+"TestImageWidget"
+"this, scrollbarSet"
+0
+
+0

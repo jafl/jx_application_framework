@@ -37,16 +37,11 @@ private:
 
 // begin JXLayout
 
-
-// end JXLayout
-
-// begin tablelayout
-
 	TestFloatTable*    itsTable;
 	JXColHeaderWidget* itsColHeader;
 	JXRowHeaderWidget* itsRowHeader;
 
-// end tablelayout
+// end JXLayout
 
 private:
 

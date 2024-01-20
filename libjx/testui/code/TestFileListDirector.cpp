@@ -76,7 +76,6 @@ TestFileListDirector::BuildWindow()
 	itsFLSet =
 		jnew JXFileListSet(menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
-	assert( itsFLSet != nullptr );
 
 // end JXLayout
 

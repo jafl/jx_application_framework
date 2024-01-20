@@ -67,7 +67,7 @@ TestStrTableDirector::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 400,330, JString::empty);
+	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestStrTableDirector::JXLayout"));
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -79,46 +79,22 @@ TestStrTableDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( scrollbarSet != nullptr );
 
-// end JXLayout
-
-	window->SetTitle(JGetString("WindowTitle::TestStrTableDirector"));
-	window->SetWMClass("testjx", "TestStrTableDirector");
-	window->SetMinSize(150,150);
-
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestAnyTableDirector_File"));
-	itsFileMenu->SetMenuItems(kFileMenuStr);
-	itsFileMenu->AttachHandlers(this,
-		&TestStrTableDirector::UpdateFileMenu,
-		&TestStrTableDirector::HandleFileMenu);
-	ConfigureFileMenu(itsFileMenu);
-
-	// layout table and headers
-
-	JXContainer* encl = scrollbarSet->GetScrollEnclosure();
-
-// begin tablelayout
-
-	const JRect tablelayout_Aperture = encl->GetAperture();
-	encl->AdjustSize(400 - tablelayout_Aperture.width(), 300 - tablelayout_Aperture.height());
-
 	itsTable =
-		jnew TestStringTable(itsData, menuBar, scrollbarSet, encl,
+		jnew TestStringTable(itsData, menuBar, scrollbarSet,scrollbarSet->GetScrollEnclosure(),
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 390,280);
-	assert( itsTable != nullptr );
 
 	itsColHeader =
-		jnew JXColHeaderWidget(itsTable, scrollbarSet, encl,
+		jnew JXColHeaderWidget(itsTable, scrollbarSet,scrollbarSet->GetScrollEnclosure(),
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,0, 390,20);
-	assert( itsColHeader != nullptr );
 
 	itsRowHeader =
-		jnew JXRowHeaderWidget(itsTable, scrollbarSet, encl,
+		jnew JXRowHeaderWidget(itsTable, scrollbarSet,scrollbarSet->GetScrollEnclosure(),
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 10,280);
-	assert( itsRowHeader != nullptr );
 
-	encl->SetSize(tablelayout_Aperture.width(), tablelayout_Aperture.height());
+// end JXLayout
 
-// end tablelayout
+	window->SetWMClass("testjx", "TestStrTableDirector");
+	window->SetMinSize(150,150);
 
 	itsTable->TurnOnRowResizing(itsRowHeader);
 	itsColHeader->TurnOnColResizing();
@@ -131,6 +107,13 @@ TestStrTableDirector::BuildWindow()
 		itsTable->Move(dw,0);
 		itsTable->AdjustSize(-dw,0);
 	}));
+
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestAnyTableDirector_File"));
+	itsFileMenu->SetMenuItems(kFileMenuStr);
+	itsFileMenu->AttachHandlers(this,
+		&TestStrTableDirector::UpdateFileMenu,
+		&TestStrTableDirector::HandleFileMenu);
+	ConfigureFileMenu(itsFileMenu);
 }
 
 /******************************************************************************

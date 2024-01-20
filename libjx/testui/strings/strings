@@ -6,7 +6,6 @@ Name	"testjx"
 
 # TestDirector
 
-WindowTitle::TestDirector		"Test Director"
 DisplayMenuTitle::TestDirector	"Display"
 IconMenuTitle::TestDirector		"Smileys"
 FileNotReadable::TestDirector	"You do not have permission to read \"$name\"."
@@ -79,7 +78,6 @@ FontTest::TestWidget	"underline without dashes"
 
 # TestImageDirector
 
-WindowTitle::TestImageDirector			"Test Image"
 SaveImagePrompt::TestImageDirector		"Save image as:"
 SaveMaskPrompt::TestImageDirector		"Save mask as:"
 
@@ -167,10 +165,6 @@ FontMenuLabel::TestPopupChoiceDialog		"Font"
 FontSizeMenuLabel::TestPopupChoiceDialog	"Size"
 ImageMenuLabel::TestPopupChoiceDialog		"Icons"
 
-# TestStrTableDirector
-
-WindowTitle::TestStrTableDirector	"Test String Table"
-
 # TestStringTable
 
 FontMenuTitle::TestStringTable	"Font"
@@ -178,10 +172,6 @@ SizeMenuTitle::TestStringTable	"Size"
 Progress::TestStringTable		"Appending rows..."
 PageHeader::TestStringTable		"testjx StringTable"
 PageFooter::TestStringTable		"Page $page"
-
-# TestFloatTableDirector
-
-WindowTitle::TestFloatTableDirector	"Test Number Table"
 
 # TestFloatTable
 

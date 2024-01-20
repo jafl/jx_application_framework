@@ -47,6 +47,10 @@ T
 F
 "./code/TestDirector.cpp"
 T
+2 "TestDirector.jxl"
+F
+"./code/TestDirector.jxl"
+T
 2 "TestDirector-About.jxm"
 F
 "./code/TestDirector-About.jxm"
@@ -110,6 +114,10 @@ T
 F
 "./code/TestImageDirector.cpp"
 T
+2 "TestImageDirector.jxl"
+F
+"./code/TestImageDirector.jxl"
+T
 2 "TestImageDirector-File.jxm"
 F
 "./code/TestImageDirector-File.jxm"
@@ -154,6 +162,10 @@ T
 F
 "./code/TestFileListDirector.cpp"
 T
+2 "TestFileListDirector.jxl"
+F
+"./code/TestFileListDirector.jxl"
+T
 2 "TestFileListDirector-File.jxm"
 F
 "./code/TestFileListDirector-File.jxm"
@@ -168,6 +180,10 @@ T
 2 "TestInputFieldsDialog.cpp"
 F
 "./code/TestInputFieldsDialog.cpp"
+T
+2 "TestInputFieldsDialog.jxl"
+F
+"./code/TestInputFieldsDialog.jxl"
 T
 2 "TestPopupChoiceDialog.cpp"
 F
@@ -184,6 +200,10 @@ T
 F
 "./code/TestStrTableDirector.cpp"
 T
+2 "TestStrTableDirector.jxl"
+F
+"./code/TestStrTableDirector.jxl"
+T
 2 "TestStringTable.cpp"
 F
 "./code/TestStringTable.cpp"
@@ -199,6 +219,10 @@ T
 2 "TestFloatTableDirector.cpp"
 F
 "./code/TestFloatTableDirector.cpp"
+T
+2 "TestFloatTableDirector.jxl"
+F
+"./code/TestFloatTableDirector.jxl"
 T
 2 "TestFloatTable.cpp"
 F
@@ -291,7 +315,7 @@ T "./" "make jx.test.skip=true -kw" "" TFTTTFF "" "" "" F
 F
 # build settings
 1
-F
+T
 "testjx"
 "${LIB_DEPS}"
 "make -k all"

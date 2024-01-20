@@ -69,71 +69,44 @@ TestFloatTableDirector::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 400,330, JString::empty);
+	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestFloatTableDirector::JXLayout"));
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 320,30);
 	assert( menuBar != nullptr );
 
+	auto* rangeLabel =
+		jnew JXStaticText(JGetString("rangeLabel::TestFloatTableDirector::JXLayout"),window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,10, 50,20);
+	rangeLabel->SetToLabel(false);
+
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( scrollbarSet != nullptr );
+
+	itsTable =
+		jnew TestFloatTable(itsData, menuBar, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 390,280);
+
+	itsColHeader =
+		jnew JXColHeaderWidget(itsTable, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 10,0, 390,20);
+
+	itsRowHeader =
+		jnew JXRowHeaderWidget(itsTable, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 10,280);
 
 	auto* extraInput =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 370,10, 30,20);
 	assert( extraInput != nullptr );
 
-	auto* rangeLabel =
-		jnew JXStaticText(JGetString("rangeLabel::TestFloatTableDirector::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,10, 50,20);
-	assert( rangeLabel != nullptr );
-	rangeLabel->SetToLabel();
-
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::TestFloatTableDirector"));
 	window->SetWMClass("testjx", "TestFloatTableDirector");
 	window->SetMinSize(150,150);
-
-	extraInput->SetLimits(-5.0, 5.0);
-
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestAnyTableDirector_File"));
-	itsFileMenu->SetMenuItems(kFileMenuStr);
-	itsFileMenu->AttachHandlers(this,
-		&TestFloatTableDirector::UpdateFileMenu,
-		&TestFloatTableDirector::HandleFileMenu);
-	ConfigureFileMenu(itsFileMenu);
-
-	// layout table and headers
-
-	JXContainer* encl = scrollbarSet->GetScrollEnclosure();
-
-// begin tablelayout
-
-	const JRect tablelayout_Aperture = encl->GetAperture();
-	encl->AdjustSize(400 - tablelayout_Aperture.width(), 300 - tablelayout_Aperture.height());
-
-	itsTable =
-		jnew TestFloatTable(itsData, menuBar, scrollbarSet, encl,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 390,280);
-	assert( itsTable != nullptr );
-
-	itsColHeader =
-		jnew JXColHeaderWidget(itsTable, scrollbarSet, encl,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 10,0, 390,20);
-	assert( itsColHeader != nullptr );
-
-	itsRowHeader =
-		jnew JXRowHeaderWidget(itsTable, scrollbarSet, encl,
-					JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 10,280);
-	assert( itsRowHeader != nullptr );
-
-	encl->SetSize(tablelayout_Aperture.width(), tablelayout_Aperture.height());
-
-// end tablelayout
 
 	itsColHeader->TurnOnColResizing();
 	ListenTo(itsRowHeader, std::function([this](const JXRowHeaderWidget::NeedsToBeWidened& msg)
@@ -145,6 +118,15 @@ TestFloatTableDirector::BuildWindow()
 		itsTable->Move(dw,0);
 		itsTable->AdjustSize(-dw,0);
 	}));
+
+	extraInput->SetLimits(-5.0, 5.0);
+
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestAnyTableDirector_File"));
+	itsFileMenu->SetMenuItems(kFileMenuStr);
+	itsFileMenu->AttachHandlers(this,
+		&TestFloatTableDirector::UpdateFileMenu,
+		&TestFloatTableDirector::HandleFileMenu);
+	ConfigureFileMenu(itsFileMenu);
 }
 
 /******************************************************************************
