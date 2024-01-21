@@ -26,8 +26,8 @@ private:
 
 // begin JXLayout
 
-	JXTextButton* itsHelpButton;
 	JXTextButton* itsCreditsButton;
+	JXTextButton* itsHelpButton;
 
 // end JXLayout
 

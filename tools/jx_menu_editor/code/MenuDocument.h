@@ -29,8 +29,6 @@ public:
 	const JString&	GetName() const override;
 	const JString&	GetClassName() const;
 
-	static bool	FindProjectRoot(const JString& path, JString* root);
-
 protected:
 
 	MenuDocument(const JString& fullName, const bool onDisk);
@@ -49,17 +47,12 @@ private:
 
 // begin JXLayout
 
-	JXToolBar* itsToolBar;
-
-// end JXLayout
-
-// begin EditorLayout
-
+	JXToolBar*    itsToolBar;
 	JXInputField* itsClassNameInput;
 	JXInputField* itsMenuTitleInput;
 	JXCharInput*  itsWindowsKeyInput;
 
-// end EditorLayout
+// end JXLayout
 
 private:
 

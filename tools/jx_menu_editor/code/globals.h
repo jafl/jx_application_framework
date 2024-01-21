@@ -35,9 +35,4 @@ bool	CreateGlobals(App* app);
 void	DeleteGlobals();
 void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
-	// called by Directors
-
-const JUtf8Byte*	GetWMClassInstance();
-const JUtf8Byte*	GetMenuDocumentClass();
-
 #endif

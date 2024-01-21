@@ -1,0 +1,74 @@
+jx_layout_editor 3
+370
+120
+"JXLayout"
+"About"
+""
+""
+0
+
+1
+0
+"ImageWidget"
+0
+0
+20 20 60 60
+"imageWidget"
+0
+0
+0
+"about_icon.png"
+
+1
+0
+"StaticText"
+2
+2
+20 70 70 360
+"textWidget"
+0
+0
+""
+1
+0
+0
+0
+0
+
+1
+0
+"TextButton"
+0
+1
+90 50 110 110
+"itsCreditsButton"
+1
+0
+"Credits"
+""
+
+1
+0
+"TextButton"
+0
+1
+90 155 110 215
+"itsHelpButton"
+1
+0
+"Help"
+"F1"
+
+1
+0
+"TextButton"
+0
+1
+90 260 110 320
+"okButton"
+0
+0
+"OK"
+"^M"
+
+0

@@ -10,9 +10,10 @@
 
 #include <jx-af/jcore/JStringPtrMap.h>
 
-class JString;
+class JDirInfo;
 class JXDisplay;
 class JXImage;
+class JXImageMenu;
 
 class ImageCache
 {
@@ -23,6 +24,16 @@ public:
 	virtual ~ImageCache();
 
 	bool	GetImage(const JString& fullName, JXImage** image);
+	void	BuildIconMenu(const JString& appPath, const JSize maxSize,
+						  const JRegex* excludePattern, const bool includeEmptyIcon,
+						  JXImageMenu* menu, JPtrArray<JString>* pathList);
+	void	LoadIcons(JDirInfo* info, const JSize maxSize, const JRegex* excludePattern,
+					  JXImageMenu* menu, JPtrArray<JString>* pathList);
+
+	static bool		FindProjectRoot(const JString& path, JString* root);
+	static JString		ConvertToFullName(const JString& projPath,
+										  const JString& name, const bool isCore);
+	static JString	PrintInclude(const JString& fullName, std::ostream& output);
 
 private:
 

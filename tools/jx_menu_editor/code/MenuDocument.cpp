@@ -11,6 +11,7 @@
 #include "FileHistoryMenu.h"
 #include "MenuTable.h"
 #include "MDIServer.h"
+#include "ImageCache.h"
 #include "globals.h"
 #include "fileVersions.h"
 #include <jx-af/jx/JXWindow.h>
@@ -157,6 +158,7 @@ MenuDocument::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 920,300, JString::empty);
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "jx_menu_editor_Layout");
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -166,62 +168,42 @@ MenuDocument::BuildWindow()
 	itsToolBar =
 		jnew JXToolBar(GetPrefsManager(), kMenuDocToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 920,270);
-	assert( itsToolBar != nullptr );
+
+	auto* classNameLabel =
+		jnew JXStaticText(JGetString("classNameLabel::MenuDocument::JXLayout"),itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 80,20);
+	classNameLabel->SetToLabel(false);
+
+	auto* menuTitleLabel =
+		jnew JXStaticText(JGetString("menuTitleLabel::MenuDocument::JXLayout"),itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,0, 70,20);
+	menuTitleLabel->SetToLabel(false);
+
+	auto* windowsAltLabel =
+		jnew JXStaticText(JGetString("windowsAltLabel::MenuDocument::JXLayout"),itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 440,0, 130,20);
+	windowsAltLabel->SetToLabel(false);
+
+	auto* scrollbarSet =
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 920,210);
+	assert( scrollbarSet != nullptr );
+
+	itsClassNameInput =
+		jnew JXInputField(itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,0, 140,20);
+
+	itsMenuTitleInput =
+		jnew JXInputField(itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 300,0, 130,20);
+
+	itsWindowsKeyInput =
+		jnew JXCharInput(itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 570,0, 30,20);
 
 // end JXLayout
 
-	JXWidget* toolBarEnclosure = itsToolBar->GetWidgetEnclosure();
-
-// begin EditorLayout
-
-	const JRect EditorLayout_Aperture = toolBarEnclosure->GetAperture();
-	toolBarEnclosure->AdjustSize(600 - EditorLayout_Aperture.width(), 300 - EditorLayout_Aperture.height());
-
-	itsClassNameInput =
-		jnew JXInputField(toolBarEnclosure,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,10, 140,20);
-	assert( itsClassNameInput != nullptr );
-
-	auto* menuTitleLabel =
-		jnew JXStaticText(JGetString("menuTitleLabel::MenuDocument::EditorLayout"), toolBarEnclosure,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,10, 70,20);
-	assert( menuTitleLabel != nullptr );
-	menuTitleLabel->SetToLabel();
-
-	itsMenuTitleInput =
-		jnew JXInputField(toolBarEnclosure,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 300,10, 130,20);
-	assert( itsMenuTitleInput != nullptr );
-
-	auto* windowsAltLabel =
-		jnew JXStaticText(JGetString("windowsAltLabel::MenuDocument::EditorLayout"), toolBarEnclosure,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 440,10, 130,20);
-	assert( windowsAltLabel != nullptr );
-	windowsAltLabel->SetToLabel();
-
-	itsWindowsKeyInput =
-		jnew JXCharInput(toolBarEnclosure,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 570,10, 30,20);
-	assert( itsWindowsKeyInput != nullptr );
-
-	auto* scrollbarSet =
-		jnew JXScrollbarSet(toolBarEnclosure,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,40, 600,260);
-	assert( scrollbarSet != nullptr );
-
-	auto* classNameLabel =
-		jnew JXStaticText(JGetString("classNameLabel::MenuDocument::EditorLayout"), toolBarEnclosure,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,10, 80,20);
-	assert( classNameLabel != nullptr );
-	classNameLabel->SetToLabel();
-
-	toolBarEnclosure->SetSize(EditorLayout_Aperture.width(), EditorLayout_Aperture.height());
-
-// end EditorLayout
-
 	AdjustWindowTitle();
-	window->SetCloseAction(JXWindow::kCloseDirector);
-	window->SetWMClass(GetWMClassInstance(), GetMenuDocumentClass());
 	window->SetMinSize(200, 100);
 
 	JXImage* image = jnew JXImage(GetDisplay(), main_window_icon);
@@ -475,7 +457,7 @@ MenuDocument::GenerateCode()
 	JSplitRootAndSuffix(name, &root, &suffix);
 
 	JString projRoot;
-	if (!FindProjectRoot(path, &projRoot))
+	if (!ImageCache::FindProjectRoot(path, &projRoot))
 	{
 		JGetUserNotification()->ReportError(JGetString("NoProjectRoot::MenuDocument"));
 		return;
@@ -600,52 +582,6 @@ MenuDocument::GenerateCode()
 	stringsOutput << itsMenuTitleInput->GetText()->GetText() << std::endl << std::endl;
 
 	itsTable->GenerateStrings(stringsOutput, itsClassNameInput->GetText()->GetText());
-}
-
-/******************************************************************************
- FindProjectRoot (static)
-
-	Search directory tree up to root.
-
- ******************************************************************************/
-
-bool
-MenuDocument::FindProjectRoot
-	(
-	const JString&	path,
-	JString*		root
-	)
-{
-	JString p = path, n;
-	do
-	{
-		n = JCombinePathAndName(p, "Makefile");
-		if (JFileExists(n))
-		{
-			*root = p;
-			return true;
-		}
-
-		n = JCombinePathAndName(p, "Make.header");
-		if (JFileExists(n))
-		{
-			*root = p;
-			return true;
-		}
-
-		n = JCombinePathAndName(p, "CMakeLists.txt");
-		if (JFileExists(n))
-		{
-			*root = p;
-			return true;
-		}
-
-		JSplitPathAndName(p, &p, &n);
-	}
-	while (!JIsRootDirectory(p));
-
-	root->Clear();
-	return false;
 }
 
 /******************************************************************************

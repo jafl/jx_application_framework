@@ -30,11 +30,11 @@ private:
 
 // begin JXLayout
 
+	JXTextButton* itsChooseActionDefsFileButton;
+	JXTextButton* itsHelpButton;
 	JXInputField* itsMenuText;
 	JXInputField* itsMenuEnum;
-	JXTextButton* itsHelpButton;
 	JXFileInput*  itsActionDefsFileInput;
-	JXTextButton* itsChooseActionDefsFileButton;
 
 // end JXLayout
 

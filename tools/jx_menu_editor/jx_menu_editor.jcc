@@ -32,6 +32,10 @@ T
 F
 "./code/FileHistoryMenu.cpp"
 T
+2 "ImageCache.cpp"
+F
+"./code/ImageCache.cpp"
+T
 2 "MDIServer.cpp"
 F
 "./code/MDIServer.cpp"
@@ -39,6 +43,10 @@ T
 2 "AboutDialog.cpp"
 F
 "./code/AboutDialog.cpp"
+T
+2 "AboutDialog.jxl"
+F
+"./code/AboutDialog.jxl"
 F
 T
 1 "editor"
@@ -46,6 +54,10 @@ T
 2 "MenuDocument.cpp"
 F
 "./code/MenuDocument.cpp"
+T
+2 "MenuDocument.jxl"
+F
+"./code/MenuDocument.jxl"
 T
 2 "MenuDocument-File.jxm"
 F
@@ -75,16 +87,9 @@ T
 F
 "./code/ImportDialog.cpp"
 T
-2 "ImageCache.cpp"
+2 "ImportDialog.jxl"
 F
-"./code/ImageCache.cpp"
-F
-T
-1 "layouts"
-T
-2 "jx_menu_editor.fd"
-F
-"./jx_menu_editor.fd"
+"./code/ImportDialog.jxl"
 F
 T
 1 "misc"

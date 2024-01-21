@@ -207,20 +207,3 @@ GetVersionStr()
 	};
 	return JGetString("Description::globals", map, sizeof(map));
 }
-
-/******************************************************************************
- GetWMClassInstance
-
- ******************************************************************************/
-
-const JUtf8Byte*
-GetWMClassInstance()
-{
-	return "jx_menu_editor";
-}
-
-const JUtf8Byte*
-GetMenuDocumentClass()
-{
-	return "jx_menu_editor_Layout";
-}

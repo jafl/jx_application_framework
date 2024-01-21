@@ -52,67 +52,61 @@ ImportDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 500,300, JString::empty);
+	auto* window = jnew JXWindow(this, 500,300, JGetString("WindowTitle::ImportDialog::JXLayout"));
 
-	itsMenuText =
-		jnew JXInputField(false, true, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,30, 220,180);
-	assert( itsMenuText != nullptr );
-	itsMenuText->SetFont(JFontManager::GetDefaultMonospaceFont());
+	auto* textLabel =
+		jnew JXStaticText(JGetString("textLabel::ImportDialog::JXLayout"),window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 120,20);
+	textLabel->SetToLabel(false);
 
-	itsMenuEnum =
-		jnew JXInputField(false, true, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,30, 220,180);
-	assert( itsMenuEnum != nullptr );
-	itsMenuEnum->SetFont(JFontManager::GetDefaultMonospaceFont());
+	auto* enumLabel =
+		jnew JXStaticText(JGetString("enumLabel::ImportDialog::JXLayout"),window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 260,10, 110,20);
+	enumLabel->SetToLabel(false);
 
 	auto* actionDefsLabel =
-		jnew JXStaticText(JGetString("actionDefsLabel::ImportDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("actionDefsLabel::ImportDialog::JXLayout"),window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,230, 90,20);
-	assert( actionDefsLabel != nullptr );
-	actionDefsLabel->SetToLabel();
+	actionDefsLabel->SetToLabel(false);
 
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::ImportDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 350,270, 60,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::ImportDialog::shortcuts::JXLayout"));
-
-	itsHelpButton =
-		jnew JXTextButton(JGetString("itsHelpButton::ImportDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 215,270, 60,20);
-	assert( itsHelpButton != nullptr );
+	itsChooseActionDefsFileButton =
+		jnew JXTextButton(JGetString("itsChooseActionDefsFileButton::ImportDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 420,230, 60,20);
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::ImportDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 80,270, 60,20);
 	assert( cancelButton != nullptr );
 
+	itsHelpButton =
+		jnew JXTextButton(JGetString("itsHelpButton::ImportDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 215,270, 60,20);
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::ImportDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 349,269, 62,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::ImportDialog::JXLayout"));
+
+	itsMenuText =
+		jnew JXInputField(false, true, window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,30, 220,180);
+	itsMenuText->SetIsRequired();
+
+	itsMenuEnum =
+		jnew JXInputField(false, true, window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 260,30, 220,180);
+
 	itsActionDefsFileInput =
 		jnew JXFileInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 110,230, 310,20);
-	assert( itsActionDefsFileInput != nullptr );
-
-	auto* textLabel =
-		jnew JXStaticText(JGetString("textLabel::ImportDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 120,20);
-	assert( textLabel != nullptr );
-	textLabel->SetToLabel();
-
-	auto* enumLabel =
-		jnew JXStaticText(JGetString("enumLabel::ImportDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 260,10, 110,20);
-	assert( enumLabel != nullptr );
-	enumLabel->SetToLabel();
-
-	itsChooseActionDefsFileButton =
-		jnew JXTextButton(JGetString("itsChooseActionDefsFileButton::ImportDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 420,230, 60,20);
-	assert( itsChooseActionDefsFileButton != nullptr );
+	itsActionDefsFileInput->SetIsRequired(false);
+	itsActionDefsFileInput->ShouldAllowInvalidFile(false);
+	itsActionDefsFileInput->ShouldRequireReadable(true);
+	itsActionDefsFileInput->ShouldRequireWritable(false);
+	itsActionDefsFileInput->ShouldRequireExecutable(false);
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::AboutDialog"));
 	SetButtons(okButton, cancelButton);
 
 	ListenTo(itsHelpButton, std::function([](const JXButton::Pushed&)
@@ -120,11 +114,7 @@ ImportDialog::BuildWindow()
 		JXGetHelpManager()->ShowSection("ImportHelp");
 	}));
 
-	itsMenuText->SetIsRequired();
-
-	itsActionDefsFileInput->SetIsRequired(false);
 	itsActionDefsFileInput->GetText()->SetText(theActionDefsFile);
-	itsActionDefsFileInput->ShouldRequireWritable(false);
 
 	ListenTo(itsChooseActionDefsFileButton, std::function([this](const JXButton::Pushed&)
 	{

@@ -1171,75 +1171,19 @@ MenuTable::HandleTypeMenu
 
  ******************************************************************************/
 
-static const JString coreIconPath(JX_INCLUDE_PATH "/image/jx");
-static const JString iconPattern("*.png *.gif *.xpm");
-
-static const char * empty_icon[] = {
-"1 1 1 1",
-" 	c None",
-" "};
+static const JRegex excludeIconPattern("_busy|_large|_selected|_pushed|new_planet_software");
 
 void
 MenuTable::BuildIconMenu()
 {
-	itsIconPathList->CleanOut();
-
-	JDirInfo* info;
-
-	JString iconPath;
-	if (itsDoc->ExistsOnDisk() &&
-		MenuDocument::FindProjectRoot(itsDoc->GetFilePath(), &iconPath))
+	JString path;
+	if (itsDoc->ExistsOnDisk())
 	{
-		iconPath = JCombinePathAndName(iconPath, "image");
-		if (JDirInfo::Create(iconPath, &info))
-		{
-			info->ShowDirs(false);
-			info->SetWildcardFilter(iconPattern);
-			LoadIcons(*info);
-			jdelete info;
-		}
+		ImageCache::FindProjectRoot(itsDoc->GetFilePath(), &path);
 	}
 
-	if (JDirInfo::Create(coreIconPath, &info))
-	{
-		info->ShowDirs(false);
-		info->SetWildcardFilter(iconPattern);
-		LoadIcons(*info);
-		jdelete info;
-	}
-
-	auto* image = jnew JXImage(GetDisplay(), empty_icon);
-	itsIconMenu->PrependItem(image, true);
-}
-
-/******************************************************************************
- LoadIcons (private)
-
- ******************************************************************************/
-
-static const JRegex excludeIconPattern("_busy|_large|_selected|_pushed|new_planet_software");
-
-void
-MenuTable::LoadIcons
-	(
-	const JDirInfo& info
-	)
-{
-	for (const auto* e : info)
-	{
-		if (excludeIconPattern.Match(e->GetName()))
-		{
-			continue;
-		}
-
-		JXImage* image;
-		if (GetImageCache()->GetImage(e->GetFullName(), &image) &&
-			image->GetWidth() <= kMaxIconSize && image->GetHeight() <= kMaxIconSize)
-		{
-			itsIconMenu->AppendItem(image, false);
-			itsIconPathList->Append(e->GetFullName());
-		}
-	}
+	GetImageCache()->BuildIconMenu(path, kMaxIconSize, &excludeIconPattern, true,
+									itsIconMenu, itsIconPathList);
 }
 
 /******************************************************************************
@@ -1253,7 +1197,6 @@ MenuTable::RebuildIconMenu()
 	std::stringstream data;
 	WriteMenuItems(data);
 
-	itsIconMenu->RemoveAllItems();
 	BuildIconMenu();
 
 	data.seekg(0);
@@ -1865,31 +1808,7 @@ MenuTable::GenerateCode
 	{
 		if (item.iconIndex > 0)
 		{
-			const auto* path      = itsIconPathList->GetItem(item.iconIndex);
-			const bool isCoreIcon = path->StartsWith(JX_INCLUDE_PATH);
-			JSplitPathAndName(*path, &p, &n);
-			JSplitRootAndSuffix(n, &r, &p);
-
-			p.Set(isCoreIcon ? "jx_af_image_jx_" : "");
-
-			output << "#ifndef _H_";
-			p.Print(output);
-			r.Print(output);
-			output << std::endl;
-
-			output << "#define _H_";
-			p.Print(output);
-			r.Print(output);
-			output << std::endl;
-
-			output << "#include ";
-			output << (isCoreIcon ? "<jx-af/image/jx/" : "\"");
-			r.Print(output);
-			output << ".xpm";
-			output << (isCoreIcon ? '>' : '"') << std::endl;
-
-			output << "#endif" << std::endl;
-
+			ImageCache::PrintInclude(*itsIconPathList->GetItem(item.iconIndex), output);
 			hasIcons = true;
 		}
 	}

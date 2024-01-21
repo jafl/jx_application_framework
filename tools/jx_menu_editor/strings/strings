@@ -43,7 +43,6 @@ Usage:  jx_menu_editor [menu_file_name]
 
 # AboutDialog
 
-WindowTitle::AboutDialog		"About"
 ChangeButtonLabel::AboutDialog	"Changes"
 
 UpgradeNotice::AboutDialog
