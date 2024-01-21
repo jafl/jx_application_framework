@@ -1,0 +1,51 @@
+jx_layout_editor 3
+460
+100
+"Panel"
+""
+""
+"window"
+0
+
+1
+0
+"WidgetSet"
+0
+0
+0 0 100 460
+"container"
+0
+0
+
+1
+1
+"StaticText"
+0
+0
+10 20 30 70
+"imageMenuLabel"
+0
+0
+"Image:"
+1
+0
+0
+0
+0
+
+1
+1
+"Menu"
+0
+0
+10 70 90 170
+"itsImageMenu"
+1
+0
+1
+""
+1
+1
+10
+
+0

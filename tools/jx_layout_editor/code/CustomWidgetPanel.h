@@ -38,12 +38,6 @@ private:
 	JXInputField*   itsDependencyInput;
 
 // end Panel
-
-private:
-
-	void	BuildPanel(WidgetParametersDialog* dlog, const JString& className,
-						const JString& ctorArgs, const bool needsCreate,
-						const JString& deps, const bool wantsInput);
 };
 
 #endif

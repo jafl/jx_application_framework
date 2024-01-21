@@ -18,7 +18,6 @@ class JRegex;
 class JInterpolate;
 class JXTEBase;
 class JXTextButton;
-class JXTextMenu;
 class JXInputField;
 class JXTextCheckbox;
 class JXStringHistoryMenu;

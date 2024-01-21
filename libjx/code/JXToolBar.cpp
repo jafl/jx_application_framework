@@ -117,7 +117,7 @@ JXToolBar::JXToolBar
 	itsToolBarEnclosure =
 		jnew JXWidgetSet(this,
 			JXWidget::kHElastic, JXWidget::kVElastic,
-			0,barHeight, w,h-barHeight);
+			0,0, w,h);
 
 	itsGroupStarts = jnew JArray<bool>;
 	assert(itsGroupStarts != nullptr);
@@ -126,13 +126,14 @@ JXToolBar::JXToolBar
 	assert(itsTimerTask != nullptr);
 	itsTimerTask->Start();
 
-	itsAdjustTask = jnew JXUrgentFunctionTask(this, [this]()
+	auto* task = jnew JXUrgentFunctionTask(this, [this]()
 	{
-		itsAdjustTask = nullptr;
-		AdjustGeometryIfNeeded();
+		if (!itsLoadedPrefs)
+		{
+			AdjustToolBarGeometry();
+		}
 	});
-	assert( itsAdjustTask != nullptr );
-	itsAdjustTask->Go();
+	task->Go();
 
 	ListenTo(prefsMgr);
 	ListenTo(GetWindow());
@@ -149,7 +150,6 @@ JXToolBar::~JXToolBar()
 	jdelete itsTimerTask;
 	jdelete itsButtons;
 	jdelete itsMenus;
-	// cannot delete itsAdjustTask
 }
 
 /******************************************************************************
@@ -681,22 +681,6 @@ JXToolBar::IsEmpty()
 	const
 {
 	return itsButtons->IsEmpty();
-}
-
-/******************************************************************************
- AdjustGeometryIfNeeded (private)
-
-	Called by JXAdjustToolBarGeometryTask.
-
- ******************************************************************************/
-
-void
-JXToolBar::AdjustGeometryIfNeeded()
-{
-	if (!itsLoadedPrefs)
-	{
-		AdjustToolBarGeometry();
-	}
 }
 
 /******************************************************************************

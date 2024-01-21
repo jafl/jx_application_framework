@@ -181,32 +181,28 @@ LayoutDocument::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 601,300, JString::empty);
+	auto* window = jnew JXWindow(this, 600,300, JString::empty);
 	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "jx_layout_editor_Layout");
 
 	itsMenuBar =
 		jnew JXMenuBar(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 601,30);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
 
 	itsToolBar =
 		jnew JXToolBar(GetPrefsManager(), kLayoutDocToolBarID, itsMenuBar, window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 601,270);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,270);
+
+	itsLayout =
+		jnew LayoutContainer(this, itsMenuBar, itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 600,270);
 
 // end JXLayout
 
 	AdjustWindowTitle();
-	window->SetCloseAction(JXWindow::kCloseDirector);
-	window->SetWMClass(GetWMClassInstance(), GetLayoutDocumentClass());
 	window->SetMinSize(70, 60);
 
 	auto* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);
-
-	itsLayout =
-		jnew LayoutContainer(this, itsMenuBar, itsToolBar->GetWidgetEnclosure(),
-							 JXWidget::kHElastic,JXWidget::kVElastic,
-							 0,0, 100,100);
-	itsLayout->FitToEnclosure();
 
 	GetWindow()->SetStepSize(itsLayout->GetGridSpacing(), itsLayout->GetGridSpacing());
 
@@ -1011,6 +1007,7 @@ LayoutDocument::ImportFDesignFile
 #include "ImageWidget.h"
 #include "InputField.h"
 #include "IntegerInput.h"
+#include "Menu.h"
 #include "MenuBar.h"
 #include "PasswordInput.h"
 #include "PathInput.h"
@@ -1082,10 +1079,11 @@ LayoutDocument::ImportFDesignLayout
 
 	JString flClass, flType, boxType, color1, color2,
 		label, labelAlign, labelStyle, labelSize, labelColor,
-		shortcuts, gravity, varName, argument, className, argList;
+		shortcuts, gravity, varName, argument, className, args;
 	JArray<JRect> rectList;
 	JPtrArray<JString> objNames(JPtrArrayT::kDeleteAll), tmp(JPtrArrayT::kDeleteAll);
 	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
+	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 
 	const JSize itemCount = ReadFDesignNumber(input, kFormObjCountMarker);
 	for (JIndex i=1; i<=itemCount; i++)
@@ -1134,6 +1132,12 @@ LayoutDocument::ImportFDesignLayout
 		JIgnoreLine(input);		// callback
 
 		argument = ReadFDesignString(input, kObjCBArgMarker);
+
+		argument.Split(",", &argList);
+		for (auto* s : argList)
+		{
+			s->TrimWhitespace();
+		}
 
 		do
 		{
@@ -1224,6 +1228,31 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew IntegerInput(enclosure, hS,vS, x,y,w,h);
 		}
+		else if (flClass == "FL_MENU" && flType == "FL_PULLDOWN_MENU")
+		{
+			widget = jnew Menu(Menu::kTextType, label, 0, enclosure, hS,vS, x,y,w,h);
+		}
+		else if (label == "JXImageMenu")
+		{
+			JSize colCount = 0;
+			if (argList.GetItemCount() < 2 || !argList.GetItem(2)->ConvertToUInt(&colCount))
+			{
+				const JUtf8Byte* map[] =
+				{
+					"s", GetName().GetBytes()
+				};
+				JGetUserNotification()->ReportError(
+					JGetString("InvalidImageColumnCount::LayoutDocument", map, sizeof(map)));
+			}
+
+			label = *argList.GetItem(1);
+			if (label == "JString::empty")
+			{
+				label.Clear();
+			}
+
+			widget = jnew Menu(Menu::kImageType, label, colCount, enclosure, hS,vS, x,y,w,h);
+		}
 		else if (label == "JXMenuBar")
 		{
 			widget = jnew MenuBar(enclosure, hS,vS, x,y,w,h);
@@ -1263,11 +1292,14 @@ LayoutDocument::ImportFDesignLayout
 		}
 		else if (label == "JXToolBar")
 		{
-			JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
-			argument.Split(",", &argList);
-			for (auto* s : argList)
+			if (argList.GetItemCount() < 3)
 			{
-				s->TrimWhitespace();
+				const JUtf8Byte* map[] =
+				{
+					"s", GetName().GetBytes()
+				};
+				JGetUserNotification()->ReportError(
+					JGetString("InvalidToolBarArguments::LayoutDocument", map, sizeof(map)));
 			}
 			widget = jnew ToolBar(
 				*argList.GetItem(1), *argList.GetItem(2), *argList.GetItem(3),
@@ -1279,13 +1311,13 @@ LayoutDocument::ImportFDesignLayout
 		}
 		else // if (flClass == "FL_BOX" && flType == "FL_NO_BOX" && !label->IsEmpty())
 		{
-			SplitFDesignClassNameAndArgs(label, &className, &argList);
-			if (argList.IsEmpty())
+			SplitFDesignClassNameAndArgs(label, &className, &args);
+			if (args.IsEmpty())
 			{
-				argList = argument;
+				args = argument;
 			}
 
-			widget = jnew CustomWidget(className, argList, false,
+			widget = jnew CustomWidget(className, args, false,
 										enclosure, hS,vS, x,y,w,h);
 		}
 

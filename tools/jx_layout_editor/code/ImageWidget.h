@@ -10,7 +10,7 @@
 
 #include "BaseWidget.h"
 
-class ImageWidgetPanel;
+class ImageChooserPanel;
 
 class ImageWidget : public BaseWidget
 {
@@ -46,7 +46,7 @@ protected:
 private:
 
 	JString				itsFullName;
-	ImageWidgetPanel*	itsPanel;		// nullptr unless editing
+	ImageChooserPanel*	itsPanel;		// nullptr unless editing
 };
 
 #endif

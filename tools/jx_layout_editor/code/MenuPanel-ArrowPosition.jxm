@@ -1,0 +1,36 @@
+jx_menu_editor 0
+913 171
+"MenuPanel"
+"ArrowPosition"
+' 
+40
+40
+200
+100
+40
+200
+200
+75
+
+0
+1
+2
+0 ""
+"Left"
+""
+' 
+"__Left"
+"kArrowLeftIndex"
+0
+
+1
+2
+0 ""
+"Right"
+""
+' 
+"__Right"
+"kArrowRightIndex"
+0
+
+0

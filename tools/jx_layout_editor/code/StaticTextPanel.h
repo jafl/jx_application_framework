@@ -45,10 +45,6 @@ private:
 
 private:
 
-	void	BuildPanel(WidgetParametersDialog* dlog, const JString& text,
-						const bool label, const bool center,
-						const bool wordWrap, const bool selectable, const bool styleable);
-
 	void	UpdateDisplay() const;
 };
 

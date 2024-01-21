@@ -31,35 +31,6 @@ FileInputPanel::FileInputPanel
 	const bool exec
 	)
 {
-	BuildPanel(dlog, required, invalid, read, write, exec);
-}
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-FileInputPanel::~FileInputPanel()
-{
-}
-
-/******************************************************************************
- BuildPanel (private)
-
- ******************************************************************************/
-
-void
-FileInputPanel::BuildPanel
-	(
-	WidgetParametersDialog* dlog,
-
-	const bool required,
-	const bool invalid,
-	const bool read,
-	const bool write,
-	const bool exec
-	)
-{
 	JXWindow* window = dlog->GetWindow();
 
 // begin Panel
@@ -103,6 +74,15 @@ FileInputPanel::BuildPanel
 	itsRequireFileReadCB->SetState(read);
 	itsRequireFileWriteCB->SetState(write);
 	itsRequireFileExecCB->SetState(exec);
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+FileInputPanel::~FileInputPanel()
+{
 }
 
 /******************************************************************************

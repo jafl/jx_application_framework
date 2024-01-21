@@ -38,12 +38,6 @@ private:
 	JXIntegerInput* itsIntMaxValueInput;
 
 // end Panel
-
-private:
-
-	void	BuildPanel(WidgetParametersDialog* dlog, const bool required,
-						const bool hasMin, const JInteger min,
-						const bool hasMax, const JInteger max);
 };
 
 #endif

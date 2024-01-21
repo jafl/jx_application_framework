@@ -48,10 +48,10 @@ private:
 // begin JXLayout
 
 	JXWidgetSet*    itsLatestContainer;
-	JXInputField*   itsVarNameInput;
 	JXTextCheckbox* itsMemberVarCB;
 	JXTextMenu*     itsHSizingMenu;
 	JXTextMenu*     itsVSizingMenu;
+	JXInputField*   itsVarNameInput;
 
 // end JXLayout
 

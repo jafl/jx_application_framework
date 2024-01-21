@@ -27,31 +27,6 @@ SaveFileInputPanel::SaveFileInputPanel
 	const bool spaces
 	)
 {
-	BuildPanel(dlog, spaces);
-}
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-SaveFileInputPanel::~SaveFileInputPanel()
-{
-}
-
-/******************************************************************************
- BuildPanel (private)
-
- ******************************************************************************/
-
-void
-SaveFileInputPanel::BuildPanel
-	(
-	WidgetParametersDialog* dlog,
-
-	const bool spaces
-	)
-{
 	JXWindow* window = dlog->GetWindow();
 
 // begin Panel
@@ -70,6 +45,15 @@ SaveFileInputPanel::BuildPanel
 	dlog->AddPanel(this, container);
 
 	itsAllowSpacesCB->SetState(spaces);
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+SaveFileInputPanel::~SaveFileInputPanel()
+{
 }
 
 /******************************************************************************

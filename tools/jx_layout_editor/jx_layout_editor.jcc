@@ -107,6 +107,10 @@ T
 F
 "./code/ChooseWidgetDialog.cpp"
 T
+2 "ChooseWidgetDialog.jxl"
+F
+"./code/ChooseWidgetDialog.jxl"
+T
 2 "ChooseWidgetDialog-Widget.jxm"
 F
 "./code/ChooseWidgetDialog-Widget.jxm"
@@ -153,6 +157,10 @@ T
 2 "IntegerInput.cpp"
 F
 "./code/IntegerInput.cpp"
+T
+2 "Menu.cpp"
+F
+"./code/Menu.cpp"
 T
 2 "MenuBar.cpp"
 F
@@ -209,6 +217,10 @@ T
 F
 "./code/WidgetParametersDialog.cpp"
 T
+2 "WidgetParametersDialog.jxl"
+F
+"./code/WidgetParametersDialog.jxl"
+T
 2 "WidgetParametersDialog-HSizing.jxm"
 F
 "./code/WidgetParametersDialog-HSizing.jxm"
@@ -253,9 +265,13 @@ T
 F
 "./code/FloatInputPanel.jxl"
 T
-2 "ImageWidgetPanel.cpp"
+2 "ImageChooserPanel.cpp"
 F
-"./code/ImageWidgetPanel.cpp"
+"./code/ImageChooserPanel.cpp"
+T
+2 "ImageChooserPanel.jxl"
+F
+"./code/ImageChooserPanel.jxl"
 T
 2 "InputFieldPanel.cpp"
 F
@@ -272,6 +288,22 @@ T
 2 "IntegerInputPanel.jxl"
 F
 "./code/IntegerInputPanel.jxl"
+T
+2 "MenuPanel.cpp"
+F
+"./code/MenuPanel.cpp"
+T
+2 "MenuPanel.jxl"
+F
+"./code/MenuPanel.jxl"
+T
+2 "MenuPanel-ArrowPosition.jxm"
+F
+"./code/MenuPanel-ArrowPosition.jxm"
+T
+2 "MenuPanel-ArrowDirection.jxm"
+F
+"./code/MenuPanel-ArrowDirection.jxm"
 T
 2 "PathInputPanel.cpp"
 F

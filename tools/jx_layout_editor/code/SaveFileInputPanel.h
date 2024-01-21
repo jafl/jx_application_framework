@@ -29,10 +29,6 @@ private:
 	JXTextCheckbox* itsAllowSpacesCB;
 
 // end Panel
-
-private:
-
-	void	BuildPanel(WidgetParametersDialog* dlog, const bool spaces);
 };
 
 #endif

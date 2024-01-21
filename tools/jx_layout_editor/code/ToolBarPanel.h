@@ -34,11 +34,6 @@ private:
 	JXInputField* itsMenuBarInput;
 
 // end Panel
-
-private:
-
-	void	BuildPanel(WidgetParametersDialog* dlog, const JString& prefsMgr,
-						const JString& prefID, const JString& menuBar);
 };
 
 #endif

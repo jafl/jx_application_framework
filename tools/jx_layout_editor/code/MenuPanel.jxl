@@ -1,0 +1,113 @@
+jx_layout_editor 3
+460
+100
+"Panel"
+""
+""
+"window"
+0
+
+1
+0
+"WidgetSet"
+0
+0
+0 0 100 460
+"container"
+0
+0
+
+1
+1
+"StaticText"
+0
+0
+10 20 30 60
+"titleLabel"
+0
+0
+"Title:"
+1
+0
+0
+0
+0
+
+1
+1
+"InputField"
+0
+0
+10 60 30 440
+"itsTitleInput"
+1
+1
+1
+0
+0
+""
+""
+""
+0
+0
+
+1
+1
+"Menu"
+0
+0
+40 20 60 210
+"itsArrowPositionMenu"
+1
+0
+0
+"Arrow position"
+1
+1
+1
+
+1
+1
+"StaticText"
+1
+0
+50 320 70 390
+"columnCountLabel"
+0
+0
+"Columns:"
+1
+0
+0
+0
+0
+
+1
+1
+"IntegerInput"
+1
+0
+50 390 70 440
+"itsColumnCountInput"
+1
+2
+0
+1 1
+0 0
+
+1
+1
+"Menu"
+0
+0
+70 20 90 210
+"itsArrowDirectionMenu"
+1
+0
+0
+"Arrow direction"
+1
+1
+1
+
+0

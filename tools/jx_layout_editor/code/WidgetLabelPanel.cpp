@@ -32,32 +32,6 @@ WidgetLabelPanel::WidgetLabelPanel
 	const JString& shortcuts
 	)
 {
-	BuildPanel(dlog, label, shortcuts);
-}
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-WidgetLabelPanel::~WidgetLabelPanel()
-{
-}
-
-/******************************************************************************
- BuildPanel (private)
-
- ******************************************************************************/
-
-void
-WidgetLabelPanel::BuildPanel
-	(
-	WidgetParametersDialog* dlog,
-
-	const JString&	label,
-	const JString&	shortcuts
-	)
-{
 	JXWindow* window = dlog->GetWindow();
 
 // begin Panel
@@ -98,6 +72,15 @@ WidgetLabelPanel::BuildPanel
 	itsLabelInput->GetText()->SetText(label);
 
 	itsShortcutsInput->GetText()->SetText(shortcuts);
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+WidgetLabelPanel::~WidgetLabelPanel()
+{
 }
 
 /******************************************************************************

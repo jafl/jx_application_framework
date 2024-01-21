@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include "ImageWidget.h"
-#include "ImageWidgetPanel.h"
+#include "ImageChooserPanel.h"
 #include "LayoutDocument.h"
 #include "LayoutContainer.h"
 #include "ImageCache.h"
@@ -102,13 +102,11 @@ ImageWidget::StreamOut
 		JString p,n;
 		JSplitPathAndName(itsFullName, &p, &n);
 
-		output << p.StartsWith(JX_INCLUDE_PATH) << std::endl;
-		output << n << std::endl;
+		output << p.StartsWith(JX_INCLUDE_PATH) << ' ' << n << std::endl;
 	}
 	else
 	{
-		output << false << std::endl;
-		output << itsFullName << std::endl;
+		output << false << ' ' << itsFullName << std::endl;
 	}
 }
 
@@ -200,8 +198,8 @@ ImageWidget::AddPanels
 	WidgetParametersDialog* dlog
 	)
 {
-	itsPanel = jnew ImageWidgetPanel(dlog, GetParentContainer()->GetDocument(),
-									 itsFullName);
+	itsPanel = jnew ImageChooserPanel(dlog, GetParentContainer()->GetDocument(),
+									  itsFullName);
 }
 
 /******************************************************************************

@@ -1,5 +1,5 @@
 /******************************************************************************
- StaticText.cpp
+ Menu.cpp
 
 	BASE CLASS = CoreWidget
 
@@ -7,20 +7,23 @@
 
  ******************************************************************************/
 
-#include "StaticText.h"
-#include "StaticTextPanel.h"
+#include "Menu.h"
+#include "MenuPanel.h"
 #include "LayoutContainer.h"
-#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
+
+const JUtf8Byte* kMenuStr = "enable menu";
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-StaticText::StaticText
+Menu::Menu
 	(
+	const Type			type,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -31,19 +34,17 @@ StaticText::StaticText
 	)
 	:
 	CoreWidget(false, layout, hSizing, vSizing, x,y, w,h),
-	itsIsLabelFlag(true),
-	itsCenterHorizFlag(false),
-	itsWordWrapFlag(false),
-	itsSelectableFlag(false),
-	itsStyleableFlag(false)
+	itsType(type),
+	itsImageColCount(type == kImageType ? 5 : 0)
 {
-	StaticTextX(JGetString("DefaultText::StaticText"), x,y,w,h);
+	MenuX(JGetString("DefaultTitle::Menu"), x,y,w,h);
 }
 
-StaticText::StaticText
+Menu::Menu
 	(
-	const JString&		text,
-	const bool			center,
+	const Type			type,
+	const JString&		title,
+	const JSize			colCount,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -54,16 +55,13 @@ StaticText::StaticText
 	)
 	:
 	CoreWidget(false, layout, hSizing, vSizing, x,y, w,h),
-	itsIsLabelFlag(true),
-	itsCenterHorizFlag(center),
-	itsWordWrapFlag(false),
-	itsSelectableFlag(false),
-	itsStyleableFlag(false)
+	itsType(type),
+	itsImageColCount(colCount)
 {
-	StaticTextX(text, x,y,w,h);
+	MenuX(title, x,y,w,h);
 }
 
-StaticText::StaticText
+Menu::Menu
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -78,34 +76,32 @@ StaticText::StaticText
 	:
 	CoreWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	JString text;
-	input >> text >> itsIsLabelFlag >> itsCenterHorizFlag;
-	input >> itsWordWrapFlag >> itsSelectableFlag >> itsStyleableFlag;
+	JString title;
+	int type, pos, dir;
+	input >> type >> title >> pos >> dir >> itsImageColCount;
 
-	StaticTextX(text, x,y,w,h);
+	itsType = (Type) type;
+
+	MenuX(title, x,y,w,h);
+	itsMenu->SetPopupArrowPosition((JXMenu::ArrowPosition) pos);
+	itsMenu->SetPopupArrowDirection((JXMenu::ArrowDirection) dir);
 }
 
 // private
 
 void
-StaticText::StaticTextX
+Menu::MenuX
 	(
-	const JString&		text,
+	const JString&		title,
 	const JCoordinate	x,
 	const JCoordinate	y,
 	const JCoordinate	w,
 	const JCoordinate	h
 	)
 {
-	itsText = jnew JXStaticText(text, itsWordWrapFlag, false, false, nullptr,
-								this, kHElastic, kVElastic, x,y,w,h);
-	itsText->SetBorderWidth(0);
-	SetWidget(itsText);
-
-	if (itsIsLabelFlag)
-	{
-		itsText->SetToLabel(itsCenterHorizFlag);
-	}
+	itsMenu = jnew JXTextMenu(title, this, kHElastic, kVElastic, x,y,w,h);
+	itsMenu->SetMenuItems(kMenuStr);
+	SetWidget(itsMenu);
 }
 
 /******************************************************************************
@@ -113,7 +109,7 @@ StaticText::StaticTextX
 
  ******************************************************************************/
 
-StaticText::~StaticText()
+Menu::~Menu()
 {
 }
 
@@ -123,22 +119,21 @@ StaticText::~StaticText()
  ******************************************************************************/
 
 void
-StaticText::StreamOut
+Menu::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("StaticText") << std::endl;
+	output << JString("Menu") << std::endl;
 
 	CoreWidget::StreamOut(output);
 
-	output << itsText->GetText()->GetText() << std::endl;
-	output << itsIsLabelFlag << std::endl;
-	output << itsCenterHorizFlag << std::endl;
-	output << itsWordWrapFlag << std::endl;
-	output << itsSelectableFlag << std::endl;
-	output << itsStyleableFlag << std::endl;
+	output << (int) itsType << std::endl;
+	output << itsMenu->GetTitleText() << std::endl;
+	output << (int) itsMenu->GetPopupArrowPosition() << std::endl;
+	output << (int) itsMenu->GetPopupArrowDirection() << std::endl;
+	output << itsImageColCount << std::endl;
 }
 
 /******************************************************************************
@@ -147,38 +142,16 @@ StaticText::StreamOut
  ******************************************************************************/
 
 JString
-StaticText::ToString()
+Menu::ToString()
 	const
 {
 	JString s = CoreWidget::ToString();
 
-	if (itsIsLabelFlag)
+	if (itsType == kImageType)
 	{
 		s += JString::newline;
-		s += JGetString("IsLabel::StaticText");
-
-		if (itsCenterHorizFlag)
-		{
-			s += JGetString("Centered::StaticText");
-		}
-	}
-
-	if (itsWordWrapFlag)
-	{
-		s += JString::newline;
-		s += JGetString("WordWrap::StaticText");
-	}
-
-	if (itsSelectableFlag)
-	{
-		s += JString::newline;
-		s += JGetString("Selectable::StaticText");
-	}
-
-	if (itsStyleableFlag)
-	{
-		s += JString::newline;
-		s += JGetString("Styleable::StaticText");
+		s += JGetString("ColumnCount::Menu");
+		s += JString((JUInt64) itsImageColCount);
 	}
 
 	return s;
@@ -190,10 +163,10 @@ StaticText::ToString()
  ******************************************************************************/
 
 JString
-StaticText::GetClassName()
+Menu::GetClassName()
 	const
 {
-	return "JXStaticText";
+	return itsType == kImageType ? "JXImageMenu" : "JXTextMenu";
 }
 
 /******************************************************************************
@@ -202,7 +175,7 @@ StaticText::GetClassName()
  ******************************************************************************/
 
 void
-StaticText::PrintCtorArgsWithComma
+Menu::PrintCtorArgsWithComma
 	(
 	std::ostream&	output,
 	const JString&	varName,
@@ -211,16 +184,13 @@ StaticText::PrintCtorArgsWithComma
 	const
 {
 	const JString id = varName + GetParentContainer()->GetStringNamespace();
-	stringdb->SetItem(id, itsText->GetText()->GetText(), JPtrArrayT::kDelete);
+	stringdb->SetItem(id, itsMenu->GetTitleText(), JPtrArrayT::kDelete);
 
 	output << "JGetString(" << id << "), ";
 
-	if (itsWordWrapFlag || itsSelectableFlag || itsStyleableFlag)
+	if (itsType == kImageType)
 	{
-		output << itsWordWrapFlag << ", ";
-		output << itsSelectableFlag << ", ";
-		output << itsStyleableFlag << ", ";
-		output << "nullptr, ";		// JXScrollbarSet
+		output << itsImageColCount << ", ";
 	}
 }
 
@@ -230,7 +200,7 @@ StaticText::PrintCtorArgsWithComma
  ******************************************************************************/
 
 void
-StaticText::PrintConfiguration
+Menu::PrintConfiguration
 	(
 	std::ostream&	output,
 	const JString&	indent,
@@ -239,13 +209,25 @@ StaticText::PrintConfiguration
 	)
 	const
 {
-	if (itsIsLabelFlag)
+	bool used = false;
+
+	if (itsMenu->GetPopupArrowPosition() == JXMenu::kArrowAtLeft)
 	{
 		indent.Print(output);
 		varName.Print(output);
-		output << "->SetToLabel(" << itsCenterHorizFlag << ");" << std::endl;
+		output << "->SetPopupArrowPosition(JXMenu::kArrowAtLeft);" << std::endl;
+		used = true;
 	}
-	else
+
+	if (itsMenu->GetPopupArrowDirection() == JXMenu::kArrowPointsUp)
+	{
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetPopupArrowDirection(JXMenu::kArrowPointsUp);" << std::endl;
+		used = true;
+	}
+
+	if (!used)
 	{
 		CoreWidget::PrintConfiguration(output, indent, varName, stringdb);
 	}
@@ -257,15 +239,16 @@ StaticText::PrintConfiguration
  ******************************************************************************/
 
 void
-StaticText::AddPanels
+Menu::AddPanels
 	(
 	WidgetParametersDialog* dlog
 	)
 {
 	itsPanel =
-		jnew StaticTextPanel(dlog, itsText->GetText()->GetText(),
-			itsIsLabelFlag, itsCenterHorizFlag,
-			itsWordWrapFlag, itsSelectableFlag, itsStyleableFlag);
+		jnew MenuPanel(dlog, itsType, itsMenu->GetTitleText(),
+			itsMenu->GetPopupArrowPosition(),
+			itsMenu->GetPopupArrowDirection(),
+			itsImageColCount);
 }
 
 /******************************************************************************
@@ -274,31 +257,15 @@ StaticText::AddPanels
  ******************************************************************************/
 
 void
-StaticText::SavePanelData()
+Menu::SavePanelData()
 {
-	const bool label  = itsIsLabelFlag,
-			   center = itsCenterHorizFlag,
-			   wrap   = itsWordWrapFlag;
-
-	JString text;
-	itsPanel->GetValues(&text, &itsIsLabelFlag, &itsCenterHorizFlag,
-						&itsWordWrapFlag, &itsSelectableFlag, &itsStyleableFlag);
+	JString title;
+	JXMenu::ArrowPosition pos;
+	JXMenu::ArrowDirection dir;
+	itsPanel->GetValues(&title, &pos, &dir, &itsImageColCount);
 	itsPanel = nullptr;
 
-	if (itsIsLabelFlag != label || itsCenterHorizFlag != center)
-	{
-		jdelete itsText;
-
-		const JRect r = GetFrame();
-		StaticTextX(text, r.left, r.top, r.width(), r.height());
-	}
-	else if (itsWordWrapFlag != wrap)
-	{
-		itsText->SetBreakCROnly(!itsWordWrapFlag);
-		itsText->GetText()->SetText(text);
-	}
-	else
-	{
-		itsText->GetText()->SetText(text);
-	}
+	itsMenu->SetTitleText(title);
+	itsMenu->SetPopupArrowPosition(pos);
+	itsMenu->SetPopupArrowDirection(dir);
 }

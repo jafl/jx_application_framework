@@ -1,5 +1,5 @@
 jx_layout_editor 3
-601
+600
 300
 "JXLayout"
 ""
@@ -12,7 +12,7 @@ jx_layout_editor 3
 "MenuBar"
 2
 0
-0 0 30 601
+0 0 30 600
 "itsMenuBar"
 1
 0
@@ -22,12 +22,26 @@ jx_layout_editor 3
 "ToolBar"
 2
 2
-30 0 300 601
+30 0 300 600
 "itsToolBar"
 1
 0
 "GetPrefsManager()"
 "kLayoutDocToolBarID"
 "itsMenuBar"
+
+1
+2
+"CustomWidget"
+2
+2
+0 0 240 600
+"itsLayout"
+1
+1
+"LayoutContainer"
+"this, itsMenuBar"
+0
+""
 
 0

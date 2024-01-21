@@ -43,8 +43,7 @@ protected:
 
 private:
 
-	LayoutContainer*	itsLayout;
-	mutable JString		itsDocName;		// so GetName() can return JString&
+	mutable JString	itsDocName;		// so GetName() can return JString&
 
 	JXTextMenu*	itsFileMenu;
 	JXTextMenu*	itsPrefsMenu;
@@ -52,8 +51,9 @@ private:
 
 // begin JXLayout
 
-	JXMenuBar* itsMenuBar;
-	JXToolBar* itsToolBar;
+	JXMenuBar*       itsMenuBar;
+	JXToolBar*       itsToolBar;
+	LayoutContainer* itsLayout;
 
 // end JXLayout
 

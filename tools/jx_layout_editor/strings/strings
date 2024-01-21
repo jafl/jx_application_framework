@@ -72,6 +72,9 @@ CodeDirectoryNotWritable::LayoutDocument	"Unable to create temporary file in $pa
 
 ($err)"
 
+InvalidImageColumnCount::LayoutDocument	"Missing or invalid column count argument for JXImageMenu in $s."
+InvalidToolBarArguments::LayoutDocument	"JXToolBar requires three arguments in $s."
+
 StringsFooter::LayoutDocument
 "
 
@@ -92,20 +95,19 @@ VarNameBase::LayoutContainer	"widget_"
 
 CircularDependency::LayoutContainer	"Code generation failed because there is a circular dependency between widgets."
 
-# ChooseWidgetDialog
-
-WindowTitle::ChooseWidgetDialog	"Select Widget"
-
 # BaseWidget
 
 VariableNameLabel::BaseWidget	"Variable name: "
 MemberFlagLabel::BaseWidget		" (member)"
 ShortcutsLabel::BaseWidget		"Shortcuts: "
 
+# CustomWidget
+
+DependencyLabel::CustomWidget	"Depends on: "
+
 # FileInput
 
 AllowInvalidFile::FileInput	"Allow invalid file"
-
 
 # InputField
 
@@ -118,6 +120,11 @@ WordWrap::InputField		"Word wrapping"
 AcceptNewline::InputField	"Accepts newline"
 MinValueLabel::InputField	"Min value: "
 MaxValueLabel::InputField	"Max value: "
+
+# Menu
+
+DefaultTitle::Menu	"Menu"
+ColumnCount::Menu	"Columns: "
 
 # PathInput
 
@@ -153,7 +160,6 @@ MenuBarLabel::ToolBar		"Menu bar:"
 
 # WidgetParametersDialog
 
-WindowTitle::WidgetParametersDialog	"Edit parameters"
 VariableNameMustBeValidIdentifier::WidgetParametersDialog	"The variable name must be a valid C++ identifier."
 
 # CustomWidgetPanel

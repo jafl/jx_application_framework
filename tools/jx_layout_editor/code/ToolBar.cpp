@@ -225,6 +225,32 @@ ToolBar::GetEnclosureName()
 }
 
 /******************************************************************************
+ PrepareToGenerateCode (virtual)
+
+ ******************************************************************************/
+
+void
+ToolBar::PrepareToGenerateCode()
+	const
+{
+	itsLayout->Move(0, -kButtonBarHeight);
+	itsLayout->AdjustSize(0, kButtonBarHeight);
+}
+
+/******************************************************************************
+ GenerateCodeFinished (virtual)
+
+ ******************************************************************************/
+
+void
+ToolBar::GenerateCodeFinished()
+	const
+{
+	itsLayout->Move(0, kButtonBarHeight);
+	itsLayout->AdjustSize(0, -kButtonBarHeight);
+}
+
+/******************************************************************************
  PrintCtorArgsWithComma (virtual protected)
 
  ******************************************************************************/

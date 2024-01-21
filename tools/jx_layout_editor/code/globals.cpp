@@ -207,20 +207,3 @@ GetVersionStr()
 	};
 	return JGetString("Description::globals", map, sizeof(map));
 }
-
-/******************************************************************************
- GetWMClassInstance
-
- ******************************************************************************/
-
-const JUtf8Byte*
-GetWMClassInstance()
-{
-	return "jx_layout_editor";
-}
-
-const JUtf8Byte*
-GetLayoutDocumentClass()
-{
-	return "jx_layout_editor_Layout";
-}

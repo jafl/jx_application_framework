@@ -54,12 +54,6 @@ private:
 
 private:
 
-	void	BuildPanel(WidgetParametersDialog* dlog, const bool required,
-						const JInteger minLength, const JInteger maxLength,
-						const JString& regexPattern, const JString&	regexFlags,
-						const JString& regexErrorMsg,
-						const bool wordWrap, const bool newlines);
-
 	void	ConfigureInput(JXIntegerInput* field, const JInteger value);
 	void	UpdateDisplay() const;
 };

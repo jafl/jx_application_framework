@@ -167,6 +167,7 @@ LayoutConfigDialog::UpdateDisplay()
 	if (itsLayoutTypeRG->GetSelectedItem() == kWindowContainer)
 	{
 		itsWindowTitleInput->Activate();
+		itsXResourceClass->Activate();
 
 		itsContainerInput->Deactivate();
 		itsContainerInput->SetIsRequired(false);
@@ -175,6 +176,7 @@ LayoutConfigDialog::UpdateDisplay()
 	else
 	{
 		itsWindowTitleInput->Deactivate();
+		itsXResourceClass->Deactivate();
 
 		itsContainerInput->Activate();
 		itsContainerInput->SetIsRequired();

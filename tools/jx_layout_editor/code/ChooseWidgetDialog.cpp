@@ -50,27 +50,24 @@ ChooseWidgetDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 310,90, JString::empty);
+	auto* window = jnew JXWindow(this, 310,90, JGetString("WindowTitle::ChooseWidgetDialog::JXLayout"));
 
 	itsWidgetMenu =
 		jnew JXTextMenu(JGetString("itsWidgetMenu::ChooseWidgetDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 270,20);
-	assert( itsWidgetMenu != nullptr );
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::ChooseWidgetDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,60, 60,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::ChooseWidgetDialog::shortcuts::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::ChooseWidgetDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,60, 60,20);
 	assert( cancelButton != nullptr );
 
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::ChooseWidgetDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 179,59, 62,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::ChooseWidgetDialog::JXLayout"));
+
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::ChooseWidgetDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsWidgetMenu->SetMenuItems(kWidgetMenuStr);

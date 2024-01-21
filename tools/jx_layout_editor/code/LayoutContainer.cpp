@@ -381,6 +381,7 @@ LayoutContainer::ReadConfig
 #include "ImageWidget.h"
 #include "InputField.h"
 #include "IntegerInput.h"
+#include "Menu.h"
 #include "MenuBar.h"
 #include "PasswordInput.h"
 #include "PathInput.h"
@@ -448,6 +449,10 @@ LayoutContainer::ReadWidget
 	else if (className == "IntegerInput")
 	{
 		widget = jnew IntegerInput(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "Menu")
+	{
+		widget = jnew Menu(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "MenuBar")
 	{
@@ -531,6 +536,10 @@ LayoutContainer::CreateWidget
 	{
 		return jnew FloatInput(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
+	else if (index == kImageMenuIndex)
+	{
+		return jnew Menu(Menu::kImageType, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
 	else if (index == kImageWidgetIndex)
 	{
 		return jnew ImageWidget(this, kFixedLeft,kFixedTop, x,y,w,h);
@@ -574,6 +583,10 @@ LayoutContainer::CreateWidget
 	else if (index == kTextCheckboxIndex)
 	{
 		return jnew TextCheckbox(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kTextMenuIndex)
+	{
+		return jnew Menu(Menu::kTextType, this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kTextRadioButtonIndex)
 	{

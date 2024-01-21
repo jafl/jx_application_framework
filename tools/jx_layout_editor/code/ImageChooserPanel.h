@@ -1,12 +1,12 @@
 /******************************************************************************
- ImageWidgetPanel.h
+ ImageChooserPanel.h
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#ifndef _H_ImageWidgetPanel
-#define _H_ImageWidgetPanel
+#ifndef _H_ImageChooserPanel
+#define _H_ImageChooserPanel
 
 #include "WidgetPanelBase.h"
 #include <jx-af/jcore/JPtrArray-JString.h>
@@ -15,32 +15,27 @@ class JString;
 class JXImageMenu;
 class LayoutDocument;
 
-class ImageWidgetPanel : public WidgetPanelBase, public JBroadcaster
+class ImageChooserPanel : public WidgetPanelBase, public JBroadcaster
 {
 public:
 
-	ImageWidgetPanel(WidgetParametersDialog* dlog, LayoutDocument* doc,
-					 const JString& fullName);
+	ImageChooserPanel(WidgetParametersDialog* dlog, LayoutDocument* doc,
+					  const JString& fullName);
 
-	~ImageWidgetPanel();
+	~ImageChooserPanel();
 
 	void	GetValues(JString* fullName);
 
 private:
 
-	JIndex				itsImageIndex;
 	JPtrArray<JString>*	itsImagePathList;
+	JIndex				itsImageIndex;
 
 // begin Panel
 
 	JXImageMenu* itsImageMenu;
 
 // end Panel
-
-private:
-
-	void	BuildPanel(WidgetParametersDialog* dlog, LayoutDocument* doc,
-						const JString& fullName);
 };
 
 #endif

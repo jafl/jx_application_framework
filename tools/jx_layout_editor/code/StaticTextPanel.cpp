@@ -38,36 +38,6 @@ StaticTextPanel::StaticTextPanel
 	const bool		styleable
 	)
 {
-	BuildPanel(dlog, text, label, center, wordWrap, selectable, styleable);
-}
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-StaticTextPanel::~StaticTextPanel()
-{
-}
-
-/******************************************************************************
- BuildPanel (private)
-
- ******************************************************************************/
-
-void
-StaticTextPanel::BuildPanel
-	(
-	WidgetParametersDialog* dlog,
-
-	const JString&	text,
-	const bool		label,
-	const bool		center,
-	const bool		wordWrap,
-	const bool		selectable,
-	const bool		styleable
-	)
-{
 	auto* window = dlog->GetWindow();
 
 // begin Panel
@@ -128,6 +98,15 @@ StaticTextPanel::BuildPanel
 	}));
 
 	UpdateDisplay();
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+StaticTextPanel::~StaticTextPanel()
+{
 }
 
 /******************************************************************************

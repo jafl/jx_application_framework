@@ -1,0 +1,49 @@
+jx_layout_editor 3
+310
+90
+"JXLayout"
+"Select widget"
+""
+""
+0
+
+1
+0
+"Menu"
+0
+0
+20 20 40 290
+"itsWidgetMenu"
+1
+0
+0
+"Choose widget"
+1
+1
+0
+
+1
+0
+"TextButton"
+0
+1
+60 60 80 120
+"cancelButton"
+0
+0
+"Cancel"
+""
+
+1
+0
+"TextButton"
+0
+1
+60 180 80 240
+"okButton"
+0
+0
+"OK"
+"^M"
+
+0

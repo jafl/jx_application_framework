@@ -29,6 +29,7 @@
 .cpp ./code/InputFieldBase
 .cpp ./code/InputField
 .cpp ./code/IntegerInput
+.cpp ./code/Menu
 .cpp ./code/MenuBar
 .cpp ./code/PasswordInput
 .cpp ./code/PathInput
@@ -47,9 +48,10 @@
 .cpp ./code/WidgetLabelPanel
 .cpp ./code/FileInputPanel
 .cpp ./code/FloatInputPanel
-.cpp ./code/ImageWidgetPanel
+.cpp ./code/ImageChooserPanel
 .cpp ./code/InputFieldPanel
 .cpp ./code/IntegerInputPanel
+.cpp ./code/MenuPanel
 .cpp ./code/PathInputPanel
 .cpp ./code/RadioButtonIDPanel
 .cpp ./code/SaveFileInputPanel

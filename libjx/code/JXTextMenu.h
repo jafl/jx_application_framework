@@ -47,7 +47,7 @@ public:
 					   const JString& nmShortcut = JString::empty,
 					   const JString& id = JString::empty);
 	void	PrependItem(const JString& str,
-					   const ItemType type = kPlainType,
+						const ItemType type = kPlainType,
 						const JString& shortcuts = JString::empty,
 						const JString& nmShortcut = JString::empty,
 						const JString& id = JString::empty);

@@ -77,7 +77,6 @@ private:
 	JPtrArray<JXToolBarButton>*	itsButtons;
 	JPtrArray<JXMenu>*			itsMenus;
 	JXFunctionTask*				itsTimerTask;
-	JXUrgentFunctionTask*		itsAdjustTask;
 	JXMenuBar*					itsMenuBar;
 	JSize						itsCurrentButtonHeight;
 	JXWidgetSet*				itsToolBarSet;
@@ -95,7 +94,6 @@ private:
 private:
 
 	void	AdjustToolBarGeometry();
-	void	AdjustGeometryIfNeeded();
 	void	AdjustWindowMinSize();
 
 	void	GetGroups(JArray<JIndexRange>* groups);

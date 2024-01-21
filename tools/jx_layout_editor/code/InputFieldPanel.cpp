@@ -41,40 +41,6 @@ InputFieldPanel::InputFieldPanel
 	const bool		newlines
 	)
 {
-	BuildPanel(dlog, required, minLength, maxLength,
-				regexPattern, regexFlags, regexErrorMsg,
-				wordWrap, newlines);
-}
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-InputFieldPanel::~InputFieldPanel()
-{
-}
-
-/******************************************************************************
- BuildPanel (private)
-
- ******************************************************************************/
-
-void
-InputFieldPanel::BuildPanel
-	(
-	WidgetParametersDialog* dlog,
-
-	const bool		required,
-	const JInteger	minLength,
-	const JInteger	maxLength,
-	const JString&	regexPattern,
-	const JString&	regexFlags,
-	const JString&	regexErrorMsg,
-	const bool		wordWrap,
-	const bool		newlines
-	)
-{
 	auto* window    = dlog->GetWindow();
 	auto* testRegex = jnew JRegex;
 
@@ -177,6 +143,15 @@ InputFieldPanel::BuildPanel
 	itsAllowNewlinesCB->SetState(newlines);
 
 	UpdateDisplay();
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+InputFieldPanel::~InputFieldPanel()
+{
 }
 
 /******************************************************************************

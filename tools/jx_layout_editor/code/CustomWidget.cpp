@@ -11,6 +11,7 @@
 #include "WidgetParametersDialog.h"
 #include "CustomWidgetPanel.h"
 #include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -148,6 +149,13 @@ CustomWidget::ToString()
 		s += "::Create(";
 		s += itsCtorArgs;
 		s += " ...);";
+	}
+
+	if (!itsDependencyNames.IsEmpty())
+	{
+		s += JString::newline;
+		s += JGetString("DependencyLabel::CustomWidget");
+		s += itsDependencyNames;
 	}
 
 	return s;

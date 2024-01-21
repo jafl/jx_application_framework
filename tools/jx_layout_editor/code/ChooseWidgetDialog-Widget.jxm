@@ -171,6 +171,16 @@ jx_menu_editor 0
 ' 
 "__TextMenu"
 "kTextMenuIndex"
+0
+
+1
+0
+0 ""
+"Image menu"
+""
+' 
+"__ImageMenu"
+"kImageMenuIndex"
 1
 
 1

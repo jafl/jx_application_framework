@@ -35,12 +35,6 @@ private:
 	JXTextCheckbox* itsRequireFileExecCB;
 
 // end Panel
-
-private:
-
-	void	BuildPanel(WidgetParametersDialog* dlog,
-						const bool required, const bool invalid,
-						const bool read, const bool write, const bool exec);
 };
 
 #endif

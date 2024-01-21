@@ -35,11 +35,6 @@ private:
 	JXInputField* itsShortcutsInput;
 
 // end Panel
-
-private:
-
-	void	BuildPanel(WidgetParametersDialog* dlog, const JString& label,
-						const JString& shortcuts);
 };
 
 #endif

@@ -32,11 +32,6 @@ private:
 	JXTextCheckbox* itsRequirePathWritableCB;
 
 // end Panel
-
-private:
-
-	void	BuildPanel(WidgetParametersDialog* dlog, const bool required,
-						const bool invalid, const bool write);
 };
 
 #endif

@@ -38,12 +38,6 @@ private:
 	JXFloatInput*   itsFloatMaxValueInput;
 
 // end Panel
-
-private:
-
-	void	BuildPanel(WidgetParametersDialog* dlog, const bool required,
-						const bool hasMin, const JFloat min,
-						const bool hasMax, const JFloat max);
 };
 
 #endif

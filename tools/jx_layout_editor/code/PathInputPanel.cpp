@@ -29,33 +29,6 @@ PathInputPanel::PathInputPanel
 	const bool write
 	)
 {
-	BuildPanel(dlog, required, invalid, write);
-}
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-PathInputPanel::~PathInputPanel()
-{
-}
-
-/******************************************************************************
- BuildPanel (private)
-
- ******************************************************************************/
-
-void
-PathInputPanel::BuildPanel
-	(
-	WidgetParametersDialog* dlog,
-
-	const bool required,
-	const bool invalid,
-	const bool write
-	)
-{
 	JXWindow* window = dlog->GetWindow();
 
 // begin Panel
@@ -66,17 +39,17 @@ PathInputPanel::BuildPanel
 	assert( container != nullptr );
 
 	itsPathRequiredCB =
-		jnew JXTextCheckbox(JGetString("itsPathRequiredCB::PathInputPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsPathRequiredCB::PathInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 80,20);
 	itsPathRequiredCB->SetShortcuts(JGetString("itsPathRequiredCB::shortcuts::PathInputPanel::Panel"));
 
 	itsAllowInvalidPathCB =
-		jnew JXTextCheckbox(JGetString("itsAllowInvalidPathCB::PathInputPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsAllowInvalidPathCB::PathInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,10, 130,20);
 	itsAllowInvalidPathCB->SetShortcuts(JGetString("itsAllowInvalidPathCB::shortcuts::PathInputPanel::Panel"));
 
 	itsRequirePathWritableCB =
-		jnew JXTextCheckbox(JGetString("itsRequirePathWritableCB::PathInputPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsRequirePathWritableCB::PathInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,10, 60,20);
 	itsRequirePathWritableCB->SetShortcuts(JGetString("itsRequirePathWritableCB::shortcuts::PathInputPanel::Panel"));
 
@@ -87,6 +60,15 @@ PathInputPanel::BuildPanel
 	itsPathRequiredCB->SetState(required);
 	itsAllowInvalidPathCB->SetState(invalid);
 	itsRequirePathWritableCB->SetState(write);
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+PathInputPanel::~PathInputPanel()
+{
 }
 
 /******************************************************************************

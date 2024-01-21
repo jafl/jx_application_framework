@@ -37,6 +37,9 @@ public:
 	bool	GetLayoutContainer(LayoutContainer** layout) const override;
 	JString	GetEnclosureName() const override;
 
+	void	PrepareToGenerateCode() const override;
+	void	GenerateCodeFinished() const override;
+
 protected:
 
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;

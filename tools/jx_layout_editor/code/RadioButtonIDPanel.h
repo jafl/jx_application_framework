@@ -30,10 +30,6 @@ private:
 	JXInputField* itsIDInput;
 
 // end Panel
-
-private:
-
-	void	BuildPanel(WidgetParametersDialog* dlog, const JString& id);
 };
 
 #endif

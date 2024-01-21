@@ -34,35 +34,6 @@ FloatInputPanel::FloatInputPanel
 	const JFloat	max
 	)
 {
-	BuildPanel(dlog, required, hasMin, min, hasMax, max);
-}
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-FloatInputPanel::~FloatInputPanel()
-{
-}
-
-/******************************************************************************
- BuildPanel (private)
-
- ******************************************************************************/
-
-void
-FloatInputPanel::BuildPanel
-	(
-	WidgetParametersDialog* dlog,
-
-	const bool		required,
-	const bool		hasMin,
-	const JFloat	min,
-	const bool		hasMax,
-	const JFloat	max
-	)
-{
 	auto* window = dlog->GetWindow();
 
 // begin Panel
@@ -120,6 +91,15 @@ FloatInputPanel::BuildPanel
 	{
 		itsFloatMaxValueInput->GetText()->SetText(JString::empty);
 	}
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+FloatInputPanel::~FloatInputPanel()
+{
 }
 
 /******************************************************************************

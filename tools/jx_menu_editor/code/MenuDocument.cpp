@@ -170,23 +170,23 @@ MenuDocument::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 920,270);
 
 	auto* classNameLabel =
-		jnew JXStaticText(JGetString("classNameLabel::MenuDocument::JXLayout"),itsToolBar->GetWidgetEnclosure(),
+		jnew JXStaticText(JGetString("classNameLabel::MenuDocument::JXLayout"), itsToolBar->GetWidgetEnclosure(),
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 80,20);
 	classNameLabel->SetToLabel(false);
 
 	auto* menuTitleLabel =
-		jnew JXStaticText(JGetString("menuTitleLabel::MenuDocument::JXLayout"),itsToolBar->GetWidgetEnclosure(),
+		jnew JXStaticText(JGetString("menuTitleLabel::MenuDocument::JXLayout"), itsToolBar->GetWidgetEnclosure(),
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,0, 70,20);
 	menuTitleLabel->SetToLabel(false);
 
 	auto* windowsAltLabel =
-		jnew JXStaticText(JGetString("windowsAltLabel::MenuDocument::JXLayout"),itsToolBar->GetWidgetEnclosure(),
+		jnew JXStaticText(JGetString("windowsAltLabel::MenuDocument::JXLayout"), itsToolBar->GetWidgetEnclosure(),
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 440,0, 130,20);
 	windowsAltLabel->SetToLabel(false);
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 920,210);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 920,240);
 	assert( scrollbarSet != nullptr );
 
 	itsClassNameInput =

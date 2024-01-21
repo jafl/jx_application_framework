@@ -31,33 +31,6 @@ ToolBarPanel::ToolBarPanel
 	const JString&	menuBar
 	)
 {
-	BuildPanel(dlog, prefsMgr, prefID, menuBar);
-}
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-ToolBarPanel::~ToolBarPanel()
-{
-}
-
-/******************************************************************************
- BuildPanel (private)
-
- ******************************************************************************/
-
-void
-ToolBarPanel::BuildPanel
-	(
-	WidgetParametersDialog* dlog,
-
-	const JString&	prefsMgr,
-	const JString&	prefID,
-	const JString&	menuBar
-	)
-{
 	JXWindow* window = dlog->GetWindow();
 
 // begin Panel
@@ -107,6 +80,15 @@ ToolBarPanel::BuildPanel
 	itsPrefsMgrInput->GetText()->SetText(prefsMgr);
 	itsPrefIDInput->GetText()->SetText(prefID);
 	itsMenuBarInput->GetText()->SetText(menuBar);
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+ToolBarPanel::~ToolBarPanel()
+{
 }
 
 /******************************************************************************

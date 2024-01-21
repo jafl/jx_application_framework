@@ -32,31 +32,6 @@ RadioButtonIDPanel::RadioButtonIDPanel
 	const JString& id
 	)
 {
-	BuildPanel(dlog, id);
-}
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-RadioButtonIDPanel::~RadioButtonIDPanel()
-{
-}
-
-/******************************************************************************
- BuildPanel (private)
-
- ******************************************************************************/
-
-void
-RadioButtonIDPanel::BuildPanel
-	(
-	WidgetParametersDialog* dlog,
-
-	const JString& id
-	)
-{
 	JXWindow* window = dlog->GetWindow();
 
 // begin Panel
@@ -83,6 +58,15 @@ RadioButtonIDPanel::BuildPanel
 
 	itsIDInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 	itsIDInput->GetText()->SetText(id);
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+RadioButtonIDPanel::~RadioButtonIDPanel()
+{
 }
 
 /******************************************************************************

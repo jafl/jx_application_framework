@@ -69,54 +69,46 @@ WidgetParametersDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 460,150, JString::empty);
+	auto* window = jnew JXWindow(this, 460,150, JGetString("WindowTitle::WidgetParametersDialog::JXLayout"));
 
 	itsLatestContainer =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,110);
-	assert( itsLatestContainer != nullptr );
-
-	itsVarNameInput =
-		jnew JXInputField(itsLatestContainer,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,20, 170,20);
-	assert( itsVarNameInput != nullptr );
 
 	auto* variableNameLabel =
 		jnew JXStaticText(JGetString("variableNameLabel::WidgetParametersDialog::JXLayout"), itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 110,20);
-	assert( variableNameLabel != nullptr );
-	variableNameLabel->SetToLabel();
+	variableNameLabel->SetToLabel(false);
 
 	itsMemberVarCB =
 		jnew JXTextCheckbox(JGetString("itsMemberVarCB::WidgetParametersDialog::JXLayout"), itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,20, 130,20);
-	assert( itsMemberVarCB != nullptr );
-	itsMemberVarCB->SetShortcuts(JGetString("itsMemberVarCB::WidgetParametersDialog::shortcuts::JXLayout"));
+	itsMemberVarCB->SetShortcuts(JGetString("itsMemberVarCB::shortcuts::WidgetParametersDialog::JXLayout"));
 
 	itsHSizingMenu =
 		jnew JXTextMenu(JGetString("itsHSizingMenu::WidgetParametersDialog::JXLayout"), itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 420,20);
-	assert( itsHSizingMenu != nullptr );
 
 	itsVSizingMenu =
 		jnew JXTextMenu(JGetString("itsVSizingMenu::WidgetParametersDialog::JXLayout"), itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 420,20);
-	assert( itsVSizingMenu != nullptr );
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::WidgetParametersDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 290,120, 60,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::WidgetParametersDialog::shortcuts::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::WidgetParametersDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 120,120, 60,20);
 	assert( cancelButton != nullptr );
 
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::WidgetParametersDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 289,119, 62,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::WidgetParametersDialog::JXLayout"));
+
+	itsVarNameInput =
+		jnew JXInputField(itsLatestContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,20, 170,20);
+
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::WidgetParametersDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsVarNameInput->SetFont(JFontManager::GetDefaultMonospaceFont());

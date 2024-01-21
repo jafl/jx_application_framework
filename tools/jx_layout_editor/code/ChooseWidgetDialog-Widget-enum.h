@@ -22,6 +22,7 @@ enum {
 	kTextRadioButtonIndex,
 	kMenuBarIndex,
 	kTextMenuIndex,
+	kImageMenuIndex,
 	kScrollbarSetIndex,
 	kToolBarIndex,
 	kWidgetSetIndex,

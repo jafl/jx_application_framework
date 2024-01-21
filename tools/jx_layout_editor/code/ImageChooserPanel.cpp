@@ -1,5 +1,5 @@
 /******************************************************************************
- ImageWidgetPanel.cpp
+ ImageChooserPanel.cpp
 
 	BASE CLASS = WidgetPanelBase, JBroadcaster
 
@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include "ImageWidgetPanel.h"
+#include "ImageChooserPanel.h"
 #include "WidgetParametersDialog.h"
 #include "LayoutDocument.h"
 #include "ImageCache.h"
@@ -19,12 +19,14 @@
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/jAssert.h>
 
+static const JRegex excludeIconPattern("_busy|_selected|_pushed");
+
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-ImageWidgetPanel::ImageWidgetPanel
+ImageChooserPanel::ImageChooserPanel
 	(
 	WidgetParametersDialog* dlog,
 
@@ -32,38 +34,8 @@ ImageWidgetPanel::ImageWidgetPanel
 	const JString&	fullName
 	)
 	:
+	itsImagePathList(jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll)),
 	itsImageIndex(1)
-{
-	itsImagePathList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-
-	BuildPanel(dlog, doc, fullName);
-}
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-ImageWidgetPanel::~ImageWidgetPanel()
-{
-	jdelete itsImagePathList;
-}
-
-/******************************************************************************
- BuildPanel (private)
-
- ******************************************************************************/
-
-static const JRegex excludeIconPattern("_busy|_selected|_pushed");
-
-void
-ImageWidgetPanel::BuildPanel
-	(
-	WidgetParametersDialog* dlog,
-
-	LayoutDocument*	doc,
-	const JString&	fullName
-	)
 {
 	JXWindow* window = dlog->GetWindow();
 
@@ -75,15 +47,13 @@ ImageWidgetPanel::BuildPanel
 	assert( container != nullptr );
 
 	auto* imageMenuLabel =
-		jnew JXStaticText(JGetString("imageMenuLabel::ImageWidgetPanel::Panel"), container,
+		jnew JXStaticText(JGetString("imageMenuLabel::ImageChooserPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 50,20);
-	assert( imageMenuLabel != nullptr );
-	imageMenuLabel->SetToLabel();
+	imageMenuLabel->SetToLabel(false);
 
 	itsImageMenu =
-		jnew JXImageMenu(JString::empty, 10, container,
+		jnew JXImageMenu(JGetString("itsImageMenu::ImageChooserPanel::Panel"), 10, container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 70,10, 100,80);
-	assert( itsImageMenu != nullptr );
 
 // end Panel
 
@@ -110,12 +80,22 @@ ImageWidgetPanel::BuildPanel
 }
 
 /******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+ImageChooserPanel::~ImageChooserPanel()
+{
+	jdelete itsImagePathList;
+}
+
+/******************************************************************************
  GetValues
 
  ******************************************************************************/
 
 void
-ImageWidgetPanel::GetValues
+ImageChooserPanel::GetValues
 	(
 	JString* fullName
 	)

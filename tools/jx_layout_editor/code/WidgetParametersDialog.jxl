@@ -1,0 +1,120 @@
+jx_layout_editor 3
+460
+150
+"JXLayout"
+"Edit parameters"
+""
+""
+0
+
+1
+0
+"WidgetSet"
+0
+0
+0 0 110 460
+"itsLatestContainer"
+1
+0
+
+1
+1
+"StaticText"
+0
+0
+20 20 40 130
+"variableNameLabel"
+0
+0
+"Variable name:"
+1
+0
+0
+0
+0
+
+1
+1
+"InputField"
+0
+0
+20 130 40 300
+"itsVarNameInput"
+1
+1
+0
+0
+0
+""
+""
+""
+0
+0
+
+1
+1
+"TextCheckbox"
+0
+0
+20 310 40 440
+"itsMemberVarCB"
+1
+0
+"Member variable"
+"#M"
+
+1
+1
+"Menu"
+0
+0
+50 20 70 440
+"itsHSizingMenu"
+1
+0
+0
+""
+1
+1
+0
+
+1
+1
+"Menu"
+0
+0
+80 20 100 440
+"itsVSizingMenu"
+1
+0
+0
+""
+1
+1
+0
+
+1
+0
+"TextButton"
+0
+1
+120 120 140 180
+"cancelButton"
+0
+0
+"Cancel"
+""
+
+1
+0
+"TextButton"
+0
+1
+120 290 140 350
+"okButton"
+0
+0
+"OK"
+"^M"
+
+0

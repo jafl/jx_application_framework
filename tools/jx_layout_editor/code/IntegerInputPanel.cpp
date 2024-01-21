@@ -34,35 +34,6 @@ IntegerInputPanel::IntegerInputPanel
 	const JInteger	max
 	)
 {
-	BuildPanel(dlog, required, hasMin, min, hasMax, max);
-}
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-IntegerInputPanel::~IntegerInputPanel()
-{
-}
-
-/******************************************************************************
- BuildPanel (private)
-
- ******************************************************************************/
-
-void
-IntegerInputPanel::BuildPanel
-	(
-	WidgetParametersDialog* dlog,
-
-	const bool		required,
-	const bool		hasMin,
-	const JInteger	min,
-	const bool		hasMax,
-	const JInteger	max
-	)
-{
 	auto* window = dlog->GetWindow();
 
 // begin Panel
@@ -75,30 +46,25 @@ IntegerInputPanel::BuildPanel
 	itsIntRequiredCB =
 		jnew JXTextCheckbox(JGetString("itsIntRequiredCB::IntegerInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 80,20);
-	assert( itsIntRequiredCB != nullptr );
-	itsIntRequiredCB->SetShortcuts(JGetString("itsIntRequiredCB::IntegerInputPanel::shortcuts::Panel"));
-
-	itsIntMinValueInput =
-		jnew JXIntegerInput(container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,10, 80,20);
-	assert( itsIntMinValueInput != nullptr );
+	itsIntRequiredCB->SetShortcuts(JGetString("itsIntRequiredCB::shortcuts::IntegerInputPanel::Panel"));
 
 	auto* integerMinimumValueLabel =
 		jnew JXStaticText(JGetString("integerMinimumValueLabel::IntegerInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,10, 70,20);
-	assert( integerMinimumValueLabel != nullptr );
-	integerMinimumValueLabel->SetToLabel();
-
-	itsIntMaxValueInput =
-		jnew JXIntegerInput(container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 360,10, 80,20);
-	assert( itsIntMaxValueInput != nullptr );
+	integerMinimumValueLabel->SetToLabel(false);
 
 	auto* integerMaximumValueLabel =
 		jnew JXStaticText(JGetString("integerMaximumValueLabel::IntegerInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,10, 80,20);
-	assert( integerMaximumValueLabel != nullptr );
-	integerMaximumValueLabel->SetToLabel();
+	integerMaximumValueLabel->SetToLabel(false);
+
+	itsIntMinValueInput =
+		jnew JXIntegerInput(container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,10, 80,20);
+
+	itsIntMaxValueInput =
+		jnew JXIntegerInput(container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 360,10, 80,20);
 
 // end Panel
 
@@ -125,6 +91,15 @@ IntegerInputPanel::BuildPanel
 	{
 		itsIntMaxValueInput->GetText()->SetText(JString::empty);
 	}
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+IntegerInputPanel::~IntegerInputPanel()
+{
 }
 
 /******************************************************************************

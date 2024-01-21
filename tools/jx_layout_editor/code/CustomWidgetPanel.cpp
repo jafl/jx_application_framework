@@ -34,35 +34,6 @@ CustomWidgetPanel::CustomWidgetPanel
 	const bool		wantsInput
 	)
 {
-	BuildPanel(dlog, className, ctorArgs, needsCreate, deps, wantsInput);
-}
-
-/******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-CustomWidgetPanel::~CustomWidgetPanel()
-{
-}
-
-/******************************************************************************
- BuildPanel (private)
-
- ******************************************************************************/
-
-void
-CustomWidgetPanel::BuildPanel
-	(
-	WidgetParametersDialog* dlog,
-
-	const JString&	className,
-	const JString&	ctorArgs,
-	const bool		needsCreate,
-	const JString&	deps,
-	const bool		wantsInput
-	)
-{
 	JXWindow* window = dlog->GetWindow();
 
 // begin Panel
@@ -126,6 +97,15 @@ CustomWidgetPanel::BuildPanel
 	itsDependencyInput->GetText()->SetText(deps);
 
 	itsWantsInputCB->SetState(wantsInput);
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+CustomWidgetPanel::~CustomWidgetPanel()
+{
 }
 
 /******************************************************************************
