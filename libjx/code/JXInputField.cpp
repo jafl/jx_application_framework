@@ -488,7 +488,8 @@ JXInputField::InputValid()
 			errorStr = JGetString("MaxNChar::JXInputField", map, sizeof(map));
 		}
 	}
-	else if (itsPattern != nullptr && !itsPattern->Match(GetText()->GetText()))
+	else if (itsPattern != nullptr && length > 0 &&
+			 !itsPattern->Match(GetText()->GetText()))
 	{
 		errorStr = JGetString(itsPatternMsgID);
 	}
