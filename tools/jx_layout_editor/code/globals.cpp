@@ -12,6 +12,7 @@
 #include "PrefsManager.h"
 #include "MDIServer.h"
 #include "DocumentManager.h"
+#include "ImageCache.h"
 #include <jx-af/jx/JXWindowDirector.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jcore/jAssert.h>
@@ -20,6 +21,7 @@ static App*				theApplication  = nullptr;		// owns itself
 static PrefsManager*	thePrefsManager = nullptr;
 static MDIServer*		theMDIServer    = nullptr;
 static DocumentManager*	theDocManager   = nullptr;
+static ImageCache*		theImageCache   = nullptr;
 
 /******************************************************************************
  CreateGlobals
@@ -43,6 +45,7 @@ CreateGlobals
 
 	theMDIServer  = jnew MDIServer;
 	theDocManager = jnew DocumentManager;
+	theImageCache = jnew ImageCache(app->GetDisplay(1));
 
 	// widgets hidden in permanent window
 
@@ -70,6 +73,9 @@ DeleteGlobals()
 	theApplication = nullptr;
 	theMDIServer   = nullptr;
 	theDocManager  = nullptr;
+
+	jdelete theImageCache;
+	theImageCache = nullptr;
 
 	// this must be last so everybody else can use it to save their setup
 
@@ -161,6 +167,18 @@ GetMDIServer()
 {
 	assert( theMDIServer != nullptr );
 	return theMDIServer;
+}
+
+/******************************************************************************
+ GetImageCache
+
+ ******************************************************************************/
+
+ImageCache*
+GetImageCache()
+{
+	assert( theImageCache != nullptr );
+	return theImageCache;
 }
 
 /******************************************************************************

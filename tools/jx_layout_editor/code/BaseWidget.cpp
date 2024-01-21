@@ -419,6 +419,7 @@ BaseWidget::SetSelected
 		{
 			const bool ok = itsParent->Focus();
 			assert( ok );
+			GetWindow()->Refresh();
 		}
 	}
 }

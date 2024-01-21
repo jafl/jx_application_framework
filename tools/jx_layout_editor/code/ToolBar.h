@@ -35,6 +35,7 @@ public:
 	void	StreamOut(std::ostream& output) const override;
 	JString	ToString() const override;
 	bool	GetLayoutContainer(LayoutContainer** layout) const override;
+	JString	GetEnclosureName() const override;
 
 protected:
 

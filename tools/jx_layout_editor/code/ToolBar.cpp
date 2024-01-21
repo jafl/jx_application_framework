@@ -212,6 +212,19 @@ ToolBar::GetClassName()
 }
 
 /******************************************************************************
+ GetEnclosureName (virtual protected)
+
+ ******************************************************************************/
+
+JString
+ToolBar::GetEnclosureName()
+	const
+{
+	bool b;
+	return GetVarName(&b) + "->GetWidgetEnclosure()";
+}
+
+/******************************************************************************
  PrintCtorArgsWithComma (virtual protected)
 
  ******************************************************************************/

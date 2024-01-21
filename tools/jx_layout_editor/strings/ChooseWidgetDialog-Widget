@@ -8,6 +8,7 @@ MenuTitle::ChooseWidgetDialog_Widget "Widget"
 
 __CustomWidget::ChooseWidgetDialog "Custom widget"
 __StaticText::ChooseWidgetDialog "Static text"
+__Image::ChooseWidgetDialog "Image"
 __InputField::ChooseWidgetDialog "Input field"
 __IntegerInput::ChooseWidgetDialog "Integer input"
 __FloatInput::ChooseWidgetDialog "Float input"

@@ -1,5 +1,5 @@
 jx_menu_editor 0
-914 517
+914 787
 "ChooseWidgetDialog"
 "Widget"
 ' 
@@ -31,6 +31,16 @@ jx_menu_editor 0
 ' 
 "__StaticText"
 "kStaticTextIndex"
+0
+
+1
+0
+0 ""
+"Image"
+""
+' 
+"__Image"
+"kImageWidgetIndex"
 1
 
 1

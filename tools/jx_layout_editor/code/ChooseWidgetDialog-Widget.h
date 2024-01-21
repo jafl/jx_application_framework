@@ -7,7 +7,8 @@
 
 static const JUtf8Byte* kWidgetMenuStr =
 "* %i __CustomWidget::ChooseWidgetDialog %l"
-"|* %i __StaticText::ChooseWidgetDialog %l"
+"|* %i __StaticText::ChooseWidgetDialog"
+"|* %i __Image::ChooseWidgetDialog %l"
 "|* %i __InputField::ChooseWidgetDialog"
 "|* %i __IntegerInput::ChooseWidgetDialog"
 "|* %i __FloatInput::ChooseWidgetDialog"

@@ -11,6 +11,7 @@
 #include "FileHistoryMenu.h"
 #include "LayoutContainer.h"
 #include "MDIServer.h"
+#include "ImageCache.h"
 #include "globals.h"
 #include "fileVersions.h"
 #include <jx-af/jx/JXWindow.h>
@@ -181,7 +182,7 @@ LayoutDocument::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 601,300, JString::empty);
-	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "jx_layout_editor_document");
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "jx_layout_editor_Layout");
 
 	itsMenuBar =
 		jnew JXMenuBar(window,
@@ -605,7 +606,7 @@ LayoutDocument::GenerateCode()
 	JSplitRootAndSuffix(name, &root, &suffix);
 
 	JString projRoot;
-	if (!FindProjectRoot(path, &projRoot))
+	if (!ImageCache::FindProjectRoot(path, &projRoot))
 	{
 		JGetUserNotification()->ReportError(JGetString("NoProjectRoot::LayoutDocument"));
 		return false;
@@ -798,52 +799,6 @@ LayoutDocument::GenerateCode()
 	}
 
 	return true;
-}
-
-/******************************************************************************
- FindProjectRoot (static)
-
-	Search directory tree up to root.
-
- ******************************************************************************/
-
-bool
-LayoutDocument::FindProjectRoot
-	(
-	const JString&	path,
-	JString*		root
-	)
-{
-	JString p = path, n;
-	do
-	{
-		n = JCombinePathAndName(p, "Makefile");
-		if (JFileExists(n))
-		{
-			*root = p;
-			return true;
-		}
-
-		n = JCombinePathAndName(p, "Make.header");
-		if (JFileExists(n))
-		{
-			*root = p;
-			return true;
-		}
-
-		n = JCombinePathAndName(p, "CMakeLists.txt");
-		if (JFileExists(n))
-		{
-			*root = p;
-			return true;
-		}
-
-		JSplitPathAndName(p, &p, &n);
-	}
-	while (!JIsRootDirectory(p));
-
-	root->Clear();
-	return false;
 }
 
 /******************************************************************************
@@ -1053,6 +1008,7 @@ LayoutDocument::ImportFDesignFile
 #include "CharInput.h"
 #include "FileInput.h"
 #include "FloatInput.h"
+#include "ImageWidget.h"
 #include "InputField.h"
 #include "IntegerInput.h"
 #include "MenuBar.h"
@@ -1255,6 +1211,10 @@ LayoutDocument::ImportFDesignLayout
 		else if (flClass == "FL_INPUT" && flType == "FL_FLOAT_INPUT")
 		{
 			widget = jnew FloatInput(enclosure, hS,vS, x,y,w,h);
+		}
+		else if (label == "JXImageWidget")
+		{
+			widget = jnew ImageWidget(enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_INPUT" && flType == "FL_NORMAL_INPUT")
 		{

@@ -378,6 +378,7 @@ LayoutContainer::ReadConfig
 #include "CharInput.h"
 #include "FileInput.h"
 #include "FloatInput.h"
+#include "ImageWidget.h"
 #include "InputField.h"
 #include "IntegerInput.h"
 #include "MenuBar.h"
@@ -435,6 +436,10 @@ LayoutContainer::ReadWidget
 	else if (className == "FloatInput")
 	{
 		widget = jnew FloatInput(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "ImageWidget")
+	{
+		widget = jnew ImageWidget(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "InputField")
 	{
@@ -525,6 +530,10 @@ LayoutContainer::CreateWidget
 	else if (index == kFloatInputIndex)
 	{
 		return jnew FloatInput(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kImageWidgetIndex)
+	{
+		return jnew ImageWidget(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kInputFieldIndex)
 	{

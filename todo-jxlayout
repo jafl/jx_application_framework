@@ -1,6 +1,6 @@
-JXImageWidget
-	image
 JXTextMenu
+	popup choice
+JXImageMenu
 	popup choice
 
 LayoutConfigDialog:

@@ -34,8 +34,6 @@ public:
 
 	void	UpdateSaveState();
 
-	static bool	FindProjectRoot(const JString& path, JString* root);
-
 protected:
 
 	LayoutDocument(const JString& fullName, const bool onDisk);

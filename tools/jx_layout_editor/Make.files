@@ -10,6 +10,7 @@
 .cpp ./code/PrefsManager
 .cpp ./code/DocumentManager
 .cpp ./code/FileHistoryMenu
+.cpp ./code/ImageCache
 .cpp ./code/MDIServer
 .cpp ./code/AboutDialog
 .cpp ./code/LayoutDocument
@@ -24,6 +25,7 @@
 .cpp ./code/CharInput
 .cpp ./code/FileInput
 .cpp ./code/FloatInput
+.cpp ./code/ImageWidget
 .cpp ./code/InputFieldBase
 .cpp ./code/InputField
 .cpp ./code/IntegerInput
@@ -45,6 +47,7 @@
 .cpp ./code/WidgetLabelPanel
 .cpp ./code/FileInputPanel
 .cpp ./code/FloatInputPanel
+.cpp ./code/ImageWidgetPanel
 .cpp ./code/InputFieldPanel
 .cpp ./code/IntegerInputPanel
 .cpp ./code/PathInputPanel

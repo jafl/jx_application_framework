@@ -315,7 +315,7 @@ T "./" "make jx.test.skip=true -kw" "" TFTTTFF "" "" "" F
 F
 # build settings
 1
-T
+F
 "testjx"
 "${LIB_DEPS}"
 "make -k all"

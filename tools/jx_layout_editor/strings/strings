@@ -43,7 +43,6 @@ Usage:  jx_layout_editor [layout_file_name]
 
 # AboutDialog
 
-WindowTitle::AboutDialog		"About"
 ChangeButtonLabel::AboutDialog	"Changes"
 
 UpgradeNotice::AboutDialog

@@ -289,15 +289,15 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: ImageChooserPanel__Panel__window
+Name: ImageWidgetPanel__Panel__window
 Width: 460
-Height: 40
+Height: 100
 Number of Objects: 3
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 460 40
+box: 0 0 460 100
 boxtype: FL_SHADOW_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -331,22 +331,22 @@ callback:
 argument: 
 
 --------------------
-class: FL_MENU
-type: FL_PULLDOWN_MENU
-box: 70 10 100 20
-boxtype: FL_UP_BOX
-colors: FL_COL1 FL_MCOL
+class: FL_BOX
+type: FL_NO_BOX
+box: 70 10 100 80
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: 
+label: JXImageMenu
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: itsImageMenu
 callback: 
-argument: 
+argument: JString::empty, 10
 
 =============== FORM ===============
 Name: ChooseWidgetDialog

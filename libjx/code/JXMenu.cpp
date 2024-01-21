@@ -339,7 +339,7 @@ JXMenu::SetTitleText
 void
 JXMenu::SetTitleImage
 	(
-	JXImage*		image,
+	JXImage*	image,
 	const bool	menuOwnsImage
 	)
 {

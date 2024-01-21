@@ -10,6 +10,16 @@ include ${MAKE_INCLUDE}/jx_config
 
 SEARCHDIRS := -I./code -I./image-build ${SEARCHDIRS}
 
+ifeq (${J_IS_RELEASE_BUILD},1)
+  ifdef BREW_ROOT
+    JX_INCLUDE_PATH := ${BREW_ROOT}/include/jx-af
+  else
+    JX_INCLUDE_PATH := /usr/local/include/jx-af
+  endif
+else
+  JX_INCLUDE_PATH := $(shell cd ${JX_ROOT}; pwd)/include/jx-af
+endif
+
 ifdef SNAPCRAFT_BUILD_ENVIRONMENT
   CODE_CRUSADER_BINARY := jx-ide.code-crusader
 else
@@ -19,6 +29,7 @@ endif
 # makemake variables
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS} \
+               -DJX_INCLUDE_PATH=\"${JX_INCLUDE_PATH}\" \
                -DCODE_CRUSADER_BINARY=\"${CODE_CRUSADER_BINARY}\"
 
 # library dependencies

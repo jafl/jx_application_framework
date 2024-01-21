@@ -17,12 +17,14 @@
 #include "DocumentManager.h"
 
 class MDIServer;
+class ImageCache;
 
 App*				GetApplication();
 DocumentManager*	GetDocumentManager();
 PrefsManager*		GetPrefsManager();
 void				ForgetPrefsManager();
 MDIServer*			GetMDIServer();
+ImageCache*			GetImageCache();
 
 const JString&	GetVersionNumberStr();
 JString			GetVersionStr();

@@ -494,7 +494,7 @@ JXTextMenuData::SetImage
 	(
 	const JIndex	index,
 	JXImage*		image,
-	const bool	menuOwnsImage
+	const bool		menuOwnsImage
 	)
 {
 	if (image == nullptr)

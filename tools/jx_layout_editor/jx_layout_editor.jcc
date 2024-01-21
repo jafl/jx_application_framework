@@ -32,6 +32,10 @@ T
 F
 "./code/FileHistoryMenu.cpp"
 T
+2 "ImageCache.cpp"
+F
+"./code/ImageCache.cpp"
+T
 2 "MDIServer.cpp"
 F
 "./code/MDIServer.cpp"
@@ -39,6 +43,10 @@ T
 2 "AboutDialog.cpp"
 F
 "./code/AboutDialog.cpp"
+T
+2 "AboutDialog.jxl"
+F
+"./code/AboutDialog.jxl"
 F
 T
 1 "layout"
@@ -129,6 +137,10 @@ T
 2 "FloatInput.cpp"
 F
 "./code/FloatInput.cpp"
+T
+2 "ImageWidget.cpp"
+F
+"./code/ImageWidget.cpp"
 T
 2 "InputFieldBase.cpp"
 F
@@ -241,6 +253,10 @@ T
 F
 "./code/FloatInputPanel.jxl"
 T
+2 "ImageWidgetPanel.cpp"
+F
+"./code/ImageWidgetPanel.cpp"
+T
 2 "InputFieldPanel.cpp"
 F
 "./code/InputFieldPanel.cpp"
@@ -339,6 +355,7 @@ T "../../include" T
 T "../../include/jx-af/jcore" T
 T "../../include/jx-af/jx" T
 T "./code" T
+T "./image-build" T
 F
 # C preprocessor
 F
