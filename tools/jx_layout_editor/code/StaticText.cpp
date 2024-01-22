@@ -210,10 +210,8 @@ StaticText::PrintCtorArgsWithComma
 	)
 	const
 {
-	const JString id = varName + GetParentContainer()->GetStringNamespace();
-	stringdb->SetItem(id, itsText->GetText()->GetText(), JPtrArrayT::kDelete);
-
-	output << "JGetString(" << id << "), ";
+	PrintStringForArg(itsText->GetText()->GetText(), varName, stringdb, output);
+	output << ", ";
 
 	if (itsWordWrapFlag || itsSelectableFlag || itsStyleableFlag)
 	{

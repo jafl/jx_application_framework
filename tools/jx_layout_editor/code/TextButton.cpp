@@ -182,7 +182,8 @@ TextButton::PrintCtorArgsWithComma
 	)
 	const
 {
-	SharedPrintCtorArgsWithComma(output, varName, itsButton->GetLabel(), stringdb);
+	PrintStringForArg(itsButton->GetLabel(), varName, stringdb, output);
+	output << ", ";
 }
 
 /******************************************************************************

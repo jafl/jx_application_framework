@@ -59,27 +59,6 @@ TextButtonBase::~TextButtonBase()
 }
 
 /******************************************************************************
- SharedPrintCtorArgsWithComma (protected)
-
- ******************************************************************************/
-
-void
-TextButtonBase::SharedPrintCtorArgsWithComma
-	(
-	std::ostream&	output,
-	const JString&	varName,
-	const JString&	label,
-	JStringManager* stringdb
-	)
-	const
-{
-	const JString id = varName + GetParentContainer()->GetStringNamespace();
-	stringdb->SetItem(id, label, JPtrArrayT::kDelete);
-
-	output << "JGetString(" << id << "), ";
-}
-
-/******************************************************************************
  SharedPrintConfiguration (protected)
 
  ******************************************************************************/
@@ -97,12 +76,11 @@ TextButtonBase::SharedPrintConfiguration
 {
 	if (!shortcuts.IsEmpty())
 	{
-		const JString id = varName + "::shortcuts" + GetParentContainer()->GetStringNamespace();
-		stringdb->SetItem(id, shortcuts, JPtrArrayT::kDelete);
-
 		indent.Print(output);
 		varName.Print(output);
-		output << "->SetShortcuts(JGetString(" << id << "));" << std::endl;
+		output << "->SetShortcuts(";
+		PrintStringForArg(shortcuts, varName + "::shortcuts", stringdb, output);
+		output << ");" << std::endl;
 		return true;
 	}
 	else

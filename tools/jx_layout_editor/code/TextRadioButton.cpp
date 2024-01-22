@@ -206,10 +206,8 @@ TextRadioButton::PrintCtorArgsWithComma
 	itsID.Print(output);
 	output << ", ";
 
-	const JString id = varName + GetParentContainer()->GetStringNamespace();
-	stringdb->SetItem(id, itsLabel, JPtrArrayT::kDelete);
-
-	output << "JGetString(" << id << "), ";
+	PrintStringForArg(itsLabel, varName, stringdb, output);
+	output << ", ";
 }
 
 /******************************************************************************
@@ -229,12 +227,11 @@ TextRadioButton::PrintConfiguration
 {
 	if (!itsShortcuts.IsEmpty())
 	{
-		const JString id = varName + "::shortcuts" + GetParentContainer()->GetStringNamespace();
-		stringdb->SetItem(id, itsShortcuts, JPtrArrayT::kDelete);
-
 		indent.Print(output);
 		varName.Print(output);
-		output << "->SetShortcuts(JGetString(" << id << "));" << std::endl;
+		output << "->SetShortcuts(";
+		PrintStringForArg(itsShortcuts, varName + "::shortcuts", stringdb, output);
+		output << ");" << std::endl;
 	}
 	else
 	{

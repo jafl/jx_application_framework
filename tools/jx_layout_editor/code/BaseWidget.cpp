@@ -413,6 +413,55 @@ BaseWidget::PrintConfiguration
 }
 
 /******************************************************************************
+ PrintStringForArg (protected)
+
+ ******************************************************************************/
+
+void
+BaseWidget::PrintStringForArg
+	(
+	const JString&	text,
+	const JString&	baseID,
+	JStringManager*	stringdb,
+	std::ostream&	output
+	)
+	const
+{
+	if (!text.IsEmpty())
+	{
+		const JString id = baseID + itsParent->GetStringNamespace();
+		stringdb->SetItem(id, text, JPtrArrayT::kDelete);
+
+		output << "JGetString(" << id << ')';
+	}
+	else
+	{
+		output << "JString::empty";
+	}
+}
+
+/******************************************************************************
+ PrintStringIDForArg (protected)
+
+ ******************************************************************************/
+
+void
+BaseWidget::PrintStringIDForArg
+	(
+	const JString&	text,
+	const JString&	baseID,
+	JStringManager*	stringdb,
+	std::ostream&	output
+	)
+	const
+{
+	const JString id = baseID + itsParent->GetStringNamespace();
+	stringdb->SetItem(id, text, JPtrArrayT::kDelete);
+
+	output << id;
+}
+
+/******************************************************************************
  SetSelected
 
  ******************************************************************************/

@@ -164,7 +164,8 @@ TextCheckbox::PrintCtorArgsWithComma
 	)
 	const
 {
-	SharedPrintCtorArgsWithComma(output, varName, itsCheckbox->GetLabel(), stringdb);
+	PrintStringForArg(itsCheckbox->GetLabel(), varName, stringdb, output);
+	output << ", ";
 }
 
 /******************************************************************************

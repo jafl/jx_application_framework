@@ -27,10 +27,6 @@ public:
 
 protected:
 
-	void	SharedPrintCtorArgsWithComma(std::ostream& output,
-										 const JString& varName,
-										 const JString& label,
-										 JStringManager* stringdb) const;
 	bool	SharedPrintConfiguration(std::ostream& output,
 									 const JString& indent,
 									 const JString& varName,

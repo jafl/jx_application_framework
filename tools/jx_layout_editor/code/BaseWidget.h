@@ -77,6 +77,11 @@ protected:
 									   JStringManager* stringdb) const;
 	virtual bool	WaitForCodeDependency(const JPtrArray<JString>& objNames) const;
 
+	void	PrintStringForArg(const JString& text, const JString& baseID,
+							  JStringManager* stringdb, std::ostream& output) const;
+	void	PrintStringIDForArg(const JString& text, const JString& baseID,
+								JStringManager* stringdb, std::ostream& output) const;
+
 	virtual void	AddPanels(WidgetParametersDialog* dlog);
 	virtual void	SavePanelData();
 

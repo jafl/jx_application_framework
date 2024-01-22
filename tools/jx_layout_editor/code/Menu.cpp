@@ -183,10 +183,8 @@ Menu::PrintCtorArgsWithComma
 	)
 	const
 {
-	const JString id = varName + GetParentContainer()->GetStringNamespace();
-	stringdb->SetItem(id, itsMenu->GetTitleText(), JPtrArrayT::kDelete);
-
-	output << "JGetString(" << id << "), ";
+	PrintStringForArg(itsMenu->GetTitleText(), varName, stringdb, output);
+	output << ", ";
 
 	if (itsType == kImageType)
 	{

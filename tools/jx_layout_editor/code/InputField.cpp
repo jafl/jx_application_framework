@@ -234,9 +234,6 @@ InputField::PrintConfiguration
 
 	if (!itsValidationPattern.IsEmpty())
 	{
-		const JString id = varName + "::validation" + GetParentContainer()->GetStringNamespace();
-		stringdb->SetItem(id, itsRegexErrorMsg, JPtrArrayT::kDelete);
-
 		indent.Print(output);
 		varName.Print(output);
 		output << "->SetValidationPattern(jnew JRegex(" << itsValidationPattern;
@@ -244,7 +241,9 @@ InputField::PrintConfiguration
 		{
 			output << ", " << itsValidationFlags;
 		}
-		output << "), " << id << ");" << std::endl;
+		output << "), ";
+		PrintStringIDForArg(itsRegexErrorMsg, varName + "::validation", stringdb, output);
+		output << ");" << std::endl;
 		used = true;
 	}
 
