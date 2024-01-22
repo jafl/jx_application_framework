@@ -1,0 +1,63 @@
+jx_layout_editor 5
+500
+300
+"JXLayout"
+"Program"
+""
+""
+0
+
+1
+0
+"MenuBar"
+2
+0
+0 0 30 500
+"menuBar"
+0
+0
+0
+
+1
+0
+"ToolBar"
+2
+2
+30 0 300 500
+"itsToolBar"
+1
+0
+0
+"GetPrefsManager()"
+"kMainToolBarID"
+"menuBar"
+
+1
+2
+"ScrollbarSet"
+2
+2
+0 0 240 500
+"scrollbarSet"
+0
+0
+0
+
+1
+3
+"StaticText"
+2
+2
+0 0 225 485
+"widget"
+0
+0
+0
+"This should be replaced by your widget."
+1
+1
+0
+0
+0
+
+0

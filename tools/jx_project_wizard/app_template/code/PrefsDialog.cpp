@@ -50,23 +50,20 @@ PrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 400,290, JString::empty);
+	auto* window = jnew JXWindow(this, 400,280, JGetString("WindowTitle::PrefsDialog::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::PrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,250, 70,20);
-	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts(JGetString("cancelButton::PrefsDialog::shortcuts::JXLayout"));
+	cancelButton->SetShortcuts(JGetString("cancelButton::shortcuts::PrefsDialog::JXLayout"));
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::PrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kVElastic, 240,250, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::PrefsDialog::shortcuts::JXLayout"));
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 239,249, 72,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::PrefsDialog::JXLayout"));
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::PrefsDialog"));
 	SetButtons(okButton, cancelButton);
 }
 

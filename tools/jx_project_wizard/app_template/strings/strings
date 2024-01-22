@@ -44,13 +44,8 @@ Usage:
 
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
 
-# PrefsDialog
-
-WindowTitle::PrefsDialog "Preferences"
-
 # AboutDialog
 
-WindowTitle::AboutDialog		"About"
 ChangeButtonLabel::AboutDialog	"Changes"
 
 UpgradeNotice::AboutDialog
@@ -58,8 +53,3 @@ UpgradeNotice::AboutDialog
 
 
 You have just upgraded from version $vers"
-
-# MainDirector
-
-WindowTitle::MainDirector	"Program"
-HelloWorld::MainDirector	"This should be replaced by your widget."

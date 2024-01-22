@@ -75,7 +75,7 @@ MainDirector::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 500,300, JString::empty);
+	auto* window = jnew JXWindow(this, 500,300, JGetString("WindowTitle::MainDirector::JXLayout"));
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -85,7 +85,16 @@ MainDirector::BuildWindow()
 	itsToolBar =
 		jnew JXToolBar(GetPrefsManager(), kMainToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
-	assert( itsToolBar != nullptr );
+
+	auto* scrollbarSet =
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 500,270);
+	assert( scrollbarSet != nullptr );
+
+	auto* widget =
+		jnew JXStaticText(JGetString("widget::MainDirector::JXLayout"), scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 500,270);
+	widget->SetToLabel(true);
 
 // end JXLayout
 
@@ -96,18 +105,6 @@ MainDirector::BuildWindow()
 	JXImage* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);
 
-	auto* scrollbarSet =
-		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
-						   JXWidget::kHElastic,JXWidget::kVElastic,
-						   0,0, 100,100);
-	scrollbarSet->FitToEnclosure();
-
-	auto* widget =
-		jnew JXStaticText(JGetString("HelloWorld::MainDirector"),
-						 scrollbarSet->GetScrollEnclosure(),
-						 JXWidget::kHElastic, JXWidget::kVElastic,
-						 0,0, 100,100);
-	widget->FitToEnclosure();
 	widget->SetBackColor(JColorManager::GetWhiteColor());
 	widget->SetBorderWidth(2);
 

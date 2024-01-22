@@ -1,0 +1,36 @@
+jx_layout_editor 5
+400
+280
+"JXLayout"
+"Preferences"
+""
+""
+0
+
+1
+0
+"TextButton"
+0
+2
+250 90 270 160
+"cancelButton"
+0
+0
+0
+"Cancel"
+"^["
+
+1
+0
+"TextButton"
+0
+2
+250 240 270 310
+"okButton"
+0
+0
+0
+"OK"
+"^M"
+
+0
