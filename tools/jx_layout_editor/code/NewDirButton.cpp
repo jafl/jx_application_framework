@@ -1,16 +1,14 @@
 /******************************************************************************
- InputFieldBase.cpp
+ NewDirButton.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = CoreWidget
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#include "InputFieldBase.h"
-#include <jx-af/jx/JXWindowPainter.h>
-#include <jx-af/jx/jXPainterUtil.h>
-#include <jx-af/jcore/JColorManager.h>
+#include "NewDirButton.h"
+#include <jx-af/jx/JXNewDirButton.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -18,7 +16,7 @@
 
  ******************************************************************************/
 
-InputFieldBase::InputFieldBase
+NewDirButton::NewDirButton
 	(
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
@@ -29,12 +27,12 @@ InputFieldBase::InputFieldBase
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(true, layout, hSizing, vSizing, x,y, w,h)
+	CoreWidget(false, layout, hSizing, vSizing, x,y, w,h)
 {
-	InputFieldBaseX();
+	NewDirButtonX(x,y,w,h);
 }
 
-InputFieldBase::InputFieldBase
+NewDirButton::NewDirButton
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -47,17 +45,24 @@ InputFieldBase::InputFieldBase
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	CoreWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	InputFieldBaseX();
+	NewDirButtonX(x,y,w,h);
 }
 
 // private
 
 void
-InputFieldBase::InputFieldBaseX()
+NewDirButton::NewDirButtonX
+	(
+	const JCoordinate x,
+	const JCoordinate y,
+	const JCoordinate w,
+	const JCoordinate h
+	)
 {
-	SetBorderWidth(kJXDefaultBorderWidth);
+	itsButton = jnew JXNewDirButton(this, kHElastic, kVElastic, x,y,w,h);
+	SetWidget(itsButton);
 }
 
 /******************************************************************************
@@ -65,38 +70,35 @@ InputFieldBase::InputFieldBaseX()
 
  ******************************************************************************/
 
-InputFieldBase::~InputFieldBase()
+NewDirButton::~NewDirButton()
 {
 }
 
 /******************************************************************************
- Draw (virtual protected)
+ StreamOut (virtual)
 
  ******************************************************************************/
 
 void
-InputFieldBase::Draw
+NewDirButton::StreamOut
 	(
-	JXWindowPainter&	p,
-	const JRect&		rect
+	std::ostream& output
 	)
+	const
 {
-	p.SetPenColor(JColorManager::GetWhiteColor());
-	p.SetFilling(true);
-	p.Rect(GetFrameLocal());
+	output << JString("NewDirButton") << std::endl;
+
+	CoreWidget::StreamOut(output);
 }
 
 /******************************************************************************
- DrawBorder (virtual protected)
+ GetClassName (virtual protected)
 
  ******************************************************************************/
 
-void
-InputFieldBase::DrawBorder
-	(
-	JXWindowPainter&	p,
-	const JRect&		frame
-	)
+JString
+NewDirButton::GetClassName()
+	const
 {
-	JXDrawDownFrame(p, frame, 2);
+	return "JXNewDirButton";
 }

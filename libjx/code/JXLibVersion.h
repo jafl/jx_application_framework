@@ -55,6 +55,12 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //	JXApplication:
 //		*** Added wmName ctor arg to simplify window manager data and make it
 //			possible to provide the wmClass in jx_layout_editor.
+//	JXImageButton:
+//		*** Renamed SetImage() to SetXPM() for consistency with JXImageWidget.
+//	JXImageCheckbox:
+//		*** Renamed SetImage() to SetXPM() for consistency with JXImageWidget.
+//	JXImageRadioButton:
+//		*** Renamed SetImage() to SetXPM() for consistency with JXImageWidget.
 
 // version 4.0.0:
 //	Supports utf-8

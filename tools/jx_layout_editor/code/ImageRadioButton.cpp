@@ -1,5 +1,5 @@
 /******************************************************************************
- ScrollbarSet.cpp
+ ImageRadioButton.cpp
 
 	BASE CLASS = BaseWidget
 
@@ -7,20 +7,23 @@
 
  ******************************************************************************/
 
-#include "ScrollbarSet.h"
+#include "ImageRadioButton.h"
+#include "RadioButtonIDPanel.h"
+#include "ImageChooserPanel.h"
 #include "LayoutContainer.h"
+#include "ImageCache.h"
+#include "globals.h"
 #include <jx-af/jx/JXWindowPainter.h>
-#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/JXImage.h>
 #include <jx-af/jcore/jAssert.h>
-
-const JCoordinate kScrollbarWidth = 15;
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-ScrollbarSet::ScrollbarSet
+ImageRadioButton::ImageRadioButton
 	(
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
@@ -33,10 +36,26 @@ ScrollbarSet::ScrollbarSet
 	:
 	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h)
 {
-	ScrollbarSetX(layout);
 }
 
-ScrollbarSet::ScrollbarSet
+ImageRadioButton::ImageRadioButton
+	(
+	const JString&		id,
+	LayoutContainer*	layout,
+	const HSizingOption	hSizing,
+	const VSizingOption	vSizing,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
+	)
+	:
+	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	itsID(id)
+{
+}
+
+ImageRadioButton::ImageRadioButton
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -51,20 +70,17 @@ ScrollbarSet::ScrollbarSet
 	:
 	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	ScrollbarSetX(layout);
+	input >> itsID;
+
+	itsImageFullName = ImageChooserPanel::ReadImageName(input, GetParentContainer()->GetDocument());
 }
 
 // private
 
 void
-ScrollbarSet::ScrollbarSetX
-	(
-	LayoutContainer* layout
-	)
+ImageRadioButton::ImageRadioButtonX()
 {
-	itsLayout = jnew LayoutContainer(layout, this, this, kHElastic, kVElastic, 0,0, 100,100);
-	itsLayout->FitToEnclosure();
-	itsLayout->AdjustSize(-kScrollbarWidth, -kScrollbarWidth);
+	SetBorderWidth(kJXDefaultBorderWidth);
 }
 
 /******************************************************************************
@@ -72,7 +88,7 @@ ScrollbarSet::ScrollbarSetX
 
  ******************************************************************************/
 
-ScrollbarSet::~ScrollbarSet()
+ImageRadioButton::~ImageRadioButton()
 {
 }
 
@@ -82,33 +98,37 @@ ScrollbarSet::~ScrollbarSet()
  ******************************************************************************/
 
 void
-ScrollbarSet::StreamOut
+ImageRadioButton::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("ScrollbarSet") << std::endl;
+	output << JString("ImageRadioButton") << std::endl;
 
 	BaseWidget::StreamOut(output);
+
+	output << itsID << std::endl;
+
+	ImageChooserPanel::WriteImageName(itsImageFullName, output);
 }
 
 /******************************************************************************
- GetLayoutContainer (virtual)
-
-	Some widgets can contain other widgets.
+ ToString (virtual)
 
  ******************************************************************************/
 
-bool
-ScrollbarSet::GetLayoutContainer
-	(
-	LayoutContainer** layout
-	)
+JString
+ImageRadioButton::ToString()
 	const
 {
-	*layout = itsLayout;
-	return true;
+	JString s = BaseWidget::ToString();
+
+	s += JString::newline;
+	s += JGetString("IDLabel::TextRadioButton");
+	s += itsID;
+
+	return s;
 }
 
 /******************************************************************************
@@ -117,15 +137,18 @@ ScrollbarSet::GetLayoutContainer
  ******************************************************************************/
 
 void
-ScrollbarSet::Draw
+ImageRadioButton::Draw
 	(
 	JXWindowPainter&	p,
 	const JRect&		rect
 	)
 {
-	p.SetPenColor(JColorManager::GetDefaultSliderBackColor());
-	p.SetFilling(true);
-	p.Rect(GetAperture());
+	JXImage* image;
+	if (!itsImageFullName.IsEmpty() &&
+		GetImageCache()->GetImage(itsImageFullName, &image))
+	{
+		p.Image(*image, image->GetBounds(), GetBounds());
+	}
 }
 
 /******************************************************************************
@@ -134,12 +157,13 @@ ScrollbarSet::Draw
  ******************************************************************************/
 
 void
-ScrollbarSet::DrawBorder
+ImageRadioButton::DrawBorder
 	(
 	JXWindowPainter&	p,
 	const JRect&		frame
 	)
 {
+	JXDrawUpFrame(p, frame, kJXDefaultBorderWidth);
 }
 
 /******************************************************************************
@@ -148,45 +172,88 @@ ScrollbarSet::DrawBorder
  ******************************************************************************/
 
 JString
-ScrollbarSet::GetClassName()
+ImageRadioButton::GetClassName()
 	const
 {
-	return "JXScrollbarSet";
+	return "JXImageRadioButton";
 }
 
 /******************************************************************************
- GetEnclosureName (virtual protected)
-
- ******************************************************************************/
-
-JString
-ScrollbarSet::GetEnclosureName()
-	const
-{
-	bool b1, b2;
-	return GetVarName(&b1, &b2) + "->GetScrollEnclosure()";
-}
-
-/******************************************************************************
- PrepareToGenerateCode (virtual)
+ PrintCtorArgsWithComma (virtual protected)
 
  ******************************************************************************/
 
 void
-ScrollbarSet::PrepareToGenerateCode()
+ImageRadioButton::PrintCtorArgsWithComma
+	(
+	std::ostream&	output,
+	const JString&	varName,
+	JStringManager* stringdb
+	)
 	const
 {
-	itsLayout->AdjustSize(kScrollbarWidth, kScrollbarWidth);
+	itsID.Print(output);
+	output << ", ";
 }
 
 /******************************************************************************
- GenerateCodeFinished (virtual)
+ PrintConfiguration (virtual protected)
 
  ******************************************************************************/
 
 void
-ScrollbarSet::GenerateCodeFinished()
+ImageRadioButton::PrintConfiguration
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	const JString&	varName,
+	JStringManager*	stringdb
+	)
 	const
 {
-	itsLayout->AdjustSize(-kScrollbarWidth, -kScrollbarWidth);
+	if (!itsImageFullName.IsEmpty())
+	{
+		const JString name = ImageCache::PrintInclude(itsImageFullName, output);
+
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetXPM(";
+		name.Print(output);
+		output << ");" << std::endl;
+	}
+	else
+	{
+		BaseWidget::PrintConfiguration(output, indent, varName, stringdb);
+	}
+}
+
+/******************************************************************************
+ AddPanels (virtual protected)
+
+ ******************************************************************************/
+
+void
+ImageRadioButton::AddPanels
+	(
+	WidgetParametersDialog* dlog
+	)
+{
+	itsIDPanel    = jnew RadioButtonIDPanel(dlog, itsID);
+	itsImagePanel = jnew ImageChooserPanel(dlog, GetParentContainer()->GetDocument(),
+											itsImageFullName);
+}
+
+/******************************************************************************
+ SavePanelData (virtual protected)
+
+ ******************************************************************************/
+
+void
+ImageRadioButton::SavePanelData()
+{
+	itsIDPanel->GetValues(&itsID);
+	itsImagePanel->GetValues(&itsImageFullName);
+
+	itsIDPanel    = nullptr;
+	itsImagePanel = nullptr;
 }

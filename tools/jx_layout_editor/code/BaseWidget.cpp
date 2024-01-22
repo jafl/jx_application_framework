@@ -49,6 +49,7 @@ BaseWidget::BaseWidget
 	JXWidget(layout, hSizing, vSizing, x,y, w,h),
 	itsParent(layout),
 	itsIsMemberVarFlag(false),
+	itsIsPredeclaredVarFlag(false),
 	itsSelectedFlag(false),
 	itsTabIndex(0),
 	itsExpectingDragFlag(false),
@@ -82,6 +83,7 @@ BaseWidget::BaseWidget
 	:
 	JXWidget(layout, hSizing, vSizing, x,y, w,h),
 	itsParent(layout),
+	itsIsPredeclaredVarFlag(false),
 	itsSelectedFlag(false),
 	itsExpectingDragFlag(false),
 	itsLastExpectingTime(0),
@@ -90,6 +92,11 @@ BaseWidget::BaseWidget
 	BaseWidgetX();
 
 	input >> itsVarName >> itsIsMemberVarFlag >> itsTabIndex;
+
+	if (vers >= 5)
+	{
+		input >> itsIsPredeclaredVarFlag;
+	}
 }
 
 // private
@@ -141,6 +148,7 @@ BaseWidget::StreamOut
 	output << itsVarName << std::endl;
 	output << itsIsMemberVarFlag << std::endl;
 	output << itsTabIndex << std::endl;
+	output << itsIsPredeclaredVarFlag << std::endl;
 }
 
 /******************************************************************************
@@ -160,6 +168,10 @@ BaseWidget::ToString()
 	if (itsIsMemberVarFlag)
 	{
 		s += JGetString("MemberFlagLabel::BaseWidget");
+	}
+	else if (itsIsPredeclaredVarFlag)
+	{
+		s += JGetString("PredeclaredFlagLabel::BaseWidget");
 	}
 	return s;
 }
@@ -193,8 +205,9 @@ BaseWidget::EditConfiguration
 	const bool createUndo
 	)
 {
-	auto* dlog = jnew WidgetParametersDialog(itsVarName, itsIsMemberVarFlag,
-											 GetHSizing(), GetVSizing());
+	auto* dlog = jnew WidgetParametersDialog(
+		itsVarName, itsIsMemberVarFlag, itsIsPredeclaredVarFlag,
+		GetHSizing(), GetVSizing());
 	AddPanels(dlog);
 
 	LayoutUndo* undo = nullptr;
@@ -205,7 +218,7 @@ BaseWidget::EditConfiguration
 
 	if (dlog->DoDialog())
 	{
-		itsVarName = dlog->GetVarName(&itsIsMemberVarFlag);
+		itsVarName = dlog->GetVarName(&itsIsMemberVarFlag, &itsIsPredeclaredVarFlag);
 		SetSizing(dlog->GetHSizing(), dlog->GetVSizing());
 		SavePanelData();
 		Refresh();
@@ -248,7 +261,7 @@ BaseWidget::GenerateCode
 		objTypes->Append(GetClassName());
 		objNames->Append(itsVarName);
 	}
-	else
+	else if (!itsIsPredeclaredVarFlag)
 	{
 		output << "auto* ";
 	}
@@ -390,7 +403,7 @@ BaseWidget::PrintConfiguration
 	)
 	const
 {
-	if (!itsIsMemberVarFlag)	// avoid "unused variable" warning
+	if (!itsIsMemberVarFlag && !itsIsPredeclaredVarFlag)	// avoid "unused variable" warning
 	{
 		indent.Print(output);
 		output << "assert( ";
@@ -777,6 +790,11 @@ BaseWidget::HandleMouseDrag
 	else if (!itsIsResizingFlag && itsResizeDragType < kHandleCount && moved)
 	{
 		itsIsResizingFlag = true;
+
+		itsPrevPtG =
+			itsParent->LocalToGlobal(
+				itsParent->SnapToGrid(
+					itsParent->GlobalToLocal(itsPrevPtG)));
 	}
 	else if (!itsIsResizingFlag)
 	{
@@ -804,61 +822,37 @@ BaseWidget::HandleMouseDrag
 	{
 		Move(delta.x, delta.y);
 		AdjustSize(-delta.x, -delta.y);
-
-		delta = itsParent->SnapToGrid(this);
-		AdjustSize(-delta.x, -delta.y);
 	}
 	else if (itsResizeDragType == kTopHandle)
 	{
 		Move(0, delta.y);
-		AdjustSize(0, -delta.y);
-
-		delta = itsParent->SnapToGrid(this);
 		AdjustSize(0, -delta.y);
 	}
 	else if (itsResizeDragType == kTopRightHandle)
 	{
 		Move(0, delta.y);
 		AdjustSize(delta.x, -delta.y);
-
-		delta = itsParent->SnapToGrid(this);
-		AdjustSize(delta.x, -delta.y);
 	}
 	else if (itsResizeDragType == kRightHandle)
 	{
-		AdjustSize(delta.x, 0);
-
-		delta = itsParent->SnapToGrid(this);
 		AdjustSize(delta.x, 0);
 	}
 	else if (itsResizeDragType == kBottomRightHandle)
 	{
 		AdjustSize(delta.x, delta.y);
-
-		delta = itsParent->SnapToGrid(this);
-		AdjustSize(delta.x, delta.y);
 	}
 	else if (itsResizeDragType == kBottomHandle)
 	{
-		AdjustSize(0, delta.y);
-
-		delta = itsParent->SnapToGrid(this);
 		AdjustSize(0, delta.y);
 	}
 	else if (itsResizeDragType == kBottomLeftHandle)
 	{
 		Move(delta.x, 0);
 		AdjustSize(-delta.x, delta.y);
-
-		delta = itsParent->SnapToGrid(this);
-		AdjustSize(-delta.x, delta.y);
 	}
 	else if (itsResizeDragType == kLeftHandle)
 	{
 		Move(delta.x, 0);
-		AdjustSize(-delta.x, 0);
-
-		delta = itsParent->SnapToGrid(this);
 		AdjustSize(-delta.x, 0);
 	}
 

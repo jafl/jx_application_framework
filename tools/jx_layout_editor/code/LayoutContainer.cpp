@@ -378,11 +378,13 @@ LayoutContainer::ReadConfig
 #include "CharInput.h"
 #include "FileInput.h"
 #include "FloatInput.h"
+#include "ImageRadioButton.h"
 #include "ImageWidget.h"
 #include "InputField.h"
 #include "IntegerInput.h"
 #include "Menu.h"
 #include "MenuBar.h"
+#include "NewDirButton.h"
 #include "PasswordInput.h"
 #include "PathInput.h"
 #include "RadioGroup.h"
@@ -438,6 +440,10 @@ LayoutContainer::ReadWidget
 	{
 		widget = jnew FloatInput(input, vers, e, hS,vS, x,y,w,h);
 	}
+	else if (className == "ImageRadioButton")
+	{
+		widget = jnew ImageRadioButton(input, vers, e, hS,vS, x,y,w,h);
+	}
 	else if (className == "ImageWidget")
 	{
 		widget = jnew ImageWidget(input, vers, e, hS,vS, x,y,w,h);
@@ -457,6 +463,10 @@ LayoutContainer::ReadWidget
 	else if (className == "MenuBar")
 	{
 		widget = jnew MenuBar(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "NewDirButton")
+	{
+		widget = jnew NewDirButton(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "PasswordInput")
 	{
@@ -540,9 +550,21 @@ LayoutContainer::CreateWidget
 	{
 		return jnew Menu(Menu::kImageType, this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
+	else if (index == kImageButtonIndex)
+	{
+		return jnew ImageWidget(ImageWidget::kButtonType, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kImageCheckboxIndex)
+	{
+		return jnew ImageWidget(ImageWidget::kCheckboxType, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kImageRadioButtonIndex)
+	{
+		return jnew ImageRadioButton(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
 	else if (index == kImageWidgetIndex)
 	{
-		return jnew ImageWidget(this, kFixedLeft,kFixedTop, x,y,w,h);
+		return jnew ImageWidget(ImageWidget::kImageType, this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kInputFieldIndex)
 	{
@@ -555,6 +577,10 @@ LayoutContainer::CreateWidget
 	else if (index == kMenuBarIndex)
 	{
 		return jnew MenuBar(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kNewDirButtonIndex)
+	{
+		return jnew NewDirButton(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kPasswordInputIndex)
 	{
@@ -918,10 +944,10 @@ LayoutContainer::GenerateUniqueVarName()
 	ForEach([&base, &i](const JXContainer* obj)
 	{
 		auto* widget = dynamic_cast<const BaseWidget*>(obj);
-		bool isMember;
-		if (widget != nullptr && widget->GetVarName(&isMember).StartsWith(base))
+		bool b1, b2;
+		if (widget != nullptr && widget->GetVarName(&b1, &b2).StartsWith(base))
 		{
-			const JString s(widget->GetVarName(&isMember).GetBytes() + base.GetByteCount(), JString::kNoCopy);
+			const JString s(widget->GetVarName(&b1, &b2).GetBytes() + base.GetByteCount(), JString::kNoCopy);
 			JUInt j;
 			if (s.ConvertToUInt(&j) && j > i)
 			{

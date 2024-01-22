@@ -12,8 +12,12 @@
 
 #include <jx-af/jcore/jTypes.h>
 
-const JFileVersion kCurrentFileVersion = 3;
+const JFileVersion kCurrentFileVersion = 5;
 
+// version 5:
+//	adds itsAlreadyLocalVarFlag to BaseWidget
+// version 4:
+//	adds itsType to ImageWidget
 // version 3:
 //	adds itsXWMClass to LayoutContainer
 // version 2:

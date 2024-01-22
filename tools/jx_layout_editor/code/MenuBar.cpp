@@ -59,7 +59,7 @@ MenuBar::MenuBarX
 	LayoutContainer* layout
 	)
 {
-	SetBorderWidth(2);
+	SetBorderWidth(kJXDefaultBorderWidth);
 }
 
 /******************************************************************************

@@ -16,7 +16,16 @@ class ImageWidget : public BaseWidget
 {
 public:
 
-	ImageWidget(LayoutContainer* layout,
+	enum Type
+	{
+		kImageType,
+		kButtonType,
+		kCheckboxType
+	};
+
+public:
+
+	ImageWidget(const Type type, LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
@@ -45,8 +54,13 @@ protected:
 
 private:
 
+	Type				itsType;
 	JString				itsFullName;
 	ImageChooserPanel*	itsPanel;		// nullptr unless editing
+
+private:
+
+	void	ImageWidgetX();
 };
 
 #endif

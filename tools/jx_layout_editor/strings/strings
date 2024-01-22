@@ -97,9 +97,10 @@ CircularDependency::LayoutContainer	"Code generation failed because there is a c
 
 # BaseWidget
 
-VariableNameLabel::BaseWidget	"Variable name: "
-MemberFlagLabel::BaseWidget		" (member)"
-ShortcutsLabel::BaseWidget		"Shortcuts: "
+VariableNameLabel::BaseWidget		"Variable name: "
+MemberFlagLabel::BaseWidget			" (member)"
+PredeclaredFlagLabel::BaseWidget	" (pre-declared)"
+ShortcutsLabel::BaseWidget			"Shortcuts: "
 
 # CustomWidget
 

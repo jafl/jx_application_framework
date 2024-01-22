@@ -17,6 +17,7 @@
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXImageMenu.h>
 #include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
 static const JRegex excludeIconPattern("_busy|_selected|_pushed");
@@ -65,7 +66,7 @@ ImageChooserPanel::ImageChooserPanel
 		ImageCache::FindProjectRoot(doc->GetFilePath(), &path);
 	}
 
-	GetImageCache()->BuildIconMenu(path, 0, &excludeIconPattern, false,
+	GetImageCache()->BuildIconMenu(path, 0, &excludeIconPattern, true,
 									itsImageMenu, itsImagePathList);
 
 	itsImageMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -100,5 +101,68 @@ ImageChooserPanel::GetValues
 	JString* fullName
 	)
 {
-	*fullName = *itsImagePathList->GetItem(itsImageIndex);
+	if (itsImageIndex > 1)
+	{
+		*fullName = *itsImagePathList->GetItem(itsImageIndex-1);
+	}
+	else
+	{
+		fullName->Clear();
+	}
+}
+
+/******************************************************************************
+ ReadImageName (static)
+
+ ******************************************************************************/
+
+JString
+ImageChooserPanel::ReadImageName
+	(
+	std::istream&	input,
+	LayoutDocument*	doc
+	)
+{
+	JString fileName;
+	bool isCoreImage;
+	input >> isCoreImage >> fileName;
+
+	if (fileName.IsEmpty())
+	{
+		return fileName;
+	}
+
+	JString path;
+	if (!isCoreImage)
+	{
+		assert( doc->ExistsOnDisk() );
+		ImageCache::FindProjectRoot(doc->GetFilePath(), &path);
+	}
+
+	return ImageCache::ConvertToFullName(path, fileName, isCoreImage);
+}
+
+/******************************************************************************
+ WriteImageName (static)
+
+ ******************************************************************************/
+
+void
+ImageChooserPanel::WriteImageName
+	(
+	const JString&	fullName,
+	std::ostream&	output
+	)
+{
+	if (!fullName.IsEmpty())
+	{
+		JString p,n;
+		JSplitPathAndName(fullName, &p, &n);
+
+		output << p.StartsWith(JX_INCLUDE_PATH) << ' ' << n << std::endl;
+	}
+	else
+	{
+		output << false << ' ' << fullName << std::endl;
+	}
 }

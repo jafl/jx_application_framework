@@ -26,6 +26,9 @@ public:
 
 	void	GetValues(JString* fullName);
 
+	static JString	ReadImageName(std::istream& input, LayoutDocument* doc);
+	static void		WriteImageName(const JString& fullName, std::ostream& output);
+
 private:
 
 	JPtrArray<JString>*	itsImagePathList;

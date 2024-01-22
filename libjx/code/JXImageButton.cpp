@@ -93,7 +93,7 @@ JXImageButton::SetBitmap
  ******************************************************************************/
 
 void
-JXImageButton::SetImage
+JXImageButton::SetXPM
 	(
 	const JXPM&		xpm,
 	const JColorID	backColor

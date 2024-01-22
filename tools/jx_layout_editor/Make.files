@@ -25,12 +25,14 @@
 .cpp ./code/CharInput
 .cpp ./code/FileInput
 .cpp ./code/FloatInput
+.cpp ./code/ImageRadioButton
 .cpp ./code/ImageWidget
 .cpp ./code/InputFieldBase
 .cpp ./code/InputField
 .cpp ./code/IntegerInput
 .cpp ./code/Menu
 .cpp ./code/MenuBar
+.cpp ./code/NewDirButton
 .cpp ./code/PasswordInput
 .cpp ./code/PathInput
 .cpp ./code/RadioGroup

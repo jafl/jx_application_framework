@@ -16,6 +16,7 @@
 #include <jx-af/jx/JXTextCheckbox.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXAtMostOneCBGroup.h>
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/jGlobals.h>
@@ -30,6 +31,7 @@ WidgetParametersDialog::WidgetParametersDialog
 	(
 	const JString&					varName,
 	const bool						isMemberVar,
+	const bool						isPredeclaredVar,
 	const JXWidget::HSizingOption	hSizing,
 	const JXWidget::VSizingOption	vSizing
 	)
@@ -39,7 +41,7 @@ WidgetParametersDialog::WidgetParametersDialog
 	itsVSizingIndex(vSizing+1),
 	itsPanelList(jnew JPtrArray<WidgetPanelBase>(JPtrArrayT::kForgetAll))
 {
-	BuildWindow(varName, isMemberVar);
+	BuildWindow(varName, isMemberVar, isPredeclaredVar);
 }
 
 /******************************************************************************
@@ -64,48 +66,54 @@ void
 WidgetParametersDialog::BuildWindow
 	(
 	const JString&	varName,
-	const bool		isMemberVar
+	const bool		isMemberVar,
+	const bool		isPredeclaredVar
 	)
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 460,150, JGetString("WindowTitle::WidgetParametersDialog::JXLayout"));
+	auto* window = jnew JXWindow(this, 460,170, JGetString("WindowTitle::WidgetParametersDialog::JXLayout"));
 
 	itsLatestContainer =
 		jnew JXWidgetSet(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,110);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,130);
 
 	auto* variableNameLabel =
 		jnew JXStaticText(JGetString("variableNameLabel::WidgetParametersDialog::JXLayout"), itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 110,20);
 	variableNameLabel->SetToLabel(false);
 
-	itsMemberVarCB =
-		jnew JXTextCheckbox(JGetString("itsMemberVarCB::WidgetParametersDialog::JXLayout"), itsLatestContainer,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,20, 130,20);
-	itsMemberVarCB->SetShortcuts(JGetString("itsMemberVarCB::shortcuts::WidgetParametersDialog::JXLayout"));
-
 	itsHSizingMenu =
 		jnew JXTextMenu(JGetString("itsHSizingMenu::WidgetParametersDialog::JXLayout"), itsLatestContainer,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 420,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 280,30);
+
+	itsMemberVarCB =
+		jnew JXTextCheckbox(JGetString("itsMemberVarCB::WidgetParametersDialog::JXLayout"), itsLatestContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,50, 130,20);
+	itsMemberVarCB->SetShortcuts(JGetString("itsMemberVarCB::shortcuts::WidgetParametersDialog::JXLayout"));
+
+	itsPredeclaredVarCB =
+		jnew JXTextCheckbox(JGetString("itsPredeclaredVarCB::WidgetParametersDialog::JXLayout"), itsLatestContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,80, 130,20);
+	itsPredeclaredVarCB->SetShortcuts(JGetString("itsPredeclaredVarCB::shortcuts::WidgetParametersDialog::JXLayout"));
 
 	itsVSizingMenu =
 		jnew JXTextMenu(JGetString("itsVSizingMenu::WidgetParametersDialog::JXLayout"), itsLatestContainer,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 420,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 280,30);
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::WidgetParametersDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 120,120, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 120,140, 60,20);
 	assert( cancelButton != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::WidgetParametersDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 289,119, 62,22);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 289,139, 62,22);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::WidgetParametersDialog::JXLayout"));
 
 	itsVarNameInput =
 		jnew JXInputField(itsLatestContainer,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,20, 170,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,20, 310,20);
 
 // end JXLayout
 
@@ -119,6 +127,8 @@ WidgetParametersDialog::BuildWindow
 		"VariableNameMustBeValidIdentifier::WidgetParametersDialog");
 
 	itsMemberVarCB->SetState(isMemberVar);
+	itsPredeclaredVarCB->SetState(isPredeclaredVar);
+	jnew JXAtMostOneCBGroup(2, itsMemberVarCB, itsPredeclaredVarCB);
 
 	itsHSizingMenu->SetTitleText(JGetString("MenuTitle::WidgetParametersDialog_HSizing"));
 	itsHSizingMenu->SetMenuItems(kHorizontalSizingMenuStr);
@@ -208,11 +218,13 @@ WidgetParametersDialog::OKToDeactivate()
 const JString&
 WidgetParametersDialog::GetVarName
 	(
-	bool* isMemberData
+	bool* isMemberData,
+	bool* isPredeclared
 	)
 	const
 {
-	*isMemberData = itsMemberVarCB->IsChecked();
+	*isMemberData  = itsMemberVarCB->IsChecked();
+	*isPredeclared = itsPredeclaredVarCB->IsChecked();
 	return itsVarNameInput->GetText()->GetText();
 }
 

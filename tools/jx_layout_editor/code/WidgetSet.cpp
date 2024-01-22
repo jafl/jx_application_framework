@@ -135,6 +135,22 @@ WidgetSet::DrawBorder
 }
 
 /******************************************************************************
+ DrawOver (virtual protected)
+
+ ******************************************************************************/
+
+void
+WidgetSet::DrawOver
+	(
+	JXWindowPainter&	p,
+	const JRect&		rect
+	)
+{
+	itsLayout->SetHint(ToString());
+	BaseWidget::DrawOver(p, rect);
+}
+
+/******************************************************************************
  GetClassName (virtual protected)
 
  ******************************************************************************/

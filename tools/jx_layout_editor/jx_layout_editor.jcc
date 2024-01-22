@@ -142,6 +142,10 @@ T
 F
 "./code/FloatInput.cpp"
 T
+2 "ImageRadioButton.cpp"
+F
+"./code/ImageRadioButton.cpp"
+T
 2 "ImageWidget.cpp"
 F
 "./code/ImageWidget.cpp"
@@ -165,6 +169,10 @@ T
 2 "MenuBar.cpp"
 F
 "./code/MenuBar.cpp"
+T
+2 "NewDirButton.cpp"
+F
+"./code/NewDirButton.cpp"
 T
 2 "PasswordInput.cpp"
 F
@@ -344,13 +352,6 @@ T
 2 "ToolBarPanel.jxl"
 F
 "./code/ToolBarPanel.jxl"
-F
-T
-1 "layouts"
-T
-2 "jx_layout_editor.fd"
-F
-"./jx_layout_editor.fd"
 F
 T
 1 "strings"

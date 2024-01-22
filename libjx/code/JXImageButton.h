@@ -31,8 +31,8 @@ public:
 	void	SetBitmap(const JConstBitmap& bitmap,
 					  const JColorID foreColor = kJXTransparentColor,  // placeholder for GetBlackColor()
 					  const JColorID backColor = kJXTransparentColor); // placeholder for GetDefaultBackColor()
-	void	SetImage(const JXPM& xpm,
-					 const JColorID backColor = kJXTransparentColor);  // placeholder for GetDefaultBackColor()
+	void	SetXPM(const JXPM& xpm,
+				   const JColorID backColor = kJXTransparentColor);  // placeholder for GetDefaultBackColor()
 	void	SetImage(JXImage* image, const bool widgetOwnsImage,
 					 const JColorID backColor = kJXTransparentColor);  // placeholder for GetDefaultBackColor()
 

@@ -34,8 +34,9 @@ public:
 	LayoutContainer*	GetParentContainer() const;
 	virtual bool		GetLayoutContainer(LayoutContainer** layout) const;
 
-	const JString&	GetVarName(bool* isMemberData) const;
-	void			SetVarName(const JString& name, const bool isMember);
+	const JString&	GetVarName(bool* isMemberData, bool* isPredeclared) const;
+	void			SetVarName(const JString& name, const bool isMember,
+								const bool isPredeclared);
 
 	bool	IsSelected() const;
 	void	SetSelected(const bool on);
@@ -123,6 +124,7 @@ private:
 	LayoutContainer*	itsParent;
 	JString				itsVarName;		// can be empty
 	bool				itsIsMemberVarFlag;
+	bool				itsIsPredeclaredVarFlag;
 	bool				itsSelectedFlag;
 	JIndex				itsTabIndex;
 
@@ -171,11 +173,13 @@ BaseWidget::GetParentContainer()
 inline const JString&
 BaseWidget::GetVarName
 	(
-	bool* isMemberData
+	bool* isMemberData,
+	bool* isPredeclared
 	)
 	const
 {
-	*isMemberData = itsIsMemberVarFlag;
+	*isMemberData  = itsIsMemberVarFlag;
+	*isPredeclared = itsIsPredeclaredVarFlag;
 	return itsVarName;
 }
 
@@ -183,11 +187,13 @@ inline void
 BaseWidget::SetVarName
 	(
 	const JString&	name,
-	const bool		isMember
+	const bool		isMember,
+	const bool		isPredeclared
 	)
 {
-	itsVarName         = name;
-	itsIsMemberVarFlag = isMember;
+	itsVarName              = name;
+	itsIsMemberVarFlag      = isMember;
+	itsIsPredeclaredVarFlag = isPredeclared;
 }
 
 /******************************************************************************

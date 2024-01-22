@@ -91,26 +91,6 @@ jx_menu_editor 0
 ' 
 "__PasswordInput"
 "kPasswordInputIndex"
-0
-
-1
-0
-0 ""
-"File input"
-""
-' 
-"__FileInput"
-"kFileInputIndex"
-0
-
-1
-0
-0 ""
-"Path input"
-""
-' 
-"__PathInput"
-"kPathInputIndex"
 1
 
 1
@@ -126,11 +106,31 @@ jx_menu_editor 0
 1
 0
 0 ""
+"Image button"
+""
+' 
+"__ImageButton"
+"kImageButtonIndex"
+1
+
+1
+0
+0 ""
 "Text checkbox"
 ""
 ' 
 "__TextCheckbox"
 "kTextCheckboxIndex"
+0
+
+1
+0
+0 ""
+"Image checkbox"
+""
+' 
+"__ImageCheckbox"
+"kImageCheckboxIndex"
 1
 
 1
@@ -151,6 +151,16 @@ jx_menu_editor 0
 ' 
 "__TextRadioButton"
 "kTextRadioButtonIndex"
+0
+
+1
+0
+0 ""
+"Image radio button"
+""
+' 
+"__ImageRadioButton"
+"kImageRadioButtonIndex"
 1
 
 1
@@ -196,7 +206,7 @@ jx_menu_editor 0
 1
 0
 0 ""
-"Tool bar"
+"Toolbar"
 ""
 ' 
 "__ToolBar"
@@ -211,6 +221,36 @@ jx_menu_editor 0
 ' 
 "__WidgetSet"
 "kWidgetSetIndex"
+1
+
+1
+0
+0 ""
+"File input"
+""
+' 
+"__FileInput"
+"kFileInputIndex"
+0
+
+1
+0
+0 ""
+"Path input"
+""
+' 
+"__PathInput"
+"kPathInputIndex"
+0
+
+1
+0
+0 ""
+"New directory button"
+""
+' 
+"__NewDirectoryButton"
+"kNewDirButtonIndex"
 0
 
 0

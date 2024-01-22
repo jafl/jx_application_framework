@@ -22,6 +22,7 @@ class WidgetParametersDialog : public JXModalDialogDirector
 public:
 
 	WidgetParametersDialog(const JString& varName, const bool isMemberVar,
+							const bool isPredeclaredVar,
 							const JXWidget::HSizingOption hSizing,
 							const JXWidget::VSizingOption vSizing);
 
@@ -29,7 +30,7 @@ public:
 
 	void	AddPanel(WidgetPanelBase* panel, JXWidgetSet* container);
 
-	const JString&	GetVarName(bool* isMemberData) const;
+	const JString&	GetVarName(bool* isMemberData, bool* isPredeclared) const;
 
 	JXWidget::HSizingOption	GetHSizing() const;
 	JXWidget::VSizingOption	GetVSizing() const;
@@ -48,8 +49,9 @@ private:
 // begin JXLayout
 
 	JXWidgetSet*    itsLatestContainer;
-	JXTextCheckbox* itsMemberVarCB;
 	JXTextMenu*     itsHSizingMenu;
+	JXTextCheckbox* itsMemberVarCB;
+	JXTextCheckbox* itsPredeclaredVarCB;
 	JXTextMenu*     itsVSizingMenu;
 	JXInputField*   itsVarNameInput;
 
@@ -57,7 +59,8 @@ private:
 
 private:
 
-	void	BuildWindow(const JString& varName, const bool isMemberVar);
+	void	BuildWindow(const JString& varName, const bool isMemberVar,
+						const bool isPredeclaredVar);
 };
 
 #endif

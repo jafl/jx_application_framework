@@ -140,6 +140,22 @@ RadioGroup::DrawBorder
 }
 
 /******************************************************************************
+ DrawOver (virtual protected)
+
+ ******************************************************************************/
+
+void
+RadioGroup::DrawOver
+	(
+	JXWindowPainter&	p,
+	const JRect&		rect
+	)
+{
+	itsLayout->SetHint(ToString());
+	BaseWidget::DrawOver(p, rect);
+}
+
+/******************************************************************************
  GetClassName (virtual protected)
 
  ******************************************************************************/

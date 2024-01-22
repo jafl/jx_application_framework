@@ -94,7 +94,7 @@ JXImageCheckbox::SetBitmap
  ******************************************************************************/
 
 void
-JXImageCheckbox::SetImage
+JXImageCheckbox::SetXPM
 	(
 	const JXPM&		xpm,
 	const JColorID	backColor

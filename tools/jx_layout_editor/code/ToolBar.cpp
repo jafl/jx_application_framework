@@ -220,8 +220,8 @@ JString
 ToolBar::GetEnclosureName()
 	const
 {
-	bool b;
-	return GetVarName(&b) + "->GetWidgetEnclosure()";
+	bool b1, b2;
+	return GetVarName(&b1, &b2) + "->GetWidgetEnclosure()";
 }
 
 /******************************************************************************

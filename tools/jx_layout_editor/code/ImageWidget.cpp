@@ -16,7 +16,6 @@
 #include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/jXPainterUtil.h>
-#include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -26,6 +25,7 @@
 
 ImageWidget::ImageWidget
 	(
+	const Type			type,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -35,8 +35,10 @@ ImageWidget::ImageWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h)
+	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	itsType(type)
 {
+	ImageWidgetX();
 }
 
 ImageWidget::ImageWidget
@@ -52,23 +54,29 @@ ImageWidget::ImageWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h),
+	itsType(kImageType)
 {
-	JString fileName;
-	bool isCoreImage;
-	input >> isCoreImage >> fileName;
+	ImageWidgetX();
 
-	if (!fileName.IsEmpty())
+	if (vers >= 4)
 	{
-		JString path;
-		if (!isCoreImage)
-		{
-			LayoutDocument* doc = GetParentContainer()->GetDocument();
-			assert( doc->ExistsOnDisk() );
-			ImageCache::FindProjectRoot(doc->GetFilePath(), &path);
-		}
+		int type;
+		input >> type;
+		itsType = (Type) type;
+	}
 
-		itsFullName = ImageCache::ConvertToFullName(path, fileName, isCoreImage);
+	itsFullName = ImageChooserPanel::ReadImageName(input, GetParentContainer()->GetDocument());
+}
+
+// private
+
+void
+ImageWidget::ImageWidgetX()
+{
+	if (itsType != kImageType)
+	{
+		SetBorderWidth(kJXDefaultBorderWidth);
 	}
 }
 
@@ -97,17 +105,8 @@ ImageWidget::StreamOut
 
 	BaseWidget::StreamOut(output);
 
-	if (!itsFullName.IsEmpty())
-	{
-		JString p,n;
-		JSplitPathAndName(itsFullName, &p, &n);
-
-		output << p.StartsWith(JX_INCLUDE_PATH) << ' ' << n << std::endl;
-	}
-	else
-	{
-		output << false << ' ' << itsFullName << std::endl;
-	}
+	output << (int) itsType << std::endl;
+	ImageChooserPanel::WriteImageName(itsFullName, output);
 }
 
 /******************************************************************************
@@ -142,6 +141,10 @@ ImageWidget::DrawBorder
 	const JRect&		frame
 	)
 {
+	if (itsType != kImageType)
+	{
+		JXDrawUpFrame(p, frame, kJXDefaultBorderWidth);
+	}
 }
 
 /******************************************************************************
@@ -153,7 +156,9 @@ JString
 ImageWidget::GetClassName()
 	const
 {
-	return "JXImageWidget";
+	return (itsType == kButtonType   ? "JXImageButton" :
+			itsType == kCheckboxType ? "JXImageCheckbox" :
+			"JXImageWidget");
 }
 
 /******************************************************************************

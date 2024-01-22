@@ -1004,11 +1004,13 @@ LayoutDocument::ImportFDesignFile
 #include "CharInput.h"
 #include "FileInput.h"
 #include "FloatInput.h"
+#include "ImageRadioButton.h"
 #include "ImageWidget.h"
 #include "InputField.h"
 #include "IntegerInput.h"
 #include "Menu.h"
 #include "MenuBar.h"
+#include "NewDirButton.h"
 #include "PasswordInput.h"
 #include "PathInput.h"
 #include "RadioGroup.h"
@@ -1154,7 +1156,7 @@ LayoutDocument::ImportFDesignLayout
 			continue;
 		}
 
-		bool varIsInstance = false;
+		bool varIsInstance = false, varIsPredeclared = false;
 		if (varName.IsEmpty())
 		{
 			varName = GetTempFDesignVarName(objNames);
@@ -1162,6 +1164,17 @@ LayoutDocument::ImportFDesignLayout
 		else if (varName.GetFirstCharacter() == '(' &&
 				  varName.GetLastCharacter()  == ')')
 		{
+			JStringIterator iter(&varName);
+			iter.SkipNext();
+			iter.RemoveAllPrev();
+			iter.MoveTo(JStringIterator::kStartAtEnd, 0);
+			iter.SkipPrev();
+			iter.RemoveAllNext();
+		}
+		else if (varName.GetFirstCharacter() == '<' &&
+				  varName.GetLastCharacter()  == '>')
+		{
+			varIsPredeclared = true;
 			JStringIterator iter(&varName);
 			iter.SkipNext();
 			iter.RemoveAllPrev();
@@ -1216,9 +1229,23 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew FloatInput(enclosure, hS,vS, x,y,w,h);
 		}
+		else if ((flClass == "FL_BITMAPBUTTON" || flClass == "FL_PIXMAPBUTTON") &&
+				 flType == "FL_PUSH_BUTTON")
+		{
+			widget = jnew ImageWidget(ImageWidget::kCheckboxType, enclosure, hS,vS, x,y,w,h);
+		}
+		else if ((flClass == "FL_BITMAPBUTTON" || flClass == "FL_PIXMAPBUTTON") &&
+				 flType == "FL_RADIO_BUTTON")
+		{
+			widget = jnew ImageRadioButton(argument, enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_BITMAPBUTTON" || flClass == "FL_PIXMAPBUTTON")
+		{
+			widget = jnew ImageWidget(ImageWidget::kButtonType, enclosure, hS,vS, x,y,w,h);
+		}
 		else if (label == "JXImageWidget")
 		{
-			widget = jnew ImageWidget(enclosure, hS,vS, x,y,w,h);
+			widget = jnew ImageWidget(ImageWidget::kImageType, enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_INPUT" && flType == "FL_NORMAL_INPUT")
 		{
@@ -1252,6 +1279,10 @@ LayoutDocument::ImportFDesignLayout
 			}
 
 			widget = jnew Menu(Menu::kImageType, label, colCount, enclosure, hS,vS, x,y,w,h);
+		}
+		else if (label == "JXNewDirButton")
+		{
+			widget = jnew NewDirButton(enclosure, hS,vS, x,y,w,h);
 		}
 		else if (label == "JXMenuBar")
 		{
@@ -1323,7 +1354,7 @@ LayoutDocument::ImportFDesignLayout
 
 		if (widget != nullptr)
 		{
-			widget->SetVarName(varName, varIsInstance);
+			widget->SetVarName(varName, varIsInstance, varIsPredeclared);
 
 			rectList.AppendItem(frame);
 			objNames.Append(varName);

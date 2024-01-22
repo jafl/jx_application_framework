@@ -1,6 +1,6 @@
-jx_layout_editor 3
+jx_layout_editor 5
 460
-150
+170
 "JXLayout"
 "Edit parameters"
 ""
@@ -12,9 +12,10 @@ jx_layout_editor 3
 "WidgetSet"
 0
 0
-0 0 110 460
+0 0 130 460
 "itsLatestContainer"
 1
+0
 0
 
 1
@@ -24,6 +25,7 @@ jx_layout_editor 3
 0
 20 20 40 130
 "variableNameLabel"
+0
 0
 0
 "Variable name:"
@@ -38,17 +40,34 @@ jx_layout_editor 3
 "InputField"
 0
 0
-20 130 40 300
+20 130 40 440
 "itsVarNameInput"
 1
 1
 0
 0
 0
+0
 ""
 ""
 ""
 0
+0
+
+1
+1
+"Menu"
+0
+0
+50 20 80 300
+"itsHSizingMenu"
+1
+0
+0
+0
+""
+1
+1
 0
 
 1
@@ -56,36 +75,36 @@ jx_layout_editor 3
 "TextCheckbox"
 0
 0
-20 310 40 440
+50 310 70 440
 "itsMemberVarCB"
 1
+0
 0
 "Member variable"
 "#M"
 
 1
 1
-"Menu"
+"TextCheckbox"
 0
 0
-50 20 70 440
-"itsHSizingMenu"
+80 310 100 440
+"itsPredeclaredVarCB"
 1
 0
 0
-""
-1
-1
-0
+"Pre-declared"
+"#P"
 
 1
 1
 "Menu"
 0
 0
-80 20 100 440
+90 20 120 300
 "itsVSizingMenu"
 1
+0
 0
 0
 ""
@@ -98,8 +117,9 @@ jx_layout_editor 3
 "TextButton"
 0
 1
-120 120 140 180
+140 120 160 180
 "cancelButton"
+0
 0
 0
 "Cancel"
@@ -110,8 +130,9 @@ jx_layout_editor 3
 "TextButton"
 0
 1
-120 290 140 350
+140 290 160 350
 "okButton"
+0
 0
 0
 "OK"

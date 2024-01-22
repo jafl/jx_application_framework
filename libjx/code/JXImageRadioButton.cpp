@@ -95,7 +95,7 @@ JXImageRadioButton::SetBitmap
  ******************************************************************************/
 
 void
-JXImageRadioButton::SetImage
+JXImageRadioButton::SetXPM
 	(
 	const JXPM&		xpm,
 	const JColorID	backColor
