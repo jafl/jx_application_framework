@@ -138,7 +138,6 @@ ElasticLabel::TestCompartment		"(elastic)"
 
 # TestButtonsDialog
 
-WindowTitle::TestButtonsDialog		"Testing Buttons"
 ImageCBHint::TestButtonsDialog		"Image checkbox hint"
 ImageRB1Hint::TestButtonsDialog		"Happy"
 ImageRB2Hint::TestButtonsDialog		"Amused"

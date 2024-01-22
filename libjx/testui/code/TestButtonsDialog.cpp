@@ -85,70 +85,26 @@ TestButtonsDialog::BuildWindow()
 
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 270,330, JString::empty);
+	auto* window = jnew JXWindow(this, 270,330, JGetString("WindowTitle::TestButtonsDialog::JXLayout"));
 
 	auto* rg1Label =
 		jnew JXStaticText(JGetString("rg1Label::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 150,20, 104,20);
-	assert( rg1Label != nullptr );
-	rg1Label->SetFontSize(JFontManager::GetDefaultFontSize()-2);
-	rg1Label->SetToLabel();
-
-	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::TestButtonsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,290, 70,30);
-	assert( cancelButton != nullptr );
-	cancelButton->SetFontName(JGetString("TimesFontName::TestButtonsDialog::JXLayout"));
-	const JFontStyle cancelButton_style(true, false, 0, false, JColorManager::GetRedColor());
-	cancelButton->SetFontStyle(cancelButton_style);
-
-	auto* okButton =
-		jnew JXImageButton(window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 160,290, 70,30);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::TestButtonsDialog::shortcuts::JXLayout"));
+	rg1Label->SetToLabel(false);
 
 	auto* tcb =
 		jnew JXTextCheckbox(JGetString("tcb::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,25, 120,20);
 	assert( tcb != nullptr );
-	tcb->SetNormalColor(JColorManager::GetRedColor());
-	tcb->SetPushedColor(JColorManager::GetBlueColor());
-
-	auto* bcb =
-		jnew JXImageCheckbox(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,85, 22,22);
-	assert( bcb != nullptr );
 
 	itsRG1 =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 150,40, 104,134);
-	assert( itsRG1 != nullptr );
 
-	itsRG2 =
-		jnew JXRadioGroup(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,155, 102,36);
-	assert( itsRG2 != nullptr );
-
-	brb[0] =
-		jnew JXImageRadioButton(1, itsRG2,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,5, 22,22);
-	assert( brb[0] != nullptr );
-
-	brb[1] =
-		jnew JXImageRadioButton(2, itsRG2,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 27,5, 22,22);
-	assert( brb[1] != nullptr );
-
-	brb[2] =
-		jnew JXImageRadioButton(3, itsRG2,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 49,5, 22,22);
-	assert( brb[2] != nullptr );
-
-	brb[3] =
-		jnew JXImageRadioButton(4, itsRG2,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 71,5, 22,22);
-	assert( brb[3] != nullptr );
+	auto* dtcb =
+		jnew JXTextCheckbox(JGetString("dtcb::TestButtonsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 120,20);
+	assert( dtcb != nullptr );
 
 	auto* trb1 =
 		jnew JXTextRadioButton(1, JGetString("trb1::TestButtonsDialog::JXLayout"), itsRG1,
@@ -160,84 +116,116 @@ TestButtonsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 80,20);
 	assert( trb2 != nullptr );
 
+	auto* bcb =
+		jnew JXImageCheckbox(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,90, 20,20);
+	assert( bcb != nullptr );
+
+	auto* imageLabel =
+		jnew JXStaticText(JGetString("imageLabel::TestButtonsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,110, 100,20);
+	imageLabel->SetToLabel(false);
+
 	auto* trb3 =
 		jnew JXTextRadioButton(3, JGetString("trb3::TestButtonsDialog::JXLayout"), itsRG1,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 80,20);
 	assert( trb3 != nullptr );
 
-	auto* imageLabel =
-		jnew JXStaticText(JGetString("imageLabel::TestButtonsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,110, 90,20);
-	assert( imageLabel != nullptr );
-	imageLabel->SetFontSize(JFontManager::GetDefaultFontSize()-2);
-	const JFontStyle imageLabel_style(false, false, 0, false, JColorManager::GetGreenColor());
-	imageLabel->SetFontStyle(imageLabel_style);
-	imageLabel->SetToLabel();
-
-	auto* dtcb =
-		jnew JXTextCheckbox(JGetString("dtcb::TestButtonsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 120,20);
-	assert( dtcb != nullptr );
-	dtcb->SetNormalColor(JColorManager::GetRedColor());
-	dtcb->SetPushedColor(JColorManager::GetBlueColor());
+	auto* rg2Label =
+		jnew JXStaticText(JGetString("rg2Label::TestButtonsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,134, 102,20);
+	rg2Label->SetToLabel(false);
 
 	auto* dtrb =
 		jnew JXTextRadioButton(4, JGetString("dtrb::TestButtonsDialog::JXLayout"), itsRG1,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,100, 80,20);
 	assert( dtrb != nullptr );
 
-	itsEnable1CB =
-		jnew JXTextCheckbox(JGetString("itsEnable1CB::TestButtonsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,230, 80,20);
-	assert( itsEnable1CB != nullptr );
-	itsEnable1CB->SetFontSize(JFontManager::GetDefaultFontSize()-2);
+	itsRG2 =
+		jnew JXRadioGroup(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,155, 102,36);
+
+	brb[0] =
+		jnew JXImageRadioButton(1, itsRG2,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,5, 22,22);
+
+	brb[1] =
+		jnew JXImageRadioButton(2, itsRG2,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 27,5, 22,22);
+
+	brb[2] =
+		jnew JXImageRadioButton(3, itsRG2,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 49,5, 22,22);
+
+	brb[3] =
+		jnew JXImageRadioButton(4, itsRG2,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 71,5, 22,22);
 
 	auto* cbGroupLabel =
 		jnew JXStaticText(JGetString("cbGroupLabel::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,210, 240,20);
-	assert( cbGroupLabel != nullptr );
-	cbGroupLabel->SetToLabel();
+	cbGroupLabel->SetToLabel(false);
 
-	its1CB =
-		jnew JXTextCheckbox(JGetString("its1CB::TestButtonsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,250, 80,20);
-	assert( its1CB != nullptr );
+	itsEnable1CB =
+		jnew JXTextCheckbox(JGetString("itsEnable1CB::TestButtonsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,230, 80,20);
 
 	itsEnable2CB =
 		jnew JXTextCheckbox(JGetString("itsEnable2CB::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,230, 80,20);
-	assert( itsEnable2CB != nullptr );
-	itsEnable2CB->SetFontSize(JFontManager::GetDefaultFontSize()-2);
-
-	its2CB =
-		jnew JXTextCheckbox(JGetString("its2CB::TestButtonsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,250, 80,20);
-	assert( its2CB != nullptr );
 
 	itsEnable3CB =
 		jnew JXTextCheckbox(JGetString("itsEnable3CB::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,230, 80,20);
-	assert( itsEnable3CB != nullptr );
-	itsEnable3CB->SetFontSize(JFontManager::GetDefaultFontSize()-2);
+
+	its1CB =
+		jnew JXTextCheckbox(JGetString("its1CB::TestButtonsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,250, 80,20);
+
+	its2CB =
+		jnew JXTextCheckbox(JGetString("its2CB::TestButtonsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,250, 80,20);
 
 	its3CB =
 		jnew JXTextCheckbox(JGetString("its3CB::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,250, 80,20);
-	assert( its3CB != nullptr );
 
-	auto* rg2Label =
-		jnew JXStaticText(JGetString("rg2Label::TestButtonsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,134, 102,20);
-	assert( rg2Label != nullptr );
-	rg2Label->SetFontSize(JFontManager::GetDefaultFontSize()-2);
-	rg2Label->SetToLabel();
+	auto* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::TestButtonsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,290, 70,30);
+	assert( cancelButton != nullptr );
+
+	auto* okButton =
+		jnew JXImageButton(window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 160,290, 70,30);
+	assert( okButton != nullptr );
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::TestButtonsDialog"));
 	SetButtons(okButton, cancelButton);
 
+	cancelButton->SetFontName("Times");
+	const JFontStyle cancelButton_style(true, false, 0, false, JColorManager::GetRedColor());
+	cancelButton->SetFontStyle(cancelButton_style);
+
+	imageLabel->SetFontSize(JFontManager::GetDefaultFontSize()-2);
+	const JFontStyle imageLabel_style(false, false, 0, false, JColorManager::GetGreenColor());
+	imageLabel->SetFontStyle(imageLabel_style);
+
+	tcb->SetNormalColor(JColorManager::GetRedColor());
+	tcb->SetPushedColor(JColorManager::GetBlueColor());
+
+	itsEnable1CB->SetFontSize(JFontManager::GetDefaultFontSize()-2);
+	itsEnable2CB->SetFontSize(JFontManager::GetDefaultFontSize()-2);
+	itsEnable3CB->SetFontSize(JFontManager::GetDefaultFontSize()-2);
+
+	rg1Label->SetFontSize(JFontManager::GetDefaultFontSize()-2);
+	rg2Label->SetFontSize(JFontManager::GetDefaultFontSize()-2);
+
+	dtcb->SetNormalColor(JColorManager::GetRedColor());
+	dtcb->SetPushedColor(JColorManager::GetBlueColor());
 	dtcb->Deactivate();
+
 	dtrb->Deactivate();
 
 	okButton->SetBitmap(okButtonBitmap, JColorManager::GetBlueColor());
@@ -245,20 +233,20 @@ TestButtonsDialog::BuildWindow()
 	bcb->SetHint(JGetString("ImageCBHint::TestButtonsDialog"));
 
 	static const JColorID kRadioButtonColor[] =
-{
+	{
 		JColorManager::GetWhiteColor(),
 		JColorManager::GetRedColor(),
 		JColorManager::GetBlueColor(),
 		JColorManager::GetBlackColor()
-};
+	};
 
 	static const JUtf8Byte* kRadioButtonHintID[] =
-{
+	{
 		"ImageRB1Hint::TestButtonsDialog",
 		"ImageRB2Hint::TestButtonsDialog",
 		"ImageRB3Hint::TestButtonsDialog",
 		"ImageRB4Hint::TestButtonsDialog"
-};
+	};
 
 	for (JUnsignedOffset i=0; i<kSmileyBitmapCount; i++)
 	{
