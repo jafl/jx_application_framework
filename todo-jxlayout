@@ -1,19 +1,3 @@
-test project wizard app template
-
-jx_memory_debugger
-
-JXFile/PathHistoryMenu
-	jx_project_wizard
-
-JXSaveFileInput
-JXCurrentPathMenu
-JXStringHistoryMenu
-
-LayoutConfigDialog:
-	SetMinSize/SetMaxSize/etc
-
------
-
 when show/hide toolbar, change window size to preserve LayoutContainer size
 	toolbar: if does not contain JXScrollBarSet, adjust window size
 	send prep & done messages

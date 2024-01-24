@@ -182,9 +182,9 @@ ImageWidget::PrintConfiguration
 
 		indent.Print(output);
 		varName.Print(output);
-		output << "->SetXPM(";
+		output << "->SetImage(GetDisplay()->GetImageCache()->GetImage(";
 		name.Print(output);
-		output << ");" << std::endl;
+		output << "), false);" << std::endl;
 	}
 	else
 	{

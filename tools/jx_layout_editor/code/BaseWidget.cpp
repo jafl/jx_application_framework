@@ -246,6 +246,7 @@ BaseWidget::GenerateCode
 	const JString&		indent,
 	JPtrArray<JString>*	objTypes,
 	JPtrArray<JString>*	objNames,
+	JArray<bool>*		isMemberVar,
 	JStringManager*		stringdb
 	)
 	const
@@ -255,13 +256,12 @@ BaseWidget::GenerateCode
 		return false;
 	}
 
+	objTypes->Append(GetClassName());
+	objNames->Append(itsVarName);
+	isMemberVar->AppendItem(itsIsMemberVarFlag);
+
 	indent.Print(output);
-	if (itsIsMemberVarFlag)
-	{
-		objTypes->Append(GetClassName());
-		objNames->Append(itsVarName);
-	}
-	else if (!itsIsPredeclaredVarFlag)
+	if (!itsIsMemberVarFlag && !itsIsPredeclaredVarFlag)
 	{
 		output << "auto* ";
 	}

@@ -1,24 +1,28 @@
 /******************************************************************************
- FloatInput.cpp
+ HistoryMenu.cpp
 
-	BASE CLASS = InputFieldBase
+	BASE CLASS = CoreWidget
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#include "FloatInput.h"
-#include "FloatInputPanel.h"
+#include "HistoryMenu.h"
+#include "HistoryMenuPanel.h"
+#include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
+
+static const JUtf8Byte* kMenuStr = "enable menu";
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-FloatInput::FloatInput
+HistoryMenu::HistoryMenu
 	(
+	const Type			type,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -28,16 +32,33 @@ FloatInput::FloatInput
 	const JCoordinate	h
 	)
 	:
-	InputFieldBase(layout, hSizing, vSizing, x,y, w,h),
-	itsIsRequiredFlag(false),
-	itsHasMinValue(false),
-	itsMinValue(0.0),
-	itsHasMaxValue(false),
-	itsMaxValue(0.0)
+	CoreWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	itsType(type)
 {
+	HistoryMenuX(x,y,w,h);
 }
 
-FloatInput::FloatInput
+HistoryMenu::HistoryMenu
+	(
+	const Type			type,
+	const JString&		historyLength,
+	LayoutContainer*	layout,
+	const HSizingOption	hSizing,
+	const VSizingOption	vSizing,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
+	)
+	:
+	CoreWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	itsType(type),
+	itsHistoryLength(historyLength)
+{
+	HistoryMenuX(x,y,w,h);
+}
+
+HistoryMenu::HistoryMenu
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -50,11 +71,30 @@ FloatInput::FloatInput
 	const JCoordinate	h
 	)
 	:
-	InputFieldBase(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	CoreWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	input >> itsIsRequiredFlag;
-	input >> itsHasMinValue >> itsMinValue;
-	input >> itsHasMaxValue >> itsMaxValue;
+	int type;
+	input >> type >> itsHistoryLength;
+
+	itsType = (Type) type;
+
+	HistoryMenuX(x,y,w,h);
+}
+
+// private
+
+void
+HistoryMenu::HistoryMenuX
+	(
+	const JCoordinate x,
+	const JCoordinate y,
+	const JCoordinate w,
+	const JCoordinate h
+	)
+{
+	itsMenu = jnew JXTextMenu(JString::empty, this, kHElastic, kVElastic, x,y,w,h);
+	itsMenu->SetMenuItems(kMenuStr);
+	SetWidget(itsMenu);
 }
 
 /******************************************************************************
@@ -62,7 +102,7 @@ FloatInput::FloatInput
 
  ******************************************************************************/
 
-FloatInput::~FloatInput()
+HistoryMenu::~HistoryMenu()
 {
 }
 
@@ -72,19 +112,18 @@ FloatInput::~FloatInput()
  ******************************************************************************/
 
 void
-FloatInput::StreamOut
+HistoryMenu::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("FloatInput") << std::endl;
+	output << JString("HistoryMenu") << std::endl;
 
-	InputFieldBase::StreamOut(output);
+	CoreWidget::StreamOut(output);
 
-	output << itsIsRequiredFlag << std::endl;
-	output << itsHasMinValue << ' ' << itsMinValue << std::endl;
-	output << itsHasMaxValue << ' ' << itsMaxValue << std::endl;
+	output << (int) itsType << std::endl;
+	output << itsHistoryLength << std::endl;
 }
 
 /******************************************************************************
@@ -93,30 +132,14 @@ FloatInput::StreamOut
  ******************************************************************************/
 
 JString
-FloatInput::ToString()
+HistoryMenu::ToString()
 	const
 {
-	JString s = InputFieldBase::ToString();
+	JString s = CoreWidget::ToString();
 
-	if (itsIsRequiredFlag)
-	{
-		s += JString::newline;
-		s += JGetString("RequiredLabel::InputField");
-	}
-
-	if (itsHasMinValue)
-	{
-		s += JString::newline;
-		s += JGetString("MinValueLabel::InputField");
-		s += JString(itsMinValue);
-	}
-
-	if (itsHasMaxValue)
-	{
-		s += JString::newline;
-		s += JGetString("MaxValueLabel::InputField");
-		s += JString(itsMaxValue);
-	}
+	s += JString::newline;
+	s += JGetString("HistoryLength::HistoryMenu");
+	s += itsHistoryLength;
 
 	return s;
 }
@@ -127,57 +150,30 @@ FloatInput::ToString()
  ******************************************************************************/
 
 JString
-FloatInput::GetClassName()
+HistoryMenu::GetClassName()
 	const
 {
-	return "JXFloatInput";
+	return (itsType == kFileType ? "JXFileHistoryMenu" :
+			itsType == kPathType ? "JXPathHistoryMenu" :
+			"JXStringHistoryMenu");
 }
 
 /******************************************************************************
- PrintConfiguration (virtual protected)
+ PrintCtorArgsWithComma (virtual protected)
 
  ******************************************************************************/
 
 void
-FloatInput::PrintConfiguration
+HistoryMenu::PrintCtorArgsWithComma
 	(
 	std::ostream&	output,
-	const JString&	indent,
 	const JString&	varName,
-	JStringManager*	stringdb
+	JStringManager* stringdb
 	)
 	const
 {
-	bool used = false;
-
-	if (!itsIsRequiredFlag)
-	{
-		indent.Print(output);
-		varName.Print(output);
-		output << "->SetIsRequired(false);" << std::endl;
-		used = true;
-	}
-
-	if (itsHasMinValue)
-	{
-		indent.Print(output);
-		varName.Print(output);
-		output << "->SetLowerLimit(" << itsMinValue << ");" << std::endl;
-		used = true;
-	}
-
-	if (itsHasMaxValue)
-	{
-		indent.Print(output);
-		varName.Print(output);
-		output << "->SetUpperLimit(" << itsMaxValue << ");" << std::endl;
-		used = true;
-	}
-
-	if (!used)
-	{
-		InputFieldBase::PrintConfiguration(output, indent, varName, stringdb);
-	}
+	itsHistoryLength.Print(output);
+	output << ", ";
 }
 
 /******************************************************************************
@@ -186,15 +182,13 @@ FloatInput::PrintConfiguration
  ******************************************************************************/
 
 void
-FloatInput::AddPanels
+HistoryMenu::AddPanels
 	(
 	WidgetParametersDialog* dlog
 	)
 {
 	itsPanel =
-		jnew FloatInputPanel(dlog, itsIsRequiredFlag,
-			itsHasMinValue, itsMinValue,
-			itsHasMaxValue, itsMaxValue);
+		jnew HistoryMenuPanel(dlog, itsHistoryLength);
 }
 
 /******************************************************************************
@@ -203,10 +197,8 @@ FloatInput::AddPanels
  ******************************************************************************/
 
 void
-FloatInput::SavePanelData()
+HistoryMenu::SavePanelData()
 {
-	itsPanel->GetValues(&itsIsRequiredFlag,
-						&itsHasMinValue, &itsMinValue,
-						&itsHasMaxValue, &itsMaxValue);
+	itsPanel->GetValues(&itsHistoryLength);
 	itsPanel = nullptr;
 }

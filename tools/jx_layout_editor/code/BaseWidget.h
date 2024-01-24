@@ -51,6 +51,7 @@ public:
 	bool	GenerateCode(std::ostream& output, const JString& indent,
 						 JPtrArray<JString>* objTypes,
 						 JPtrArray<JString>* objNames,
+						 JArray<bool>* isMemberVar,
 						 JStringManager* stringdb) const;
 
 	virtual void	PrepareToGenerateCode() const;

@@ -142,6 +142,10 @@ T
 F
 "./code/FloatInput.cpp"
 T
+2 "HistoryMenu.cpp"
+F
+"./code/HistoryMenu.cpp"
+T
 2 "ImageRadioButton.cpp"
 F
 "./code/ImageRadioButton.cpp"
@@ -272,6 +276,14 @@ T
 2 "FloatInputPanel.jxl"
 F
 "./code/FloatInputPanel.jxl"
+T
+2 "HistoryMenuPanel.cpp"
+F
+"./code/HistoryMenuPanel.cpp"
+T
+2 "HistoryMenuPanel.jxl"
+F
+"./code/HistoryMenuPanel.jxl"
 T
 2 "ImageChooserPanel.cpp"
 F

@@ -226,6 +226,16 @@ jx_menu_editor 0
 1
 0
 0 ""
+"String history menu"
+""
+' 
+"__StringHistoryMenu"
+"kStringHistoryMenuIndex"
+0
+
+1
+0
+0 ""
 "File input"
 ""
 ' 
@@ -236,11 +246,31 @@ jx_menu_editor 0
 1
 0
 0 ""
+"File history menu"
+""
+' 
+"__FileHistoryMenu"
+"kFileHistoryMenuIndex"
+0
+
+1
+0
+0 ""
 "Path input"
 ""
 ' 
 "__PathInput"
 "kPathInputIndex"
+0
+
+1
+0
+0 ""
+"Path history menu"
+""
+' 
+"__PathHistoryMenu"
+"kPathHistoryMenuIndex"
 0
 
 1

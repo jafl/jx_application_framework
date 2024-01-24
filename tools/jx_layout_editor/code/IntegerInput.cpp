@@ -150,11 +150,11 @@ IntegerInput::PrintConfiguration
 {
 	bool used = false;
 
-	if (itsIsRequiredFlag)
+	if (!itsIsRequiredFlag)
 	{
 		indent.Print(output);
 		varName.Print(output);
-		output << "->SetIsRequired();" << std::endl;
+		output << "->SetIsRequired(false);" << std::endl;
 		used = true;
 	}
 

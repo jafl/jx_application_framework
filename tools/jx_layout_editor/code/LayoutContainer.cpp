@@ -59,6 +59,8 @@ LayoutContainer::LayoutContainer
 	itsOwner(nullptr),
 	itsGridSpacing(kDefaultGridSpacing),
 	itsCodeTag(kDefaultLayoutTag),
+	itsWindowMinWidth(0),
+	itsWindowMinHeight(0),
 	itsAdjustContainerToFitFlag(false),
 	itsUndoChain(jnew JUndoRedoChain(true)),
 	itsIgnoreResizeFlag(false),
@@ -110,6 +112,8 @@ LayoutContainer::LayoutContainer
 	itsParent(parent),
 	itsOwner(owner),
 	itsGridSpacing(kDefaultGridSpacing),
+	itsWindowMinWidth(0),
+	itsWindowMinHeight(0),
 	itsAdjustContainerToFitFlag(false),
 	itsEditMenu(parent->itsEditMenu),
 	itsLayoutMenu(parent->itsLayoutMenu),
@@ -378,6 +382,7 @@ LayoutContainer::ReadConfig
 #include "CharInput.h"
 #include "FileInput.h"
 #include "FloatInput.h"
+#include "HistoryMenu.h"
 #include "ImageRadioButton.h"
 #include "ImageWidget.h"
 #include "InputField.h"
@@ -439,6 +444,10 @@ LayoutContainer::ReadWidget
 	else if (className == "FloatInput")
 	{
 		widget = jnew FloatInput(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "HistoryMenu")
+	{
+		widget = jnew HistoryMenu(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "ImageRadioButton")
 	{
@@ -538,6 +547,10 @@ LayoutContainer::CreateWidget
 	{
 		return jnew CharInput(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
+	else if (index == kFileHistoryMenuIndex)
+	{
+		return jnew HistoryMenu(HistoryMenu::kFileType, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
 	else if (index == kFileInputIndex)
 	{
 		return jnew FloatInput(this, kFixedLeft,kFixedTop, x,y,w,h);
@@ -586,6 +599,10 @@ LayoutContainer::CreateWidget
 	{
 		return jnew PasswordInput(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
+	else if (index == kPathHistoryMenuIndex)
+	{
+		return jnew HistoryMenu(HistoryMenu::kPathType, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
 	else if (index == kPathInputIndex)
 	{
 		return jnew PathInput(this, kFixedLeft,kFixedTop, x,y,w,h);
@@ -601,6 +618,10 @@ LayoutContainer::CreateWidget
 	else if (index == kStaticTextIndex)
 	{
 		return jnew StaticText(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kStringHistoryMenuIndex)
+	{
+		return jnew HistoryMenu(HistoryMenu::kStringType, this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kTextButtonIndex)
 	{
@@ -745,6 +766,13 @@ LayoutContainer::GenerateCode
 		}
 		output << ");" << std::endl;
 
+		if (itsWindowMinWidth > 0 && itsWindowMinHeight > 0)
+		{
+			indent.Print(output);
+			output << "window->SetMinSize(" << itsWindowMinWidth << ", ";
+			output << itsWindowMinHeight << ");" << std::endl;
+		}
+
 		if (!itsXWMClass.IsEmpty())
 		{
 			indent.Print(output);
@@ -804,29 +832,27 @@ LayoutContainer::GenerateCode
 	otherWidgets.SetCompareFunction(CompareLocations);
 	otherWidgets.Sort();
 
-	JPtrArrayIterator<BaseWidget> iter(&otherWidgets);
+	JArray<bool> isMemberVar(50);
+
 	while (!otherWidgets.IsEmpty())
 	{
 		const JSize origCount = otherWidgets.GetItemCount();
 
-		iter.MoveTo(JListT::kStartAtBeginning, 0);
+		JPtrArrayIterator<BaseWidget> iter(&otherWidgets);
 		BaseWidget* widget;
 		while (iter.Next(&widget))
 		{
-			if (widget->GenerateCode(output, indent, objTypes, objNames, stringdb))
+			if (widget->GenerateCode(output, indent, objTypes, objNames, &isMemberVar, stringdb))
 			{
 				iter.RemovePrev();
-			}
-			else
-			{
-				otherWidgets.MoveItemToIndex(1, otherWidgets.GetItemCount());
 			}
 		}
 
 		if (otherWidgets.GetItemCount() == origCount)
 		{
 			JGetUserNotification()->ReportError(
-				JString("CircularDependency::LayoutContainer"));
+				JGetString("CircularDependency::LayoutContainer"));
+			CleanupGenerateCode();
 			return false;
 		}
 	}
@@ -838,21 +864,20 @@ LayoutContainer::GenerateCode
 
 	for (auto* widget: inputWidgets)
 	{
-		const bool ok = widget->GenerateCode(output, indent, objTypes, objNames, stringdb);
+		const bool ok = widget->GenerateCode(output, indent, objTypes, objNames, &isMemberVar, stringdb);
 		assert( ok );
 	}
 
-	// clean up
-
-	ForEach([](const JXContainer* obj)
+	for (JIndex i=isMemberVar.GetItemCount(); i>=1; i--)
 	{
-		auto* widget = dynamic_cast<const BaseWidget*>(obj);
-		if (widget != nullptr)
+		if (!isMemberVar.GetItem(i))
 		{
-			widget->GenerateCodeFinished();
+			objTypes->DeleteItem(i);
+			objNames->DeleteItem(i);
 		}
-	},
-	true);
+	}
+
+	CleanupGenerateCode();
 
 	// reset enclosure size
 
@@ -869,6 +894,26 @@ LayoutContainer::GenerateCode
 	}
 
 	return true;
+}
+
+/******************************************************************************
+ CleanupGenerateCode (private)
+
+ ******************************************************************************/
+
+void
+LayoutContainer::CleanupGenerateCode()
+	const
+{
+	ForEach([](const JXContainer* obj)
+	{
+		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		if (widget != nullptr)
+		{
+			widget->GenerateCodeFinished();
+		}
+	},
+	true);
 }
 
 /******************************************************************************
@@ -1814,12 +1859,14 @@ LayoutContainer::HandleLayoutMenu
 	if (index == kEditConfigCmd && itsParent == nullptr)
 	{
 		auto* dlog = jnew LayoutConfigDialog(itsCodeTag, itsWindowTitle, itsXWMClass,
+											 itsWindowMinWidth, itsWindowMinHeight,
 											 itsContainerName, itsAdjustContainerToFitFlag);
 		if (dlog->DoDialog())
 		{
 			auto* newUndo = jnew LayoutUndo(itsDoc);
 
 			dlog->GetConfig(&itsCodeTag, &itsWindowTitle, &itsXWMClass,
+							&itsWindowMinWidth, &itsWindowMinHeight,
 							&itsContainerName, &itsAdjustContainerToFitFlag);
 
 			NewUndo(newUndo);

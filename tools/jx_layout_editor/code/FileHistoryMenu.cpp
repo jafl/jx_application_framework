@@ -27,7 +27,6 @@ const JSize kHistoryLength = 40;
 
 FileHistoryMenu::FileHistoryMenu
 	(
-	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -37,7 +36,7 @@ FileHistoryMenu::FileHistoryMenu
 	const JCoordinate	h
 	)
 	:
-	JXFileHistoryMenu(kHistoryLength, title, enclosure, hSizing, vSizing, x,y, w,h)
+	JXFileHistoryMenu(kHistoryLength, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	FileHistoryMenuX();
 }
@@ -104,17 +103,17 @@ FileHistoryMenu::Receive
 		AddFile(info->GetFullName());
 	}
 
+	else if (sender == this && message.Is(JXMenu::kItemSelected))
+	{
+		const auto* selection =
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		assert( selection != nullptr );
+
+		LayoutDocument::Create(GetFile(selection->GetIndex()));
+	}
+
 	else
 	{
-		if (sender == this && message.Is(JXMenu::kItemSelected))
-		{
-			const auto* selection =
-				dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != nullptr );
-
-			LayoutDocument::Create(GetFile(selection->GetIndex()));
-		}
-
 		JXFileHistoryMenu::Receive(sender, message);
 	}
 }

@@ -25,6 +25,7 @@
 .cpp ./code/CharInput
 .cpp ./code/FileInput
 .cpp ./code/FloatInput
+.cpp ./code/HistoryMenu
 .cpp ./code/ImageRadioButton
 .cpp ./code/ImageWidget
 .cpp ./code/InputFieldBase
@@ -50,6 +51,7 @@
 .cpp ./code/WidgetLabelPanel
 .cpp ./code/FileInputPanel
 .cpp ./code/FloatInputPanel
+.cpp ./code/HistoryMenuPanel
 .cpp ./code/ImageChooserPanel
 .cpp ./code/InputFieldPanel
 .cpp ./code/IntegerInputPanel

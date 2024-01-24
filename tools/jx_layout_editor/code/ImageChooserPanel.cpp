@@ -69,6 +69,16 @@ ImageChooserPanel::ImageChooserPanel
 	GetImageCache()->BuildIconMenu(path, 0, &excludeIconPattern, true,
 									itsImageMenu, itsImagePathList);
 
+	const JSize count = itsImagePathList->GetItemCount();
+	for (JIndex i=1; i<=count; i++)
+	{
+		if (*itsImagePathList->GetItem(i) == fullName)
+		{
+			itsImageIndex = i+1;
+			break;
+		}
+	}
+
 	itsImageMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsImageMenu->SetToPopupChoice(true, itsImageIndex);
 

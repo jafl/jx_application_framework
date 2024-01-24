@@ -85,8 +85,7 @@ StringsFooter::LayoutDocument
 
 # LayoutConfigDialog
 
-WindowTitle::LayoutConfigDialog	"Layout Configuration"
-
+RequireBothWidthAndHeight:LayoutConfigDialog			"You must specify both width and height."
 ContainerNameMustBeValidIdentifier::LayoutConfigDialog	"The container name must be a valid C++ class name."
 
 # LayoutContainer
@@ -109,6 +108,10 @@ DependencyLabel::CustomWidget	"Depends on: "
 # FileInput
 
 AllowInvalidFile::FileInput	"Allow invalid file"
+
+# HistoryMenu
+
+HistoryLength::HistoryMenu	"History length: "
 
 # InputField
 

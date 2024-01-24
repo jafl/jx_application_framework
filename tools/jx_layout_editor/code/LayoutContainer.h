@@ -125,6 +125,8 @@ private:
 
 	JString	itsCodeTag;
 	JString	itsWindowTitle;
+	JSize	itsWindowMinWidth;
+	JSize	itsWindowMinHeight;
 	JString	itsXWMClass;
 	JString	itsContainerName;
 	bool	itsAdjustContainerToFitFlag;
@@ -168,6 +170,7 @@ private:
 	void	UpdateArrangeMenu();
 	void	HandleArrangeMenu(const JIndex index);
 
+	void	CleanupGenerateCode() const;
 	void	AdjustTabOrder(JPtrArray<BaseWidget>* list, const JInteger delta);
 
 	static std::weak_ordering

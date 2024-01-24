@@ -92,8 +92,10 @@ private:
 	static bool			GetFDesignEnclosure(const JRect& frame,
 											const JArray<JRect>& rectList,
 											JIndex* enclIndex);
-	static void			SplitFDesignClassNameAndArgs(const JString& str,
-													 JString* name, JString* args);
+	static void			SplitFDesignClassNameAndArgs(const JString& label,
+													 const JString& argument,
+													 JString* name,
+													 JPtrArray<JString>* argList);
 };
 
 

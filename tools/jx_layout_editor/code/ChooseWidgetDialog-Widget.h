@@ -27,8 +27,11 @@ static const JUtf8Byte* kWidgetMenuStr =
 "|* %i __ScrollbarSet::ChooseWidgetDialog"
 "|* %i __ToolBar::ChooseWidgetDialog"
 "|* %i __WidgetSet::ChooseWidgetDialog %l"
+"|* %i __StringHistoryMenu::ChooseWidgetDialog"
 "|* %i __FileInput::ChooseWidgetDialog"
+"|* %i __FileHistoryMenu::ChooseWidgetDialog"
 "|* %i __PathInput::ChooseWidgetDialog"
+"|* %i __PathHistoryMenu::ChooseWidgetDialog"
 "|* %i __NewDirectoryButton::ChooseWidgetDialog"
 ;
 

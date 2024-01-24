@@ -9,12 +9,11 @@
 
 #include "Menu.h"
 #include "MenuPanel.h"
-#include "LayoutContainer.h"
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JUtf8Byte* kMenuStr = "enable menu";
+static const JUtf8Byte* kMenuStr = "enable menu";
 
 /******************************************************************************
  Constructor

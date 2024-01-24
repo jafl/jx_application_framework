@@ -27,8 +27,11 @@ enum {
 	kScrollbarSetIndex,
 	kToolBarIndex,
 	kWidgetSetIndex,
+	kStringHistoryMenuIndex,
 	kFileInputIndex,
+	kFileHistoryMenuIndex,
 	kPathInputIndex,
+	kPathHistoryMenuIndex,
 	kNewDirButtonIndex,
 };
 

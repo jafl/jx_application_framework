@@ -1,5 +1,5 @@
 /******************************************************************************
- RadioButtonIDPanel.cpp
+ HistoryMenuPanel.cpp
 
 	BASE CLASS = WidgetPanelBase
 
@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include "RadioButtonIDPanel.h"
+#include "HistoryMenuPanel.h"
 #include "WidgetParametersDialog.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXWidgetSet.h>
@@ -23,11 +23,11 @@
 
  ******************************************************************************/
 
-RadioButtonIDPanel::RadioButtonIDPanel
+HistoryMenuPanel::HistoryMenuPanel
 	(
 	WidgetParametersDialog* dlog,
 
-	const JString& id
+	const JString& length
 	)
 {
 	JXWindow* window = dlog->GetWindow();
@@ -39,23 +39,22 @@ RadioButtonIDPanel::RadioButtonIDPanel
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
 	assert( container != nullptr );
 
-	auto* idLabel =
-		jnew JXStaticText(JGetString("idLabel::RadioButtonIDPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 80,20);
-	idLabel->SetToLabel(false);
+	auto* historyLengthLabel =
+		jnew JXStaticText(JGetString("historyLengthLabel::HistoryMenuPanel::Panel"), container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 100,20);
+	historyLengthLabel->SetToLabel(false);
 
-	itsIDInput =
-		jnew JXInputField(false, true, container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,10, 340,20);
-	itsIDInput->SetIsRequired();
-	itsIDInput->SetValidationPattern(jnew JRegex("^([_a-z][_a-z0-9]+|[1-9][0-9]*)$", "i"), "itsIDInput::validation::RadioButtonIDPanel::Panel");
+	itsHistoryLengthInput =
+		jnew JXInputField(container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,10, 320,20);
+	itsHistoryLengthInput->SetValidationPattern(jnew JRegex("^([_a-z][_a-z0-9]+|[1-9][0-9]*)$", "i"), "itsHistoryLengthInput::validation::HistoryMenuPanel::Panel");
 
 // end Panel
 
 	dlog->AddPanel(this, container);
 
-	itsIDInput->SetFont(JFontManager::GetDefaultMonospaceFont());
-	itsIDInput->GetText()->SetText(id);
+	itsHistoryLengthInput->SetFont(JFontManager::GetDefaultMonospaceFont());
+	itsHistoryLengthInput->GetText()->SetText(length);
 }
 
 /******************************************************************************
@@ -63,7 +62,7 @@ RadioButtonIDPanel::RadioButtonIDPanel
 
  ******************************************************************************/
 
-RadioButtonIDPanel::~RadioButtonIDPanel()
+HistoryMenuPanel::~HistoryMenuPanel()
 {
 }
 
@@ -73,10 +72,10 @@ RadioButtonIDPanel::~RadioButtonIDPanel()
  ******************************************************************************/
 
 void
-RadioButtonIDPanel::GetValues
+HistoryMenuPanel::GetValues
 	(
-	JString* id
+	JString* length
 	)
 {
-	*id = itsIDInput->GetText()->GetText();
+	*length = itsHistoryLengthInput->GetText()->GetText();
 }

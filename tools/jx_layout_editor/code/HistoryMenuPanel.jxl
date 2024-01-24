@@ -23,12 +23,12 @@ jx_layout_editor 5
 "StaticText"
 0
 0
-10 20 30 100
-"idLabel"
+10 20 30 120
+"historyLengthLabel"
 0
 0
 0
-"ID:"
+"History length:"
 1
 0
 0
@@ -40,18 +40,18 @@ jx_layout_editor 5
 "InputField"
 0
 0
-10 100 30 440
-"itsIDInput"
+10 120 30 440
+"itsHistoryLengthInput"
 1
 1
 0
-1
+0
 0
 0
 "^([_a-z][_a-z0-9]+|[1-9][0-9]*)$"
 "i"
-"The radio button's id must be either a number or a valid C++ identifier."
+"The history length must be either a number or a valid C++ identifier."
 0
-1
+0
 
 0

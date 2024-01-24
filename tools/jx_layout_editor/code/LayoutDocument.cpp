@@ -182,6 +182,7 @@ LayoutDocument::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 600,300, JString::empty);
+	window->SetMinSize(70, 60);
 	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "jx_layout_editor_Layout");
 
 	itsMenuBar =
@@ -199,7 +200,6 @@ LayoutDocument::BuildWindow()
 // end JXLayout
 
 	AdjustWindowTitle();
-	window->SetMinSize(70, 60);
 
 	auto* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);
@@ -664,6 +664,8 @@ LayoutDocument::GenerateCode()
 	JStringManager stringdb;
 	if (!itsLayout->GenerateCode(sourceOutput, indent, &objTypes, &objNames, &stringdb))
 	{
+		sourceOutput.close();
+		JRemoveFile(tempSourceFullName);
 		return false;
 	}
 
@@ -1004,6 +1006,7 @@ LayoutDocument::ImportFDesignFile
 #include "CharInput.h"
 #include "FileInput.h"
 #include "FloatInput.h"
+#include "HistoryMenu.h"
 #include "ImageRadioButton.h"
 #include "ImageWidget.h"
 #include "InputField.h"
@@ -1081,7 +1084,7 @@ LayoutDocument::ImportFDesignLayout
 
 	JString flClass, flType, boxType, color1, color2,
 		label, labelAlign, labelStyle, labelSize, labelColor,
-		shortcuts, gravity, varName, argument, className, args;
+		shortcuts, gravity, varName, argument, className;
 	JArray<JRect> rectList;
 	JPtrArray<JString> objNames(JPtrArrayT::kDeleteAll), tmp(JPtrArrayT::kDeleteAll);
 	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
@@ -1134,12 +1137,6 @@ LayoutDocument::ImportFDesignLayout
 		JIgnoreLine(input);		// callback
 
 		argument = ReadFDesignString(input, kObjCBArgMarker);
-
-		argument.Split(",", &argList);
-		for (auto* s : argList)
-		{
-			s->TrimWhitespace();
-		}
 
 		do
 		{
@@ -1229,6 +1226,21 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew FloatInput(enclosure, hS,vS, x,y,w,h);
 		}
+		else if (label == "JXFileHistoryMenu")
+		{
+			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
+			widget = jnew HistoryMenu(HistoryMenu::kFileType, *argList.GetFirstItem(), enclosure, hS,vS, x,y,w,h);
+		}
+		else if (label == "JXPathHistoryMenu")
+		{
+			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
+			widget = jnew HistoryMenu(HistoryMenu::kPathType, *argList.GetFirstItem(), enclosure, hS,vS, x,y,w,h);
+		}
+		else if (label == "JXStringHistoryMenu")
+		{
+			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
+			widget = jnew HistoryMenu(HistoryMenu::kStringType, *argList.GetFirstItem(), enclosure, hS,vS, x,y,w,h);
+		}
 		else if ((flClass == "FL_BITMAPBUTTON" || flClass == "FL_PIXMAPBUTTON") &&
 				 flType == "FL_PUSH_BUTTON")
 		{
@@ -1261,6 +1273,8 @@ LayoutDocument::ImportFDesignLayout
 		}
 		else if (label == "JXImageMenu")
 		{
+			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
+
 			JSize colCount = 0;
 			if (argList.GetItemCount() < 2 || !argList.GetItem(2)->ConvertToUInt(&colCount))
 			{
@@ -1323,6 +1337,7 @@ LayoutDocument::ImportFDesignLayout
 		}
 		else if (label == "JXToolBar")
 		{
+			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
 			if (argList.GetItemCount() < 3)
 			{
 				const JUtf8Byte* map[] =
@@ -1342,13 +1357,8 @@ LayoutDocument::ImportFDesignLayout
 		}
 		else // if (flClass == "FL_BOX" && flType == "FL_NO_BOX" && !label->IsEmpty())
 		{
-			SplitFDesignClassNameAndArgs(label, &className, &args);
-			if (args.IsEmpty())
-			{
-				args = argument;
-			}
-
-			widget = jnew CustomWidget(className, args, false,
+			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
+			widget = jnew CustomWidget(className, JStringJoin(", ", argList), false,
 										enclosure, hS,vS, x,y,w,h);
 		}
 
@@ -1542,20 +1552,33 @@ LayoutDocument::GetFDesignEnclosure
 /******************************************************************************
  SplitFDesignClassNameAndArgs (static private)
 
-	Returns false if there is no class name.
-
  ******************************************************************************/
+
+inline void
+splitArgs
+	(
+	const JString&		args,
+	JPtrArray<JString>*	argList
+	)
+{
+	args.Split(",", argList);
+	for (auto* s : *argList)
+	{
+		s->TrimWhitespace();
+	}
+}
 
 void
 LayoutDocument::SplitFDesignClassNameAndArgs
 	(
-	const JString&	str,
-	JString*		name,
-	JString*		args
+	const JString&		label,
+	const JString&		argument,
+	JString*			name,
+	JPtrArray<JString>*	argList
 	)
 {
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-	str.Split("(", &list, 2);
+	label.Split("(", &list, 2);
 
 	const bool hasArgs = list.GetItemCount() > 1;
 	if (hasArgs &&
@@ -1563,10 +1586,16 @@ LayoutDocument::SplitFDesignClassNameAndArgs
 		!list.GetLastItem()->IsEmpty())
 	{
 		*name = *list.GetFirstItem();
-		*args = *list.GetLastItem();
-
 		name->TrimWhitespace();
+
+		JString* args = list.GetLastItem();
 		args->TrimWhitespace();
+		if (args->IsEmpty())
+		{
+			*args = argument;
+		}
+
+		splitArgs(*args, argList);
 		return;
 	}
 
@@ -1576,8 +1605,8 @@ LayoutDocument::SplitFDesignClassNameAndArgs
 	}
 	else
 	{
-		*name = str;
+		*name = label;
 	}
 	name->TrimWhitespace();
-	args->Clear();
+	splitArgs(argument, argList);
 }

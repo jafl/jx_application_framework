@@ -1,4 +1,4 @@
-jx_layout_editor 3
+jx_layout_editor 5
 370
 120
 "JXLayout"
@@ -17,7 +17,8 @@ jx_layout_editor 3
 0
 0
 0
-"about_icon.png"
+0
+0 "about_icon.png"
 
 1
 0
@@ -26,6 +27,7 @@ jx_layout_editor 3
 2
 20 70 70 360
 "textWidget"
+0
 0
 0
 ""
@@ -44,6 +46,7 @@ jx_layout_editor 3
 "itsCreditsButton"
 1
 0
+0
 "Credits"
 ""
 
@@ -56,6 +59,7 @@ jx_layout_editor 3
 "itsHelpButton"
 1
 0
+0
 "Help"
 "F1"
 
@@ -66,6 +70,7 @@ jx_layout_editor 3
 1
 90 260 110 320
 "okButton"
+0
 0
 0
 "OK"
