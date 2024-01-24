@@ -1,0 +1,79 @@
+jx_layout_editor 5
+390
+120
+"JXLayout"
+"About"
+""
+""
+0
+
+1
+0
+"ImageWidget"
+0
+0
+20 20 60 60
+"imageWidget"
+0
+0
+0
+0
+0 "md_about_icon.png"
+
+1
+0
+"StaticText"
+2
+2
+20 70 70 370
+"textWidget"
+0
+0
+0
+""
+1
+0
+0
+0
+0
+
+1
+0
+"TextButton"
+0
+1
+90 50 110 110
+"itsCreditsButton"
+1
+0
+0
+"Credits"
+""
+
+1
+0
+"TextButton"
+0
+1
+90 165 110 225
+"itsHelpButton"
+1
+0
+0
+"Help"
+"F1"
+
+1
+0
+"TextButton"
+0
+1
+90 280 110 340
+"okButton"
+0
+0
+0
+"OK"
+"^M"
+
+0

@@ -149,20 +149,3 @@ GetVersionStr()
 	};
 	return JGetString("Description::globals", map, sizeof(map));
 }
-
-/******************************************************************************
- GetWMClassInstance
-
- ******************************************************************************/
-
-const JUtf8Byte*
-GetWMClassInstance()
-{
-	return "jx_memory_debugger";
-}
-
-const JUtf8Byte*
-GetMainWindowClass()
-{
-	return "jx_memory_debugger_Main_Window";
-}

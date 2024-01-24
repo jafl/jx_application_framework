@@ -35,7 +35,7 @@ App::App
 	JString*	prevVersStr
 	)
 	:
-	JXApplication(argc, argv, kAppSignature, kDefaultStringData)
+	JXApplication(argc, argv, kAppSignature, kAppSignature, kDefaultStringData)
 {
 	*displayAbout = CreateGlobals(this);
 

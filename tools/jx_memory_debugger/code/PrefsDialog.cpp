@@ -53,46 +53,41 @@ PrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 420,100, JString::empty);
-
-	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::PrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,70, 70,20);
-	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts(JGetString("cancelButton::PrefsDialog::shortcuts::JXLayout"));
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::PrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kVElastic, 260,70, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::PrefsDialog::shortcuts::JXLayout"));
+	auto* window = jnew JXWindow(this, 420,100, JGetString("WindowTitle::PrefsDialog::JXLayout"));
 
 	auto* openFileLabel =
 		jnew JXStaticText(JGetString("openFileLabel::PrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 110,20);
-	assert( openFileLabel != nullptr );
-	openFileLabel->SetToLabel();
+	openFileLabel->SetToLabel(false);
 
 	auto* openFileHint =
 		jnew JXStaticText(JGetString("openFileHint::PrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,40, 270,20);
-	assert( openFileHint != nullptr );
-	openFileHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
-	openFileHint->SetToLabel();
+	openFileHint->SetToLabel(false);
+
+	auto* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::PrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,70, 70,20);
+	cancelButton->SetShortcuts(JGetString("cancelButton::shortcuts::PrefsDialog::JXLayout"));
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::PrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 259,69, 72,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::PrefsDialog::JXLayout"));
 
 	itsOpenFileInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 130,20, 270,20);
-	assert( itsOpenFileInput != nullptr );
+	itsOpenFileInput->SetIsRequired();
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::PrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsOpenFileInput->GetText()->SetText(openCmd);
-	itsOpenFileInput->SetIsRequired();
 	itsOpenFileInput->SetFont(JFontManager::GetDefaultMonospaceFont());
+
+	openFileHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 }
 
 /******************************************************************************

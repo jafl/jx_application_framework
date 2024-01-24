@@ -1,0 +1,89 @@
+jx_layout_editor 5
+420
+100
+"JXLayout"
+"Preferences"
+""
+""
+0
+
+1
+0
+"StaticText"
+0
+0
+20 20 40 130
+"openFileLabel"
+0
+0
+0
+"Cmd to open file:"
+1
+0
+0
+0
+0
+
+1
+0
+"InputField"
+2
+0
+20 130 40 400
+"itsOpenFileInput"
+1
+1
+0
+1
+0
+0
+""
+""
+""
+0
+0
+
+1
+0
+"StaticText"
+0
+0
+40 130 60 400
+"openFileHint"
+0
+0
+0
+"(use $f in place of file name, $l in place of line number)"
+1
+0
+0
+0
+0
+
+1
+0
+"TextButton"
+0
+2
+70 90 90 160
+"cancelButton"
+0
+0
+0
+"Cancel"
+"^["
+
+1
+0
+"TextButton"
+0
+2
+70 260 90 330
+"okButton"
+0
+0
+0
+"OK"
+"^M"
+
+0

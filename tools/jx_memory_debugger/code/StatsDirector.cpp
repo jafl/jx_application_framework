@@ -227,7 +227,9 @@ StatsDirector::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 500,300, JString::empty);
+	auto* window = jnew JXWindow(this, 500,300, JGetString("WindowTitle::StatsDirector::JXLayout"));
+	window->SetMinSize(200, 200);
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "jx_memory_debugger_Main_Window");
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -237,115 +239,84 @@ StatsDirector::BuildWindow()
 	itsToolBar =
 		jnew JXToolBar(GetPrefsManager(), kStatsToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
-	assert( itsToolBar != nullptr );
+
+	auto* binaryLabel =
+		jnew JXStaticText(JGetString("binaryLabel::StatsDirector::JXLayout"), itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 50,20);
+	binaryLabel->SetToLabel(false);
+
+	itsChooseProgramButton =
+		jnew JXTextButton(JGetString("itsChooseProgramButton::StatsDirector::JXLayout"), itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,10, 60,20);
+	itsChooseProgramButton->SetShortcuts(JGetString("itsChooseProgramButton::shortcuts::StatsDirector::JXLayout"));
+
+	auto* argsLabel =
+		jnew JXStaticText(JGetString("argsLabel::StatsDirector::JXLayout"), itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 50,20);
+	argsLabel->SetToLabel(false);
+
+	itsRunProgramButton =
+		jnew JXTextButton(JGetString("itsRunProgramButton::StatsDirector::JXLayout"), itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,30, 60,20);
+	itsRunProgramButton->SetShortcuts(JGetString("itsRunProgramButton::shortcuts::StatsDirector::JXLayout"));
+
+	auto* blocksLabel =
+		jnew JXStaticText(JGetString("blocksLabel::StatsDirector::JXLayout"), itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 50,20);
+	blocksLabel->SetToLabel(false);
+
+	itsAllocatedBlocksDisplay =
+		jnew JXStaticText(JString::empty, false, true, false, nullptr, itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,60, 90,20);
+	itsAllocatedBlocksDisplay->SetToLabel(false);
+
+	auto* bytesLabel =
+		jnew JXStaticText(JGetString("bytesLabel::StatsDirector::JXLayout"), itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 50,20);
+	bytesLabel->SetToLabel(false);
+
+	itsAllocatedBytesDisplay =
+		jnew JXStaticText(JString::empty, false, true, false, nullptr, itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,60, 90,20);
+	itsAllocatedBytesDisplay->SetToLabel(false);
+
+	auto* deallocLabel =
+		jnew JXStaticText(JGetString("deallocLabel::StatsDirector::JXLayout"), itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,60, 80,20);
+	deallocLabel->SetToLabel(false);
+
+	itsDeallocatedBlocksDisplay =
+		jnew JXStaticText(JString::empty, false, true, false, nullptr, itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 390,60, 90,20);
+	itsDeallocatedBlocksDisplay->SetToLabel(false);
+
+	auto* scrollbarSet =
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,90, 500,180);
+	assert( scrollbarSet != nullptr );
+
+	itsAllocatedHisto =
+		jnew SizeHistogram(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 500,180);
+
+	itsProgramInput =
+		jnew JXFileInput(itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 60,10, 370,20);
+	itsProgramInput->SetIsRequired(true);
+	itsProgramInput->ShouldAllowInvalidFile(false);
+	itsProgramInput->ShouldRequireReadable(true);
+	itsProgramInput->ShouldRequireWritable(true);
+	itsProgramInput->ShouldRequireExecutable(false);
+
+	itsArgsInput =
+		jnew JXInputField(itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 60,30, 370,20);
 
 // end JXLayout
-
-	window->SetTitle(JGetString("WindowTitle::StatsDirector"));
-	window->SetWMClass(GetWMClassInstance(), GetMainWindowClass());
-	window->SetMinSize(200, 200);
 
 	auto* image = jnew JXImage(GetDisplay(), md_main_window_icon);
 	assert( image != nullptr );
 	window->SetIcon(image);
-
-	JXWidgetSet* statsEncl = itsToolBar->GetWidgetEnclosure();
-
-// begin statsLayout
-
-	const JRect statsLayout_Aperture = statsEncl->GetAperture();
-	statsEncl->AdjustSize(500 - statsLayout_Aperture.width(), 90 - statsLayout_Aperture.height());
-
-	auto* binaryLabel =
-		jnew JXStaticText(JGetString("binaryLabel::StatsDirector::statsLayout"), statsEncl,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 50,20);
-	assert( binaryLabel != nullptr );
-	binaryLabel->SetToLabel();
-
-	itsProgramInput =
-		jnew JXFileInput(statsEncl,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 60,10, 370,20);
-	assert( itsProgramInput != nullptr );
-
-	itsChooseProgramButton =
-		jnew JXTextButton(JGetString("itsChooseProgramButton::StatsDirector::statsLayout"), statsEncl,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,10, 60,20);
-	assert( itsChooseProgramButton != nullptr );
-	itsChooseProgramButton->SetShortcuts(JGetString("itsChooseProgramButton::StatsDirector::shortcuts::statsLayout"));
-
-	auto* argsLabel =
-		jnew JXStaticText(JGetString("argsLabel::StatsDirector::statsLayout"), statsEncl,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 50,20);
-	assert( argsLabel != nullptr );
-	argsLabel->SetToLabel();
-
-	itsArgsInput =
-		jnew JXInputField(statsEncl,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 60,30, 370,20);
-	assert( itsArgsInput != nullptr );
-
-	itsRunProgramButton =
-		jnew JXTextButton(JGetString("itsRunProgramButton::StatsDirector::statsLayout"), statsEncl,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,30, 60,20);
-	assert( itsRunProgramButton != nullptr );
-	itsRunProgramButton->SetShortcuts(JGetString("itsRunProgramButton::StatsDirector::shortcuts::statsLayout"));
-
-	auto* blocksLabel =
-		jnew JXStaticText(JGetString("blocksLabel::StatsDirector::statsLayout"), statsEncl,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 50,20);
-	assert( blocksLabel != nullptr );
-	blocksLabel->SetToLabel();
-
-	itsAllocatedBlocksDisplay =
-		jnew JXStaticText(JString::empty, false, true, false, nullptr, statsEncl,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,60, 90,20);
-	assert( itsAllocatedBlocksDisplay != nullptr );
-
-	auto* bytesLabel =
-		jnew JXStaticText(JGetString("bytesLabel::StatsDirector::statsLayout"), statsEncl,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 50,20);
-	assert( bytesLabel != nullptr );
-	bytesLabel->SetToLabel();
-
-	itsAllocatedBytesDisplay =
-		jnew JXStaticText(JString::empty, false, true, false, nullptr, statsEncl,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,60, 90,20);
-	assert( itsAllocatedBytesDisplay != nullptr );
-
-	auto* deallocLabel =
-		jnew JXStaticText(JGetString("deallocLabel::StatsDirector::statsLayout"), statsEncl,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,60, 80,20);
-	assert( deallocLabel != nullptr );
-	deallocLabel->SetToLabel();
-
-	itsDeallocatedBlocksDisplay =
-		jnew JXStaticText(JString::empty, false, true, false, nullptr, statsEncl,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 390,60, 90,20);
-	assert( itsDeallocatedBlocksDisplay != nullptr );
-
-	statsEncl->SetSize(statsLayout_Aperture.width(), statsLayout_Aperture.height());
-
-// end statsLayout
-
-	itsAllocatedBlocksDisplay->SetToLabel();
-	itsAllocatedBytesDisplay->SetToLabel();
-	itsDeallocatedBlocksDisplay->SetToLabel();
-
-	const JCoordinate headerHeight = itsAllocatedBlocksDisplay->GetFrame().bottom + 10;
-	const JCoordinate histoHeight  = statsEncl->GetBoundsHeight() - headerHeight;
-
-	auto* scrollbarSet =
-		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
-						   JXWidget::kHElastic,JXWidget::kVElastic,
-						   0,headerHeight, 100,histoHeight);
-	assert( scrollbarSet != nullptr );
-	scrollbarSet->FitToEnclosure(true, false);
-
-	itsAllocatedHisto =
-		jnew SizeHistogram(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-						   JXWidget::kHElastic,JXWidget::kVElastic, 0,0, 100,100);
-	assert( itsAllocatedHisto != nullptr );
-	itsAllocatedHisto->FitToEnclosure();
 
 	ListenTo(itsProgramInput->GetText(), std::function([this](const JStyledText::TextSet&)
 	{

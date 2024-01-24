@@ -27,14 +27,14 @@ public:
 
 private:
 
-	RecordTable*	itsRecordTable;
 	JXPSPrinter*	itsPrinter;
 	JXTextMenu*		itsFileMenu;
 	JXTextMenu*		itsPrefsMenu;
 
 // begin JXLayout
 
-	JXToolBar* itsToolBar;
+	JXToolBar*   itsToolBar;
+	RecordTable* itsRecordTable;
 
 // end JXLayout
 

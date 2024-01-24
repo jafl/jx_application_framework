@@ -1,0 +1,76 @@
+jx_layout_editor 5
+500
+400
+"JXLayout"
+""
+""
+""
+0
+
+1
+0
+"MenuBar"
+2
+0
+0 0 30 500
+"menuBar"
+0
+0
+0
+
+1
+0
+"ToolBar"
+2
+2
+30 0 400 500
+"itsToolBar"
+1
+0
+0
+"GetPrefsManager()"
+"kRecordToolBarID"
+"menuBar"
+
+1
+2
+"ScrollbarSet"
+2
+2
+0 0 340 500
+"scrollbarSet"
+0
+0
+0
+
+1
+3
+"CustomWidget"
+2
+0
+0 0 25 485
+"tableHeader"
+0
+0
+0
+"HeaderWidget"
+"itsRecordTable, recordList, scrollbarSet"
+0
+"itsRecordTable"
+
+1
+3
+"CustomWidget"
+2
+2
+25 0 325 485
+"itsRecordTable"
+1
+0
+0
+"RecordTable"
+"recordList, scrollbarSet"
+0
+""
+
+0

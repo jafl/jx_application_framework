@@ -53,7 +53,17 @@ FilterRecordsDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 420,120, JString::empty);
+	auto* window = jnew JXWindow(this, 420,120, JGetString("WindowTitle::FilterRecordsDialog::JXLayout"));
+
+	itsFileCB =
+		jnew JXTextCheckbox(JGetString("itsFileCB::FilterRecordsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 130,20);
+	itsFileCB->SetShortcuts(JGetString("itsFileCB::shortcuts::FilterRecordsDialog::JXLayout"));
+
+	itsSizeCB =
+		jnew JXTextCheckbox(JGetString("itsSizeCB::FilterRecordsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 130,20);
+	itsSizeCB->SetShortcuts(JGetString("itsSizeCB::shortcuts::FilterRecordsDialog::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::FilterRecordsDialog::JXLayout"), window,
@@ -62,35 +72,20 @@ FilterRecordsDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::FilterRecordsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kVElastic, 260,90, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::FilterRecordsDialog::shortcuts::JXLayout"));
-
-	itsFileCB =
-		jnew JXTextCheckbox(JGetString("itsFileCB::FilterRecordsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 130,20);
-	assert( itsFileCB != nullptr );
-	itsFileCB->SetShortcuts(JGetString("itsFileCB::FilterRecordsDialog::shortcuts::JXLayout"));
-
-	itsSizeCB =
-		jnew JXTextCheckbox(JGetString("itsSizeCB::FilterRecordsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 130,20);
-	assert( itsSizeCB != nullptr );
-	itsSizeCB->SetShortcuts(JGetString("itsSizeCB::FilterRecordsDialog::shortcuts::JXLayout"));
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 259,89, 72,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::FilterRecordsDialog::JXLayout"));
 
 	itsFileInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 150,20, 250,20);
-	assert( itsFileInput != nullptr );
 
 	itsSizeInput =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 150,50, 250,20);
-	assert( itsSizeInput != nullptr );
+	itsSizeInput->SetLowerLimit(0);
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::FilterRecordsDialog"));
 	SetButtons(okButton, cancelButton);
 
 	if (filter.fileName != nullptr)
@@ -130,8 +125,6 @@ FilterRecordsDialog::BuildWindow
 	{
 		itsSizeCB->SetState(true);
 	}));
-
-	itsSizeInput->SetLowerLimit(0);
 }
 
 /******************************************************************************

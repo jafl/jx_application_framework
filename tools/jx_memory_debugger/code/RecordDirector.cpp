@@ -83,13 +83,14 @@ RecordDirector::~RecordDirector()
 void
 RecordDirector::BuildWindow
 	(
-	RecordList*	recordList,
+	RecordList*		recordList,
 	const JString&	windowTitle
 	)
 {
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 500,400, JString::empty);
+	window->SetMinSize(200, 200);
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -99,43 +100,28 @@ RecordDirector::BuildWindow
 	itsToolBar =
 		jnew JXToolBar(GetPrefsManager(), kRecordToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,370);
-	assert( itsToolBar != nullptr );
+
+	auto* scrollbarSet =
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 500,370);
+	assert( scrollbarSet != nullptr );
+
+	itsRecordTable =
+		jnew RecordTable(recordList, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,25, 500,345);
+
+	auto* tableHeader =
+		jnew HeaderWidget(itsRecordTable, recordList, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,25);
+	assert( tableHeader != nullptr );
 
 // end JXLayout
 
 	window->SetTitle(windowTitle);
-	window->SetWMClass(GetWMClassInstance(), GetMainWindowClass());
-	window->SetMinSize(200, 200);
 
 	auto* image = jnew JXImage(GetDisplay(), md_main_window_icon);
 	assert( image != nullptr );
 	window->SetIcon(image);
-
-	auto* scrollbarSet =
-		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
-						   JXWidget::kHElastic,JXWidget::kVElastic,
-						   0,0, 100,100);
-	assert( scrollbarSet != nullptr );
-	scrollbarSet->FitToEnclosure();
-
-	const JCoordinate kHeaderHeight	= 25;
-	const JCoordinate tableHeight   = scrollbarSet->GetScrollEnclosure()->GetBoundsHeight() - kHeaderHeight;
-
-	itsRecordTable =
-		jnew RecordTable(recordList,
-			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			0,kHeaderHeight, 100,tableHeight);
-	assert( itsRecordTable != nullptr );
-	itsRecordTable->FitToEnclosure(true, false);
-
-	auto* tableHeader =
-		jnew HeaderWidget(itsRecordTable, recordList,
-			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kFixedTop,
-			0,0, 100,kHeaderHeight);
-	assert( tableHeader != nullptr );
-	tableHeader->FitToEnclosure(true, false);
 
 	// menus
 

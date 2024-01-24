@@ -50,8 +50,6 @@ AboutDialog::~AboutDialog()
 
  ******************************************************************************/
 
-#include "md_about_icon.xpm"
-
 void
 AboutDialog::BuildWindow
 	(
@@ -60,38 +58,38 @@ AboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 390,120, JString::empty);
-
-	auto* textWidget =
-		jnew JXStaticText(JGetString("textWidget::AboutDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 300,50);
-	assert( textWidget != nullptr );
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::AboutDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 280,90, 60,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::AboutDialog::shortcuts::JXLayout"));
-
-	itsHelpButton =
-		jnew JXTextButton(JGetString("itsHelpButton::AboutDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 165,90, 60,20);
-	assert( itsHelpButton != nullptr );
-	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::AboutDialog::shortcuts::JXLayout"));
+	auto* window = jnew JXWindow(this, 390,120, JGetString("WindowTitle::AboutDialog::JXLayout"));
 
 	auto* imageWidget =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
-	assert( imageWidget != nullptr );
+#ifndef _H_md_about_icon
+#define _H_md_about_icon
+#include "md_about_icon.xpm"
+#endif
+	imageWidget->SetXPM(md_about_icon);
+
+	auto* textWidget =
+		jnew JXStaticText(JString::empty, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 300,50);
+	textWidget->SetToLabel(false);
 
 	itsCreditsButton =
 		jnew JXTextButton(JGetString("itsCreditsButton::AboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,90, 60,20);
-	assert( itsCreditsButton != nullptr );
+
+	itsHelpButton =
+		jnew JXTextButton(JGetString("itsHelpButton::AboutDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 165,90, 60,20);
+	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::shortcuts::AboutDialog::JXLayout"));
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::AboutDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 279,89, 62,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::AboutDialog::JXLayout"));
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::AboutDialog"));
 	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton, std::function([this](const JXButton::Pushed&)
@@ -112,8 +110,6 @@ AboutDialog::BuildWindow
 		JXGetHelpManager()->ShowCredits();
 		EndDialog(true);
 	}));
-
-	imageWidget->SetXPM(md_about_icon);
 
 	JString text = GetVersionStr();
 	if (!prevVersStr.IsEmpty())

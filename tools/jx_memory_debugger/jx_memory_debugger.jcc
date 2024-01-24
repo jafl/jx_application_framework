@@ -32,9 +32,17 @@ T
 F
 "./code/PrefsDialog.cpp"
 T
+2 "PrefsDialog.jxl"
+F
+"./code/PrefsDialog.jxl"
+T
 2 "AboutDialog.cpp"
 F
 "./code/AboutDialog.cpp"
+T
+2 "AboutDialog.jxl"
+F
+"./code/AboutDialog.jxl"
 F
 T
 1 "stats"
@@ -42,6 +50,10 @@ T
 2 "StatsDirector.cpp"
 F
 "./code/StatsDirector.cpp"
+T
+2 "StatsDirector.jxl"
+F
+"./code/StatsDirector.jxl"
 T
 2 "StatsDirector-File.jxm"
 F
@@ -58,6 +70,10 @@ T
 2 "FilterRecordsDialog.cpp"
 F
 "./code/FilterRecordsDialog.cpp"
+T
+2 "FilterRecordsDialog.jxl"
+F
+"./code/FilterRecordsDialog.jxl"
 F
 T
 1 "records"
@@ -65,6 +81,10 @@ T
 2 "RecordDirector.cpp"
 F
 "./code/RecordDirector.cpp"
+T
+2 "RecordDirector.jxl"
+F
+"./code/RecordDirector.jxl"
 T
 2 "HeaderWidget.cpp"
 F
@@ -87,11 +107,7 @@ F
 "./code/RecordDataField.cpp"
 F
 T
-1 "misc"
-T
-2 "jx_memory_debugger.fd"
-F
-"./jx_memory_debugger.fd"
+1 "strings"
 T
 2 "strings"
 F
