@@ -131,29 +131,29 @@ private:
 
 // begin JXLayout
 
-	JXTextButton*        itsCloseButton;
-	JXTextCheckbox*      itsIgnoreCaseCB;
-	JXTextCheckbox*      itsWrapSearchCB;
-	JXTextButton*        itsReplaceButton;
-	JXTextCheckbox*      itsEntireWordCB;
-	JXStringHistoryMenu* itsPrevReplaceMenu;
-	JXStringHistoryMenu* itsPrevSearchMenu;
-	JXTextButton*        itsHelpButton;
-	JXTextCheckbox*      itsSearchIsRegexCB;
-	JXTextCheckbox*      itsReplaceIsRegexCB;
-	JXTextCheckbox*      itsSingleLineCB;
-	JXTextCheckbox*      itsPreserveCaseCB;
-	JXTextButton*        itsQRefButton;
 	JXSearchTextButton*  itsFindBackButton;
 	JXSearchTextButton*  itsFindFwdButton;
+	JXStringHistoryMenu* itsPrevSearchMenu;
+	JXTextButton*        itsReplaceButton;
 	JXSearchTextButton*  itsReplaceFindBackButton;
 	JXSearchTextButton*  itsReplaceFindFwdButton;
+	JXTextButton*        itsReplaceAllButton;
 	JXTextButton*        itsReplaceAllInSelButton;
+	JXStringHistoryMenu* itsPrevReplaceMenu;
+	JXTextCheckbox*      itsIgnoreCaseCB;
+	JXTextCheckbox*      itsSearchIsRegexCB;
+	JXTextCheckbox*      itsReplaceIsRegexCB;
+	JXTextCheckbox*      itsEntireWordCB;
+	JXTextCheckbox*      itsSingleLineCB;
+	JXTextCheckbox*      itsPreserveCaseCB;
+	JXTextCheckbox*      itsWrapSearchCB;
 	JXTextCheckbox*      itsStayOpenCB;
 	JXTextCheckbox*      itsRetainFocusCB;
+	JXTextButton*        itsHelpButton;
+	JXTextButton*        itsQRefButton;
+	JXTextButton*        itsCloseButton;
 	JXInputField*        itsSearchInput;
 	JXInputField*        itsReplaceInput;
-	JXTextButton*        itsReplaceAllButton;
 
 // end JXLayout
 

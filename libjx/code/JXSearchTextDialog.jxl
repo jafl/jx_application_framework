@@ -1,0 +1,397 @@
+jx_layout_editor 5
+450
+300
+"JXLayout"
+"Search text"
+""
+""
+0
+
+1
+0
+"StaticText"
+0
+0
+9 20 29 240
+"searchInputLabel"
+0
+0
+0
+"Search for:"
+1
+0
+0
+0
+0
+
+1
+0
+"CustomWidget"
+1
+0
+20 300 40 320
+"itsFindBackButton"
+1
+0
+0
+"JXSearchTextButton"
+"false"
+0
+""
+
+1
+0
+"StaticText"
+1
+0
+20 320 40 420
+"findLabel"
+0
+0
+0
+"Find"
+1
+1
+0
+0
+0
+
+1
+0
+"CustomWidget"
+1
+0
+20 420 40 440
+"itsFindFwdButton"
+1
+0
+0
+"JXSearchTextButton"
+"true"
+0
+""
+
+1
+0
+"InputField"
+2
+0
+30 20 75 240
+"itsSearchInput"
+1
+1
+0
+0
+0
+0
+""
+""
+""
+0
+0
+
+1
+0
+"HistoryMenu"
+1
+0
+43 245 63 275
+"itsPrevSearchMenu"
+1
+0
+0
+0
+"kHistoryLength"
+
+1
+0
+"TextButton"
+1
+0
+50 300 70 440
+"itsReplaceButton"
+1
+0
+0
+"Replace"
+"#R#="
+
+1
+0
+"CustomWidget"
+1
+0
+80 300 100 320
+"itsReplaceFindBackButton"
+1
+0
+0
+"JXSearchTextButton"
+"false"
+0
+""
+
+1
+0
+"StaticText"
+1
+0
+80 320 100 420
+"replaceFindLabel"
+0
+0
+0
+"Replace & Find"
+1
+1
+0
+0
+0
+
+1
+0
+"CustomWidget"
+1
+0
+80 420 100 440
+"itsReplaceFindFwdButton"
+1
+0
+0
+"JXSearchTextButton"
+"true"
+0
+""
+
+1
+0
+"StaticText"
+0
+0
+85 20 105 240
+"replaceInputLabel"
+0
+0
+0
+"Replace with:"
+1
+0
+0
+0
+0
+
+1
+0
+"InputField"
+2
+0
+105 20 150 240
+"itsReplaceInput"
+1
+2
+0
+0
+0
+0
+""
+""
+""
+0
+0
+
+1
+0
+"TextButton"
+1
+0
+110 300 130 370
+"itsReplaceAllButton"
+1
+0
+0
+"Replace all"
+""
+
+1
+0
+"TextButton"
+1
+0
+110 370 130 440
+"itsReplaceAllInSelButton"
+1
+0
+0
+"in selection"
+""
+
+1
+0
+"HistoryMenu"
+1
+0
+118 245 138 275
+"itsPrevReplaceMenu"
+1
+0
+0
+0
+"kHistoryLength"
+
+1
+0
+"TextCheckbox"
+0
+0
+170 20 190 150
+"itsIgnoreCaseCB"
+1
+0
+0
+"Ignore case"
+"#I"
+
+1
+0
+"TextCheckbox"
+0
+0
+170 160 190 310
+"itsSearchIsRegexCB"
+1
+0
+0
+"Regex search (egrep)"
+"#X"
+
+1
+0
+"TextCheckbox"
+0
+0
+170 320 190 430
+"itsReplaceIsRegexCB"
+1
+0
+0
+"Regex replace"
+"#X"
+
+1
+0
+"TextCheckbox"
+0
+0
+200 20 220 150
+"itsEntireWordCB"
+1
+0
+0
+"Entire word only"
+"#E"
+
+1
+0
+"TextCheckbox"
+0
+0
+200 160 220 310
+"itsSingleLineCB"
+1
+0
+0
+"Treat as single line"
+"#T"
+
+1
+0
+"TextCheckbox"
+0
+0
+200 320 220 430
+"itsPreserveCaseCB"
+1
+0
+0
+"Preserve case"
+"#P"
+
+1
+0
+"TextCheckbox"
+0
+0
+230 20 250 150
+"itsWrapSearchCB"
+1
+0
+0
+"Wrap search"
+"#S"
+
+1
+0
+"TextCheckbox"
+0
+0
+230 160 250 310
+"itsStayOpenCB"
+1
+0
+0
+"Stay open"
+""
+
+1
+0
+"TextCheckbox"
+0
+0
+230 320 250 430
+"itsRetainFocusCB"
+1
+0
+0
+"Retain focus"
+""
+
+1
+0
+"TextButton"
+0
+0
+270 60 290 140
+"itsHelpButton"
+1
+0
+0
+"Help"
+"F1"
+
+1
+0
+"TextButton"
+0
+0
+270 190 290 270
+"itsQRefButton"
+1
+0
+0
+"Quick Ref"
+""
+
+1
+0
+"TextButton"
+0
+0
+270 320 290 400
+"itsCloseButton"
+1
+0
+0
+"Close"
+"#W^["
+
+0

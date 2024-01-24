@@ -262,156 +262,129 @@ JXSearchTextDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 450,300, JString::empty);
-
-	itsCloseButton =
-		jnew JXTextButton(JGetString("itsCloseButton::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,270, 80,20);
-	assert( itsCloseButton != nullptr );
-	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXSearchTextDialog::shortcuts::JXLayout"));
+	auto* window = jnew JXWindow(this, 450,300, JGetString("WindowTitle::JXSearchTextDialog::JXLayout"));
 
 	auto* searchInputLabel =
 		jnew JXStaticText(JGetString("searchInputLabel::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,9, 220,20);
-	assert( searchInputLabel != nullptr );
-	searchInputLabel->SetToLabel();
-
-	auto* replaceInputLabel =
-		jnew JXStaticText(JGetString("replaceInputLabel::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,85, 220,20);
-	assert( replaceInputLabel != nullptr );
-	replaceInputLabel->SetToLabel();
-
-	itsIgnoreCaseCB =
-		jnew JXTextCheckbox(JGetString("itsIgnoreCaseCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,170, 130,20);
-	assert( itsIgnoreCaseCB != nullptr );
-	itsIgnoreCaseCB->SetShortcuts(JGetString("itsIgnoreCaseCB::JXSearchTextDialog::shortcuts::JXLayout"));
-
-	itsWrapSearchCB =
-		jnew JXTextCheckbox(JGetString("itsWrapSearchCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,230, 130,20);
-	assert( itsWrapSearchCB != nullptr );
-	itsWrapSearchCB->SetShortcuts(JGetString("itsWrapSearchCB::JXSearchTextDialog::shortcuts::JXLayout"));
-
-	itsReplaceButton =
-		jnew JXTextButton(JGetString("itsReplaceButton::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,50, 140,20);
-	assert( itsReplaceButton != nullptr );
-	itsReplaceButton->SetShortcuts(JGetString("itsReplaceButton::JXSearchTextDialog::shortcuts::JXLayout"));
-
-	itsEntireWordCB =
-		jnew JXTextCheckbox(JGetString("itsEntireWordCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,200, 130,20);
-	assert( itsEntireWordCB != nullptr );
-	itsEntireWordCB->SetShortcuts(JGetString("itsEntireWordCB::JXSearchTextDialog::shortcuts::JXLayout"));
-
-	itsPrevReplaceMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 245,118, 30,20);
-	assert( itsPrevReplaceMenu != nullptr );
-
-	itsPrevSearchMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 245,43, 30,20);
-	assert( itsPrevSearchMenu != nullptr );
-
-	itsHelpButton =
-		jnew JXTextButton(JGetString("itsHelpButton::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,270, 80,20);
-	assert( itsHelpButton != nullptr );
-	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::JXSearchTextDialog::shortcuts::JXLayout"));
-
-	itsSearchIsRegexCB =
-		jnew JXTextCheckbox(JGetString("itsSearchIsRegexCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,170, 150,20);
-	assert( itsSearchIsRegexCB != nullptr );
-	itsSearchIsRegexCB->SetShortcuts(JGetString("itsSearchIsRegexCB::JXSearchTextDialog::shortcuts::JXLayout"));
-
-	itsReplaceIsRegexCB =
-		jnew JXTextCheckbox(JGetString("itsReplaceIsRegexCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,170, 110,20);
-	assert( itsReplaceIsRegexCB != nullptr );
-	itsReplaceIsRegexCB->SetShortcuts(JGetString("itsReplaceIsRegexCB::JXSearchTextDialog::shortcuts::JXLayout"));
-
-	itsSingleLineCB =
-		jnew JXTextCheckbox(JGetString("itsSingleLineCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,200, 150,20);
-	assert( itsSingleLineCB != nullptr );
-	itsSingleLineCB->SetShortcuts(JGetString("itsSingleLineCB::JXSearchTextDialog::shortcuts::JXLayout"));
-
-	itsPreserveCaseCB =
-		jnew JXTextCheckbox(JGetString("itsPreserveCaseCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,200, 110,20);
-	assert( itsPreserveCaseCB != nullptr );
-	itsPreserveCaseCB->SetShortcuts(JGetString("itsPreserveCaseCB::JXSearchTextDialog::shortcuts::JXLayout"));
-
-	itsQRefButton =
-		jnew JXTextButton(JGetString("itsQRefButton::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,270, 80,20);
-	assert( itsQRefButton != nullptr );
-
-	auto* findLabel =
-		jnew JXStaticText(JGetString("findLabel::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,20, 100,20);
-	assert( findLabel != nullptr );
-	findLabel->SetToLabel(true);
+	searchInputLabel->SetToLabel(false);
 
 	itsFindBackButton =
 		jnew JXSearchTextButton(false, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,20, 20,20);
-	assert( itsFindBackButton != nullptr );
+
+	auto* findLabel =
+		jnew JXStaticText(JGetString("findLabel::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,20, 100,20);
+	findLabel->SetToLabel(true);
 
 	itsFindFwdButton =
 		jnew JXSearchTextButton(true, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,20, 20,20);
-	assert( itsFindFwdButton != nullptr );
 
-	auto* replaceFindLabel =
-		jnew JXStaticText(JGetString("replaceFindLabel::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,80, 100,20);
-	assert( replaceFindLabel != nullptr );
-	replaceFindLabel->SetToLabel(true);
+	itsPrevSearchMenu =
+		jnew JXStringHistoryMenu(kHistoryLength, window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 245,43, 30,20);
+
+	itsReplaceButton =
+		jnew JXTextButton(JGetString("itsReplaceButton::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,50, 140,20);
+	itsReplaceButton->SetShortcuts(JGetString("itsReplaceButton::shortcuts::JXSearchTextDialog::JXLayout"));
 
 	itsReplaceFindBackButton =
 		jnew JXSearchTextButton(false, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,80, 20,20);
-	assert( itsReplaceFindBackButton != nullptr );
+
+	auto* replaceFindLabel =
+		jnew JXStaticText(JGetString("replaceFindLabel::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,80, 100,20);
+	replaceFindLabel->SetToLabel(true);
 
 	itsReplaceFindFwdButton =
 		jnew JXSearchTextButton(true, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 420,80, 20,20);
-	assert( itsReplaceFindFwdButton != nullptr );
 
-	itsReplaceAllInSelButton =
-		jnew JXTextButton(JGetString("itsReplaceAllInSelButton::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 370,110, 70,20);
-	assert( itsReplaceAllInSelButton != nullptr );
-
-	itsStayOpenCB =
-		jnew JXTextCheckbox(JGetString("itsStayOpenCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,230, 150,20);
-	assert( itsStayOpenCB != nullptr );
-
-	itsRetainFocusCB =
-		jnew JXTextCheckbox(JGetString("itsRetainFocusCB::JXSearchTextDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,230, 110,20);
-	assert( itsRetainFocusCB != nullptr );
-
-	itsSearchInput =
-		jnew JXInputField(true, false, window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,30, 220,45);
-	assert( itsSearchInput != nullptr );
-
-	itsReplaceInput =
-		jnew JXInputField(true, false, window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,105, 220,45);
-	assert( itsReplaceInput != nullptr );
+	auto* replaceInputLabel =
+		jnew JXStaticText(JGetString("replaceInputLabel::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,85, 220,20);
+	replaceInputLabel->SetToLabel(false);
 
 	itsReplaceAllButton =
 		jnew JXTextButton(JGetString("itsReplaceAllButton::JXSearchTextDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,110, 70,20);
-	assert( itsReplaceAllButton != nullptr );
+
+	itsReplaceAllInSelButton =
+		jnew JXTextButton(JGetString("itsReplaceAllInSelButton::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 370,110, 70,20);
+
+	itsPrevReplaceMenu =
+		jnew JXStringHistoryMenu(kHistoryLength, window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 245,118, 30,20);
+
+	itsIgnoreCaseCB =
+		jnew JXTextCheckbox(JGetString("itsIgnoreCaseCB::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,170, 130,20);
+	itsIgnoreCaseCB->SetShortcuts(JGetString("itsIgnoreCaseCB::shortcuts::JXSearchTextDialog::JXLayout"));
+
+	itsSearchIsRegexCB =
+		jnew JXTextCheckbox(JGetString("itsSearchIsRegexCB::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,170, 150,20);
+	itsSearchIsRegexCB->SetShortcuts(JGetString("itsSearchIsRegexCB::shortcuts::JXSearchTextDialog::JXLayout"));
+
+	itsReplaceIsRegexCB =
+		jnew JXTextCheckbox(JGetString("itsReplaceIsRegexCB::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,170, 110,20);
+	itsReplaceIsRegexCB->SetShortcuts(JGetString("itsReplaceIsRegexCB::shortcuts::JXSearchTextDialog::JXLayout"));
+
+	itsEntireWordCB =
+		jnew JXTextCheckbox(JGetString("itsEntireWordCB::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,200, 130,20);
+	itsEntireWordCB->SetShortcuts(JGetString("itsEntireWordCB::shortcuts::JXSearchTextDialog::JXLayout"));
+
+	itsSingleLineCB =
+		jnew JXTextCheckbox(JGetString("itsSingleLineCB::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,200, 150,20);
+	itsSingleLineCB->SetShortcuts(JGetString("itsSingleLineCB::shortcuts::JXSearchTextDialog::JXLayout"));
+
+	itsPreserveCaseCB =
+		jnew JXTextCheckbox(JGetString("itsPreserveCaseCB::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,200, 110,20);
+	itsPreserveCaseCB->SetShortcuts(JGetString("itsPreserveCaseCB::shortcuts::JXSearchTextDialog::JXLayout"));
+
+	itsWrapSearchCB =
+		jnew JXTextCheckbox(JGetString("itsWrapSearchCB::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,230, 130,20);
+	itsWrapSearchCB->SetShortcuts(JGetString("itsWrapSearchCB::shortcuts::JXSearchTextDialog::JXLayout"));
+
+	itsStayOpenCB =
+		jnew JXTextCheckbox(JGetString("itsStayOpenCB::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,230, 150,20);
+
+	itsRetainFocusCB =
+		jnew JXTextCheckbox(JGetString("itsRetainFocusCB::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,230, 110,20);
+
+	itsHelpButton =
+		jnew JXTextButton(JGetString("itsHelpButton::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,270, 80,20);
+	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::shortcuts::JXSearchTextDialog::JXLayout"));
+
+	itsQRefButton =
+		jnew JXTextButton(JGetString("itsQRefButton::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,270, 80,20);
+
+	itsCloseButton =
+		jnew JXTextButton(JGetString("itsCloseButton::JXSearchTextDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 320,270, 80,20);
+	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::shortcuts::JXSearchTextDialog::JXLayout"));
+
+	itsSearchInput =
+		jnew JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,30, 220,45);
+
+	itsReplaceInput =
+		jnew JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,105, 220,45);
 
 // end JXLayout
 
@@ -466,7 +439,6 @@ JXSearchTextDialog::SetObjects
 	)
 {
 	JXWindow* window = searchInput->GetWindow();
-	window->SetTitle(JGetString("WindowTitle::JXSearchTextDialog"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();

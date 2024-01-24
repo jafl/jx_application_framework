@@ -340,7 +340,6 @@ VariableSizeLabel::JXFontSizeMenu	"Other..."
 
 # JXSearchTextDialog
 
-WindowTitle::JXSearchTextDialog				"Search text"
 CloseShortcut::JXSearchTextDialog			"#W^["
 IgnoreCaseShortcut::JXSearchTextDialog		"#I"
 WrapSearchShortcut::JXSearchTextDialog		"#S"

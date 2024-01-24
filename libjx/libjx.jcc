@@ -484,6 +484,10 @@ T
 F
 "./code/JXSearchTextDialog.cpp"
 T
+2 "JXSearchTextDialog.jxl"
+F
+"./code/JXSearchTextDialog.jxl"
+T
 2 "JXSearchTextButton.cpp"
 F
 "./code/JXSearchTextButton.cpp"
@@ -859,6 +863,10 @@ T
 F
 "./code/JXMessageDialog.cpp"
 T
+2 "JXMessageDialog.jxl"
+F
+"./code/JXMessageDialog.jxl"
+T
 2 "JXWarningDialog.cpp"
 F
 "./code/JXWarningDialog.cpp"
@@ -917,6 +925,10 @@ T
 2 "JXVarLenPGDirector.cpp"
 F
 "./code/JXVarLenPGDirector.cpp"
+T
+2 "JXVarLenPGDirector.jxl"
+F
+"./code/JXVarLenPGDirector.jxl"
 T
 2 "JXProgressIndicator.cpp"
 F
