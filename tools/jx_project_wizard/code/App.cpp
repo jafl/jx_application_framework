@@ -26,7 +26,7 @@ App::App
 	bool*	displayLicense
 	)
 	:
-	JXApplication(argc, argv, kAppSignature, kDefaultStringData)
+	JXApplication(argc, argv, kAppSignature, kAppSignature, kDefaultStringData)
 {
 	*displayLicense = CreateGlobals(this);
 

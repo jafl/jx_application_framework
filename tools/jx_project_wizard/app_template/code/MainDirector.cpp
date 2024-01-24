@@ -76,6 +76,8 @@ MainDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 500,300, JGetString("WindowTitle::MainDirector::JXLayout"));
+	window->SetMinSize(200, 200);
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "<Binary>_Main_Window");
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -97,10 +99,6 @@ MainDirector::BuildWindow()
 	widget->SetToLabel(true);
 
 // end JXLayout
-
-	window->SetTitle(JGetString("WindowTitle::MainDirector"));
-	window->SetWMClass(GetWMClassInstance(), GetMainWindowClass());
-	window->SetMinSize(200, 200);
 
 	JXImage* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);
@@ -130,7 +128,7 @@ MainDirector::BuildWindow()
 
 	JPrefObject::ReadPrefs();
 
-	itsToolBar->LoadPrefs();
+	itsToolBar->LoadPrefs(nullptr);
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFileMenu, kQuitCmd);

@@ -160,20 +160,3 @@ GetVersionStr()
 	};
 	return JGetString("Description::globals", map, sizeof(map));
 }
-
-/******************************************************************************
- GetWMClassInstance
-
- ******************************************************************************/
-
-const JUtf8Byte*
-GetWMClassInstance()
-{
-	return "<Binary>";
-}
-
-const JUtf8Byte*
-GetMainWindowClass()
-{
-	return "<Binary>_Main_Window";
-}

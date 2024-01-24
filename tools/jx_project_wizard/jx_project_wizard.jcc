@@ -26,36 +26,28 @@ T
 2 "MainDialog.cpp"
 F
 "./code/MainDialog.cpp"
+T
+2 "MainDialog.jxl"
+F
+"./code/MainDialog.jxl"
 F
 T
-1 "help"
-T
-2 "jxwTOCHelpText"
-F
-"./strings/jxwTOCHelpText"
-T
-2 "jxwMainHelpText"
-F
-"./strings/jxwMainHelpText"
-T
-2 "jxwChangeLogText"
-F
-"./strings/jxwChangeLogText"
-T
-2 "jxwCreditsText"
-F
-"./strings/jxwCreditsText"
-F
-T
-1 "misc"
+1 "strings"
 T
 2 "strings"
 F
 "./strings/strings"
-T
-2 "jx_project_wizard.fd"
 F
-"./jx_project_wizard.fd"
+T
+1 "help"
+T
+2 "ChangeLog.html"
+F
+"./release/doc/ChangeLog.html"
+T
+2 "help.html"
+F
+"./release/doc/help.html"
 F
 F
 # tasks

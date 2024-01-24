@@ -72,9 +72,9 @@ AboutDialog::BuildWindow
 	imageWidget->SetXPM(about_icon);
 
 	auto* textWidget =
-		jnew JXStaticText(JGetString("textWidget::AboutDialog::JXLayout"), window,
+		jnew JXStaticText(JString::empty, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 280,50);
-	textWidget->SetToLabel(false);
+	assert( textWidget != nullptr );
 
 	itsCreditsButton =
 		jnew JXTextButton(JGetString("itsCreditsButton::AboutDialog::JXLayout"), window,

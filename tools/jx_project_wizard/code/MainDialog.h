@@ -34,21 +34,21 @@ private:
 
 // begin JXLayout
 
-	JXTextButton*      itsCreateButton;
-	JXTextButton*      itsQuitButton;
-	JXTextButton*      itsHelpButton;
-	JXInputField*      itsProgramName;
-	JXInputField*      itsDevName;
-	JXInputField*      itsDevEmail;
 	JXTextCheckbox*    itsNeedsMDICB;
 	JXTextButton*      itsChooseProjDirButton;
 	JXTextButton*      itsChooseTmplDirButton;
+	JXPathHistoryMenu* itsTmplDirHistory;
+	JXTextButton*      itsQuitButton;
+	JXTextButton*      itsHelpButton;
+	JXTextButton*      itsCreateButton;
+	JXInputField*      itsProgramName;
+	JXInputField*      itsDevName;
+	JXInputField*      itsDevEmail;
 	JXInputField*      itsCompanyName;
 	JXInputField*      itsDevURL;
 	JXInputField*      itsBinaryName;
 	JXPathInput*       itsProjectDir;
 	JXPathInput*       itsTemplateDir;
-	JXPathHistoryMenu* itsTmplDirHistory;
 	JXInputField*      itsOpenCmd;
 
 // end JXLayout
