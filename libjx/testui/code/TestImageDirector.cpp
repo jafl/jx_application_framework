@@ -74,6 +74,7 @@ TestImageDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestImageDirector::JXLayout"));
+	window->SetMinSize(100, 100);
 	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestImageDirector");
 
 	auto* menuBar =
@@ -91,8 +92,6 @@ TestImageDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 400,300);
 
 // end JXLayout
-
-	window->SetMinSize(100,100);
 
 	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestImageDirector_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);

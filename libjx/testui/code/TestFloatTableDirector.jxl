@@ -1,4 +1,4 @@
-jx_layout_editor 3
+jx_layout_editor 5
 400
 330
 "JXLayout"
@@ -16,6 +16,7 @@ jx_layout_editor 3
 "menuBar"
 0
 0
+0
 
 1
 0
@@ -24,6 +25,7 @@ jx_layout_editor 3
 0
 10 320 30 370
 "rangeLabel"
+0
 0
 0
 "-5 to 5:"
@@ -43,6 +45,7 @@ jx_layout_editor 3
 0
 1
 0
+0
 0 0
 0 0
 
@@ -55,6 +58,7 @@ jx_layout_editor 3
 "scrollbarSet"
 0
 0
+0
 
 1
 4
@@ -64,6 +68,7 @@ jx_layout_editor 3
 0 10 20 385
 "itsColHeader"
 1
+0
 0
 "JXColHeaderWidget"
 "itsTable, scrollbarSet"
@@ -79,6 +84,7 @@ jx_layout_editor 3
 "itsRowHeader"
 1
 0
+0
 "JXRowHeaderWidget"
 "itsTable, scrollbarSet"
 0
@@ -92,6 +98,7 @@ jx_layout_editor 3
 20 10 285 385
 "itsTable"
 1
+0
 0
 "TestFloatTable"
 "itsData, menuBar, scrollbarSet"

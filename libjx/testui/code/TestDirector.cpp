@@ -187,6 +187,7 @@ TestDirector::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestDirector::JXLayout"));
+	window->SetMinSize(150, 150);
 	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestDirector");
 
 	auto* menuBar =
@@ -205,7 +206,6 @@ TestDirector::BuildWindow
 
 // end JXLayout
 
-	window->SetMinSize(150,150);
 	if (isMaster)
 	{
 		window->SetCloseAction(JXWindow::kQuitApp);

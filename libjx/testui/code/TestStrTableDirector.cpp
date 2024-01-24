@@ -68,6 +68,7 @@ TestStrTableDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestStrTableDirector::JXLayout"));
+	window->SetMinSize(150, 150);
 	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestStrTableDirector");
 
 	auto* menuBar =
@@ -93,8 +94,6 @@ TestStrTableDirector::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 10,280);
 
 // end JXLayout
-
-	window->SetMinSize(150,150);
 
 	itsTable->TurnOnRowResizing(itsRowHeader);
 	itsColHeader->TurnOnColResizing();

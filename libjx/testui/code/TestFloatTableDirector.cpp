@@ -70,6 +70,7 @@ TestFloatTableDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestFloatTableDirector::JXLayout"));
+	window->SetMinSize(150, 150);
 	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestFloatTableDirector");
 
 	auto* menuBar =
@@ -78,7 +79,7 @@ TestFloatTableDirector::BuildWindow()
 	assert( menuBar != nullptr );
 
 	auto* rangeLabel =
-		jnew JXStaticText(JGetString("rangeLabel::TestFloatTableDirector::JXLayout"),window,
+		jnew JXStaticText(JGetString("rangeLabel::TestFloatTableDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,10, 50,20);
 	rangeLabel->SetToLabel(false);
 
@@ -102,11 +103,9 @@ TestFloatTableDirector::BuildWindow()
 	auto* extraInput =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 370,10, 30,20);
-	assert( extraInput != nullptr );
+	extraInput->SetIsRequired(false);
 
 // end JXLayout
-
-	window->SetMinSize(150,150);
 
 	itsColHeader->TurnOnColResizing();
 	ListenTo(itsRowHeader, std::function([this](const JXRowHeaderWidget::NeedsToBeWidened& msg)

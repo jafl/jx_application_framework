@@ -67,6 +67,7 @@ TestFileListDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JGetString("WindowTitle::TestFileListDirector::JXLayout"));
+	window->SetMinSize(150, 150);
 	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestFileListDirector");
 
 	auto* menuBar =
@@ -79,8 +80,6 @@ TestFileListDirector::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 
 // end JXLayout
-
-	window->SetMinSize(150, 150);
 
 	itsFileMenu = menuBar->PrependTextMenu(JGetString("MenuTitle::TestFileListDirector_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);

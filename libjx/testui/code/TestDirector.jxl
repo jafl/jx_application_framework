@@ -1,4 +1,4 @@
-jx_layout_editor 3
+jx_layout_editor 5
 400
 330
 "JXLayout"
@@ -16,6 +16,7 @@ jx_layout_editor 3
 "menuBar"
 0
 0
+0
 
 1
 0
@@ -24,6 +25,7 @@ jx_layout_editor 3
 2
 30 0 330 400
 "scrollbarSet"
+0
 0
 0
 
@@ -35,6 +37,7 @@ jx_layout_editor 3
 0 0 285 385
 "itsWidget"
 1
+0
 0
 "TestWidget"
 "isMaster, testWidgetIsImage, menuBar, scrollbarSet"
