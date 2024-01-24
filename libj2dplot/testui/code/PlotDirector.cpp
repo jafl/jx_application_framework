@@ -56,18 +56,18 @@ PlotDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 600,400, JString::empty);
+	window->SetMinSize(300, 200);
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
+	assert( menuBar != nullptr );
 
 	itsPlotWidget =
 		jnew JX2DPlotWidget(menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,370);
 
 // end JXLayout
-
-	window->SetMinSize(300, 200);
 
 	itsPSPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPSPrinter != nullptr );

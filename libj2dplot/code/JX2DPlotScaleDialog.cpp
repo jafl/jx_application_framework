@@ -108,83 +108,21 @@ JX2DPlotScaleDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 540,190, JString::empty);
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::JX2DPlotScaleDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 360,160, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::JX2DPlotScaleDialog::shortcuts::JXLayout"));
-
-	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::JX2DPlotScaleDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,160, 70,20);
-	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts(JGetString("cancelButton::JX2DPlotScaleDialog::shortcuts::JXLayout"));
-
-	itsXMin =
-		jnew JXFloatInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,20, 120,20);
-
-	auto* xRangeLabel =
-		jnew JXStaticText(JGetString("xRangeLabel::JX2DPlotScaleDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 70,20);
-	assert( xRangeLabel != nullptr );
-	xRangeLabel->SetToLabel();
-
-	auto* xToLabel =
-		jnew JXStaticText(JGetString("xToLabel::JX2DPlotScaleDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,20, 30,20);
-	assert( xToLabel != nullptr );
-	xToLabel->SetToLabel();
-
-	itsXMax =
-		jnew JXFloatInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,20, 120,20);
-
-	itsXIncLabel =
-		jnew JXStaticText(JGetString("itsXIncLabel::JX2DPlotScaleDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,50, 70,20);
-	assert( itsXIncLabel != nullptr );
-	itsXIncLabel->SetToLabel();
-
-	itsXInc =
-		jnew JXFloatInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,50, 120,20);
-
-	itsYMin =
-		jnew JXFloatInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,90, 120,20);
-
-	auto* yRangeLabel =
-		jnew JXStaticText(JGetString("yRangeLabel::JX2DPlotScaleDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 70,20);
-	assert( yRangeLabel != nullptr );
-	yRangeLabel->SetToLabel();
-
-	auto* yToLabel =
-		jnew JXStaticText(JGetString("yToLabel::JX2DPlotScaleDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,90, 30,20);
-	assert( yToLabel != nullptr );
-	yToLabel->SetToLabel();
-
-	itsYMax =
-		jnew JXFloatInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,90, 120,20);
-
-	itsYIncLabel =
-		jnew JXStaticText(JGetString("itsYIncLabel::JX2DPlotScaleDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,120, 70,20);
-	assert( itsYIncLabel != nullptr );
-	itsYIncLabel->SetToLabel();
-
-	itsYInc =
-		jnew JXFloatInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,120, 120,20);
+	auto* window = jnew JXWindow(this, 540,190, JGetString("WindowTitle::JX2DPlotScaleDialog::JXLayout"));
 
 	itsXAxisTypeRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,15, 124,64);
+
+	auto* xRangeLabel =
+		jnew JXStaticText(JGetString("xRangeLabel::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 70,20);
+	xRangeLabel->SetToLabel(false);
+
+	auto* xToLabel =
+		jnew JXStaticText(JGetString("xToLabel::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,20, 30,20);
+	xToLabel->SetToLabel(false);
 
 	auto* xLinearRB =
 		jnew JXTextRadioButton(kLinear, JGetString("xLinearRB::JX2DPlotScaleDialog::JXLayout"), itsXAxisTypeRG,
@@ -196,9 +134,24 @@ JX2DPlotScaleDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 100,20);
 	assert( xLogRB != nullptr );
 
+	itsXIncLabel =
+		jnew JXStaticText(JGetString("itsXIncLabel::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,50, 70,20);
+	itsXIncLabel->SetToLabel(false);
+
 	itsYAxisTypeRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,85, 124,64);
+
+	auto* yRangeLabel =
+		jnew JXStaticText(JGetString("yRangeLabel::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 70,20);
+	yRangeLabel->SetToLabel(false);
+
+	auto* yToLabel =
+		jnew JXStaticText(JGetString("yToLabel::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,90, 30,20);
+	yToLabel->SetToLabel(false);
 
 	auto* yLinearRB =
 		jnew JXTextRadioButton(kLinear, JGetString("yLinearRB::JX2DPlotScaleDialog::JXLayout"), itsYAxisTypeRG,
@@ -210,13 +163,56 @@ JX2DPlotScaleDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 100,20);
 	assert( yLogRB != nullptr );
 
+	itsYIncLabel =
+		jnew JXStaticText(JGetString("itsYIncLabel::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,120, 70,20);
+	itsYIncLabel->SetToLabel(false);
+
+	auto* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,160, 70,20);
+	cancelButton->SetShortcuts(JGetString("cancelButton::shortcuts::JX2DPlotScaleDialog::JXLayout"));
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 359,159, 72,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::JX2DPlotScaleDialog::JXLayout"));
+
+	itsXMin =
+		jnew JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,20, 120,20);
+	itsXMin->SetIsRequired(false);
+
+	itsXMax =
+		jnew JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,20, 120,20);
+	itsXMax->SetIsRequired(false);
+
+	itsXInc =
+		jnew JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,50, 120,20);
+	itsXInc->SetIsRequired(false);
+	itsXInc->SetLowerLimit(0);
+
+	itsYMin =
+		jnew JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,90, 120,20);
+	itsYMin->SetIsRequired(false);
+
+	itsYMax =
+		jnew JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,90, 120,20);
+	itsYMax->SetIsRequired(false);
+
+	itsYInc =
+		jnew JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,120, 120,20);
+	itsYInc->SetIsRequired(false);
+	itsYInc->SetLowerLimit(0);
+
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JX2DPlotScaleDialog"));
 	SetButtons(okButton, cancelButton);
-
-	itsXInc->SetLowerLimit(0.0);
-	itsYInc->SetLowerLimit(0.0);
 }
 
 /******************************************************************************

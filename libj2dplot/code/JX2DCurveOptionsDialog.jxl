@@ -1,0 +1,168 @@
+jx_layout_editor 5
+370
+260
+"JXLayout"
+"Curve Options"
+""
+""
+0
+
+1
+0
+"ScrollbarSet"
+2
+2
+10 10 250 150
+"scrollbarSet"
+0
+0
+0
+
+1
+1
+"CustomWidget"
+0
+0
+0 0 225 125
+"itsNameList"
+1
+0
+0
+"JX2DCurveNameList"
+"*itsCurveInfo, itsCurrentIndex, scrollbarSet"
+0
+""
+
+1
+0
+"TextCheckbox"
+0
+0
+20 180 40 280
+"itsShowCurveCB"
+1
+0
+0
+"Show curve"
+"#S"
+
+1
+0
+"RadioGroup"
+1
+0
+50 170 154 354
+"itsCurveStyleRG"
+1
+0
+0
+
+1
+4
+"TextRadioButton"
+0
+0
+10 10 30 180
+"itsShowPointsRB"
+1
+0
+0
+"kShowPoints"
+"Show points only"
+"#P"
+
+1
+4
+"TextRadioButton"
+0
+0
+30 10 50 180
+"itsShowSymbolsRB"
+1
+0
+0
+"kShowSymbols"
+"Show symbols only"
+"#M"
+
+1
+4
+"TextRadioButton"
+0
+0
+50 10 70 180
+"itsShowLinesRB"
+1
+0
+0
+"kShowLines"
+"Show lines only"
+"#L"
+
+1
+4
+"TextRadioButton"
+0
+0
+70 10 90 180
+"itsShowBothRB"
+1
+0
+0
+"kShowBoth"
+"Show lines and symbols"
+"#A"
+
+1
+0
+"TextCheckbox"
+0
+0
+170 180 190 290
+"itsShowXErrorsCB"
+1
+0
+0
+"Show X Errors"
+"#X"
+
+1
+0
+"TextCheckbox"
+0
+0
+190 180 210 290
+"itsShowYErrorsCB"
+1
+0
+0
+"Show Y Errors"
+"#Y"
+
+1
+0
+"TextButton"
+1
+1
+230 170 250 240
+"itsCancelButton"
+1
+0
+0
+"Cancel"
+"^["
+
+1
+0
+"TextButton"
+1
+1
+230 280 250 350
+"okButton"
+0
+0
+0
+"OK"
+"^M"
+
+0

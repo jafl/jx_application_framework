@@ -53,16 +53,16 @@ private:
 
 // begin JXLayout
 
+	JXRadioGroup* itsXAxisTypeRG;
+	JXStaticText* itsXIncLabel;
+	JXRadioGroup* itsYAxisTypeRG;
+	JXStaticText* itsYIncLabel;
 	JXFloatInput* itsXMin;
 	JXFloatInput* itsXMax;
-	JXStaticText* itsXIncLabel;
 	JXFloatInput* itsXInc;
 	JXFloatInput* itsYMin;
 	JXFloatInput* itsYMax;
-	JXStaticText* itsYIncLabel;
 	JXFloatInput* itsYInc;
-	JXRadioGroup* itsXAxisTypeRG;
-	JXRadioGroup* itsYAxisTypeRG;
 
 // end JXLayout
 

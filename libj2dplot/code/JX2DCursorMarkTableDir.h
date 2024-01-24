@@ -29,10 +29,9 @@ public:
 
 private:
 
-	JX2DCursorMarkTable*	itsTable;
-
 // begin JXLayout
 
+	JX2DCursorMarkTable* itsTable;
 
 // end JXLayout
 

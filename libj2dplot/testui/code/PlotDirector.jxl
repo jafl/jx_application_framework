@@ -1,0 +1,36 @@
+jx_layout_editor 5
+600
+400
+"JXLayout"
+""
+""
+""
+0
+
+1
+0
+"MenuBar"
+2
+0
+0 0 30 600
+"menuBar"
+0
+0
+0
+
+1
+0
+"CustomWidget"
+2
+2
+30 0 400 600
+"itsPlotWidget"
+1
+0
+0
+"JX2DPlotWidget"
+"menuBar"
+0
+""
+
+0

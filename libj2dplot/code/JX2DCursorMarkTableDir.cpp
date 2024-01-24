@@ -63,24 +63,21 @@ JX2DCursorMarkTableDir::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 250,200, JString::empty);
+	auto* window = jnew JXWindow(this, 250,200, JGetString("WindowTitle::JX2DCursorMarkTableDir::JXLayout"));
+	window->SetMinSize(250, 300);
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 250,200);
+	assert( scrollbarSet != nullptr );
+
+	itsTable =
+		jnew JX2DCursorMarkTable(plot, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 235,185);
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JX2DCursorMarkTableDir"));
-	window->SetMinSize(250,300);
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
-
-	itsTable =
-		jnew JX2DCursorMarkTable(plot,
-			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert (itsTable != nullptr);
-	itsTable->FitToEnclosure();
 }
 
 /******************************************************************************

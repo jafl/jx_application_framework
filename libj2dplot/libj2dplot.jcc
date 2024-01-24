@@ -31,17 +31,33 @@ T
 F
 "./code/JX2DPlotScaleDialog.cpp"
 T
+2 "JX2DPlotScaleDialog.jxl"
+F
+"./code/JX2DPlotScaleDialog.jxl"
+T
 2 "JX2DPlotLabelDialog.cpp"
 F
 "./code/JX2DPlotLabelDialog.cpp"
+T
+2 "JX2DPlotLabelDialog.jxl"
+F
+"./code/JX2DPlotLabelDialog.jxl"
 T
 2 "JX2DPlotRangeDialog.cpp"
 F
 "./code/JX2DPlotRangeDialog.cpp"
 T
+2 "JX2DPlotRangeDialog.jxl"
+F
+"./code/JX2DPlotRangeDialog.jxl"
+T
 2 "JX2DCurveOptionsDialog.cpp"
 F
 "./code/JX2DCurveOptionsDialog.cpp"
+T
+2 "JX2DCurveOptionsDialog.jxl"
+F
+"./code/JX2DCurveOptionsDialog.jxl"
 T
 2 "JX2DCurveNameList.cpp"
 F
@@ -53,6 +69,10 @@ T
 2 "JX2DCursorMarkTableDir.cpp"
 F
 "./code/JX2DCursorMarkTableDir.cpp"
+T
+2 "JX2DCursorMarkTableDir.jxl"
+F
+"./code/JX2DCursorMarkTableDir.jxl"
 T
 2 "JX2DCursorMarkTable.cpp"
 F
@@ -68,6 +88,18 @@ T
 2 "JX2DPlotPrintEPSDialog.cpp"
 F
 "./code/JX2DPlotPrintEPSDialog.cpp"
+T
+2 "JX2DPlotPrintEPSDialog.jxl"
+F
+"./code/JX2DPlotPrintEPSDialog.jxl"
+T
+2 "JX2DPlotPrintEPSDialog-Unit.jxm"
+F
+"./code/JX2DPlotPrintEPSDialog-Unit.jxm"
+T
+2 "JX2DPlotPrintEPSDialog-PredefSize.jxm"
+F
+"./code/JX2DPlotPrintEPSDialog-PredefSize.jxm"
 F
 T
 1 "data"
@@ -99,13 +131,6 @@ T
 2 "J2DVectorData.cpp"
 F
 "./code/J2DVectorData.cpp"
-F
-T
-1 "layouts"
-T
-2 "libj2dplot.fd"
-F
-"./libj2dplot.fd"
 F
 T
 1 "strings"

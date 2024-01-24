@@ -39,11 +39,11 @@ private:
 
 // begin JXLayout
 
+	JXFontNameMenu* itsFontMenu;
+	JXFontSizeMenu* itsSizeMenu;
 	JXInputField*   itsPlotTitle;
 	JXInputField*   itsXAxisLabel;
 	JXInputField*   itsYAxisLabel;
-	JXFontNameMenu* itsFontMenu;
-	JXFontSizeMenu* itsSizeMenu;
 
 // end JXLayout
 

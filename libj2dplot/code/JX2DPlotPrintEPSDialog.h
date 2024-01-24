@@ -48,10 +48,10 @@ private:
 
 // begin JXLayout
 
+	JXTextMenu*   itsPredefSizeMenu;
+	JXTextMenu*   itsUnitMenu;
 	JXFloatInput* itsWidthInput;
 	JXFloatInput* itsHeightInput;
-	JXTextMenu*   itsUnitMenu;
-	JXTextMenu*   itsPredefSizeMenu;
 
 // end JXLayout
 

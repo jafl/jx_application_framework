@@ -44,7 +44,7 @@ main
 {
 	ParseTextOptions(&argc, argv);
 
-	auto* app = jnew JXApplication(&argc, argv, "testj2dplot", kDefaultStringData);
+	auto* app = jnew JXApplication(&argc, argv, "testj2dplot", "testj2dplot", kDefaultStringData);
 
 	auto* dataDir = jnew PlotDirector(app);
 	TestData(dataDir);

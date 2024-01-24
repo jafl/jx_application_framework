@@ -1,0 +1,216 @@
+jx_menu_editor 0
+774 545
+"JX2DPlotPrintEPSDialog"
+"PredefSize"
+' 
+40
+40
+104
+136
+40
+109
+200
+75
+
+0
+1
+0
+0 ""
+"US letter"
+"1/4 page"
+' 
+"__USLetter14"
+"__USLetter14"
+0
+
+1
+0
+0 ""
+"."
+"1/2 page"
+' 
+"__USLetter12"
+"__USLetter12"
+0
+
+1
+0
+0 ""
+"."
+"full page"
+' 
+"__USLetter1"
+"__USLetter1"
+0
+
+1
+0
+0 ""
+"."
+"full page (landscape)"
+' 
+"__USLetter1L"
+"__USLetter1L"
+1
+
+1
+0
+0 ""
+"US legal"
+"1/4 page"
+' 
+"__USLegal14"
+"__USLegal14"
+0
+
+1
+0
+0 ""
+"."
+"1/2 page"
+' 
+"__USLegal12"
+"__USLegal12"
+0
+
+1
+0
+0 ""
+"."
+"full page"
+' 
+"__USLegal1"
+"__USLegal1"
+0
+
+1
+0
+0 ""
+"."
+"full page (landscape)"
+' 
+"__USLegal1L"
+"__USLegal1L"
+1
+
+1
+0
+0 ""
+"US executive"
+"1/4 page"
+' 
+"__USExecutive14"
+"__USExecutive14"
+0
+
+1
+0
+0 ""
+"."
+"1/2 page"
+' 
+"__USExecutive12"
+"__USExecutive12"
+0
+
+1
+0
+0 ""
+"."
+"full page"
+' 
+"__USExecutive1"
+"__USExecutive1"
+0
+
+1
+0
+0 ""
+"."
+"full page (landscape)"
+' 
+"__USExecutive1L"
+"__USExecutive1L"
+1
+
+1
+0
+0 ""
+"A4 letter"
+"1/4 page"
+' 
+"__A4Letter14"
+"__A4Letter14"
+0
+
+1
+0
+0 ""
+"."
+"1/2 page"
+' 
+"__A4Letter12"
+"__A4Letter12"
+0
+
+1
+0
+0 ""
+"."
+"full page"
+' 
+"__A4Letter1"
+"__A4Letter1"
+0
+
+1
+0
+0 ""
+"."
+"full page (landscape)"
+' 
+"__A4Letter1L"
+"__A4Letter1L"
+1
+
+1
+0
+0 ""
+"B5 letter"
+"1/4 page"
+' 
+"__B5Letter14"
+"__B5Letter14"
+0
+
+1
+0
+0 ""
+"."
+"1/2 page"
+' 
+"__B5Letter12"
+"__B5Letter12"
+0
+
+1
+0
+0 ""
+"."
+"full page"
+' 
+"__B5Letter1"
+"__B5Letter1"
+0
+
+1
+0
+0 ""
+"."
+"full page (landscape)"
+' 
+"__B5Letter1L"
+"__B5Letter1L"
+0
+
+0

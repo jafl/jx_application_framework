@@ -10,19 +10,11 @@ CursorMenuTitle::JX2DPlotWidget		"Cursors"
 
 TooSmall::JX2DPlotPrintEPSDialog	"The width or height that you have entered is too small."
 
-WindowTitle::JX2DPlotScaleDialog			"Edit Plot Scale"
 LimitsMustBeDifferent::JX2DPlotScaleDialog	"Limits cannot be equal."
 PositiveLimitsForLog::JX2DPlotScaleDialog	"Limits must be positive when using log scale."
 
-WindowTitle::JX2DPlotLabelDialog		"Edit Plot Labels"
 FontNameMenuTitle::JX2DPlotLabelDialog	"Font:"
 FontSizeMenuTitle::JX2DPlotLabelDialog	"Size:"
-
-WindowTitle::JX2DCurveOptionsDialog		"Curve Options"
-
-WindowTitle::JX2DPlotRangeDialog		"Edit Plot Range"
-
-WindowTitle::JX2DCursorMarkTableDir		"Cursor Mark Values"
 
 XColumnTitle::JX2DCursorMarkTable		"X Marks"
 YColumnTitle::JX2DCursorMarkTable		"Y Marks"

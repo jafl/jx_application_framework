@@ -64,63 +64,55 @@ JX2DPlotLabelDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 540,150, JString::empty);
+	auto* window = jnew JXWindow(this, 540,150, JGetString("WindowTitle::JX2DPlotLabelDialog::JXLayout"));
 
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::JX2DPlotLabelDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,120, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::JX2DPlotLabelDialog::shortcuts::JXLayout"));
+	auto* titleLabel =
+		jnew JXStaticText(JGetString("titleLabel::JX2DPlotLabelDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 90,20);
+	titleLabel->SetToLabel(false);
+
+	itsFontMenu =
+		jnew JXFontNameMenu(JGetString("FontNameMenuTitle::JX2DPlotLabelDialog"), false, window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 350,20, 170,30);
+
+	auto* xAxisLabel =
+		jnew JXStaticText(JGetString("xAxisLabel::JX2DPlotLabelDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 90,20);
+	xAxisLabel->SetToLabel(false);
+
+	itsSizeMenu =
+		jnew JXFontSizeMenu(itsFontMenu, JGetString("FontSizeMenuTitle::JX2DPlotLabelDialog"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 350,60, 170,30);
+
+	auto* yAxisLabel =
+		jnew JXStaticText(JGetString("yAxisLabel::JX2DPlotLabelDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
+	yAxisLabel->SetToLabel(false);
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JX2DPlotLabelDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,120, 70,20);
-	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts(JGetString("cancelButton::JX2DPlotLabelDialog::shortcuts::JXLayout"));
+	cancelButton->SetShortcuts(JGetString("cancelButton::shortcuts::JX2DPlotLabelDialog::JXLayout"));
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::JX2DPlotLabelDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 349,119, 72,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::JX2DPlotLabelDialog::JXLayout"));
 
 	itsPlotTitle =
 		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,20, 220,20);
 
-	auto* titleLabel =
-		jnew JXStaticText(JGetString("titleLabel::JX2DPlotLabelDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 90,20);
-	assert( titleLabel != nullptr );
-	titleLabel->SetToLabel();
-
 	itsXAxisLabel =
 		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,50, 220,20);
-
-	auto* xAxisLabel =
-		jnew JXStaticText(JGetString("xAxisLabel::JX2DPlotLabelDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 90,20);
-	assert( xAxisLabel != nullptr );
-	xAxisLabel->SetToLabel();
 
 	itsYAxisLabel =
 		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,80, 220,20);
 
-	auto* yAxisLabel =
-		jnew JXStaticText(JGetString("yAxisLabel::JX2DPlotLabelDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
-	assert( yAxisLabel != nullptr );
-	yAxisLabel->SetToLabel();
-
-	itsFontMenu =
-		jnew JXFontNameMenu(JGetString("FontNameMenuTitle::JX2DPlotLabelDialog"), false, window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 350,20, 170,30);
-	assert( itsFontMenu != nullptr );
-
-	itsSizeMenu =
-		jnew JXFontSizeMenu(itsFontMenu, JGetString("FontSizeMenuTitle::JX2DPlotLabelDialog"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 350,60, 170,30);
-	assert( itsSizeMenu != nullptr );
-
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JX2DPlotLabelDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsFontMenu->SetToPopupChoice();
