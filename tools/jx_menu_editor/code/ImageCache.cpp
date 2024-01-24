@@ -131,6 +131,7 @@ ImageCache::BuildIconMenu
 	{
 		auto* image = jnew JXImage(menu->GetDisplay(), empty_icon);
 		menu->PrependItem(image, true);
+		menu->SetTitleImage(image, false);
 	}
 }
 

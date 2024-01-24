@@ -63,7 +63,7 @@ DocumentManager::CreateFileHistoryMenu
 	assert( itsRecentFileMenu == nullptr );
 
 	itsRecentFileMenu =
-		jnew FileHistoryMenu(JString::empty, window,
+		jnew FileHistoryMenu(window,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  -20,0, 10,10);
 

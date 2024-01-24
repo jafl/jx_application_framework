@@ -158,6 +158,7 @@ MenuDocument::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 920,300, JString::empty);
+	window->SetMinSize(200, 100);
 	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "jx_menu_editor_Layout");
 
 	auto* menuBar =
@@ -204,7 +205,6 @@ MenuDocument::BuildWindow()
 // end JXLayout
 
 	AdjustWindowTitle();
-	window->SetMinSize(200, 100);
 
 	JXImage* image = jnew JXImage(GetDisplay(), main_window_icon);
 	window->SetIcon(image);

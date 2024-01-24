@@ -16,7 +16,7 @@ class FileHistoryMenu : public JXFileHistoryMenu
 {
 public:
 
-	FileHistoryMenu(const JString& title, JXContainer* enclosure,
+	FileHistoryMenu(JXContainer* enclosure,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);

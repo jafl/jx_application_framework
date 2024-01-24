@@ -1,4 +1,4 @@
-jx_layout_editor 3
+jx_layout_editor 5
 920
 300
 "JXLayout"
@@ -16,6 +16,7 @@ jx_layout_editor 3
 "menuBar"
 0
 0
+0
 
 1
 0
@@ -25,6 +26,7 @@ jx_layout_editor 3
 30 0 300 920
 "itsToolBar"
 1
+0
 0
 "GetPrefsManager()"
 "kMenuDocToolBarID"
@@ -37,6 +39,7 @@ jx_layout_editor 3
 0
 0 0 20 80
 "classNameLabel"
+0
 0
 0
 "Class name:"
@@ -58,6 +61,7 @@ jx_layout_editor 3
 0
 0
 0
+0
 ""
 ""
 ""
@@ -71,6 +75,7 @@ jx_layout_editor 3
 0
 0 230 20 300
 "menuTitleLabel"
+0
 0
 0
 "Menu title:"
@@ -92,6 +97,7 @@ jx_layout_editor 3
 0
 0
 0
+0
 ""
 ""
 ""
@@ -105,6 +111,7 @@ jx_layout_editor 3
 0
 0 440 20 570
 "windowsAltLabel"
+0
 0
 0
 "Windows Alt shortcut:"
@@ -123,6 +130,7 @@ jx_layout_editor 3
 "itsWindowsKeyInput"
 1
 3
+0
 
 1
 2
@@ -131,6 +139,7 @@ jx_layout_editor 3
 2
 30 0 240 920
 "scrollbarSet"
+0
 0
 0
 
