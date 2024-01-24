@@ -1,0 +1,220 @@
+jx_layout_editor 5
+440
+180
+"JXLayout"
+"Run command"
+""
+""
+0
+
+1
+0
+"StaticText"
+0
+0
+20 20 40 310
+"directoryLabel"
+0
+0
+0
+"Directory in which to run command:"
+1
+0
+0
+0
+0
+
+1
+0
+"PathInput"
+2
+0
+40 20 60 310
+"itsPathInput"
+1
+2
+0
+1
+1
+0
+
+1
+0
+"HistoryMenu"
+1
+0
+40 310 60 340
+"itsPathHistoryMenu"
+1
+0
+0
+2
+"kHistoryLength"
+
+1
+0
+"TextButton"
+1
+0
+40 360 60 420
+"itsChoosePathButton"
+1
+0
+0
+"Choose"
+""
+
+1
+0
+"StaticText"
+0
+0
+70 20 90 310
+"cmdLabel"
+0
+0
+0
+"Command to run:"
+1
+0
+0
+0
+0
+
+1
+0
+"InputField"
+2
+0
+90 20 110 310
+"itsCmdInput"
+1
+1
+0
+0
+0
+0
+""
+""
+""
+0
+0
+
+1
+0
+"CustomWidget"
+1
+0
+90 310 110 340
+"itsCmdHistoryMenu"
+1
+0
+0
+"JXFSCommandHistoryMenu"
+"kHistoryLength"
+0
+""
+
+1
+0
+"TextButton"
+1
+0
+90 360 110 420
+"itsChooseCmdButton"
+1
+0
+0
+"Browse"
+""
+
+1
+0
+"WidgetSet"
+1
+0
+120 150 180 430
+"ftcContainer"
+0
+0
+0
+
+1
+9
+"TextCheckbox"
+1
+0
+0 190 20 280
+"itsStayOpenCB"
+1
+0
+0
+"Stay open"
+""
+
+1
+0
+"TextCheckbox"
+0
+0
+130 20 150 140
+"itsUseShellCB"
+1
+0
+0
+"Run in shell"
+"#S"
+
+1
+0
+"TextCheckbox"
+0
+0
+150 20 170 140
+"itsUseWindowCB"
+1
+0
+0
+"Run in window"
+"#W"
+
+1
+9
+"TextButton"
+1
+0
+30 10 50 70
+"itsCloseButton"
+1
+0
+0
+"Close"
+"^["
+
+1
+9
+"TextButton"
+1
+0
+30 110 50 170
+"itsHelpButton"
+1
+0
+0
+"Help"
+"F1"
+
+1
+9
+"TextButton"
+1
+0
+30 210 50 270
+"itsRunButton"
+1
+0
+0
+"Run"
+"^M"
+
+0

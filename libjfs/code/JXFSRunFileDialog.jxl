@@ -1,0 +1,193 @@
+jx_layout_editor 5
+450
+170
+"JXLayout"
+"Run command with file"
+""
+""
+0
+
+1
+0
+"StaticText"
+2
+0
+20 20 40 320
+"prompt"
+0
+0
+0
+"Command to run:"
+1
+0
+0
+0
+0
+
+1
+0
+"InputField"
+2
+0
+40 20 60 320
+"itsCmdInput"
+1
+1
+0
+0
+0
+0
+""
+""
+""
+0
+0
+
+1
+0
+"CustomWidget"
+1
+0
+40 320 60 350
+"itsCmdHistoryMenu"
+1
+0
+0
+"JXFSCommandHistoryMenu"
+"kHistoryLength"
+0
+""
+
+1
+0
+"TextButton"
+1
+0
+40 370 60 430
+"itsChooseCmdButton"
+1
+0
+0
+"Browse"
+""
+
+1
+0
+"StaticText"
+1
+0
+60 20 80 360
+"cmdHint"
+0
+0
+0
+"(use $q in place of quoted file name, $u in place of unquoted file name)"
+1
+0
+0
+0
+0
+
+1
+0
+"TextCheckbox"
+0
+0
+90 20 110 150
+"itsUseShellCB"
+1
+0
+0
+"Run in shell"
+"#S"
+
+1
+0
+"WidgetSet"
+1
+0
+90 180 130 430
+"ftcContainer"
+0
+0
+0
+
+1
+7
+"TextButton"
+0
+0
+10 10 30 70
+"itsHelpButton"
+1
+0
+0
+"Help"
+"F1"
+
+1
+7
+"TextButton"
+0
+0
+10 110 30 170
+"cancelButton"
+0
+0
+0
+"Cancel"
+"^["
+
+1
+7
+"TextButton"
+0
+0
+10 189 30 249
+"itsOKButton"
+1
+0
+0
+"OK"
+"^M"
+
+1
+0
+"TextCheckbox"
+0
+0
+110 20 130 150
+"itsUseWindowCB"
+1
+0
+0
+"Run in window"
+"#W"
+
+1
+0
+"TextCheckbox"
+0
+0
+140 20 160 150
+"itsSingleFileCB"
+1
+0
+0
+"One file at a time"
+"#O"
+
+1
+0
+"TextCheckbox"
+1
+0
+140 160 160 430
+"itsSaveBindingCB"
+1
+0
+0
+"Always use this program for files of this type"
+"#U"
+
+0

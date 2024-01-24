@@ -1,0 +1,98 @@
+jx_layout_editor 5
+330
+130
+"JXLayout"
+"Run script"
+""
+""
+0
+
+1
+0
+"StaticText"
+0
+0
+20 20 40 130
+"cmdLabel"
+0
+0
+0
+"Command to run:"
+1
+0
+0
+0
+0
+
+1
+0
+"InputField"
+2
+0
+40 20 60 310
+"itsCmdInput"
+1
+1
+0
+0
+0
+0
+""
+""
+""
+0
+0
+
+1
+0
+"TextCheckbox"
+0
+0
+80 20 100 140
+"itsUseShellCB"
+1
+0
+0
+"Run in shell"
+"#S"
+
+1
+0
+"TextButton"
+1
+0
+90 160 110 220
+"cancelButton"
+0
+0
+0
+"Cancel"
+""
+
+1
+0
+"TextButton"
+1
+0
+90 250 110 310
+"runButton"
+0
+0
+0
+"Run"
+"^M"
+
+1
+0
+"TextCheckbox"
+0
+0
+100 20 120 140
+"itsUseWindowCB"
+1
+0
+0
+"Run in window"
+"#W"
+
+0

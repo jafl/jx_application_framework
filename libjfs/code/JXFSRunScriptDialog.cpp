@@ -87,17 +87,17 @@ JXFSRunScriptDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 330,130, JString::empty);
-
-	itsCmdInput =
-		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
+	auto* window = jnew JXWindow(this, 330,130, JGetString("WindowTitle::JXFSRunScriptDialog::JXLayout"));
 
 	auto* cmdLabel =
 		jnew JXStaticText(JGetString("cmdLabel::JXFSRunScriptDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 110,20);
-	assert( cmdLabel != nullptr );
-	cmdLabel->SetToLabel();
+	cmdLabel->SetToLabel(false);
+
+	itsUseShellCB =
+		jnew JXTextCheckbox(JGetString("itsUseShellCB::JXFSRunScriptDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 120,20);
+	itsUseShellCB->SetShortcuts(JGetString("itsUseShellCB::shortcuts::JXFSRunScriptDialog::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXFSRunScriptDialog::JXLayout"), window,
@@ -106,25 +106,20 @@ JXFSRunScriptDialog::BuildWindow
 
 	auto* runButton =
 		jnew JXTextButton(JGetString("runButton::JXFSRunScriptDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,90, 60,20);
-	assert( runButton != nullptr );
-	runButton->SetShortcuts(JGetString("runButton::JXFSRunScriptDialog::shortcuts::JXLayout"));
-
-	itsUseShellCB =
-		jnew JXTextCheckbox(JGetString("itsUseShellCB::JXFSRunScriptDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 120,20);
-	assert( itsUseShellCB != nullptr );
-	itsUseShellCB->SetShortcuts(JGetString("itsUseShellCB::JXFSRunScriptDialog::shortcuts::JXLayout"));
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 249,89, 62,22);
+	runButton->SetShortcuts(JGetString("runButton::shortcuts::JXFSRunScriptDialog::JXLayout"));
 
 	itsUseWindowCB =
 		jnew JXTextCheckbox(JGetString("itsUseWindowCB::JXFSRunScriptDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 120,20);
-	assert( itsUseWindowCB != nullptr );
-	itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::JXFSRunScriptDialog::shortcuts::JXLayout"));
+	itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::shortcuts::JXFSRunScriptDialog::JXLayout"));
+
+	itsCmdInput =
+		jnew JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JXFSRunScriptDialog"));
 	SetButtons(runButton, cancelButton);
 
 	JString s = cmd;

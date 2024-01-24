@@ -37,25 +37,25 @@ protected:
 
 private:
 
-	JXFSBindingTable*	itsTable;
 	JFSBindingList*		itsBindingList;
 	bool				itsSaveNeededFlag;
 	JFSBindingList*		itsOrigBindingList;		// not owned
 
 // begin JXLayout
 
-	JXTextButton*   itsSaveButton;
-	JXTextButton*   itsCloseButton;
-	JXTextButton*   itsRevertButton;
-	JXTextButton*   itsHelpButton;
-	JXInputField*   itsDefCmd;
-	JXTextCheckbox* itsUseDefaultCB;
-	JXInputField*   itsShellCmd;
-	JXInputField*   itsWindowCmd;
-	JXTextCheckbox* itsDefShellCB;
-	JXTextCheckbox* itsDefWindowCB;
-	JXTextCheckbox* itsDefSingleCB;
-	JXTextCheckbox* itsAutoShellCB;
+	JXTextCheckbox*   itsUseDefaultCB;
+	JXTextButton*     itsHelpButton;
+	JXTextCheckbox*   itsDefShellCB;
+	JXTextCheckbox*   itsDefWindowCB;
+	JXTextCheckbox*   itsDefSingleCB;
+	JXTextButton*     itsRevertButton;
+	JXTextButton*     itsSaveButton;
+	JXTextCheckbox*   itsAutoShellCB;
+	JXTextButton*     itsCloseButton;
+	JXFSBindingTable* itsTable;
+	JXInputField*     itsDefCmd;
+	JXInputField*     itsShellCmd;
+	JXInputField*     itsWindowCmd;
 
 // end JXLayout
 

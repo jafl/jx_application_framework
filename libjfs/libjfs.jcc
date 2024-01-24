@@ -1,4 +1,4 @@
-jx_browser_data 90
+jx_browser_data 94
 # project tree
 0 "root"
 T
@@ -31,9 +31,17 @@ T
 F
 "./code/JXFSRunFileDialog.cpp"
 T
+2 "JXFSRunFileDialog.jxl"
+F
+"./code/JXFSRunFileDialog.jxl"
+T
 2 "JXFSRunCommandDialog.cpp"
 F
 "./code/JXFSRunCommandDialog.cpp"
+T
+2 "JXFSRunCommandDialog.jxl"
+F
+"./code/JXFSRunCommandDialog.jxl"
 T
 2 "JXFSCommandHistoryMenu.cpp"
 F
@@ -42,6 +50,10 @@ T
 2 "JXFSRunScriptDialog.cpp"
 F
 "./code/JXFSRunScriptDialog.cpp"
+T
+2 "JXFSRunScriptDialog.jxl"
+F
+"./code/JXFSRunScriptDialog.jxl"
 F
 T
 1 "file tree"
@@ -71,13 +83,6 @@ T
 2 "jfs_strings"
 F
 "./strings/jfs_strings"
-F
-T
-1 "layout"
-T
-2 "libjfs.fd"
-F
-"./libjfs.fd"
 F
 F
 # tasks
