@@ -36,15 +36,15 @@ public:
 
 private:
 
-	JTree*					itsTree;		// we don't own this
-	JXToolBarEditWidget*	itsWidget;
+	JTree*	itsTree;		// we don't own this
 
 // begin JXLayout
 
-	JXTextCheckbox* itsShowToolBarCB;
-	JXTextCheckbox* itsUseSmallButtonsCB;
-	JXTextCheckbox* itsShowImagesCB;
-	JXTextCheckbox* itsShowTextCB;
+	JXTextCheckbox*      itsShowToolBarCB;
+	JXTextCheckbox*      itsShowImagesCB;
+	JXTextCheckbox*      itsUseSmallButtonsCB;
+	JXTextCheckbox*      itsShowTextCB;
+	JXToolBarEditWidget* itsWidget;
 
 // end JXLayout
 

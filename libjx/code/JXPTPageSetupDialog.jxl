@@ -1,0 +1,194 @@
+jx_layout_editor 5
+370
+190
+"JXLayout"
+""
+""
+""
+0
+
+1
+0
+"StaticText"
+0
+0
+20 10 39 110
+"printCmdLabel"
+0
+0
+0
+"Print command:"
+1
+0
+0
+0
+0
+
+1
+0
+"InputField"
+2
+0
+20 110 40 350
+"itsPrintCmd"
+1
+1
+0
+0
+0
+0
+""
+""
+""
+0
+0
+
+1
+0
+"StaticText"
+0
+0
+60 10 80 90
+"widthLabel"
+0
+0
+0
+"Page width:"
+1
+0
+0
+0
+0
+
+1
+0
+"IntegerInput"
+2
+0
+60 90 80 130
+"itsWidth"
+1
+2
+0
+0
+0 0
+0 0
+
+1
+0
+"StaticText"
+1
+0
+60 130 80 200
+"charsLabel"
+0
+0
+0
+"characters"
+1
+0
+0
+0
+0
+
+1
+0
+"TextButton"
+1
+0
+70 220 90 330
+"itsPrintTestButton"
+1
+0
+0
+"Print test page"
+""
+
+1
+0
+"StaticText"
+0
+0
+80 10 100 90
+"heightLabel"
+0
+0
+0
+"Page height:"
+1
+0
+0
+0
+0
+
+1
+0
+"IntegerInput"
+2
+0
+80 90 100 130
+"itsHeight"
+1
+3
+0
+0
+0 0
+0 0
+
+1
+0
+"StaticText"
+1
+0
+80 130 100 200
+"linesLabel"
+0
+0
+0
+"lines"
+1
+0
+0
+0
+0
+
+1
+0
+"TextCheckbox"
+0
+0
+120 90 140 280
+"itsPrintReverseOrderCB"
+1
+0
+0
+"Print pages in reverse order"
+"#R"
+
+1
+0
+"TextButton"
+0
+0
+160 70 180 140
+"cancelButton"
+0
+0
+0
+"Cancel"
+""
+
+1
+0
+"TextButton"
+1
+0
+160 220 180 290
+"okButton"
+0
+0
+0
+"OK"
+"^M"
+
+0

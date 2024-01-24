@@ -61,6 +61,8 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //		*** Renamed SetImage() to SetXPM() for consistency with JXImageWidget.
 //	JXImageRadioButton:
 //		*** Renamed SetImage() to SetXPM() for consistency with JXImageWidget.
+//	JXHistoryMenuBase and derived classes:
+//		*** Removed title ctor arg, since it's useless.
 
 // version 4.0.0:
 //	Supports utf-8

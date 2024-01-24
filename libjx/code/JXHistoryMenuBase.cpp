@@ -44,7 +44,6 @@ const JFileVersion kCurrentSetupVersion = 10000;
 JXHistoryMenuBase::JXHistoryMenuBase
 	(
 	const JSize			historyLength,
-	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -54,7 +53,7 @@ JXHistoryMenuBase::JXHistoryMenuBase
 	const JCoordinate	h
 	)
 	:
-	JXTextMenu(title, enclosure, hSizing, vSizing, x,y, w,h)
+	JXTextMenu(JString::empty, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXHistoryMenuBaseX(historyLength);
 }

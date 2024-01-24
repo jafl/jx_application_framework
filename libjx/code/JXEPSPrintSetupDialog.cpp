@@ -81,33 +81,33 @@ JXEPSPrintSetupDialog::BuildWindow
 	itsChooseFileButton =
 		jnew JXTextButton(JGetString("itsChooseFileButton::JXEPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
-	assert( itsChooseFileButton != nullptr );
 
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::JXEPSPrintSetupDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,100, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::JXEPSPrintSetupDialog::shortcuts::JXLayout"));
+	itsPreviewCheckbox =
+		jnew JXTextCheckbox(JGetString("itsPreviewCheckbox::JXEPSPrintSetupDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,60, 130,20);
+
+	itsBWCheckbox =
+		jnew JXTextCheckbox(JGetString("itsBWCheckbox::JXEPSPrintSetupDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,60, 150,20);
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXEPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,100, 70,20);
 	assert( cancelButton != nullptr );
 
-	itsBWCheckbox =
-		jnew JXTextCheckbox(JGetString("itsBWCheckbox::JXEPSPrintSetupDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,60, 150,20);
-	assert( itsBWCheckbox != nullptr );
-
-	itsPreviewCheckbox =
-		jnew JXTextCheckbox(JGetString("itsPreviewCheckbox::JXEPSPrintSetupDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,60, 130,20);
-	assert( itsPreviewCheckbox != nullptr );
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::JXEPSPrintSetupDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 229,99, 72,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXEPSPrintSetupDialog::JXLayout"));
 
 	itsFileInput =
 		jnew JXFileInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 100,20, 250,20);
-	assert( itsFileInput != nullptr );
+	itsFileInput->SetIsRequired(true);
+	itsFileInput->ShouldAllowInvalidFile(true);
+	itsFileInput->ShouldRequireReadable(true);
+	itsFileInput->ShouldRequireWritable(true);
+	itsFileInput->ShouldRequireExecutable(false);
 
 // end JXLayout
 

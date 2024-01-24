@@ -53,8 +53,7 @@ public:
 
 protected:
 
-	JXHistoryMenuBase(const JSize historyLength,
-					  const JString& title, JXContainer* enclosure,
+	JXHistoryMenuBase(const JSize historyLength, JXContainer* enclosure,
 					  const HSizingOption hSizing, const VSizingOption vSizing,
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);

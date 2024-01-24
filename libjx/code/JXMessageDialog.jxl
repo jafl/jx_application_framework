@@ -1,0 +1,53 @@
+jx_layout_editor 5
+330
+110
+"JXLayout"
+"Message"
+""
+""
+0
+
+1
+0
+"ImageWidget"
+0
+0
+20 20 60 60
+"icon"
+0
+0
+0
+0
+1 "jx_un_message.xpm"
+
+1
+0
+"StaticText"
+2
+1
+20 60 70 310
+"text"
+0
+0
+0
+""
+0
+0
+1
+1
+0
+
+1
+0
+"TextButton"
+1
+1
+80 140 100 200
+"okButton"
+0
+0
+0
+"Dismiss"
+"^M"
+
+0

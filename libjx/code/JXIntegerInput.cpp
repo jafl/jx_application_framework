@@ -146,59 +146,56 @@ JXIntegerInput::InputValid()
 	{
 		return false;
 	}
-	else
+
+	const JString& text = GetText()->GetText();
+	if (!IsRequired() && text.IsEmpty())
 	{
-		const JString& text = GetText()->GetText();
-
-		if (!IsRequired() && text.IsEmpty())
-		{
-			return true;
-		}
-
-		JInteger value;
-		if (!text.ConvertToInteger(&value))
-		{
-			JGetUserNotification()->ReportError(JGetString("NotANumber::JXIntegerInput"));
-			return false;
-		}
-
-		const bool valid = ValueValid(value);
-		JString errorStr;
-		if (!valid && itsHasLowerLimitFlag && itsHasUpperLimitFlag)
-		{
-			const JString n(itsLowerLimit, 0), m(itsUpperLimit, 0);
-			const JUtf8Byte* map[] =
-			{
-				"min", n.GetBytes(),
-				"max", m.GetBytes()
-			};
-			errorStr = JGetString("OutsideRange::JXIntegerInput", map, sizeof(map));
-		}
-		else if (!valid && itsHasLowerLimitFlag)
-		{
-			const JString n(itsLowerLimit, 0);
-			const JUtf8Byte* map[] =
-			{
-				"min", n.GetBytes()
-			};
-			errorStr = JGetString("BelowMin::JXIntegerInput", map, sizeof(map));
-		}
-		else if (!valid)
-		{
-			assert( itsHasUpperLimitFlag );
-
-			const JString n(itsUpperLimit, 0);
-			const JUtf8Byte* map[] =
-			{
-				"max", n.GetBytes()
-			};
-			errorStr = JGetString("AboveMax::JXIntegerInput", map, sizeof(map));
-		}
-
-		if (!valid)
-		{
-			JGetUserNotification()->ReportError(errorStr);
-		}
-		return valid;
+		return true;
 	}
+
+	JInteger value;
+	if (!text.ConvertToInteger(&value))
+	{
+		JGetUserNotification()->ReportError(JGetString("NotANumber::JXIntegerInput"));
+		return false;
+	}
+
+	const bool valid = ValueValid(value);
+	JString errorStr;
+	if (!valid && itsHasLowerLimitFlag && itsHasUpperLimitFlag)
+	{
+		const JString n(itsLowerLimit, 0), m(itsUpperLimit, 0);
+		const JUtf8Byte* map[] =
+		{
+			"min", n.GetBytes(),
+			"max", m.GetBytes()
+		};
+		errorStr = JGetString("OutsideRange::JXIntegerInput", map, sizeof(map));
+	}
+	else if (!valid && itsHasLowerLimitFlag)
+	{
+		const JString n(itsLowerLimit, 0);
+		const JUtf8Byte* map[] =
+		{
+			"min", n.GetBytes()
+		};
+		errorStr = JGetString("BelowMin::JXIntegerInput", map, sizeof(map));
+	}
+	else if (!valid)
+	{
+		assert( itsHasUpperLimitFlag );
+
+		const JString n(itsUpperLimit, 0);
+		const JUtf8Byte* map[] =
+		{
+			"max", n.GetBytes()
+		};
+		errorStr = JGetString("AboveMax::JXIntegerInput", map, sizeof(map));
+	}
+
+	if (!valid)
+	{
+		JGetUserNotification()->ReportError(errorStr);
+	}
+	return valid;
 }

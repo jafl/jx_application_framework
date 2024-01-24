@@ -88,69 +88,60 @@ JXPTPageSetupDialog::BuildWindow
 	auto* printCmdLabel =
 		jnew JXStaticText(JGetString("printCmdLabel::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 100,19);
-	assert( printCmdLabel != nullptr );
-	printCmdLabel->SetToLabel();
+	printCmdLabel->SetToLabel(false);
 
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::JXPTPageSetupDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,160, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::JXPTPageSetupDialog::shortcuts::JXLayout"));
+	auto* widthLabel =
+		jnew JXStaticText(JGetString("widthLabel::JXPTPageSetupDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 80,20);
+	widthLabel->SetToLabel(false);
+
+	auto* charsLabel =
+		jnew JXStaticText(JGetString("charsLabel::JXPTPageSetupDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,60, 70,20);
+	charsLabel->SetToLabel(false);
+
+	itsPrintTestButton =
+		jnew JXTextButton(JGetString("itsPrintTestButton::JXPTPageSetupDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,70, 110,20);
+
+	auto* heightLabel =
+		jnew JXStaticText(JGetString("heightLabel::JXPTPageSetupDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 80,20);
+	heightLabel->SetToLabel(false);
+
+	auto* linesLabel =
+		jnew JXStaticText(JGetString("linesLabel::JXPTPageSetupDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,80, 70,20);
+	linesLabel->SetToLabel(false);
+
+	itsPrintReverseOrderCB =
+		jnew JXTextCheckbox(JGetString("itsPrintReverseOrderCB::JXPTPageSetupDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,120, 190,20);
+	itsPrintReverseOrderCB->SetShortcuts(JGetString("itsPrintReverseOrderCB::shortcuts::JXPTPageSetupDialog::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 70,160, 70,20);
 	assert( cancelButton != nullptr );
 
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::JXPTPageSetupDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 219,159, 72,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXPTPageSetupDialog::JXLayout"));
+
 	itsPrintCmd =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 240,20);
-	assert( itsPrintCmd != nullptr );
 
 	itsWidth =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,60, 40,20);
-	assert( itsWidth != nullptr );
-
-	auto* widthLabel =
-		jnew JXStaticText(JGetString("widthLabel::JXPTPageSetupDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 80,20);
-	assert( widthLabel != nullptr );
-	widthLabel->SetToLabel();
-
-	auto* heightLabel =
-		jnew JXStaticText(JGetString("heightLabel::JXPTPageSetupDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 80,20);
-	assert( heightLabel != nullptr );
-	heightLabel->SetToLabel();
+	itsWidth->SetIsRequired(false);
 
 	itsHeight =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,80, 40,20);
-	assert( itsHeight != nullptr );
-
-	auto* charsLabel =
-		jnew JXStaticText(JGetString("charsLabel::JXPTPageSetupDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,60, 70,20);
-	assert( charsLabel != nullptr );
-	charsLabel->SetToLabel();
-
-	auto* linesLabel =
-		jnew JXStaticText(JGetString("linesLabel::JXPTPageSetupDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,80, 70,20);
-	assert( linesLabel != nullptr );
-	linesLabel->SetToLabel();
-
-	itsPrintTestButton =
-		jnew JXTextButton(JGetString("itsPrintTestButton::JXPTPageSetupDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,70, 110,20);
-	assert( itsPrintTestButton != nullptr );
-
-	itsPrintReverseOrderCB =
-		jnew JXTextCheckbox(JGetString("itsPrintReverseOrderCB::JXPTPageSetupDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,120, 190,20);
-	assert( itsPrintReverseOrderCB != nullptr );
-	itsPrintReverseOrderCB->SetShortcuts(JGetString("itsPrintReverseOrderCB::JXPTPageSetupDialog::shortcuts::JXLayout"));
+	itsHeight->SetIsRequired(false);
 
 // end JXLayout
 

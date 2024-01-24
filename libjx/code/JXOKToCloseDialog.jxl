@@ -1,0 +1,79 @@
+jx_layout_editor 5
+330
+110
+"JXLayout"
+"Warning"
+""
+""
+0
+
+1
+0
+"ImageWidget"
+0
+0
+20 20 60 60
+"icon"
+0
+0
+0
+0
+1 "jx_un_warning.xpm"
+
+1
+0
+"StaticText"
+2
+2
+20 60 70 310
+"text"
+0
+0
+0
+""
+1
+0
+0
+0
+0
+
+1
+0
+"TextButton"
+0
+1
+80 50 100 130
+"itsDiscardButton"
+1
+0
+0
+"Don't save"
+"#N"
+
+1
+0
+"TextButton"
+1
+1
+80 170 100 230
+"cancelButton"
+0
+0
+0
+"Cancel"
+""
+
+1
+0
+"TextButton"
+1
+1
+80 250 100 310
+"saveButton"
+0
+0
+0
+"Save"
+"#S^M"
+
+0

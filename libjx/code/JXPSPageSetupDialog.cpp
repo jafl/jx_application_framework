@@ -43,38 +43,6 @@ static const JPSPrinter::ImageOrientation kIndexToOrient[] =
 static const JSize kOrientCount =
 	sizeof(kIndexToOrient)/sizeof(JPSPrinter::ImageOrientation);
 
-// bitmaps
-
-static unsigned char kPortraitData[] =
-{
-   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfe, 0xff, 0x00,
-   0x10, 0x02, 0x80, 0x01, 0x38, 0x02, 0x8e, 0x02, 0x7c, 0x02, 0x91, 0x04,
-   0xfe, 0x02, 0x91, 0x0f, 0x38, 0x02, 0x11, 0x08, 0x38, 0x02, 0x0a, 0x08,
-   0x38, 0xc2, 0x71, 0x08, 0x38, 0x22, 0x80, 0x08, 0x38, 0x22, 0x80, 0x08,
-   0x38, 0x22, 0x80, 0x08, 0x38, 0xa2, 0xa0, 0x08, 0x38, 0xa2, 0xa0, 0x08,
-   0x38, 0xa2, 0xa0, 0x08, 0x38, 0xa2, 0xa0, 0x08, 0x00, 0xa2, 0xa0, 0x08,
-   0x28, 0xe2, 0xee, 0x08, 0x00, 0x82, 0x2a, 0x08, 0x28, 0x82, 0x2a, 0x08,
-   0x00, 0x82, 0x2a, 0x08, 0x28, 0x82, 0x2a, 0x08, 0x00, 0x82, 0x2a, 0x08,
-   0x28, 0x82, 0x2a, 0x08, 0x00, 0x82, 0x3b, 0x08, 0x00, 0x02, 0x00, 0x08,
-   0x00, 0xfe, 0xff, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-};
-static const JConstBitmap kPortraitBitmap = { 30,30, kPortraitData };
-
-static unsigned char kLandscapeData[] =
-{
-   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfe, 0xff, 0x00,
-   0x10, 0x02, 0x80, 0x01, 0x38, 0x02, 0x80, 0x02, 0x7c, 0x02, 0x80, 0x04,
-   0xfe, 0x02, 0x80, 0x0f, 0x38, 0x02, 0x00, 0x08, 0x38, 0x02, 0x00, 0x08,
-   0x38, 0x02, 0x00, 0x08, 0x38, 0xfa, 0x07, 0x08, 0x38, 0x0a, 0x08, 0x08,
-   0x38, 0xfe, 0x08, 0x08, 0x38, 0x02, 0xe8, 0x08, 0x38, 0x02, 0x10, 0x09,
-   0x38, 0x02, 0x00, 0x09, 0x38, 0x02, 0x10, 0x09, 0x00, 0x02, 0xe8, 0x08,
-   0x28, 0xfe, 0x08, 0x08, 0x00, 0x0a, 0x08, 0x08, 0x28, 0xfa, 0x07, 0x08,
-   0x00, 0x02, 0x00, 0x08, 0x28, 0x02, 0x00, 0x08, 0x00, 0x02, 0x00, 0x08,
-   0x28, 0x02, 0x00, 0x08, 0x00, 0x02, 0x00, 0x08, 0x00, 0x02, 0x00, 0x08,
-   0x00, 0xfe, 0xff, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-};
-static const JConstBitmap kLandscapeBitmap = { 30,30, kLandscapeData };
-
 /******************************************************************************
  Constructor function (static)
 
@@ -126,44 +94,48 @@ JXPSPageSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 240,160, JString::empty);
+	auto* window = jnew JXWindow(this, 240,160, JGetString("WindowTitle::JXPSPageSetupDialog::JXLayout"));
+
+	itsPaperTypeMenu =
+		jnew JXTextMenu(JGetString("itsPaperTypeMenu::JXPSPageSetupDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 30,20, 180,30);
+
+	itsOrientation =
+		jnew JXRadioGroup(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 95,65, 94,54);
+
+	auto* portraitRB =
+		jnew JXImageRadioButton(1, itsOrientation,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,5, 40,40);
+#ifndef _H_jx_print_portrait
+#define _H_jx_print_portrait
+#include "jx_print_portrait.xpm"
+#endif
+	portraitRB->SetXPM(jx_print_portrait);
+
+	auto* landscapeRB =
+		jnew JXImageRadioButton(2, itsOrientation,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 45,5, 40,40);
+#ifndef _H_jx_print_landscape
+#define _H_jx_print_landscape
+#include "jx_print_landscape.xpm"
+#endif
+	landscapeRB->SetXPM(jx_print_landscape);
 
 	auto* orientationLabel =
 		jnew JXStaticText(JGetString("orientationLabel::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,85, 75,20);
-	assert( orientationLabel != nullptr );
-	orientationLabel->SetToLabel();
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::JXPSPageSetupDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 140,130, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::JXPSPageSetupDialog::shortcuts::JXLayout"));
+	orientationLabel->SetToLabel(false);
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,130, 70,20);
 	assert( cancelButton != nullptr );
 
-	itsOrientation =
-		jnew JXRadioGroup(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 95,65, 94,54);
-	assert( itsOrientation != nullptr );
-
-	auto* portraitRB =
-		jnew JXImageRadioButton(1, itsOrientation,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,5, 40,40);
-	assert( portraitRB != nullptr );
-
-	auto* landscapeRB =
-		jnew JXImageRadioButton(2, itsOrientation,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 45,5, 40,40);
-	assert( landscapeRB != nullptr );
-
-	itsPaperTypeMenu =
-		jnew JXTextMenu(JGetString("itsPaperTypeMenu::JXPSPageSetupDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 30,20, 180,30);
-	assert( itsPaperTypeMenu != nullptr );
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::JXPSPageSetupDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 139,129, 72,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXPSPageSetupDialog::JXLayout"));
 
 // end JXLayout
 
@@ -194,7 +166,6 @@ JIndex i;
 	itsPaperTypeMenu = paperTypeMenu;
 	itsOrientation   = orientationRG;
 
-	(paperTypeMenu->GetWindow())->SetTitle(JGetString("WindowTitle::JXPSPageSetupDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsPaperTypeMenu->SetMenuItems(kPaperMenuStr);
@@ -235,10 +206,7 @@ JIndex i;
 	}
 	assert( foundOrient );
 
-	portraitRB->SetBitmap(kPortraitBitmap);
 	portraitRB->SetHint(JGetString("PortraitHint::JXPSPageSetupDialog"));
-
-	landscapeRB->SetBitmap(kLandscapeBitmap);
 	landscapeRB->SetHint(JGetString("LandscapeHint::JXPSPageSetupDialog"));
 }
 

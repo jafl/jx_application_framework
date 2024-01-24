@@ -8,15 +8,14 @@
  ******************************************************************************/
 
 #include "JXOKToCloseDialog.h"
+#include "JXDisplay.h"
 #include "JXWindow.h"
 #include "JXTextButton.h"
 #include "JXStaticText.h"
 #include "JXImageWidget.h"
-#include "JXImage.h"
+#include "JXImageCache.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
-
-#include "jx_un_warning.xpm"
 
 /******************************************************************************
  Constructor
@@ -56,38 +55,39 @@ JXOKToCloseDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 330,110, JString::empty);
-
-	auto* saveButton =
-		jnew JXTextButton(JGetString("saveButton::JXOKToCloseDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,80, 60,20);
-	assert( saveButton != nullptr );
-	saveButton->SetShortcuts(JGetString("saveButton::JXOKToCloseDialog::shortcuts::JXLayout"));
-
-	itsDiscardButton =
-		jnew JXTextButton(JGetString("itsDiscardButton::JXOKToCloseDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,80, 80,20);
-	assert( itsDiscardButton != nullptr );
-	itsDiscardButton->SetShortcuts(JGetString("itsDiscardButton::JXOKToCloseDialog::shortcuts::JXLayout"));
-
-	auto* text =
-		jnew JXStaticText(JGetString("text::JXOKToCloseDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 60,20, 250,50);
-	assert( text != nullptr );
+	auto* window = jnew JXWindow(this, 330,110, JGetString("WindowTitle::JXOKToCloseDialog::JXLayout"));
 
 	auto* icon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
-	assert( icon != nullptr );
+#ifndef _H_jx_af_image_jx_jx_un_warning
+#define _H_jx_af_image_jx_jx_un_warning
+#include <jx-af/image/jx/jx_un_warning.xpm>
+#endif
+	icon->SetImage(GetDisplay()->GetImageCache()->GetImage(jx_un_warning), false);
+
+	auto* text =
+		jnew JXStaticText(JString::empty, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 60,20, 250,50);
+	text->SetToLabel(false);
+
+	itsDiscardButton =
+		jnew JXTextButton(JGetString("itsDiscardButton::JXOKToCloseDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,80, 80,20);
+	itsDiscardButton->SetShortcuts(JGetString("itsDiscardButton::shortcuts::JXOKToCloseDialog::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXOKToCloseDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 170,80, 60,20);
 	assert( cancelButton != nullptr );
 
+	auto* saveButton =
+		jnew JXTextButton(JGetString("saveButton::JXOKToCloseDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 249,79, 62,22);
+	saveButton->SetShortcuts(JGetString("saveButton::shortcuts::JXOKToCloseDialog::JXLayout"));
+
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JXOKToCloseDialog"));
 	SetButtons(saveButton, cancelButton);
 	ListenTo(itsDiscardButton, std::function([this](const JXButton::Pushed&)
 	{
@@ -95,5 +95,5 @@ JXOKToCloseDialog::BuildWindow
 		EndDialog(true);
 	}));
 
-	Init(window, text, message, icon, jx_un_warning);
+	Init(window, text, message);
 }

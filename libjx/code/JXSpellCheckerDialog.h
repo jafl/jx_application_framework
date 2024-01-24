@@ -45,19 +45,19 @@ private:
 	JStyledText::TextIndex	itsCurrentIndex;
 	bool					itsFoundErrorsFlag;
 
-	JXSpellList*		itsSuggestionWidget;
 	JPtrArray<JString>*	itsSuggestionList;
 
 // begin JXLayout
 
 	JXStaticText* itsCheckText;
-	JXInputField* itsFirstGuess;
-	JXTextButton* itsIgnoreButton;
 	JXTextButton* itsChangeButton;
-	JXTextButton* itsLearnButton;
+	JXTextButton* itsIgnoreButton;
+	JXSpellList*  itsSuggestionWidget;
 	JXTextButton* itsChangeAllButton;
-	JXTextButton* itsCloseButton;
+	JXTextButton* itsLearnButton;
 	JXTextButton* itsLearnCapsButton;
+	JXTextButton* itsCloseButton;
+	JXInputField* itsFirstGuess;
 
 // end JXLayout
 

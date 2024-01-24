@@ -1,0 +1,91 @@
+jx_layout_editor 5
+370
+130
+"JXLayout"
+""
+""
+""
+0
+
+1
+0
+"TextButton"
+0
+0
+20 20 40 100
+"itsChooseFileButton"
+1
+0
+0
+"Choose file"
+""
+
+1
+0
+"FileInput"
+2
+0
+20 100 40 350
+"itsFileInput"
+1
+1
+0
+1
+1
+1
+1
+0
+
+1
+0
+"TextCheckbox"
+0
+0
+60 30 80 160
+"itsPreviewCheckbox"
+1
+0
+0
+"Include preview"
+""
+
+1
+0
+"TextCheckbox"
+1
+0
+60 190 80 340
+"itsBWCheckbox"
+1
+0
+0
+"Black & White output"
+""
+
+1
+0
+"TextButton"
+0
+0
+100 80 120 150
+"cancelButton"
+0
+0
+0
+"Cancel"
+""
+
+1
+0
+"TextButton"
+1
+0
+100 230 120 300
+"okButton"
+0
+0
+0
+"Print"
+"^M"
+
+0

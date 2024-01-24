@@ -307,12 +307,12 @@ JXSearchTextDialog::BuildWindow()
 	itsEntireWordCB->SetShortcuts(JGetString("itsEntireWordCB::JXSearchTextDialog::shortcuts::JXLayout"));
 
 	itsPrevReplaceMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
+		jnew JXStringHistoryMenu(kHistoryLength, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 245,118, 30,20);
 	assert( itsPrevReplaceMenu != nullptr );
 
 	itsPrevSearchMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, window,
+		jnew JXStringHistoryMenu(kHistoryLength, window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 245,43, 30,20);
 	assert( itsPrevSearchMenu != nullptr );
 

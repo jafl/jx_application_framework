@@ -1,0 +1,60 @@
+jx_layout_editor 5
+500
+210
+"JXLayout"
+"Message Window"
+""
+""
+0
+
+1
+0
+"ScrollbarSet"
+2
+2
+0 0 170 500
+"scrollbarSet"
+0
+0
+0
+
+1
+0
+"TextButton"
+0
+1
+180 20 200 80
+"itsPrintButton"
+1
+0
+0
+"Print"
+""
+
+1
+0
+"TextButton"
+0
+1
+180 100 200 160
+"itsSaveButton"
+1
+0
+0
+"Save"
+""
+
+1
+0
+"TextButton"
+0
+1
+180 180 200 240
+"itsCloseButton"
+1
+0
+0
+"Close"
+"^["
+
+0

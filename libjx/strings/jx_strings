@@ -228,7 +228,6 @@ NoAutoDockNewWindows::JXDocktab
 
 # JXSpellCheckerDialog
 
-WindowTitle::JXSpellCheckerDialog			"Spelling"
 DefaultButtonShortcut::JXSpellCheckerDialog	"^M"
 NoErrors::JXSpellCheckerDialog				"No errors were found."
 
@@ -279,23 +278,11 @@ MustEnterFileName::JXSaveFileDialog	"You need to enter a file name."
 DirExists::JXSaveFileDialog			"This name is already used for a directory."
 WarnReplaceFile::JXSaveFileDialog	"That file already exists.  Replace it?"
 
-# JXMessageDialog
-
-WindowTitle::JXMessageDialog	"Message"
-
 # JXWarningDialog
 
 WarningWindowTitle::JXWarningDialog		"Warning"
 QuestionWindowTitle::JXWarningDialog	"Question"
 NoShortcuts::JXWarningDialog			"#N"
-
-# JXErrorDialog
-
-WindowTitle::JXErrorDialog	"Error"
-
-# JXOKToCloseDialog
-
-WindowTitle::JXOKToCloseDialog	"Warning"
 
 # JXStringCompletionMenu
 
@@ -333,7 +320,6 @@ SaveFilePrompt::JXPTPrintSetupDialog	"Save text file as:"
 
 # JXPSPrintSetupDialog
 
-WindowTitle::JXPSPrintSetupDialog			"Print Setup"
 ChooseFileShortcut::JXPSPrintSetupDialog	"#O"
 BWCheckboxShortcut::JXPSPrintSetupDialog	"#B"
 PrintAllShortcut::JXPSPrintSetupDialog		"#L"
@@ -342,14 +328,6 @@ CollateCBShortcut::JXPSPrintSetupDialog		"#E"
 MissingFileName::JXPSPrintSetupDialog	"Please specify a destination file."
 DirNotWritable::JXPSPrintSetupDialog	"The file cannot be created because the you do not have write access to the specified directory."
 SaveFilePrompt::JXPSPrintSetupDialog	"Save PostScript file as:"
-
-# JXGoToLineDialog
-
-WindowTitle::JXGoToLineDialog	"Go to line"
-
-# JXChooseFontSizeDialog
-
-WindowTitle::JXChooseFontSizeDialog	"Choose font size"
 
 # JXChooseMonoFont
 
@@ -397,10 +375,6 @@ EmptySearchText::JXSearchTextDialog	"You must enter something for which to searc
 HelpURL::JXSearchTextDialog		"https://libjx.sourceforge.net/help/regex.html"
 QuickRefURL::JXSearchTextDialog	"https://libjx.sourceforge.net/help/regex-qref.html"
 
-# JXToolBarEditDialog
-
-WindowTitle::JXToolBarEditDialog	"Configure Toolbar"
-
 # JXFileListSet
 
 FilterLabel::JXFileListSet	"Filter:"
@@ -418,24 +392,14 @@ Label::JXNewDirButton	"New  "
 
 MustSaveSameOnComputer::JXDSSSelection	"You cannot save the file on a different computer."
 
-# JXAcceptLicenseDialog
-
-WindowTitle::JXAcceptLicenseDialog	"License"
-
 # JXPGDirectorBase
 
-WindowTitle::JXPGDirectorBase				"Progress"
 CannotQuitWhileRunning::JXPGDirectorBase	"You cannot quit while this process is running."
 
 # JXPGMessageDirector
 
-WindowTitle::JXPGMessageDirector	"Message Window"
 SavePrompt::JXPGMessageDirector		"Save messages in:"
 DefaultName::JXPGMessageDirector	"messages"
-
-# JXEditWWWPrefsDialog
-
-WindowTitle::JXEditWWWPrefsDialog	"Web Browser Preferences"
 
 # JXChooseColorDialog
 
@@ -448,7 +412,6 @@ UnableToSave::JXPSPrinter			"Unable to create the file.  Please check that the d
 
 # JXPSPageSetupDialog
 
-WindowTitle::JXPSPageSetupDialog	"Page Setup"
 PortraitHint::JXPSPageSetupDialog	"Portrait (tall)"
 LandscapeHint::JXPSPageSetupDialog	"Landscape (wide)"
 
@@ -474,10 +437,6 @@ SavePrompt::JXHelpDirector				"Save text as:"
 
 WindowTitle::JXTipOfTheDayDialog	"Tip of the Day"
 FontName::JXTipOfTheDayDialog		"Times"
-
-# JXMacWinPrefsDialog
-
-WindowTitle::JXMacWinPrefsDialog	"Macintosh / Windows / X Preferences"
 
 # JXImage
 

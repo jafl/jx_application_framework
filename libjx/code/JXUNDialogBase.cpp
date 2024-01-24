@@ -12,9 +12,7 @@
 #include "JXDisplay.h"
 #include "JXWindow.h"
 #include "JXStaticText.h"
-#include "JXImageWidget.h"
-#include "JXImage.h"
-#include "JXImageCache.h"
+#include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -47,11 +45,11 @@ JXUNDialogBase::Init
 	(
 	JXWindow*		window,
 	JXStaticText*	text,
-	const JString&	message,
-	JXImageWidget*	icon,
-	const JXPM&		xpm
+	const JString&	message
 	)
 {
+	text->SetBorderWidth(0);
+	text->SetBackgroundColor(JColorManager::GetDefaultBackColor());
 	if (JUserNotification::GetBreakMessageCROnly())
 	{
 		text->SetBreakCROnly(true);
@@ -110,8 +108,4 @@ JXUNDialogBase::Init
 	window->HideFromTaskbar();
 
 	text->SetSizing(JXWidget::kHElastic, JXWidget::kFixedTop);		// allow ftc expansion
-
-	// display the icon
-
-	icon->SetImage(GetDisplay()->GetImageCache()->GetImage(xpm), false);
 }

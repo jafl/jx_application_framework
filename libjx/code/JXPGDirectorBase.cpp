@@ -152,7 +152,6 @@ JXPGDirectorBase::Init
 	JXButton*		cancelButton
 	)
 {
-	window->SetTitle(JGetString("WindowTitle::JXPGDirectorBase"));
 	window->HideFromTaskbar();
 
 	// instantaneous redraw when Raise()

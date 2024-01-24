@@ -61,18 +61,18 @@ private:
 
 // begin JXLayout
 
-	JXStaticText*   itsPrintCmdLabel;
 	JXRadioGroup*   itsDestination;
-	JXInputField*   itsPrintCmd;
+	JXStaticText*   itsPrintCmdLabel;
 	JXTextButton*   itsChooseFileButton;
-	JXIntegerInput* itsCopyCount;
-	JXTextCheckbox* itsBWCheckbox;
-	JXIntegerInput* itsFirstPageIndex;
-	JXIntegerInput* itsLastPageIndex;
+	JXTextCheckbox* itsCollateCB;
 	JXTextCheckbox* itsPrintAllCB;
 	JXStaticText*   itsFirstPageIndexLabel;
 	JXStaticText*   itsLastPageIndexLabel;
-	JXTextCheckbox* itsCollateCB;
+	JXTextCheckbox* itsBWCheckbox;
+	JXInputField*   itsPrintCmd;
+	JXIntegerInput* itsCopyCount;
+	JXIntegerInput* itsFirstPageIndex;
+	JXIntegerInput* itsLastPageIndex;
 
 // end JXLayout
 

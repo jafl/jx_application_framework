@@ -516,9 +516,17 @@ T
 F
 "./code/JXChooseFontSizeDialog.cpp"
 T
+2 "JXChooseFontSizeDialog.jxl"
+F
+"./code/JXChooseFontSizeDialog.jxl"
+T
 2 "JXGoToLineDialog.cpp"
 F
 "./code/JXGoToLineDialog.cpp"
+T
+2 "JXGoToLineDialog.jxl"
+F
+"./code/JXGoToLineDialog.jxl"
 T
 2 "JXLinkText.cpp"
 F
@@ -538,6 +546,10 @@ T
 2 "JXSpellCheckerDialog.cpp"
 F
 "./code/JXSpellCheckerDialog.cpp"
+T
+2 "JXSpellCheckerDialog.jxl"
+F
+"./code/JXSpellCheckerDialog.jxl"
 T
 2 "JXSpellList.cpp"
 F
@@ -673,6 +685,10 @@ T
 F
 "./code/JXToolBarEditDialog.cpp"
 T
+2 "JXToolBarEditDialog.jxl"
+F
+"./code/JXToolBarEditDialog.jxl"
+T
 2 "JXToolBarEditWidget.cpp"
 F
 "./code/JXToolBarEditWidget.cpp"
@@ -749,9 +765,17 @@ T
 F
 "./code/JXEditWWWPrefsDialog.cpp"
 T
+2 "JXEditWWWPrefsDialog.jxl"
+F
+"./code/JXEditWWWPrefsDialog.jxl"
+T
 2 "JXMacWinPrefsDialog.cpp"
 F
 "./code/JXMacWinPrefsDialog.cpp"
+T
+2 "JXMacWinPrefsDialog.jxl"
+F
+"./code/JXMacWinPrefsDialog.jxl"
 F
 T
 1 "CSF"
@@ -764,13 +788,25 @@ T
 F
 "./code/JXChooseFileDialog.cpp"
 T
+2 "JXChooseFileDialog.jxl"
+F
+"./code/JXChooseFileDialog.jxl"
+T
 2 "JXChoosePathDialog.cpp"
 F
 "./code/JXChoosePathDialog.cpp"
 T
+2 "JXChoosePathDialog.jxl"
+F
+"./code/JXChoosePathDialog.jxl"
+T
 2 "JXSaveFileDialog.cpp"
 F
 "./code/JXSaveFileDialog.cpp"
+T
+2 "JXSaveFileDialog.jxl"
+F
+"./code/JXSaveFileDialog.jxl"
 T
 2 "JXSaveFileInput.cpp"
 F
@@ -827,17 +863,33 @@ T
 F
 "./code/JXWarningDialog.cpp"
 T
+2 "JXWarningDialog.jxl"
+F
+"./code/JXWarningDialog.jxl"
+T
 2 "JXErrorDialog.cpp"
 F
 "./code/JXErrorDialog.cpp"
+T
+2 "JXErrorDialog.jxl"
+F
+"./code/JXErrorDialog.jxl"
 T
 2 "JXOKToCloseDialog.cpp"
 F
 "./code/JXOKToCloseDialog.cpp"
 T
+2 "JXOKToCloseDialog.jxl"
+F
+"./code/JXOKToCloseDialog.jxl"
+T
 2 "JXAcceptLicenseDialog.cpp"
 F
 "./code/JXAcceptLicenseDialog.cpp"
+T
+2 "JXAcceptLicenseDialog.jxl"
+F
+"./code/JXAcceptLicenseDialog.jxl"
 F
 T
 1 "ProgressDisplay"
@@ -873,6 +925,10 @@ T
 2 "JXPGMessageDirector.cpp"
 F
 "./code/JXPGMessageDirector.cpp"
+T
+2 "JXPGMessageDirector.jxl"
+F
+"./code/JXPGMessageDirector.jxl"
 T
 2 "JXProgressTask.cpp"
 F
@@ -1002,9 +1058,17 @@ T
 F
 "./code/JXPTPageSetupDialog.cpp"
 T
+2 "JXPTPageSetupDialog.jxl"
+F
+"./code/JXPTPageSetupDialog.jxl"
+T
 2 "JXPTPrintSetupDialog.cpp"
 F
 "./code/JXPTPrintSetupDialog.cpp"
+T
+2 "JXPTPrintSetupDialog.jxl"
+F
+"./code/JXPTPrintSetupDialog.jxl"
 T
 2 "JXPSPrinter.cpp"
 F
@@ -1014,9 +1078,17 @@ T
 F
 "./code/JXPSPageSetupDialog.cpp"
 T
+2 "JXPSPageSetupDialog.jxl"
+F
+"./code/JXPSPageSetupDialog.jxl"
+T
 2 "JXPSPrintSetupDialog.cpp"
 F
 "./code/JXPSPrintSetupDialog.cpp"
+T
+2 "JXPSPrintSetupDialog.jxl"
+F
+"./code/JXPSPrintSetupDialog.jxl"
 T
 2 "JXAdjustPrintSetupLayoutTask.cpp"
 F
@@ -1029,6 +1101,10 @@ T
 2 "JXEPSPrintSetupDialog.cpp"
 F
 "./code/JXEPSPrintSetupDialog.cpp"
+T
+2 "JXEPSPrintSetupDialog.jxl"
+F
+"./code/JXEPSPrintSetupDialog.jxl"
 F
 T
 1 "misc"
@@ -1053,6 +1129,10 @@ T
 F
 "./code/JXGetStringDialog.cpp"
 T
+2 "JXGetStringDialog.jxl"
+F
+"./code/JXGetStringDialog.jxl"
+T
 2 "JXFocusWidgetTask.cpp"
 F
 "./code/JXFocusWidgetTask.cpp"
@@ -1072,13 +1152,6 @@ T
 F
 "./strings/jx_strings"
 F
-T
-1 "layout"
-T
-2 "libjx.fd"
-F
-"./libjx.fd"
-F
 F
 # tasks
 4
@@ -1086,7 +1159,7 @@ F
 F
 # build settings
 1
-F
+T
 "libjx.a"
 ""
 "make -k all"

@@ -37,9 +37,9 @@ private:
 
 // begin JXLayout
 
+	JXTextButton* itsPrintButton;
 	JXTextButton* itsSaveButton;
 	JXTextButton* itsCloseButton;
-	JXTextButton* itsPrintButton;
 
 // end JXLayout
 

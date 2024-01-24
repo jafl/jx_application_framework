@@ -57,44 +57,38 @@ JXGoToLineDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 190,120, JString::empty);
+	auto* window = jnew JXWindow(this, 190,120, JGetString("WindowTitle::JXGoToLineDialog::JXLayout"));
 
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::JXGoToLineDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 110,90, 60,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::JXGoToLineDialog::shortcuts::JXLayout"));
+	auto* gotoLineLabel =
+		jnew JXStaticText(JGetString("gotoLineLabel::JXGoToLineDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,20, 70,20);
+	gotoLineLabel->SetToLabel(false);
+
+	itsPhysicalLineIndexCB =
+		jnew JXTextCheckbox(JGetString("itsPhysicalLineIndexCB::JXGoToLineDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 150,20);
+	itsPhysicalLineIndexCB->SetShortcuts(JGetString("itsPhysicalLineIndexCB::shortcuts::JXGoToLineDialog::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXGoToLineDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,90, 60,20);
 	assert( cancelButton != nullptr );
 
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::JXGoToLineDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 109,89, 62,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXGoToLineDialog::JXLayout"));
+
 	itsLineNumber =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 40,20);
-	assert( itsLineNumber != nullptr );
-
-	auto* gotoLineLabel =
-		jnew JXStaticText(JGetString("gotoLineLabel::JXGoToLineDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,20, 70,20);
-	assert( gotoLineLabel != nullptr );
-	gotoLineLabel->SetToLabel();
-
-	itsPhysicalLineIndexCB =
-		jnew JXTextCheckbox(JGetString("itsPhysicalLineIndexCB::JXGoToLineDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 150,20);
-	assert( itsPhysicalLineIndexCB != nullptr );
-	itsPhysicalLineIndexCB->SetShortcuts(JGetString("itsPhysicalLineIndexCB::JXGoToLineDialog::shortcuts::JXLayout"));
+	itsLineNumber->SetLowerLimit(1);
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JXGoToLineDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsLineNumber->SetValue(lineIndex);
-	itsLineNumber->SetLowerLimit(1);
-
 	itsPhysicalLineIndexCB->SetState(physicalLineIndexFlag);
 }
 

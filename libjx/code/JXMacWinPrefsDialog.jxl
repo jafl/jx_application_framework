@@ -1,0 +1,118 @@
+jx_layout_editor 5
+350
+230
+"JXLayout"
+"Macintosh / Windows / X Preferences"
+""
+""
+0
+
+1
+0
+"TextCheckbox"
+0
+0
+20 20 40 340
+"itsMacStyleCB"
+1
+0
+0
+"Use Macintosh-style menu shortcuts (Meta)"
+""
+
+1
+0
+"StaticText"
+2
+2
+40 40 60 340
+"restartHint"
+0
+0
+0
+"(You must restart the program after changing this setting.)"
+1
+0
+0
+0
+0
+
+1
+0
+"TextCheckbox"
+0
+0
+70 20 90 340
+"itsHomeEndCB"
+1
+0
+0
+"Home/End keys move caret to beginning/end of line"
+""
+
+1
+0
+"TextCheckbox"
+0
+0
+100 20 120 340
+"itsScrollCaretCB"
+1
+0
+0
+"Caret follows when you scroll"
+""
+
+1
+0
+"TextCheckbox"
+0
+0
+130 20 150 340
+"itsCopyWhenSelectCB"
+1
+0
+0
+"Automatically copy text when it is selected"
+""
+
+1
+0
+"TextCheckbox"
+0
+0
+160 20 180 340
+"itsFocusInDockCB"
+1
+0
+0
+"Window focus follows cursor in dock"
+""
+
+1
+0
+"TextButton"
+0
+0
+200 80 220 140
+"cancelButton"
+0
+0
+0
+"Cancel"
+""
+
+1
+0
+"TextButton"
+1
+0
+200 210 220 270
+"okButton"
+0
+0
+0
+"OK"
+"^M"
+
+0

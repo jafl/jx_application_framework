@@ -83,71 +83,61 @@ JXToolBarEditDialog::~JXToolBarEditDialog()
 void
 JXToolBarEditDialog::BuildWindow()
 {
+	auto* list = jnew JNamedTreeList(itsTree);
+
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 320,430, JString::empty);
+	auto* window = jnew JXWindow(this, 320,430, JGetString("WindowTitle::JXToolBarEditDialog::JXLayout"));
+
+	auto* prompt =
+		jnew JXStaticText(JGetString("prompt::JXToolBarEditDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,10, 270,30);
+	prompt->SetToLabel(false);
+
+	itsShowToolBarCB =
+		jnew JXTextCheckbox(JGetString("itsShowToolBarCB::JXToolBarEditDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 135,20);
+	itsShowToolBarCB->SetShortcuts(JGetString("itsShowToolBarCB::shortcuts::JXToolBarEditDialog::JXLayout"));
+
+	itsShowImagesCB =
+		jnew JXTextCheckbox(JGetString("itsShowImagesCB::JXToolBarEditDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,50, 140,20);
+	itsShowImagesCB->SetShortcuts(JGetString("itsShowImagesCB::shortcuts::JXToolBarEditDialog::JXLayout"));
+
+	itsUseSmallButtonsCB =
+		jnew JXTextCheckbox(JGetString("itsUseSmallButtonsCB::JXToolBarEditDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 135,20);
+	itsUseSmallButtonsCB->SetShortcuts(JGetString("itsUseSmallButtonsCB::shortcuts::JXToolBarEditDialog::JXLayout"));
+
+	itsShowTextCB =
+		jnew JXTextCheckbox(JGetString("itsShowTextCB::JXToolBarEditDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,70, 130,20);
+	itsShowTextCB->SetShortcuts(JGetString("itsShowTextCB::shortcuts::JXToolBarEditDialog::JXLayout"));
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,100, 290,290);
 	assert( scrollbarSet != nullptr );
 
+	itsWidget =
+		jnew JXToolBarEditWidget(list, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 275,275);
+
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXToolBarEditDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,400, 70,20);
-	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts(JGetString("cancelButton::JXToolBarEditDialog::shortcuts::JXLayout"));
+	cancelButton->SetShortcuts(JGetString("cancelButton::shortcuts::JXToolBarEditDialog::JXLayout"));
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXToolBarEditDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 200,400, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::JXToolBarEditDialog::shortcuts::JXLayout"));
-
-	auto* prompt =
-		jnew JXStaticText(JGetString("prompt::JXToolBarEditDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 20,10, 270,30);
-	assert( prompt != nullptr );
-
-	itsShowToolBarCB =
-		jnew JXTextCheckbox(JGetString("itsShowToolBarCB::JXToolBarEditDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 135,20);
-	assert( itsShowToolBarCB != nullptr );
-	itsShowToolBarCB->SetShortcuts(JGetString("itsShowToolBarCB::JXToolBarEditDialog::shortcuts::JXLayout"));
-
-	itsUseSmallButtonsCB =
-		jnew JXTextCheckbox(JGetString("itsUseSmallButtonsCB::JXToolBarEditDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 135,20);
-	assert( itsUseSmallButtonsCB != nullptr );
-	itsUseSmallButtonsCB->SetShortcuts(JGetString("itsUseSmallButtonsCB::JXToolBarEditDialog::shortcuts::JXLayout"));
-
-	itsShowImagesCB =
-		jnew JXTextCheckbox(JGetString("itsShowImagesCB::JXToolBarEditDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,50, 140,20);
-	assert( itsShowImagesCB != nullptr );
-	itsShowImagesCB->SetShortcuts(JGetString("itsShowImagesCB::JXToolBarEditDialog::shortcuts::JXLayout"));
-
-	itsShowTextCB =
-		jnew JXTextCheckbox(JGetString("itsShowTextCB::JXToolBarEditDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,70, 130,20);
-	assert( itsShowTextCB != nullptr );
-	itsShowTextCB->SetShortcuts(JGetString("itsShowTextCB::JXToolBarEditDialog::shortcuts::JXLayout"));
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 199,399, 72,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXToolBarEditDialog::JXLayout"));
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JXToolBarEditDialog"));
 	SetButtons(okButton, cancelButton);
 
 	jnew JXAtLeastOneCBGroup(2, itsShowImagesCB, itsShowTextCB);
-
-	auto* list = jnew JNamedTreeList(itsTree);
-
-	itsWidget =
-		jnew JXToolBarEditWidget(list, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-								JXWidget::kHElastic, JXWidget::kVElastic,
-								0,0,10,10);
-	assert(itsWidget != nullptr);
-	itsWidget->FitToEnclosure();
 }
 
 /******************************************************************************

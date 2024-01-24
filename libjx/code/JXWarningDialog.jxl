@@ -1,0 +1,66 @@
+jx_layout_editor 5
+330
+110
+"JXLayout"
+""
+""
+""
+0
+
+1
+0
+"ImageWidget"
+0
+0
+20 20 60 60
+"icon"
+0
+0
+0
+0
+0 "jx_un_warning.png"
+
+1
+0
+"StaticText"
+2
+1
+20 60 70 310
+"text"
+0
+0
+0
+""
+0
+0
+1
+1
+0
+
+1
+0
+"TextButton"
+0
+1
+80 70 100 130
+"yesButton"
+0
+0
+0
+"Yes"
+"#Y"
+
+1
+0
+"TextButton"
+1
+1
+80 200 100 260
+"noButton"
+0
+0
+0
+"No"
+"#N"
+
+0

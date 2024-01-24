@@ -52,8 +52,8 @@ private:
 // begin JXLayout
 
 	JXTextButton*   itsChooseFileButton;
-	JXTextCheckbox* itsBWCheckbox;
 	JXTextCheckbox* itsPreviewCheckbox;
+	JXTextCheckbox* itsBWCheckbox;
 	JXFileInput*    itsFileInput;
 
 // end JXLayout

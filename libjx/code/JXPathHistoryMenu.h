@@ -17,8 +17,7 @@ class JXPathHistoryMenu : public JXStringHistoryMenu
 {
 public:
 
-	JXPathHistoryMenu(const JSize historyLength,
-					  const JString& title, JXContainer* enclosure,
+	JXPathHistoryMenu(const JSize historyLength, JXContainer* enclosure,
 					  const HSizingOption hSizing, const VSizingOption vSizing,
 					  const JCoordinate x, const JCoordinate y,
 					  const JCoordinate w, const JCoordinate h);

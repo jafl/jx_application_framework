@@ -1,0 +1,47 @@
+jx_layout_editor 5
+510
+570
+"JXLayout"
+"License"
+""
+""
+0
+
+1
+0
+"ScrollbarSet"
+2
+2
+20 20 520 490
+"scrollbarSet"
+0
+0
+0
+
+1
+0
+"TextButton"
+0
+1
+540 100 560 200
+"yesButton"
+0
+0
+0
+"I accept"
+""
+
+1
+0
+"TextButton"
+1
+1
+540 310 560 410
+"noButton"
+0
+0
+0
+"I do not accept"
+""
+
+0

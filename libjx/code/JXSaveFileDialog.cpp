@@ -145,94 +145,92 @@ JXSaveFileDialog::BuildWindow
 
 	auto* window = jnew JXWindow(this, 310,340, JString::empty);
 
-	auto* scrollbarSet =
-		jnew JXScrollbarSet(window,
-					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,140, 180,140);
-	assert( scrollbarSet != nullptr );
-
-	auto* saveButton =
-		jnew JXTextButton(JGetString("saveButton::JXSaveFileDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,280, 70,20);
-	assert( saveButton != nullptr );
-	saveButton->SetShortcuts(JGetString("saveButton::JXSaveFileDialog::shortcuts::JXLayout"));
-
-	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::JXSaveFileDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,310, 70,20);
-	assert( cancelButton != nullptr );
-
-	auto* homeButton =
-		jnew JXTextButton(JGetString("homeButton::JXSaveFileDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,140, 40,20);
-	assert( homeButton != nullptr );
-
 	auto* pathLabel =
 		jnew JXStaticText(JGetString("pathLabel::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,20, 40,20);
-	assert( pathLabel != nullptr );
-	pathLabel->SetToLabel();
+	pathLabel->SetToLabel(false);
 
-	auto* fileNameInput =
-		jnew JXSaveFileInput(window,
-					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,310, 180,20);
-	assert( fileNameInput != nullptr );
+	auto* pathHistory =
+		jnew JXPathHistoryMenu(1, window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
+	assert( pathHistory != nullptr );
 
-	auto* pathInput =
-		jnew JXPathInput(window,
-					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,20, 200,20);
-	assert( pathInput != nullptr );
+	auto* filterLabel =
+		jnew JXStaticText(JGetString("filterLabel::JXSaveFileDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,50, 40,20);
+	filterLabel->SetToLabel(false);
+
+	auto* filterHistory =
+		jnew JXStringHistoryMenu(1, window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
+	assert( filterHistory != nullptr );
 
 	auto* showHiddenCB =
 		jnew JXTextCheckbox(JGetString("showHiddenCB::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,80, 130,20);
 	assert( showHiddenCB != nullptr );
 
-	auto* promptLabel =
-		jnew JXStaticText(JGetString("promptLabel::JXSaveFileDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,290, 180,20);
-	assert( promptLabel != nullptr );
-	promptLabel->SetToLabel();
+	auto* currPathMenu =
+		jnew JXCurrentPathMenu("/", window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
+	assert( currPathMenu != nullptr );
 
-	auto* filterLabel =
-		jnew JXStaticText(JGetString("filterLabel::JXSaveFileDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,50, 40,20);
-	assert( filterLabel != nullptr );
-	filterLabel->SetToLabel();
-
-	auto* filterInput =
-		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,50, 200,20);
-	assert( filterInput != nullptr );
-
-	auto* pathHistory =
-		jnew JXPathHistoryMenu(1, JString::empty, window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
-	assert( pathHistory != nullptr );
-
-	auto* filterHistory =
-		jnew JXStringHistoryMenu(1, JString::empty, window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
-	assert( filterHistory != nullptr );
+	auto* scrollbarSet =
+		jnew JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,140, 180,140);
+	assert( scrollbarSet != nullptr );
 
 	auto* upButton =
 		jnew JXTextButton(JGetString("upButton::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,140, 30,20);
 	assert( upButton != nullptr );
 
-	auto* newDirButton =
-		jnew JXNewDirButton(window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,190, 70,20);
-	assert( newDirButton != nullptr );
-
-	auto* currPathMenu =
-		jnew JXCurrentPathMenu("/", window,
-					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
-	assert( currPathMenu != nullptr );
+	auto* homeButton =
+		jnew JXTextButton(JGetString("homeButton::JXSaveFileDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,140, 40,20);
+	assert( homeButton != nullptr );
 
 	auto* desktopButton =
 		jnew JXTextButton(JGetString("desktopButton::JXSaveFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,160, 70,20);
 	assert( desktopButton != nullptr );
+
+	auto* newDirButton =
+		jnew JXNewDirButton(window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,190, 70,20);
+	assert( newDirButton != nullptr );
+
+	auto* saveButton =
+		jnew JXTextButton(JGetString("saveButton::JXSaveFileDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 219,279, 72,22);
+	saveButton->SetShortcuts(JGetString("saveButton::shortcuts::JXSaveFileDialog::JXLayout"));
+
+	auto* promptLabel =
+		jnew JXStaticText(JString::empty, window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,290, 180,20);
+	promptLabel->SetToLabel(false);
+
+	auto* fileNameInput =
+		jnew JXSaveFileInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,310, 180,20);
+	assert( fileNameInput != nullptr );
+
+	auto* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::JXSaveFileDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,310, 70,20);
+	assert( cancelButton != nullptr );
+
+	auto* pathInput =
+		jnew JXPathInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,20, 200,20);
+	pathInput->SetIsRequired(true);
+	pathInput->ShouldAllowInvalidPath(false);
+	pathInput->ShouldRequireWritable(false);
+
+	auto* filterInput =
+		jnew JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,50, 200,20);
+	assert( filterInput != nullptr );
 
 // end JXLayout
 

@@ -8,16 +8,14 @@
  ******************************************************************************/
 
 #include "JXErrorDialog.h"
+#include "JXDisplay.h"
 #include "JXWindow.h"
 #include "JXTextButton.h"
 #include "JXStaticText.h"
 #include "JXImageWidget.h"
-#include "JXImage.h"
-#include <jx-af/jcore/JColorManager.h>
+#include "JXImageCache.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
-
-#include "jx_un_error.xpm"
 
 /******************************************************************************
  Constructor
@@ -56,31 +54,29 @@ JXErrorDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 330,110, JString::empty);
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::JXErrorDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,80, 60,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::JXErrorDialog::shortcuts::JXLayout"));
+	auto* window = jnew JXWindow(this, 330,110, JGetString("WindowTitle::JXErrorDialog::JXLayout"));
 
 	auto* icon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
-	assert( icon != nullptr );
+#ifndef _H_jx_af_image_jx_jx_un_error
+#define _H_jx_af_image_jx_jx_un_error
+#include <jx-af/image/jx/jx_un_error.xpm>
+#endif
+	icon->SetImage(GetDisplay()->GetImageCache()->GetImage(jx_un_error), false);
 
 	auto* text =
 		jnew JXStaticText(JString::empty, true, true, false, nullptr, window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,20, 250,50);
 	assert( text != nullptr );
 
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::JXErrorDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 139,79, 62,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXErrorDialog::JXLayout"));
+
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JXErrorDialog"));
 	SetButtons(okButton, nullptr);
-
-	text->SetBorderWidth(0);
-	text->SetBackgroundColor(JColorManager::GetDefaultBackColor());
-
-	Init(window, text, message, icon, jx_un_error);
+	Init(window, text, message);
 }

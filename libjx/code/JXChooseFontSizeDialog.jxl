@@ -1,0 +1,67 @@
+jx_layout_editor 5
+190
+90
+"JXLayout"
+"Choose font size"
+""
+""
+0
+
+1
+0
+"StaticText"
+0
+0
+20 10 40 120
+"fontSizeLabel"
+0
+0
+0
+"Font size (points):"
+1
+0
+0
+0
+0
+
+1
+0
+"IntegerInput"
+2
+0
+20 120 40 160
+"itsFontSize"
+1
+1
+0
+1
+1 1
+1 500
+
+1
+0
+"TextButton"
+0
+0
+60 20 80 80
+"cancelButton"
+0
+0
+0
+"Cancel"
+""
+
+1
+0
+"TextButton"
+1
+0
+60 110 80 170
+"okButton"
+0
+0
+0
+"OK"
+"^M"
+
+0

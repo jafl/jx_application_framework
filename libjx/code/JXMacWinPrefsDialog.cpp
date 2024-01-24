@@ -64,54 +64,45 @@ JXMacWinPrefsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 350,230, JString::empty);
+	auto* window = jnew JXWindow(this, 350,230, JGetString("WindowTitle::JXMacWinPrefsDialog::JXLayout"));
 
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::JXMacWinPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,200, 60,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::JXMacWinPrefsDialog::shortcuts::JXLayout"));
+	itsMacStyleCB =
+		jnew JXTextCheckbox(JGetString("itsMacStyleCB::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 320,20);
+
+	auto* restartHint =
+		jnew JXStaticText(JGetString("restartHint::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 300,20);
+	restartHint->SetToLabel(false);
+
+	itsHomeEndCB =
+		jnew JXTextCheckbox(JGetString("itsHomeEndCB::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 320,20);
+
+	itsScrollCaretCB =
+		jnew JXTextCheckbox(JGetString("itsScrollCaretCB::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 320,20);
+
+	itsCopyWhenSelectCB =
+		jnew JXTextCheckbox(JGetString("itsCopyWhenSelectCB::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 320,20);
+
+	itsFocusInDockCB =
+		jnew JXTextCheckbox(JGetString("itsFocusInDockCB::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 320,20);
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::JXMacWinPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,200, 60,20);
 	assert( cancelButton != nullptr );
 
-	itsMacStyleCB =
-		jnew JXTextCheckbox(JGetString("itsMacStyleCB::JXMacWinPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 320,20);
-	assert( itsMacStyleCB != nullptr );
-
-	itsHomeEndCB =
-		jnew JXTextCheckbox(JGetString("itsHomeEndCB::JXMacWinPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 320,20);
-	assert( itsHomeEndCB != nullptr );
-
-	auto* restartHint =
-		jnew JXStaticText(JGetString("restartHint::JXMacWinPrefsDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 300,20);
-	assert( restartHint != nullptr );
-	restartHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
-	restartHint->SetToLabel();
-
-	itsScrollCaretCB =
-		jnew JXTextCheckbox(JGetString("itsScrollCaretCB::JXMacWinPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 320,20);
-	assert( itsScrollCaretCB != nullptr );
-
-	itsCopyWhenSelectCB =
-		jnew JXTextCheckbox(JGetString("itsCopyWhenSelectCB::JXMacWinPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 320,20);
-	assert( itsCopyWhenSelectCB != nullptr );
-
-	itsFocusInDockCB =
-		jnew JXTextCheckbox(JGetString("itsFocusInDockCB::JXMacWinPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 320,20);
-	assert( itsFocusInDockCB != nullptr );
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 209,199, 62,22);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXMacWinPrefsDialog::JXLayout"));
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JXMacWinPrefsDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsMacStyleCB->SetState(JXMenu::GetDisplayStyle() == JXMenu::kMacintoshStyle);
@@ -119,6 +110,8 @@ JXMacWinPrefsDialog::BuildWindow()
 	itsScrollCaretCB->SetState(JXTEBase::CaretWillFollowScroll());
 	itsCopyWhenSelectCB->SetState(JTextEditor::WillCopyWhenSelect());
 	itsFocusInDockCB->SetState(JXWindow::WillFocusFollowCursorInDock());
+
+	restartHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 }
 
 /******************************************************************************

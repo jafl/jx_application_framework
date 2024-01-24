@@ -56,32 +56,28 @@ JXPGMessageDirector::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 500,210, JString::empty);
+	auto* window = jnew JXWindow(this, 500,210, JGetString("WindowTitle::JXPGMessageDirector::JXLayout"));
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 500,170);
 	assert( scrollbarSet != nullptr );
 
+	itsPrintButton =
+		jnew JXTextButton(JGetString("itsPrintButton::JXPGMessageDirector::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,180, 60,20);
+
 	itsSaveButton =
 		jnew JXTextButton(JGetString("itsSaveButton::JXPGMessageDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,180, 60,20);
-	assert( itsSaveButton != nullptr );
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::JXPGMessageDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,180, 60,20);
-	assert( itsCloseButton != nullptr );
-	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXPGMessageDirector::shortcuts::JXLayout"));
-
-	itsPrintButton =
-		jnew JXTextButton(JGetString("itsPrintButton::JXPGMessageDirector::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,180, 60,20);
-	assert( itsPrintButton != nullptr );
+	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::shortcuts::JXPGMessageDirector::JXLayout"));
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JXPGMessageDirector"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();

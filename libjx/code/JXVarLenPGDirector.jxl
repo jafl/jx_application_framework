@@ -1,0 +1,57 @@
+jx_layout_editor 5
+270
+80
+"JXLayout"
+"Progress"
+""
+""
+0
+
+1
+0
+"StaticText"
+2
+2
+10 20 30 250
+"text"
+0
+0
+0
+""
+1
+0
+0
+0
+0
+
+1
+0
+"StaticText"
+2
+1
+40 60 60 160
+"counter"
+0
+0
+0
+""
+1
+0
+0
+0
+0
+
+1
+0
+"TextButton"
+1
+1
+40 190 60 250
+"cancelButton"
+0
+0
+0
+"Cancel"
+"^[^C"
+
+0

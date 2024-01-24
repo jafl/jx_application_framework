@@ -121,7 +121,7 @@ JXFileListSet::JXFileListSetX
 	filterLabel->SetToLabel();
 
 	itsWildcardMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, itsWildcardSet, kFixedRight, kFixedTop,
+		jnew JXStringHistoryMenu(kHistoryLength, itsWildcardSet, kFixedRight, kFixedTop,
 								 w - kHistoryMenuWidth,0, kHistoryMenuWidth,kDefaultInputHeight);
 
 	itsWildcardInput =
@@ -140,7 +140,7 @@ JXFileListSet::JXFileListSetX
 	regexLabel->SetToLabel();
 
 	itsRegexMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, itsRegexSet, kFixedRight, kFixedTop,
+		jnew JXStringHistoryMenu(kHistoryLength, itsRegexSet, kFixedRight, kFixedTop,
 								 w - kHistoryMenuWidth,0, kHistoryMenuWidth,kDefaultInputHeight);
 
 	itsRegexInput =

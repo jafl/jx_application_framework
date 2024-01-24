@@ -1,0 +1,201 @@
+jx_layout_editor 5
+530
+270
+"JXLayout"
+"Spelling"
+""
+""
+0
+
+1
+0
+"StaticText"
+0
+0
+15 15 35 125
+"notFoundLabel"
+0
+0
+0
+"Not in Dictionary:"
+1
+0
+0
+0
+0
+
+1
+0
+"StaticText"
+2
+0
+15 135 35 415
+"itsCheckText"
+1
+0
+0
+""
+1
+0
+0
+0
+0
+
+1
+0
+"StaticText"
+0
+0
+45 15 65 105
+"changeToLabel"
+0
+0
+0
+"Change To:"
+1
+0
+0
+0
+0
+
+1
+0
+"InputField"
+2
+0
+45 105 65 335
+"itsFirstGuess"
+1
+1
+0
+0
+0
+0
+""
+""
+""
+0
+0
+
+1
+0
+"TextButton"
+1
+0
+60 350 80 425
+"itsChangeButton"
+1
+0
+0
+"Change"
+""
+
+1
+0
+"TextButton"
+1
+0
+60 440 80 515
+"itsIgnoreButton"
+1
+0
+0
+"Ignore"
+"^M"
+
+1
+0
+"StaticText"
+0
+0
+75 15 95 105
+"suggestionsLabel"
+0
+0
+0
+"Suggestions:"
+1
+0
+0
+0
+0
+
+1
+0
+"ScrollbarSet"
+2
+2
+75 105 255 335
+"set"
+0
+0
+0
+
+1
+8
+"CustomWidget"
+2
+2
+0 0 165 215
+"itsSuggestionWidget"
+1
+0
+0
+"JXSpellList"
+"set"
+0
+""
+
+1
+0
+"TextButton"
+1
+0
+90 350 110 425
+"itsChangeAllButton"
+1
+0
+0
+"Change All"
+""
+
+1
+0
+"TextButton"
+1
+0
+130 350 150 515
+"itsLearnButton"
+1
+0
+0
+"Learn word"
+""
+
+1
+0
+"TextButton"
+1
+0
+160 350 180 515
+"itsLearnCapsButton"
+1
+0
+0
+"Learn word with caps"
+""
+
+1
+0
+"TextButton"
+1
+1
+235 440 255 515
+"itsCloseButton"
+1
+0
+0
+"Close"
+"^["
+
+0
