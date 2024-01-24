@@ -4,22 +4,19 @@ when show/hide toolbar, change window size to preserve LayoutContainer size
 
 -----
 
-JXProgressIndicator
-JXChooseMonoFont
-JXLevelControl
-JXSlider
-
------
-
-JXHorizPartition
-	# of compartments - drag to resize
-JXVertPartition
-	# of compartments - drag to resize
-JXTabGroup
-
 JXBorderRect
 JXDownRect
 JXEmbossedRect
 JXEngravedRect
 JXFlatRect
 JXUpRect
+
+JXProgressIndicator
+JXLevelControl
+JXSlider
+
+JXHorizPartition
+	# of compartments - drag to resize
+JXVertPartition
+	# of compartments - drag to resize
+JXTabGroup

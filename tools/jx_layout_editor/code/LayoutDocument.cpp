@@ -1193,6 +1193,12 @@ LayoutDocument::ImportFDesignLayout
 			const bool ok = widgetList.GetItem(enclIndex)->GetLayoutContainer(&enclosure);
 			if (!ok)
 			{
+				const JUtf8Byte* map[] =
+				{
+					"n", varName.GetBytes()
+				};
+				JGetUserNotification()->ReportError(
+					JGetString("NoEnclosureForWidget::LayoutDocument", map, sizeof(map)));
 				return false;
 			}
 

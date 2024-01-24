@@ -72,6 +72,7 @@ CodeDirectoryNotWritable::LayoutDocument	"Unable to create temporary file in $pa
 
 ($err)"
 
+NoEnclosureForWidget::LayoutDocument	"Unable to find the enclosure for $n."
 InvalidImageColumnCount::LayoutDocument	"Missing or invalid column count argument for JXImageMenu in $s."
 InvalidToolBarArguments::LayoutDocument	"JXToolBar requires three arguments in $s."
 
