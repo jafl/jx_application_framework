@@ -8,9 +8,9 @@
 #ifndef _H_WidgetSet
 #define _H_WidgetSet
 
-#include "BaseWidget.h"
+#include "ContainerWidget.h"
 
-class WidgetSet : public BaseWidget
+class WidgetSet : public ContainerWidget
 {
 public:
 
@@ -26,23 +26,10 @@ public:
 	~WidgetSet() override;
 
 	void	StreamOut(std::ostream& output) const override;
-	bool	GetLayoutContainer(LayoutContainer** layout) const override;
 
 protected:
 
-	void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	void	DrawOver(JXWindowPainter& p, const JRect& rect) override;
-
 	JString	GetClassName() const override;
-
-private:
-
-	LayoutContainer*	itsLayout;
-
-private:
-
-	void	WidgetSetX(LayoutContainer* layout);
 };
 
 #endif

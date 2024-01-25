@@ -1,16 +1,14 @@
 /******************************************************************************
- RadioGroup.cpp
+ ContainerWidget.cpp
 
-	BASE CLASS = ContainerWidget
+	BASE CLASS = BaseWidget
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#include "RadioGroup.h"
+#include "ContainerWidget.h"
 #include "LayoutContainer.h"
-#include <jx-af/jx/JXWindowPainter.h>
-#include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -18,8 +16,9 @@
 
  ******************************************************************************/
 
-RadioGroup::RadioGroup
+ContainerWidget::ContainerWidget
 	(
+	const bool			wantsInput,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -29,12 +28,12 @@ RadioGroup::RadioGroup
 	const JCoordinate	h
 	)
 	:
-	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h)
+	BaseWidget(wantsInput, layout, hSizing, vSizing, x,y, w,h)
 {
-	RadioGroupX();
+	ContainerWidgetX(layout);
 }
 
-RadioGroup::RadioGroup
+ContainerWidget::ContainerWidget
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -47,17 +46,21 @@ RadioGroup::RadioGroup
 	const JCoordinate	h
 	)
 	:
-	ContainerWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	RadioGroupX();
+	ContainerWidgetX(layout);
 }
 
 // private
 
 void
-RadioGroup::RadioGroupX()
+ContainerWidget::ContainerWidgetX
+	(
+	LayoutContainer* layout
+	)
 {
-	SetBorderWidth(2);
+	itsLayout = jnew LayoutContainer(layout, this, this, kHElastic, kVElastic, 0,0, 100,100);
+	itsLayout->FitToEnclosure();
 }
 
 /******************************************************************************
@@ -65,25 +68,40 @@ RadioGroup::RadioGroupX()
 
  ******************************************************************************/
 
-RadioGroup::~RadioGroup()
+ContainerWidget::~ContainerWidget()
 {
 }
 
 /******************************************************************************
- StreamOut (virtual)
+ GetLayoutContainer (virtual)
+
+	Some widgets can contain other widgets.
+
+ ******************************************************************************/
+
+bool
+ContainerWidget::GetLayoutContainer
+	(
+	LayoutContainer** layout
+	)
+	const
+{
+	*layout = itsLayout;
+	return true;
+}
+
+/******************************************************************************
+ Draw (virtual protected)
 
  ******************************************************************************/
 
 void
-RadioGroup::StreamOut
+ContainerWidget::Draw
 	(
-	std::ostream& output
+	JXWindowPainter&	p,
+	const JRect&		rect
 	)
-	const
 {
-	output << JString("RadioGroup") << std::endl;
-
-	ContainerWidget::StreamOut(output);
 }
 
 /******************************************************************************
@@ -92,23 +110,26 @@ RadioGroup::StreamOut
  ******************************************************************************/
 
 void
-RadioGroup::DrawBorder
+ContainerWidget::DrawBorder
 	(
 	JXWindowPainter&	p,
 	const JRect&		frame
 	)
 {
-	JXDrawEngravedFrame(p, frame, 1, 0, 1);
 }
 
 /******************************************************************************
- GetClassName (virtual protected)
+ DrawOver (virtual protected)
 
  ******************************************************************************/
 
-JString
-RadioGroup::GetClassName()
-	const
+void
+ContainerWidget::DrawOver
+	(
+	JXWindowPainter&	p,
+	const JRect&		rect
+	)
 {
-	return "JXRadioGroup";
+	itsLayout->SetHint(ToString());
+	BaseWidget::DrawOver(p, rect);
 }

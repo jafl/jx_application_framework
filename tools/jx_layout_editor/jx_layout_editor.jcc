@@ -130,6 +130,10 @@ T
 F
 "./code/CoreWidget.cpp"
 T
+2 "ContainerWidget.cpp"
+F
+"./code/ContainerWidget.cpp"
+T
 2 "CharInput.cpp"
 F
 "./code/CharInput.cpp"
@@ -137,6 +141,10 @@ T
 2 "FileInput.cpp"
 F
 "./code/FileInput.cpp"
+T
+2 "FlatRect.cpp"
+F
+"./code/FlatRect.cpp"
 T
 2 "FloatInput.cpp"
 F
@@ -186,6 +194,10 @@ T
 F
 "./code/PathInput.cpp"
 T
+2 "ProgressIndicator.cpp"
+F
+"./code/ProgressIndicator.cpp"
+T
 2 "RadioGroup.cpp"
 F
 "./code/RadioGroup.cpp"
@@ -193,6 +205,10 @@ T
 2 "ScrollbarSet.cpp"
 F
 "./code/ScrollbarSet.cpp"
+T
+2 "Slider.cpp"
+F
+"./code/Slider.cpp"
 T
 2 "StaticText.cpp"
 F
@@ -244,6 +260,14 @@ T
 2 "WidgetPanelBase.cpp"
 F
 "./code/WidgetPanelBase.cpp"
+T
+2 "ColorChooserPanel.cpp"
+F
+"./code/ColorChooserPanel.cpp"
+T
+2 "ColorChooserPanel.jxl"
+F
+"./code/ColorChooserPanel.jxl"
 T
 2 "CustomWidgetPanel.cpp"
 F

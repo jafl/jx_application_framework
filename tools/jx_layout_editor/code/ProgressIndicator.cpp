@@ -1,16 +1,15 @@
 /******************************************************************************
- RadioGroup.cpp
+ ProgressIndicator.cpp
 
-	BASE CLASS = ContainerWidget
+	BASE CLASS = CoreWidget
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#include "RadioGroup.h"
-#include "LayoutContainer.h"
-#include <jx-af/jx/JXWindowPainter.h>
-#include <jx-af/jx/jXPainterUtil.h>
+#include "ProgressIndicator.h"
+#include <jx-af/jx/JXProgressIndicator.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -18,7 +17,7 @@
 
  ******************************************************************************/
 
-RadioGroup::RadioGroup
+ProgressIndicator::ProgressIndicator
 	(
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
@@ -29,12 +28,12 @@ RadioGroup::RadioGroup
 	const JCoordinate	h
 	)
 	:
-	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h)
+	CoreWidget(false, layout, hSizing, vSizing, x,y, w,h)
 {
-	RadioGroupX();
+	ProgressIndicatorX(x,y,w,h);
 }
 
-RadioGroup::RadioGroup
+ProgressIndicator::ProgressIndicator
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -47,17 +46,26 @@ RadioGroup::RadioGroup
 	const JCoordinate	h
 	)
 	:
-	ContainerWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	CoreWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	RadioGroupX();
+	ProgressIndicatorX(x,y,w,h);
 }
 
 // private
 
 void
-RadioGroup::RadioGroupX()
+ProgressIndicator::ProgressIndicatorX
+	(
+	const JCoordinate x,
+	const JCoordinate y,
+	const JCoordinate w,
+	const JCoordinate h
+	)
 {
-	SetBorderWidth(2);
+	itsWidget = jnew JXProgressIndicator(this, kHElastic, kVElastic, x,y,w,h);
+	itsWidget->SetMaxValue(10);
+	itsWidget->SetValue(4);
+	SetWidget(itsWidget);
 }
 
 /******************************************************************************
@@ -65,7 +73,7 @@ RadioGroup::RadioGroupX()
 
  ******************************************************************************/
 
-RadioGroup::~RadioGroup()
+ProgressIndicator::~ProgressIndicator()
 {
 }
 
@@ -75,30 +83,15 @@ RadioGroup::~RadioGroup()
  ******************************************************************************/
 
 void
-RadioGroup::StreamOut
+ProgressIndicator::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("RadioGroup") << std::endl;
+	output << JString("ProgressIndicator") << std::endl;
 
-	ContainerWidget::StreamOut(output);
-}
-
-/******************************************************************************
- DrawBorder (virtual protected)
-
- ******************************************************************************/
-
-void
-RadioGroup::DrawBorder
-	(
-	JXWindowPainter&	p,
-	const JRect&		frame
-	)
-{
-	JXDrawEngravedFrame(p, frame, 1, 0, 1);
+	CoreWidget::StreamOut(output);
 }
 
 /******************************************************************************
@@ -107,8 +100,8 @@ RadioGroup::DrawBorder
  ******************************************************************************/
 
 JString
-RadioGroup::GetClassName()
+ProgressIndicator::GetClassName()
 	const
 {
-	return "JXRadioGroup";
+	return "JXProgressIndicator";
 }

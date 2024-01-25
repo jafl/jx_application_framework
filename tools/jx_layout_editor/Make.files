@@ -22,8 +22,10 @@
 .cpp ./code/BaseWidget
 .cpp ./code/CustomWidget
 .cpp ./code/CoreWidget
+.cpp ./code/ContainerWidget
 .cpp ./code/CharInput
 .cpp ./code/FileInput
+.cpp ./code/FlatRect
 .cpp ./code/FloatInput
 .cpp ./code/HistoryMenu
 .cpp ./code/ImageRadioButton
@@ -36,8 +38,10 @@
 .cpp ./code/NewDirButton
 .cpp ./code/PasswordInput
 .cpp ./code/PathInput
+.cpp ./code/ProgressIndicator
 .cpp ./code/RadioGroup
 .cpp ./code/ScrollbarSet
+.cpp ./code/Slider
 .cpp ./code/StaticText
 .cpp ./code/TextButtonBase
 .cpp ./code/TextButton
@@ -47,6 +51,7 @@
 .cpp ./code/WidgetSet
 .cpp ./code/WidgetParametersDialog
 .cpp ./code/WidgetPanelBase
+.cpp ./code/ColorChooserPanel
 .cpp ./code/CustomWidgetPanel
 .cpp ./code/WidgetLabelPanel
 .cpp ./code/FileInputPanel

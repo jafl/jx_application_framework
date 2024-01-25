@@ -8,11 +8,11 @@
 #ifndef _H_ToolBar
 #define _H_ToolBar
 
-#include "BaseWidget.h"
+#include "ContainerWidget.h"
 
 class ToolBarPanel;
 
-class ToolBar : public BaseWidget
+class ToolBar : public ContainerWidget
 {
 public:
 
@@ -34,7 +34,6 @@ public:
 
 	void	StreamOut(std::ostream& output) const override;
 	JString	ToString() const override;
-	bool	GetLayoutContainer(LayoutContainer** layout) const override;
 	JString	GetEnclosureName() const override;
 
 	void	PrepareToGenerateCode() const override;
@@ -43,7 +42,6 @@ public:
 protected:
 
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
 	JString	GetClassName() const override;
 	void	PrintCtorArgsWithComma(std::ostream& output,
@@ -58,12 +56,11 @@ private:
 	JString				itsPrefsMgr;
 	JString				itsPrefID;
 	JString				itsMenuBar;
-	LayoutContainer*	itsLayout;
 	ToolBarPanel*		itsPanel;
 
 private:
 
-	void	ToolBarX(LayoutContainer* layout);
+	void	ToolBarX();
 };
 
 #endif

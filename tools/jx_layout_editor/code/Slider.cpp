@@ -1,16 +1,16 @@
 /******************************************************************************
- RadioGroup.cpp
+ Slider.cpp
 
-	BASE CLASS = ContainerWidget
+	BASE CLASS = CoreWidget
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#include "RadioGroup.h"
-#include "LayoutContainer.h"
-#include <jx-af/jx/JXWindowPainter.h>
-#include <jx-af/jx/jXPainterUtil.h>
+#include "Slider.h"
+#include <jx-af/jx/JXSlider.h>
+#include <jx-af/jx/JXLevelControl.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -18,8 +18,9 @@
 
  ******************************************************************************/
 
-RadioGroup::RadioGroup
+Slider::Slider
 	(
+	const Type			type,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -29,12 +30,13 @@ RadioGroup::RadioGroup
 	const JCoordinate	h
 	)
 	:
-	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h)
+	CoreWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	itsType(type)
 {
-	RadioGroupX();
+	SliderX(x,y,w,h);
 }
 
-RadioGroup::RadioGroup
+Slider::Slider
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -47,17 +49,39 @@ RadioGroup::RadioGroup
 	const JCoordinate	h
 	)
 	:
-	ContainerWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	CoreWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	RadioGroupX();
+	int type;
+	input >> type;
+
+	itsType = (Type) type;
+
+	SliderX(x,y,w,h);
 }
 
 // private
 
 void
-RadioGroup::RadioGroupX()
+Slider::SliderX
+	(
+	const JCoordinate x,
+	const JCoordinate y,
+	const JCoordinate w,
+	const JCoordinate h
+	)
 {
-	SetBorderWidth(2);
+	if (itsType == kLevelControlType)
+	{
+		itsWidget = jnew JXLevelControl(this, kHElastic, kVElastic, x,y,w,h);
+	}
+	else
+	{
+		itsWidget = jnew JXSlider(this, kHElastic, kVElastic, x,y,w,h);
+	}
+
+	itsWidget->SetMaxValue(10);
+	itsWidget->SetValue(4);
+	SetWidget(itsWidget);
 }
 
 /******************************************************************************
@@ -65,7 +89,7 @@ RadioGroup::RadioGroupX()
 
  ******************************************************************************/
 
-RadioGroup::~RadioGroup()
+Slider::~Slider()
 {
 }
 
@@ -75,30 +99,17 @@ RadioGroup::~RadioGroup()
  ******************************************************************************/
 
 void
-RadioGroup::StreamOut
+Slider::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("RadioGroup") << std::endl;
+	output << JString("Slider") << std::endl;
 
-	ContainerWidget::StreamOut(output);
-}
+	CoreWidget::StreamOut(output);
 
-/******************************************************************************
- DrawBorder (virtual protected)
-
- ******************************************************************************/
-
-void
-RadioGroup::DrawBorder
-	(
-	JXWindowPainter&	p,
-	const JRect&		frame
-	)
-{
-	JXDrawEngravedFrame(p, frame, 1, 0, 1);
+	output << (int) itsType << std::endl;
 }
 
 /******************************************************************************
@@ -107,8 +118,8 @@ RadioGroup::DrawBorder
  ******************************************************************************/
 
 JString
-RadioGroup::GetClassName()
+Slider::GetClassName()
 	const
 {
-	return "JXRadioGroup";
+	return itsType == kLevelControlType ? "JXLevelControl" : "JXSlider";
 }

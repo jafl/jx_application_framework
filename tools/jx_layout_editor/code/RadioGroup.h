@@ -8,11 +8,11 @@
 #ifndef _H_RadioGroup
 #define _H_RadioGroup
 
-#include "BaseWidget.h"
+#include "ContainerWidget.h"
 
 class RadioGroupPanel;
 
-class RadioGroup : public BaseWidget
+class RadioGroup : public ContainerWidget
 {
 public:
 
@@ -28,23 +28,16 @@ public:
 	~RadioGroup() override;
 
 	void	StreamOut(std::ostream& output) const override;
-	bool	GetLayoutContainer(LayoutContainer** layout) const override;
 
 protected:
 
-	void	Draw(JXWindowPainter& p, const JRect& rect) override;
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
-	void	DrawOver(JXWindowPainter& p, const JRect& rect) override;
 
 	JString	GetClassName() const override;
 
 private:
 
-	LayoutContainer*	itsLayout;
-
-private:
-
-	void	RadioGroupX(LayoutContainer* layout);
+	void	RadioGroupX();
 };
 
 #endif

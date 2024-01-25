@@ -88,6 +88,7 @@ private:
 	static void			ParseFDesignGravity(const JString& gravity,
 											JXWidget::HSizingOption* hSizing,
 											JXWidget::VSizingOption* vSizing);
+	static JColorID		ParseFDesignColor(const JString& flColor);
 	static JString		GetTempFDesignVarName(const JPtrArray<JString>& objNames);
 	static bool			GetFDesignEnclosure(const JRect& frame,
 											const JArray<JRect>& rectList,

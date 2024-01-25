@@ -1,7 +1,7 @@
 /******************************************************************************
  WidgetSet.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = ContainerWidget
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -27,9 +27,8 @@ WidgetSet::WidgetSet
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h)
+	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h)
 {
-	WidgetSetX(layout);
 }
 
 WidgetSet::WidgetSet
@@ -45,21 +44,8 @@ WidgetSet::WidgetSet
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	ContainerWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	WidgetSetX(layout);
-}
-
-// private
-
-void
-WidgetSet::WidgetSetX
-	(
-	LayoutContainer* layout
-	)
-{
-	itsLayout = jnew LayoutContainer(layout, this, this, kHElastic, kVElastic, 0,0, 100,100);
-	itsLayout->FitToEnclosure();
 }
 
 /******************************************************************************
@@ -85,69 +71,7 @@ WidgetSet::StreamOut
 {
 	output << JString("WidgetSet") << std::endl;
 
-	BaseWidget::StreamOut(output);
-}
-
-/******************************************************************************
- GetLayoutContainer (virtual)
-
-	Some widgets can contain other widgets.
-
- ******************************************************************************/
-
-bool
-WidgetSet::GetLayoutContainer
-	(
-	LayoutContainer** layout
-	)
-	const
-{
-	*layout = itsLayout;
-	return true;
-}
-
-/******************************************************************************
- Draw (virtual protected)
-
- ******************************************************************************/
-
-void
-WidgetSet::Draw
-	(
-	JXWindowPainter&	p,
-	const JRect&		rect
-	)
-{
-}
-
-/******************************************************************************
- DrawBorder (virtual protected)
-
- ******************************************************************************/
-
-void
-WidgetSet::DrawBorder
-	(
-	JXWindowPainter&	p,
-	const JRect&		frame
-	)
-{
-}
-
-/******************************************************************************
- DrawOver (virtual protected)
-
- ******************************************************************************/
-
-void
-WidgetSet::DrawOver
-	(
-	JXWindowPainter&	p,
-	const JRect&		rect
-	)
-{
-	itsLayout->SetHint(ToString());
-	BaseWidget::DrawOver(p, rect);
+	ContainerWidget::StreamOut(output);
 }
 
 /******************************************************************************

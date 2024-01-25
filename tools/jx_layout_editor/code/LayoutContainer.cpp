@@ -381,6 +381,7 @@ LayoutContainer::ReadConfig
 #include "CustomWidget.h"
 #include "CharInput.h"
 #include "FileInput.h"
+#include "FlatRect.h"
 #include "FloatInput.h"
 #include "HistoryMenu.h"
 #include "ImageRadioButton.h"
@@ -392,8 +393,10 @@ LayoutContainer::ReadConfig
 #include "NewDirButton.h"
 #include "PasswordInput.h"
 #include "PathInput.h"
+#include "ProgressIndicator.h"
 #include "RadioGroup.h"
 #include "ScrollbarSet.h"
+#include "Slider.h"
 #include "StaticText.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
@@ -441,6 +444,10 @@ LayoutContainer::ReadWidget
 	{
 		widget = jnew FileInput(input, vers, e, hS,vS, x,y,w,h);
 	}
+	else if (className == "FlatRect")
+	{
+		widget = jnew FlatRect(input, vers, e, hS,vS, x,y,w,h);
+	}
 	else if (className == "FloatInput")
 	{
 		widget = jnew FloatInput(input, vers, e, hS,vS, x,y,w,h);
@@ -485,6 +492,10 @@ LayoutContainer::ReadWidget
 	{
 		widget = jnew PathInput(input, vers, e, hS,vS, x,y,w,h);
 	}
+	else if (className == "ProgressIndicator")
+	{
+		widget = jnew ProgressIndicator(input, vers, e, hS,vS, x,y,w,h);
+	}
 	else if (className == "RadioGroup")
 	{
 		widget = jnew RadioGroup(input, vers, e, hS,vS, x,y,w,h);
@@ -492,6 +503,10 @@ LayoutContainer::ReadWidget
 	else if (className == "ScrollbarSet")
 	{
 		widget = jnew ScrollbarSet(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "Slider")
+	{
+		widget = jnew Slider(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "StaticText")
 	{
@@ -555,6 +570,10 @@ LayoutContainer::CreateWidget
 	{
 		return jnew FloatInput(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
+	else if (index == kFlatRectIndex)
+	{
+		return jnew FlatRect(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
 	else if (index == kFloatInputIndex)
 	{
 		return jnew FloatInput(this, kFixedLeft,kFixedTop, x,y,w,h);
@@ -607,6 +626,10 @@ LayoutContainer::CreateWidget
 	{
 		return jnew PathInput(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
+	else if (index == kProgressIndicatorIndex)
+	{
+		return jnew ProgressIndicator(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
 	else if (index == kRadioGroupIndex)
 	{
 		return jnew RadioGroup(this, kFixedLeft,kFixedTop, x,y,w,h);
@@ -614,6 +637,14 @@ LayoutContainer::CreateWidget
 	else if (index == kScrollbarSetIndex)
 	{
 		return jnew ScrollbarSet(this, kHElastic,kVElastic, x,y,w,h);
+	}
+	else if (index == kLevelControlIndex)
+	{
+		return jnew Slider(Slider::kLevelControlType, this, kHElastic,kVElastic, x,y,w,h);
+	}
+	else if (index == kSliderIndex)
+	{
+		return jnew Slider(Slider::kSliderType, this, kHElastic,kVElastic, x,y,w,h);
 	}
 	else if (index == kStaticTextIndex)
 	{

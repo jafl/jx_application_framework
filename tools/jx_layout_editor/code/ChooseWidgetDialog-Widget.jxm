@@ -226,12 +226,52 @@ jx_menu_editor 0
 1
 0
 0 ""
+"Slider"
+""
+' 
+"__Slider"
+"kSliderIndex"
+0
+
+1
+0
+0 ""
+"Level control"
+""
+' 
+"__LevelControl"
+"kLevelControlIndex"
+0
+
+1
+0
+0 ""
+"Progress indicator"
+""
+' 
+"__ProgressIndicator"
+"kProgressIndicatorIndex"
+0
+
+1
+0
+0 ""
 "String history menu"
 ""
 ' 
 "__StringHistoryMenu"
 "kStringHistoryMenuIndex"
+1
+
+1
 0
+0 ""
+"Flat rect"
+""
+' 
+"__FlatRect"
+"kFlatRectIndex"
+1
 
 1
 0

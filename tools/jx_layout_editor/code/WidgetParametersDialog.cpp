@@ -84,7 +84,7 @@ WidgetParametersDialog::BuildWindow
 	variableNameLabel->SetToLabel(false);
 
 	itsHSizingMenu =
-		jnew JXTextMenu(JGetString("itsHSizingMenu::WidgetParametersDialog::JXLayout"), itsLatestContainer,
+		jnew JXTextMenu(JString::empty, itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 280,30);
 
 	itsMemberVarCB =
@@ -98,7 +98,7 @@ WidgetParametersDialog::BuildWindow
 	itsPredeclaredVarCB->SetShortcuts(JGetString("itsPredeclaredVarCB::shortcuts::WidgetParametersDialog::JXLayout"));
 
 	itsVSizingMenu =
-		jnew JXTextMenu(JGetString("itsVSizingMenu::WidgetParametersDialog::JXLayout"), itsLatestContainer,
+		jnew JXTextMenu(JString::empty, itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 280,30);
 
 	auto* cancelButton =
@@ -114,6 +114,8 @@ WidgetParametersDialog::BuildWindow
 	itsVarNameInput =
 		jnew JXInputField(itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,20, 310,20);
+	itsVarNameInput->SetIsRequired();
+	itsVarNameInput->SetValidationPattern(jnew JRegex("^[_a-z][_a-z0-9\\[\\]]+$", "i"), "itsVarNameInput::validation::WidgetParametersDialog::JXLayout");
 
 // end JXLayout
 
@@ -121,10 +123,6 @@ WidgetParametersDialog::BuildWindow
 
 	itsVarNameInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 	itsVarNameInput->GetText()->SetText(varName);
-	itsVarNameInput->SetIsRequired();
-	itsVarNameInput->SetValidationPattern(
-		jnew JRegex("^[_a-z][_a-z0-9]+$", "i"),
-		"VariableNameMustBeValidIdentifier::WidgetParametersDialog");
 
 	itsMemberVarCB->SetState(isMemberVar);
 	itsPredeclaredVarCB->SetState(isPredeclaredVar);

@@ -20,6 +20,10 @@ public:
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
+	InputField(const bool wordWrap, const bool acceptNewline, LayoutContainer* layout,
+				const HSizingOption hSizing, const VSizingOption vSizing,
+				const JCoordinate x, const JCoordinate y,
+				const JCoordinate w, const JCoordinate h);
 	InputField(std::istream& input, const JFileVersion vers, LayoutContainer* layout,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,

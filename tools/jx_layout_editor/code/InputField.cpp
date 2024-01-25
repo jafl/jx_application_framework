@@ -40,6 +40,28 @@ InputField::InputField
 
 InputField::InputField
 	(
+	const bool			wordWrap,
+	const bool			acceptNewline,
+	LayoutContainer*	layout,
+	const HSizingOption	hSizing,
+	const VSizingOption	vSizing,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
+	)
+	:
+	InputFieldBase(layout, hSizing, vSizing, x,y, w,h),
+	itsIsRequiredFlag(false),
+	itsMinLength(0),
+	itsMaxLength(0),
+	itsWordWrapFlag(wordWrap),
+	itsAcceptNewlineFlag(acceptNewline)
+{
+}
+
+InputField::InputField
+	(
 	std::istream&		input,
 	const JFileVersion	vers,
 	LayoutContainer*	layout,

@@ -110,6 +110,10 @@ DependencyLabel::CustomWidget	"Depends on: "
 
 AllowInvalidFile::FileInput	"Allow invalid file"
 
+# FlatRect
+
+ColorLabel::FlatRect	"Color: "
+
 # HistoryMenu
 
 HistoryLength::HistoryMenu	"History length: "
@@ -162,10 +166,6 @@ IDLabel::TextRadioButton		"ID: "
 PrefsManagerLabel::ToolBar	"Prefs mgr:"
 PrefIDLabel::ToolBar		"Pref ID:"
 MenuBarLabel::ToolBar		"Menu bar:"
-
-# WidgetParametersDialog
-
-VariableNameMustBeValidIdentifier::WidgetParametersDialog	"The variable name must be a valid C++ identifier."
 
 # CustomWidgetPanel
 

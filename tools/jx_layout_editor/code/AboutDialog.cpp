@@ -91,7 +91,6 @@ AboutDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::AboutDialog"));
 	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton, std::function([this](const JXButton::Pushed&)

@@ -1,5 +1,5 @@
 /******************************************************************************
- ScrollbarSet.cpp
+ FlatRect.cpp
 
 	BASE CLASS = ContainerWidget
 
@@ -7,20 +7,18 @@
 
  ******************************************************************************/
 
-#include "ScrollbarSet.h"
-#include "LayoutContainer.h"
-#include <jx-af/jx/JXWindowPainter.h>
+#include "FlatRect.h"
+#include "ColorChooserPanel.h"
 #include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
-
-const JCoordinate kScrollbarWidth = 15;
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-ScrollbarSet::ScrollbarSet
+FlatRect::FlatRect
 	(
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
@@ -31,12 +29,29 @@ ScrollbarSet::ScrollbarSet
 	const JCoordinate	h
 	)
 	:
-	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h)
+	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	itsColor(JColorManager::GetDefaultBackColor())
 {
-	ScrollbarSetX();
 }
 
-ScrollbarSet::ScrollbarSet
+FlatRect::FlatRect
+	(
+	const JColorID		color,
+	LayoutContainer*	layout,
+	const HSizingOption	hSizing,
+	const VSizingOption	vSizing,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
+	)
+	:
+	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	itsColor(color)
+{
+}
+
+FlatRect::FlatRect
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -51,19 +66,9 @@ ScrollbarSet::ScrollbarSet
 	:
 	ContainerWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	ScrollbarSetX();
-}
-
-// private
-
-void
-ScrollbarSet::ScrollbarSetX()
-{
-	LayoutContainer* layout;
-	const bool ok = GetLayoutContainer(&layout);
-	assert( ok );
-
-	layout->AdjustSize(-kScrollbarWidth, -kScrollbarWidth);
+	JRGB color;
+	input >> color;
+	itsColor = JColorManager::GetColorID(color);
 }
 
 /******************************************************************************
@@ -71,7 +76,7 @@ ScrollbarSet::ScrollbarSetX()
 
  ******************************************************************************/
 
-ScrollbarSet::~ScrollbarSet()
+FlatRect::~FlatRect()
 {
 }
 
@@ -81,32 +86,38 @@ ScrollbarSet::~ScrollbarSet()
  ******************************************************************************/
 
 void
-ScrollbarSet::StreamOut
+FlatRect::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("ScrollbarSet") << std::endl;
+	output << JString("FlatRect") << std::endl;
 
 	ContainerWidget::StreamOut(output);
+
+	output << JColorManager::GetRGB(itsColor) << std::endl;
 }
 
 /******************************************************************************
- Draw (virtual protected)
+ ToString (virtual)
 
  ******************************************************************************/
 
-void
-ScrollbarSet::Draw
-	(
-	JXWindowPainter&	p,
-	const JRect&		rect
-	)
+JString
+FlatRect::ToString()
+	const
 {
-	p.SetPenColor(JColorManager::GetDefaultSliderBackColor());
-	p.SetFilling(true);
-	p.Rect(GetAperture());
+	JString s = ContainerWidget::ToString();
+
+	std::ostringstream c;
+	c << std::hex << JColorManager::GetRGB(itsColor);
+
+	s += JString::newline;
+	s += JGetString("ColorLabel::FlatRect");
+	s += c.str();
+
+	return s;
 }
 
 /******************************************************************************
@@ -115,53 +126,59 @@ ScrollbarSet::Draw
  ******************************************************************************/
 
 JString
-ScrollbarSet::GetClassName()
+FlatRect::GetClassName()
 	const
 {
-	return "JXScrollbarSet";
+	return "JXFlatRect";
 }
 
 /******************************************************************************
- GetEnclosureName (virtual protected)
-
- ******************************************************************************/
-
-JString
-ScrollbarSet::GetEnclosureName()
-	const
-{
-	bool b1, b2;
-	return GetVarName(&b1, &b2) + "->GetScrollEnclosure()";
-}
-
-/******************************************************************************
- PrepareToGenerateCode (virtual)
+ PrintConfiguration (virtual protected)
 
  ******************************************************************************/
 
 void
-ScrollbarSet::PrepareToGenerateCode()
+FlatRect::PrintConfiguration
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	const JString&	varName,
+	JStringManager*	stringdb
+	)
 	const
 {
-	LayoutContainer* layout;
-	const bool ok = GetLayoutContainer(&layout);
-	assert( ok );
+	auto color = JColorManager::GetRGB(itsColor);
 
-	layout->AdjustSize(kScrollbarWidth, kScrollbarWidth);
+	indent.Print(output);
+	varName.Print(output);
+	output << "->SetBackColor(JColorManager::GetColorID(JRGB(";
+	output << color.red << ", ";
+	output << color.green << ", ";
+	output << color.blue << ")));" << std::endl;
 }
 
 /******************************************************************************
- GenerateCodeFinished (virtual)
+ AddPanels (virtual protected)
 
  ******************************************************************************/
 
 void
-ScrollbarSet::GenerateCodeFinished()
-	const
+FlatRect::AddPanels
+	(
+	WidgetParametersDialog* dlog
+	)
 {
-	LayoutContainer* layout;
-	const bool ok = GetLayoutContainer(&layout);
-	assert( ok );
+	itsPanel = jnew ColorChooserPanel(dlog, itsColor);
+}
 
-	layout->AdjustSize(-kScrollbarWidth, -kScrollbarWidth);
+/******************************************************************************
+ SavePanelData (virtual protected)
+
+ ******************************************************************************/
+
+void
+FlatRect::SavePanelData()
+{
+	itsPanel->GetValues(&itsColor);
+	itsPanel = nullptr;
 }

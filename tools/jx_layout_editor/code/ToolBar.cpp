@@ -1,7 +1,7 @@
 /******************************************************************************
  ToolBar.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = ContainerWidget
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -33,9 +33,9 @@ ToolBar::ToolBar
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h)
+	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h)
 {
-	ToolBarX(layout);
+	ToolBarX();
 }
 
 ToolBar::ToolBar
@@ -52,12 +52,12 @@ ToolBar::ToolBar
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h),
 	itsPrefsMgr(prefsMgr),
 	itsPrefID(prefID),
 	itsMenuBar(menuBar)
 {
-	ToolBarX(layout);
+	ToolBarX();
 }
 
 ToolBar::ToolBar
@@ -73,9 +73,9 @@ ToolBar::ToolBar
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	ContainerWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	ToolBarX(layout);
+	ToolBarX();
 
 	input >> itsPrefsMgr >> itsPrefID >> itsMenuBar;
 }
@@ -83,15 +83,14 @@ ToolBar::ToolBar
 // private
 
 void
-ToolBar::ToolBarX
-	(
-	LayoutContainer* layout
-	)
+ToolBar::ToolBarX()
 {
-	itsLayout = jnew LayoutContainer(layout, this, this, kHElastic, kVElastic, 0,0, 100,100);
-	itsLayout->FitToEnclosure();
-	itsLayout->Move(0, kButtonBarHeight);
-	itsLayout->AdjustSize(0, -kButtonBarHeight);
+	LayoutContainer* layout;
+	const bool ok = GetLayoutContainer(&layout);
+	assert( ok );
+
+	layout->Move(0, kButtonBarHeight);
+	layout->AdjustSize(0, -kButtonBarHeight);
 }
 
 /******************************************************************************
@@ -117,7 +116,7 @@ ToolBar::StreamOut
 {
 	output << JString("ToolBar") << std::endl;
 
-	BaseWidget::StreamOut(output);
+	ContainerWidget::StreamOut(output);
 
 	output << itsPrefsMgr << std::endl;
 	output << itsPrefID << std::endl;
@@ -133,7 +132,7 @@ JString
 ToolBar::ToString()
 	const
 {
-	JString s = BaseWidget::ToString();
+	JString s = ContainerWidget::ToString();
 
 	s += JString::newline;
 	s += JGetString("PrefsManagerLabel::ToolBar");
@@ -151,24 +150,6 @@ ToolBar::ToString()
 }
 
 /******************************************************************************
- GetLayoutContainer (virtual)
-
-	Some widgets can contain other widgets.
-
- ******************************************************************************/
-
-bool
-ToolBar::GetLayoutContainer
-	(
-	LayoutContainer** layout
-	)
-	const
-{
-	*layout = itsLayout;
-	return true;
-}
-
-/******************************************************************************
  Draw (virtual protected)
 
  ******************************************************************************/
@@ -183,20 +164,6 @@ ToolBar::Draw
 	JRect r  = GetAperture();
 	r.bottom = r.top + kButtonBarHeight;
 	p.String(r, "JXToolBar", JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
-}
-
-/******************************************************************************
- DrawBorder (virtual protected)
-
- ******************************************************************************/
-
-void
-ToolBar::DrawBorder
-	(
-	JXWindowPainter&	p,
-	const JRect&		frame
-	)
-{
 }
 
 /******************************************************************************
@@ -233,8 +200,12 @@ void
 ToolBar::PrepareToGenerateCode()
 	const
 {
-	itsLayout->Move(0, -kButtonBarHeight);
-	itsLayout->AdjustSize(0, kButtonBarHeight);
+	LayoutContainer* layout;
+	const bool ok = GetLayoutContainer(&layout);
+	assert( ok );
+
+	layout->Move(0, -kButtonBarHeight);
+	layout->AdjustSize(0, kButtonBarHeight);
 }
 
 /******************************************************************************
@@ -246,8 +217,12 @@ void
 ToolBar::GenerateCodeFinished()
 	const
 {
-	itsLayout->Move(0, kButtonBarHeight);
-	itsLayout->AdjustSize(0, -kButtonBarHeight);
+	LayoutContainer* layout;
+	const bool ok = GetLayoutContainer(&layout);
+	assert( ok );
+
+	layout->Move(0, kButtonBarHeight);
+	layout->AdjustSize(0, -kButtonBarHeight);
 }
 
 /******************************************************************************

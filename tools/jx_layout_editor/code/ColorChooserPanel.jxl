@@ -1,0 +1,51 @@
+jx_layout_editor 5
+460
+60
+"Panel"
+""
+""
+"window"
+0
+
+1
+0
+"WidgetSet"
+0
+0
+0 0 60 460
+"container"
+0
+0
+0
+
+1
+1
+"StaticText"
+0
+0
+10 20 30 80
+"colorSampleLabel"
+0
+0
+0
+"Color:"
+1
+0
+0
+0
+0
+
+1
+1
+"TextButton"
+0
+0
+10 80 50 120
+"itsColorSample"
+1
+0
+0
+" "
+""
+
+0

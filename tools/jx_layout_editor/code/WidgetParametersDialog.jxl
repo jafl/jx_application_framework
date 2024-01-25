@@ -45,12 +45,12 @@ jx_layout_editor 5
 1
 1
 0
+1
 0
 0
-0
-""
-""
-""
+"^[_a-z][_a-z0-9\\[\\]]+$"
+"i"
+"The variable name must be a valid C++ identifier or expression."
 0
 0
 

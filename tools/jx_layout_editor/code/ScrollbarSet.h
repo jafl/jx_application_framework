@@ -8,9 +8,9 @@
 #ifndef _H_ScrollbarSet
 #define _H_ScrollbarSet
 
-#include "BaseWidget.h"
+#include "ContainerWidget.h"
 
-class ScrollbarSet : public BaseWidget
+class ScrollbarSet : public ContainerWidget
 {
 public:
 
@@ -26,7 +26,6 @@ public:
 	~ScrollbarSet() override;
 
 	void	StreamOut(std::ostream& output) const override;
-	bool	GetLayoutContainer(LayoutContainer** layout) const override;
 	JString	GetEnclosureName() const override;
 
 	void	PrepareToGenerateCode() const override;
@@ -35,17 +34,12 @@ public:
 protected:
 
 	void	Draw(JXWindowPainter& p, const JRect& rect) override;
-	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
 	JString	GetClassName() const override;
 
 private:
 
-	LayoutContainer*	itsLayout;
-
-private:
-
-	void	ScrollbarSetX(LayoutContainer* layout);
+	void	ScrollbarSetX();
 };
 
 #endif

@@ -27,6 +27,7 @@
 #include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jTextUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
@@ -1005,6 +1006,7 @@ LayoutDocument::ImportFDesignFile
 #include "CustomWidget.h"
 #include "CharInput.h"
 #include "FileInput.h"
+#include "FlatRect.h"
 #include "FloatInput.h"
 #include "HistoryMenu.h"
 #include "ImageRadioButton.h"
@@ -1016,8 +1018,10 @@ LayoutDocument::ImportFDesignFile
 #include "NewDirButton.h"
 #include "PasswordInput.h"
 #include "PathInput.h"
+#include "ProgressIndicator.h"
 #include "RadioGroup.h"
 #include "ScrollbarSet.h"
+#include "Slider.h"
 #include "StaticText.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
@@ -1219,7 +1223,7 @@ LayoutDocument::ImportFDesignLayout
 		w = localFrame.width();
 		h = localFrame.height();
 
-		BaseWidget* widget;
+		BaseWidget* widget = nullptr;
 		if (label == "JXCharInput")
 		{
 			widget = jnew CharInput(enclosure, hS,vS, x,y,w,h);
@@ -1228,21 +1232,25 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew FileInput(enclosure, hS,vS, x,y,w,h);
 		}
+		else if (flClass == "FL_BOX" && flType == "FL_FLAT_BOX")
+		{
+			widget = jnew FlatRect(ParseFDesignColor(color1), enclosure, hS,vS, x,y,w,h);
+		}
 		else if (flClass == "FL_INPUT" && flType == "FL_FLOAT_INPUT")
 		{
 			widget = jnew FloatInput(enclosure, hS,vS, x,y,w,h);
 		}
-		else if (label == "JXFileHistoryMenu")
+		else if (label.StartsWith("JXFileHistoryMenu"))
 		{
 			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
 			widget = jnew HistoryMenu(HistoryMenu::kFileType, *argList.GetFirstItem(), enclosure, hS,vS, x,y,w,h);
 		}
-		else if (label == "JXPathHistoryMenu")
+		else if (label.StartsWith("JXPathHistoryMenu"))
 		{
 			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
 			widget = jnew HistoryMenu(HistoryMenu::kPathType, *argList.GetFirstItem(), enclosure, hS,vS, x,y,w,h);
 		}
-		else if (label == "JXStringHistoryMenu")
+		else if (label.StartsWith("JXStringHistoryMenu"))
 		{
 			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
 			widget = jnew HistoryMenu(HistoryMenu::kStringType, *argList.GetFirstItem(), enclosure, hS,vS, x,y,w,h);
@@ -1261,13 +1269,29 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew ImageWidget(ImageWidget::kButtonType, enclosure, hS,vS, x,y,w,h);
 		}
-		else if (label == "JXImageWidget")
+		else if ((flClass == "FL_PIXMAP" || flClass == "FL_NORMAL_PIXMAP") || 
+				 label == "JXImageWidget")
 		{
 			widget = jnew ImageWidget(ImageWidget::kImageType, enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_INPUT" && flType == "FL_NORMAL_INPUT")
 		{
 			widget = jnew InputField(enclosure, hS,vS, x,y,w,h);
+		}
+		else if (label.StartsWith("JXInputField"))
+		{
+			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
+			if (argList.GetItemCount() >= 2)
+			{
+				widget = jnew InputField(
+					*argList.GetItem(1) == "true",
+					*argList.GetItem(2) == "true",
+					enclosure, hS,vS, x,y,w,h);
+			}
+			else
+			{
+				widget = jnew InputField(enclosure, hS,vS, x,y,w,h);
+			}
 		}
 		else if (flClass == "FL_INPUT" && flType == "FL_INT_INPUT")
 		{
@@ -1277,7 +1301,7 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew Menu(Menu::kTextType, label, 0, enclosure, hS,vS, x,y,w,h);
 		}
-		else if (label == "JXImageMenu")
+		else if (label.StartsWith("JXImageMenu"))
 		{
 			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
 
@@ -1316,6 +1340,10 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew PathInput(enclosure, hS,vS, x,y,w,h);
 		}
+		else if (label == "JXProgressIndicator")
+		{
+			widget = jnew ProgressIndicator(enclosure, hS,vS, x,y,w,h);
+		}
 		else if (flClass == "FL_FRAME" && flType == "FL_ENGRAVED_FRAME")
 		{
 			widget = jnew RadioGroup(enclosure, hS,vS, x,y,w,h);
@@ -1323,6 +1351,19 @@ LayoutDocument::ImportFDesignLayout
 		else if (label == "JXScrollbarSet")
 		{
 			widget = jnew ScrollbarSet(enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_FRAME" && flType == "FL_ENGRAVED_FRAME")
+		{
+			widget = jnew RadioGroup(enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_SLIDER" &&
+				 (flType == "FL_VERT_FILL_SLIDER" || flType == "FL_HOR_FILL_SLIDER"))
+		{
+			widget = jnew Slider(Slider::kLevelControlType, enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_SLIDER")
+		{
+			widget = jnew Slider(Slider::kSliderType, enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_TEXT" && flType == "FL_NORMAL_TEXT")
 		{
@@ -1341,7 +1382,7 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew TextRadioButton(argument, label, shortcuts, enclosure, hS,vS, x,y,w,h);
 		}
-		else if (label == "JXToolBar")
+		else if (label.StartsWith("JXToolBar"))
 		{
 			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
 			if (argList.GetItemCount() < 3)
@@ -1361,7 +1402,7 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew WidgetSet(enclosure, hS,vS, x,y,w,h);
 		}
-		else // if (flClass == "FL_BOX" && flType == "FL_NO_BOX" && !label->IsEmpty())
+		else if (flClass == "FL_BOX" && flType == "FL_NO_BOX" && !label.IsEmpty())
 		{
 			SplitFDesignClassNameAndArgs(label, argument, &className, &argList);
 			widget = jnew CustomWidget(className, JStringJoin(", ", argList), false,
@@ -1450,8 +1491,6 @@ static const GravityMap kGravityMap[] =
 	{ "FL_NorthWest", JXWidget::kFixedLeft,  JXWidget::kFixedTop    }
 };
 
-const JSize kGravityCount = sizeof(kGravityMap) / sizeof(GravityMap);
-
 void
 LayoutDocument::ParseFDesignGravity
 	(
@@ -1460,18 +1499,67 @@ LayoutDocument::ParseFDesignGravity
 	JXWidget::VSizingOption*	vSizing
 	)
 {
-	for (JUnsignedOffset i=0; i<kGravityCount; i++)
+	for (auto g : kGravityMap)
 	{
-		if (gravity == kGravityMap[i].gravity)
+		if (g.gravity == gravity)
 		{
-			*hSizing = kGravityMap[i].hSizing;
-			*vSizing = kGravityMap[i].vSizing;
+			*hSizing = g.hSizing;
+			*vSizing = g.vSizing;
 			return;
 		}
 	}
 
 	*hSizing = kGravityMap[0].hSizing;
 	*vSizing = kGravityMap[0].vSizing;
+}
+
+/******************************************************************************
+ ParseFDesignColor (static private)
+
+ ******************************************************************************/
+
+struct ColorConversion
+{
+	const JUtf8Byte* flColor;
+	const JColorID jxColor;
+};
+
+static const ColorConversion kColorTable[] =
+{
+	{"FL_BLACK",        JColorManager::GetBlackColor()},	// default
+	{"FL_RED",          JColorManager::GetRedColor()},
+	{"FL_GREEN",        JColorManager::GetGreenColor()},
+	{"FL_YELLOW",       JColorManager::GetYellowColor()},
+	{"FL_BLUE",         JColorManager::GetBlueColor()},
+	{"FL_MAGENTA",      JColorManager::GetMagentaColor()},
+	{"FL_CYAN",         JColorManager::GetCyanColor()},
+	{"FL_WHITE",        JColorManager::GetWhiteColor()},
+	{"FL_LCOL",         JColorManager::GetBlackColor()},
+	{"FL_COL1",         JColorManager::GetDefaultBackColor()},
+	{"FL_MCOL",         JColorManager::GetDefaultFocusColor()},
+	{"FL_RIGHT_BCOL",   JColorManager::Get3DShadeColor()},
+	{"FL_BOTTOM_BCOL",  JColorManager::Get3DShadeColor()},
+	{"FL_TOP_BCOL",     JColorManager::Get3DLightColor()},
+	{"FL_LEFT_BCOL",    JColorManager::Get3DLightColor()},
+	{"FL_INACTIVE",     JColorManager::GetInactiveLabelColor()},
+	{"FL_INACTIVE_COL", JColorManager::GetInactiveLabelColor()}
+};
+
+JColorID
+LayoutDocument::ParseFDesignColor
+	(
+	const JString& flColor
+	)
+{
+	for (const auto& c : kColorTable)
+	{
+		if (c.flColor == flColor)
+		{
+			return c.jxColor;
+		}
+	}
+
+	return kColorTable[0].jxColor;
 }
 
 /******************************************************************************
