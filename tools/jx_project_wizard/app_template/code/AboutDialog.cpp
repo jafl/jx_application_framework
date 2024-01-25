@@ -113,8 +113,6 @@ AboutDialog::BuildWindow
 		EndDialog(true);
 	}));
 
-	imageWidget->SetXPM(about_icon);
-
 	JString text = GetVersionStr();
 	if (!prevVersStr.IsEmpty())
 	{

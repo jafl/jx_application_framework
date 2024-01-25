@@ -749,6 +749,10 @@ T
 2 "JXTipOfTheDayDialog.cpp"
 F
 "./code/JXTipOfTheDayDialog.cpp"
+T
+2 "JXTipOfTheDayDialog.jxl"
+F
+"./code/JXTipOfTheDayDialog.jxl"
 F
 T
 1 "Prefs"
@@ -921,6 +925,10 @@ T
 2 "JXFixLenPGDirector.cpp"
 F
 "./code/JXFixLenPGDirector.cpp"
+T
+2 "JXFixLenPGDirector.jxl"
+F
+"./code/JXFixLenPGDirector.jxl"
 T
 2 "JXVarLenPGDirector.cpp"
 F
@@ -1133,6 +1141,10 @@ T
 F
 "./code/JXChooseColorDialog.cpp"
 T
+2 "JXChooseColorDialog.jxl"
+F
+"./code/JXChooseColorDialog.jxl"
+T
 2 "JXColorWheel.cpp"
 F
 "./code/JXColorWheel.cpp"
@@ -1171,7 +1183,7 @@ F
 F
 # build settings
 1
-T
+F
 "libjx.a"
 ""
 "make -k all"

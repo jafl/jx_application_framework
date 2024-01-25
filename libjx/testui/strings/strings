@@ -100,7 +100,6 @@ UnrecognizedFormat::TestImageDirector	"Unable to find a known image format."
 
 # TestSliderDirector
 
-WindowTitle::TestSliderDirector					"Testing Sliders"
 HorizontalSliderHint::TestSliderDirector		"Horizontal slider"
 VerticalSliderHint::TestSliderDirector			"Vertical slider (controls maximum value of horizontal slider)"
 HorizontalLevelControlHint::TestSliderDirector	"Horizontal level control"

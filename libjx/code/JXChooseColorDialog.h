@@ -37,14 +37,14 @@ private:
 
 // begin JXLayout
 
+	JXColorWheel*   itsColorWheel;
+	JXFlatRect*     itsColorSample;
 	JXSlider*       itsHSlider;
 	JXSlider*       itsSSlider;
 	JXSlider*       itsVSlider;
-	JXFlatRect*     itsColorSample;
 	JXIntegerInput* itsRInput;
 	JXIntegerInput* itsGInput;
 	JXIntegerInput* itsBInput;
-	JXColorWheel*   itsColorWheel;
 
 // end JXLayout
 

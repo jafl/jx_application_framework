@@ -27,7 +27,7 @@ std::istream&
 operator>>
 	(
 	std::istream&	input,
-	JRGB&		color
+	JRGB&			color
 	)
 {
 	input >> color.red >> color.green >> color.blue;
@@ -38,7 +38,7 @@ std::ostream&
 operator<<
 	(
 	std::ostream&	output,
-	const JRGB&	color
+	const JRGB&		color
 	)
 {
 	output << color.red << ' ' << color.green << ' ' << color.blue;
@@ -78,7 +78,7 @@ std::istream&
 operator>>
 	(
 	std::istream&	input,
-	JHSB&		color
+	JHSB&			color
 	)
 {
 	input >> color.hue >> color.saturation >> color.brightness;
@@ -89,7 +89,7 @@ std::ostream&
 operator<<
 	(
 	std::ostream&	output,
-	const JHSB&	color
+	const JHSB&		color
 	)
 {
 	output << color.hue << ' ' << color.saturation << ' ' << color.brightness;

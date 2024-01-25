@@ -34,9 +34,9 @@ private:
 
 // begin JXLayout
 
-	JXTextButton*   itsCloseButton;
-	JXTextButton*   itsNextTipButton;
 	JXTextCheckbox* itsShowAtStartupCB;
+	JXTextButton*   itsNextTipButton;
+	JXTextButton*   itsCloseButton;
 
 // end JXLayout
 

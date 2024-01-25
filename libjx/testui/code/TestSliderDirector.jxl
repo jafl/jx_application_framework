@@ -1,0 +1,58 @@
+jx_layout_editor 5
+230
+240
+"JXLayout"
+"Testing Sliders"
+"TestSliderDirector"
+""
+0
+
+1
+0
+"Slider"
+0
+2
+20 60 130 90
+"itsMaxSlider"
+1
+0
+0
+0
+
+1
+0
+"Slider"
+1
+2
+20 150 130 170
+"itsMaxLevel"
+1
+0
+0
+1
+
+1
+0
+"Slider"
+2
+1
+150 20 180 210
+"itsSlider"
+1
+0
+0
+0
+
+1
+0
+"Slider"
+2
+1
+200 20 220 210
+"itsLevel"
+1
+0
+0
+1
+
+0

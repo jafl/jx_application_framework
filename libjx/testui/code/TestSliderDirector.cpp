@@ -9,10 +9,9 @@
 
 #include "TestSliderDirector.h"
 #include <jx-af/jx/JXWindow.h>
-#include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXSlider.h>
 #include <jx-af/jx/JXLevelControl.h>
-#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -49,32 +48,26 @@ TestSliderDirector::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 230,240, JString::empty);
+	auto* window = jnew JXWindow(this, 230,240, JGetString("WindowTitle::TestSliderDirector::JXLayout"));
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestSliderDirector");
 
 	itsMaxSlider =
 		jnew JXSlider(window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 60,20, 30,110);
-	assert( itsMaxSlider != nullptr );
 
 	itsMaxLevel =
 		jnew JXLevelControl(window,
 					JXWidget::kFixedRight, JXWidget::kVElastic, 150,20, 20,110);
-	assert( itsMaxLevel != nullptr );
 
 	itsSlider =
 		jnew JXSlider(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,150, 190,30);
-	assert( itsSlider != nullptr );
 
 	itsLevel =
 		jnew JXLevelControl(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,200, 190,20);
-	assert( itsLevel != nullptr );
 
 // end JXLayout
-
-	window->SetTitle(JGetString("WindowTitle::TestSliderDirector"));
-	window->SetWMClass("testjx", "TestSliderDirector");
 
 	itsSlider->SetRange(1,10);
 	itsSlider->SetHint(JGetString("HorizontalSliderHint::TestSliderDirector"));

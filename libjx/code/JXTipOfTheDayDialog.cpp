@@ -23,10 +23,11 @@
 #include "JXStaticText.h"
 #include "JXImageWidget.h"
 #include "JXFlatRect.h"
+#include "JXImageCache.h"
 #include "JXImage.h"
-#include "JXColorManager.h"
-#include "JXFontManager.h"
 #include "jXGlobals.h"
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jTextUtil.h>
 #include <jx-af/jcore/JKLRand.h>
 #include <jx-af/jcore/jAssert.h>
@@ -82,8 +83,6 @@ JXTipOfTheDayDialog::ShowAtStartup()
 
  ******************************************************************************/
 
-#include "jx_tip_of_the_day.xpm"
-
 void
 JXTipOfTheDayDialog::BuildWindow
 	(
@@ -93,48 +92,48 @@ JXTipOfTheDayDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 410,260, JString::empty);
+	auto* window = jnew JXWindow(this, 410,260, JGetString("WindowTitle::JXTipOfTheDayDialog::JXLayout"));
 
 	auto* sideBar =
 		jnew JXFlatRect(window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 10,10, 50,200);
-	assert( sideBar != nullptr );
-	sideBar->SetColor(JColorManager::GetInactiveLabelColor());
+	sideBar->SetBackColor(JColorManager::GetColorID(JRGB(39321, 39321, 39321)));
 
-	itsCloseButton =
-		jnew JXTextButton(JGetString("itsCloseButton::JXTipOfTheDayDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 340,225, 60,20);
-	assert( itsCloseButton != nullptr );
-
-	itsNextTipButton =
-		jnew JXTextButton(JGetString("itsNextTipButton::JXTipOfTheDayDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,225, 60,20);
-	assert( itsNextTipButton != nullptr );
-	itsNextTipButton->SetShortcuts(JGetString("itsNextTipButton::JXTipOfTheDayDialog::shortcuts::JXLayout"));
+	auto* title =
+		jnew JXStaticText(JGetString("title::JXTipOfTheDayDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 60,10, 340,50);
+	title->SetToLabel(false);
 
 	auto* icon =
 		jnew JXImageWidget(sideBar,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,15, 30,30);
-	assert( icon != nullptr );
+#ifndef _H_jx_af_image_jx_jx_tip_of_the_day
+#define _H_jx_af_image_jx_jx_tip_of_the_day
+#include <jx-af/image/jx/jx_tip_of_the_day.xpm>
+#endif
+	icon->SetImage(GetDisplay()->GetImageCache()->GetImage(jx_tip_of_the_day), false);
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,60, 340,150);
 	assert( scrollbarSet != nullptr );
 
-	auto* title =
-		jnew JXStaticText(JGetString("title::JXTipOfTheDayDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 60,10, 340,50);
-	assert( title != nullptr );
-
 	itsShowAtStartupCB =
 		jnew JXTextCheckbox(JGetString("itsShowAtStartupCB::JXTipOfTheDayDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,225, 140,20);
-	assert( itsShowAtStartupCB != nullptr );
+	itsShowAtStartupCB->SetShortcuts(JGetString("itsShowAtStartupCB::shortcuts::JXTipOfTheDayDialog::JXLayout"));
+
+	itsNextTipButton =
+		jnew JXTextButton(JGetString("itsNextTipButton::JXTipOfTheDayDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,225, 60,20);
+	itsNextTipButton->SetShortcuts(JGetString("itsNextTipButton::shortcuts::JXTipOfTheDayDialog::JXLayout"));
+
+	itsCloseButton =
+		jnew JXTextButton(JGetString("itsCloseButton::JXTipOfTheDayDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 340,225, 60,20);
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::JXTipOfTheDayDialog"));
 	SetButtons(itsCloseButton, nullptr);
 
 	JXImage* wIcon;
@@ -142,18 +141,11 @@ JXTipOfTheDayDialog::BuildWindow
 	assert_ok( err );
 	window->SetIcon(wIcon);
 
-	sideBar->SetColor(JColorManager::GetGrayColor(50));
-	icon->SetXPM(jx_tip_of_the_day, JColorManager::GetGrayColor(50));
-
-	title->SetToLabel();
 	title->SetBorderWidth(kJXDefaultBorderWidth);
 	title->TESetLeftMarginWidth(5);
 	title->SetBackColor(title->GetFocusColor());
 	title->GetText()->SetFont(title->GetText()->SelectAll(),
-		JFontManager::GetFont(
-			JGetString("FontName::JXTipOfTheDayDialog"), 18,
-			JFontStyle(true, false, 0, false)),
-		true);
+		JFontManager::GetFont("Times", 18, JFontStyle(true, false, 0, false)), true);
 
 	itsText =
 		jnew JXStaticText(JString::empty, true, false, true,

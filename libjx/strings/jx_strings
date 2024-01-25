@@ -400,10 +400,6 @@ CannotQuitWhileRunning::JXPGDirectorBase	"You cannot quit while this process is 
 SavePrompt::JXPGMessageDirector		"Save messages in:"
 DefaultName::JXPGMessageDirector	"messages"
 
-# JXChooseColorDialog
-
-WindowTitle::JXChooseColorDialog	"Choose color"
-
 # JXPSPrinter
 
 UnableToCreateTempFile::JXPSPrinter	"Unable to create a temporary file.  Please check that the disk is not full."
@@ -431,11 +427,6 @@ SearchAllLabel::JXHelpDirector			"Search all sections"
 PrefsMenuTitle::JXHelpDirector			"Preferences"
 PrefsMenuShortcut::JXHelpDirector		"#P"
 SavePrompt::JXHelpDirector				"Save text as:"
-
-# JXTipOfTheDayDialog
-
-WindowTitle::JXTipOfTheDayDialog	"Tip of the Day"
-FontName::JXTipOfTheDayDialog		"Times"
 
 # JXImage
 

@@ -60,9 +60,9 @@ JXOKToCloseDialog::BuildWindow
 	auto* icon =
 		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
-#ifndef _H_jx_af_image_jx_jx_un_warning
-#define _H_jx_af_image_jx_jx_un_warning
-#include <jx-af/image/jx/jx_un_warning.xpm>
+#ifndef _H_jx_un_warning
+#define _H_jx_un_warning
+#include "jx_un_warning.xpm"
 #endif
 	icon->SetImage(GetDisplay()->GetImageCache()->GetImage(jx_un_warning), false);
 
