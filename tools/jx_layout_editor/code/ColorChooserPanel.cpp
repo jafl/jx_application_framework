@@ -86,3 +86,23 @@ ColorChooserPanel::GetValues
 {
 	*color = itsColorSample->GetBackColor();
 }
+
+/******************************************************************************
+ PrintColorConfiguration (static)
+
+ ******************************************************************************/
+
+void
+ColorChooserPanel::PrintColorConfiguration
+	(
+	const JColorID	color,
+	std::ostream&	output
+	)
+{
+	auto rgb = JColorManager::GetRGB(color);
+
+	output << "JColorManager::GetColorID(JRGB(";
+	output << rgb.red << ", ";
+	output << rgb.green << ", ";
+	output << rgb.blue << "))";
+}

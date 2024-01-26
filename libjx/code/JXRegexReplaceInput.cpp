@@ -12,6 +12,7 @@
 
 #include "JXRegexReplaceInput.h"
 #include <jx-af/jcore/JInterpolate.h>
+#include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -38,6 +39,7 @@ JXRegexReplaceInput::JXRegexReplaceInput
 	itsOwnsInterpolatorFlag = widgetOwnsInterpolator;
 
 	SetIsRequired();
+	SetFont(JFontManager::GetDefaultMonospaceFont());
 }
 
 /******************************************************************************

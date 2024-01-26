@@ -127,8 +127,13 @@ ValidationLabel:InputField	"Validation: "
 ErrorMsgLabel:InputField	"Error msg: "
 WordWrap::InputField		"Word wrapping"
 AcceptNewline::InputField	"Accepts newline"
+Monospace::InputField		"Monospace font"
 MinValueLabel::InputField	"Min value: "
 MaxValueLabel::InputField	"Max value: "
+
+Hint::InputField
+"Hint:
+"
 
 # Menu
 

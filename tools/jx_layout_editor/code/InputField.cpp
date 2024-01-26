@@ -34,7 +34,8 @@ InputField::InputField
 	itsMinLength(0),
 	itsMaxLength(0),
 	itsWordWrapFlag(false),
-	itsAcceptNewlineFlag(false)
+	itsAcceptNewlineFlag(false),
+	itsMonospaceFlag(false)
 {
 }
 
@@ -56,7 +57,8 @@ InputField::InputField
 	itsMinLength(0),
 	itsMaxLength(0),
 	itsWordWrapFlag(wordWrap),
-	itsAcceptNewlineFlag(acceptNewline)
+	itsAcceptNewlineFlag(acceptNewline),
+	itsMonospaceFlag(false)
 {
 }
 
@@ -73,7 +75,8 @@ InputField::InputField
 	const JCoordinate	h
 	)
 	:
-	InputFieldBase(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	InputFieldBase(input, vers, layout, hSizing, vSizing, x,y, w,h),
+	itsMonospaceFlag(false)
 {
 	input >> itsIsRequiredFlag >> itsMinLength >> itsMaxLength;
 	input >> itsValidationPattern;
@@ -83,6 +86,11 @@ InputField::InputField
 	}
 	input >> itsRegexErrorMsg;
 	input >> itsWordWrapFlag >> itsAcceptNewlineFlag;
+
+	if (vers >= 6)
+	{
+		input >> itsMonospaceFlag >> itsHint;
+	}
 }
 
 /******************************************************************************
@@ -118,6 +126,8 @@ InputField::StreamOut
 	output << itsRegexErrorMsg << std::endl;
 	output << itsWordWrapFlag << std::endl;
 	output << itsAcceptNewlineFlag << std::endl;
+	output << itsMonospaceFlag << std::endl;
+	output << itsHint << std::endl;
 }
 
 /******************************************************************************
@@ -177,6 +187,19 @@ InputField::ToString()
 	{
 		s += JString::newline;
 		s += JGetString("AcceptNewline::InputField");
+	}
+
+	if (itsMonospaceFlag)
+	{
+		s += JString::newline;
+		s += JGetString("Monospace::InputField");
+	}
+
+	if (!itsHint.IsEmpty())
+	{
+		s += JString::newline;
+		s += JGetString("Hint::InputField");
+		s += itsHint;
 	}
 
 	return s;
@@ -269,6 +292,24 @@ InputField::PrintConfiguration
 		used = true;
 	}
 
+	if (itsMonospaceFlag)
+	{
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetFont(JFontManager::GetDefaultMonospaceFont());" << std::endl;
+		used = true;
+	}
+
+	if (!itsHint.IsEmpty())
+	{
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetHint(";
+		PrintStringForArg(itsHint, varName, stringdb, output);
+		output << ");" << std::endl;
+		used = true;
+	}
+
 	if (!used)
 	{
 		InputFieldBase::PrintConfiguration(output, indent, varName, stringdb);
@@ -289,7 +330,7 @@ InputField::AddPanels
 	itsPanel =
 		jnew InputFieldPanel(dlog, itsIsRequiredFlag, itsMinLength, itsMaxLength,
 			itsValidationPattern, itsValidationFlags, itsRegexErrorMsg,
-			itsWordWrapFlag, itsAcceptNewlineFlag);
+			itsWordWrapFlag, itsAcceptNewlineFlag, itsMonospaceFlag, itsHint);
 }
 
 /******************************************************************************
@@ -302,6 +343,7 @@ InputField::SavePanelData()
 {
 	itsPanel->GetValues(&itsIsRequiredFlag, &itsMinLength, &itsMaxLength,
 						&itsValidationPattern, &itsValidationFlags, &itsRegexErrorMsg,
-						&itsWordWrapFlag, &itsAcceptNewlineFlag);
+						&itsWordWrapFlag, &itsAcceptNewlineFlag,
+						&itsMonospaceFlag, &itsHint);
 	itsPanel = nullptr;
 }

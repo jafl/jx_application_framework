@@ -43,8 +43,8 @@ private:
 
 // begin JXLayout
 
-	JXTextCheckbox*   itsUseDefaultCB;
 	JXTextButton*     itsHelpButton;
+	JXTextCheckbox*   itsUseDefaultCB;
 	JXTextCheckbox*   itsDefShellCB;
 	JXTextCheckbox*   itsDefWindowCB;
 	JXTextCheckbox*   itsDefSingleCB;

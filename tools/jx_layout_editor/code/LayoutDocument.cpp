@@ -448,6 +448,7 @@ LayoutDocument::HandleFileMenu
 	{
 		SaveInCurrentFile();
 		itsLayout->GetUndoRedoChain()->DeactivateCurrentUndo();
+		itsLayout->GetUndoRedoChain()->SetLastSaveLocation();
 	}
 	else if (index == kSaveAsCmd)
 	{
@@ -460,6 +461,7 @@ LayoutDocument::HandleFileMenu
 
 		SaveInNewFile();
 		itsLayout->GetUndoRedoChain()->DeactivateCurrentUndo();
+		itsLayout->GetUndoRedoChain()->SetLastSaveLocation();
 	}
 	else if (index == kSaveCopyAsCmd)
 	{
@@ -1005,6 +1007,7 @@ LayoutDocument::ImportFDesignFile
 
 #include "CustomWidget.h"
 #include "CharInput.h"
+#include "ComplexBorderRect.h"
 #include "FileInput.h"
 #include "FlatRect.h"
 #include "FloatInput.h"
@@ -1021,6 +1024,7 @@ LayoutDocument::ImportFDesignFile
 #include "ProgressIndicator.h"
 #include "RadioGroup.h"
 #include "ScrollbarSet.h"
+#include "SimpleBorderRect.h"
 #include "Slider.h"
 #include "StaticText.h"
 #include "TextButton.h"
@@ -1228,6 +1232,15 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew CharInput(enclosure, hS,vS, x,y,w,h);
 		}
+		else if ((flClass == "FL_BOX"   && flType == "FL_FRAME_BOX") ||
+				 (flClass == "FL_FRAME" && flType == "FL_ENGRAVED_FRAME"))
+		{
+			widget = jnew ComplexBorderRect(ComplexBorderRect::kEngravedType, enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_BOX" && flType == "FL_EMBOSSED_BOX")
+		{
+			widget = jnew ComplexBorderRect(ComplexBorderRect::kEmbossedType, enclosure, hS,vS, x,y,w,h);
+		}
 		else if (label == "JXFileInput")
 		{
 			widget = jnew FileInput(enclosure, hS,vS, x,y,w,h);
@@ -1351,6 +1364,14 @@ LayoutDocument::ImportFDesignLayout
 		else if (label == "JXScrollbarSet")
 		{
 			widget = jnew ScrollbarSet(enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_BOX" && flType == "FL_UP_BOX")
+		{
+			widget = jnew SimpleBorderRect(SimpleBorderRect::kUpType, enclosure, hS,vS, x,y,w,h);
+		}
+		else if (flClass == "FL_BOX" && flType == "FL_DOWN_BOX")
+		{
+			widget = jnew SimpleBorderRect(SimpleBorderRect::kDownType, enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_FRAME" && flType == "FL_ENGRAVED_FRAME")
 		{

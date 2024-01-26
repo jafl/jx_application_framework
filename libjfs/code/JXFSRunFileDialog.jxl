@@ -1,6 +1,6 @@
-jx_layout_editor 5
+jx_layout_editor 6
 450
-170
+150
 "JXLayout"
 "Run command with file"
 ""
@@ -34,7 +34,7 @@ jx_layout_editor 5
 1
 1
 0
-0
+1
 0
 0
 ""
@@ -42,6 +42,9 @@ jx_layout_editor 5
 ""
 0
 0
+1
+"$q for quoted file name
+$u for unquoted file name"
 
 1
 0
@@ -73,27 +76,10 @@ jx_layout_editor 5
 
 1
 0
-"StaticText"
-1
-0
-60 20 80 360
-"cmdHint"
-0
-0
-0
-"(use $q in place of quoted file name, $u in place of unquoted file name)"
-1
-0
-0
-0
-0
-
-1
-0
 "TextCheckbox"
 0
 0
-90 20 110 150
+70 20 90 150
 "itsUseShellCB"
 1
 0
@@ -106,14 +92,14 @@ jx_layout_editor 5
 "WidgetSet"
 1
 0
-90 180 130 430
+70 180 110 430
 "ftcContainer"
 0
 0
 0
 
 1
-7
+6
 "TextButton"
 0
 0
@@ -126,7 +112,7 @@ jx_layout_editor 5
 "F1"
 
 1
-7
+6
 "TextButton"
 0
 0
@@ -139,7 +125,7 @@ jx_layout_editor 5
 "^["
 
 1
-7
+6
 "TextButton"
 0
 0
@@ -156,7 +142,7 @@ jx_layout_editor 5
 "TextCheckbox"
 0
 0
-110 20 130 150
+90 20 110 150
 "itsUseWindowCB"
 1
 0
@@ -169,7 +155,7 @@ jx_layout_editor 5
 "TextCheckbox"
 0
 0
-140 20 160 150
+120 20 140 150
 "itsSingleFileCB"
 1
 0
@@ -182,7 +168,7 @@ jx_layout_editor 5
 "TextCheckbox"
 1
 0
-140 160 160 430
+120 160 140 450
 "itsSaveBindingCB"
 1
 0

@@ -23,6 +23,8 @@ public:
 
 	void	GetValues(JColorID* color);
 
+	static void	PrintColorConfiguration(const JColorID color, std::ostream& output);
+
 private:
 
 // begin Panel

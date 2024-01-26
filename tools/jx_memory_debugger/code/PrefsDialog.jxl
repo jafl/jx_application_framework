@@ -1,6 +1,6 @@
-jx_layout_editor 5
+jx_layout_editor 6
 420
-100
+80
 "JXLayout"
 "Preferences"
 ""
@@ -42,30 +42,16 @@ jx_layout_editor 5
 ""
 0
 0
-
 1
-0
-"StaticText"
-0
-0
-40 130 60 400
-"openFileHint"
-0
-0
-0
-"(use $f in place of file name, $l in place of line number)"
-1
-0
-0
-0
-0
+"$f for file name
+$l for line number"
 
 1
 0
 "TextButton"
 0
-2
-70 90 90 160
+0
+50 90 70 160
 "cancelButton"
 0
 0
@@ -77,8 +63,8 @@ jx_layout_editor 5
 0
 "TextButton"
 0
-2
-70 260 90 330
+0
+50 260 70 330
 "okButton"
 0
 0

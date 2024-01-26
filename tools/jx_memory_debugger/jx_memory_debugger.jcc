@@ -112,10 +112,6 @@ T
 2 "strings"
 F
 "./strings/strings"
-T
-2 "license"
-F
-"./strings/license"
 F
 T
 1 "help"

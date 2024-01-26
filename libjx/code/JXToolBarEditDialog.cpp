@@ -63,7 +63,6 @@ JXToolBarEditDialog::JXToolBarEditDialog
 	{
 		itsShowTextCB->SetState(true);
 	}
-
 }
 
 /******************************************************************************
@@ -92,7 +91,7 @@ JXToolBarEditDialog::BuildWindow()
 	auto* prompt =
 		jnew JXStaticText(JGetString("prompt::JXToolBarEditDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,10, 270,30);
-	prompt->SetToLabel(false);
+	assert( prompt != nullptr );
 
 	itsShowToolBarCB =
 		jnew JXTextCheckbox(JGetString("itsShowToolBarCB::JXToolBarEditDialog::JXLayout"), window,

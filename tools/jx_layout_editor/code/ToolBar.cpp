@@ -85,10 +85,7 @@ ToolBar::ToolBar
 void
 ToolBar::ToolBarX()
 {
-	LayoutContainer* layout;
-	const bool ok = GetLayoutContainer(&layout);
-	assert( ok );
-
+	LayoutContainer* layout = GetLayoutContainer();
 	layout->Move(0, kButtonBarHeight);
 	layout->AdjustSize(0, -kButtonBarHeight);
 }
@@ -200,10 +197,7 @@ void
 ToolBar::PrepareToGenerateCode()
 	const
 {
-	LayoutContainer* layout;
-	const bool ok = GetLayoutContainer(&layout);
-	assert( ok );
-
+	LayoutContainer* layout = GetLayoutContainer();
 	layout->Move(0, -kButtonBarHeight);
 	layout->AdjustSize(0, kButtonBarHeight);
 }
@@ -217,10 +211,7 @@ void
 ToolBar::GenerateCodeFinished()
 	const
 {
-	LayoutContainer* layout;
-	const bool ok = GetLayoutContainer(&layout);
-	assert( ok );
-
+	LayoutContainer* layout = GetLayoutContainer();
 	layout->Move(0, kButtonBarHeight);
 	layout->AdjustSize(0, -kButtonBarHeight);
 }

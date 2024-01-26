@@ -380,6 +380,7 @@ LayoutContainer::ReadConfig
 
 #include "CustomWidget.h"
 #include "CharInput.h"
+#include "ComplexBorderRect.h"
 #include "FileInput.h"
 #include "FlatRect.h"
 #include "FloatInput.h"
@@ -396,6 +397,7 @@ LayoutContainer::ReadConfig
 #include "ProgressIndicator.h"
 #include "RadioGroup.h"
 #include "ScrollbarSet.h"
+#include "SimpleBorderRect.h"
 #include "Slider.h"
 #include "StaticText.h"
 #include "TextButton.h"
@@ -439,6 +441,10 @@ LayoutContainer::ReadWidget
 	if (className == "CharInput")
 	{
 		widget = jnew CharInput(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "ComplexBorderRect")
+	{
+		widget = jnew ComplexBorderRect(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "FileInput")
 	{
@@ -504,6 +510,10 @@ LayoutContainer::ReadWidget
 	{
 		widget = jnew ScrollbarSet(input, vers, e, hS,vS, x,y,w,h);
 	}
+	else if (className == "SimpleBorderRect")
+	{
+		widget = jnew SimpleBorderRect(input, vers, e, hS,vS, x,y,w,h);
+	}
 	else if (className == "Slider")
 	{
 		widget = jnew Slider(input, vers, e, hS,vS, x,y,w,h);
@@ -561,6 +571,14 @@ LayoutContainer::CreateWidget
 	if (index == kCharInputIndex)
 	{
 		return jnew CharInput(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kEngravedRectIndex)
+	{
+		return jnew ComplexBorderRect(ComplexBorderRect::kEngravedType, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kEmbossedRectIndex)
+	{
+		return jnew ComplexBorderRect(ComplexBorderRect::kEmbossedType, this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kFileHistoryMenuIndex)
 	{
@@ -637,6 +655,18 @@ LayoutContainer::CreateWidget
 	else if (index == kScrollbarSetIndex)
 	{
 		return jnew ScrollbarSet(this, kHElastic,kVElastic, x,y,w,h);
+	}
+	else if (index == kBorderRectIndex)
+	{
+		return jnew SimpleBorderRect(SimpleBorderRect::kBorderType, this, kHElastic,kVElastic, x,y,w,h);
+	}
+	else if (index == kUpRectIndex)
+	{
+		return jnew SimpleBorderRect(SimpleBorderRect::kUpType, this, kHElastic,kVElastic, x,y,w,h);
+	}
+	else if (index == kDownRectIndex)
+	{
+		return jnew SimpleBorderRect(SimpleBorderRect::kDownType, this, kHElastic,kVElastic, x,y,w,h);
 	}
 	else if (index == kLevelControlIndex)
 	{
@@ -1696,6 +1726,10 @@ LayoutContainer::HandleDNDDrop
 				BaseWidget* widget = ReadWidget(input, kCurrentFileVersion, this, &widgetList);
 				widget->Move(delta.x, delta.y);
 				SnapToGrid(widget);
+				if (widget->WantsInput())
+				{
+					widget->SetTabIndex(GetNextTabIndex());
+				}
 				changed = true;
 			}
 

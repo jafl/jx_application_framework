@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 6
 580
 430
 "JXLayout"
@@ -12,7 +12,7 @@ jx_layout_editor 5
 "ScrollbarSet"
 2
 2
-0 0 230 490
+0 0 260 490
 "scrollbarSet"
 0
 0
@@ -38,7 +38,7 @@ jx_layout_editor 5
 "CustomWidget"
 2
 2
-20 0 215 475
+20 0 245 475
 "itsTable"
 1
 0
@@ -89,38 +89,6 @@ jx_layout_editor 5
 
 1
 0
-"TextCheckbox"
-0
-1
-250 10 270 200
-"itsUseDefaultCB"
-1
-0
-0
-"Command for all other files:"
-""
-
-1
-0
-"InputField"
-2
-1
-250 200 270 490
-"itsDefCmd"
-1
-1
-0
-1
-0
-0
-""
-""
-""
-0
-0
-
-1
-0
 "TextButton"
 1
 1
@@ -134,27 +102,45 @@ jx_layout_editor 5
 
 1
 0
-"StaticText"
+"TextCheckbox"
+0
 1
-1
-270 140 290 490
-"cmdHint2"
-0
-0
-0
-"(use $q in place of quoted file name, $u in place of unquoted file name)"
+280 10 300 200
+"itsUseDefaultCB"
 1
 0
 0
+"Command for all other files:"
+""
+
+1
+0
+"InputField"
+2
+1
+280 200 300 490
+"itsDefCmd"
+1
+1
+0
+1
 0
 0
+""
+""
+""
+0
+0
+1
+"$q for quoted file name
+$u for unquoted file name"
 
 1
 0
 "TextCheckbox"
 0
 1
-290 140 310 230
+310 140 330 230
 "itsDefShellCB"
 1
 0
@@ -167,7 +153,7 @@ jx_layout_editor 5
 "TextCheckbox"
 0
 1
-290 240 310 350
+310 240 330 350
 "itsDefWindowCB"
 1
 0
@@ -180,7 +166,7 @@ jx_layout_editor 5
 "TextCheckbox"
 0
 1
-290 370 310 490
+310 370 330 490
 "itsDefSingleCB"
 1
 0
@@ -206,7 +192,7 @@ jx_layout_editor 5
 "StaticText"
 0
 1
-330 70 350 190
+350 70 370 190
 "shellCmdLabel"
 0
 0
@@ -223,7 +209,7 @@ jx_layout_editor 5
 "InputField"
 2
 1
-330 190 350 490
+350 190 370 490
 "itsShellCmd"
 1
 2
@@ -236,42 +222,9 @@ jx_layout_editor 5
 ""
 0
 0
-
 1
-0
-"StaticText"
-0
-1
-350 70 370 190
-"windowCmdLabel"
-0
-0
-0
-"Window command:"
-1
-0
-0
-0
-0
-
-1
-0
-"InputField"
-2
-1
-350 190 370 490
-"itsWindowCmd"
-1
-3
-0
-1
-0
-0
-""
-""
-""
-0
-0
+"$q for quoted command
++$u for unquoted command"
 
 1
 0
@@ -289,19 +242,41 @@ jx_layout_editor 5
 1
 0
 "StaticText"
+0
 1
+370 70 390 190
+"windowCmdLabel"
+0
+0
+0
+"Window command:"
 1
-370 130 390 490
-"cmdHint1"
 0
 0
 0
-"(use $q in place of quoted command, $u in place of unquoted command)"
+0
+
+1
+0
+"InputField"
+2
+1
+370 190 390 490
+"itsWindowCmd"
+1
+3
+0
 1
 0
 0
+""
+""
+""
 0
 0
+1
+"$q for quoted command
++$u for unquoted command"
 
 1
 0

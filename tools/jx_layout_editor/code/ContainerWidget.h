@@ -33,6 +33,8 @@ protected:
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 	void	DrawOver(JXWindowPainter& p, const JRect& rect) override;
 
+	LayoutContainer*	GetLayoutContainer() const;
+
 private:
 
 	LayoutContainer*	itsLayout;
@@ -41,5 +43,18 @@ private:
 
 	void	ContainerWidgetX(LayoutContainer* layout);
 };
+
+
+/******************************************************************************
+ GetLayoutContainer (protected)
+
+ ******************************************************************************/
+
+inline LayoutContainer*
+ContainerWidget::GetLayoutContainer()
+	const
+{
+	return itsLayout;
+}
 
 #endif

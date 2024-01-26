@@ -1,5 +1,5 @@
 /******************************************************************************
- FlatRect.cpp
+ SimpleBorderRect.cpp
 
 	BASE CLASS = ContainerWidget
 
@@ -7,8 +7,11 @@
 
  ******************************************************************************/
 
-#include "FlatRect.h"
+#include "SimpleBorderRect.h"
+#include "BorderWidthPanel.h"
 #include "ColorChooserPanel.h"
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
@@ -18,8 +21,9 @@
 
  ******************************************************************************/
 
-FlatRect::FlatRect
+SimpleBorderRect::SimpleBorderRect
 	(
+	const Type			type,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -30,12 +34,17 @@ FlatRect::FlatRect
 	)
 	:
 	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h),
-	itsColor(JColorManager::GetDefaultBackColor())
+	itsType(type),
+	itsWidth(2),
+	itsColor(JColorManager::GetBlackColor())
 {
+	SimpleBorderRectX();
 }
 
-FlatRect::FlatRect
+SimpleBorderRect::SimpleBorderRect
 	(
+	const Type			type,
+	const JSize			width,
 	const JColorID		color,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
@@ -47,11 +56,14 @@ FlatRect::FlatRect
 	)
 	:
 	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	itsType(type),
+	itsWidth(width),
 	itsColor(color)
 {
+	SimpleBorderRectX();
 }
 
-FlatRect::FlatRect
+SimpleBorderRect::SimpleBorderRect
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -66,9 +78,26 @@ FlatRect::FlatRect
 	:
 	ContainerWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	JRGB color;
-	input >> color;
-	itsColor = JColorManager::GetColorID(color);
+	int type;
+	JRGB rgb;
+	input >> type >> itsWidth >> rgb;
+
+	itsType  = (Type) type;
+	itsColor = JColorManager::GetColorID(rgb);
+
+	SimpleBorderRectX();
+}
+
+// private
+
+void
+SimpleBorderRect::SimpleBorderRectX()
+{
+	SetBorderWidth(itsWidth);
+	if (itsType == kBorderType)
+	{
+		SetBackColor(itsColor);
+	}
 }
 
 /******************************************************************************
@@ -76,7 +105,7 @@ FlatRect::FlatRect
 
  ******************************************************************************/
 
-FlatRect::~FlatRect()
+SimpleBorderRect::~SimpleBorderRect()
 {
 }
 
@@ -86,38 +115,47 @@ FlatRect::~FlatRect()
  ******************************************************************************/
 
 void
-FlatRect::StreamOut
+SimpleBorderRect::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("FlatRect") << std::endl;
+	output << JString("SimpleBorderRect") << std::endl;
 
 	ContainerWidget::StreamOut(output);
 
+	output << (int) itsType << std::endl;
+	output << itsWidth << std::endl;
 	output << JColorManager::GetRGB(itsColor) << std::endl;
 }
 
 /******************************************************************************
- ToString (virtual)
+ DrawBorder (virtual protected)
 
  ******************************************************************************/
 
-JString
-FlatRect::ToString()
-	const
+void
+SimpleBorderRect::DrawBorder
+	(
+	JXWindowPainter&	p,
+	const JRect&		frame
+	)
 {
-	JString s = ContainerWidget::ToString();
-
-	std::ostringstream c;
-	c << std::hex << JColorManager::GetRGB(itsColor);
-
-	s += JString::newline;
-	s += JGetString("ColorLabel::FlatRect");
-	s += c.str();
-
-	return s;
+	if (itsType == kUpType)
+	{
+		JXDrawUpFrame(p, frame, itsWidth);
+	}
+	else if (itsType == kDownType)
+	{
+		JXDrawDownFrame(p, frame, itsWidth);
+	}
+	else
+	{
+		p.SetPenColor(itsColor);
+		p.SetFilling(true);
+		p.Rect(frame);
+	}
 }
 
 /******************************************************************************
@@ -126,10 +164,12 @@ FlatRect::ToString()
  ******************************************************************************/
 
 JString
-FlatRect::GetClassName()
+SimpleBorderRect::GetClassName()
 	const
 {
-	return "JXFlatRect";
+	return (itsType == kUpType   ? "JXUpRect" :
+			itsType == kDownType ? "JXDownRect" :
+			"JXBorderRect");
 }
 
 /******************************************************************************
@@ -138,7 +178,7 @@ FlatRect::GetClassName()
  ******************************************************************************/
 
 void
-FlatRect::PrintConfiguration
+SimpleBorderRect::PrintConfiguration
 	(
 	std::ostream&	output,
 	const JString&	indent,
@@ -149,9 +189,16 @@ FlatRect::PrintConfiguration
 {
 	indent.Print(output);
 	varName.Print(output);
-	output << "->SetBackColor(";
-	ColorChooserPanel::PrintColorConfiguration(itsColor, output);
-	output << ");" << std::endl;
+	output << "->SetBorderWidth(" << itsWidth << ");" << std::endl;
+
+	if (itsType == kBorderType)
+	{
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetBackColor(";
+		ColorChooserPanel::PrintColorConfiguration(itsColor, output);
+		output << ");" << std::endl;
+	}
 }
 
 /******************************************************************************
@@ -160,12 +207,17 @@ FlatRect::PrintConfiguration
  ******************************************************************************/
 
 void
-FlatRect::AddPanels
+SimpleBorderRect::AddPanels
 	(
 	WidgetParametersDialog* dlog
 	)
 {
-	itsPanel = jnew ColorChooserPanel(dlog, itsColor);
+	itsWidthPanel = jnew BorderWidthPanel(dlog, itsWidth);
+
+	if (itsType == kBorderType)
+	{
+		itsColorPanel = jnew ColorChooserPanel(dlog, itsColor);
+	}
 }
 
 /******************************************************************************
@@ -174,8 +226,16 @@ FlatRect::AddPanels
  ******************************************************************************/
 
 void
-FlatRect::SavePanelData()
+SimpleBorderRect::SavePanelData()
 {
-	itsPanel->GetValues(&itsColor);
-	itsPanel = nullptr;
+	itsWidthPanel->GetValues(&itsWidth);
+	itsWidthPanel = nullptr;
+
+	if (itsType == kBorderType)
+	{
+		itsColorPanel->GetValues(&itsColor);
+		itsColorPanel = nullptr;
+	}
+
+	SimpleBorderRectX();
 }

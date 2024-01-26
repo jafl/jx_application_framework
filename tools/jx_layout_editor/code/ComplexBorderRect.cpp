@@ -1,5 +1,5 @@
 /******************************************************************************
- ScrollbarSet.cpp
+ ComplexBorderRect.cpp
 
 	BASE CLASS = ContainerWidget
 
@@ -7,21 +7,21 @@
 
  ******************************************************************************/
 
-#include "ScrollbarSet.h"
-#include "LayoutContainer.h"
+#include "ComplexBorderRect.h"
+#include "ComplexBorderWidthPanel.h"
 #include <jx-af/jx/JXWindowPainter.h>
-#include <jx-af/jcore/JColorManager.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
-
-const JCoordinate kScrollbarWidth = 15;
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-ScrollbarSet::ScrollbarSet
+ComplexBorderRect::ComplexBorderRect
 	(
+	const Type			type,
 	LayoutContainer*	layout,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -31,12 +31,16 @@ ScrollbarSet::ScrollbarSet
 	const JCoordinate	h
 	)
 	:
-	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h)
+	ContainerWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	itsType(type),
+	itsOutsideWidth(1),
+	itsBetweenWidth(0),
+	itsInsideWidth(1)
 {
-	ScrollbarSetX();
+	ComplexBorderRectX();
 }
 
-ScrollbarSet::ScrollbarSet
+ComplexBorderRect::ComplexBorderRect
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -51,15 +55,20 @@ ScrollbarSet::ScrollbarSet
 	:
 	ContainerWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
-	ScrollbarSetX();
+	int type;
+	input >> type >> itsOutsideWidth >> itsBetweenWidth >> itsInsideWidth;
+
+	itsType = (Type) type;
+
+	ComplexBorderRectX();
 }
 
 // private
 
 void
-ScrollbarSet::ScrollbarSetX()
+ComplexBorderRect::ComplexBorderRectX()
 {
-	GetLayoutContainer()->AdjustSize(-kScrollbarWidth, -kScrollbarWidth);
+	SetBorderWidth(itsOutsideWidth + itsBetweenWidth + itsInsideWidth);
 }
 
 /******************************************************************************
@@ -67,7 +76,7 @@ ScrollbarSet::ScrollbarSetX()
 
  ******************************************************************************/
 
-ScrollbarSet::~ScrollbarSet()
+ComplexBorderRect::~ComplexBorderRect()
 {
 }
 
@@ -77,32 +86,42 @@ ScrollbarSet::~ScrollbarSet()
  ******************************************************************************/
 
 void
-ScrollbarSet::StreamOut
+ComplexBorderRect::StreamOut
 	(
 	std::ostream& output
 	)
 	const
 {
-	output << JString("ScrollbarSet") << std::endl;
+	output << JString("ComplexBorderRect") << std::endl;
 
 	ContainerWidget::StreamOut(output);
+
+	output << (int) itsType << std::endl;
+	output << itsOutsideWidth << std::endl;
+	output << itsBetweenWidth << std::endl;
+	output << itsInsideWidth << std::endl;
 }
 
 /******************************************************************************
- Draw (virtual protected)
+ DrawBorder (virtual protected)
 
  ******************************************************************************/
 
 void
-ScrollbarSet::Draw
+ComplexBorderRect::DrawBorder
 	(
 	JXWindowPainter&	p,
-	const JRect&		rect
+	const JRect&		frame
 	)
 {
-	p.SetPenColor(JColorManager::GetDefaultSliderBackColor());
-	p.SetFilling(true);
-	p.Rect(GetAperture());
+	if (itsType == kEmbossedType)
+	{
+		JXDrawEmbossedFrame(p, frame, itsOutsideWidth, itsBetweenWidth, itsInsideWidth);
+	}
+	else
+	{
+		JXDrawEngravedFrame(p, frame, itsOutsideWidth, itsBetweenWidth, itsInsideWidth);
+	}
 }
 
 /******************************************************************************
@@ -111,45 +130,57 @@ ScrollbarSet::Draw
  ******************************************************************************/
 
 JString
-ScrollbarSet::GetClassName()
+ComplexBorderRect::GetClassName()
 	const
 {
-	return "JXScrollbarSet";
+	return itsType == kEmbossedType ? "JXEmbossedRect" : "JXEngravedRect";
 }
 
 /******************************************************************************
- GetEnclosureName (virtual protected)
-
- ******************************************************************************/
-
-JString
-ScrollbarSet::GetEnclosureName()
-	const
-{
-	bool b1, b2;
-	return GetVarName(&b1, &b2) + "->GetScrollEnclosure()";
-}
-
-/******************************************************************************
- PrepareToGenerateCode (virtual)
+ PrintConfiguration (virtual protected)
 
  ******************************************************************************/
 
 void
-ScrollbarSet::PrepareToGenerateCode()
+ComplexBorderRect::PrintConfiguration
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	const JString&	varName,
+	JStringManager*	stringdb
+	)
 	const
 {
-	GetLayoutContainer()->AdjustSize(kScrollbarWidth, kScrollbarWidth);
+	indent.Print(output);
+	varName.Print(output);
+	output << "->SetWidths(" << itsOutsideWidth << ", ";
+	output << itsBetweenWidth << ", " << itsInsideWidth << ");" << std::endl;
 }
 
 /******************************************************************************
- GenerateCodeFinished (virtual)
+ AddPanels (virtual protected)
 
  ******************************************************************************/
 
 void
-ScrollbarSet::GenerateCodeFinished()
-	const
+ComplexBorderRect::AddPanels
+	(
+	WidgetParametersDialog* dlog
+	)
 {
-	GetLayoutContainer()->AdjustSize(-kScrollbarWidth, -kScrollbarWidth);
+	itsPanel = jnew ComplexBorderWidthPanel(dlog, itsOutsideWidth, itsBetweenWidth, itsInsideWidth);
+}
+
+/******************************************************************************
+ SavePanelData (virtual protected)
+
+ ******************************************************************************/
+
+void
+ComplexBorderRect::SavePanelData()
+{
+	itsPanel->GetValues(&itsOutsideWidth, &itsBetweenWidth, &itsInsideWidth);
+	itsPanel = nullptr;
+
+	ComplexBorderRectX();
 }

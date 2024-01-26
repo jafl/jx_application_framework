@@ -10,17 +10,21 @@ windowCmdLabel::JXFSEditBindingsDialog::JXLayout "Window command:"
 addButton::shortcuts::JXFSEditBindingsDialog::JXLayout "#N"
 itsDefShellCB::JXFSEditBindingsDialog::JXLayout "Run in shell"
 itsDefSingleCB::JXFSEditBindingsDialog::JXLayout "One file at a time"
-cmdHint1::JXFSEditBindingsDialog::JXLayout "(use $q in place of quoted command, $u in place of unquoted command)"
+itsWindowCmd::JXFSEditBindingsDialog::JXLayout "$q for quoted command
++$u for unquoted command"
 addButton::JXFSEditBindingsDialog::JXLayout "New"
 itsAutoShellCB::JXFSEditBindingsDialog::JXLayout "Automatically use shell command when necessary"
 duplicateButton::JXFSEditBindingsDialog::JXLayout "Duplicate"
 itsCloseButton::JXFSEditBindingsDialog::JXLayout "Close"
+itsShellCmd::JXFSEditBindingsDialog::JXLayout "$q for quoted command
++$u for unquoted command"
 itsDefWindowCB::JXFSEditBindingsDialog::JXLayout "Run in window"
-cmdHint2::JXFSEditBindingsDialog::JXLayout "(use $q in place of quoted file name, $u in place of unquoted file name)"
 removeButton::JXFSEditBindingsDialog::JXLayout "Remove"
 itsHelpButton::JXFSEditBindingsDialog::JXLayout "Help"
 shellCmdLabel::JXFSEditBindingsDialog::JXLayout "Shell command:"
 itsRevertButton::shortcuts::JXFSEditBindingsDialog::JXLayout "#R"
+itsDefCmd::JXFSEditBindingsDialog::JXLayout "$q for quoted file name
+$u for unquoted file name"
 itsRevertButton::JXFSEditBindingsDialog::JXLayout "Revert"
 
 

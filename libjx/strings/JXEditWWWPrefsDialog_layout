@@ -1,15 +1,16 @@
 0
-file1VarHint::JXEditWWWPrefsDialog::JXLayout "(use $f in place of file)"
+itsShowFileContentCmdInput::JXEditWWWPrefsDialog::JXLayout "$f for file"
 file2Label::JXEditWWWPrefsDialog::JXLayout "Shell cmd to view file in file manager:"
 WindowTitle::JXEditWWWPrefsDialog::JXLayout "Web Browser Preferences"
-mailVarHint::JXEditWWWPrefsDialog::JXLayout "(use $a in place of address)"
-urlVarHint::JXEditWWWPrefsDialog::JXLayout "(use $u in place of URL)"
+itsShowFileLocationCmdInput::JXEditWWWPrefsDialog::JXLayout "$f for file
+$p for path"
+itsShowURLCmdInput::JXEditWWWPrefsDialog::JXLayout "$u for URL"
 file1Label::JXEditWWWPrefsDialog::JXLayout "Shell cmd to view file content:"
 okButton::JXEditWWWPrefsDialog::JXLayout "OK"
-file2VarHint::JXEditWWWPrefsDialog::JXLayout "(use $f in place of file, $p in place of path)"
 mailLabel::JXEditWWWPrefsDialog::JXLayout "Shell cmd to compose mail:"
 okButton::shortcuts::JXEditWWWPrefsDialog::JXLayout "^M"
 cancelButton::JXEditWWWPrefsDialog::JXLayout "Cancel"
+itsComposeMailCmdInput::JXEditWWWPrefsDialog::JXLayout "$a for address"
 urlLabel::JXEditWWWPrefsDialog::JXLayout "Shell cmd to view URL:"
 
 

@@ -1,0 +1,52 @@
+jx_layout_editor 5
+460
+40
+"Panel"
+""
+""
+"window"
+0
+
+1
+0
+"WidgetSet"
+0
+0
+0 0 40 460
+"container"
+0
+0
+0
+
+1
+1
+"StaticText"
+0
+0
+10 20 30 110
+"borderWidthLabel"
+0
+0
+0
+"Border width:"
+1
+0
+0
+0
+0
+
+1
+1
+"IntegerInput"
+0
+0
+10 110 30 160
+"itsBorderWidthInput"
+1
+1
+0
+1
+1 1
+0 0
+
+0

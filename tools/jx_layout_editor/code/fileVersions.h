@@ -12,8 +12,10 @@
 
 #include <jx-af/jcore/jTypes.h>
 
-const JFileVersion kCurrentFileVersion = 5;
+const JFileVersion kCurrentFileVersion = 6;
 
+// version 6:
+//	adds itsMonospaceFlag and itsHint to InputField
 // version 5:
 //	adds itsAlreadyLocalVarFlag to BaseWidget
 // version 4:

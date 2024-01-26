@@ -266,11 +266,61 @@ jx_menu_editor 0
 1
 0
 0 ""
-"Flat rect"
+"Flat rectangle"
 ""
 ' 
 "__FlatRect"
 "kFlatRectIndex"
+0
+
+1
+0
+0 ""
+"Border rectangle"
+""
+' 
+"__BorderRectangle"
+"kBorderRectIndex"
+0
+
+1
+0
+0 ""
+"Up rectangle"
+""
+' 
+"__UpRectangle"
+"kUpRectIndex"
+0
+
+1
+0
+0 ""
+"Down rectangle"
+""
+' 
+"__DownRectangle"
+"kDownRectIndex"
+0
+
+1
+0
+0 ""
+"Engraved rectangle"
+""
+' 
+"__EngravedRectangle"
+"kEngravedRectIndex"
+0
+
+1
+0
+0 ""
+"Embossed rectangle"
+""
+' 
+"__EmbossedRectangle"
+"kEmbossedRectIndex"
 1
 
 1

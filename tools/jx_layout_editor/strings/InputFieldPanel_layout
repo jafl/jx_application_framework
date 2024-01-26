@@ -1,13 +1,16 @@
 0
 itsAllowNewlinesCB::shortcuts::InputFieldPanel::Panel "#N"
+itsMonospaceCB::InputFieldPanel::Panel "Monospace"
 itsAllowNewlinesCB::InputFieldPanel::Panel "Allow newlines"
 maximumLengthLabel::InputFieldPanel::Panel "Max length:"
+itsMonospaceCB::shortcuts::InputFieldPanel::Panel "#O"
 itsValueRequiredCB::InputFieldPanel::Panel "Required"
 regexpErrorMessageLabel::InputFieldPanel::Panel "Error message:"
 itsWordWrapCB::InputFieldPanel::Panel "Wrap text to multiple lines"
 minimumLengthLabel::InputFieldPanel::Panel "Min length:"
 itsWordWrapCB::shortcuts::InputFieldPanel::Panel "#W"
 regexFlagsLabel::InputFieldPanel::Panel "Flags:"
+hintLabel::InputFieldPanel::Panel "Hint:"
 regExpValidationLabel::InputFieldPanel::Panel "Regexp:"
 itsValueRequiredCB::shortcuts::InputFieldPanel::Panel "#R"
 

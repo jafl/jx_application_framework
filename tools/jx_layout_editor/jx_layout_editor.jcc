@@ -138,6 +138,10 @@ T
 F
 "./code/CharInput.cpp"
 T
+2 "ComplexBorderRect.cpp"
+F
+"./code/ComplexBorderRect.cpp"
+T
 2 "FileInput.cpp"
 F
 "./code/FileInput.cpp"
@@ -206,6 +210,10 @@ T
 F
 "./code/ScrollbarSet.cpp"
 T
+2 "SimpleBorderRect.cpp"
+F
+"./code/SimpleBorderRect.cpp"
+T
 2 "Slider.cpp"
 F
 "./code/Slider.cpp"
@@ -261,6 +269,14 @@ T
 F
 "./code/WidgetPanelBase.cpp"
 T
+2 "BorderWidthPanel.cpp"
+F
+"./code/BorderWidthPanel.cpp"
+T
+2 "BorderWidthPanel.jxl"
+F
+"./code/BorderWidthPanel.jxl"
+T
 2 "ColorChooserPanel.cpp"
 F
 "./code/ColorChooserPanel.cpp"
@@ -268,6 +284,14 @@ T
 2 "ColorChooserPanel.jxl"
 F
 "./code/ColorChooserPanel.jxl"
+T
+2 "ComplexBorderWidthPanel.cpp"
+F
+"./code/ComplexBorderWidthPanel.cpp"
+T
+2 "ComplexBorderWidthPanel.jxl"
+F
+"./code/ComplexBorderWidthPanel.jxl"
 T
 2 "CustomWidgetPanel.cpp"
 F

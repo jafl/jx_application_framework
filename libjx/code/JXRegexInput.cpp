@@ -11,6 +11,7 @@
 
 #include "JXRegexInput.h"
 #include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -37,6 +38,7 @@ JXRegexInput::JXRegexInput
 	itsOwnsRegexFlag = widgetOwnsRegex;
 
 	SetIsRequired();
+	SetFont(JFontManager::GetDefaultMonospaceFont());
 }
 
 /******************************************************************************

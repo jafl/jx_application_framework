@@ -1,7 +1,8 @@
 0
 okButton::PrefsDialog::JXLayout "OK"
 cancelButton::shortcuts::PrefsDialog::JXLayout "^["
-openFileHint::PrefsDialog::JXLayout "(use $f in place of file name, $l in place of line number)"
+itsOpenFileInput::PrefsDialog::JXLayout "$f for file name
+$l for line number"
 WindowTitle::PrefsDialog::JXLayout "Preferences"
 cancelButton::PrefsDialog::JXLayout "Cancel"
 openFileLabel::PrefsDialog::JXLayout "Cmd to open file:"

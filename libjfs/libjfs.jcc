@@ -12,6 +12,10 @@ T
 F
 "./code/JXFSEditBindingsDialog.cpp"
 T
+2 "JXFSEditBindingsDialog.jxl"
+F
+"./code/JXFSEditBindingsDialog.jxl"
+T
 2 "JXFSBindingTable.cpp"
 F
 "./code/JXFSBindingTable.cpp"

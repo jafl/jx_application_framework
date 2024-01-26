@@ -58,6 +58,8 @@ private:
 	JString				itsRegexErrorMsg;
 	bool				itsWordWrapFlag;
 	bool				itsAcceptNewlineFlag;
+	bool				itsMonospaceFlag;
+	JString				itsHint;
 	InputFieldPanel*	itsPanel;	// nullptr unless editing
 };
 

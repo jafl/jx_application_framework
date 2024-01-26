@@ -136,7 +136,7 @@ JXFSEditBindingsDialog::BuildWindow()
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 490,230);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 490,260);
 	assert( scrollbarSet != nullptr );
 
 	auto* addButton =
@@ -154,31 +154,26 @@ JXFSEditBindingsDialog::BuildWindow()
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 500,90, 70,20);
 	assert( removeButton != nullptr );
 
-	itsUseDefaultCB =
-		jnew JXTextCheckbox(JGetString("itsUseDefaultCB::JXFSEditBindingsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,250, 190,20);
-
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 510,260, 50,20);
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::shortcuts::JXFSEditBindingsDialog::JXLayout"));
 
-	auto* cmdHint2 =
-		jnew JXStaticText(JGetString("cmdHint2::JXFSEditBindingsDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,270, 350,20);
-	cmdHint2->SetToLabel(false);
+	itsUseDefaultCB =
+		jnew JXTextCheckbox(JGetString("itsUseDefaultCB::JXFSEditBindingsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,280, 190,20);
 
 	itsDefShellCB =
 		jnew JXTextCheckbox(JGetString("itsDefShellCB::JXFSEditBindingsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 140,290, 90,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 140,310, 90,20);
 
 	itsDefWindowCB =
 		jnew JXTextCheckbox(JGetString("itsDefWindowCB::JXFSEditBindingsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 240,290, 110,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 240,310, 110,20);
 
 	itsDefSingleCB =
 		jnew JXTextCheckbox(JGetString("itsDefSingleCB::JXFSEditBindingsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 370,290, 120,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 370,310, 120,20);
 
 	itsRevertButton =
 		jnew JXTextButton(JGetString("itsRevertButton::JXFSEditBindingsDialog::JXLayout"), window,
@@ -187,23 +182,18 @@ JXFSEditBindingsDialog::BuildWindow()
 
 	auto* shellCmdLabel =
 		jnew JXStaticText(JGetString("shellCmdLabel::JXFSEditBindingsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,330, 120,20);
-	shellCmdLabel->SetToLabel(false);
-
-	auto* windowCmdLabel =
-		jnew JXStaticText(JGetString("windowCmdLabel::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,350, 120,20);
-	windowCmdLabel->SetToLabel(false);
+	shellCmdLabel->SetToLabel(false);
 
 	itsSaveButton =
 		jnew JXTextButton(JGetString("itsSaveButton::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 510,360, 50,20);
 	itsSaveButton->SetShortcuts(JGetString("itsSaveButton::shortcuts::JXFSEditBindingsDialog::JXLayout"));
 
-	auto* cmdHint1 =
-		jnew JXStaticText(JGetString("cmdHint1::JXFSEditBindingsDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 130,370, 360,20);
-	cmdHint1->SetToLabel(false);
+	auto* windowCmdLabel =
+		jnew JXStaticText(JGetString("windowCmdLabel::JXFSEditBindingsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,370, 120,20);
+	windowCmdLabel->SetToLabel(false);
 
 	itsAutoShellCB =
 		jnew JXTextCheckbox(JGetString("itsAutoShellCB::JXFSEditBindingsDialog::JXLayout"), window,
@@ -216,7 +206,7 @@ JXFSEditBindingsDialog::BuildWindow()
 
 	itsTable =
 		jnew JXFSBindingTable(itsBindingList, addButton, removeButton, duplicateButton, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 490,210);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 490,240);
 
 	auto* header =
 		jnew JXColHeaderWidget(itsTable, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
@@ -225,18 +215,24 @@ JXFSEditBindingsDialog::BuildWindow()
 
 	itsDefCmd =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedBottom, 200,250, 290,20);
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 200,280, 290,20);
 	itsDefCmd->SetIsRequired();
+	itsDefCmd->SetFont(JFontManager::GetDefaultMonospaceFont());
+	itsDefCmd->SetHint(JGetString("itsDefCmd::JXFSEditBindingsDialog::JXLayout"));
 
 	itsShellCmd =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedBottom, 190,330, 300,20);
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 190,350, 300,20);
 	itsShellCmd->SetIsRequired();
+	itsShellCmd->SetFont(JFontManager::GetDefaultMonospaceFont());
+	itsShellCmd->SetHint(JGetString("itsShellCmd::JXFSEditBindingsDialog::JXLayout"));
 
 	itsWindowCmd =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedBottom, 190,350, 300,20);
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 190,370, 300,20);
 	itsWindowCmd->SetIsRequired();
+	itsWindowCmd->SetFont(JFontManager::GetDefaultMonospaceFont());
+	itsWindowCmd->SetHint(JGetString("itsWindowCmd::JXFSEditBindingsDialog::JXLayout"));
 
 // end JXLayout
 
@@ -247,16 +243,6 @@ JXFSEditBindingsDialog::BuildWindow()
 	{
 		SaveNeeded();
 	}));
-
-	// other information
-
-	const JFont& font = JFontManager::GetDefaultMonospaceFont();
-	itsDefCmd->SetFont(font);
-	itsShellCmd->SetFont(font);
-	itsWindowCmd->SetFont(font);
-
-	cmdHint1->SetFontSize(JFontManager::GetDefaultFontSize()-2);
-	cmdHint2->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 
 	Revert(false);
 

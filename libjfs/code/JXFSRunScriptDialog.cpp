@@ -117,6 +117,8 @@ JXFSRunScriptDialog::BuildWindow
 	itsCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
+	itsCmdInput->SetIsRequired();
+	itsCmdInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 
 // end JXLayout
 

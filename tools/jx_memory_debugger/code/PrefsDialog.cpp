@@ -53,41 +53,35 @@ PrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 420,100, JGetString("WindowTitle::PrefsDialog::JXLayout"));
+	auto* window = jnew JXWindow(this, 420,80, JGetString("WindowTitle::PrefsDialog::JXLayout"));
 
 	auto* openFileLabel =
 		jnew JXStaticText(JGetString("openFileLabel::PrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 110,20);
 	openFileLabel->SetToLabel(false);
 
-	auto* openFileHint =
-		jnew JXStaticText(JGetString("openFileHint::PrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,40, 270,20);
-	openFileHint->SetToLabel(false);
-
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::PrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,70, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,50, 70,20);
 	cancelButton->SetShortcuts(JGetString("cancelButton::shortcuts::PrefsDialog::JXLayout"));
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::PrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kVElastic, 259,69, 72,22);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 259,49, 72,22);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::PrefsDialog::JXLayout"));
 
 	itsOpenFileInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 130,20, 270,20);
 	itsOpenFileInput->SetIsRequired();
+	itsOpenFileInput->SetFont(JFontManager::GetDefaultMonospaceFont());
+	itsOpenFileInput->SetHint(JGetString("itsOpenFileInput::PrefsDialog::JXLayout"));
 
 // end JXLayout
 
 	SetButtons(okButton, cancelButton);
 
 	itsOpenFileInput->GetText()->SetText(openCmd);
-	itsOpenFileInput->SetFont(JFontManager::GetDefaultMonospaceFont());
-
-	openFileHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
 }
 
 /******************************************************************************

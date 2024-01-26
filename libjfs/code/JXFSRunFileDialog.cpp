@@ -125,7 +125,7 @@ JXFSRunFileDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 450,170, JGetString("WindowTitle::JXFSRunFileDialog::JXLayout"));
+	auto* window = jnew JXWindow(this, 450,150, JGetString("WindowTitle::JXFSRunFileDialog::JXLayout"));
 
 	auto* prompt =
 		jnew JXStaticText(JGetString("prompt::JXFSRunFileDialog::JXLayout"), window,
@@ -140,19 +140,14 @@ JXFSRunFileDialog::BuildWindow
 		jnew JXTextButton(JGetString("itsChooseCmdButton::JXFSRunFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 370,40, 60,20);
 
-	auto* cmdHint =
-		jnew JXStaticText(JGetString("cmdHint::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 340,20);
-	cmdHint->SetToLabel(false);
-
 	itsUseShellCB =
 		jnew JXTextCheckbox(JGetString("itsUseShellCB::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 130,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 130,20);
 	itsUseShellCB->SetShortcuts(JGetString("itsUseShellCB::shortcuts::JXFSRunFileDialog::JXLayout"));
 
 	auto* ftcContainer =
 		jnew JXWidgetSet(window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 180,90, 250,40);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 180,70, 250,40);
 	assert( ftcContainer != nullptr );
 
 	itsHelpButton =
@@ -172,28 +167,30 @@ JXFSRunFileDialog::BuildWindow
 
 	itsUseWindowCB =
 		jnew JXTextCheckbox(JGetString("itsUseWindowCB::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,110, 130,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 130,20);
 	itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::shortcuts::JXFSRunFileDialog::JXLayout"));
 
 	itsSingleFileCB =
 		jnew JXTextCheckbox(JGetString("itsSingleFileCB::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,140, 130,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,120, 130,20);
 	itsSingleFileCB->SetShortcuts(JGetString("itsSingleFileCB::shortcuts::JXFSRunFileDialog::JXLayout"));
 
 	itsSaveBindingCB =
 		jnew JXTextCheckbox(JGetString("itsSaveBindingCB::JXFSRunFileDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 160,140, 270,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 160,120, 290,20);
 	itsSaveBindingCB->SetShortcuts(JGetString("itsSaveBindingCB::shortcuts::JXFSRunFileDialog::JXLayout"));
 
 	itsCmdInput =
 		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 300,20);
+	itsCmdInput->SetIsRequired();
+	itsCmdInput->SetFont(JFontManager::GetDefaultMonospaceFont());
+	itsCmdInput->SetHint(JGetString("itsCmdInput::JXFSRunFileDialog::JXLayout"));
 
 // end JXLayout
 
 	SetButtons(itsOKButton, cancelButton);
 
-	window->SetTitle(JGetString("WindowTitle::JXFSRunFileDialog"));
 	window->LockCurrentMinSize();
 
 	ListenTo(itsChooseCmdButton);
@@ -203,9 +200,6 @@ JXFSRunFileDialog::BuildWindow
 	itsCmdInput->GetText()->SetCharacterInWordFunction(JXCSFDialogBase::IsCharacterInWord);
 	ListenTo(itsCmdInput);
 
-	cmdHint->SetFontSize(JFontManager::GetDefaultFontSize()-2);
-
-	itsCmdInput->SetFont(JFontManager::GetDefaultMonospaceFont());
 	itsCmdHistoryMenu->SetDefaultFont(JFontManager::GetDefaultMonospaceFont(), true);
 
 	// check for suffix
@@ -445,9 +439,7 @@ JXFSRunFileDialog::ReadSetup
 	std::istream& input
 	)
 {
-	JXWindow* window = GetWindow();
-	window->ReadGeometry(input);
-	window->Deiconify();
+	JXWindow::SkipGeometry(input);
 
 	JString s;
 	bool checked;

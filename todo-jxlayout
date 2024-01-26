@@ -1,10 +1,10 @@
-when show/hide toolbar, change window size to preserve LayoutContainer size
-	toolbar: if does not contain JXScrollBarSet, adjust window size
-	send prep & done messages
-
 JXOKToCloseDialog: missing image
 
-move widget, save, undo: doesn't set "unsaved" flag
+medic
+	edit commands dialog:
+		itsWidget->FitToEnclosure(true, true);	// requires sync -- WHY?
+
+-----
 
 drakon: tab group in main window
 
@@ -12,26 +12,16 @@ leibnitz: partition in main window
 
 jcc search text window: no title
 
-medic command director: JXDownRect
-
-medic edit commands dialog:
-	itsWidget->FitToEnclosure(true, true);	// requires sync -- WHY?
-
 -----
-
-JXDownRect
-JXUpRect
-	width
-
-JXBorderRect
-	width + color
-
-JXEmbossedRect
-JXEngravedRect
-	3 widths
 
 JXHorizPartition
 	# of compartments - drag to resize
 JXVertPartition
 	# of compartments - drag to resize
 JXTabGroup
+
+-----
+
+when show/hide toolbar, change window size to preserve LayoutContainer size
+	toolbar: if does not contain JXScrollBarSet, adjust window size
+	send prep & done messages

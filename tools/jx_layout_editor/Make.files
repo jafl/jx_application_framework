@@ -24,6 +24,7 @@
 .cpp ./code/CoreWidget
 .cpp ./code/ContainerWidget
 .cpp ./code/CharInput
+.cpp ./code/ComplexBorderRect
 .cpp ./code/FileInput
 .cpp ./code/FlatRect
 .cpp ./code/FloatInput
@@ -41,6 +42,7 @@
 .cpp ./code/ProgressIndicator
 .cpp ./code/RadioGroup
 .cpp ./code/ScrollbarSet
+.cpp ./code/SimpleBorderRect
 .cpp ./code/Slider
 .cpp ./code/StaticText
 .cpp ./code/TextButtonBase
@@ -51,7 +53,9 @@
 .cpp ./code/WidgetSet
 .cpp ./code/WidgetParametersDialog
 .cpp ./code/WidgetPanelBase
+.cpp ./code/BorderWidthPanel
 .cpp ./code/ColorChooserPanel
+.cpp ./code/ComplexBorderWidthPanel
 .cpp ./code/CustomWidgetPanel
 .cpp ./code/WidgetLabelPanel
 .cpp ./code/FileInputPanel

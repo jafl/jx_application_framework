@@ -25,7 +25,8 @@ public:
 					const JInteger minLength, const JInteger maxLength,
 					const JString& regexPattern, const JString&	regexFlags,
 					const JString& regexErrorMsg,
-					const bool wordWrap, const bool newlines);
+					const bool wordWrap, const bool newlines,
+					const bool monospace, const JString& hint);
 
 	~InputFieldPanel();
 
@@ -35,7 +36,8 @@ public:
 					  JInteger* minLength, JInteger* maxLength,
 					  JString* regexPattern, JString* regexFlags,
 					  JString* regexErrorMsg,
-					  bool* wordWrap, bool* newlines);
+					  bool* wordWrap, bool* newlines,
+					  bool* monospace, JString* hint);
 
 private:
 
@@ -44,11 +46,13 @@ private:
 	JXTextCheckbox* itsValueRequiredCB;
 	JXTextCheckbox* itsWordWrapCB;
 	JXTextCheckbox* itsAllowNewlinesCB;
+	JXTextCheckbox* itsMonospaceCB;
 	JXIntegerInput* itsMinLengthInput;
 	JXIntegerInput* itsMaxLengthInput;
 	JXRegexInput*   itsRegexInput;
 	JXInputField*   itsRegexFlagsInput;
 	JXInputField*   itsRegexErrorMsgInput;
+	JXInputField*   itsHintInput;
 
 // end Panel
 
