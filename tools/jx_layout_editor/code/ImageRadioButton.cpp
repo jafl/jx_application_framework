@@ -1,7 +1,7 @@
 /******************************************************************************
  ImageRadioButton.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = LayoutWidget
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -34,7 +34,7 @@ ImageRadioButton::ImageRadioButton
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(false, layout, hSizing, vSizing, x,y, w,h)
 {
 }
 
@@ -50,7 +50,7 @@ ImageRadioButton::ImageRadioButton
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	LayoutWidget(false, layout, hSizing, vSizing, x,y, w,h),
 	itsID(id)
 {
 }
@@ -68,7 +68,7 @@ ImageRadioButton::ImageRadioButton
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 	input >> itsID;
 
@@ -106,7 +106,7 @@ ImageRadioButton::StreamOut
 {
 	output << JString("ImageRadioButton") << std::endl;
 
-	BaseWidget::StreamOut(output);
+	LayoutWidget::StreamOut(output);
 
 	output << itsID << std::endl;
 
@@ -122,7 +122,7 @@ JString
 ImageRadioButton::ToString()
 	const
 {
-	JString s = BaseWidget::ToString();
+	JString s = LayoutWidget::ToString();
 
 	s += JString::newline;
 	s += JGetString("IDLabel::TextRadioButton");
@@ -223,7 +223,7 @@ ImageRadioButton::PrintConfiguration
 	}
 	else
 	{
-		BaseWidget::PrintConfiguration(output, indent, varName, stringdb);
+		LayoutWidget::PrintConfiguration(output, indent, varName, stringdb);
 	}
 }
 

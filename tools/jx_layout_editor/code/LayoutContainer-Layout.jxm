@@ -1,5 +1,5 @@
 jx_menu_editor 0
-826 204
+868 278
 "LayoutContainer"
 "Layout"
 'l
@@ -9,7 +9,7 @@ jx_menu_editor 0
 100
 40
 196
-116
+152
 75
 
 0
@@ -41,6 +41,46 @@ jx_menu_editor 0
 ' 
 "__MetaDragToPlaceNewWidget"
 "kCreateHintIndex"
+1
+
+1
+0
+0 ""
+"Decrease width"
+"Ctrl-<"
+' 
+"DecreaseWidth"
+"kDecreaseWidthIndex"
+0
+
+1
+0
+0 ""
+"Increase width"
+"Ctrl->"
+' 
+"IncreaseWidth"
+"kIncreaseWidthIndex"
+1
+
+1
+0
+0 ""
+"Decrease height"
+"Ctrl-comma"
+' 
+"DecreaseHeight"
+"kDecreaseHeightIndex"
+0
+
+1
+0
+0 ""
+"Increase height"
+"Ctrl-period"
+' 
+"IncreaseHeight"
+"kIncreaseHeightIndex"
 0
 
 0

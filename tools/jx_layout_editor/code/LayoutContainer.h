@@ -17,7 +17,7 @@ class JXTextMenu;
 class JXToolBar;
 class JUndoRedoChain;
 class LayoutDocument;
-class BaseWidget;
+class LayoutWidget;
 
 class LayoutContainer : public JXWidget
 {
@@ -27,7 +27,7 @@ public:
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
-	LayoutContainer(LayoutContainer* parent, BaseWidget* owner,
+	LayoutContainer(LayoutContainer* parent, LayoutWidget* owner,
 					JXContainer* enclosure,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
@@ -43,7 +43,7 @@ public:
 	JSize	GetSelectionCount() const;
 	void	SelectAllWidgets();
 	void	ClearSelection();
-	bool	GetSelectedWidgets(JPtrArray<BaseWidget>* list, const bool all = false) const;
+	bool	GetSelectedWidgets(JPtrArray<LayoutWidget>* list, const bool all = false) const;
 	void	SetSelectedWidgetsVisible(const bool visible);
 	void	RemoveSelectedWidgets();
 	void	Clear(const bool isUndoRedo);
@@ -80,7 +80,7 @@ public:
 						   const JXKeyModifiers& modifiers) override;
 
 	static void	WriteWidget(std::ostream& output, const JXContainer* obj,
-							JPtrArray<BaseWidget>* widgetList);
+							JPtrArray<LayoutWidget>* widgetList);
 
 protected:
 
@@ -117,7 +117,7 @@ private:
 
 	// both are nullptr if root
 	LayoutContainer*	itsParent;
-	BaseWidget*			itsOwner;
+	LayoutWidget*		itsOwner;
 
 	JSize	itsGridSpacing;
 	Atom	itsLayoutDataXAtom;
@@ -156,10 +156,10 @@ private:
 
 	void	LayoutContainerX();
 
-	BaseWidget*	ReadWidget(std::istream& input, const JFileVersion vers,
+	LayoutWidget*	ReadWidget(std::istream& input, const JFileVersion vers,
 						   LayoutContainer* defaultEnclosure,
-						   JPtrArray<BaseWidget>* widgetList);
-	BaseWidget*	CreateWidget(const JIndex index, const JRect& rect);
+						   JPtrArray<LayoutWidget>* widgetList);
+	LayoutWidget*	CreateWidget(const JIndex index, const JRect& rect);
 
 	void	UpdateEditMenu();
 	void	HandleEditMenu(const JIndex index);
@@ -171,12 +171,12 @@ private:
 	void	HandleArrangeMenu(const JIndex index);
 
 	void	CleanupGenerateCode() const;
-	void	AdjustTabOrder(JPtrArray<BaseWidget>* list, const JInteger delta);
+	void	AdjustTabOrder(JPtrArray<LayoutWidget>* list, const JInteger delta);
 
 	static std::weak_ordering
-		CompareLocations(BaseWidget *const w1, BaseWidget *const w2);
+		CompareLocations(LayoutWidget *const w1, LayoutWidget *const w2);
 	static std::weak_ordering
-		CompareTabOrder(BaseWidget *const w1, BaseWidget *const w2);
+		CompareTabOrder(LayoutWidget *const w1, LayoutWidget *const w2);
 };
 
 

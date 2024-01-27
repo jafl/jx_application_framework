@@ -12,7 +12,7 @@
 #include "LayoutSelection.h"
 #include "LayoutDocument.h"
 #include "LayoutContainer.h"
-#include "BaseWidget.h"
+#include "LayoutWidget.h"
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jcore/JTableSelection.h>
 #include <sstream>
@@ -41,11 +41,11 @@ LayoutSelection::LayoutSelection
 
 	// data
 
-	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> widgetList(JPtrArrayT::kForgetAll);
 	itsLayout->GetSelectedWidgets(&widgetList);
 	assert( !widgetList.IsEmpty() );
 
-	JPtrArray<BaseWidget> widgetIndexList(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> widgetIndexList(JPtrArrayT::kForgetAll);
 	JRect bounds;
 
 	std::ostringstream data;

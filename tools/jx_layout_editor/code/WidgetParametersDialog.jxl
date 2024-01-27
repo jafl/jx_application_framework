@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 6
 460
 170
 "JXLayout"
@@ -53,6 +53,8 @@ jx_layout_editor 5
 "The variable name must be a valid C++ identifier or expression."
 0
 0
+0
+""
 
 1
 1

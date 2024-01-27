@@ -163,7 +163,8 @@ ImageCache::LoadIcons
 		JXImage* image;
 		if (GetImage(e->GetFullName(), &image) &&
 			(maxSize == 0 ||
-			 (image->GetWidth() <= maxSize && image->GetHeight() <= maxSize)))
+			 (image->GetWidth()  <= JCoordinate(maxSize) &&
+			  image->GetHeight() <= JCoordinate(maxSize))))
 		{
 			menu->AppendItem(image, false);
 			pathList->Append(e->GetFullName());

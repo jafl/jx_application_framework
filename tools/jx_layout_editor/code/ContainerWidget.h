@@ -8,9 +8,9 @@
 #ifndef _H_ContainerWidget
 #define _H_ContainerWidget
 
-#include "BaseWidget.h"
+#include "LayoutWidget.h"
 
-class ContainerWidget : public BaseWidget
+class ContainerWidget : public LayoutWidget
 {
 public:
 

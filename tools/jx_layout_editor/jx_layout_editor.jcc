@@ -118,9 +118,9 @@ F
 T
 1 "widgets"
 T
-2 "BaseWidget.cpp"
+2 "LayoutWidget.cpp"
 F
-"./code/BaseWidget.cpp"
+"./code/LayoutWidget.cpp"
 T
 2 "CustomWidget.cpp"
 F

@@ -19,7 +19,7 @@
 .cpp ./code/LayoutSelection
 .cpp ./code/LayoutUndo
 .cpp ./code/ChooseWidgetDialog
-.cpp ./code/BaseWidget
+.cpp ./code/LayoutWidget
 .cpp ./code/CustomWidget
 .cpp ./code/CoreWidget
 .cpp ./code/ContainerWidget

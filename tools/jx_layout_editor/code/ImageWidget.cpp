@@ -1,7 +1,7 @@
 /******************************************************************************
  ImageWidget.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = LayoutWidget
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -35,7 +35,7 @@ ImageWidget::ImageWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	LayoutWidget(false, layout, hSizing, vSizing, x,y, w,h),
 	itsType(type)
 {
 	ImageWidgetX();
@@ -54,7 +54,7 @@ ImageWidget::ImageWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h),
+	LayoutWidget(input, vers, layout, hSizing, vSizing, x,y, w,h),
 	itsType(kImageType)
 {
 	ImageWidgetX();
@@ -103,7 +103,7 @@ ImageWidget::StreamOut
 {
 	output << JString("ImageWidget") << std::endl;
 
-	BaseWidget::StreamOut(output);
+	LayoutWidget::StreamOut(output);
 
 	output << (int) itsType << std::endl;
 	ImageChooserPanel::WriteImageName(itsFullName, output);
@@ -188,7 +188,7 @@ ImageWidget::PrintConfiguration
 	}
 	else
 	{
-		BaseWidget::PrintConfiguration(output, indent, varName, stringdb);
+		LayoutWidget::PrintConfiguration(output, indent, varName, stringdb);
 	}
 }
 

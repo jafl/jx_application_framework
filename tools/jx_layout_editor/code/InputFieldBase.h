@@ -8,9 +8,9 @@
 #ifndef _H_InputFieldBase
 #define _H_InputFieldBase
 
-#include "BaseWidget.h"
+#include "LayoutWidget.h"
 
-class InputFieldBase : public BaseWidget
+class InputFieldBase : public LayoutWidget
 {
 public:
 

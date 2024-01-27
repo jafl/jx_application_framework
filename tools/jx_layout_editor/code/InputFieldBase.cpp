@@ -1,7 +1,7 @@
 /******************************************************************************
  InputFieldBase.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = LayoutWidget
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -29,7 +29,7 @@ InputFieldBase::InputFieldBase
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(true, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(true, layout, hSizing, vSizing, x,y, w,h)
 {
 	InputFieldBaseX();
 }
@@ -47,7 +47,7 @@ InputFieldBase::InputFieldBase
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 	InputFieldBaseX();
 }

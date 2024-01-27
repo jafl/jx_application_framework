@@ -279,6 +279,43 @@ LayoutDocument::GetName()
 }
 
 /******************************************************************************
+ Activate (virtual)
+
+ ******************************************************************************/
+
+void
+LayoutDocument::Activate()
+{
+	JXFileDocument::Activate();
+
+	ListenTo(itsToolBar, std::function([this](const JXToolBar::PrepareForResize&)
+	{
+		itsLayout->SetIgnoreResize(true);
+		std::ostringstream output;
+		output << NeedsSave() << std::endl;
+		WriteTextFile(output, true);
+		itsSavedState = output.str();
+	}));
+
+	ListenTo(itsToolBar, std::function([this](const JXToolBar::ResizeFinished&)
+	{
+		assert( !itsSavedState.IsEmpty() );
+
+		std::istringstream input(itsSavedState.GetBytes());
+		bool neededSave;
+		input >> neededSave >> std::ws;
+		ReadFile(input, true);
+		itsSavedState.Clear();
+		itsLayout->SetIgnoreResize(false);
+
+		if (!neededSave)
+		{
+			DataReverted(true);
+		}
+	}));
+}
+
+/******************************************************************************
  ReadFile (private)
 
  ******************************************************************************/
@@ -1095,7 +1132,7 @@ LayoutDocument::ImportFDesignLayout
 		shortcuts, gravity, varName, argument, className;
 	JArray<JRect> rectList;
 	JPtrArray<JString> objNames(JPtrArrayT::kDeleteAll), tmp(JPtrArrayT::kDeleteAll);
-	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> widgetList(JPtrArrayT::kForgetAll);
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 
 	const JSize itemCount = ReadFDesignNumber(input, kFormObjCountMarker);
@@ -1227,7 +1264,7 @@ LayoutDocument::ImportFDesignLayout
 		w = localFrame.width();
 		h = localFrame.height();
 
-		BaseWidget* widget = nullptr;
+		LayoutWidget* widget = nullptr;
 		if (label == "JXCharInput")
 		{
 			widget = jnew CharInput(enclosure, hS,vS, x,y,w,h);

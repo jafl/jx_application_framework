@@ -95,12 +95,12 @@ VarNameBase::LayoutContainer	"widget_"
 
 CircularDependency::LayoutContainer	"Code generation failed because there is a circular dependency between widgets."
 
-# BaseWidget
+# LayoutWidget
 
-VariableNameLabel::BaseWidget		"Variable name: "
-MemberFlagLabel::BaseWidget			" (member)"
-PredeclaredFlagLabel::BaseWidget	" (pre-declared)"
-ShortcutsLabel::BaseWidget			"Shortcuts: "
+VariableNameLabel::LayoutWidget		"Variable name: "
+MemberFlagLabel::LayoutWidget			" (member)"
+PredeclaredFlagLabel::LayoutWidget	" (pre-declared)"
+ShortcutsLabel::LayoutWidget			"Shortcuts: "
 
 # CustomWidget
 

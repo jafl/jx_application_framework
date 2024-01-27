@@ -1,5 +1,5 @@
 /******************************************************************************
- BaseWidget.cpp
+ LayoutWidget.cpp
 
 	BASE CLASS = JXWidget
 
@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include "BaseWidget.h"
+#include "LayoutWidget.h"
 #include "LayoutContainer.h"
 #include "LayoutSelection.h"
 #include "WidgetParametersDialog.h"
@@ -34,7 +34,7 @@ const JCoordinate kTabIndexVMarginWidth = 1;
 
  ******************************************************************************/
 
-BaseWidget::BaseWidget
+LayoutWidget::LayoutWidget
 	(
 	const bool			wantsInput,
 	LayoutContainer*	layout,
@@ -56,7 +56,7 @@ BaseWidget::BaseWidget
 	itsLastExpectingTime(0),
 	itsExpectingClickCount(0)
 {
-	BaseWidgetX();
+	LayoutWidgetX();
 
 	// itsVarName must first be initialized
 	itsVarName = itsParent->GenerateUniqueVarName();
@@ -68,7 +68,7 @@ BaseWidget::BaseWidget
 	}
 }
 
-BaseWidget::BaseWidget
+LayoutWidget::LayoutWidget
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -89,7 +89,7 @@ BaseWidget::BaseWidget
 	itsLastExpectingTime(0),
 	itsExpectingClickCount(0)
 {
-	BaseWidgetX();
+	LayoutWidgetX();
 
 	input >> itsVarName >> itsIsMemberVarFlag >> itsTabIndex;
 
@@ -102,7 +102,7 @@ BaseWidget::BaseWidget
 // private
 
 void
-BaseWidget::BaseWidgetX()
+LayoutWidget::LayoutWidgetX()
 {
 	itsCursors[ kTopLeftHandle     ] = GetDisplay()->CreateBuiltInCursor("XC_top_left_corner", XC_top_left_corner);
 	itsCursors[ kTopHandle         ] = GetDisplay()->CreateBuiltInCursor("XC_top_side", XC_top_side);
@@ -119,7 +119,7 @@ BaseWidget::BaseWidgetX()
 
  ******************************************************************************/
 
-BaseWidget::~BaseWidget()
+LayoutWidget::~LayoutWidget()
 {
 }
 
@@ -131,7 +131,7 @@ BaseWidget::~BaseWidget()
  ******************************************************************************/
 
 void
-BaseWidget::StreamOut
+LayoutWidget::StreamOut
 	(
 	std::ostream& output
 	)
@@ -157,21 +157,21 @@ BaseWidget::StreamOut
  ******************************************************************************/
 
 JString
-BaseWidget::ToString()
+LayoutWidget::ToString()
 	const
 {
 	JString s = GetClassName();
 	s += JString::newline;
 
-	s += JGetString("VariableNameLabel::BaseWidget");
+	s += JGetString("VariableNameLabel::LayoutWidget");
 	s += itsVarName;
 	if (itsIsMemberVarFlag)
 	{
-		s += JGetString("MemberFlagLabel::BaseWidget");
+		s += JGetString("MemberFlagLabel::LayoutWidget");
 	}
 	else if (itsIsPredeclaredVarFlag)
 	{
-		s += JGetString("PredeclaredFlagLabel::BaseWidget");
+		s += JGetString("PredeclaredFlagLabel::LayoutWidget");
 	}
 	return s;
 }
@@ -184,7 +184,7 @@ BaseWidget::ToString()
  ******************************************************************************/
 
 bool
-BaseWidget::GetLayoutContainer
+LayoutWidget::GetLayoutContainer
 	(
 	LayoutContainer** layout
 	)
@@ -200,7 +200,7 @@ BaseWidget::GetLayoutContainer
  ******************************************************************************/
 
 void
-BaseWidget::EditConfiguration
+LayoutWidget::EditConfiguration
 	(
 	const bool createUndo
 	)
@@ -240,7 +240,7 @@ BaseWidget::EditConfiguration
  ******************************************************************************/
 
 bool
-BaseWidget::GenerateCode
+LayoutWidget::GenerateCode
 	(
 	std::ostream&		output,
 	const JString&		indent,
@@ -303,7 +303,7 @@ BaseWidget::GenerateCode
  ******************************************************************************/
 
 void
-BaseWidget::PrepareToGenerateCode()
+LayoutWidget::PrepareToGenerateCode()
 	const
 {
 }
@@ -314,7 +314,7 @@ BaseWidget::PrepareToGenerateCode()
  ******************************************************************************/
 
 void
-BaseWidget::GenerateCodeFinished()
+LayoutWidget::GenerateCodeFinished()
 	const
 {
 }
@@ -327,7 +327,7 @@ BaseWidget::GenerateCodeFinished()
  ******************************************************************************/
 
 bool
-BaseWidget::WaitForCodeDependency
+LayoutWidget::WaitForCodeDependency
 	(
 	const JPtrArray<JString>& objNames
 	)
@@ -342,7 +342,7 @@ BaseWidget::WaitForCodeDependency
  ******************************************************************************/
 
 JString
-BaseWidget::GetCtor()
+LayoutWidget::GetCtor()
 	const
 {
 	return "jnew " + GetClassName();
@@ -354,7 +354,7 @@ BaseWidget::GetCtor()
  ******************************************************************************/
 
 JRect
-BaseWidget::GetFrameForCode()
+LayoutWidget::GetFrameForCode()
 	const
 {
 	return GetFrame();
@@ -366,7 +366,7 @@ BaseWidget::GetFrameForCode()
  ******************************************************************************/
 
 void
-BaseWidget::PrintCtorArgsWithComma
+LayoutWidget::PrintCtorArgsWithComma
 	(
 	std::ostream&	output,
 	const JString&	varName,
@@ -382,7 +382,7 @@ BaseWidget::PrintCtorArgsWithComma
  ******************************************************************************/
 
 JString
-BaseWidget::GetEnclosureName()
+LayoutWidget::GetEnclosureName()
 	const
 {
 	return itsVarName;
@@ -394,7 +394,7 @@ BaseWidget::GetEnclosureName()
  ******************************************************************************/
 
 void
-BaseWidget::PrintConfiguration
+LayoutWidget::PrintConfiguration
 	(
 	std::ostream&	output,
 	const JString&	indent,
@@ -418,7 +418,7 @@ BaseWidget::PrintConfiguration
  ******************************************************************************/
 
 void
-BaseWidget::PrintStringForArg
+LayoutWidget::PrintStringForArg
 	(
 	const JString&	text,
 	const JString&	baseID,
@@ -446,7 +446,7 @@ BaseWidget::PrintStringForArg
  ******************************************************************************/
 
 void
-BaseWidget::PrintStringIDForArg
+LayoutWidget::PrintStringIDForArg
 	(
 	const JString&	text,
 	const JString&	baseID,
@@ -467,7 +467,7 @@ BaseWidget::PrintStringIDForArg
  ******************************************************************************/
 
 void
-BaseWidget::SetSelected
+LayoutWidget::SetSelected
 	(
 	const bool on
 	)
@@ -492,7 +492,7 @@ BaseWidget::SetSelected
  ******************************************************************************/
 
 void
-BaseWidget::SetWantsInput
+LayoutWidget::SetWantsInput
 	(
 	const bool wantsInput
 	)
@@ -517,7 +517,7 @@ BaseWidget::SetWantsInput
  ******************************************************************************/
 
 void
-BaseWidget::SetTabIndex
+LayoutWidget::SetTabIndex
 	(
 	const JIndex i
 	)
@@ -534,7 +534,7 @@ BaseWidget::SetTabIndex
  ******************************************************************************/
 
 void
-BaseWidget::DrawOver
+LayoutWidget::DrawOver
 	(
 	JXWindowPainter&	p,
 	const JRect&		rect
@@ -645,7 +645,7 @@ BaseWidget::DrawOver
  ******************************************************************************/
 
 void
-BaseWidget::AdjustCursor
+LayoutWidget::AdjustCursor
 	(
 	const JPoint&			pt,
 	const JXKeyModifiers&	modifiers
@@ -677,7 +677,7 @@ BaseWidget::AdjustCursor
  ******************************************************************************/
 
 void
-BaseWidget::PrepareToAcceptDrag()
+LayoutWidget::PrepareToAcceptDrag()
 {
 	itsExpectingDragFlag = true;
 
@@ -701,7 +701,7 @@ BaseWidget::PrepareToAcceptDrag()
  ******************************************************************************/
 
 bool
-BaseWidget::StealMouse
+LayoutWidget::StealMouse
 	(
 	const int			eventType,
 	const JPoint&		ptG,
@@ -733,7 +733,7 @@ BaseWidget::StealMouse
  ******************************************************************************/
 
 void
-BaseWidget::HandleMouseDown
+LayoutWidget::HandleMouseDown
 	(
 	const JPoint&			pt,
 	const JXMouseButton		button,
@@ -774,7 +774,7 @@ BaseWidget::HandleMouseDown
 	{
 		if (!IsSelected())
 		{
-			JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+			JPtrArray<LayoutWidget> list(JPtrArrayT::kForgetAll);
 			if (!itsParent->GetSelectedWidgets(&list, true) ||
 				list.GetFirstItem()->GetEnclosure() == GetEnclosure())
 			{
@@ -813,7 +813,7 @@ BaseWidget::HandleMouseDown
  ******************************************************************************/
 
 void
-BaseWidget::HandleMouseDrag
+LayoutWidget::HandleMouseDrag
 	(
 	const JPoint&			pt,
 	const JXButtonStates&	buttonStates,
@@ -919,7 +919,7 @@ BaseWidget::HandleMouseDrag
  ******************************************************************************/
 
 void
-BaseWidget::HandleMouseUp
+LayoutWidget::HandleMouseUp
 	(
 	const JPoint&			pt,
 	const JXMouseButton		button,
@@ -953,7 +953,7 @@ BaseWidget::HandleMouseUp
  ******************************************************************************/
 
 Atom
-BaseWidget::GetDNDAction
+LayoutWidget::GetDNDAction
 	(
 	const JXContainer*		target,
 	const JXButtonStates&	buttonStates,
@@ -989,7 +989,7 @@ BaseWidget::GetDNDAction
  ******************************************************************************/
 
 void
-BaseWidget::DNDFinish
+LayoutWidget::DNDFinish
 	(
 	const bool			isDrop,
 	const JXContainer*	target
@@ -1007,7 +1007,7 @@ BaseWidget::DNDFinish
  ******************************************************************************/
 
 void
-BaseWidget::AddPanels
+LayoutWidget::AddPanels
 	(
 	WidgetParametersDialog* dlog
 	)
@@ -1020,6 +1020,6 @@ BaseWidget::AddPanels
  ******************************************************************************/
 
 void
-BaseWidget::SavePanelData()
+LayoutWidget::SavePanelData()
 {
 }

@@ -12,10 +12,11 @@
 #include "LayoutSelection.h"
 #include "LayoutConfigDialog.h"
 #include "ChooseWidgetDialog.h"
-#include "BaseWidget.h"
+#include "LayoutWidget.h"
 #include "globals.h"
 #include "fileVersions.h"
 #include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXToolBar.h>
@@ -79,11 +80,12 @@ LayoutContainer::LayoutContainer
 
 	itsLayoutMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::LayoutDocument_Layout"));
 	itsLayoutMenu->SetMenuItems(kLayoutMenuStr);
-	itsLayoutMenu->SetUpdateAction(JXMenu::kDisableAll);
+	itsLayoutMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsLayoutMenu->AttachHandlers(this,
 		&LayoutContainer::UpdateLayoutMenu,
 		&LayoutContainer::HandleLayoutMenu);
 	ConfigureLayoutMenu(itsLayoutMenu);
+	itsLayoutMenu->DisableItem(kCreateHintIndex);
 
 	itsArrangeMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::LayoutContainer_Arrange"));
 	itsArrangeMenu->SetMenuItems(kArrangeMenuStr);
@@ -97,7 +99,7 @@ LayoutContainer::LayoutContainer
 LayoutContainer::LayoutContainer
 	(
 	LayoutContainer*	parent,
-	BaseWidget*			owner,
+	LayoutWidget*			owner,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -172,7 +174,7 @@ LayoutContainer::HasSelection()
 {
 	return AnyOf([](const JXContainer* obj)
 	{
-		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 		return widget != nullptr && widget->IsSelected();
 	},
 	false);
@@ -190,7 +192,7 @@ LayoutContainer::GetSelectionCount()
 	JSize count = 0;
 	ForEach([&count](const JXContainer* obj)
 	{
-		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 		if (widget != nullptr && widget->IsSelected())
 		{
 			count++;
@@ -211,7 +213,7 @@ LayoutContainer::SelectAllWidgets()
 {
 	ForEach([](JXContainer* obj)
 	{
-		auto* widget = dynamic_cast<BaseWidget*>(obj);
+		auto* widget = dynamic_cast<LayoutWidget*>(obj);
 		if (widget != nullptr)
 		{
 			widget->SetSelected(true);
@@ -236,7 +238,7 @@ LayoutContainer::ClearSelection()
 
 	ForEach([](JXContainer* obj)
 	{
-		auto* widget = dynamic_cast<BaseWidget*>(obj);
+		auto* widget = dynamic_cast<LayoutWidget*>(obj);
 		if (widget != nullptr)
 		{
 			widget->SetSelected(false);
@@ -253,7 +255,7 @@ LayoutContainer::ClearSelection()
 bool
 LayoutContainer::GetSelectedWidgets
 	(
-	JPtrArray<BaseWidget>*	list,
+	JPtrArray<LayoutWidget>*	list,
 	const bool				all
 	)
 	const
@@ -268,10 +270,10 @@ LayoutContainer::GetSelectedWidgets
 
 	ForEach([&list](const JXContainer* obj)
 	{
-		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 		if (widget != nullptr && widget->IsSelected())
 		{
-			list->Append(const_cast<BaseWidget*>(widget));
+			list->Append(const_cast<LayoutWidget*>(widget));
 		}
 	},
 	all);
@@ -290,7 +292,7 @@ LayoutContainer::SetSelectedWidgetsVisible
 	const bool visible
 	)
 {
-	JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> list(JPtrArrayT::kForgetAll);
 	GetSelectedWidgets(&list);
 	for (auto* w : list)
 	{
@@ -308,7 +310,7 @@ LayoutContainer::RemoveSelectedWidgets()
 {
 	auto* newUndo = jnew LayoutUndo(itsDoc);
 
-	JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> list(JPtrArrayT::kForgetAll);
 	GetSelectedWidgets(&list);
 	list.DeleteAll();
 
@@ -358,7 +360,7 @@ LayoutContainer::ReadConfig
 
 	input >> itsContainerName >> itsAdjustContainerToFitFlag;
 
-	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> widgetList(JPtrArrayT::kForgetAll);
 
 	while (!input.eof() && !input.fail())
 	{
@@ -406,13 +408,13 @@ LayoutContainer::ReadConfig
 #include "ToolBar.h"
 #include "WidgetSet.h"
 
-BaseWidget*
+LayoutWidget*
 LayoutContainer::ReadWidget
 	(
 	std::istream&			input,
 	const JFileVersion		vers,
 	LayoutContainer*		defaultEnclosure,
-	JPtrArray<BaseWidget>*	widgetList
+	JPtrArray<LayoutWidget>*	widgetList
 	)
 {
 	JString className;
@@ -437,7 +439,7 @@ LayoutContainer::ReadWidget
 	const JCoordinate w = frame.width();
 	const JCoordinate h = frame.height();
 
-	BaseWidget* widget = nullptr;
+	LayoutWidget* widget = nullptr;
 	if (className == "CharInput")
 	{
 		widget = jnew CharInput(input, vers, e, hS,vS, x,y,w,h);
@@ -559,7 +561,7 @@ LayoutContainer::ReadWidget
 
 #include "ChooseWidgetDialog-Widget-enum.h"
 
-BaseWidget*
+LayoutWidget*
 LayoutContainer::CreateWidget
 	(
 	const JIndex	index,
@@ -734,23 +736,23 @@ LayoutContainer::WriteConfig
 	output << itsAdjustContainerToFitFlag << std::endl;
 	output << std::endl;
 
-	JPtrArray<BaseWidget> sortedList(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> sortedList(JPtrArrayT::kForgetAll);
 	ForEach([&sortedList](const JXContainer* obj)
 	{
-		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 		if (widget == nullptr)
 		{
 			return;
 		}
 
-		sortedList.Append(const_cast<BaseWidget*>(widget));
+		sortedList.Append(const_cast<LayoutWidget*>(widget));
 	},
 	true);
 
 	sortedList.SetCompareFunction(CompareLocations);
 	sortedList.Sort();
 
-	JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> widgetList(JPtrArrayT::kForgetAll);
 
 	for (auto* widget: sortedList)
 	{
@@ -770,16 +772,16 @@ LayoutContainer::WriteWidget
 	(
 	std::ostream&			output,
 	const JXContainer*		obj,
-	JPtrArray<BaseWidget>*	widgetList
+	JPtrArray<LayoutWidget>*	widgetList
 	)
 {
-	auto* widget = dynamic_cast<const BaseWidget*>(obj);
+	auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 	if (widget == nullptr)
 	{
 		return;		// used for rendering
 	}
 
-	BaseWidget* parent = widget->GetParentContainer()->itsOwner;
+	LayoutWidget* parent = widget->GetParentContainer()->itsOwner;
 
 	JIndex parentIndex;
 	widgetList->Find(parent, &parentIndex);		// zero if not found; enables drag-and-drop to different layout
@@ -789,7 +791,7 @@ LayoutContainer::WriteWidget
 	widget->StreamOut(output);
 	output << std::endl;
 
-	widgetList->Append(const_cast<BaseWidget*>(widget));
+	widgetList->Append(const_cast<LayoutWidget*>(widget));
 }
 
 /******************************************************************************
@@ -866,11 +868,11 @@ LayoutContainer::GenerateCode
 		output << std::endl;
 	}
 
-	JPtrArray<BaseWidget> inputWidgets(JPtrArrayT::kForgetAll);
-	JPtrArray<BaseWidget> otherWidgets(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> inputWidgets(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> otherWidgets(JPtrArrayT::kForgetAll);
 	ForEach([&inputWidgets, &otherWidgets](const JXContainer* obj)
 	{
-		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 		if (widget == nullptr)
 		{
 			return;
@@ -879,11 +881,11 @@ LayoutContainer::GenerateCode
 		widget->PrepareToGenerateCode();
 		if (widget->WantsInput())
 		{
-			inputWidgets.Append(const_cast<BaseWidget*>(widget));
+			inputWidgets.Append(const_cast<LayoutWidget*>(widget));
 		}
 		else
 		{
-			otherWidgets.Append(const_cast<BaseWidget*>(widget));
+			otherWidgets.Append(const_cast<LayoutWidget*>(widget));
 		}
 	},
 	true);
@@ -899,8 +901,8 @@ LayoutContainer::GenerateCode
 	{
 		const JSize origCount = otherWidgets.GetItemCount();
 
-		JPtrArrayIterator<BaseWidget> iter(&otherWidgets);
-		BaseWidget* widget;
+		JPtrArrayIterator<LayoutWidget> iter(&otherWidgets);
+		LayoutWidget* widget;
 		while (iter.Next(&widget))
 		{
 			if (widget->GenerateCode(output, indent, objTypes, objNames, &isMemberVar, stringdb))
@@ -968,7 +970,7 @@ LayoutContainer::CleanupGenerateCode()
 {
 	ForEach([](const JXContainer* obj)
 	{
-		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 		if (widget != nullptr)
 		{
 			widget->GenerateCodeFinished();
@@ -985,8 +987,8 @@ LayoutContainer::CleanupGenerateCode()
 std::weak_ordering
 LayoutContainer::CompareLocations
 	(
-	BaseWidget *const w1,
-	BaseWidget *const w2
+	LayoutWidget *const w1,
+	LayoutWidget *const w2
 	)
 {
 	const JPoint pt1 = w1->GetFrameGlobal().topLeft();
@@ -1049,7 +1051,7 @@ LayoutContainer::GenerateUniqueVarName()
 	JUInt i = 0;
 	ForEach([&base, &i](const JXContainer* obj)
 	{
-		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 		bool b1, b2;
 		if (widget != nullptr && widget->GetVarName(&b1, &b2).StartsWith(base))
 		{
@@ -1083,7 +1085,7 @@ LayoutContainer::GetNextTabIndex()
 	JIndex i = 0;
 	ForEach([&i](const JXContainer* obj)
 	{
-		auto* widget = dynamic_cast<const BaseWidget*>(obj);
+		auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 		JIndex j;
 		if (widget != nullptr && widget->GetTabIndex(&j))
 		{
@@ -1114,7 +1116,7 @@ LayoutContainer::TabIndexRemoved
 
 	ForEach([i](JXContainer* obj)
 	{
-		auto* widget = dynamic_cast<BaseWidget*>(obj);
+		auto* widget = dynamic_cast<LayoutWidget*>(obj);
 		JIndex j;
 		if (widget != nullptr && widget->GetTabIndex(&j) && j > i)
 		{
@@ -1313,7 +1315,7 @@ LayoutContainer::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> list(JPtrArrayT::kForgetAll);
 	if (!GetSelectedWidgets(&list))
 	{
 		return;
@@ -1475,7 +1477,7 @@ LayoutContainer::HandleMouseDrag
 			const JRect r1 = LocalToGlobal(r);
 			ForEach([&r1](JXContainer* obj)
 			{
-				auto* widget = dynamic_cast<BaseWidget*>(obj);
+				auto* widget = dynamic_cast<LayoutWidget*>(obj);
 				if (widget == nullptr)
 				{
 					return;		// used for rendering
@@ -1528,7 +1530,7 @@ LayoutContainer::HandleMouseUp
 			{
 				auto* undo = jnew LayoutUndo(itsDoc);
 
-				BaseWidget* widget = CreateWidget(dlog->GetWidgetIndex(), itsCreateRect);
+				LayoutWidget* widget = CreateWidget(dlog->GetWidgetIndex(), itsCreateRect);
 				Refresh();
 				widget->EditConfiguration(false);
 
@@ -1664,7 +1666,7 @@ LayoutContainer::HandleDNDDrop
 	const JXWidget*		source
 	)
 {
-	const BaseWidget* sourceWidget = dynamic_cast<const BaseWidget*>(source);
+	const LayoutWidget* sourceWidget = dynamic_cast<const LayoutWidget*>(source);
 	if (sourceWidget != nullptr && sourceWidget->GetParentContainer() == this &&
 		action == GetDNDManager()->GetDNDActionMoveXAtom())
 	{
@@ -1674,7 +1676,7 @@ LayoutContainer::HandleDNDDrop
 		const JPoint pt2G  = LocalToGlobal(pt);
 		const JPoint delta = pt2G - pt1G;
 
-		JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+		JPtrArray<LayoutWidget> list(JPtrArrayT::kForgetAll);
 		GetSelectedWidgets(&list);
 		for (auto* w : list)
 		{
@@ -1713,7 +1715,7 @@ LayoutContainer::HandleDNDDrop
 			const std::string s((char*) data, dataLength);
 			std::istringstream input(s);
 
-			JPtrArray<BaseWidget> widgetList(JPtrArrayT::kForgetAll);
+			JPtrArray<LayoutWidget> widgetList(JPtrArrayT::kForgetAll);
 			while (!input.eof() && !input.fail())
 			{
 				bool keepGoing;
@@ -1723,7 +1725,7 @@ LayoutContainer::HandleDNDDrop
 					break;
 				}
 
-				BaseWidget* widget = ReadWidget(input, kCurrentFileVersion, this, &widgetList);
+				LayoutWidget* widget = ReadWidget(input, kCurrentFileVersion, this, &widgetList);
 				widget->Move(delta.x, delta.y);
 				SnapToGrid(widget);
 				if (widget->WantsInput())
@@ -1899,14 +1901,16 @@ LayoutContainer::NewUndo
 void
 LayoutContainer::UpdateLayoutMenu()
 {
-	itsLayoutMenu->EnableItem(kEditConfigCmd);
-
 	if (HasFocus() && itsParent != nullptr)
 	{
-		JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+		JPtrArray<LayoutWidget> list(JPtrArrayT::kForgetAll);
 		GetSelectedWidgets(&list);
 
 		itsLayoutMenu->SetItemEnabled(kSelectParentCmd, !list.IsEmpty());
+	}
+	else
+	{
+		itsLayoutMenu->DisableItem(kSelectParentCmd);
 	}
 }
 
@@ -1936,17 +1940,18 @@ LayoutContainer::HandleLayoutMenu
 
 			NewUndo(newUndo);
 		}
+		return;
 	}
 
 	else if (index == kSelectParentCmd && HasFocus())
 	{
-		JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+		JPtrArray<LayoutWidget> list(JPtrArrayT::kForgetAll);
 		GetSelectedWidgets(&list);
 
 		JXContainer* parent = list.GetFirstItem()->GetEnclosure();
 		while (parent != nullptr)
 		{
-			BaseWidget* w = dynamic_cast<BaseWidget*>(parent);
+			LayoutWidget* w = dynamic_cast<LayoutWidget*>(parent);
 			if (w != nullptr)
 			{
 				list.GetFirstItem()->SetSelected(false);
@@ -1956,6 +1961,47 @@ LayoutContainer::HandleLayoutMenu
 
 			parent = parent->GetEnclosure();
 		}
+		return;
+	}
+
+	LayoutUndo* newUndo = nullptr;
+	if (!CurrentUndoIs(LayoutUndo::kWindowResizeType))
+	{
+		newUndo = jnew LayoutUndo(itsDoc, LayoutUndo::kWindowResizeType);
+	}
+
+	JCoordinate dx = 0, dy = 0;
+	if (index == kDecreaseWidthIndex)
+	{
+		dx = - JCoordinate(itsGridSpacing);
+	}
+	else if (index == kIncreaseWidthIndex)
+	{
+		dx = itsGridSpacing;
+	}
+	else if (index == kDecreaseHeightIndex)
+	{
+		dy = - JCoordinate(itsGridSpacing);
+	}
+	else if (index == kIncreaseHeightIndex)
+	{
+		dy = itsGridSpacing;
+	}
+
+	if (dx != 0 || dy != 0)
+	{
+		itsIgnoreResizeFlag = true;
+		GetWindow()->AdjustSize(dx, dy);
+		itsIgnoreResizeFlag = false;
+
+		if (newUndo != nullptr)
+		{
+			NewUndo(newUndo);
+		}
+	}
+	else
+	{
+		jdelete newUndo;
 	}
 }
 
@@ -1967,7 +2013,7 @@ LayoutContainer::HandleLayoutMenu
 void
 LayoutContainer::UpdateArrangeMenu()
 {
-	JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> list(JPtrArrayT::kForgetAll);
 	GetSelectedWidgets(&list);
 
 	if (list.GetItemCount() > 1)
@@ -2036,7 +2082,7 @@ LayoutContainer::HandleArrangeMenu
 	const JIndex index
 	)
 {
-	JPtrArray<BaseWidget> list(JPtrArrayT::kForgetAll);
+	JPtrArray<LayoutWidget> list(JPtrArrayT::kForgetAll);
 	GetSelectedWidgets(&list);
 
 	const bool focus = HasFocus();
@@ -2118,7 +2164,7 @@ LayoutContainer::HandleArrangeMenu
 		w /= (count-1);
 		if (w > 0)
 		{
-			list.SetCompareFunction(std::function([](const BaseWidget* w1, const BaseWidget* w2)
+			list.SetCompareFunction(std::function([](const LayoutWidget* w1, const LayoutWidget* w2)
 			{
 				return w1->GetFrameGlobal().left <=> w2->GetFrameGlobal().left;
 			}));
@@ -2148,7 +2194,7 @@ LayoutContainer::HandleArrangeMenu
 		h /= (count-1);
 		if (h > 0)
 		{
-			list.SetCompareFunction(std::function([](const BaseWidget* w1, const BaseWidget* w2)
+			list.SetCompareFunction(std::function([](const LayoutWidget* w1, const LayoutWidget* w2)
 			{
 				return w1->GetFrameGlobal().top <=> w2->GetFrameGlobal().top;
 			}));
@@ -2220,7 +2266,7 @@ LayoutContainer::HandleArrangeMenu
 void
 LayoutContainer::AdjustTabOrder
 	(
-	JPtrArray<BaseWidget>*	list,
+	JPtrArray<LayoutWidget>*	list,
 	const JInteger			delta
 	)
 {
@@ -2238,13 +2284,13 @@ LayoutContainer::AdjustTabOrder
 		{
 			AnyOf([i,w,delta](const JXContainer* obj)
 			{
-				auto* widget = dynamic_cast<const BaseWidget*>(obj);
+				auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 				JIndex j;
 				if (widget != nullptr && widget != w &&
 					widget->GetTabIndex(&j) && j == i+delta)
 				{
 					w->SetTabIndex(j);
-					const_cast<BaseWidget*>(widget)->SetTabIndex(i);
+					const_cast<LayoutWidget*>(widget)->SetTabIndex(i);
 					return true;
 				}
 				return false;
@@ -2262,8 +2308,8 @@ LayoutContainer::AdjustTabOrder
 std::weak_ordering
 LayoutContainer::CompareTabOrder
 	(
-	BaseWidget *const w1,
-	BaseWidget *const w2
+	LayoutWidget *const w1,
+	LayoutWidget *const w2
 	)
 {
 	JIndex i1,i2;

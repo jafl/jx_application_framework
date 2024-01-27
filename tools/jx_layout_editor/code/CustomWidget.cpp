@@ -1,7 +1,7 @@
 /******************************************************************************
  CustomWidget.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = LayoutWidget
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -30,7 +30,7 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	LayoutWidget(false, layout, hSizing, vSizing, x,y, w,h),
 	itsCreateFlag(false)
 {
 	CustomWidgetX();
@@ -50,7 +50,7 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	LayoutWidget(false, layout, hSizing, vSizing, x,y, w,h),
 	itsClassName(className),
 	itsCtorArgs(args),
 	itsCreateFlag(create)
@@ -71,7 +71,7 @@ CustomWidget::CustomWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 	input >> itsClassName >> itsCtorArgs >> itsCreateFlag;
 
@@ -114,7 +114,7 @@ CustomWidget::StreamOut
 {
 	output << JString("CustomWidget") << std::endl;
 
-	BaseWidget::StreamOut(output);
+	LayoutWidget::StreamOut(output);
 
 	output << itsClassName << std::endl;
 	output << itsCtorArgs << std::endl;
@@ -131,7 +131,7 @@ JString
 CustomWidget::ToString()
 	const
 {
-	JString s = BaseWidget::ToString();
+	JString s = LayoutWidget::ToString();
 
 	if (!itsCtorArgs.IsEmpty() && !itsCreateFlag)
 	{

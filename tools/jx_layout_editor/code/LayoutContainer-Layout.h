@@ -8,7 +8,11 @@
 static const JUtf8Byte* kLayoutMenuStr =
 "* %i EditConfiguration::LayoutContainer %l"
 "|* %i SelectParent::LayoutContainer %l"
-"|* %i __MetaDragToPlaceNewWidget::LayoutContainer"
+"|* %i __MetaDragToPlaceNewWidget::LayoutContainer %l"
+"|* %i DecreaseWidth::LayoutContainer"
+"|* %i IncreaseWidth::LayoutContainer %l"
+"|* %i DecreaseHeight::LayoutContainer"
+"|* %i IncreaseHeight::LayoutContainer"
 ;
 
 #include "LayoutContainer-Layout-enum.h"

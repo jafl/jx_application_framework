@@ -8,12 +8,12 @@
 #ifndef _H_TextRadioButton
 #define _H_TextRadioButton
 
-#include "BaseWidget.h"
+#include "LayoutWidget.h"
 
 class RadioButtonIDPanel;
 class WidgetLabelPanel;
 
-class TextRadioButton : public BaseWidget
+class TextRadioButton : public LayoutWidget
 {
 public:
 

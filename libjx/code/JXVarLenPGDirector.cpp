@@ -58,7 +58,7 @@ JXVarLenPGDirector::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 270,80, JGetString("WindowTitle::JXVarLenPGDirector::JXLayout"));
+	auto* window = jnew JXWindow(this, 270,80, JString::empty);
 
 	auto* text =
 		jnew JXStaticText(JString::empty, window,

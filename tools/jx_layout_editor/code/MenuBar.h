@@ -8,9 +8,9 @@
 #ifndef _H_MenuBar
 #define _H_MenuBar
 
-#include "BaseWidget.h"
+#include "LayoutWidget.h"
 
-class MenuBar : public BaseWidget
+class MenuBar : public LayoutWidget
 {
 public:
 

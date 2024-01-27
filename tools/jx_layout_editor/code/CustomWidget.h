@@ -8,11 +8,11 @@
 #ifndef _H_CustomWidget
 #define _H_CustomWidget
 
-#include "BaseWidget.h"
+#include "LayoutWidget.h"
 
 class CustomWidgetPanel;
 
-class CustomWidget : public BaseWidget
+class CustomWidget : public LayoutWidget
 {
 public:
 

@@ -88,6 +88,7 @@ private:
 	JString						itsDialogPrefs;
 	JXToolBarButton::Type		itsButtonType;
 	bool						itsLoadedPrefs;
+	JSize						itsResizeCount;
 
 	std::function<void(JString*)>*	itsUpgradeFn;
 
@@ -95,6 +96,8 @@ private:
 
 	void	AdjustToolBarGeometry();
 	void	AdjustWindowMinSize();
+	void	SendPrepareForResize();
+	void	SendResizeFinished();
 
 	void	GetGroups(JArray<JIndexRange>* groups);
 	void	PlaceButton(const JIndex index);
@@ -120,60 +123,60 @@ private:
 	// base class for JBroadcaster messages
 
 	class DropMsg : public JBroadcaster::Message
+	{
+	public:
+
+		DropMsg(const JUtf8Byte* type, const JString& id,
+				const JArray<Atom>& typeList, const Atom action,
+				const Time time, const JXWidget* source)
+			:
+			JBroadcaster::Message(type),
+			itsAction(action), itsID(id), itsTypeList(typeList),
+			itsTime(time), itsSource(source)
+			{ };
+
+		const JString&
+		GetID() const
 		{
-		public:
-
-			DropMsg(const JUtf8Byte* type, const JString& id,
-					const JArray<Atom>& typeList, const Atom action,
-					const Time time, const JXWidget* source)
-				:
-				JBroadcaster::Message(type),
-				itsAction(action), itsID(id), itsTypeList(typeList),
-				itsTime(time), itsSource(source)
-				{ };
-
-			const JString&
-			GetID() const
-			{
-				return itsID;
-			};
-
-			const JArray<Atom>&
-			GetTypeList() const
-			{
-				return itsTypeList;
-			};
-
-			Atom
-			GetAction() const
-			{
-				return itsAction;
-			};
-
-			Time
-			GetTime() const
-			{
-				return itsTime;
-			};
-
-			bool
-			GetSource(const JXWidget** w) const
-			{
-				*w = itsSource;
-				return itsSource != nullptr;
-			};
-
-		protected:
-
-			Atom	itsAction;		// only one derived class allows this to change
-
-		private:
-
-			const JString&		itsID;
-			const JArray<Atom>&	itsTypeList;
-			const Time			itsTime;
-			const JXWidget*		itsSource;
+			return itsID;
 		};
+
+		const JArray<Atom>&
+		GetTypeList() const
+		{
+			return itsTypeList;
+		};
+
+		Atom
+		GetAction() const
+		{
+			return itsAction;
+		};
+
+		Time
+		GetTime() const
+		{
+			return itsTime;
+		};
+
+		bool
+		GetSource(const JXWidget** w) const
+		{
+			*w = itsSource;
+			return itsSource != nullptr;
+		};
+
+	protected:
+
+		Atom	itsAction;		// only one derived class allows this to change
+
+	private:
+
+		const JString&		itsID;
+		const JArray<Atom>&	itsTypeList;
+		const Time			itsTime;
+		const JXWidget*		itsSource;
+	};
 
 public:
 
@@ -181,71 +184,106 @@ public:
 
 	static const JUtf8Byte* kWantsToDrop;
 	static const JUtf8Byte* kHandleDrop;
+	static const JUtf8Byte* kPrepareForResize;
+	static const JUtf8Byte* kResizeFinished;
 
 	class WantsToDrop : public DropMsg
+	{
+	public:
+
+		WantsToDrop(const JString& id,
+					const JArray<Atom>& typeList, const Atom action,
+					const Time time, const JXWidget* source)
+			:
+			DropMsg(kWantsToDrop, id, typeList, action, time, source),
+			itsAcceptedFlag(false)
+			{ };
+
+		void
+		SetAction(const Atom action)
 		{
-		public:
-
-			WantsToDrop(const JString& id,
-						const JArray<Atom>& typeList, const Atom action,
-						const Time time, const JXWidget* source)
-				:
-				DropMsg(kWantsToDrop, id, typeList, action, time, source),
-				itsAcceptedFlag(false)
-				{ };
-
-			void
-			SetAction(const Atom action)
-			{
-				itsAction = action;
-			};
-
-			bool
-			WasAccepted() const
-			{
-				return itsAcceptedFlag;
-			};
-
-			void
-			SetAccepted()
-			{
-				itsAcceptedFlag = true;
-			};
-
-		private:
-
-			bool	itsAcceptedFlag;
+			itsAction = action;
 		};
+
+		bool
+		WasAccepted() const
+		{
+			return itsAcceptedFlag;
+		};
+
+		void
+		SetAccepted()
+		{
+			itsAcceptedFlag = true;
+		};
+
+	private:
+
+		bool	itsAcceptedFlag;
+	};
 
 	class HandleDrop : public DropMsg
+	{
+	public:
+
+		HandleDrop(const JString& id,
+				   const JArray<Atom>& typeList, const Atom action,
+				   const Time time, const JXWidget* source)
+			:
+			DropMsg(kHandleDrop, id, typeList, action, time, source),
+			itsProcessedFlag(false)
+			{ };
+
+		bool
+		WasProcessed() const
 		{
-		public:
-
-			HandleDrop(const JString& id,
-					   const JArray<Atom>& typeList, const Atom action,
-					   const Time time, const JXWidget* source)
-				:
-				DropMsg(kHandleDrop, id, typeList, action, time, source),
-				itsProcessedFlag(false)
-				{ };
-
-			bool
-			WasProcessed() const
-			{
-				return itsProcessedFlag;
-			};
-
-			void
-			SetProcessed()
-			{
-				itsProcessedFlag = true;
-			};
-
-		private:
-
-			bool	itsProcessedFlag;
+			return itsProcessedFlag;
 		};
+
+		void
+		SetProcessed()
+		{
+			itsProcessedFlag = true;
+		};
+
+	private:
+
+		bool	itsProcessedFlag;
+	};
+
+	class PrepareForResize : public JBroadcaster::Message
+	{
+	public:
+
+		PrepareForResize()
+			:
+			JBroadcaster::Message(kPrepareForResize)
+			{ };
+	};
+
+	class ResizeFinished : public JBroadcaster::Message
+	{
+	public:
+
+		ResizeFinished()
+			:
+			JBroadcaster::Message(kResizeFinished)
+			{ };
+	};
 };
+
+
+/******************************************************************************
+ IsEmpty (public)
+
+ ******************************************************************************/
+
+inline bool
+JXToolBar::IsEmpty()
+	const
+{
+	return itsButtons->IsEmpty();
+}
 
 /******************************************************************************
  GetWidgetEnclosure (public)

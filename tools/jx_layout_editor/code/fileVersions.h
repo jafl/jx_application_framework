@@ -17,7 +17,7 @@ const JFileVersion kCurrentFileVersion = 6;
 // version 6:
 //	adds itsMonospaceFlag and itsHint to InputField
 // version 5:
-//	adds itsAlreadyLocalVarFlag to BaseWidget
+//	adds itsAlreadyLocalVarFlag to LayoutWidget
 // version 4:
 //	adds itsType to ImageWidget
 // version 3:

@@ -1,7 +1,7 @@
 /******************************************************************************
  TextRadioButton.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = LayoutWidget
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -37,7 +37,7 @@ TextRadioButton::TextRadioButton
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	LayoutWidget(false, layout, hSizing, vSizing, x,y, w,h),
 	itsLabel(JGetString("DefaultLabel::TextRadioButton"))
 {
 }
@@ -56,7 +56,7 @@ TextRadioButton::TextRadioButton
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h),
+	LayoutWidget(false, layout, hSizing, vSizing, x,y, w,h),
 	itsID(id),
 	itsLabel(label),
 	itsShortcuts(shortcuts)
@@ -76,7 +76,7 @@ TextRadioButton::TextRadioButton
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 	input >> itsID >> itsLabel >> itsShortcuts;
 }
@@ -104,7 +104,7 @@ TextRadioButton::StreamOut
 {
 	output << JString("TextRadioButton") << std::endl;
 
-	BaseWidget::StreamOut(output);
+	LayoutWidget::StreamOut(output);
 
 	output << itsID << std::endl;
 	output << itsLabel << std::endl;
@@ -120,7 +120,7 @@ JString
 TextRadioButton::ToString()
 	const
 {
-	JString s = BaseWidget::ToString();
+	JString s = LayoutWidget::ToString();
 
 	s += JString::newline;
 	s += JGetString("IDLabel::TextRadioButton");
@@ -129,7 +129,7 @@ TextRadioButton::ToString()
 	if (!itsShortcuts.IsEmpty())
 	{
 		s += JString::newline;
-		s += JGetString("ShortcutsLabel::BaseWidget");
+		s += JGetString("ShortcutsLabel::LayoutWidget");
 		s += itsShortcuts;
 	}
 	return s;
@@ -235,7 +235,7 @@ TextRadioButton::PrintConfiguration
 	}
 	else
 	{
-		BaseWidget::PrintConfiguration(output, indent, varName, stringdb);
+		LayoutWidget::PrintConfiguration(output, indent, varName, stringdb);
 	}
 }
 

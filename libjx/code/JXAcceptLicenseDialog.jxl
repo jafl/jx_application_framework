@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 6
 510
 570
 "JXLayout"
@@ -17,6 +17,21 @@ jx_layout_editor 5
 0
 0
 0
+
+1
+1
+"CustomWidget"
+2
+2
+0 0 485 455
+"text"
+0
+0
+0
+"JXStaticText"
+"JGetString(\"LICENSE\"), true, false, true, scrollbarSet"
+0
+""
 
 1
 0

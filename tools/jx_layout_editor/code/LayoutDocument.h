@@ -15,7 +15,7 @@ class JXMenuBar;
 class JXTextMenu;
 class JXToolBar;
 class LayoutContainer;
-class BaseWidget;
+class LayoutWidget;
 
 class LayoutDocument : public JXFileDocument
 {
@@ -29,6 +29,7 @@ public:
 	~LayoutDocument() override;
 
 	const JString&	GetName() const override;
+	void			Activate() override;
 
 	LayoutContainer*	GetLayoutContainer() const;
 
@@ -44,6 +45,7 @@ protected:
 private:
 
 	mutable JString	itsDocName;		// so GetName() can return JString&
+	JString			itsSavedState;	// for show/hide toolbar
 
 	JXTextMenu*	itsFileMenu;
 	JXTextMenu*	itsPrefsMenu;

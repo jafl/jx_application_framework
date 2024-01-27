@@ -1,7 +1,7 @@
 /******************************************************************************
  CoreWidget.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = LayoutWidget
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -28,7 +28,7 @@ CoreWidget::CoreWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(wantsInput, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(wantsInput, layout, hSizing, vSizing, x,y, w,h)
 {
 }
 
@@ -45,7 +45,7 @@ CoreWidget::CoreWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 }
 

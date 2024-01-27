@@ -13,7 +13,7 @@
 class JPoint;
 class JRect;
 class LayoutContainer;
-class BaseWidget;
+class LayoutWidget;
 
 class LayoutSelection : public JXSelectionData
 {

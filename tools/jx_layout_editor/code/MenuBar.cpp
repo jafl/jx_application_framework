@@ -1,7 +1,7 @@
 /******************************************************************************
  MenuBar.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = LayoutWidget
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -28,7 +28,7 @@ MenuBar::MenuBar
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(false, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(false, layout, hSizing, vSizing, x,y, w,h)
 {
 	MenuBarX(layout);
 }
@@ -46,7 +46,7 @@ MenuBar::MenuBar
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 	MenuBarX(layout);
 }
@@ -85,7 +85,7 @@ MenuBar::StreamOut
 {
 	output << JString("MenuBar") << std::endl;
 
-	BaseWidget::StreamOut(output);
+	LayoutWidget::StreamOut(output);
 }
 
 /******************************************************************************

@@ -393,6 +393,7 @@ MustSaveSameOnComputer::JXDSSSelection	"You cannot save the file on a different 
 
 # JXPGDirectorBase
 
+WindowTitle::JXPGDirectorBase				"Progress"
 CannotQuitWhileRunning::JXPGDirectorBase	"You cannot quit while this process is running."
 
 # JXPGMessageDirector

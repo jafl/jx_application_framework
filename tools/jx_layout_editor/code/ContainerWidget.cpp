@@ -1,7 +1,7 @@
 /******************************************************************************
  ContainerWidget.cpp
 
-	BASE CLASS = BaseWidget
+	BASE CLASS = LayoutWidget
 
 	Copyright (C) 2023 by John Lindal.
 
@@ -28,7 +28,7 @@ ContainerWidget::ContainerWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(wantsInput, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(wantsInput, layout, hSizing, vSizing, x,y, w,h)
 {
 	ContainerWidgetX(layout);
 }
@@ -46,7 +46,7 @@ ContainerWidget::ContainerWidget
 	const JCoordinate	h
 	)
 	:
-	BaseWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 	ContainerWidgetX(layout);
 }
@@ -131,5 +131,5 @@ ContainerWidget::DrawOver
 	)
 {
 	itsLayout->SetHint(ToString());
-	BaseWidget::DrawOver(p, rect);
+	LayoutWidget::DrawOver(p, rect);
 }

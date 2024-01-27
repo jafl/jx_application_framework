@@ -132,7 +132,7 @@ TextCheckbox::ToString()
 	if (!itsShortcuts.IsEmpty())
 	{
 		s += JString::newline;
-		s += JGetString("ShortcutsLabel::BaseWidget");
+		s += JGetString("ShortcutsLabel::LayoutWidget");
 		s += itsShortcuts;
 	}
 	return s;

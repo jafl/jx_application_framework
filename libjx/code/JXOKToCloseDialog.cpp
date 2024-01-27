@@ -67,9 +67,9 @@ JXOKToCloseDialog::BuildWindow
 	icon->SetImage(GetDisplay()->GetImageCache()->GetImage(jx_un_warning), false);
 
 	auto* text =
-		jnew JXStaticText(JString::empty, window,
+		jnew JXStaticText(JString::empty, true, false, false, nullptr, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,20, 250,50);
-	text->SetToLabel(false);
+	assert( text != nullptr );
 
 	itsDiscardButton =
 		jnew JXTextButton(JGetString("itsDiscardButton::JXOKToCloseDialog::JXLayout"), window,

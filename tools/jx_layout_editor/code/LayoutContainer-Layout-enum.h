@@ -9,6 +9,10 @@ enum {
 	kEditConfigCmd=1,
 	kSelectParentCmd,
 	kCreateHintIndex,
+	kDecreaseWidthIndex,
+	kIncreaseWidthIndex,
+	kDecreaseHeightIndex,
+	kIncreaseHeightIndex,
 };
 
 #endif

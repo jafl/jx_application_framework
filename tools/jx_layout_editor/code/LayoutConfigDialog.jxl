@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 6
 460
 240
 "JXLayout"
@@ -53,6 +53,8 @@ jx_layout_editor 5
 "The code tag must be a valid C++ identifier."
 0
 0
+0
+""
 
 1
 1
@@ -86,6 +88,8 @@ jx_layout_editor 5
 ""
 0
 0
+0
+""
 
 1
 1
@@ -184,6 +188,8 @@ jx_layout_editor 5
 ""
 0
 0
+0
+""
 
 1
 1
@@ -217,6 +223,8 @@ jx_layout_editor 5
 ""
 0
 0
+0
+""
 
 1
 1

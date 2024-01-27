@@ -1,6 +1,5 @@
 0
 cancelButton::JXVarLenPGDirector::JXLayout "Cancel"
-WindowTitle::JXVarLenPGDirector::JXLayout "Progress"
 cancelButton::shortcuts::JXVarLenPGDirector::JXLayout "^[^C"
 
 

@@ -64,8 +64,10 @@ const JUtf8Byte* JXToolBar::kIgnorePrefix = "__";
 
 // JBroadcaster message types
 
-const JUtf8Byte* JXToolBar::kWantsToDrop = "WantsToDrop::JXToolBar";
-const JUtf8Byte* JXToolBar::kHandleDrop  = "HandleDrop::JXToolBar";
+const JUtf8Byte* JXToolBar::kWantsToDrop      = "WantsToDrop::JXToolBar";
+const JUtf8Byte* JXToolBar::kHandleDrop       = "HandleDrop::JXToolBar";
+const JUtf8Byte* JXToolBar::kPrepareForResize = "PrepareForResize::JXToolBar";
+const JUtf8Byte* JXToolBar::kResizeFinished   = "ResizeFinished::JXToolBar";
 
 /******************************************************************************
  Constructor
@@ -96,6 +98,7 @@ JXToolBar::JXToolBar
 	itsWasShowingButtons(false),
 	itsButtonType(JXToolBarButton::kImage),
 	itsLoadedPrefs(false),
+	itsResizeCount(0),
 	itsUpgradeFn(nullptr)
 {
 	assert(h >= 40);
@@ -672,18 +675,6 @@ JXToolBar::FindItemAndAdd
 }
 
 /******************************************************************************
- IsEmpty (public)
-
- ******************************************************************************/
-
-bool
-JXToolBar::IsEmpty()
-	const
-{
-	return itsButtons->IsEmpty();
-}
-
-/******************************************************************************
  AdjustToolBarGeometry (public)
 
  ******************************************************************************/
@@ -693,6 +684,8 @@ JXToolBar::AdjustToolBarGeometry()
 {
 	if (itsIsShowingButtons)
 	{
+		SendPrepareForResize();
+
 		RevertBar();
 
 		itsNextButtonPosition	= kButConBuffer;
@@ -709,6 +702,8 @@ JXToolBar::AdjustToolBarGeometry()
 
 		itsToolBarEnclosure->Place(0,itsToolBarSet->GetBoundsHeight());
 		itsToolBarEnclosure->SetSize(GetBoundsWidth(), GetBoundsHeight() - itsToolBarSet->GetBoundsHeight());
+
+		SendResizeFinished();
 	}
 }
 
@@ -908,6 +903,8 @@ JXToolBar::ShowToolBar
 {
 	if (show && !itsIsShowingButtons)
 	{
+		SendPrepareForResize();
+
 		itsToolBarSet->Show();
 		itsIsShowingButtons = true;
 		AdjustWindowMinSize();
@@ -919,9 +916,13 @@ JXToolBar::ShowToolBar
 		{
 			itsTimerTask->Start();
 		}
+
+		SendResizeFinished();
 	}
 	else if (!show && itsIsShowingButtons)
 	{
+		SendPrepareForResize();
+
 		itsToolBarSet->Hide();
 		itsIsShowingButtons = false;
 		AdjustWindowMinSize();
@@ -930,6 +931,40 @@ JXToolBar::ShowToolBar
 		itsToolBarEnclosure->SetSize(GetBoundsWidth(), GetBoundsHeight());
 
 		itsTimerTask->Stop();
+
+		SendResizeFinished();
+	}
+}
+
+/******************************************************************************
+ SendPrepareForResize (private)
+
+ ******************************************************************************/
+
+void
+JXToolBar::SendPrepareForResize()
+{
+	if (itsResizeCount == 0)
+	{
+		Broadcast(PrepareForResize());
+	}
+	itsResizeCount++;
+}
+
+/******************************************************************************
+ SendResizeFinished (private)
+
+ ******************************************************************************/
+
+void
+JXToolBar::SendResizeFinished()
+{
+	assert( itsResizeCount > 0 );
+
+	itsResizeCount--;
+	if (itsResizeCount == 0)
+	{
+		Broadcast(ResizeFinished());
 	}
 }
 

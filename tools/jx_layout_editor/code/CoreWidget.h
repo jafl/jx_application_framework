@@ -8,9 +8,9 @@
 #ifndef _H_CoreWidget
 #define _H_CoreWidget
 
-#include "BaseWidget.h"
+#include "LayoutWidget.h"
 
-class CoreWidget : public BaseWidget
+class CoreWidget : public LayoutWidget
 {
 public:
 

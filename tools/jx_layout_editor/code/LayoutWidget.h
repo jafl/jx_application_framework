@@ -1,12 +1,12 @@
 /******************************************************************************
- BaseWidget.h
+ LayoutWidget.h
 
 	Copyright (C) 2023 by John Lindal.
 
  ******************************************************************************/
 
-#ifndef _H_BaseWidget
-#define _H_BaseWidget
+#ifndef _H_LayoutWidget
+#define _H_LayoutWidget
 
 #include <jx-af/jx/JXWidget.h>
 
@@ -14,20 +14,20 @@ class JStringManager;
 class LayoutContainer;
 class WidgetParametersDialog;
 
-class BaseWidget : public JXWidget
+class LayoutWidget : public JXWidget
 {
 public:
 
-	BaseWidget(const bool wantsInput, LayoutContainer* layout,
-				const HSizingOption hSizing, const VSizingOption vSizing,
-				const JCoordinate x, const JCoordinate y,
-				const JCoordinate w, const JCoordinate h);
-	BaseWidget(std::istream& input, const JFileVersion vers, LayoutContainer* layout,
-				const HSizingOption hSizing, const VSizingOption vSizing,
-				const JCoordinate x, const JCoordinate y,
-				const JCoordinate w, const JCoordinate h);
+	LayoutWidget(const bool wantsInput, LayoutContainer* layout,
+				 const HSizingOption hSizing, const VSizingOption vSizing,
+				 const JCoordinate x, const JCoordinate y,
+				 const JCoordinate w, const JCoordinate h);
+	LayoutWidget(std::istream& input, const JFileVersion vers, LayoutContainer* layout,
+				 const HSizingOption hSizing, const VSizingOption vSizing,
+				 const JCoordinate x, const JCoordinate y,
+				 const JCoordinate w, const JCoordinate h);
 
-	~BaseWidget() override;
+	~LayoutWidget() override;
 
 	virtual void	StreamOut(std::ostream& output) const;
 
@@ -155,7 +155,7 @@ private:
 
 private:
 
-	void	BaseWidgetX();
+	void	LayoutWidgetX();
 };
 
 
@@ -165,7 +165,7 @@ private:
  ******************************************************************************/
 
 inline LayoutContainer*
-BaseWidget::GetParentContainer()
+LayoutWidget::GetParentContainer()
 	const
 {
 	return itsParent;
@@ -177,7 +177,7 @@ BaseWidget::GetParentContainer()
  ******************************************************************************/
 
 inline const JString&
-BaseWidget::GetVarName
+LayoutWidget::GetVarName
 	(
 	bool* isMemberData,
 	bool* isPredeclared
@@ -190,7 +190,7 @@ BaseWidget::GetVarName
 }
 
 inline void
-BaseWidget::SetVarName
+LayoutWidget::SetVarName
 	(
 	const JString&	name,
 	const bool		isMember,
@@ -208,7 +208,7 @@ BaseWidget::SetVarName
  ******************************************************************************/
 
 inline bool
-BaseWidget::IsSelected()
+LayoutWidget::IsSelected()
 	const
 {
 	return itsSelectedFlag;
@@ -220,7 +220,7 @@ BaseWidget::IsSelected()
  ******************************************************************************/
 
 inline bool
-BaseWidget::WantsInput()
+LayoutWidget::WantsInput()
 	const
 {
 	return itsTabIndex > 0;
@@ -232,7 +232,7 @@ BaseWidget::WantsInput()
  ******************************************************************************/
 
 inline bool
-BaseWidget::GetTabIndex
+LayoutWidget::GetTabIndex
 	(
 	JIndex* i
 	)
@@ -248,7 +248,7 @@ BaseWidget::GetTabIndex
  ******************************************************************************/
 
 inline JPoint
-BaseWidget::GetDragStartPointGlobal()
+LayoutWidget::GetDragStartPointGlobal()
 	const
 {
 	return itsStartPtG;

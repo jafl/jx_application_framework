@@ -8,11 +8,11 @@
 #ifndef _H_ImageWidget
 #define _H_ImageWidget
 
-#include "BaseWidget.h"
+#include "LayoutWidget.h"
 
 class ImageChooserPanel;
 
-class ImageWidget : public BaseWidget
+class ImageWidget : public LayoutWidget
 {
 public:
 

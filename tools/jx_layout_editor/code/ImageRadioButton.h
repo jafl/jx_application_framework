@@ -8,12 +8,12 @@
 #ifndef _H_ImageRadioButton
 #define _H_ImageRadioButton
 
-#include "BaseWidget.h"
+#include "LayoutWidget.h"
 
 class RadioButtonIDPanel;
 class ImageChooserPanel;
 
-class ImageRadioButton : public BaseWidget
+class ImageRadioButton : public LayoutWidget
 {
 public:
 
