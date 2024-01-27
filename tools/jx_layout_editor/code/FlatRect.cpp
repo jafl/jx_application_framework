@@ -11,6 +11,7 @@
 #include "ColorChooserPanel.h"
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jGlobals.h>
+#include <sstream>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
