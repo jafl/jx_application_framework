@@ -26,7 +26,7 @@ main
 {
 	// Create the application object - one per program
 	JXApplication* app = 
-		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
+		jnew JXApplication(&argc, argv, kAppSignature, kAppSignature, kTutorialStringData);
 
 	// Create the window director to maintain the Hello World window
 	MenuHelloDir* mainDir = jnew MenuHelloDir(app);

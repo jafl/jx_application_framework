@@ -26,7 +26,7 @@ main
 {
 	// Create the application
 	JXApplication* app = 
-		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
+		jnew JXApplication(&argc, argv, kAppSignature, kAppSignature, kTutorialStringData);
 
 	// Create our window director
 	EditTableDir* mainDir = jnew EditTableDir(app);

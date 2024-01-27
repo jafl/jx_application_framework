@@ -26,7 +26,7 @@ main
 {
 	// Create the application object - there should only be one of these
 	JXApplication* app = 
-		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
+		jnew JXApplication(&argc, argv, kAppSignature, kAppSignature, kTutorialStringData);
 		
 	// Make sure that new succeeded
 	assert( app != nullptr );
