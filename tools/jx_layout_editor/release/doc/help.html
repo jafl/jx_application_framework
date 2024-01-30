@@ -18,7 +18,7 @@
 <ul>
 	<li><a href="#OverviewHelp">Overview</a></li>
 
-	<li><a href="#MainHelp">Main window</a></li>
+	<li><a href="#MainHelp">Layout window</a></li>
 
 	<li><a href="ChangeLog.html">Changes from previous versions</a></li>
 
@@ -30,34 +30,38 @@
 
 <hr>
 <h2><a name="OverviewHelp">Overview of JX Layout Editor</a></h2>
-</head>
 
-<p>Overview summary</p>
+<p>JX Layout Editor provides a graphical editor for layout out widgets in a window.  It replaces <code>fdesign</code> and <code>jxlayout</code>, and it can import your existing layout files.</p>
 
-<p>Shift to turn off snap-to-grid</p>
-
-<p>Create widget by meta-dragging.</p>
-
-<p>Ctrl-click to grab widget containing a nested layout.  Ctrl-double-click to configure it.</p>
-
-<p>Meta to toggle move/copy during Drag-and-Drop</p>
-
-<p>Selected widgets must all have same parent.  Cannot add widget to selection if different parent.</p>
-
-<p>Arrow keys to move selected widgets</p>
-
-<p>Meta-arrow keys to resize selected widgets</p>
-
-<p>Fixed edges marked orange.</p>
-
-<p>Multiple shortcuts: concatenate without separator, e.g., <code>^C#.</code></p>
-
-<p>Code tags must be valid C++ identifiers because they are using in string keys.</p>
 
 <hr>
-<h2><a name="MainHelp">Main Window</a></h2>
+<h2><a name="MainHelp">The Layout window</a></h2>
 
-<p>Main window explanation.</p>
+<p>When you create a new layout, you start with an empty canvas.</p>
+
+<p>Creating and placing new widgets is done by meta-dragging.  After you release the mouse button, you choose what kind of widget you want, and then you get the appropriate configuration dialog.</p>
+
+<p>All widgets need a variable name and sizing configuration.  You can specify whether the variable is a member of the class, a pre-declared variable, or a plain local variable.  The configured sizing is indicated by marking fixed edges orange in the layout window.  Additional configuration depends on the type of widget.</p>
+
+<p>Select a widget by clicking it.  If a single widget is selected, it will display drag handles for resizing.</p>
+
+<p>You can move widgets by selecting and then dragging them.  In the same window, hold down Meta to place a copy of the widget instead of moving.  In a different window, hold down Meta to move the widget instead of copying it.</p>
+
+<p>You can also move and resize widgets with the arrow keys.  Plain arrow keys shift the selected widgets.  Meta-arrow keys shift the right and bottom edges.  This enables you to adjust the sizes of multiple widgets in one operation.</p>
+
+<p>You can turn of the default snap-to-grid behavior for any operation by holding down the Shift key.</p>
+
+<p>Some widgets are containers, e.g., <code>JXWidgetSet</code>, <code>JXScrollbarSet</code>, and <code>JXToolBar</code>.  You can place widgets inside these containers just like on the main canvas.  To move the container widget itself, hold down the Control key while clicking on a blank part of its canvas.  Control-double-clicking opens the configuration dialog for the container widget.</p>
+
+<p>Note: Selected widgets must all have same parent.  You cannot add a widget to the current selection if it has a different parent.</p>
+
+<p>For widgets that support keyboard shortcuts, you can specify multiple shortcuts by concatenating them without any separator, e.g., <code>^C#.</code></p>
+
+<p>Tab order for input fields is indicated by small number tags.  You can adjust the tab order using the Increment/Decrement tab index items on the Arrange menu.</p>
+
+<p>When you save a layout, the matching source and header files will automatically be updated.  Any strings will be written to a file in the <code>strings</code> directory of the project.</p>
+
+<p>Note:  Code tags must be valid C++ identifiers because they are using in string keys.</p>
 
 </body>
 </html>
