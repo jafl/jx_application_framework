@@ -1,5 +1,0 @@
--suffix .cpp
-
-@jxlayout
-jxlayout
-literal: ${LIB_DEPS}
