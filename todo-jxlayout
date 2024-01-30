@@ -1,3 +1,7 @@
+open JXChooseFileDialog.jxl with toolbar visible
+
+-----
+
 drakon: tab group in main window
 
 leibnitz: partition in main window

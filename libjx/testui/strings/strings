@@ -157,7 +157,6 @@ MinMaxError::TestInputFieldsDialog	"Low must be less than high."
 
 FontMenuLabel::TestPopupChoiceDialog		"Font"
 FontSizeMenuLabel::TestPopupChoiceDialog	"Size"
-ImageMenuLabel::TestPopupChoiceDialog		"Icons"
 
 # TestStringTable
 

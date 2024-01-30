@@ -1,5 +1,6 @@
 0
 cancelButton::TestPopupChoiceDialog::JXLayout "Cancel"
+iconMenu::TestPopupChoiceDialog::JXLayout "Icons"
 okButton::TestPopupChoiceDialog::JXLayout "OK"
 okButton::shortcuts::TestPopupChoiceDialog::JXLayout "^M"
 WindowTitle::TestPopupChoiceDialog::JXLayout "Testing PopupChoice Menus"

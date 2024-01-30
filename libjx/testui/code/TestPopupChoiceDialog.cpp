@@ -63,29 +63,27 @@ TestPopupChoiceDialog::BuildWindow()
 	assert( sizeMenu != nullptr );
 
 	auto* iconMenu =
-		jnew JXImageMenu(JGetString("ImageMenuLabel::TestPopupChoiceDialog"), 2,window,
+		jnew JXImageMenu(JGetString("iconMenu::TestPopupChoiceDialog::JXLayout"), 2, window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,100, 190,30);
-	assert( iconMenu != nullptr );
+	iconMenu->SetPopupArrowPosition(JXMenu::kArrowAtLeft);
+	iconMenu->SetPopupArrowDirection(JXMenu::kArrowPointsUp);
 
 	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::TestPopupChoiceDialog::JXLayout"),window,
+		jnew JXTextButton(JGetString("cancelButton::TestPopupChoiceDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,140, 70,20);
 	assert( cancelButton != nullptr );
 
 	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::TestPopupChoiceDialog::JXLayout"),window,
+		jnew JXTextButton(JGetString("okButton::TestPopupChoiceDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 129,139, 72,22);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::TestPopupChoiceDialog::JXLayout"));
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::TestPopupChoiceDialog"));
 	SetButtons(okButton, cancelButton);
 
 	fontMenu->SetToPopupChoice();
-
 	sizeMenu->SetToPopupChoice();
-	sizeMenu->SetPopupArrowPosition(JXMenu::kArrowAtLeft);
 
 	// set up icon menu
 
@@ -116,7 +114,6 @@ TestPopupChoiceDialog::BuildWindow()
 
 	iconMenu->SetUpdateAction(JXMenu::kDisableNone);
 	iconMenu->SetToPopupChoice(true, 1);
-	iconMenu->SetPopupArrowDirection(JXMenu::kArrowPointsUp);
 
 	// We should actually set all the items on iconMenu to be radio buttons
 	// and then ListenTo() it so we know what the selection is, but this window
