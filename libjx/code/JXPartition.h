@@ -33,6 +33,8 @@ public:
 							  const JCoordinate minSize,
 							  JXContainer** newCompartment);
 
+	using JPartition::GetMinCompartmentSize;
+
 	bool		GetMinCompartmentSize(JXContainer* compartment, JCoordinate* minSize) const;
 	JCoordinate	GetMinCompartmentSize(JXContainer* compartment) const;
 	void		SetMinCompartmentSize(JXContainer* compartment, const JCoordinate minSize);

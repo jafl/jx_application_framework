@@ -74,7 +74,7 @@ DefaultBindingList::JFSBindingList
 \".jcc\"   \"jcc\" p F
 \".medic\" \"medic\" p T
 
-\".html\" \"firefox $q\" p T
+\".html\" \"xdg-open $q\" p T
 
 \".mws\" \"xmaple\" p F
 \".glv\" \"glove\" p F
@@ -82,8 +82,6 @@ DefaultBindingList::JFSBindingList
 \".gz\"  \"gunzip\"            p F
 \".Z\"   \"uncompress\"        p F
 \".tar\" \"tar -tf $q | less\" w T
-
-\".fd\" \"jfdesign\" p T
 
 \"^\\\\*\\\\*\\\\* Glove File Format \\\\*\\\\*\\\\*\" \"glove\" p F
 "

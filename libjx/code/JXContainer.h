@@ -43,7 +43,7 @@ public:
 
 	~JXContainer() override;
 
-	bool			IsAncestor(JXContainer* obj) const;
+	bool			IsAncestor(const JXContainer* obj) const;
 
 	virtual void	Show();					// must call inherited
 	virtual void	Hide();					// must call inherited

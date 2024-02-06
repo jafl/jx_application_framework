@@ -165,7 +165,7 @@ JXTEBase::JXTEBase
 				JColorManager::GetGrayColor(70),			// whitespace
 				GetApertureWidth()),
 
-	itsWillPasteCustomFlag( false )
+	itsWillPasteCustomFlag(false)
 {
 	itsEditMenu    = nullptr;
 	itsSearchMenu  = nullptr;

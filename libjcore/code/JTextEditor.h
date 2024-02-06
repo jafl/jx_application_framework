@@ -653,10 +653,10 @@ inline void
 JTextEditor::TEActivate()
 {
 	if (!itsActiveFlag)
-		{
+	{
 		itsActiveFlag = true;
 		TERefresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -668,10 +668,10 @@ inline void
 JTextEditor::TEDeactivate()
 {
 	if (itsActiveFlag)
-		{
+	{
 		itsActiveFlag = false;
 		TERefresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -695,10 +695,10 @@ inline void
 JTextEditor::TEActivateSelection()
 {
 	if (!itsSelActiveFlag)
-		{
+	{
 		itsSelActiveFlag = true;
 		TERefresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -710,10 +710,10 @@ inline void
 JTextEditor::TEDeactivateSelection()
 {
 	if (itsSelActiveFlag)
-		{
+	{
 		itsSelActiveFlag = false;
 		TERefresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -737,10 +737,10 @@ inline void
 JTextEditor::TEShowCaret()
 {
 	if (!itsCaretVisibleFlag)
-		{
+	{
 		itsCaretVisibleFlag = true;
 		TERefreshCaret(itsCaret);
-		}
+	}
 }
 
 /******************************************************************************
@@ -752,10 +752,10 @@ inline void
 JTextEditor::TEHideCaret()
 {
 	if (itsCaretVisibleFlag)
-		{
+	{
 		itsCaretVisibleFlag = false;
 		TERefreshCaret(itsCaret);
-		}
+	}
 }
 
 /******************************************************************************
@@ -852,11 +852,11 @@ inline void
 JTextEditor::SelectAll()
 {
 	if (!itsText->GetText().IsEmpty())
-		{
+	{
 		SetSelection(JStyledText::TextRange(
 			JCharacterRange(1, itsText->GetText().GetCharacterCount()),
 			JUtf8ByteRange( 1, itsText->GetText().GetByteCount())));
-		}
+	}
 }
 
 /******************************************************************************
@@ -878,10 +878,10 @@ JTextEditor::SetDefaultTabWidth
 	)
 {
 	if (width != itsDefTabWidth)
-		{
+	{
 		itsDefTabWidth = width;
 		RecalcAll();
-		}
+	}
 }
 
 /******************************************************************************
@@ -920,10 +920,10 @@ JTextEditor::ShouldShowWhitespace
 	)
 {
 	if (show != itsDrawWhitespaceFlag)
-		{
+	{
 		itsDrawWhitespaceFlag = show;
 		TERefresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -945,10 +945,10 @@ JTextEditor::ShouldAlwaysShowSelection
 	)
 {
 	if (show != itsAlwaysShowSelectionFlag)
-		{
+	{
 		itsAlwaysShowSelectionFlag = show;
 		TERefresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1120,10 +1120,10 @@ JTextEditor::SetBreakCROnly
 	)
 {
 	if (breakCROnly != itsBreakCROnlyFlag)
-		{
+	{
 		PrivateSetBreakCROnly(breakCROnly);
 		RecalcAll();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1278,16 +1278,16 @@ JTextEditor::GetLineHeight
 	const
 {
 	if (lineIndex == itsLineGeom->GetItemCount()+1 && itsText->EndsWithNewline())
-		{
+	{
 		return itsText->CalcInsertionFont(itsText->SelectAll().GetAfter()).GetLineHeight(itsFontManager);
-		}
+	}
 	else
-		{
+	{
 		JRunArrayIterator iter(*itsLineGeom, JListT::kStartBefore, lineIndex);
 		LineGeometry geom;
 		iter.Next(&geom);
 		return geom.height;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1419,10 +1419,10 @@ JTextEditor::SetCaretColor
 	)
 {
 	if (color != itsCaretColor)
-		{
+	{
 		itsCaretColor = color;
 		TERefreshCaret(itsCaret);
-		}
+	}
 }
 
 inline JColorID
@@ -1439,13 +1439,13 @@ JTextEditor::SetSelectionColor
 	)
 {
 	if (color != itsSelectionColor)
-		{
+	{
 		itsSelectionColor = color;
 		if (!itsSelection.IsEmpty())
-			{
+		{
 			TERefresh();
-			}
 		}
+	}
 }
 
 inline JColorID
@@ -1462,13 +1462,13 @@ JTextEditor::SetSelectionOutlineColor
 	)
 {
 	if (color != itsSelectionOutlineColor)
-		{
+	{
 		itsSelectionOutlineColor = color;
 		if (!itsSelection.IsEmpty())
-			{
+		{
 			TERefresh();
-			}
 		}
+	}
 }
 
 inline JColorID
@@ -1485,10 +1485,10 @@ JTextEditor::SetWhitespaceColor
 	)
 {
 	if (color != itsWhitespaceColor)
-		{
+	{
 		itsWhitespaceColor = color;
 		TERefresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1501,16 +1501,16 @@ JTextEditor::GetCurrentFont()
 	const
 {
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		JRunArrayIterator iter(itsText->GetStyles(), JListT::kStartBefore, itsSelection.charRange.first);
 		JFont f;
 		iter.Next(&f);
 		return f;
-		}
+	}
 	else
-		{
+	{
 		return itsInsertionFont;
-		}
+	}
 }
 
 /******************************************************************************
@@ -1525,15 +1525,15 @@ JTextEditor::SetCurrentFontName
 	)
 {
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontName(itsSelection, name, false);
 		SetSelection(r);
-		}
+	}
 	else
-		{
+	{
 		itsInsertionFont.SetName(name);
-		}
+	}
 }
 
 inline void
@@ -1543,15 +1543,15 @@ JTextEditor::SetCurrentFontSize
 	)
 {
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontSize(itsSelection, size, false);
 		SetSelection(r);
-		}
+	}
 	else
-		{
+	{
 		itsInsertionFont.SetSize(size);
-		}
+	}
 }
 
 inline void
@@ -1561,15 +1561,15 @@ JTextEditor::SetCurrentFontBold
 	)
 {
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontBold(itsSelection, bold, false);
 		SetSelection(r);
-		}
+	}
 	else
-		{
+	{
 		itsInsertionFont.SetBold(bold);
-		}
+	}
 }
 
 inline void
@@ -1579,15 +1579,15 @@ JTextEditor::SetCurrentFontItalic
 	)
 {
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontItalic(itsSelection, italic, false);
 		SetSelection(r);
-		}
+	}
 	else
-		{
+	{
 		itsInsertionFont.SetItalic(italic);
-		}
+	}
 }
 
 inline void
@@ -1597,15 +1597,15 @@ JTextEditor::SetCurrentFontUnderline
 	)
 {
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontUnderline(itsSelection, count, false);
 		SetSelection(r);
-		}
+	}
 	else
-		{
+	{
 		itsInsertionFont.SetUnderlineCount(count);
-		}
+	}
 }
 
 inline void
@@ -1615,15 +1615,15 @@ JTextEditor::SetCurrentFontStrike
 	)
 {
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontStrike(itsSelection, strike, false);
 		SetSelection(r);
-		}
+	}
 	else
-		{
+	{
 		itsInsertionFont.SetStrike(strike);
-		}
+	}
 }
 
 inline void
@@ -1633,15 +1633,15 @@ JTextEditor::SetCurrentFontColor
 	)
 {
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontColor(itsSelection, color, false);
 		SetSelection(r);
-		}
+	}
 	else
-		{
+	{
 		itsInsertionFont.SetColor(color);
-		}
+	}
 }
 
 inline void
@@ -1651,15 +1651,15 @@ JTextEditor::SetCurrentFontStyle
 	)
 {
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFontStyle(itsSelection, style, false);
 		SetSelection(r);
-		}
+	}
 	else
-		{
+	{
 		itsInsertionFont.SetStyle(style);
-		}
+	}
 }
 
 inline void
@@ -1669,15 +1669,15 @@ JTextEditor::SetCurrentFont
 	)
 {
 	if (!itsSelection.IsEmpty())
-		{
+	{
 		const JStyledText::TextRange r = itsSelection;
 		itsText->SetFont(itsSelection, f, false);
 		SetSelection(r);
-		}
+	}
 	else
-		{
+	{
 		itsInsertionFont = f;
-		}
+	}
 }
 
 /******************************************************************************

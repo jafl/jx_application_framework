@@ -188,11 +188,11 @@ JXContainer::TurnOnBufferedDrawing()
 bool
 JXContainer::IsAncestor
 	(
-	JXContainer* obj
+	const JXContainer* obj
 	)
 	const
 {
-	JXContainer* encl = obj->itsEnclosure;
+	const JXContainer* encl = obj->itsEnclosure;
 	while (true)
 	{
 		if (encl == this)

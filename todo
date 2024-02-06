@@ -1,3 +1,18 @@
+multi-pane editing
+
+	TextEditor::WriteSetup + keyHandler +
+	breakCROnly, drawWhitespace, alwaysShowSelection,
+	caretMode, caret, insertionFont, selection,
+	share menus
+
+	CBTextDocument owns JXStyledText
+	use partitions to show multiple views
+		double appropriate window dimension, if screen has space
+	each partition needs small [x] to close
+	small [+] buttons to split either horiz or vert
+
+-----
+
 jcc
 	search text dialog: remove file list, more space for separator above directory
 
@@ -78,13 +93,6 @@ jcc
 
 Fedora 27 window manager
 	JXWindow does not analyze correctly
-
-multi-pane editing
-	CBTextDocument owns JXStyledText
-	use partitions to show multiple views
-		double appropriate window dimension, if screen has space
-	each partition needs small [x] to close
-	small [+] buttons to split either horiz or vert
 
 JPrefsManager
 	Atomic lock around SaveToDisk(), etc. in case multiple instances try writing

@@ -26,7 +26,7 @@ public:
 	JSize	GetCompartmentCount() const;
 
 	JCoordinate	GetCompartmentSize(const JIndex index) const;
-	bool	SetCompartmentSize(const JIndex index, const JCoordinate reqSize);
+	bool		SetCompartmentSize(const JIndex index, const JCoordinate reqSize);
 
 	const JArray<JCoordinate>&	GetCompartmentSizes() const;
 	void						SetCompartmentSizes(const JArray<JCoordinate>& sizes);
