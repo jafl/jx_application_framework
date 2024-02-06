@@ -25,7 +25,8 @@ public:
 
 	~ContainerWidget() override;
 
-	bool	GetLayoutContainer(LayoutContainer** layout) const override;
+	bool	GetLayoutContainer(const JIndex index, LayoutContainer** layout) const override;
+	bool	GetLayoutContainerIndex(const LayoutWidget* widget, JIndex* index) const override;
 
 protected:
 

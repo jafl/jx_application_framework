@@ -1,7 +1,8 @@
-jx_layout_editor 1
+jx_layout_editor 6
 460
 130
 "Panel"
+""
 ""
 "window"
 0
@@ -15,6 +16,7 @@ jx_layout_editor 1
 "container"
 0
 0
+0
 
 1
 1
@@ -23,6 +25,7 @@ jx_layout_editor 1
 0
 10 20 30 100
 "classNameLabel"
+0
 0
 0
 "Class name:"
@@ -44,11 +47,14 @@ jx_layout_editor 1
 0
 0
 0
+0
 ""
 ""
 ""
 0
 0
+0
+""
 
 1
 1
@@ -57,6 +63,7 @@ jx_layout_editor 1
 0
 39 20 59 100
 "constructorArgsLabel"
+0
 0
 0
 "Ctor args:"
@@ -78,11 +85,14 @@ jx_layout_editor 1
 0
 0
 0
+0
 ""
 ""
 ""
 0
 0
+0
+""
 
 1
 1
@@ -91,6 +101,7 @@ jx_layout_editor 1
 0
 70 20 90 100
 "dependencyLabel"
+0
 0
 0
 "Depends on:"
@@ -112,11 +123,14 @@ jx_layout_editor 1
 0
 0
 0
-"^[_a-z][_a-z0-9,]+$"
+0
+"^[_a-z][_a-z0-9:,]+$"
 "i"
 "The dependencies must be valid C++ identifiers, separated by commas."
 0
 0
+0
+""
 
 1
 1
@@ -126,6 +140,7 @@ jx_layout_editor 1
 100 20 120 180
 "itsWantsInputCB"
 1
+0
 0
 "Wants keyboard input"
 "#K"
@@ -138,6 +153,7 @@ jx_layout_editor 1
 100 280 120 440
 "itsNeedsCreateCB"
 1
+0
 0
 "Construct via Create()"
 "#O"

@@ -216,6 +216,26 @@ jx_menu_editor 0
 1
 0
 0 ""
+"Horizontal partition"
+""
+' 
+"__HorizontalPartition"
+"kHorizPartitionIndex"
+0
+
+1
+0
+0 ""
+"Vertical partition"
+""
+' 
+"__VerticalPartition"
+"kVertPartitionIndex"
+0
+
+1
+0
+0 ""
 "Widget set"
 ""
 ' 

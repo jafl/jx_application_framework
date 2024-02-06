@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 6
 460
 40
 "Panel"
@@ -48,10 +48,12 @@ jx_layout_editor 5
 1
 0
 0
-"^([_a-z][_a-z0-9]+|[1-9][0-9]*)$"
+"^([_a-z][_a-z0-9:]+|[1-9][0-9]*)$"
 "i"
 "The radio button's id must be either a number or a valid C++ identifier."
 0
 1
+0
+""
 
 0

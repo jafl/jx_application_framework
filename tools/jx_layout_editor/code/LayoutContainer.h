@@ -63,7 +63,7 @@ public:
 						 JPtrArray<JString>* objNames,
 						 JStringManager* stringdb) const;
 
-	JString	GetEnclosureName() const;
+	JString	GetEnclosureName(const LayoutWidget* widget) const;
 	JString	GetStringNamespace() const;
 
 	JString GenerateUniqueVarName() const;
@@ -157,8 +157,8 @@ private:
 	void	LayoutContainerX();
 
 	LayoutWidget*	ReadWidget(std::istream& input, const JFileVersion vers,
-						   LayoutContainer* defaultEnclosure,
-						   JPtrArray<LayoutWidget>* widgetList);
+							   LayoutContainer* defaultEnclosure,
+							   JPtrArray<LayoutWidget>* widgetList);
 	LayoutWidget*	CreateWidget(const JIndex index, const JRect& rect);
 
 	void	UpdateEditMenu();

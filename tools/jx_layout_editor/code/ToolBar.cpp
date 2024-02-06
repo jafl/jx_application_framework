@@ -181,7 +181,10 @@ ToolBar::GetClassName()
  ******************************************************************************/
 
 JString
-ToolBar::GetEnclosureName()
+ToolBar::GetEnclosureName
+	(
+	const LayoutWidget* widget
+	)
 	const
 {
 	bool b1, b2;

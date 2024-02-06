@@ -34,7 +34,7 @@ public:
 
 	void	StreamOut(std::ostream& output) const override;
 	JString	ToString() const override;
-	JString	GetEnclosureName() const override;
+	JString	GetEnclosureName(const LayoutWidget* widget) const override;
 
 	void	PrepareToGenerateCode() const override;
 	void	GenerateCodeFinished() const override;
@@ -53,10 +53,10 @@ protected:
 
 private:
 
-	JString				itsPrefsMgr;
-	JString				itsPrefID;
-	JString				itsMenuBar;
-	ToolBarPanel*		itsPanel;
+	JString			itsPrefsMgr;
+	JString			itsPrefID;
+	JString			itsMenuBar;
+	ToolBarPanel*	itsPanel;
 
 private:
 

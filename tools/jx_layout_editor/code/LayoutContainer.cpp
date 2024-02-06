@@ -394,6 +394,7 @@ LayoutContainer::ReadConfig
 #include "Menu.h"
 #include "MenuBar.h"
 #include "NewDirButton.h"
+#include "Partition.h"
 #include "PasswordInput.h"
 #include "PathInput.h"
 #include "ProgressIndicator.h"
@@ -411,23 +412,30 @@ LayoutContainer::ReadConfig
 LayoutWidget*
 LayoutContainer::ReadWidget
 	(
-	std::istream&			input,
-	const JFileVersion		vers,
-	LayoutContainer*		defaultEnclosure,
+	std::istream&				input,
+	const JFileVersion			vers,
+	LayoutContainer*			defaultEnclosure,
 	JPtrArray<LayoutWidget>*	widgetList
 	)
 {
 	JString className;
 	JRect frame;
 
-	JIndex parentIndex;
+	JIndex parentIndex, containerIndex = 1;
 	int hs, vs;
-	input >> parentIndex >> className >> hs >> vs >> frame;
+	input >> parentIndex;
+
+	if (vers >= 7)
+	{
+		input >> containerIndex;
+	}
+
+	input >> className >> hs >> vs >> frame;
 
 	LayoutContainer* e = defaultEnclosure;
 	if (parentIndex > 0)
 	{
-		const bool ok = widgetList->GetItem(parentIndex)->GetLayoutContainer(&e);
+		const bool ok = widgetList->GetItem(parentIndex)->GetLayoutContainer(containerIndex, &e);
 		assert( ok );
 	}
 
@@ -491,6 +499,10 @@ LayoutContainer::ReadWidget
 	else if (className == "NewDirButton")
 	{
 		widget = jnew NewDirButton(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "Partition")
+	{
+		widget = jnew Partition(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "PasswordInput")
 	{
@@ -597,6 +609,10 @@ LayoutContainer::CreateWidget
 	else if (index == kFloatInputIndex)
 	{
 		return jnew FloatInput(this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kHorizPartitionIndex)
+	{
+		return jnew Partition(Partition::kHorizType, this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kImageMenuIndex)
 	{
@@ -706,6 +722,10 @@ LayoutContainer::CreateWidget
 	{
 		return jnew ToolBar(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
+	else if (index == kVertPartitionIndex)
+	{
+		return jnew Partition(Partition::kVertType, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
 	else if (index == kWidgetSetIndex)
 	{
 		return jnew WidgetSet(this, kFixedLeft,kFixedTop, x,y,w,h);
@@ -770,8 +790,8 @@ LayoutContainer::WriteConfig
 void
 LayoutContainer::WriteWidget
 	(
-	std::ostream&			output,
-	const JXContainer*		obj,
+	std::ostream&				output,
+	const JXContainer*			obj,
 	JPtrArray<LayoutWidget>*	widgetList
 	)
 {
@@ -783,11 +803,18 @@ LayoutContainer::WriteWidget
 
 	LayoutWidget* parent = widget->GetParentContainer()->itsOwner;
 
-	JIndex parentIndex;
+	JIndex parentIndex, containerIndex = 0;
 	widgetList->Find(parent, &parentIndex);		// zero if not found; enables drag-and-drop to different layout
+
+	if (parentIndex > 0)
+	{
+		const bool ok = parent->GetLayoutContainerIndex(widget, &containerIndex);
+		assert( ok );
+	}
 
 	output << true << std::endl;
 	output << parentIndex << std::endl;
+	output << containerIndex << std::endl;
 	widget->StreamOut(output);
 	output << std::endl;
 
@@ -1008,10 +1035,13 @@ LayoutContainer::CompareLocations
  ******************************************************************************/
 
 JString
-LayoutContainer::GetEnclosureName()
+LayoutContainer::GetEnclosureName
+	(
+	const LayoutWidget* widget
+	)
 	const
 {
-	return (itsOwner != nullptr ? itsOwner->GetEnclosureName() :
+	return (itsOwner != nullptr ? itsOwner->GetEnclosureName(widget) :
 			!itsContainerName.IsEmpty() ? itsContainerName :
 			kDefaultContainerName);
 }
@@ -1428,6 +1458,10 @@ LayoutContainer::HandleMouseDown
 		itsOwner->PrepareToAcceptDrag();
 		GetDisplay()->SwitchDrag(this, origPt, buttonStates, modifiers, itsOwner);
 		return;
+	}
+	else if (GetApertureWidth() <= 0 || GetApertureHeight() <= 0)
+	{
+		return;		// e.g., JXDownRect narrow enough to make a line
 	}
 
 	JPoint pt         = origPt;
@@ -1961,6 +1995,11 @@ LayoutContainer::HandleLayoutMenu
 
 			parent = parent->GetEnclosure();
 		}
+		return;
+	}
+
+	else if (itsParent != nullptr)
+	{
 		return;
 	}
 

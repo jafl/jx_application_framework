@@ -48,7 +48,7 @@ RadioButtonIDPanel::RadioButtonIDPanel
 		jnew JXInputField(false, true, container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,10, 340,20);
 	itsIDInput->SetIsRequired();
-	itsIDInput->SetValidationPattern(jnew JRegex("^([_a-z][_a-z0-9]+|[1-9][0-9]*)$", "i"), "itsIDInput::validation::RadioButtonIDPanel::Panel");
+	itsIDInput->SetValidationPattern(jnew JRegex("^([_a-z][_a-z0-9:]+|[1-9][0-9]*)$", "i"), "itsIDInput::validation::RadioButtonIDPanel::Panel");
 
 // end Panel
 

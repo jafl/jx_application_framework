@@ -1,5 +1,5 @@
 /******************************************************************************
- ContainerWidget.cpp
+ MultiContainerWidget.cpp
 
 	BASE CLASS = LayoutWidget
 
@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include "ContainerWidget.h"
+#include "MultiContainerWidget.h"
 #include "LayoutContainer.h"
 #include <jx-af/jcore/jAssert.h>
 
@@ -16,7 +16,7 @@
 
  ******************************************************************************/
 
-ContainerWidget::ContainerWidget
+MultiContainerWidget::MultiContainerWidget
 	(
 	const bool			wantsInput,
 	LayoutContainer*	layout,
@@ -28,12 +28,13 @@ ContainerWidget::ContainerWidget
 	const JCoordinate	h
 	)
 	:
-	LayoutWidget(wantsInput, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(wantsInput, layout, hSizing, vSizing, x,y, w,h),
+	itsParent(layout)
 {
-	ContainerWidgetX(layout);
+	MultiContainerWidgetX();
 }
 
-ContainerWidget::ContainerWidget
+MultiContainerWidget::MultiContainerWidget
 	(
 	std::istream&		input,
 	const JFileVersion	vers,
@@ -46,21 +47,18 @@ ContainerWidget::ContainerWidget
 	const JCoordinate	h
 	)
 	:
-	LayoutWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
+	LayoutWidget(input, vers, layout, hSizing, vSizing, x,y, w,h),
+	itsParent(layout)
 {
-	ContainerWidgetX(layout);
+	MultiContainerWidgetX();
 }
 
 // private
 
 void
-ContainerWidget::ContainerWidgetX
-	(
-	LayoutContainer* layout
-	)
+MultiContainerWidget::MultiContainerWidgetX()
 {
-	itsLayout = jnew LayoutContainer(layout, this, this, kHElastic, kVElastic, 0,0, 100,100);
-	itsLayout->FitToEnclosure();
+	itsLayoutList = jnew JPtrArray<LayoutContainer>(JPtrArrayT::kForgetAll);
 }
 
 /******************************************************************************
@@ -68,7 +66,7 @@ ContainerWidget::ContainerWidgetX
 
  ******************************************************************************/
 
-ContainerWidget::~ContainerWidget()
+MultiContainerWidget::~MultiContainerWidget()
 {
 }
 
@@ -78,16 +76,14 @@ ContainerWidget::~ContainerWidget()
  ******************************************************************************/
 
 bool
-ContainerWidget::GetLayoutContainer
+MultiContainerWidget::GetLayoutContainer
 	(
 	const JIndex		index,
 	LayoutContainer**	layout
 	)
 	const
 {
-	assert( index == 1 );
-
-	*layout = itsLayout;
+	*layout = itsLayoutList->GetItem(index);
 	return true;
 }
 
@@ -97,15 +93,62 @@ ContainerWidget::GetLayoutContainer
  ******************************************************************************/
 
 bool
-ContainerWidget::GetLayoutContainerIndex
+MultiContainerWidget::GetLayoutContainerIndex
 	(
 	const LayoutWidget*	widget,
 	JIndex*				index
 	)
 	const
 {
-	*index = 1;
-	return widget->GetEnclosure() == itsLayout;
+	JIndex i = 1;
+	for (auto* layout : *itsLayoutList)
+	{
+		if (layout->IsAncestor(widget))
+		{
+			*index = i;
+			return true;
+		}
+		i++;
+	}
+
+	*index = 0;
+	return false;
+}
+
+/******************************************************************************
+ InsertLayoutContainer (protected)
+
+ ******************************************************************************/
+
+LayoutContainer*
+MultiContainerWidget::InsertLayoutContainer
+	(
+	const JIndex	index,
+	JXContainer*	enclosure
+	)
+{
+	auto* layout = jnew LayoutContainer(itsParent, this, enclosure, kHElastic, kVElastic, 0,0, 100,100);
+	layout->FitToEnclosure();
+
+	itsLayoutList->InsertAtIndex(index, layout);
+	return layout;
+}
+
+/******************************************************************************
+ ReceiveGoingAway (virtual protected)
+
+ ******************************************************************************/
+
+void
+MultiContainerWidget::ReceiveGoingAway
+	(
+	JBroadcaster* sender
+	)
+{
+	auto* layout = dynamic_cast<LayoutContainer*>(sender);
+	itsLayoutList->Remove(layout);
+
+	LayoutWidget::ReceiveGoingAway(sender);
 }
 
 /******************************************************************************
@@ -114,7 +157,7 @@ ContainerWidget::GetLayoutContainerIndex
  ******************************************************************************/
 
 void
-ContainerWidget::Draw
+MultiContainerWidget::Draw
 	(
 	JXWindowPainter&	p,
 	const JRect&		rect
@@ -128,7 +171,7 @@ ContainerWidget::Draw
  ******************************************************************************/
 
 void
-ContainerWidget::DrawBorder
+MultiContainerWidget::DrawBorder
 	(
 	JXWindowPainter&	p,
 	const JRect&		frame
@@ -142,12 +185,17 @@ ContainerWidget::DrawBorder
  ******************************************************************************/
 
 void
-ContainerWidget::DrawOver
+MultiContainerWidget::DrawOver
 	(
 	JXWindowPainter&	p,
 	const JRect&		rect
 	)
 {
-	itsLayout->SetHint(ToString());
+	const JString s = ToString();
+	for (auto* layout : *itsLayoutList)
+	{
+		layout->SetHint(ToString());
+	}
+
 	LayoutWidget::DrawOver(p, rect);
 }

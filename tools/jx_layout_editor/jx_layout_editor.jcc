@@ -134,6 +134,10 @@ T
 F
 "./code/ContainerWidget.cpp"
 T
+2 "MultiContainerWidget.cpp"
+F
+"./code/MultiContainerWidget.cpp"
+T
 2 "CharInput.cpp"
 F
 "./code/CharInput.cpp"
@@ -189,6 +193,10 @@ T
 2 "NewDirButton.cpp"
 F
 "./code/NewDirButton.cpp"
+T
+2 "Partition.cpp"
+F
+"./code/Partition.cpp"
 T
 2 "PasswordInput.cpp"
 F
@@ -372,6 +380,14 @@ T
 2 "MenuPanel-ArrowDirection.jxm"
 F
 "./code/MenuPanel-ArrowDirection.jxm"
+T
+2 "PartitionPanel.cpp"
+F
+"./code/PartitionPanel.cpp"
+T
+2 "PartitionPanel.jxl"
+F
+"./code/PartitionPanel.jxl"
 T
 2 "PathInputPanel.cpp"
 F

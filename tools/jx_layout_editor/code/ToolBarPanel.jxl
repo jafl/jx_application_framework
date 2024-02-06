@@ -1,7 +1,8 @@
-jx_layout_editor 1
+jx_layout_editor 6
 460
 100
 "Panel"
+""
 ""
 "window"
 0
@@ -15,6 +16,7 @@ jx_layout_editor 1
 "container"
 0
 0
+0
 
 1
 1
@@ -23,6 +25,7 @@ jx_layout_editor 1
 0
 10 20 30 120
 "prefsManagerLabel"
+0
 0
 0
 "Prefs manager:"
@@ -41,14 +44,17 @@ jx_layout_editor 1
 "itsPrefsMgrInput"
 1
 1
+0
 1
 0
 0
-"^[_a-z][_a-z0-9\\(\\)]+$"
+"^[_a-z][_a-z0-9:\\(\\)]+$"
 "i"
 "The preferences manager argument must be a valid C++ identifier or function call. "
 0
 0
+0
+""
 
 1
 1
@@ -57,6 +63,7 @@ jx_layout_editor 1
 0
 40 20 60 120
 "prefIDLabel"
+0
 0
 0
 "Pref ID:"
@@ -75,14 +82,17 @@ jx_layout_editor 1
 "itsPrefIDInput"
 1
 2
+0
 1
 0
 0
-"^[_a-z][_a-z0-9]+$"
+"^[_a-z][_a-z0-9:]+$"
 "i"
 "The preferences id argument must be a valid C++ identifier. "
 0
 0
+0
+""
 
 1
 1
@@ -91,6 +101,7 @@ jx_layout_editor 1
 0
 70 20 90 120
 "menuBarLabel"
+0
 0
 0
 "Menu bar:"
@@ -109,13 +120,16 @@ jx_layout_editor 1
 "itsMenuBarInput"
 1
 3
+0
 1
 0
 0
-"^[_a-z][_a-z0-9\\(\\)]+$"
+"^[_a-z][_a-z0-9:\\(\\)]+$"
 "i"
 "The menu bar argument must be a valid C++ identifier or function call."
 0
 0
+0
+""
 
 0

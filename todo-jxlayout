@@ -1,10 +1,13 @@
-open JXChooseFileDialog.jxl with toolbar visible
+open AboutDialog.jxl with toolbar visible - doesn't compensate correctly
+	but it does work when the window is already open
 
 -----
 
 drakon: tab group in main window
 
 leibnitz: partition in main window
+
+jcc: partitions & tab group
 
 -----
 

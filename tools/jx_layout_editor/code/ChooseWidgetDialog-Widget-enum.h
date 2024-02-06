@@ -26,6 +26,8 @@ enum {
 	kImageMenuIndex,
 	kScrollbarSetIndex,
 	kToolBarIndex,
+	kHorizPartitionIndex,
+	kVertPartitionIndex,
 	kWidgetSetIndex,
 	kSliderIndex,
 	kLevelControlIndex,

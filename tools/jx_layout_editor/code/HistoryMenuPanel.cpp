@@ -47,7 +47,7 @@ HistoryMenuPanel::HistoryMenuPanel
 	itsHistoryLengthInput =
 		jnew JXInputField(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,10, 320,20);
-	itsHistoryLengthInput->SetValidationPattern(jnew JRegex("^([_a-z][_a-z0-9]+|[1-9][0-9]*)$", "i"), "itsHistoryLengthInput::validation::HistoryMenuPanel::Panel");
+	itsHistoryLengthInput->SetValidationPattern(jnew JRegex("^([_a-z][_a-z0-9:]+|[1-9][0-9]*)$", "i"), "itsHistoryLengthInput::validation::HistoryMenuPanel::Panel");
 
 // end Panel
 

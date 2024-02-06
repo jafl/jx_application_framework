@@ -123,7 +123,10 @@ ScrollbarSet::GetClassName()
  ******************************************************************************/
 
 JString
-ScrollbarSet::GetEnclosureName()
+ScrollbarSet::GetEnclosureName
+	(
+	const LayoutWidget* widget
+	)
 	const
 {
 	bool b1, b2;

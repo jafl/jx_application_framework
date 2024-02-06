@@ -186,11 +186,31 @@ LayoutWidget::ToString()
 bool
 LayoutWidget::GetLayoutContainer
 	(
-	LayoutContainer** layout
+	const JIndex		index,
+	LayoutContainer**	layout
 	)
 	const
 {
 	*layout = nullptr;
+	return false;
+}
+
+/******************************************************************************
+ GetLayoutContainerIndex (virtual)
+
+	Some widgets can contain other widgets.
+
+ ******************************************************************************/
+
+bool
+LayoutWidget::GetLayoutContainerIndex
+	(
+	const LayoutWidget*	widget,
+	JIndex*				index
+	)
+	const
+{
+	*index = 0;
 	return false;
 }
 
@@ -273,7 +293,7 @@ LayoutWidget::GenerateCode
 	GetCtor().Print(output);
 	output << '(';
 	PrintCtorArgsWithComma(output, itsVarName, stringdb);
-	itsParent->GetEnclosureName().Print(output);
+	itsParent->GetEnclosureName(this).Print(output);
 	output << ',' << std::endl;
 
 	indent.Print(output);
@@ -382,7 +402,10 @@ LayoutWidget::PrintCtorArgsWithComma
  ******************************************************************************/
 
 JString
-LayoutWidget::GetEnclosureName()
+LayoutWidget::GetEnclosureName
+	(
+	const LayoutWidget* widget
+	)
 	const
 {
 	return itsVarName;

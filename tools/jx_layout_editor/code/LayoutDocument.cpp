@@ -58,7 +58,7 @@ LayoutDocument::Create
 		JGetString("EditLayoutNamePrompt::LayoutDocument"));
 
 	dlog->GetInputField()->SetValidationPattern(
-		jnew JRegex("^[_a-z][_a-z0-9]+$", "i"),
+		jnew JRegex("^[_a-z][_a-z0-9:]+$", "i"),
 		"LayoutNameMustBeValidIdentifier::LayoutDocument");
 
 	if (dlog->DoDialog())
@@ -1056,6 +1056,7 @@ LayoutDocument::ImportFDesignFile
 #include "Menu.h"
 #include "MenuBar.h"
 #include "NewDirButton.h"
+#include "Partition.h"
 #include "PasswordInput.h"
 #include "PathInput.h"
 #include "ProgressIndicator.h"
@@ -1235,7 +1236,7 @@ LayoutDocument::ImportFDesignLayout
 		JRect localFrame = frame;
 		if (GetFDesignEnclosure(frame, rectList, &enclIndex))
 		{
-			const bool ok = widgetList.GetItem(enclIndex)->GetLayoutContainer(&enclosure);
+			const bool ok = widgetList.GetItem(enclIndex)->GetLayoutContainer(1, &enclosure);
 			if (!ok)
 			{
 				const JUtf8Byte* map[] =
@@ -1269,8 +1270,7 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew CharInput(enclosure, hS,vS, x,y,w,h);
 		}
-		else if ((flClass == "FL_BOX"   && flType == "FL_FRAME_BOX") ||
-				 (flClass == "FL_FRAME" && flType == "FL_ENGRAVED_FRAME"))
+		else if (flClass == "FL_BOX"   && flType == "FL_FRAME_BOX")
 		{
 			widget = jnew ComplexBorderRect(ComplexBorderRect::kEngravedType, enclosure, hS,vS, x,y,w,h);
 		}
@@ -1372,7 +1372,7 @@ LayoutDocument::ImportFDesignLayout
 				label.Clear();
 			}
 
-			widget = jnew Menu(Menu::kImageType, label, colCount, enclosure, hS,vS, x,y,w,h);
+			widget = jnew Menu(Menu::kImageType, JString::empty, colCount, enclosure, hS,vS, x,y,w,h);
 		}
 		else if (label == "JXNewDirButton")
 		{
@@ -1381,6 +1381,14 @@ LayoutDocument::ImportFDesignLayout
 		else if (label == "JXMenuBar")
 		{
 			widget = jnew MenuBar(enclosure, hS,vS, x,y,w,h);
+		}
+		else if (label.StartsWith("JXHorizPartition"))
+		{
+			widget = jnew Partition(Partition::kHorizType, enclosure, hS,vS, x,y,w,h);
+		}
+		else if (label.StartsWith("JXVertPartition"))
+		{
+			widget = jnew Partition(Partition::kVertType, enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_INPUT" && flType == "FL_SECRET_INPUT")
 		{
@@ -1409,10 +1417,6 @@ LayoutDocument::ImportFDesignLayout
 		else if (flClass == "FL_BOX" && flType == "FL_DOWN_BOX")
 		{
 			widget = jnew SimpleBorderRect(SimpleBorderRect::kDownType, enclosure, hS,vS, x,y,w,h);
-		}
-		else if (flClass == "FL_FRAME" && flType == "FL_ENGRAVED_FRAME")
-		{
-			widget = jnew RadioGroup(enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_SLIDER" &&
 				 (flType == "FL_VERT_FILL_SLIDER" || flType == "FL_HOR_FILL_SLIDER"))

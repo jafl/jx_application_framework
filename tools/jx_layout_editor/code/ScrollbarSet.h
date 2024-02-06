@@ -26,7 +26,7 @@ public:
 	~ScrollbarSet() override;
 
 	void	StreamOut(std::ostream& output) const override;
-	JString	GetEnclosureName() const override;
+	JString	GetEnclosureName(const LayoutWidget* widget) const override;
 
 	void	PrepareToGenerateCode() const override;
 	void	GenerateCodeFinished() const override;

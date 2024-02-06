@@ -48,37 +48,37 @@ StaticTextPanel::StaticTextPanel
 	assert( container != nullptr );
 
 	auto* textLabel =
-		jnew JXStaticText(JGetString("textLabel::StaticTextPanel::Panel"),container,
+		jnew JXStaticText(JGetString("textLabel::StaticTextPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 40,20);
 	textLabel->SetToLabel(false);
 
 	itsLabelCB =
-		jnew JXTextCheckbox(JGetString("itsLabelCB::StaticTextPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsLabelCB::StaticTextPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,10, 60,20);
 	itsLabelCB->SetShortcuts(JGetString("itsLabelCB::shortcuts::StaticTextPanel::Panel"));
 
 	itsCenterHorizCB =
-		jnew JXTextCheckbox(JGetString("itsCenterHorizCB::StaticTextPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsCenterHorizCB::StaticTextPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 360,10, 80,20);
 	itsCenterHorizCB->SetShortcuts(JGetString("itsCenterHorizCB::shortcuts::StaticTextPanel::Panel"));
 
 	itsWordWrapCB =
-		jnew JXTextCheckbox(JGetString("itsWordWrapCB::StaticTextPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsWordWrapCB::StaticTextPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 170,20);
 	itsWordWrapCB->SetShortcuts(JGetString("itsWordWrapCB::shortcuts::StaticTextPanel::Panel"));
 
 	itsSelectableCB =
-		jnew JXTextCheckbox(JGetString("itsSelectableCB::StaticTextPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsSelectableCB::StaticTextPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,100, 90,20);
 	itsSelectableCB->SetShortcuts(JGetString("itsSelectableCB::shortcuts::StaticTextPanel::Panel"));
 
 	itsStyleableCB =
-		jnew JXTextCheckbox(JGetString("itsStyleableCB::StaticTextPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsStyleableCB::StaticTextPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 360,100, 80,20);
 	itsStyleableCB->SetShortcuts(JGetString("itsStyleableCB::shortcuts::StaticTextPanel::Panel"));
 
 	itsTextInput =
-		jnew JXInputField(container,
+		jnew JXInputField(true, true, container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,30, 420,60);
 
 // end Panel

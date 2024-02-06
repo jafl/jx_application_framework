@@ -238,7 +238,7 @@ LayoutConfigDialog::UpdateDisplay()
 
  ******************************************************************************/
 
-static const JRegex idPattern("^[_a-z][_a-z0-9]+$", "i");
+static const JRegex idPattern("^[_a-z][_a-z0-9:]+$", "i");
 
 bool
 LayoutConfigDialog::OKToDeactivate()

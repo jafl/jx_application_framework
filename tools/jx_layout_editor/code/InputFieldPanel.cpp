@@ -12,7 +12,6 @@
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXWidgetSet.h>
 #include <jx-af/jx/JXStaticText.h>
-#include <jx-af/jx/JXInputField.h>
 #include <jx-af/jx/JXIntegerInput.h>
 #include <jx-af/jx/JXRegexInput.h>
 #include <jx-af/jx/JXTextCheckbox.h>

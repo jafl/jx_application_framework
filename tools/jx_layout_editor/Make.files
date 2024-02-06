@@ -23,6 +23,7 @@
 .cpp ./code/CustomWidget
 .cpp ./code/CoreWidget
 .cpp ./code/ContainerWidget
+.cpp ./code/MultiContainerWidget
 .cpp ./code/CharInput
 .cpp ./code/ComplexBorderRect
 .cpp ./code/FileInput
@@ -37,6 +38,7 @@
 .cpp ./code/Menu
 .cpp ./code/MenuBar
 .cpp ./code/NewDirButton
+.cpp ./code/Partition
 .cpp ./code/PasswordInput
 .cpp ./code/PathInput
 .cpp ./code/ProgressIndicator
@@ -65,6 +67,7 @@
 .cpp ./code/InputFieldPanel
 .cpp ./code/IntegerInputPanel
 .cpp ./code/MenuPanel
+.cpp ./code/PartitionPanel
 .cpp ./code/PathInputPanel
 .cpp ./code/RadioButtonIDPanel
 .cpp ./code/SaveFileInputPanel

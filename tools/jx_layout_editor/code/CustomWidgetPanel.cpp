@@ -44,17 +44,17 @@ CustomWidgetPanel::CustomWidgetPanel
 	assert( container != nullptr );
 
 	auto* classNameLabel =
-		jnew JXStaticText(JGetString("classNameLabel::CustomWidgetPanel::Panel"),container,
+		jnew JXStaticText(JGetString("classNameLabel::CustomWidgetPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 80,20);
 	classNameLabel->SetToLabel(false);
 
 	auto* constructorArgsLabel =
-		jnew JXStaticText(JGetString("constructorArgsLabel::CustomWidgetPanel::Panel"),container,
+		jnew JXStaticText(JGetString("constructorArgsLabel::CustomWidgetPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,39, 80,20);
 	constructorArgsLabel->SetToLabel(false);
 
 	auto* dependencyLabel =
-		jnew JXStaticText(JGetString("dependencyLabel::CustomWidgetPanel::Panel"),container,
+		jnew JXStaticText(JGetString("dependencyLabel::CustomWidgetPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 80,20);
 	dependencyLabel->SetToLabel(false);
 
@@ -79,7 +79,7 @@ CustomWidgetPanel::CustomWidgetPanel
 	itsDependencyInput =
 		jnew JXInputField(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,70, 340,20);
-	itsDependencyInput->SetValidationPattern(jnew JRegex("^[_a-z][_a-z0-9,]+$", "i"), "itsDependencyInput::validation::CustomWidgetPanel::Panel");
+	itsDependencyInput->SetValidationPattern(jnew JRegex("^[_a-z][_a-z0-9:,]+$", "i"), "itsDependencyInput::validation::CustomWidgetPanel::Panel");
 
 // end Panel
 
@@ -87,7 +87,7 @@ CustomWidgetPanel::CustomWidgetPanel
 
 	itsClassNameInput->SetIsRequired();
 	itsClassNameInput->SetValidationPattern(
-		jnew JRegex("^[_a-z][_a-z0-9]+$", "i"),
+		jnew JRegex("^[_a-z][_a-z0-9:]+$", "i"),
 		"ClassNameMustBeValid::CustomWidgetPanel");
 	itsClassNameInput->GetText()->SetText(className);
 

@@ -115,7 +115,7 @@ WidgetParametersDialog::BuildWindow
 		jnew JXInputField(itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,20, 310,20);
 	itsVarNameInput->SetIsRequired();
-	itsVarNameInput->SetValidationPattern(jnew JRegex("^[_a-z][_a-z0-9\\[\\]]+$", "i"), "itsVarNameInput::validation::WidgetParametersDialog::JXLayout");
+	itsVarNameInput->SetValidationPattern(jnew JRegex("^[_a-z][_a-z0-9:\\[\\]]+$", "i"), "itsVarNameInput::validation::WidgetParametersDialog::JXLayout");
 
 // end JXLayout
 

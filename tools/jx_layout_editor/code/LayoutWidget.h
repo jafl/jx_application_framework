@@ -32,7 +32,8 @@ public:
 	virtual void	StreamOut(std::ostream& output) const;
 
 	LayoutContainer*	GetParentContainer() const;
-	virtual bool		GetLayoutContainer(LayoutContainer** layout) const;
+	virtual bool		GetLayoutContainer(const JIndex index, LayoutContainer** layout) const;
+	virtual bool		GetLayoutContainerIndex(const LayoutWidget* widget, JIndex* index) const;
 
 	const JString&	GetVarName(bool* isMemberData, bool* isPredeclared) const;
 	void			SetVarName(const JString& name, const bool isMember,
@@ -59,7 +60,7 @@ public:
 
 	void	PrepareToAcceptDrag();
 
-	virtual JString	GetEnclosureName() const;
+	virtual JString	GetEnclosureName(const LayoutWidget* widget) const;
 	JString	ToString() const override;
 
 protected:

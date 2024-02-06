@@ -12,8 +12,10 @@
 
 #include <jx-af/jcore/jTypes.h>
 
-const JFileVersion kCurrentFileVersion = 6;
+const JFileVersion kCurrentFileVersion = 7;
 
+// version 7:
+//	adds containerIndex after parentIndex in LayoutContaienr
 // version 6:
 //	adds itsMonospaceFlag and itsHint to InputField
 // version 5:
