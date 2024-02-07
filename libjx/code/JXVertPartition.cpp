@@ -74,9 +74,9 @@ JXVertPartition::JXVertPartition
 void
 JXVertPartition::JXVertPartitionX()
 {
-	itsDragType = kInvalidDrag;
-	SetDefaultCursor(JXGetDragHorizLineCursor(GetDisplay()));
+	itsDragType          = kInvalidDrag;
 	itsDragAllLineCursor = JXGetDragAllHorizLineCursor(GetDisplay());
+	SetDefaultCursor(JXGetDragHorizLineCursor(GetDisplay()));	// invokes JXWindow::DispatchCursor(), so must come last
 
 	itsFTCSizes    = nullptr;
 	itsFTCMinSizes = nullptr;

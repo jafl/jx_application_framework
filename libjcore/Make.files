@@ -84,6 +84,9 @@
 .cpp ./code/JTableSelection
 .cpp ./code/JTableSelectionIterator
 .cpp ./code/JStringTableData
+.cpp ./code/JBufferTableData
+.cpp ./code/JIntegerTableData
+.cpp ./code/JIntegerBufferTableData
 .cpp ./code/JFloatTableData
 .cpp ./code/JFloatBufferTableData
 .cpp ./code/JStyleTableData

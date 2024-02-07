@@ -1,7 +1,8 @@
 /******************************************************************************
- JXStringTable.cpp
+ JXIntegerTable.cpp
 
-	Draws a table of strings stored in a JStringTableData object.
+	Draws a table of numbers stored in a JIntegerTableData object
+	and buffered in a JIntegerBufferTableData object.
 
 	BASE CLASS = JXStyleTable
 
@@ -9,22 +10,23 @@
 
  ******************************************************************************/
 
-#include "JXStringTable.h"
-#include "JXInputField.h"
-#include <jx-af/jcore/JStringTableData.h>
+#include "JXIntegerTable.h"
+#include "JXIntegerInput.h"
+#include <jx-af/jcore/JIntegerTableData.h>
+#include <jx-af/jcore/JIntegerBufferTableData.h>
 #include <jx-af/jcore/JPainter.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JCoordinate kHMarginWidth = 3;
+const JCoordinate kHMarginWidth = 2;
 
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-JXStringTable::JXStringTable
+JXIntegerTable::JXIntegerTable
 	(
-	JStringTableData*	data,
+	JIntegerTableData*	data,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -39,10 +41,12 @@ JXStringTable::JXStringTable
 {
 	assert( data != nullptr );
 
-	itsStringData = data;
-	SetTableData(data);
+	itsIntegerData = data;
 
-	itsStringInputField = nullptr;
+	itsIntegerBufferData = jnew JIntegerBufferTableData(data);
+	SetTableData(itsIntegerBufferData);
+
+	itsIntegerInputField = nullptr;
 }
 
 /******************************************************************************
@@ -50,8 +54,9 @@ JXStringTable::JXStringTable
 
  ******************************************************************************/
 
-JXStringTable::~JXStringTable()
+JXIntegerTable::~JXIntegerTable()
 {
+	jdelete itsIntegerBufferData;
 }
 
 /******************************************************************************
@@ -60,7 +65,7 @@ JXStringTable::~JXStringTable()
  ******************************************************************************/
 
 void
-JXStringTable::TableDrawCell
+JXIntegerTable::TableDrawCell
 	(
 	JPainter&		p,
 	const JPoint&	cell,
@@ -76,11 +81,12 @@ JXStringTable::TableDrawCell
 		font.SetStyle(GetCellStyle(cell));
 		p.SetFont(font);
 
-		const JString& str = itsStringData->GetString(cell);
+		const JString& str = itsIntegerBufferData->GetString(cell);
 
-		JRect r = rect;
-		r.left += kHMarginWidth;
-		p.String(r, str, JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
+		JRect r  = rect;
+		r.left  += kHMarginWidth;
+		r.right -= kHMarginWidth;
+		p.String(r, str, JPainter::HAlign::kRight, JPainter::VAlign::kCenter);
 	}
 }
 
@@ -90,7 +96,7 @@ JXStringTable::TableDrawCell
  ******************************************************************************/
 
 JXInputField*
-JXStringTable::CreateXInputField
+JXIntegerTable::CreateXInputField
 	(
 	const JPoint&		cell,
 	const JCoordinate	x,
@@ -99,30 +105,30 @@ JXStringTable::CreateXInputField
 	const JCoordinate	h
 	)
 {
-	assert( itsStringInputField == nullptr );
+	assert( itsIntegerInputField == nullptr );
 
-	itsStringInputField =
-		CreateStringTableInput(cell, this, kFixedLeft, kFixedTop, x,y, w,h);
-	assert( itsStringInputField != nullptr );
+	itsIntegerInputField =
+		CreateIntegerTableInput(cell, this, kFixedLeft, kFixedTop, x,y, w,h);
+	assert( itsIntegerInputField != nullptr );
 
 	JFont font = GetFont();
 	font.SetStyle(GetCellStyle(cell));
-	itsStringInputField->SetFont(font);
+	itsIntegerInputField->SetFont(font);
 
-	itsStringInputField->GetText()->SetText(itsStringData->GetString(cell));
-	return itsStringInputField;
+	itsIntegerInputField->SetValue(itsIntegerData->GetItem(cell));
+	return itsIntegerInputField;
 }
 
 /******************************************************************************
- CreateStringTableInput (virtual protected)
+ CreateIntegerTableInput (virtual protected)
 
 	Derived class can override this to instantiate a derived class of
-	JXInputField.
+	JXIntegerInput.
 
  ******************************************************************************/
 
-JXInputField*
-JXStringTable::CreateStringTableInput
+JXIntegerInput*
+JXIntegerTable::CreateIntegerTableInput
 	(
 	const JPoint&		cell,
 	JXContainer*		enclosure,
@@ -134,7 +140,7 @@ JXStringTable::CreateStringTableInput
 	const JCoordinate	h
 	)
 {
-	auto* obj = jnew JXInputField(enclosure, hSizing, vSizing, x,y, w,h);
+	auto* obj = jnew JXIntegerInput(enclosure, hSizing, vSizing, x,y, w,h);
 	return obj;
 }
 
@@ -149,16 +155,19 @@ JXStringTable::CreateStringTableInput
  ******************************************************************************/
 
 bool
-JXStringTable::ExtractInputData
+JXIntegerTable::ExtractInputData
 	(
 	const JPoint& cell
 	)
 {
-	assert( itsStringInputField != nullptr );
+	assert( itsIntegerInputField != nullptr );
 
-	if (itsStringInputField->InputValid())
+	if (itsIntegerInputField->InputValid())
 	{
-		itsStringData->SetString(cell, itsStringInputField->GetText()->GetText());
+		JInteger value;
+		const bool valid = itsIntegerInputField->GetValue(&value);
+		assert( valid );
+		itsIntegerData->SetItem(cell, value);
 		return true;
 	}
 	else
@@ -173,7 +182,7 @@ JXStringTable::ExtractInputData
  ******************************************************************************/
 
 void
-JXStringTable::PrepareDeleteXInputField()
+JXIntegerTable::PrepareDeleteXInputField()
 {
-	itsStringInputField = nullptr;
+	itsIntegerInputField = nullptr;
 }

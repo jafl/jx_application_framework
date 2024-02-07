@@ -1,5 +1,5 @@
 /******************************************************************************
- JFloatBufferTableData.cpp
+ JIntegerBufferTableData.cpp
 
 	Class to buffer a table of numbers as JStrings so drawing the table
 	will be faster.
@@ -10,8 +10,8 @@
 
  ******************************************************************************/
 
-#include "JFloatBufferTableData.h"
-#include "JFloatTableData.h"
+#include "JIntegerBufferTableData.h"
+#include "JIntegerTableData.h"
 #include "JString.h"
 #include "jAssert.h"
 
@@ -20,15 +20,13 @@
 
  ******************************************************************************/
 
-JFloatBufferTableData::JFloatBufferTableData
+JIntegerBufferTableData::JIntegerBufferTableData
 	(
-	const JFloatTableData*	floatData,
-	const int				precision
+	const JIntegerTableData* intData
 	)
 	:
-	JBufferTableData(floatData),
-	itsFloatData(floatData),
-	itsPrecision(precision)
+	JBufferTableData(intData),
+	itsIntegerData(intData)
 {
 	UpdateRect(JRect(1, 1, GetRowCount()+1, GetColCount()+1));
 }
@@ -38,7 +36,7 @@ JFloatBufferTableData::JFloatBufferTableData
 
  ******************************************************************************/
 
-JFloatBufferTableData::~JFloatBufferTableData()
+JIntegerBufferTableData::~JIntegerBufferTableData()
 {
 }
 
@@ -48,10 +46,10 @@ JFloatBufferTableData::~JFloatBufferTableData()
  ******************************************************************************/
 
 void
-JFloatBufferTableData::UpdateCell
+JIntegerBufferTableData::UpdateCell
 	(
 	const JPoint& cell
 	)
 {
-	SetItem(cell, JString(itsFloatData->GetItem(cell), itsPrecision));
+	SetItem(cell, JString((JUInt64) itsIntegerData->GetItem(cell)));
 }

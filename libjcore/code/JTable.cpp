@@ -146,16 +146,10 @@ JTable::JTable
 	itsDefRowHeight = defRowHeight;
 	itsDefColWidth  = defColWidth;
 
-	itsRowHeights = jnew JRunArray<JCoordinate>;
-	assert( itsRowHeights != nullptr );
-
-	itsColWidths = jnew JRunArray<JCoordinate>;
-	assert( itsColWidths != nullptr );
-
-	itsTableData = nullptr;
-
+	itsRowHeights  = jnew JRunArray<JCoordinate>;
+	itsColWidths   = jnew JRunArray<JCoordinate>;
+	itsTableData   = nullptr;
 	itsAuxDataList = jnew JPtrArray<JBroadcaster>(JPtrArrayT::kForgetAll);
-	assert( itsAuxDataList != nullptr );
 
 	itsIsEditingFlag = false;
 
@@ -167,7 +161,6 @@ JTable::JTable
 	itsColHdrTable = nullptr;
 
 	itsTableSelection = jnew JTableSelection(this);		// calls RegisterAuxData()
-	assert( itsTableSelection != nullptr );
 }
 
 /******************************************************************************

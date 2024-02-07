@@ -58,6 +58,10 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 //	JImage:
 //		Fixed ReadGD() to correctly apply a mask for true color png's.
 //		Added pure virtual CreateEmptyMask().
+//	Added JIntegerTableData, JIntegerBufferTableData.
+//	Fixed bug in JFloatTableData so it works when constructed with non-empty data.
+//	Fixed derived classes of JTableData to use JListIterator, since JList
+//		no longer supports Get/SetItem().
 
 // version 4.0.0:
 //	*** Upgraded to C++20

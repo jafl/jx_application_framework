@@ -201,7 +201,7 @@ void
 JPackedTableData<T>::GetRow
 	(
 	const JIndex	index,
-	JList<T>*	rowData
+	JList<T>*		rowData
 	)
 	const
 {
@@ -212,7 +212,7 @@ JPackedTableData<T>::GetRow
 	const JSize colCount = GetColCount();
 	for (JIndex i=1; i<=colCount; i++)
 	{
-		rowData->InsertItemAtIndex(i, GetItem(index,i));
+		rowData->AppendItem(GetItem(index,i));
 	}
 }
 
@@ -225,7 +225,7 @@ template <class T>
 void
 JPackedTableData<T>::SetRow
 	(
-	const JIndex			index,
+	const JIndex	index,
 	const JList<T>&	rowData
 	)
 {
@@ -233,10 +233,16 @@ JPackedTableData<T>::SetRow
 	assert( RowIndexValid(index) );
 	assert( rowData.GetItemCount() == colCount );
 
-	for (JIndex i=1; i<=colCount; i++)
+	JListIterator<T>* iter = rowData.NewIterator();
+	T v;
+	JIndex j = 1;
+	while (iter->Next(&v))
 	{
-		itsData->SetItem(RCToI(index,i), rowData.GetItem(i));
+		itsData->SetItem(RCToI(index,j), v);
+		j++;
 	}
+	jdelete iter;
+	iter = nullptr;
 
 	Broadcast(JTableData::RectChanged(JRect(index, 1, index+1, colCount+1)));
 }
@@ -293,7 +299,7 @@ void
 JPackedTableData<T>::GetCol
 	(
 	const JIndex	index,
-	JList<T>*	colData
+	JList<T>*		colData
 	)
 	const
 {
@@ -304,7 +310,7 @@ JPackedTableData<T>::GetCol
 	const JSize rowCount = GetRowCount();
 	for (JIndex i=1; i<=rowCount; i++)
 	{
-		colData->InsertItemAtIndex(i, GetItem(i,index));
+		colData->AppendItem(GetItem(i,index));
 	}
 }
 
@@ -317,7 +323,7 @@ template <class T>
 void
 JPackedTableData<T>::SetCol
 	(
-	const JIndex			index,
+	const JIndex	index,
 	const JList<T>&	colData
 	)
 {
@@ -325,10 +331,16 @@ JPackedTableData<T>::SetCol
 	assert( ColIndexValid(index) );
 	assert( colData.GetItemCount() == rowCount );
 
-	for (JIndex i=1; i<=rowCount; i++)
+	JListIterator<T>* iter = colData.NewIterator();
+	T v;
+	JIndex i = 1;
+	while (iter->Next(&v))
 	{
-		itsData->SetItem(RCToI(i,index), colData.GetItem(i));
+		itsData->SetItem(RCToI(i,index), v);
+		i++;
 	}
+	jdelete iter;
+	iter = nullptr;
 
 	Broadcast(JTableData::RectChanged(JRect(1, index, rowCount+1, index+1)));
 }

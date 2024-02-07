@@ -15,7 +15,6 @@
 #include <jx-af/jcore/JFloatTableData.h>
 #include <jx-af/jcore/JFloatBufferTableData.h>
 #include <jx-af/jcore/JPainter.h>
-#include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kHMarginWidth = 2;
@@ -85,8 +84,9 @@ JXFloatTable::TableDrawCell
 
 		const JString& str = itsFloatBufferData->GetString(cell);
 
-		JRect r = rect;
-		r.left += kHMarginWidth;
+		JRect r  = rect;
+		r.left  += kHMarginWidth;
+		r.right -= kHMarginWidth;
 		p.String(r, str, JPainter::HAlign::kRight, JPainter::VAlign::kCenter);
 	}
 }

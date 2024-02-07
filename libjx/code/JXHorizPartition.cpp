@@ -74,9 +74,9 @@ JXHorizPartition::JXHorizPartition
 void
 JXHorizPartition::JXHorizPartitionX()
 {
-	itsDragType = kInvalidDrag;
-	SetDefaultCursor(JXGetDragVertLineCursor(GetDisplay()));
+	itsDragType          = kInvalidDrag;
 	itsDragAllLineCursor = JXGetDragAllVertLineCursor(GetDisplay());
+	SetDefaultCursor(JXGetDragVertLineCursor(GetDisplay()));	// invokes JXWindow::DispatchCursor(), so must come last
 
 	itsFTCSizes    = nullptr;
 	itsFTCMinSizes = nullptr;

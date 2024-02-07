@@ -498,6 +498,18 @@ T
 F
 "./code/JStringTableData.cpp"
 T
+2 "JBufferTableData.cpp"
+F
+"./code/JBufferTableData.cpp"
+T
+2 "JIntegerTableData.cpp"
+F
+"./code/JIntegerTableData.cpp"
+T
+2 "JIntegerBufferTableData.cpp"
+F
+"./code/JIntegerBufferTableData.cpp"
+T
 2 "JFloatTableData.cpp"
 F
 "./code/JFloatTableData.cpp"

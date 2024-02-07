@@ -277,6 +277,10 @@ T
 2 "TestSaveFileDialog.cpp"
 F
 "./code/TestSaveFileDialog.cpp"
+T
+2 "TestSaveFileDialog.jxl"
+F
+"./code/TestSaveFileDialog.jxl"
 F
 T
 1 "Images"
@@ -299,13 +303,6 @@ T
 2 "strings"
 F
 "./strings/strings"
-F
-T
-1 "layout"
-T
-2 "testjx.fd"
-F
-"./testjx.fd"
 F
 F
 # tasks

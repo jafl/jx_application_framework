@@ -124,6 +124,7 @@
 .cpp ./code/JXStyleTableMenu
 .cpp ./code/JXEditTable
 .cpp ./code/JXStringTable
+.cpp ./code/JXIntegerTable
 .cpp ./code/JXFloatTable
 .cpp ./code/JXStringList
 .cpp ./code/JXRowHeaderWidget

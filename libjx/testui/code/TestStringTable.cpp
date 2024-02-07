@@ -265,7 +265,7 @@ TestStringTable::HandleMouseDown
 		data->MoveRow(cell.y, cell.y-1);
 	}
 	else if (button == kJXRightButton && itsMouseAction == kMoveRow &&
-			 ((JIndex) cell.y) < GetRowCount())
+			 JIndex(cell.y) < GetRowCount())
 	{
 		data->MoveRow(cell.y, cell.y+1);
 	}
@@ -301,7 +301,7 @@ TestStringTable::HandleMouseDown
 		data->MoveCol(cell.x, cell.x-1);
 	}
 	else if (button == kJXRightButton && itsMouseAction == kMoveCol &&
-			 ((JIndex) cell.x) < GetColCount())
+			 JIndex(cell.x) < GetColCount())
 	{
 		data->MoveCol(cell.x, cell.x+1);
 	}

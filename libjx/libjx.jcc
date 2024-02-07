@@ -582,6 +582,10 @@ T
 F
 "./code/JXStringTable.cpp"
 T
+2 "JXIntegerTable.cpp"
+F
+"./code/JXIntegerTable.cpp"
+T
 2 "JXFloatTable.cpp"
 F
 "./code/JXFloatTable.cpp"

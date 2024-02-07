@@ -173,7 +173,7 @@ void
 JValueTableData<S,T>::GetRow
 	(
 	const JIndex	index,
-	JList<T>*	rowData
+	JList<T>*		rowData
 	)
 	const
 {
@@ -182,8 +182,7 @@ JValueTableData<S,T>::GetRow
 	const JSize colCount = GetColCount();
 	for (JIndex i=1; i<=colCount; i++)
 	{
-		const S* dataCol = itsCols->GetItem(i);
-		rowData->InsertItemAtIndex(i, dataCol->GetItem(index));
+		rowData->AppendItem(itsCols->GetItem(i)->GetItem(index));
 	}
 }
 
@@ -196,18 +195,23 @@ template <class S, class T>
 void
 JValueTableData<S,T>::SetRow
 	(
-	const JIndex			index,
+	const JIndex	index,
 	const JList<T>&	rowData
 	)
 {
 	const JSize colCount = GetColCount();
 	assert( rowData.GetItemCount() == colCount );
 
-	for (JIndex i=1; i<=colCount; i++)
+	JListIterator<T>* iter = rowData.NewIterator();
+	T v;
+	JIndex j = 1;
+	while (iter->Next(&v))
 	{
-		S* dataCol = itsCols->GetItem(i);
-		dataCol->SetItem(index, rowData.GetItem(i));
+		itsCols->GetItem(j)->SetItem(index, v);
+		j++;
 	}
+	jdelete iter;
+	iter = nullptr;
 
 	Broadcast(JTableData::RectChanged(JRect(index, 1, index+1, colCount+1)));
 }
@@ -224,17 +228,17 @@ void
 JValueTableData<S,T>::GetCol
 	(
 	const JIndex	index,
-	JList<T>*	colData
+	JList<T>*		colData
 	)
 	const
 {
 	colData->RemoveAll();
 
 	const JSize rowCount = GetRowCount();
-	const S* dataCol = itsCols->GetItem(index);
+	const S* dataCol     = itsCols->GetItem(index);
 	for (JIndex i=1; i<=rowCount; i++)
 	{
-		colData->InsertItemAtIndex(i, dataCol->GetItem(i));
+		colData->AppendItem(dataCol->GetItem(i));
 	}
 }
 
@@ -249,7 +253,7 @@ template <class S, class T>
 void
 JValueTableData<S,T>::SetCol
 	(
-	const JIndex			index,
+	const JIndex	index,
 	const JList<T>&	colData
 	)
 {
@@ -257,10 +261,17 @@ JValueTableData<S,T>::SetCol
 	assert( colData.GetItemCount() == rowCount );
 
 	S* dataCol = itsCols->GetItem(index);
-	for (JIndex i=1; i<=rowCount; i++)
+
+	JListIterator<T>* iter = colData.NewIterator();
+	T v;
+	JIndex i = 1;
+	while (iter->Next(&v))
 	{
-		dataCol->SetItem(i, colData.GetItem(i));
+		dataCol->SetItem(i, v);
+		i++;
 	}
+	jdelete iter;
+	iter = nullptr;
 
 	Broadcast(JTableData::RectChanged(JRect(1, index, rowCount+1, index+1)));
 }
@@ -543,7 +554,7 @@ template <class S, class T>
 void
 JValueTableData<S,T>::PrependCols
 	(
-	const JSize				count,
+	const JSize		count,
 	const JList<T>*	initData
 	)
 {
@@ -554,7 +565,7 @@ template <class S, class T>
 void
 JValueTableData<S,T>::AppendCols
 	(
-	const JSize				count,
+	const JSize		count,
 	const JList<T>*	initData
 	)
 {
