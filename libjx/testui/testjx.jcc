@@ -130,6 +130,10 @@ T
 F
 "./code/TestSliderDirector.cpp"
 T
+2 "TestSliderDirector.jxl"
+F
+"./code/TestSliderDirector.jxl"
+T
 2 "TestTabDirector.cpp"
 F
 "./code/TestTabDirector.cpp"
@@ -316,7 +320,7 @@ T "./" "make jx.test.skip=true -kw" "" TFTTTFF "" "" "" F
 F
 # build settings
 1
-F
+T
 "testjx"
 "${LIB_DEPS}"
 "make -k all"

@@ -1,16 +1,14 @@
 open AboutDialog.jxl with toolbar visible - doesn't compensate correctly
 	but it does work when the window is already open
 
+JXTabGroup
+
 -----
+
+testjx:
+	partitions
+	create layout for TestTabDirector
 
 drakon: tab group in main window
 
 jcc: partitions & tab group
-
------
-
-JXHorizPartition
-	# of compartments - drag to resize
-JXVertPartition
-	# of compartments - drag to resize
-JXTabGroup

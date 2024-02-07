@@ -167,7 +167,7 @@ PartitionPanel::Validate()
 	JInteger elasticIndex;
 	if (itsHasElasticIndexCB->IsChecked() &&
 		itsElasticIndexInput->GetValue(&elasticIndex) &&
-		elasticIndex > itsTable->GetRowCount())
+		JSize(elasticIndex) > itsTable->GetRowCount())
 	{
 		JGetUserNotification()->ReportError(
 			JGetString("InvalidElasticIndex::PartitionPanel"));
