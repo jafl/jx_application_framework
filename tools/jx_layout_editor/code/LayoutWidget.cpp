@@ -323,7 +323,12 @@ LayoutWidget::GenerateCode
  ******************************************************************************/
 
 void
-LayoutWidget::PrepareToGenerateCode()
+LayoutWidget::PrepareToGenerateCode
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	JStringManager*	stringdb
+	)
 	const
 {
 }
@@ -334,7 +339,12 @@ LayoutWidget::PrepareToGenerateCode()
  ******************************************************************************/
 
 void
-LayoutWidget::GenerateCodeFinished()
+LayoutWidget::GenerateCodeFinished
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	JStringManager*	stringdb
+	)
 	const
 {
 }

@@ -9,12 +9,17 @@
 
 #include "PartitionPanel.h"
 #include "WidgetParametersDialog.h"
+#include "PartitionMinSizeTable.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXWidgetSet.h>
 #include <jx-af/jx/JXStaticText.h>
-#include <jx-af/jx/JXIntegerInput.h>
+#include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXIntegerInput.h>
+#include <jx-af/jx/JXScrollbarSet.h>
 #include <jx-af/jx/JXFocusWidgetTask.h>
+#include <jx-af/jcore/JIntegerTableData.h>
+#include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -33,27 +38,77 @@ PartitionPanel::PartitionPanel
 {
 	auto* window = dlog->GetWindow();
 
+	itsData = jnew JIntegerTableData(10);
+	itsData->AppendRows(minSizes.GetItemCount());
+	itsData->AppendCols(1, &minSizes);
+
 // begin Panel
 
 	auto* container =
 		jnew JXWidgetSet(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,90);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,100);
 	assert( container != nullptr );
+
+	auto* scrollbarSet =
+		jnew JXScrollbarSet(container,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 80,80);
+	assert( scrollbarSet != nullptr );
+
+	itsAddRowButton =
+		jnew JXTextButton(JGetString("itsAddRowButton::PartitionPanel::Panel"), container,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 110,10, 70,20);
+
+	auto* hint =
+		jnew JXStaticText(JGetString("hint::PartitionPanel::Panel"), true, false, false, nullptr, container,
+					JXWidget::kFixedRight, JXWidget::kVElastic, 200,10, 250,50);
+	assert( hint != nullptr );
+
+	itsTable =
+		jnew PartitionMinSizeTable(itsData, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 80,80);
+
+	itsRemoveRowButton =
+		jnew JXTextButton(JGetString("itsRemoveRowButton::PartitionPanel::Panel"), container,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 110,40, 70,20);
 
 	itsHasElasticIndexCB =
 		jnew JXTextCheckbox(JGetString("itsHasElasticIndexCB::PartitionPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 110,20);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 200,70, 110,20);
 	itsHasElasticIndexCB->SetShortcuts(JGetString("itsHasElasticIndexCB::shortcuts::PartitionPanel::Panel"));
 
 	itsElasticIndexInput =
 		jnew JXIntegerInput(container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,10, 50,20);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 310,70, 50,20);
 	itsElasticIndexInput->SetIsRequired(false);
 	itsElasticIndexInput->SetLowerLimit(1);
 
 // end Panel
 
 	dlog->AddPanel(this, container);
+
+	hint->SetBorderWidth(0);
+
+	ListenTo(itsAddRowButton, std::function([this](const JXButton::Pushed&)
+	{
+		itsData->AppendRows(1);
+		itsTable->BeginEditing(JPoint(1, itsData->GetRowCount()));
+	}));
+
+	ListenTo(itsRemoveRowButton, std::function([this](const JXButton::Pushed&)
+	{
+		JTableSelection& s = itsTable->GetTableSelection();
+		JPoint cell;
+		if (s.GetFirstSelectedCell(&cell))
+		{
+			itsTable->CancelEditing();
+			itsData->RemoveRow(cell.y);
+		}
+	}));
+
+	ListenTo(&itsTable->GetTableSelection(), std::function([this](const JTableData::RectChanged&)
+	{
+		itsRemoveRowButton->SetActive(itsTable->GetTableSelection().HasSelection());
+	}));
 
 	if (elasticIndex > 0)
 	{
@@ -109,7 +164,16 @@ bool
 PartitionPanel::Validate()
 	const
 {
-	// todo: ensure elasticIndex < # of min sizes
+	JInteger elasticIndex;
+	if (itsHasElasticIndexCB->IsChecked() &&
+		itsElasticIndexInput->GetValue(&elasticIndex) &&
+		elasticIndex > itsTable->GetRowCount())
+	{
+		JGetUserNotification()->ReportError(
+			JGetString("InvalidElasticIndex::PartitionPanel"));
+		JXFocusWidgetTask::Focus(itsElasticIndexInput);
+		return false;
+	}
 
 	return true;
 }
@@ -126,6 +190,8 @@ PartitionPanel::GetValues
 	JIndex*					elasticIndex
 	)
 {
+	itsData->GetCol(1, minSizes);
+
 	if (itsHasElasticIndexCB->IsChecked())
 	{
 		JInteger v;

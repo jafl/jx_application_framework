@@ -5,8 +5,6 @@ open AboutDialog.jxl with toolbar visible - doesn't compensate correctly
 
 drakon: tab group in main window
 
-leibnitz: partition in main window
-
 jcc: partitions & tab group
 
 -----

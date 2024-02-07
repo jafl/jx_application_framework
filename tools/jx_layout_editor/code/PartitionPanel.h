@@ -11,8 +11,11 @@
 #include <jx-af/jcore/JBroadcaster.h>
 #include "WidgetPanelBase.h"
 
-class JXIntegerInput;
+class JIntegerTableData;
+class JXTextButton;
 class JXTextCheckbox;
+class JXIntegerInput;
+class PartitionMinSizeTable;
 
 class PartitionPanel : public WidgetPanelBase, public JBroadcaster
 {
@@ -29,10 +32,15 @@ public:
 
 private:
 
+	JIntegerTableData*	itsData;
+
 // begin Panel
 
-	JXTextCheckbox* itsHasElasticIndexCB;
-	JXIntegerInput* itsElasticIndexInput;
+	JXTextButton*          itsAddRowButton;
+	PartitionMinSizeTable* itsTable;
+	JXTextButton*          itsRemoveRowButton;
+	JXTextCheckbox*        itsHasElasticIndexCB;
+	JXIntegerInput*        itsElasticIndexInput;
 
 // end Panel
 

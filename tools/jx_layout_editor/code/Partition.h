@@ -39,7 +39,14 @@ public:
 	void	StreamOut(std::ostream& output) const override;
 	JString	GetEnclosureName(const LayoutWidget* widget) const override;
 
+	void	PrepareToGenerateCode(std::ostream& output, const JString& indent,
+								  JStringManager* stringdb) const override;
+
 protected:
+
+	bool	StealMouse(const int eventType, const JPoint& ptG,
+					   const JXMouseButton button,
+					   const unsigned int state) override;
 
 	JString	GetClassName() const override;
 	void	PrintCtorArgsWithComma(std::ostream& output,

@@ -91,6 +91,8 @@ protected:
 	void	EnclosingBoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 	void	BoundsResized(const JCoordinate dw, const JCoordinate dh) override;
 
+	void	HandleFocusEvent() override;
+
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 							const JSize clickCount,
 							const JXButtonStates& buttonStates,
@@ -170,7 +172,8 @@ private:
 	void	UpdateArrangeMenu();
 	void	HandleArrangeMenu(const JIndex index);
 
-	void	CleanupGenerateCode() const;
+	void	CleanupGenerateCode(std::ostream& output, const JString& indent,
+								JStringManager* stringdb) const;
 	void	AdjustTabOrder(JPtrArray<LayoutWidget>* list, const JInteger delta);
 
 	static std::weak_ordering

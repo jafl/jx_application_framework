@@ -139,7 +139,12 @@ ScrollbarSet::GetEnclosureName
  ******************************************************************************/
 
 void
-ScrollbarSet::PrepareToGenerateCode()
+ScrollbarSet::PrepareToGenerateCode
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	JStringManager*	stringdb
+	)
 	const
 {
 	GetLayoutContainer()->AdjustSize(kScrollbarWidth, kScrollbarWidth);
@@ -151,7 +156,12 @@ ScrollbarSet::PrepareToGenerateCode()
  ******************************************************************************/
 
 void
-ScrollbarSet::GenerateCodeFinished()
+ScrollbarSet::GenerateCodeFinished
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	JStringManager*	stringdb
+	)
 	const
 {
 	GetLayoutContainer()->AdjustSize(-kScrollbarWidth, -kScrollbarWidth);

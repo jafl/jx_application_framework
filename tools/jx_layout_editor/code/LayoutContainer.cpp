@@ -917,7 +917,7 @@ LayoutContainer::GenerateCode
 
 	JPtrArray<LayoutWidget> inputWidgets(JPtrArrayT::kForgetAll);
 	JPtrArray<LayoutWidget> otherWidgets(JPtrArrayT::kForgetAll);
-	ForEach([&inputWidgets, &otherWidgets](const JXContainer* obj)
+	ForEach([&inputWidgets, &otherWidgets, &output, &indent, &stringdb](const JXContainer* obj)
 	{
 		auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 		if (widget == nullptr)
@@ -925,7 +925,7 @@ LayoutContainer::GenerateCode
 			return;
 		}
 
-		widget->PrepareToGenerateCode();
+		widget->PrepareToGenerateCode(output, indent, stringdb);
 		if (widget->WantsInput())
 		{
 			inputWidgets.Append(const_cast<LayoutWidget*>(widget));
@@ -962,7 +962,7 @@ LayoutContainer::GenerateCode
 		{
 			JGetUserNotification()->ReportError(
 				JGetString("CircularDependency::LayoutContainer"));
-			CleanupGenerateCode();
+			CleanupGenerateCode(output, indent, stringdb);
 			return false;
 		}
 	}
@@ -987,7 +987,7 @@ LayoutContainer::GenerateCode
 		}
 	}
 
-	CleanupGenerateCode();
+	CleanupGenerateCode(output, indent, stringdb);
 
 	// reset enclosure size
 
@@ -1012,15 +1012,20 @@ LayoutContainer::GenerateCode
  ******************************************************************************/
 
 void
-LayoutContainer::CleanupGenerateCode()
+LayoutContainer::CleanupGenerateCode
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	JStringManager*	stringdb
+	)
 	const
 {
-	ForEach([](const JXContainer* obj)
+	ForEach([&output, &indent, &stringdb](const JXContainer* obj)
 	{
 		auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 		if (widget != nullptr)
 		{
-			widget->GenerateCodeFinished();
+			widget->GenerateCodeFinished(output, indent, stringdb);
 		}
 	},
 	true);
@@ -1353,6 +1358,18 @@ LayoutContainer::BoundsResized
 }
 
 /******************************************************************************
+ HandleFocusEvent (virtual protected)
+
+ ******************************************************************************/
+
+void
+LayoutContainer::HandleFocusEvent()
+{
+	GetWindow()->Refresh();
+	JXWidget::HandleFocusEvent();
+}
+
+/******************************************************************************
  HandleKeyPress (virtual)
 
  ******************************************************************************/
@@ -1579,16 +1596,20 @@ LayoutContainer::HandleMouseUp
 			itsCreateRect.bottom--;
 			itsCreateRect.right--;
 
-			auto* dlog = jnew ChooseWidgetDialog;
-			if (dlog->DoDialog())
+			if (!itsCreateRect.IsEmpty())
 			{
-				auto* undo = jnew LayoutUndo(itsDoc);
+				auto* dlog = jnew ChooseWidgetDialog;
+				if (dlog->DoDialog())
+				{
+					auto* undo = jnew LayoutUndo(itsDoc);
 
-				LayoutWidget* widget = CreateWidget(dlog->GetWidgetIndex(), itsCreateRect);
-				Refresh();
-				widget->EditConfiguration(false);
+					LayoutWidget* widget = CreateWidget(dlog->GetWidgetIndex(), itsCreateRect);
+					ClearSelection();
+					widget->SetSelected(true);
+					widget->EditConfiguration(false);
 
-				NewUndo(undo);
+					NewUndo(undo);
+				}
 			}
 		}
 

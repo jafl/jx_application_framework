@@ -55,8 +55,10 @@ public:
 						 JArray<bool>* isMemberVar,
 						 JStringManager* stringdb) const;
 
-	virtual void	PrepareToGenerateCode() const;
-	virtual void	GenerateCodeFinished() const;
+	virtual void	PrepareToGenerateCode(std::ostream& output, const JString& indent,
+										  JStringManager* stringdb) const;
+	virtual void	GenerateCodeFinished(std::ostream& output, const JString& indent,
+										 JStringManager* stringdb) const;
 
 	void	PrepareToAcceptDrag();
 

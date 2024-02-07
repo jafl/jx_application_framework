@@ -197,7 +197,12 @@ ToolBar::GetEnclosureName
  ******************************************************************************/
 
 void
-ToolBar::PrepareToGenerateCode()
+ToolBar::PrepareToGenerateCode
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	JStringManager*	stringdb
+	)
 	const
 {
 	LayoutContainer* layout = GetLayoutContainer();
@@ -211,7 +216,12 @@ ToolBar::PrepareToGenerateCode()
  ******************************************************************************/
 
 void
-ToolBar::GenerateCodeFinished()
+ToolBar::GenerateCodeFinished
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	JStringManager*	stringdb
+	)
 	const
 {
 	LayoutContainer* layout = GetLayoutContainer();

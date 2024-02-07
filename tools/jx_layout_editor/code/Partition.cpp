@@ -33,29 +33,21 @@ Partition::Partition
 	MultiContainerWidget(false, layout, hSizing, vSizing, x,y, w,h),
 	itsType(type)
 {
+	JArray<JCoordinate> sizes;
+	sizes.AppendItem((itsType == kHorizType ? w : h)/2);
+	sizes.AppendItem(0);
+
+	JArray<JCoordinate> minSizes;
+	minSizes.AppendItem(10);
+	minSizes.AppendItem(10);
+
 	if (itsType == kHorizType)
 	{
-		JArray<JCoordinate> widths;
-		widths.AppendItem(w/2);
-		widths.AppendItem(0);
-
-		JArray<JCoordinate> minWidths;
-		minWidths.AppendItem(10);
-		minWidths.AppendItem(10);
-
-		itsPartition = jnew JXHorizPartition(widths, 2, minWidths, this, kHElastic, kVElastic, 0,0, w,h);
+		itsPartition = jnew JXHorizPartition(sizes, 2, minSizes, this, kHElastic, kVElastic, 0,0, w,h);
 	}
 	else
 	{
-		JArray<JCoordinate> heights;
-		heights.AppendItem(h/2);
-		heights.AppendItem(0);
-
-		JArray<JCoordinate> minHeights;
-		minHeights.AppendItem(10);
-		minHeights.AppendItem(10);
-
-		itsPartition = jnew JXVertPartition(heights, 2, minHeights, this, kHElastic, kVElastic, 0,0, w,h);
+		itsPartition = jnew JXVertPartition(sizes, 2, minSizes, this, kHElastic, kVElastic, 0,0, w,h);
 	}
 
 	InsertLayoutContainer(1, itsPartition->GetCompartment(1));
@@ -81,6 +73,35 @@ Partition::Partition
 	input >> type;
 
 	itsType = (Type) type;
+
+	JSize count;
+	input >> count;
+
+	JArray<JCoordinate> sizes, minSizes;
+	for (JIndex i=1; i<=count; i++)
+	{
+		JCoordinate size, min;
+		input >> size >> min;
+		sizes.AppendItem(size);
+		minSizes.AppendItem(min);
+	}
+
+	JIndex elasticIndex;
+	input >> elasticIndex;
+
+	if (itsType == kHorizType)
+	{
+		itsPartition = jnew JXHorizPartition(sizes, elasticIndex, minSizes, this, kHElastic, kVElastic, 0,0, w,h);
+	}
+	else
+	{
+		itsPartition = jnew JXVertPartition(sizes, elasticIndex, minSizes, this, kHElastic, kVElastic, 0,0, w,h);
+	}
+
+	for (JIndex i=1; i<=count; i++)
+	{
+		InsertLayoutContainer(i, itsPartition->GetCompartment(i));
+	}
 }
 
 /******************************************************************************
@@ -109,6 +130,39 @@ Partition::StreamOut
 	MultiContainerWidget::StreamOut(output);
 
 	output << (int) itsType << std::endl;
+
+	const JSize count = itsPartition->GetCompartmentCount();
+	output << count << std::endl;
+
+	for (JIndex i=1; i<=count; i++)
+	{
+		output << itsPartition->GetCompartmentSize(i) << std::endl;
+		output << itsPartition->GetMinCompartmentSize(i) << std::endl;
+	}
+
+	JIndex elasticIndex;
+	itsPartition->GetElasticIndex(&elasticIndex);
+	output << elasticIndex << std::endl;
+}
+
+/******************************************************************************
+ StealMouse (virtual protected)
+
+ ******************************************************************************/
+
+bool
+Partition::StealMouse
+	(
+	const int			eventType,
+	const JPoint&		ptG,
+	const JXMouseButton	button,
+	const unsigned int	state
+	)
+{
+	itsPartition->SetHint(ToString());
+
+	const JXKeyModifiers modifiers(GetDisplay(), state);
+	return modifiers.control();
 }
 
 /******************************************************************************
@@ -144,6 +198,45 @@ Partition::GetEnclosureName
 }
 
 /******************************************************************************
+ PrepareToGenerateCode (virtual)
+
+ ******************************************************************************/
+
+void
+Partition::PrepareToGenerateCode
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	JStringManager*	stringdb
+	)
+	const
+{
+	bool b1, b2;
+	const JString varName= GetVarName(&b1, &b2);
+
+	indent.Print(output);
+	output << "JArray<JCoordinate> ";
+	varName.Print(output);
+	output << "_sizes, ";
+	varName.Print(output);
+	output << "_minSizes;" << std::endl;
+
+	const JSize count = itsPartition->GetCompartmentCount();
+	for (JIndex i=1; i<=count; i++)
+	{
+		indent.Print(output);
+		varName.Print(output);
+		output << "_sizes.AppendItem(" << itsPartition->GetCompartmentSize(i) << ");" << std::endl;
+
+		indent.Print(output);
+		varName.Print(output);
+		output << "_minSizes.AppendItem(" << itsPartition->GetMinCompartmentSize(i) << ");" << std::endl;
+	}
+
+	output << std::endl;
+}
+
+/******************************************************************************
  PrintCtorArgsWithComma (virtual protected)
 
  ******************************************************************************/
@@ -157,6 +250,13 @@ Partition::PrintCtorArgsWithComma
 	)
 	const
 {
+	JIndex elasticIndex;
+	itsPartition->GetElasticIndex(&elasticIndex);
+
+	varName.Print(output);
+	output << "_sizes, " << elasticIndex << ", ";
+	varName.Print(output);
+	output << "_minSizes, ";
 }
 
 /******************************************************************************
@@ -212,4 +312,10 @@ Partition::SavePanelData()
 	}
 
 	itsPartition->SetElasticIndex(elasticIndex);
+
+	const JSize count = minSizes.GetItemCount();
+	for (JIndex i=1; i<=count; i++)
+	{
+		itsPartition->SetMinCompartmentSize(i, minSizes.GetItem(i));
+	}
 }

@@ -180,6 +180,10 @@ ClassNameMustBeValid::CustomWidgetPanel	"Please enter a valid C++ class name."
 
 MinLessThanMax::InputFieldPanel	"The minimum length must be less than the maximum length."
 
+# InvalidElasticIndex::PartitionPanel
+
+InvalidElasticIndex::PartitionPanel	"The elastic index is too large.  It must be the index of one of the compartments."
+
 # ValueInputPanel
 
 MinLessThanMax::ValueInputPanel	"The minimum value must be less than the maximum value."

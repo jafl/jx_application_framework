@@ -389,6 +389,10 @@ T
 F
 "./code/PartitionPanel.jxl"
 T
+2 "PartitionMinSizeTable.cpp"
+F
+"./code/PartitionMinSizeTable.cpp"
+T
 2 "PathInputPanel.cpp"
 F
 "./code/PathInputPanel.cpp"

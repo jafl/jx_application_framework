@@ -131,6 +131,8 @@ MultiContainerWidget::InsertLayoutContainer
 	layout->FitToEnclosure();
 
 	itsLayoutList->InsertAtIndex(index, layout);
+	ListenTo(layout);
+
 	return layout;
 }
 

@@ -68,6 +68,7 @@
 .cpp ./code/IntegerInputPanel
 .cpp ./code/MenuPanel
 .cpp ./code/PartitionPanel
+.cpp ./code/PartitionMinSizeTable
 .cpp ./code/PathInputPanel
 .cpp ./code/RadioButtonIDPanel
 .cpp ./code/SaveFileInputPanel

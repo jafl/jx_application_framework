@@ -36,8 +36,10 @@ public:
 	JString	ToString() const override;
 	JString	GetEnclosureName(const LayoutWidget* widget) const override;
 
-	void	PrepareToGenerateCode() const override;
-	void	GenerateCodeFinished() const override;
+	void	PrepareToGenerateCode(std::ostream& output, const JString& indent,
+								  JStringManager* stringdb) const override;
+	void	GenerateCodeFinished(std::ostream& output, const JString& indent,
+								 JStringManager* stringdb) const override;
 
 protected:
 
