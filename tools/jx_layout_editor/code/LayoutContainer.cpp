@@ -314,6 +314,26 @@ LayoutContainer::RemoveSelectedWidgets()
 	GetSelectedWidgets(&list);
 	list.DeleteAll();
 
+	JPtrArray<LayoutWidget> inputWidgets(JPtrArrayT::kForgetAll);
+	ForEach([&inputWidgets](JXContainer* obj)
+	{
+		auto* widget = dynamic_cast<LayoutWidget*>(obj);
+		if (widget != nullptr && widget->WantsInput())
+		{
+			inputWidgets.Append(widget);
+		}
+	},
+	true);
+
+	inputWidgets.SetCompareFunction(CompareTabOrder);
+	inputWidgets.Sort();
+
+	const JSize count = inputWidgets.GetItemCount();
+	for (JIndex i=1; i<=count; i++)
+	{
+		inputWidgets.GetItem(i)->SetTabIndex(i);
+	}
+
 	NewUndo(newUndo);
 }
 
