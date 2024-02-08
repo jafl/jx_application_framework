@@ -18,11 +18,8 @@
 #include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JSize kInitCompartmentCount = 3;
-const JIndex kInitElasticIndex    = 2;
-const JSize kInitSize             = 100;
-const JSize kMinSize              = 50;
-const JSize kMenuBarHeight        = 30;
+const JSize kInitSize = 100;
+const JSize kMinSize  = 50;
 
 /******************************************************************************
  Constructor
@@ -59,44 +56,44 @@ TestPartitionDirector::~TestPartitionDirector()
 void
 TestPartitionDirector::BuildWindow()
 {
-	JArray<JCoordinate> sizes;
-	JArray<JCoordinate> minSizes;
-
-	for (JIndex i=1; i<=kInitCompartmentCount; i++)
-	{
-		sizes.AppendItem(kInitSize);
-		minSizes.AppendItem(kMinSize);
-	}
-
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 310,340, JString::empty);
+	auto* window = jnew JXWindow(this, 310,340, JGetString("WindowTitle::TestPartitionDirector::JXLayout"));
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestPartitionDirector");
 
-	auto* menuBar =
+	JArray<JCoordinate> itsHorizPartition_sizes, itsHorizPartition_minSizes;
+	itsHorizPartition_sizes.AppendItem(95);
+	itsHorizPartition_minSizes.AppendItem(50);
+	itsHorizPartition_sizes.AppendItem(109);
+	itsHorizPartition_minSizes.AppendItem(50);
+	itsHorizPartition_sizes.AppendItem(96);
+	itsHorizPartition_minSizes.AppendItem(50);
+
+	JArray<JCoordinate> itsVertPartition_sizes, itsVertPartition_minSizes;
+	itsVertPartition_sizes.AppendItem(103);
+	itsVertPartition_minSizes.AppendItem(50);
+	itsVertPartition_sizes.AppendItem(101);
+	itsVertPartition_minSizes.AppendItem(50);
+	itsVertPartition_sizes.AppendItem(96);
+	itsVertPartition_minSizes.AppendItem(50);
+
+	itsMenuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 310,30);
-	assert( menuBar != nullptr );
 
 	itsHorizPartition =
-		jnew JXHorizPartition(sizes, kInitElasticIndex, minSizes, window,
+		jnew JXHorizPartition(itsHorizPartition_sizes, 2, itsHorizPartition_minSizes, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 310,310);
-	assert( itsHorizPartition != nullptr );
+
+	itsVertPartition =
+		jnew JXVertPartition(itsVertPartition_sizes, 2, itsVertPartition_minSizes, itsHorizPartition->GetCompartment(2),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 109,310);
 
 // end JXLayout
 
-	itsVertPartition =
-		jnew JXVertPartition(sizes, kInitElasticIndex, minSizes,
-					itsHorizPartition->GetCompartment(kInitElasticIndex),
-					JXWidget::kHElastic, JXWidget::kVElastic,
-					0,0, 10,315);
-	assert( itsVertPartition != nullptr );
-	itsVertPartition->FitToEnclosure(true, true);
-
-	window->SetTitle(JGetString("WindowTitle::TestPartitionDirector"));
-	window->SetWMClass("testjx", "TestPartitionDirector");
 	AdjustMinWindowSize();
 
-	itsHorizMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestPartitionDirector_Horiz"));
+	itsHorizMenu = itsMenuBar->AppendTextMenu(JGetString("MenuTitle::TestPartitionDirector_Horiz"));
 	itsHorizMenu->SetMenuItems(kHorizMenuStr);
 	itsHorizMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsHorizMenu->AttachHandlers(this,
@@ -104,7 +101,7 @@ TestPartitionDirector::BuildWindow()
 		&TestPartitionDirector::HandleHorizMenu);
 	ConfigureHorizMenu(itsHorizMenu);
 
-	itsVertMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestPartitionDirector_Vert"));
+	itsVertMenu = itsMenuBar->AppendTextMenu(JGetString("MenuTitle::TestPartitionDirector_Vert"));
 	itsVertMenu->SetMenuItems(kVertMenuStr);
 	itsVertMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsVertMenu->AttachHandlers(this,
@@ -112,9 +109,12 @@ TestPartitionDirector::BuildWindow()
 		&TestPartitionDirector::HandleVertMenu);
 	ConfigureVertMenu(itsVertMenu);
 
-	for (JIndex i=1; i<=kInitCompartmentCount; i++)
+	JIndex elasticIndex;
+	itsHorizPartition->GetElasticIndex(&elasticIndex);
+
+	for (JIndex i=1; i<=itsHorizPartition_sizes.GetItemCount(); i++)
 	{
-		if (i != kInitElasticIndex)
+		if (i != elasticIndex)
 		{
 			CreateTestWidget(itsHorizPartition, i);
 		}
@@ -234,7 +234,8 @@ void
 TestPartitionDirector::AdjustMinWindowSize()
 {
 	GetWindow()->SetMinSize(itsHorizPartition->GetMinTotalSize(),
-							  kMenuBarHeight + itsVertPartition->GetMinTotalSize());
+								itsMenuBar->GetFrameHeight() +
+									itsVertPartition->GetMinTotalSize());
 }
 
 /******************************************************************************

@@ -124,7 +124,6 @@ TabLabelPrefix::TestTabDirector			"Tab #"
 
 # TestPartitionDirector
 
-WindowTitle::TestPartitionDirector			"Test Partitions"
 OutOfSpace::TestPartitionDirector			"There is not enough space for another compartment."
 CannotRemoveLast::TestPartitionDirector		"You can't remove the last compartment."
 

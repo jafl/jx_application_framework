@@ -142,6 +142,10 @@ T
 F
 "./code/TestPartitionDirector.cpp"
 T
+2 "TestPartitionDirector.jxl"
+F
+"./code/TestPartitionDirector.jxl"
+T
 2 "TestPartitionDirector-Horiz.jxm"
 F
 "./code/TestPartitionDirector-Horiz.jxm"
@@ -251,6 +255,10 @@ T
 F
 "./code/TestTextEditDocument.cpp"
 T
+2 "TestTextEditDocument.jxl"
+F
+"./code/TestTextEditDocument.jxl"
+T
 2 "TestTextEditDocument-File.jxm"
 F
 "./code/TestTextEditDocument-File.jxm"
@@ -320,7 +328,7 @@ T "./" "make jx.test.skip=true -kw" "" TFTTTFF "" "" "" F
 F
 # build settings
 1
-T
+F
 "testjx"
 "${LIB_DEPS}"
 "make -k all"

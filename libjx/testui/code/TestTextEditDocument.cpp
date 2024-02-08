@@ -97,18 +97,19 @@ TestTextEditDocument::BuildWindow
 	const bool fileWritable
 	)
 {
-	JArray<JCoordinate> sizes;
-	JArray<JCoordinate> minSizes;
-
-	for (JIndex i=1; i<=2; i++)
-	{
-		sizes.AppendItem(140);
-		minSizes.AppendItem(50);
-	}
+	itsText = jnew JXStyledText(true, true, JXGetApplication()->GetCurrentDisplay()->GetFontManager());
 
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,330, JString::empty);
+	window->SetMinSize(20, 50);
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestTextEditDocument");
+
+	JArray<JCoordinate> partition_sizes, partition_minSizes;
+	partition_sizes.AppendItem(196);
+	partition_minSizes.AppendItem(50);
+	partition_sizes.AppendItem(199);
+	partition_minSizes.AppendItem(50);
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -116,18 +117,32 @@ TestTextEditDocument::BuildWindow
 	assert( menuBar != nullptr );
 
 	auto* partition =
-		jnew JXHorizPartition(sizes, 1, minSizes, window,
+		jnew JXHorizPartition(partition_sizes, 1, partition_minSizes, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( partition != nullptr );
+
+	auto* scrollbarSet1 =
+		jnew JXScrollbarSet(partition->GetCompartment(1),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 196,300);
+	assert( scrollbarSet1 != nullptr );
+
+	auto* scrollbarSet2 =
+		jnew JXScrollbarSet(partition->GetCompartment(2),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 199,300);
+	assert( scrollbarSet2 != nullptr );
+
+	itsTextEditor1 =
+		jnew TestTextEditor(itsText, false, fileWritable, menuBar, scrollbarSet1, scrollbarSet1->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 196,300);
+
+	itsTextEditor2 =
+		jnew TestTextEditor(itsText, false, fileWritable, nullptr, scrollbarSet2, scrollbarSet2->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 199,300);
 
 // end JXLayout
 
 	AdjustWindowTitle();
-	window->SetWMClass("testjx", "TestTextEditDocument");
-	window->SetMinSize(20,50);
 
-	itsText = jnew JXStyledText(true, true, GetDisplay()->GetFontManager());
-	assert( itsText != nullptr );
 	ListenTo(itsText, std::function([this](const JStyledText::TextChanged&)
 	{
 		if (itsText->GetUndoRedoChain()->IsAtLastSaveLocation())
@@ -140,32 +155,8 @@ TestTextEditDocument::BuildWindow
 		}
 	}));
 
-	JXContainer* compartment = partition->GetCompartment(1);
-
-	JXScrollbarSet* scrollbarSet =
-		jnew JXScrollbarSet(compartment, JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	scrollbarSet->FitToEnclosure();
-
-	itsTextEditor1 =
-		jnew TestTextEditor(itsText, false, fileWritable, menuBar, scrollbarSet,
-							scrollbarSet->GetScrollEnclosure(),
-							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsTextEditor1 != nullptr );
-	itsTextEditor1->FitToEnclosure();
 	itsTextEditor1->ShouldAlwaysShowSelection(true);
 
-	compartment = partition->GetCompartment(2);
-
-	scrollbarSet =
-		jnew JXScrollbarSet(compartment, JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	scrollbarSet->FitToEnclosure(true, true);
-
-	itsTextEditor2 =
-		jnew TestTextEditor(itsText, false, fileWritable, nullptr, scrollbarSet,
-							scrollbarSet->GetScrollEnclosure(),
-							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsTextEditor2 != nullptr );
-	itsTextEditor2->FitToEnclosure();
 	itsTextEditor2->ShouldAlwaysShowSelection(true);
 	itsTextEditor2->ShareMenus(itsTextEditor1);
 
@@ -180,7 +171,6 @@ TestTextEditDocument::BuildWindow
 	JXDocumentMenu* fileListMenu =
 		jnew JXDocumentMenu(JGetString("FilesMenuTitle::TestTextEditDocument"), menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( fileListMenu != nullptr );
 	menuBar->PrependMenu(fileListMenu);
 
 	itsEmulatorMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::TestTextEditDocument_Emulator"));

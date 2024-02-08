@@ -14,7 +14,7 @@ XSEARCH_DIR     := xsearch-${XSEARCH_VERSION}
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
-SEARCHDIRS := -I./code -I./image-build ${SEARCHDIRS}
+SEARCHDIRS := -I./code ${SEARCHDIRS}
 
 # makemake variables
 

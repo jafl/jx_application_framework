@@ -12,6 +12,7 @@
 
 #include <jx-af/jx/JXWindowDirector.h>
 
+class JXMenuBar;
 class JXTextMenu;
 class JXPartition;
 class JXHorizPartition;
@@ -35,8 +36,6 @@ public:
 
 private:
 
-	JXVertPartition* itsVertPartition;	// owned by the horiz partition
-
 	// owned by the menu bar
 
 	JXTextMenu*	itsHorizMenu;
@@ -44,7 +43,9 @@ private:
 
 // begin JXLayout
 
+	JXMenuBar*        itsMenuBar;
 	JXHorizPartition* itsHorizPartition;
+	JXVertPartition*  itsVertPartition;
 
 // end JXLayout
 

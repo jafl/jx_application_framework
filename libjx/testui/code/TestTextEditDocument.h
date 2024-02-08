@@ -42,8 +42,6 @@ private:
 private:
 
 	JStyledText*	itsText;
-	TestTextEditor*	itsTextEditor1;		// owned by its enclosure
-	TestTextEditor*	itsTextEditor2;		// owned by its enclosure
 	JXTextMenu*		itsFileMenu;		// owned by menu bar
 	JXTextMenu*		itsEmulatorMenu;	// owned by menu bar
 
@@ -52,6 +50,8 @@ private:
 
 // begin JXLayout
 
+	TestTextEditor* itsTextEditor1;
+	TestTextEditor* itsTextEditor2;
 
 // end JXLayout
 

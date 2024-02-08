@@ -1,0 +1,97 @@
+jx_layout_editor 7
+400
+330
+"JXLayout"
+""
+"TestTextEditDocument"
+""
+0
+
+1
+0
+0
+"MenuBar"
+2
+0
+0 0 30 400
+"menuBar"
+0
+0
+0
+
+1
+0
+0
+"Partition"
+2
+2
+30 0 330 400
+"partition"
+0
+0
+0
+0
+2
+196
+50
+199
+50
+1
+
+1
+2
+1
+"ScrollbarSet"
+2
+2
+0 0 300 196
+"scrollbarSet1"
+0
+0
+0
+
+1
+2
+2
+"ScrollbarSet"
+2
+2
+0 0 300 199
+"scrollbarSet2"
+0
+0
+0
+
+1
+3
+1
+"CustomWidget"
+2
+2
+0 0 285 181
+"itsTextEditor1"
+1
+0
+0
+"TestTextEditor"
+"itsText, false, fileWritable, menuBar, scrollbarSet1"
+0
+""
+
+1
+4
+1
+"CustomWidget"
+2
+2
+0 0 285 184
+"itsTextEditor2"
+1
+0
+0
+"TestTextEditor"
+"itsText, false, fileWritable, nullptr, scrollbarSet2"
+0
+""
+
+0

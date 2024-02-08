@@ -1,0 +1,64 @@
+jx_layout_editor 7
+310
+340
+"JXLayout"
+"Test Partitions"
+"TestPartitionDirector"
+""
+0
+
+1
+0
+0
+"MenuBar"
+2
+0
+0 0 30 310
+"itsMenuBar"
+1
+0
+0
+
+1
+0
+0
+"Partition"
+2
+2
+30 0 340 310
+"itsHorizPartition"
+1
+0
+0
+0
+3
+95
+50
+109
+50
+96
+50
+2
+
+1
+2
+2
+"Partition"
+2
+2
+0 0 310 109
+"itsVertPartition"
+1
+0
+0
+1
+3
+103
+50
+101
+50
+96
+50
+2
+
+0

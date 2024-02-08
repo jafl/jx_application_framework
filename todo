@@ -18,6 +18,7 @@ jcc
 
 	EditTasksDialog: top partition gets larger every time it is opened
 		ftc for dialogs containing partition show bottom buttons off by several pixels
+	EditCRMDialog partitions stay the same size
 
 	test with old project formats in code_crusader/test-manual/*.jcc
 
