@@ -1581,8 +1581,8 @@ bool
 JXMenu::IncludeInFTC()
 	const
 {
-	return !itsIsHiddenPopupMenuFlag && itsOwner == nullptr &&
-				JXContainer::IncludeInFTC();
+	return (!itsIsHiddenPopupMenuFlag && itsOwner == nullptr &&
+			JXContainer::IncludeInFTC());
 }
 
 /******************************************************************************
