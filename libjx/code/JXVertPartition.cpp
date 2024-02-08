@@ -406,7 +406,8 @@ JXVertPartition::RunInternalFTC
 			}
 
 			itsFTCSizes->AppendItem(h);
-			itsFTCMinSizes->AppendItem(JPartition::GetMinCompartmentSize(i) + delta);
+			const JCoordinate min = JPartition::GetMinCompartmentSize(i) + delta;
+			itsFTCMinSizes->AppendItem(delta >= 0 ? min : JMax(h, min));
 			sum += h;
 			i++;
 		}
@@ -433,13 +434,13 @@ JXVertPartition::FTCAdjustSize
 
 	if (itsFTCSizes != nullptr)
 	{
-		SetCompartmentSizes(*itsFTCSizes);
-		jdelete itsFTCSizes;
-		itsFTCSizes = nullptr;
-
 		SetMinCompartmentSizes(*itsFTCMinSizes);
 		jdelete itsFTCMinSizes;
 		itsFTCMinSizes = nullptr;
+
+		SetCompartmentSizes(*itsFTCSizes);
+		jdelete itsFTCSizes;
+		itsFTCSizes = nullptr;
 
 		if (itsSavedGeom != nullptr)
 		{
