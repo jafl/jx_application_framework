@@ -20,6 +20,8 @@
 
 	<li><a href="#MainHelp">Layout window</a></li>
 
+	<li><a href="#CodeGen">Generating code</a></li>
+
 	<li><a href="ChangeLog.html">Changes from previous versions</a></li>
 
 	<li><a href="http://libjx.sourceforge.net/help/credits.html">Credits</a></li>
@@ -59,9 +61,22 @@
 
 <p>Tab order for input fields is indicated by small number tags.  You can adjust the tab order using the Increment/Decrement tab index items on the Arrange menu.</p>
 
-<p>When you save a layout, the matching source and header files will automatically be updated.  Any strings will be written to a file in the <code>strings</code> directory of the project.</p>
 
-<p>Note:  Code tags must be valid C++ identifiers because they are using in string keys.</p>
+<hr>
+<h2><a name="CodeGen">Generating code</a></h2>
+
+<p>When you save a layout, the matching source and header files will automatically be updated within the section marked by:</p>
+
+<pre>// begin code_tag
+...
+// end code_tag
+</pre>
+
+<p>where <code>code_tag</code> is the string specified in the Edit Layout Configuration dialog.  Note:  Code tags must be valid C++ identifiers because they are using in string keys.</p>
+
+<p>Any strings will be written to a file in the <code>strings</code> directory of the project.</p>
+
+<p>To find the matching source and header files, the directory containing the <code>.jxl</code> file is searched for a matching name.  If you have multiple layouts for a single class, you can append <code>__<strong>code_tag</strong></code> to get unique <code>.jxl</code> file names.</p>
 
 </body>
 </html>

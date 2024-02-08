@@ -14,7 +14,7 @@
 class JXWidgetSet;
 class JXInputField;
 class JXTextCheckbox;
-class JXTextMenu;
+class JXRadioGroup;
 class WidgetPanelBase;
 
 class WidgetParametersDialog : public JXModalDialogDirector
@@ -41,18 +41,15 @@ protected:
 
 private:
 
-	JIndex	itsHSizingIndex;
-	JIndex	itsVSizingIndex;
-
 	JPtrArray<WidgetPanelBase>*	itsPanelList;
 
 // begin JXLayout
 
 	JXWidgetSet*    itsLatestContainer;
-	JXTextMenu*     itsHSizingMenu;
+	JXRadioGroup*   itsHSizingRG;
+	JXRadioGroup*   itsVSizingRG;
 	JXTextCheckbox* itsMemberVarCB;
 	JXTextCheckbox* itsPredeclaredVarCB;
-	JXTextMenu*     itsVSizingMenu;
 	JXInputField*   itsVarNameInput;
 
 // end JXLayout
@@ -60,7 +57,9 @@ private:
 private:
 
 	void	BuildWindow(const JString& varName, const bool isMemberVar,
-						const bool isPredeclaredVar);
+						const bool isPredeclaredVar,
+						const JXWidget::HSizingOption hSizing,
+						const JXWidget::VSizingOption vSizing);
 };
 
 #endif

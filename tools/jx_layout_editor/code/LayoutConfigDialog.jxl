@@ -1,13 +1,14 @@
-jx_layout_editor 6
+jx_layout_editor 7
 460
 240
 "JXLayout"
-"Edit layout configuration"
+"Edit Layout Configuration"
 ""
 ""
 0
 
 1
+0
 0
 "RadioGroup"
 0
@@ -18,6 +19,7 @@ jx_layout_editor 6
 0
 0
 
+1
 1
 1
 "StaticText"
@@ -35,6 +37,7 @@ jx_layout_editor 6
 0
 0
 
+1
 1
 1
 "InputField"
@@ -58,6 +61,7 @@ jx_layout_editor 6
 
 1
 1
+1
 "TextRadioButton"
 0
 0
@@ -70,6 +74,7 @@ jx_layout_editor 6
 "Window title:"
 "#W"
 
+1
 1
 1
 "InputField"
@@ -93,6 +98,7 @@ jx_layout_editor 6
 
 1
 1
+1
 "StaticText"
 0
 0
@@ -110,6 +116,7 @@ jx_layout_editor 6
 
 1
 1
+1
 "IntegerInput"
 0
 0
@@ -122,6 +129,7 @@ jx_layout_editor 6
 1 0
 0 0
 
+1
 1
 1
 "StaticText"
@@ -141,6 +149,7 @@ jx_layout_editor 6
 
 1
 1
+1
 "IntegerInput"
 0
 0
@@ -153,6 +162,7 @@ jx_layout_editor 6
 1 0
 0 0
 
+1
 1
 1
 "StaticText"
@@ -170,6 +180,7 @@ jx_layout_editor 6
 0
 0
 
+1
 1
 1
 "InputField"
@@ -193,6 +204,7 @@ jx_layout_editor 6
 
 1
 1
+1
 "TextRadioButton"
 0
 0
@@ -205,6 +217,7 @@ jx_layout_editor 6
 "Custom container:"
 "#U"
 
+1
 1
 1
 "InputField"
@@ -228,6 +241,7 @@ jx_layout_editor 6
 
 1
 1
+1
 "TextCheckbox"
 0
 0
@@ -241,6 +255,7 @@ jx_layout_editor 6
 
 1
 0
+0
 "TextButton"
 0
 1
@@ -253,6 +268,7 @@ jx_layout_editor 6
 ""
 
 1
+0
 0
 "TextButton"
 0

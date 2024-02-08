@@ -641,6 +641,13 @@ LayoutDocument::GenerateCode()
 	JSplitPathAndName(fullName, &path, &name);
 	JSplitRootAndSuffix(name, &root, &suffix);
 
+	if (root.EndsWith("__" + itsLayout->GetCodeTag()))
+	{
+		JStringIterator iter(&root, JStringIterator::kStartAtEnd);
+		iter.Prev("__");
+		iter.RemoveAllNext();
+	}
+
 	JString projRoot;
 	if (!ImageCache::FindProjectRoot(path, &projRoot))
 	{

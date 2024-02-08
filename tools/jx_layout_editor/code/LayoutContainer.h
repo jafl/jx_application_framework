@@ -175,6 +175,7 @@ private:
 	void	CleanupGenerateCode(std::ostream& output, const JString& indent,
 								JStringManager* stringdb) const;
 	void	AdjustTabOrder(JPtrArray<LayoutWidget>* list, const JInteger delta);
+	void	ResetTabIndices();
 
 	static std::weak_ordering
 		CompareLocations(LayoutWidget *const w1, LayoutWidget *const w2);

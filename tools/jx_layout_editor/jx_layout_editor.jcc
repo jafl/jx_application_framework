@@ -265,14 +265,6 @@ T
 F
 "./code/WidgetParametersDialog.jxl"
 T
-2 "WidgetParametersDialog-HSizing.jxm"
-F
-"./code/WidgetParametersDialog-HSizing.jxm"
-T
-2 "WidgetParametersDialog-VSizing.jxm"
-F
-"./code/WidgetParametersDialog-VSizing.jxm"
-T
 2 "WidgetPanelBase.cpp"
 F
 "./code/WidgetPanelBase.cpp"

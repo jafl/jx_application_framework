@@ -1,6 +1,6 @@
-jx_layout_editor 6
+jx_layout_editor 7
 460
-170
+150
 "JXLayout"
 "Edit parameters"
 ""
@@ -9,15 +9,17 @@ jx_layout_editor 6
 
 1
 0
+0
 "WidgetSet"
 0
 0
-0 0 130 460
+0 0 110 460
 "itsLatestContainer"
 1
 0
 0
 
+1
 1
 1
 "StaticText"
@@ -35,6 +37,7 @@ jx_layout_editor 6
 0
 0
 
+1
 1
 1
 "InputField"
@@ -58,20 +61,29 @@ jx_layout_editor 6
 
 1
 1
-"Menu"
+1
+"RadioGroup"
 0
 0
-50 20 80 300
-"itsHSizingMenu"
+50 20 100 150
+"itsHSizingRG"
 1
 0
-0
-0
-""
-1
-1
 0
 
+1
+1
+1
+"RadioGroup"
+0
+0
+50 160 100 290
+"itsVSizingRG"
+1
+0
+0
+
+1
 1
 1
 "TextCheckbox"
@@ -86,6 +98,91 @@ jx_layout_editor 6
 "#M"
 
 1
+4
+1
+"ImageRadioButton"
+0
+0
+10 10 40 40
+"fixedLeftRB"
+0
+0
+0
+"JXWidget::kFixedLeft"
+0 "align_left.png"
+
+1
+4
+1
+"ImageRadioButton"
+0
+0
+10 50 40 80
+"hElasticRB"
+0
+0
+0
+"JXWidget::kHElastic"
+0 "expand_horiz.png"
+
+1
+4
+1
+"ImageRadioButton"
+0
+0
+10 90 40 120
+"fixedRightRB"
+0
+0
+0
+"JXWidget::kFixedRight"
+0 "align_right.png"
+
+1
+5
+1
+"ImageRadioButton"
+0
+0
+10 10 40 40
+"fixedTopRB"
+0
+0
+0
+"JXWidget::kFixedTop"
+0 "align_top.png"
+
+1
+5
+1
+"ImageRadioButton"
+0
+0
+10 50 40 80
+"vElasticRB"
+0
+0
+0
+"JXWidget::kVElastic"
+0 "expand_vert.png"
+
+1
+5
+1
+"ImageRadioButton"
+0
+0
+10 90 40 120
+"fixedBottomRB"
+0
+0
+0
+"JXWidget::kFixedBottom"
+0 "align_bottom.png"
+
+1
+1
 1
 "TextCheckbox"
 0
@@ -99,27 +196,12 @@ jx_layout_editor 6
 "#P"
 
 1
-1
-"Menu"
 0
-0
-90 20 120 300
-"itsVSizingMenu"
-1
-0
-0
-0
-""
-1
-1
-0
-
-1
 0
 "TextButton"
 0
 1
-140 120 160 180
+120 120 140 180
 "cancelButton"
 0
 0
@@ -129,10 +211,11 @@ jx_layout_editor 6
 
 1
 0
+0
 "TextButton"
 0
 1
-140 290 160 350
+120 290 140 350
 "okButton"
 0
 0

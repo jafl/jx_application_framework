@@ -9,6 +9,7 @@
 
 #include "Partition.h"
 #include "PartitionPanel.h"
+#include "LayoutContainer.h"
 #include <jx-af/jx/JXHorizPartition.h>
 #include <jx-af/jx/JXVertPartition.h>
 #include <jx-af/jcore/jAssert.h>
@@ -162,7 +163,18 @@ Partition::StealMouse
 	itsPartition->SetHint(ToString());
 
 	const JXKeyModifiers modifiers(GetDisplay(), state);
-	return modifiers.control();
+	if (!modifiers.control())
+	{
+		return MultiContainerWidget::StealMouse(eventType, ptG, button, state);
+	}
+
+	return !AnyOf([this, &ptG](const JXContainer* obj)
+	{
+		auto* layout = dynamic_cast<const LayoutContainer*>(obj);
+		return (layout != nullptr && !OwnsLayoutContainer(layout) &&
+				layout->GetFrameGlobal().Contains(ptG));
+	},
+	true);
 }
 
 /******************************************************************************

@@ -90,8 +90,10 @@ PartitionPanel::PartitionPanel
 
 	ListenTo(itsAddRowButton, std::function([this](const JXButton::Pushed&)
 	{
+		itsTable->GetTableSelection().ClearSelection();
 		itsData->AppendRows(1);
 		itsTable->BeginEditing(JPoint(1, itsData->GetRowCount()));
+		UpdateDisplay();
 	}));
 
 	ListenTo(itsRemoveRowButton, std::function([this](const JXButton::Pushed&)
@@ -103,11 +105,12 @@ PartitionPanel::PartitionPanel
 			itsTable->CancelEditing();
 			itsData->RemoveRow(cell.y);
 		}
+		UpdateDisplay();
 	}));
 
 	ListenTo(&itsTable->GetTableSelection(), std::function([this](const JTableData::RectChanged&)
 	{
-		itsRemoveRowButton->SetActive(itsTable->GetTableSelection().HasSelection());
+		UpdateDisplay();
 	}));
 
 	if (elasticIndex > 0)
@@ -153,6 +156,10 @@ PartitionPanel::UpdateDisplay()
 	const bool elastic = itsHasElasticIndexCB->IsChecked();
 	itsElasticIndexInput->SetActive(elastic);
 	itsElasticIndexInput->SetIsRequired(elastic);
+
+	itsRemoveRowButton->SetActive(
+		itsTable->GetTableSelection().HasSelection() &&
+		itsData->GetRowCount() > 2);
 }
 
 /******************************************************************************

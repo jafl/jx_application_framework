@@ -37,6 +37,7 @@ protected:
 
 	LayoutContainer*	GetLayoutContainer(const JIndex index) const;
 	LayoutContainer*	InsertLayoutContainer(const JIndex index, JXContainer* enclosure);
+	bool				OwnsLayoutContainer(const LayoutContainer* layout);
 
 	void	ReceiveGoingAway(JBroadcaster* sender) override;
 
@@ -64,6 +65,20 @@ MultiContainerWidget::GetLayoutContainer
 	const
 {
 	return itsLayoutList->GetItem(index);
+}
+
+/******************************************************************************
+ OwnsLayoutContainer
+
+ ******************************************************************************/
+
+inline bool
+MultiContainerWidget::OwnsLayoutContainer
+	(
+	const LayoutContainer* layout
+	)
+{
+	return itsLayoutList->Includes(layout);
 }
 
 #endif

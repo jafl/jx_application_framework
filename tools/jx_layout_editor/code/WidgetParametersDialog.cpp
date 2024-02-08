@@ -15,7 +15,8 @@
 #include <jx-af/jx/JXInputField.h>
 #include <jx-af/jx/JXTextCheckbox.h>
 #include <jx-af/jx/JXTextButton.h>
-#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXRadioGroup.h>
+#include <jx-af/jx/JXImageRadioButton.h>
 #include <jx-af/jx/JXAtMostOneCBGroup.h>
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/JFontManager.h>
@@ -37,11 +38,9 @@ WidgetParametersDialog::WidgetParametersDialog
 	)
 	:
 	JXModalDialogDirector(),
-	itsHSizingIndex(hSizing+1),
-	itsVSizingIndex(vSizing+1),
 	itsPanelList(jnew JPtrArray<WidgetPanelBase>(JPtrArrayT::kForgetAll))
 {
-	BuildWindow(varName, isMemberVar, isPredeclaredVar);
+	BuildWindow(varName, isMemberVar, isPredeclaredVar, hSizing, vSizing);
 }
 
 /******************************************************************************
@@ -59,56 +58,109 @@ WidgetParametersDialog::~WidgetParametersDialog()
 
  ******************************************************************************/
 
-#include "WidgetParametersDialog-HSizing.h"
-#include "WidgetParametersDialog-VSizing.h"
-
 void
 WidgetParametersDialog::BuildWindow
 	(
-	const JString&	varName,
-	const bool		isMemberVar,
-	const bool		isPredeclaredVar
+	const JString&					varName,
+	const bool						isMemberVar,
+	const bool						isPredeclaredVar,
+	const JXWidget::HSizingOption	hSizing,
+	const JXWidget::VSizingOption	vSizing
 	)
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 460,170, JGetString("WindowTitle::WidgetParametersDialog::JXLayout"));
+	auto* window = jnew JXWindow(this, 460,150, JGetString("WindowTitle::WidgetParametersDialog::JXLayout"));
 
 	itsLatestContainer =
 		jnew JXWidgetSet(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,130);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,110);
 
 	auto* variableNameLabel =
 		jnew JXStaticText(JGetString("variableNameLabel::WidgetParametersDialog::JXLayout"), itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 110,20);
 	variableNameLabel->SetToLabel(false);
 
-	itsHSizingMenu =
-		jnew JXTextMenu(JString::empty, itsLatestContainer,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 280,30);
+	itsHSizingRG =
+		jnew JXRadioGroup(itsLatestContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 130,50);
+
+	itsVSizingRG =
+		jnew JXRadioGroup(itsLatestContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,50, 130,50);
 
 	itsMemberVarCB =
 		jnew JXTextCheckbox(JGetString("itsMemberVarCB::WidgetParametersDialog::JXLayout"), itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,50, 130,20);
 	itsMemberVarCB->SetShortcuts(JGetString("itsMemberVarCB::shortcuts::WidgetParametersDialog::JXLayout"));
 
+	auto* fixedLeftRB =
+		jnew JXImageRadioButton(JXWidget::kFixedLeft, itsHSizingRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 30,30);
+#ifndef _H_align_left
+#define _H_align_left
+#include "align_left.xpm"
+#endif
+	fixedLeftRB->SetXPM(align_left);
+
+	auto* hElasticRB =
+		jnew JXImageRadioButton(JXWidget::kHElastic, itsHSizingRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,10, 30,30);
+#ifndef _H_expand_horiz
+#define _H_expand_horiz
+#include "expand_horiz.xpm"
+#endif
+	hElasticRB->SetXPM(expand_horiz);
+
+	auto* fixedRightRB =
+		jnew JXImageRadioButton(JXWidget::kFixedRight, itsHSizingRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,10, 30,30);
+#ifndef _H_align_right
+#define _H_align_right
+#include "align_right.xpm"
+#endif
+	fixedRightRB->SetXPM(align_right);
+
+	auto* fixedTopRB =
+		jnew JXImageRadioButton(JXWidget::kFixedTop, itsVSizingRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 30,30);
+#ifndef _H_align_top
+#define _H_align_top
+#include "align_top.xpm"
+#endif
+	fixedTopRB->SetXPM(align_top);
+
+	auto* vElasticRB =
+		jnew JXImageRadioButton(JXWidget::kVElastic, itsVSizingRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,10, 30,30);
+#ifndef _H_expand_vert
+#define _H_expand_vert
+#include "expand_vert.xpm"
+#endif
+	vElasticRB->SetXPM(expand_vert);
+
+	auto* fixedBottomRB =
+		jnew JXImageRadioButton(JXWidget::kFixedBottom, itsVSizingRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,10, 30,30);
+#ifndef _H_align_bottom
+#define _H_align_bottom
+#include "align_bottom.xpm"
+#endif
+	fixedBottomRB->SetXPM(align_bottom);
+
 	itsPredeclaredVarCB =
 		jnew JXTextCheckbox(JGetString("itsPredeclaredVarCB::WidgetParametersDialog::JXLayout"), itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,80, 130,20);
 	itsPredeclaredVarCB->SetShortcuts(JGetString("itsPredeclaredVarCB::shortcuts::WidgetParametersDialog::JXLayout"));
 
-	itsVSizingMenu =
-		jnew JXTextMenu(JString::empty, itsLatestContainer,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 280,30);
-
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::WidgetParametersDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 120,140, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 120,120, 60,20);
 	assert( cancelButton != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::WidgetParametersDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 289,139, 62,22);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 289,119, 62,22);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::WidgetParametersDialog::JXLayout"));
 
 	itsVarNameInput =
@@ -128,37 +180,8 @@ WidgetParametersDialog::BuildWindow
 	itsPredeclaredVarCB->SetState(isPredeclaredVar);
 	jnew JXAtMostOneCBGroup(2, itsMemberVarCB, itsPredeclaredVarCB);
 
-	itsHSizingMenu->SetTitleText(JGetString("MenuTitle::WidgetParametersDialog_HSizing"));
-	itsHSizingMenu->SetMenuItems(kHorizontalSizingMenuStr);
-	itsHSizingMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ConfigureHorizontalSizingMenu(itsHSizingMenu);
-	itsHSizingMenu->SetToPopupChoice(true, itsHSizingIndex);
-
-	ListenTo(itsHSizingMenu, std::function([this](const JXMenu::NeedsUpdate&)
-	{
-		itsHSizingMenu->CheckItem(itsHSizingIndex);
-	}));
-
-	ListenTo(itsHSizingMenu, std::function([this](const JXMenu::ItemSelected& msg)
-	{
-		itsHSizingIndex = msg.GetIndex();
-	}));
-
-	itsVSizingMenu->SetTitleText(JGetString("MenuTitle::WidgetParametersDialog_VSizing"));
-	itsVSizingMenu->SetMenuItems(kVerticalSizingMenuStr);
-	itsVSizingMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ConfigureVerticalSizingMenu(itsVSizingMenu);
-	itsVSizingMenu->SetToPopupChoice(true, itsVSizingIndex);
-
-	ListenTo(itsVSizingMenu, std::function([this](const JXMenu::NeedsUpdate&)
-	{
-		itsVSizingMenu->CheckItem(itsVSizingIndex);
-	}));
-
-	ListenTo(itsVSizingMenu, std::function([this](const JXMenu::ItemSelected& msg)
-	{
-		itsVSizingIndex = msg.GetIndex();
-	}));
+	itsHSizingRG->SelectItem(hSizing);
+	itsVSizingRG->SelectItem(vSizing);
 }
 
 /******************************************************************************
@@ -235,12 +258,12 @@ JXWidget::HSizingOption
 WidgetParametersDialog::GetHSizing()
 	const
 {
-	return (JXWidget::HSizingOption) (itsHSizingIndex-1);
+	return (JXWidget::HSizingOption) itsHSizingRG->GetSelectedItem();
 }
 
 JXWidget::VSizingOption
 WidgetParametersDialog::GetVSizing()
 	const
 {
-	return (JXWidget::VSizingOption) (itsVSizingIndex-1);
+	return (JXWidget::VSizingOption) itsVSizingRG->GetSelectedItem();
 }

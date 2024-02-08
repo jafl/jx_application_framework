@@ -314,25 +314,7 @@ LayoutContainer::RemoveSelectedWidgets()
 	GetSelectedWidgets(&list);
 	list.DeleteAll();
 
-	JPtrArray<LayoutWidget> inputWidgets(JPtrArrayT::kForgetAll);
-	ForEach([&inputWidgets](JXContainer* obj)
-	{
-		auto* widget = dynamic_cast<LayoutWidget*>(obj);
-		if (widget != nullptr && widget->WantsInput())
-		{
-			inputWidgets.Append(widget);
-		}
-	},
-	true);
-
-	inputWidgets.SetCompareFunction(CompareTabOrder);
-	inputWidgets.Sort();
-
-	const JSize count = inputWidgets.GetItemCount();
-	for (JIndex i=1; i<=count; i++)
-	{
-		inputWidgets.GetItem(i)->SetTabIndex(i);
-	}
+	ResetTabIndices();
 
 	NewUndo(newUndo);
 }
@@ -1666,7 +1648,7 @@ LayoutContainer::WillAcceptDrop
 					JRect bounds;
 					LayoutSelection::ReadMetaData(input, &itsBoundsOffset, &bounds, &itsDropOffset, itsDropRectList);
 
-					if (GetAperture().Contains(bounds))
+					if (GetFrame().Contains(bounds))
 					{
 						itsDropPt.Set(-1,-1);
 						found = true;
@@ -1801,8 +1783,11 @@ LayoutContainer::HandleDNDDrop
 				}
 
 				LayoutWidget* widget = ReadWidget(input, kCurrentFileVersion, this, &widgetList);
-				widget->Move(delta.x, delta.y);
-				SnapToGrid(widget);
+				if (widget->GetEnclosure() == this)
+				{
+					widget->Move(delta.x, delta.y);
+					SnapToGrid(widget);
+				}
 				if (widget->WantsInput())
 				{
 					widget->SetTabIndex(GetNextTabIndex());
@@ -2347,7 +2332,7 @@ void
 LayoutContainer::AdjustTabOrder
 	(
 	JPtrArray<LayoutWidget>*	list,
-	const JInteger			delta
+	const JInteger				delta
 	)
 {
 	list->SetCompareFunction(CompareTabOrder);
@@ -2377,6 +2362,41 @@ LayoutContainer::AdjustTabOrder
 			},
 			true);
 		}
+	}
+}
+
+/******************************************************************************
+ ResetTabIndices (private)
+
+ ******************************************************************************/
+
+void
+LayoutContainer::ResetTabIndices()
+{
+	if (itsParent != nullptr)
+	{
+		itsParent->ResetTabIndices();
+		return;
+	}
+
+	JPtrArray<LayoutWidget> inputWidgets(JPtrArrayT::kForgetAll);
+	ForEach([&inputWidgets](JXContainer* obj)
+	{
+		auto* widget = dynamic_cast<LayoutWidget*>(obj);
+		if (widget != nullptr && widget->WantsInput())
+		{
+			inputWidgets.Append(widget);
+		}
+	},
+	true);
+
+	inputWidgets.SetCompareFunction(CompareTabOrder);
+	inputWidgets.Sort();
+
+	const JSize count = inputWidgets.GetItemCount();
+	for (JIndex i=1; i<=count; i++)
+	{
+		inputWidgets.GetItem(i)->SetTabIndex(i);
 	}
 }
 
