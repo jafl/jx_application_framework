@@ -61,7 +61,7 @@ PartitionPanel::PartitionPanel
 	auto* hint =
 		jnew JXStaticText(JGetString("hint::PartitionPanel::Panel"), true, false, false, nullptr, container,
 					JXWidget::kFixedRight, JXWidget::kVElastic, 200,10, 250,50);
-	assert( hint != nullptr );
+	hint->SetBorderWidth(0);
 
 	itsTable =
 		jnew PartitionMinSizeTable(itsData, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
@@ -85,8 +85,6 @@ PartitionPanel::PartitionPanel
 // end Panel
 
 	dlog->AddPanel(this, container);
-
-	hint->SetBorderWidth(0);
 
 	ListenTo(itsAddRowButton, std::function([this](const JXButton::Pushed&)
 	{

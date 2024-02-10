@@ -4,9 +4,6 @@ expand scrollbarSet vertically in main layout: too tall
 open AboutDialog.jxl with toolbar visible - doesn't compensate correctly
 	but it does work when the window is already open
 
-drag image (widget, button, radio) to another layout
-	if not in same project (or not saved), can't find images - crash
-
 JXTabGroup
 	min 1 value
 
@@ -17,4 +14,4 @@ testjx:
 
 drakon: tab group in main window
 
-jcc: partitions & tab group
+jcc: tab group

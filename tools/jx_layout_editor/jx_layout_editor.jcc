@@ -401,6 +401,14 @@ T
 F
 "./code/RadioButtonIDPanel.jxl"
 T
+2 "RadioGroupPanel.cpp"
+F
+"./code/RadioGroupPanel.cpp"
+T
+2 "RadioGroupPanel.jxl"
+F
+"./code/RadioGroupPanel.jxl"
+T
 2 "SaveFileInputPanel.cpp"
 F
 "./code/SaveFileInputPanel.cpp"

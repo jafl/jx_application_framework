@@ -71,6 +71,7 @@
 .cpp ./code/PartitionMinSizeTable
 .cpp ./code/PathInputPanel
 .cpp ./code/RadioButtonIDPanel
+.cpp ./code/RadioGroupPanel
 .cpp ./code/SaveFileInputPanel
 .cpp ./code/StaticTextPanel
 .cpp ./code/ToolBarPanel

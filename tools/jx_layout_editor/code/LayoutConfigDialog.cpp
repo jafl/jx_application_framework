@@ -81,6 +81,7 @@ LayoutConfigDialog::BuildWindow
 	itsLayoutTypeRG =
 		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 440,190);
+	itsLayoutTypeRG->SetBorderWidth(0);
 
 	auto* codeTagLabel =
 		jnew JXStaticText(JGetString("codeTagLabel::LayoutConfigDialog::JXLayout"), itsLayoutTypeRG,
@@ -163,7 +164,6 @@ LayoutConfigDialog::BuildWindow
 
 	itsCodeTagInput->GetText()->SetText(codeTag);
 
-	itsLayoutTypeRG->SetBorderWidth(0);
 	itsLayoutTypeRG->SelectItem(
 		!containerName.IsEmpty() ? kCustomContainer : kWindowContainer);
 

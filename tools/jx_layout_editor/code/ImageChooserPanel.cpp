@@ -143,9 +143,8 @@ ImageChooserPanel::ReadImageName
 	}
 
 	JString path;
-	if (!isCoreImage)
+	if (!isCoreImage && doc->ExistsOnDisk())
 	{
-		assert( doc->ExistsOnDisk() );
 		ImageCache::FindProjectRoot(doc->GetFilePath(), &path);
 	}
 

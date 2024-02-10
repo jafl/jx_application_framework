@@ -83,20 +83,32 @@ WidgetParametersDialog::BuildWindow
 
 	itsHSizingRG =
 		jnew JXRadioGroup(itsLatestContainer,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 130,50);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,50, 90,50);
+	itsHSizingRG->SetBorderWidth(0);
 
 	itsVSizingRG =
 		jnew JXRadioGroup(itsLatestContainer,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,50, 130,50);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,50, 90,50);
+	itsVSizingRG->SetBorderWidth(0);
 
 	itsMemberVarCB =
 		jnew JXTextCheckbox(JGetString("itsMemberVarCB::WidgetParametersDialog::JXLayout"), itsLatestContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,50, 130,20);
 	itsMemberVarCB->SetShortcuts(JGetString("itsMemberVarCB::shortcuts::WidgetParametersDialog::JXLayout"));
 
+	auto* hSizingLabel =
+		jnew JXStaticText(JGetString("hSizingLabel::WidgetParametersDialog::JXLayout"), itsLatestContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 20,30);
+	hSizingLabel->SetToLabel(false);
+
+	auto* vSizingLabel =
+		jnew JXStaticText(JGetString("vSizingLabel::WidgetParametersDialog::JXLayout"), itsLatestContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 20,30);
+	vSizingLabel->SetToLabel(false);
+
 	auto* fixedLeftRB =
 		jnew JXImageRadioButton(JXWidget::kFixedLeft, itsHSizingRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 30,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,10, 30,30);
 #ifndef _H_align_left
 #define _H_align_left
 #include "align_left.xpm"
@@ -105,7 +117,7 @@ WidgetParametersDialog::BuildWindow
 
 	auto* hElasticRB =
 		jnew JXImageRadioButton(JXWidget::kHElastic, itsHSizingRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,10, 30,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,10, 30,30);
 #ifndef _H_expand_horiz
 #define _H_expand_horiz
 #include "expand_horiz.xpm"
@@ -114,7 +126,7 @@ WidgetParametersDialog::BuildWindow
 
 	auto* fixedRightRB =
 		jnew JXImageRadioButton(JXWidget::kFixedRight, itsHSizingRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,10, 30,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,10, 30,30);
 #ifndef _H_align_right
 #define _H_align_right
 #include "align_right.xpm"
@@ -123,7 +135,7 @@ WidgetParametersDialog::BuildWindow
 
 	auto* fixedTopRB =
 		jnew JXImageRadioButton(JXWidget::kFixedTop, itsVSizingRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 30,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,10, 30,30);
 #ifndef _H_align_top
 #define _H_align_top
 #include "align_top.xpm"
@@ -132,7 +144,7 @@ WidgetParametersDialog::BuildWindow
 
 	auto* vElasticRB =
 		jnew JXImageRadioButton(JXWidget::kVElastic, itsVSizingRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,10, 30,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,10, 30,30);
 #ifndef _H_expand_vert
 #define _H_expand_vert
 #include "expand_vert.xpm"
@@ -141,7 +153,7 @@ WidgetParametersDialog::BuildWindow
 
 	auto* fixedBottomRB =
 		jnew JXImageRadioButton(JXWidget::kFixedBottom, itsVSizingRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,10, 30,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,10, 30,30);
 #ifndef _H_align_bottom
 #define _H_align_bottom
 #include "align_bottom.xpm"

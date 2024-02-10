@@ -1,5 +1,5 @@
 /******************************************************************************
- RadioButtonIDPanel.cpp
+ RadioGroupPanel.cpp
 
 	BASE CLASS = WidgetPanelBase
 
@@ -7,14 +7,11 @@
 
  ******************************************************************************/
 
-#include "RadioButtonIDPanel.h"
+#include "RadioGroupPanel.h"
 #include "WidgetParametersDialog.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXWidgetSet.h>
-#include <jx-af/jx/JXStaticText.h>
-#include <jx-af/jx/JXInputField.h>
-#include <jx-af/jcore/JRegex.h>
-#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jx/JXTextCheckbox.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -23,11 +20,11 @@
 
  ******************************************************************************/
 
-RadioButtonIDPanel::RadioButtonIDPanel
+RadioGroupPanel::RadioGroupPanel
 	(
 	WidgetParametersDialog* dlog,
 
-	const JString& id
+	const bool hideBorder
 	)
 {
 	JXWindow* window = dlog->GetWindow();
@@ -39,23 +36,16 @@ RadioButtonIDPanel::RadioButtonIDPanel
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
 	assert( container != nullptr );
 
-	auto* idLabel =
-		jnew JXStaticText(JGetString("idLabel::RadioButtonIDPanel::Panel"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 30,20);
-	idLabel->SetToLabel(false);
-
-	itsIDInput =
-		jnew JXInputField(false, true, container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,10, 390,20);
-	itsIDInput->SetIsRequired();
-	itsIDInput->SetValidationPattern(jnew JRegex("^([_a-z][_a-z0-9:]+|[1-9][0-9]*)$", "i"), "itsIDInput::validation::RadioButtonIDPanel::Panel");
-	itsIDInput->SetFont(JFontManager::GetDefaultMonospaceFont());
+	itsHideBorderCB =
+		jnew JXTextCheckbox(JGetString("itsHideBorderCB::RadioGroupPanel::Panel"), container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 100,20);
+	itsHideBorderCB->SetShortcuts(JGetString("itsHideBorderCB::shortcuts::RadioGroupPanel::Panel"));
 
 // end Panel
 
 	dlog->AddPanel(this, container);
 
-	itsIDInput->GetText()->SetText(id);
+	itsHideBorderCB->SetState(hideBorder);
 }
 
 /******************************************************************************
@@ -63,7 +53,7 @@ RadioButtonIDPanel::RadioButtonIDPanel
 
  ******************************************************************************/
 
-RadioButtonIDPanel::~RadioButtonIDPanel()
+RadioGroupPanel::~RadioGroupPanel()
 {
 }
 
@@ -73,10 +63,10 @@ RadioButtonIDPanel::~RadioButtonIDPanel()
  ******************************************************************************/
 
 void
-RadioButtonIDPanel::GetValues
+RadioGroupPanel::GetValues
 	(
-	JString* id
+	bool* hideBorder
 	)
 {
-	*id = itsIDInput->GetText()->GetText();
+	*hideBorder = itsHideBorderCB->IsChecked();
 }

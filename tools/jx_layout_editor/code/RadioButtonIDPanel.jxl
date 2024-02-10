@@ -1,4 +1,4 @@
-jx_layout_editor 6
+jx_layout_editor 7
 460
 40
 "Panel"
@@ -8,6 +8,7 @@ jx_layout_editor 6
 0
 
 1
+0
 0
 "WidgetSet"
 0
@@ -20,10 +21,11 @@ jx_layout_editor 6
 
 1
 1
+1
 "StaticText"
 0
 0
-10 20 30 100
+10 20 30 50
 "idLabel"
 0
 0
@@ -37,10 +39,11 @@ jx_layout_editor 6
 
 1
 1
+1
 "InputField"
 0
 0
-10 100 30 440
+10 50 30 440
 "itsIDInput"
 1
 1
@@ -53,7 +56,7 @@ jx_layout_editor 6
 "The radio button's id must be either a number or a valid C++ identifier."
 0
 1
-0
+1
 ""
 
 0

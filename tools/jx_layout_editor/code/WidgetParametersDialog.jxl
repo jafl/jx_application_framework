@@ -1,4 +1,4 @@
-jx_layout_editor 7
+jx_layout_editor 8
 460
 150
 "JXLayout"
@@ -65,11 +65,12 @@ jx_layout_editor 7
 "RadioGroup"
 0
 0
-50 20 100 150
+50 40 100 130
 "itsHSizingRG"
 1
 0
 0
+1
 
 1
 1
@@ -77,11 +78,12 @@ jx_layout_editor 7
 "RadioGroup"
 0
 0
-50 160 100 290
+50 180 100 270
 "itsVSizingRG"
 1
 0
 0
+1
 
 1
 1
@@ -98,12 +100,48 @@ jx_layout_editor 7
 "#M"
 
 1
+1
+1
+"StaticText"
+0
+0
+60 20 90 40
+"hSizingLabel"
+0
+0
+0
+"H:"
+1
+0
+0
+0
+0
+
+1
+1
+1
+"StaticText"
+0
+0
+60 160 90 180
+"vSizingLabel"
+0
+0
+0
+"V:"
+1
+0
+0
+0
+0
+
+1
 4
 1
 "ImageRadioButton"
 0
 0
-10 10 40 40
+10 0 40 30
 "fixedLeftRB"
 0
 0
@@ -117,7 +155,7 @@ jx_layout_editor 7
 "ImageRadioButton"
 0
 0
-10 50 40 80
+10 30 40 60
 "hElasticRB"
 0
 0
@@ -131,7 +169,7 @@ jx_layout_editor 7
 "ImageRadioButton"
 0
 0
-10 90 40 120
+10 60 40 90
 "fixedRightRB"
 0
 0
@@ -145,7 +183,7 @@ jx_layout_editor 7
 "ImageRadioButton"
 0
 0
-10 10 40 40
+10 0 40 30
 "fixedTopRB"
 0
 0
@@ -159,7 +197,7 @@ jx_layout_editor 7
 "ImageRadioButton"
 0
 0
-10 50 40 80
+10 30 40 60
 "vElasticRB"
 0
 0
@@ -173,7 +211,7 @@ jx_layout_editor 7
 "ImageRadioButton"
 0
 0
-10 90 40 120
+10 60 40 90
 "fixedBottomRB"
 0
 0

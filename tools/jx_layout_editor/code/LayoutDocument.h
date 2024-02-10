@@ -32,6 +32,7 @@ public:
 	void			Activate() override;
 
 	LayoutContainer*	GetLayoutContainer() const;
+	JString				GetStringNamespace() const;
 
 	void	UpdateSaveState();
 

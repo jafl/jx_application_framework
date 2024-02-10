@@ -243,6 +243,12 @@ StaticText::PrintConfiguration
 		varName.Print(output);
 		output << "->SetToLabel(" << itsCenterHorizFlag << ");" << std::endl;
 	}
+	else if (!itsSelectableFlag)
+	{
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetBorderWidth(0);" << std::endl;
+	}
 	else
 	{
 		CoreWidget::PrintConfiguration(output, indent, varName, stringdb);

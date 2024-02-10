@@ -68,7 +68,7 @@ public:
 
 	JString GenerateUniqueVarName() const;
 
-	JIndex	GetNextTabIndex() const;
+	JIndex	GetNextTabIndex(const LayoutWidget* ignoreWidget = nullptr) const;
 	void	TabIndexRemoved(const JIndex i);
 
 	JSize	GetGridSpacing() const;

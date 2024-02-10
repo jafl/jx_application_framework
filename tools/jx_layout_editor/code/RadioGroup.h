@@ -34,6 +34,17 @@ protected:
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 
 	JString	GetClassName() const override;
+	void	PrintConfiguration(std::ostream& output,
+							   const JString& indent,
+							   const JString& varName,
+							   JStringManager* stringdb) const override;
+
+	void	AddPanels(WidgetParametersDialog* dlog) override;
+	void	SavePanelData() override;
+
+private:
+
+	RadioGroupPanel*	itsPanel;
 
 private:
 

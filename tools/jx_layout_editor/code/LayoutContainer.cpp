@@ -1063,7 +1063,7 @@ LayoutContainer::GetStringNamespace()
 	const
 {
 	JString ns("::");
-	ns += itsDoc->GetName();
+	ns += itsDoc->GetStringNamespace();
 	ns += "::";
 	ns += GetCodeTag();
 	return ns;
@@ -1111,20 +1111,23 @@ LayoutContainer::GenerateUniqueVarName()
  ******************************************************************************/
 
 JIndex
-LayoutContainer::GetNextTabIndex()
+LayoutContainer::GetNextTabIndex
+	(
+	const LayoutWidget* ignoreWidget
+	)
 	const
 {
 	if (itsParent != nullptr)
 	{
-		return itsParent->GetNextTabIndex();
+		return itsParent->GetNextTabIndex(ignoreWidget);
 	}
 
 	JIndex i = 0;
-	ForEach([&i](const JXContainer* obj)
+	ForEach([&i, &ignoreWidget](const JXContainer* obj)
 	{
 		auto* widget = dynamic_cast<const LayoutWidget*>(obj);
 		JIndex j;
-		if (widget != nullptr && widget->GetTabIndex(&j))
+		if (widget != nullptr && widget != ignoreWidget && widget->GetTabIndex(&j))
 		{
 			i = JMax(i, j);
 		}
@@ -1790,7 +1793,7 @@ LayoutContainer::HandleDNDDrop
 				}
 				if (widget->WantsInput())
 				{
-					widget->SetTabIndex(GetNextTabIndex());
+					widget->SetTabIndex(GetNextTabIndex(widget));
 				}
 				changed = true;
 			}

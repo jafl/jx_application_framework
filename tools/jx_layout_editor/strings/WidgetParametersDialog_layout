@@ -1,12 +1,14 @@
 0
 variableNameLabel::WidgetParametersDialog::JXLayout "Variable name:"
 itsPredeclaredVarCB::shortcuts::WidgetParametersDialog::JXLayout "#P"
-okButton::shortcuts::WidgetParametersDialog::JXLayout "^M"
+okButton::WidgetParametersDialog::JXLayout "OK"
 itsMemberVarCB::WidgetParametersDialog::JXLayout "Member variable"
 itsMemberVarCB::shortcuts::WidgetParametersDialog::JXLayout "#M"
-okButton::WidgetParametersDialog::JXLayout "OK"
+hSizingLabel::WidgetParametersDialog::JXLayout "H:"
 cancelButton::WidgetParametersDialog::JXLayout "Cancel"
 itsPredeclaredVarCB::WidgetParametersDialog::JXLayout "Pre-declared"
+vSizingLabel::WidgetParametersDialog::JXLayout "V:"
+okButton::shortcuts::WidgetParametersDialog::JXLayout "^M"
 itsVarNameInput::validation::WidgetParametersDialog::JXLayout "The variable name must be a valid C++ identifier or expression."
 WindowTitle::WidgetParametersDialog::JXLayout "Edit parameters"
 

@@ -12,8 +12,10 @@
 
 #include <jx-af/jcore/jTypes.h>
 
-const JFileVersion kCurrentFileVersion = 7;
+const JFileVersion kCurrentFileVersion = 8;
 
+// version 8:
+//	addes hideBorder to RadioGroup
 // version 7:
 //	adds containerIndex after parentIndex in LayoutContaienr
 // version 6:

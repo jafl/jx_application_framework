@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include "RadioGroup.h"
-#include "LayoutContainer.h"
+#include "RadioGroupPanel.h"
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jcore/jAssert.h>
@@ -50,6 +50,16 @@ RadioGroup::RadioGroup
 	ContainerWidget(input, vers, layout, hSizing, vSizing, x,y, w,h)
 {
 	RadioGroupX();
+
+	if (vers >= 8)
+	{
+		bool hideBorder;
+		input >> hideBorder;
+		if (hideBorder)
+		{
+			SetBorderWidth(0);
+		}
+	}
 }
 
 // private
@@ -84,6 +94,8 @@ RadioGroup::StreamOut
 	output << JString("RadioGroup") << std::endl;
 
 	ContainerWidget::StreamOut(output);
+
+	output << (GetBorderWidth() == 0) << std::endl;
 }
 
 /******************************************************************************
@@ -111,4 +123,61 @@ RadioGroup::GetClassName()
 	const
 {
 	return "JXRadioGroup";
+}
+
+/******************************************************************************
+ PrintConfiguration (virtual protected)
+
+ ******************************************************************************/
+
+void
+RadioGroup::PrintConfiguration
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	const JString&	varName,
+	JStringManager*	stringdb
+	)
+	const
+{
+	if (GetBorderWidth() == 0)
+	{
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetBorderWidth(0);" << std::endl;
+	}
+	else
+	{
+		ContainerWidget::PrintConfiguration(output, indent, varName, stringdb);
+	}
+}
+
+/******************************************************************************
+ AddPanels (virtual protected)
+
+ ******************************************************************************/
+
+void
+RadioGroup::AddPanels
+	(
+	WidgetParametersDialog* dlog
+	)
+{
+	itsPanel = jnew RadioGroupPanel(dlog, GetBorderWidth() == 0);
+}
+
+/******************************************************************************
+ SavePanelData (virtual protected)
+
+ ******************************************************************************/
+
+void
+RadioGroup::SavePanelData()
+{
+	bool hideBorder;
+	itsPanel->GetValues(&hideBorder);
+
+	SetBorderWidth(hideBorder ? 0 : 2);
+
+	itsPanel = nullptr;
 }

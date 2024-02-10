@@ -637,16 +637,10 @@ LayoutDocument::GenerateCode()
 	const JString fullName = GetFullName(&onDisk);
 	assert( onDisk );
 
-	JString path, name, root, suffix;
+	JString path, name;
 	JSplitPathAndName(fullName, &path, &name);
-	JSplitRootAndSuffix(name, &root, &suffix);
 
-	if (root.EndsWith("__" + itsLayout->GetCodeTag()))
-	{
-		JStringIterator iter(&root, JStringIterator::kStartAtEnd);
-		iter.Prev("__");
-		iter.RemoveAllNext();
-	}
+	JString root = GetStringNamespace();
 
 	JString projRoot;
 	if (!ImageCache::FindProjectRoot(path, &projRoot))
@@ -819,6 +813,9 @@ LayoutDocument::GenerateCode()
 	//
 	// string database
 	//
+
+	JString suffix;
+	JSplitRootAndSuffix(name, &root, &suffix);	// preserve __code_tag
 
 	JString stringsFullName = JCombinePathAndName(projRoot, "strings");
 	stringsFullName         = JCombinePathAndName(stringsFullName, root);
@@ -1015,6 +1012,26 @@ LayoutDocument::GenerateHeader
 	// need blank line to conform to expectations of CopyAfterCodeDelimiter
 
 	output << std::endl;
+}
+
+/******************************************************************************
+ GetStringNamespace
+
+ ******************************************************************************/
+
+JString
+LayoutDocument::GetStringNamespace()
+	const
+{
+	JString name = GetName();
+	if (name.EndsWith("__" + itsLayout->GetCodeTag()))
+	{
+		JStringIterator iter(&name, JStringIterator::kStartAtEnd);
+		iter.Prev("__");
+		iter.RemoveAllNext();
+	}
+
+	return name;
 }
 
 /******************************************************************************
@@ -1467,7 +1484,8 @@ LayoutDocument::ImportFDesignLayout
 				*argList.GetItem(1), *argList.GetItem(2), *argList.GetItem(3),
 				enclosure, hS,vS, x,y,w,h);
 		}
-		else if (flClass == "FL_BOX" && flType == "FL_SHADOW_BOX")
+		else if ((flClass == "FL_BOX" && flType == "FL_SHADOW_BOX") ||
+				 label == "JXWidgetSet")
 		{
 			widget = jnew WidgetSet(enclosure, hS,vS, x,y,w,h);
 		}
