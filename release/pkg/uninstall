@@ -11,10 +11,10 @@ INC=$PRE/include;
 SHR=$PRE/share;
 
 rm -f $BIN/compile_jstrings \
+      $BIN/jx_layout_editor \
       $BIN/jx_memory_debugger \
+      $BIN/jx_menu_editor \
       $BIN/jx_project_wizard \
-      $BIN/jfdesign \
-      $BIN/jxlayout \
       $BIN/makecheck \
       $BIN/makemake \
       $BIN/maketouch;

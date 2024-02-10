@@ -14,8 +14,7 @@ passes:  first horizontally and then vertically.  The algorithm tries to
 build a grid that fits all the widgets in the layout.  If a layout cannot
 be fit into a grid, it will print an error message and not modify the
 layout.  In this case, you may need to enclose a group of widgets inside a
-`JXWidgetSet` and call `SetNeedsInternalFTC()` on container.  You can
-create a `JXWidgetSet` in `jxlayout` by placing a shadow box.
+`JXWidgetSet`.
 
 You can debug layouts by running your application with either
 `--debug-ftc-horiz` or `--debug-ftc-vert`.  This renders the grid layout,

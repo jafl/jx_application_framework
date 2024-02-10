@@ -64,6 +64,7 @@ static const char* kCurrentJXLibVersionStr = "4.1.0";
 //	JXHistoryMenuBase and derived classes:
 //		*** Removed title ctor arg, since it's useless.
 //	Added JXIntegerTable.
+//	Converted all .fd files to .jxl files, using jx_layout_editor.
 
 // version 4.0.0:
 //	Supports utf-8

@@ -1,3 +1,6 @@
+jcc search
+	doesn't stick to selection while search is running
+
 multi-pane editing
 
 	TextEditor::WriteSetup + keyHandler +
@@ -12,11 +15,6 @@ multi-pane editing
 	small [+] buttons to split either horiz or vert
 
 -----
-
-jcc
-	search text dialog: remove file list, more space for separator above directory
-
-	test with old project formats in code_crusader/test-manual/*.jcc
 
 medic
 	when kill program, doesn't clear current source line marker
