@@ -55,25 +55,74 @@ TestTabDirector::~TestTabDirector()
 void
 TestTabDirector::BuildWindow()
 {
-	JXWindow* window = jnew JXWindow(this, 300,300, JString::empty);
+// begin JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::TestTabDirector"));
-	window->SetWMClass("testjx", "TestTabDirector");
-	window->LockCurrentMinSize();
+	auto* window = jnew JXWindow(this, 300,300, JGetString("WindowTitle::TestTabDirector::JXLayout"));
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestTabDirector");
 
-	itsTabGroup = jnew JXTabGroup(window, JXWidget::kHElastic, JXWidget::kVElastic,
-								 5, 5, 290, 290);
+	itsTabGroup =
+		jnew JXTabGroup(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 5,5, 290,290);
+	itsTabGroup->AppendTab(JGetString("itsTabGroup::tab1::TestTabDirector::JXLayout"));
+	itsTabGroup->AppendTab(JGetString("itsTabGroup::tab2::TestTabDirector::JXLayout"));
+	itsTabGroup->AppendTab(JGetString("itsTabGroup::tab3::TestTabDirector::JXLayout"));
 
-	JXContainer* card3 = itsTabGroup->AppendTab(JGetString("Tab3Label::TestTabDirector"));
-	JXContainer* card1 = itsTabGroup->PrependTab(JGetString("Tab1Label::TestTabDirector"));
-	JXContainer* card2 = itsTabGroup->InsertTab(2, JGetString("Tab2Label::TestTabDirector"));
-
-	// card 1
+	itsAddTabButton =
+		jnew JXTextButton(JGetString("itsAddTabButton::TestTabDirector::JXLayout"), itsTabGroup->GetTabEnclosure(2),
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,20, 240,30);
 
 	itsFontMenu =
-		jnew JXFontNameMenu(JGetString("FontMenuTitle::TestTabDirector"), true, card1,
-						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,30);
-	assert( itsFontMenu != nullptr );
+		jnew JXFontNameMenu(JGetString("FontMenuTitle::TestTabDirector"), true, itsTabGroup->GetTabEnclosure(1),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 240,30);
+
+	itsMonoFont =
+		jnew JXChooseMonoFont(itsTabGroup->GetTabEnclosure(3),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,50, 230,60);
+
+	itsSizeMenu =
+		jnew JXFontSizeMenu(itsFontMenu, JGetString("SizeMenuTitle::TestTabDirector"), itsTabGroup->GetTabEnclosure(1),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 240,30);
+
+	itsEdgeRG =
+		jnew JXRadioGroup(itsTabGroup->GetTabEnclosure(1),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 240,140);
+
+	auto* rb1 =
+		jnew JXTextRadioButton(JXTabGroup::kTop, JGetString("rb1::TestTabDirector::JXLayout"), itsEdgeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 210,20);
+	assert( rb1 != nullptr );
+
+	auto* rb2 =
+		jnew JXTextRadioButton(JXTabGroup::kLeft, JGetString("rb2::TestTabDirector::JXLayout"), itsEdgeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 210,20);
+	assert( rb2 != nullptr );
+
+	auto* rb3 =
+		jnew JXTextRadioButton(JXTabGroup::kBottom, JGetString("rb3::TestTabDirector::JXLayout"), itsEdgeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 210,20);
+	assert( rb3 != nullptr );
+
+	auto* rb4 =
+		jnew JXTextRadioButton(JXTabGroup::kRight, JGetString("rb4::TestTabDirector::JXLayout"), itsEdgeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,100, 210,20);
+	assert( rb4 != nullptr );
+
+	auto* input =
+		jnew JXIntegerInput(itsTabGroup->GetTabEnclosure(2),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,60, 240,20);
+	input->SetIsRequired(false);
+	input->SetLowerLimit(-10);
+	input->SetUpperLimit(10);
+
+	itsMonoFontSample =
+		jnew JXInputField(itsTabGroup->GetTabEnclosure(3),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 240,20);
+	itsMonoFontSample->SetFont(JFontManager::GetDefaultMonospaceFont());
+
+// end JXLayout
+
+	window->LockCurrentMinSize();
+
 	itsFontMenu->SetFontName(itsTabGroup->GetFont().GetName());
 	itsFontMenu->SetToPopupChoice();
 	ListenTo(itsFontMenu, std::function([this](const JXFontNameMenu::NameChanged&)
@@ -83,44 +132,11 @@ TestTabDirector::BuildWindow()
 		itsSizeMenu->SetFontName(name);
 	}));
 
-	const JString fontName = itsFontMenu->GetFontName();
-
-	itsSizeMenu =
-		jnew JXFontSizeMenu(fontName, JGetString("SizeMenuTitle::TestTabDirector"), card1,
-						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 50,30);
-	assert( itsSizeMenu != nullptr );
 	itsSizeMenu->SetToPopupChoice();
 	ListenTo(itsSizeMenu, std::function([this](const JXFontSizeMenu::SizeChanged& msg)
 	{
 		itsTabGroup->SetFontSize(msg.GetSize());
 	}));
-
-	itsEdgeRG = jnew JXRadioGroup(card1, JXWidget::kFixedLeft, JXWidget::kFixedTop,
-								 20,100, 100,140);
-
-	JXTextRadioButton* rb1 =
-		jnew JXTextRadioButton(JXTabGroup::kTop, JGetString("TopRBLabel::TestTabDirector"), itsEdgeRG,
-							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
-							  10,10, 80,20);
-	assert( rb1 != nullptr );
-
-	JXTextRadioButton* rb2 =
-		jnew JXTextRadioButton(JXTabGroup::kLeft, JGetString("LeftRBLabel::TestTabDirector"), itsEdgeRG,
-							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
-							  10,40, 80,20);
-	assert( rb2 != nullptr );
-
-	JXTextRadioButton* rb3 =
-		jnew JXTextRadioButton(JXTabGroup::kBottom, JGetString("BottomRBLabel::TestTabDirector"), itsEdgeRG,
-							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
-							  10,70, 80,20);
-	assert( rb3 != nullptr );
-
-	JXTextRadioButton* rb4 =
-		jnew JXTextRadioButton(JXTabGroup::kRight, JGetString("RightRBLabel::TestTabDirector"), itsEdgeRG,
-							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
-							  10,100, 80,20);
-	assert( rb4 != nullptr );
 
 	itsEdgeRG->SelectItem(itsTabGroup->GetTabEdge());
 	ListenTo(itsEdgeRG, std::function([this](const JXRadioGroup::SelectionChanged& msg)
@@ -128,31 +144,12 @@ TestTabDirector::BuildWindow()
 		itsTabGroup->SetTabEdge((JXTabGroup::Edge) msg.GetID());
 	}));
 
-	// card 2
-
-	itsAddTabButton =
-		jnew JXTextButton(JGetString("NewTabButtonLabel::TestTabDirector"), card2,
-						 JXWidget::kFixedLeft, JXWidget::kFixedBottom,
-						 20, 20, 200, 30);
-	assert( itsAddTabButton != nullptr );
 	ListenTo(itsAddTabButton);
 
-	JXIntegerInput* input =
-		jnew JXIntegerInput(card2, JXWidget::kHElastic, JXWidget::kFixedTop,
-						   20, 60, 250, 20);
-	input->SetLimits(-10, 10);
 	input->SetValue(0);
 
-	// card 3
-
-	itsMonoFontSample =
-		jnew JXInputField(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
-						 20, 20, 200, 20);
 	itsMonoFontSample->GetText()->SetText(JGetString("SampleText::TestTabDirector"));
 
-	itsMonoFont =
-		jnew JXChooseMonoFont(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
-							 20, 50, 300, 100);
 	ListenTo(itsMonoFont, std::function([this](const JXChooseMonoFont::FontChanged&)
 	{
 		UpdateFontSample();

@@ -1,0 +1,199 @@
+jx_layout_editor 8
+300
+300
+"JXLayout"
+"Test Tab Group"
+"TestTabDirector"
+""
+0
+
+1
+0
+0
+"TabGroup"
+2
+2
+5 5 295 295
+"itsTabGroup"
+1
+0
+0
+0
+3
+"First tab"
+"Tab #2"
+"Testing"
+
+1
+1
+3
+"InputField"
+2
+0
+20 20 40 260
+"itsMonoFontSample"
+1
+2
+0
+0
+0
+0
+""
+""
+""
+0
+0
+1
+""
+
+1
+1
+2
+"TextButton"
+0
+1
+20 20 50 260
+"itsAddTabButton"
+1
+0
+0
+"Add new tab"
+""
+
+1
+1
+1
+"CustomWidget"
+0
+0
+20 20 50 260
+"itsFontMenu"
+1
+0
+0
+"JXFontNameMenu"
+"JGetString(\"FontMenuTitle::TestTabDirector\"), true"
+0
+""
+
+1
+1
+3
+"CustomWidget"
+2
+0
+50 20 110 250
+"itsMonoFont"
+1
+0
+0
+"JXChooseMonoFont"
+""
+0
+""
+
+1
+1
+2
+"IntegerInput"
+2
+0
+60 20 80 260
+"input"
+0
+1
+0
+0
+1 -10
+1 10
+
+1
+1
+1
+"CustomWidget"
+0
+0
+60 20 90 260
+"itsSizeMenu"
+1
+0
+0
+"JXFontSizeMenu"
+"itsFontMenu, JGetString(\"SizeMenuTitle::TestTabDirector\")"
+0
+""
+
+1
+1
+1
+"RadioGroup"
+0
+0
+100 20 240 260
+"itsEdgeRG"
+1
+0
+0
+0
+
+1
+8
+1
+"TextRadioButton"
+0
+0
+10 10 30 220
+"rb1"
+0
+0
+0
+"JXTabGroup::kTop"
+"Top"
+""
+
+1
+8
+1
+"TextRadioButton"
+0
+0
+40 10 60 220
+"rb2"
+0
+0
+0
+"JXTabGroup::kLeft"
+"Left"
+""
+
+1
+8
+1
+"TextRadioButton"
+0
+0
+70 10 90 220
+"rb3"
+0
+0
+0
+"JXTabGroup::kBottom"
+"Bottom"
+""
+
+1
+8
+1
+"TextRadioButton"
+0
+0
+100 10 120 220
+"rb4"
+0
+0
+0
+"JXTabGroup::kRight"
+"Right"
+""
+
+0

@@ -138,6 +138,10 @@ T
 F
 "./code/TestTabDirector.cpp"
 T
+2 "TestTabDirector.jxl"
+F
+"./code/TestTabDirector.jxl"
+T
 2 "TestPartitionDirector.cpp"
 F
 "./code/TestPartitionDirector.cpp"

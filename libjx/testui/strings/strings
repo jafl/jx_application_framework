@@ -107,17 +107,8 @@ VerticalLevelControlHint::TestSliderDirector	"Vertical level control (controls m
 
 # TestTabDirector
 
-WindowTitle::TestTabDirector			"Test Tab Group"
-Tab1Label::TestTabDirector				"First tab"
-Tab2Label::TestTabDirector				"Tab #2"
-Tab3Label::TestTabDirector				"Testing"
 FontMenuTitle::TestTabDirector			"Font:"
 SizeMenuTitle::TestTabDirector			"Size:"
-TopRBLabel::TestTabDirector				"Top"
-LeftRBLabel::TestTabDirector			"Left"
-BottomRBLabel::TestTabDirector			"Bottom"
-RightRBLabel::TestTabDirector			"Right"
-NewTabButtonLabel::TestTabDirector		"Add new tab"
 RemoveTabButtonLabel::TestTabDirector	"Remove this tab"
 SampleText::TestTabDirector				"I code, therefore I am. ©Åå✔"
 TabLabelPrefix::TestTabDirector			"Tab #"

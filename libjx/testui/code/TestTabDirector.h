@@ -32,14 +32,19 @@ protected:
 
 private:
 
-	JXTabGroup*			itsTabGroup;
-	JXTextButton*		itsAddTabButton;
-	JIndex				itsNextTabIndex;
-	JXFontNameMenu*		itsFontMenu;
-	JXFontSizeMenu*		itsSizeMenu;
-	JXRadioGroup*		itsEdgeRG;
-	JXChooseMonoFont*	itsMonoFont;
-	JXInputField*		itsMonoFontSample;
+	JIndex	itsNextTabIndex;
+
+// begin JXLayout
+
+	JXTabGroup*       itsTabGroup;
+	JXTextButton*     itsAddTabButton;
+	JXFontNameMenu*   itsFontMenu;
+	JXChooseMonoFont* itsMonoFont;
+	JXFontSizeMenu*   itsSizeMenu;
+	JXRadioGroup*     itsEdgeRG;
+	JXInputField*     itsMonoFontSample;
+
+// end JXLayout
 
 private:
 
