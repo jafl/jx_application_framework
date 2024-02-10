@@ -153,6 +153,10 @@ WordWrap::StaticText	"Word wrapping"
 Selectable::StaticText	"Selectable"
 Styleable::StaticText	"Stylable"
 
+# TabGroup
+
+DefaultLabel::TabGroup	"Tab"
+
 # TextButton
 
 DefaultLabel::TextButton	"Button"

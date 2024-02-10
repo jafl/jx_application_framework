@@ -1,0 +1,113 @@
+jx_layout_editor 8
+460
+100
+"Panel"
+""
+""
+"window"
+0
+
+1
+0
+0
+"WidgetSet"
+0
+0
+0 0 100 460
+"container"
+0
+0
+0
+
+1
+1
+1
+"ScrollbarSet"
+2
+2
+10 10 90 90
+"scrollbarSet"
+0
+0
+0
+
+1
+1
+1
+"TextButton"
+1
+0
+10 110 30 180
+"itsAddRowButton"
+1
+0
+0
+"Add"
+""
+
+1
+1
+1
+"StaticText"
+1
+2
+10 200 40 450
+"hint"
+0
+0
+0
+"Create a row for each tab. The text sets the title of the corresponding tab."
+0
+0
+1
+0
+0
+
+1
+2
+1
+"CustomWidget"
+2
+2
+0 0 65 65
+"itsTable"
+1
+0
+0
+"TabTitleTable"
+"itsData, scrollbarSet"
+0
+""
+
+1
+1
+1
+"TextButton"
+1
+0
+40 110 60 180
+"itsRemoveRowButton"
+1
+0
+0
+"Remove"
+""
+
+1
+1
+1
+"Menu"
+0
+0
+60 200 90 440
+"itsEdgeMenu"
+1
+0
+0
+0
+"Tab edge:"
+1
+1
+1
+
+0

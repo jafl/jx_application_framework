@@ -28,6 +28,7 @@ static const JUtf8Byte* kWidgetMenuStr =
 "|* %i __ToolBar::ChooseWidgetDialog"
 "|* %i __HorizontalPartition::ChooseWidgetDialog"
 "|* %i __VerticalPartition::ChooseWidgetDialog"
+"|* %i __TabGroup::ChooseWidgetDialog"
 "|* %i __WidgetSet::ChooseWidgetDialog %l"
 "|* %i __Slider::ChooseWidgetDialog"
 "|* %i __LevelControl::ChooseWidgetDialog"

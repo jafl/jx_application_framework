@@ -1089,6 +1089,7 @@ LayoutDocument::ImportFDesignFile
 #include "SimpleBorderRect.h"
 #include "Slider.h"
 #include "StaticText.h"
+#include "TabGroup.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
 #include "TextRadioButton.h"
@@ -1455,6 +1456,10 @@ LayoutDocument::ImportFDesignLayout
 		{
 			widget = jnew StaticText(label, labelAlign.Contains("FL_ALIGN_CENTER"),
 									 enclosure, hS,vS, x,y,w,h);
+		}
+		else if (label == "JXTabGroup")
+		{
+			widget = jnew TabGroup(enclosure, hS,vS, x,y,w,h);
 		}
 		else if (flClass == "FL_BUTTON")
 		{

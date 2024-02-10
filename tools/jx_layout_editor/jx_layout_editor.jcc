@@ -230,6 +230,10 @@ T
 F
 "./code/StaticText.cpp"
 T
+2 "TabGroup.cpp"
+F
+"./code/TabGroup.cpp"
+T
 2 "TextButtonBase.cpp"
 F
 "./code/TextButtonBase.cpp"
@@ -424,6 +428,22 @@ T
 2 "StaticTextPanel.jxl"
 F
 "./code/StaticTextPanel.jxl"
+T
+2 "TabGroupPanel.cpp"
+F
+"./code/TabGroupPanel.cpp"
+T
+2 "TabGroupPanel.jxl"
+F
+"./code/TabGroupPanel.jxl"
+T
+2 "TabGroupPanel-Edge.jxm"
+F
+"./code/TabGroupPanel-Edge.jxm"
+T
+2 "TabTitleTable.cpp"
+F
+"./code/TabTitleTable.cpp"
 T
 2 "ToolBarPanel.cpp"
 F

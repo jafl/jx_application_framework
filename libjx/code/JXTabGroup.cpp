@@ -107,18 +107,14 @@ JXTabGroup::JXTabGroup
 	itsMouseIndex(0),
 	itsClosePushedFlag(false)
 {
-	itsTitles = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsTitles != nullptr );
-
+	itsTitles      = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	itsTabInfoList = jnew JArray<TabInfo>;
-	assert( itsTabInfoList != nullptr );
 
 	JXImageCache* cache = GetDisplay()->GetImageCache();
 	itsCloseImage       = cache->GetImage(jx_tab_close);
 	itsClosePushedImage = cache->GetImage(jx_tab_close_pushed);
 
 	itsTabRects = jnew JArray<JRect>;
-	assert( itsTabRects != nullptr );
 
 	itsCardFile = jnew JXCardFile(this, kHElastic, kVElastic, 0,0, 100,100);
 	PlaceCardFile();
@@ -148,7 +144,7 @@ JXTabGroup::GetTabTitlePreMargin
 	)
 	const
 {
-	return (itsTabInfoList->GetItem(index)).preMargin - kTextMargin;
+	return itsTabInfoList->GetItem(index).preMargin - kTextMargin;
 }
 
 void
@@ -171,7 +167,7 @@ JXTabGroup::GetTabTitlePostMargin
 	)
 	const
 {
-	return (itsTabInfoList->GetItem(index)).postMargin - kTextMargin;
+	return itsTabInfoList->GetItem(index).postMargin - kTextMargin;
 }
 
 void

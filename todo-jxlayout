@@ -3,15 +3,3 @@ expand scrollbarSet vertically in main layout: too tall
 
 open AboutDialog.jxl with toolbar visible - doesn't compensate correctly
 	but it does work when the window is already open
-
-JXTabGroup
-	min 1 value
-
------
-
-testjx:
-	create layout for TestTabDirector
-
-drakon: tab group in main window
-
-jcc: tab group

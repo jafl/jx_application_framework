@@ -47,6 +47,7 @@
 .cpp ./code/SimpleBorderRect
 .cpp ./code/Slider
 .cpp ./code/StaticText
+.cpp ./code/TabGroup
 .cpp ./code/TextButtonBase
 .cpp ./code/TextButton
 .cpp ./code/TextCheckbox
@@ -74,6 +75,8 @@
 .cpp ./code/RadioGroupPanel
 .cpp ./code/SaveFileInputPanel
 .cpp ./code/StaticTextPanel
+.cpp ./code/TabGroupPanel
+.cpp ./code/TabTitleTable
 .cpp ./code/ToolBarPanel
 
 literal: ${LIB_DEPS}

@@ -60,6 +60,8 @@ public:
 	const JString&	GetTabTitle(const JIndex index) const;
 	void			SetTabTitle(const JIndex index, const JString& title);
 
+	JXContainer*	GetTabEnclosure(const JIndex index) const;
+
 	bool	TabCanClose(const JIndex index) const;
 	void	SetTabCanClose(const JIndex index, const bool closable);
 
@@ -484,6 +486,21 @@ inline JXContainer*
 JXTabGroup::GetCardEnclosure()
 {
 	return itsCardFile;
+}
+
+/******************************************************************************
+ GetTabEnclosure
+
+ ******************************************************************************/
+
+inline JXContainer*
+JXTabGroup::GetTabEnclosure
+	(
+	const JIndex index
+	)
+	const
+{
+	return itsCardFile->GetCard(index);
 }
 
 /******************************************************************************

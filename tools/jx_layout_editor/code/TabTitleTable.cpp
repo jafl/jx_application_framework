@@ -1,16 +1,16 @@
 /******************************************************************************
- PartitionMinSizeTable.cpp
+ TabTitleTable.cpp
 
 	Draws a table of numbers stored in a JIntegerTableData object
 	and buffered in a JIntegerBufferTableData object.
 
-	BASE CLASS = JXIntegerTable
+	BASE CLASS = JXStringTable
 
 	Copyright (C) 2024 by John Lindal.
 
  ******************************************************************************/
 
-#include "PartitionMinSizeTable.h"
+#include "TabTitleTable.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -18,9 +18,9 @@
 
  ******************************************************************************/
 
-PartitionMinSizeTable::PartitionMinSizeTable
+TabTitleTable::TabTitleTable
 	(
-	JIntegerTableData*	data,
+	JStringTableData*	data,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -31,7 +31,7 @@ PartitionMinSizeTable::PartitionMinSizeTable
 	const JCoordinate	h
 	)
 	:
-	JXIntegerTable(data, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
+	JXStringTable(data, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
 }
 
@@ -40,7 +40,7 @@ PartitionMinSizeTable::PartitionMinSizeTable
 
  ******************************************************************************/
 
-PartitionMinSizeTable::~PartitionMinSizeTable()
+TabTitleTable::~TabTitleTable()
 {
 }
 
@@ -50,7 +50,7 @@ PartitionMinSizeTable::~PartitionMinSizeTable()
  ******************************************************************************/
 
 void
-PartitionMinSizeTable::HandleMouseDown
+TabTitleTable::HandleMouseDown
 	(
 	const JPoint&			pt,
 	const JXMouseButton		button,
@@ -86,12 +86,12 @@ PartitionMinSizeTable::HandleMouseDown
  ******************************************************************************/
 
 void
-PartitionMinSizeTable::ApertureResized
+TabTitleTable::ApertureResized
 	(
 	const JCoordinate dw,
 	const JCoordinate dh
 	)
 {
-	JXIntegerTable::ApertureResized(dw,dh);
+	JXStringTable::ApertureResized(dw,dh);
 	SetColWidth(1, GetApertureWidth());
 }

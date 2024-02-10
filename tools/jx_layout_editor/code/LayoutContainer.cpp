@@ -405,6 +405,7 @@ LayoutContainer::ReadConfig
 #include "SimpleBorderRect.h"
 #include "Slider.h"
 #include "StaticText.h"
+#include "TabGroup.h"
 #include "TextButton.h"
 #include "TextCheckbox.h"
 #include "TextRadioButton.h"
@@ -537,6 +538,10 @@ LayoutContainer::ReadWidget
 	else if (className == "StaticText")
 	{
 		widget = jnew StaticText(input, vers, e, hS,vS, x,y,w,h);
+	}
+	else if (className == "TabGroup")
+	{
+		widget = jnew TabGroup(input, vers, e, hS,vS, x,y,w,h);
 	}
 	else if (className == "TextButton")
 	{
@@ -703,6 +708,10 @@ LayoutContainer::CreateWidget
 	else if (index == kStringHistoryMenuIndex)
 	{
 		return jnew HistoryMenu(HistoryMenu::kStringType, this, kFixedLeft,kFixedTop, x,y,w,h);
+	}
+	else if (index == kTabGroupIndex)
+	{
+		return jnew TabGroup(this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kTextButtonIndex)
 	{

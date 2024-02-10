@@ -27,6 +27,7 @@ public:
 	bool	GetCurrentCardIndex(JIndex* index) const;
 	bool	GetCardIndex(JXContainer* card, JIndex* index) const;
 
+	JXContainer*	GetCard(const JIndex index) const;
 	JXContainer*	InsertCard(const JIndex index);
 	JXContainer*	PrependCard();
 	JXContainer*	AppendCard();
@@ -152,6 +153,21 @@ JXCardFile::GetCurrentCardIndex
 {
 	*index = itsCurrCardIndex;
 	return itsCards->IndexValid(itsCurrCardIndex);
+}
+
+/******************************************************************************
+ GetCard
+
+ ******************************************************************************/
+
+inline JXContainer*
+JXCardFile::GetCard
+	(
+	const JIndex index
+	)
+	const
+{
+	return itsCards->GetItem(index);
 }
 
 /******************************************************************************

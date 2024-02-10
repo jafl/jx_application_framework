@@ -3,7 +3,7 @@
 
 	BASE CLASS = WidgetPanelBase, JBroadcaster
 
-	Copyright (C) 2023 by John Lindal.
+	Copyright (C) 2024 by John Lindal.
 
  ******************************************************************************/
 
