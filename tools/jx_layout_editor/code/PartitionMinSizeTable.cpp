@@ -11,6 +11,7 @@
  ******************************************************************************/
 
 #include "PartitionMinSizeTable.h"
+#include <jx-af/jx/JXIntegerInput.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -94,4 +95,27 @@ PartitionMinSizeTable::ApertureResized
 {
 	JXIntegerTable::ApertureResized(dw,dh);
 	SetColWidth(1, GetApertureWidth());
+}
+
+/******************************************************************************
+ CreateIntegerTableInput (virtual protected)
+
+ ******************************************************************************/
+
+JXIntegerInput*
+PartitionMinSizeTable::CreateIntegerTableInput
+	(
+	const JPoint&		cell,
+	JXContainer*		enclosure,
+	const HSizingOption	hSizing,
+	const VSizingOption	vSizing,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
+	)
+{
+	auto* obj = jnew JXIntegerInput(enclosure, hSizing, vSizing, x,y, w,h);
+	obj->SetLowerLimit(10);
+	return obj;
 }

@@ -32,6 +32,12 @@ protected:
 							const JXKeyModifiers& modifiers) override;
 
 	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+
+	JXIntegerInput*
+		CreateIntegerTableInput(const JPoint& cell, JXContainer* enclosure,
+								const HSizingOption hSizing, const VSizingOption vSizing,
+								const JCoordinate x, const JCoordinate y,
+								const JCoordinate w, const JCoordinate h) override;
 };
 
 #endif

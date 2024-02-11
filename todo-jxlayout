@@ -3,5 +3,3 @@ expand scrollbarSet vertically in main layout: too tall
 
 open AboutDialog.jxl with toolbar visible - doesn't compensate correctly
 	but it does work when the window is already open
-
-+ disallow negative numbers for partition min sizes
