@@ -104,7 +104,7 @@ JTEST(LargeIndex)
 			JString(patternList[i], JString::kNoCopy),
 			iter.GetLastMatch());
 		JAssertStringsEqualWithMessage(src, result,
-			("large index pattern #" + JString((JUInt64) i)).GetBytes());
+			("large index pattern #" + JString(i)).GetBytes());
 
 		++i;
 	}

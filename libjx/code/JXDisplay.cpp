@@ -1509,7 +1509,7 @@ JXDisplay::CheckForXErrors()
 			XGetErrorText(error.display, error.error_code, str, 80);
 			std::cerr << "Error code: " << str << std::endl;
 
-			JString reqCodeStr((JUInt64) error.request_code);
+			JString reqCodeStr(error.request_code);
 			XGetErrorDatabaseText(error.display, "XRequest", reqCodeStr.GetBytes(), "unknown", str, 80);
 			std::cerr << "Offending request: " << str << std::endl;
 

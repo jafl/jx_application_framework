@@ -242,7 +242,7 @@ JXProgressDisplay::CalledByIncrementProgress
 		{
 			AppendToMessageWindow(message);
 		}
-		const JString stepCountStr((JUInt64) stepCount);
+		const JString stepCountStr(stepCount);
 		itsCounter->GetText()->SetText(stepCountStr);
 		itsCounter->Redraw();
 	}

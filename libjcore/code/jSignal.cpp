@@ -72,7 +72,7 @@ JGetSignalName
 	}
 	else
 	{
-		const JString sigName((JUInt64) value);
+		const JString sigName(value);
 		const JUtf8Byte* map[] =
 		{
 			"name", sigName.GetBytes()

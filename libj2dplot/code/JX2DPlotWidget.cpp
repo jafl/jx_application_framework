@@ -857,7 +857,7 @@ JIndex i;
 	for (i=1; i<=xCount; i++)
 	{
 		JString str("x");
-		str += JString((JUInt64) i);
+		str += JString(i);
 		itsMarkMenu->AppendItem(str);
 	}
 
@@ -869,7 +869,7 @@ JIndex i;
 	for (i=1; i<=yCount; i++)
 	{
 		JString str("y");
-		str += JString((JUInt64) i);
+		str += JString(i);
 		itsMarkMenu->AppendItem(str);
 	}
 }

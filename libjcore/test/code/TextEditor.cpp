@@ -357,7 +357,7 @@ TextEditor::CheckCmdStatus
 
 	for (JIndex i=1; i<=count; i++)
 	{
-		JString s((JUInt64) i);
+		JString s(i);
 		JAssertEqualWithMessage(expected.GetItem(i), (bool) status.GetItem(i), s.GetBytes());
 	}
 }

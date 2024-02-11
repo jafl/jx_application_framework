@@ -46,7 +46,7 @@ Test
 		const JUtf8Byte* expected = va_arg(ap, const JUtf8Byte*);
 		const JString* arg        = argList.GetItem(i);
 		JAssertStringsEqualWithMessage(expected, *arg,
-			(JString(origCmd, JString::kNoCopy) + ", " + JString((JUInt64) i)).GetBytes());
+			(JString(origCmd) + ", " + JString(i)).GetBytes());
 	}
 
 	va_end(ap);

@@ -615,7 +615,7 @@ JXDocumentManager::GetNewFileName()
 		itsNewDocCount = 1;
 	}
 
-	const JString indexStr((JUInt64) itsNewDocCount);
+	const JString indexStr(itsNewDocCount);
 	const JUtf8Byte* map[] =
 	{
 		"i", indexStr.GetBytes()

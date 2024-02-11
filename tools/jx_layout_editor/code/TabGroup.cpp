@@ -171,7 +171,7 @@ TabGroup::GetEnclosureName
 	assert( ok );
 
 	bool b1, b2;
-	return GetVarName(&b1, &b2) + "->GetTabEnclosure(" + JString((JUInt64) i) + ")";
+	return GetVarName(&b1, &b2) + "->GetTabEnclosure(" + JString(i) + ")";
 }
 
 /******************************************************************************
@@ -195,7 +195,7 @@ TabGroup::PrintConfiguration
 		indent.Print(output);
 		varName.Print(output);
 		output << "->AppendTab(";
-		PrintStringForArg(itsTabGroup->GetTabTitle(i), varName + "::tab" + JString((JUInt64) i), stringdb, output);
+		PrintStringForArg(itsTabGroup->GetTabTitle(i), varName + "::tab" + JString(i), stringdb, output);
 		output << ");" << std::endl;
 	}
 }

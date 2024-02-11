@@ -118,7 +118,7 @@ DataTable::TableDrawCell
 	)
 {
 	// Convert the array's current element into a JString.
-	JString cellNumber((JUInt64) itsData->GetItem(cell.y));
+	JString cellNumber(itsData->GetItem(cell.y));
 
 	// Draw the JString that holds the value. 
 	p.String(rect, cellNumber, JPainter::HAlign::kLeft, JPainter::VAlign::kTop);

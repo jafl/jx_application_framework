@@ -97,7 +97,7 @@ FilterRecordsDialog::BuildWindow
 	if (filter.minSize > 0)
 	{
 		itsSizeCB->SetState(true);
-		itsSizeInput->GetText()->SetText(JString((JUInt64) (filter.minSize - 1)));
+		itsSizeInput->GetText()->SetText(JString(filter.minSize - 1));
 	}
 
 	ListenTo(itsFileCB, std::function([this](const JXCheckbox::Pushed& msg)

@@ -641,7 +641,7 @@ mdSetValue
 	JString s;
 	if (raw)
 	{
-		s = JString((JUInt64) value);
+		s = JString(value);
 	}
 	else
 	{

@@ -654,7 +654,7 @@ LayoutWidget::DrawOver
 
 	if (itsTabIndex > 0)
 	{
-		const JString s((JUInt64) itsTabIndex);
+		const JString s(itsTabIndex);
 		const auto w = p.GetStringWidth(s);
 		const auto h = p.GetLineHeight();
 

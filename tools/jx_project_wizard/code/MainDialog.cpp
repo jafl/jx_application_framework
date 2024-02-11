@@ -385,7 +385,7 @@ MainDialog::WriteTemplate()
 	tm ts;
 	const time_t t = time(nullptr);
 	gmtime_r(&t, &ts);
-	const JString currentYear((JUInt64) 1900 + ts.tm_year);
+	const JString currentYear(1900 + ts.tm_year);
 
 	JString f = projectDir, p, dirName;
 	JStripTrailingDirSeparator(&f);

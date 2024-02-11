@@ -151,14 +151,14 @@ InputField::ToString()
 	{
 		s += JString::newline;
 		s += JGetString("MinLengthLabel::InputField");
-		s += JString((JUInt64) itsMinLength);
+		s += JString(itsMinLength);
 	}
 
 	if (itsMaxLength > 0)
 	{
 		s += JString::newline;
 		s += JGetString("MaxLengthLabel::InputField");
-		s += JString((JUInt64) itsMaxLength);
+		s += JString(itsMaxLength);
 	}
 
 	if (!itsValidationPattern.IsEmpty())

@@ -760,7 +760,7 @@ JPrintChildExitReason
 	}
 	else if (reason == kJChildFinished)
 	{
-		const JString errValue((JUInt64) result);
+		const JString errValue(result);
 		const JUtf8Byte* map[] =
 		{
 			"code", errValue.GetBytes()

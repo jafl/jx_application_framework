@@ -169,7 +169,7 @@ JXColHeaderWidget::SetColumnTitles
 	const JSize			count
 	)
 {
-	for (JUInt64 i=1; i<=count; i++)
+	for (JIndex i=1; i<=count; i++)
 	{
 		const JString id = "Column" + JString(i) + "::" + className;
 		SetColTitle(i, JGetString(id.GetBytes()));
@@ -206,7 +206,7 @@ JXColHeaderWidget::TableDrawCell
 	}
 	if (!hasTitle)
 	{
-		str = JString((JUInt64) cell.x);
+		str = JString(cell.x);
 	}
 
 	const JFont font = JFontManager::GetFont(

@@ -83,7 +83,16 @@ public:
 	explicit JString(JUtf8Byte* str, const Copy copy = kCopy) : JString(str, 0, copy) {};
 	explicit JString(const std::string& str) : JString(str, JUtf8ByteRange()) {};	// prevent sneaky automatic construction from char*
 
+	explicit JString(const JInt64 number);
+	explicit JString(const JInteger number) : JString((JInt64) number) {};
+	explicit JString(const JInt32 number) : JString((JInt64) number) {};
+
 	explicit JString(const JUInt64 number, const Base base = kBase10, const bool pad = false);
+	explicit JString(const JUInt number, const Base base = kBase10, const bool pad = false)
+				: JString((JUInt64) number, base, pad) {};
+	explicit JString(const JUInt32 number, const Base base = kBase10, const bool pad = false)
+				: JString((JUInt64) number, base, pad) {};
+
 	explicit JString(const JFloat number, const JInteger precision = kPrecisionAsNeeded,
 					 const ExponentDisplay expDisplay = kStandardExponent,
 					 const JInteger exponent = 0, const JInteger sigDigitCount = 0);

@@ -227,6 +227,36 @@ JString::JString
 
 JString::JString
 	(
+	const JInt64 number
+	)
+	:
+	itsOwnerFlag(true),
+	itsNormalizeFlag(true),
+	itsBytes(nullptr),		// makes delete [] safe inside CopyToPrivateBuffer
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsLgSize(0),
+	itsMinLgSize(theDefaultMinLgSize),
+	itsUCaseMap(nullptr),
+	itsIterator(nullptr)
+{
+	if (number == 0)
+	{
+		CopyToPrivateBuffer("0", 1);
+	}
+	else
+	{
+		std::ostringstream s;
+		s << number;
+		const std::string s1 = s.str();
+		CopyToPrivateBuffer(s1.data(), s1.length());
+	}
+
+	theCurrentlyConstructingObject = nullptr;
+}
+
+JString::JString
+	(
 	const JUInt64	number,
 	const Base		base,
 	const bool		pad
@@ -250,7 +280,7 @@ JString::JString
 	{
 		CopyToPrivateBuffer("", 0);
 
-		JUInt64 v = number;
+		auto v = number;
 		do
 		{
 			if (v & 0x01)

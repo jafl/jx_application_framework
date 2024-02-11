@@ -115,7 +115,7 @@ App::OpenFile
 
 	JString cmd = GetPrefsManager()->GetOpenFileCommand();
 
-	JString lineStr((JUInt64) lineIndex);
+	JString lineStr(lineIndex);
 
 	JSubstitute subst;
 	subst.DefineVariable("f", fileName);

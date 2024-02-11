@@ -77,7 +77,7 @@ SimpleTable::TableDrawCell
 	)
 {
 	// Convert the row number into a JString.
-	JString cellNumber((JUInt64) cell.y);
+	JString cellNumber(cell.y);
 
 	// Draw the JString that holds the value. 
 	p.String(rect, cellNumber, JPainter::HAlign::kLeft, JPainter::VAlign::kTop);

@@ -150,7 +150,7 @@ Menu::ToString()
 	{
 		s += JString::newline;
 		s += JGetString("ColumnCount::Menu");
-		s += JString((JUInt64) itsImageColCount);
+		s += JString(itsImageColCount);
 	}
 
 	return s;

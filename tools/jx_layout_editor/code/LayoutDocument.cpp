@@ -97,7 +97,7 @@ LayoutDocument::Create
 	}
 	else if (status == kNeedNewerVersion)
 	{
-		const JString v((JUInt64) vers);
+		const JString v(vers);
 		const JUtf8Byte* map[] =
 		{
 			"v", v.GetBytes()
@@ -1676,7 +1676,7 @@ LayoutDocument::GetTempFDesignVarName
 	JString varName;
 	for (JIndex i=1; i<=INT_MAX; i++)
 	{
-		varName = base + JString((JUInt64) i);
+		varName = base + JString(i);
 
 		bool unique = true;
 		for (const auto* usedName : objNames)

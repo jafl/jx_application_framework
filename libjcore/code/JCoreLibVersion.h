@@ -47,6 +47,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 //	JString:
 //		Switched to an exponential reallocation model.
 //		*** Adjusted ctor to use NormalizeData enum instead of bool.
+//		Added ctors for JInt64, JInteger, JInt32, JUInt, JUInt32.
 //	JList, JHashTable, etc:
 //		*** Renamed "element" to "item"
 //	JRegex:

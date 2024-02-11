@@ -159,12 +159,12 @@ RecordTable::TableDrawCell
 	}
 	else if (cell.x == RecordList::kRecordLine)
 	{
-		str	   = JString((JUInt64) record.GetNewLine());
+		str	   = JString(record.GetNewLine());
 		halign = JPainter::HAlign::kRight;
 	}
 	else if (cell.x == RecordList::kRecordSize)
 	{
-		str    = JString((JUInt64) record.GetSize());
+		str    = JString(record.GetSize());
 		halign = JPainter::HAlign::kRight;
 	}
 	else if (cell.x == RecordList::kRecordArray)
@@ -545,7 +545,7 @@ RecordTable::DrawPrintFooter
 	)
 {
 	JRect pageRect = p.GetPageRect();
-	const JString pageNumberStr = "Page " + JString((JUInt64) p.GetPageIndex());
+	const JString pageNumberStr = "Page " + JString(p.GetPageIndex());
 	p.String(pageRect.left, pageRect.bottom - footerHeight, pageNumberStr,
 			 pageRect.width(), JPainter::HAlign::kCenter,
 			 footerHeight, JPainter::VAlign::kBottom);

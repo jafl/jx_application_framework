@@ -123,7 +123,7 @@ SizeHistogram::Draw
 		r1.left += numberColWidth;
 
 		r2.Shift(numberColWidth, 0);
-		const JString s2((JUInt64) binCount);
+		const JString s2(binCount);
 		p.String(r2, s2, JPainter::HAlign::kRight);
 
 		if (total > 0 && binCount > 0)

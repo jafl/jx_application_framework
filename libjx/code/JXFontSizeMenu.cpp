@@ -201,7 +201,7 @@ JXFontSizeMenu::BuildMenu
 	{
 		for (const auto size : sizeList)
 		{
-			const JString itemText((JUInt64) size);
+			const JString itemText(size);
 			id = itemText + "::JX";
 			AppendItem(itemText, kRadioType, JString::empty, JString::empty, id);
 		}
@@ -213,7 +213,7 @@ JXFontSizeMenu::BuildMenu
 		{
 			for (JSize size=minSize; size<10; size++)
 			{
-				const JString itemText((JUInt64) size);
+				const JString itemText(size);
 				id = itemText + "::JX";
 				AppendItem(itemText, kRadioType, JString::empty, JString::empty, id);
 			}
@@ -221,7 +221,7 @@ JXFontSizeMenu::BuildMenu
 
 		for (JSize size=JMax((JSize) 10, minSize); size<=maxSize; size+=2)
 		{
-			const JString itemText((JUInt64) size);
+			const JString itemText(size);
 			id = itemText + "::JX";
 			AppendItem(itemText, kRadioType, JString::empty, JString::empty, id);
 		}

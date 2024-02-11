@@ -108,14 +108,14 @@ IntegerInput::ToString()
 	{
 		s += JString::newline;
 		s += JGetString("MinValueLabel::InputField");
-		s += JString((JUInt64) itsMinValue);
+		s += JString(itsMinValue);
 	}
 
 	if (itsHasMaxValue)
 	{
 		s += JString::newline;
 		s += JGetString("MaxValueLabel::InputField");
-		s += JString((JUInt64) itsMaxValue);
+		s += JString(itsMaxValue);
 	}
 
 	return s;

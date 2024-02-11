@@ -1778,7 +1778,7 @@ JFileArray::NotEmbeddedFile::NotEmbeddedFile
 	:
 	JError(JFileArray::kNotEmbeddedFile)
 {
-	const JString s((JUInt64) index);
+	const JString s(index);
 	static const JUtf8Byte* map[] =
 {
 		"index", s.GetBytes()

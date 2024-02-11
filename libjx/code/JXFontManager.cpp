@@ -818,7 +818,7 @@ JXFontManager::BuildStdFontName
 	if (pixelSize > 0)
 	{
 		xFontStr.Append("-");
-		xFontStr.Append( JString((JUInt64) pixelSize) );
+		xFontStr.Append( JString(pixelSize) );
 	}
 	else
 	{
@@ -830,7 +830,7 @@ JXFontManager::BuildStdFontName
 	if (pointSize > 0)
 	{
 		xFontStr.Append("-");
-		xFontStr.Append( JString((JUInt64) 10*(pointSize+2)) );
+		xFontStr.Append( JString(10*(pointSize+2)) );
 	}
 	else
 	{
@@ -847,7 +847,7 @@ JXFontManager::BuildStdFontName
 	if (pixelWidth > 0)
 	{
 		xFontStr.Append("-");
-		xFontStr.Append( JString((JUInt64) 10*pixelWidth) );
+		xFontStr.Append( JString(10*pixelWidth) );
 	}
 	else
 	{
@@ -893,7 +893,7 @@ JXFontManager::BuildTrueTypeFontName
 	// size
 
 	xFontStr->Append("-");
-	xFontStr->Append( JString((JUInt64) size) );
+	xFontStr->Append( JString(size) );
 
 	// regular or boldface
 

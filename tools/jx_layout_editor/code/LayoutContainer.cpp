@@ -1111,7 +1111,7 @@ LayoutContainer::GenerateUniqueVarName()
 	},
 	true);
 
-	return base + JString((JUInt64) (i+1));
+	return base + JString(i+1);
 }
 
 /******************************************************************************

@@ -51,5 +51,5 @@ JIntegerBufferTableData::UpdateCell
 	const JPoint& cell
 	)
 {
-	SetItem(cell, JString((JUInt64) itsIntegerData->GetItem(cell)));
+	SetItem(cell, JString(itsIntegerData->GetItem(cell)));
 }

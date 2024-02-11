@@ -701,7 +701,7 @@ JRegex::Error::Error
 	:
 	JError(kError)
 {
-	const JString i((JUInt64) index);
+	const JString i(index);
 
 	const JUtf8Byte* map[] =
 	{

@@ -386,7 +386,7 @@ JTEST(IsValid)
 
 JTEST(IntegerConversion)
 {
-	JString s1((JUInt64) 42);
+	JString s1(42);
 	JAssertStringsEqual("42", s1);
 	JAssertTrue(s1.IsFloat());
 	JAssertTrue(s1.IsInteger());
@@ -405,16 +405,16 @@ JTEST(IntegerConversion)
 	JAssertTrue(s1.ConvertToUInt(&u));
 	JAssertEqual(42, u);
 
-	JString s2(42, JString::kBase2);
+	JString s2(42UL, JString::kBase2);
 	JAssertStringsEqual("101010", s2);
 
-	JString s3(42, JString::kBase2, true);
+	JString s3(42UL, JString::kBase2, true);
 	JAssertStringsEqual("00101010", s3);
 
-	JString s4(42, JString::kBase8);
+	JString s4(42UL, JString::kBase8);
 	JAssertStringsEqual("52", s4);
 
-	JString s5(42, JString::kBase16);
+	JString s5(42UL, JString::kBase16);
 	JAssertStringsEqual("0x2A", s5);
 	JAssertTrue(s5.IsFloat());
 	JAssertTrue(s5.IsInteger());
@@ -430,13 +430,13 @@ JTEST(IntegerConversion)
 	JAssertTrue(s5.ConvertToUInt(&u));
 	JAssertEqual(42, u);
 
-	JString s6(10, JString::kBase16, true);
+	JString s6(10UL, JString::kBase16, true);
 	JAssertStringsEqual("0x0A", s6);
 }
 
 JTEST(FloatConversion)
 {
-	JString s1((JUInt64) 42);
+	JString s1(42);
 	JAssertStringsEqual("42", s1);
 
 	JString s2(42.7);

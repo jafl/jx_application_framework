@@ -206,7 +206,7 @@ Partition::GetEnclosureName
 	assert( ok );
 
 	bool b1, b2;
-	return GetVarName(&b1, &b2) + "->GetCompartment(" + JString((JUInt64) i) + ")";
+	return GetVarName(&b1, &b2) + "->GetCompartment(" + JString(i) + ")";
 }
 
 /******************************************************************************
