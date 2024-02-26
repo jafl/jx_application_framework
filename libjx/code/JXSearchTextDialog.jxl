@@ -1,13 +1,14 @@
-jx_layout_editor 5
+jx_layout_editor 8
 450
 300
 "JXLayout"
-"Search text"
+""
 ""
 ""
 0
 
 1
+0
 0
 "StaticText"
 0
@@ -26,6 +27,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "CustomWidget"
 1
 0
@@ -40,6 +42,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "StaticText"
 1
@@ -58,6 +61,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "CustomWidget"
 1
 0
@@ -72,6 +76,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "InputField"
 2
@@ -89,8 +94,11 @@ jx_layout_editor 5
 ""
 0
 0
+0
+""
 
 1
+0
 0
 "HistoryMenu"
 1
@@ -105,6 +113,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextButton"
 1
 0
@@ -117,6 +126,7 @@ jx_layout_editor 5
 "#R#="
 
 1
+0
 0
 "CustomWidget"
 1
@@ -132,6 +142,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "StaticText"
 1
@@ -150,6 +161,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "CustomWidget"
 1
 0
@@ -164,6 +176,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "StaticText"
 0
@@ -182,6 +195,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "InputField"
 2
 0
@@ -198,8 +212,11 @@ jx_layout_editor 5
 ""
 0
 0
+0
+""
 
 1
+0
 0
 "TextButton"
 1
@@ -214,6 +231,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextButton"
 1
 0
@@ -226,6 +244,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "HistoryMenu"
 1
@@ -240,6 +259,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextCheckbox"
 0
 0
@@ -252,6 +272,7 @@ jx_layout_editor 5
 "#I"
 
 1
+0
 0
 "TextCheckbox"
 0
@@ -266,6 +287,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextCheckbox"
 0
 0
@@ -278,6 +300,7 @@ jx_layout_editor 5
 "#X"
 
 1
+0
 0
 "TextCheckbox"
 0
@@ -292,6 +315,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextCheckbox"
 0
 0
@@ -304,6 +328,7 @@ jx_layout_editor 5
 "#T"
 
 1
+0
 0
 "TextCheckbox"
 0
@@ -318,6 +343,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextCheckbox"
 0
 0
@@ -330,6 +356,7 @@ jx_layout_editor 5
 "#S"
 
 1
+0
 0
 "TextCheckbox"
 0
@@ -344,6 +371,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextCheckbox"
 0
 0
@@ -356,6 +384,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "TextButton"
 0
@@ -370,6 +399,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextButton"
 0
 0
@@ -382,6 +412,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "TextButton"
 0

@@ -262,7 +262,7 @@ JXSearchTextDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 450,300, JGetString("WindowTitle::JXSearchTextDialog::JXLayout"));
+	auto* window = jnew JXWindow(this, 450,300, JString::empty);
 
 	auto* searchInputLabel =
 		jnew JXStaticText(JGetString("searchInputLabel::JXSearchTextDialog::JXLayout"), window,
@@ -439,6 +439,7 @@ JXSearchTextDialog::SetObjects
 	)
 {
 	JXWindow* window = searchInput->GetWindow();
+	window->SetTitle(JGetString("WindowTitle::JXSearchTextDialog"));
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
