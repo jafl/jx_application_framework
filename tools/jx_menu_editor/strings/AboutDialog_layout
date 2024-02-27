@@ -2,7 +2,6 @@
 itsHelpButton::shortcuts::AboutDialog::JXLayout "F1"
 WindowTitle::AboutDialog::JXLayout "About"
 itsHelpButton::AboutDialog::JXLayout "Help"
-textWidget::AboutDialog::JXLayout ""
 okButton::AboutDialog::JXLayout "OK"
 itsCreditsButton::AboutDialog::JXLayout "Credits"
 okButton::shortcuts::AboutDialog::JXLayout "^M"

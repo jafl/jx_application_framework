@@ -69,12 +69,12 @@ AboutDialog::BuildWindow
 #define _H_about_icon
 #include "about_icon.xpm"
 #endif
-	imageWidget->SetXPM(about_icon);
+	imageWidget->SetImage(GetDisplay()->GetImageCache()->GetImage(about_icon), false);
 
 	auto* textWidget =
-		jnew JXStaticText(JString::empty, window,
+		jnew JXStaticText(JString::empty, true, false, false, nullptr, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 280,50);
-	assert( textWidget != nullptr );
+	textWidget->SetBorderWidth(0);
 
 	itsCreditsButton =
 		jnew JXTextButton(JGetString("itsCreditsButton::AboutDialog::JXLayout"), window,

@@ -9,11 +9,12 @@
 
 #include "AboutDialog.h"
 #include "globals.h"
+#include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXImageWidget.h>
-#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXImageCache.h>
 #include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -67,12 +68,12 @@ AboutDialog::BuildWindow
 #define _H_md_about_icon
 #include "md_about_icon.xpm"
 #endif
-	imageWidget->SetXPM(md_about_icon);
+	imageWidget->SetImage(GetDisplay()->GetImageCache()->GetImage(md_about_icon), false);
 
 	auto* textWidget =
-		jnew JXStaticText(JString::empty, window,
+		jnew JXStaticText(JString::empty, true, false, false, nullptr, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 300,50);
-	textWidget->SetToLabel(false);
+	textWidget->SetBorderWidth(0);
 
 	itsCreditsButton =
 		jnew JXTextButton(JGetString("itsCreditsButton::AboutDialog::JXLayout"), window,
