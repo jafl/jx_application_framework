@@ -57,7 +57,7 @@ LDFLAGS   = -L/opt/X11/lib -L${BREW_ROOT}/lib
 
 J_GCC_LIBS := ${BREW_ROOT}/lib/libboost_fiber-mt.a \
               ${BREW_ROOT}/lib/libboost_context-mt.a \
-              ${shell pkg-config --libs icu-i18n libpcre} -lstdc++
+              ${shell pkg-config --libs icu-i18n libpcre}
 J_ACE_LIBS := -lACE
 J_X11_LIBS := -lXext -lXft -lfontconfig -lXpm -lX11
 
