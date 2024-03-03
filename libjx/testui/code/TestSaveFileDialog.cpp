@@ -158,7 +158,7 @@ TestSaveFileDialog::BuildWindow
 
 	auto* saveButton =
 		jnew JXTextButton(JGetString("saveButton::TestSaveFileDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 219,279, 72,22);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,280, 70,20);
 	saveButton->SetShortcuts(JGetString("saveButton::shortcuts::TestSaveFileDialog::JXLayout"));
 
 	auto* promptLabel =

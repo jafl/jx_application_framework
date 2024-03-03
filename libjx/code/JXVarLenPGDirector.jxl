@@ -1,4 +1,4 @@
-jx_layout_editor 6
+jx_layout_editor 8
 270
 80
 "JXLayout"
@@ -8,6 +8,7 @@ jx_layout_editor 6
 0
 
 1
+0
 0
 "StaticText"
 2
@@ -26,6 +27,7 @@ jx_layout_editor 6
 
 1
 0
+0
 "StaticText"
 2
 1
@@ -42,6 +44,7 @@ jx_layout_editor 6
 0
 
 1
+0
 0
 "TextButton"
 1

@@ -55,32 +55,34 @@ ResizeWidgetDialog::BuildWindow
 	auto* window = jnew JXWindow(this, 160,120, JGetString("WindowTitle::ResizeWidgetDialog::JXLayout"));
 
 	auto* widthLabel =
-		jnew JXStaticText(JGetString("widthLabel::ResizeWidgetDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("widthLabel::ResizeWidgetDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,20);
 	widthLabel->SetToLabel(false);
 
 	auto* heightLabel =
-		jnew JXStaticText(JGetString("heightLabel::ResizeWidgetDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("heightLabel::ResizeWidgetDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 50,20);
 	heightLabel->SetToLabel(false);
 
 	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::ResizeWidgetDialog::JXLayout"),window,
+		jnew JXTextButton(JGetString("cancelButton::ResizeWidgetDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,90, 50,20);
 	assert( cancelButton != nullptr );
 
 	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::ResizeWidgetDialog::JXLayout"),window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 89,89, 52,22);
+		jnew JXTextButton(JGetString("okButton::ResizeWidgetDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 90,90, 50,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::ResizeWidgetDialog::JXLayout"));
 
 	itsWidth =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 70,20, 70,20);
+	itsWidth->SetIsRequired(false);
 
 	itsHeight =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 70,50, 70,20);
+	itsHeight->SetIsRequired(false);
 
 // end JXLayout
 

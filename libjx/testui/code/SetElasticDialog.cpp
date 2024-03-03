@@ -57,23 +57,24 @@ SetElasticDialog::BuildWindow
 	auto* window = jnew JXWindow(this, 200,90, JGetString("WindowTitle::SetElasticDialog::JXLayout"));
 
 	auto* elasticLabel =
-		jnew JXStaticText(JGetString("elasticLabel::SetElasticDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("elasticLabel::SetElasticDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 130,20);
 	elasticLabel->SetToLabel(false);
 
 	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::SetElasticDialog::JXLayout"),window,
+		jnew JXTextButton(JGetString("cancelButton::SetElasticDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 30,60, 50,20);
 	assert( cancelButton != nullptr );
 
 	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::SetElasticDialog::JXLayout"),window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 119,59, 52,22);
+		jnew JXTextButton(JGetString("okButton::SetElasticDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 120,60, 50,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::SetElasticDialog::JXLayout"));
 
 	itsElasticIndex =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 140,20, 40,20);
+	itsElasticIndex->SetIsRequired(false);
 
 // end JXLayout
 

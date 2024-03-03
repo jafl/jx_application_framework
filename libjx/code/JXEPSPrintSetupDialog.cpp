@@ -97,7 +97,7 @@ JXEPSPrintSetupDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXEPSPrintSetupDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 229,99, 72,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,100, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXEPSPrintSetupDialog::JXLayout"));
 
 	itsFileInput =

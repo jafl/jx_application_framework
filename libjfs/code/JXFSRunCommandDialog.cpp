@@ -175,7 +175,7 @@ JXFSRunCommandDialog::BuildWindow()
 
 	itsRunButton =
 		jnew JXTextButton(JGetString("itsRunButton::JXFSRunCommandDialog::JXLayout"), ftcContainer,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 209,29, 62,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,30, 60,20);
 	itsRunButton->SetShortcuts(JGetString("itsRunButton::shortcuts::JXFSRunCommandDialog::JXLayout"));
 
 	itsCmdInput =

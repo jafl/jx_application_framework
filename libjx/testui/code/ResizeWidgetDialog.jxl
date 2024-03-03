@@ -1,34 +1,21 @@
-jx_layout_editor 1
+jx_layout_editor 8
 160
 120
 "JXLayout"
 "Change widget size"
 ""
+""
 0
 
 1
 0
-"StaticText"
-0
-0
-50 20 70 70
-"heightLabel"
-0
-0
-"Height:"
-1
-0
-0
-0
-0
-
-1
 0
 "StaticText"
 0
 0
 20 20 40 70
 "widthLabel"
+0
 0
 0
 "Width:"
@@ -40,18 +27,6 @@ jx_layout_editor 1
 
 1
 0
-"IntegerInput"
-2
-0
-50 70 70 140
-"itsHeight"
-1
-2
-0
-0 0
-0 0
-
-1
 0
 "IntegerInput"
 2
@@ -61,22 +36,45 @@ jx_layout_editor 1
 1
 1
 0
+0
 0 0
 0 0
 
 1
 0
-"TextButton"
+0
+"StaticText"
+0
+0
+50 20 70 70
+"heightLabel"
+0
+0
+0
+"Height:"
 1
 0
-90 90 110 140
-"okButton"
 0
 0
-"OK"
-"^M"
+0
 
 1
+0
+0
+"IntegerInput"
+2
+0
+50 70 70 140
+"itsHeight"
+1
+2
+0
+0
+0 0
+0 0
+
+1
+0
 0
 "TextButton"
 1
@@ -85,7 +83,22 @@ jx_layout_editor 1
 "cancelButton"
 0
 0
+0
 "Cancel"
 ""
+
+1
+0
+0
+"TextButton"
+1
+0
+90 90 110 140
+"okButton"
+0
+0
+0
+"OK"
+"^M"
 
 0

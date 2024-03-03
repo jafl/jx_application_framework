@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 8
 330
 110
 "JXLayout"
@@ -8,6 +8,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "ImageWidget"
 0
@@ -21,6 +22,7 @@ jx_layout_editor 5
 1 "jx_un_message.xpm"
 
 1
+0
 0
 "StaticText"
 2
@@ -38,6 +40,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "TextButton"
 1

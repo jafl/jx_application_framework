@@ -63,7 +63,7 @@ ChooseWidgetDialog::BuildWindow()
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::ChooseWidgetDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 179,59, 62,22);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,60, 60,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::ChooseWidgetDialog::JXLayout"));
 
 // end JXLayout

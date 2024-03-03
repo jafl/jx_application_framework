@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 8
 370
 130
 "JXLayout"
@@ -8,6 +8,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "TextButton"
 0
@@ -21,6 +22,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "FileInput"
 2
@@ -38,6 +40,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextCheckbox"
 0
 0
@@ -50,6 +53,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "TextCheckbox"
 1
@@ -64,6 +68,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextButton"
 0
 0
@@ -76,6 +81,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "TextButton"
 1

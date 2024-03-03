@@ -308,7 +308,7 @@ LayoutWidget::GenerateCode
 		<< (GetVSizing() == kFixedTop    ? "kFixedTop" :
 			GetVSizing() == kFixedBottom ? "kFixedBottom" : "kVElastic") << ", ";
 
-	const JRect f = GetFrameForCode();
+	const JRect f = GetFrame();
 	output << f.left << ',' << f.top << ", " << f.width() << ',' << f.height();
 	output << ");" << std::endl;
 
@@ -376,18 +376,6 @@ LayoutWidget::GetCtor()
 	const
 {
 	return "jnew " + GetClassName();
-}
-
-/******************************************************************************
- GetFrameForCode (virtual protected)
-
- ******************************************************************************/
-
-JRect
-LayoutWidget::GetFrameForCode()
-	const
-{
-	return GetFrame();
 }
 
 /******************************************************************************

@@ -39,7 +39,6 @@ public:
 protected:
 
 	JString	GetClassName() const override;
-	JRect	GetFrameForCode() const override;
 	void	PrintCtorArgsWithComma(std::ostream& output,
 								   const JString& varName,
 								   JStringManager* stringdb) const override;

@@ -91,7 +91,7 @@ JXToolBarEditDialog::BuildWindow()
 	auto* prompt =
 		jnew JXStaticText(JGetString("prompt::JXToolBarEditDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,10, 270,30);
-	assert( prompt != nullptr );
+	prompt->SetBorderWidth(0);
 
 	itsShowToolBarCB =
 		jnew JXTextCheckbox(JGetString("itsShowToolBarCB::JXToolBarEditDialog::JXLayout"), window,
@@ -129,7 +129,7 @@ JXToolBarEditDialog::BuildWindow()
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXToolBarEditDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 199,399, 72,22);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 200,400, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXToolBarEditDialog::JXLayout"));
 
 // end JXLayout

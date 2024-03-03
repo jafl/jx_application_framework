@@ -55,17 +55,17 @@ ImportDialog::BuildWindow()
 	auto* window = jnew JXWindow(this, 500,300, JGetString("WindowTitle::ImportDialog::JXLayout"));
 
 	auto* textLabel =
-		jnew JXStaticText(JGetString("textLabel::ImportDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("textLabel::ImportDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 120,20);
 	textLabel->SetToLabel(false);
 
 	auto* enumLabel =
-		jnew JXStaticText(JGetString("enumLabel::ImportDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("enumLabel::ImportDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 260,10, 110,20);
 	enumLabel->SetToLabel(false);
 
 	auto* actionDefsLabel =
-		jnew JXStaticText(JGetString("actionDefsLabel::ImportDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("actionDefsLabel::ImportDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,230, 90,20);
 	actionDefsLabel->SetToLabel(false);
 
@@ -84,7 +84,7 @@ ImportDialog::BuildWindow()
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::ImportDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 349,269, 62,22);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 350,270, 60,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::ImportDialog::JXLayout"));
 
 	itsMenuText =

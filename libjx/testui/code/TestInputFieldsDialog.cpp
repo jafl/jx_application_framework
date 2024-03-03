@@ -58,101 +58,101 @@ TestInputFieldsDialog::BuildWindow()
 	auto* window = jnew JXWindow(this, 620,200, JGetString("WindowTitle::TestInputFieldsDialog::JXLayout"));
 
 	auto* stringLabel =
-		jnew JXStaticText(JGetString("stringLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("stringLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 100,20);
 	stringLabel->SetToLabel(false);
 
 	auto* numberLabel =
-		jnew JXStaticText(JGetString("numberLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("numberLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,20, 80,20);
 	numberLabel->SetToLabel(false);
 
 	auto* intLabel =
-		jnew JXStaticText(JGetString("intLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("intLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 480,20, 70,20);
 	intLabel->SetToLabel(false);
 
 	auto* reqStringLabel =
-		jnew JXStaticText(JGetString("reqStringLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("reqStringLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 100,20);
 	reqStringLabel->SetToLabel(false);
 
 	auto* positiveLabel =
-		jnew JXStaticText(JGetString("positiveLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("positiveLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,40, 80,20);
 	positiveLabel->SetToLabel(false);
 
 	auto* lowIntLabel =
-		jnew JXStaticText(JGetString("lowIntLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("lowIntLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 480,40, 70,20);
 	lowIntLabel->SetToLabel(false);
 
 	auto* max5Label =
-		jnew JXStaticText(JGetString("max5Label::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("max5Label::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 100,20);
 	max5Label->SetToLabel(false);
 
 	auto* negativeLabel =
-		jnew JXStaticText(JGetString("negativeLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("negativeLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,60, 80,20);
 	negativeLabel->SetToLabel(false);
 
 	auto* highIntLabel =
-		jnew JXStaticText(JGetString("highIntLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("highIntLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 480,60, 70,20);
 	highIntLabel->SetToLabel(false);
 
 	auto* max10Label =
-		jnew JXStaticText(JGetString("max10Label::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("max10Label::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 100,20);
 	max10Label->SetToLabel(false);
 
 	auto* rangeLabel =
-		jnew JXStaticText(JGetString("rangeLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("rangeLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,80, 80,20);
 	rangeLabel->SetToLabel(false);
 
 	auto* intRangeLabel =
-		jnew JXStaticText(JGetString("intRangeLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("intRangeLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 480,80, 70,20);
 	intRangeLabel->SetToLabel(false);
 
 	auto* pwLabel =
-		jnew JXStaticText(JGetString("pwLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("pwLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,110, 100,20);
 	pwLabel->SetToLabel(false);
 
 	auto* pathLabel =
-		jnew JXStaticText(JGetString("pathLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("pathLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 300,110, 40,20);
 	pathLabel->SetToLabel(false);
 
 	itsChoosePathButton =
-		jnew JXTextButton(JGetString("itsChoosePathButton::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXTextButton(JGetString("itsChoosePathButton::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 550,110, 50,20);
 
 	auto* charLabel =
-		jnew JXStaticText(JGetString("charLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("charLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,130, 100,20);
 	charLabel->SetToLabel(false);
 
 	auto* fileLabel =
-		jnew JXStaticText(JGetString("fileLabel::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXStaticText(JGetString("fileLabel::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 300,130, 40,20);
 	fileLabel->SetToLabel(false);
 
 	itsChooseFileButton =
-		jnew JXTextButton(JGetString("itsChooseFileButton::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXTextButton(JGetString("itsChooseFileButton::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 550,130, 50,20);
 
 	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::TestInputFieldsDialog::JXLayout"),window,
+		jnew JXTextButton(JGetString("cancelButton::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,170, 70,20);
 	assert( cancelButton != nullptr );
 
 	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::TestInputFieldsDialog::JXLayout"),window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 389,169, 72,22);
+		jnew JXTextButton(JGetString("okButton::TestInputFieldsDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 390,170, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::TestInputFieldsDialog::JXLayout"));
 
 	auto* text1 =
@@ -178,40 +178,42 @@ TestInputFieldsDialog::BuildWindow()
 	auto* f1 =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 380,20, 90,20);
-	assert( f1 != nullptr );
+	f1->SetIsRequired(false);
 
 	auto* f2 =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 380,40, 90,20);
-	assert( f2 != nullptr );
+	f2->SetIsRequired(false);
 
 	auto* f3 =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 380,60, 90,20);
-	assert( f3 != nullptr );
+	f3->SetIsRequired(false);
 
 	auto* f4 =
 		jnew JXFloatInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 380,80, 90,20);
-	assert( f4 != nullptr );
+	f4->SetIsRequired(false);
 
 	auto* i1 =
 		jnew JXIntegerInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 550,20, 50,20);
-	assert( i1 != nullptr );
+	i1->SetIsRequired(false);
 
 	itsLowerValue =
 		jnew JXIntegerInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 550,40, 50,20);
+	itsLowerValue->SetIsRequired(false);
 
 	itsUpperValue =
 		jnew JXIntegerInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 550,60, 50,20);
+	itsUpperValue->SetIsRequired(false);
 
 	auto* i4 =
 		jnew JXIntegerInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 550,80, 50,20);
-	assert( i4 != nullptr );
+	i4->SetIsRequired(false);
 
 	auto* pwInput =
 		jnew JXPasswordInput(window,

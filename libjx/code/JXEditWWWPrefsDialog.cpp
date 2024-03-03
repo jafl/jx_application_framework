@@ -88,7 +88,7 @@ JXEditWWWPrefsDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXEditWWWPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 329,149, 72,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 330,150, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXEditWWWPrefsDialog::JXLayout"));
 
 	itsShowURLCmdInput =

@@ -66,7 +66,7 @@ JXChooseFontSizeDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXChooseFontSizeDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 109,59, 62,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 110,60, 60,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXChooseFontSizeDialog::JXLayout"));
 
 	itsFontSize =

@@ -67,7 +67,7 @@ PrefsDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::PrefsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 259,49, 72,22);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 260,50, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::PrefsDialog::JXLayout"));
 
 	itsOpenFileInput =

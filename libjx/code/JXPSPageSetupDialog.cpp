@@ -134,7 +134,7 @@ JXPSPageSetupDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXPSPageSetupDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 139,129, 72,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 140,130, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXPSPageSetupDialog::JXLayout"));
 
 // end JXLayout

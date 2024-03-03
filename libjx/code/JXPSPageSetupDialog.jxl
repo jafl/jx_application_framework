@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 8
 240
 160
 "JXLayout"
@@ -8,6 +8,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "Menu"
 2
@@ -25,6 +26,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "RadioGroup"
 0
 0
@@ -33,9 +35,11 @@ jx_layout_editor 5
 1
 0
 0
+0
 
 1
 2
+1
 "ImageRadioButton"
 0
 0
@@ -49,6 +53,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "ImageRadioButton"
 0
 0
@@ -61,6 +66,7 @@ jx_layout_editor 5
 0 "jx_print_landscape.png"
 
 1
+0
 0
 "StaticText"
 0
@@ -79,6 +85,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextButton"
 0
 0
@@ -91,6 +98,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "TextButton"
 1

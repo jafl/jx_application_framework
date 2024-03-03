@@ -72,7 +72,7 @@ JXErrorDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXErrorDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 139,79, 62,22);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,80, 60,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXErrorDialog::JXLayout"));
 
 // end JXLayout

@@ -71,7 +71,6 @@ protected:
 
 	virtual JString	GetClassName() const = 0;
 	virtual JString	GetCtor() const;
-	virtual JRect	GetFrameForCode() const;
 	virtual void	PrintCtorArgsWithComma(std::ostream& output,
 										   const JString& varName,
 										   JStringManager* stringdb) const;

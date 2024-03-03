@@ -175,7 +175,7 @@ JX2DPlotScaleDialog::BuildWindow()
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DPlotScaleDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 359,159, 72,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 360,160, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JX2DPlotScaleDialog::JXLayout"));
 
 	itsXMin =

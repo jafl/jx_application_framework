@@ -142,7 +142,7 @@ JXSpellCheckerDialog::BuildWindow()
 
 	itsIgnoreButton =
 		jnew JXTextButton(JGetString("itsIgnoreButton::JXSpellCheckerDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 439,59, 77,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,60, 75,20);
 	itsIgnoreButton->SetShortcuts(JGetString("itsIgnoreButton::shortcuts::JXSpellCheckerDialog::JXLayout"));
 
 	auto* suggestionsLabel =

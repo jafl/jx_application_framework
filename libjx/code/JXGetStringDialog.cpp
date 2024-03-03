@@ -84,7 +84,7 @@ JXGetStringDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXGetStringDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 189,79, 62,22);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 190,80, 60,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXGetStringDialog::JXLayout"));
 
 	itsInputField =

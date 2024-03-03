@@ -106,7 +106,7 @@ JXFSRunScriptDialog::BuildWindow
 
 	auto* runButton =
 		jnew JXTextButton(JGetString("runButton::JXFSRunScriptDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 249,89, 62,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 250,90, 60,20);
 	runButton->SetShortcuts(JGetString("runButton::shortcuts::JXFSRunScriptDialog::JXLayout"));
 
 	itsUseWindowCB =

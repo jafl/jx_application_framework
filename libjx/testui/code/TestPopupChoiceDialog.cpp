@@ -75,7 +75,7 @@ TestPopupChoiceDialog::BuildWindow()
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::TestPopupChoiceDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 129,139, 72,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,140, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::TestPopupChoiceDialog::JXLayout"));
 
 // end JXLayout

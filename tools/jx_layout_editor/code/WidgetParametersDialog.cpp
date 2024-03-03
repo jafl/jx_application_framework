@@ -172,7 +172,7 @@ WidgetParametersDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::WidgetParametersDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 289,119, 62,22);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 290,120, 60,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::WidgetParametersDialog::JXLayout"));
 
 	itsVarNameInput =

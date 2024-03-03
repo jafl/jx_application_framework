@@ -98,7 +98,7 @@ JXMacWinPrefsDialog::BuildWindow()
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXMacWinPrefsDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 209,199, 62,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,200, 60,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXMacWinPrefsDialog::JXLayout"));
 
 // end JXLayout

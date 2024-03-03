@@ -96,7 +96,7 @@ JX2DPlotLabelDialog::BuildWindow()
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DPlotLabelDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 349,119, 72,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,120, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JX2DPlotLabelDialog::JXLayout"));
 
 	itsPlotTitle =

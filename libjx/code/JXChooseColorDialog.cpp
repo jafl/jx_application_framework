@@ -137,7 +137,7 @@ JXChooseColorDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXChooseColorDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 409,219, 62,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,220, 60,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXChooseColorDialog::JXLayout"));
 
 	itsRInput =

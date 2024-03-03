@@ -180,7 +180,7 @@ JX2DPlotPrintEPSDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 229,159, 72,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,160, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JX2DPlotPrintEPSDialog::JXLayout"));
 
 	auto* fileInput =

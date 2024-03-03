@@ -1,18 +1,21 @@
-jx_layout_editor 1
+jx_layout_editor 8
 100
 100
 "JXLayout"
 "About this silly program"
 ""
+""
 0
 
 1
+0
 0
 "TextButton"
 2
 2
 35 10 65 90
 "okButton"
+0
 0
 0
 "Gee, thanks!"

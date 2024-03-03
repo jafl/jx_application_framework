@@ -1,4 +1,4 @@
-jx_layout_editor 6
+jx_layout_editor 8
 420
 80
 "JXLayout"
@@ -8,6 +8,7 @@ jx_layout_editor 6
 0
 
 1
+0
 0
 "StaticText"
 0
@@ -25,6 +26,7 @@ jx_layout_editor 6
 0
 
 1
+0
 0
 "InputField"
 2
@@ -48,6 +50,7 @@ $l for line number"
 
 1
 0
+0
 "TextButton"
 0
 0
@@ -60,6 +63,7 @@ $l for line number"
 "^["
 
 1
+0
 0
 "TextButton"
 0

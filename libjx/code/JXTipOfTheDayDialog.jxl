@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 8
 410
 260
 "JXLayout"
@@ -8,6 +8,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "FlatRect"
 0
@@ -20,6 +21,7 @@ jx_layout_editor 5
 39321 39321 39321
 
 1
+0
 0
 "StaticText"
 2
@@ -38,6 +40,7 @@ jx_layout_editor 5
 
 1
 1
+1
 "ImageWidget"
 0
 0
@@ -51,6 +54,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "ScrollbarSet"
 2
 2
@@ -61,6 +65,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "TextCheckbox"
 0
@@ -75,6 +80,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextButton"
 1
 1
@@ -87,6 +93,7 @@ jx_layout_editor 5
 "#N"
 
 1
+0
 0
 "TextButton"
 1

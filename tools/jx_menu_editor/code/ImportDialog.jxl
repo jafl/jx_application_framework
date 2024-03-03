@@ -1,4 +1,4 @@
-jx_layout_editor 3
+jx_layout_editor 8
 500
 300
 "JXLayout"
@@ -9,11 +9,13 @@ jx_layout_editor 3
 
 1
 0
+0
 "StaticText"
 0
 0
 10 20 30 140
 "textLabel"
+0
 0
 0
 "Menu definition text:"
@@ -25,11 +27,13 @@ jx_layout_editor 3
 
 1
 0
+0
 "StaticText"
 0
 0
 10 260 30 370
 "enumLabel"
+0
 0
 0
 "Menu items enum:"
@@ -41,6 +45,7 @@ jx_layout_editor 3
 
 1
 0
+0
 "InputField"
 0
 0
@@ -48,16 +53,20 @@ jx_layout_editor 3
 "itsMenuText"
 1
 1
-1
-0
-0
-""
-""
-""
 0
 1
+0
+0
+""
+""
+""
+0
+1
+0
+""
 
 1
+0
 0
 "InputField"
 0
@@ -69,19 +78,24 @@ jx_layout_editor 3
 0
 0
 0
+0
 ""
 ""
 ""
 0
 1
+0
+""
 
 1
+0
 0
 "StaticText"
 0
 0
 230 20 250 110
 "actionDefsLabel"
+0
 0
 0
 "actionDefs file:"
@@ -93,6 +107,7 @@ jx_layout_editor 3
 
 1
 0
+0
 "FileInput"
 1
 0
@@ -102,11 +117,13 @@ jx_layout_editor 3
 3
 0
 0
+0
 1
 0
 0
 
 1
+0
 0
 "TextButton"
 0
@@ -115,10 +132,12 @@ jx_layout_editor 3
 "itsChooseActionDefsFileButton"
 1
 0
+0
 "Choose"
 ""
 
 1
+0
 0
 "TextButton"
 0
@@ -127,10 +146,12 @@ jx_layout_editor 3
 "cancelButton"
 0
 0
+0
 "Cancel"
 ""
 
 1
+0
 0
 "TextButton"
 0
@@ -139,16 +160,19 @@ jx_layout_editor 3
 "itsHelpButton"
 1
 0
+0
 "Help"
 ""
 
 1
+0
 0
 "TextButton"
 0
 1
 270 350 290 410
 "okButton"
+0
 0
 0
 "OK"

@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 8
 400
 280
 "JXLayout"
@@ -8,6 +8,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "TextButton"
 0
@@ -21,6 +22,7 @@ jx_layout_editor 5
 "^["
 
 1
+0
 0
 "TextButton"
 0

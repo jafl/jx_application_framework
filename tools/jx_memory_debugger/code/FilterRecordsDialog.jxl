@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 8
 420
 120
 "JXLayout"
@@ -8,6 +8,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "TextCheckbox"
 0
@@ -21,6 +22,7 @@ jx_layout_editor 5
 "#F"
 
 1
+0
 0
 "InputField"
 2
@@ -38,8 +40,11 @@ jx_layout_editor 5
 ""
 0
 0
+0
+""
 
 1
+0
 0
 "TextCheckbox"
 0
@@ -53,6 +58,7 @@ jx_layout_editor 5
 "#L"
 
 1
+0
 0
 "IntegerInput"
 2
@@ -68,6 +74,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextButton"
 0
 2
@@ -80,6 +87,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "TextButton"
 0

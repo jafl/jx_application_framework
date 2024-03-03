@@ -72,7 +72,7 @@ FilterRecordsDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::FilterRecordsDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kVElastic, 259,89, 72,22);
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 260,90, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::FilterRecordsDialog::JXLayout"));
 
 	itsFileInput =
@@ -82,6 +82,7 @@ FilterRecordsDialog::BuildWindow
 	itsSizeInput =
 		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 150,50, 250,20);
+	itsSizeInput->SetIsRequired(false);
 	itsSizeInput->SetLowerLimit(0);
 
 // end JXLayout

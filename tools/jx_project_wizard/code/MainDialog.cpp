@@ -186,7 +186,7 @@ MainDialog::BuildWindow
 
 	itsCreateButton =
 		jnew JXTextButton(JGetString("itsCreateButton::MainDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 359,299, 62,22);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 360,300, 60,20);
 	itsCreateButton->SetShortcuts(JGetString("itsCreateButton::shortcuts::MainDialog::JXLayout"));
 
 	itsProgramName =

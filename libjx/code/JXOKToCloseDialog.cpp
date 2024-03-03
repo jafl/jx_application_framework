@@ -69,7 +69,7 @@ JXOKToCloseDialog::BuildWindow
 	auto* text =
 		jnew JXStaticText(JString::empty, true, false, false, nullptr, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,20, 250,50);
-	assert( text != nullptr );
+	text->SetBorderWidth(0);
 
 	itsDiscardButton =
 		jnew JXTextButton(JGetString("itsDiscardButton::JXOKToCloseDialog::JXLayout"), window,
@@ -83,7 +83,7 @@ JXOKToCloseDialog::BuildWindow
 
 	auto* saveButton =
 		jnew JXTextButton(JGetString("saveButton::JXOKToCloseDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 249,79, 62,22);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,80, 60,20);
 	saveButton->SetShortcuts(JGetString("saveButton::shortcuts::JXOKToCloseDialog::JXLayout"));
 
 // end JXLayout

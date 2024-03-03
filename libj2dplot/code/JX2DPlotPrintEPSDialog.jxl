@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 8
 370
 190
 "JXLayout"
@@ -8,6 +8,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "TextButton"
 0
@@ -21,6 +22,7 @@ jx_layout_editor 5
 "#O"
 
 1
+0
 0
 "FileInput"
 2
@@ -37,6 +39,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "StaticText"
 0
@@ -55,6 +58,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "FloatInput"
 2
 0
@@ -68,6 +72,7 @@ jx_layout_editor 5
 0 0
 
 1
+0
 0
 "Menu"
 1
@@ -85,6 +90,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "Menu"
 1
 0
@@ -100,6 +106,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "StaticText"
 0
@@ -118,6 +125,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "FloatInput"
 2
 0
@@ -132,6 +140,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextCheckbox"
 0
 0
@@ -144,6 +153,7 @@ jx_layout_editor 5
 "#P"
 
 1
+0
 0
 "TextCheckbox"
 1
@@ -158,6 +168,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextButton"
 0
 0
@@ -170,6 +181,7 @@ jx_layout_editor 5
 "^["
 
 1
+0
 0
 "TextButton"
 1

@@ -152,23 +152,6 @@ TextButton::GetClassName()
 }
 
 /******************************************************************************
- GetFrameForCode (virtual protected)
-
- ******************************************************************************/
-
-JRect
-TextButton::GetFrameForCode()
-	const
-{
-	JRect r = GetFrame();
-	if (itsShortcuts.Contains("^M", JString::kIgnoreCase))
-	{
-		r.Expand(1,1);
-	}
-	return r;
-}
-
-/******************************************************************************
  PrintCtorArgsWithComma (virtual protected)
 
  ******************************************************************************/

@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 8
 320
 430
 "JXLayout"
@@ -8,6 +8,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "StaticText"
 2
@@ -26,6 +27,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextCheckbox"
 0
 0
@@ -38,6 +40,7 @@ jx_layout_editor 5
 "#S"
 
 1
+0
 0
 "TextCheckbox"
 0
@@ -52,6 +55,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextCheckbox"
 0
 0
@@ -64,6 +68,7 @@ jx_layout_editor 5
 "#B"
 
 1
+0
 0
 "TextCheckbox"
 0
@@ -78,6 +83,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "ScrollbarSet"
 2
 2
@@ -89,6 +95,7 @@ jx_layout_editor 5
 
 1
 6
+1
 "CustomWidget"
 0
 0
@@ -104,6 +111,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextButton"
 0
 1
@@ -116,6 +124,7 @@ jx_layout_editor 5
 "^["
 
 1
+0
 0
 "TextButton"
 1

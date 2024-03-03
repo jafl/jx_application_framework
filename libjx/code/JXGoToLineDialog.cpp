@@ -76,7 +76,7 @@ JXGoToLineDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JXGoToLineDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 109,89, 62,22);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 110,90, 60,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JXGoToLineDialog::JXLayout"));
 
 	itsLineNumber =

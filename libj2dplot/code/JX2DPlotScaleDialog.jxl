@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 8
 540
 190
 "JXLayout"
@@ -9,6 +9,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "RadioGroup"
 0
 0
@@ -17,8 +18,10 @@ jx_layout_editor 5
 1
 0
 0
+0
 
 1
+0
 0
 "StaticText"
 0
@@ -37,6 +40,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "FloatInput"
 0
 0
@@ -50,6 +54,7 @@ jx_layout_editor 5
 0 0
 
 1
+0
 0
 "StaticText"
 0
@@ -68,6 +73,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "FloatInput"
 0
 0
@@ -80,6 +86,7 @@ jx_layout_editor 5
 0 0
 0 0
 
+1
 1
 1
 "TextRadioButton"
@@ -96,6 +103,7 @@ jx_layout_editor 5
 
 1
 1
+1
 "TextRadioButton"
 0
 0
@@ -109,6 +117,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "StaticText"
 0
@@ -127,6 +136,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "FloatInput"
 0
 0
@@ -141,6 +151,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "RadioGroup"
 0
 0
@@ -149,8 +160,10 @@ jx_layout_editor 5
 1
 0
 0
+0
 
 1
+0
 0
 "StaticText"
 0
@@ -169,6 +182,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "FloatInput"
 0
 0
@@ -182,6 +196,7 @@ jx_layout_editor 5
 0 0
 
 1
+0
 0
 "StaticText"
 0
@@ -200,6 +215,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "FloatInput"
 0
 0
@@ -214,6 +230,7 @@ jx_layout_editor 5
 
 1
 10
+1
 "TextRadioButton"
 0
 0
@@ -228,6 +245,7 @@ jx_layout_editor 5
 
 1
 10
+1
 "TextRadioButton"
 0
 0
@@ -241,6 +259,7 @@ jx_layout_editor 5
 ""
 
 1
+0
 0
 "StaticText"
 0
@@ -259,6 +278,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "FloatInput"
 0
 0
@@ -273,6 +293,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextButton"
 0
 0
@@ -285,6 +306,7 @@ jx_layout_editor 5
 "^["
 
 1
+0
 0
 "TextButton"
 1

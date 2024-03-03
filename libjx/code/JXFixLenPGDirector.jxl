@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 8
 270
 80
 "JXLayout"
@@ -8,6 +8,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "StaticText"
 2
@@ -26,6 +27,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "TextButton"
 1
 0
@@ -38,6 +40,7 @@ jx_layout_editor 5
 "^[^C"
 
 1
+0
 0
 "ProgressIndicator"
 2

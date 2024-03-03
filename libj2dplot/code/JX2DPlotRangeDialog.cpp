@@ -93,7 +93,7 @@ JX2DPlotRangeDialog::BuildWindow()
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::JX2DPlotRangeDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 279,89, 72,22);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 280,90, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::JX2DPlotRangeDialog::JXLayout"));
 
 	itsXMin =

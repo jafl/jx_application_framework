@@ -162,7 +162,7 @@ JXFSRunFileDialog::BuildWindow
 
 	itsOKButton =
 		jnew JXTextButton(JGetString("itsOKButton::JXFSRunFileDialog::JXLayout"), ftcContainer,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 188,9, 62,22);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 189,10, 60,20);
 	itsOKButton->SetShortcuts(JGetString("itsOKButton::shortcuts::JXFSRunFileDialog::JXLayout"));
 
 	itsUseWindowCB =
