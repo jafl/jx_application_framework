@@ -619,7 +619,7 @@ LayoutContainer::CreateWidget
 	}
 	else if (index == kHorizPartitionIndex)
 	{
-		return jnew Partition(Partition::kHorizType, this, kFixedLeft,kFixedTop, x,y,w,h);
+		return jnew Partition(Partition::kHorizType, this, kHElastic,kVElastic, x,y,w,h);
 	}
 	else if (index == kImageMenuIndex)
 	{
@@ -683,23 +683,23 @@ LayoutContainer::CreateWidget
 	}
 	else if (index == kBorderRectIndex)
 	{
-		return jnew SimpleBorderRect(SimpleBorderRect::kBorderType, this, kHElastic,kVElastic, x,y,w,h);
+		return jnew SimpleBorderRect(SimpleBorderRect::kBorderType, this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kUpRectIndex)
 	{
-		return jnew SimpleBorderRect(SimpleBorderRect::kUpType, this, kHElastic,kVElastic, x,y,w,h);
+		return jnew SimpleBorderRect(SimpleBorderRect::kUpType, this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kDownRectIndex)
 	{
-		return jnew SimpleBorderRect(SimpleBorderRect::kDownType, this, kHElastic,kVElastic, x,y,w,h);
+		return jnew SimpleBorderRect(SimpleBorderRect::kDownType, this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kLevelControlIndex)
 	{
-		return jnew Slider(Slider::kLevelControlType, this, kHElastic,kVElastic, x,y,w,h);
+		return jnew Slider(Slider::kLevelControlType, this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kSliderIndex)
 	{
-		return jnew Slider(Slider::kSliderType, this, kHElastic,kVElastic, x,y,w,h);
+		return jnew Slider(Slider::kSliderType, this, kFixedLeft,kFixedTop, x,y,w,h);
 	}
 	else if (index == kStaticTextIndex)
 	{
@@ -731,11 +731,11 @@ LayoutContainer::CreateWidget
 	}
 	else if (index == kToolBarIndex)
 	{
-		return jnew ToolBar(this, kFixedLeft,kFixedTop, x,y,w,h);
+		return jnew ToolBar(this, kHElastic,kVElastic, x,y,w,h);
 	}
 	else if (index == kVertPartitionIndex)
 	{
-		return jnew Partition(Partition::kVertType, this, kFixedLeft,kFixedTop, x,y,w,h);
+		return jnew Partition(Partition::kVertType, this, kHElastic,kVElastic, x,y,w,h);
 	}
 	else if (index == kWidgetSetIndex)
 	{
