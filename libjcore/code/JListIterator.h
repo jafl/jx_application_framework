@@ -35,6 +35,7 @@ public:
 
 	const JList<T>*	GetList() const;
 	bool			GetList(JList<T>** obj) const;
+	void			Invalidate();
 
 	virtual bool	Prev(T* data, const JListT::Action move = JListT::kMove) = 0;
 	virtual bool	Next(T* data, const JListT::Action move = JListT::kMove) = 0;

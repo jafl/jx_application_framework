@@ -1021,6 +1021,7 @@ JStyledText::ReplaceAllInRange
 		}
 	}
 	textIter.Invalidate();
+	styleIter.Invalidate();
 
 	pg.ProcessFinished();
 
@@ -1358,6 +1359,7 @@ JStyledText::SetFontName
 			iter.SkipNext();
 		}
 	}
+	iter.Invalidate();
 
 	if (changed)
 	{
@@ -1518,6 +1520,7 @@ JStyledText::SetFont
 
 	FontIterator iter(itsStyles, JListT::kStartBefore, range.charRange.first);
 	iter.SetNext(f, range.charRange.GetCount());
+	iter.Invalidate();
 
 	AdjustFontToDisplayGlyphs(range, itsText, itsStyles);
 
@@ -1544,6 +1547,8 @@ JStyledText::SetFont
 	FontIterator sIter(itsStyles, JListT::kStartBefore, range.charRange.first);
 
 	while (fIter.Next(&f) && sIter.SetNext(f)) { /* copy to itsStyles */ }
+	fIter.Invalidate();
+	sIter.Invalidate();
 
 	AdjustFontToDisplayGlyphs(range, itsText, itsStyles);
 
@@ -2176,6 +2181,7 @@ JStyledText::InsertCharacter
 	assert( count->charCount == 1 );
 
 	textIter.Invalidate();
+	styleIter.Invalidate();
 
 	if (key == '\n' && itsAutoIndentFlag)
 	{
@@ -2318,6 +2324,7 @@ JStyledText::BackwardDelete
 	}
 
 	iter.Invalidate();
+	styleIter.Invalidate();
 
 	BroadcastTextChanged(TextRange(returnIndex, TextCount(0,0)),
 						 charDelta, byteDelta, true);
@@ -2426,6 +2433,7 @@ JStyledText::ForwardDelete
 	}
 
 	iter.Invalidate();
+	styleIter.Invalidate();
 
 	BroadcastTextChanged(TextRange(caretIndex, TextCount(0,0)),
 		charDelta, byteDelta, true);
@@ -2600,6 +2608,7 @@ JStyledText::Outdent
 	}
 
 	textIter.Invalidate();
+	styleIter.Invalidate();
 
 	BroadcastTextChanged(
 		TextRange(
@@ -2695,6 +2704,7 @@ JStyledText::Indent
 	const TextRange tr(cr, br);
 
 	textIter.Invalidate();
+	styleIter.Invalidate();
 
 	BroadcastTextChanged(tr, insertCount, insertCount, false, false);
 
@@ -2974,6 +2984,7 @@ JStyledText::CleanWhitespace
 		while (textIter.Next(newlinePattern) && !textIter.AtEnd());
 
 	textIter.Invalidate();
+	styleIter.Invalidate();
 
 	// replace selection with cleaned text/style
 

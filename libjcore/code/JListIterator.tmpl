@@ -310,8 +310,8 @@ bool
 JListIterator<T>::AtEnd()
 	const
 {
-	return itsConstList == nullptr ||
-							  itsCursorPosition >= itsConstList->GetItemCount();
+	return (itsConstList == nullptr ||
+			itsCursorPosition >= itsConstList->GetItemCount());
 }
 
 /******************************************************************************
@@ -431,6 +431,24 @@ JListIterator<T>::Next
 	}
 
 	return false;
+}
+
+/******************************************************************************
+ Invalidate
+
+	Disconnect this iterator from its list.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JListIterator<T>::Invalidate()
+{
+	if (itsConstList != nullptr)
+	{
+		RemoveFromIteratorList();
+		ListChanged(JListT::GoingAway());
+	}
 }
 
 /******************************************************************************

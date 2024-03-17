@@ -63,6 +63,11 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 //	Fixed bug in JFloatTableData so it works when constructed with non-empty data.
 //	Fixed derived classes of JTableData to use JListIterator, since JList
 //		no longer supports Get/SetItem().
+//	JListIterator:
+//		Added Invalidate(), similar to JStringIterator.
+//	JStyledText:
+//		Fixed performance issues introduced in 4.0.0 caused by having multiple,
+//			active FontIterators during some operations.
 
 // version 4.0.0:
 //	*** Upgraded to C++20
