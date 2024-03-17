@@ -308,13 +308,29 @@ Partition::SavePanelData()
 	itsPanel->GetValues(&minSizes, &elasticIndex);
 	itsPanel = nullptr;
 
+	JSize total = 0;
+	for (const auto v : minSizes)
+	{
+		total += v + JPartition::kDragRegionSize;
+	}
+
+	if (itsType == kHorizType && GetFrameWidth() < total)
+	{
+		AdjustSize(total - GetFrameWidth(), 0);
+	}
+	else if (GetFrameHeight() < total)
+	{
+		AdjustSize(0, total - GetFrameHeight());
+	}
+
 	while (itsPartition->GetCompartmentCount() < minSizes.GetItemCount())
 	{
 		const JIndex i = itsPartition->GetCompartmentCount()+1;
 		const JSize v  = minSizes.GetItem(i);
 
 		JXContainer* compartment;
-		itsPartition->AppendCompartment(v, v, &compartment);
+		const bool ok = itsPartition->AppendCompartment(v, v, &compartment);
+		assert( ok );
 		InsertLayoutContainer(i, compartment);
 	}
 
@@ -328,6 +344,12 @@ Partition::SavePanelData()
 	const JSize count = minSizes.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		itsPartition->SetMinCompartmentSize(i, minSizes.GetItem(i));
+		const auto v = minSizes.GetItem(i);
+		if (itsPartition->GetCompartmentSize(i) < v)
+		{
+			const bool ok = itsPartition->SetCompartmentSize(i, v);
+			assert( ok );
+		}
+		itsPartition->SetMinCompartmentSize(i, v);
 	}
 }
