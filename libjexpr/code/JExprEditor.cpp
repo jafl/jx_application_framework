@@ -1444,6 +1444,10 @@ JExprEditor::GetCmdStatus
 
 	if (itsFunction == nullptr || itsRectList == nullptr || !itsActiveFlag)
 	{
+		if (evalStr != nullptr)
+		{
+			*evalStr = JGetString("EvalFnCmd::JExprEditor");
+		}
 		return flags;
 	}
 
