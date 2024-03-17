@@ -4240,7 +4240,7 @@ JTextEditor::IncludeWhitespaceOnLine
 	JStringIterator*	textIter,
 	FontIterator*		styleIter,
 	JCoordinate*		lineWidth,
-	bool*			endOfLine
+	bool*				endOfLine
 	)
 	const
 {

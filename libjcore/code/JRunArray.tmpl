@@ -260,7 +260,7 @@ JRunArray<T>::IteratorInsertItemsAtIndex
 	{
 		const JIndex trueItemIndex =
 			PrivateInsertItemsAtIndex(itemIndex, data, newItemCount,
-										 runIndex, firstIndexInRun);
+									  runIndex, firstIndexInRun);
 
 		JListT::ItemsInserted message(trueItemIndex, newItemCount);
 		JList<T>::NotifyIterators(message);
@@ -301,8 +301,8 @@ JRunArray<T>::IteratorInsertSlice
 	if (startRun == endRun)
 	{
 		PrivateInsertItemsAtIndex(itemIndex,
-									 source.GetRunData(startRun), range.GetCount(),
-									 runIndex, firstIndexInRun);
+								  source.GetRunData(startRun), range.GetCount(),
+								  runIndex, firstIndexInRun);
 
 		JListT::ItemsInserted message(itemIndex, range.GetCount());
 		JList<T>::NotifyIterators(message);
@@ -310,11 +310,11 @@ JRunArray<T>::IteratorInsertSlice
 		return;
 	}
 
-	const JRunArrayItem<T>* sourceRuns = (source.itsRuns)->GetCArray();
+	const JRunArrayItem<T>* sourceRuns = source.itsRuns->GetCArray();
 
 	JSize count = sourceRuns[startRun-1].length - (range.first - firstIndexInStartRun);
 	JIndex i    = PrivateInsertItemsAtIndex(itemIndex, sourceRuns[startRun-1].data, count,
-											   runIndex, firstIndexInRun);
+											runIndex, firstIndexInRun);
 {
 	JListT::ItemsInserted message(i, count);
 	JList<T>::NotifyIterators(message);
