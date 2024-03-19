@@ -1,13 +1,16 @@
-jx_layout_editor 5
+jx_layout_editor 9
 400
 330
 "JXLayout"
 "File List"
+150
+150
 "TestFileListDirector"
 ""
 0
 
 1
+0
 0
 "MenuBar"
 2
@@ -19,6 +22,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "CustomWidget"
 2

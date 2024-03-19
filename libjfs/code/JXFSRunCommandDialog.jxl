@@ -1,8 +1,10 @@
-jx_layout_editor 8
+jx_layout_editor 9
 440
 180
 "JXLayout"
 "Run command"
+0
+0
 ""
 ""
 0
@@ -154,7 +156,7 @@ jx_layout_editor 8
 9
 1
 "TextCheckbox"
-1
+0
 0
 0 190 20 280
 "itsStayOpenCB"
@@ -196,7 +198,7 @@ jx_layout_editor 8
 9
 1
 "TextButton"
-1
+0
 0
 30 10 50 70
 "itsCloseButton"
@@ -210,7 +212,7 @@ jx_layout_editor 8
 9
 1
 "TextButton"
-1
+0
 0
 30 110 50 170
 "itsHelpButton"
@@ -224,7 +226,7 @@ jx_layout_editor 8
 9
 1
 "TextButton"
-1
+0
 0
 30 210 50 270
 "itsRunButton"

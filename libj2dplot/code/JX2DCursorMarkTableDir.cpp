@@ -73,7 +73,7 @@ JX2DCursorMarkTableDir::BuildWindow
 
 	itsTable =
 		jnew JX2DCursorMarkTable(plot, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 235,185);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 250,200);
 
 // end JXLayout
 

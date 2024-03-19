@@ -1,8 +1,10 @@
-jx_layout_editor 7
+jx_layout_editor 9
 400
 330
 "JXLayout"
 ""
+20
+50
 "TestTextEditDocument"
 ""
 0
@@ -51,18 +53,6 @@ jx_layout_editor 7
 0
 
 1
-2
-2
-"ScrollbarSet"
-2
-2
-0 0 300 199
-"scrollbarSet2"
-0
-0
-0
-
-1
 3
 1
 "CustomWidget"
@@ -79,7 +69,19 @@ jx_layout_editor 7
 ""
 
 1
-4
+2
+2
+"ScrollbarSet"
+2
+2
+0 0 300 199
+"scrollbarSet2"
+0
+0
+0
+
+1
+5
 1
 "CustomWidget"
 2

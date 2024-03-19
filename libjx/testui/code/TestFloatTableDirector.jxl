@@ -1,13 +1,16 @@
-jx_layout_editor 5
+jx_layout_editor 9
 400
 330
 "JXLayout"
 "Test Number Table"
+150
+150
 "TestFloatTableDirector"
 ""
 0
 
 1
+0
 0
 "MenuBar"
 2
@@ -19,6 +22,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "StaticText"
 1
@@ -37,6 +41,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "FloatInput"
 1
 0
@@ -51,6 +56,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "ScrollbarSet"
 2
 2
@@ -62,6 +68,7 @@ jx_layout_editor 5
 
 1
 4
+1
 "CustomWidget"
 2
 0
@@ -77,6 +84,7 @@ jx_layout_editor 5
 
 1
 4
+1
 "CustomWidget"
 0
 2
@@ -92,6 +100,7 @@ jx_layout_editor 5
 
 1
 4
+1
 "CustomWidget"
 2
 2

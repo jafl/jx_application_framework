@@ -1,13 +1,16 @@
-jx_layout_editor 5
+jx_layout_editor 9
 250
 200
 "JXLayout"
 "Cursor Mark Values"
+250
+300
 ""
 ""
 0
 
 1
+0
 0
 "ScrollbarSet"
 2
@@ -20,9 +23,10 @@ jx_layout_editor 5
 
 1
 1
+1
 "CustomWidget"
-0
-0
+2
+2
 0 0 185 235
 "itsTable"
 1

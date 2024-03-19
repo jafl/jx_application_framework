@@ -105,7 +105,7 @@ JX2DCurveOptionsDialog::BuildWindow()
 
 	itsNameList =
 		jnew JX2DCurveNameList(*itsCurveInfo, itsCurrentIndex, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 125,225);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 140,240);
 
 	itsShowCurveCB =
 		jnew JXTextCheckbox(JGetString("itsShowCurveCB::JX2DCurveOptionsDialog::JXLayout"), window,

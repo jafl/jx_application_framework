@@ -1,13 +1,16 @@
-jx_layout_editor 5
+jx_layout_editor 9
 230
 240
 "JXLayout"
 "Testing Sliders"
+0
+0
 "TestSliderDirector"
 ""
 0
 
 1
+0
 0
 "Slider"
 0
@@ -21,6 +24,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "Slider"
 1
 2
@@ -33,6 +37,7 @@ jx_layout_editor 5
 
 1
 0
+0
 "Slider"
 2
 1
@@ -44,6 +49,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "Slider"
 2

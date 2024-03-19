@@ -58,6 +58,7 @@ TestTabDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 300,300, JGetString("WindowTitle::TestTabDirector::JXLayout"));
+	window->SetMinSize(100, 100);
 	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "TestTabDirector");
 
 	itsTabGroup =

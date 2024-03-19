@@ -1,8 +1,10 @@
-jx_layout_editor 8
+jx_layout_editor 9
 300
 300
 "JXLayout"
 "Test Tab Group"
+100
+100
 "TestTabDirector"
 ""
 0

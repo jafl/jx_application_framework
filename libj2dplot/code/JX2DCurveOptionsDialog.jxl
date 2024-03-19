@@ -1,8 +1,10 @@
-jx_layout_editor 8
+jx_layout_editor 9
 370
 260
 "JXLayout"
 "Curve Options"
+0
+0
 ""
 ""
 0
@@ -23,8 +25,8 @@ jx_layout_editor 8
 1
 1
 "CustomWidget"
-0
-0
+2
+2
 0 0 225 125
 "itsNameList"
 1

@@ -1,13 +1,16 @@
-jx_layout_editor 6
+jx_layout_editor 9
 600
 300
 "JXLayout"
 ""
+70
+60
 "jx_layout_editor_Layout"
 ""
 0
 
 1
+0
 0
 "MenuBar"
 2
@@ -19,6 +22,7 @@ jx_layout_editor 6
 0
 
 1
+0
 0
 "ToolBar"
 2
@@ -34,6 +38,7 @@ jx_layout_editor 6
 
 1
 2
+1
 "CustomWidget"
 2
 2

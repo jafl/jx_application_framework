@@ -126,14 +126,14 @@ TestTextEditDocument::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 196,300);
 	assert( scrollbarSet1 != nullptr );
 
+	itsTextEditor1 =
+		jnew TestTextEditor(itsText, false, fileWritable, menuBar, scrollbarSet1, scrollbarSet1->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 196,300);
+
 	auto* scrollbarSet2 =
 		jnew JXScrollbarSet(partition->GetCompartment(2),
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 199,300);
 	assert( scrollbarSet2 != nullptr );
-
-	itsTextEditor1 =
-		jnew TestTextEditor(itsText, false, fileWritable, menuBar, scrollbarSet1, scrollbarSet1->GetScrollEnclosure(),
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 196,300);
 
 	itsTextEditor2 =
 		jnew TestTextEditor(itsText, false, fileWritable, nullptr, scrollbarSet2, scrollbarSet2->GetScrollEnclosure(),

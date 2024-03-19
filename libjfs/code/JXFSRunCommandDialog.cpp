@@ -151,7 +151,7 @@ JXFSRunCommandDialog::BuildWindow()
 
 	itsStayOpenCB =
 		jnew JXTextCheckbox(JGetString("itsStayOpenCB::JXFSRunCommandDialog::JXLayout"), ftcContainer,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,0, 90,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,0, 90,20);
 
 	itsUseShellCB =
 		jnew JXTextCheckbox(JGetString("itsUseShellCB::JXFSRunCommandDialog::JXLayout"), window,
@@ -165,17 +165,17 @@ JXFSRunCommandDialog::BuildWindow()
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::JXFSRunCommandDialog::JXLayout"), ftcContainer,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 10,30, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 60,20);
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::shortcuts::JXFSRunCommandDialog::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::JXFSRunCommandDialog::JXLayout"), ftcContainer,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 110,30, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,30, 60,20);
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::shortcuts::JXFSRunCommandDialog::JXLayout"));
 
 	itsRunButton =
 		jnew JXTextButton(JGetString("itsRunButton::JXFSRunCommandDialog::JXLayout"), ftcContainer,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,30, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,30, 60,20);
 	itsRunButton->SetShortcuts(JGetString("itsRunButton::shortcuts::JXFSRunCommandDialog::JXLayout"));
 
 	itsCmdInput =

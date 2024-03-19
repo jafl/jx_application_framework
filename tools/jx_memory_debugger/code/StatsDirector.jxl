@@ -1,13 +1,16 @@
-jx_layout_editor 5
+jx_layout_editor 9
 500
 300
 "JXLayout"
 "Live Stats"
+200
+200
 "jx_memory_debugger_Main_Window"
 ""
 0
 
 1
+0
 0
 "MenuBar"
 2
@@ -19,6 +22,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "ToolBar"
 2
@@ -34,6 +38,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "StaticText"
 0
 0
@@ -51,6 +56,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "FileInput"
 2
 0
@@ -67,6 +73,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "TextButton"
 1
 0
@@ -80,6 +87,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "StaticText"
 0
 0
@@ -97,6 +105,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "InputField"
 2
 0
@@ -113,9 +122,12 @@ jx_layout_editor 5
 ""
 0
 0
+0
+""
 
 1
 2
+1
 "TextButton"
 1
 0
@@ -129,6 +141,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "StaticText"
 0
 0
@@ -146,6 +159,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "StaticText"
 0
 0
@@ -163,6 +177,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "StaticText"
 0
 0
@@ -180,6 +195,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "StaticText"
 0
 0
@@ -197,6 +213,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "StaticText"
 0
 0
@@ -214,6 +231,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "StaticText"
 0
 0
@@ -231,6 +249,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "ScrollbarSet"
 2
 2
@@ -242,6 +261,7 @@ jx_layout_editor 5
 
 1
 15
+1
 "CustomWidget"
 2
 2
