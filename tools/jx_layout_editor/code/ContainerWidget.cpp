@@ -151,3 +151,15 @@ ContainerWidget::DrawOver
 	itsLayout->SetHint(ToString());
 	LayoutWidget::DrawOver(p, rect);
 }
+
+/******************************************************************************
+ IsDNDLayoutTarget (virtual protected)
+
+ ******************************************************************************/
+
+bool
+ContainerWidget::IsDNDLayoutTarget()
+	const
+{
+	return itsLayout->IsDNDTarget();
+}

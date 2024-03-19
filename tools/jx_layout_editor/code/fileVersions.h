@@ -12,8 +12,10 @@
 
 #include <jx-af/jcore/jTypes.h>
 
-const JFileVersion kCurrentFileVersion = 8;
+const JFileVersion kCurrentFileVersion = 9;
 
+// version 9:
+//	saves window min size (wtf?)
 // version 8:
 //	addes hideBorder to RadioGroup
 // version 7:

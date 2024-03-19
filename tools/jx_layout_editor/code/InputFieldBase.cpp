@@ -83,7 +83,7 @@ InputFieldBase::Draw
 {
 	p.SetPenColor(JColorManager::GetWhiteColor());
 	p.SetFilling(true);
-	p.Rect(GetFrameLocal());
+	p.Rect(GetBounds());
 }
 
 /******************************************************************************

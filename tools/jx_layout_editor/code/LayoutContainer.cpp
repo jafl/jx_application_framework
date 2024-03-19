@@ -99,7 +99,7 @@ LayoutContainer::LayoutContainer
 LayoutContainer::LayoutContainer
 	(
 	LayoutContainer*	parent,
-	LayoutWidget*			owner,
+	LayoutWidget*		owner,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -125,7 +125,6 @@ LayoutContainer::LayoutContainer
 	itsDropRectList(nullptr)
 {
 	LayoutContainerX();
-	SetBorderWidth(1);
 
 	itsEditMenu->AttachHandlers(this,
 		&LayoutContainer::UpdateEditMenu,
@@ -352,8 +351,12 @@ LayoutContainer::ReadConfig
 	const JFileVersion	vers
 	)
 {
-	input >> itsCodeTag;
-	input >> itsWindowTitle;
+	input >> itsCodeTag >> itsWindowTitle;
+
+	if (vers >= 9)
+	{
+		input >> itsWindowMinWidth >> itsWindowMinHeight;
+	}
 
 	if (vers >= 3)
 	{
@@ -762,6 +765,8 @@ LayoutContainer::WriteConfig
 {
 	output << itsCodeTag << std::endl;
 	output << itsWindowTitle << std::endl;
+	output << itsWindowMinWidth << std::endl;
+	output << itsWindowMinHeight << std::endl;
 	output << itsXWMClass << std::endl;
 	output << itsContainerName << std::endl;
 	output << itsAdjustContainerToFitFlag << std::endl;
@@ -1260,12 +1265,6 @@ LayoutContainer::DrawBorder
 	{
 		p.SetPenColor(JColorManager::GetDefaultDNDBorderColor());
 	}
-	else
-	{
-		p.SetPenColor(itsParent == nullptr ? JColorManager::GetBlackColor() :
-					  HasFocus() ? JColorManager::GetYellowColor() :
-					  JColorManager::GetWhiteColor());
-	}
 	p.SetFilling(true);
 	p.Rect(frame);
 }
@@ -1284,6 +1283,14 @@ LayoutContainer::DrawOver
 	const JRect&		rect
 	)
 {
+	if (itsParent != nullptr)
+	{
+		p.SetPenColor(IsDNDTarget() ? JColorManager::GetDefaultDNDBorderColor() :
+					  HasFocus() ? JColorManager::GetYellowColor() :
+					  JColorManager::GetWhiteColor());
+		p.Rect(rect);
+	}
+
 	if (itsDropRectList == nullptr || (itsDropPt.x == -1 && itsDropPt.y == -1))
 	{
 		return;
@@ -1973,14 +1980,15 @@ LayoutContainer::NewUndo
 void
 LayoutContainer::UpdateLayoutMenu()
 {
-	if (HasFocus() && itsParent != nullptr)
+	const bool hasFocus = HasFocus();
+	if (hasFocus && itsParent != nullptr)
 	{
 		JPtrArray<LayoutWidget> list(JPtrArrayT::kForgetAll);
 		GetSelectedWidgets(&list);
 
 		itsLayoutMenu->SetItemEnabled(kSelectParentCmd, !list.IsEmpty());
 	}
-	else
+	else if (hasFocus)
 	{
 		itsLayoutMenu->DisableItem(kSelectParentCmd);
 	}
@@ -2291,7 +2299,7 @@ LayoutContainer::HandleArrangeMenu
 
 	else if (index == kExpandHorizCmd && focus)
 	{
-		const JCoordinate w1 = GetFrameWidth();
+		const JCoordinate w1 = GetApertureWidth();
 		for (auto* w : list)
 		{
 			const JRect r = w->GetFrame();
@@ -2302,7 +2310,7 @@ LayoutContainer::HandleArrangeMenu
 	}
 	else if (index == kExpandVertCmd && focus)
 	{
-		const JCoordinate h = GetFrameHeight();
+		const JCoordinate h = GetApertureHeight();
 		for (auto* w : list)
 		{
 			const JRect r = w->GetFrame();

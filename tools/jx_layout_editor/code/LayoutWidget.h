@@ -111,6 +111,8 @@ protected:
 						 const JXKeyModifiers& modifiers) override;
 	void	DNDFinish(const bool isDrop, const JXContainer* target) override;
 
+	virtual bool	IsDNDLayoutTarget() const;
+
 private:
 
 	enum

@@ -500,9 +500,14 @@ LayoutWidget::SetSelected
 
 		if (itsSelectedFlag)
 		{
-			const bool ok = itsParent->Focus();
-			assert( ok );
-			GetWindow()->Refresh();
+			// delay so "select parent" doesn't work it's way up the chain
+			auto* task = jnew JXUrgentFunctionTask(this, [this]()
+			{
+				const bool ok = itsParent->Focus();
+				assert( ok );
+				GetWindow()->Refresh();
+			});
+			task->Go();
 		}
 	}
 }
@@ -568,10 +573,21 @@ LayoutWidget::DrawOver
 		r.SetSize(0,0);
 	}
 
-	JRect f = GetFrameLocal();
-	if (itsSelectedFlag)
+	bool drawBorder = false;
+	if (IsDNDLayoutTarget())
+	{
+		p.SetPenColor(JColorManager::GetDefaultDNDBorderColor());
+		drawBorder = true;
+	}
+	else if (itsSelectedFlag)
 	{
 		p.SetPenColor(JColorManager::GetDefaultSelectionColor());
+		drawBorder = true;
+	}
+
+	JRect f = GetFrameLocal();
+	if (drawBorder)
+	{
 		p.Rect(f);
 	}
 
@@ -615,23 +631,23 @@ LayoutWidget::DrawOver
 	p.SetLineWidth(2);
 	p.SetPenColor(JColorManager::GetOrangeColor());
 
-	if (!itsSelectedFlag && GetHSizing() == JXWidget::kFixedLeft)
+	if (!drawBorder && GetHSizing() == JXWidget::kFixedLeft)
 	{
 		f.Shrink(1,0);
 		p.Line(f.topLeft(), f.bottomLeft());
 	}
-	else if (!itsSelectedFlag && GetHSizing() == JXWidget::kFixedRight)
+	else if (!drawBorder && GetHSizing() == JXWidget::kFixedRight)
 	{
 		f.Shrink(2,0);
 		p.Line(f.topRight(), f.bottomRight());
 	}
 
-	if (!itsSelectedFlag && GetVSizing() == JXWidget::kFixedTop)
+	if (!drawBorder && GetVSizing() == JXWidget::kFixedTop)
 	{
 		f.Shrink(0,1);
 		p.Line(f.topLeft(), f.topRight());
 	}
-	else if (!itsSelectedFlag && GetVSizing() == JXWidget::kFixedBottom)
+	else if (!drawBorder && GetVSizing() == JXWidget::kFixedBottom)
 	{
 		f.Shrink(0,2);
 		p.Line(f.bottomLeft(), f.bottomRight());
@@ -1020,6 +1036,18 @@ LayoutWidget::DNDFinish
 	{
 		itsParent->SetSelectedWidgetsVisible(true);
 	}
+}
+
+/******************************************************************************
+ IsDNDLayoutTarget (virtual protected)
+
+ ******************************************************************************/
+
+bool
+LayoutWidget::IsDNDLayoutTarget()
+	const
+{
+	return false;
 }
 
 /******************************************************************************
