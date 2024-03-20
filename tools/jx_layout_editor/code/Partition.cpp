@@ -308,7 +308,7 @@ Partition::SavePanelData()
 	itsPanel->GetValues(&minSizes, &elasticIndex);
 	itsPanel = nullptr;
 
-	JSize total = 0;
+	JCoordinate total = 0;
 	for (const auto v : minSizes)
 	{
 		total += v + JPartition::kDragRegionSize;

@@ -1,6 +1,3 @@
-jcc search
-	doesn't stick to selection while search is running
-
 multi-pane editing
 
 	TextEditor::WriteSetup + keyHandler +
@@ -19,9 +16,9 @@ multi-pane editing
 medic
 	when kill program, doesn't clear current source line marker
 
------
-
 jcc
+	use correct word wrap setting when diff from project window
+
 	json styler: key vs value
 
 	cmd window sometimes loses last chunk of program output
@@ -33,6 +30,8 @@ jcc
 
 glove
 	undo then redo "transform creates column": puts values back in inverted order
+
+	NonLinearFitDialog: scrollbar sets are wider than window
 
 	remember open documents and restore when start
 

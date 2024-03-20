@@ -1245,7 +1245,8 @@ LayoutContainer::Draw
 	JPainter* dp = nullptr;
 	if (!itsCreateRect.IsEmpty() && GetDragPainter(&dp))
 	{
-		dp->Rect(itsCreateRect);
+		p.SetPenColor(JColorManager::GetBlackColor());
+		p.Rect(itsCreateRect);
 	}
 }
 
