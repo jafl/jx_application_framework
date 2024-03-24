@@ -13,7 +13,6 @@
 
 class JXMenuBar;
 class JXTextMenu;
-class JXToolBar;
 class LayoutContainer;
 class LayoutWidget;
 
@@ -29,7 +28,6 @@ public:
 	~LayoutDocument() override;
 
 	const JString&	GetName() const override;
-	void			Activate() override;
 
 	LayoutContainer*	GetLayoutContainer() const;
 	JString				GetStringNamespace() const;
@@ -55,7 +53,6 @@ private:
 // begin JXLayout
 
 	JXMenuBar*       itsMenuBar;
-	JXToolBar*       itsToolBar;
 	LayoutContainer* itsLayout;
 
 // end JXLayout

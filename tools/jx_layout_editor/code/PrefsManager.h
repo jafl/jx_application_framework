@@ -16,7 +16,7 @@ enum
 {
 	kProgramVersionID = 1,
 	kgCSFSetupID,
-	kLayoutDocToolBarID,
+	kUnusedID,	// was toolbar
 	kDocMgrID
 };
 

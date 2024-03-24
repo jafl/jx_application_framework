@@ -12,7 +12,6 @@
 
 class JXMenuBar;
 class JXTextMenu;
-class JXToolBar;
 
 class App : public JXApplication
 {
@@ -26,7 +25,6 @@ public:
 						 const JString& prevVersStr = JString::empty);
 
 	JXTextMenu*	CreateHelpMenu(JXMenuBar* menuBar, const JUtf8Byte* sectionName);
-	void		AppendHelpMenuToToolBar(JXToolBar* toolBar, JXTextMenu* menu);
 
 	static const JUtf8Byte*	GetAppSignature();
 	static void				InitStrings();

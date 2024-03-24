@@ -14,7 +14,6 @@
 #include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
-#include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kAppSignature = "jx_layout_editor";
@@ -118,23 +117,6 @@ App::CreateHelpMenu
 	}));
 
 	return menu;
-}
-
-/******************************************************************************
- AppendHelpMenuToToolBar
-
- ******************************************************************************/
-
-void
-App::AppendHelpMenuToToolBar
-	(
-	JXToolBar*	toolBar,
-	JXTextMenu* menu
-	)
-{
-	toolBar->NewGroup();
-	toolBar->AppendButton(menu, kHelpTOCCmd);
-	toolBar->AppendButton(menu, kHelpWindowCmd);
 }
 
 /******************************************************************************

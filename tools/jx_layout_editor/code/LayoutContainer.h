@@ -14,7 +14,6 @@
 class JStringManager;
 class JXMenuBar;
 class JXTextMenu;
-class JXToolBar;
 class JUndoRedoChain;
 class LayoutDocument;
 class LayoutWidget;
@@ -55,8 +54,6 @@ public:
 	bool			CurrentUndoIs(const LayoutUndo::Type type) const;
 	void			NewUndo(LayoutUndo* undo, const bool setChanged = true);
 	void			SetIgnoreResize(const bool ignore);
-
-	void	AppendToToolBar(JXToolBar* toolBar) const;
 
 	bool	GenerateCode(std::ostream& output, const JString& indent,
 						 JPtrArray<JString>* objTypes,

@@ -19,7 +19,6 @@
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
-#include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/JXDragPainter.h>
 #include <jx-af/jx/jXPainterUtil.h>
@@ -1835,37 +1834,6 @@ LayoutContainer::HandleDNDDrop
 
 	HandleDNDLeave();
 	Refresh();
-}
-
-/******************************************************************************
- AppendToToolBar
-
- ******************************************************************************/
-
-void
-LayoutContainer::AppendToToolBar
-	(
-	JXToolBar* toolBar
-	)
-	const
-{
-	toolBar->NewGroup();
-	toolBar->AppendButton(itsEditMenu, kUndoCmd);
-	toolBar->AppendButton(itsEditMenu, kRedoCmd);
-	toolBar->NewGroup();
-	toolBar->AppendButton(itsArrangeMenu, kAlignLeftCmd);
-	toolBar->AppendButton(itsArrangeMenu, kAlignHorizCenterCmd);
-	toolBar->AppendButton(itsArrangeMenu, kAlignRightCmd);
-	toolBar->NewGroup();
-	toolBar->AppendButton(itsArrangeMenu, kAlignTopCmd);
-	toolBar->AppendButton(itsArrangeMenu, kAlignVertCenterCmd);
-	toolBar->AppendButton(itsArrangeMenu, kAlignBottomCmd);
-	toolBar->NewGroup();
-	toolBar->AppendButton(itsArrangeMenu, kDistrHorizCmd);
-	toolBar->AppendButton(itsArrangeMenu, kDistrVertCmd);
-	toolBar->NewGroup();
-	toolBar->AppendButton(itsArrangeMenu, kExpandHorizCmd);
-	toolBar->AppendButton(itsArrangeMenu, kExpandVertCmd);
 }
 
 /******************************************************************************

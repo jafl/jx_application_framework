@@ -7,7 +7,6 @@
 
 enum {
 	kGridMenuCmd=1,
-	kEditToolBarCmd,
 	kFilePrefsCmd,
 	kEditMacWinPrefsCmd,
 };

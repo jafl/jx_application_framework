@@ -26,16 +26,6 @@ jx_menu_editor 0
 1
 0
 0 ""
-"Toolbar buttons..."
-""
-'t
-"__EditToolBar"
-"kEditToolBarCmd"
-0
-
-1
-0
-0 ""
 "File manager..."
 ""
 'f

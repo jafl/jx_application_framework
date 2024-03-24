@@ -7,7 +7,6 @@
 
 static const JUtf8Byte* kPreferencesMenuStr =
 "* %i __Grid::LayoutDocument"
-"|* %i __EditToolBar::LayoutDocument"
 "|* %i __FileManager::LayoutDocument"
 "|* %i __MacWinXEmulation::LayoutDocument"
 ;

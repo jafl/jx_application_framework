@@ -24,25 +24,10 @@ jx_layout_editor 9
 1
 0
 0
-"ToolBar"
-2
-2
-30 0 300 600
-"itsToolBar"
-1
-0
-0
-"GetPrefsManager()"
-"kLayoutDocToolBarID"
-"itsMenuBar"
-
-1
-2
-1
 "CustomWidget"
 2
 2
-0 0 240 600
+30 0 300 600
 "itsLayout"
 1
 0

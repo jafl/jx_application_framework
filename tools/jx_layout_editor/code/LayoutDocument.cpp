@@ -18,7 +18,6 @@
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXDocumentMenu.h>
-#include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXGetStringDialog.h>
 #include <jx-af/jx/JXInputField.h>
@@ -190,13 +189,9 @@ LayoutDocument::BuildWindow()
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
 
-	itsToolBar =
-		jnew JXToolBar(GetPrefsManager(), kLayoutDocToolBarID, itsMenuBar, window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,270);
-
 	itsLayout =
-		jnew LayoutContainer(this, itsMenuBar, itsToolBar->GetWidgetEnclosure(),
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 600,270);
+		jnew LayoutContainer(this, itsMenuBar, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,270);
 
 // end JXLayout
 
@@ -242,22 +237,7 @@ LayoutDocument::BuildWindow()
 		&LayoutDocument::HandleGridMenu);
 	ConfigureGridMenu(itsGridMenu);
 
-	auto* helpMenu = GetApplication()->CreateHelpMenu(itsMenuBar, "MainHelp");
-
-	// must be done after creating widgets
-
-	itsToolBar->LoadPrefs(nullptr);
-	if (itsToolBar->IsEmpty())
-	{
-		itsToolBar->AppendButton(itsFileMenu, kNewCmd);
-		itsToolBar->AppendButton(itsFileMenu, kOpenCmd);
-		itsToolBar->NewGroup();
-		itsToolBar->AppendButton(itsFileMenu, kSaveCmd);
-		itsToolBar->AppendButton(itsFileMenu, kSaveAllCmd);
-
-		itsLayout->AppendToToolBar(itsToolBar);
-		GetApplication()->AppendHelpMenuToToolBar(itsToolBar, helpMenu);
-	}
+	GetApplication()->CreateHelpMenu(itsMenuBar, "MainHelp");
 }
 
 /******************************************************************************
@@ -276,43 +256,6 @@ LayoutDocument::GetName()
 	itsDocName = root;
 
 	return itsDocName;
-}
-
-/******************************************************************************
- Activate (virtual)
-
- ******************************************************************************/
-
-void
-LayoutDocument::Activate()
-{
-	JXFileDocument::Activate();
-
-	ListenTo(itsToolBar, std::function([this](const JXToolBar::PrepareForResize&)
-	{
-		itsLayout->SetIgnoreResize(true);
-		std::ostringstream output;
-		output << NeedsSave() << std::endl;
-		WriteTextFile(output, true);
-		itsSavedState = output.str();
-	}));
-
-	ListenTo(itsToolBar, std::function([this](const JXToolBar::ResizeFinished&)
-	{
-		assert( !itsSavedState.IsEmpty() );
-
-		std::istringstream input(itsSavedState.GetBytes());
-		bool neededSave;
-		input >> neededSave >> std::ws;
-		ReadFile(input, true);
-		itsSavedState.Clear();
-		itsLayout->SetIgnoreResize(false);
-
-		if (!neededSave)
-		{
-			DataReverted(true);
-		}
-	}));
 }
 
 /******************************************************************************
@@ -547,11 +490,7 @@ LayoutDocument::HandlePrefsMenu
 	const JIndex index
 	)
 {
-	if (index == kEditToolBarCmd)
-	{
-		itsToolBar->Edit();
-	}
-	else if (index == kFilePrefsCmd)
+	if (index == kFilePrefsCmd)
 	{
 		JXGetWebBrowser()->EditPrefs();
 	}

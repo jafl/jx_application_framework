@@ -3,6 +3,3 @@ changing partition sizes should set "needs save"
 
 expand scrollbarSet vertically in main layout: too tall
 	horizontally becomes too wide
-
-open AboutDialog.jxl with toolbar visible - doesn't compensate correctly
-	but it does work when the window is already open
