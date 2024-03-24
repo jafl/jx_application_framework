@@ -53,6 +53,8 @@ Partition::Partition
 
 	InsertLayoutContainer(1, itsPartition->GetCompartment(1));
 	InsertLayoutContainer(2, itsPartition->GetCompartment(2));
+
+	PartitionX();
 }
 
 Partition::Partition
@@ -103,6 +105,29 @@ Partition::Partition
 	{
 		InsertLayoutContainer(i, itsPartition->GetCompartment(i));
 	}
+
+	PartitionX();
+}
+
+// private
+
+void
+Partition::PartitionX()
+{
+	itsUndo = nullptr;
+
+	ListenTo(itsPartition, std::function([this](const JPartition::BeginResizeCompartments&)
+	{
+		assert( itsUndo == nullptr );
+		itsUndo = jnew LayoutUndo(GetParentContainer()->GetDocument(), LayoutUndo::kResizePartitionType);
+	}));
+
+	ListenTo(itsPartition, std::function([this](const JPartition::EndResizeCompartments&)
+	{
+		assert( itsUndo != nullptr );
+		GetParentContainer()->NewUndo(itsUndo);
+		itsUndo = nullptr;
+	}));
 }
 
 /******************************************************************************
@@ -112,6 +137,7 @@ Partition::Partition
 
 Partition::~Partition()
 {
+	jdelete itsUndo;
 }
 
 /******************************************************************************

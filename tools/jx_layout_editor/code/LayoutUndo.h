@@ -22,7 +22,8 @@ public:
 		kUnclassifiedType,
 		kWindowResizeType,
 		kArrowType,
-		kDragResizeType
+		kDragResizeType,
+		kResizePartitionType
 	};
 
 public:

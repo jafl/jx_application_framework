@@ -12,6 +12,7 @@
 
 class JXPartition;
 class PartitionPanel;
+class LayoutUndo;
 
 class Partition : public MultiContainerWidget
 {
@@ -61,6 +62,11 @@ private:
 	Type			itsType;
 	JXPartition*	itsPartition;
 	PartitionPanel*	itsPanel;
+	LayoutUndo*		itsUndo;
+
+private:
+
+	void	PartitionX();
 };
 
 #endif

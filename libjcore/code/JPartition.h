@@ -12,7 +12,7 @@
 
 #include "JArray.h"
 
-class JPartition
+class JPartition : virtual public JBroadcaster
 {
 public:
 
@@ -104,6 +104,33 @@ private:
 
 	JPartition(const JPartition&) = delete;
 	JPartition& operator=(const JPartition&) = delete;
+
+public:
+
+	// JBroadcaster messages
+
+	static const JUtf8Byte* kBeginResizeCompartments;
+	static const JUtf8Byte* kEndResizeCompartments;
+
+	class BeginResizeCompartments : public JBroadcaster::Message
+	{
+	public:
+
+		BeginResizeCompartments()
+			:
+			JBroadcaster::Message(kBeginResizeCompartments)
+			{ };
+	};
+
+	class EndResizeCompartments : public JBroadcaster::Message
+	{
+	public:
+
+		EndResizeCompartments()
+			:
+			JBroadcaster::Message(kEndResizeCompartments)
+			{ };
+	};
 };
 
 /******************************************************************************

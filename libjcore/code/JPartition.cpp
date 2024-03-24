@@ -32,9 +32,9 @@
 		DeleteCompartmentObject
 			Delete the specified compartment object.
 
-	BASE CLASS = none
+	BASE CLASS = virtual JBroadcaster
 
-	Copyright (C) 1996 by John Lindal.
+	Copyright (C) 1996-2024 by John Lindal.
 
  ******************************************************************************/
 
@@ -49,6 +49,11 @@ const JFileVersion kCurrentGeometryDataVersion = 1;
 const JUtf8Byte kGeometryDataEndDelimiter      = '\1';
 
 	// version 1: removed elastic index and min sizes
+
+// JBroadcaster message types
+
+const JUtf8Byte* JPartition::kBeginResizeCompartments = "BeginResizeCompartments::JPartition";
+const JUtf8Byte* JPartition::kEndResizeCompartments   = "EndResizeCompartments::JPartition";
 
 /******************************************************************************
  Constructor (protected)
@@ -77,11 +82,8 @@ JPartition::JPartition
 	assert( compartmentCount == minSizes.GetItemCount() );
 	assert( elasticIndex <= compartmentCount );
 
-	itsSizes = jnew JArray<JCoordinate>(sizes);
-	assert( itsSizes != nullptr );
-
+	itsSizes    = jnew JArray<JCoordinate>(sizes);
 	itsMinSizes = jnew JArray<JCoordinate>(minSizes);
-	assert( itsMinSizes != nullptr );
 }
 
 /******************************************************************************
@@ -496,10 +498,12 @@ JPartition::PrepareToDrag
 
 	assert( itsDragIndex > 0 );
 	assert( *maxDragCoord >= *minDragCoord );
+
+	Broadcast(BeginResizeCompartments());
 }
 
 /******************************************************************************
- AdjustCompartmentsAfterDrag
+ AdjustCompartmentsAfterDrag (protected)
 
 	Shift space from one compartment to the other.
 
@@ -517,10 +521,12 @@ JPartition::AdjustCompartmentsAfterDrag
 						 itsDragMax - coord - kDragRegionHalfSize - 1);
 
 	UpdateCompartmentSizes();
+
+	Broadcast(EndResizeCompartments());
 }
 
 /******************************************************************************
- PrepareToDragAll
+ PrepareToDragAll (protected)
 
 	Prepare to drag dividing line between two adjacent compartments and
 	allow other compartments to shrink to get more space.
@@ -568,10 +574,12 @@ JIndex i;
 
 	*minDragCoord = itsDragMin;
 	*maxDragCoord = itsDragMax;
+
+	Broadcast(BeginResizeCompartments());
 }
 
 /******************************************************************************
- AdjustCompartmentsAfterDragAll
+ AdjustCompartmentsAfterDragAll (protected)
 
 	Expand one compartment at the expense of all the others.
 
@@ -610,7 +618,7 @@ JIndex i;
 			itsSizes->SetItem(i, newSizes.GetItem(i));
 		}
 		itsSizes->SetItem(itsDragIndex+1,
-							 itsSizes->GetItem(itsDragIndex+1) + reqSize);
+						  itsSizes->GetItem(itsDragIndex+1) + reqSize);
 
 		UpdateCompartmentSizes();
 	}
@@ -637,7 +645,7 @@ JIndex i;
 		assert( ok );
 
 		itsSizes->SetItem(itsDragIndex,
-							 itsSizes->GetItem(itsDragIndex) + reqSize);
+						  itsSizes->GetItem(itsDragIndex) + reqSize);
 		for (i=itsDragIndex+1; i<=compartmentCount; i++)
 		{
 			itsSizes->SetItem(i, newSizes.GetItem(i-itsDragIndex));
@@ -645,6 +653,8 @@ JIndex i;
 
 		UpdateCompartmentSizes();
 	}
+
+	Broadcast(EndResizeCompartments());
 }
 
 /******************************************************************************
@@ -673,7 +683,7 @@ JPartition::PTBoundsChanged()
 		{
 			JCoordinate trueDelta;
 			const bool ok = CreateSpace(*itsSizes, *itsMinSizes, itsElasticIndex,
-											-delta, -delta, &newSizes, &trueDelta);
+										-delta, -delta, &newSizes, &trueDelta);
 			assert( ok );
 		}
 		*itsSizes = newSizes;

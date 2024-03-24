@@ -68,6 +68,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.0";
 //	JStyledText:
 //		Fixed performance issues introduced in 4.0.0 caused by having multiple,
 //			active FontIterators during some operations.
+//	JPartition:
+//		Added BeginResizeCompartments & EndResizeCompartments messages.
 
 // version 4.0.0:
 //	*** Upgraded to C++20

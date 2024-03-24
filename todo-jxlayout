@@ -1,5 +1,0 @@
-changing partition sizes should set "needs save"
-	JPartition must broadcast
-
-expand scrollbarSet vertically in main layout: too tall
-	horizontally becomes too wide
