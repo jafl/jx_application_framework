@@ -1667,7 +1667,7 @@ LayoutContainer::WillAcceptDrop
 					JRect bounds;
 					LayoutSelection::ReadMetaData(input, &itsBoundsOffset, &bounds, &itsDropOffset, itsDropRectList);
 
-					if (GetFrame().Contains(bounds))
+					if (GetBounds().Contains(bounds))
 					{
 						itsDropPt.Set(-1,-1);
 						found = true;
