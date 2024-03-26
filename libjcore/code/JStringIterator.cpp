@@ -60,6 +60,8 @@ JStringIterator::JStringIterator
 	:
 	itsConstString(&s),
 	itsString(nullptr),
+	itsByteOffset(0),
+	itsCharacterOffset(0),
 	itsLastMatch(nullptr)
 {
 	s.SetIterator(this);
@@ -75,6 +77,8 @@ JStringIterator::JStringIterator
 	:
 	itsConstString(s),
 	itsString(s),
+	itsByteOffset(0),
+	itsCharacterOffset(0),
 	itsLastMatch(nullptr)
 {
 	s->SetIterator(this);
@@ -231,33 +235,86 @@ JStringIterator::MoveTo
 		assert( (itsConstString->IsEmpty() && index == 1) ||
 				index == itsConstString->GetByteCount()+1 ||
 				itsConstString->ByteIndexValid(index) );
-
-		itsByteOffset      = index-1;
-		itsCharacterOffset = JString::CountCharacters(itsConstString->GetRawBytes(), itsByteOffset);
+		PrivateMoveToAfterByte(index-1);
 	}
 	else if (newPosition == kStartAfterByte)
 	{
 		assert( itsConstString->ByteIndexValid(index) );
-		itsByteOffset      = index;
-		itsCharacterOffset = JString::CountCharacters(itsConstString->GetRawBytes(), itsByteOffset);
+		PrivateMoveToAfterByte(index);
 	}
 	else if (newPosition == kStartBeforeChar)
 	{
 		assert( (itsConstString->IsEmpty() && index == 1) ||
 				index == itsConstString->GetCharacterCount()+1 ||
 				itsConstString->CharacterIndexValid(index) );
-
-		JUtf8ByteRange r   = itsConstString->CharacterToUtf8ByteRange(JCharacterRange(1, index-1));
-		itsByteOffset      = r.last;
-		itsCharacterOffset = index-1;
+		PrivateMoveToAfterCharacter(index-1);
 	}
 	else
 	{
 		assert( newPosition == kStartAfterChar );
 		assert( itsConstString->CharacterIndexValid(index) );
-		JUtf8ByteRange r   = itsConstString->CharacterToUtf8ByteRange(JCharacterRange(1, index));
-		itsByteOffset      = r.last;
-		itsCharacterOffset = index;
+		PrivateMoveToAfterCharacter(index);
+	}
+}
+
+/******************************************************************************
+ PrivateMoveToAfterCharacter (private)
+
+ ******************************************************************************/
+
+void
+JStringIterator::PrivateMoveToAfterCharacter
+	(
+	const JIndex index
+	)
+{
+	if (index > itsCharacterOffset)
+	{
+		SkipNext(index - itsCharacterOffset);
+	}
+	else if (index < itsCharacterOffset)
+	{
+		SkipPrev(itsCharacterOffset - index);
+	}
+}
+
+/******************************************************************************
+ PrivateMoveToAfterByte (private)
+
+ ******************************************************************************/
+
+void
+JStringIterator::PrivateMoveToAfterByte
+	(
+	const JIndex index
+	)
+{
+	const JUtf8Byte* str = itsConstString->GetRawBytes();
+	JSize count;
+	if (index < itsByteOffset)
+	{
+		while (index < itsByteOffset)
+		{
+			// accept invalid byte sequences as single characters
+			JUtf8Character::GetPrevCharacterByteCount(str + itsByteOffset - 1, &count);
+			if (itsByteOffset <= count)
+			{
+				itsCharacterOffset = itsByteOffset = 0;
+				break;
+			}
+			itsByteOffset -= count;
+			itsCharacterOffset--;
+		}
+	}
+	else if (itsByteOffset < index)
+	{
+		while (itsByteOffset < index)
+		{
+			// accept invalid byte sequences as single characters
+			JUtf8Character::GetCharacterByteCount(str + itsByteOffset, &count);
+			itsByteOffset += count;
+			itsCharacterOffset++;
+		}
 	}
 }
 

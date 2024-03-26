@@ -153,6 +153,9 @@ private:
 	bool	PreparePrev(const bool move, JSize* byteCount);
 	bool	PrepareNext(const bool move, JSize* byteCount);
 
+	void	PrivateMoveToAfterCharacter(const JIndex index);
+	void	PrivateMoveToAfterByte(const JIndex index);
+
 	// not allowed - cannot have 2 iterators for a string
 
 	JStringIterator(const JStringIterator&) = delete;

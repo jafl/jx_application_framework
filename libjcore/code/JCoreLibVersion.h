@@ -14,11 +14,15 @@
 
 #define CURRENT_JCORE_MAJOR_VERSION 4
 #define CURRENT_JCORE_MINOR_VERSION 1
-#define CURRENT_JCORE_PATCH_VERSION 0
+#define CURRENT_JCORE_PATCH_VERSION 1
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJCoreLibVersionStr = "4.1.0";
+static const char* kCurrentJCoreLibVersionStr = "4.1.1";
+
+// version 4.1.1:
+//	JStringIterator:
+//		Optimized MoveTo() for large strings.
 
 // version 4.1.0:
 //
