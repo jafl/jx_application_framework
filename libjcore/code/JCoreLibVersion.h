@@ -23,6 +23,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.1.1";
 // version 4.1.1:
 //	JStringIterator:
 //		Optimized MoveTo() for large strings.
+//	JRunArrayIterator:
+//		Optimized ListChanged() to ignore certain messages.
 
 // version 4.1.0:
 //

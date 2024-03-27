@@ -7,6 +7,11 @@
 	insertion are both O(N), and iteration is complicated by characters not
 	being a fixed number of bytes.
 
+				+-----+-----+-----+*****+*****+-----+-----+
+		byte	|  1  |  2  |  3  |  4  |  5  |  6  |  7  |
+				+-----+-----+-----+*****+*****+-----+-----+
+		char	0     1     2     3     *     4     5     6
+
 	This iterator provides the most efficient, error-resistant way to loop
 	through the UTF-8 characters in a string:
 

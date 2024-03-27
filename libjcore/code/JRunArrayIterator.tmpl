@@ -807,9 +807,8 @@ JRunArrayIterator<T>::PrivateMoveTo
 /******************************************************************************
  ListChanged (virtual protected)
 
-	Respond to changes in itsRunArray.  We can't optimize anything because
-	inserting and removing items can merge runs or split a run.  We have
-	to ask our JRunArray what happened.
+	Respond to changes in itsRunArray.  We optimize as best we can, but
+	inserting and removing items can merge runs or split a run.
 
  ******************************************************************************/
 
@@ -827,35 +826,43 @@ JRunArrayIterator<T>::ListChanged
 		itsRunArray    = nullptr;
 		itsRunIndex    = 0;
 		itsOffsetInRun = 0;
+		return;
 	}
-	else if (!itsIgnoreListChangedFlag)
+	else if (itsIgnoreListChangedFlag)
 	{
-		const JCursorPosition p = this->GetCursor();
+		return;
+	}
 
-		if (p == 0)
-		{
-			itsRunIndex    = 1;
-			itsOffsetInRun = 0;
-		}
-		else if (p >= itsRunArray->GetItemCount())
-		{
-			itsRunIndex    = itsRunArray->GetRunCount()+1;
-			itsOffsetInRun = 0;
-		}
-		else
-		{
-			JIndex firstIndexInRun;
-			const bool found = itsRunArray->FindRun(p+1, &itsRunIndex, &firstIndexInRun);
-			assert( found );
+	const JCursorPosition p = this->GetCursor();
+	if (p == 0)
+	{
+		itsRunIndex    = 1;
+		itsOffsetInRun = 0;
+		return;
+	}
+	else if (p >= itsRunArray->GetItemCount())
+	{
+		itsRunIndex    = itsRunArray->GetRunCount()+1;
+		itsOffsetInRun = 0;
+		return;
+	}
 
-			itsOffsetInRun = p - firstIndexInRun + 1;
+	const JListT::ItemMessage* itemMsg = dynamic_cast<const JListT::ItemMessage*>(&message);
+	if (itemMsg != nullptr && itemMsg->GetFirstIndex() > p+1)
+	{
+		return;
+	}
 
-			if (itsOffsetInRun >= itsRunArray->GetRunLength(itsRunIndex))
-			{
-				itsRunIndex++;
-				itsOffsetInRun = 0;
-			}
-		}
+	JIndex firstIndexInRun;
+	const bool found = itsRunArray->FindRun(p+1, &itsRunIndex, &firstIndexInRun);
+	assert( found );
+
+	itsOffsetInRun = p - firstIndexInRun + 1;
+
+	if (itsOffsetInRun >= itsRunArray->GetRunLength(itsRunIndex))
+	{
+		itsRunIndex++;
+		itsOffsetInRun = 0;
 	}
 }
 

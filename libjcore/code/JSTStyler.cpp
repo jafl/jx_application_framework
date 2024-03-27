@@ -395,8 +395,11 @@ JSTStyler::SetStyle
 			f = *itsDefFont;
 			f.SetStyle(style);
 
-			itsIterator->RemoveNext(range.GetCount());
-			itsIterator->Insert(f, range.GetCount());
+			if (!itsIterator->SetNext(f, range.GetCount()))
+			{
+				itsIterator->RemoveNext(range.GetCount());
+				itsIterator->Insert(f, range.GetCount());
+			}
 		}
 	}
 

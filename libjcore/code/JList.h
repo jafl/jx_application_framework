@@ -63,7 +63,7 @@ public:
 	static const JUtf8Byte* kGoingAway;
 	static const JUtf8Byte* kCopied;
 
-private:
+public:
 
 	// base class for JBroadcaster messages
 
