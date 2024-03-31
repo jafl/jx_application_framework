@@ -22,6 +22,8 @@ New Planet Software       | MicroSoft       | MetroWerks
 [Code Crusader/Code Medic](https://github.com/jafl/jx-ide) | Visual Studio | CodeWarrior
 `jx_project_wizard`       | Project Wizards |  Project Wizards
 JX Application Framework  | MFC             |  PowerPlant
+`jx_layout_editor`        |                 |  ResEdit
+`jx_menu_editor`          |                 |  ResEdit
 `JX/tutorials/`           | MSDN            |  Sample code
 `JX/libjx/testui/`        | MSDN            |  Sample code
 

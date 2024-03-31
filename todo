@@ -273,6 +273,8 @@ ASIO
 	JXApplication should call io_service::poll_one()
 
 switch to xcb
+	awful API
+		uses 16bit characters for text extents
 	does not support XIM
 
 exceptions suck
