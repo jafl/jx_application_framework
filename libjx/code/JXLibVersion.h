@@ -18,7 +18,14 @@
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJXLibVersionStr = "4.1.0";
+static const char* kCurrentJXLibVersionStr = "4.1.1";
+
+// version 4.1.1:
+//	JXFileNameDisplay:
+//		Made text selectable & copyable.
+//	JXUrgentTask is now the best way to push work to the UI thread.
+//	JXApplication:
+//		Added IsUIThread().
 
 // version 4.1.0:
 //	JXStringCompletionMenu:

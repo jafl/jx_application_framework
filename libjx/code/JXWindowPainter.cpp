@@ -383,9 +383,9 @@ JXWindowPainter::String
 	const JString&		str,
 	const JIndex		uIndex,
 	const JCoordinate	width,
-	const HAlign	hAlign,
+	const HAlign		hAlign,
 	const JCoordinate	height,
-	const VAlign	vAlign
+	const VAlign		vAlign
 	)
 {
 	if (str.IsEmpty())
@@ -443,9 +443,9 @@ JXWindowPainter::String
 	const JCoordinate	top,
 	const JString&		str,
 	const JCoordinate	width,
-	const HAlign	hAlign,
+	const HAlign		hAlign,
 	const JCoordinate	height,
-	const VAlign	vAlign
+	const VAlign		vAlign
 	)
 {
 	if (str.IsEmpty())

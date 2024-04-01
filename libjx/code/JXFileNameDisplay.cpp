@@ -12,6 +12,7 @@
 
 #include "JXFileNameDisplay.h"
 #include "JXFontManager.h"
+#include "JXColorManager.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -32,11 +33,12 @@ JXFileNameDisplay::JXFileNameDisplay
 	const JCoordinate	h
 	)
 	:
-	JXStaticText(text, false, false, true, nullptr,
+	JXStaticText(text, false, true, true, nullptr,
 				 enclosure, hSizing, vSizing, x,y, w,h)
 {
 	SetFont(JFontManager::GetDefaultMonospaceFont());
 	SetBorderWidth(1);
+	SetBackgroundColor(JColorManager::GetDefaultBackColor());
 	GoToEndOfLine();
 	ListenTo(this);
 }
