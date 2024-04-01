@@ -16,6 +16,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <mutex>
+#include <boost/fiber/buffered_channel.hpp>
 
 class JXWindow;
 class JXDisplay;
@@ -83,6 +84,8 @@ public:
 						   const FiberPriority priority = kIdleTaskPriority);
 	static bool	IsWorkerFiber();
 
+	static bool	IsUIThread();
+
 	// for use by main()
 
 	static void	RemoveCmdLineOption(int* argc, char* argv[],
@@ -141,6 +144,8 @@ private:
 	JString	itsRestartCmd;		// for session managers
 	bool	itsRequestQuitFlag;
 	bool	itsIsQuittingFlag;
+
+	boost::fibers::buffered_channel<JXUrgentTask*>*	itsUrgentTaskChannel;
 
 private:
 

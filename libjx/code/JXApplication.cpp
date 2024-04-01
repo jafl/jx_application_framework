@@ -87,7 +87,8 @@ JXApplication::JXApplication
 	itsWMName(wmName),
 	itsRestartCmd(argv[0]),
 	itsRequestQuitFlag(false),
-	itsIsQuittingFlag(false)
+	itsIsQuittingFlag(false),
+	itsUrgentTaskChannel(nullptr)
 {
 	theUIThreadFlag = true;
 
@@ -202,6 +203,7 @@ JXApplication::~JXApplication()
 
 	jdelete itsIdleTasks;
 	jdelete itsTaskMutex;
+	jdelete itsUrgentTaskChannel;
 
 	JXDeleteGlobals2();
 }
@@ -605,6 +607,15 @@ JXApplication::StartTasks
 	},
 	kUrgentTaskPriority);
 
+	if (itsUrgentTaskChannel != nullptr)
+	{
+		JXUrgentTask* task;
+		while (itsUrgentTaskChannel->try_pop(task) == boost::fibers::channel_op_status::success)
+		{
+			InstallUrgentTask(task);
+		}
+	}
+
 	boost::this_fiber::yield();
 
 	if (!hadEvents)
@@ -745,6 +756,17 @@ JXApplication::InstallUrgentTask
 	JXUrgentTask* task
 	)
 {
+	if (!theUIThreadFlag)
+	{
+		if (itsUrgentTaskChannel == nullptr)
+		{
+			itsUrgentTaskChannel = jnew boost::fibers::buffered_channel<JXUrgentTask*>(1024);
+		}
+
+		itsUrgentTaskChannel->push(task);
+		return;
+	}
+
 	StartFiber([task]()
 	{
 		if (!task->Cancelled())
@@ -785,6 +807,17 @@ bool
 JXApplication::IsWorkerFiber()
 {
 	return boost::this_fiber::properties<JXBoostPriorityProps>().GetPriority() > kEventLoopPriority;
+}
+
+/******************************************************************************
+ IsUIThread (static)
+
+ ******************************************************************************/
+
+bool
+JXApplication::IsUIThread()
+{
+	return theUIThreadFlag;
 }
 
 /******************************************************************************
