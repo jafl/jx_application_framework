@@ -218,8 +218,7 @@ JGetUserMountPointList
 {
 	time_t t;
 	if (state != nullptr &&
-		(!JGetModificationTime(_PATH_FSTAB, &t).OK() ||
-		 t == state->modTime))
+		(!JGetModificationTime(_PATH_FSTAB, &t) || t == state->modTime))
 	{
 		return false;
 	}
@@ -283,8 +282,7 @@ JGetUserMountPointList
 {
 	time_t t;
 	if (state != nullptr &&
-		(!JGetModificationTime(kAvailInfoName, &t).OK() ||
-		 t == state->modTime))
+		(!JGetModificationTime(kAvailInfoName, &t) || t == state->modTime))
 	{
 		return false;
 	}
@@ -364,7 +362,7 @@ jUserOwnsDevice
 	)
 {
 	uid_t uid;
-	return ((JGetOwnerID(name, &uid)).OK() && uid == getuid());
+	return (JGetOwnerID(name, &uid) && uid == getuid());
 }
 
 bool
@@ -376,8 +374,7 @@ JGetUserMountPointList
 {
 	time_t t;
 	if (state != nullptr &&
-		(!JGetModificationTime(kAvailInfoName, &t).OK() ||
-		 t == state->modTime))
+		(!JGetModificationTime(kAvailInfoName, &t) || t == state->modTime))
 	{
 		return false;
 	}
