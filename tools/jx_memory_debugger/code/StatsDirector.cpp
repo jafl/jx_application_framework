@@ -184,7 +184,8 @@ StatsDirector::CloseLink()
 void
 StatsDirector::OpenDebugAcceptor()
 {
-	const JError err = JCreateTempFile(&itsSocketName);
+	const bool ok = JCreateTempFile(&itsSocketName);
+	assert( ok );
 
 	itsAcceptor = jnew LinkAcceptor(this);
 

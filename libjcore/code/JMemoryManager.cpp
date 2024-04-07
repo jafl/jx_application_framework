@@ -425,8 +425,8 @@ JMemoryManager::Instance()
 			// re-constructs JStringManager.
 
 			JString fileName;
-			const JError err = JCreateTempFile(&fileName);
-			if (err.OK())
+			JError err = JNoError();
+			if (JCreateTempFile(&fileName, &err))
 			{
 				manager->itsExitStatsFileName = new JString(fileName);
 				assert( manager->itsExitStatsFileName != nullptr );

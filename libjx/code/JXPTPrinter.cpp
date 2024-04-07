@@ -175,7 +175,7 @@ JXPTPrinter::Print
 	JString fileName;
 	if (itsDestination == kPrintToPrinter)
 	{
-		if (!JCreateTempFile(&fileName).OK())
+		if (!JCreateTempFile(&fileName))
 		{
 			fileName = JGetRootDirectory();		// force failure below
 		}
@@ -239,8 +239,8 @@ JXPTPrinter::Print
 
 	if (removeFile)
 	{
-		const JError err = JRemoveFile(fileName);
-		assert_ok( err );
+		const bool ok = JRemoveFile(fileName);
+		assert( ok );
 	}
 }
 

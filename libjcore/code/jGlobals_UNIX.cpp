@@ -67,8 +67,7 @@ JGetDataDirectories
 		else
 		{
 			JString s1, s2;
-			const JError err = JGetSymbolicLinkTarget("/proc/self/exe", &s1);
-			if (err.OK())
+			if (JGetSymbolicLinkTarget("/proc/self/exe", &s1))
 			{
 				JSplitPathAndName(s1, &systemDataFileDir, &s2);
 				systemDataFileDir = JCombinePathAndName(systemDataFileDir, "..");

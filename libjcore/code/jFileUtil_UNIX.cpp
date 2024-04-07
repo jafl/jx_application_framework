@@ -33,9 +33,9 @@ JFileExists
 	)
 {
 	ACE_stat info;
-	return ACE_OS::lstat(fileName.GetBytes(), &info) == 0 &&
+	return (ACE_OS::lstat(fileName.GetBytes(), &info) == 0 &&
 			ACE_OS::stat( fileName.GetBytes(), &info) == 0 &&
-			S_ISREG(info.st_mode);
+			S_ISREG(info.st_mode));
 }
 
 /******************************************************************************
@@ -51,8 +51,8 @@ JFileReadable
 	const JString& fileName
 	)
 {
-	return JFileExists(fileName) &&
-				(getuid() == 0 || access(fileName.GetBytes(), R_OK) == 0);
+	return (JFileExists(fileName) &&
+			(getuid() == 0 || access(fileName.GetBytes(), R_OK) == 0));
 }
 
 /******************************************************************************
@@ -68,8 +68,8 @@ JFileWritable
 	const JString& fileName
 	)
 {
-	return JFileExists(fileName) &&
-				(getuid() == 0 || access(fileName.GetBytes(), W_OK) == 0);
+	return (JFileExists(fileName) &&
+			(getuid() == 0 || access(fileName.GetBytes(), W_OK) == 0));
 }
 
 /******************************************************************************
@@ -91,13 +91,13 @@ JFileExecutable
 	if (getuid() == 0)
 	{
 		ACE_stat stbuf;
-		return ACE_OS::stat(fileName.GetBytes(), &stbuf) == 0 &&
-					 (stbuf.st_mode & S_IXUSR) != 0;
+		return (ACE_OS::stat(fileName.GetBytes(), &stbuf) == 0 &&
+				(stbuf.st_mode & S_IXUSR) != 0);
 	}
 	else
 	{
-		return JFileExists(fileName) &&
-					access(fileName.GetBytes(), X_OK) == 0;
+		return (JFileExists(fileName) &&
+				access(fileName.GetBytes(), X_OK) == 0);
 	}
 }
 
@@ -109,31 +109,40 @@ JFileExecutable
 
  ******************************************************************************/
 
-JError
+bool
 JGetFileLength
 	(
 	const JString&	name,
-	JSize*			size
+	JSize*			size,
+	JError*			err
 	)
 {
 	ACE_stat info;
 	if (ACE_OS::stat(name.GetBytes(), &info) == 0)
 	{
 		*size = info.st_size;
-		return JNoError();
+		if (err != nullptr)
+		{
+			*err = JNoError();
+		}
+		return true;
 	}
 
 	*size = 0;
 
-	const int err = jerrno();
-	if (err == ENOENT)
+	if (err != nullptr)
 	{
-		return JDirEntryDoesNotExist(name);
+		const int e = jerrno();
+		if (e == ENOENT)
+		{
+			*err = JDirEntryDoesNotExist(name);
+		}
+		else
+		{
+			*err = JUnexpectedError(e);
+		}
 	}
-	else
-	{
-		return JUnexpectedError(err);
-	}
+	return false;
 }
 
 /******************************************************************************
@@ -147,55 +156,64 @@ JGetFileLength
 
  ******************************************************************************/
 
-JError
+bool
 JRemoveFile
 	(
-	const JString& fileName
+	const JString&	fileName,
+	JError*			err
 	)
 {
 	jclear_errno();
 	if (remove(fileName.GetBytes()) == 0)
 	{
-		return JNoError();
+		if (err != nullptr)
+		{
+			*err = JNoError();
+		}
+		return true;
 	}
 
-	const int err = jerrno();
-	if (err == EFAULT)
+	if (err != nullptr)
 	{
-		return JSegFault();
+		const int e = jerrno();
+		if (e == EFAULT)
+		{
+			*err = JSegFault();
+		}
+		else if (e == EACCES || e == EPERM)
+		{
+			*err = JAccessDenied(fileName);
+		}
+		else if (e == ENAMETOOLONG)
+		{
+			*err = JNameTooLong();
+		}
+		else if (e == ENOENT)
+		{
+			*err = JBadPath(fileName);
+		}
+		else if (e == ENOTDIR)
+		{
+			*err = JComponentNotDirectory(fileName);
+		}
+		else if (e == EISDIR)
+		{
+			*err = JTriedToRemoveDirectory();
+		}
+		else if (e == ENOMEM)
+		{
+			*err = JNoKernelMemory();
+		}
+		else if (e == EROFS)
+		{
+			*err = JFileSystemReadOnly();
+		}
+		else
+		{
+			*err = JUnexpectedError(e);
+		}
 	}
-	else if (err == EACCES || err == EPERM)
-	{
-		return JAccessDenied(fileName);
-	}
-	else if (err == ENAMETOOLONG)
-	{
-		return JNameTooLong();
-	}
-	else if (err == ENOENT)
-	{
-		return JBadPath(fileName);
-	}
-	else if (err == ENOTDIR)
-	{
-		return JComponentNotDirectory(fileName);
-	}
-	else if (err == EISDIR)
-	{
-		return JTriedToRemoveDirectory();
-	}
-	else if (err == ENOMEM)
-	{
-		return JNoKernelMemory();
-	}
-	else if (err == EROFS)
-	{
-		return JFileSystemReadOnly();
-	}
-	else
-	{
-		return JUnexpectedError(err);
-	}
+	return false;
 }
 
 /******************************************************************************
@@ -236,12 +254,13 @@ JKillFile
 
  ******************************************************************************/
 
-JError
+bool
 JCreateTempFile
 	(
 	const JString*	path,
 	const JString*	prefix,
-	JString*		fullName
+	JString*		fullName,
+	JError*			err
 	)
 {
 	// inside function to ensure initialization
@@ -256,7 +275,11 @@ JCreateTempFile
 	}
 	else if (!JGetTempDirectory(&p))
 	{
-		return JDirEntryDoesNotExist(theTmpDirForError);
+		if (err != nullptr)
+		{
+			*err = JDirEntryDoesNotExist(theTmpDirForError);
+		}
+		return false;
 	}
 
 	if (!JString::IsEmpty(prefix))
@@ -278,7 +301,11 @@ JCreateTempFile
 		close(fd);
 		*fullName = s;
 		jdelete [] s;
-		return JNoError();
+		if (err != nullptr)
+		{
+			*err = JNoError();
+		}
+		return true;
 	}
 
 	fullName->Clear();
@@ -286,15 +313,19 @@ JCreateTempFile
 
 	// EINVAL counts as unexpected
 
-	const int err = jerrno();
-	if (err == EEXIST)
+	if (err != nullptr)
 	{
-		return JAccessDenied(p);
+		const int e = jerrno();
+		if (e == EEXIST)
+		{
+			*err = JAccessDenied(p);
+		}
+		else
+		{
+			*err = JUnexpectedError(e);
+		}
 	}
-	else
-	{
-		return JUnexpectedError(err);
-	}
+	return false;
 }
 
 /******************************************************************************
@@ -337,23 +368,23 @@ JStripTrailingDirSeparator
 
  ******************************************************************************/
 
-JError
+bool
 JUncompressFile
 	(
 	const JString&	origFileName,
 	JString*		newFileName,
 	const JString&	dirName,
-	JProcess**		process
+	JProcess**		process,
+	JError*			err
 	)
 {
 	// generate a file name if one is not provided
 
 	if (newFileName->IsEmpty())
 	{
-		const JError err = JCreateTempFile(&dirName, nullptr, newFileName);
-		if (!err.OK())
+		if (!JCreateTempFile(&dirName, nullptr, newFileName, err))
 		{
-			return err;
+			return false;
 		}
 	}
 	else if (!dirName.IsEmpty())
@@ -372,13 +403,20 @@ JUncompressFile
 
 	// run the command
 
+	JError e = JNoError();
 	if (process != nullptr)
 	{
-		return JProcess::Create(process, cmd);
+		e = JProcess::Create(process, cmd);
 	}
 	else
 	{
 		JString errText;
-		return JRunProgram(cmd, &errText);
+		e = JRunProgram(cmd, &errText);
 	}
+
+	if (err != nullptr)
+	{
+		*err = e;
+	}
+	return e.OK();
 }

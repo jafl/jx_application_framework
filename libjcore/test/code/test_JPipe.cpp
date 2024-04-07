@@ -15,6 +15,7 @@
 #include "jFStreamUtil.h"
 #include "jDirUtil.h"
 #include "jSysUtil.h"
+#include "jTime.h"
 #include "jGlobals.h"
 #include <signal.h>
 #include "jAssert.h"

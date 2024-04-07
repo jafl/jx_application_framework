@@ -609,8 +609,8 @@ LayoutDocument::GenerateCode()
 	//
 
 	JString tempSourceFullName;
-	JError err = JCreateTempFile(&path, nullptr, &tempSourceFullName);
-	if (!err.OK())
+	JError err = JNoError();
+	if (!JCreateTempFile(&path, nullptr, &tempSourceFullName, &err))
 	{
 		const JUtf8Byte* map[] =
 		{
@@ -687,8 +687,7 @@ LayoutDocument::GenerateCode()
 	//
 
 	JString tempHeaderFullName;
-	err = JCreateTempFile(&path, nullptr, &tempHeaderFullName);
-	if (!err.OK())
+	if (!JCreateTempFile(&path, nullptr, &tempHeaderFullName, &err))
 	{
 		const JUtf8Byte* map[] =
 		{

@@ -623,8 +623,8 @@ main
 	output << kDependTargetName << ":\n";
 
 	JString tempFileName;
-	const JError err = JCreateTempFile(&tempFileName);
-	if (!err.OK())
+	JError err = JNoError();
+	if (!JCreateTempFile(&tempFileName, &err))
 	{
 		std::cerr << argv[0] << ": error creating temporary file: " << err.GetMessage() << std::endl;
 		return 1;
@@ -1022,8 +1022,8 @@ GetOptions
 			std::cerr << argv[0] << ": invalid path for output file" << std::endl;
 			exit(1);
 		}
-		const JError err = JChangeDirectory(fullPath);
-		if (!err.OK())
+		JError err = JNoError();
+		if (!JChangeDirectory(fullPath, &err))
 		{
 			std::cerr << argv[0] << ": " << err.GetMessage() << std::endl;
 			exit(1);
@@ -1036,12 +1036,12 @@ GetOptions
 	if (checkModTimes)
 	{
 		time_t headerTime, inputTime, outputTime;
-		if (JGetModificationTime(*headerName, &headerTime) != kJNoError)
+		if (JGetModificationTime(*headerName, &headerTime))
 		{
 			std::cerr << argv[0] << ": unable to get modification time for " << *headerName << std::endl;
 			exit(1);
 		}
-		if (JGetModificationTime(*inputName, &inputTime) != kJNoError)
+		if (JGetModificationTime(*inputName, &inputTime))
 		{
 			std::cerr << argv[0] << ": unable to get modification time for " << *inputName << std::endl;
 			exit(1);
@@ -1049,7 +1049,7 @@ GetOptions
 
 		// don't build it if it exists and is newer
 
-		if (JGetModificationTime(*outputName, &outputTime) == kJNoError &&
+		if (JGetModificationTime(*outputName, &outputTime) &&
 			outputTime > headerTime && outputTime > inputTime)
 		{
 			exit(0);

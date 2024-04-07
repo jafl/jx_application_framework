@@ -57,7 +57,7 @@ JFSBindingList::Create
 	if (JExpandHomeDirShortcut(kSignalFileName, &signalFileName))
 	{
 		JSplitPathAndName(signalFileName, &path, &name);
-		if ((JCreateDirectory(path, 0700)).OK() && JDirectoryWritable(path))
+		if (JCreateDirectory(path, 0700) && JDirectoryWritable(path))
 		{
 			auto* list = jnew JFSBindingList(signalFileName, needUserCheck);
 			return list;
@@ -559,7 +559,7 @@ JFSBindingList::NeedsRevert()
 {
 	time_t t;
 	return !itsSignalFileName.IsEmpty() &&
-				(JGetModificationTime(itsSignalFileName, &t)).OK() &&
+				JGetModificationTime(itsSignalFileName, &t) &&
 				itsSignalModTime != t;
 }
 

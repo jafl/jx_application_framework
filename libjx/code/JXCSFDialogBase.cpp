@@ -34,6 +34,7 @@
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/JStdError.h>
 #include <sstream>
 #include <jx-af/jcore/jAssert.h>
 
@@ -717,8 +718,8 @@ JXCSFDialogBase::CreateNewDirectory()
 	{
 		const JString newDirName = dlog->GetNewDirName();
 
-		const JError err = JCreateDirectory(newDirName);
-		if (err == kJNoError)
+		JError err = JNoError();
+		if (JCreateDirectory(newDirName, &err))
 		{
 			itsDirInfo->GoTo(newDirName);
 		}

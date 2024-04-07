@@ -22,7 +22,7 @@ int main()
 JTEST(File)
 {
 	JString testFileName;
-	JAssertOK(JCreateTempFile(&testFileName));
+	JAssertTrue(JCreateTempFile(&testFileName));
 
 	JAssertTrue(JNameUsed(testFileName));
 	JAssertTrue(JFileExists(testFileName));
@@ -32,10 +32,10 @@ JTEST(File)
 	JAssertFalse(JDirectoryExists(testFileName));
 
 	JSize size;
-	JAssertOK(JGetFileLength(testFileName, &size));
+	JAssertTrue(JGetFileLength(testFileName, &size));
 	JAssertEqual(0, size);
 
-	JAssertOK(JRemoveFile(testFileName));
+	JAssertTrue(JRemoveFile(testFileName));
 	JAssertFalse(JFileExists(testFileName));
 	JAssertFalse(JFileWritable(testFileName));
 
@@ -45,18 +45,18 @@ JTEST(File)
 	JAssertTrue(JFileExists(testFileName));
 	JAssertTrue(JFileWritable(testFileName));
 
-	JAssertOK(JGetFileLength(testFileName, &size));
+	JAssertTrue(JGetFileLength(testFileName, &size));
 	JAssertEqual(3, size);
 
 	JString path, name;
 	JAssertTrue(JSplitPathAndName(testFileName, &path, &name));
 
 	JString s = JGetUniqueDirEntryName(path, JString("test_j_file_util_", JString::kNoCopy));
-	JAssertOK(JRenameFile(testFileName, s));
+	JAssertTrue(JRenameFile(testFileName, s));
 	JAssertFalse(JFileExists(testFileName));
 	JAssertTrue(JFileExists(s));
 
-	JAssertOK(JRemoveFile(s));
+	JAssertTrue(JRemoveFile(s));
 }
 
 JTEST(Symlink)
@@ -67,16 +67,16 @@ JTEST(Symlink)
 	JAssertTrue(JFileExists(f1));
 	if (JFileExists(f2))
 	{
-		JAssertOK(JRemoveFile(f2));
+		JAssertTrue(JRemoveFile(f2));
 	}
-	JAssertOK(JCreateSymbolicLink(f1, f2));
+	JAssertTrue(JCreateSymbolicLink(f1, f2));
 	JAssertTrue(JSameDirEntry(f1, f2));
 
 	JString f3;
-	JAssertOK(JGetSymbolicLinkTarget(f2, &f3));
+	JAssertTrue(JGetSymbolicLinkTarget(f2, &f3));
 	JAssertTrue(JSameDirEntry(f1, f3));
 
-	JAssertOK(JRemoveFile(f2));
+	JAssertTrue(JRemoveFile(f2));
 }
 
 JTEST(Permissions)
@@ -93,16 +93,16 @@ JTEST(Directory)
 	JAssertTrue(JCanEnterDirectory(dirName));
 
 	JString d1("junk", JString::kNoCopy);
-	JAssertOK(JCreateDirectory(d1));
+	JAssertTrue(JCreateDirectory(d1));
 
 	JString d2("junk2", JString::kNoCopy);
-	JAssertOK(JRenameDirectory(d1, d2));
+	JAssertTrue(JRenameDirectory(d1, d2));
 
-	JAssertOK(JRemoveDirectory(d2));
+	JAssertTrue(JRemoveDirectory(d2));
 
 	JString path;
-	JAssertOK(JCreateTempDirectory(nullptr, nullptr, &path));
-	JAssertOK(JRemoveDirectory(path));
+	JAssertTrue(JCreateTempDirectory(nullptr, nullptr, &path));
+	JAssertTrue(JRemoveDirectory(path));
 
 	JAssertTrue(JGetTempDirectory(&path));
 
@@ -115,18 +115,18 @@ JTEST(Directory)
 JTEST(Files)
 {
 	const JString path("/tmp/junk/junk2/junk3", JString::kNoCopy);
-	JAssertOK(JCreateDirectory(path));
+	JAssertTrue(JCreateDirectory(path));
 
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
 	for (JIndex i=1; i<=10; i++)
 	{
 		auto* fileName = jnew JString();
 
-		JAssertOK(JCreateTempFile(&path, nullptr, fileName));
+		JAssertTrue(JCreateTempFile(&path, nullptr, fileName));
 		fileList.Append(fileName);
 	}
 
-	JAssertOK(JRenameFile(*(fileList.GetFirstItem()), *(fileList.GetLastItem()), true));
+	JAssertTrue(JRenameFile(*(fileList.GetFirstItem()), *(fileList.GetLastItem()), true));
 	JAssertTrue(JKillDirectory(JString("/tmp/junk", JString::kNoCopy)));
 }
 
@@ -188,11 +188,11 @@ JTEST(Path)
 	JAssertStringsEqual("/usr/local/", s);
 
 	s = "./test_j_file_util_test_directory";
-	JAssertOK(JCreateDirectory(s));
+	JAssertTrue(JCreateDirectory(s));
 	s = JGetClosestDirectory(
 		JString("./test_j_file_util_test_directory/foo/bar/baz", JString::kNoCopy));
 	JAssertStringsEqual("test_j_file_util_test_directory/", s);
-	JAssertOK(JRemoveDirectory(s));
+	JAssertTrue(JRemoveDirectory(s));
 }
 
 JTEST(ExtractFileAndLine)
@@ -254,7 +254,7 @@ JTEST(HomeDirShortcut)
 	JAssertTrue(JGetHomeDirectory(&home));
 
 	const JString path = JCombinePathAndName(home, JString("test_j_file_util_test_directory", JString::kNoCopy));
-	JAssertOK(JCreateDirectory(path));
+	JAssertTrue(JCreateDirectory(path));
 
 	JString s = JConvertToHomeDirShortcut(path);
 	JAssertStringsEqual("~/test_j_file_util_test_directory", s);
@@ -268,5 +268,5 @@ JTEST(HomeDirShortcut)
 		true);
 	JAssertStringsEqual("~/test_j_file_util_test_directory/", s);
 
-	JAssertOK(JRemoveDirectory(path));
+	JAssertTrue(JRemoveDirectory(path));
 }

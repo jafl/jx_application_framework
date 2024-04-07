@@ -368,8 +368,8 @@ MainDialog::WriteTemplate()
 		return false;
 	}
 
-	const JError err = JCreateDirectory(projectDir);
-	if (!err.OK())
+	JError err = JNoError();
+	if (!JCreateDirectory(projectDir, &err))
 	{
 		JGetStringManager()->ReportError("UnableToCreateProjDir::MainDialog", err);
 		return false;
@@ -467,8 +467,9 @@ MainDialog::CopyAndAdjustTemplateFiles
 			const JString& name = entry.GetName();
 			const JString d1    = JCombinePathAndName(sourceDir, name);
 			const JString d2    = JCombinePathAndName(targetDir, name);
-			const JError err    = JCreateDirectory(d2);
-			if (err.OK())
+
+			JError err = JNoError();
+			if (JCreateDirectory(d2, &err))
 			{
 				CopyAndAdjustTemplateFiles(d1, d2, value);
 			}

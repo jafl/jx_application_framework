@@ -215,11 +215,11 @@ JPrefsManager::SaveToDisk()
 		JError err = JPrefsFile::GetFullName(*itsFileName, &fullName);
 		if (err.OK())
 		{
-			err = JGetOwnerID(fullName, &ownerID);
+			JGetOwnerID(fullName, &ownerID, &err);
 		}
 		if (err.OK())
 		{
-			err = JGetOwnerGroup(fullName, &groupID);
+			JGetOwnerGroup(fullName, &groupID, &err);
 		}
 		if (!err.OK())
 		{
@@ -401,7 +401,7 @@ JPrefsManager::DeletePrefsFile
 	JError err = JPrefsFile::GetFullName(fileName, &fullName);
 	if (err.OK())
 	{
-		err = JRemoveFile(fullName);
+		JRemoveFile(fullName, &err);
 	}
 	return err;
 }

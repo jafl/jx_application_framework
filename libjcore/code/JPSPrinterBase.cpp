@@ -183,8 +183,8 @@ JPSPrinterBase::PSCancelDocument()
 
 	jdelete itsFile;
 	itsFile = nullptr;
-	const JError err = JRemoveFile(itsOutputFileName);
-	assert_ok( err );
+	const bool ok = JRemoveFile(itsOutputFileName);
+	assert( ok );
 
 	itsDocOpenFlag = false;
 	PSResetCoordinates();

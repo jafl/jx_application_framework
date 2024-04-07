@@ -166,7 +166,7 @@ JXImageSelection::ConvertData
 	}
 
 	JString fileName;
-	if (!(JCreateTempFile(&fileName)).OK())
+	if (!JCreateTempFile(&fileName))
 	{
 		return false;
 	}
@@ -308,7 +308,7 @@ JXImageSelection::GetImage
 			JString fileName;
 			if (selMgr->GetData(selectionName, time, type,
 								&returnType, &data, &dataLength, &delMethod) &&
-				(JCreateTempFile(&fileName)).OK())
+				JCreateTempFile(&fileName))
 			{
 				std::ofstream output(fileName.GetBytes());
 				output.write((char*) data, dataLength);

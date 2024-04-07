@@ -10,41 +10,38 @@
 #ifndef _H_jDirUtil
 #define _H_jDirUtil
 
-#include "JStdError.h"
-#include <time.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <ace/Default_Constants.h>
 #include "JString.h"	// need Case
 #include "jFileUtil.h"	// for convenience
 
+class JError;
 class JProgressDisplay;
 class JProcess;
 
 bool	JNameUsed(const JString& name);
 bool	JSameDirEntry(const JString& name1, const JString& name2);
-JError	JRenameDirEntry(const JString& oldName, const JString& newName);
-JError	JCreateSymbolicLink(const JString& src, const JString& dest);
-JError	JGetSymbolicLinkTarget(const JString& linkFullName, JString* targetFullName);
+bool	JRenameDirEntry(const JString& oldName, const JString& newName, JError* err = nullptr);
+bool	JCreateSymbolicLink(const JString& src, const JString& dest, JError* err = nullptr);
+bool	JGetSymbolicLinkTarget(const JString& linkFullName, JString* targetFullName, JError* err = nullptr);
 
-JError	JGetModificationTime(const JString& name, time_t* modTime);
-JError	JGetPermissions(const JString& name, mode_t* perms);
-JError	JSetPermissions(const JString& name, const mode_t perms);
+bool	JGetModificationTime(const JString& name, time_t* modTime, JError* err = nullptr);
+bool	JGetPermissions(const JString& name, mode_t* perms, JError* err = nullptr);
+bool	JSetPermissions(const JString& name, const mode_t perms, JError* err = nullptr);
 JString	JGetPermissionsString(const mode_t mode);
-JError	JGetOwnerID(const JString& name, uid_t* uid);
-JError	JGetOwnerGroup(const JString& name, gid_t* gid);
-JError	JSetOwner(const JString& name, const uid_t uid, const gid_t gid);
+bool	JGetOwnerID(const JString& name, uid_t* uid, JError* err = nullptr);
+bool	JGetOwnerGroup(const JString& name, gid_t* gid, JError* err = nullptr);
+bool	JSetOwner(const JString& name, const uid_t uid, const gid_t gid, JError* err = nullptr);
 
 bool	JDirectoryExists(const JString& dirName);
 bool	JDirectoryReadable(const JString& dirName);
 bool	JDirectoryWritable(const JString& dirName);
 bool	JCanEnterDirectory(const JString& dirName);
 
-JError	JCreateDirectory(const JString& dirName);
-JError	JCreateDirectory(const JString& dirName, const mode_t mode);
-JError	JRenameDirectory(const JString& oldName, const JString& newName);
-JError	JChangeDirectory(const JString& dirName);
-JError	JRemoveDirectory(const JString& dirName);
+bool	JCreateDirectory(const JString& dirName, JError* err = nullptr);
+bool	JCreateDirectory(const JString& dirName, const mode_t mode, JError* err = nullptr);
+bool	JRenameDirectory(const JString& oldName, const JString& newName, JError* err = nullptr);
+bool	JChangeDirectory(const JString& dirName, JError* err = nullptr);
+bool	JRemoveDirectory(const JString& dirName, JError* err = nullptr);
 bool	JKillDirectory(const JString& dirName, const bool sync = true,
 					   JProcess** p = nullptr);
 
@@ -64,8 +61,8 @@ bool	JSearchSubdirs(const JString& startPath, const JString& name,
 JString	JGetUniqueDirEntryName(const JString& path, const JString& namePrefix,
 							   const JUtf8Byte* nameSuffix = nullptr,
 							   const JIndex startIndex = 1);
-JError	JCreateTempDirectory(const JString* path, const JString* prefix,
-							 JString* fullName);
+bool	JCreateTempDirectory(const JString* path, const JString* prefix,
+							 JString* fullName, JError* err = nullptr);
 
 JString	JCombinePathAndName(const JString& path, const JString& name);
 bool	JSplitPathAndName(const JString& fullName, JString* path, JString* name);
@@ -92,13 +89,14 @@ bool	JGetDirectoryFromCSIDL(const int folderCSIDL, JString* path);
 #endif
 
 
-inline JError
+inline bool
 JCreateTempDirectory
 	(
-	JString* fullName
+	JString*	fullName,
+	JError*		err = nullptr
 	)
 {
-	return JCreateTempDirectory(nullptr, nullptr, fullName);
+	return JCreateTempDirectory(nullptr, nullptr, fullName, err);
 }
 
 #endif

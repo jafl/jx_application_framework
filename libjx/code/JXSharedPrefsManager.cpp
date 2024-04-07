@@ -58,7 +58,7 @@ JXSharedPrefsManager::JXSharedPrefsManager()
 	{
 		JString path, name;
 		JSplitPathAndName(itsSignalFileName, &path, &name);
-		if (JCreateDirectory(path, 0700) != kJNoError)
+		if (JCreateDirectory(path, 0700))
 		{
 			itsSignalFileName.Clear();
 		}
@@ -98,7 +98,7 @@ JXSharedPrefsManager::Update()
 {
 	time_t t;
 	if (!itsSignalFileName.IsEmpty() &&
-		JGetModificationTime(itsSignalFileName, &t) == kJNoError &&
+		JGetModificationTime(itsSignalFileName, &t) &&
 		t != itsSignalModTime)
 	{
 		bool isNew;

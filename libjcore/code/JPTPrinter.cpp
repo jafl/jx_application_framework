@@ -116,7 +116,7 @@ JPTPrinter::Print
 	JString tempName;
 	if (itsPrintReverseOrderFlag)
 	{
-		if (!(JCreateTempFile(&tempName)).OK())
+		if (!JCreateTempFile(&tempName))
 		{
 			return false;
 		}

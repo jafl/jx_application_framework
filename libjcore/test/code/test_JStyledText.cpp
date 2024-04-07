@@ -252,10 +252,10 @@ JTEST(WritePlainText)
 	JString fileName;
 	JSize fileSize;
 	JString s;
-	JAssertOK(JCreateTempFile(&fileName));
+	JAssertTrue(JCreateTempFile(&fileName));
 
 	text.WritePlainText(fileName, JStyledText::kUNIXText);
-	JAssertOK(JGetFileLength(fileName, &fileSize));
+	JAssertTrue(JGetFileLength(fileName, &fileSize));
 	JAssertEqual(text.GetText().GetByteCount(), fileSize);
 
 	JReadFile(fileName, &s);
@@ -263,14 +263,14 @@ JTEST(WritePlainText)
 	JAssertFalse(s.Contains("\r"));
 
 	text.WritePlainText(fileName, JStyledText::kDOSText);
-	JAssertOK(JGetFileLength(fileName, &fileSize));
+	JAssertTrue(JGetFileLength(fileName, &fileSize));
 	JAssertEqual(text.GetText().GetByteCount()+2, fileSize);
 
 	JReadFile(fileName, &s);
 	JAssertTrue(s.Contains("\r\n"));
 
 	text.WritePlainText(fileName, JStyledText::kMacintoshText);
-	JAssertOK(JGetFileLength(fileName, &fileSize));
+	JAssertTrue(JGetFileLength(fileName, &fileSize));
 	JAssertEqual(text.GetText().GetByteCount(), fileSize);
 
 	JReadFile(fileName, &s);
@@ -338,7 +338,7 @@ JTEST(ReadWritePrivateFormat)
 	JAssertEqual(4, text1.GetStyles().GetRunCount());
 
 	JString fileName;
-	JAssertOK(JCreateTempFile(&fileName));
+	JAssertTrue(JCreateTempFile(&fileName));
 
 {
 	std::ofstream output(fileName.GetBytes());

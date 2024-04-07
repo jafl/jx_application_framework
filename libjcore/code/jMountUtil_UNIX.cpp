@@ -13,6 +13,7 @@
 #include "JRegex.h"
 #include "JStringIterator.h"
 #include "JStringMatch.h"
+#include "JStdError.h"
 #include "jSysUtil.h"
 
 #if defined __OpenBSD__

@@ -13,14 +13,14 @@
 // This has to be a #define so it can be used for conditional compilation.
 
 #define CURRENT_JX_MAJOR_VERSION 4
-#define CURRENT_JX_MINOR_VERSION 1
+#define CURRENT_JX_MINOR_VERSION 2
 #define CURRENT_JX_PATCH_VERSION 0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJXLibVersionStr = "4.1.1";
+static const char* kCurrentJXLibVersionStr = "4.2.0";
 
-// version 4.1.1:
+// version 4.2.0:
 //	JXFileNameDisplay:
 //		Made text selectable & copyable.
 //	JXUrgentTask is now the best way to push work to the UI thread.

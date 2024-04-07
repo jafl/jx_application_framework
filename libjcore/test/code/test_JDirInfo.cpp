@@ -21,8 +21,8 @@ JTEST(Exercise)
 {
 	const JString path("/tmp/test_JDirInfo/", JString::kNoCopy);
 	JAssertTrue(JKillDirectory(path));
-	JAssertOK(JCreateDirectory(path));
-	JAssertOK(JChangeDirectory(path));
+	JAssertTrue(JCreateDirectory(path));
+	JAssertTrue(JChangeDirectory(path));
 
 	JAssertEqual(0, system("touch foobar"));
 	JAssertEqual(0, system("touch foobaz"));

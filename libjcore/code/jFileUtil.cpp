@@ -13,6 +13,7 @@
 #include "JStringIterator.h"
 #include "JStringMatch.h"
 #include "JRegex.h"
+#include "JStdError.h"
 #include "jMountUtil.h"
 #include "jSysUtil.h"
 #include "jErrno.h"
@@ -26,19 +27,20 @@
 
  ******************************************************************************/
 
-JError
+bool
 JRenameFile
 	(
 	const JString&	oldName,
 	const JString&	newName,
-	const bool	forceReplace
+	const bool		forceReplace,
+	JError*			err
 	)
 {
 	if (forceReplace)
 	{
 		JRemoveFile(newName);	// ignore errors
 	}
-	return JRenameDirEntry(oldName, newName);
+	return JRenameDirEntry(oldName, newName, err);
 }
 
 /******************************************************************************
@@ -374,76 +376,85 @@ JURLToFileName
 
  ******************************************************************************/
 
-JError
+bool
 JFOpen
 	(
 	const JString&		fileName,
 	const JUtf8Byte*	mode,
-	FILE**				stream
+	FILE**				stream,
+	JError*				err
 	)
 {
 	jclear_errno();
 	*stream = fopen(fileName.GetBytes(), mode);
 	if (*stream != nullptr)
 	{
-		return JNoError();
+		if (err != nullptr)
+		{
+			*err = JNoError();
+		}
+		return true;
 	}
 
-	const int err = jerrno();
-	if (err == EINVAL)
+	if (err != nullptr)
 	{
-		return JInvalidOpenMode(fileName);
+		const int e = jerrno();
+		if (e == EINVAL)
+		{
+			*err = JInvalidOpenMode(fileName);
+		}
+		else if (e == EEXIST)
+		{
+			*err = JDirEntryAlreadyExists(fileName);
+		}
+		else if (e == EISDIR)
+		{
+			*err = JIsADirectory();
+		}
+		else if (e == EACCES || e == ETXTBSY)
+		{
+			*err = JAccessDenied(fileName);
+		}
+		else if (e == EFAULT)
+		{
+			*err = JSegFault();
+		}
+		else if (e == ENAMETOOLONG)
+		{
+			*err = JNameTooLong();
+		}
+		else if (e == ENOENT)
+		{
+			*err = JBadPath(fileName);
+		}
+		else if (e == ENOTDIR)
+		{
+			*err = JComponentNotDirectory(fileName);
+		}
+		else if (e == EMFILE || e == ENFILE)
+		{
+			*err = JTooManyDescriptorsOpen();
+		}
+		else if (e == ENOMEM)
+		{
+			*err = JNoKernelMemory();
+		}
+		else if (e == EROFS)
+		{
+			*err = JFileSystemReadOnly();
+		}
+		else if (e == ELOOP)
+		{
+			*err = JPathContainsLoop(fileName);
+		}
+		else if (e == ENOSPC)
+		{
+			*err = JFileSystemFull();
+		}
+		else
+		{
+			*err = JUnexpectedError(e);
+		}
 	}
-	else if (err == EEXIST)
-	{
-		return JDirEntryAlreadyExists(fileName);
-	}
-	else if (err == EISDIR)
-	{
-		return JIsADirectory();
-	}
-	else if (err == EACCES || err == ETXTBSY)
-	{
-		return JAccessDenied(fileName);
-	}
-	else if (err == EFAULT)
-	{
-		return JSegFault();
-	}
-	else if (err == ENAMETOOLONG)
-	{
-		return JNameTooLong();
-	}
-	else if (err == ENOENT)
-	{
-		return JBadPath(fileName);
-	}
-	else if (err == ENOTDIR)
-	{
-		return JComponentNotDirectory(fileName);
-	}
-	else if (err == EMFILE || err == ENFILE)
-	{
-		return JTooManyDescriptorsOpen();
-	}
-	else if (err == ENOMEM)
-	{
-		return JNoKernelMemory();
-	}
-	else if (err == EROFS)
-	{
-		return JFileSystemReadOnly();
-	}
-	else if (err == ELOOP)
-	{
-		return JPathContainsLoop(fileName);
-	}
-	else if (err == ENOSPC)
-	{
-		return JFileSystemFull();
-	}
-	else
-	{
-		return JUnexpectedError(err);
-	}
+	return false;
 }

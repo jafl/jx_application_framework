@@ -774,8 +774,8 @@ JDirInfo::BuildInfo()
 
 	const JString origDir = JGetCurrentDirectory();
 
-	JError err = JChangeDirectory(itsCWD);
-	if (!err.OK())
+	JError err = JNoError();
+	if (!JChangeDirectory(itsCWD, &err))
 	{
 		return err;
 	}
@@ -810,8 +810,8 @@ JDirInfo::BuildInfo()
 
 	pg.ProcessFinished();
 
-	err = JChangeDirectory(origDir);
-	assert_ok( err );
+	const bool ok = JChangeDirectory(origDir);
+	assert( ok );
 
 	ApplyFilters(false);
 	return JNoError();

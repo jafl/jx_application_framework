@@ -296,8 +296,8 @@ JImage::ReadGD
 	// read file
 
 	FILE* input;
-	const JError fopenErr = JFOpen(fileName, "rb", &input);
-	if (!fopenErr.OK())
+	JError fopenErr = JNoError();
+	if (!JFOpen(fileName, "rb", &input, &fopenErr))
 	{
 		return fopenErr;
 	}
@@ -560,8 +560,8 @@ JImage::WriteGD
 	// write file
 
 	FILE* output;
-	const JError fopenErr = JFOpen(fileName, "wb", &output);
-	if (!fopenErr.OK())
+	JError fopenErr = JNoError();
+	if (!JFOpen(fileName, "wb", &output, &fopenErr))
 	{
 		gdImageDestroy(image);
 		return fopenErr;

@@ -13,18 +13,22 @@
 // These have to be #defined so they can be used for conditional compilation.
 
 #define CURRENT_JCORE_MAJOR_VERSION 4
-#define CURRENT_JCORE_MINOR_VERSION 1
-#define CURRENT_JCORE_PATCH_VERSION 1
+#define CURRENT_JCORE_MINOR_VERSION 2
+#define CURRENT_JCORE_PATCH_VERSION 0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJCoreLibVersionStr = "4.1.1";
+static const char* kCurrentJCoreLibVersionStr = "4.2.0";
 
-// version 4.1.1:
+// version 4.2.0:
 //	JStringIterator:
 //		Optimized MoveTo() for large strings.
 //	JRunArrayIterator:
 //		Optimized ListChanged() to ignore certain messages.
+//	jDirUtil,jFileUtil, JDirEntry:
+//		*** Converted all functions returning JError to return bool and accept
+//			optional JError*, thereby avoiding JError construction unless
+//			actually needed.
 
 // version 4.1.0:
 //

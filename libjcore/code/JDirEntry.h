@@ -11,14 +11,13 @@
 #define _H_JDirEntry
 
 #include "JList.h"
-#include "JError.h"
 #include "JString.h"
-#include <sys/stat.h>
 
 #if defined WIN32 && !defined GetUserName
 #define GetUserName	GetUserNameA
 #endif
 
+class JError;
 class JDirInfo;
 class JRegex;
 
@@ -81,8 +80,8 @@ public:
 	JSize	GetSize() const;
 
 	mode_t	GetMode() const;
-	JError	SetMode(const mode_t mode);
-	JError	SetMode(const ModeBit bit, const bool allow);
+	bool	SetMode(const mode_t mode, JError* err = nullptr);
+	bool	SetMode(const ModeBit bit, const bool allow, JError* err = nullptr);
 	JString	GetModeString() const;
 
 	bool	IsReadable() const;
@@ -176,16 +175,15 @@ inline bool
 JDirEntry::IsLink()
 	const
 {
-	return itsType == kFileLink || itsType == kDirLink ||
-							  itsType == kBrokenLink || itsType == kUnknownLink;
+	return (itsType == kFileLink || itsType == kDirLink ||
+			itsType == kBrokenLink || itsType == kUnknownLink);
 }
 
 inline bool
 JDirEntry::IsWorkingLink()
 	const
 {
-	return itsType == kFileLink || itsType == kDirLink ||
-							  itsType == kUnknownLink;
+	return itsType == kFileLink || itsType == kDirLink || itsType == kUnknownLink;
 }
 
 inline bool

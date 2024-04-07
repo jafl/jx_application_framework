@@ -34,6 +34,7 @@
 #include "JFileArrayIndex.h"
 #include "JString.h"
 #include "jDirUtil.h"
+#include <sys/stat.h>
 #include "jAssert.h"
 
 // JError types

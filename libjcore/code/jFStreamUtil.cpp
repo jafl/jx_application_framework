@@ -119,7 +119,7 @@ JConvertToStream
 		return false;
 	}
 
-	if (!(JCreateTempFile(tempFullName)).OK())
+	if (!JCreateTempFile(tempFullName))
 	{
 		return false;
 	}

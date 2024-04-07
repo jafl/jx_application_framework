@@ -14,6 +14,7 @@
 #include "JStringIterator.h"
 #include "jGlobals.h"
 #include <limits.h>
+#include <sys/stat.h>
 #include "jAssert.h"
 
 /******************************************************************************
@@ -37,14 +38,15 @@ JIsRelativePath
 
  ******************************************************************************/
 
-JError
+bool
 JRenameDirectory
 	(
-	const JString& oldName,
-	const JString& newName
+	const JString&	oldName,
+	const JString&	newName,
+	JError*			err
 	)
 {
-	return JRenameDirEntry(oldName, newName);
+	return JRenameDirEntry(oldName, newName, err);
 }
 
 /******************************************************************************

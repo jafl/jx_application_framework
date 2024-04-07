@@ -29,6 +29,7 @@
 #include <jx-af/jcore/JDirInfo.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jVCSUtil.h>
+#include <jx-af/jcore/JStdError.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

@@ -15,6 +15,7 @@
 #include "JXWindow.h"
 #include <jx-af/jcore/JColorManager.h>
 #include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/JStdError.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -151,7 +152,8 @@ JXPathInput::InputValid()
 	}
 
 	const JString currDir = JGetCurrentDirectory();
-	const JError err      = JChangeDirectory(path);
+	JError err            = JNoError();
+	JChangeDirectory(path, &err);
 	JChangeDirectory(currDir);
 
 	if (err.OK())

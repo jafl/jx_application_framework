@@ -8,12 +8,10 @@
 #ifndef _H_jFileUtil
 #define _H_jFileUtil
 
-#include "JError.h"
-#include "jTime.h"
-#include <stdio.h>
 #include "JString.h"	// need Case
 #include "jDirUtil.h"	// for convenience
 
+class JError;
 class JString;
 class JProcess;
 
@@ -22,22 +20,23 @@ bool	JFileReadable(const JString& fileName);
 bool	JFileWritable(const JString& fileName);
 bool	JFileExecutable(const JString& fileName);
 
-JError	JGetFileLength(const JString& name, JSize* size);
+bool	JGetFileLength(const JString& name, JSize* size, JError* err = nullptr);
 JString	JPrintFileSize(const JSize size);
 
-JError	JRenameFile(const JString& oldName, const JString& newName,
-					const bool forceReplace = false);
-JError	JRemoveFile(const JString& fileName);
+bool	JRenameFile(const JString& oldName, const JString& newName,
+					const bool forceReplace = false, JError* err = nullptr);
+bool	JRemoveFile(const JString& fileName, JError* err = nullptr);
 bool	JKillFile(const JString& fileName);
 
-JError	JCreateTempFile(const JString* path, const JString* prefix,
-						JString* fullName);
+bool	JCreateTempFile(const JString* path, const JString* prefix,
+						JString* fullName, JError* err = nullptr);
 
-JError	JUncompressFile(const JString& origFileName, JString* newFileName,
+bool	JUncompressFile(const JString& origFileName, JString* newFileName,
 						const JString* dirName = nullptr,
-						JProcess** process = nullptr);
+						JProcess** process = nullptr,
+						JError* err = nullptr);
 
-JError	JFOpen(const JString& fileName, const JUtf8Byte* mode, FILE** stream);
+bool	JFOpen(const JString& fileName, const JUtf8Byte* mode, FILE** stream, JError* err = nullptr);
 
 void	JExtractFileAndLine(const JString& str,
 							JString* fileName, JIndex* startLineIndex,
@@ -51,13 +50,14 @@ JString	JFileNameToURL(const JString& fileName);
 bool	JURLToFileName(const JString& url, JString* fileName);
 
 
-inline JError
+inline bool
 JCreateTempFile
 	(
-	JString* fullName
+	JString*	fullName,
+	JError*		err = nullptr
 	)
 {
-	return JCreateTempFile(nullptr, nullptr, fullName);
+	return JCreateTempFile(nullptr, nullptr, fullName, err);
 }
 
 inline JString

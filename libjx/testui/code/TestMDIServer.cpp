@@ -54,7 +54,7 @@ TestMDIServer::HandleMDIRequest
 	JUserNotification* un = JGetUserNotification();
 
 	const JString origDir = JGetCurrentDirectory();
-	if (JChangeDirectory(dir) != kJNoError)
+	if (JChangeDirectory(dir))
 	{
 		const JUtf8Byte* map[] =
 		{
@@ -65,7 +65,7 @@ TestMDIServer::HandleMDIRequest
 	}
 
 	TestDirector* director = nullptr;
-	const bool ok = (TestjxGetApplication())->GetMainDirector(&director);
+	bool ok = (TestjxGetApplication())->GetMainDirector(&director);
 	assert( ok );
 
 	const JSize argCount = argList.GetItemCount();
@@ -122,8 +122,8 @@ TestMDIServer::HandleMDIRequest
 		pg.ProcessFinished();
 	}
 
-	const JError err = JChangeDirectory(origDir);
-	assert_ok( err );
+	ok = JChangeDirectory(origDir);
+	assert( ok );
 }
 
 /******************************************************************************

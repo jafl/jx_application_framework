@@ -53,8 +53,7 @@ JXCheckModTimeTask::Perform
 	)
 {
 	time_t t;
-	if (JGetModificationTime(itsFullName, &t) == kJNoError &&
-		t != itsModTime)
+	if (JGetModificationTime(itsFullName, &t) && t != itsModTime)
 	{
 		Broadcast(FileChanged());
 	}

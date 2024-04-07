@@ -16,6 +16,8 @@ multi-pane editing
 medic
 	when kill program, doesn't clear current source line marker
 
+	asm for function: if blank, fill in after program is stopped
+
 jcc
 	use correct word wrap setting when diff from project window
 

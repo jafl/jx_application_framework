@@ -14,6 +14,7 @@
 #include "jStreamUtil.h"
 #include "jFStreamUtil.h"
 #include "jXMLUtil.h"
+#include "JStdError.h"
 #include <libxml/parser.h>
 #include "jGlobals.h"
 #include "jAssert.h"
@@ -54,10 +55,10 @@ JIsVCSDirectory
 	const JString& name
 	)
 {
-	return name == kGitDirName        ||
-				name == kSubversionDirName ||
-				name == kCVSDirName        ||
-				name == kSCCSDirName;
+	return (name == kGitDirName        ||
+			name == kSubversionDirName ||
+			name == kCVSDirName        ||
+			name == kSCCSDirName);
 }
 
 /******************************************************************************
@@ -222,7 +223,7 @@ JRenameVCS
 	JSplitPathAndName(oldFullName, &oldPath, &name);	// must be second
 
 	const JString origPath = JGetCurrentDirectory();
-	if (JChangeDirectory(oldPath) != kJNoError)
+	if (!JChangeDirectory(oldPath))
 	{
 		return JAccessDenied(oldPath);
 	}
@@ -297,7 +298,7 @@ JRenameVCS
 	}
 	else if (tryPlain)
 	{
-		err = JRenameDirEntry(oldFullName, newFullName);
+		JRenameDirEntry(oldFullName, newFullName, &err);
 	}
 
 	jdelete p;
@@ -334,7 +335,7 @@ JRemoveVCS
 	JSplitPathAndName(fullName, &path, &name);
 
 	const JString origPath = JGetCurrentDirectory();
-	if (JChangeDirectory(path) != kJNoError)
+	if (!JChangeDirectory(path))
 	{
 		return JAccessDenied(path);
 	}

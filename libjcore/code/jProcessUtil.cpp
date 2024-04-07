@@ -21,10 +21,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "jSignal.h"
-#include "jFileUtil.h"
 #include "jDirUtil.h"
 #include "jSysUtil.h"
 #include <ace/OS_NS_sys_wait.h>
+#include "jTime.h"
 #include "jErrno.h"
 #include "jAssert.h"
 
@@ -218,8 +218,9 @@ JExecute
 	)
 {
 	const JString origPath = JGetCurrentDirectory();
-	JError err             = JChangeDirectory(workingDirectory);
-	if (err.OK())
+
+	JError err = JNoError();
+	if (JChangeDirectory(workingDirectory, &err))
 	{
 		err = JExecute(cmd, childPID, toAction, toFD, fromAction, fromFD, errAction, errFD);
 		JChangeDirectory(origPath);
@@ -250,8 +251,9 @@ JExecute
 	)
 {
 	const JString origPath = JGetCurrentDirectory();
-	JError err             = JChangeDirectory(workingDirectory);
-	if (err.OK())
+
+	JError err = JNoError();
+	if (JChangeDirectory(workingDirectory, &err))
 	{
 		err = JExecute(argList, childPID, toAction, toFD, fromAction, fromFD, errAction, errFD);
 		JChangeDirectory(origPath);
@@ -283,8 +285,9 @@ JExecute
 	)
 {
 	const JString origPath = JGetCurrentDirectory();
-	JError err             = JChangeDirectory(workingDirectory);
-	if (err.OK())
+
+	JError err = JNoError();
+	if (JChangeDirectory(workingDirectory, &err))
 	{
 		err = JExecute(argv, size, childPID, toAction, toFD, fromAction, fromFD, errAction, errFD);
 		JChangeDirectory(origPath);

@@ -25,7 +25,7 @@ JTEST(Print)
 	JReadFile(JString("./data/test_print.in.txt", JString::kNoCopy), &text);
 
 	JString fileName;
-	JAssertOK(JCreateTempFile(&fileName));
+	JAssertTrue(JCreateTempFile(&fileName));
 
 	TestPTPrinter p(fileName);
 	p.Print(text);
@@ -45,7 +45,7 @@ JTEST(PrintReverseOrder)
 	JReadFile(JString("./data/test_print.in.txt", JString::kNoCopy), &text);
 
 	JString fileName;
-	JAssertOK(JCreateTempFile(&fileName));
+	JAssertTrue(JCreateTempFile(&fileName));
 
 	TestPTPrinter p(fileName);
 	p.ShouldPrintReverseOrder(true);
@@ -66,7 +66,7 @@ JTEST(LineNumbers)
 	JReadFile(JString("./data/test_print.in.txt", JString::kNoCopy), &text);
 
 	JString fileName;
-	JAssertOK(JCreateTempFile(&fileName));
+	JAssertTrue(JCreateTempFile(&fileName));
 
 	TestPTPrinter p(fileName);
 	p.ShouldPrintLineNumbers(true);

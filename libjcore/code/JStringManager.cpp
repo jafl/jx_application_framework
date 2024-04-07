@@ -258,8 +258,7 @@ JStringManager::Register
 	)
 {
 	JString tempFileName;
-	const JError err = JCreateTempFile(&tempFileName);
-	if (!err.OK())
+	if (!JCreateTempFile(&tempFileName))
 	{
 		return;
 	}

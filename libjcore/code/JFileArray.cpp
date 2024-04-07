@@ -92,7 +92,8 @@
 #include "jFStreamUtil.h"
 #include "jStreamUtil.h"
 #include "jFileUtil.h"
-#include "jDirUtil.h"
+#include "JStdError.h"
+#include "jTime.h"
 #include "jGlobals.h"
 #include "jAssert.h"
 
@@ -242,7 +243,9 @@ JFileArray::OKToCreateBase
 		}
 		else if (action == kDeleteIfOpen)
 		{
-			return JRemoveFile(fileName);
+			JError err = JNoError();
+			JRemoveFile(fileName, &err);
+			return err;
 		}
 		else
 		{
@@ -259,7 +262,9 @@ JFileArray::OKToCreateBase
 
 			if (action == kDeleteIfWaitTimeout)
 			{
-				return JRemoveFile(fileName);
+				JError err = JNoError();
+				JRemoveFile(fileName, &err);
+				return err;
 			}
 			else
 			{

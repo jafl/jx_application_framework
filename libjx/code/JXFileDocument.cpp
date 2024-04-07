@@ -34,7 +34,8 @@
 #include <jx-af/jcore/jFStreamUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jFileUtil.h>
-#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/JStdError.h>
+#include <sys/stat.h>
 #include <jx-af/jcore/jAssert.h>
 
 bool JXFileDocument::itsAskOKToCloseFlag = true;
@@ -247,12 +248,12 @@ JXFileDocument::FileChanged
 	{
 		JSplitPathAndName(fullName, &itsFilePath, &itsFileName);
 
-		JError err = JGetModificationTime(fileName, &itsFileModTime);
-		assert_ok( err );
+		bool ok = JGetModificationTime(fileName, &itsFileModTime);
+		assert( ok );
 		itsCheckModTimeFlag = true;
 
-		err = JGetPermissions(fileName, &itsFilePerms);
-		assert_ok( err );
+		ok = JGetPermissions(fileName, &itsFilePerms);
+		assert( ok );
 		itsCheckPermsFlag = true;
 	}
 	else
@@ -455,7 +456,7 @@ JXFileDocument::FileModifiedByOthers
 	mode_t perms;
 
 	const bool m = itsCheckModTimeFlag &&
-		JGetModificationTime(fullName, &modTime) == kJNoError &&
+		JGetModificationTime(fullName, &modTime) &&
 		modTime != itsFileModTime;
 	if (modTimeChanged != nullptr)
 	{
@@ -463,7 +464,7 @@ JXFileDocument::FileModifiedByOthers
 	}
 
 	const bool p = itsCheckPermsFlag &&
-		JGetPermissions(fullName, &perms) == kJNoError &&
+		JGetPermissions(fullName, &perms) &&
 		perms != itsFilePerms;
 	if (permsChanged != nullptr)
 	{
@@ -514,13 +515,13 @@ JXFileDocument::DataReverted
 	{
 		const JString fullName = itsFilePath + itsFileName;
 		time_t modTime;
-		if (JGetModificationTime(fullName, &modTime) == kJNoError)
+		if (JGetModificationTime(fullName, &modTime))
 		{
 			itsFileModTime      = modTime;
 			itsCheckModTimeFlag = true;
 		}
 		mode_t perms;
-		if (JGetPermissions(fullName, &perms) == kJNoError)
+		if (JGetPermissions(fullName, &perms))
 		{
 			itsFilePerms      = perms;
 			itsCheckPermsFlag = true;
@@ -700,13 +701,14 @@ JXFileDocument::SaveInCurrentFile()
 				JGetString("TryChangeWriteProtect::JXFileDocument")))
 		{
 			mode_t perms;
-			if (JGetPermissions(fullName, &perms)          == kJNoError &&
-				JSetPermissions(fullName, perms | S_IWUSR) == kJNoError)
+			if (JGetPermissions(fullName, &perms) &&
+				JSetPermissions(fullName, perms | S_IWUSR))
 			{
-				const bool ok1   = JFileWritable(fullName);
-				const bool ok2   = ok1 && SaveInCurrentFile();
-				const JError err = JSetPermissions(fullName, perms);
-				if (!err.OK())
+				const bool ok1 = JFileWritable(fullName);
+				const bool ok2 = ok1 && SaveInCurrentFile();
+
+				JError err = JNoError();
+				if (!JSetPermissions(fullName, perms, &err))
 				{
 					JGetStringManager()->ReportError("NoRestoreWriteProtectError::JXFileDocument", err);
 				}
@@ -764,8 +766,8 @@ JXFileDocument::SaveInCurrentFile()
 		if (makeBackup && dirWritable)
 		{
 			JRemoveFile(backupName);
-			const JError err = JRenameFile(fullName, backupName);
-			if (err.OK())
+			JError err = JNoError();
+			if (JRenameFile(fullName, backupName, false, &err))
 			{
 				JGetPermissions(backupName, &filePerms);
 				JGetOwnerID(backupName, &ownerID);
@@ -803,8 +805,8 @@ JXFileDocument::SaveInCurrentFile()
 
 		if (filePerms != 0)
 		{
-			const JError err = JSetPermissions(fullName, filePerms);
-			if (!err.OK())
+			JError err = JNoError();
+			if (!JSetPermissions(fullName, filePerms, &err))
 			{
 				JGetStringManager()->ReportError("NoRestoreFilePermsError::JXFileDocument", err);
 			}
@@ -812,15 +814,15 @@ JXFileDocument::SaveInCurrentFile()
 
 		if (ownerID != (uid_t) -1 || groupID != (gid_t) -1)
 		{
-			const JError err = JSetOwner(fullName, ownerID, groupID);
-			if (!err.OK())
+			JError err = JNoError();
+			if (!JSetOwner(fullName, ownerID, groupID, &err))
 			{
 				JGetStringManager()->ReportError("NoRestoreFileOwnerError::JXFileDocument", err);
 			}
 		}
 
-		itsCheckModTimeFlag = JGetModificationTime(fullName, &itsFileModTime).OK();
-		itsCheckPermsFlag   = JGetPermissions(fullName, &itsFilePerms).OK();
+		itsCheckModTimeFlag = JGetModificationTime(fullName, &itsFileModTime);
+		itsCheckPermsFlag   = JGetPermissions(fullName, &itsFilePerms);
 		return true;
 	}
 	else
@@ -867,7 +869,8 @@ JXFileDocument::WriteFile
 		// use JFOpen() to get an error message
 
 		FILE* file = nullptr;
-		JError err = JFOpen(fullName, "w", &file);
+		JError err = JNoError();
+		JFOpen(fullName, "w", &file, &err);
 		if (file != nullptr)
 		{
 			// This should never happen, but who knows??
@@ -920,9 +923,7 @@ JXFileDocument::SafetySave
 		(itsWasOnDiskFlag || (quitting && JGetHomeDirectory(&homeDir))))
 	{
 		JString fullName;
-
-		JError err = JNoError();
-
+		bool ok = true;
 		if (itsWasOnDiskFlag)
 		{
 			fullName = itsFilePath + itsFileName;
@@ -943,27 +944,23 @@ JXFileDocument::SafetySave
 		}
 		else if (reason == JXDocumentManager::kAssertFired)
 		{
-			err = JCreateTempFile(&homeDir, &JGetString("AssertUnsavedFilePrefix::JXFileDocument"), &fullName);
+			ok = JCreateTempFile(&homeDir, &JGetString("AssertUnsavedFilePrefix::JXFileDocument"), &fullName);
 		}
 		else
 		{
-			err = JCreateTempFile(&homeDir, &JGetString("UnsavedFilePrefix::JXFileDocument"), &fullName);
+			ok = JCreateTempFile(&homeDir, &JGetString("UnsavedFilePrefix::JXFileDocument"), &fullName);
 		}
 
-		if (err.OK())
+		if (ok && WriteFile(fullName, true).OK())
 		{
-			err = WriteFile(fullName, true);
-			if (err.OK())
+			itsNeedSafetySaveFlag = false;
+			if (itsSafetySaveFileName == nullptr)
 			{
-				itsNeedSafetySaveFlag = false;
-				if (itsSafetySaveFileName == nullptr)
-				{
-					itsSafetySaveFileName = jnew JString(fullName);
-				}
-				else
-				{
-					*itsSafetySaveFileName = fullName;
-				}
+				itsSafetySaveFileName = jnew JString(fullName);
+			}
+			else
+			{
+				*itsSafetySaveFileName = fullName;
 			}
 		}
 	}
@@ -1048,14 +1045,14 @@ JXFileDocument::CheckForSafetySaveFiles
 
 	time_t modTime, safetyTime, assertTime;
 	if (!name.StartsWith(kSafetySavePrefix) &&
-		JGetModificationTime(fullName, &modTime) == kJNoError)
+		JGetModificationTime(fullName, &modTime))
 	{
 		const JString safetyName = path + kSafetySavePrefix + name + kSafetySaveSuffix;
-		const bool safetyExists = JGetModificationTime(safetyName, &safetyTime) == kJNoError &&
+		const bool safetyExists = JGetModificationTime(safetyName, &safetyTime) &&
 			safetyTime > modTime;
 
 		const JString assertName = path + kAssertSavePrefix + name + kAssertSaveSuffix;
-		const bool assertExists = JGetModificationTime(assertName, &assertTime) == kJNoError &&
+		const bool assertExists = JGetModificationTime(assertName, &assertTime) &&
 			assertTime > modTime;
 
 		const JUtf8Byte* id = nullptr;

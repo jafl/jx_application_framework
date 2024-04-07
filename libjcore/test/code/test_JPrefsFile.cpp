@@ -30,7 +30,7 @@ JTEST(NewFile)
 
 	if (JNameUsed(s2))
 	{
-		JAssertOK(JRemoveFile(s2));
+		JAssertTrue(JRemoveFile(s2));
 	}
 	JAssertFalse(JNameUsed(s2));
 
@@ -139,5 +139,5 @@ JTEST(OldFile)
 
 	JString fullName;
 	JAssertTrue(JExpandHomeDirShortcut(JString("~/." + kTestFileName + ".pref", JString::kNoCopy), &fullName));
-	JAssertOK(JRemoveFile(fullName));
+	JAssertTrue(JRemoveFile(fullName));
 }

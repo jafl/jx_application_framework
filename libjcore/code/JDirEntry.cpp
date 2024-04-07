@@ -284,27 +284,28 @@ JDirEntry::GetGroupName()
 
  ******************************************************************************/
 
-JError
+bool
 JDirEntry::SetMode
 	(
-	const mode_t mode
+	const mode_t	mode,
+	JError*			err
 	)
 {
-	return JSetPermissions(itsFullName, mode);
+	return JSetPermissions(itsFullName, mode, err);
 }
 
-JError
+bool
 JDirEntry::SetMode
 	(
 	const ModeBit	bit,
-	const bool	allow
+	const bool		allow,
+	JError*			err
 	)
 {
 	mode_t mode;
-	JError err = JGetPermissions(itsFullName, &mode);
-	if (!err.OK())
+	if (!JGetPermissions(itsFullName, &mode, err))
 	{
-		return err;
+		return false;
 	}
 
 	if (allow)
@@ -316,7 +317,7 @@ JDirEntry::SetMode
 		mode &= ~(1 << bit);
 	}
 
-	return JSetPermissions(itsFullName, mode);
+	return JSetPermissions(itsFullName, mode, err);
 }
 
 /*****************************************************************************
@@ -474,7 +475,7 @@ JDirEntry::ForceUpdate()
 		}
 
 		itsLinkName = jnew JString;
-		if (!(JGetSymbolicLinkTarget(itsFullName, itsLinkName)).OK())
+		if (!JGetSymbolicLinkTarget(itsFullName, itsLinkName))
 		{
 			jdelete itsLinkName;
 			itsLinkName = nullptr;

@@ -54,5 +54,5 @@ JTEST(CleanUp)
 
 	JString fullName;
 	JAssertTrue(JExpandHomeDirShortcut(fileName, &fullName));
-	JAssertOK(JRemoveFile(fullName));
+	JAssertTrue(JRemoveFile(fullName));
 }

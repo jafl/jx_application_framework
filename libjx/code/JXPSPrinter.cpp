@@ -204,7 +204,7 @@ JXPSPrinter::OpenDocument()
 	if (itsDestination == kPrintToPrinter)
 	{
 		JString outputFile;
-		if (!(JCreateTempFile(&outputFile)).OK())
+		if (!JCreateTempFile(&outputFile))
 		{
 			return false;
 		}

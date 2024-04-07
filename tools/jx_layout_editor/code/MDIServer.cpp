@@ -50,8 +50,9 @@ MDIServer::HandleMDIRequest
 	if (argList.GetItemCount() > 1)
 	{
 		const JString origDir = JGetCurrentDirectory();
-		const JError err      = JChangeDirectory(dir);
-		if (!err.OK())
+
+		JError err = JNoError();
+		if (!JChangeDirectory(dir, &err))
 		{
 			err.ReportIfError();
 			return;

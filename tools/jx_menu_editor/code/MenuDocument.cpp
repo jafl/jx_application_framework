@@ -469,8 +469,8 @@ MenuDocument::GenerateCode()
 	headerFullName         = JCombineRootAndSuffix(headerFullName, "h");
 
 	JString tempHeaderFullName;
-	JError err = JCreateTempFile(&path, nullptr, &tempHeaderFullName);
-	if (!err.OK())
+	JError err = JNoError();
+	if (!JCreateTempFile(&path, nullptr, &tempHeaderFullName, &err))
 	{
 		const JUtf8Byte* map[] =
 		{
@@ -514,8 +514,8 @@ MenuDocument::GenerateCode()
 	enumFullName         = JCombineRootAndSuffix(enumFullName, "h");
 
 	JString tempEnumFullName;
-	err = JCreateTempFile(&path, nullptr, &tempEnumFullName);
-	assert( err.OK() );
+	const bool ok = JCreateTempFile(&path, nullptr, &tempEnumFullName);
+	assert( ok );
 	std::ofstream enumOutput(tempEnumFullName.GetBytes());
 
 	const JUtf8Byte* enumMap[] =

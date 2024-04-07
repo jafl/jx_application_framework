@@ -269,8 +269,8 @@ JXPTPageSetupDialog::PrintTestPage()
 		itsWidth->GetValue(&w) && itsHeight->GetValue(&h))
 	{
 		JString fileName;
-		JError err = JCreateTempFile(&fileName);
-		if (!err.OK())
+		JError err = JNoError();
+		if (!JCreateTempFile(&fileName, &err))
 		{
 			err.ReportIfError();
 		}
