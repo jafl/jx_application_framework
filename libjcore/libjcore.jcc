@@ -605,6 +605,10 @@ T
 2 "JCreateTextPG.cpp"
 F
 "./code/JCreateTextPG.cpp"
+T
+2 "JThreadPG.cpp"
+F
+"./code/JThreadPG.cpp"
 F
 T
 1 "text editor"
@@ -800,11 +804,11 @@ F
 ""
 "make -k all"
 # search paths
-T "../ACE/ACE_wrappers/ace" T
 T "./code" T
 T "./test/code" T
-T "/usr/local/Cellar/pcre/8.45/include/" T
-T "/usr/local/opt/icu4c/include" T
+T "/opt/homebrew/Cellar/ace/7.1.3/include/" T
+T "/opt/homebrew/Cellar/pcre/8.45/include/" T
+T "/opt/homebrew/opt/icu4c/include" T
 F
 # C preprocessor
 T "ACE_UNIMPLEMENTED_FUNC()" ""

@@ -254,4 +254,12 @@ using JDualHashValue = JWord;
 constexpr JFStreamOpenMode kJBinaryFile = std::ios::in | std::ios::out | kJBinaryModifier;
 constexpr JFStreamOpenMode kJTextFile   = std::ios::in | std::ios::out;
 
+/******************************************************************************
+
+	Threading constants
+
+ ******************************************************************************/
+
+constexpr JSize kJBufferedChannelCapacity = 1024;
+
 #endif

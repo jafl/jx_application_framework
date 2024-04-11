@@ -154,6 +154,36 @@ JProgressDisplay::ProcessFinished()
 }
 
 /******************************************************************************
+ IncrementProgress
+
+ ******************************************************************************/
+
+bool
+JProgressDisplay::IncrementProgress
+	(
+	const JString& message
+	)
+{
+	assert( ProcessRunning() );
+	return IncrementProgress(message, 1);
+}
+
+/******************************************************************************
+ IncrementProgress
+
+ ******************************************************************************/
+
+bool
+JProgressDisplay::IncrementProgress
+	(
+	const JSize delta
+	)
+{
+	assert( ProcessRunning() );
+	return IncrementProgress(JString::empty, delta);
+}
+
+/******************************************************************************
  IncrementStepCount (protected)
 
  ******************************************************************************/

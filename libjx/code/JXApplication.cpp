@@ -791,7 +791,7 @@ JXApplication::StartFiber
 	)
 {
 	assert( theUIThreadFlag );
-	assert( priority > kEventLoopPriority );
+	assert( priority >= kEventLoopPriority );
 
 	auto fiber = boost::fibers::fiber(f);
 	fiber.properties<JXBoostPriorityProps>().SetPriority(priority);

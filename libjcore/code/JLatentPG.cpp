@@ -35,26 +35,26 @@ JLatentPG::JLatentPG
 	(
 	const JSize scaleFactor
 	)
+	:
+	itsPG(JNewPG()),
+	itsOwnsPGFlag(true),
+	itsMaxSilentTime(kDefMaxSilentTime),
+	itsScaleFactor(scaleFactor)
 {
-	itsPG         = JNewPG();
-	itsOwnsPGFlag = true;
-
-	itsMaxSilentTime = kDefMaxSilentTime;
-	itsScaleFactor   = scaleFactor;
 }
 
 JLatentPG::JLatentPG
 	(
 	JProgressDisplay*	pg,
-	const bool		ownIt,
+	const bool			ownIt,
 	const JSize			scaleFactor
 	)
+	:
+	itsPG(pg),
+	itsOwnsPGFlag(ownIt),
+	itsMaxSilentTime(kDefMaxSilentTime),
+	itsScaleFactor(scaleFactor)
 {
-	itsPG         = pg;
-	itsOwnsPGFlag = ownIt;
-
-	itsMaxSilentTime = kDefMaxSilentTime;
-	itsScaleFactor   = scaleFactor;
 }
 
 /******************************************************************************
@@ -99,7 +99,7 @@ void
 JLatentPG::SetPG
 	(
 	JProgressDisplay*	pg,
-	const bool		ownIt
+	const bool			ownIt
 	)
 {
 	assert( !ProcessRunning() );
@@ -173,56 +173,6 @@ JLatentPG::StartInternalProcess()
 bool
 JLatentPG::IncrementProgress
 	(
-	const JString& message
-	)
-{
-	return message.IsEmpty() ? IncrementProgress(1) : IncrementProgress(message, 1);
-}
-
-/******************************************************************************
- IncrementProgress (virtual)
-
- ******************************************************************************/
-
-bool
-JLatentPG::IncrementProgress
-	(
-	const JSize delta
-	)
-{
-	assert( ProcessRunning() );
-
-	IncrementStepCount(delta);
-
-	const bool pgRunning = itsPG->ProcessRunning();
-	bool result          = true;
-
-	itsCounter++;
-	if (!pgRunning && TimeToStart())
-	{
-		StartInternalProcess();
-		result = itsPG->IncrementProgress(GetCurrentStepCount() -
-										  itsPG->GetCurrentStepCount());
-		itsCounter = 0;
-	}
-	else if (TimeToUpdate() && pgRunning)
-	{
-		result = itsPG->IncrementProgress(GetCurrentStepCount() -
-										  itsPG->GetCurrentStepCount());
-		itsCounter = 0;
-	}
-
-	return result;
-}
-
-/******************************************************************************
- IncrementProgress (virtual)
-
- ******************************************************************************/
-
-bool
-JLatentPG::IncrementProgress
-	(
 	const JString&	message,
 	const JSize		delta
 	)
@@ -241,28 +191,16 @@ JLatentPG::IncrementProgress
 
 		// delta must be calculated *after* ProcessBeginning()
 
-		const JSize delta1 = GetCurrentStepCount() - itsPG->GetCurrentStepCount();
-		if (delta1 > 1)
-		{
-			itsPG->IncrementProgress(delta1 - 1);
-		}
-		result     = itsPG->IncrementProgress(message);
+		result = itsPG->IncrementProgress(message,
+			GetCurrentStepCount() - itsPG->GetCurrentStepCount());
+
 		itsCounter = 0;
 	}
-	else if (pgRunning && !message.IsEmpty())
+	else if (pgRunning && (TimeToUpdate() || !message.IsEmpty()))
 	{
-		const JSize delta1 = GetCurrentStepCount() - itsPG->GetCurrentStepCount();
-		if (delta1 > 1)
-		{
-			itsPG->IncrementProgress(delta1 - 1);
-		}
-		result     = itsPG->IncrementProgress(message);
-		itsCounter = 0;
-	}
-	else if (pgRunning && TimeToUpdate())
-	{
-		result = itsPG->IncrementProgress(GetCurrentStepCount() -
-										  itsPG->GetCurrentStepCount());
+		result = itsPG->IncrementProgress(message,
+			GetCurrentStepCount() - itsPG->GetCurrentStepCount());
+
 		itsCounter = 0;
 	}
 
@@ -277,14 +215,7 @@ JLatentPG::IncrementProgress
 bool
 JLatentPG::ProcessContinuing()
 {
-	if (itsPG->ProcessRunning())
-	{
-		return itsPG->ProcessContinuing();
-	}
-	else
-	{
-		return true;
-	}
+	return !itsPG->ProcessRunning() || itsPG->ProcessContinuing();
 }
 
 /******************************************************************************

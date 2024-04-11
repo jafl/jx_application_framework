@@ -15,6 +15,7 @@
 class JError;
 class JString;
 class JRegex;
+class JProgressDisplay;
 class JXImage;
 class JXTEBase;
 class JXTextMenu;
@@ -32,7 +33,7 @@ public:
 
 	bool	AddFile(const JString& fullName, JIndex* fullNameIndex = nullptr);
 	void	RemoveFile(const JString& fullName);
-	void	RemoveFiles(const JPtrArray<JString>& fileList);
+	void	RemoveFiles(const JPtrArray<JString>& fileList, JProgressDisplay* pg = nullptr);
 	void	RemoveSelectedFiles();
 	void	RemoveAllFiles();
 	bool	GetFullName(const JIndex rowIndex, JString* fullName) const;

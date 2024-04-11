@@ -152,45 +152,6 @@ JTextProgressDisplay::IncrementProgress
 }
 
 /******************************************************************************
- IncrementProgress
-
-	Update the display to show that progress is being made.
-	Returns false if process was cancelled by user.
-
-	If the current process is of variable length and the message is not nullptr,
-	then it is displayed in place of the usual iteration count.
-
- ******************************************************************************/
-
-bool
-JTextProgressDisplay::IncrementProgress
-	(
-	const JString& message
-	)
-{
-	return IncrementProgress(message, 1);
-}
-
-/******************************************************************************
- IncrementProgress
-
-	The iteration count is incremented by the specified value.
-
-	Update the display to show that progress is being made.
-	Returns false if process was cancelled by user.
-
- ******************************************************************************/
-
-bool
-JTextProgressDisplay::IncrementProgress
-	(
-	const JSize delta
-	)
-{
-	return IncrementProgress(JString::empty, delta);
-}
-
-/******************************************************************************
  ProcessFinished
 
  ******************************************************************************/

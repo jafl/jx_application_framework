@@ -32,8 +32,8 @@
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JProgressDisplay.h>
 #include <jx-af/jcore/jDirUtil.h>
-#include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jMouseUtil.h>
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jAssert.h>
@@ -215,7 +215,8 @@ JXFileListTable::RemoveFile
 void
 JXFileListTable::RemoveFiles
 	(
-	const JPtrArray<JString>& fileList
+	const JPtrArray<JString>&	fileList,
+	JProgressDisplay*			pg
 	)
 {
 	ClearSelection();
@@ -226,6 +227,11 @@ JXFileListTable::RemoveFiles
 		if (itsFileList->SearchSorted(s, JListT::kAnyMatch, &index))
 		{
 			itsFileList->DeleteItem(index);
+		}
+
+		if (pg != nullptr)
+		{
+			pg->IncrementProgress();
 		}
 	}
 }

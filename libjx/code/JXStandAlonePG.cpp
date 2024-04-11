@@ -13,7 +13,6 @@
 #include "JXStandAlonePG.h"
 #include "JXFixLenPGDirector.h"
 #include "JXVarLenPGDirector.h"
-#include "JXFunctionTask.h"
 #include "JXDisplay.h"
 #include "JXWindow.h"
 #include "jXGlobals.h"
@@ -28,9 +27,7 @@ JXStandAlonePG::JXStandAlonePG()
 	:
 	JXProgressDisplay(),
 	itsProgressDirector(nullptr),
-	itsRaiseWindowFlag(false),
-	itsContinueTask(nullptr),
-	itsContinueFlag(false)
+	itsRaiseWindowFlag(false)
 {
 }
 
@@ -88,23 +85,6 @@ JXStandAlonePG::ProcessBeginning
 
 	JXProgressDisplay::ProcessBeginning(processType, stepCount, message,
 										allowCancel, modal);
-
-	// set up the idle task to run the event loop
-
-	if (modal)
-	{
-		itsContinueTask = jnew JXFunctionTask(0, [this]()
-		{
-			std::unique_lock lock(itsMutex);
-			itsContinueFlag = true;
-			lock.unlock();
-
-			itsCondition.notify_one();
-			boost::this_fiber::yield();
-		});
-		assert( itsContinueTask != nullptr );
-		itsContinueTask->Start();
-	}
 }
 
 /******************************************************************************
@@ -138,20 +118,7 @@ JXStandAlonePG::ProcessContinuing()
 		itsProgressDirector->ProcessContinuing(s);
 	}
 
-	if (!JXProgressDisplay::ProcessContinuing())
-	{
-		return false;
-	}
-
-	if (IsModal())
-	{
-		assert( JXApplication::IsWorkerFiber() );
-
-		std::unique_lock lock(itsMutex);
-		itsCondition.wait(lock, [this](){ return itsContinueFlag; });
-		itsContinueFlag = false;
-	}
-	return true;
+	return JXProgressDisplay::ProcessContinuing();
 }
 
 /******************************************************************************
@@ -169,8 +136,4 @@ JXStandAlonePG::ProcessFinished()
 	itsProgressDirector = nullptr;
 
 	JXProgressDisplay::ProcessFinished();
-
-	itsContinueTask->Stop();
-	jdelete itsContinueTask;
-	itsContinueTask = nullptr;
 }

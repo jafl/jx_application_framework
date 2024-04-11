@@ -36,8 +36,8 @@ public:
 										   const bool allowCancel,
 										   const bool modal);
 
-	virtual bool	IncrementProgress(const JString& message = JString::empty) = 0;
-	virtual bool	IncrementProgress(const JSize delta) = 0;
+	virtual bool	IncrementProgress(const JString& message = JString::empty);
+	virtual bool	IncrementProgress(const JSize delta);
 	virtual bool	IncrementProgress(const JString& message, const JSize delta) = 0;
 	virtual bool	ProcessContinuing();
 	virtual void	ProcessFinished();

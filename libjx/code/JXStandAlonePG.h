@@ -1,8 +1,6 @@
 /******************************************************************************
  JXStandAlonePG.h
 
-	Interface for the JXStandAlonePG class.
-
 	Copyright (C) 1996 by Glenn W. Bach.
 	Copyright (C) 1997 by John Lindal.
 
@@ -12,10 +10,8 @@
 #define _H_JXStandAlonePG
 
 #include "JXProgressDisplay.h"
-#include <boost/fiber/condition_variable.hpp>
 
 class JXPGDirectorBase;
-class JXFunctionTask;
 
 class JXStandAlonePG : public JXProgressDisplay
 {
@@ -43,11 +39,6 @@ private:
 	JXPGDirectorBase*	itsProgressDirector;
 	bool				itsRaiseWindowFlag;
 	JSize				itsStepCount;
-
-	JXFunctionTask*						itsContinueTask;
-	boost::fibers::condition_variable	itsCondition;
-	boost::fibers::mutex				itsMutex;
-	bool								itsContinueFlag;
 };
 
 

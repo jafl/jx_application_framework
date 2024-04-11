@@ -26,6 +26,7 @@ static const char* kCurrentJXLibVersionStr = "4.2.0";
 //	JXUrgentTask is now the best way to push work to the UI thread.
 //	JXApplication:
 //		Added IsUIThread().
+//	Moved fiber support from JXStandAlonePG to JXProgressDisplay.
 
 // version 4.1.0:
 //	JXStringCompletionMenu:

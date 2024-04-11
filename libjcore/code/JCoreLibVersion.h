@@ -29,6 +29,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.2.0";
 //		*** Converted all functions returning JError to return bool and accept
 //			optional JError*, thereby avoiding JError construction unless
 //			actually needed.
+//	JProgressDisplay:
+//		Removed virtual from both 1-argument versions of IncrementProgress.
+//	Created JThreadPG.
 
 // version 4.1.0:
 //

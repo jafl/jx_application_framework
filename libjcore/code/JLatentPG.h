@@ -33,10 +33,9 @@ public:
 	JSize	GetScaleFactor() const;
 	void	SetScaleFactor(const JSize scaleFactor);
 
-	bool	IncrementProgress(const JString& message = JString::empty) override;
-	bool	IncrementProgress(const JSize delta) override;
-	bool	IncrementProgress(const JString& message,
-							  const JSize delta) override;
+	using JProgressDisplay::IncrementProgress;
+
+	bool	IncrementProgress(const JString& message, const JSize delta) override;
 	bool	ProcessContinuing() override;
 	void	ProcessFinished() override;
 	void	DisplayBusyCursor() override;

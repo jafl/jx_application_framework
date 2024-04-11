@@ -1,9 +1,8 @@
 /******************************************************************************
  JXProgressDisplay.h
 
-  Interface for the JXProgressDisplay class.
-
-  Copyright (C) 1995 by Glenn W. Bach.
+	Copyright (C) 1995 by Glenn W. Bach.
+	Copyright (C) 1997-2024 by John Lindal.
 
  ******************************************************************************/
 
@@ -12,13 +11,15 @@
 
 #include <jx-af/jcore/JProgressDisplay.h>
 #include <jx-af/jcore/JBroadcaster.h>
-#include <jx-af/jcore/JString.h>
+#include <boost/fiber/condition_variable.hpp>
 
+class JString;
 class JXTextButton;
 class JXTEBase;
 class JXStaticText;
 class JXProgressIndicator;
 class JXPGMessageDirector;
+class JXFunctionTask;
 
 class JXProgressDisplay : public JProgressDisplay, virtual public JBroadcaster
 {
@@ -32,10 +33,9 @@ public:
 					 JXProgressIndicator* indicator,
 					 JXTEBase* label = nullptr);
 
-	bool	IncrementProgress(const JString& message = JString::empty) override;
-	bool	IncrementProgress(const JSize delta) override;
-	bool	IncrementProgress(const JString& message,
-										  const JSize delta) override;
+	using JProgressDisplay::IncrementProgress;
+
+	bool	IncrementProgress(const JString& message, const JSize delta) override;
 	bool	ProcessContinuing() override;
 	void	ProcessFinished() override;
 	void	DisplayBusyCursor() override;
@@ -63,6 +63,11 @@ private:
 	JXTEBase*				itsLabel;				// can be nullptr
 
 	JXPGMessageDirector*	itsMessageDirector;		// nullptr unless messages during process
+
+	JXFunctionTask*						itsContinueTask;
+	boost::fibers::condition_variable	itsCondition;
+	boost::fibers::mutex				itsMutex;
+	bool								itsContinueFlag;
 
 private:
 

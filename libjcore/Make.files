@@ -104,6 +104,7 @@
 .cpp ./code/JTextProgressDisplay
 .cpp ./code/JCreateProgressDisplay
 .cpp ./code/JCreateTextPG
+.cpp ./code/JThreadPG
 .cpp ./code/JTextEditor
 .cpp ./code/JTEKeyHandler
 .cpp ./code/JTEDefaultKeyHandler

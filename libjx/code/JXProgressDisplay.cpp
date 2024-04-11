@@ -13,6 +13,7 @@
 	BASE CLASS = JProgressDisplay, virtual JBroadcaster
 
 	Copyright (C) 1995 by Glenn W. Bach.
+	Copyright (C) 1997-2024 by John Lindal.
 
  ******************************************************************************/
 
@@ -22,6 +23,7 @@
 #include "JXTextButton.h"
 #include "JXStaticText.h"
 #include "JXProgressIndicator.h"
+#include "JXFunctionTask.h"
 #include "jXGlobals.h"
 #include <jx-af/jcore/jAssert.h>
 
@@ -41,13 +43,16 @@ static JPoint messageWindowLoc(-1,-1);
 
 JXProgressDisplay::JXProgressDisplay()
 	:
-	JProgressDisplay()
+	JProgressDisplay(),
+	itsCancelFlag(false),
+	itsCancelButton(nullptr),
+	itsCounter(nullptr),
+	itsIndicator(nullptr),
+	itsLabel(nullptr),
+	itsMessageDirector(nullptr),
+	itsContinueTask(nullptr),
+	itsContinueFlag(false)
 {
-	itsCancelFlag      = false;
-	itsCancelButton    = nullptr;
-	itsCounter         = nullptr;
-	itsIndicator       = nullptr;
-	itsMessageDirector = nullptr;
 }
 
 /******************************************************************************
@@ -142,51 +147,23 @@ JXProgressDisplay::ProcessBeginning
 	{
 		itsCancelButton->SetVisible(allowCancel);
 	}
-}
 
-/******************************************************************************
- IncrementProgress (virtual)
+	// set up the idle task to run the event loop
 
-	Update the display to show that progress is being made.
-	Returns false if process was cancelled by user.
+	if (modal)
+	{
+		itsContinueTask = jnew JXFunctionTask(0, [this]()
+		{
+			std::unique_lock lock(itsMutex);
+			itsContinueFlag = true;
+			lock.unlock();
 
-	If the current process is of variable length and the message is not nullptr,
-	then it is displayed in the message window.
-
- ******************************************************************************/
-
-bool
-JXProgressDisplay::IncrementProgress
-	(
-	const JString& message
-	)
-{
-	assert( ProcessRunning() );
-
-	IncrementStepCount();
-	return CalledByIncrementProgress(message);
-}
-
-/******************************************************************************
- IncrementProgress (virtual)
-
-	Update the display to show that progress is being made.
-	Returns false if process was cancelled by user.
-
-	The iteration count is incremented by the specified value.
-
- ******************************************************************************/
-
-bool
-JXProgressDisplay::IncrementProgress
-	(
-	const JSize delta
-	)
-{
-	assert( ProcessRunning() );
-
-	IncrementStepCount(delta);
-	return CalledByIncrementProgress(JString::empty);
+			itsCondition.notify_one();
+			boost::this_fiber::yield();
+		});
+		assert( itsContinueTask != nullptr );
+		itsContinueTask->Start();
+	}
 }
 
 /******************************************************************************
@@ -235,6 +212,7 @@ JXProgressDisplay::CalledByIncrementProgress
 	if (process == kFixedLengthProcess)
 	{
 		itsIndicator->SetValue(stepCount);
+		itsIndicator->Redraw();
 	}
 	else if (process == kVariableLengthProcess)
 	{
@@ -268,11 +246,23 @@ JXProgressDisplay::ProcessContinuing()
 	if (itsMessageDirector != nullptr)
 	{
 		messageWindowLocInit = true;
-		messageWindowLoc =
-			itsMessageDirector->GetWindow()->GetDesktopLocation();
+		messageWindowLoc     = itsMessageDirector->GetWindow()->GetDesktopLocation();
 	}
 
-	return JProgressDisplay::ProcessContinuing();
+	if (!JProgressDisplay::ProcessContinuing())
+	{
+		return false;
+	}
+
+	if (IsModal())
+	{
+		assert( JXApplication::IsWorkerFiber() );
+
+		std::unique_lock lock(itsMutex);
+		itsCondition.wait(lock, [this](){ return itsContinueFlag; });
+		itsContinueFlag = false;
+	}
+	return true;
 }
 
 /******************************************************************************
@@ -294,8 +284,6 @@ JXProgressDisplay::CheckForCancel()
 void
 JXProgressDisplay::ProcessFinished()
 {
-	JProgressDisplay::ProcessFinished();
-
 	if (itsMessageDirector != nullptr)
 	{
 		messageWindowLocInit = true;
@@ -305,6 +293,15 @@ JXProgressDisplay::ProcessFinished()
 		itsMessageDirector->ProcessFinished();
 		itsMessageDirector = nullptr;
 	}
+
+	if (itsContinueTask != nullptr)
+	{
+		itsContinueTask->Stop();
+		jdelete itsContinueTask;
+		itsContinueTask = nullptr;
+	}
+
+	JProgressDisplay::ProcessFinished();
 }
 
 /******************************************************************************
