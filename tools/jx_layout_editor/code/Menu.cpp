@@ -99,8 +99,8 @@ Menu::MenuX
 	)
 {
 	itsMenu = jnew JXTextMenu(title, this, kHElastic, kVElastic, x,y,w,h);
-	itsMenu->SetMenuItems(kMenuStr);
 	SetWidget(itsMenu);
+	itsMenu->SetMenuItems(kMenuStr);
 }
 
 /******************************************************************************

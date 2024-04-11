@@ -99,8 +99,8 @@ StaticText::StaticTextX
 {
 	itsText = jnew JXStaticText(text, itsWordWrapFlag, false, false, nullptr,
 								this, kHElastic, kVElastic, x,y,w,h);
-	itsText->SetBorderWidth(0);
 	SetWidget(itsText);
+	itsText->SetBorderWidth(0);
 
 	if (itsIsLabelFlag)
 	{

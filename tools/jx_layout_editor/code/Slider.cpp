@@ -78,10 +78,10 @@ Slider::SliderX
 	{
 		itsWidget = jnew JXSlider(this, kHElastic, kVElastic, x,y,w,h);
 	}
+	SetWidget(itsWidget);
 
 	itsWidget->SetMaxValue(10);
 	itsWidget->SetValue(4);
-	SetWidget(itsWidget);
 }
 
 /******************************************************************************

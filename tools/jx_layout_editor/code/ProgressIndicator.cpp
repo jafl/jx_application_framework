@@ -63,9 +63,9 @@ ProgressIndicator::ProgressIndicatorX
 	)
 {
 	itsWidget = jnew JXProgressIndicator(this, kHElastic, kVElastic, x,y,w,h);
+	SetWidget(itsWidget);
 	itsWidget->SetMaxValue(10);
 	itsWidget->SetValue(4);
-	SetWidget(itsWidget);
 }
 
 /******************************************************************************
