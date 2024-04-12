@@ -65,7 +65,7 @@ public:
 
 	void	HandleKeyPress(const JUtf8Character& c, const int keySym,
 								   const JXKeyModifiers& modifiers) override;
-	void			ClearIncrementalSearchBuffer();
+	void	ClearIncrementalSearchBuffer();
 
 protected:
 

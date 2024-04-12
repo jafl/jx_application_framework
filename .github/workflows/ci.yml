@@ -25,7 +25,7 @@ jobs:
           echo FORCE_CACHE_UPDATE=${RANDOM}${RANDOM} >> $GITHUB_ENV
 
       - name: Sonar data cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.SONAR_CACHE_PATH }}
           key: ${{ runner.os }}-sonar-cache-${{ env.FORCE_CACHE_UPDATE }}
@@ -33,7 +33,7 @@ jobs:
             ${{ runner.os }}-sonar-cache-
 
       - name: RE/flex cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: misc/reflex
           key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
@@ -42,7 +42,7 @@ jobs:
         uses: sonarsource/sonarcloud-github-c-cpp@v2
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: cpp
 
@@ -60,7 +60,7 @@ jobs:
           sonar-scanner --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
 
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
 
       - name: Build & save CI packages
         run: |
@@ -88,7 +88,7 @@ jobs:
           echo REFLEX_VERSION=`cat .reflex-version` >> $GITHUB_ENV
 
       - name: RE/flex cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: misc/reflex
           key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
@@ -130,13 +130,13 @@ jobs:
           echo REFLEX_VERSION=`cat .reflex-version` >> $GITHUB_ENV
 
       - name: RE/flex cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: misc/reflex
           key: fedora-reflex-${{ env.REFLEX_VERSION }}
 
       - name: ACE cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ACE/ACE_wrappers
           key: fedora-ace-${{ env.ACE_VERSION }}
@@ -268,7 +268,7 @@ jobs:
           echo REFLEX_VERSION=`cat .reflex-version` >> $GITHUB_ENV
 
       - name: RE/flex cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: misc/reflex
           key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
