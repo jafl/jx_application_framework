@@ -204,7 +204,7 @@ JLatentPG::IncrementProgress
 		itsCounter = 0;
 	}
 
-	return result;
+	return result && ProcessContinuing();
 }
 
 /******************************************************************************
