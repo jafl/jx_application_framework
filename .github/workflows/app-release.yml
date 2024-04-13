@@ -71,7 +71,7 @@ jobs:
     steps:
       - name: Repository Dispatch
         if: ${{ env.homebrew_secret != '' }}
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.update-homebrew }}
           repository: jafl/homebrew-jx

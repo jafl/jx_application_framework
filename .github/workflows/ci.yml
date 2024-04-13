@@ -245,7 +245,7 @@ jobs:
     needs: [ release ]
     steps:
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.TRIGGER_BUILDS }}
           repository: jafl/homebrew-jx
@@ -305,7 +305,7 @@ jobs:
           - system-g
     steps:
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.TRIGGER_BUILDS }}
           repository: jafl/${{ matrix.repo }}
