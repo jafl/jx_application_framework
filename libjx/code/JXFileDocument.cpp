@@ -922,12 +922,10 @@ JXFileDocument::SafetySave
 		(itsNeedSafetySaveFlag || quitting) &&
 		(itsWasOnDiskFlag || (quitting && JGetHomeDirectory(&homeDir))))
 	{
-		JString fullName;
+		JString fullName, safetySaveName;
 		bool ok = true;
 		if (itsWasOnDiskFlag)
 		{
-			fullName = itsFilePath + itsFileName;
-
 			fullName = itsFilePath;
 			if (reason == JXDocumentManager::kAssertFired)
 			{
@@ -939,7 +937,8 @@ JXFileDocument::SafetySave
 			}
 			else
 			{
-				fullName += kSafetySavePrefix + itsFileName + kSafetySaveSuffix;
+				fullName      += kSafetySavePrefix + itsFileName + kSafetySaveSuffix;
+				safetySaveName = fullName;
 			}
 		}
 		else if (reason == JXDocumentManager::kAssertFired)
@@ -954,13 +953,18 @@ JXFileDocument::SafetySave
 		if (ok && WriteFile(fullName, true).OK())
 		{
 			itsNeedSafetySaveFlag = false;
-			if (itsSafetySaveFileName == nullptr)
+			if (safetySaveName.IsEmpty())
 			{
-				itsSafetySaveFileName = jnew JString(fullName);
+				jdelete itsSafetySaveFileName;
+				itsSafetySaveFileName = nullptr;
+			}
+			else if (itsSafetySaveFileName == nullptr)
+			{
+				itsSafetySaveFileName = jnew JString(safetySaveName);
 			}
 			else
 			{
-				*itsSafetySaveFileName = fullName;
+				*itsSafetySaveFileName = safetySaveName;
 			}
 		}
 	}

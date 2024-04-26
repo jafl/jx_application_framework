@@ -27,6 +27,8 @@ static const char* kCurrentJXLibVersionStr = "4.2.0";
 //	JXApplication:
 //		Added IsUIThread().
 //	Moved fiber support from JXStandAlonePG to JXProgressDisplay.
+//	JXFileDocument:
+//		Fixed bug to avoid deleting auto-saved file when closing document.
 
 // version 4.1.0:
 //	JXStringCompletionMenu:
