@@ -54,7 +54,6 @@ function get_reflex
 function clean_links
 {
 	rm -f include/jx-af/make/jx_config
-	rm -f include/jx-af/jcore/jMissingProto.h
 
 	if [[ -d ACE/ACE_wrappers ]]; then
 		rm -f ACE/ACE_wrappers/ace/config.h;
@@ -68,7 +67,6 @@ function configure_linux
 	clean_links;
 
 	ln -sf sys/Linux_g++  include/jx-af/make/jx_config;
-	ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jx-af/jcore/jMissingProto.h;
 
 	if [[ -d ACE/ACE_wrappers ]]; then
 		configure_ace config-linux.h platform_linux.GNU;
@@ -109,7 +107,6 @@ if [[ $SYS == Darwin ]]; then
 	if [[ $1 != package ]]; then
 		clean_links;
 		ln -sf sys/MacOS_g++ include/jx-af/make/jx_config;
-		ln -sf ../../misc/missing_proto/jMissingProto_empty.h include/jx-af/jcore/jMissingProto.h;
 	fi
 
 elif command -v apt-get; then
@@ -196,7 +193,6 @@ elif [[ $SYS == Cygwin ]]; then
 
 		clean_links;
 		ln -sf $SYS_CONFIG include/jx-af/make/jx_config;
-		ln -sf ../../misc/missing_proto/jMissingProto_CygWin.h include/jx-af/jcore/jMissingProto.h;
 		configure_ace $ACE_CONFIG $ACE_MAKE_CONFIG;
 	fi
 
