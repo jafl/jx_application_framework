@@ -305,4 +305,6 @@ StaticText::SavePanelData()
 	{
 		itsText->GetText()->SetText(text);
 	}
+
+	SetWantsInput(itsSelectableFlag);
 }
