@@ -96,10 +96,23 @@ JXUserNotification::ReportError
 	const JString& message
 	)
 {
-	if (!IsSilent())
+	if (IsSilent())
+	{
+		return;
+	}
+
+	if (JXApplication::IsWorkerFiber())
 	{
 		auto* dlog = jnew JXErrorDialog(message);
 		dlog->DoDialog();
+	}
+	else	// during startup
+	{
+		JXApplication::StartFiber([message]()
+		{
+			auto* dlog = jnew JXErrorDialog(message);
+			dlog->DoDialog();
+		});
 	}
 }
 
