@@ -487,7 +487,7 @@ JIndex i;
 
 	// find the last occurrence of fileName
 
-	JIndex lastIndex = firstIndex+2;	// first one that could be different
+	JIndex lastIndex = firstIndex+2;	// first one that could be different; +1 to offset ending decrement
 	while (lastIndex <= count)
 	{
 		const VisInfo info = itsVisibleList->GetItem(lastIndex);
@@ -510,6 +510,11 @@ JIndex i;
 		const JString* s1 = itsFileList->GetItem(RowIndexToFileIndex(i));
 		const JString* s2 = itsFileList->GetItem(RowIndexToFileIndex(i+1));
 		minLength         = JMin(minLength, JString::CalcCharacterMatchLength(*s1, *s2));
+	}
+
+	if (minLength == 0)
+	{
+		return firstIndex+1;
 	}
 
 	// back up so drawing starts at the beginning of a directory name
