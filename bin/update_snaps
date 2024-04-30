@@ -45,7 +45,7 @@ cd ..;
 if [[ $# > 0 ]]; then
 	pkgs="$*";
 else
-	pkgs="drakon glove jx-ide leibnitz ssh-askpass subversion_client";
+	pkgs="drakon glove jx-ide leibnitz ssh-askpass subversion_client system-g";
 fi
 
 declare -A pkg_map=(
@@ -55,6 +55,7 @@ declare -A pkg_map=(
 	["leibnitz"]="leibnitz"
 	["ssh-askpass"]="nps-ssh-askpass"
 	["subversion_client"]="nps-svn-client"
+	["system-g"]="systemg"
 );
 
 for d in $pkgs; do
