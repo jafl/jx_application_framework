@@ -370,8 +370,7 @@ JXTextMenuTable::Receive
 	if (sender == const_cast<JXTextMenuData*>(itsTextMenuData) &&
 		message.Is(JXTextMenuData::kImageChanged))
 	{
-		const auto* item =
-			dynamic_cast<const JXTextMenuData::ImageChanged*>(&message);
+		auto* item = dynamic_cast<const JXTextMenuData::ImageChanged*>(&message);
 		assert( item != nullptr );
 		TableRefreshCell(JPoint(kImageColumnIndex, item->GetIndex()));
 	}

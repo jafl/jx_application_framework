@@ -193,7 +193,6 @@ ClipboardWidget::HandleEditMenu
 		// We instantiate a selection object that is appropriate for
 		// our data.
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), itsText);
-		assert(data != nullptr);
 
 		// The selection data is then given to the selection manager.
 		if (!GetSelectionManager()->SetData(kJXClipboardName, data))

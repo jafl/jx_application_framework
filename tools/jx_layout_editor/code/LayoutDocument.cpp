@@ -511,7 +511,8 @@ LayoutDocument::UpdateGridMenu()
 	JXWidget* widget = nullptr;
 	const bool ok = GetWindow()->GetFocusWidget(&widget);
 	assert( ok );
-	LayoutContainer* layout = dynamic_cast<LayoutContainer*>(widget);
+
+	auto* layout = dynamic_cast<LayoutContainer*>(widget);
 	assert( layout != nullptr );
 
 	const JSize w = layout->GetGridSpacing();
@@ -539,7 +540,8 @@ LayoutDocument::HandleGridMenu
 	JXWidget* widget = nullptr;
 	const bool ok = GetWindow()->GetFocusWidget(&widget);
 	assert( ok );
-	LayoutContainer* layout = dynamic_cast<LayoutContainer*>(widget);
+
+	auto* layout = dynamic_cast<LayoutContainer*>(widget);
 	assert( layout != nullptr );
 
 	if (index == kGrid5Cmd)

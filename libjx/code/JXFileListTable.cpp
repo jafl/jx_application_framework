@@ -82,13 +82,11 @@ JXFileListTable::JXFileListTable
 	itsEditMenu           = nullptr;
 
 	itsFileList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, 100);
-	assert( itsFileList != nullptr );
 	// UNIX file system is case-sensitive.
 	itsFileList->SetCompareFunction(JCompareStringsCaseSensitive);
 	ListenTo(itsFileList);
 
 	itsVisibleList = jnew JArray<VisInfo>(100);
-	assert( itsVisibleList != nullptr );
 	itsVisibleList->SetSortOrder(JListT::kSortAscending);
 
 	itsFileIcon = GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small);
@@ -1197,15 +1195,13 @@ JXFileListTable::Receive
 {
 	if (sender == itsFileList && message.Is(JListT::kItemsInserted))
 	{
-		const auto* m =
-			dynamic_cast<const JListT::ItemsInserted*>(&message);
+		auto* m = dynamic_cast<const JListT::ItemsInserted*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m)
 	}
 	else if (sender == itsFileList && message.Is(JListT::kItemsRemoved))
 	{
-		const auto* m =
-			dynamic_cast<const JListT::ItemsRemoved*>(&message);
+		auto* m = dynamic_cast<const JListT::ItemsRemoved*>(&message);
 		assert( m != nullptr );
 
 		const JSize count = itsVisibleList->GetItemCount();
@@ -1225,15 +1221,13 @@ JXFileListTable::Receive
 	}
 	else if (sender == itsFileList && message.Is(JListT::kItemMoved))
 	{
-		const auto* m =
-			dynamic_cast<const JListT::ItemMoved*>(&message);
+		auto* m = dynamic_cast<const JListT::ItemMoved*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m)
 	}
 	else if (sender == itsFileList && message.Is(JListT::kItemsSwapped))
 	{
-		const auto* m =
-			dynamic_cast<const JListT::ItemsSwapped*>(&message);
+		auto* m = dynamic_cast<const JListT::ItemsSwapped*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m)
 	}
@@ -1252,8 +1246,7 @@ JXFileListTable::Receive
 	}
 	else if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
 	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleEditMenu(selection->GetIndex());
 	}
@@ -1340,8 +1333,6 @@ JXFileListTable::CopySelectedFileNames()
 		}
 
 		auto* data = jnew JXTextSelection(GetDisplay(), list);
-		assert( data != nullptr );
-
 		GetSelectionManager()->SetData(kJXClipboardName, data);
 	}
 }

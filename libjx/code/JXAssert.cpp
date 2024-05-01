@@ -26,10 +26,7 @@ JXAssert::JXAssert()
 	JAssertBase()
 {
 	itsIsOperatingFlag = true;
-
-	itsDisplayList = jnew JPtrArray<JXDisplay>(JPtrArrayT::kForgetAll);
-	assert( itsDisplayList != nullptr );
-
+	itsDisplayList     = jnew JPtrArray<JXDisplay>(JPtrArrayT::kForgetAll);
 	itsIsOperatingFlag = false;
 }
 

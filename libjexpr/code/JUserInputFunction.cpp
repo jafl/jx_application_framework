@@ -253,8 +253,7 @@ JUserInputFunction::Render
 
 	// JTextEditor draws text
 
-	auto* exprEditor =
-		dynamic_cast<JExprEditor*>(const_cast<JExprRenderer*>(&renderer));
+	auto* exprEditor = dynamic_cast<JExprEditor*>(const_cast<JExprRenderer*>(&renderer));
 	assert( exprEditor != nullptr );
 
 	JPainter* p = exprEditor->GetPainter();
@@ -615,7 +614,6 @@ JUserInputFunction::Parse
 			auto* fwv = dynamic_cast<JFunctionWithVar*>(*f);
 			assert( fwv != nullptr );
 			*newUIF = jnew JUserInputFunction(itsEditor);
-			assert( *newUIF != nullptr );
 			fwv->SetArrayIndex(*newUIF);
 			return true;
 		}
@@ -627,9 +625,8 @@ JUserInputFunction::Parse
 	else if (c.ToLower() == 'e' && !IsEmpty() && !buffer.IsHexValue() &&
 			 buffer.ConvertToFloat(&x))
 	{
-		auto* expBase = jnew JConstantValue(10.0);
-		*newUIF = jnew JUserInputFunction(itsEditor);
-		assert( *newUIF != nullptr );
+		auto* expBase  = jnew JConstantValue(10.0);
+		*newUIF        = jnew JUserInputFunction(itsEditor);
 		auto* exponent = jnew JExponent(expBase, *newUIF);
 		if (x == 1.0)
 		{

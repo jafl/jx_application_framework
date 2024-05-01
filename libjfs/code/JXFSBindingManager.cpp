@@ -100,7 +100,6 @@ JXFSBindingManager::JXFSBindingManager
 			itsEditDialog->CheckIfNeedRevert();
 		}
 	});
-	assert( itsUpdateBindingListTask != nullptr );
 	itsUpdateBindingListTask->Start();
 
 	itsRunCmdDialog = jnew JXFSRunCommandDialog;
@@ -130,7 +129,6 @@ JXFSBindingManager::EditBindings()
 	if (me->itsEditDialog == nullptr)
 	{
 		me->itsEditDialog = jnew JXFSEditBindingsDialog(me->itsBindingList);
-		assert( me->itsEditDialog != nullptr );
 	}
 
 	me->itsEditDialog->Activate();
@@ -269,7 +267,6 @@ JXFSBindingManager::ProcessFiles
 			itsRunFileDialog =
 				jnew JXFSRunFileDialog(fileName,
 					fileList->GetItemCount() <= 1 || !ignoreBindings);
-			assert( itsRunFileDialog != nullptr );
 			if (itsRunFileDialog->DoDialog())
 			{
 				bool saveBinding;

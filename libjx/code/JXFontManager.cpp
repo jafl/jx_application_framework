@@ -81,11 +81,8 @@ JXFontManager::JXFontManager
 	:
 	JFontManager()
 {
-	itsDisplay = display;
-
-	itsFontList = jnew JArray<FontInfo>;
-	assert( itsFontList != nullptr );
-
+	itsDisplay       = display;
+	itsFontList      = jnew JArray<FontInfo>;
 	itsAllFontNames  = nullptr;
 	itsMonoFontNames = nullptr;
 }
@@ -217,7 +214,6 @@ JXFontManager::GetFontNames
 	// save names for next time
 
 	itsAllFontNames = jnew JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
-	assert( itsAllFontNames != nullptr );
 
 #endif
 }
@@ -276,7 +272,6 @@ JXFontManager::GetMonospaceFontNames
 	// save names for next time
 
 	itsMonoFontNames = jnew JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
-	assert( itsMonoFontNames != nullptr );
 }
 
 /******************************************************************************
@@ -383,7 +378,6 @@ JXFontManager::GetXFont
 	if (info.filled)
 	{
 		*font = jnew JFont(GetFont(id));
-		assert( font != nullptr );
 		return true;
 	}
 
@@ -420,7 +414,6 @@ JXFontManager::GetXFont
 	itsFontList->SetItem(id, info);
 
 	*font = jnew JFont(GetFont(id));
-	assert( font != nullptr );
 	return true;
 }
 

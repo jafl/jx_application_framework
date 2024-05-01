@@ -36,7 +36,6 @@ JPackedTableData<T>::JPackedTableData
 	itsDefValue(defValue)
 {
 	itsData = jnew JRunArray< T >;
-	assert( itsData != nullptr );
 }
 
 /******************************************************************************
@@ -54,7 +53,6 @@ JPackedTableData<T>::JPackedTableData
 	itsDefValue(source.itsDefValue)
 {
 	itsData = jnew JRunArray< T >(*(source.itsData));
-	assert( itsData != nullptr );
 }
 
 /******************************************************************************

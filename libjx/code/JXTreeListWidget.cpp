@@ -75,10 +75,8 @@ JXTreeListWidget::JXTreeListWidget
 	ListenTo(itsTreeList);
 
 	itsMinColWidths = jnew JArray<JSize>;
-	assert( itsMinColWidths != nullptr );
 
 	itsReselectNodeList = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
-	assert( itsReselectNodeList != nullptr );
 	ListenTo(itsTreeList->GetTree());
 
 	itsIndentWidth       = kDefaultIndent;
@@ -626,8 +624,7 @@ JXTreeListWidget::Receive
 {
 	if (sender == itsTreeList && message.Is(JTreeList::kNodeInserted))
 	{
-		const auto* info =
-			dynamic_cast<const JTreeList::NodeInserted*>(&message);
+		auto* info = dynamic_cast<const JTreeList::NodeInserted*>(&message);
 		assert( info != nullptr );
 		InsertRows(info->GetIndex(), 1);
 		NeedsAdjustToTree();
@@ -635,8 +632,7 @@ JXTreeListWidget::Receive
 
 	else if (sender == itsTreeList && message.Is(JTreeList::kNodeRemoved))
 	{
-		const auto* info =
-			dynamic_cast<const JTreeList::NodeRemoved*>(&message);
+		auto* info = dynamic_cast<const JTreeList::NodeRemoved*>(&message);
 		assert( info != nullptr );
 		RemoveRow(info->GetIndex());
 		NeedsAdjustToTree();
@@ -644,8 +640,7 @@ JXTreeListWidget::Receive
 
 	else if (sender == itsTreeList && message.Is(JTreeList::kNodeChanged))
 	{
-		const auto* info =
-			dynamic_cast<const JTreeList::NodeChanged*>(&message);
+		auto* info = dynamic_cast<const JTreeList::NodeChanged*>(&message);
 		assert( info != nullptr );
 		TableRefreshRow(info->GetIndex());
 		NeedsAdjustToTree();
@@ -655,8 +650,7 @@ JXTreeListWidget::Receive
 			 (message.Is(JTreeList::kNodeOpened) ||
 			  message.Is(JTreeList::kNodeClosed)))
 	{
-		const auto* info =
-			dynamic_cast<const JTreeList::NodeMessage*>(&message);
+		auto* info = dynamic_cast<const JTreeList::NodeMessage*>(&message);
 		assert( info != nullptr );
 		TableRefreshRow(info->GetIndex());
 	}
@@ -677,7 +671,7 @@ JXTreeListWidget::Receive
 	{
 		if (sender == this && message.Is(kColsInserted))
 		{
-			const auto* info = dynamic_cast<const ColsInserted*>(&message);
+			auto* info = dynamic_cast<const ColsInserted*>(&message);
 			assert( info != nullptr );
 			info->AdjustIndex(&itsToggleOpenColIndex);
 			info->AdjustIndex(&itsNodeColIndex);
@@ -687,7 +681,7 @@ JXTreeListWidget::Receive
 
 		else if (sender == this && message.Is(kColsRemoved))
 		{
-			const auto* info = dynamic_cast<const ColsRemoved*>(&message);
+			auto* info = dynamic_cast<const ColsRemoved*>(&message);
 			assert( info != nullptr );
 			bool ok = info->AdjustIndex(&itsToggleOpenColIndex);
 			assert( ok );
@@ -699,8 +693,7 @@ JXTreeListWidget::Receive
 
 		else if (sender == this && message.Is(kColMoved))
 		{
-			const auto* info =
-				dynamic_cast<const ColMoved*>(&message);
+			auto* info = dynamic_cast<const ColMoved*>(&message);
 			assert( info != nullptr );
 			info->AdjustIndex(&itsToggleOpenColIndex);
 			info->AdjustIndex(&itsNodeColIndex);
@@ -742,7 +735,6 @@ JXTreeListWidget::HandlePrepareForNodeMove()
 
 	assert( itsSavedScrollSetup == nullptr );
 	itsSavedScrollSetup = jnew JString(data.str(), JUtf8ByteRange());
-	assert( itsSavedScrollSetup != nullptr );
 }
 
 /******************************************************************************
@@ -785,7 +777,6 @@ JXTreeListWidget::NeedsAdjustToTree()
 			itsAdjustToTreeTask = nullptr;
 			AdjustToTree();
 		});
-		assert( itsAdjustToTreeTask != nullptr );
 		itsAdjustToTreeTask->Go();
 	}
 }

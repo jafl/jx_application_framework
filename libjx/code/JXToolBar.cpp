@@ -104,10 +104,7 @@ JXToolBar::JXToolBar
 	assert(h >= 40);
 
 	itsButtons = jnew JPtrArray<JXToolBarButton>(JPtrArrayT::kForgetAll);
-	assert(itsButtons != nullptr);
-
-	itsMenus = jnew JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
-	assert(itsMenus != nullptr);
+	itsMenus   = jnew JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
 
 	const JCoordinate barHeight = itsCurrentButtonHeight + 2*kButConBuffer;
 
@@ -123,10 +120,8 @@ JXToolBar::JXToolBar
 			0,0, w,h);
 
 	itsGroupStarts = jnew JArray<bool>;
-	assert(itsGroupStarts != nullptr);
 
 	itsTimerTask = jnew JXFunctionTask(kTimerDelay, std::bind(&JXToolBar::UpdateButtons, this));
-	assert(itsTimerTask != nullptr);
 	itsTimerTask->Start();
 
 	auto* task = jnew JXUrgentFunctionTask(this, [this]()
@@ -293,8 +288,7 @@ JXToolBar::Receive
 	else if (hasPrefs &&
 			 sender == prefsMgr && message.Is(JPrefsManager::kDataChanged))
 	{
-		const auto* info =
-			dynamic_cast<const JPrefsManager::DataChanged*>(&message);
+		auto* info = dynamic_cast<const JPrefsManager::DataChanged*>(&message);
 		assert(info != nullptr);
 		if (info->GetID() == prefID)
 		{
@@ -398,7 +392,7 @@ JXToolBar::ExtractItemNodes
 		}
 		else
 		{
-			auto* item	= dynamic_cast<JXToolBarNode*>(child);
+			auto* item = dynamic_cast<JXToolBarNode*>(child);
 			assert(item != nullptr);
 			if (item->IsChecked())
 			{
@@ -452,7 +446,6 @@ JXToolBar::AddMenuToTree
 	)
 {
 	auto* mnode = jnew JNamedTreeNode(parent->GetTree(), name);
-	assert( mnode != nullptr );
 	parent->Append(mnode);
 
 	const JSize itemCount = menu->GetItemCount();

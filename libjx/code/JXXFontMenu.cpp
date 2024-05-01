@@ -51,7 +51,6 @@ JXXFontMenu::Create
 	if (!fontNames.IsEmpty())
 	{
 		*menu = jnew JXXFontMenu(fontNames, title, enclosure, hSizing, vSizing, x,y, w,h);
-		assert( *menu != nullptr );
 	}
 
 	return *menu != nullptr;
@@ -77,7 +76,6 @@ JXXFontMenu::Create
 	if (!fontNames.IsEmpty())
 	{
 		*menu = jnew JXXFontMenu(fontNames, owner, itemIndex, enclosure);
-		assert( *menu != nullptr );
 	}
 
 	return *menu != nullptr;

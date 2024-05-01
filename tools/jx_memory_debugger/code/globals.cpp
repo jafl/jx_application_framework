@@ -37,8 +37,7 @@ CreateGlobals
 
 	JXInitHelp();
 
-	auto* wdMgr = jnew JXWDManager(app->GetCurrentDisplay(), true);
-	assert( wdMgr != nullptr );
+	jnew JXWDManager(app->GetCurrentDisplay(), true);
 	// registers itself
 
 	return isNew;

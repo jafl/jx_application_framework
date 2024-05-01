@@ -62,7 +62,6 @@ JPrefsFile::Create
 	if (err.OK())
 	{
 		*obj = jnew JPrefsFile(fullName, action);
-		assert( *obj != nullptr );
 	}
 	else
 	{

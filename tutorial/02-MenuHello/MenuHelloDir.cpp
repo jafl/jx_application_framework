@@ -56,7 +56,6 @@ MenuHelloDir::BuildWindow()
 {
 	// Create the window and give it to the director.
 	JXWindow* window = jnew JXWindow(this, 200,100, JGetString("WindowTitle::MenuHelloDir"));
-	assert( window != nullptr );
 
 	// This sets the minimum and maximum size to be the
 	// current size.
@@ -90,7 +89,6 @@ MenuHelloDir::BuildWindow()
 		jnew JXStaticText(JGetString("HelloText::MenuHelloDir"), window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			20, 40, 160, 20);
-	assert( itsText != nullptr );
 }
 
 /******************************************************************************

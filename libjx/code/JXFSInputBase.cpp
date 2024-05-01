@@ -162,7 +162,6 @@ JXFSInputBase::Receive
 					  GetCaretLocation(&i) && i == GetText()->GetText().GetCharacterCount()+1,
 					  WantsModifiedTab());
 		});
-		assert( task != nullptr );
 		task->Go();
 	}
 }
@@ -596,7 +595,6 @@ JXFSInputBase::Complete
 		if (*menu == nullptr)
 		{
 			*menu = jnew JXStringCompletionMenu(te, false);
-			assert( *menu != nullptr );
 		}
 		else
 		{

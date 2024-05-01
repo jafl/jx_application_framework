@@ -71,7 +71,6 @@ JDirInfo::Create
 	if (OKToCreate(dirName))
 	{
 		*obj = jnew JDirInfo(dirName);
-		assert( *obj != nullptr );
 		return true;
 	}
 	else
@@ -92,7 +91,6 @@ JDirInfo::Create
 	if (OKToCreate(dirName))
 	{
 		*obj = jnew JDirInfo(source, dirName);
-		assert( *obj != nullptr );
 		return true;
 	}
 	else
@@ -148,15 +146,12 @@ JDirInfo::JDirInfo
 	itsPG                  = nullptr;
 
 	itsDirEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kDeleteAll);
-	assert( itsDirEntries != nullptr);
 	itsDirEntries->SetCompareFunction(JDirEntry::CompareNames);
 	itsDirEntries->SetSortOrder(JListT::kSortAscending);
 
 	itsVisEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
-	assert( itsVisEntries != nullptr);
 
 	itsAlphaEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
-	assert( itsAlphaEntries != nullptr);
 	itsAlphaEntries->SetCompareFunction(JDirEntry::CompareNames);
 	itsAlphaEntries->SetSortOrder(JListT::kSortAscending);
 
@@ -245,13 +240,9 @@ JDirInfo::JDirInfoX
 	itsPG                  = nullptr;
 
 	itsDirEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kDeleteAll);
-	assert( itsDirEntries != nullptr);
-
 	itsVisEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
-	assert( itsVisEntries != nullptr);
 
 	itsAlphaEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
-	assert( itsAlphaEntries != nullptr);
 	itsAlphaEntries->SetCompareFunction(JDirEntry::CompareNames);
 	itsAlphaEntries->SetSortOrder(JListT::kSortAscending);
 }
@@ -364,7 +355,6 @@ JDirInfo::PrivateCopySettings
 	if (source.itsPermFilter != nullptr)
 	{
 		itsPermFilter = jnew std::function(*source.itsPermFilter);
-		assert( itsPermFilter != nullptr );
 	}
 
 	// copy name filter
@@ -1198,8 +1188,6 @@ JDirInfo::SetDirEntryFilter
 {
 	jdelete itsPermFilter;
 	itsPermFilter = jnew std::function(f);
-	assert( itsPermFilter != nullptr );
-
 	ApplyFilters(true);
 	Broadcast(SettingsChanged());
 }

@@ -68,7 +68,7 @@ JThreadPG::WaitForProcessFinished
 	{
 		if (m->Is(kProcessBeginning))
 		{
-			class ProcessBeginning* info = dynamic_cast<class ProcessBeginning*>(m);
+			auto* info = dynamic_cast<class ProcessBeginning*>(m);
 			assert( info != nullptr );
 
 			const JString* msg;
@@ -91,7 +91,7 @@ JThreadPG::WaitForProcessFinished
 		}
 		else if (m->Is(kIncrementProgress))
 		{
-			class IncrementProgress* info = dynamic_cast<class IncrementProgress*>(m);
+			auto* info = dynamic_cast<class IncrementProgress*>(m);
 			assert( info != nullptr );
 
 			const JString* msg;

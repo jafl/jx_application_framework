@@ -76,7 +76,6 @@ JXDockWidget::JXDockWidget
 	ListenTo(itsTabGroup->GetCardEnclosure());
 
 	auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXDockWidget::UpdateMinSize, this));
-	assert( task != nullptr );
 	task->Go();
 
 	ClearNeedsInternalFTC();
@@ -183,7 +182,6 @@ JXDockWidget::Dock
 		if (itsWindowList == nullptr)
 		{
 			itsWindowList = jnew JPtrArray<JXWindow>(JPtrArrayT::kForgetAll);
-			assert( itsWindowList != nullptr );
 		}
 
 		const JIndex index = GetTabInsertionIndex(w);
@@ -533,7 +531,6 @@ JXDockWidget::WillAcceptDrop
 		itsHintDirector =
 			jnew JXHintDirector((JXContainer::GetWindow())->GetDirector(), this,
 							   r, JGetString("WindowWillNotFit::JXDockWidget"));
-		assert( itsHintDirector != nullptr );
 		itsHintDirector->Activate();
 
 		itsDeleteHintTask = jnew JXFunctionTask(kDeleteHintDelay, [this]()
@@ -543,7 +540,6 @@ JXDockWidget::WillAcceptDrop
 			itsHintDirector = nullptr;
 		},
 		true);
-		assert( itsDeleteHintTask != nullptr );
 		itsDeleteHintTask->Start();
 	}
 
@@ -758,15 +754,14 @@ JXDockWidget::Receive
 	else if (sender == itsTabGroup->GetCardEnclosure() &&
 			 message.Is(JXCardFile::kCardIndexChanged))
 	{
-		const auto* info =
-			dynamic_cast<const JXCardFile::CardIndexChanged*>(&message);
+		auto* info = dynamic_cast<const JXCardFile::CardIndexChanged*>(&message);
 		assert( info != nullptr );
 
 		JIndex index;
 		if (info->GetCardIndex(&index))
 		{
 			JXWindow* w = itsWindowList->GetItem(index);
-			(w->GetDirector())->Activate();
+			w->GetDirector()->Activate();
 		}
 	}
 	else

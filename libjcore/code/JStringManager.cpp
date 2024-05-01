@@ -123,7 +123,6 @@ JStringManager::Get
 			"s", id
 		};
 		s = jnew JString(Get(theMissingStringKey, map, sizeof(map)));
-		assert( s != nullptr );
 	}
 	else
 	{

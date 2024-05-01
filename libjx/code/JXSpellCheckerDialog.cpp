@@ -42,8 +42,6 @@ JXSpellCheckerDialog::JXSpellCheckerDialog
 	itsFoundErrorsFlag(false)
 {
 	itsSuggestionList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, 100);
-	assert( itsSuggestionList != nullptr );
-
 	BuildWindow();
 }
 
@@ -328,8 +326,7 @@ JXSpellCheckerDialog::Receive
 {
 	if (sender == itsSuggestionWidget && message.Is(JXSpellList::kWordSelected))
 	{
-		const auto* choice =
-			dynamic_cast<const JXSpellList::WordSelected*>(&message);
+		auto* choice = dynamic_cast<const JXSpellList::WordSelected*>(&message);
 		assert( choice != nullptr );
 
 		itsFirstGuess->GetText()->SetText(choice->GetWord());
@@ -339,8 +336,7 @@ JXSpellCheckerDialog::Receive
 	}
 	else if (sender == itsSuggestionWidget && message.Is(JXSpellList::kReplaceWord))
 	{
-		const auto* choice =
-			dynamic_cast<const JXSpellList::ReplaceWord*>(&message);
+		auto* choice = dynamic_cast<const JXSpellList::ReplaceWord*>(&message);
 		assert( choice != nullptr );
 
 		itsFirstGuess->GetText()->SetText(choice->GetWord());
@@ -349,8 +345,7 @@ JXSpellCheckerDialog::Receive
 	}
 	else if (sender == itsSuggestionWidget && message.Is(JXSpellList::kReplaceWordAll))
 	{
-		const auto* choice =
-			dynamic_cast<const JXSpellList::ReplaceWordAll*>(&message);
+		auto* choice = dynamic_cast<const JXSpellList::ReplaceWordAll*>(&message);
 		assert( choice != nullptr );
 
 		itsFirstGuess->GetText()->SetText(choice->GetWord());

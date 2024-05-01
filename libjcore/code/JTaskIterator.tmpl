@@ -72,8 +72,7 @@ JTaskIterator<T>::ListChanged
 
 	if (message.Is(JListT::kItemsInserted))
 	{
-		const JListT::ItemsInserted* info =
-			dynamic_cast<const JListT::ItemsInserted*>(&message);
+		auto* info = dynamic_cast<const JListT::ItemsInserted*>(&message);
 		assert( info != nullptr );
 		if (JListIterator<T*>::GetCursor() == 0 && info->GetFirstIndex() == 1)
 		{

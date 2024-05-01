@@ -49,9 +49,7 @@ JQueue<T,S>::JQueue
 	:
 	JContainer(source)
 {
-	itsItems = jnew S(*(source.itsItems));
-	assert( itsItems != nullptr );
-
+	itsItems = jnew S(*source.itsItems);
 	InstallCollection(itsItems);
 }
 

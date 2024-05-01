@@ -144,11 +144,9 @@ JXWindow::JXWindow
 	AdjustTitle();
 
 	itsShortcuts = jnew JArray<Shortcut>;
-	assert( itsShortcuts != nullptr );
 	itsShortcuts->SetCompareFunction(CompareShortcuts);
 
 	itsFocusList = jnew JPtrArray<JXWidget>(JPtrArrayT::kForgetAll);
-	assert( itsFocusList != nullptr );
 
 	// get display/colormap for this window
 
@@ -1364,10 +1362,8 @@ JXWindow::AnalyzeWindowManager
 	// create a test window
 
 	auto* dir = jnew JXWindowDirector(JXGetApplication());
-	assert( dir != nullptr );
 
 	auto* w = jnew JXWindow(dir, 100, 100, "Testing Window Manager");
-	assert( w != nullptr );
 	w->itsExpandTask->Cancel();
 	w->itsExpandTask = nullptr;
 
@@ -4770,7 +4766,6 @@ JXWindow::Dock
 	}
 
 	itsDockingTask = jnew JXDockWindowTask(this, parent, JPoint(geom.left, geom.top), dock);
-	assert( itsDockingTask != nullptr );
 	itsDockingTask->Start();
 	ClearWhenGoingAway(itsDockingTask, &itsDockingTask);
 
@@ -4823,7 +4818,6 @@ JXWindow::Undock()
 	if (wasVisible)
 	{
 		auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXWindow::Raise, this, true));
-		assert( task != nullptr );
 		task->Go();
 	}
 
@@ -4866,7 +4860,6 @@ JXWindow::UpdateChildWindowList
 	if (add && itsChildWindowList == nullptr)
 	{
 		itsChildWindowList = jnew JArray<ChildWindowInfo>;
-		assert( itsChildWindowList != nullptr );
 	}
 
 	if (itsChildWindowList != nullptr)

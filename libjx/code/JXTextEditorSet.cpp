@@ -47,8 +47,6 @@ JXTextEditorSet::JXTextEditorSet
 		jnew JXTextEditor(text, ownsText, menuBar, scrollbarSet,
 						  scrollbarSet->GetScrollEnclosure(),
 						  kHElastic, kVElastic, 0,0, 10,10);
-	assert( *textEditor != nullptr );
-
 	(**textEditor).FitToEnclosure();
 
 	ClearNeedsInternalFTC();
@@ -80,8 +78,6 @@ JXTextEditorSet::JXTextEditorSet
 		jnew JXTextEditor(text, ownsText, menuBar, scrollbarSet,
 						  scrollbarSet->GetScrollEnclosure(),
 						  kHElastic, kVElastic, 0,0, 10,10);
-	assert( *textEditor != nullptr );
-
 	(**textEditor).FitToEnclosure();
 
 	ClearNeedsInternalFTC();

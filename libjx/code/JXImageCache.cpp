@@ -27,7 +27,6 @@ JXImageCache::JXImageCache
 	itsDisplay(display)
 {
 	itsMap = jnew JStringPtrMap<JXImage>(JPtrArrayT::kDeleteAll);
-	assert( itsMap != nullptr );
 }
 
 /******************************************************************************

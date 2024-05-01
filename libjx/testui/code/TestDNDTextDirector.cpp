@@ -85,12 +85,10 @@ TestDNDTextDirector::BuildWindow()
 	for (const JIndex i : {1,2})
 	{
 		JXStyledText* text = jnew JXStyledText(true, true, GetDisplay()->GetFontManager());
-		assert( text != nullptr );
 
 		JXTextEditorSet* teSet =
 			jnew JXTextEditorSet(text, true, &te, partition->GetCompartment(i),
 								JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-		assert( teSet != nullptr );
 		teSet->FitToEnclosure();
 
 		// create something to drag around

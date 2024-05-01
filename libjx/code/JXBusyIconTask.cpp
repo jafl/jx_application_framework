@@ -46,7 +46,6 @@ JXBusyIconTask::JXBusyIconTask
 	JXAnimationTask(widget)
 {
 	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kForgetAll, kBusyIconCount);
-	assert( itsImageList != nullptr );
 
 	JXImageCache* cache = widget->GetDisplay()->GetImageCache();
 	for (const auto& xpm : kBusyIcon)

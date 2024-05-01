@@ -47,8 +47,6 @@ JXExprEditorSet::JXExprEditorSet
 		jnew JXExprEditor(varList, menuBar, scrollbarSet,
 						 scrollbarSet->GetScrollEnclosure(),
 						 kHElastic, kVElastic, 0,0, 10,10);
-	assert( *exprWidget != nullptr );
-
 	(**exprWidget).FitToEnclosure();
 }
 
@@ -77,8 +75,6 @@ JXExprEditorSet::JXExprEditorSet
 		jnew JXExprEditor(varList, menuBar, scrollbarSet,
 						 scrollbarSet->GetScrollEnclosure(),
 						 kHElastic, kVElastic, 0,0, 10,10);
-	assert( *exprWidget != nullptr );
-
 	(**exprWidget).FitToEnclosure();
 }
 
@@ -105,8 +101,6 @@ JXExprEditorSet::JXExprEditorSet
 		jnew JXExprEditor(varList, menuProvider, scrollbarSet,
 						 scrollbarSet->GetScrollEnclosure(),
 						 kHElastic, kVElastic, 0,0, 10,10);
-	assert( *exprWidget != nullptr );
-
 	(**exprWidget).FitToEnclosure();
 }
 

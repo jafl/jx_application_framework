@@ -920,8 +920,7 @@ MenuTable::Receive
 	{
 		if (HasFocus())
 		{
-			const auto* selection =
-				dynamic_cast<const JXMenu::ItemSelected*>(&message);
+			auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleEditMenu(selection->GetIndex());
 		}

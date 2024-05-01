@@ -116,9 +116,7 @@ JLinkedList<T>::CopyList
 
 	while (sourceItem != nullptr)
 	{
-		newItem = jnew JLinkedListItem<T>(sourceItem->data);
-		assert( newItem != nullptr );
-
+		newItem       = jnew JLinkedListItem<T>(sourceItem->data);
 		newItem->prev = prev;			// link to previous item
 		newItem->next = nullptr;		// no initial link
 
@@ -178,9 +176,7 @@ JLinkedList<T>::PrependItem
 	const T& data
 	)
 {
-	JLinkedListItem<T>* newItem = jnew JLinkedListItem<T>(data);
-	assert( newItem != nullptr );
-
+	auto* newItem = jnew JLinkedListItem<T>(data);
 	newItem->prev = nullptr;
 	newItem->next = itsFirstItem;
 
@@ -213,9 +209,7 @@ JLinkedList<T>::AppendItem
 	const T& data
 	)
 {
-	JLinkedListItem<T>* newItem = jnew JLinkedListItem<T>(data);
-	assert( newItem != nullptr );
-
+	auto* newItem = jnew JLinkedListItem<T>(data);
 	newItem->prev = itsLastItem;
 	newItem->next = nullptr;
 
@@ -551,9 +545,7 @@ JLinkedList<T>::NewIterator
 	const JIndex			index
 	)
 {
-	JLinkedListIterator<T>* iter = jnew JLinkedListIterator<T>(this, start, index);
-	assert( iter != nullptr );
-	return iter;
+	return jnew JLinkedListIterator<T>(this, start, index);
 }
 
 template <class T>
@@ -565,9 +557,7 @@ JLinkedList<T>::NewIterator
 	)
 	const
 {
-	JLinkedListIterator<T>* iter = jnew JLinkedListIterator<T>(*this, start, index);
-	assert( iter != nullptr );
-	return iter;
+	return jnew JLinkedListIterator<T>(*this, start, index);
 }
 
 /******************************************************************************

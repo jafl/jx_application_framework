@@ -54,7 +54,6 @@ JXMenuBar::JXMenuBar
 	itsIgnoreWidthChangedCount(0)
 {
 	itsMenus = jnew JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
-	assert( itsMenus != nullptr );
 
 	SetBorderWidth(kJXDefaultBorderWidth);
 
@@ -206,7 +205,6 @@ JXMenuBar::InsertTextMenu
 	const JRect bounds = GetBounds();
 	auto* theMenu = jnew JXTextMenu(title, this, kFixedLeft, kVElastic,
 										 bounds.left,bounds.top, 10,bounds.height());
-	assert( theMenu != nullptr );
 
 	InsertMenu(index, theMenu);
 	return theMenu;
@@ -224,7 +222,6 @@ JXMenuBar::InsertTextMenu
 	auto* theMenu =
 		jnew JXTextMenu(image, menuOwnsImage, this, kFixedLeft, kVElastic,
 					   bounds.left,bounds.top, 10,bounds.height());
-	assert( theMenu != nullptr );
 
 	InsertMenu(index, theMenu);
 	return theMenu;

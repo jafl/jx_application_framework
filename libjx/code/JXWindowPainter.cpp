@@ -38,7 +38,7 @@ JXWindowPainter::JXWindowPainter
 	const Region	defaultClipRegion
 	)
 	:
-	JPainter((gc->GetDisplay())->GetFontManager(), defaultClipRect)
+	JPainter(gc->GetDisplay()->GetFontManager(), defaultClipRect)
 {
 	assert( gc != nullptr );
 
@@ -520,7 +520,6 @@ JXWindowPainter::String
 		srcImage = jnew JXImage(itsDisplay, itsDrawable,
 							   JRect(y0+dx, x0-dy - lineHeight, y0+dx + stringWidth + 1, x0-dy + 1));
 	}
-	assert( srcImage != nullptr );
 
 	auto* tempImage = jnew JXImage(itsDisplay, stringWidth, lineHeight, 0, 0,
 									 JXImage::kLocalStorage);

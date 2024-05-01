@@ -55,7 +55,6 @@ ClipboardDir::BuildWindow()
 {
 	// Create the window and give it to the director.
 	JXWindow* window = jnew JXWindow(this, 200,100, JGetString("WindowTitle::ClipboardDir"));
-	assert( window != nullptr );
 
 	// This sets the minimum and maximum size to be the
 	// current size.
@@ -86,7 +85,6 @@ ClipboardDir::BuildWindow()
 		jnew ClipboardWidget(JGetString("Text::ClipboardDir"), menuBar, window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			0, kJXDefaultMenuBarHeight, 200, 100-kJXDefaultMenuBarHeight);
-	assert ( itsText != nullptr );
 }
 
 /******************************************************************************
@@ -110,7 +108,6 @@ ClipboardDir::HandleTextMenu
 			JGetString("DialogTitle::ClipboardDir"),
 			JGetString("DialogPrompt::ClipboardDir"),
 			itsText->GetText());
-		assert ( dlog != nullptr );
 
 		// Activate the dialog.
 		if (dlog->DoDialog())

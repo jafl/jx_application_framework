@@ -152,7 +152,6 @@ StatsDirector::SetLink
 	DeleteDebugAcceptor();
 
 	itsPingTask = jnew JXFunctionTask(kRefreshInterval, std::bind(&StatsDirector::RequestRunningStats, this));
-	assert( itsPingTask != nullptr );
 	itsPingTask->Start();
 }
 
@@ -315,9 +314,7 @@ StatsDirector::BuildWindow()
 
 // end JXLayout
 
-	auto* image = jnew JXImage(GetDisplay(), md_main_window_icon);
-	assert( image != nullptr );
-	window->SetIcon(image);
+	window->SetIcon(jnew JXImage(GetDisplay(), md_main_window_icon));
 
 	ListenTo(itsProgramInput->GetText(), std::function([this](const JStyledText::TextSet&)
 	{
@@ -369,7 +366,6 @@ StatsDirector::BuildWindow()
 	auto* windowsMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( windowsMenu != nullptr );
 	menuBar->AppendMenu(windowsMenu);
 	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle)
 	{

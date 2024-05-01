@@ -174,10 +174,7 @@ JBroadcasterMessageMap::SetItem
 	else
 	{
 		hashEntry.list = jnew JArray<JBroadcasterMessageTuple>;
-		assert( hashEntry.list != nullptr );
-
 		hashEntry.list->PrependItem(JBroadcasterMessageTuple(obj, f, d));
-
 		cursor->Set(cursor->GetCursorHashValue(), hashEntry);
 	}
 }

@@ -381,11 +381,8 @@ JXVertPartition::RunInternalFTC
 	}
 	else	// vertical
 	{
-		itsFTCSizes = jnew JArray<JCoordinate>;
-		assert( itsFTCSizes != nullptr );
-
+		itsFTCSizes    = jnew JArray<JCoordinate>;
 		itsFTCMinSizes = jnew JArray<JCoordinate>;
-		assert( itsFTCMinSizes != nullptr );
 
 		JCoordinate sum = 0;
 		JIndex i        = 1;
@@ -465,7 +462,6 @@ JXVertPartition::SaveGeometryForLater
 	if (itsSavedGeom == nullptr)
 	{
 		itsSavedGeom = jnew JArray<JCoordinate>(sizes);
-		assert( itsSavedGeom != nullptr );
 
 		auto* geomTask = jnew JXUrgentFunctionTask(this, [this]()
 		{
@@ -476,7 +472,6 @@ JXVertPartition::SaveGeometryForLater
 				itsSavedGeom = nullptr;
 			}
 		});
-		assert( geomTask != nullptr );
 		geomTask->Go();
 	}
 	else

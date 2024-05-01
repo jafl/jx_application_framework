@@ -110,11 +110,8 @@ TestDirector::TestDirector
 
 	// GetDisplay() only works after SetWindow()
 
-	itsPSPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPSPrinter != nullptr );
-
+	itsPSPrinter  = jnew JXPSPrinter(GetDisplay());
 	itsEPSPrinter = jnew JXEPSPrinter(GetDisplay());
-	assert( itsEPSPrinter != nullptr );
 }
 
 /******************************************************************************
@@ -216,7 +213,6 @@ TestDirector::BuildWindow
 	}
 
 	itsAnimIconTask = jnew AnimateWindowIconTask(GetWindow());
-	assert( itsAnimIconTask != nullptr );
 	ListenTo(window, std::function([this](const JXWindow::Iconified&)
 	{
 		itsAnimIconTask->Start();
@@ -236,7 +232,6 @@ TestDirector::BuildWindow
 			jnew JXDisplayMenu(JGetString("DisplayMenuTitle::TestDirector"), menuBar,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  0,0, 10,10);
-		assert( itsDisplayMenu != nullptr );
 		menuBar->PrependMenu(itsDisplayMenu);
 	}
 	else
@@ -278,7 +273,6 @@ TestDirector::BuildWindow
 
 	JXImage* aboutTitleImage =
 		jnew JXImage(display, kSmileyBitmap[ kHappySmileyIndex ], JColorManager::GetRedColor());
-	assert( aboutTitleImage != nullptr );
 	itsAboutMenu = menuBar->PrependTextMenu(aboutTitleImage, true);
 	itsAboutMenu->SetMenuItems(kAboutMenuStr);
 	itsAboutMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -337,7 +331,6 @@ TestDirector::BuildIconMenus
 	for (JUnsignedOffset i=0; i<kSmileyBitmapCount; i++)
 	{
 		image[i] = jnew JXImage(display, kSmileyBitmap[i], kSmileyColor[i]);
-		assert( image[i] != nullptr );
 	}
 
 	// create 1x6 menu in menu bar -- this owns the icons
@@ -345,7 +338,6 @@ TestDirector::BuildIconMenus
 	itsSmileyMenu =
 		jnew JXImageMenu(JGetString("IconMenuTitle::TestDirector"), 6, menuBar,
 						 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( itsSmileyMenu != nullptr );
 	itsSmileyMenu->SetUpdateAction(JXMenu::kDisableNone);
 	menuBar->AppendMenu(itsSmileyMenu);
 
@@ -508,7 +500,6 @@ TestDirector::HandleTestMenu
 			itsDisplayMenu->SelectCurrentDisplay();
 		}
 		TestDirector* dir = jnew TestDirector(TestjxGetApplication(), false);
-		assert( dir != nullptr );
 		dir->Activate();
 	}
 

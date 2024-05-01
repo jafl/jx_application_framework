@@ -814,7 +814,6 @@ JXScrollbar::ScrolltabCreated
 	if (itsScrolltabList == nullptr)
 	{
 		itsScrolltabList = jnew JPtrArray<JXScrolltab>(JPtrArrayT::kForgetAll);
-		assert( itsScrolltabList != nullptr );
 		itsScrolltabList->SetCompareFunction(CompareScrolltabValues);
 		itsScrolltabList->SetSortOrder(JListT::kSortAscending);
 	}

@@ -44,7 +44,6 @@ DragWidget::DragWidget
 	// See JCollection.h, JList.h, and JArray.h for functionality
 
 	itsPoints = jnew JArray<JPoint>;
-	assert( itsPoints != nullptr );
 }
 
 /******************************************************************************

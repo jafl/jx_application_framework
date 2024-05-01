@@ -162,11 +162,8 @@ JHashTable<V>::JHashTable
 {
 	assert(CHAR_BIT == 8);
 
-	itsArray = jnew JHashRecord<V>[itsMaxIndex+1];
-	assert(itsArray != nullptr);
-
+	itsArray  = jnew JHashRecord<V>[itsMaxIndex+1];
 	itsCursor = jnew JHashCursor<V>(this);
-	assert(itsCursor != nullptr);
 }
 
 /******************************************************************************
@@ -552,7 +549,6 @@ JHashTable<V>::TryResizeTable
 			itsMaxIndex = (1UL << itsLgSize) - 1;
 
 			itsArray = jnew JHashRecord<V>[itsMaxIndex+1];
-			assert(itsArray != nullptr);
 
 			itsLoadCount = 0;
 		}

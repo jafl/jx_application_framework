@@ -142,10 +142,7 @@ JXStyleMenu::CreateMenuWindow
 	JXWindowDirector* supervisor
 	)
 {
-	auto* dir =
-		jnew JXStyleMenuDirector(supervisor, this, GetTextMenuData());
-	assert( dir != nullptr );
-	return dir;
+	return jnew JXStyleMenuDirector(supervisor, this, GetTextMenuData());
 }
 
 /******************************************************************************
@@ -166,8 +163,7 @@ JXStyleMenu::Receive
 	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 
 		const JIndex i = selection->GetIndex();
@@ -320,8 +316,6 @@ void
 JXStyleMenu::ChooseColor()
 {
 	auto* dlog =jnew JXChooseColorDialog(IndexToColor(kCustomColorCmd));
-	assert( dlog != nullptr );
-
 	if (dlog->DoDialog())
 	{
 		itsColorIndex = dlog->GetColor();

@@ -177,9 +177,7 @@ DNDData::CreateBuffer()
 {
 	// This function must be const, since ConvertData is const, so we
 	// need to do a const_cast on ourselves in order to fill the buffer.
-	DNDData* th	= const_cast<DNDData*>(this);
-	assert(th != nullptr);
-	
+	DNDData* th = const_cast<DNDData*>(this);
 	if (itsBuffer == nullptr)
 	{
 		std::ostringstream os;

@@ -108,9 +108,7 @@ JXChooseFileDialog::GetFullNames
 
 	for (const auto* entry : entryList)
 	{
-		auto* s = jnew JString(entry->GetFullName());
-		assert( s != nullptr );
-		fullNameList->Append(s);
+		fullNameList->Append(entry->GetFullName());
 	}
 }
 
@@ -333,8 +331,7 @@ JXChooseFileDialog::Receive
 
 	if (sender == fileBrowser && message.Is(JXDirTable::kFileDblClicked))
 	{
-		const auto* info =
-			dynamic_cast<const JXDirTable::FileDblClicked*>(&message);
+		auto* info = dynamic_cast<const JXDirTable::FileDblClicked*>(&message);
 		assert( info != nullptr );
 		if (info->IsActive())
 		{

@@ -409,7 +409,6 @@ JXTabGroup::RemoveTab
 	if (itsCanScrollUpFlag && !itsCanScrollDownFlag)
 	{
 		auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXTabGroup::ScrollTabsIntoView, this));
-		assert( task != nullptr );
 		task->Go();
 	}
 
@@ -1292,7 +1291,6 @@ JXTabGroup::BoundsResized
 		((itsEdge == kLeft || itsEdge == kRight) && dh > 0))
 	{
 		auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXTabGroup::ScrollTabsIntoView, this));
-		assert( task != nullptr );
 		task->Go();
 	}
 }

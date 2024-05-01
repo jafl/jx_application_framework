@@ -165,10 +165,7 @@ JFontManager::GetFontID
 	Font f;
 	f.size  = size;
 	f.style = style;
-
-	f.name = jnew JString(name);
-	assert( f.name != nullptr );
-
+	f.name  = jnew JString(name);
 	theFontList.AppendItem(f);
 	return theFontList.GetItemCount();
 }

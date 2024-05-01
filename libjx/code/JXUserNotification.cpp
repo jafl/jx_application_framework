@@ -27,26 +27,6 @@
 #include <stdlib.h>
 #include <jx-af/jcore/jAssert.h>
 
-#undef assert
-
-[[noreturn]] static int
-__jXUNassert
-	(
-	const char*	expr,
-	const char*	file,
-	int			line
-	)
-{
-	fprintf(stderr, "Assertion failed: %s, file %s, line %d\n", expr, file, line);
-	abort();
-}
-
-#ifdef NDEBUG
-	#define assert(x)	((void) 0)
-#else
-	#define assert(x)	((void) ((x) || __jXUNassert(#x, __FILE__, __LINE__)))
-#endif
-
 /******************************************************************************
  Constructor
 
@@ -130,8 +110,6 @@ JXUserNotification::AskUserYes
 	)
 {
 	auto* dlog = jnew JXWarningDialog(JGetString("QuestionWindowTitle::JXWarningDialog"), message);
-	assert( dlog != nullptr );
-
 	return dlog->DoDialog();
 }
 
@@ -149,8 +127,6 @@ JXUserNotification::AskUserNo
 	)
 {
 	auto* dlog = jnew JXWarningDialog(JGetString("WarningWindowTitle::JXWarningDialog"), message);
-	assert( dlog != nullptr );
-
 	return dlog->DoDialog();
 }
 

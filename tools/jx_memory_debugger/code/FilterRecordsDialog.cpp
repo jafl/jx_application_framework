@@ -159,6 +159,5 @@ FilterRecordsDialog::BuildFilter
 	if (itsFileCB->IsChecked())
 	{
 		filter->fileName = jnew JString(itsFileInput->GetText()->GetText());
-		assert( filter->fileName != nullptr );
 	}
 }

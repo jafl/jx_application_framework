@@ -339,7 +339,6 @@ JXImage::JXImage
 	if (source.itsMask != nullptr)
 	{
 		itsMask = jnew JXImageMask(*(source.itsMask));
-		assert( itsMask != nullptr );
 	}
 }
 
@@ -389,7 +388,6 @@ JXImage::JXImage
 	if (source.itsMask != nullptr)
 	{
 		itsMask = jnew JXImageMask(*(source.itsMask), rect);
-		assert( itsMask != nullptr );
 	}
 }
 
@@ -454,7 +452,6 @@ JXImage::CreateFromGIF
 	)
 {
 	*image = jnew JXImage(display);
-	assert( *image != nullptr );
 
 	const JError err = (**image).ReadGIF(fileName);
 
@@ -714,7 +711,7 @@ JXImage::SetMask
 	JImageMask* mask
 	)
 {
-	JXImageMask* xmask = dynamic_cast<JXImageMask*>(mask);
+	auto* xmask = dynamic_cast<JXImageMask*>(mask);
 	assert( xmask != nullptr );
 	SetMask(xmask);
 }
@@ -861,9 +858,7 @@ JXImagePainter*
 JXImage::CreatePainter()
 {
 	ConvertToPixmap();
-	auto* p = jnew JXImagePainter(this, itsPixmap, GetBounds(), nullptr);
-	assert( p != nullptr );
-	return p;
+	return jnew JXImagePainter(this, itsPixmap, GetBounds(), nullptr);
 }
 
 /******************************************************************************
@@ -1056,7 +1051,6 @@ JXImage::ForcePrivateGC()
 	else if (itsGC == nullptr)
 	{
 		itsGC = jnew JXGC(itsDisplay, itsDisplay->GetRootWindow());
-		assert( itsGC != nullptr );
 	}
 }
 
@@ -1168,8 +1162,6 @@ JXImage::SetImageData
 	// convert color table to X pixel values
 
 	auto* xColorTable = jnew unsigned long [ colorCount ];
-	assert( xColorTable != nullptr );
-
 	for (JUnsignedOffset i=0; i<colorCount; i++)
 	{
 		if (!hasMask || i != maskColor)

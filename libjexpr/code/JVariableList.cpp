@@ -91,10 +91,7 @@ void
 JVariableList::JVariableListX()
 {
 	itsVarUserList = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll);
-	assert( itsVarUserList != nullptr );
-
-	itsEvalStack = jnew JArray<bool>(10);
-	assert( itsEvalStack != nullptr );
+	itsEvalStack   = jnew JArray<bool>(10);
 }
 
 /******************************************************************************
@@ -117,7 +114,6 @@ JVariableList::ParseVariableName
 	if (n->Contains(JUserInputFunction::kSwitchFontCharacter))
 	{
 		n = jnew JString(JUserInputFunction::ConvertToGreek(name));
-		assert( n != nullptr );
 		allocated = true;
 	}
 
@@ -366,8 +362,7 @@ JVariableList::Receive
 	if (sender == const_cast<JCollection*>(mainList) &&
 		message.Is(JListT::kItemsInserted))
 	{
-		const auto* info =
-			dynamic_cast<const JListT::ItemsInserted*>(&message);
+		auto* info = dynamic_cast<const JListT::ItemsInserted*>(&message);
 		assert( info != nullptr );
 		VariablesInserted(*info);
 	}
@@ -380,8 +375,7 @@ JVariableList::Receive
 			// happens when the object is destructed.  During destruction,
 			// we obviously should not complain.
 
-			const auto* info =
-				dynamic_cast<const JListT::ItemsRemoved*>(&message);
+			auto* info = dynamic_cast<const JListT::ItemsRemoved*>(&message);
 			assert( info != nullptr );
 			VariablesRemoved(*info);
 		}
@@ -389,16 +383,14 @@ JVariableList::Receive
 	else if (sender == const_cast<JCollection*>(mainList) &&
 			 message.Is(JListT::kItemMoved))
 	{
-		const auto* info =
-			dynamic_cast<const JListT::ItemMoved*>(&message);
+		auto* info = dynamic_cast<const JListT::ItemMoved*>(&message);
 		assert( info != nullptr );
 		VariableMoved(*info);
 	}
 	else if (sender == const_cast<JCollection*>(mainList) &&
 			 message.Is(JListT::kItemsSwapped))
 	{
-		const auto* info =
-			dynamic_cast<const JListT::ItemsSwapped*>(&message);
+		auto* info = dynamic_cast<const JListT::ItemsSwapped*>(&message);
 		assert( info != nullptr );
 		VariablesSwapped(*info);
 	}

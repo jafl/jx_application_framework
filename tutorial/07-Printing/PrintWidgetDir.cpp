@@ -32,7 +32,6 @@ PrintWidgetDir::PrintWidgetDir
 
 	// Create the printer object
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPrinter != nullptr );
 }
 
 /******************************************************************************
@@ -58,7 +57,6 @@ PrintWidgetDir::BuildWindow()
 {
 	// Create the window
 	JXWindow* window = jnew JXWindow(this, 300,200, JGetString("WindowTitle::PrintWidgetDir"));
-	assert( window != nullptr );
 
 	// Set the window sizing
 	window->SetMinSize(300,200);
@@ -91,7 +89,6 @@ PrintWidgetDir::BuildWindow()
 		jnew PrintWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
-	assert( widget != nullptr );
 
 	// Fit the widget within the scrollbarset enclosure
 	widget->FitToEnclosure(true, true);

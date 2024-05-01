@@ -52,10 +52,7 @@ void
 JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiverX()
 {
 	itsRecvBufferSize = JAsynchDataReceiverT::kDefaultBufferSize;
-
-	itsRecvBuffer = jnew JUtf8Byte [ itsRecvBufferSize ];
-	assert( itsRecvBuffer != nullptr );
-
+	itsRecvBuffer     = jnew JUtf8Byte [ itsRecvBufferSize ];
 	itsCancelTaskFlag = nullptr;
 }
 
@@ -103,7 +100,6 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::SetBufferSize
 
 	jdelete [] itsRecvBuffer;
 	itsRecvBuffer = jnew JUtf8Byte [ itsRecvBufferSize ];
-	assert( itsRecvBuffer != nullptr );
 }
 
 /******************************************************************************

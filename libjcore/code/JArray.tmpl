@@ -43,9 +43,7 @@ JArray<T>::JArray
 {
 	assert( blockSize > 0 );
 
-	itsItems = jnew T [ blockSize ];
-	assert( itsItems != nullptr );
-
+	itsItems     = jnew T [ blockSize ];
 	itsSlotCount = blockSize;
 	itsBlockSize = blockSize;
 }
@@ -143,8 +141,6 @@ JArray<T>::CopyArray
 
 	jdelete [] itsItems;
 	itsItems = jnew T [ itsSlotCount ];
-	assert( itsItems != nullptr );
-
 	memcpy(itsItems, source.itsItems, itsSlotCount * sizeof(T));
 }
 
@@ -184,12 +180,8 @@ JArray<T>::AllocateCArray()
 	const
 {
 	const JSize count = this->GetItemCount();
-
 	T* data = jnew T [ count ];
-	assert( data != nullptr );
-
 	memcpy(data, itsItems, count * sizeof(T));
-
 	return data;
 }
 
@@ -1078,9 +1070,7 @@ JArray<T>::NewIterator
 	const JIndex			index
 	)
 {
-	JArrayIterator<T>* iter = jnew JArrayIterator<T>(this, start, index);
-	assert( iter != nullptr );
-	return iter;
+	return jnew JArrayIterator<T>(this, start, index);
 }
 
 template <class T>
@@ -1092,9 +1082,7 @@ JArray<T>::NewIterator
 	)
 	const
 {
-	JArrayIterator<T>* iter = jnew JArrayIterator<T>(*this, start, index);
-	assert( iter != nullptr );
-	return iter;
+	return jnew JArrayIterator<T>(*this, start, index);
 }
 
 /******************************************************************************

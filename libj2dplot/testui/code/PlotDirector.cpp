@@ -70,11 +70,9 @@ PlotDirector::BuildWindow()
 // end JXLayout
 
 	itsPSPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPSPrinter != nullptr );
 	itsPlotWidget->SetPSPrinter(itsPSPrinter);
 
 	itsEPSPrinter = jnew JX2DPlotEPSPrinter(GetDisplay());
-	assert( itsEPSPrinter != nullptr );
 	itsPlotWidget->SetEPSPrinter(itsEPSPrinter);
 
 	ListenTo(itsPlotWidget, std::function([this](const J2DPlotWidget::TitleChanged&)

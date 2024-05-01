@@ -71,7 +71,6 @@ JX2DPlotWidget::JX2DPlotWidget
 	itsIsSharingMenusFlag(false)
 {
 	itsOptionsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::JX2DPlotWidget_Options"));
-	assert( itsOptionsMenu != nullptr );
 	itsOptionsMenu->SetMenuItems(kOptionsMenuStr);
 	itsOptionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ConfigureOptionsMenu(itsOptionsMenu);
@@ -138,7 +137,6 @@ JX2DPlotWidget::JX2DPlotWidgetX()
 	AddColor(JColorManager::GetLightBlueColor());
 
 	itsMarkDir = jnew JX2DCursorMarkTableDir(GetWindow()->GetDirector(), this);
-	assert(itsMarkDir != nullptr);
 
 	JXDisplay* display = GetDisplay();
 	itsDragXCursor     = JXGetDragVertLineCursor(display);
@@ -488,7 +486,6 @@ JX2DPlotWidget::ChangeLabels
 	auto* dlog =
 		jnew JX2DPlotLabelDialog(GetTitle(), GetXLabel(), GetYLabel(),
 								 GetFontName(), GetFontSize(), selection);
-	assert (dlog != nullptr);
 
 	if (dlog->DoDialog())
 	{
@@ -523,7 +520,6 @@ JX2DPlotWidget::ChangeScale
 		jnew JX2DPlotScaleDialog(xmin, xmax, xinc, XAxisIsLinear(),
 								 ymin, ymax, yinc, YAxisIsLinear(),
 								 editXAxis);
-	assert( dlog != nullptr );
 	if (dlog->DoDialog())
 	{
 		bool xLinear, yLinear;
@@ -700,8 +696,6 @@ JX2DPlotWidget::ChangeCurveOptions
 	auto* dlog =
 		jnew JX2DCurveOptionsDialog(GetCurveInfoArray(),
 									hasXErrors, hasYErrors, isFunction, isScatter, index);
-	assert( dlog != nullptr );
-
 	if (dlog->DoDialog())
 	{
 		SetCurveInfoArray(dlog->GetCurveInfoArray());

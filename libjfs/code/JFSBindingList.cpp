@@ -89,11 +89,9 @@ JFSBindingList::JFSBindingList
 	itsSignalFileName(signalFileName)
 {
 	itsBindingList = jnew JPtrArray<JFSBinding>(JPtrArrayT::kDeleteAll);
-	assert( itsBindingList != nullptr );
 	itsBindingList->SetCompareFunction(JFSBinding::ComparePatterns);
 
 	itsOverriddenList = jnew JPtrArray<JFSBinding>(JPtrArrayT::kDeleteAll);
-	assert( itsOverriddenList != nullptr );
 	itsOverriddenList->SetCompareFunction(JFSBinding::ComparePatterns);
 
 	InstallCollection(itsBindingList);

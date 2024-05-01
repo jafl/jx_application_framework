@@ -40,7 +40,6 @@ JXTextMenuData::JXTextMenuData
 	itsDefaultFont(JFontManager::GetDefaultFont())
 {
 	itsTextItemData = jnew JArray<TextItemData>;
-	assert( itsTextItemData != nullptr );
 
 	itsNeedGeomRecalcFlag = true;
 	itsMaxImageWidth      = 1;
@@ -50,7 +49,6 @@ JXTextMenuData::JXTextMenuData
 	itsCompressHeightFlag = false;
 
 	itsItemHeights = jnew JRunArray<JCoordinate>;
-	assert( itsItemHeights != nullptr );
 }
 
 /******************************************************************************

@@ -40,28 +40,19 @@ JX2DCurveOptionsDialog::JX2DCurveOptionsDialog
 	assert( array.IndexValid(startIndex) );
 
 	itsCurveInfo = jnew JArray<J2DCurveInfo>;
-	assert(itsCurveInfo != nullptr);
 
 	const JSize count = array.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
 		J2DCurveInfo info = array.GetItem(i);
 		info.name = jnew JString(*info.name);
-		assert(info.name != nullptr);
 		itsCurveInfo->AppendItem(info);
 	}
 
 	itsHasXErrors = jnew JArray<bool>(hasXErrors);
-	assert( itsHasXErrors != nullptr );
-
 	itsHasYErrors = jnew JArray<bool>(hasYErrors);
-	assert( itsHasYErrors != nullptr );
-
 	itsIsFunction = jnew JArray<bool>(isFunction);
-	assert( itsIsFunction != nullptr );
-
-	itsIsScatter = jnew JArray<bool>(isScatter);
-	assert( itsIsScatter != nullptr );
+	itsIsScatter  = jnew JArray<bool>(isScatter);
 
 	BuildWindow();
 }
@@ -180,8 +171,7 @@ JX2DCurveOptionsDialog::Receive
 {
 	if (sender == itsNameList && message.Is(JX2DCurveNameList::kNameSelected))
 	{
-		const auto* info =
-			dynamic_cast<const JX2DCurveNameList::NameSelected*>(&message);
+		const auto* info = dynamic_cast<const JX2DCurveNameList::NameSelected*>(&message);
 		assert(info != nullptr);
 		SaveSettings();
 		itsCurrentIndex = info->GetIndex();

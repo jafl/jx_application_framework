@@ -209,7 +209,6 @@ TestTextEditDocument::HandleFileMenu
 	if (index == kNewFileCmd)
 	{
 		TestTextEditDocument* doc = jnew TestTextEditDocument(GetSupervisor());
-		assert( doc != nullptr );
 		doc->Activate();
 	}
 	else if (index == kOpenFileCmd)
@@ -288,7 +287,6 @@ TestTextEditDocument::OpenFiles()
 			{
 				doc = jnew TestTextEditDocument(GetSupervisor(), *fileName, itsWritePrivateFmtFlag);
 			}
-			assert( doc != nullptr );
 			doc->Activate();
 
 			if (!pg.IncrementProgress())

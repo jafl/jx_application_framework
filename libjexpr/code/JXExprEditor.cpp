@@ -170,7 +170,6 @@ void
 JXExprEditor::JXExprEditorX()
 {
 	itsEPSPrinter = jnew JXEPSPrinter(GetDisplay());
-	assert( itsEPSPrinter != nullptr );
 
 	// ensure that we have a JFunction to display
 	// (also calls EIPBoundsChanged and EIPAdjustNeedTab)
@@ -875,8 +874,6 @@ JXExprEditor::EIPClipboardChanged()
 		const JString text = f->Print();
 
 		auto* data = jnew JXTextSelection(GetDisplay(), text);
-		assert( data != nullptr );
-
 		GetSelectionManager()->SetData(kJXClipboardName, data);
 	}
 }
@@ -968,9 +965,7 @@ JXExprEditor::EIPGetExternalClipboard
 JStyledText*
 JXExprEditor::BuildStyledText()
 {
-	JStyledText* text = jnew StyledText(JXScrollableWidget::GetFontManager());
-	assert( text != nullptr );
-	return text;
+	return jnew StyledText(JXScrollableWidget::GetFontManager());
 }
 
 /******************************************************************************

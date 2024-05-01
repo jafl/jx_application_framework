@@ -75,10 +75,8 @@ JXDirTable::JXDirTable
 	itsDirInfo = data;
 
 	itsActiveCells = jnew JArray<bool>;
-	assert( itsActiveCells != nullptr );
 
 	itsDirUpdateTask = jnew JXFunctionTask(kDirUpdatePeriod, std::bind(&JXDirTable::UpdateDisplay, this));
-	assert( itsDirUpdateTask != nullptr );
 	itsDirUpdateTask->Start();
 
 	itsAllowSelectFilesFlag      = true;
@@ -89,7 +87,6 @@ JXDirTable::JXDirTable
 	itsReselectFlag              = false;
 
 	itsReselectNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsReselectNameList != nullptr );
 
 	JXImageCache* cache   = GetDisplay()->GetImageCache();
 	itsFileIcon           = cache->GetImage(jx_plain_file_small);

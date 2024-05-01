@@ -44,14 +44,12 @@ TestIdleTask::Perform
 		// automatically deleted
 	},
 	true);
-	assert( task != nullptr );
 	task->Start();
 
 	auto* utask = jnew JXUrgentFunctionTask(JXGetDocumentManager(), []()
 	{
 		// automatically deleted
 	});
-	assert( utask != nullptr );
 	utask->Go();
 
 	if (itsCounter >= 10)

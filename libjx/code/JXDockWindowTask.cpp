@@ -111,7 +111,6 @@ JXDockWindowTask::PrepareForDockAll()
 	if (theUpdateList == nullptr)
 	{
 		theUpdateList = jnew JPtrArray<JXTabGroup>(JPtrArrayT::kForgetAll);
-		assert( theUpdateList != nullptr );
 	}
 }
 

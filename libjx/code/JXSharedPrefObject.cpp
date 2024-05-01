@@ -39,8 +39,6 @@ JXSharedPrefObject::JXSharedPrefObject
 	itsLatestVersionID(latestVersID)
 {
 	itsVersionList = jnew JArray<VersionInfo>(versCount);
-	assert( itsVersionList != nullptr );
-
 	for (JUnsignedOffset i=0; i<versCount; i++)
 	{
 		if (!itsVersionList->IsEmpty())	// require pre-sorted

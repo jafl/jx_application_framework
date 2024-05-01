@@ -71,7 +71,6 @@ JXSharedPrefsManager::JXSharedPrefsManager()
 	GetAll(&itsWasNewFlag);
 
 	itsUpdateTask = jnew JXFunctionTask(kUpdateInterval, std::bind(&JXSharedPrefsManager::Update, this));
-	assert( itsUpdateTask != nullptr );
 	itsUpdateTask->Start();
 }
 

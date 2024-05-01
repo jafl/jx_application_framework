@@ -218,19 +218,15 @@ TestWidget::TestWidget
 	// image from xpm
 
 	itsXPMImage = jnew JXImage(GetDisplay(), JXPM(macapp_xpm));
-	assert( itsXPMImage != nullptr );
 
 	// partial image from image
 
 	itsPartialXPMImage = jnew JXImage(*itsXPMImage, JRect(5,5,14,16));
-	assert( itsPartialXPMImage != nullptr );
 
 	// home symbol
 
 	itsHomeImage = jnew JXImage(GetDisplay(), JXPM(home_xpm));
-	assert( itsHomeImage != nullptr );
-
-	itsHomeRect = itsHomeImage->GetBounds();
+	itsHomeRect  = itsHomeImage->GetBounds();
 	itsHomeRect.Shift(120, 10);
 
 	// buffer contents of Widget in JXImage
@@ -251,7 +247,6 @@ TestWidget::TestWidget
 		jnew JXTextButton(JGetString("AnimationButtonStartLabel::TestWidget"),
 						  this, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						  37,175, 50,30);
-	assert( itsAnimButton != nullptr );
 	itsAnimButton->SetShortcuts(JGetString("AnimationButtonStartShortcut::TestWidget"));
 
 	ListenTo(itsAnimButton, std::function([this](const JXButton::Pushed&)
@@ -276,7 +271,6 @@ TestWidget::TestWidget
 			jnew JXTextButton(JGetString("QuitButtonLabel::TestWidget"),
 							  this, JXWidget::kFixedRight, JXWidget::kFixedBottom,
 							  x,y, 50,30);
-		assert( itsQuitButton != nullptr );
 
 		itsQuitButton->CenterWithinEnclosure(true, true);
 		itsQuitButton->SetFontStyle(JFontStyle(true, false, 0, false, JColorManager::GetRedColor()));
@@ -746,7 +740,6 @@ TestWidget::CreateImageBuffer()
 	const JRect bounds = GetBounds();
 	JXImage* imageBuffer =
 		jnew JXImage(GetDisplay(), bounds.width(), bounds.height());
-	assert( imageBuffer != nullptr );
 	imageBuffer->SetDefaultState(JXImage::kRemoteStorage);
 
 	// draw to image
@@ -821,8 +814,6 @@ TestWidget::HandleMouseDown
 			// override JXWidget::GetSelectionData().
 
 			JXFileSelection* data = jnew JXFileSelection(GetDisplay(), list);
-			assert( data != nullptr );
-
 			BeginDND(pt, buttonStates, modifiers, data);
 		}
 	}
@@ -1484,8 +1475,7 @@ TestWidget::ReceiveWithFeedback
 	if (GetWindow()->GetIconWidget(&windowIcon) &&
 		sender == windowIcon && message->Is(JXWindowIcon::kAcceptDrop))
 	{
-		JXWindowIcon::AcceptDrop* data =
-			dynamic_cast<JXWindowIcon::AcceptDrop*>(message);
+		auto* data = dynamic_cast<JXWindowIcon::AcceptDrop*>(message);
 		assert( data != nullptr );
 		if (!data->WillAcceptDrop())
 		{

@@ -64,7 +64,6 @@ JSimpleProcess::Create
 	if (err.OK())
 	{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
-		assert( *process != nullptr );
 	}
 	else
 	{
@@ -110,7 +109,6 @@ JSimpleProcess::Create
 	if (err.OK())
 	{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
-		assert( *process != nullptr );
 	}
 	else
 	{
@@ -154,7 +152,6 @@ JSimpleProcess::Create
 	if (err.OK())
 	{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
-		assert( *process != nullptr );
 	}
 	else
 	{
@@ -200,7 +197,6 @@ JSimpleProcess::Create
 	if (err.OK())
 	{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
-		assert( *process != nullptr );
 	}
 	else
 	{
@@ -246,7 +242,6 @@ JSimpleProcess::Create
 	if (err.OK())
 	{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
-		assert( *process != nullptr );
 	}
 	else
 	{
@@ -294,7 +289,6 @@ JSimpleProcess::Create
 	if (err.OK())
 	{
 		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
-		assert( *process != nullptr );
 	}
 	else
 	{
@@ -353,8 +347,7 @@ JSimpleProcess::Receive
 {
 	if (sender == this && message.Is(JProcess::kFinished))
 	{
-		const auto* info =
-			dynamic_cast<const JProcess::Finished*>(&message);
+		auto* info = dynamic_cast<const JProcess::Finished*>(&message);
 		assert( info != nullptr );
 		ReportError(info->Successful());
 	}

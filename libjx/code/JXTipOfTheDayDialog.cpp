@@ -48,7 +48,6 @@ JXTipOfTheDayDialog::JXTipOfTheDayDialog
 	JXModalDialogDirector()
 {
 	itsTipList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsTipList != nullptr );
 
 	itsTipIndex = 1;
 
@@ -118,6 +117,11 @@ JXTipOfTheDayDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,60, 340,150);
 	assert( scrollbarSet != nullptr );
 
+	itsText =
+		jnew JXStaticText(JString::empty, true, false, true, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 340,150);
+	itsText->SetBorderWidth(0);
+
 	itsShowAtStartupCB =
 		jnew JXTextCheckbox(JGetString("itsShowAtStartupCB::JXTipOfTheDayDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,225, 140,20);
@@ -147,13 +151,8 @@ JXTipOfTheDayDialog::BuildWindow
 	title->GetText()->SetFont(title->GetText()->SelectAll(),
 		JFontManager::GetFont("Times", 18, JFontStyle(true, false, 0, false)), true);
 
-	itsText =
-		jnew JXStaticText(JString::empty, true, false, true,
-						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( itsText != nullptr );
-	itsText->FitToEnclosure();
 	itsText->TESetLeftMarginWidth(5);
+	itsText->SetBorderWidth(kJXDefaultBorderWidth);
 
 	itsShowAtStartupCB->SetVisible(showStartupCB);
 	itsShowAtStartupCB->SetState(showAtStartup);

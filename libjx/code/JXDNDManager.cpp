@@ -161,14 +161,9 @@ JXDNDManager::JXDNDManager
 	itsMouseContainer     = nullptr;
 	itsMsgWindow          = None;
 
-	itsDraggerTypeList = jnew JArray<Atom>;
-	assert( itsDraggerTypeList != nullptr );
-
-	itsDraggerAskActionList = jnew JArray<Atom>;
-	assert( itsDraggerAskActionList != nullptr );
-
+	itsDraggerTypeList       = jnew JArray<Atom>;
+	itsDraggerAskActionList  = jnew JArray<Atom>;
 	itsDraggerAskDescripList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsDraggerAskDescripList != nullptr );
 
 	itsSentFakePasteFlag = false;
 

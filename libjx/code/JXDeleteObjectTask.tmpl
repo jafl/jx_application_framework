@@ -33,7 +33,6 @@ JXDeleteObjectTask<T>::Delete
 	static_assert(std::is_base_of<JBroadcaster,T>::value, "T must derive from JBroadcaster");
 
 	JXDeleteObjectTask<T>* task = jnew JXDeleteObjectTask<T>(obj);
-	assert( task != nullptr );
 	task->Go();
 }
 

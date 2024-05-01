@@ -75,7 +75,6 @@ JXHorizDockPartition::JXHorizDockPartition
 	itsParentDock(parent)
 {
 	itsDockList = jnew JPtrArray<JXDockWidget>(JPtrArrayT::kForgetAll);
-	assert( itsDockList != nullptr );
 
 	CreateInitialCompartments();
 	ClearNeedsInternalFTC();
@@ -115,7 +114,6 @@ JXHorizDockPartition::CreateCompartment
 		jnew JXDockWidget(itsDirector, this, true, tabGroup,
 						 tabGroup->GetCardEnclosure(), kHElastic, kVElastic,
 						 0,0, 100,100);
-	assert( dock != nullptr );
 	dock->FitToEnclosure();
 	itsDockList->InsertAtIndex(index, dock);
 
@@ -496,7 +494,6 @@ JXHorizDockPartition::SplitVert
 		p = jnew JXVertDockPartition(itsDirector, parent, heights, 0, minHeights, encl,
 									kHElastic, kVElastic, 0,0,
 									encl->GetApertureWidth(), encl->GetApertureHeight());
-		assert( p != nullptr );
 
 		JXDockWidget* d1 = p->GetDockWidget(1);
 		assert( d1 != nullptr );

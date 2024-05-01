@@ -58,11 +58,8 @@ JXDockManager::JXDockManager
 	itsIsReadingSetupFlag(false),
 	itsCloseDockMode(kUndockWindows)
 {
-	itsDockList = jnew JPtrArray<JXDockDirector>(JPtrArrayT::kForgetAll);
-	assert( itsDockList != nullptr );
-
+	itsDockList      = jnew JPtrArray<JXDockDirector>(JPtrArrayT::kForgetAll);
 	itsWindowTypeMap = jnew JStringMap<JIndex>;
-	assert( itsWindowTypeMap != nullptr );
 
 	display->RegisterXAtoms(kAtomCount, kAtomNames, itsAtoms);
 
@@ -152,7 +149,6 @@ JXDockManager::CreateIcon
 	if (itsWindowIcon != nullptr)
 	{
 		*icon = jnew JXImage(*itsWindowIcon);
-		assert( *icon != nullptr );
 		return true;
 	}
 	else

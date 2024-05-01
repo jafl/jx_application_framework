@@ -161,7 +161,6 @@ JXProgressDisplay::ProcessBeginning
 			itsCondition.notify_one();
 			boost::this_fiber::yield();
 		});
-		assert( itsContinueTask != nullptr );
 		itsContinueTask->Start();
 	}
 }
@@ -329,8 +328,6 @@ JXProgressDisplay::AppendToMessageWindow
 	if (itsMessageDirector == nullptr)
 	{
 		itsMessageDirector = jnew JXPGMessageDirector(JXGetApplication());
-		assert(itsMessageDirector != nullptr);
-
 		if (messageWindowLocInit)
 		{
 			itsMessageDirector->GetWindow()->
@@ -357,8 +354,7 @@ JXProgressDisplay::Receive
 {
 	if (sender == itsCancelButton && message.Is(JXButton::kPushed))
 	{
-		const auto* info =
-			dynamic_cast<const JXButton::Pushed*>(&message);
+		auto* info = dynamic_cast<const JXButton::Pushed*>(&message);
 		assert( info != nullptr );
 		itsCancelFlag = true;
 

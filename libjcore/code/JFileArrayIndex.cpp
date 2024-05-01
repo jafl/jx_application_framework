@@ -40,8 +40,6 @@ JFileArrayIndex::JFileArrayIndex()
 			sizeof(JFAID_t)         >= JFileArray::kUnsignedLongLength );
 
 	itsArray = jnew JArray<ItemInfo>;
-	assert( itsArray != nullptr );
-
 	InstallCollection(itsArray);
 }
 

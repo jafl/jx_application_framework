@@ -110,7 +110,6 @@ JXEPSPrinter::GetPreviewPainter
 	itsPreviewImage =
 		jnew JXImage(itsDisplay, bounds.width(), bounds.height(),
 					 JColorManager::GetWhiteColor());
-	assert( itsPreviewImage != nullptr );
 
 	itsPreviewPainter = itsPreviewImage->CreatePainter();
 	itsPreviewPainter->SetOrigin(-bounds.left, -bounds.top);

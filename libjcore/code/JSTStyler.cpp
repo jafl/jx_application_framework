@@ -131,7 +131,6 @@ JSTStyler::UpdateStyles
 	}
 
 	itsIterator = jnew JRunArrayIterator<JFont>(styles);
-	assert( itsIterator != nullptr );
 
 	TokenData tokenData;
 	if (recalcRange->charRange.first == 1 && recalcRange->charRange.last >= textLength)
@@ -418,7 +417,6 @@ JArray<JSTStyler::TokenData>*
 JSTStyler::NewTokenStartList()
 {
 	auto* list = jnew JArray<TokenData>(kListBlockSize);
-	assert( list != nullptr );
 	list->SetSortOrder(JListT::kSortAscending);
 	list->SetCompareFunction(CompareTokenStarts);
 	return list;

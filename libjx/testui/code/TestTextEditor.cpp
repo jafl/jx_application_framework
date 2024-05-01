@@ -52,7 +52,6 @@ TestTextEditor::TestTextEditor
 	}
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPrinter != nullptr );
 	SetPSPrinter(itsPrinter);
 
 	// adjust the edit menu
@@ -101,8 +100,7 @@ TestTextEditor::Receive
 	}
 	else if (sender == editMenu && message.Is(JXMenu::kItemSelected))
 	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		if (HandleCustomEditMenuItems(selection->GetIndex()))
 		{

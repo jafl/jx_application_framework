@@ -26,12 +26,10 @@ RecordList::RecordList()
 	itsSortColumn(kRecordState)
 {
 	itsRecords = jnew JPtrArray<Record>(JPtrArrayT::kDeleteAll);
-	assert(itsRecords != nullptr);
 	itsRecords->SetCompareFunction(Record::CompareState);
 	InstallCollection(itsRecords);
 
 	itsAlphaRecords = jnew JPtrArray<Record>(JPtrArrayT::kForgetAll);
-	assert( itsAlphaRecords != nullptr );
 	itsAlphaRecords->SetCompareFunction(Record::CompareFileNames);
 }
 

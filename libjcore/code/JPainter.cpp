@@ -217,7 +217,6 @@ JPainter::SetDashList
 	if (itsDashList == nullptr)
 	{
 		itsDashList = jnew JArray<JSize>(dashList);
-		assert( itsDashList != nullptr );
 	}
 	else
 	{

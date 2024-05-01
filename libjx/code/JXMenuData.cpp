@@ -26,8 +26,6 @@ JXMenuData::JXMenuData()
 	JContainer()
 {
 	itsBaseItemData = jnew JArray<BaseItemData>;
-	assert( itsBaseItemData != nullptr );
-
 	InstallCollection(itsBaseItemData);
 }
 
@@ -63,13 +61,11 @@ JXMenuData::InsertItem
 	if (!shortcuts.IsEmpty())
 	{
 		itemData.shortcuts = jnew JString(shortcuts);
-		assert( itemData.shortcuts != nullptr );
 	}
 
 	if (!id.IsEmpty())
 	{
 		itemData.id = jnew JString(id);
-		assert( itemData.id != nullptr );
 	}
 
 	itsBaseItemData->InsertItemAtIndex(index, itemData);
@@ -181,12 +177,11 @@ JXMenuData::SetItemShortcuts
 		if (itemData.shortcuts == nullptr)
 		{
 			itemData.shortcuts = jnew JString(shortcuts);
-			assert( itemData.shortcuts != nullptr );
 			itsBaseItemData->SetItem(index, itemData);
 		}
 		else
 		{
-			*(itemData.shortcuts) = shortcuts;
+			*itemData.shortcuts = shortcuts;
 		}
 		itemData.shortcuts->ToLower();
 		changed = true;
@@ -275,12 +270,11 @@ JXMenuData::SetItemID
 		if (itemData.id == nullptr)
 		{
 			itemData.id = jnew JString(id);
-			assert( itemData.id != nullptr );
 			itsBaseItemData->SetItem(index, itemData);
 		}
 		else
 		{
-			*(itemData.id) = id;
+			*itemData.id = id;
 		}
 	}
 	else if (itemData.id != nullptr)

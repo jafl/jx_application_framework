@@ -196,7 +196,6 @@ JFileArray::Create
 	if (err.OK())
 	{
 		*obj = jnew JFileArray(fileName, fileSignature, action);
-		assert( *obj != nullptr );
 	}
 	else
 	{
@@ -322,8 +321,6 @@ JFileArray::JFileArray
 	}
 
 	itsStream = jnew std::fstream;
-	assert( itsStream != nullptr );
-
 	itsStream->open(fileName.GetBytes(), kFileOpenMode);
 	assert( itsStream->good() );
 
@@ -360,7 +357,6 @@ JFileArray::Create
 	if (err.OK())
 	{
 		*obj = jnew JFileArray(theEnclosingFile, enclosureItemID);
-		assert( *obj != nullptr );
 	}
 	else
 	{
@@ -631,7 +627,6 @@ JFileArray::GetItem
 	// allocate temporary space to hold the item's data
 
 	auto* newData = jnew JUtf8Byte [ length ];
-	assert( newData != nullptr );
 
 	// stuff the item's data into data
 
@@ -1116,9 +1111,8 @@ JFileArray::ExpandData
 
 	// allocate temporary memory for transfer of data
 
-	JSize       dataSize = JMin(maxTempMem, totalLength - offset);
-	auto* data      = jnew JUtf8Byte [ dataSize ];
-	assert( data != nullptr );
+	JSize dataSize = JMin(maxTempMem, totalLength - offset);
+	auto* data     = jnew JUtf8Byte [ dataSize ];
 
 	// start at end of data and work towards front of file
 
@@ -1207,9 +1201,8 @@ JFileArray::CompactData
 
 	// allocate temporary memory for transfer of data
 
-	JSize       dataSize = JMin(maxTempMem, totalLength - offset - blankSize);
-	auto* data      = jnew JUtf8Byte [ dataSize ];
-	assert( data != nullptr );
+	JSize dataSize = JMin(maxTempMem, totalLength - offset - blankSize);
+	auto* data     = jnew JUtf8Byte [ dataSize ];
 
 	// start in front of unneeded space and work towards end of file
 

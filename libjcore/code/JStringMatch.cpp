@@ -121,11 +121,10 @@ JStringMatch::operator=
 	else if (itsSubmatchList == nullptr)
 	{
 		itsSubmatchList = jnew JArray<JUtf8ByteRange>(*(source.itsSubmatchList));
-		assert( itsSubmatchList != nullptr );
 	}
 	else
 	{
-		*itsSubmatchList = *(source.itsSubmatchList);
+		*itsSubmatchList = *source.itsSubmatchList;
 	}
 
 	return *this;

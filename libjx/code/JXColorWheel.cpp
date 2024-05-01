@@ -131,7 +131,6 @@ JXColorWheel::Draw
 
 		jdelete itsImage;
 		itsImage = jnew JXImage(GetDisplay(), p.GetDrawable(), r);
-		assert( itsImage != nullptr );
 
 		itsLastDrawBrightness = itsColor.brightness;
 		for (JCoordinate x=0; x<max; x++)

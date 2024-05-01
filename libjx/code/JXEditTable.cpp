@@ -99,7 +99,6 @@ JXEditTable::CreateInputField
 {
 	itsInputField = CreateXInputField(cell, cellRect.left, cellRect.top,
 									  cellRect.width(), cellRect.height());
-	assert( itsInputField != nullptr );
 	itsInputField->SetTable(this);
 	itsInputField->SetFocusColor(GetFocusColor());
 

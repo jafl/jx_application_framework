@@ -34,7 +34,6 @@ AnimateHelpMenuTask::AnimateHelpMenuTask
 	itsMenu = menu;
 
 	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kHelpIconCount);
-	assert( itsImageList != nullptr );
 
 	JXDisplay* display = itsMenu->GetDisplay();
 	for (JIndex i=1; i<=kHelpIconCount; i++)
@@ -50,7 +49,6 @@ AnimateHelpMenuTask::AnimateHelpMenuTask
 		}
 		JXImage* icon =
 			jnew JXImage(display, kHelpIcon[i-1], fgColor, JColorManager::GetWhiteColor());
-		assert( icon != nullptr );
 		icon->SetDefaultState(JXImage::kRemoteStorage);
 		icon->ConvertToDefaultState();
 

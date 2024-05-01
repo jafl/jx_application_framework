@@ -619,8 +619,6 @@ JRegex::Match
 	int nmatch           = (subCount+1)*3;
 
 	pmatch = jnew regmatch_t[ nmatch ];
-	assert( pmatch != nullptr );
-
 	nmatch = pcre_exec(itsRegex, nullptr, str.GetRawBytes(), byteCount, byteOffset,
 					   itsEFlags, (int*) pmatch, nmatch);
 	if (nmatch > 0)
@@ -631,8 +629,6 @@ JRegex::Match
 		if (includeSubmatches)
 		{
 			list = jnew JArray<JUtf8ByteRange>;
-			assert( list != nullptr );
-
 			for (JIndex i=1; i<JSize(nmatch); i++)
 			{
 				list->AppendItem(jMakeRange(pmatch[i]));

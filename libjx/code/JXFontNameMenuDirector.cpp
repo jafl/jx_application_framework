@@ -47,10 +47,7 @@ JXFontNameMenuDirector::~JXFontNameMenuDirector()
 JXMenuTable*
 JXFontNameMenuDirector::CreateMenuTable()
 {
-	auto* table =
-		jnew JXFontNameMenuTable(itsMenu, GetMenuData(), GetWindow(),
-								 JXWidget::kHElastic, JXWidget::kVElastic,
-								 0,0, 10,10);
-	assert( table != nullptr );
-	return table;
+	return jnew JXFontNameMenuTable(itsMenu, GetMenuData(), GetWindow(),
+									JXWidget::kHElastic, JXWidget::kVElastic,
+									0,0, 10,10);
 }

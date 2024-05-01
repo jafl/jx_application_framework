@@ -30,9 +30,6 @@ HelloWorldDir::HelloWorldDir
 	// for translations into other languages.
 	JXWindow* window = jnew JXWindow(this, 200,100, JGetString("WindowTitle::HelloWorldDir"));
 
-	// Make sure that new succeeded
-	assert( window != nullptr );
-
 	// Set the min and max size of the window.
 	// This particular pair of operations can also be done
 	// by calling window->LockCurrentSize().
@@ -43,9 +40,7 @@ HelloWorldDir::HelloWorldDir
 	// We do not need to keep a pointer to it because the
 	// framework will delete it automatically when the window
 	// is closed.
-	JXStaticText* text =
-		jnew JXStaticText(JGetString("WindowText::HelloWorldDir"), window,
-			JXWidget::kFixedLeft, JXWidget::kFixedTop,
-			20, 40, 160, 20);
-	assert( text != nullptr );
+	jnew JXStaticText(JGetString("WindowText::HelloWorldDir"), window,
+		JXWidget::kFixedLeft, JXWidget::kFixedTop,
+		20, 40, 160, 20);
 }

@@ -140,7 +140,6 @@ JXRowHeaderWidget::SetRowTitle
 	if (itsTitles == nullptr)
 	{
 		itsTitles = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-		assert( itsTitles != nullptr );
 
 		const JSize rowCount = GetRowCount();
 		for (JIndex i=1; i<=rowCount; i++)
@@ -517,24 +516,21 @@ JXRowHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kRowHeightChanged))
 	{
-		const auto* info =
-			dynamic_cast<const JTable::RowHeightChanged*>(&message);
+		auto* info = dynamic_cast<const JTable::RowHeightChanged*>(&message);
 		assert( info != nullptr );
 		SetRowHeight(info->GetIndex(), info->GetNewRowHeight());
 	}
 
 	else if (sender == itsTable && message.Is(JTable::kAllRowHeightsChanged))
 	{
-		const auto* info =
-			dynamic_cast<const JTable::AllRowHeightsChanged*>(& message);
+		auto* info = dynamic_cast<const JTable::AllRowHeightsChanged*>(& message);
 		assert( info != nullptr );
 		SetAllRowHeights(info->GetNewRowHeight());
 	}
 
 	else if (sender == itsTable && message.Is(JTable::kRowsInserted))
 	{
-		const auto* info =
-			dynamic_cast<const JTable::RowsInserted*>(&message);
+		auto* info = dynamic_cast<const JTable::RowsInserted*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
 		{
@@ -548,8 +544,7 @@ JXRowHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kRowsRemoved))
 	{
-		const auto* info =
-			dynamic_cast<const JTable::RowsRemoved*>(&message);
+		auto* info = dynamic_cast<const JTable::RowsRemoved*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
 		{
@@ -563,8 +558,7 @@ JXRowHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kRowMoved))
 	{
-		const auto* info =
-			dynamic_cast<const JTable::RowMoved*>(&message);
+		auto* info = dynamic_cast<const JTable::RowMoved*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
 		{
@@ -575,8 +569,7 @@ JXRowHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kRowBorderWidthChanged))
 	{
-		const auto* info =
-			dynamic_cast<const JTable::RowBorderWidthChanged*>(&message);
+		auto* info = dynamic_cast<const JTable::RowBorderWidthChanged*>(&message);
 		assert( info != nullptr );
 		SetRowBorderInfo(info->GetNewBorderWidth(), JColorManager::GetDefaultBackColor());
 	}

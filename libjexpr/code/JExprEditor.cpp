@@ -994,8 +994,8 @@ JExprEditor::GroupArguments
 		// Copy the parent function and delete the args that
 		// will not be in the group.
 
-		JFunction* newF      = parentF->Copy();
-		auto* group = dynamic_cast<JNaryOperator*>(newF);
+		JFunction* newF = parentF->Copy();
+		auto* group     = dynamic_cast<JNaryOperator*>(newF);
 		assert( group != nullptr );
 		while (group->GetArgCount() > lastArg)
 		{
@@ -1145,13 +1145,11 @@ JExprEditor::Negate
 	const auto* neg = dynamic_cast<const JUnaryFunction*>(&f);
 	if (neg != nullptr)
 	{
-		return (neg->GetArg())->Copy();
+		return neg->GetArg()->Copy();
 	}
 	else
 	{
-		JFunction* neg = jnew JNegation(f.Copy());
-		assert( neg != nullptr );
-		return neg;
+		return jnew JNegation(f.Copy());
 	}
 }
 
@@ -2099,7 +2097,6 @@ JExprEditor::ApplyOperatorKey
 			assert( key == '|' );
 			newOp = jnew JParallel;
 		}
-		assert( newOp != nullptr );
 		newOp->SetArg(1, targetF->Copy());
 		newOp->SetArg(2, newArg);
 		newF = newOp;
@@ -2108,13 +2105,11 @@ JExprEditor::ApplyOperatorKey
 	else if (key == '/')
 	{
 		newF = jnew JDivision(targetF->Copy(), newArg);
-		assert( newF != nullptr );
 	}
 
 	else if (key == '^')
 	{
 		newF = jnew JExponent(targetF->Copy(), newArg);
-		assert( newF != nullptr );
 	}
 
 	else if (key == ',')
@@ -2361,7 +2356,7 @@ JExprEditor::ReplaceFunction
 		assert( hasParent );
 
 		auto* fwa = dynamic_cast<JFunctionWithArgs*>(parentF);
-		auto* fwv  = dynamic_cast<JFunctionWithVar*>(parentF);
+		auto* fwv = dynamic_cast<JFunctionWithVar*>(parentF);
 		if (fwa != nullptr)
 		{
 			const bool ok = fwa->ReplaceArg(origF, newF);

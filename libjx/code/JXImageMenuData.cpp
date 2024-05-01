@@ -33,9 +33,7 @@ JXImageMenuData::JXImageMenuData
 	:
 	JXMenuData()
 {
-	itsIconData = jnew JArray<IconData>;
-	assert( itsIconData != nullptr );
-
+	itsIconData    = jnew JArray<IconData>;
 	itsColumnCount = columnCount;
 
 	itsNeedGeomRecalcFlag = true;

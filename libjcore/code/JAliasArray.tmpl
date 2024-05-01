@@ -45,7 +45,6 @@ JAliasArray<T>::JAliasArray
 	assert( itsData != nullptr );
 
 	itsIndexArray = jnew JArray<JIndex>(100);
-	assert( itsIndexArray != nullptr );
 	itsIndexArray->SetSortOrder(order);
 
 	SetCompareFunction(compareFn);
@@ -298,8 +297,6 @@ JAliasArray<T>::SetCompareFunction
 
 	jdelete itsCompareFn;
 	itsCompareFn = jnew std::function(compareFn);
-	assert( itsCompareFn != nullptr );
-
 	InstallCompareWrapper(nullptr);
 	itsIndexArray->Sort();
 }
@@ -414,8 +411,7 @@ JAliasArray<T>::Receive
 {
 	if (sender == itsData && message.Is(JListT::kItemsInserted))
 	{
-		const JListT::ItemsInserted* m =
-			dynamic_cast<const JListT::ItemsInserted*>(&message);
+		auto* m = dynamic_cast<const JListT::ItemsInserted*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
 
@@ -428,8 +424,7 @@ JAliasArray<T>::Receive
 	}
 	else if (sender == itsData && message.Is(JListT::kItemsRemoved))
 	{
-		const JListT::ItemsRemoved* m =
-			dynamic_cast<const JListT::ItemsRemoved*>(&message);
+		auto* m = dynamic_cast<const JListT::ItemsRemoved*>(&message);
 		assert( m != nullptr );
 
 		const JSize count = itsIndexArray->GetItemCount();
@@ -450,15 +445,13 @@ JAliasArray<T>::Receive
 	}
 	else if (sender == itsData && message.Is(JListT::kItemMoved))
 	{
-		const JListT::ItemMoved* m =
-			dynamic_cast<const JListT::ItemMoved*>(&message);
+		auto* m = dynamic_cast<const JListT::ItemMoved*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
 	}
 	else if (sender == itsData && message.Is(JListT::kItemsSwapped))
 	{
-		const JListT::ItemsSwapped* m =
-			dynamic_cast<const JListT::ItemsSwapped*>(&message);
+		auto* m = dynamic_cast<const JListT::ItemsSwapped*>(&message);
 		assert( m != nullptr );
 		ADJUST_INDEX(m);
 	}
@@ -466,8 +459,7 @@ JAliasArray<T>::Receive
 	{
 		// Sort() would be O(N log N).  This method is O(N) + O(log N) = O(N).
 
-		const JListT::ItemsChanged* m =
-			dynamic_cast<const JListT::ItemsChanged*>(&message);
+		auto* m = dynamic_cast<const JListT::ItemsChanged*>(&message);
 		assert( m != nullptr );
 
 		for (JIndex j=m->GetFirstIndex(); j<=m->GetLastIndex(); j++)

@@ -299,7 +299,6 @@ JXSaveFileDialog::SetObjects
 		jnew JXDirectSaveSource(this, itsFileNameInput, window,
 							   JXWidget::kFixedLeft, JXWidget::kFixedBottom,
 							   frame.left, frame.top, w, frame.height());
-	assert( itsXDSSource != nullptr );
 	itsFileNameInput->Move(w, 0);
 	itsFileNameInput->AdjustSize(-w, 0);
 
@@ -367,8 +366,7 @@ JXSaveFileDialog::Receive
 
 	else if (sender == fileBrowser && message.Is(JXDirTable::kFileDblClicked))
 	{
-		const auto* info =
-			dynamic_cast<const JXDirTable::FileDblClicked*>(&message);
+		auto* info = dynamic_cast<const JXDirTable::FileDblClicked*>(&message);
 		assert( info != nullptr );
 		const JString fileName = (info->GetDirEntry()).GetName();
 		itsFileNameInput->GetText()->SetText(fileName);

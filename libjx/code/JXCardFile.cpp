@@ -44,7 +44,6 @@ JXCardFile::JXCardFile
 	JXWidgetSet(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsCards = jnew JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
-	assert( itsCards != nullptr );
 
 	itsCurrCardIndex = 0;
 }

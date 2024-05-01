@@ -99,8 +99,6 @@ JPSPrinterBase::PSOpenDocument()
 	assert( !itsDocOpenFlag && !itsOutputFileName.IsEmpty() );
 
 	itsFile = jnew std::ofstream(itsOutputFileName.GetBytes());
-	assert( itsFile != nullptr );
-
 	if (itsFile->fail())
 	{
 		jdelete itsFile;
@@ -254,7 +252,6 @@ JPSPrinterBase::PSSetDashList
 	if (itsDashList == nullptr)
 	{
 		itsDashList = jnew JArray<JSize>(dashList);
-		assert( itsDashList != nullptr );
 	}
 	else
 	{

@@ -379,8 +379,6 @@ JImage::ReadGD
 		const JSize colorCount = gdImageColorsTotal(image);
 
 		auto* colorTable = jnew JColorID [ colorCount ];
-		assert( colorTable != nullptr );
-
 		for (JUnsignedOffset i=0; i<colorCount; i++)
 		{
 			if (!hasMask || i != (JIndex) maskColor)
@@ -614,7 +612,6 @@ JImage::ReadFromJXPM
 	memset(charToCTIndex, 0, 256);
 
 	auto* colorTable = jnew JColorID [ colorCount ];
-	assert( colorTable != nullptr );
 
 	// decode color table
 

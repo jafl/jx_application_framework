@@ -39,7 +39,6 @@ JUpdateChecker::JUpdateChecker
 	itsNextServerTime(0)
 {
 	itsReminderList = jnew JArray<time_t>;
-	assert( itsReminderList != nullptr );
 
 	JPrefObject::ReadPrefs();
 

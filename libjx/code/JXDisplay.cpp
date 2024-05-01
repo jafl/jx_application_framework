@@ -167,14 +167,11 @@ JXDisplay::JXDisplay
 	UpdateModifierMapping();
 
 	itsCursorList = jnew JArray<CursorInfo>;
-	assert( itsCursorList != nullptr );
 
 	itsWindowList = jnew JArray<WindowInfo>(10);
-	assert( itsWindowList != nullptr );
 	itsWindowList->SetCompareFunction(CompareXWindows);
 
 	itsDefaultGC = jnew JXGC(this, GetRootWindow());
-	assert( itsDefaultGC != nullptr );
 
 	XSetLocaleModifiers("");				// loads the XMODIFIERS environment variable
 	itsXIM = XOpenIM(itsXDisplay, nullptr, nullptr, nullptr);
@@ -517,8 +514,6 @@ JXDisplay::GetBounds()
 			XineramaScreenInfo* info = XineramaQueryScreens(itsXDisplay, &count);
 
 			itsBounds = jnew JArray<JRect>(count);
-			assert( itsBounds != nullptr );
-
 			for (int i=0; i<count; i++)
 			{
 				JRect r(info[i].y_org,
@@ -553,7 +548,6 @@ JXDisplay::GetBounds()
 		assert( ok );
 
 		itsBounds = jnew JArray<JRect>(1);
-		assert( itsBounds != nullptr );
 		itsBounds->AppendItem(JRect(y, x, y+height, x+width));
 	}
 
@@ -774,13 +768,10 @@ JXDisplay::CreateBuiltInCursor
 	}
 
 	CursorInfo info;
-
 	info.name = jnew JString(name);
-	assert( info.name != nullptr );
-
-	info.xid = XCreateFontCursor(itsXDisplay, shape);
-
+	info.xid  = XCreateFontCursor(itsXDisplay, shape);
 	itsCursorList->AppendItem(info);
+
 	return itsCursorList->GetItemCount();
 }
 
@@ -803,13 +794,10 @@ JXDisplay::CreateCustomCursor
 	}
 
 	CursorInfo info;
-
 	info.name = jnew JString(name);
-	assert( info.name != nullptr );
-
-	info.xid = CreateCustomXCursor(cursor);
-
+	info.xid  = CreateCustomXCursor(cursor);
 	itsCursorList->AppendItem(info);
+
 	return itsCursorList->GetItemCount();
 }
 
@@ -1513,7 +1501,10 @@ JXDisplay::CheckForXErrors()
 			XGetErrorDatabaseText(error.display, "XRequest", reqCodeStr.GetBytes(), "unknown", str, 80);
 			std::cerr << "Offending request: " << str << std::endl;
 
-			assert_msg( 0, "unexpected XError" );
+			if (JString::Compare(str, "X_Bell") != 0)
+			{
+				assert_msg( 0, "unexpected XError" );
+			}
 		}
 	}
 

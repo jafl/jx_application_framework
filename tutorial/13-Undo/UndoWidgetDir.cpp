@@ -46,7 +46,6 @@ UndoWidgetDir::BuildWindow()
 {
 	// Create the window
 	JXWindow* window = jnew JXWindow(this, 300,200, JGetString("WindowTitle::UndoWidgetDir"));
-	assert( window != nullptr );
 
 	// Set the window sizing
 	window->SetMinSize(300,200);
@@ -86,7 +85,6 @@ UndoWidgetDir::BuildWindow()
 		jnew UndoWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
-	assert( itsWidget != nullptr );
 
 	// Fit the widget within the scrollbarset enclosure
 	itsWidget->FitToEnclosure(true, true);

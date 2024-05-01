@@ -9,8 +9,7 @@ Copyright (C) 2018 by John Lindal.
 #include <jx-af/jcore/jAssert.h>
 
 #define NEW_TOKEN \
-	lvalp->pString = jnew JString(text(), size()); \
-	assert( lvalp->pString != nullptr );
+	lvalp->pString = jnew JString(text(), size());
 }
 
 %option namespace="JExpr" lexer="Scanner"

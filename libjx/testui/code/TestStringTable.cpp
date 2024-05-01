@@ -94,7 +94,6 @@ JIndex i,j;
 
 	itsFontMenu = jnew JXFontNameMenu(JGetString("FontMenuTitle::TestStringTable"), true,
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsFontMenu != nullptr );
 	menuBar->AppendMenu(itsFontMenu);
 	ListenTo(itsFontMenu, std::function([f](const JXFontNameMenu::NameChanged&)
 	{
@@ -103,7 +102,6 @@ JIndex i,j;
 
 	itsSizeMenu = jnew JXFontSizeMenu(itsFontMenu, JGetString("SizeMenuTitle::TestStringTable"), 
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsSizeMenu != nullptr );
 	menuBar->AppendMenu(itsSizeMenu);
 	ListenTo(itsSizeMenu, std::function([f](const JXFontSizeMenu::SizeChanged&)
 	{

@@ -97,9 +97,7 @@ JVector::JVectorX
 	)
 {
 	itsDimCount = dimCount;
-
 	itsElements = jnew JFloat [ itsDimCount ];
-	assert( itsElements != nullptr );
 }
 
 /******************************************************************************

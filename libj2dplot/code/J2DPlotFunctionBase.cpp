@@ -34,8 +34,6 @@ J2DPlotFunctionBase::J2DPlotFunctionBase
 	itsXMax = JMax(xMin, xMax);
 
 	itsValues = jnew JArray<Point>(kDefSampleCount);
-	assert( itsValues != nullptr );
-
 	ListenTo(itsPlot);
 }
 

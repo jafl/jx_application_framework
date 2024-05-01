@@ -96,7 +96,6 @@ JXSearchTextDialog::JXSearchTextDialog()
 	{
 		UpdateDisplay();	// virtual
 	});
-	assert( itsUpdateTask != nullptr );
 
 	itsNeedXSearchBcastFlag    = false;
 	itsIgnoreXSearchChangeFlag = true;			// until InitXSearch() is called
@@ -489,7 +488,6 @@ JXSearchTextDialog::SetObjects
 							rfFrame.right-soFrame.left, 2);
 		line->SetBorderWidth(1);
 	});
-	assert( decorTask != nullptr );
 	decorTask->Go();
 
 	// shortcuts
@@ -1247,7 +1245,6 @@ JXSearchTextDialog::SetXSearch
 	//  SelectionClear event in the queue.)
 
 	auto* selData = jnew JXSearchSelection(GetDisplay());
-	assert( selData != nullptr );
 	if (!selMgr->SetData(itsAtoms[ kXSearchSelectionAtomIndex ], selData))
 	{
 		if (grabServer)
@@ -1423,8 +1420,7 @@ JXSearchTextDialog::ReceiveWithFeedback
 {
 	if (sender == GetDisplay() && message->Is(JXDisplay::kXEventMessage))
 	{
-		auto* info =
-			dynamic_cast<JXDisplay::XEventMessage*>(message);
+		auto* info = dynamic_cast<JXDisplay::XEventMessage*>(message);
 		assert( info != nullptr );
 		const XEvent& event = info->GetXEvent();
 		if (event.type             == PropertyNotify &&

@@ -57,7 +57,6 @@ RecordDirector::RecordDirector
 	}
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPrinter != nullptr );
 	ListenTo(itsPrinter);
 }
 
@@ -118,10 +117,7 @@ RecordDirector::BuildWindow
 // end JXLayout
 
 	window->SetTitle(windowTitle);
-
-	auto* image = jnew JXImage(GetDisplay(), md_main_window_icon);
-	assert( image != nullptr );
-	window->SetIcon(image);
+	window->SetIcon(jnew JXImage(GetDisplay(), md_main_window_icon));
 
 	// menus
 
@@ -138,7 +134,6 @@ RecordDirector::BuildWindow
 	auto* windowsMenu =
 		jnew JXWDMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( windowsMenu != nullptr );
 	menuBar->AppendMenu(windowsMenu);
 	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle)
 	{

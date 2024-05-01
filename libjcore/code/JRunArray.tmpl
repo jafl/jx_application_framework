@@ -42,7 +42,6 @@ JRunArray<T>::JRunArray
 	JList<T>()
 {
 	itsRuns = jnew JArray< JRunArrayItem<T> >(blockSize);
-	assert( itsRuns != nullptr );
 }
 
 /******************************************************************************
@@ -59,7 +58,6 @@ JRunArray<T>::JRunArray
 	JList<T>(source)
 {
 	itsRuns = jnew JArray< JRunArrayItem<T> >(*source.itsRuns);
-	assert( itsRuns != nullptr );
 }
 
 template <class T>
@@ -70,7 +68,6 @@ JRunArray<T>::JRunArray
 	)
 {
 	itsRuns = jnew JArray< JRunArrayItem<T> >(source.itsRuns->GetBlockSize());
-	assert( itsRuns != nullptr );
 
 	JIndex runIndex = 1, firstIndexInRun = 1;
 	IteratorInsertSlice(1, source, range, &runIndex, &firstIndexInRun);
@@ -1229,9 +1226,7 @@ JRunArray<T>::NewIterator
 	const JIndex			index
 	)
 {
-	JRunArrayIterator<T>* iter = jnew JRunArrayIterator<T>(this, start, index);
-	assert( iter != nullptr );
-	return iter;
+	return jnew JRunArrayIterator<T>(this, start, index);
 }
 
 template <class T>
@@ -1243,9 +1238,7 @@ JRunArray<T>::NewIterator
 	)
 	const
 {
-	JRunArrayIterator<T>* iter = jnew JRunArrayIterator<T>(*this, start, index);
-	assert( iter != nullptr );
-	return iter;
+	return jnew JRunArrayIterator<T>(*this, start, index);
 }
 
 /******************************************************************************

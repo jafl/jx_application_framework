@@ -1,8 +1,10 @@
-jx_layout_editor 8
+jx_layout_editor 9
 410
 260
 "JXLayout"
 "Tip of the Day"
+0
+0
 ""
 ""
 0
@@ -63,6 +65,24 @@ jx_layout_editor 8
 0
 0
 0
+
+1
+4
+1
+"StaticText"
+2
+2
+0 0 135 325
+"itsText"
+1
+0
+0
+""
+0
+0
+1
+0
+1
 
 1
 0

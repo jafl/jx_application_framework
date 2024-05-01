@@ -307,7 +307,6 @@ JStyledText::ReadPlainText
 		// allocate a new block.
 
 		auto* buffer = jnew JUtf8Byte[ byteCount ];
-		assert( buffer != nullptr );
 
 		std::ifstream input(fileName.GetBytes());
 		JIndex i = 0;
@@ -1833,9 +1832,7 @@ JStyledText::InsertText
 	if (*cleanText == nullptr) \
 	{ \
 		*cleanText = jnew JString(text); \
-		assert( *cleanText != nullptr ); \
 		*cleanStyle = jnew JRunArray<JFont>(style); \
-		assert( *cleanStyle != nullptr ); \
 	}
 
 bool
@@ -4604,7 +4601,6 @@ JStyledText::SetCharacterInWordFunction
 	)
 {
 	itsCharInWordFn = jnew std::function(f);
-	assert( itsCharInWordFn != nullptr );
 }
 
 /******************************************************************************

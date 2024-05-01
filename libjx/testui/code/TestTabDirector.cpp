@@ -182,7 +182,6 @@ TestTabDirector::Receive
 			jnew JXTextButton(JGetString("RemoveTabButtonLabel::TestTabDirector"), card,
 							 JXWidget::kFixedRight, JXWidget::kFixedTop,
 							 20,20, 200, 30);
-		assert( removeButton != nullptr );
 		ListenTo(removeButton);
 
 		card->ExpandToFitContent();

@@ -40,7 +40,6 @@ JXStyleTable::JXStyleTable
 				hSizing,vSizing, x,y, w,h)
 {
 	itsStyleData = jnew JStyleTableData(this, GetFontManager());
-	assert( itsStyleData != nullptr );
 }
 
 /******************************************************************************

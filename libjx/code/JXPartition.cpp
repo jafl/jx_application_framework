@@ -48,7 +48,6 @@ JXPartition::JXPartition
 	JPartition(sizes, elasticIndex, minSizes)
 {
 	itsCompartments = jnew JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
-	assert( itsCompartments != nullptr );
 }
 
 /******************************************************************************

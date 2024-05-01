@@ -31,8 +31,6 @@ JSTUndoTextBase::JSTUndoTextBase
 	JSTUndoBase(text)
 {
 	itsOrigStyles = jnew JRunArray<JFont>;
-	assert( itsOrigStyles != nullptr );
-
 	text->Copy(range, &itsOrigText, itsOrigStyles);
 }
 

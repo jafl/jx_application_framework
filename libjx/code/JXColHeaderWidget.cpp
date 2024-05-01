@@ -128,7 +128,6 @@ JXColHeaderWidget::SetColTitle
 	if (itsTitles == nullptr)
 	{
 		itsTitles = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-		assert( itsTitles != nullptr );
 
 		const JSize colCount = GetColCount();
 		for (JIndex i=1; i<=colCount; i++)
@@ -501,24 +500,21 @@ JXColHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kColWidthChanged))
 	{
-		const auto* info =
-			dynamic_cast<const JTable::ColWidthChanged*>(&message);
+		auto* info = dynamic_cast<const JTable::ColWidthChanged*>(&message);
 		assert( info != nullptr );
 		SetColWidth(info->GetIndex(), info->GetNewColWidth());
 	}
 
 	else if (sender == itsTable && message.Is(JTable::kAllColWidthsChanged))
 	{
-		const auto* info =
-			dynamic_cast<const JTable::AllColWidthsChanged*>(&message);
+		auto* info = dynamic_cast<const JTable::AllColWidthsChanged*>(&message);
 		assert( info != nullptr );
 		SetAllColWidths(info->GetNewColWidth());
 	}
 
 	else if (sender == itsTable && message.Is(JTable::kColsInserted))
 	{
-		const auto* info =
-			dynamic_cast<const JTable::ColsInserted*>(&message);
+		auto* info = dynamic_cast<const JTable::ColsInserted*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
 		{
@@ -532,8 +528,7 @@ JXColHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kColsRemoved))
 	{
-		const auto* info =
-			dynamic_cast<const JTable::ColsRemoved*>(&message);
+		auto* info = dynamic_cast<const JTable::ColsRemoved*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
 		{
@@ -547,8 +542,7 @@ JXColHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kColMoved))
 	{
-		const auto* info =
-			dynamic_cast<const JTable::ColMoved*>(&message);
+		auto* info = dynamic_cast<const JTable::ColMoved*>(&message);
 		assert( info != nullptr );
 		if (itsTitles != nullptr)
 		{
@@ -559,8 +553,7 @@ JXColHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kColBorderWidthChanged))
 	{
-		const auto* info =
-			dynamic_cast<const JTable::ColBorderWidthChanged*>(&message);
+		auto* info = dynamic_cast<const JTable::ColBorderWidthChanged*>(&message);
 		assert( info != nullptr );
 		SetColBorderInfo(info->GetNewBorderWidth(), JColorManager::GetDefaultBackColor());
 	}

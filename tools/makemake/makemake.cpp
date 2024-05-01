@@ -188,7 +188,6 @@ main
 		// get the name of the target for make
 
 		auto* mainTargetName = jnew JString(JReadUntil(input,'\n'));
-		assert( mainTargetName != nullptr );
 
 		// If we aren't supposed to include this target, and
 		// there aren't any other targets that need our dependency
@@ -300,13 +299,10 @@ main
 				const JStringMatch& m = fnIter.GetLastMatch();
 
 				targetName = jnew JString(m.GetSubstring("target"));
-				assert( targetName != nullptr );
 				targetName->TrimWhitespace();
-				suffixName = jnew JString(m.GetSubstring("inSuffix"));
-				assert( suffixName != nullptr );
 
+				suffixName    = jnew JString(m.GetSubstring("inSuffix"));
 				outSuffixName = jnew JString(m.GetSubstring("outSuffix"));
-				assert( outSuffixName != nullptr );
 
 				if (outSuffixName->IsEmpty())
 				{
@@ -325,7 +321,6 @@ main
 				suffixName = jnew JString(defSuffix);
 				outSuffixName = jnew JString(
 					GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut));
-				assert( outSuffixName != nullptr );
 			}
 
 			fnIter.Invalidate();
@@ -919,10 +914,8 @@ GetOptions
 			{
 				const JStringMatch& m = iter.GetLastMatch();
 				auto* s = jnew JString(m.GetSubstring(1));
-				assert( s != nullptr );
 				suffixMapIn->Append(s);
 				s = jnew JString(m.GetSubstring(2));
-				assert( s != nullptr );
 				suffixMapOut->Append(s);
 			}
 			else
@@ -1089,8 +1082,6 @@ PickTargets
 	while (!input.eof() && !input.fail())
 	{
 		auto* targetName = jnew JString(JReadUntil(input, '\n'));
-		assert( targetName != nullptr );
-
 		all.Append(targetName);
 		count++;
 		std::cout << count << ") " << *targetName << std::endl;
@@ -1122,10 +1113,7 @@ PickTargets
 		}
 		else
 		{
-			auto* targetName = jnew JString(*(all.GetItem(choice)));
-			assert( targetName != nullptr );
-
-			list->Append(targetName);
+			list->Append(*all.GetItem(choice));
 		}
 	}
 }
@@ -1337,7 +1325,6 @@ CalcDepend
 			if (JDirectoryReadable(JString(argv[i]+2, JString::kNoCopy)))
 			{
 				path = jnew JString(argv[i]+2);		// strip off "-I"
-				assert( path != nullptr );
 				if (searchCurrDir)
 				{
 					pathList1.Append(path);
@@ -1574,11 +1561,9 @@ ParseHeaderFile
 	// add it to headerList
 
 	info.fileName = jnew JString(fileName);
-	assert( info.fileName != nullptr );
 
 	info.depList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( info.depList != nullptr );
-	(info.depList)->SetCompareFunction(JCompareStringsCaseSensitive);
+	info.depList->SetCompareFunction(JCompareStringsCaseSensitive);
 
 	headerList->InsertItemAtIndex(index, info);
 

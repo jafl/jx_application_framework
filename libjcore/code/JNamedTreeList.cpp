@@ -28,7 +28,6 @@ JNamedTreeList::JNamedTreeList
 	JTreeList(tree)
 {
 	itsSortedNodeList = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
-	assert( itsSortedNodeList != nullptr );
 	itsSortedNodeList->SetSortOrder(JListT::kSortAscending);
 	itsSortedNodeList->SetCompareFunction(JNamedTreeNode::DynamicCastCompareNames);
 
@@ -190,24 +189,21 @@ JNamedTreeList::Receive
 {
 	if (sender == this && message.Is(kNodeInserted))
 	{
-		const auto* info =
-			dynamic_cast<const NodeInserted*>(&message);
+		auto* info = dynamic_cast<const NodeInserted*>(&message);
 		assert( info != nullptr );
 		itsSortedNodeList->InsertSorted(const_cast<JTreeNode*>(info->GetNode()));
 	}
 
 	else if (sender == this && message.Is(kNodeRemoved))
 	{
-		const auto* info =
-			dynamic_cast<const NodeRemoved*>(&message);
+		auto* info = dynamic_cast<const NodeRemoved*>(&message);
 		assert( info != nullptr );
 		itsSortedNodeList->Remove(info->GetNode());
 	}
 
 	else if (sender == this && message.Is(kNodeChanged))
 	{
-		const auto* info =
-			dynamic_cast<const NodeChanged*>(&message);
+		auto* info = dynamic_cast<const NodeChanged*>(&message);
 		assert( info != nullptr );
 		itsSortedNodeList->Remove(info->GetNode());
 		itsSortedNodeList->InsertSorted(const_cast<JTreeNode*>(info->GetNode()));

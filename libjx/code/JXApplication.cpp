@@ -96,7 +96,6 @@ JXApplication::JXApplication
 	std::cerr << std::boolalpha;
 
 	itsTaskMutex = jnew std::recursive_mutex;
-	assert( itsTaskMutex != nullptr );
 
 	JString displayName;
 	ParseBaseOptions(argc, argv, &displayName);
@@ -104,10 +103,7 @@ JXApplication::JXApplication
 	// initialize object
 
 	itsDisplayList = jnew JPtrArray<JXDisplay>(JPtrArrayT::kDeleteAll);
-	assert( itsDisplayList != nullptr );
-
-	itsIdleTasks = jnew JPtrArray<JXIdleTask>(JPtrArrayT::kDeleteAll);
-	assert( itsIdleTasks != nullptr );
+	itsIdleTasks   = jnew JPtrArray<JXIdleTask>(JPtrArrayT::kDeleteAll);
 
 	// if no path info specified, assume it's on exec path
 
@@ -181,7 +177,6 @@ JXApplication::JXApplication
 			Quit();
 		}
 	});
-	assert( task != nullptr );
 	task->Start();
 }
 

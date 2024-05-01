@@ -404,8 +404,6 @@ JTreeNode::SetChildCompareFunction
 {
 	jdelete itsCompareFn;
 	itsCompareFn = jnew std::function(compare);
-	assert( itsCompareFn != nullptr );
-
 	itsSortOrder = order;
 
 	if (itsChildren != nullptr)
@@ -478,8 +476,7 @@ JTreeNode::Receive
 	{
 		assert( itsTree != nullptr );
 
-		const auto* info =
-			dynamic_cast<const JListT::ItemMoved*>(&message);
+		auto* info = dynamic_cast<const JListT::ItemMoved*>(&message);
 		assert( info != nullptr );
 
 		const JIndex origIndex = info->GetOrigIndex();
@@ -548,7 +545,6 @@ JTreeNode::CreateChildList()
 	if (itsChildren == nullptr)
 	{
 		itsChildren = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
-		assert( itsChildren != nullptr );
 
 		if (itsCompareFn != nullptr)
 		{

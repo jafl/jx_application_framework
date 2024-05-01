@@ -285,7 +285,6 @@ JXContainer::DrawAll
 				if (ftcRootCellList == nullptr)
 				{
 					ftcRootCellList = jnew JPtrArray<JXFTCCell>(JPtrArrayT::kForgetAll);
-					assert( ftcRootCellList != nullptr );
 				}
 
 				ftcRootCellList->AppendItem(dynamic_cast<JXFTCCell*>(obj));
@@ -1712,7 +1711,6 @@ JXContainer::CreateCursorAnimator()
 
 	jdelete itsCursorAnimTask;
 	itsCursorAnimTask = jnew JXFunctionTask(JXCursorAnimator::kmsecPerFrame, std::bind(&JXCursorAnimator::NextFrame, itsCursorAnim));
-	assert( itsCursorAnimTask != nullptr );
 
 	if (IsVisible())
 	{
@@ -1984,7 +1982,6 @@ JXContainer::AddEnclosedObject
 	if (itsEnclosedObjs == nullptr)
 	{
 		itsEnclosedObjs = jnew JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
-		assert( itsEnclosedObjs != nullptr );
 	}
 
 	if (!itsEnclosedObjs->Includes(theObject))
@@ -2243,7 +2240,6 @@ JXContainer::FTCBuildLayout
 				if (!theDebugFTCNoopExaminations)
 				{
 					theDebugFTCLogBuffer = jnew std::ostringstream;
-					assert( theDebugFTCLogBuffer != nullptr );
 				}
 
 				GetFTCLog() << "examine: " << obj->GetFrameForFTC() << ' ' << obj->ToString() << std::endl;
@@ -2383,7 +2379,6 @@ JXContainer::FTCGroupAlignedObjects
 		jnew JXFTCCell(nullptr, target->GetEnclosure(),
 					   horizontal ? JXFTCCell::kHorizontal : JXFTCCell::kVertical,
 					   exact);
-	assert( container != nullptr );
 
 	JPtrArray<JXFTCCell> cellList(JPtrArrayT::kForgetAll);
 

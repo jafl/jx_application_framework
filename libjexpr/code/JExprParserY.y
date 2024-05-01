@@ -152,7 +152,6 @@ e
 				YYERROR;
 			}
 			$$ = jnew JConstantValue(v);
-			assert( $$ != nullptr );
 		}
 	}
 
@@ -190,25 +189,21 @@ e
 			YYERROR;
 		}
 		$$ = jnew JConstantValue(v);
-		assert( $$ != nullptr );
 	}
 
 	| P_E
 	{
 		$$ = jnew JNamedConstant(kEJNamedConstIndex);
-		assert( $$ != nullptr );
 	}
 
 	| P_PI
 	{
 		$$ = jnew JNamedConstant(kPiJNamedConstIndex);
-		assert( $$ != nullptr );
 	}
 
 	| P_I
 	{
 		$$ = jnew JNamedConstant(kIJNamedConstIndex);
-		assert( $$ != nullptr );
 	}
 
 	| P_VARIABLE
@@ -219,7 +214,6 @@ e
 			YYERROR;
 		}
 		$$ = jnew JVariableValue(itsVarList, i, nullptr);
-		assert( $$ != nullptr );
 	}
 
 	| P_VARIABLE '[' e ']'
@@ -230,7 +224,6 @@ e
 			YYERROR;
 		}
 		$$ = jnew JVariableValue(itsVarList, i, $3);
-		assert( $$ != nullptr );
 	}
 
 	| P_INPUT
@@ -243,7 +236,6 @@ e
 		{
 			YYERROR;
 		}
-		assert( $$ != nullptr );
 	}
 
 	| '(' e ')'
@@ -269,19 +261,16 @@ e
 	| e '/' e
 	{
 		$$ = jnew JDivision($1, $3);
-		assert( $$ != nullptr );
 	}
 
 	| e '^' e
 	{
 		$$ = jnew JExponent($1, $3);
-		assert( $$ != nullptr );
 	}
 
 	| '-' e %prec UMINUS
 	{
 		$$ = jnew JNegation($2);
-		assert( $$ != nullptr );
 	}
 
 	| '+' e %prec UPLUS
@@ -292,181 +281,151 @@ e
 	| P_FN_ABS '(' e ')'
 	{
 		$$ = jnew JAbsValue($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_PHASE '(' e ')'
 	{
 		$$ = jnew JPhaseAngle($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_CONJUGATE '(' e ')'
 	{
 		$$ = jnew JConjugate($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_ROTATE '(' e ',' e ')'
 	{
 		$$ = jnew JRotateComplex($3, $5);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_RE '(' e ')'
 	{
 		$$ = jnew JRealPart($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_IM '(' e ')'
 	{
 		$$ = jnew JImagPart($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_MIN '(' arglist ')'
 	{
 		$$ = jnew JMinFunc($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_MAX '(' arglist ')'
 	{
 		$$ = jnew JMaxFunc($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_SQRT '(' e ')'
 	{
 		$$ = jnew JSquareRoot($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_PARALLEL '(' arglist ')'
 	{
 		$$ = jnew JParallel($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_SIGN '(' e ')'
 	{
 		$$ = jnew JAlgSign($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_ROUND '(' e ')'
 	{
 		$$ = jnew JRoundToInt($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_TRUNCATE '(' e ')'
 	{
 		$$ = jnew JTruncateToInt($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_LOG '(' e ',' e ')'
 	{
 		$$ = jnew JLogB($3, $5);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_LOG2 '(' e ')'
 	{
 		$$ = jnew JLogB(jnew JConstantValue(2), $3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_LOG10 '(' e ')'
 	{
 		$$ = jnew JLogB(jnew JConstantValue(10), $3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_LN '(' e ')'
 	{
 		$$ = jnew JLogE($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_ARCSIN '(' e ')'
 	{
 		$$ = jnew JArcSine($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_ARCCOS '(' e ')'
 	{
 		$$ = jnew JArcCosine($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_ARCTAN '(' e ')'
 	{
 		$$ = jnew JArcTangent($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_ARCTAN2 '(' e ',' e ')'
 	{
 		$$ = jnew JArcTangent2($3, $5);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_SIN '(' e ')'
 	{
 		$$ = jnew JSine($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_COS '(' e ')'
 	{
 		$$ = jnew JCosine($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_TAN '(' e ')'
 	{
 		$$ = jnew JTangent($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_SINH '(' e ')'
 	{
 		$$ = jnew JHypSine($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_COSH '(' e ')'
 	{
 		$$ = jnew JHypCosine($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_TANH '(' e ')'
 	{
 		$$ = jnew JHypTangent($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_ARCSINH '(' e ')'
 	{
 		$$ = jnew JArcHypSine($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_ARCCOSH '(' e ')'
 	{
 		$$ = jnew JArcHypCosine($3);
-		assert( $$ != nullptr );
 	}
 
 	| P_FN_ARCTANH '(' e ')'
 	{
 		$$ = jnew JArcHypTangent($3);
-		assert( $$ != nullptr );
 	}
 	;
 
@@ -474,7 +433,6 @@ arglist
 	: e
 	{
 		$$ = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
-		assert( $$ != nullptr );
 		$$->AppendItem($1);
 	}
 

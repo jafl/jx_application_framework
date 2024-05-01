@@ -53,7 +53,6 @@ WidgetDir::BuildWindow()
 {
 	// Create the window
 	JXWindow* window = jnew JXWindow(this, 300,200, JGetString("WindowTitle::WidgetDir"));
-	assert( window != nullptr );
 
 	// Set sizing
 	window->SetMinSize(300,200);

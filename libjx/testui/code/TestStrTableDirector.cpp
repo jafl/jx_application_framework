@@ -41,7 +41,6 @@ TestStrTableDirector::TestStrTableDirector
 	BuildWindow();
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPrinter != nullptr );
 }
 
 /******************************************************************************

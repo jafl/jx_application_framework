@@ -87,7 +87,6 @@ JXSplashWindow::BuildWindow
 	auto* window = jnew JXWindow(this, totalWidth + 3*borderWidth,
 									totalHeight + 3*borderWidth,
 									JGetString("WindowTitle::JXSplashWindow"), true);
-	assert( window != nullptr );
 
 	auto* border =
 		jnew JXEmbossedRect(window, JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
@@ -98,7 +97,6 @@ JXSplashWindow::BuildWindow
 		jnew JXImageWidget(border, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						  marginWidth, marginWidth,
 						  imageWidth, image->GetHeight());
-	assert( iconWidget != nullptr );
 	iconWidget->SetImage(image, true);
 
 	auto* textWidget =
@@ -107,7 +105,6 @@ JXSplashWindow::BuildWindow
 						 2*marginWidth + imageWidth, marginWidth,
 						 totalWidth - (3*marginWidth + imageWidth),
 						 totalHeight - 2*marginWidth);
-	assert( textWidget != nullptr );
 
 	// adjust window to fit icon
 
@@ -129,7 +126,6 @@ JXSplashWindow::BuildWindow
 	// close after specified time interval
 
 	auto* task = jnew JXFunctionTask(displayInterval * 1000, std::bind(&JXSplashWindow::Close, this), true);
-	assert( task != nullptr );
 	task->Start();
 
 	// place window

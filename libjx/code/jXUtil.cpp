@@ -439,7 +439,6 @@ JXReportUnreachableHosts
 		if (iter.Next(urlPattern))
 		{
 			auto* host = jnew JString(iter.GetLastMatch().GetSubstring(1));
-			assert( host != nullptr );
 			if (!hostList.InsertSorted(host, false))
 			{
 				jdelete host;

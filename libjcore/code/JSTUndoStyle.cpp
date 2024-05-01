@@ -30,7 +30,6 @@ JSTUndoStyle::JSTUndoStyle
 	assert( !itsRange.IsEmpty() );
 
 	itsOrigStyles = jnew JRunArray<JFont>(text->GetStyles(), itsRange.charRange);
-	assert( itsOrigStyles != nullptr );
 }
 
 /******************************************************************************

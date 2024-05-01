@@ -106,7 +106,6 @@ JXFileListSet::JXFileListSetX
 	itsTable =
 		jnew JXFileListTable(itsTableScroll, itsTableScroll->GetScrollEnclosure(),
 							kHElastic, kVElastic, 0,0, 10,10);
-	assert( itsTable != nullptr );
 	itsTable->FitToEnclosure();
 
 	// wildcard input
@@ -117,7 +116,6 @@ JXFileListSet::JXFileListSetX
 		jnew JXStaticText(JGetString("FilterLabel::JXFileListSet"),
 						  itsWildcardSet, kFixedLeft, kFixedTop,
 						  0, 0, kDefaultLabelWidth, kDefaultInputHeight);
-	assert( filterLabel != nullptr );
 	filterLabel->SetToLabel();
 
 	itsWildcardMenu =
@@ -136,7 +134,6 @@ JXFileListSet::JXFileListSetX
 		jnew JXStaticText(JGetString("RegexLabel::JXFileListSet"),
 						  itsRegexSet, kFixedLeft, kFixedTop,
 						  0, 0, kDefaultLabelWidth, kDefaultInputHeight);
-	assert( regexLabel != nullptr );
 	regexLabel->SetToLabel();
 
 	itsRegexMenu =

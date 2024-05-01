@@ -91,7 +91,6 @@ JXExprInput::CreateFontMenu
 	auto* menu =
 		jnew JXTextMenu(JGetString("MenuTitle::JXExprInput_Font"), enclosure,
 						kFixedLeft, kVElastic, 0,0, 10,10);
-	assert( menu != nullptr );
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 	menu->SetMenuItems(kFontMenuStr);
 	ConfigureFontMenu(menu);

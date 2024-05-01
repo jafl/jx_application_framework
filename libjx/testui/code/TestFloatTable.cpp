@@ -66,7 +66,6 @@ JIndex i,j;
 
 	itsSizeMenu = jnew JXFontSizeMenu(JFontManager::GetDefaultFontName(), JGetString("SizeMenuTitle::TestFloatTable"),
 									  menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( itsSizeMenu != nullptr );
 	menuBar->AppendMenu(itsSizeMenu);
 	ListenTo(itsSizeMenu, std::function([this](const JXFontSizeMenu::SizeChanged& msg)
 	{

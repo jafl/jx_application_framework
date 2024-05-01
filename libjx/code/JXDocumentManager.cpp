@@ -96,19 +96,16 @@ JXDocumentManager::JXDocumentManager
 	itsWantShortcutFlag( wantShortcuts )
 {
 	itsDocList = jnew JArray<DocInfo>;
-	assert( itsDocList != nullptr );
 	itsDocList->SetCompareFunction(CompareDocNames);
 	itsDocList->SetSortOrder(JListT::kSortAscending);
 
 	itsNewDocCount = 0;
 
 	itsFileMap = jnew JArray<FileMap>;
-	assert( itsFileMap != nullptr );
 
 	itsPerformSafetySaveFlag = true;
 
 	itsSafetySaveTask = jnew JXFunctionTask(kDefaultSafetySavePeriod, std::bind(&JXDocumentManager::SafetySave, this, JXDocumentManager::kTimer));
-	assert( itsSafetySaveTask != nullptr );
 
 	itsUpdateDocMenuTask = nullptr;
 
@@ -260,7 +257,6 @@ JXDocumentManager::DocumentMenusNeedUpdate()
 			itsUpdateDocMenuTask = nullptr;
 			UpdateAllDocumentMenus();
 		});
-		assert( itsUpdateDocMenuTask != nullptr );
 		itsUpdateDocMenuTask->Go();
 	}
 }
@@ -550,9 +546,7 @@ JXDocumentManager::FindFile
 
 			FileMap map;
 			map.oldName = jnew JString(fileName);
-			assert( map.oldName != nullptr );
 			map.newName = jnew JString(trueName);
-			assert( map.newName != nullptr );
 			itsFileMap->AppendItem(map);
 
 			*newFileName = trueName;

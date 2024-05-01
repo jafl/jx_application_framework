@@ -162,11 +162,9 @@ JXDocktab::HandleMouseDown
 		if (itsDockFinder == nullptr)
 		{
 			itsDockFinder = jnew DockFinder(GetDisplay());
-			assert( itsDockFinder != nullptr );
 		}
 
 		auto* data = jnew JXDockDragData(GetWindow());
-		assert( data != nullptr );
 
 		BeginDND(pt, buttonStates, modifiers, data, itsDockFinder);
 	}

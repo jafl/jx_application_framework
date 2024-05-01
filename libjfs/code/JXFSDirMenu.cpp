@@ -238,7 +238,6 @@ JXFSDirMenu::SetFileList
 	if (itsEntries == nullptr)
 	{
 		itsEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kDeleteAll);
-		assert( itsEntries != nullptr );
 	}
 	else
 	{
@@ -480,8 +479,7 @@ JXFSDirMenu::AppendEntry
 	{
 		if (entry.IsReadable())
 		{
-			auto* menu = jnew JXFSDirMenu(entry.GetFullName(), this, i);
-			assert( menu != nullptr );
+			jnew JXFSDirMenu(entry.GetFullName(), this, i);
 		}
 		else
 		{

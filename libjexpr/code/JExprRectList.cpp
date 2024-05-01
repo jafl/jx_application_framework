@@ -26,14 +26,9 @@ JExprRectList::JExprRectList()
 	:
 	JContainer()
 {
-	itsRects = jnew JArray<JRect>(10);
-	assert( itsRects != nullptr );
-
+	itsRects     = jnew JArray<JRect>(10);
 	itsExtraInfo = jnew JArray<ExtraInfo>(10);
-	assert( itsExtraInfo != nullptr );
-
 	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll, 10);
-	assert( itsFunctions != nullptr );
 
 	InstallCollection(itsRects);
 }

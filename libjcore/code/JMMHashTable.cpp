@@ -38,12 +38,10 @@ JMMHashTable::JMMHashTable
 	itsSnapshotID(0)
 {
 	itsAllocatedTable = jnew JHashTable<JMMRecord>(kInitialSize);
-	assert(itsAllocatedTable != nullptr);
 
 	if (recordDelete)
 	{
 		itsDeletedTable = jnew JHashTable<JMMRecord>(kInitialSize);
-		assert(itsDeletedTable != nullptr);
 	}
 }
 

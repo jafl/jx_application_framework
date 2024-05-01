@@ -157,7 +157,6 @@ JGetUserMountPointList
 	if (state != nullptr && state->mountCmdOutput == nullptr)
 	{
 		state->mountCmdOutput = jnew JString(mountData);
-		assert( state->mountCmdOutput != nullptr );
 	}
 	else if (state != nullptr)
 	{
@@ -178,10 +177,8 @@ JGetUserMountPointList
 			continue;
 		}
 
-		auto* path = jnew JString(m.GetSubstring(3));
-		assert( path != nullptr );
+		auto* path       = jnew JString(m.GetSubstring(3));
 		auto* devicePath = jnew JString(m.GetSubstring(2));
-		assert( devicePath != nullptr );
 
 		const JMountType type =
 			JGetUserMountPointType(*path, *devicePath, JString::empty);

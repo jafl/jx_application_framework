@@ -39,7 +39,6 @@ TestjxCreateGlobals
 
 	TestDockManager* theDockManager =
 		jnew TestDockManager(JXGetApplication()->GetCurrentDisplay());
-	assert( theDockManager != nullptr );
 
 	if (JFileExists(JString(kDockSetupFileName, JString::kNoCopy)))
 	{

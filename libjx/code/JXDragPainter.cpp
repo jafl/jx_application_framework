@@ -37,8 +37,6 @@ JXDragPainter::JXDragPainter
 					window->GetXWindow(), defaultClipRect, nullptr)
 {
 	JXGC* gc = GetGC();
-	assert( gc != nullptr );
-
 	gc->SetDrawingFunction(GXinvert);
 	gc->SetSubwindowMode(IncludeInferiors);
 }

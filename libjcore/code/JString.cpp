@@ -57,9 +57,7 @@ inline JSize lgToSize(const JSize lgSize)
 
 inline JUtf8Byte* alloc(const JSize lgSize)
 {
-	JUtf8Byte* buf = jnew JUtf8Byte[ lgToSize(lgSize) ];
-	assert( buf != nullptr );
-	return buf;
+	return jnew JUtf8Byte[ lgToSize(lgSize) ];
 }
 
 /******************************************************************************
@@ -663,11 +661,8 @@ JString::AllocateBytes()
 	const
 {
 	auto* str = jnew JUtf8Byte [ itsByteCount + 1 ];
-	assert( str != nullptr );
-
 	memcpy(str, itsBytes, itsByteCount);
 	str[ itsByteCount ] = 0;	// in case we are not owner
-
 	return str;
 }
 
@@ -2116,8 +2111,6 @@ JString::Normalize
 	)
 {
 	*destination = jnew JUtf8Byte[ 2*byteCount+1 ];		// 2x is paranoia
-	assert( *destination != nullptr );
-
 	return CopyNormalizedBytes(source, byteCount,
 							   *destination, 2*byteCount);
 }

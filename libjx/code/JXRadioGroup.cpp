@@ -44,9 +44,7 @@ JXRadioGroup::JXRadioGroup
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsButtons = jnew JPtrArray<JXRadioButton>(JPtrArrayT::kForgetAll);
-	assert( itsButtons != nullptr );
-
+	itsButtons   = jnew JPtrArray<JXRadioButton>(JPtrArrayT::kForgetAll);
 	itsSelection = nullptr;
 
 	SetBorderWidth(kFrameDownWidth + kFrameUpWidth);

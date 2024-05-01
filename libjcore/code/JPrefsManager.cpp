@@ -64,7 +64,6 @@ JPrefsManager::JPrefsManager
 	itsFileName = jnew JString(fileName);
 
 	itsData = jnew JArray<PrefItem>;
-	assert( itsData != nullptr );
 	itsData->SetCompareFunction(ComparePrefIDs);
 
 	InstallCollection(itsData);

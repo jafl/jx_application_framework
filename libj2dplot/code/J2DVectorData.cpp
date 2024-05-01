@@ -30,7 +30,6 @@ J2DVectorData::Create
 	if (OKToCreate(x,y, vx,vy))
 	{
 		*plotData = jnew J2DVectorData(x,y, vx,vy, listen);
-		assert( *plotData != nullptr );
 		return true;
 	}
 	else
@@ -54,9 +53,9 @@ J2DVectorData::OKToCreate
 	const JArray<JFloat>& vy
 	)
 {
-	return x.GetItemCount()  == y.GetItemCount() &&
-				y.GetItemCount()  == vx.GetItemCount() &&
-				vx.GetItemCount() == vy.GetItemCount();
+	return (x.GetItemCount()  == y.GetItemCount() &&
+			y.GetItemCount()  == vx.GetItemCount() &&
+			vx.GetItemCount() == vy.GetItemCount());
 }
 
 /*********************************************************************************
@@ -70,14 +69,10 @@ J2DVectorData::J2DVectorData()
 {
 	J2DVectorDataX();
 
-	itsXData = jnew JArray<JFloat>(100);
-	assert( itsXData != nullptr );
-	itsYData = jnew JArray<JFloat>(100);
-	assert( itsYData != nullptr );
+	itsXData  = jnew JArray<JFloat>(100);
+	itsYData  = jnew JArray<JFloat>(100);
 	itsVXData = jnew JArray<JFloat>(100);
-	assert( itsVXData != nullptr );
 	itsVYData = jnew JArray<JFloat>(100);
-	assert( itsVYData != nullptr );
 
 	itsIsListeningFlag = false;
 }
@@ -106,31 +101,23 @@ J2DVectorData::J2DVectorData
 	if (listen)
 	{
 		itsXData = const_cast< JArray<JFloat>* >(&x);
-		assert( itsXData != nullptr );
 		ListenTo(itsXData);
 
 		itsYData = const_cast< JArray<JFloat>* >(&y);
-		assert( itsYData != nullptr );
 		ListenTo(itsYData);
 
 		itsVXData = const_cast< JArray<JFloat>* >(&vx);
-		assert( itsVXData != nullptr );
 		ListenTo(itsVXData);
 
 		itsVYData = const_cast< JArray<JFloat>* >(&vy);
-		assert( itsVYData != nullptr );
 		ListenTo(itsVYData);
 	}
 	else
 	{
-		itsXData = jnew JArray<JFloat>(x);
-		assert( itsXData != nullptr );
-		itsYData = jnew JArray<JFloat>(y);
-		assert( itsYData != nullptr );
+		itsXData  = jnew JArray<JFloat>(x);
+		itsYData  = jnew JArray<JFloat>(y);
 		itsVXData = jnew JArray<JFloat>(vx);
-		assert( itsVXData != nullptr );
 		itsVYData = jnew JArray<JFloat>(vy);
-		assert( itsVYData != nullptr );
 	}
 }
 
@@ -378,19 +365,15 @@ J2DVectorData::IgnoreDataChanges()
 	{
 		StopListening(itsXData);
 		itsXData = jnew JArray<JFloat>(*itsXData);
-		assert( itsXData != nullptr );
 
 		StopListening(itsYData);
 		itsYData = jnew JArray<JFloat>(*itsYData);
-		assert( itsYData != nullptr );
 
 		StopListening(itsVXData);
 		itsVXData = jnew JArray<JFloat>(*itsVXData);
-		assert( itsVXData != nullptr );
 
 		StopListening(itsVYData);
 		itsVYData = jnew JArray<JFloat>(*itsVYData);
-		assert( itsVYData != nullptr );
 
 		itsIsListeningFlag = false;
 	}

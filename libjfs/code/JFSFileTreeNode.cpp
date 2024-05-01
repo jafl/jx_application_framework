@@ -193,8 +193,7 @@ JFSFileTreeNode::UpdatePath
 {
 	assert( message.Is(JFSFileTree::kDirectoryRenamed) );
 
-	const auto* info =
-		dynamic_cast<const JFSFileTree::DirectoryRenamed*>(&message);
+	auto* info = dynamic_cast<const JFSFileTree::DirectoryRenamed*>(&message);
 	assert( info != nullptr );
 
 	UpdatePath(info->GetOldPath(), info->GetNewPath());
@@ -751,7 +750,7 @@ JFSFileTreeNode::GetFSChild
 	)
 {
 	auto* node = dynamic_cast<JFSFileTreeNode*>(GetChild(index));
-	assert (node != nullptr);
+	assert( node != nullptr );
 	return node;
 }
 
@@ -763,7 +762,7 @@ JFSFileTreeNode::GetFSChild
 	const
 {
 	const auto* node = dynamic_cast<const JFSFileTreeNode*>(GetChild(index));
-	assert (node != nullptr);
+	assert( node != nullptr );
 	return node;
 }
 

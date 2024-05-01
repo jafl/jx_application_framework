@@ -56,7 +56,6 @@ JXStringList::JXStringList
 	itsMinColWidth = 1;
 
 	itsStyles = jnew JStyleTableData(this, GetFontManager());
-	assert( itsStyles != nullptr );
 
 	const JColorID blackColor = JColorManager::GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
@@ -155,7 +154,6 @@ JXStringList::SetStringList
 			jnew JAliasArray<JString*>(const_cast<JPtrArray<JString>*>(itsList),
 									  JCompareStringsCaseInsensitive,
 									  JListT::kSortAscending);
-		assert( itsSortedList != nullptr );
 	}
 	else
 	{
@@ -390,8 +388,7 @@ JXStringList::Receive
 	if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 		message.Is(JListT::kItemsInserted))
 	{
-		const auto* info =
-			dynamic_cast<const JListT::ItemsInserted*>(&message);
+		auto* info = dynamic_cast<const JListT::ItemsInserted*>(&message);
 		assert( info != nullptr );
 		InsertRows(info->GetFirstIndex(), info->GetCount());
 	}
@@ -399,8 +396,7 @@ JXStringList::Receive
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kItemsRemoved))
 	{
-		const auto* info =
-			dynamic_cast<const JListT::ItemsRemoved*>(&message);
+		auto* info = dynamic_cast<const JListT::ItemsRemoved*>(&message);
 		assert( info != nullptr );
 		itsMinColWidth = 1;
 		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
@@ -409,8 +405,7 @@ JXStringList::Receive
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kItemMoved))
 	{
-		const auto* info =
-			dynamic_cast<const JListT::ItemMoved*>(&message);
+		auto* info = dynamic_cast<const JListT::ItemMoved*>(&message);
 		assert( info != nullptr );
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
 	}
@@ -418,8 +413,7 @@ JXStringList::Receive
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kItemsSwapped))
 	{
-		const auto* info =
-			dynamic_cast<const JListT::ItemsSwapped*>(&message);
+		auto* info = dynamic_cast<const JListT::ItemsSwapped*>(&message);
 		assert( info != nullptr );
 		const JFontStyle s1 = itsStyles->GetItem(info->GetIndex1(), 1);
 		itsStyles->SetItem(info->GetIndex1(), 1, itsStyles->GetItem(info->GetIndex2(), 1));

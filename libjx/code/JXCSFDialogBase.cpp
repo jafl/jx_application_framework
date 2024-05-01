@@ -339,7 +339,6 @@ JXCSFDialogBase::SetObjects
 		jnew JXDirTable(itsDirInfo, scrollbarSet, encl,
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						0,0, encl->GetBoundsWidth(), encl->GetBoundsHeight());
-	assert( itsFileBrowser != nullptr );
 	itsFileBrowser->FitToEnclosure();
 	itsFileBrowser->InstallShortcuts();
 
@@ -425,7 +424,6 @@ JXCSFDialogBase::DisplayMessage
 			jnew JXStaticText(message, window,
 					JXWidget::kHElastic, JXWidget::kFixedTop,
 					20,20, window->GetBoundsWidth()-40,20);
-		assert( messageObj != nullptr );
 
 		const JRect apG = messageObj->GetApertureGlobal();
 
@@ -561,8 +559,7 @@ JXCSFDialogBase::Receive
 
 	else if (sender == itsShowHiddenCB && message.Is(JXCheckbox::kPushed))
 	{
-		const auto* state =
-			dynamic_cast<const JXCheckbox::Pushed*>(&message);
+		auto* state = dynamic_cast<const JXCheckbox::Pushed*>(&message);
 		assert( state != nullptr );
 		itsFileBrowser->ShowHidden(state->IsChecked());
 	}
@@ -712,7 +709,6 @@ JXCSFDialogBase::CreateNewDirectory()
 		jnew JXGetNewDirDialog(JGetString("NewDirWindowTitle::JXCSFDialogBase"),
 							   JGetString("NewDirPrompt::JXCSFDialogBase"),
 							   JString::empty, itsDirInfo->GetDirectory());
-	assert( dlog != nullptr );
 
 	if (dlog->DoDialog())
 	{
@@ -793,7 +789,6 @@ JXCSFDialogBase::SelectPrevDirectory()
 					itsFileBrowser->SelectSingleEntry(index);
 				}
 			});
-			assert( itsSelectPrevDirTask != nullptr );
 			itsSelectPrevDirTask->Go();
 		}
 	}

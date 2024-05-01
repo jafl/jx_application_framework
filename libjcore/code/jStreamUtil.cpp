@@ -39,7 +39,6 @@ JCopyBinaryData
 	// allocate transfer space
 
 	auto* data = jnew JUtf8Byte[ chunkSize ];
-	assert( data != nullptr );
 
 	// copy the data in chunks
 
@@ -365,8 +364,6 @@ JIgnoreUntil
 	}
 
 	auto* window = jnew JUtf8Byte[ delimLength ];
-	assert( window != nullptr );
-
 	input.read(window, delimLength);
 
 	while (!input.eof() && !input.fail() &&
@@ -755,7 +752,6 @@ JRead
 	)
 {
 	char* buf = jnew char[ count ];
-	assert( buf != nullptr );
 
 	size_t dataLength;
 	jReadN(input, buf, count, &dataLength);
@@ -977,7 +973,6 @@ JIgnoreUntil
 	}
 
 	char* window = jnew char[ delimLength+1 ];
-	assert( window != nullptr );
 	window[ delimLength ] = 0;
 
 	size_t dataLength;

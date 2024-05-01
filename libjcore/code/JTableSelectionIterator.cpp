@@ -394,24 +394,21 @@ JTableSelectionIterator::Receive
 
 	if (message.Is(JTableData::kRowsInserted))
 	{
-		const auto* info =
-			dynamic_cast<const JTableData::RowsInserted*>(&message);
+		auto* info = dynamic_cast<const JTableData::RowsInserted*>(&message);
 		assert( info != nullptr );
 		info->AdjustCell(&itsCursor);
 	}
 
 	else if (message.Is(JTableData::kRowDuplicated))
 	{
-		const auto* info =
-			dynamic_cast<const JTableData::RowDuplicated*>(&message);
+		auto* info = dynamic_cast<const JTableData::RowDuplicated*>(&message);
 		assert( info != nullptr );
 		info->AdjustCell(&itsCursor);
 	}
 
 	else if (message.Is(JTableData::kRowsRemoved))
 	{
-		const auto* info =
-			dynamic_cast<const JTableData::RowsRemoved*>(&message);
+		auto* info = dynamic_cast<const JTableData::RowsRemoved*>(&message);
 		assert( info != nullptr );
 		JPoint newCursor = itsCursor;
 		if (info->AdjustCell(&newCursor))
@@ -439,24 +436,21 @@ JTableSelectionIterator::Receive
 
 	else if (message.Is(JTableData::kColsInserted))
 	{
-		const auto* info =
-			dynamic_cast<const JTableData::ColsInserted*>(&message);
+		auto* info = dynamic_cast<const JTableData::ColsInserted*>(&message);
 		assert( info != nullptr );
 		info->AdjustCell(&itsCursor);
 	}
 
 	else if (message.Is( JTableData::kColDuplicated))
 	{
-		const auto* info =
-			dynamic_cast<const JTableData::ColDuplicated*>(&message);
+		auto* info = dynamic_cast<const JTableData::ColDuplicated*>(&message);
 		assert( info != nullptr );
 		info->AdjustCell(&itsCursor);
 	}
 
 	else if (message.Is(JTableData::kColsRemoved))
 	{
-		const auto* info =
-			dynamic_cast<const JTableData::ColsRemoved*>(&message);
+		auto* info = dynamic_cast<const JTableData::ColsRemoved*>(&message);
 		assert( info != nullptr );
 		JPoint newCursor = itsCursor;
 		if (info->AdjustCell(&newCursor))

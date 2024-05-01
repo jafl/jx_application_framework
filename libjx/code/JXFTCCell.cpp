@@ -240,7 +240,6 @@ JXFTCCell::BuildChildList()
 
 	assert( itsChildren == nullptr );
 	itsChildren = jnew JPtrArray<JXFTCCell>(JPtrArrayT::kForgetAll);
-	assert( itsChildren != nullptr );
 
 	JXContainer* obj;
 	while (iter->Next(&obj))
@@ -273,7 +272,6 @@ JXFTCCell::ComputeInvariants()
 		(!itsSyncHorizontalFlag && itsDirection == kVertical))
 	{
 		itsChildSpacing = jnew JArray<JCoordinate>;
-		assert( itsChildSpacing != nullptr );
 
 		JRect prev = itsChildren->GetFirstItem()->GetFrameGlobal();
 		for (JIndex i=2; i<=cellCount; i++)
@@ -287,7 +285,6 @@ JXFTCCell::ComputeInvariants()
 	}
 
 	itsChildPositions = jnew JArray<JFloat>;
-	assert( itsChildPositions != nullptr );
 
 	for (auto* cell : *itsChildren)
 	{

@@ -221,7 +221,6 @@ TestPartitionDirector::CreateTestWidget
 		jnew TestCompartment(this, partition->GetCompartment(index),
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 10,10);
-	assert( obj != nullptr );
 	obj->FitToEnclosure(true, true);
 }
 

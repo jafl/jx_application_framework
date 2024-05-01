@@ -449,7 +449,6 @@ JUtf8Character::AllocateBytes()
 	const
 {
 	auto* s = jnew JUtf8Byte[ itsByteCount+1 ];
-	assert( s != nullptr );
 	memcpy(s, itsBytes, itsByteCount);
 	s[ itsByteCount ] = '\0';
 	return s;

@@ -204,7 +204,6 @@ JXDirector::AddDirector
 	if (itsSubdirectors == nullptr)
 	{
 		itsSubdirectors = jnew JPtrArray<JXDirector>(JPtrArrayT::kForgetAll);
-		assert( itsSubdirectors != nullptr );
 	}
 
 	if (!itsSubdirectors->Includes(theDirector))

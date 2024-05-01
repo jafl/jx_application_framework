@@ -50,7 +50,6 @@ JDirInfo::CalledByBuildInfo
 		}
 
 		auto* newEntry = jnew JDirEntry(itsCWD, JString(direntry->d_name, JString::kNoCopy));
-		assert( newEntry != nullptr );
 		if (MatchesContentFilter(*newEntry))
 		{
 			itsDirEntries->InsertSorted(newEntry, true);

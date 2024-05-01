@@ -138,7 +138,6 @@ JXFontNameMenu::BuildMenu
 	if (prependHistory)
 	{
 		itsNameHistory = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-		assert( itsNameHistory != nullptr );
 		itsNameHistory->Append(JFontManager::GetDefaultFontName());
 
 		AppendItem(JFontManager::GetDefaultFontName(), kRadioType);
@@ -181,10 +180,7 @@ JXFontNameMenu::CreateMenuWindow
 	JXWindowDirector* supervisor
 	)
 {
-	auto* dir =
-		jnew JXFontNameMenuDirector(supervisor, this, GetTextMenuData());
-	assert( dir != nullptr );
-	return dir;
+	return jnew JXFontNameMenuDirector(supervisor, this, GetTextMenuData());
 }
 
 /******************************************************************************
@@ -207,8 +203,7 @@ JXFontNameMenu::Receive
 	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 
 		if (itsNameHistory != nullptr)

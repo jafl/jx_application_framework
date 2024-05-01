@@ -122,7 +122,6 @@ JPTPrinter::Print
 		}
 
 		tempOutput = jnew std::ofstream(tempName.GetBytes());
-		assert( tempOutput != nullptr );
 		if (tempOutput->bad())
 		{
 			jdelete tempOutput;

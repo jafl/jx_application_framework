@@ -112,7 +112,6 @@ JXGC::GetClipping
 	if (itsClipPixmap != None)
 	{
 		*pixmap = jnew JXImageMask(itsDisplay, itsClipPixmap);
-		assert( *pixmap != nullptr );
 	}
 	else
 	{
@@ -352,8 +351,6 @@ JXGC::SetDashList
 	const JSize dashCount = dashList.GetItemCount();
 
 	char* xDashList = jnew char [ dashCount ];
-	assert( xDashList != nullptr );
-
 	for (JIndex i=1; i<=dashCount; i++)
 	{
 		xDashList[i-1] = dashList.GetItem(i);

@@ -131,8 +131,7 @@ JDirEntry::JDirEntry
 
 	if (source.itsLinkName != nullptr)
 	{
-		itsLinkName = jnew JString(*(source.itsLinkName));
-		assert( itsLinkName != nullptr );
+		itsLinkName = jnew JString(*source.itsLinkName);
 	}
 }
 
@@ -170,12 +169,11 @@ JDirEntry::operator=
 
 	if (source.itsLinkName != nullptr && itsLinkName != nullptr)
 	{
-		*itsLinkName = *(source.itsLinkName);
+		*itsLinkName = *source.itsLinkName;
 	}
 	else if (source.itsLinkName != nullptr)
 	{
-		itsLinkName = jnew JString(*(source.itsLinkName));
-		assert( itsLinkName != nullptr );
+		itsLinkName = jnew JString(*source.itsLinkName);
 	}
 	else
 	{
@@ -255,7 +253,6 @@ JDirEntry::GetUserName()
 	if (itsUserName == nullptr)
 	{
 		const_cast<JDirEntry*>(this)->itsUserName = jnew JString(JGetUserName(itsUserID));
-		assert( itsUserName != nullptr );
 	}
 
 	return *itsUserName;
@@ -273,7 +270,6 @@ JDirEntry::GetGroupName()
 	if (itsGroupName == nullptr)
 	{
 		const_cast<JDirEntry*>(this)->itsGroupName = jnew JString(JGetGroupName(itsGroupID));
-		assert( itsGroupName != nullptr );
 	}
 
 	return *itsGroupName;

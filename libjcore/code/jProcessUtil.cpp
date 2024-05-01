@@ -107,7 +107,6 @@ JParseArgsForExec
 			if (!m.IsEmpty())
 			{
 				auto* s = jnew JString(m.GetString());
-				assert( s != nullptr );
 				if (!s->IsEmpty())
 				{
 					JCleanArg(s);	// clean out backslashes and quotes
@@ -152,7 +151,6 @@ JParseArgsForExec
 	if (!m.IsEmpty())
 	{
 		auto* s = jnew JString(m.GetString());
-		assert( s != nullptr );
 		JCleanArg(s);	// clean out backslashes and quotes
 		argList->Append(s);
 	}
@@ -352,8 +350,6 @@ JExecute
 	const JSize argc = argList.GetItemCount();
 
 	const auto** argv = jnew const JUtf8Byte* [ argc+1 ];
-	assert( argv != nullptr );
-
 	for (JIndex i=1; i<=argc; i++)
 	{
 		argv[i-1] = argList.GetItem(i)->GetBytes();

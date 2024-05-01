@@ -76,9 +76,7 @@ JXDirectSaveSource::HandleMouseDown
 	)
 {
 	auto* task = jnew JXDSSFinishSaveTask(itsDialog);
-
 	auto* data = jnew JXDSSSelection(GetWindow(), task);
-	assert( data != nullptr );
 
 	BeginDND(pt, buttonStates, modifiers, data);
 }

@@ -131,17 +131,10 @@ J2DPlotWidget::J2DPlotWidget
 	itsYCursor1InitFlag(false),
 	itsYCursor2InitFlag(false)
 {
-	itsCurves = jnew JPtrArray<J2DPlotDataBase>(JPtrArrayT::kForgetAll);
-	assert(itsCurves != nullptr);
-
-	itsCurveInfo = jnew JArray<J2DCurveInfo>;
-	assert(itsCurveInfo != nullptr);
-
-	itsColors = jnew JArray<JColorID>;
-	assert(itsColors != nullptr);
-
+	itsCurves     = jnew JPtrArray<J2DPlotDataBase>(JPtrArrayT::kForgetAll);
+	itsCurveInfo  = jnew JArray<J2DCurveInfo>;
+	itsColors     = jnew JArray<JColorID>;
 	itsColorUsage = jnew JArray<JSize>;
-	assert(itsColorUsage != nullptr);
 
 	AddColor(itsBlackColor);
 
@@ -151,11 +144,7 @@ J2DPlotWidget::J2DPlotWidget
 	}
 
 	itsXMarks = jnew JArray<JFloat>;
-	assert(itsXMarks != nullptr);
-
 	itsYMarks = jnew JArray<JFloat>;
-	assert(itsYMarks != nullptr);
-
 	ResetScale(true);
 }
 
@@ -462,7 +451,6 @@ J2DPlotWidget::SetCurveInfoArray
 	{
 		J2DCurveInfo info = infoArray.GetItem(i);
 		info.name = jnew JString(*info.name);
-		assert(info.name != nullptr);
 		itsCurveInfo->SetItem(i, info);
 	}
 	UpdatePlot(true);
@@ -3763,7 +3751,6 @@ J2DPlotWidget::PWReadCurveSetup
 	{
 		J2DCurveInfo info;
 		info.name = jnew JString;
-		assert(info.name != nullptr);
 		input >> info;
 
 		if (setData)

@@ -300,7 +300,6 @@ JSetTaskScheduler
 	}
 
 	theTaskScheduler = jnew std::function(sched);
-	assert( theTaskScheduler != nullptr );
 }
 
 /******************************************************************************

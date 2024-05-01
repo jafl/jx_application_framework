@@ -355,11 +355,8 @@ JXHorizPartition::RunInternalFTC
 
 	if (horizontal)
 	{
-		itsFTCSizes = jnew JArray<JCoordinate>;
-		assert( itsFTCSizes != nullptr );
-
+		itsFTCSizes    = jnew JArray<JCoordinate>;
 		itsFTCMinSizes = jnew JArray<JCoordinate>;
-		assert( itsFTCMinSizes != nullptr );
 
 		JCoordinate sum = 0;
 		JIndex i        = 1;
@@ -465,7 +462,6 @@ JXHorizPartition::SaveGeometryForLater
 	if (itsSavedGeom == nullptr)
 	{
 		itsSavedGeom = jnew JArray<JCoordinate>(sizes);
-		assert( itsSavedGeom != nullptr );
 
 		auto* geomTask = jnew JXUrgentFunctionTask(this, [this]()
 		{
@@ -476,7 +472,6 @@ JXHorizPartition::SaveGeometryForLater
 				itsSavedGeom = nullptr;
 			}
 		});
-		assert( geomTask != nullptr );
 		geomTask->Go();
 	}
 	else

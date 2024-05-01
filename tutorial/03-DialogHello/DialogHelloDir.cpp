@@ -55,7 +55,6 @@ DialogHelloDir::BuildWindow()
 {
 	// Create the window and give it to the director.
 	JXWindow* window = jnew JXWindow(this, 200,100, JGetString("WindowTitle::DialogHelloDir"));
-	assert( window != nullptr );
 
 	// This sets the minimum and maximum size to be the
 	// current size.
@@ -86,7 +85,6 @@ DialogHelloDir::BuildWindow()
 		jnew JXStaticText(JGetString("HelloText::DialogHelloDir"), window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			20, 40, 160, 20);
-	assert ( itsText != nullptr );
 }
 
 /******************************************************************************
@@ -107,7 +105,6 @@ DialogHelloDir::HandleTextMenu
 	{
 		// Create the dialog with text from our static text object.
 		auto* dlog = jnew DHStringInputDialog(itsText->GetText()->GetText());
-		assert ( dlog != nullptr );
 
 		// Activate the dialog.
 		if (dlog->DoDialog())

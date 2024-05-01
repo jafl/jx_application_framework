@@ -58,10 +58,8 @@ JXWDManager::JXWDManager
 	itsUpdateWDMenuTask(nullptr)
 {
 	itsPermWindowList = jnew JArray<WindowInfo>;
-	assert( itsPermWindowList != nullptr );
 
 	itsWindowList = jnew JArray<WindowInfo>;
-	assert( itsWindowList != nullptr );
 	itsWindowList->SetCompareFunction(CompareWindowNames);
 	itsWindowList->SetSortOrder(JListT::kSortAscending);
 
@@ -136,7 +134,6 @@ JXWDManager::DirectorCreated
 	if (!shortcut.IsEmpty())
 	{
 		info.shortcutStr = jnew JString(shortcut);
-		assert( info.shortcutStr != nullptr );
 	}
 	else
 	{
@@ -156,7 +153,6 @@ JXWDManager::DirectorCreated
 	if (!JString::IsEmpty(id))
 	{
 		info.itemID = jnew JString(id);
-		assert( info.itemID != nullptr );
 	}
 
 	// insert the new window -- can't sort until later
@@ -294,7 +290,6 @@ JXWDManager::WDMenusNeedUpdate()
 			itsUpdateWDMenuTask = nullptr;
 			UpdateAllWDMenus();
 		});
-		assert( itsUpdateWDMenuTask != nullptr );
 		itsUpdateWDMenuTask->Go();
 	}
 }

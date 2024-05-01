@@ -48,7 +48,6 @@ JXCheckboxListDialog::JXCheckboxListDialog
 	JXModalDialogDirector()
 {
 	itsCBList = jnew JPtrArray<JXCheckbox>(JPtrArrayT::kForgetAll);
-	assert( itsCBList != nullptr );
 
 	BuildWindow(windowTitle, prompt, choiceList, shortcutList);
 }
@@ -156,7 +155,6 @@ JXCheckboxListDialog::BuildWindow
 								JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								kCBHLMarginWidth, y + (i-1) * kItemVSeparation,
 								10, kTextHeight);
-		assert( cb != nullptr );
 
 		if (shortcutList != nullptr)
 		{
@@ -189,14 +187,12 @@ JXCheckboxListDialog::BuildWindow
 		jnew JXTextButton(JGetString("CancelLabel::JXGlobal"), window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 buttonX,y, kButtonWidth,kTextHeight);
-	assert( cancelButton != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("OKLabel::JXGlobal"), window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 wmin - buttonX - (kButtonWidth+2), y-1,
 						 kButtonWidth+2, kTextHeight+2);
-	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("OKShortcut::JXGlobal"));
 
 	SetButtons(okButton, cancelButton);

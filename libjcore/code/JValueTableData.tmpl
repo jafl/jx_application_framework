@@ -35,7 +35,6 @@ JValueTableData<S,T>::JValueTableData
 	itsDefValue(defValue)
 {
 	itsCols = jnew JPtrArray< S >(JPtrArrayT::kDeleteAll);
-	assert( itsCols != nullptr );
 }
 
 /******************************************************************************
@@ -53,7 +52,6 @@ JValueTableData<S,T>::JValueTableData
 	itsDefValue(source.itsDefValue)
 {
 	itsCols = jnew JPtrArray< S >(JPtrArrayT::kDeleteAll);
-	assert( itsCols != nullptr );
 
 	for (auto* col : *source.itsCols)
 	{

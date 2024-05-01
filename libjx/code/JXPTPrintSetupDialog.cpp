@@ -240,7 +240,6 @@ JXPTPrintSetupDialog::SetObjects
 		jnew JXFileInput(window,
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 r1.left, r2.top, r1.width(), r2.height());
-	assert( itsFileInput != nullptr );
 	itsFileInput->ShouldAllowInvalidFile();
 	itsFileInput->GetText()->SetText(fileName);
 	ListenTo(itsFileInput);
@@ -341,8 +340,7 @@ JXPTPrintSetupDialog::Receive
 {
 	if (sender == itsDestination && message.Is(JXRadioGroup::kSelectionChanged))
 	{
-		const auto* selection =
-			dynamic_cast<const JXRadioGroup::SelectionChanged*>(&message);
+		auto* selection = dynamic_cast<const JXRadioGroup::SelectionChanged*>(&message);
 		assert( selection != nullptr );
 		SetDestination(selection->GetID());
 	}

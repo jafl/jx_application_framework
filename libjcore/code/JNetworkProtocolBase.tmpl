@@ -254,7 +254,6 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Chunk::Chunk
 	sendOffset(0)
 {
 	data = jnew char[count];
-	assert( data != nullptr );
 	memcpy(data, _data, count);
 }
 

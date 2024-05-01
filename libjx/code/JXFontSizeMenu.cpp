@@ -295,8 +295,7 @@ JXFontSizeMenu::Receive
 	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		ChooseFontSize(selection->GetIndex());
 	}

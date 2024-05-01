@@ -153,7 +153,6 @@ JOpenScratchFile()
 	assert( fd != EOF );
 
 	std::fstream* theFile = jnew std::fstream(fd);
-	assert( theFile != nullptr );
 	assert( theFile->good() );
 
 	return theFile;

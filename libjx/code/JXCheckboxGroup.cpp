@@ -33,8 +33,6 @@ JXCheckboxGroup::JXCheckboxGroup()
 	JContainer()
 {
 	itsCBList = jnew JPtrArray<JXCheckbox>(JPtrArrayT::kForgetAll);
-	assert( itsCBList != nullptr );
-
 	InstallCollection(itsCBList);
 }
 
@@ -46,8 +44,6 @@ JXCheckboxGroup::JXCheckboxGroup
 	JContainer()
 {
 	itsCBList = jnew JPtrArray<JXCheckbox>(cbList, JPtrArrayT::kForgetAll);
-	assert( itsCBList != nullptr );
-
 	InstallCollection(itsCBList);
 }
 

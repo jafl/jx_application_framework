@@ -234,7 +234,6 @@ TestImageDirector::LoadImage()
 			{
 				image = jnew JXImage(display, mask->GetWidth(), mask->GetHeight(),
 									JColorManager::GetRedColor());
-				assert( image != nullptr );
 				image->SetMask(mask);
 			}
 		}

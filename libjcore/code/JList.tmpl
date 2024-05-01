@@ -55,7 +55,6 @@ JList<T>::JList
 	if (source.itsCompareFn != nullptr)
 	{
 		itsCompareFn = jnew std::function(*source.itsCompareFn);
-		assert( itsCompareFn != nullptr );
 	}
 }
 
@@ -111,7 +110,6 @@ JList<T>::ListAssigned
 	if (source.itsCompareFn != nullptr)
 	{
 		itsCompareFn = jnew std::function(*source.itsCompareFn);
-		assert( itsCompareFn != nullptr );
 	}
 
 	NotifyIterators(JListT::Copied());
@@ -158,7 +156,6 @@ JList<T>::SetCompareFunction
 {
 	jdelete itsCompareFn;
 	itsCompareFn = jnew std::function(compareFn);
-	assert( itsCompareFn != nullptr );
 }
 
 template <class T>
@@ -173,7 +170,6 @@ JList<T>::CopyCompareFunction
 	if (source.itsCompareFn != nullptr)
 	{
 		itsCompareFn = jnew std::function(*source.itsCompareFn);
-		assert( itsCompareFn != nullptr );
 	}
 }
 

@@ -110,10 +110,7 @@ void
 JSubstitute::AllocateInternals()
 {
 	itsEscapeTable = jnew JString* [ kEscapeCount ];
-	assert(itsEscapeTable != nullptr);
-
-	itsVarList = jnew JArray<VarInfo>;
-	assert( itsVarList != nullptr );
+	itsVarList     = jnew JArray<VarInfo>;
 }
 
 /******************************************************************************
@@ -134,7 +131,6 @@ JSubstitute::CopyInternals
 		if (source.itsEscapeTable[i] != nullptr)
 		{
 			itsEscapeTable[i] = jnew JString(*(source.itsEscapeTable[i]));
-			assert( itsEscapeTable[i] != nullptr );
 		}
 		else
 		{
@@ -145,19 +141,16 @@ JSubstitute::CopyInternals
 	VarInfo newInfo;
 	for (const auto& origInfo : *source.itsVarList)
 	{
-		newInfo.name = jnew JString(*(origInfo.name));
-		assert( newInfo.name != nullptr );
+		newInfo.name = jnew JString(*origInfo.name);
 
 		if (origInfo.regex != nullptr)
 		{
-			newInfo.regex = jnew JRegex(*(origInfo.regex));
-			assert( newInfo.regex != nullptr );
+			newInfo.regex = jnew JRegex(*origInfo.regex);
 		}
 
 		if (origInfo.value != nullptr)
 		{
-			newInfo.value = jnew JString(*(origInfo.value));
-			assert( newInfo.value != nullptr );
+			newInfo.value = jnew JString(*origInfo.value);
 		}
 
 		itsVarList->AppendItem(newInfo);
@@ -191,7 +184,6 @@ JSubstitute::SetEscape
 	else
 	{
 		itsEscapeTable[c] = jnew JString(value);
-		assert( itsEscapeTable[c] != nullptr );
 		return false;
 	}
 }

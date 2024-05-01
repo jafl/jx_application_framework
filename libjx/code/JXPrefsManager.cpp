@@ -37,7 +37,6 @@ JXPrefsManager::JXPrefsManager
 	{
 		SaveAllBeforeDestruct();	// virtual
 	});
-	assert( itsSafetySaveTask != nullptr );
 	itsSafetySaveTask->Start();
 }
 

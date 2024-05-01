@@ -35,7 +35,6 @@ JString::Split
 		if (includeSeparators)
 		{
 			separator = jnew JString(iter.GetLastMatch().GetString());
-			assert( separator != nullptr );
 		}
 
 		partList->Append(iter.FinishMatch().GetString());

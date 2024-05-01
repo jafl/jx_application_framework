@@ -37,12 +37,10 @@ JMMArrayTable::JMMArrayTable
 	itsSnapshotID(0)
 {
 	itsAllocatedTable = jnew JArray<JMMRecord>(blockSize);
-	assert(itsAllocatedTable != nullptr);
 
 	if (recordDelete)
 	{
 		itsDeletedTable = jnew JArray<JMMRecord>(blockSize);
-		assert(itsDeletedTable != nullptr);
 	}
 }
 

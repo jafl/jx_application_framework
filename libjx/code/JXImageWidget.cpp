@@ -103,9 +103,7 @@ JXImageWidget::SetBitmap
 		jdelete itsImage;
 	}
 
-	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
-	assert( itsImage != nullptr );
-
+	itsImage         = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	itsOwnsImageFlag = true;
 
 	AdjustBounds();
@@ -229,7 +227,6 @@ JXImageWidget::NeedAdjustBounds()
 			itsAdjustBoundsTask = nullptr;
 			AdjustBounds();
 		});
-		assert( itsAdjustBoundsTask != nullptr );
 		itsAdjustBoundsTask->Go();
 	}
 }

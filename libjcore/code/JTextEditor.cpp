@@ -222,12 +222,10 @@ JTextEditor::JTextEditor
 	itsMaxWordWidth    = 0;
 
 	itsLineStarts = jnew JArray<TextIndex>;
-	assert( itsLineStarts != nullptr );
 	itsLineStarts->SetCompareFunction(JStyledText::CompareCharacterIndices);
 	itsLineStarts->SetSortOrder(JListT::kSortAscending);
 
 	itsLineGeom = jnew JRunArray<LineGeometry>;
-	assert( itsLineGeom != nullptr );
 
 	itsCaret         = CaretLocation(TextIndex(1,1),1);
 	itsCaretX        = 0;
@@ -308,10 +306,7 @@ JTextEditor::JTextEditor
 	itsMaxWordWidth    = source.itsMaxWordWidth;
 
 	itsLineStarts = jnew JArray<TextIndex>(*source.itsLineStarts);
-	assert( itsLineStarts != nullptr );
-
-	itsLineGeom = jnew JRunArray<LineGeometry>(*source.itsLineGeom);
-	assert( itsLineGeom != nullptr );
+	itsLineGeom   = jnew JRunArray<LineGeometry>(*source.itsLineGeom);
 
 	itsPrevTextLastIndex = source.itsPrevTextLastIndex;
 	itsPrevTextEnd       = source.itsPrevTextEnd;
@@ -403,8 +398,7 @@ JTextEditor::Receive
 	else if (sender == itsText &&
 			 message.Is(JStyledText::kTextChanged))
 	{
-		const auto* info =
-			dynamic_cast<const JStyledText::TextChanged*>(&message);
+		auto* info = dynamic_cast<const JStyledText::TextChanged*>(&message);
 		assert( info != nullptr );
 		const TextRange& rcr = info->GetRecalcRange();
 		if (rcr.charRange.GetCount() == itsText->GetText().GetCharacterCount())
@@ -470,8 +464,7 @@ JTextEditor::Receive
 	else if (sender == itsText &&
 			 message.Is(JStyledText::kUndoFinished))
 	{
-		const auto* info =
-			dynamic_cast<const JStyledText::UndoFinished*>(&message);
+		auto* info = dynamic_cast<const JStyledText::UndoFinished*>(&message);
 		assert( info != nullptr );
 		const TextRange& r = info->GetRange();
 		if (itsActiveFlag && !r.IsEmpty())
@@ -1026,7 +1019,6 @@ JTextEditor::Paste
 	if (style == nullptr)
 	{
 		style1 = jnew JRunArray<JFont>;
-		assert( style1 != nullptr );
 
 		JFont f = itsInsertionFont;
 		if (hadSelection)
@@ -3664,7 +3656,6 @@ JTextEditor::GetStringWidth
 		allocatedStyleIter = true;
 
 		styleIter = jnew FontIterator(itsText->GetStyles(), JListT::kStartBefore, origStart.charIndex);
-		assert( styleIter != nullptr );
 	}
 	else
 	{

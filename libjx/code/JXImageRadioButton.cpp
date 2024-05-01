@@ -80,9 +80,7 @@ JXImageRadioButton::SetBitmap
 		jdelete itsImage;
 	}
 
-	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
-	assert( itsImage != nullptr );
-
+	itsImage         = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	itsOwnsImageFlag = true;
 
 	SetBackColor(backColor);

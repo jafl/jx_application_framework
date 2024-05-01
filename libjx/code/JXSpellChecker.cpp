@@ -67,7 +67,6 @@ JXSpellChecker::Check
 	}
 
 	auto* dlog = jnew JXSpellCheckerDialog(this, editor, editor->GetText()->SelectAll());
-	assert( dlog != nullptr );
 	dlog->Check();
 }
 
@@ -91,7 +90,6 @@ JXSpellChecker::CheckSelection
 
 	auto* dlog =
 		jnew JXSpellCheckerDialog(this, editor, editor->GetText()->CharToTextRange(nullptr, range));
-	assert( dlog != nullptr );
 	dlog->Check();
 }
 

@@ -55,7 +55,6 @@ JX2DCurveNameList::JX2DCurveNameList
 	const JSize count = curveInfo.GetItemCount();
 
 	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kForgetAll, count);
-	assert(itsNameList != nullptr);
 
 	AppendRows(count);
 	for (JIndex i=1; i<=count; i++)

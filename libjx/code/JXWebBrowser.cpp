@@ -75,8 +75,6 @@ JXWebBrowser::EditPrefs()
 										   GetShowFileContentCmd(),
 										   GetShowFileLocationCmd(),
 										   GetComposeMailCmd());
-	assert( dlog != nullptr );
-
 	if (dlog->DoDialog())
 	{
 		JString showURLCmd, showFileContentCmd, showFileLocationCmd, composeMailCmd;

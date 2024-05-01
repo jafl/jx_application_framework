@@ -75,9 +75,7 @@ void
 JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 {
 	itsRecvBufferSize = JMessageProtocolT::kDefaultBufferSize;
-
-	itsRecvBuffer = jnew JUtf8Byte [ itsRecvBufferSize ];
-	assert( itsRecvBuffer != nullptr );
+	itsRecvBuffer     = jnew JUtf8Byte [ itsRecvBufferSize ];
 
 	UseUNIXProtocol();
 
@@ -230,7 +228,6 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SetBufferSize
 
 	jdelete [] itsRecvBuffer;
 	itsRecvBuffer = jnew JUtf8Byte [ itsRecvBufferSize ];
-	assert( itsRecvBuffer != nullptr );
 }
 
 /******************************************************************************
@@ -483,14 +480,11 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	if (!list.IsEmpty())
 	{
 		auto* msgList = jnew JPtrArray<JBroadcaster::Message>(JPtrArrayT::kDeleteAll);
-		assert( msgList != nullptr );
-
 		for (const auto* s : list)
 		{
 			if (BytesEqual(*s, itsDisconnectStr))
 			{
 				auto* m = jnew JMessageProtocolT::ReceivedDisconnect();
-				assert( m != nullptr );
 				msgList->Append(m);
 				break;
 			}
@@ -501,7 +495,6 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 				itsMessageList.Append(msg);
 
 				auto* m = jnew JMessageProtocolT::MessageReady(*msg);
-				assert( m != nullptr );
 				msgList->Append(m);
 			}
 		}

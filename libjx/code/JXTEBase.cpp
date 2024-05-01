@@ -1969,8 +1969,7 @@ JXTEBase::Receive
 	{
 		if (HasFocus())
 		{
-			const auto* selection =
-				dynamic_cast<const JXMenu::ItemSelected*>(&message);
+			auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleEditMenu(selection->GetIndex());
 		}
@@ -1987,8 +1986,7 @@ JXTEBase::Receive
 	{
 		if (HasFocus())
 		{
-			const auto* selection =
-				dynamic_cast<const JXMenu::ItemSelected*>(&message);
+			auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleSearchMenu(selection->GetIndex());
 		}
@@ -2005,8 +2003,7 @@ JXTEBase::Receive
 	{
 		if (HasFocus())
 		{
-			const auto* selection =
-				dynamic_cast<const JXMenu::ItemSelected*>(&message);
+			auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != nullptr );
 			HandleReplaceMenu(selection->GetIndex());
 		}
@@ -2016,8 +2013,7 @@ JXTEBase::Receive
 	{
 		if (sender == this && message.Is(JTextEditor::kCaretLocationChanged))
 		{
-			const auto* info =
-				dynamic_cast<const JTextEditor::CaretLocationChanged*>(&message);
+			auto* info = dynamic_cast<const JTextEditor::CaretLocationChanged*>(&message);
 			assert( info != nullptr );
 
 			JPoint pt;

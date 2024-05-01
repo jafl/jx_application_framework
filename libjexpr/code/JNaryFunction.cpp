@@ -33,7 +33,6 @@ JNaryFunction::JNaryFunction
 	if (argList == nullptr)
 	{
 		itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
-		assert( itsArgList != nullptr );
 	}
 	else
 	{
@@ -67,13 +66,12 @@ JNaryFunction::JNaryFunction
 	JFunctionWithArgs(source)
 {
 	itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
-	assert( itsArgList != nullptr );
 
-	const JSize argCount = (source.itsArgList)->GetItemCount();
+	const JSize argCount = source.itsArgList->GetItemCount();
 
 	for (JIndex i=1; i<=argCount; i++)
 	{
-		JFunction* sourceArg = (source.itsArgList)->GetItem(i);
+		JFunction* sourceArg = source.itsArgList->GetItem(i);
 		JFunction* arg       = sourceArg->Copy();
 		itsArgList->Append(arg);
 		arg->SetParent(this);

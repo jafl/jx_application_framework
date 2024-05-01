@@ -310,7 +310,6 @@ JBroadcaster::AddRecipient
 	if (itsRecipients == nullptr)
 	{
 		itsRecipients = jnew JPtrArray<JBroadcaster>(JPtrArrayT::kForgetAll);
-		assert( itsRecipients != nullptr );
 	}
 
 	itsRecipients->Prepend(recipient);	// so it gets the -next- message
@@ -357,7 +356,6 @@ JBroadcaster::AddSender
 	if (itsSenders == nullptr)
 	{
 		itsSenders = jnew JPtrArray<JBroadcaster>(JPtrArrayT::kForgetAll);
-		assert( itsSenders != nullptr );
 	}
 
 	itsSenders->Prepend(sender);
@@ -586,7 +584,6 @@ JBroadcaster::ClearWhenGoingAway
 	if (itsClearPointers == nullptr)
 	{
 		itsClearPointers = jnew JArray<JBroadcaster::ClearPointer>;
-		assert( itsClearPointers != nullptr );
 	}
 
 	itsClearPointers->AppendItem(

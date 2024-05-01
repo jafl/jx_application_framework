@@ -219,8 +219,6 @@ JXImageMask::CreateFromXBM
 	}
 
 	*mask = jnew JXImageMask(bitmap, w,h, display);
-	assert( *mask != nullptr );
-
 	return JNoError();
 }
 

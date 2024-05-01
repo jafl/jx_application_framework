@@ -27,9 +27,6 @@ main
 	// Create the application object - there should only be one of these
 	JXApplication* app = 
 		jnew JXApplication(&argc, argv, kAppSignature, kAppSignature, kTutorialStringData);
-		
-	// Make sure that new succeeded
-	assert( app != nullptr );
 
 	// Create the window director to maintain the Hello World window
 	HelloWorldDir* mainDir = jnew HelloWorldDir(app);

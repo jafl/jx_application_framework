@@ -30,10 +30,9 @@ private:
 	JPtrArray<JString>*	itsTipList;
 	JIndex				itsTipIndex;
 
-	JXStaticText*	itsText;
-
 // begin JXLayout
 
+	JXStaticText*   itsText;
 	JXTextCheckbox* itsShowAtStartupCB;
 	JXTextButton*   itsNextTipButton;
 	JXTextButton*   itsCloseButton;
