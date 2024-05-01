@@ -10,6 +10,7 @@
 #include "StaticText.h"
 #include "StaticTextPanel.h"
 #include "LayoutContainer.h"
+#include "ScrollbarSet.h"
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
@@ -210,15 +211,40 @@ StaticText::PrintCtorArgsWithComma
 	)
 	const
 {
+	ScrollbarSet* scrollbarSet = nullptr;
+
+	JXContainer* p = GetEnclosure();
+	while (p != nullptr)
+	{
+		auto* widget = dynamic_cast<LayoutWidget*>(p);
+		if (widget != nullptr)
+		{
+			scrollbarSet = dynamic_cast<ScrollbarSet*>(widget);
+			break;
+		}
+		p = p->GetEnclosure();
+	}
+
 	PrintStringForArg(itsText->GetText()->GetText(), varName, stringdb, output);
 	output << ", ";
 
 	if (itsWordWrapFlag || itsSelectableFlag || itsStyleableFlag)
 	{
+		bool b1, b2;
+
 		output << itsWordWrapFlag << ", ";
 		output << itsSelectableFlag << ", ";
 		output << itsStyleableFlag << ", ";
-		output << "nullptr, ";		// JXScrollbarSet
+
+		if (scrollbarSet != nullptr)
+		{
+			scrollbarSet->GetVarName(&b1, &b2).Print(output);
+		}
+		else
+		{
+			output << "nullptr";
+		}
+		output << ", ";
 	}
 }
 
