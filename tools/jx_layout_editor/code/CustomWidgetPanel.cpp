@@ -41,7 +41,6 @@ CustomWidgetPanel::CustomWidgetPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,130);
-	assert( container != nullptr );
 
 	auto* classNameLabel =
 		jnew JXStaticText(JGetString("classNameLabel::CustomWidgetPanel::Panel"), container,

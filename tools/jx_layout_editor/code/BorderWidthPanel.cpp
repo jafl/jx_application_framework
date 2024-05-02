@@ -35,7 +35,6 @@ BorderWidthPanel::BorderWidthPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
-	assert( container != nullptr );
 
 	auto* borderWidthLabel =
 		jnew JXStaticText(JGetString("borderWidthLabel::BorderWidthPanel::Panel"), container,

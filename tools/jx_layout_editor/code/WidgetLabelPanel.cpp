@@ -39,20 +39,19 @@ WidgetLabelPanel::WidgetLabelPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,70);
-	assert( container != nullptr );
 
 	auto* widgetLabelLabel =
-		jnew JXStaticText(JGetString("widgetLabelLabel::WidgetLabelPanel::Panel"),container,
+		jnew JXStaticText(JGetString("widgetLabelLabel::WidgetLabelPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 80,20);
 	widgetLabelLabel->SetToLabel(false);
 
 	auto* shortcutsLabel =
-		jnew JXStaticText(JGetString("shortcutsLabel::WidgetLabelPanel::Panel"),container,
+		jnew JXStaticText(JGetString("shortcutsLabel::WidgetLabelPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 80,20);
 	shortcutsLabel->SetToLabel(false);
 
 	auto* shortcutsHelp =
-		jnew JXStaticText(JGetString("shortcutsHelp::WidgetLabelPanel::Panel"),container,
+		jnew JXStaticText(JGetString("shortcutsHelp::WidgetLabelPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 170,40, 270,20);
 	shortcutsHelp->SetToLabel(false);
 

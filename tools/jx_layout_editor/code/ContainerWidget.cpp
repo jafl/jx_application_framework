@@ -153,6 +153,25 @@ ContainerWidget::DrawOver
 }
 
 /******************************************************************************
+ PrintConfiguration (virtual protected)
+
+	Don't generate assert, since we are guaranteed to be referenced.
+
+ ******************************************************************************/
+
+void
+ContainerWidget::PrintConfiguration
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	const JString&	varName,
+	JStringManager*	stringdb
+	)
+	const
+{
+}
+
+/******************************************************************************
  IsDNDLayoutTarget (virtual protected)
 
  ******************************************************************************/

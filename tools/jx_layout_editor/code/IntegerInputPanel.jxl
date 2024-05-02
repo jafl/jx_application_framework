@@ -1,13 +1,16 @@
-jx_layout_editor 3
+jx_layout_editor 9
 460
 40
 "Panel"
 ""
+0
+0
 ""
 "window"
 0
 
 1
+0
 0
 "WidgetSet"
 0
@@ -16,7 +19,9 @@ jx_layout_editor 3
 "container"
 0
 0
+0
 
+1
 1
 1
 "TextCheckbox"
@@ -26,9 +31,11 @@ jx_layout_editor 3
 "itsIntRequiredCB"
 1
 0
+0
 "Required"
 "#R"
 
+1
 1
 1
 "StaticText"
@@ -36,6 +43,7 @@ jx_layout_editor 3
 0
 10 120 30 190
 "integerMinimumValueLabel"
+0
 0
 0
 "Min value:"
@@ -47,6 +55,7 @@ jx_layout_editor 3
 
 1
 1
+1
 "IntegerInput"
 0
 0
@@ -55,9 +64,11 @@ jx_layout_editor 3
 1
 1
 0
+0
 0 0
 0 0
 
+1
 1
 1
 "StaticText"
@@ -65,6 +76,7 @@ jx_layout_editor 3
 0
 10 280 30 360
 "integerMaximumValueLabel"
+0
 0
 0
 "Max value:"
@@ -76,6 +88,7 @@ jx_layout_editor 3
 
 1
 1
+1
 "IntegerInput"
 0
 0
@@ -83,6 +96,7 @@ jx_layout_editor 3
 "itsIntMaxValueInput"
 1
 2
+0
 0
 0 0
 0 0

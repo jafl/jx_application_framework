@@ -1,5 +1,4 @@
 0
-itsImageMenu::ImageChooserPanel::Panel ""
 imageMenuLabel::ImageChooserPanel::Panel "Image:"
 
 

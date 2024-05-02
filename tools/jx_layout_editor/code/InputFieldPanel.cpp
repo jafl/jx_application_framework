@@ -50,7 +50,6 @@ InputFieldPanel::InputFieldPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,170);
-	assert( container != nullptr );
 
 	itsValueRequiredCB =
 		jnew JXTextCheckbox(JGetString("itsValueRequiredCB::InputFieldPanel::Panel"), container,

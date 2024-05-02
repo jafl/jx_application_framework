@@ -38,30 +38,29 @@ FileInputPanel::FileInputPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
-	assert( container != nullptr );
 
 	itsFileRequiredCB =
-		jnew JXTextCheckbox(JGetString("itsFileRequiredCB::FileInputPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsFileRequiredCB::FileInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 80,20);
 	itsFileRequiredCB->SetShortcuts(JGetString("itsFileRequiredCB::shortcuts::FileInputPanel::Panel"));
 
 	itsAllowInvalidFileCB =
-		jnew JXTextCheckbox(JGetString("itsAllowInvalidFileCB::FileInputPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsAllowInvalidFileCB::FileInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,10, 120,20);
 	itsAllowInvalidFileCB->SetShortcuts(JGetString("itsAllowInvalidFileCB::shortcuts::FileInputPanel::Panel"));
 
 	itsRequireFileReadCB =
-		jnew JXTextCheckbox(JGetString("itsRequireFileReadCB::FileInputPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsRequireFileReadCB::FileInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 240,10, 60,20);
 	itsRequireFileReadCB->SetShortcuts(JGetString("itsRequireFileReadCB::shortcuts::FileInputPanel::Panel"));
 
 	itsRequireFileWriteCB =
-		jnew JXTextCheckbox(JGetString("itsRequireFileWriteCB::FileInputPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsRequireFileWriteCB::FileInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,10, 60,20);
 	itsRequireFileWriteCB->SetShortcuts(JGetString("itsRequireFileWriteCB::shortcuts::FileInputPanel::Panel"));
 
 	itsRequireFileExecCB =
-		jnew JXTextCheckbox(JGetString("itsRequireFileExecCB::FileInputPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsRequireFileExecCB::FileInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 380,10, 60,20);
 	itsRequireFileExecCB->SetShortcuts(JGetString("itsRequireFileExecCB::shortcuts::FileInputPanel::Panel"));
 

@@ -37,7 +37,6 @@ ComplexBorderWidthPanel::ComplexBorderWidthPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
-	assert( container != nullptr );
 
 	auto* outsideWidthLabel =
 		jnew JXStaticText(JGetString("outsideWidthLabel::ComplexBorderWidthPanel::Panel"), container,

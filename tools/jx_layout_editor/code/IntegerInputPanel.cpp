@@ -41,7 +41,6 @@ IntegerInputPanel::IntegerInputPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
-	assert( container != nullptr );
 
 	itsIntRequiredCB =
 		jnew JXTextCheckbox(JGetString("itsIntRequiredCB::IntegerInputPanel::Panel"), container,
@@ -61,10 +60,12 @@ IntegerInputPanel::IntegerInputPanel
 	itsIntMinValueInput =
 		jnew JXIntegerInput(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,10, 80,20);
+	itsIntMinValueInput->SetIsRequired(false);
 
 	itsIntMaxValueInput =
 		jnew JXIntegerInput(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 360,10, 80,20);
+	itsIntMaxValueInput->SetIsRequired(false);
 
 // end Panel
 
@@ -72,7 +73,6 @@ IntegerInputPanel::IntegerInputPanel
 
 	itsIntRequiredCB->SetState(required);
 
-	itsIntMinValueInput->SetIsRequired(false);
 	if (hasMin)
 	{
 		itsIntMinValueInput->SetValue(min);
@@ -82,7 +82,6 @@ IntegerInputPanel::IntegerInputPanel
 		itsIntMinValueInput->GetText()->SetText(JString::empty);
 	}
 
-	itsIntMaxValueInput->SetIsRequired(false);
 	if (hasMax)
 	{
 		itsIntMaxValueInput->SetValue(max);

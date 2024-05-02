@@ -36,8 +36,8 @@ private:
 
 // begin Panel
 
-	JXTextButton*          itsAddRowButton;
 	PartitionMinSizeTable* itsTable;
+	JXTextButton*          itsAddRowButton;
 	JXTextButton*          itsRemoveRowButton;
 	JXTextCheckbox*        itsHasElasticIndexCB;
 	JXIntegerInput*        itsElasticIndexInput;

@@ -49,12 +49,14 @@ TabGroupPanel::TabGroupPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,100);
-	assert( container != nullptr );
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(container,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 80,80);
-	assert( scrollbarSet != nullptr );
+
+	itsTable =
+		jnew TabTitleTable(itsData, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 80,80);
 
 	itsAddRowButton =
 		jnew JXTextButton(JGetString("itsAddRowButton::TabGroupPanel::Panel"), container,
@@ -64,10 +66,6 @@ TabGroupPanel::TabGroupPanel
 		jnew JXStaticText(JGetString("hint::TabGroupPanel::Panel"), true, false, false, nullptr, container,
 					JXWidget::kFixedRight, JXWidget::kVElastic, 200,10, 250,30);
 	hint->SetBorderWidth(0);
-
-	itsTable =
-		jnew TabTitleTable(itsData, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 80,80);
 
 	itsRemoveRowButton =
 		jnew JXTextButton(JGetString("itsRemoveRowButton::TabGroupPanel::Panel"), container,

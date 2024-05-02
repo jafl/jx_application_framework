@@ -1,11 +1,16 @@
-jx_layout_editor 1
+jx_layout_editor 9
 460
 40
 "Panel"
 ""
+0
+0
+""
 "window"
 0
+
 1
+0
 0
 "WidgetSet"
 0
@@ -14,6 +19,9 @@ jx_layout_editor 1
 "container"
 0
 0
+0
+
+1
 1
 1
 "TextCheckbox"
@@ -23,41 +31,11 @@ jx_layout_editor 1
 "itsFileRequiredCB"
 1
 0
+0
 "Required"
 "#R"
+
 1
-1
-"TextCheckbox"
-0
-0
-10 380 30 440
-"itsRequireFileExecCB"
-1
-0
-"Exec"
-"#E"
-1
-1
-"TextCheckbox"
-0
-0
-10 310 30 370
-"itsRequireFileWriteCB"
-1
-0
-"Write"
-"#W"
-1
-1
-"TextCheckbox"
-0
-0
-10 240 30 300
-"itsRequireFileReadCB"
-1
-0
-"Read"
-"#R"
 1
 1
 "TextCheckbox"
@@ -67,6 +45,50 @@ jx_layout_editor 1
 "itsAllowInvalidFileCB"
 1
 0
+0
 "Allow invalid file"
 "#I"
+
+1
+1
+1
+"TextCheckbox"
+0
+0
+10 240 30 300
+"itsRequireFileReadCB"
+1
+0
+0
+"Read"
+"#R"
+
+1
+1
+1
+"TextCheckbox"
+0
+0
+10 310 30 370
+"itsRequireFileWriteCB"
+1
+0
+0
+"Write"
+"#W"
+
+1
+1
+1
+"TextCheckbox"
+0
+0
+10 380 30 440
+"itsRequireFileExecCB"
+1
+0
+0
+"Exec"
+"#E"
+
 0

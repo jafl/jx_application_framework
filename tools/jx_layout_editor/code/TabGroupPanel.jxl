@@ -1,8 +1,10 @@
-jx_layout_editor 8
+jx_layout_editor 9
 460
 100
 "Panel"
 ""
+0
+0
 ""
 "window"
 0
@@ -30,6 +32,22 @@ jx_layout_editor 8
 0
 0
 0
+
+1
+2
+1
+"CustomWidget"
+2
+2
+0 0 65 65
+"itsTable"
+1
+0
+0
+"TabTitleTable"
+"itsData, scrollbarSet"
+0
+""
 
 1
 1
@@ -62,22 +80,6 @@ jx_layout_editor 8
 1
 0
 0
-
-1
-2
-1
-"CustomWidget"
-2
-2
-0 0 65 65
-"itsTable"
-1
-0
-0
-"TabTitleTable"
-"itsData, scrollbarSet"
-0
-""
 
 1
 1

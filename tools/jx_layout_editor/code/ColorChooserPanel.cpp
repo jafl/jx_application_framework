@@ -37,7 +37,6 @@ ColorChooserPanel::ColorChooserPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,60);
-	assert( container != nullptr );
 
 	auto* colorSampleLabel =
 		jnew JXStaticText(JGetString("colorSampleLabel::ColorChooserPanel::Panel"), container,

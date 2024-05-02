@@ -35,6 +35,11 @@ protected:
 	void	DrawBorder(JXWindowPainter& p, const JRect& frame) override;
 	void	DrawOver(JXWindowPainter& p, const JRect& rect) override;
 
+	void	PrintConfiguration(std::ostream& output,
+							   const JString& indent,
+							   const JString& varName,
+							   JStringManager* stringdb) const override;
+
 	LayoutContainer*	GetLayoutContainer(const JIndex index) const;
 	LayoutContainer*	InsertLayoutContainer(const JIndex index, JXContainer* enclosure);
 	bool				OwnsLayoutContainer(const LayoutContainer* layout);

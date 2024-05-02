@@ -34,7 +34,6 @@ RadioGroupPanel::RadioGroupPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
-	assert( container != nullptr );
 
 	itsHideBorderCB =
 		jnew JXTextCheckbox(JGetString("itsHideBorderCB::RadioGroupPanel::Panel"), container,

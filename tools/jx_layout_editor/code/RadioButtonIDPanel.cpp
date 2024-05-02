@@ -37,7 +37,6 @@ RadioButtonIDPanel::RadioButtonIDPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
-	assert( container != nullptr );
 
 	auto* idLabel =
 		jnew JXStaticText(JGetString("idLabel::RadioButtonIDPanel::Panel"), container,

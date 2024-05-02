@@ -1,11 +1,16 @@
-jx_layout_editor 0
+jx_layout_editor 9
 460
 40
 "Panel"
 ""
+0
+0
+""
 "window"
 0
+
 1
+0
 0
 "WidgetSet"
 0
@@ -14,6 +19,9 @@ jx_layout_editor 0
 "container"
 0
 0
+0
+
+1
 1
 1
 "TextCheckbox"
@@ -23,6 +31,8 @@ jx_layout_editor 0
 "itsAllowSpacesCB"
 1
 0
+0
 "Allow spaces in file name"
 "#S"
+
 0

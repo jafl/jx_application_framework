@@ -34,8 +34,8 @@ private:
 
 // begin Panel
 
-	JXTextButton*  itsAddRowButton;
 	TabTitleTable* itsTable;
+	JXTextButton*  itsAddRowButton;
 	JXTextButton*  itsRemoveRowButton;
 	JXTextMenu*    itsEdgeMenu;
 

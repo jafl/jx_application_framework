@@ -38,7 +38,6 @@ ToolBarPanel::ToolBarPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 460,100);
-	assert( container != nullptr );
 
 	auto* prefsManagerLabel =
 		jnew JXStaticText(JGetString("prefsManagerLabel::ToolBarPanel::Panel"), container,

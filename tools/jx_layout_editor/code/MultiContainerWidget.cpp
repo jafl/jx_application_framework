@@ -201,3 +201,22 @@ MultiContainerWidget::DrawOver
 
 	LayoutWidget::DrawOver(p, rect);
 }
+
+/******************************************************************************
+ PrintConfiguration (virtual protected)
+
+	Don't generate assert, since we are guaranteed to be referenced.
+
+ ******************************************************************************/
+
+void
+MultiContainerWidget::PrintConfiguration
+	(
+	std::ostream&	output,
+	const JString&	indent,
+	const JString&	varName,
+	JStringManager*	stringdb
+	)
+	const
+{
+}

@@ -36,7 +36,6 @@ PathInputPanel::PathInputPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
-	assert( container != nullptr );
 
 	itsPathRequiredCB =
 		jnew JXTextCheckbox(JGetString("itsPathRequiredCB::PathInputPanel::Panel"), container,

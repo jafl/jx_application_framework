@@ -45,7 +45,6 @@ StaticTextPanel::StaticTextPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,130);
-	assert( container != nullptr );
 
 	auto* textLabel =
 		jnew JXStaticText(JGetString("textLabel::StaticTextPanel::Panel"), container,

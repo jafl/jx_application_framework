@@ -46,7 +46,6 @@ MenuPanel::MenuPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,100);
-	assert( container != nullptr );
 
 	auto* titleLabel =
 		jnew JXStaticText(JGetString("titleLabel::MenuPanel::Panel"), container,
@@ -74,6 +73,7 @@ MenuPanel::MenuPanel
 	itsColumnCountInput =
 		jnew JXIntegerInput(container,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 390,50, 50,20);
+	itsColumnCountInput->SetIsRequired(false);
 	itsColumnCountInput->SetLowerLimit(1);
 
 // end Panel
@@ -115,6 +115,7 @@ MenuPanel::MenuPanel
 	if (type == Menu::kImageType)
 	{
 		itsColumnCountInput->SetValue(colCount);
+		itsColumnCountInput->SetIsRequired();
 	}
 	else
 	{

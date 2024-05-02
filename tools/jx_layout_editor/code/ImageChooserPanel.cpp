@@ -45,7 +45,6 @@ ImageChooserPanel::ImageChooserPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,100);
-	assert( container != nullptr );
 
 	auto* imageMenuLabel =
 		jnew JXStaticText(JGetString("imageMenuLabel::ImageChooserPanel::Panel"), container,
@@ -53,7 +52,7 @@ ImageChooserPanel::ImageChooserPanel
 	imageMenuLabel->SetToLabel(false);
 
 	itsImageMenu =
-		jnew JXImageMenu(JGetString("itsImageMenu::ImageChooserPanel::Panel"), 10, container,
+		jnew JXImageMenu(JString::empty, 10, container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 70,10, 100,80);
 
 // end Panel

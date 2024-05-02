@@ -36,7 +36,7 @@ SaveFileInputPanel::SaveFileInputPanel
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
 
 	itsAllowSpacesCB =
-		jnew JXTextCheckbox(JGetString("itsAllowSpacesCB::SaveFileInputPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsAllowSpacesCB::SaveFileInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 180,20);
 	itsAllowSpacesCB->SetShortcuts(JGetString("itsAllowSpacesCB::shortcuts::SaveFileInputPanel::Panel"));
 

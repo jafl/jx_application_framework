@@ -41,30 +41,31 @@ FloatInputPanel::FloatInputPanel
 	auto* container =
 		jnew JXWidgetSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 460,40);
-	assert( container != nullptr );
 
 	itsFloatRequiredCB =
-		jnew JXTextCheckbox(JGetString("itsFloatRequiredCB::FloatInputPanel::Panel"),container,
+		jnew JXTextCheckbox(JGetString("itsFloatRequiredCB::FloatInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 80,20);
 	itsFloatRequiredCB->SetShortcuts(JGetString("itsFloatRequiredCB::shortcuts::FloatInputPanel::Panel"));
 
 	auto* floatMinimumValueLabel =
-		jnew JXStaticText(JGetString("floatMinimumValueLabel::FloatInputPanel::Panel"),container,
+		jnew JXStaticText(JGetString("floatMinimumValueLabel::FloatInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,10, 70,20);
 	floatMinimumValueLabel->SetToLabel(false);
 
 	auto* floatMaximumValueLabel =
-		jnew JXStaticText(JGetString("floatMaximumValueLabel::FloatInputPanel::Panel"),container,
+		jnew JXStaticText(JGetString("floatMaximumValueLabel::FloatInputPanel::Panel"), container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,10, 80,20);
 	floatMaximumValueLabel->SetToLabel(false);
 
 	itsFloatMinValueInput =
 		jnew JXFloatInput(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,10, 80,20);
+	itsFloatMinValueInput->SetIsRequired(false);
 
 	itsFloatMaxValueInput =
 		jnew JXFloatInput(container,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 360,10, 80,20);
+	itsFloatMaxValueInput->SetIsRequired(false);
 
 // end Panel
 
@@ -72,7 +73,6 @@ FloatInputPanel::FloatInputPanel
 
 	itsFloatRequiredCB->SetState(required);
 
-	itsFloatMinValueInput->SetIsRequired(false);
 	if (hasMin)
 	{
 		itsFloatMinValueInput->SetValue(min);
@@ -82,7 +82,6 @@ FloatInputPanel::FloatInputPanel
 		itsFloatMinValueInput->GetText()->SetText(JString::empty);
 	}
 
-	itsFloatMaxValueInput->SetIsRequired(false);
 	if (hasMax)
 	{
 		itsFloatMaxValueInput->SetValue(max);
