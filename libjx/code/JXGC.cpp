@@ -48,7 +48,7 @@ JXGC::JXGC
 {
 	XGCValues values;
 	values.graphics_exposures = False;
-	itsXGC = XCreateGC(*itsDisplay, drawable, 0L, &values);
+	itsXGC = XCreateGC(*itsDisplay, drawable, GCGraphicsExposures, &values);
 
 	Window rootWindow;
 	int x, y;
