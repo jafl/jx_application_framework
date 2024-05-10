@@ -151,10 +151,14 @@ JXPathInput::InputValid()
 		return false;
 	}
 
+	JGetTemporaryDirectoryChangeMutex().lock();
+
 	const JString currDir = JGetCurrentDirectory();
 	JError err            = JNoError();
 	JChangeDirectory(path, &err);
 	JChangeDirectory(currDir);
+
+	JGetTemporaryDirectoryChangeMutex().unlock();
 
 	if (err.OK())
 	{

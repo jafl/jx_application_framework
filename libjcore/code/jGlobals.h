@@ -42,6 +42,8 @@ bool	JGetDataDirectories(const JUtf8Byte* signature, const JUtf8Byte* dirName,
 void	JSetTaskScheduler(const std::function<void(const std::function<void()>&)>& sched);
 void	JScheduleTask(const std::function<void()>& f);
 
+std::recursive_mutex&	JGetTemporaryDirectoryChangeMutex();
+
 /******************************************************************************
  Convenience functions
 

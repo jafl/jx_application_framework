@@ -30,6 +30,8 @@ static JWebBrowser*				theWebBrowser       = nullptr;
 
 static std::function<void(const std::function<void()>&)>* theTaskScheduler = nullptr;
 
+static std::recursive_mutex theTempDirChangeMutex;
+
 /******************************************************************************
  JInitCore
 
@@ -321,4 +323,18 @@ JScheduleTask
 	{
 		task();
 	}
+}
+
+/******************************************************************************
+ JGetTemporaryDirectoryChangeMutex
+
+	In a multi-threaded program, temporarily changing the working directory
+	can only be done in one thread at a time.
+
+ ******************************************************************************/
+
+std::recursive_mutex&
+JGetTemporaryDirectoryChangeMutex()
+{
+	return theTempDirChangeMutex;
 }

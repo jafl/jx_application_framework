@@ -762,11 +762,13 @@ JDirInfo::BuildInfo()
 		return JAccessDenied(itsCWD);
 	}
 
+	JGetTemporaryDirectoryChangeMutex().lock();
 	const JString origDir = JGetCurrentDirectory();
 
 	JError err = JNoError();
 	if (!JChangeDirectory(itsCWD, &err))
 	{
+		JGetTemporaryDirectoryChangeMutex().unlock();
 		return err;
 	}
 
@@ -802,6 +804,8 @@ JDirInfo::BuildInfo()
 
 	const bool ok = JChangeDirectory(origDir);
 	assert( ok );
+
+	JGetTemporaryDirectoryChangeMutex().unlock();
 
 	ApplyFilters(false);
 	return JNoError();

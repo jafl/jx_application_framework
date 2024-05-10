@@ -28,13 +28,6 @@ JSpellChecker::JSpellChecker()
 	itsInFD(ACE_INVALID_HANDLE),
 	itsOutPipe(nullptr)
 {
-	const JString cwd = JGetCurrentDirectory();
-	JString home;
-	if (JGetHomeDirectory(&home))
-	{
-		JChangeDirectory(home);
-	}
-
 	int toFD, fromFD;
 	JError err = JProcess::Create(&itsProcess, "aspell -a",
 								  kJCreatePipe, &toFD,
@@ -57,8 +50,6 @@ JSpellChecker::JSpellChecker()
 
 		JIgnoreUntil(itsInFD, '\n');
 	}
-
-	JChangeDirectory(cwd);
 }
 
 /******************************************************************************

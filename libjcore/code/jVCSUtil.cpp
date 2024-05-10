@@ -222,9 +222,12 @@ JRenameVCS
 	JSplitPathAndName(newFullName, &newPath, &name);
 	JSplitPathAndName(oldFullName, &oldPath, &name);	// must be second
 
+	JGetTemporaryDirectoryChangeMutex().lock();
+
 	const JString origPath = JGetCurrentDirectory();
 	if (!JChangeDirectory(oldPath))
 	{
+		JGetTemporaryDirectoryChangeMutex().unlock();
 		return JAccessDenied(oldPath);
 	}
 
@@ -303,6 +306,7 @@ JRenameVCS
 
 	jdelete p;
 	JChangeDirectory(origPath);
+	JGetTemporaryDirectoryChangeMutex().unlock();
 	return err;
 }
 
@@ -334,9 +338,12 @@ JRemoveVCS
 	JString path, name;
 	JSplitPathAndName(fullName, &path, &name);
 
+	JGetTemporaryDirectoryChangeMutex().lock();
+
 	const JString origPath = JGetCurrentDirectory();
 	if (!JChangeDirectory(path))
 	{
+		JGetTemporaryDirectoryChangeMutex().unlock();
 		return JAccessDenied(path);
 	}
 
@@ -391,6 +398,7 @@ JRemoveVCS
 
 	jdelete p;
 	JChangeDirectory(origPath);
+	JGetTemporaryDirectoryChangeMutex().unlock();
 	return err;
 }
 

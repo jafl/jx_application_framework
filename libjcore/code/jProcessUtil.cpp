@@ -215,6 +215,8 @@ JExecute
 	int*					errFD
 	)
 {
+	JGetTemporaryDirectoryChangeMutex().lock();
+
 	const JString origPath = JGetCurrentDirectory();
 
 	JError err = JNoError();
@@ -224,6 +226,7 @@ JExecute
 		JChangeDirectory(origPath);
 	}
 
+	JGetTemporaryDirectoryChangeMutex().unlock();
 	return err;
 }
 
@@ -248,6 +251,8 @@ JExecute
 	int*						errFD
 	)
 {
+	JGetTemporaryDirectoryChangeMutex().lock();
+
 	const JString origPath = JGetCurrentDirectory();
 
 	JError err = JNoError();
@@ -257,6 +262,7 @@ JExecute
 		JChangeDirectory(origPath);
 	}
 
+	JGetTemporaryDirectoryChangeMutex().unlock();
 	return err;
 }
 
@@ -282,6 +288,8 @@ JExecute
 	int*					errFD
 	)
 {
+	JGetTemporaryDirectoryChangeMutex().lock();
+
 	const JString origPath = JGetCurrentDirectory();
 
 	JError err = JNoError();
@@ -291,6 +299,7 @@ JExecute
 		JChangeDirectory(origPath);
 	}
 
+	JGetTemporaryDirectoryChangeMutex().unlock();
 	return err;
 }
 

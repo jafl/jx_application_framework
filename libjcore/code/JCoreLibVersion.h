@@ -32,6 +32,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.2.0";
 //	JProgressDisplay:
 //		Removed virtual from both 1-argument versions of IncrementProgress.
 //	Created JThreadPG.
+//	Created JGetTemporaryDirectoryChangeMutex() for multi-threaded programs
+//		that need to temporarily change working directory.
 
 // version 4.1.0:
 //

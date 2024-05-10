@@ -1316,10 +1316,13 @@ JGetTrueName
 
 	else if (JDirectoryExists(name))
 	{
+		JGetTemporaryDirectoryChangeMutex().lock();
+
 		const JString currPath = JGetCurrentDirectory();
 
 		if (!JChangeDirectory(name))
 		{
+			JGetTemporaryDirectoryChangeMutex().unlock();
 			return false;
 		}
 
@@ -1328,6 +1331,7 @@ JGetTrueName
 		const bool ok = JChangeDirectory(currPath);
 		assert( ok );
 
+		JGetTemporaryDirectoryChangeMutex().unlock();
 		return true;
 	}
 
