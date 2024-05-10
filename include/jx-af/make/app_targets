@@ -109,6 +109,7 @@ EXE_NAME := $(call EXE,${BIN_NAME})
 install:: default
 	@${J_STRIP_DEBUG} ${EXE_NAME}
 	@mkdir -p ${JX_INSTALL_BIN}
+	@${RM} ${JX_INSTALL_BIN}/${EXE_NAME}
 	@cp ${EXE_NAME} ${JX_INSTALL_BIN}
 
 .PHONY : uninstall
