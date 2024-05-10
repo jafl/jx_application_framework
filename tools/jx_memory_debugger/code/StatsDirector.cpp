@@ -151,7 +151,9 @@ StatsDirector::SetLink
 	ListenTo(itsLink);
 	DeleteDebugAcceptor();
 
-	itsPingTask = jnew JXFunctionTask(kRefreshInterval, std::bind(&StatsDirector::RequestRunningStats, this));
+	itsPingTask = jnew JXFunctionTask(kRefreshInterval,
+		std::bind(&StatsDirector::RequestRunningStats, this),
+		"StatsDirector::Ping");
 	itsPingTask->Start();
 }
 

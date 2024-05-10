@@ -92,10 +92,11 @@ MenuDocument::Create
 		(**doc).Activate();
 
 		MenuDocument* d = *doc;
-		auto* task = jnew JXUrgentFunctionTask(d, std::function([d]()
+		auto* task = jnew JXUrgentFunctionTask(d, [d]()
 		{
 			d->DataReverted();
-		}));
+		},
+		"MenuDocument::DataReverted");
 		task->Go();
 
 		return true;

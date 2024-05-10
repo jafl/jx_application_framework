@@ -89,7 +89,8 @@ App::DisplayAbout
 			ForgetPrefsManager();
 			JXGetApplication()->Quit();
 		}
-	});
+	},
+	"App::DisplayAbout");
 }
 
 /******************************************************************************

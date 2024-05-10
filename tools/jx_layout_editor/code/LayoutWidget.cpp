@@ -506,7 +506,8 @@ LayoutWidget::SetSelected
 				const bool ok = itsParent->Focus();
 				assert( ok );
 				GetWindow()->Refresh();
-			});
+			},
+			"LayoutWidget::Focus");
 			task->Go();
 		}
 	}
@@ -971,7 +972,8 @@ LayoutWidget::HandleMouseUp
 		auto* task = jnew JXUrgentFunctionTask(this, [this]()
 		{
 			EditConfiguration();
-		});
+		},
+		"LayoutWidget::EditConfiguration");
 		task->Go();
 	}
 	else if (itsClearIfNotDNDFlag)
