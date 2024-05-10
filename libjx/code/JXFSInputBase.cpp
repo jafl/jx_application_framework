@@ -161,7 +161,8 @@ JXFSInputBase::Receive
 			WantInput(true,
 					  GetCaretLocation(&i) && i == GetText()->GetText().GetCharacterCount()+1,
 					  WantsModifiedTab());
-		});
+		},
+		"JXFSInputBase::WantInput");
 		task->Go();
 	}
 }

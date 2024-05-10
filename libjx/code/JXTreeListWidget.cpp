@@ -776,7 +776,8 @@ JXTreeListWidget::NeedsAdjustToTree()
 		{
 			itsAdjustToTreeTask = nullptr;
 			AdjustToTree();
-		});
+		},
+		"JXTreeListWidget::NeedsAdjustToTree");
 		itsAdjustToTreeTask->Go();
 	}
 }

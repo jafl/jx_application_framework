@@ -25,7 +25,6 @@
 #include "JXDocumentManager.h"
 #include "JXSharedPrefsManager.h"
 #include "JXMDIServer.h"
-#include "JXBoostPriorityScheduler.h"
 #include "JXAssert.h"
 #include "jXEventUtil.h"
 #include "jXGlobals.h"
@@ -42,6 +41,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <jx-af/jcore/jAssert.h>
+
+int debug_fiber = 0;
+#include "JXBoostPriorityScheduler.h"
 
 static const JUtf8Byte* kDisplayOptionName         = "-display";
 static const JUtf8Byte* kXDebugOptionName          = "--xdebug";
@@ -123,7 +125,7 @@ JXApplication::JXApplication
 
 	boost::fibers::use_scheduling_algorithm<JXBoostPriorityScheduler>();
 
-	JSetTaskScheduler(std::bind(JXApplication::StartFiber, std::placeholders::_1, kIdleTaskPriority));
+	JSetTaskScheduler(std::bind(JXApplication::StartFiber, std::placeholders::_1, "internal", kIdleTaskPriority));
 
 	// create display -- requires JXGetApplication() to work
 
@@ -176,7 +178,8 @@ JXApplication::JXApplication
 		{
 			Quit();
 		}
-	});
+	},
+	"JXApplication::CheckQuit");
 	task->Start();
 }
 
@@ -434,7 +437,8 @@ JXApplication::Run()
 				{
 					itsIsQuittingFlag = false;
 				}
-			});
+			},
+			"event loop");
 		}
 		else if (!HasSubdirectors())
 		{
@@ -561,6 +565,7 @@ JXApplication::HandleOneEvent()
 			{
 				display->HandleEvent(xEvent, t);
 			},
+			"event handler: " + JString((JUInt64) xEvent.type),
 			kEventHandlerPriority);
 
 			boost::this_fiber::yield();
@@ -588,7 +593,7 @@ JXApplication::StartTasks
 	const bool hadEvents
 	)
 {
-	StartFiber(JXDisplay::CheckForXErrors, kUrgentTaskPriority);
+	StartFiber(JXDisplay::CheckForXErrors, "JXDisplay::CheckForXErrors", kUrgentTaskPriority);
 
 	StartFiber([this]()
 	{
@@ -600,6 +605,7 @@ JXApplication::StartTasks
 			Quit();
 		}
 	},
+	"JThisProcess::CheckForSignals",
 	kUrgentTaskPriority);
 
 	if (itsUrgentTaskChannel != nullptr)
@@ -694,7 +700,8 @@ JXApplication::StartIdleTasks()
 				StartFiber([task, deltaTime]()
 				{
 					task->Perform(deltaTime);
-				});
+				},
+				"idle task: " + JString((JUInt64) task, JString::kBase16));
 			}
 
 			if (maxSleepTime < itsMaxSleepTime)
@@ -712,7 +719,7 @@ JXApplication::StartIdleTasks()
 
 	// let sockets broadcast
 
-	StartFiber(JThisProcess::CheckACEReactor);
+	StartFiber(JThisProcess::CheckACEReactor, "JThisProcess::CheckACEReactor");
 
 	// let processes broadcast -- not necessary to check each time
 
@@ -723,7 +730,8 @@ JXApplication::StartIdleTasks()
 		{
 			JProcess::CheckForFinishedChild(false);
 			itsWaitForChildCounter = 0;
-		});
+		},
+		"JProcess::CheckForFinishedChild");
 	}
 
 	JXMDIServer* mdiServer = nullptr;
@@ -732,7 +740,8 @@ JXApplication::StartIdleTasks()
 		StartFiber([mdiServer]()
 		{
 			mdiServer->CheckForConnections();
-		});
+		},
+		"mdiServer->CheckForConnections");
 	}
 
 	boost::this_fiber::yield();
@@ -755,7 +764,7 @@ JXApplication::InstallUrgentTask
 	{
 		if (itsUrgentTaskChannel == nullptr)
 		{
-			itsUrgentTaskChannel = jnew boost::fibers::buffered_channel<JXUrgentTask*>(1024);
+			itsUrgentTaskChannel = jnew boost::fibers::buffered_channel<JXUrgentTask*>(16);
 		}
 
 		itsUrgentTaskChannel->push(task);
@@ -770,6 +779,7 @@ JXApplication::InstallUrgentTask
 		}
 		jdelete task;
 	},
+	"urgent task: " + JString((JUInt64) task, JString::kBase16),
 	kUrgentTaskPriority);
 }
 
@@ -782,13 +792,15 @@ void
 JXApplication::StartFiber
 	(
 	const std::function<void()>&	f,
+	const JString&					name,
 	const FiberPriority				priority
 	)
 {
 	assert( theUIThreadFlag );
-	assert( priority >= kEventLoopPriority );
+	assert( priority > kEventLoopPriority );
 
 	auto fiber = boost::fibers::fiber(f);
+	fiber.properties<JXBoostPriorityProps>().SetName(jnew JString(name));
 	fiber.properties<JXBoostPriorityProps>().SetPriority(priority);
 	fiber.detach();
 }

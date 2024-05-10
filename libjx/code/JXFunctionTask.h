@@ -11,12 +11,14 @@
 #include "JXIdleTask.h"
 #include <functional>
 
+class JString;
+
 class JXFunctionTask : public JXIdleTask
 {
 public:
 
 	JXFunctionTask(const Time period, const std::function<void()>& f,
-				   const bool oneShot = false);
+				   const JString& name, const bool oneShot = false);
 
 	~JXFunctionTask() override;
 
@@ -27,6 +29,7 @@ protected:
 private:
 
 	std::function<void()>	itsFunction;
+	JString*				itsName;
 	const bool				itsIsOneShotFlag;
 };
 

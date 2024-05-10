@@ -471,7 +471,8 @@ JXVertPartition::SaveGeometryForLater
 				jdelete itsSavedGeom;
 				itsSavedGeom = nullptr;
 			}
-		});
+		},
+		"JXVertPartition::RestoreGeometry");
 		geomTask->Go();
 	}
 	else

@@ -95,7 +95,8 @@ JXSearchTextDialog::JXSearchTextDialog()
 	itsUpdateTask = jnew JXFunctionTask(kUpdatePeriod, [this]()
 	{
 		UpdateDisplay();	// virtual
-	});
+	},
+	"JXSearchTextDialog::UpdateDisplay");
 
 	itsNeedXSearchBcastFlag    = false;
 	itsIgnoreXSearchChangeFlag = true;			// until InitXSearch() is called
@@ -487,7 +488,8 @@ JXSearchTextDialog::SetObjects
 							soFrame.left, soFrame.top-6,
 							rfFrame.right-soFrame.left, 2);
 		line->SetBorderWidth(1);
-	});
+	},
+	"JXSearchTextDialog::Decor");
 	decorTask->Go();
 
 	// shortcuts

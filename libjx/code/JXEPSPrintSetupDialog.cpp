@@ -156,7 +156,9 @@ JXEPSPrintSetupDialog::SetObjects
 	itsFileInput->GetText()->SetText(fileName);
 	if (itsFileInput->GetText()->IsEmpty())
 	{
-		auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXEPSPrintSetupDialog::ChooseDestinationFile, this));
+		auto* task = jnew JXUrgentFunctionTask(this,
+			std::bind(&JXEPSPrintSetupDialog::ChooseDestinationFile, this),
+			"JXEPSPrintSetupDialog::ChooseDestinationFile");
 		task->Go();
 	}
 

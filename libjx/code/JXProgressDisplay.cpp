@@ -160,7 +160,8 @@ JXProgressDisplay::ProcessBeginning
 
 			itsCondition.notify_one();
 			boost::this_fiber::yield();
-		});
+		},
+		"JXProgressDisplay::RunEventLoop");
 		itsContinueTask->Start();
 	}
 }

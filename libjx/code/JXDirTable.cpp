@@ -76,7 +76,9 @@ JXDirTable::JXDirTable
 
 	itsActiveCells = jnew JArray<bool>;
 
-	itsDirUpdateTask = jnew JXFunctionTask(kDirUpdatePeriod, std::bind(&JXDirTable::UpdateDisplay, this));
+	itsDirUpdateTask = jnew JXFunctionTask(kDirUpdatePeriod,
+		std::bind(&JXDirTable::UpdateDisplay, this),
+		"JXDirTable::UpdateTask");
 	itsDirUpdateTask->Start();
 
 	itsAllowSelectFilesFlag      = true;

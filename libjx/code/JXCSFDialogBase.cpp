@@ -788,7 +788,8 @@ JXCSFDialogBase::SelectPrevDirectory()
 					itsFileBrowser->UpdateScrollbars();
 					itsFileBrowser->SelectSingleEntry(index);
 				}
-			});
+			},
+			"JXCSFDialogBase::SelectPrevDirectory");
 			itsSelectPrevDirTask->Go();
 		}
 	}

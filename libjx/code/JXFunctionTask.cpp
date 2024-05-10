@@ -8,6 +8,7 @@
  ******************************************************************************/
 
 #include "JXFunctionTask.h"
+#include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -19,11 +20,13 @@ JXFunctionTask::JXFunctionTask
 	(
 	const Time						period,
 	const std::function<void()>&	f,
+	const JString&					name,
 	const bool						oneShot
 	)
 	:
 	JXIdleTask(period),
 	itsFunction(f),
+	itsName(jnew JString(name)),
 	itsIsOneShotFlag(oneShot)
 {
 }
@@ -35,6 +38,7 @@ JXFunctionTask::JXFunctionTask
 
 JXFunctionTask::~JXFunctionTask()
 {
+	jdelete itsName;
 }
 
 /******************************************************************************

@@ -8,6 +8,8 @@
  ******************************************************************************/
 
 #include "JXUrgentFunctionTask.h"
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -17,11 +19,13 @@
 JXUrgentFunctionTask::JXUrgentFunctionTask
 	(
 	JBroadcaster* 					target,
-	const std::function<void()>&	f
+	const std::function<void()>&	f,
+	const JString&					name
 	)
 	:
 	JXUrgentTask(target),
-	itsFunction(f)
+	itsFunction(f),
+	itsName(jnew JString(name))
 {
 }
 
@@ -32,6 +36,7 @@ JXUrgentFunctionTask::JXUrgentFunctionTask
 
 JXUrgentFunctionTask::~JXUrgentFunctionTask()
 {
+	jdelete itsName;
 }
 
 /******************************************************************************

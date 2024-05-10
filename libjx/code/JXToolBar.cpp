@@ -121,7 +121,9 @@ JXToolBar::JXToolBar
 
 	itsGroupStarts = jnew JArray<bool>;
 
-	itsTimerTask = jnew JXFunctionTask(kTimerDelay, std::bind(&JXToolBar::UpdateButtons, this));
+	itsTimerTask = jnew JXFunctionTask(kTimerDelay,
+		std::bind(&JXToolBar::UpdateButtons, this),
+		"JXToolBar::UpdateButtons");
 	itsTimerTask->Start();
 
 	auto* task = jnew JXUrgentFunctionTask(this, [this]()
@@ -130,7 +132,8 @@ JXToolBar::JXToolBar
 		{
 			AdjustToolBarGeometry();
 		}
-	});
+	},
+	"JXToolBar::AdjustToolBarGeometry");
 	task->Go();
 
 	ListenTo(prefsMgr);

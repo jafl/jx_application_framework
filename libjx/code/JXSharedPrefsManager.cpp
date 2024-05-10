@@ -70,7 +70,9 @@ JXSharedPrefsManager::JXSharedPrefsManager()
 
 	GetAll(&itsWasNewFlag);
 
-	itsUpdateTask = jnew JXFunctionTask(kUpdateInterval, std::bind(&JXSharedPrefsManager::Update, this));
+	itsUpdateTask = jnew JXFunctionTask(kUpdateInterval,
+		std::bind(&JXSharedPrefsManager::Update, this),
+		"JXSharedPrefsManager::UpdateTask");
 	itsUpdateTask->Start();
 }
 

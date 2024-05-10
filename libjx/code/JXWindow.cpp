@@ -4817,7 +4817,9 @@ JXWindow::Undock()
 
 	if (wasVisible)
 	{
-		auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXWindow::Raise, this, true));
+		auto* task = jnew JXUrgentFunctionTask(
+			this, std::bind(&JXWindow::Raise, this, true),
+			"JXWindow::Undock::Raise");
 		task->Go();
 	}
 

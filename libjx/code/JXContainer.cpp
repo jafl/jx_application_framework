@@ -1710,7 +1710,9 @@ JXContainer::CreateCursorAnimator()
 	itsCursorAnim = jnew JXCursorAnimator(itsWindow);
 
 	jdelete itsCursorAnimTask;
-	itsCursorAnimTask = jnew JXFunctionTask(JXCursorAnimator::kmsecPerFrame, std::bind(&JXCursorAnimator::NextFrame, itsCursorAnim));
+	itsCursorAnimTask = jnew JXFunctionTask(JXCursorAnimator::kmsecPerFrame,
+		std::bind(&JXCursorAnimator::NextFrame, itsCursorAnim),
+		"JXContainer::CursorAnimator");
 
 	if (IsVisible())
 	{

@@ -471,7 +471,8 @@ JXHorizPartition::SaveGeometryForLater
 				jdelete itsSavedGeom;
 				itsSavedGeom = nullptr;
 			}
-		});
+		},
+		"JXHorizPartition::RestoreGeometry");
 		geomTask->Go();
 	}
 	else

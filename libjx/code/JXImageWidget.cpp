@@ -226,7 +226,8 @@ JXImageWidget::NeedAdjustBounds()
 		{
 			itsAdjustBoundsTask = nullptr;
 			AdjustBounds();
-		});
+		},
+		"JXImageWidget::NeedAdjustBounds");
 		itsAdjustBoundsTask->Go();
 	}
 }

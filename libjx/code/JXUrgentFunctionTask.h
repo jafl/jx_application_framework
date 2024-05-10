@@ -11,12 +11,14 @@
 #include "JXUrgentTask.h"
 #include <functional>
 
+class JString;
+
 class JXUrgentFunctionTask : public JXUrgentTask
 {
 public:
 
-	JXUrgentFunctionTask(JBroadcaster* target,
-						 const std::function<void()>& f);
+	JXUrgentFunctionTask(JBroadcaster* target, const std::function<void()>& f,
+						 const JString& name);
 
 protected:
 
@@ -27,6 +29,7 @@ protected:
 private:
 
 	std::function<void()>	itsFunction;
+	JString*				itsName;
 };
 
 #endif

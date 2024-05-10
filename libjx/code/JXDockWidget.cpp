@@ -75,7 +75,9 @@ JXDockWidget::JXDockWidget
 	ListenTo(itsTabGroup);
 	ListenTo(itsTabGroup->GetCardEnclosure());
 
-	auto* task = jnew JXUrgentFunctionTask(this, std::bind(&JXDockWidget::UpdateMinSize, this));
+	auto* task = jnew JXUrgentFunctionTask(this,
+		std::bind(&JXDockWidget::UpdateMinSize, this),
+		"JXDockWidget::UpdateMinSize");
 	task->Go();
 
 	ClearNeedsInternalFTC();
@@ -539,6 +541,7 @@ JXDockWidget::WillAcceptDrop
 			itsHintDirector->Close();
 			itsHintDirector = nullptr;
 		},
+		"JXDockWidget::DeleteHint",
 		true);
 		itsDeleteHintTask->Start();
 	}

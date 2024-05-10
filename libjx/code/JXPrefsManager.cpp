@@ -36,7 +36,8 @@ JXPrefsManager::JXPrefsManager
 	itsSafetySaveTask = jnew JXFunctionTask(kSafetySaveInterval, [this]()
 	{
 		SaveAllBeforeDestruct();	// virtual
-	});
+	},
+	"JXPrefsManager::SafetySave");
 	itsSafetySaveTask->Start();
 }
 

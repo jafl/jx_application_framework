@@ -105,7 +105,9 @@ JXDocumentManager::JXDocumentManager
 
 	itsPerformSafetySaveFlag = true;
 
-	itsSafetySaveTask = jnew JXFunctionTask(kDefaultSafetySavePeriod, std::bind(&JXDocumentManager::SafetySave, this, JXDocumentManager::kTimer));
+	itsSafetySaveTask = jnew JXFunctionTask(kDefaultSafetySavePeriod,
+		std::bind(&JXDocumentManager::SafetySave, this, JXDocumentManager::kTimer),
+		"JXDocumentManager::SafetySaveTask");
 
 	itsUpdateDocMenuTask = nullptr;
 
@@ -256,7 +258,8 @@ JXDocumentManager::DocumentMenusNeedUpdate()
 		{
 			itsUpdateDocMenuTask = nullptr;
 			UpdateAllDocumentMenus();
-		});
+		},
+		"JXDocumentManager::DocumentMenusNeedUpdate");
 		itsUpdateDocMenuTask->Go();
 	}
 }
@@ -634,6 +637,7 @@ JXDocumentManager::UpdateDocumentMenu
 		{
 			JXGetDocumentManager()->UpdateDocumentMenu(menu);
 		},
+		"JXDocumentManager::UpdateDocumentMenu",
 		true);
 		task->Start();
 		return;

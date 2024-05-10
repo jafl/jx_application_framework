@@ -80,7 +80,7 @@ public:
 	bool	DisplayExists(const Display* xDisplay);
 	bool	FindDisplay(const Display* xDisplay, JXDisplay** display);
 
-	static void	StartFiber(const std::function<void()>& f,
+	static void	StartFiber(const std::function<void()>& f, const JString& name,
 						   const FiberPriority priority = kIdleTaskPriority);
 	static bool	IsWorkerFiber();
 

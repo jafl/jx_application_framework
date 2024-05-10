@@ -20,8 +20,14 @@ public:
 		)
 		:
 		fiber_properties(ctx),
-		itsPriority(0)
+		itsPriority(0),
+		itsName(nullptr)
 	{
+	}
+
+	~JXBoostPriorityProps()
+	{
+		jdelete itsName;
 	}
 
 	int GetPriority() const
@@ -41,9 +47,20 @@ public:
 		}
 	}
 
+	const JString* GetName() const
+	{
+		return itsName;
+	}
+
+	void SetName(JString* name)
+	{
+		itsName = name;
+	}
+
 private:
 
-	int itsPriority;
+	int			itsPriority;
+	JString*	itsName;
 };
 
 class JXBoostPriorityScheduler :
@@ -98,16 +115,18 @@ public:
 		{
 			return nullptr;
 		}
-/*
-		std::cout << "ready fibers:";
-		std::for_each(itsReadyQ.begin(), itsReadyQ.end(), [this](boost::fibers::context& c)
-		{
-			std::cout << ' ' << properties(&c).GetPriority();
-		});
-		std::cout << std::endl << std::endl;
-*/
+
 		boost::fibers::context* ctx(&itsReadyQ.front());
 		itsReadyQ.pop_front();
+
+		if (debug_fiber > 0)
+		{
+			const JString* name = dynamic_cast<JXBoostPriorityProps*>(ctx->get_properties())->GetName();
+			if (name != nullptr)
+			{
+				std::cout << "activate: " << ctx << " " << *name << std::endl;
+			}
+		}
 		return ctx;
 	}
 

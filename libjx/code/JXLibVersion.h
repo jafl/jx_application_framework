@@ -26,9 +26,14 @@ static const char* kCurrentJXLibVersionStr = "4.2.0";
 //	JXUrgentTask is now the best way to push work to the UI thread.
 //	JXApplication:
 //		Added IsUIThread().
+//		Added name argument to StartFiber(), for debugging.
 //	Moved fiber support from JXStandAlonePG to JXProgressDisplay.
 //	JXFileDocument:
 //		Fixed bug to avoid deleting auto-saved file when closing document.
+//	JXFunctionTask:
+//		Added name argument to ctor, for debugging.
+//	JXUrgentFunctionTask:
+//		Added name argument to ctor, for debugging.
 
 // version 4.1.0:
 //	JXStringCompletionMenu:

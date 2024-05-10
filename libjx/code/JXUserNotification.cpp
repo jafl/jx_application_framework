@@ -92,7 +92,8 @@ JXUserNotification::ReportError
 		{
 			auto* dlog = jnew JXErrorDialog(message);
 			dlog->DoDialog();
-		});
+		},
+		"JXUserNotification::ReportError");
 	}
 }
 

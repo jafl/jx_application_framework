@@ -373,7 +373,8 @@ JXScrollableWidget::NeedAdjustScrollbars()
 		{
 			itsAdjustScrollbarTask = nullptr;
 			AdjustScrollbars();
-		});
+		},
+		"JXScrollableWidget::NeedAdjustScrollbars");
 		itsAdjustScrollbarTask->Go();
 	}
 }

@@ -289,7 +289,8 @@ JXWDManager::WDMenusNeedUpdate()
 		{
 			itsUpdateWDMenuTask = nullptr;
 			UpdateAllWDMenus();
-		});
+		},
+		"JXWDManager::WDMenusNeedUpdate");
 		itsUpdateWDMenuTask->Go();
 	}
 }
@@ -327,6 +328,7 @@ JXWDManager::UpdateWDMenu
 		{
 			UpdateWDMenu(menu);
 		},
+		"JXWDManager::UpdateWDMenu",
 		true);
 		task->Start();
 		return;

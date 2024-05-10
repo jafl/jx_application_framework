@@ -99,7 +99,8 @@ JXFSBindingManager::JXFSBindingManager
 		{
 			itsEditDialog->CheckIfNeedRevert();
 		}
-	});
+	},
+	"JXFSBindingManager::UpdateBindingListTask");
 	itsUpdateBindingListTask->Start();
 
 	itsRunCmdDialog = jnew JXFSRunCommandDialog;
