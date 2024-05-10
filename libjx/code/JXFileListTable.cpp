@@ -152,29 +152,55 @@ JXFileListTable::AddFile
 	JIndex*			fullNameIndex	// can be nullptr
 	)
 {
-	assert( !fullName.IsEmpty() );
-
-	if (fullNameIndex != nullptr)
-	{
-		*fullNameIndex = 0;
-	}
-
 	ClearSelection();
 
-	auto* s = jnew JString(fullName);
+	JIndex index;
+	const bool added = AddFileNeedsRebuild(fullName, &index);
+	if (added)
+	{
+		FilterFile(index);
+		AdjustColWidths();
+	}
 
-	bool found;
-	const JIndex index = itsFileList->SearchSortedOTI(s, JListT::kAnyMatch, &found);
 	if (fullNameIndex != nullptr)
 	{
 		*fullNameIndex = index;
 	}
+	return added;
+}
 
+/******************************************************************************
+ AddFileNeedsRebuild (protected)
+
+	Returns true if the file was inserted.  Returns false if the file
+	was already in the list.
+
+	If a relative path is added, then GetFullName() will call the virtual
+	function ResolveFullName().
+
+	fullNameIndex is set to the index into GetFullNameList(), both when the
+	file is inserted and when the file is already there.
+
+	*** Caller must invoke RebuildTable() if this function returns true.
+
+ ******************************************************************************/
+
+bool
+JXFileListTable::AddFileNeedsRebuild
+	(
+	const JString&	fullName,
+	JIndex*			fullNameIndex
+	)
+{
+	assert( !fullName.IsEmpty() );
+
+	auto* s = jnew JString(fullName);
+
+	bool found;
+	*fullNameIndex = itsFileList->SearchSortedOTI(s, JListT::kAnyMatch, &found);
 	if (!found)
 	{
-		itsFileList->InsertAtIndex(index, s);
-		FilterFile(index);
-		AdjustColWidths();
+		itsFileList->InsertAtIndex(*fullNameIndex, s);
 		return true;
 	}
 	else
@@ -217,6 +243,11 @@ JXFileListTable::RemoveFiles
 	JProgressDisplay*			pg
 	)
 {
+	if (fileList.IsEmpty())
+	{
+		return;
+	}
+
 	ClearSelection();
 
 	for (auto* s : fileList)
@@ -232,6 +263,39 @@ JXFileListTable::RemoveFiles
 			pg->IncrementProgress();
 		}
 	}
+}
+
+/******************************************************************************
+ RemoveFilesNeedsRebuild (protected)
+
+	*** Caller must invoke RebuildTable() afterwards.
+
+ ******************************************************************************/
+
+void
+JXFileListTable::RemoveFilesNeedsRebuild
+	(
+	const JPtrArray<JString>& fileList
+	)
+{
+	if (fileList.IsEmpty())
+	{
+		return;
+	}
+
+	ClearSelection();
+	StopListening(itsFileList);
+
+	for (auto* s : fileList)
+	{
+		JIndex index;
+		if (itsFileList->SearchSorted(s, JListT::kAnyMatch, &index))
+		{
+			itsFileList->DeleteItem(index);
+		}
+	}
+
+	ListenTo(itsFileList);
 }
 
 /******************************************************************************
@@ -365,7 +429,9 @@ JXFileListTable::ClearFilterRegex()
 }
 
 /******************************************************************************
- RebuildTable (private)
+ RebuildTable (protected)
+
+	Available to derived classes that need to call RemoveFilesNeedsRebuild().
 
  ******************************************************************************/
 
@@ -375,7 +441,7 @@ JXFileListTable::RebuildTable
 	const bool maintainScroll
 	)
 {
-	const JPoint scrollPt = (GetAperture()).topLeft();
+	const JPoint scrollPt = GetAperture().topLeft();
 
 	itsVisibleList->RemoveAll();
 	RemoveAllRows();
