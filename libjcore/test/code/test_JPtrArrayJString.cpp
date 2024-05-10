@@ -17,6 +17,13 @@ int main()
 	return JTestManager::Execute();
 }
 
+JTEST(Compare)
+{
+	JString s1("abc"), s2("ABC");
+	JAssertEqual(std::weak_ordering::greater, JCompareStringsCaseSensitive(&s1, &s2));
+	JAssertEqual(std::weak_ordering::equivalent, JCompareStringsCaseInsensitive(&s1, &s2));
+}
+
 JTEST(ReadWritePtrArray)
 {
 	JPtrArray<JString> list1(JPtrArrayT::kDeleteAll),
@@ -36,7 +43,7 @@ JTEST(ReadWritePtrArray)
 	io2.seekg(0);
 	io2 >> list2;
 	JAssertEqual(1, list2.GetItemCount());
-	JAssertStringsEqual("foobar", *(list2.GetItem(1)));
+	JAssertStringsEqual("foobar", *list2.GetItem(1));
 
 	list1.Prepend(JString("barbaz", JString::kNoCopy));
 
@@ -45,8 +52,8 @@ JTEST(ReadWritePtrArray)
 	io3.seekg(0);
 	io3 >> list2;
 	JAssertEqual(2, list2.GetItemCount());
-	JAssertStringsEqual("barbaz", *(list2.GetItem(1)));
-	JAssertStringsEqual("foobar", *(list2.GetItem(2)));
+	JAssertStringsEqual("barbaz", *list2.GetItem(1));
+	JAssertStringsEqual("foobar", *list2.GetItem(2));
 }
 
 JTEST(ReadWritePtrMap)

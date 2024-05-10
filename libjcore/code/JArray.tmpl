@@ -623,13 +623,13 @@ JArray<T>::SwapItems
 /******************************************************************************
  Sort (virtual)
 
-	We minimize the number of moves (O(N)) because MoveItemToIndex()
+	We minimize the number of move actions (O(N)) because MoveItemToIndex()
 	invokes JBroadcaster::Broadcast(), which can take arbitrary amounts of time.
 
 	By using insertion sort to sort item k+1 into the already sorted
 	list of k items, we obtain O(N log N) comparisons.
 
-	The number of moves is always O(N^2).
+	The number of data moves is always O(N^2).
 
  ******************************************************************************/
 

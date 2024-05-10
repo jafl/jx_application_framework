@@ -134,7 +134,7 @@ JBroadcaster::BroadcastPrivate
 	if (itsRecipients != nullptr)
 	{
 		JTaskIterator<JBroadcaster> iterator(*itsRecipients);
-		JBroadcaster* recipient;
+		JBroadcaster* recipient = nullptr;
 
 		while (iterator.Next(&recipient))
 		{
