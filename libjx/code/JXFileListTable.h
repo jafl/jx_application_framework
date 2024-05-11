@@ -74,10 +74,6 @@ protected:
 
 	virtual bool	ResolveFullName(JString* name);
 
-	bool	AddFileNeedsRebuild(const JString& fullName, JIndex* fullNameIndex);
-	void	RemoveFilesNeedsRebuild(const JPtrArray<JString>& fileList);
-	void	RebuildTable(const bool maintainScroll = false);
-
 	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
@@ -149,6 +145,7 @@ private:
 
 private:
 
+	void	RebuildTable(const bool maintainScroll = false);
 	void	FilterFile(const JIndex fileIndex);
 	void	AdjustColWidths();
 
