@@ -15,6 +15,7 @@
 #include "JCreateProgressDisplay.h"
 #include "JStringManager.h"
 #include <functional>
+#include <mutex>
 
 class JFontManager;
 class JWebBrowser;
