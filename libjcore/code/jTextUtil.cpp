@@ -314,6 +314,33 @@ JReadUNIXManOutput
 }
 
 /******************************************************************************
+ JStripUNIXTerminalFormatting
+
+	Returns true if formatting was found and removed.
+
+ ******************************************************************************/
+
+const JRegex theUNIXTerminalFormatPattern("\033\\[([0-9]+(?:;[0-9]+)*)?m");
+
+bool
+JStripUNIXTerminalFormatting
+	(
+	JString* text
+	)
+{
+	bool cleaned = false;
+
+	JStringIterator iter(text);
+	while (iter.Next(theUNIXTerminalFormatPattern))
+	{
+		iter.RemoveLastMatch();
+		cleaned = true;
+	}
+
+	return cleaned;
+}
+
+/******************************************************************************
  JPasteUNIXTerminalOutput
 
 	Parses text and approximates the formatting.
@@ -321,8 +348,6 @@ JReadUNIXManOutput
 	Returns the number of characters inserted.
 
  ******************************************************************************/
-
-const JRegex theUNIXTerminalFormatPattern("\033\\[([0-9]+(?:;[0-9]+)*)?m");
 
 JStyledText::TextRange
 JPasteUNIXTerminalOutput

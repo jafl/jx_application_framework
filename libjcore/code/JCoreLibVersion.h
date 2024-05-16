@@ -34,6 +34,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.2.0";
 //	Created JThreadPG.
 //	Created JGetTemporaryDirectoryChangeMutex() for multi-threaded programs
 //		that need to temporarily change working directory.
+//	jTextUtil:
+//		Added JStripUNIXTerminalFormatting().
 
 // version 4.1.0:
 //
