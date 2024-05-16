@@ -66,8 +66,7 @@ JMDIServer::JMDIServer
 
 	ACE_UNIX_Addr addr(socketName.GetBytes());
 	itsAcceptor = jnew ACE_LSOCK_Acceptor(addr, 0, PF_UNIX, kMDIServerQSize);
-
-	itsSocket = jnew ACE_LSOCK_Stream;
+	itsSocket   = jnew ACE_LSOCK_Stream;
 }
 
 /******************************************************************************

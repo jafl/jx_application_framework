@@ -175,7 +175,7 @@ JThisProcess::JThisProcess()
 		itsSignalSet.sig_add(s);
 	}
 
-	(ACE_Reactor::instance())->register_handler(itsSignalSet, this);
+	ACE_Reactor::instance()->register_handler(itsSignalSet, this);
 
 	// remember to clean up
 
@@ -526,7 +526,7 @@ JThisProcess::Fork
 	pid_t* pid
 	)
 {
-	const int result = ACE_OS::fork();
+	const pid_t result = ACE_OS::fork();
 	if (result == -1)
 	{
 		*pid = 0;
