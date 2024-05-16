@@ -507,10 +507,17 @@ JExecute
 		}
 	}
 
-	pid_t pid;
-	const JError err = JThisProcess::Fork(&pid);
-	if (!err.OK())
+	FILE* nullFile = nullptr;
+	if (fromAction == kJTossOutput || errAction == kJTossOutput)
 	{
+		nullFile = fopen("/dev/null", "a");
+	}
+
+	const pid_t pid = ACE_OS::fork();
+	if (pid == -1)
+	{
+		const int err = jerrno();
+
 		if (toAction == kJCreatePipe)
 		{
 			close(fd[0][0]);
@@ -526,12 +533,24 @@ JExecute
 			close(fd[2][0]);
 			close(fd[2][1]);
 		}
-		return err;
+
+		if (err == EAGAIN)
+		{
+			return JNoProcessMemory();
+		}
+		else if (err == ENOMEM)
+		{
+			return JNoKernelMemory();
+		}
+		else
+		{
+			return JUnexpectedError(err);
+		}
 	}
 
 	// child
 
-	else if (pid == 0)
+	if (pid == 0)
 	{
 		const int stdinFD = fileno(stdin);
 		if (toAction == kJCreatePipe)
@@ -560,10 +579,7 @@ JExecute
 		}
 		else if (fromAction == kJTossOutput)
 		{
-			FILE* nullFile = fopen("/dev/null", "a");
-			int nullfd     = fileno(nullFile);
-			dup2(nullfd, stdoutFD);
-			fclose(nullFile);
+			dup2(fileno(nullFile), stdoutFD);
 		}
 
 		const int stderrFD = fileno(stderr);
@@ -580,10 +596,7 @@ JExecute
 		}
 		else if (errAction == kJTossOutput)
 		{
-			FILE* nullFile = fopen("/dev/null", "a");
-			int nullfd     = fileno(nullFile);
-			dup2(nullfd, stderrFD);
-			fclose(nullFile);
+			dup2(fileno(nullFile), stderrFD);
 		}
 		else if (errAction == kJAttachToFromFD && fromAction != kJIgnoreConnection)
 		{
@@ -591,6 +604,8 @@ JExecute
 		}
 
 		ACE_OS::execvp(argv[0], const_cast<char* const*>(argv));
+
+		// only reached if execvp fails
 
 		std::cerr << "Unable to run program \"" << argv[0] << '"' << std::endl;
 		std::cerr << std::endl;
@@ -603,59 +618,60 @@ JExecute
 
 	// parent
 
-	else
+	if (origFromAction == kJForceNonblockingPipe)
 	{
-		if (origFromAction == kJForceNonblockingPipe)
+		pid_t pid2;
+		const JError err2 = JThisProcess::Fork(&pid2);
+		if (err2.OK() && pid2 == 0)
 		{
-			pid_t pid2;
-			const JError err2 = JThisProcess::Fork(&pid2);
-			if (err2.OK() && pid2 == 0)
+			for (int i=0; i<150; i++)
 			{
-				for (int i=0; i<150; i++)
+				JWait(0.1);
+
+				int value = fcntl(fd[1][1], F_GETFL, 0);
+				if (value & O_NONBLOCK)
 				{
-					JWait(0.1);
-
-					int value = fcntl(fd[1][1], F_GETFL, 0);
-					if (value & O_NONBLOCK)
-					{
-						std::cerr << "turning off nonblocking for std::cout: " << value << std::endl;
-						fcntl(fd[1][1], F_SETFL, value & (~ O_NONBLOCK));
-					}
+					std::cerr << "turning off nonblocking for std::cout: " << value << std::endl;
+					fcntl(fd[1][1], F_SETFL, value & (~ O_NONBLOCK));
 				}
-
-				JThisProcess::Exit(0);
-				return JNoError();
 			}
 
-			auto* p = jnew JProcess(pid2);
-			p->KillAtExit(true);
-		}
-
-		if (toAction == kJCreatePipe)
-		{
-			close(fd[0][0]);
-			*toFD = fd[0][1];
-		}
-		if (fromAction == kJCreatePipe)
-		{
-			close(fd[1][1]);
-			*fromFD = fd[1][0];
-		}
-		if (errAction == kJCreatePipe)
-		{
-			close(fd[2][1]);
-			*errFD = fd[2][0];
-		}
-
-		if (childPID == nullptr)
-		{
-			return JWaitForChild(pid);
-		}
-		else
-		{
-			*childPID = pid;
+			JThisProcess::Exit(0);
 			return JNoError();
 		}
+
+		auto* p = jnew JProcess(pid2);
+		p->KillAtExit(true);
+	}
+
+	if (toAction == kJCreatePipe)
+	{
+		close(fd[0][0]);
+		*toFD = fd[0][1];
+	}
+	if (fromAction == kJCreatePipe)
+	{
+		close(fd[1][1]);
+		*fromFD = fd[1][0];
+	}
+	if (errAction == kJCreatePipe)
+	{
+		close(fd[2][1]);
+		*errFD = fd[2][0];
+	}
+	if (nullFile != nullptr)
+	{
+		fclose(nullFile);
+	}
+
+	if (childPID == nullptr)
+	{
+		return JWaitForChild(pid);
+	}
+	else
+	{
+		*childPID = pid;
+		return JNoError();
 	}
 }
 
