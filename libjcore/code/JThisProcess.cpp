@@ -518,6 +518,10 @@ JThisProcess::Ignore
 
 	If no error occurs, *pid is zero inside the child process.
 
+	*** Do not use this in a multi-threaded program.
+
+	https://thorstenball.com/blog/2014/10/13/why-threads-cant-fork/
+
  ******************************************************************************/
 
 JError
