@@ -30,6 +30,7 @@ static JWebBrowser*				theWebBrowser       = nullptr;
 
 static std::function<void(const std::function<void()>&)>* theTaskScheduler = nullptr;
 
+static thread_local bool theInteractiveThreadFlag = false;
 static std::recursive_mutex theTempDirChangeMutex;
 
 /******************************************************************************
@@ -323,6 +324,32 @@ JScheduleTask
 	{
 		task();
 	}
+}
+
+/******************************************************************************
+ Interactive thread
+
+	There is typically only one interactive thread in a program, because
+	it gets too confusing otherwise.
+
+	This is used by certain objects, e.g., JLatentPG, to decide whether
+	or not to display anything.
+
+ ******************************************************************************/
+
+bool
+JIsInteractiveThread()
+{
+	return theInteractiveThreadFlag;
+}
+
+void
+JSetThreadIsInteractive
+	(
+	const bool interactive
+	)
+{
+	theInteractiveThreadFlag = interactive;
 }
 
 /******************************************************************************

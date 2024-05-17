@@ -43,6 +43,9 @@ bool	JGetDataDirectories(const JUtf8Byte* signature, const JUtf8Byte* dirName,
 void	JSetTaskScheduler(const std::function<void(const std::function<void()>&)>& sched);
 void	JScheduleTask(const std::function<void()>& f);
 
+bool	JIsInteractiveThread();
+void	JSetThreadIsInteractive(const bool interactive = true);
+
 std::recursive_mutex&	JGetTemporaryDirectoryChangeMutex();
 
 /******************************************************************************

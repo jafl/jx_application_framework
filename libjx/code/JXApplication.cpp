@@ -92,6 +92,7 @@ JXApplication::JXApplication
 	itsIsQuittingFlag(false),
 	itsUrgentTaskChannel(nullptr)
 {
+	JSetThreadIsInteractive();
 	theUIThreadFlag = true;
 
 	std::cout << std::boolalpha;	// since it will only be used for debugging

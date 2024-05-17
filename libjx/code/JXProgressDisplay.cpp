@@ -109,7 +109,7 @@ JXProgressDisplay::ProcessBeginning
 	const bool			origModal
 	)
 {
-	const bool modal = modal && IsWorkerFiber();
+	const bool modal = origModal && JXApplication::IsWorkerFiber();
 
 	itsCancelFlag = false;
 	JProgressDisplay::ProcessBeginning(processType, stepCount, message,
@@ -355,8 +355,6 @@ JXProgressDisplay::Receive
 {
 	if (sender == itsCancelButton && message.Is(JXButton::kPushed))
 	{
-		auto* info = dynamic_cast<const JXButton::Pushed*>(&message);
-		assert( info != nullptr );
 		itsCancelFlag = true;
 
 		// must be last since it could delete us

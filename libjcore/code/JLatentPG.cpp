@@ -150,6 +150,11 @@ JLatentPG::ProcessBeginning
 void
 JLatentPG::StartInternalProcess()
 {
+	if (!JIsInteractiveThread())
+	{
+		return;
+	}
+
 	const ProcessType type = GetCurrentProcessType();
 	if (type == kFixedLengthProcess)
 	{
@@ -185,7 +190,7 @@ JLatentPG::IncrementProgress
 	bool result          = true;
 
 	itsCounter++;
-	if (!pgRunning && (TimeToStart() || !message.IsEmpty()))
+	if (JIsInteractiveThread() && !pgRunning && (TimeToStart() || !message.IsEmpty()))
 	{
 		StartInternalProcess();
 
@@ -196,7 +201,7 @@ JLatentPG::IncrementProgress
 
 		itsCounter = 0;
 	}
-	else if (pgRunning && (TimeToUpdate() || !message.IsEmpty()))
+	else if (JIsInteractiveThread() && pgRunning && (TimeToUpdate() || !message.IsEmpty()))
 	{
 		result = itsPG->IncrementProgress(message,
 			GetCurrentStepCount() - itsPG->GetCurrentStepCount());
@@ -215,7 +220,8 @@ JLatentPG::IncrementProgress
 bool
 JLatentPG::ProcessContinuing()
 {
-	return !itsPG->ProcessRunning() || itsPG->ProcessContinuing();
+	return (!JIsInteractiveThread() ||
+			!itsPG->ProcessRunning() || itsPG->ProcessContinuing());
 }
 
 /******************************************************************************
@@ -239,7 +245,7 @@ JLatentPG::ProcessFinished()
 {
 	JProgressDisplay::ProcessFinished();
 
-	if (itsPG->ProcessRunning())
+	if (JIsInteractiveThread() && itsPG->ProcessRunning())
 	{
 		itsPG->ProcessFinished();
 	}
@@ -253,7 +259,10 @@ JLatentPG::ProcessFinished()
 void
 JLatentPG::DisplayBusyCursor()
 {
-	itsPG->DisplayBusyCursor();
+	if (JIsInteractiveThread())
+	{
+		itsPG->DisplayBusyCursor();
+	}
 }
 
 /******************************************************************************
