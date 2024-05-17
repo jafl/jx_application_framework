@@ -552,6 +552,8 @@ JExecute
 
 	if (pid == 0)
 	{
+		ACE_OS::setpgid(0, 0);	// sets our process group id to our process id -- allows stopping child separately
+
 		const int stdinFD = fileno(stdin);
 		if (toAction == kJCreatePipe)
 		{
