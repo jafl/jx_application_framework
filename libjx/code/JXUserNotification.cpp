@@ -86,7 +86,7 @@ JXUserNotification::ReportError
 		auto* dlog = jnew JXErrorDialog(message);
 		dlog->DoDialog();
 	}
-	else	// during startup
+	else	// during startup or in thread
 	{
 		JXApplication::StartFiber([message]()
 		{

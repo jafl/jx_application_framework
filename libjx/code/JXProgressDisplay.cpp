@@ -106,9 +106,11 @@ JXProgressDisplay::ProcessBeginning
 	const JSize			stepCount,
 	const JString&		message,
 	const bool			allowCancel,
-	const bool			modal
+	const bool			origModal
 	)
 {
+	const bool modal = modal && IsWorkerFiber();
+
 	itsCancelFlag = false;
 	JProgressDisplay::ProcessBeginning(processType, stepCount, message,
 									   allowCancel, modal);
@@ -256,8 +258,6 @@ JXProgressDisplay::ProcessContinuing()
 
 	if (IsModal())
 	{
-		assert( JXApplication::IsWorkerFiber() );
-
 		std::unique_lock lock(itsMutex);
 		itsCondition.wait(lock, [this](){ return itsContinueFlag; });
 		itsContinueFlag = false;

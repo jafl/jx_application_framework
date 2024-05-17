@@ -813,7 +813,7 @@ JXApplication::StartFiber
 bool
 JXApplication::IsWorkerFiber()
 {
-	return (!theUIThreadFlag ||
+	return (theUIThreadFlag &&
 			boost::this_fiber::properties<JXBoostPriorityProps>().GetPriority() > kEventLoopPriority);
 }
 
