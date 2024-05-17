@@ -260,9 +260,6 @@ JXImagePainter::Image
 	const JRect&	destRect
 	)
 {
-	auto* ximage = dynamic_cast<const JXImage*>(&image);
-	assert( ximage != nullptr );
-
 	if (PrepareXDraw())
 	{
 		JXWindowPainter::Image(image, srcRect, destRect);

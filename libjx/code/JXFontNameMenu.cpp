@@ -203,19 +203,17 @@ JXFontNameMenu::Receive
 	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 	{
-		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-
+		auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
 		if (itsNameHistory != nullptr)
 		{
-			const JString& name = GetItemText(selection->GetIndex());
+			const JString& name = GetItemText(selection.GetIndex());
 			UpdateHistory(name);
 			itsFontIndex = 0;	// force broadcast
 			SetFontName(name);
 		}
 		else
 		{
-			itsFontIndex = selection->GetIndex();
+			itsFontIndex = selection.GetIndex();
 			Broadcast(NameChanged());
 		}
 	}

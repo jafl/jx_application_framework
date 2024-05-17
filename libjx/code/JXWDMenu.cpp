@@ -91,9 +91,8 @@ JXWDMenu::Receive
 	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 	{
-		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsWDMgr->HandleWDMenu(this, selection->GetIndex());
+		auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+		itsWDMgr->HandleWDMenu(this, selection.GetIndex());
 	}
 
 	else if (sender == itsWDMgr && message.Is(JXWDManager::kWDMenuNeedsUpdate))

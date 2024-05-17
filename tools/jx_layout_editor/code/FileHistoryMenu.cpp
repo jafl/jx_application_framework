@@ -97,17 +97,14 @@ FileHistoryMenu::Receive
 	if (sender == GetDocumentManager() &&
 		message.Is(DocumentManager::kAddFileToHistory))
 	{
-		auto* info = dynamic_cast<const DocumentManager::AddFileToHistory*>(&message);
-		assert( info != nullptr );
-		AddFile(info->GetFullName());
+		auto& info = dynamic_cast<const DocumentManager::AddFileToHistory&>(message);
+		AddFile(info.GetFullName());
 	}
 
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 	{
-		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-
-		LayoutDocument::Create(GetFile(selection->GetIndex()));
+		auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+		LayoutDocument::Create(GetFile(selection.GetIndex()));
 	}
 
 	else

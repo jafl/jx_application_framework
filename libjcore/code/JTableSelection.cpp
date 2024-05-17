@@ -136,32 +136,29 @@ JTableSelection::Receive
 
 	if (sender == table && message.Is(JTableData::kRowsInserted))
 	{
-		auto* info = dynamic_cast<const JTableData::RowsInserted*>(&message);
-		assert( info != nullptr );
-		info->AdjustCell(&itsBoat);
-		info->AdjustCell(&itsAnchor);
+		auto& info = dynamic_cast<const JTableData::RowsInserted&>(message);
+		info.AdjustCell(&itsBoat);
+		info.AdjustCell(&itsAnchor);
 		reselect = true;
 	}
 
 	else if (sender == table && message.Is(JTableData::kRowDuplicated))
 	{
-		auto* info = dynamic_cast<const JTableData::RowDuplicated*>(&message);
-		assert( info != nullptr );
-		info->AdjustCell(&itsBoat);
-		info->AdjustCell(&itsAnchor);
+		auto& info = dynamic_cast<const JTableData::RowDuplicated&>(message);
+		info.AdjustCell(&itsBoat);
+		info.AdjustCell(&itsAnchor);
 		reselect = true;
 	}
 
 	else if (sender == table && message.Is(JTableData::kRowsRemoved))
 	{
-		auto* info = dynamic_cast<const JTableData::RowsRemoved*>(&message);
-		assert( info != nullptr );
+		auto& info              = dynamic_cast<const JTableData::RowsRemoved&>(message);
 		const JPoint origBoat   = itsBoat;
 		const JPoint origAnchor = itsAnchor;
-		info->AdjustCell(&itsBoat);
-		info->AdjustCell(&itsAnchor);
+		info.AdjustCell(&itsBoat);
+		info.AdjustCell(&itsAnchor);
 		AdjustIndexAfterRemove(origBoat.y, origAnchor.y,
-							   info->GetFirstIndex(), GetRowCount(),
+							   info.GetFirstIndex(), GetRowCount(),
 							   &(itsBoat.y), &(itsAnchor.y));
 		reselect = true;
 	}
@@ -170,32 +167,29 @@ JTableSelection::Receive
 
 	else if (sender == table && message.Is(JTableData::kColsInserted))
 	{
-		auto* info = dynamic_cast<const JTableData::ColsInserted*>(&message);
-		assert( info != nullptr );
-		info->AdjustCell(&itsBoat);
-		info->AdjustCell(&itsAnchor);
+		auto& info = dynamic_cast<const JTableData::ColsInserted&>(message);
+		info.AdjustCell(&itsBoat);
+		info.AdjustCell(&itsAnchor);
 		reselect = true;
 	}
 
 	else if (sender == table && message.Is(JTableData::kColDuplicated))
 	{
-		auto* info = dynamic_cast<const JTableData::ColDuplicated*>(&message);
-		assert( info != nullptr );
-		info->AdjustCell(&itsBoat);
-		info->AdjustCell(&itsAnchor);
+		auto& info = dynamic_cast<const JTableData::ColDuplicated&>(message);
+		info.AdjustCell(&itsBoat);
+		info.AdjustCell(&itsAnchor);
 		reselect = true;
 	}
 
 	else if (sender == table && message.Is(JTableData::kColsRemoved))
 	{
-		auto* info = dynamic_cast<const JTableData::ColsRemoved*>(&message);
-		assert( info != nullptr );
+		auto& info              = dynamic_cast<const JTableData::ColsRemoved&>(message);
 		const JPoint origBoat   = itsBoat;
 		const JPoint origAnchor = itsAnchor;
-		info->AdjustCell(&itsBoat);
-		info->AdjustCell(&itsAnchor);
+		info.AdjustCell(&itsBoat);
+		info.AdjustCell(&itsAnchor);
 		AdjustIndexAfterRemove(origBoat.x, origAnchor.x,
-							   info->GetFirstIndex(), GetColCount(),
+							   info.GetFirstIndex(), GetColCount(),
 							   &(itsBoat.x), &(itsAnchor.x));
 		reselect = true;
 	}

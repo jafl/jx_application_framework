@@ -179,9 +179,8 @@ JXStringCompletionMenu::Receive
 {
 	if (sender == this && message.Is(JXMenu::kItemSelected))
 	{
-		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleSelection(selection->GetIndex());
+		auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+		HandleSelection(selection.GetIndex());
 	}
 
 	else

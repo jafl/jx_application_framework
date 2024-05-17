@@ -347,9 +347,8 @@ JSimpleProcess::Receive
 {
 	if (sender == this && message.Is(JProcess::kFinished))
 	{
-		auto* info = dynamic_cast<const JProcess::Finished*>(&message);
-		assert( info != nullptr );
-		ReportError(info->Successful());
+		auto& info = dynamic_cast<const JProcess::Finished&>(message);
+		ReportError(info.Successful());
 	}
 	else
 	{

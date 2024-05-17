@@ -1422,20 +1422,19 @@ JXSearchTextDialog::ReceiveWithFeedback
 {
 	if (sender == GetDisplay() && message->Is(JXDisplay::kXEventMessage))
 	{
-		auto* info = dynamic_cast<JXDisplay::XEventMessage*>(message);
-		assert( info != nullptr );
-		const XEvent& event = info->GetXEvent();
+		auto& info = dynamic_cast<JXDisplay::XEventMessage&>(*message);
+		const XEvent& event = info.GetXEvent();
 		if (event.type             == PropertyNotify &&
 			event.xproperty.window == itsVersionWindow &&
 			event.xproperty.atom   == itsAtoms[ kXSearchVersionAtomIndex ] &&
 			event.xproperty.state  == PropertyNewValue)
 		{
-			if (!(GetDisplay()->GetSelectionManager())->
+			if (!GetDisplay()->GetSelectionManager()->
 					OwnsSelection(itsAtoms[ kXSearchSelectionAtomIndex ]))
 			{
 				GetXSearch();
 			}
-			info->SetProcessed();
+			info.SetProcessed();
 			return;
 		}
 	}

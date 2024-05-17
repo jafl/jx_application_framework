@@ -340,18 +340,17 @@ void
 DNDWidget::GetSelectionData
 	(
 	JXSelectionData*	data,
-	const JString&	id
+	const JString&		id
 	)
 {
 	// Check to see if this is our id
 	if (id == kSelectionID)
 	{
 		// Cast the data object to the object that we know it is.
-		DNDData* lineData = dynamic_cast<DNDData*>(data);
-		assert(lineData != nullptr);
+		auto& lineData = dynamic_cast<DNDData&>(*data);
 
 		// Pass our points to the line data object.
-		lineData->SetData(*itsPoints);
+		lineData.SetData(*itsPoints);
 	}
 }
 

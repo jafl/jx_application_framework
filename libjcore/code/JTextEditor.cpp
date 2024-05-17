@@ -398,22 +398,21 @@ JTextEditor::Receive
 	else if (sender == itsText &&
 			 message.Is(JStyledText::kTextChanged))
 	{
-		auto* info = dynamic_cast<const JStyledText::TextChanged*>(&message);
-		assert( info != nullptr );
-		const TextRange& rcr = info->GetRecalcRange();
+		auto& info           = dynamic_cast<const JStyledText::TextChanged&>(message);
+		const TextRange& rcr = info.GetRecalcRange();
 		if (rcr.charRange.GetCount() == itsText->GetText().GetCharacterCount())
 		{
 			RecalcAll(false);
 		}
 		else
 		{
-			Recalc(rcr, info->GetRedrawRange());
+			Recalc(rcr, info.GetRedrawRange());
 		}
 
-		const TextRange& r = info->GetRange();
+		const TextRange& r = info.GetRange();
 
-		const JInteger cd = info->GetCharDelta(),
-					   bd = info->GetByteDelta();
+		const JInteger cd = info.GetCharDelta(),
+					   bd = info.GetByteDelta();
 
 		if (itsSelection.IsEmpty() &&
 			r.charRange.last - cd < itsCaret.location.charIndex)
@@ -464,9 +463,8 @@ JTextEditor::Receive
 	else if (sender == itsText &&
 			 message.Is(JStyledText::kUndoFinished))
 	{
-		auto* info = dynamic_cast<const JStyledText::UndoFinished*>(&message);
-		assert( info != nullptr );
-		const TextRange& r = info->GetRange();
+		auto& info         = dynamic_cast<const JStyledText::UndoFinished&>(message);
+		const TextRange& r = info.GetRange();
 		if (itsActiveFlag && !r.IsEmpty())
 		{
 			SetSelection(r);

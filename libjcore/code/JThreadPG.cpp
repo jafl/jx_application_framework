@@ -68,39 +68,37 @@ JThreadPG::WaitForProcessFinished
 	{
 		if (m->Is(kProcessBeginning))
 		{
-			auto* info = dynamic_cast<class ProcessBeginning*>(m);
-			assert( info != nullptr );
+			auto& info = dynamic_cast<class ProcessBeginning&>(*m);
 
 			const JString* msg;
-			if (!info->GetMessage(&msg))
+			if (!info.GetMessage(&msg))
 			{
 				msg = &JString::empty;
 			}
 
-			if (info->GetProcessType() == kFixedLengthProcess)
+			if (info.GetProcessType() == kFixedLengthProcess)
 			{
-				pg->FixedLengthProcessBeginning(info->GetStepCount(), *msg,
-												info->AllowCancel(), false);
+				pg->FixedLengthProcessBeginning(info.GetStepCount(), *msg,
+												info.AllowCancel(), false);
 			}
 			else
 			{
-				assert( info->GetProcessType() == kVariableLengthProcess );
+				assert( info.GetProcessType() == kVariableLengthProcess );
 
-				pg->VariableLengthProcessBeginning(*msg, info->AllowCancel(), false);
+				pg->VariableLengthProcessBeginning(*msg, info.AllowCancel(), false);
 			}
 		}
 		else if (m->Is(kIncrementProgress))
 		{
-			auto* info = dynamic_cast<class IncrementProgress*>(m);
-			assert( info != nullptr );
+			auto& info = dynamic_cast<class IncrementProgress&>(*m);
 
 			const JString* msg;
-			if (!info->GetMessage(&msg))
+			if (!info.GetMessage(&msg))
 			{
 				msg = &JString::empty;
 			}
 
-			if (!pg->IncrementProgress(*msg, info->GetDelta()) &&
+			if (!pg->IncrementProgress(*msg, info.GetDelta()) &&
 				itsCancelFlag != nullptr)
 			{
 				*itsCancelFlag = true;

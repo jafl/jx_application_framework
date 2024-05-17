@@ -1606,12 +1606,12 @@ JStyledText::SetAllFontNameAndSize
 	{
 		for (auto* u : *list)
 		{
-			dynamic_cast<JSTUndoBase*>(u)->SetFont(name, size);
+			dynamic_cast<JSTUndoBase&>(*u).SetFont(name, size);
 		}
 	}
 	else if (itsUndoChain->GetCurrentUndo(&undo))
 	{
-		dynamic_cast<JSTUndoBase*>(undo)->SetFont(name, size);
+		dynamic_cast<JSTUndoBase&>(*undo).SetFont(name, size);
 	}
 
 	itsDefaultFont.Set(name, size, itsDefaultFont.GetStyle());

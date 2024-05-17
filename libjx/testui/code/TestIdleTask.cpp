@@ -43,13 +43,15 @@ TestIdleTask::Perform
 	{
 		// automatically deleted
 	},
+	"TestIdleTask",
 	true);
 	task->Start();
 
 	auto* utask = jnew JXUrgentFunctionTask(JXGetDocumentManager(), []()
 	{
 		// automatically deleted
-	});
+	},
+	"TestUrgentTask");
 	utask->Go();
 
 	if (itsCounter >= 10)

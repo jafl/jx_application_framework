@@ -91,10 +91,9 @@ JXDocumentMenu::Receive
 	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 	{
-		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
+		auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
 		JXDocument* doc;
-		if (itsDocMgr->GetDocument(selection->GetIndex(), &doc))	// doc might close while menu is open
+		if (itsDocMgr->GetDocument(selection.GetIndex(), &doc))	// doc might close while menu is open
 		{
 			doc->Activate();
 		}

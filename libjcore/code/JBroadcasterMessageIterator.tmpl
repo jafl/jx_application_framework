@@ -64,11 +64,10 @@ JBroadcasterMessageIterator<T>::ListChanged
 
 	if (message.Is(JListT::kItemsInserted))
 	{
-		auto* info = dynamic_cast<const JListT::ItemsInserted*>(&message);
-		assert( info != nullptr );
-		if (JListIterator<T>::GetCursor() == 0 && info->GetFirstIndex() == 1)
+		auto& info = dynamic_cast<const JListT::ItemsInserted&>(message);
+		if (JListIterator<T>::GetCursor() == 0 && info.GetFirstIndex() == 1)
 		{
-			JListIterator<T>::MoveTo(JListT::kStartAfter, info->GetCount());
+			JListIterator<T>::MoveTo(JListT::kStartAfter, info.GetCount());
 		}
 	}
 }

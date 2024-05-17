@@ -340,9 +340,8 @@ JXPTPrintSetupDialog::Receive
 {
 	if (sender == itsDestination && message.Is(JXRadioGroup::kSelectionChanged))
 	{
-		auto* selection = dynamic_cast<const JXRadioGroup::SelectionChanged*>(&message);
-		assert( selection != nullptr );
-		SetDestination(selection->GetID());
+		auto& selection = dynamic_cast<const JXRadioGroup::SelectionChanged&>(message);
+		SetDestination(selection.GetID());
 	}
 
 	else if (sender == itsChooseFileButton && message.Is(JXButton::kPushed))

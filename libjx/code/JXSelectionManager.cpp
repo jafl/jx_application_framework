@@ -1051,20 +1051,18 @@ JXSelectionManager::ReceiveWithFeedback
 {
 	if (sender == itsDisplay && message->Is(JXDisplay::kXError))
 	{
-		auto* err = dynamic_cast<JXDisplay::XError*>(message);
-		assert( err != nullptr );
-
-		if (err->GetType() == BadAlloc)
+		auto& err = dynamic_cast<JXDisplay::XError&>(*message);
+		if (err.GetType() == BadAlloc)
 		{
 			itsReceivedAllocErrorFlag = true;
-			err->SetCaught();
+			err.SetCaught();
 		}
 
-		else if (err->GetType() == BadWindow &&
-				 err->GetXID()  == itsTargetWindow)
+		else if (err.GetType() == BadWindow &&
+				 err.GetXID()  == itsTargetWindow)
 		{
 			itsTargetWindowDeletedFlag = true;
-			err->SetCaught();
+			err.SetCaught();
 		}
 	}
 

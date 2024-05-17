@@ -39,13 +39,13 @@ private:
 			:
 			JBroadcaster::Message(type),
 			itsWord(word)
-			{ };
+		{ };
 
 		const JString&
 		GetWord() const
-			{
+		{
 			return itsWord;
-			};
+		};
 
 	private:
 
@@ -67,7 +67,7 @@ public:
 		WordSelected(const JString& word)
 			:
 			SpellBase(kWordSelected, word)
-			{ };
+		{ };
 	};
 
 	class ReplaceWord : public SpellBase
@@ -77,7 +77,7 @@ public:
 		ReplaceWord(const JString& word)
 			:
 			SpellBase(kReplaceWord, word)
-			{ };
+		{ };
 	};
 
 	class ReplaceWordAll : public SpellBase
@@ -87,7 +87,7 @@ public:
 		ReplaceWordAll(const JString& word)
 			:
 			SpellBase(kReplaceWordAll, word)
-			{ };
+		{ };
 	};
 };
 

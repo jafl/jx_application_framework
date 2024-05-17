@@ -95,10 +95,8 @@ JXFSCommandHistoryMenu::GetCommand
 {
 	assert( message.Is(JXMenu::kItemSelected) );
 
-	const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-	assert( selection != nullptr );
-
-	return GetCommand(selection->GetIndex(), type, singleFile);
+	auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+	return GetCommand(selection.GetIndex(), type, singleFile);
 }
 
 const JString&

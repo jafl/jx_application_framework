@@ -116,60 +116,52 @@ JAuxTableData<T>::Receive
 
 	if (sender == itsTable && message.Is(JTableData::kRowsInserted))
 	{
-		auto* info = dynamic_cast<const JTableData::RowsInserted*>(&message);
-		assert( info != nullptr );
-		JPackedTableData<T>::InsertRows(info->GetFirstIndex(), info->GetCount());
+		auto& info = dynamic_cast<const JTableData::RowsInserted&>(message);
+		JPackedTableData<T>::InsertRows(info.GetFirstIndex(), info.GetCount());
 	}
 
 	else if (sender == itsTable && message.Is(JTableData::kRowDuplicated))
 	{
-		auto* info = dynamic_cast<const JTableData::RowDuplicated*>(&message);
-		assert( info != nullptr );
-		JPackedTableData<T>::DuplicateRow(info->GetOrigIndex(), info->GetNewIndex());
+		auto& info = dynamic_cast<const JTableData::RowDuplicated&>(message);
+		JPackedTableData<T>::DuplicateRow(info.GetOrigIndex(), info.GetNewIndex());
 	}
 
 	else if (sender == itsTable && message.Is(JTableData::kRowsRemoved))
 	{
-		auto* info = dynamic_cast<const JTableData::RowsRemoved*>(&message);
-		assert( info != nullptr );
-		JPackedTableData<T>::RemoveNextRows(info->GetFirstIndex(), info->GetCount());
+		auto& info = dynamic_cast<const JTableData::RowsRemoved&>(message);
+		JPackedTableData<T>::RemoveNextRows(info.GetFirstIndex(), info.GetCount());
 	}
 
 	else if (sender == itsTable && message.Is(JTableData::kRowMoved))
 	{
-		auto* info = dynamic_cast<const JTableData::RowMoved*>(&message);
-		assert( info != nullptr );
-		JPackedTableData<T>::MoveRow(info->GetOrigIndex(), info->GetNewIndex());
+		auto& info = dynamic_cast<const JTableData::RowMoved&>(message);
+		JPackedTableData<T>::MoveRow(info.GetOrigIndex(), info.GetNewIndex());
 	}
 
 	// columns changed
 
 	else if (sender == itsTable && message.Is(JTableData::kColsInserted))
 	{
-		auto* info = dynamic_cast<const JTableData::ColsInserted*>(&message);
-		assert( info != nullptr );
-		JPackedTableData<T>::InsertCols(info->GetFirstIndex(), info->GetCount());
+		auto& info = dynamic_cast<const JTableData::ColsInserted&>(message);
+		JPackedTableData<T>::InsertCols(info.GetFirstIndex(), info.GetCount());
 	}
 
 	else if (sender == itsTable && message.Is(JTableData::kColDuplicated))
 	{
-		auto* info = dynamic_cast<const JTableData::ColDuplicated*>(&message);
-		assert( info != nullptr );
-		JPackedTableData<T>::DuplicateCol(info->GetOrigIndex(), info->GetNewIndex());
+		auto& info = dynamic_cast<const JTableData::ColDuplicated&>(message);
+		JPackedTableData<T>::DuplicateCol(info.GetOrigIndex(), info.GetNewIndex());
 	}
 
 	else if (sender == itsTable && message.Is(JTableData::kColsRemoved))
 	{
-		auto* info = dynamic_cast<const JTableData::ColsRemoved*>(&message);
-		assert( info != nullptr );
-		JPackedTableData<T>::RemoveNextCols(info->GetFirstIndex(), info->GetCount());
+		auto& info = dynamic_cast<const JTableData::ColsRemoved&>(message);
+		JPackedTableData<T>::RemoveNextCols(info.GetFirstIndex(), info.GetCount());
 	}
 
 	else if (sender == itsTable && message.Is(JTableData::kColMoved))
 	{
-		auto* info = dynamic_cast<const JTableData::ColMoved*>(&message);
-		assert( info != nullptr );
-		JPackedTableData<T>::MoveCol(info->GetOrigIndex(), info->GetNewIndex());
+		auto& info = dynamic_cast<const JTableData::ColMoved&>(message);
+		JPackedTableData<T>::MoveCol(info.GetOrigIndex(), info.GetNewIndex());
 	}
 
 	// everything changed

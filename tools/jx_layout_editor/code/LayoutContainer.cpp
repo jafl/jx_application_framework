@@ -1911,7 +1911,7 @@ LayoutContainer::CurrentUndoIs
 	JUndo* tmpUndo;
 	return (itsUndoChain->GetCurrentUndo(&tmpUndo) &&
 			tmpUndo->IsActive() &&
-			dynamic_cast<LayoutUndo*>(tmpUndo)->GetType() == type);
+			dynamic_cast<LayoutUndo&>(*tmpUndo).GetType() == type);
 }
 
 /******************************************************************************

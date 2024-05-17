@@ -326,29 +326,23 @@ JXSpellCheckerDialog::Receive
 {
 	if (sender == itsSuggestionWidget && message.Is(JXSpellList::kWordSelected))
 	{
-		auto* choice = dynamic_cast<const JXSpellList::WordSelected*>(&message);
-		assert( choice != nullptr );
-
-		itsFirstGuess->GetText()->SetText(choice->GetWord());
+		auto& choice = dynamic_cast<const JXSpellList::WordSelected&>(message);
+		itsFirstGuess->GetText()->SetText(choice.GetWord());
 		itsFirstGuess->Focus();
 		itsIgnoreButton->SetShortcuts(JString::empty);
 		itsChangeButton->SetShortcuts(JGetString("DefaultButtonShortcut::JXSpellCheckerDialog"));
 	}
 	else if (sender == itsSuggestionWidget && message.Is(JXSpellList::kReplaceWord))
 	{
-		auto* choice = dynamic_cast<const JXSpellList::ReplaceWord*>(&message);
-		assert( choice != nullptr );
-
-		itsFirstGuess->GetText()->SetText(choice->GetWord());
+		auto& choice = dynamic_cast<const JXSpellList::ReplaceWord&>(message);
+		itsFirstGuess->GetText()->SetText(choice.GetWord());
 		Change();
 		Check();
 	}
 	else if (sender == itsSuggestionWidget && message.Is(JXSpellList::kReplaceWordAll))
 	{
-		auto* choice = dynamic_cast<const JXSpellList::ReplaceWordAll*>(&message);
-		assert( choice != nullptr );
-
-		itsFirstGuess->GetText()->SetText(choice->GetWord());
+		auto& choice = dynamic_cast<const JXSpellList::ReplaceWordAll&>(message);
+		itsFirstGuess->GetText()->SetText(choice.GetWord());
 		ChangeAll();
 		Check();
 	}

@@ -301,7 +301,8 @@ TestWidget::TestWidget
 			HandleDNDDrop(JPoint(0,0), data.GetTypeList(), data.GetAction(),
 						  data.GetTime(), data.GetSource());
 		}));
-	});
+	},
+	"Drop on iconified window");
 	task->Go();
 }
 
@@ -1475,13 +1476,12 @@ TestWidget::ReceiveWithFeedback
 	if (GetWindow()->GetIconWidget(&windowIcon) &&
 		sender == windowIcon && message->Is(JXWindowIcon::kAcceptDrop))
 	{
-		auto* data = dynamic_cast<JXWindowIcon::AcceptDrop*>(message);
-		assert( data != nullptr );
-		if (!data->WillAcceptDrop())
+		auto& data = dynamic_cast<JXWindowIcon::AcceptDrop&>(*message);
+		if (!data.WillAcceptDrop())
 		{
-			data->ShouldAcceptDrop(
-				WillAcceptDrop(data->GetTypeList(), data->GetActionPtr(),
-							   data->GetPoint(), data->GetTime(), data->GetSource()));
+			data.ShouldAcceptDrop(
+				WillAcceptDrop(data.GetTypeList(), data.GetActionPtr(),
+							   data.GetPoint(), data.GetTime(), data.GetSource()));
 		}
 	}
 

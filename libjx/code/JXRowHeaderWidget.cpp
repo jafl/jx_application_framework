@@ -516,62 +516,56 @@ JXRowHeaderWidget::Receive
 
 	else if (sender == itsTable && message.Is(JTable::kRowHeightChanged))
 	{
-		auto* info = dynamic_cast<const JTable::RowHeightChanged*>(&message);
-		assert( info != nullptr );
-		SetRowHeight(info->GetIndex(), info->GetNewRowHeight());
+		auto& info = dynamic_cast<const JTable::RowHeightChanged&>(message);
+		SetRowHeight(info.GetIndex(), info.GetNewRowHeight());
 	}
 
 	else if (sender == itsTable && message.Is(JTable::kAllRowHeightsChanged))
 	{
-		auto* info = dynamic_cast<const JTable::AllRowHeightsChanged*>(& message);
-		assert( info != nullptr );
-		SetAllRowHeights(info->GetNewRowHeight());
+		auto& info = dynamic_cast<const JTable::AllRowHeightsChanged&>( message);
+		SetAllRowHeights(info.GetNewRowHeight());
 	}
 
 	else if (sender == itsTable && message.Is(JTable::kRowsInserted))
 	{
-		auto* info = dynamic_cast<const JTable::RowsInserted*>(&message);
-		assert( info != nullptr );
+		auto& info = dynamic_cast<const JTable::RowsInserted&>(message);
 		if (itsTitles != nullptr)
 		{
-			for (JIndex i=1; i<=info->GetCount(); i++)
+			for (JIndex i=1; i<=info.GetCount(); i++)
 			{
-				itsTitles->InsertAtIndex(info->GetFirstIndex(), (JString*) nullptr);
+				itsTitles->InsertAtIndex(info.GetFirstIndex(), (JString*) nullptr);
 			}
 		}
-		InsertRows(info->GetFirstIndex(), info->GetCount(), info->GetRowHeight());
+		InsertRows(info.GetFirstIndex(), info.GetCount(), info.GetRowHeight());
 	}
 
 	else if (sender == itsTable && message.Is(JTable::kRowsRemoved))
 	{
-		auto* info = dynamic_cast<const JTable::RowsRemoved*>(&message);
-		assert( info != nullptr );
+		auto& info = dynamic_cast<const JTable::RowsRemoved&>(message);
 		if (itsTitles != nullptr)
 		{
-			for (JIndex i=1; i<=info->GetCount(); i++)
+			for (JIndex i=1; i<=info.GetCount(); i++)
 			{
-				itsTitles->DeleteItem(info->GetFirstIndex());
+				itsTitles->DeleteItem(info.GetFirstIndex());
 			}
 		}
-		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
+		RemoveNextRows(info.GetFirstIndex(), info.GetCount());
 	}
 
 	else if (sender == itsTable && message.Is(JTable::kRowMoved))
 	{
-		auto* info = dynamic_cast<const JTable::RowMoved*>(&message);
-		assert( info != nullptr );
+		auto& info = dynamic_cast<const JTable::RowMoved&>(message);
 		if (itsTitles != nullptr)
 		{
-			itsTitles->MoveItemToIndex(info->GetOrigIndex(), info->GetNewIndex());
+			itsTitles->MoveItemToIndex(info.GetOrigIndex(), info.GetNewIndex());
 		}
-		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
+		MoveRow(info.GetOrigIndex(), info.GetNewIndex());
 	}
 
 	else if (sender == itsTable && message.Is(JTable::kRowBorderWidthChanged))
 	{
-		auto* info = dynamic_cast<const JTable::RowBorderWidthChanged*>(&message);
-		assert( info != nullptr );
-		SetRowBorderInfo(info->GetNewBorderWidth(), JColorManager::GetDefaultBackColor());
+		auto& info = dynamic_cast<const JTable::RowBorderWidthChanged&>(message);
+		SetRowBorderInfo(info.GetNewBorderWidth(), JColorManager::GetDefaultBackColor());
 	}
 
 	// something else

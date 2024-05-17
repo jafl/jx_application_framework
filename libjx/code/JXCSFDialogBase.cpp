@@ -559,9 +559,8 @@ JXCSFDialogBase::Receive
 
 	else if (sender == itsShowHiddenCB && message.Is(JXCheckbox::kPushed))
 	{
-		auto* state = dynamic_cast<const JXCheckbox::Pushed*>(&message);
-		assert( state != nullptr );
-		itsFileBrowser->ShowHidden(state->IsChecked());
+		auto& state = dynamic_cast<const JXCheckbox::Pushed&>(message);
+		itsFileBrowser->ShowHidden(state.IsChecked());
 	}
 
 	else if (sender == itsCurrPathMenu && message.Is(JXMenu::kItemSelected))

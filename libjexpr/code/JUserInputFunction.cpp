@@ -253,10 +253,9 @@ JUserInputFunction::Render
 
 	// JTextEditor draws text
 
-	auto* exprEditor = dynamic_cast<JExprEditor*>(const_cast<JExprRenderer*>(&renderer));
-	assert( exprEditor != nullptr );
+	auto& exprEditor = dynamic_cast<JExprEditor&>(const_cast<JExprRenderer&>(renderer));
 
-	JPainter* p = exprEditor->GetPainter();
+	JPainter* p = exprEditor.GetPainter();
 	assert( p != nullptr );
 
 	const JPoint delta = ourRect.topLeft() + JPoint(kHMarginWidth, kVMarginWidth);
@@ -573,7 +572,7 @@ JUserInputFunction::Parse
 	const JUtf8Character&	c,
 	JFunction**				f,
 	JUserInputFunction**	newUIF,
-	bool*				needRender
+	bool*					needRender
 	)
 {
 	*f          = nullptr;
@@ -611,10 +610,9 @@ JUserInputFunction::Parse
 		JExprParser p(itsEditor->GetVariableList());
 		if (p.Parse(buffer, f))
 		{
-			auto* fwv = dynamic_cast<JFunctionWithVar*>(*f);
-			assert( fwv != nullptr );
-			*newUIF = jnew JUserInputFunction(itsEditor);
-			fwv->SetArrayIndex(*newUIF);
+			auto& fwv = dynamic_cast<JFunctionWithVar&>(**f);
+			*newUIF   = jnew JUserInputFunction(itsEditor);
+			fwv.SetArrayIndex(*newUIF);
 			return true;
 		}
 		else

@@ -318,12 +318,12 @@ JXFileInput::StyledText::ComputeErrorLength
 		return totalLength;
 	}
 
-	auto* f = dynamic_cast<JXFileInput*>(field);
+	auto& f = dynamic_cast<JXFileInput&>(*field);
 
 	if (!JFileExists(fullName) ||
-		(f->itsRequireReadFlag  && !JFileReadable(fullName)) ||
-		(f->itsRequireWriteFlag && !JFileWritable(fullName)) ||
-		(f->itsRequireExecFlag  && !JFileExecutable(fullName)))
+		(f.itsRequireReadFlag  && !JFileReadable(fullName)) ||
+		(f.itsRequireWriteFlag && !JFileWritable(fullName)) ||
+		(f.itsRequireExecFlag  && !JFileExecutable(fullName)))
 	{
 		const JString closestDir = JGetClosestDirectory(fullName, false);
 		if (fullName.StartsWith(closestDir))

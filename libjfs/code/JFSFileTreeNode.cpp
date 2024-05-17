@@ -193,10 +193,8 @@ JFSFileTreeNode::UpdatePath
 {
 	assert( message.Is(JFSFileTree::kDirectoryRenamed) );
 
-	auto* info = dynamic_cast<const JFSFileTree::DirectoryRenamed*>(&message);
-	assert( info != nullptr );
-
-	UpdatePath(info->GetOldPath(), info->GetNewPath());
+	auto& info = dynamic_cast<const JFSFileTree::DirectoryRenamed&>(message);
+	UpdatePath(info.GetOldPath(), info.GetNewPath());
 }
 
 void
@@ -367,11 +365,10 @@ JFSFileTreeNode::CreateDirInfo()
 	JTreeNode* parent;
 	if (GetParent(&parent))
 	{
-		auto* fsParent = dynamic_cast<JFSFileTreeNodeBase*>(parent);
-		assert( fsParent != nullptr );
+		auto& fsParent = dynamic_cast<JFSFileTreeNodeBase&>(*parent);
 
 		JDirInfo* parentInfo;
-		ok = fsParent->GetDirInfo(&parentInfo);
+		ok = fsParent.GetDirInfo(&parentInfo);
 		assert( ok );
 		ok = JDirInfo::Create(*parentInfo, fullName, &itsDirInfo);
 	}

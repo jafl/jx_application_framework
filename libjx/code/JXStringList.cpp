@@ -388,36 +388,32 @@ JXStringList::Receive
 	if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 		message.Is(JListT::kItemsInserted))
 	{
-		auto* info = dynamic_cast<const JListT::ItemsInserted*>(&message);
-		assert( info != nullptr );
-		InsertRows(info->GetFirstIndex(), info->GetCount());
+		auto& info = dynamic_cast<const JListT::ItemsInserted&>(message);
+		InsertRows(info.GetFirstIndex(), info.GetCount());
 	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kItemsRemoved))
 	{
-		auto* info = dynamic_cast<const JListT::ItemsRemoved*>(&message);
-		assert( info != nullptr );
+		auto& info = dynamic_cast<const JListT::ItemsRemoved&>(message);
 		itsMinColWidth = 1;
-		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
+		RemoveNextRows(info.GetFirstIndex(), info.GetCount());
 	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kItemMoved))
 	{
-		auto* info = dynamic_cast<const JListT::ItemMoved*>(&message);
-		assert( info != nullptr );
-		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
+		auto& info = dynamic_cast<const JListT::ItemMoved&>(message);
+		MoveRow(info.GetOrigIndex(), info.GetNewIndex());
 	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&
 			 message.Is(JListT::kItemsSwapped))
 	{
-		auto* info = dynamic_cast<const JListT::ItemsSwapped*>(&message);
-		assert( info != nullptr );
-		const JFontStyle s1 = itsStyles->GetItem(info->GetIndex1(), 1);
-		itsStyles->SetItem(info->GetIndex1(), 1, itsStyles->GetItem(info->GetIndex2(), 1));
-		itsStyles->SetItem(info->GetIndex2(), 1, s1);
+		auto& info = dynamic_cast<const JListT::ItemsSwapped&>(message);
+		const JFontStyle s1 = itsStyles->GetItem(info.GetIndex1(), 1);
+		itsStyles->SetItem(info.GetIndex1(), 1, itsStyles->GetItem(info.GetIndex2(), 1));
+		itsStyles->SetItem(info.GetIndex2(), 1, s1);
 	}
 
 	else if (sender == const_cast<JPtrArray<JString>*>(itsList) &&

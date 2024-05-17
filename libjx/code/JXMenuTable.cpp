@@ -599,14 +599,13 @@ JXMenuTable::GetMenuWidgetToActivate
 
 	if ((**widget).IsMenu())
 	{
-		auto* menu = dynamic_cast<JXMenu*>(*widget);
-		assert( menu != nullptr );
+		auto& menu = dynamic_cast<JXMenu&>(**widget);
 
 		JXMenuBar* menuBar1;
 		JXMenuBar* menuBar2;
-		if (menu->GetMenuBar(&menuBar1) && itsMenu->GetMenuBar(&menuBar2) &&
+		if (menu.GetMenuBar(&menuBar1) && itsMenu->GetMenuBar(&menuBar2) &&
 			menuBar1 == menuBar2 &&
-			menu->GetTopLevelMenu() != itsMenu->GetTopLevelMenu())
+			menu.GetTopLevelMenu() != itsMenu->GetTopLevelMenu())
 		{
 			return true;
 		}

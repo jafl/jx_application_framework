@@ -360,15 +360,14 @@ JXFSDirMenu::Receive
 	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 	{
-		const auto* info = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert(info != nullptr);
+		auto& info = dynamic_cast<const JXMenu::ItemSelected&>(message);
 		if (itsEntries != nullptr)
 		{
-			BroadcastIfTopLevel(itsEntries->GetItem(info->GetIndex())->GetFullName());
+			BroadcastIfTopLevel(itsEntries->GetItem(info.GetIndex())->GetFullName());
 		}
 		else if (itsDirInfo != nullptr)
 		{
-			BroadcastIfTopLevel(itsDirInfo->GetEntry(info->GetIndex()).GetFullName());
+			BroadcastIfTopLevel(itsDirInfo->GetEntry(info.GetIndex()).GetFullName());
 		}
 	}
 	else

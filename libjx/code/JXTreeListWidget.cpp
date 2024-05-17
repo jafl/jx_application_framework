@@ -624,25 +624,22 @@ JXTreeListWidget::Receive
 {
 	if (sender == itsTreeList && message.Is(JTreeList::kNodeInserted))
 	{
-		auto* info = dynamic_cast<const JTreeList::NodeInserted*>(&message);
-		assert( info != nullptr );
-		InsertRows(info->GetIndex(), 1);
+		auto& info = dynamic_cast<const JTreeList::NodeInserted&>(message);
+		InsertRows(info.GetIndex(), 1);
 		NeedsAdjustToTree();
 	}
 
 	else if (sender == itsTreeList && message.Is(JTreeList::kNodeRemoved))
 	{
-		auto* info = dynamic_cast<const JTreeList::NodeRemoved*>(&message);
-		assert( info != nullptr );
-		RemoveRow(info->GetIndex());
+		auto& info = dynamic_cast<const JTreeList::NodeRemoved&>(message);
+		RemoveRow(info.GetIndex());
 		NeedsAdjustToTree();
 	}
 
 	else if (sender == itsTreeList && message.Is(JTreeList::kNodeChanged))
 	{
-		auto* info = dynamic_cast<const JTreeList::NodeChanged*>(&message);
-		assert( info != nullptr );
-		TableRefreshRow(info->GetIndex());
+		auto& info = dynamic_cast<const JTreeList::NodeChanged&>(message);
+		TableRefreshRow(info.GetIndex());
 		NeedsAdjustToTree();
 	}
 
@@ -650,9 +647,8 @@ JXTreeListWidget::Receive
 			 (message.Is(JTreeList::kNodeOpened) ||
 			  message.Is(JTreeList::kNodeClosed)))
 	{
-		auto* info = dynamic_cast<const JTreeList::NodeMessage*>(&message);
-		assert( info != nullptr );
-		TableRefreshRow(info->GetIndex());
+		auto& info = dynamic_cast<const JTreeList::NodeMessage&>(message);
+		TableRefreshRow(info.GetIndex());
 	}
 
 	else if (sender == itsTreeList->GetTree() &&
@@ -671,34 +667,31 @@ JXTreeListWidget::Receive
 	{
 		if (sender == this && message.Is(kColsInserted))
 		{
-			auto* info = dynamic_cast<const ColsInserted*>(&message);
-			assert( info != nullptr );
-			info->AdjustIndex(&itsToggleOpenColIndex);
-			info->AdjustIndex(&itsNodeColIndex);
-			info->AdjustIndex(&itsElasticColIndex);
+			auto& info = dynamic_cast<const ColsInserted&>(message);
+			info.AdjustIndex(&itsToggleOpenColIndex);
+			info.AdjustIndex(&itsNodeColIndex);
+			info.AdjustIndex(&itsElasticColIndex);
 			NeedsAdjustToTree();
 		}
 
 		else if (sender == this && message.Is(kColsRemoved))
 		{
-			auto* info = dynamic_cast<const ColsRemoved*>(&message);
-			assert( info != nullptr );
-			bool ok = info->AdjustIndex(&itsToggleOpenColIndex);
+			auto& info = dynamic_cast<const ColsRemoved&>(message);
+			bool ok = info.AdjustIndex(&itsToggleOpenColIndex);
 			assert( ok );
-			ok = info->AdjustIndex(&itsNodeColIndex);
+			ok = info.AdjustIndex(&itsNodeColIndex);
 			assert( ok );
-			info->AdjustIndex(&itsElasticColIndex);		// ok to let it go to zero
+			info.AdjustIndex(&itsElasticColIndex);		// ok to let it go to zero
 			NeedsAdjustToTree();
 		}
 
 		else if (sender == this && message.Is(kColMoved))
 		{
-			auto* info = dynamic_cast<const ColMoved*>(&message);
-			assert( info != nullptr );
-			info->AdjustIndex(&itsToggleOpenColIndex);
-			info->AdjustIndex(&itsNodeColIndex);
-			info->AdjustIndex(&itsElasticColIndex);
-			itsMinColWidths->MoveItemToIndex(info->GetOrigIndex(), info->GetNewIndex());
+			auto& info = dynamic_cast<const ColMoved&>(message);
+			info.AdjustIndex(&itsToggleOpenColIndex);
+			info.AdjustIndex(&itsNodeColIndex);
+			info.AdjustIndex(&itsElasticColIndex);
+			itsMinColWidths->MoveItemToIndex(info.GetOrigIndex(), info.GetNewIndex());
 		}
 
 		JXStyleTable::Receive(sender, message);

@@ -510,22 +510,21 @@ JXTEBase::GetSelectionData
 {
 	if (id == kSelectionDataID)
 	{
-		auto* textData = dynamic_cast<JXTextSelection*>(data);
-		assert( textData != nullptr );
+		auto& textData = dynamic_cast<JXTextSelection&>(*data);
 
 		auto* text  = jnew JString;
 		auto* style = jnew JRunArray<JFont>;
 
 		const bool ok = GetSelection(text, style);
 		assert( ok );
-		textData->SetData(text, style);
+		textData.SetData(text, style);
 
 		if (GetType() == kFullEditor)
 		{
 			JCharacterRange r;
 			const bool ok = GetSelection(&r);
 			assert( ok );
-			textData->SetTextEditor(this, r);
+			textData.SetTextEditor(this, r);
 		}
 	}
 	else
@@ -1969,9 +1968,8 @@ JXTEBase::Receive
 	{
 		if (HasFocus())
 		{
-			auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != nullptr );
-			HandleEditMenu(selection->GetIndex());
+			auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+			HandleEditMenu(selection.GetIndex());
 		}
 	}
 
@@ -1986,9 +1984,8 @@ JXTEBase::Receive
 	{
 		if (HasFocus())
 		{
-			auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != nullptr );
-			HandleSearchMenu(selection->GetIndex());
+			auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+			HandleSearchMenu(selection.GetIndex());
 		}
 	}
 
@@ -2003,9 +2000,8 @@ JXTEBase::Receive
 	{
 		if (HasFocus())
 		{
-			auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-			assert( selection != nullptr );
-			HandleReplaceMenu(selection->GetIndex());
+			auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+			HandleReplaceMenu(selection.GetIndex());
 		}
 	}
 
@@ -2013,12 +2009,11 @@ JXTEBase::Receive
 	{
 		if (sender == this && message.Is(JTextEditor::kCaretLocationChanged))
 		{
-			auto* info = dynamic_cast<const JTextEditor::CaretLocationChanged*>(&message);
-			assert( info != nullptr );
+			auto& info = dynamic_cast<const JTextEditor::CaretLocationChanged&>(message);
 
 			JPoint pt;
-			pt.x = GetCharLeft(info->GetCharacterIndex());
-			pt.y = GetLineBottom(info->GetLineIndex());
+			pt.x = GetCharLeft(info.GetCharacterIndex());
+			pt.y = GetLineBottom(info.GetLineIndex());
 			GetWindow()->SetXIMPosition(JXContainer::LocalToGlobal(pt));
 		}
 		else if (sender == GetText() && message.Is(JStyledText::kWillBeBusy))

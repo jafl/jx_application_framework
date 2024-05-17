@@ -449,10 +449,8 @@ JXHistoryMenuBase::GetItemText
 {
 	assert( message.Is(JXMenu::kItemSelected) );
 
-	auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-	assert( selection != nullptr );
-
-	return JXTextMenu::GetItemText(selection->GetIndex());
+	auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+	return JXTextMenu::GetItemText(selection.GetIndex());
 }
 
 /******************************************************************************

@@ -83,10 +83,8 @@ JXToolBarEditWidget::GetImage
 		return true;
 	}
 
-	const auto* tbnode = dynamic_cast<const JXToolBarNode*>(node);
-	assert( tbnode != nullptr );
-
-	*image = tbnode->IsChecked() ? itsCheckedItemImage : itsUncheckedItemImage;
+	auto& tbnode = dynamic_cast<const JXToolBarNode&>(*node);
+	*image       = tbnode.IsChecked() ? itsCheckedItemImage : itsUncheckedItemImage;
 	return true;
 }
 
@@ -99,8 +97,8 @@ void
 JXToolBarEditWidget::HandleMouseDown
 	(
 	const JPoint&			pt,
-	const JXMouseButton	button,
-	const JSize			clickCount,
+	const JXMouseButton		button,
+	const JSize				clickCount,
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers
 	)
@@ -111,9 +109,8 @@ JXToolBarEditWidget::HandleMouseDown
 		JTreeNode* node = GetTreeList()->GetNode(cell.y);
 		if (cell.x == 2 && button == kJXLeftButton && !node->IsOpenable())
 		{
-			auto* tbnode = dynamic_cast<JXToolBarNode*>(node);
-			assert(tbnode != nullptr);
-			tbnode->ToggleChecked();
+			auto& tbnode = dynamic_cast<JXToolBarNode&>(*node);
+			tbnode.ToggleChecked();
 		}
 		else
 		{

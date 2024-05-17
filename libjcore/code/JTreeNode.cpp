@@ -476,11 +476,10 @@ JTreeNode::Receive
 	{
 		assert( itsTree != nullptr );
 
-		auto* info = dynamic_cast<const JListT::ItemMoved*>(&message);
-		assert( info != nullptr );
+		auto& info = dynamic_cast<const JListT::ItemMoved&>(message);
 
-		const JIndex origIndex = info->GetOrigIndex();
-		const JIndex newIndex  = info->GetNewIndex();
+		const JIndex origIndex = info.GetOrigIndex();
+		const JIndex newIndex  = info.GetNewIndex();
 		JTreeNode* child       = itsChildren->GetItem(newIndex);
 
 		itsChildren->RemoveItem(newIndex);			// avoid another ItemMoved

@@ -402,11 +402,10 @@ JTreeList::Receive
 	}
 	else if (sender == itsTree && message.Is(JTree::kNodeInserted))
 	{
-		auto* info = dynamic_cast<const JTree::NodeInserted*>(&message);
-		assert( info != nullptr );
-		const JIndex index = info->GetIndex();
-		JTreeNode* parent  = info->GetParent();
-		JTreeNode* node    = info->GetNode();
+		auto& info         = dynamic_cast<const JTree::NodeInserted&>(message);
+		const JIndex index = info.GetIndex();
+		JTreeNode* parent  = info.GetParent();
+		JTreeNode* node    = info.GetNode();
 
 		// Since every node may have children, we have to insert the new
 		// node just above the node it displaced.
@@ -438,9 +437,8 @@ JTreeList::Receive
 
 	else if (sender == itsTree && message.Is(JTree::kNodeRemoved))
 	{
-		auto* info = dynamic_cast<const JTree::NodeRemoved*>(&message);
-		assert( info != nullptr );
-		JTreeNode* node = info->GetNode();
+		auto& info      = dynamic_cast<const JTree::NodeRemoved&>(message);
+		JTreeNode* node = info.GetNode();
 		JIndex index;
 		if (FindNode(node, &index))
 		{
@@ -451,9 +449,8 @@ JTreeList::Receive
 
 	else if (sender == itsTree && message.Is(JTree::kNodeDeleted))
 	{
-		auto* info = dynamic_cast<const JTree::NodeDeleted*>(&message);
-		assert( info != nullptr );
-		JTreeNode* node = info->GetNode();
+		auto& info      = dynamic_cast<const JTree::NodeDeleted&>(message);
+		JTreeNode* node = info.GetNode();
 		itsOpenNodeList->Remove(node);
 		JIndex index;
 		if (FindNode(node, &index))
@@ -464,9 +461,8 @@ JTreeList::Receive
 
 	else if (sender == itsTree && message.Is(JTree::kNodeChanged))
 	{
-		auto* info = dynamic_cast<const JTree::NodeChanged*>(&message);
-		assert( info != nullptr );
-		JTreeNode* node = info->GetNode();
+		auto& info      = dynamic_cast<const JTree::NodeChanged&>(message);
+		JTreeNode* node = info.GetNode();
 
 		JIndex index;
 		if (FindNode(node, &index))
@@ -482,9 +478,8 @@ JTreeList::Receive
 
 	else if (sender == itsTree && message.Is(JTree::kPrepareForNodeMove))
 	{
-		auto* info = dynamic_cast<const JTree::PrepareForNodeMove*>(&message);
-		assert( info != nullptr );
-		itsWasOpenBeforeMoveFlag = IsOpen(info->GetNode());
+		auto& info               = dynamic_cast<const JTree::PrepareForNodeMove&>(message);
+		itsWasOpenBeforeMoveFlag = IsOpen(info.GetNode());
 	}
 
 	else

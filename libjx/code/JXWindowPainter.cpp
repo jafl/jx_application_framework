@@ -828,10 +828,8 @@ JXWindowPainter::Image
 	const JRect&	destRect
 	)
 {
-	const auto* ximage = dynamic_cast<const JXImage*>(&image);
-	assert( ximage != nullptr );
-
+	auto& ximage    = dynamic_cast<const JXImage&>(image);
 	JRect destRectG = destRect;
 	destRectG.Shift(GetOrigin());
-	ximage->Draw(itsDrawable, itsGC, srcRect, destRectG);
+	ximage.Draw(itsDrawable, itsGC, srcRect, destRectG);
 }

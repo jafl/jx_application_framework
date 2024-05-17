@@ -148,9 +148,8 @@ JXDisplayMenu::Receive
 	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 	{
-		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		ChooseDisplay(selection->GetIndex());
+		auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+		ChooseDisplay(selection.GetIndex());
 	}
 
 	else if (sender == const_cast<JPtrArray<JXDisplay>*>(displayList))

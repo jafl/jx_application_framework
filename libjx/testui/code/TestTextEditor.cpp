@@ -100,9 +100,8 @@ TestTextEditor::Receive
 	}
 	else if (sender == editMenu && message.Is(JXMenu::kItemSelected))
 	{
-		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		if (HandleCustomEditMenuItems(selection->GetIndex()))
+		auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+		if (HandleCustomEditMenuItems(selection.GetIndex()))
 		{
 			return;
 		}

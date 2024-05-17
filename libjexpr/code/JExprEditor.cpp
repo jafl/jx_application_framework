@@ -810,23 +810,22 @@ JExprEditor::ApplyFunction
 
 		const bool isLogB = dynamic_cast<JLogB*>(*newF) != nullptr;
 
-		auto* fwa = dynamic_cast<JFunctionWithArgs*>(*newF);
-		assert( fwa != nullptr );
-		argCount = fwa->GetArgCount();
+		auto& fwa = dynamic_cast<JFunctionWithArgs&>(**newF);
+		argCount  = fwa.GetArgCount();
 		for (JIndex i=1; i<=argCount; i++)
 		{
 			if (i == 2 && isLogB)
 			{
-				fwa->SetArg(2, *newArg);
+				fwa.SetArg(2, *newArg);
 			}
 			else if (i == 1 && !isLogB)
 			{
-				fwa->SetArg(1, *newArg);
+				fwa.SetArg(1, *newArg);
 			}
 			else if (!isLogB || origArgCount > 1)
 			{
 				auto* uif = jnew JUserInputFunction(this);
-				fwa->SetArg(i, uif);
+				fwa.SetArg(i, uif);
 				if (*newUIF == nullptr)
 				{
 					*newUIF = uif;
@@ -943,8 +942,8 @@ JExprEditor::GroupArguments
 	const bool groupAll =
 		lastArg - firstArg + 1 == parentArgCount;
 
-	auto* neg = dynamic_cast<JUnaryFunction*>(f);
-	JFunction* negArg   = neg != nullptr ? neg->GetArg() : nullptr;
+	auto* neg         = dynamic_cast<JUnaryFunction*>(f);
+	JFunction* negArg = neg != nullptr ? neg->GetArg() : nullptr;
 	const bool extendNegation =
 		typeid(*parentF) == typeid(JSummation) &&
 			  neg != nullptr && typeid(*neg) == typeid(JNegation) &&
@@ -956,13 +955,12 @@ JExprEditor::GroupArguments
 	if (extendNegation && argsInRange)
 	{
 		SaveStateForUndo();
-		auto* naryF = dynamic_cast<JNaryOperator*>(neg->GetArg());
-		assert( naryF != nullptr );
+		auto& naryF = dynamic_cast<JNaryOperator&>(*neg->GetArg());
 		if (delta > 0)
 		{
 			for (JIndex i=1; i <= (JSize) delta; i++)
 			{
-				naryF->AppendArg(Negate(*(naryParentF->GetArg(argIndex+1))));
+				naryF.AppendArg(Negate(*naryParentF->GetArg(argIndex+1)));
 				naryParentF->DeleteArg(argIndex+1);
 			}
 		}
@@ -970,7 +968,7 @@ JExprEditor::GroupArguments
 		{
 			for (JIndex i=1; i <= (JSize) -delta; i++)
 			{
-				naryF->PrependArg(Negate(*(naryParentF->GetArg(argIndex-i))));
+				naryF.PrependArg(Negate(*naryParentF->GetArg(argIndex-i)));
 				naryParentF->DeleteArg(argIndex-i);
 			}
 		}
@@ -995,15 +993,14 @@ JExprEditor::GroupArguments
 		// will not be in the group.
 
 		JFunction* newF = parentF->Copy();
-		auto* group     = dynamic_cast<JNaryOperator*>(newF);
-		assert( group != nullptr );
-		while (group->GetArgCount() > lastArg)
+		auto& group     = dynamic_cast<JNaryOperator&>(*newF);
+		while (group.GetArgCount() > lastArg)
 		{
-			group->DeleteArg(lastArg+1);
+			group.DeleteArg(lastArg+1);
 		}
 		for (i=1; i<firstArg; i++)
 		{
-			group->DeleteArg(1);
+			group.DeleteArg(1);
 		}
 
 		// Replace the original args from the parent function
@@ -1013,13 +1010,13 @@ JExprEditor::GroupArguments
 		{
 			naryParentF->DeleteArg(firstArg);
 		}
-		naryParentF->InsertArg(firstArg, group);
+		naryParentF->InsertArg(firstArg, &group);
 
 		// show the result
 
 		itsActiveUIF = nullptr;
 		Render();
-		SelectFunction(group);
+		SelectFunction(&group);
 	}
 
 	// add the arguments to the existing group
@@ -1027,13 +1024,12 @@ JExprEditor::GroupArguments
 	else if (sameType && argsInRange && !groupAll)
 	{
 		SaveStateForUndo();
-		auto* naryF = dynamic_cast<JNaryOperator*>(f);
-		assert( naryF != nullptr );
+		auto& naryF = dynamic_cast<JNaryOperator&>(*f);
 		if (delta > 0)
 		{
 			for (JIndex i=1; i <= (JSize) delta; i++)
 			{
-				naryF->AppendArg((naryParentF->GetArg(argIndex+1))->Copy());
+				naryF.AppendArg(naryParentF->GetArg(argIndex+1)->Copy());
 				naryParentF->DeleteArg(argIndex+1);
 			}
 		}
@@ -1041,7 +1037,7 @@ JExprEditor::GroupArguments
 		{
 			for (JIndex i=1; i <= (JSize) -delta; i++)
 			{
-				naryF->PrependArg((naryParentF->GetArg(argIndex-i))->Copy());
+				naryF.PrependArg(naryParentF->GetArg(argIndex-i)->Copy());
 				naryParentF->DeleteArg(argIndex-i);
 			}
 		}
@@ -1101,9 +1097,8 @@ JExprEditor::UngroupArguments()
 				 typeid(*naryParentF) == typeid(JSummation) &&
 				 typeid(*f)           == typeid(JNegation))
 		{
-			const auto* neg = dynamic_cast<const JUnaryFunction*>(f);
-			assert( neg != nullptr );
-			const auto* naryF = dynamic_cast<const JNaryOperator*>(neg->GetArg());
+			auto& neg   = dynamic_cast<const JUnaryFunction&>(*f);
+			auto* naryF = dynamic_cast<const JNaryOperator*>(neg.GetArg());
 			if (naryF != nullptr && typeid(*naryF) == typeid(JSummation))
 			{
 				SaveStateForUndo();
@@ -1115,7 +1110,7 @@ JExprEditor::UngroupArguments()
 				const JSize fArgCount = naryF->GetArgCount();
 				for (JIndex i=1; i<=fArgCount; i++)
 				{
-					naryParentF->InsertArg(argIndex+i, Negate(*(naryF->GetArg(i))));
+					naryParentF->InsertArg(argIndex+i, Negate(*naryF->GetArg(i)));
 				}
 				naryParentF->DeleteArg(argIndex);
 
@@ -1374,9 +1369,9 @@ JExprEditor::SelectFunction
 		bool found = itsRectList->FindFunction(f, &fIndex);
 		while (!found)
 		{
-			const auto* fwa = dynamic_cast<const JFunctionWithArgs*>(f);
-			assert( fwa != nullptr && fwa->GetArgCount() > 0 );
-			f     = fwa->GetArg(1);
+			auto& fwa = dynamic_cast<const JFunctionWithArgs&>(*f);
+			assert( fwa.GetArgCount() > 0 );
+			f     = fwa.GetArg(1);
 			found = itsRectList->FindFunction(f, &fIndex);
 		}
 
@@ -1536,9 +1531,8 @@ JExprEditor::GetCmdStatus
 				else if (typeid(*naryParentF) == typeid(JSummation) &&
 						 typeid(*selF)        == typeid(JNegation))
 				{
-					const auto* neg = dynamic_cast<const JUnaryFunction*>(selF);
-					assert( neg != nullptr );
-					const JFunction* negArg = neg->GetArg();
+					auto& neg               = dynamic_cast<const JUnaryFunction&>(*selF);
+					const JFunction* negArg = neg.GetArg();
 					if (typeid(*negArg) == typeid(JSummation))
 					{
 						flags.SetItem(kUngroupCmd, true);
@@ -1788,9 +1782,8 @@ JExprEditor::EIPHandleMouseUp()
 		const std::type_info& selectedFType = typeid(*selectedF);
 		if (selectedFType == typeid(JUserInputFunction))
 		{
-			auto* uif = dynamic_cast<JUserInputFunction*>(selectedF);
-			assert( uif != nullptr );
-			ActivateUIF(uif);
+			auto& uif = dynamic_cast<JUserInputFunction&>(*selectedF);
+			ActivateUIF(&uif);
 			assert( itsActiveUIF != nullptr );
 			itsActiveUIF->HandleMouseDown(itsStartPt, false, *itsRectList, *this);
 			itsActiveUIF->HandleMouseUp();
@@ -1804,16 +1797,14 @@ JExprEditor::EIPHandleMouseUp()
 			JString s;
 			if (selectedFType == typeid(JConstantValue))
 			{
-				auto* constVal = dynamic_cast<JConstantValue*>(selectedF);
-				assert( constVal != nullptr );
-				s = JString(constVal->GetValue());
+				auto& constVal = dynamic_cast<JConstantValue&>(*selectedF);
+				s = JString(constVal.GetValue());
 			}
 			else
 			{
 				assert( selectedFType == typeid(JVariableValue) );
-				auto* varVal = dynamic_cast<JFunctionWithVar*>(selectedF);
-				assert( varVal != nullptr );
-				s = itsVarList->GetVariableName(varVal->GetVariableIndex());
+				auto& varVal = dynamic_cast<JFunctionWithVar&>(*selectedF);
+				s = itsVarList->GetVariableName(varVal.GetVariableIndex());
 			}
 			auto* newUIF = jnew JUserInputFunction(this, s);
 			ReplaceFunction(selectedF, newUIF);
@@ -2065,21 +2056,19 @@ JExprEditor::ApplyOperatorKey
 		(key == '*' && targetType == typeid(JProduct)) ||
 		(key == '|' && targetType == typeid(JParallel)))
 	{
-		auto* naryOp = dynamic_cast<JNaryOperator*>(targetF);
-		assert( naryOp != nullptr );
-		naryOp->SetArg(naryOp->GetArgCount()+1, newArg);
+		auto& naryOp = dynamic_cast<JNaryOperator&>(*targetF);
+		naryOp.SetArg(naryOp.GetArgCount()+1, newArg);
 	}
 	else if (parentF != nullptr &&
 			(((key == '+' || key == '-') && *parentType == typeid(JSummation)) ||
 			 (key == '*' && *parentType == typeid(JProduct)) ||
 			 (key == '|' && *parentType == typeid(JParallel))))
 	{
-		auto* naryOp = dynamic_cast<JNaryOperator*>(parentF);
-		assert( naryOp != nullptr );
+		auto& naryOp = dynamic_cast<JNaryOperator&>(*parentF);
 		JIndex selFIndex;
-		const bool found = naryOp->FindArg(targetF, &selFIndex);
+		const bool found = naryOp.FindArg(targetF, &selFIndex);
 		assert( found );
-		naryOp->InsertArg(selFIndex+1, newArg);
+		naryOp.InsertArg(selFIndex+1, newArg);
 	}
 	else if (key == '+' || key == '-' || key == '*' || key == '|')
 	{
@@ -2322,11 +2311,10 @@ JExprEditor::DeleteFunction
 	}
 	else if (parentArgCount > 2)
 	{
-		auto* naryF = dynamic_cast<JNaryFunction*>(parentF);
-		assert( naryF != nullptr );
-		const bool ok = naryF->DeleteArg(targetF);
+		auto& naryF = dynamic_cast<JNaryFunction&>(*parentF);
+		const bool ok = naryF.DeleteArg(targetF);
 		assert( ok );
-		fToSelect = naryF;
+		fToSelect = &naryF;
 	}
 
 	return fToSelect;
@@ -2395,7 +2383,7 @@ JExprEditor::FindNextUIF
 	for (JIndex i=currentIndex+1; i<=rectCount; i++)
 	{
 		const JFunction* f = itsRectList->GetFunction(i);
-		const auto* uif = dynamic_cast<const JUserInputFunction*>(f);
+		const auto* uif    = dynamic_cast<const JUserInputFunction*>(f);
 		if (uif != nullptr)
 		{
 			return const_cast<JUserInputFunction*>(uif);
@@ -2405,7 +2393,7 @@ JExprEditor::FindNextUIF
 	for (JIndex i=1; i<=currentIndex; i++)
 	{
 		const JFunction* f = itsRectList->GetFunction(i);
-		const auto* uif = dynamic_cast<const JUserInputFunction*>(f);
+		const auto* uif    = dynamic_cast<const JUserInputFunction*>(f);
 		if (uif != nullptr)
 		{
 			return const_cast<JUserInputFunction*>(uif);

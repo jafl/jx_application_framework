@@ -729,8 +729,8 @@ JXDockWidget::Receive
 				JIndex currIndex;
 				const bool hadSelection = itsTabGroup->GetCurrentTabIndex(&currIndex);
 
-				auto* card = dynamic_cast<JXWidgetSet*>(itsTabGroup->RemoveTab(i));
-				itsTabGroup->InsertTab(index, w->GetTitle(), card);
+				auto& card = dynamic_cast<JXWidgetSet&>(*itsTabGroup->RemoveTab(i));
+				itsTabGroup->InsertTab(index, w->GetTitle(), &card);
 
 				itsWindowList->MoveItemToIndex(i, index);
 
@@ -757,11 +757,10 @@ JXDockWidget::Receive
 	else if (sender == itsTabGroup->GetCardEnclosure() &&
 			 message.Is(JXCardFile::kCardIndexChanged))
 	{
-		auto* info = dynamic_cast<const JXCardFile::CardIndexChanged*>(&message);
-		assert( info != nullptr );
+		auto& info = dynamic_cast<const JXCardFile::CardIndexChanged&>(message);
 
 		JIndex index;
-		if (info->GetCardIndex(&index))
+		if (info.GetCardIndex(&index))
 		{
 			JXWindow* w = itsWindowList->GetItem(index);
 			w->GetDirector()->Activate();
@@ -873,11 +872,11 @@ JXDockWidget::HasWindows()
 {
 	if (itsChildPartition != nullptr && itsIsHorizFlag)
 	{
-		return dynamic_cast<JXVertDockPartition*>(itsChildPartition)->HasWindows();
+		return dynamic_cast<JXVertDockPartition&>(*itsChildPartition).HasWindows();
 	}
 	else if (itsChildPartition != nullptr)
 	{
-		return dynamic_cast<JXHorizDockPartition*>(itsChildPartition)->HasWindows();
+		return dynamic_cast<JXHorizDockPartition&>(*itsChildPartition).HasWindows();
 	}
 	else
 	{
@@ -908,11 +907,11 @@ JXDockWidget::CloseAllWindows()
 {
 	if (itsChildPartition != nullptr && itsIsHorizFlag)
 	{
-		return dynamic_cast<JXVertDockPartition*>(itsChildPartition)->CloseAllWindows();
+		return dynamic_cast<JXVertDockPartition&>(*itsChildPartition).CloseAllWindows();
 	}
 	else if (itsChildPartition != nullptr)
 	{
-		return dynamic_cast<JXHorizDockPartition*>(itsChildPartition)->CloseAllWindows();
+		return dynamic_cast<JXHorizDockPartition&>(*itsChildPartition).CloseAllWindows();
 	}
 	else
 	{
@@ -932,11 +931,11 @@ JXDockWidget::GetMinSize()
 	JPoint minSize;
 	if (itsChildPartition != nullptr && itsIsHorizFlag)
 	{
-		minSize = dynamic_cast<JXVertDockPartition*>(itsChildPartition)->UpdateMinSize();
+		minSize = dynamic_cast<JXVertDockPartition&>(*itsChildPartition).UpdateMinSize();
 	}
 	else if (itsChildPartition != nullptr)
 	{
-		minSize = dynamic_cast<JXHorizDockPartition*>(itsChildPartition)->UpdateMinSize();
+		minSize = dynamic_cast<JXHorizDockPartition&>(*itsChildPartition).UpdateMinSize();
 	}
 
 	minSize.x = JMax(minSize.x, itsMinSize.x);

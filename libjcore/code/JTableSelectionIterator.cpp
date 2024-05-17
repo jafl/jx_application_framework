@@ -394,24 +394,21 @@ JTableSelectionIterator::Receive
 
 	if (message.Is(JTableData::kRowsInserted))
 	{
-		auto* info = dynamic_cast<const JTableData::RowsInserted*>(&message);
-		assert( info != nullptr );
-		info->AdjustCell(&itsCursor);
+		auto& info = dynamic_cast<const JTableData::RowsInserted&>(message);
+		info.AdjustCell(&itsCursor);
 	}
 
 	else if (message.Is(JTableData::kRowDuplicated))
 	{
-		auto* info = dynamic_cast<const JTableData::RowDuplicated*>(&message);
-		assert( info != nullptr );
-		info->AdjustCell(&itsCursor);
+		auto& info = dynamic_cast<const JTableData::RowDuplicated&>(message);
+		info.AdjustCell(&itsCursor);
 	}
 
 	else if (message.Is(JTableData::kRowsRemoved))
 	{
-		auto* info = dynamic_cast<const JTableData::RowsRemoved*>(&message);
-		assert( info != nullptr );
+		auto& info       = dynamic_cast<const JTableData::RowsRemoved&>(message);
 		JPoint newCursor = itsCursor;
-		if (info->AdjustCell(&newCursor))
+		if (info.AdjustCell(&newCursor))
 		{
 			itsCursor = newCursor;
 		}
@@ -436,24 +433,21 @@ JTableSelectionIterator::Receive
 
 	else if (message.Is(JTableData::kColsInserted))
 	{
-		auto* info = dynamic_cast<const JTableData::ColsInserted*>(&message);
-		assert( info != nullptr );
-		info->AdjustCell(&itsCursor);
+		auto& info = dynamic_cast<const JTableData::ColsInserted&>(message);
+		info.AdjustCell(&itsCursor);
 	}
 
 	else if (message.Is( JTableData::kColDuplicated))
 	{
-		auto* info = dynamic_cast<const JTableData::ColDuplicated*>(&message);
-		assert( info != nullptr );
-		info->AdjustCell(&itsCursor);
+		auto& info = dynamic_cast<const JTableData::ColDuplicated&>(message);
+		info.AdjustCell(&itsCursor);
 	}
 
 	else if (message.Is(JTableData::kColsRemoved))
 	{
-		auto* info = dynamic_cast<const JTableData::ColsRemoved*>(&message);
-		assert( info != nullptr );
+		auto& info       = dynamic_cast<const JTableData::ColsRemoved&>(message);
 		JPoint newCursor = itsCursor;
-		if (info->AdjustCell(&newCursor))
+		if (info.AdjustCell(&newCursor))
 		{
 			itsCursor = newCursor;
 		}

@@ -512,10 +512,8 @@ LayoutDocument::UpdateGridMenu()
 	const bool ok = GetWindow()->GetFocusWidget(&widget);
 	assert( ok );
 
-	auto* layout = dynamic_cast<LayoutContainer*>(widget);
-	assert( layout != nullptr );
-
-	const JSize w = layout->GetGridSpacing();
+	auto& layout  = dynamic_cast<LayoutContainer&>(*widget);
+	const JSize w = layout.GetGridSpacing();
 	if (w == 5)
 	{
 		itsGridMenu->CheckItem(kGrid5Cmd);
@@ -541,21 +539,19 @@ LayoutDocument::HandleGridMenu
 	const bool ok = GetWindow()->GetFocusWidget(&widget);
 	assert( ok );
 
-	auto* layout = dynamic_cast<LayoutContainer*>(widget);
-	assert( layout != nullptr );
-
+	auto& layout = dynamic_cast<LayoutContainer&>(*widget);
 	if (index == kGrid5Cmd)
 	{
-		layout->SetGridSpacing(5);
-		if (layout == itsLayout)
+		layout.SetGridSpacing(5);
+		if (&layout == itsLayout)
 		{
 			GetWindow()->SetStepSize(5,5);
 		}
 	}
 	if (index == kGrid10Cmd)
 	{
-		layout->SetGridSpacing(10);
-		if (layout == itsLayout)
+		layout.SetGridSpacing(10);
+		if (&layout == itsLayout)
 		{
 			GetWindow()->SetStepSize(10,10);
 		}

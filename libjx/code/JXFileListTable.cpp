@@ -1188,7 +1188,7 @@ JXFileListTable::SetEditMenuProvider
 	VisInfo* info     = const_cast<VisInfo*>(itsVisibleList->GetCArray()); \
 	for (JUnsignedOffset i=0; i<count; i++) \
 	{ \
-		m->AdjustIndex(&(info[i].fileIndex)); \
+		m.AdjustIndex(&(info[i].fileIndex)); \
 	}
 
 void
@@ -1200,20 +1200,18 @@ JXFileListTable::Receive
 {
 	if (sender == itsFileList && message.Is(JListT::kItemsInserted))
 	{
-		auto* m = dynamic_cast<const JListT::ItemsInserted*>(&message);
-		assert( m != nullptr );
+		auto& m = dynamic_cast<const JListT::ItemsInserted&>(message);
 		ADJUST_INDEX(m)
 	}
 	else if (sender == itsFileList && message.Is(JListT::kItemsRemoved))
 	{
-		auto* m = dynamic_cast<const JListT::ItemsRemoved*>(&message);
-		assert( m != nullptr );
+		auto& m = dynamic_cast<const JListT::ItemsRemoved&>(message);
 
 		const JSize count = itsVisibleList->GetItemCount();
 		for (JIndex i=count; i>=1; i--)
 		{
 			VisInfo info = itsVisibleList->GetItem(i);
-			if (m->AdjustIndex(&info.fileIndex))
+			if (m.AdjustIndex(&info.fileIndex))
 			{
 				itsVisibleList->SetItem(i, info);
 			}
@@ -1226,14 +1224,12 @@ JXFileListTable::Receive
 	}
 	else if (sender == itsFileList && message.Is(JListT::kItemMoved))
 	{
-		auto* m = dynamic_cast<const JListT::ItemMoved*>(&message);
-		assert( m != nullptr );
+		auto& m = dynamic_cast<const JListT::ItemMoved&>(message);
 		ADJUST_INDEX(m)
 	}
 	else if (sender == itsFileList && message.Is(JListT::kItemsSwapped))
 	{
-		auto* m = dynamic_cast<const JListT::ItemsSwapped*>(&message);
-		assert( m != nullptr );
+		auto& m = dynamic_cast<const JListT::ItemsSwapped&>(message);
 		ADJUST_INDEX(m)
 	}
 	else if (sender == itsFileList && message.Is(JListT::kItemsChanged))
@@ -1251,9 +1247,8 @@ JXFileListTable::Receive
 	}
 	else if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
 	{
-		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleEditMenu(selection->GetIndex());
+		auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+		HandleEditMenu(selection.GetIndex());
 	}
 
 	else
@@ -1364,12 +1359,11 @@ JXFileListTable::GetSelectionData
 	{
 		assert( HasSelection() );
 
-		auto* fileData = dynamic_cast<JXFileSelection*>(data);
-		assert( fileData != nullptr );
+		auto& fileData = dynamic_cast<JXFileSelection&>(*data);
 
 		JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
 
-		JTableSelectionIterator iter(&(GetTableSelection()));
+		JTableSelectionIterator iter(&GetTableSelection());
 		JPoint cell;
 		JString fullName;
 		while (iter.Next(&cell))
@@ -1380,7 +1374,7 @@ JXFileListTable::GetSelectionData
 			}
 		}
 
-		fileData->SetData(list);
+		fileData.SetData(list);
 	}
 	else
 	{

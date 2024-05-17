@@ -366,16 +366,15 @@ JXSaveFileDialog::Receive
 
 	else if (sender == fileBrowser && message.Is(JXDirTable::kFileDblClicked))
 	{
-		auto* info = dynamic_cast<const JXDirTable::FileDblClicked*>(&message);
-		assert( info != nullptr );
-		const JString fileName = (info->GetDirEntry()).GetName();
+		auto& info = dynamic_cast<const JXDirTable::FileDblClicked&>(message);
+		const JString fileName = (info.GetDirEntry()).GetName();
 		itsFileNameInput->GetText()->SetText(fileName);
 		itsFileNameInput->Focus();
 	}
 
 	else
 	{
-		if (sender == &(fileBrowser->GetTableSelection()))
+		if (sender == &fileBrowser->GetTableSelection())
 		{
 			UpdateDisplay();
 		}

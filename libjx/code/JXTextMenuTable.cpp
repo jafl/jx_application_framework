@@ -144,11 +144,10 @@ JXTextMenuTable::TableDrawCell
 
 		rect.left += kHilightBorderWidth;
 
-		auto* xp = dynamic_cast<JXWindowPainter*>(&p);
-		assert( xp != nullptr );
-		xp->String(rect.left, rect.top, text, ulIndex,
-				   rect.width(), JPainter::HAlign::kLeft,
-				   rect.height(), JPainter::VAlign::kCenter);
+		auto& xp = dynamic_cast<JXWindowPainter&>(p);
+		xp.String(rect.left, rect.top, text, ulIndex,
+				  rect.width(), JPainter::HAlign::kLeft,
+				  rect.height(), JPainter::VAlign::kCenter);
 	}
 
 	else if (cell.x == kSubmenuColumnIndex && itsTextMenuData->HasSubmenu(cell.y))
@@ -370,9 +369,8 @@ JXTextMenuTable::Receive
 	if (sender == const_cast<JXTextMenuData*>(itsTextMenuData) &&
 		message.Is(JXTextMenuData::kImageChanged))
 	{
-		auto* item = dynamic_cast<const JXTextMenuData::ImageChanged*>(&message);
-		assert( item != nullptr );
-		TableRefreshCell(JPoint(kImageColumnIndex, item->GetIndex()));
+		auto& item = dynamic_cast<const JXTextMenuData::ImageChanged&>(message);
+		TableRefreshCell(JPoint(kImageColumnIndex, item.GetIndex()));
 	}
 
 	else

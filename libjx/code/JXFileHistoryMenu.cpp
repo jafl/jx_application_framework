@@ -93,10 +93,8 @@ JXFileHistoryMenu::GetFile
 {
 	assert( message.Is(JXMenu::kItemSelected) );
 
-	auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-	assert( selection != nullptr );
-
-	return GetFile(selection->GetIndex());
+	auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+	return GetFile(selection.GetIndex());
 }
 
 JString

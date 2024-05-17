@@ -171,10 +171,9 @@ JX2DCurveOptionsDialog::Receive
 {
 	if (sender == itsNameList && message.Is(JX2DCurveNameList::kNameSelected))
 	{
-		const auto* info = dynamic_cast<const JX2DCurveNameList::NameSelected*>(&message);
-		assert(info != nullptr);
+		auto& info = dynamic_cast<const JX2DCurveNameList::NameSelected&>(message);
 		SaveSettings();
-		itsCurrentIndex = info->GetIndex();
+		itsCurrentIndex = info.GetIndex();
 		AdjustWidgets();
 	}
 

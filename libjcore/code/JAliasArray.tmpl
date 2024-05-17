@@ -398,7 +398,7 @@ JAliasArray<T>::SearchSortedOTI
 	JIndex* data      = const_cast<JIndex*>(itsIndexArray->GetCArray()); \
 	for (JIndex _i=0; _i<count; _i++) \
 	{ \
-		m->AdjustIndex(data + _i); \
+		m.AdjustIndex(data + _i); \
 	}
 
 template <class T>
@@ -411,27 +411,25 @@ JAliasArray<T>::Receive
 {
 	if (sender == itsData && message.Is(JListT::kItemsInserted))
 	{
-		auto* m = dynamic_cast<const JListT::ItemsInserted*>(&message);
-		assert( m != nullptr );
+		auto& m = dynamic_cast<const JListT::ItemsInserted&>(message);
 		ADJUST_INDEX(m);
 
-		for (JIndex i = m->GetFirstIndex(); i <= m->GetLastIndex(); i++)
+		for (JIndex i = m.GetFirstIndex(); i <= m.GetLastIndex(); i++)
 		{
 			itsIndexArray->InsertSorted(i);
 		}
 
-		SetItemCount(GetItemCount() + m->GetCount());
+		SetItemCount(GetItemCount() + m.GetCount());
 	}
 	else if (sender == itsData && message.Is(JListT::kItemsRemoved))
 	{
-		auto* m = dynamic_cast<const JListT::ItemsRemoved*>(&message);
-		assert( m != nullptr );
+		auto& m = dynamic_cast<const JListT::ItemsRemoved&>(message);
 
 		const JSize count = itsIndexArray->GetItemCount();
 		for (JIndex i=count; i>=1; i--)
 		{
 			JIndex index = itsIndexArray->GetItem(i);
-			if (m->AdjustIndex(&index))
+			if (m.AdjustIndex(&index))
 			{
 				itsIndexArray->SetItem(i, index);
 			}
@@ -441,28 +439,25 @@ JAliasArray<T>::Receive
 			}
 		}
 
-		SetItemCount(GetItemCount() - m->GetCount());
+		SetItemCount(GetItemCount() - m.GetCount());
 	}
 	else if (sender == itsData && message.Is(JListT::kItemMoved))
 	{
-		auto* m = dynamic_cast<const JListT::ItemMoved*>(&message);
-		assert( m != nullptr );
+		auto& m = dynamic_cast<const JListT::ItemMoved&>(message);
 		ADJUST_INDEX(m);
 	}
 	else if (sender == itsData && message.Is(JListT::kItemsSwapped))
 	{
-		auto* m = dynamic_cast<const JListT::ItemsSwapped*>(&message);
-		assert( m != nullptr );
+		auto& m = dynamic_cast<const JListT::ItemsSwapped&>(message);
 		ADJUST_INDEX(m);
 	}
 	else if (sender == itsData && message.Is(JListT::kItemsChanged))
 	{
 		// Sort() would be O(N log N).  This method is O(N) + O(log N) = O(N).
 
-		auto* m = dynamic_cast<const JListT::ItemsChanged*>(&message);
-		assert( m != nullptr );
+		auto& m = dynamic_cast<const JListT::ItemsChanged&>(message);
 
-		for (JIndex j=m->GetFirstIndex(); j<=m->GetLastIndex(); j++)
+		for (JIndex j=m.GetFirstIndex(); j<=m.GetLastIndex(); j++)
 		{
 			const JSize count = itsIndexArray->GetItemCount();
 			for (JIndex i=1; i<=count; i++)

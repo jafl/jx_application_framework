@@ -163,10 +163,8 @@ JXStyleMenu::Receive
 	}
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 	{
-		auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-
-		const JIndex i = selection->GetIndex();
+		auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+		const JIndex i  = selection.GetIndex();
 		if (i == kCustomColorCmd)
 		{
 			ChooseColor();

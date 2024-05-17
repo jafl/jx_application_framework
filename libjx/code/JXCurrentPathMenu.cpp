@@ -107,10 +107,8 @@ JXCurrentPathMenu::GetPath
 {
 	assert( message.Is(JXMenu::kItemSelected) );
 
-	auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-	assert( selection != nullptr );
-
-	return GetPath(selection->GetIndex());
+	auto& selection = dynamic_cast<const JXMenu::ItemSelected&>(message);
+	return GetPath(selection.GetIndex());
 }
 
 JString

@@ -529,24 +529,22 @@ JListIterator<T>::ListChanged
 {
 	if (message.Is(JListT::kItemsInserted))
 	{
-		auto* info = dynamic_cast<const JListT::ItemsInserted*>(&message);
-		assert( info != nullptr );
-		if (itsCursorPosition >= info->GetFirstIndex())
+		auto& info = dynamic_cast<const JListT::ItemsInserted&>(message);
+		if (itsCursorPosition >= info.GetFirstIndex())
 		{
-			itsCursorPosition += info->GetCount();
+			itsCursorPosition += info.GetCount();
 		}
 	}
 	else if (message.Is(JListT::kItemsRemoved))
 	{
-		auto* info = dynamic_cast<const JListT::ItemsRemoved*>(&message);
-		assert( info != nullptr );
-		if (itsCursorPosition > info->GetLastIndex())
+		auto& info = dynamic_cast<const JListT::ItemsRemoved&>(message);
+		if (itsCursorPosition > info.GetLastIndex())
 		{
-			itsCursorPosition -= info->GetCount();
+			itsCursorPosition -= info.GetCount();
 		}
-		else if (itsCursorPosition >= info->GetFirstIndex())
+		else if (itsCursorPosition >= info.GetFirstIndex())
 		{
-			itsCursorPosition = info->GetFirstIndex()-1;
+			itsCursorPosition = info.GetFirstIndex()-1;
 		}
 	}
 	else if (message.Is(JListT::kCopied))

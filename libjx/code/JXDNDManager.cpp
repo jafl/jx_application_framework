@@ -1833,16 +1833,15 @@ JXDNDManager::ReceiveWithFeedback
 {
 	if (sender == itsDisplay && message->Is(JXDisplay::kXError))
 	{
-		auto* err = dynamic_cast<JXDisplay::XError*>(message);
-		assert( err != nullptr );
+		auto& err = dynamic_cast<JXDisplay::XError&>(*message);
 
 		// source: target crashed -- nothing to do
 
 		// target: source crashed
 
 		if (itsDragger == nullptr && itsDraggerWindow != None &&
-			err->GetType() == BadWindow &&
-			err->GetXID()  == itsDraggerWindow)
+			err.GetType() == BadWindow &&
+			err.GetXID()  == itsDraggerWindow)
 		{
 			#if JXDND_DEBUG_MSGS
 			std::cout << "JXDND: Source crashed via XError" << std::endl;
@@ -1850,7 +1849,7 @@ JXDNDManager::ReceiveWithFeedback
 
 			itsDraggerWindow = None;
 			CleanUpAfterDNDLeave();
-			err->SetCaught();
+			err.SetCaught();
 		}
 
 		// target: residual from source crash -- nothing to do

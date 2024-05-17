@@ -258,15 +258,15 @@ JXToolBar::Receive
 
 	if (message.Is(JXButton::kPushed))
 	{
-		auto* button = dynamic_cast<JXToolBarButton*>(sender);
-		if (itsButtons->Includes(button))
+		auto& button = dynamic_cast<JXToolBarButton&>(*sender);
+		if (itsButtons->Includes(&button))
 		{
-			JXTextMenu* menu = button->GetMenu();
+			JXTextMenu* menu = button.GetMenu();
 			if (menu->IsActive())
 			{
 				menu->PrepareToOpenMenu(true);
 				JIndex itemIndex;
-				if (button->GetMenuItemIndex(&itemIndex) &&
+				if (button.GetMenuItemIndex(&itemIndex) &&
 					menu->IsEnabled(itemIndex))
 				{
 					JXDisplay* display = GetDisplay();	// need local copy, since we might be deleted
@@ -291,9 +291,8 @@ JXToolBar::Receive
 	else if (hasPrefs &&
 			 sender == prefsMgr && message.Is(JPrefsManager::kDataChanged))
 	{
-		auto* info = dynamic_cast<const JPrefsManager::DataChanged*>(&message);
-		assert(info != nullptr);
-		if (info->GetID() == prefID)
+		auto& info = dynamic_cast<const JPrefsManager::DataChanged&>(message);
+		if (info.GetID() == prefID)
 		{
 			JPrefObject::ReadPrefs();
 			propagate = false;
@@ -395,13 +394,12 @@ JXToolBar::ExtractItemNodes
 		}
 		else
 		{
-			auto* item = dynamic_cast<JXToolBarNode*>(child);
-			assert(item != nullptr);
-			if (item->IsChecked())
+			auto& item = dynamic_cast<JXToolBarNode&>(*child);
+			if (item.IsChecked())
 			{
-				AppendButton(item->GetMenu(), item->GetIndex());
+				AppendButton(item.GetMenu(), item.GetIndex());
 			}
-			if (item->HasSeparator())
+			if (item.HasSeparator())
 			{
 				NewGroup();
 			}
@@ -474,8 +472,8 @@ JXToolBar::AddMenuToTree
 				}
 			}
 
-			const auto* temp = dynamic_cast<const JXTextMenu*>(sub);
-			auto* tsub       = const_cast<JXTextMenu*>(temp);
+			auto* temp = dynamic_cast<const JXTextMenu*>(sub);
+			auto* tsub = const_cast<JXTextMenu*>(temp);
 			if (tsub != nullptr)
 			{
 				AddMenuToTree(tree, tsub, mnode, name1);
