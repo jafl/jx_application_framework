@@ -116,8 +116,6 @@ public:
 
 protected:
 
-	void	UpdateCurrentTime();
-
 	bool	Close() override;	// use Quit() instead
 
 	void			ReceiveWithFeedback(JBroadcaster* sender, Message* message) override;
@@ -129,6 +127,8 @@ private:
 	JIndex					itsCurrDisplayIndex;
 	bool					itsIgnoreDisplayDeletedFlag;
 	bool					itsIgnoreTaskDeletedFlag;
+
+	const std::chrono::time_point<std::chrono::steady_clock>	itsStartTime;
 
 	Time					itsCurrentTime;			// in milliseconds
 	JPtrArray<JXIdleTask>*	itsIdleTasks;

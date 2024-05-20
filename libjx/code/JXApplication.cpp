@@ -54,13 +54,14 @@ static const JUtf8Byte* kFTCDebugOverlapOptionName = "--debug-ftc-overlap";
 static const JUtf8Byte* kDebugUtf8OptionName       = "--debug-utf8";
 static const JUtf8Byte* kPseudotranslateOptionName = "--pseudotranslate";
 
-const time_t kTimerStart = 100000000;	// seconds before rollover
 const Time kMaxSleepTime = 50;			// 0.05 seconds (in milliseconds)
 
 const Time kCheckQuitPeriod    = 30001;	// 30 seconds (milliseconds)
 const JSize kWaitForChildCount = 10;
 
 static thread_local bool theUIThreadFlag = false;
+
+using namespace std::chrono;
 
 /******************************************************************************
  Constructor
@@ -80,6 +81,7 @@ JXApplication::JXApplication
 	itsCurrDisplayIndex(1),
 	itsIgnoreDisplayDeletedFlag(false),
 	itsIgnoreTaskDeletedFlag(false),
+	itsStartTime(steady_clock::now()),
 	itsCurrentTime(0),
 	itsMaxSleepTime(0),
 	itsLastIdleTime(0),
@@ -151,24 +153,7 @@ JXApplication::JXApplication
 		JXMenu::SetDisplayStyle(JXMenu::kMacintoshStyle);
 	}
 
-	// start the timer
-
-#ifndef WIN32
-
-	itimerval timerInfo;
-	timerInfo.it_interval.tv_sec  = kTimerStart;
-	timerInfo.it_interval.tv_usec = 0;
-	timerInfo.it_value.tv_sec     = kTimerStart;
-	timerInfo.it_value.tv_usec    = 0;
-	if (setitimer(ITIMER_REAL, &timerInfo, nullptr) != 0)
-	{
-		std::cout << "setitimer failed: " << errno << std::endl;
-		abort();
-	}
-
-#endif
-
-	// idle task to quit if add directors deactivated
+	// idle task to quit if all directors deactivated
 
 	auto* task = jnew JXFunctionTask(kCheckQuitPeriod, [this]()
 	{
@@ -492,30 +477,6 @@ JXApplication::Close()
 }
 
 /******************************************************************************
- UpdateCurrentTime (protected)
-
-	Calculate our current time from the current timer value.
-
- ******************************************************************************/
-
-void
-JXApplication::UpdateCurrentTime()
-{
-#ifdef WIN32
-
-	itsCurrentTime = GetTickCount();
-
-#else
-
-	itimerval timerInfo;
-	getitimer(ITIMER_REAL, &timerInfo);
-	itsCurrentTime = JRound(1000 * (kTimerStart -
-		 (timerInfo.it_value.tv_sec + timerInfo.it_value.tv_usec/1e6)));
-
-#endif
-}
-
-/******************************************************************************
  HandleOneEvent (private)
 
 	We process one event for each display.  If there are none, we idle.
@@ -528,9 +489,7 @@ JXApplication::UpdateCurrentTime()
 void
 JXApplication::HandleOneEvent()
 {
-	UpdateCurrentTime();
-
-	UpdateCurrentTime();
+	itsCurrentTime = duration_cast< milliseconds >(steady_clock::now() - itsStartTime).count();
 	bool hasEvents = false;
 
 	JPtrArrayIterator<JXDisplay> iter(itsDisplayList);
