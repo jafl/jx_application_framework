@@ -1,5 +1,10 @@
 Changes from previous versions
 
+4.2.0
+
+Fixed include path searching.  Added support for -iquote, etc.
+The correct JError.h is now located on macOS.
+
 4.1.0
 
 Removed --assume-autogen option, because it should always be true.

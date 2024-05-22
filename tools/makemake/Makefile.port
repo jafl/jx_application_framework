@@ -22,6 +22,7 @@ EXE_NAME := ${call EXE,${APP_NAME}}
 install: makemake
 	@${J_STRIP_DEBUG} ${EXE_NAME}
 	@mkdir -p ${JX_INSTALL_BIN}
+	@${RM} ${JX_INSTALL_BIN}/${APP_NAME}
 	@cp ${APP_NAME} ${JX_INSTALL_BIN}
 	@if { command -v makemake > /dev/null; } then \
          { \

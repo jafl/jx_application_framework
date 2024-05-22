@@ -21,12 +21,6 @@ DIR14 := ./14-DragAndDrop
 MAKE_INCLUDE := ${JX_ROOT}/include/jx-af/make
 include ${MAKE_INCLUDE}/jx_config
 
-SEARCHDIRS := -I${DIR01} -I${DIR02} -I${DIR03} -I${DIR04} \
-              -I${DIR05} -I${DIR06} -I${DIR07} -I${DIR08} \
-              -I${DIR09} -I${DIR10} -I${DIR11} -I${DIR12} \
-              -I${DIR13} -I${DIR14} \
-              ${SEARCHDIRS}
-
 # makemake variables
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} -g ${SEARCHDIRS}

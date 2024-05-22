@@ -28,7 +28,7 @@
 
 static const JUtf8Byte* kVersionStr =
 
-	"makemake 4.1.0\n"
+	"makemake 4.2.0\n"
 	"\n"
 	"Copyright (C) 1994-2021 by John Lindal.";
 
@@ -58,16 +58,13 @@ static const JUtf8Byte* kDefOutputSuffix = ".o";
 
 static JRegex* globalIgnorePattern = nullptr;
 
-static const JRegex objFileSuffix("^\\.(o|a|so|class|jar) ");
-static       JRegex noParseFileSuffix("^\\.(java|e|m[23])$");		// modified by GetOptions()
-static const JRegex javaObjFileSuffix("^\\.(java|class|jar)$");
-static const JRegex suffixMapPattern("^(\\.[^.]+)(\\.[^.]+)$");
-static const JRegex noParsePattern("\\.([^.]+)");
-
-// .in_suffix [.out_suffix ]name
-
-static const JRegex linePattern(
-	"^(?P<inSuffix>\\.[^ ]+) +(?:(?P<outSuffix>\\.[^ ]+) +)?(?P<target>.+)$");
+static JRegex objFileSuffix;
+static JRegex noParseFileSuffix;
+static JRegex javaObjFileSuffix;
+static JRegex suffixMapPattern;
+static JRegex noParsePattern;
+static JRegex linePattern;
+static JRegex includePattern;
 
 // Prototypes
 
@@ -104,6 +101,17 @@ main
 	char*	argv[]
 	)
 {
+	// avoid static initialization disaster
+
+	objFileSuffix.SetPatternOrDie("^\\.(o|a|so|class|jar) ");
+	noParseFileSuffix.SetPatternOrDie("^\\.(java|e|m[23])$");
+	javaObjFileSuffix.SetPatternOrDie("^\\.(java|class|jar)$");
+	suffixMapPattern.SetPatternOrDie("^(\\.[^.]+)(\\.[^.]+)$");
+	noParsePattern.SetPatternOrDie("\\.([^.]+)");
+	linePattern.SetPatternOrDie(	// .in_suffix [.out_suffix ]name
+		"^(?P<inSuffix>\\.[^ ]+) +(?:(?P<outSuffix>\\.[^ ]+) +)?(?P<target>.+)$");
+	includePattern.SetPatternOrDie("^\\s*#\\s*include\\s*([<\"])(.+?)[>\"]");
+
 	// check if we are being invoked to build the dependency graph
 
 	if (argc > 2 && strcmp(argv[1], "--depend") == 0)
@@ -933,7 +941,8 @@ GetOptions
 			JStringIterator iter1(&p, JStringIterator::kStartAtEnd);
 			iter1.SkipPrev(2);
 
-			JStringIterator iter2(JString(argv[index], JString::kNoCopy));
+			const JString arg(argv[index]);
+			JStringIterator iter2(arg);
 			while (iter2.Next(noParsePattern))
 			{
 				JString s = iter2.GetLastMatch().GetSubstring(1);
@@ -1303,11 +1312,21 @@ CalcDepend
 
 	// find directories to search
 
-	JPtrArray<JString> pathList1(JPtrArrayT::kForgetAll),
-					   pathList2(JPtrArrayT::kForgetAll);
-	JString* path;
+	JPtrArray<JString> pathList1(JPtrArrayT::kDeleteAll),
+					   pathList2(JPtrArrayT::kDeleteAll),
+					   pathList3(JPtrArrayT::kForgetAll);
 
-	bool searchCurrDir = true;
+	std::function AddPath = [&argv](JPtrArray<JString>* list, const JUtf8Byte* path)
+	{
+		if (JDirectoryReadable(path))
+		{
+			list->Append(path);
+		}
+		else
+		{
+			std::cerr << argv[0] << ": invalid path " << path << std::endl;
+		}
+	};
 
 	while (i < argc && strcmp(argv[i], "--") != 0)
 	{
@@ -1315,29 +1334,40 @@ CalcDepend
 		{
 			searchSysDir = false;
 		}
-		else if (strcmp(argv[i], "-I-") == 0)
+		else if (strcmp(argv[i], "-I-") == 0 ||
+				 strcmp(argv[i], "--include-barrier") == 0)
 		{
-			searchCurrDir = false;
+			pathList1.CopyPointers(pathList2, JPtrArrayT::kDeleteAll, true);
+			pathList2.RemoveAll();
 		}
-		else if (argv[i][0] == '-' && argv[i][1] == 'I' &&
-				 argv[i][2] != '\0' && argv[i][2] != '-')
+		else if (strcmp(argv[i], "--include-directory") == 0 && i < argc-1)
 		{
-			if (JDirectoryReadable(JString(argv[i]+2, JString::kNoCopy)))
-			{
-				path = jnew JString(argv[i]+2);		// strip off "-I"
-				if (searchCurrDir)
-				{
-					pathList1.Append(path);
-				}
-				else
-				{
-					pathList2.Append(path);
-				}
-			}
-			else
-			{
-				std::cerr << argv[0] << ": invalid path " << argv[i] << std::endl;
-			}
+			i++;
+			AddPath(&pathList1, argv[i]);
+		}
+		else if (strncmp(argv[i], "--include-directory=", 20) == 0 && argv[i][20] != '\0')
+		{
+			AddPath(&pathList1, argv[i]+20);
+		}
+		else if (strncmp(argv[i], "-iquote", 7) == 0 && argv[i][7] != '\0')
+		{
+			AddPath(&pathList1, argv[i]+7);
+		}
+		else if (strncmp(argv[i], "-isystem", 8) == 0 && argv[i][8] != '\0')
+		{
+			AddPath(&pathList2, argv[i]+8);
+		}
+		else if (strncmp(argv[i], "-dirafter", 9) == 0 && argv[i][9] != '\0')
+		{
+			AddPath(&pathList3, argv[i]+9);
+		}
+		else if (strncmp(argv[i], "-isystem-after", 14) == 0 && argv[i][14] != '\0')
+		{
+			AddPath(&pathList3, argv[i]+14);
+		}
+		else if (strncmp(argv[i], "-I", 2) == 0 && argv[i][2] != '\0')
+		{
+			AddPath(&pathList2, argv[i]+2);
 		}
 		i++;
 	}
@@ -1349,17 +1379,12 @@ CalcDepend
 		return;
 	}
 
-	if (searchCurrDir)
-	{
-		// don't include ./ for <...>
-		pathList2.CopyPointers(pathList1, JPtrArrayT::kForgetAll, false);
-		pathList1.Prepend(kCurrentDir);
-	}
-
 	if (searchSysDir)
 	{
 		pathList2.Append(kSysIncludeDir);
 	}
+	pathList2.CopyPointers(pathList3, JPtrArrayT::kDeleteAll, true);
+	pathList3.CleanOut();
 
 	// append dependencies to input file
 
@@ -1396,9 +1421,6 @@ CalcDepend
 			dedup.InsertAtIndex(i, fileName);
 		}
 	}
-
-	// We should clean up, but it's not worth the trouble.
-	// (and pathList1 and pathList2 share objects)
 }
 
 /******************************************************************************
@@ -1599,8 +1621,6 @@ ParseHeaderFile
 
  ******************************************************************************/
 
-static const JRegex includePattern("^\\s*#\\s*include\\s*([<\"])(.+?)[>\"]");
-
 bool
 GetNextIncludedFile
 	(
@@ -1625,19 +1645,10 @@ GetNextIncludedFile
 			if (globalIgnorePattern != nullptr &&
 				globalIgnorePattern->Match(name))
 			{
-				// skip
+				continue;
 			}
-			else if ((type == '"' && FindFile(name, pathList1, fileName)) ||
-					 FindFile(name, pathList2, fileName))
-			{
-				if (globalIgnorePattern != nullptr &&
-					globalIgnorePattern->Match(*fileName))
-				{
-					continue;
-				}
-				return true;
-			}
-			else if (type == '"')	// assume in same dir as including file
+
+			if (type == '"')	// check same dir as including file
 			{
 				JString p, n;
 				if (!JSplitPathAndName(inputFileName, &p, &n))
@@ -1645,7 +1656,21 @@ GetNextIncludedFile
 					p = "./";
 				}
 				*fileName = JCombinePathAndName(p, name);
-				return JFileExists(*fileName);
+				if (JFileExists(*fileName))
+				{
+					return true;
+				}
+			}
+
+			if ((type == '"' && FindFile(name, pathList1, fileName)) ||
+				FindFile(name, pathList2, fileName))
+			{
+				if (globalIgnorePattern != nullptr &&
+					globalIgnorePattern->Match(*fileName))
+				{
+					continue;
+				}
+				return true;
 			}
 		}
 	}
