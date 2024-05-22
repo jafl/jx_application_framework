@@ -110,11 +110,11 @@ JStringManager::Get
 	const
 {
 	const JString* s;
-	if (GetItem(JString(id, JString::kNoCopy), &s))
+	if (GetItem(id, &s))
 	{
 		assert( s != nullptr );
 	}
-	else if (Contains(theMissingStringKey))	// ok to leak memory, because it should never happen
+	else if (Contains(theMissingStringKey))	// ok to leak memory, because it should never happen in release
 	{
 		std::cerr << "missing string id: " << id << std::endl;
 
@@ -206,8 +206,10 @@ JSubstitute*
 JStringManager::GetReplaceEngine()
 	const
 {
+	itsReplaceMutex.lock();
 	itsReplaceEngine->Reset();
 	itsReplaceEngine->IgnoreUnrecognized(true);
+	itsReplaceMutex.unlock();
 	return itsReplaceEngine;
 }
 
@@ -228,6 +230,8 @@ JStringManager::Replace
 	)
 	const
 {
+	itsReplaceMutex.lock();
+
 	JSubstitute* r = GetReplaceEngine();
 
 	const JSize count = size/(2*sizeof(JUtf8Byte*));
@@ -237,6 +241,8 @@ JStringManager::Replace
 	}
 
 	r->Substitute(str);
+
+	itsReplaceMutex.unlock();
 }
 
 /******************************************************************************

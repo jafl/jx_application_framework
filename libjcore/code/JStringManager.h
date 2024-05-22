@@ -53,9 +53,10 @@ public:
 
 private:
 
-	JString			itsBCP47Locale;
-	JSubstitute*	itsReplaceEngine;
-	static bool		thePseudotranslationFlag;
+	JString							itsBCP47Locale;
+	JSubstitute*					itsReplaceEngine;
+	mutable std::recursive_mutex	itsReplaceMutex;
+	static bool						thePseudotranslationFlag;
 
 private:
 
