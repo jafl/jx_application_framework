@@ -70,6 +70,11 @@ StatusTerminated::jProcessUtil	"Program terminated by $signal"
 StatusStopped::jProcessUtil		"Program stopped by $signal"
 StatusUnknown::jProcessUtil		"Program terminated for unknown reason"
 
+JInvalidSignal			"An invalid signal was sent to a process."
+JInvalidProcess			"A signal was sent to a non-existent process."
+JCanNotSignalProcess	"You are not allowed to send a signal to the specified process."
+JProcessAccessDenied	"You are not allowed access to the specified process."
+
 # jSignal
 
 SIGINT::jSignal		"interrupt signal (SIGINT)"

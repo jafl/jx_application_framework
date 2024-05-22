@@ -608,7 +608,7 @@ JUnsupportedVCS::JUnsupportedVCS
 	const JString& fullName
 	)
 	:
-	JError(kJUnsupportedVCS, "")
+	JError(kJUnsupportedVCS)
 {
 	const JUtf8Byte* map[] =
 	{

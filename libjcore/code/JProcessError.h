@@ -22,13 +22,6 @@ extern const JUtf8Byte* kJProcessAccessDenied;
 
 extern const JUtf8Byte* kJRunProgramError;
 
-// Messages
-
-extern const JUtf8Byte* kJInvalidSignalMsg;
-extern const JUtf8Byte* kJInvalidProcessMsg;
-extern const JUtf8Byte* kJCanNotSignalProcessMsg;
-extern const JUtf8Byte* kJProcessAccessDeniedMsg;
-
 // Classes
 
 class JInvalidSignal : public JError
@@ -37,8 +30,8 @@ public:
 
 	JInvalidSignal()
 		:
-		JError(kJInvalidSignal, kJInvalidSignalMsg)
-		{ };
+		JError(kJInvalidSignal)
+	{ };
 };
 
 class JInvalidProcess : public JError
@@ -47,8 +40,8 @@ public:
 
 	JInvalidProcess()
 		:
-		JError(kJInvalidProcess, kJInvalidProcessMsg)
-		{ };
+		JError(kJInvalidProcess)
+	{ };
 };
 
 class JCanNotSignalProcess : public JError
@@ -57,8 +50,8 @@ public:
 
 	JCanNotSignalProcess()
 		:
-		JError(kJCanNotSignalProcess, kJCanNotSignalProcessMsg)
-		{ };
+		JError(kJCanNotSignalProcess)
+	{ };
 };
 
 class JProcessAccessDenied : public JError
@@ -67,8 +60,8 @@ public:
 
 	JProcessAccessDenied()
 		:
-		JError(kJProcessAccessDenied, kJProcessAccessDeniedMsg)
-		{ };
+		JError(kJProcessAccessDenied)
+	{ };
 };
 
 class JRunProgramError : public JError
@@ -77,8 +70,10 @@ public:
 
 	JRunProgramError(const JString& message)
 		:
-		JError(kJRunProgramError, message.GetBytes())
-		{ };
+		JError(kJRunProgramError)
+	{
+		SetMessage(message);
+	};
 };
 
 #endif

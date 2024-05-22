@@ -22,7 +22,7 @@
 		copy constructors.)
 
 	Since every JError message stores a descriptive message, one often only
-	needs to check if the return value is kJNoError.  If it isn't, then pass
+	needs to check if the return value is OK().  If it isn't, then pass
 	the object's long message to JStringManager::ReportError() or
 	JUserNotification::ReportError().
 
@@ -35,7 +35,7 @@
 
 	BASE CLASS = JBroadcaster::Message
 
-	Copyright (C) 1997-2000 by John Lindal.
+	Copyright (C) 1997-2024 by John Lindal.
 
  *****************************************************************************/
 
@@ -46,29 +46,26 @@
 /******************************************************************************
  Constructor
 
-	If msg == nullptr, it is retrieved from JStringManager.
-
-	If copyMsg == true, we make a copy of the data in msg.
-	Otherwise, we just store the pointer that is passed in.
-
  ******************************************************************************/
 
 JError::JError
 	(
-	const JUtf8Byte*	type,
-	const JUtf8Byte*	msg
+	const JUtf8Byte* type
 	)
 	:
-	JBroadcaster::Message(type)
+	JBroadcaster::Message(type),
+	itsDynamicMessage(nullptr)
 {
-	if (JString::IsEmpty(msg))
-	{
-		itsMessage = JGetString(type);
-	}
-	else
-	{
-		itsMessage.Set(msg);
-	}
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+JError::~JError()
+{
+	jdelete itsDynamicMessage;
 }
 
 /******************************************************************************
@@ -82,7 +79,8 @@ JError::JError
 	)
 	:
 	JBroadcaster::Message(source),
-	itsMessage(source.itsMessage)
+	itsDynamicMessage(source.itsDynamicMessage != nullptr ?
+					  jnew JString(*source.itsDynamicMessage) : nullptr)
 {
 }
 
@@ -104,9 +102,33 @@ JError::operator=
 
 	JBroadcaster::Message::operator=(source);
 
-	itsMessage = source.itsMessage;
+	if (itsDynamicMessage != nullptr && source.itsDynamicMessage != nullptr)
+	{
+		itsDynamicMessage->Set(*source.itsDynamicMessage);
+	}
+	else if (source.itsDynamicMessage != nullptr)
+	{
+		itsDynamicMessage = jnew JString(*source.itsDynamicMessage);
+	}
+	else if (itsDynamicMessage != nullptr)
+	{
+		jdelete itsDynamicMessage;
+		itsDynamicMessage = nullptr;
+	}
 
 	return *this;
+}
+
+/******************************************************************************
+ GetMessage
+
+ ******************************************************************************/
+
+const JString&
+JError::GetMessage()
+	const
+{
+	return (itsDynamicMessage != nullptr ? *itsDynamicMessage : JGetString(GetType()));
 }
 
 /******************************************************************************
@@ -123,7 +145,8 @@ JError::SetMessage
 	const JString& msg
 	)
 {
-	itsMessage = msg;
+	jdelete itsDynamicMessage;
+	itsDynamicMessage = jnew JString(msg);
 }
 
 void
@@ -133,7 +156,8 @@ JError::SetMessage
 	const JSize			size
 	)
 {
-	itsMessage = JGetString(GetType(), map, size);
+	jdelete itsDynamicMessage;
+	itsDynamicMessage = jnew JString(JGetString(GetType(), map, size));
 }
 
 /******************************************************************************

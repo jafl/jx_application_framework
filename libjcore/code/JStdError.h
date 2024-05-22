@@ -70,7 +70,7 @@ public:
 	JGeneralIO()
 		:
 		JError(kJGeneralIO)
-		{ };
+	{ };
 };
 
 
@@ -81,7 +81,7 @@ public:
 	JSegFault()
 		:
 		JError(kJSegFault)
-		{ };
+	{ };
 };
 
 class JNoProcessMemory : public JError
@@ -91,7 +91,7 @@ public:
 	JNoProcessMemory()
 		:
 		JError(kJNoProcessMemory)
-		{ };
+	{ };
 };
 
 class JNoKernelMemory : public JError
@@ -101,7 +101,7 @@ public:
 	JNoKernelMemory()
 		:
 		JError(kJNoKernelMemory)
-		{ };
+	{ };
 };
 
 class JMemoryNotReadable : public JError
@@ -111,7 +111,7 @@ public:
 	JMemoryNotReadable()
 		:
 		JError(kJMemoryNotReadable)
-		{ };
+	{ };
 };
 
 class JMemoryNotWriteable : public JError
@@ -121,7 +121,7 @@ public:
 	JMemoryNotWriteable()
 		:
 		JError(kJMemoryNotWriteable)
-		{ };
+	{ };
 };
 
 
@@ -153,7 +153,7 @@ public:
 	JNameTooLong()
 		:
 		JError(kJNameTooLong)
-		{ };
+	{ };
 };
 
 class JFileBusy : public JError
@@ -187,7 +187,7 @@ public:
 	JFileSystemReadOnly()
 		:
 		JError(kJFileSystemReadOnly)
-		{ };
+	{ };
 };
 
 class JFileSystemFull : public JError
@@ -197,7 +197,7 @@ public:
 	JFileSystemFull()
 		:
 		JError(kJFileSystemFull)
-		{ };
+	{ };
 };
 
 class JDeviceFull : public JError
@@ -207,7 +207,7 @@ public:
 	JDeviceFull()
 		:
 		JError(kJDeviceFull)
-		{ };
+	{ };
 };
 
 
@@ -243,7 +243,7 @@ public:
 	JNoHomeDirectory()
 		:
 		JError(kJNoHomeDirectory)
-		{ };
+	{ };
 };
 
 class JBadPath : public JError
@@ -285,7 +285,7 @@ public:
 	JCantRenameAcrossFilesystems()
 		:
 		JError(kJCantRenameAcrossFilesystems)
-		{ };
+	{ };
 };
 
 class JCantRenameToNonemptyDirectory : public JError
@@ -295,7 +295,7 @@ public:
 	JCantRenameToNonemptyDirectory()
 		:
 		JError(kJCantRenameToNonemptyDirectory)
-		{ };
+	{ };
 };
 
 class JDirectoryCantBeOwnChild : public JError
@@ -305,7 +305,7 @@ public:
 	JDirectoryCantBeOwnChild()
 		:
 		JError(kJDirectoryCantBeOwnChild)
-		{ };
+	{ };
 };
 
 class JTooManyLinks : public JError
@@ -323,7 +323,7 @@ public:
 	JTriedToRemoveDirectory()
 		:
 		JError(kJTriedToRemoveDirectory)
-		{ };
+	{ };
 };
 
 class JIsADirectory : public JError
@@ -333,7 +333,7 @@ public:
 	JIsADirectory()
 		:
 		JError(kJIsADirectory)
-		{ };
+	{ };
 };
 
 
@@ -344,7 +344,7 @@ public:
 	JDescriptorNotOpen()
 		:
 		JError(kJDescriptorNotOpen)
-		{ };
+	{ };
 };
 
 class JTooManyDescriptorsOpen : public JError
@@ -354,7 +354,7 @@ public:
 	JTooManyDescriptorsOpen()
 		:
 		JError(kJTooManyDescriptorsOpen)
-		{ };
+	{ };
 };
 
 class JNegativeDescriptor : public JError
@@ -364,7 +364,7 @@ public:
 	JNegativeDescriptor()
 		:
 		JError(kJNegativeDescriptor)
-		{ };
+	{ };
 };
 
 class JInvalidDescriptor : public JError
@@ -374,7 +374,7 @@ public:
 	JInvalidDescriptor()
 		:
 		JError(kJInvalidDescriptor)
-		{ };
+	{ };
 };
 
 
@@ -385,7 +385,7 @@ public:
 	JWouldHaveBlocked()
 		:
 		JError(kJWouldHaveBlocked)
-		{ };
+	{ };
 };
 
 class JNonBlockedSignal : public JError
@@ -395,7 +395,7 @@ public:
 	JNonBlockedSignal()
 		:
 		JError(kJNonBlockedSignal)
-		{ };
+	{ };
 };
 
 

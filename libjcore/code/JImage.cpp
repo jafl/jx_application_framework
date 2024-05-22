@@ -727,7 +727,7 @@ JImage::UnknownFileType::UnknownFileType
 	const JString& fileName
 	)
 	:
-	JError(JImage::kUnknownFileType, "")
+	JError(JImage::kUnknownFileType)
 {
 	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
 	SetMessage(map, sizeof(map));
@@ -738,7 +738,7 @@ JImage::FileIsNotGIF::FileIsNotGIF
 	const JString& fileName
 	)
 	:
-	JError(JImage::kFileIsNotGIF, "")
+	JError(JImage::kFileIsNotGIF)
 {
 	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
 	SetMessage(map, sizeof(map));
@@ -749,7 +749,7 @@ JImage::FileIsNotPNG::FileIsNotPNG
 	const JString& fileName
 	)
 	:
-	JError(JImage::kFileIsNotPNG, "")
+	JError(JImage::kFileIsNotPNG)
 {
 	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
 	SetMessage(map, sizeof(map));
@@ -760,7 +760,7 @@ JImage::FileIsNotJPEG::FileIsNotJPEG
 	const JString& fileName
 	)
 	:
-	JError(JImage::kFileIsNotJPEG, "")
+	JError(JImage::kFileIsNotJPEG)
 {
 	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
 	SetMessage(map, sizeof(map));
@@ -771,7 +771,7 @@ JImage::FileIsNotXPM::FileIsNotXPM
 	const JString& fileName
 	)
 	:
-	JError(JImage::kFileIsNotXPM, "")
+	JError(JImage::kFileIsNotXPM)
 {
 	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
 	SetMessage(map, sizeof(map));
@@ -782,7 +782,7 @@ JImage::FileIsNotXBM::FileIsNotXBM
 	const JString& fileName
 	)
 	:
-	JError(JImage::kFileIsNotXBM, "")
+	JError(JImage::kFileIsNotXBM)
 {
 	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
 	SetMessage(map, sizeof(map));

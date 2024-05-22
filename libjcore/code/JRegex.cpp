@@ -685,8 +685,9 @@ JRegex::Error::Error
 	const JUtf8Byte* message
 	)
 	:
-	JError(kError, message)
+	JError(kError)
 {
+	SetMessage(message);
 }
 
 JRegex::Error::Error

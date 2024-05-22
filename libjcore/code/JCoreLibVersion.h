@@ -36,6 +36,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.2.0";
 //		that need to temporarily change working directory.
 //	jTextUtil:
 //		Added JStripUNIXTerminalFormatting().
+//	JError:
+//		Optimized to store JUtf8Byte* when possible.
+//		*** Removed 2nd arg from ctor.  Call SetMessage() instead.
 
 // version 4.1.0:
 //

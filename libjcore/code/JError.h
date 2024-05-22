@@ -31,6 +31,8 @@ public:
 
 	JError& operator=(const JError& source);
 
+	~JError() override;
+
 	const JString&	GetMessage() const;
 	void			ReportIfError() const;
 
@@ -42,28 +44,16 @@ public:
 
 protected:
 
-	JError(const JUtf8Byte* type, const JUtf8Byte* msg = nullptr);
+	JError(const JUtf8Byte* type);
 
 	void	SetMessage(const JString& msg);
 	void	SetMessage(const JUtf8Byte* map[], const JSize size);	// JStringManager -- id is object's type
 
 private:
 
-	JString	itsMessage;
+	JString*	itsDynamicMessage;
 };
 
-
-/******************************************************************************
- GetMessage
-
- ******************************************************************************/
-
-inline const JString&
-JError::GetMessage()
-	const
-{
-	return itsMessage;
-}
 
 /******************************************************************************
  Derived classes
