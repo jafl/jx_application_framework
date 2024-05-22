@@ -31,6 +31,7 @@ J_RAW_SYSTEM_STUFF := \
   -D_J_HAS_PROC -Wno-mismatched-new-delete \
   -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED \
   -D_XFT_NO_COMPAT_ -D_GNU_SOURCE=1 \
+  -D_J_LLDB_HAS_SBVALUE_GETSUMMARY \
   ${shell getconf LFS_CFLAGS}
 
 # Convert certain issues into warnings so they can be turned off in certain situations.
