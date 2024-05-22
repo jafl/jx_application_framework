@@ -1188,7 +1188,7 @@ JXFileListTable::SetEditMenuProvider
 	VisInfo* info     = const_cast<VisInfo*>(itsVisibleList->GetCArray()); \
 	for (JUnsignedOffset i=0; i<count; i++) \
 	{ \
-		m.AdjustIndex(&(info[i].fileIndex)); \
+		m.AdjustIndex(&info[i].fileIndex); \
 	}
 
 void
