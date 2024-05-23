@@ -12,7 +12,7 @@ SEARCHDIRS := -I./code -I./image-build ${SEARCHDIRS}
 
 # makemake variables
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS}
+DEPENDFLAGS := ${J_DEPEND_FLAGS} ${SEARCHDIRS}
 
 # library dependencies
 

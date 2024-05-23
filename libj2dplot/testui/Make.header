@@ -14,7 +14,7 @@ SEARCHDIRS := -I./code ${SEARCHDIRS}
 
 # makemake variables
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} -g ${SEARCHDIRS}
+DEPENDFLAGS := ${J_DEPEND_FLAGS} -g ${SEARCHDIRS}
 
 # library dependencies
 

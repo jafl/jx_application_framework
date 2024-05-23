@@ -25,7 +25,7 @@ endif
 
 # makemake variables
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${SEARCHDIRS} \
+DEPENDFLAGS := ${J_DEPEND_FLAGS} ${SEARCHDIRS} \
                -DJX_PATH=\"${JX_PATH}\" \
                -DTEMPLATE_ROOT=\"${APP_DATA_FILE_DIR}\"
 

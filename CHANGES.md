@@ -6,6 +6,11 @@ the include file directories.
 Changes to the build system
 ===========================
 
+4.2.0
+-----
+
+* Shortened J_COMPILER_DEPEND_FLAGS to J_DEPEND_FLAGS
+
 4.0.0
 -----
 
