@@ -9,6 +9,7 @@
 #define _H_JStringManager
 
 #include "JStringPtrMap.h"
+#include <mutex>
 
 class JError;
 class JString;
