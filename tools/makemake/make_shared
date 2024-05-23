@@ -5,6 +5,6 @@ SEARCHDIRS += ${shell xml2-config --cflags}
 
 # makemake variables
 
-DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${J_RANLIB_VIA_AR_S} \
+DEPENDFLAGS := ${J_DEPEND_FLAGS} ${J_RANLIB_VIA_AR_S} \
                -DJ_MAKE_BINARY_NAME=\"${firstword ${MAKE}}\" \
                ${SEARCHDIRS}
