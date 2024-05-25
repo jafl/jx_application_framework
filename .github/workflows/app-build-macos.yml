@@ -12,9 +12,13 @@ on:
 jobs:
   build-macos:
     name: Build
-    runs-on: macos-latest
+    strategy:
+      matrix:
+        os:
+          - macos-13
+          - macos-14
+    runs-on: ${{ matrix.os }}
     env:
-      PKG_CONFIG_PATH: /usr/local/opt/icu4c/lib/pkgconfig
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
     steps:
@@ -28,14 +32,15 @@ jobs:
 
       - name: Configure
         run: |
-          curl -LO https://libjx.sourceforge.net/ci/jx-application-framework_darwin.tgz
-          tar -xzf jx-application-framework_darwin.tgz
+          curl -LO https://libjx.sourceforge.net/ci/jx-application-framework_${{ matrix.os }}.tgz
+          tar -xzf jx-application-framework_${{ matrix.os }}.tgz
           pushd jx-application-framework-1ci
           ./install
           popd
           ./configure ci
           brew install cask
           brew install --cask xquartz
+          echo "PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig" >> $GITHUB_ENV
 
       - name: Build
         run: ${{ inputs.build-cmd }}
@@ -43,7 +48,7 @@ jobs:
       - name: Build release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: |
-          export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+          export PATH=$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH
           make release
           mv ../${{ inputs.pkg-name }}_* . || true
 

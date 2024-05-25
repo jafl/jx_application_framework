@@ -176,9 +176,13 @@ jobs:
 
   build-macos:
     name: Build & Package MacOS
-    runs-on: macos-13
+    strategy:
+      matrix:
+        os:
+          - macos-13
+          - macos-14
+    runs-on: ${{ matrix.os }}
     env:
-      PKG_CONFIG_PATH: /usr/local/opt/icu4c/lib/pkgconfig
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
     steps:
@@ -195,6 +199,7 @@ jobs:
           ./configure release
           brew install cask
           brew install --cask xquartz
+          echo "PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig" >> $GITHUB_ENV
 
       - name: Build
         run: make
@@ -205,7 +210,7 @@ jobs:
           make JX_VERSION=1ci release
           echo "${{ secrets.SOURCEFORGE_KEY }}" >> sourceforge_key
           chmod 0600 sourceforge_key
-          scp -o StrictHostKeyChecking=no -i sourceforge_key ../jx-application-framework_1ci_*.tar.gz jafl,libjx@web.sourceforge.net:htdocs/ci/jx-application-framework_darwin.tgz
+          scp -o StrictHostKeyChecking=no -i sourceforge_key ../jx-application-framework_1ci_*.tar.gz jafl,libjx@web.sourceforge.net:htdocs/ci/jx-application-framework_${{ matrix.os }}.tgz
           rm  -f ../jx-application-framework_1ci_*
 
       - name: Build release packages
