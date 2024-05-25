@@ -4,7 +4,11 @@
 
 PRE=$1;
 if [[ -z $PRE ]]; then
-	PRE=/usr/local;
+	if [[ `uname -o` == Darwin ]]; then
+		PRE=`brew --prefix`;
+	else
+		PRE=/usr/local;
+	fi;
 fi
 
 BIN=$PRE/bin;

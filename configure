@@ -77,7 +77,7 @@ function configure_linux
 # main script
 #
 
-SYS=`uname -o || uname -s`;		# Darwin doesn't support -o
+SYS=`uname -o`;
 
 if [[ $UID != 0 ]]; then
 	SUDO="sudo";

@@ -31,7 +31,7 @@ jobs:
           curl -LO https://libjx.sourceforge.net/ci/jx-application-framework_darwin.tgz
           tar -xzf jx-application-framework_darwin.tgz
           pushd jx-application-framework-1ci
-          ./install /usr/local
+          ./install
           popd
           ./configure ci
           brew install cask
