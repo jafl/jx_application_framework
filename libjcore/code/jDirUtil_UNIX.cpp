@@ -994,6 +994,8 @@ JKillDirectory
 JString
 JGetCurrentDirectory()
 {
+	JGetTemporaryDirectoryChangeMutex().lock();
+
 	JUtf8Byte buf[1024];
 	JUtf8Byte* result = getcwd(buf, 1024);
 
@@ -1007,6 +1009,8 @@ JGetCurrentDirectory()
 		dirName = JGetRootDirectory();
 		JChangeDirectory(dirName);
 	}
+
+	JGetTemporaryDirectoryChangeMutex().unlock();
 
 	JAppendDirSeparator(&dirName);
 	return dirName;

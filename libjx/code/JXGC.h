@@ -16,6 +16,7 @@
 #include <jx-af/jcore/JArray.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#define _XFT_NO_COMPAT_
 #include <X11/Xft/Xft.h>
 
 class JXDisplay;

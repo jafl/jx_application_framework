@@ -13,6 +13,7 @@
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JArray.h>
 #include <X11/Xlib.h>
+#define _XFT_NO_COMPAT_
 #include <X11/Xft/Xft.h>
 
 class JString;
