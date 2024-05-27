@@ -119,7 +119,7 @@ analyze_coverage: initial_build_makemake
      make clean; \
      ${JMAKE} \
          J_GCC_LIBS="${J_GCC_LIBS} -coverage" \
-         J_COMPILER_DEPEND_FLAGS="${J_COMPILER_DEPEND_FLAGS} -coverage" \
+         J_DEPEND_FLAGS="${J_DEPEND_FLAGS} -coverage" \
          COMPILE_STRINGS=0
 	@cd libjcore; gcov -lp code/*.o; mv code\#* code; \
      cd test; gcov -lp code/*.o; mv code\#* code
