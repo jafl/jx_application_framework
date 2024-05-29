@@ -203,7 +203,7 @@ JXTextMenuTable::AdjustFont
 	JFont*			font
 	)
 {
-	if (colIndex == kTextColumnIndex)
+	if (colIndex == kTextColumnIndex && !text.IsEmpty())
 	{
 		// We don't perform the full character-by-character font
 		// substitution because menu items are translated, so they should

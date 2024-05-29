@@ -13,8 +13,14 @@ multi-pane editing
 
 -----
 
+Linux Window Manager
+	activate shifts window up & left
+	contents of medic Files window not adjusted to window size
+
 medic
 	when kill program, doesn't clear current source line marker
+
+	gdb: doesn't show source line when hit first breakpoint
 
 	asm for function: if blank, fill in after program is stopped
 
