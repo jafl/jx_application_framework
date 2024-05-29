@@ -700,7 +700,21 @@ JXDocumentManager::UpdateDocumentMenu
 
 		const JString* s1 = nameList.GetItem(i);
 		const JString* s2 = nameList.GetItem(i+1);
-		const JSize ml    = JString::CalcCharacterMatchLength(*s1, *s2);
+		JSize ml          = JString::CalcCharacterMatchLength(*s1, *s2);
+
+		JStringIterator iter(*s1, JStringIterator::kStartAfterChar, ml);
+		JUtf8Character c;
+		while (iter.Prev(&c) && c != ACE_DIRECTORY_SEPARATOR_CHAR)
+		{
+			ml--;
+		}
+		iter.Invalidate();
+
+		if (ml == 1 && c == ACE_DIRECTORY_SEPARATOR_CHAR)
+		{
+			ml = 0;		// might as well show full path
+		}
+
 		if (firstIndex == 0)
 		{
 			firstIndex = i;

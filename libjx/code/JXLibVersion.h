@@ -34,6 +34,10 @@ static const char* kCurrentJXLibVersionStr = "4.2.0";
 //		Added name argument to ctor, for debugging.
 //	JXUrgentFunctionTask:
 //		Added name argument to ctor, for debugging.
+//	JXDocumentManager:
+//		Fixed bug so partial paths for files with the same name contain
+//			complete path segments.
+//		Fixed crash when two documents have identical names.
 
 // version 4.1.0:
 //	JXStringCompletionMenu:
@@ -46,6 +50,7 @@ static const char* kCurrentJXLibVersionStr = "4.2.0";
 //	JXDocumentManager:
 //		Added HasDocuments(), GetDocumentCount(), DocumentsNeedSave(),
 //			SaveAllFileDocuments().
+//		Displays partial paths for files with the same name to distinguish them.
 //	JXWidget:
 //		Fixed AdjustSize() to avoid crashing if the widget size goes negative.
 //	*** Removed unused, useless jXActions.h
