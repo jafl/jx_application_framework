@@ -922,7 +922,7 @@ JXWindow::Redraw()
 	const
 {
 	Refresh();
-	(const_cast<JXWindow*>(this))->Update();
+	const_cast<JXWindow*>(this)->Update();
 }
 
 /******************************************************************************
@@ -938,7 +938,7 @@ JXWindow::RedrawRect
 	const
 {
 	RefreshRect(rect);
-	(const_cast<JXWindow*>(this))->Update();
+	const_cast<JXWindow*>(this)->Update();
 }
 
 /******************************************************************************

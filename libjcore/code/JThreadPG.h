@@ -21,6 +21,8 @@ public:
 
 	~JThreadPG() override;
 
+	using JProgressDisplay::IncrementProgress;
+
 	bool	IncrementProgress(const JString& message, const JSize delta) override;
 	void	ProcessFinished() override;
 	void	DisplayBusyCursor() override;

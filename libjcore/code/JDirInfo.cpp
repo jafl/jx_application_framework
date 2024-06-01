@@ -106,9 +106,9 @@ JDirInfo::OKToCreate
 	const JString& dirName
 	)
 {
-	return JDirectoryExists(dirName) &&
-		   JDirectoryReadable(dirName) &&
-		   JCanEnterDirectory(dirName);
+	return (JDirectoryExists(dirName) &&
+			JDirectoryReadable(dirName) &&
+			JCanEnterDirectory(dirName));
 }
 
 /******************************************************************************

@@ -1026,16 +1026,16 @@ JXWidget::Scroll
 //			const JRect newAp = GetAperture();
 //			JRect dest;
 //			if (JIntersection(origAp, newAp, &dest))
-//				{
+//			{
 //				dest      = JXContainer::LocalToGlobal(dest);
 //				JRect src = dest;
 //				src.Shift(-dx, -dy);
 //				GetWindow()->UpdateForScroll(JXContainer::LocalToGlobal(newAp), src, dest);
-//				}
+//			}
 //			else
-//				{
+//			{
 				Refresh();
-//				}
+//			}
 
 			return true;
 		}
