@@ -198,6 +198,28 @@ TabGroup::PrintConfiguration
 		PrintStringForArg(itsTabGroup->GetTabTitle(i), varName + "::tab" + JString(i), stringdb, output);
 		output << ");" << std::endl;
 	}
+
+	const JXTabGroup::Edge edge = itsTabGroup->GetTabEdge();
+	if (edge != JXTabGroup::kTop)
+	{
+		indent.Print(output);
+		varName.Print(output);
+		output << "->SetTabEdge(";
+		if (edge == JXTabGroup::kLeft)
+		{
+			output << "JXTabGroup::kLeft";
+		}
+		else if (edge == JXTabGroup::kRight)
+		{
+			output << "JXTabGroup::kRight";
+		}
+		else
+		{
+			assert( edge == JXTabGroup::kBottom );
+			output << "JXTabGroup::kBottom";
+		}
+		output << ");" << std::endl;
+	}
 }
 
 /******************************************************************************
