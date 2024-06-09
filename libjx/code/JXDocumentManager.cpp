@@ -680,6 +680,7 @@ JXDocumentManager::UpdateDocumentMenu
 		const JString& n2 = i == count ? JString::empty : itsDocList->GetItem(i+1).doc->GetName();
 		if (n2 != n1)
 		{
+new_name:
 			if (firstIndex > 0)
 			{
 				for (JIndex j=firstIndex; j<=i; j++)
@@ -701,6 +702,10 @@ JXDocumentManager::UpdateDocumentMenu
 		const JString* s1 = nameList.GetItem(i);
 		const JString* s2 = nameList.GetItem(i+1);
 		JSize ml          = JString::CalcCharacterMatchLength(*s1, *s2);
+		if (ml == 0)
+		{
+			goto new_name;
+		}
 
 		JStringIterator iter(*s1, JStringIterator::kStartAfterChar, ml);
 		JUtf8Character c;
