@@ -907,8 +907,11 @@ JXWindow::RefreshRect
 	)
 	const
 {
+	itsUpdateRegionMutex.lock();
 	XRectangle xrect = JXJToXRect(rect);
 	XUnionRectWithRegion(&xrect, itsUpdateRegion, itsUpdateRegion);
+	itsUpdateRegionMutex.unlock();
+
 	itsDisplay->WindowNeedsUpdate(const_cast<JXWindow*>(this));
 }
 
@@ -921,8 +924,10 @@ void
 JXWindow::Redraw()
 	const
 {
+	itsUpdateRegionMutex.lock();
 	Refresh();
 	const_cast<JXWindow*>(this)->Update();
+	itsUpdateRegionMutex.unlock();
 }
 
 /******************************************************************************
@@ -937,8 +942,10 @@ JXWindow::RedrawRect
 	)
 	const
 {
+	itsUpdateRegionMutex.lock();
 	RefreshRect(rect);
 	const_cast<JXWindow*>(this)->Update();
+	itsUpdateRegionMutex.unlock();
 }
 
 /******************************************************************************
@@ -978,14 +985,18 @@ JXWindow::BufferDrawing
 void
 JXWindow::Update()
 {
+	itsUpdateRegionMutex.lock();
+
 	if (XEmptyRegion(itsUpdateRegion))
 	{
+		itsUpdateRegionMutex.unlock();
 		return;
 	}
 	else if ((!itsIsMappedFlag || itsIsIconifiedFlag) && !itsUseBkgdPixmapFlag)
 	{
 		XDestroyRegion(itsUpdateRegion);
 		itsUpdateRegion = XCreateRegion();
+		itsUpdateRegionMutex.unlock();
 		return;
 	}
 
@@ -996,6 +1007,8 @@ JXWindow::Update()
 	Region updateRegion = JXCopyRegion(itsUpdateRegion);
 	XDestroyRegion(itsUpdateRegion);
 	itsUpdateRegion = XCreateRegion();
+
+	itsUpdateRegionMutex.unlock();
 
 	const Drawable drawable = PrepareForUpdate();
 	const JRect rect        = JXGetRegionBounds(updateRegion);
@@ -4673,12 +4686,17 @@ JXWindow::CalledByHandleExpose
 	const XExposeEvent& exposeEvent
 	)
 {
+	itsUpdateRegionMutex.lock();
+
 	XRectangle xrect;
 	xrect.x      = exposeEvent.x;
 	xrect.y      = exposeEvent.y;
 	xrect.width  = exposeEvent.width;
 	xrect.height = exposeEvent.height;
 	XUnionRectWithRegion(&xrect, itsUpdateRegion, itsUpdateRegion);
+
+	itsUpdateRegionMutex.unlock();
+
 	itsDisplay->WindowNeedsUpdate(this);
 }
 

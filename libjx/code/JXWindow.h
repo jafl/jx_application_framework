@@ -15,6 +15,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <jx-af/jcore/JString.h>
+#include <mutex>
 
 class JXDisplay;
 class JXGC;
@@ -405,6 +406,8 @@ private:
 	JXHintManager*			itsCurrHintMgr;	// not owned; can be nullptr; deactivate when key press
 
 	mutable Window	itsRootChild;			// ancestor which is direct child of root window
+
+	mutable std::recursive_mutex	itsUpdateRegionMutex;
 
 	// multiple click detection
 
