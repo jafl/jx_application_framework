@@ -434,16 +434,23 @@ JTextEditor::Receive
 			TextRange r  = itsSelection;
 			r.charRange += cd;
 			r.byteRange += bd;
+
+			itsSelection.charRange += cd;	// redraw correct range
+			itsSelection.byteRange += bd;
 			SetSelection(r, true, true);
 		}
 		else if (!itsSelection.IsEmpty() &&
 				 r.charRange.first < itsSelection.charRange.first)
 		{
+			itsSelection.charRange += cd;	// redraw correct range
+			itsSelection.byteRange += bd;
 			SetCaretLocation(CalcCaretLocation(r.GetFirst()));
 		}
 		else if (!itsSelection.IsEmpty() &&
 				 r.charRange.first < itsSelection.charRange.last)
 		{
+			itsSelection.charRange.last += cd;	// redraw correct range
+			itsSelection.byteRange.last += bd;
 			SetCaretLocation(CalcCaretLocation(itsSelection.GetFirst()));
 		}
 
@@ -2922,7 +2929,7 @@ JTextEditor::SetCaretLocation
 
 	itsText->DeactivateCurrentUndo();
 
-	const bool hadSelection      = !itsSelection.IsEmpty();
+	const bool hadSelection          = !itsSelection.IsEmpty();
 	const CaretLocation origCaretLoc = itsCaret;
 
 	if (hadSelection)
@@ -3618,13 +3625,7 @@ JTextEditor::GetCharRight
 	const
 {
 	const TextIndex firstChar = GetLineStart(charLoc.lineIndex);
-
-	JCoordinate x = 0;
-	if (charLoc.location.charIndex > firstChar.charIndex)
-	{
-		x = GetStringWidth(firstChar, charLoc.location, nullptr);
-	}
-	return x;
+	return GetStringWidth(firstChar, charLoc.location, nullptr);
 }
 
 /******************************************************************************

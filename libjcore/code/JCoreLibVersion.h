@@ -39,6 +39,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.2.0";
 //	JError:
 //		Optimized to store JUtf8Byte* when possible.
 //		*** Removed 2nd arg from ctor.  Call SetMessage() instead.
+//	JTextEditor:
+//		Fixed bug in GetCharRight() to work for first character on line.
+//		Fixed bug so original selection is fully cleared after undo/redo.
 
 // version 4.1.0:
 //
