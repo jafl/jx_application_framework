@@ -60,7 +60,7 @@ public:
 
 	// move
 
-	void	MoveTo(const Position newPosition, const JIndex characterIndex);
+	void	MoveTo(const Position newPosition, const JIndex index);
 	bool	SkipPrev(const JSize characterCount = 1);
 	bool	SkipNext(const JSize characterCount = 1);
 
