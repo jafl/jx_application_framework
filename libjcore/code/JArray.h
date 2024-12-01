@@ -18,7 +18,7 @@ class JArray : public JList<T>
 {
 public:
 
-	JArray(const JSize blockSize = 10);
+	JArray(const JSize minLgSize = 0);
 	JArray(const JArray<T>& source);
 	JArray(JArray<T>&& dyingSource) noexcept;
 
@@ -63,8 +63,9 @@ public:
 		NewIterator(const JListT::Position start = JListT::kStartAtBeginning,
 					const JIndex index = 0) const override;
 
-	JSize	GetBlockSize() const;
-	void	SetBlockSize(const JSize newBlockSize);
+	JSize	GetMinLgSize() const;
+	void	SetMinLgSize(const JSize lgSize);
+	void	SetMinSize(const JSize count);
 
 	// sorting functions
 
@@ -97,8 +98,8 @@ protected:
 private:
 
 	T*		itsItems;		// Items in the array
-	JSize	itsSlotCount;	// Total number of slots allocated
-	JSize	itsBlockSize;	// Number of slots to allocate for more space
+	JSize	itsLgSize;		// number of slots we have space for = (2^itsLgSize)-1
+	JSize	itsMinLgSize;	// smallest allowed number of slots, for optimization
 
 private:
 
@@ -109,8 +110,6 @@ private:
 
 	T*		GetItemPtr(const JIndex index);
 
-	void	AddSlots();
-	void	RemoveSlots();
 	void	ResizeMemoryAllocation(const JSize newSlotCount);
 };
 

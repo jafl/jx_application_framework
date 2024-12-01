@@ -41,7 +41,6 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	)
 	:
 	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend),
-	itsByteBuffer(JMessageProtocolT::kDefaultBufferSize),
 	itsMessageList(JPtrArrayT::kDeleteAll),
 	itsSeparatorStr(JString::kDoNotNormalize),
 	itsDisconnectStr(JString::kDoNotNormalize)
@@ -57,7 +56,6 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	)
 	:
 	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend),
-	itsByteBuffer(JMessageProtocolT::kDefaultBufferSize),
 	itsMessageList(JPtrArrayT::kDeleteAll),
 	itsSeparatorStr(JString::kDoNotNormalize),
 	itsDisconnectStr(JString::kDoNotNormalize)

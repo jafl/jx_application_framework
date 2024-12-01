@@ -18,7 +18,7 @@ int main()
 
 JTEST(Exercise)
 {
-	JUtf8ByteBuffer buf(256);
+	JUtf8ByteBuffer buf;
 
 	buf.Append(std::span("1234567890\xC2\xA9\xC3\x85\xC3", 15));
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85", buf.ExtractCharacters());

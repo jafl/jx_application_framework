@@ -33,7 +33,7 @@ AnimateHelpMenuTask::AnimateHelpMenuTask
 {
 	itsMenu = menu;
 
-	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kHelpIconCount);
+	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll);
 
 	JXDisplay* display = itsMenu->GetDisplay();
 	for (JIndex i=1; i<=kHelpIconCount; i++)

@@ -69,10 +69,10 @@ J2DVectorData::J2DVectorData()
 {
 	J2DVectorDataX();
 
-	itsXData  = jnew JArray<JFloat>(100);
-	itsYData  = jnew JArray<JFloat>(100);
-	itsVXData = jnew JArray<JFloat>(100);
-	itsVYData = jnew JArray<JFloat>(100);
+	itsXData  = jnew JArray<JFloat>(7);
+	itsYData  = jnew JArray<JFloat>(7);
+	itsVXData = jnew JArray<JFloat>(7);
+	itsVYData = jnew JArray<JFloat>(7);
 
 	itsIsListeningFlag = false;
 }

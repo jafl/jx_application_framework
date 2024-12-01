@@ -1,3 +1,8 @@
+
+jcc - crashed deleting task with unallocated name
+	- Do threads delete any tasks?
+	- was it pointing to end of JPtrArray data? JXIdleTask values looked like pointers
+
 multi-pane editing
 
 	TextEditor::WriteSetup + keyHandler +
@@ -12,10 +17,6 @@ multi-pane editing
 	small [+] buttons to split either horiz or vert
 
 -----
-
-Linux Window Manager
-	activate shifts window up & left
-	contents of medic Files window not adjusted to window size
 
 medic
 	when kill program, doesn't clear current source line marker
@@ -55,6 +56,10 @@ glove
 	test on 1000, 10000 rows: run fit in thread?
 
 	catch NaN during fits: exponential fit to linear data
+
+Linux Window Manager
+	activate shifts window up & left
+	contents of medic Files window not adjusted to window size
 
 JTextEditor:
 	need smarter update during indent/outdent, to maintain caret location

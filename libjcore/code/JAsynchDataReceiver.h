@@ -20,9 +20,9 @@ public:
 	// Other constants
 
 	enum
-		{
+	{
 		kDefaultBufferSize = 65536
-		};
+	};
 
 public:
 
@@ -31,25 +31,25 @@ public:
 	static const JUtf8Byte* kDataReady;
 
 	class DataReady : public JBroadcaster::Message
+	{
+	public:
+
+		DataReady(const JString& data)
+			:
+			JBroadcaster::Message(kDataReady),
+			itsData(data)
+			{ };
+
+		const JString&
+		GetData() const
 		{
-		public:
-
-			DataReady(const JString& data)
-				:
-				JBroadcaster::Message(kDataReady),
-				itsData(data)
-				{ };
-
-			const JString&
-			GetData() const
-			{
-				return itsData;
-			};
-
-		private:
-
-			const JString& itsData;
+			return itsData;
 		};
+
+	private:
+
+		const JString& itsData;
+	};
 };
 
 template <ACE_PEER_STREAM_1>

@@ -29,8 +29,6 @@ static JXPM kBusyIcon[] =
 	jx_busy_5_small, jx_busy_6_small, jx_busy_7_small, jx_busy_8_small
 };
 
-const JSize kBusyIconCount = sizeof(kBusyIcon)/sizeof(JXPM);
-
 const JSize kAnimationPeriod = 100;		// milliseconds
 
 /******************************************************************************
@@ -45,7 +43,7 @@ JXBusyIconTask::JXBusyIconTask
 	:
 	JXAnimationTask(widget)
 {
-	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kForgetAll, kBusyIconCount);
+	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kForgetAll);
 
 	JXImageCache* cache = widget->GetDisplay()->GetImageCache();
 	for (const auto& xpm : kBusyIcon)

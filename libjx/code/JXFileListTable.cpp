@@ -81,12 +81,12 @@ JXFileListTable::JXFileListTable
 	itsEditMenuProvider   = nullptr;
 	itsEditMenu           = nullptr;
 
-	itsFileList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, 100);
+	itsFileList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, 8);
 	// UNIX file system is case-sensitive.
 	itsFileList->SetCompareFunction(JCompareStringsCaseSensitive);
 	ListenTo(itsFileList);
 
-	itsVisibleList = jnew JArray<VisInfo>(100);
+	itsVisibleList = jnew JArray<VisInfo>(8);
 	itsVisibleList->SetSortOrder(JListT::kSortAscending);
 
 	itsFileIcon = GetDisplay()->GetImageCache()->GetImage(jx_plain_file_small);

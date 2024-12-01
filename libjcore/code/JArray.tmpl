@@ -24,9 +24,22 @@
 
 #include "JArray.h"
 #include "JMinMax.h"
+#include "jMath.h"
 #include <string.h>		// for memcpy,memmove
 #include <stdlib.h>		// for qsort
 // we are included by jAssert.h
+
+const JSize kJArrayDefaultMinLgSize = 4;	// 2^4 = 16 blocks
+
+inline JSize jArrayLgToSize(const JSize lgSize)
+{
+	return (1UL << lgSize);
+}
+
+inline JSize jArraySizeToLg(const JSize count)
+{
+	return JLCeil(std::log2(count+1));
+}
 
 /******************************************************************************
  Constructor
@@ -36,16 +49,16 @@
 template <class T>
 JArray<T>::JArray
 	(
-	const JSize blockSize
+	const JSize minLgSize
 	)
 	:
-	JList<T>()
+	JList<T>(),
+	itsLgSize(JMax(kJArrayDefaultMinLgSize, minLgSize)),
+	itsMinLgSize(itsLgSize)
 {
-	assert( blockSize > 0 );
+	assert( itsMinLgSize < 12 );
 
-	itsItems     = jnew T [ blockSize ];
-	itsSlotCount = blockSize;
-	itsBlockSize = blockSize;
+	itsItems = jnew T [ jArrayLgToSize(itsLgSize) ];
 }
 
 /******************************************************************************
@@ -80,8 +93,8 @@ JArray<T>::JArray
 	:
 	JList<T>(dyingSource),
 	itsItems(dyingSource.itsItems),
-	itsSlotCount(dyingSource.itsSlotCount),
-	itsBlockSize(dyingSource.itsBlockSize)
+	itsLgSize(dyingSource.itsLgSize),
+	itsMinLgSize(dyingSource.itsMinLgSize)
 {
 	dyingSource.itsItems = nullptr;
 }
@@ -136,12 +149,12 @@ JArray<T>::CopyArray
 	const JArray<T>& source
 	)
 {
-	itsSlotCount = source.itsSlotCount;
-	itsBlockSize = source.itsBlockSize;
+	itsLgSize    = source.itsLgSize;
+	itsMinLgSize = source.itsMinLgSize;
 
 	jdelete [] itsItems;
-	itsItems = jnew T [ itsSlotCount ];
-	memcpy(itsItems, source.itsItems, itsSlotCount * sizeof(T));
+	itsItems = jnew T [ jArrayLgToSize(itsLgSize) ];
+	memcpy(itsItems, source.itsItems, source.GetItemCount() * sizeof(T));
 }
 
 /******************************************************************************
@@ -262,13 +275,14 @@ JArray<T>::CreateItem
 {
 	assert( index > 0 );
 
-	const JSize itemCount = this->GetItemCount();
-	if (itemCount >= itsSlotCount)
+	const JSize newLgSize = JMax(itsMinLgSize, jArraySizeToLg(this->GetItemCount()));
+	if (newLgSize > itsLgSize)
 	{
-		AddSlots();
+		ResizeMemoryAllocation(newLgSize);
 	}
 
-	JIndex trueIndex = index;
+	const JSize itemCount = this->GetItemCount();
+	JIndex trueIndex      = index;
 	if (trueIndex <= itemCount)
 	{
 		memmove(GetItemPtr(trueIndex + 1), GetItemPtr(trueIndex),
@@ -321,8 +335,8 @@ JArray<T>::RemoveNextItems
 	assert( this->IndexValid(firstIndex) );
 
 	const JSize itemCount = this->GetItemCount(),
-				lastIndex    = JMin(itemCount, firstIndex + origCount-1),
-				count        = lastIndex - firstIndex + 1;
+				lastIndex = JMin(itemCount, firstIndex + origCount-1),
+				count     = lastIndex - firstIndex + 1;
 
 	this->SetItemCount(itemCount - count);
 
@@ -332,9 +346,14 @@ JArray<T>::RemoveNextItems
 				(itemCount - lastIndex) * sizeof(T));
 	}
 
-	while (itsSlotCount > this->GetItemCount() + itsBlockSize)
+	const JSize newLgSize = JMax(itsMinLgSize, jArraySizeToLg(this->GetItemCount()));
+	if (newLgSize == itsLgSize - 1 && this->GetItemCount() > jArrayLgToSize(newLgSize) * 0.9)
 	{
-		RemoveSlots();
+		// try to reduce thrashing
+	}
+	else if (newLgSize < itsLgSize)
+	{
+		ResizeMemoryAllocation(newLgSize);
 	}
 
 	JListT::ItemsRemoved message(firstIndex, count);
@@ -405,7 +424,7 @@ JArray<T>::RemoveAll()
 		JListT::ItemsRemoved message(1, this->GetItemCount());
 
 		this->SetItemCount(0);
-		ResizeMemoryAllocation(itsBlockSize);
+		ResizeMemoryAllocation(itsMinLgSize);
 
 		JBroadcaster::Broadcast(message);
 		JList<T>::NotifyIterators(message);
@@ -970,64 +989,38 @@ JArray<T>::StoreItem
 }
 
 /******************************************************************************
- Block size
+ Minimum allocation size
 
-	itsBlockSize helps prevent constant reallocation of memory in a "noisy"
-	environment.  Increase it if you need to add and remove a lot of items
-	without reallocating memory.  The larger it is, the more memory can
-	potentially be wasted (allocated but not used).
+	unit = 1 block, NOT 1 byte
 
  ******************************************************************************/
 
 template <class T>
 JSize
-JArray<T>::GetBlockSize()
+JArray<T>::GetMinLgSize()
 	const
 {
-	return itsBlockSize;
+	return itsMinLgSize;
 }
 
 template <class T>
 void
-JArray<T>::SetBlockSize
+JArray<T>::SetMinLgSize
 	(
-	const JSize newBlockSize
+	const JSize lgSize
 	)
 {
-	assert( newBlockSize > 0 );
-
-	itsBlockSize = newBlockSize;
+	itsMinLgSize = JMax(kJArrayDefaultMinLgSize, lgSize);
 }
-
-/******************************************************************************
- AddSlots (private)
-
-	Grows the array by blockSize slots.
-
- ******************************************************************************/
 
 template <class T>
 void
-JArray<T>::AddSlots()
+JArray<T>::SetMinSize
+	(
+	const JSize count
+	)
 {
-	ResizeMemoryAllocation(itsSlotCount + itsBlockSize);
-}
-
-/******************************************************************************
- RemoveSlots (private)
-
-	Shrinks the array by blockSize slots.
-
- ******************************************************************************/
-
-template <class T>
-void
-JArray<T>::RemoveSlots()
-{
-	if (itsSlotCount > itsBlockSize)
-	{
-		ResizeMemoryAllocation(itsSlotCount - itsBlockSize);
-	}
+	SetMinLgSize(jArraySizeToLg(count));
 }
 
 /******************************************************************************
@@ -1041,19 +1034,20 @@ template <class T>
 void
 JArray<T>::ResizeMemoryAllocation
 	(
-	const JSize newSlotCount
+	const JSize newLgSize
 	)
 {
+	const JSize newSlotCount = jArrayLgToSize(newLgSize);
 	assert( newSlotCount >= this->GetItemCount() );
 
-	if (newSlotCount != itsSlotCount)
+	if (newLgSize != itsLgSize)
 	{
 		T* newItems = jnew T [newSlotCount];
 		memcpy(newItems, itsItems, this->GetItemCount() * sizeof(T));
 
 		jdelete [] itsItems;
-		itsItems     = newItems;
-		itsSlotCount = newSlotCount;
+		itsItems  = newItems;
+		itsLgSize = newLgSize;
 	}
 }
 

@@ -132,7 +132,7 @@ JXCursorAnimator::InitFrames
 	JXDisplay* display
 	)
 {
-	itsFrames = jnew JArray<JCursorIndex>(kBeachBallFrameCount);
+	itsFrames = jnew JArray<JCursorIndex>;
 
 	for (JUnsignedOffset i=0; i<kBeachBallFrameCount; i++)
 	{

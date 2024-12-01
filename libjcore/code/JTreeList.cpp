@@ -169,7 +169,7 @@ JTreeList::Close
 		JIndex index;
 		if (FindNode(node, &index))
 		{
-			JPtrArray<JTreeNode> nodeList(JPtrArrayT::kDeleteAll, 100);
+			JPtrArray<JTreeNode> nodeList(JPtrArrayT::kDeleteAll, 7);
 			const_cast<JTreeNode*>(node)->CollectDescendants(&nodeList);
 
 			JIndex j;
@@ -352,7 +352,7 @@ JTreeList::CloseDescendants
 {
 	Close(node);
 
-	JPtrArray<JTreeNode> nodeList(JPtrArrayT::kDeleteAll, 100);
+	JPtrArray<JTreeNode> nodeList(JPtrArrayT::kDeleteAll, 7);
 	const_cast<JTreeNode*>(node)->CollectDescendants(&nodeList);
 
 	for (const auto* n : nodeList)

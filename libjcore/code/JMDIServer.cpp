@@ -358,7 +358,7 @@ JMDIServer::ReceiveLine
 	)
 {
 	line->Clear();
-	JUtf8ByteBuffer buf(128);
+	JUtf8ByteBuffer buf;
 
 	const ACE_Time_Value timeout(kMDIMaxWaitTime);
 	while (!*receivedFinishedFlag)

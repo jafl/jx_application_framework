@@ -36,12 +36,12 @@
 template <class T>
 JRunArray<T>::JRunArray
 	(
-	const JSize blockSize
+	const JSize minLgSize
 	)
 	:
 	JList<T>()
 {
-	itsRuns = jnew JArray< JRunArrayItem<T> >(blockSize);
+	itsRuns = jnew JArray< JRunArrayItem<T> >(minLgSize);
 }
 
 /******************************************************************************
@@ -67,7 +67,7 @@ JRunArray<T>::JRunArray
 	const JIndexRange&	range
 	)
 {
-	itsRuns = jnew JArray< JRunArrayItem<T> >(source.itsRuns->GetBlockSize());
+	itsRuns = jnew JArray< JRunArrayItem<T> >(source.itsRuns->GetMinLgSize());
 
 	JIndex runIndex = 1, firstIndexInRun = 1;
 	IteratorInsertSlice(1, source, range, &runIndex, &firstIndexInRun);
@@ -873,35 +873,36 @@ JRunArray<T>::FindPositiveSum
 }
 
 /******************************************************************************
- GetBlockSize
-
-	Get the block size used by the underlying JArray.
+ Minimum allocation size for underlying array
 
  ******************************************************************************/
 
 template <class T>
 JSize
-JRunArray<T>::GetBlockSize()
+JRunArray<T>::GetMinLgSize()
 	const
 {
-	return itsRuns->GetBlockSize();
+	return itsRuns->GetMinLgSize();
 }
-
-/******************************************************************************
- SetBlockSize
-
-	Set the block size used by the underlying JArray.
-
- ******************************************************************************/
 
 template <class T>
 void
-JRunArray<T>::SetBlockSize
+JRunArray<T>::SetMinLgSize
 	(
-	const JSize newBlockSize
+	const JSize lgSize
 	)
 {
-	itsRuns->SetBlockSize(newBlockSize);
+	itsRuns->SetMinLgSize(lgSize);
+}
+
+template <class T>
+void
+JRunArray<T>::SetMinSize
+	(
+	const JSize count
+	)
+{
+	itsRuns->SetMinSize(count);
 }
 
 /******************************************************************************

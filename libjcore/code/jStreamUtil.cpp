@@ -789,7 +789,7 @@ JReadAll
 	const JSize bufLength = 1024;
 
 	char readBuf[ bufLength ];
-	JUtf8ByteBuffer byteBuf(bufLength);
+	JUtf8ByteBuffer byteBuf(10);
 	while (true)
 	{
 		size_t byteCount;
@@ -883,9 +883,7 @@ JReadUntil
 	str->Clear();
 	bool isDelimiter = false;
 
-	const JSize bufLength = 1024;
-
-	JUtf8ByteBuffer byteBuf(bufLength);
+	JUtf8ByteBuffer byteBuf;
 	while (true)
 	{
 		JUtf8Byte c;

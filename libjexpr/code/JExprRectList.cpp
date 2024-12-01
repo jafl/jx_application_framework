@@ -26,9 +26,9 @@ JExprRectList::JExprRectList()
 	:
 	JContainer()
 {
-	itsRects     = jnew JArray<JRect>(10);
-	itsExtraInfo = jnew JArray<ExtraInfo>(10);
-	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll, 10);
+	itsRects     = jnew JArray<JRect>;
+	itsExtraInfo = jnew JArray<ExtraInfo>;
+	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll);
 
 	InstallCollection(itsRects);
 }

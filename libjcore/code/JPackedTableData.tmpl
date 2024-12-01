@@ -52,7 +52,7 @@ JPackedTableData<T>::JPackedTableData
 	JTableData(source),
 	itsDefValue(source.itsDefValue)
 {
-	itsData = jnew JRunArray< T >(*(source.itsData));
+	itsData = jnew JRunArray< T >(*source.itsData);
 }
 
 /******************************************************************************

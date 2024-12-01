@@ -168,7 +168,7 @@ JXDisplay::JXDisplay
 
 	itsCursorList = jnew JArray<CursorInfo>;
 
-	itsWindowList = jnew JArray<WindowInfo>(10);
+	itsWindowList = jnew JArray<WindowInfo>;
 	itsWindowList->SetCompareFunction(CompareXWindows);
 
 	itsDefaultGC = jnew JXGC(this, GetRootWindow());
@@ -513,7 +513,7 @@ JXDisplay::GetBounds()
 			int count;
 			XineramaScreenInfo* info = XineramaQueryScreens(itsXDisplay, &count);
 
-			itsBounds = jnew JArray<JRect>(count);
+			itsBounds = jnew JArray<JRect>;
 			for (int i=0; i<count; i++)
 			{
 				JRect r(info[i].y_org,

@@ -45,7 +45,7 @@ class JRunArray : public JList<T>
 
 public:
 
-	JRunArray(const JSize blockSize = 10);
+	JRunArray(const JSize minLgSize = 0);
 	JRunArray(const JRunArray<T>& source);
 	JRunArray(const JRunArray<T>& source, const JIndexRange& range);
 
@@ -83,8 +83,9 @@ public:
 
 	JSize	GetRunCount() const;
 
-	JSize	GetBlockSize() const;
-	void	SetBlockSize(const JSize newBlockSize);
+	JSize	GetMinLgSize() const;
+	void	SetMinLgSize(const JSize lgSize);
+	void	SetMinSize(const JSize count);
 
 private:
 

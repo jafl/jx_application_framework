@@ -37,10 +37,10 @@ template <class T>
 JPtrArray<T>::JPtrArray
 	(
 	const JPtrArrayT::CleanUpAction	action,
-	const JSize						blockSize
+	const JSize						minLgSize
 	)
 	:
-	JArray<T*>(blockSize),
+	JArray<T*>(minLgSize),
 	itsCleanUpAction(action)
 {
 }
@@ -91,10 +91,10 @@ template <class T>
 JDCCPtrArray<T>::JDCCPtrArray
 	(
 	const JPtrArrayT::CleanUpAction	action,
-	const JSize						blockSize
+	const JSize						minLgSize
 	)
 	:
-	JPtrArray<T>(action, blockSize)
+	JPtrArray<T>(action, minLgSize)
 {
 }
 

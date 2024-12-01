@@ -806,7 +806,7 @@ F
 # search paths
 T "./code" T
 T "./test/code" T
-T "/opt/homebrew/Cellar/ace/7.1.3/include/" T
+T "/opt/homebrew/Cellar/ace/8.0.0/include/" T
 T "/opt/homebrew/Cellar/pcre/8.45/include/" T
 T "/opt/homebrew/opt/icu4c/include" T
 F

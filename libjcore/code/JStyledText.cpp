@@ -187,9 +187,8 @@ JStyledText::SetText
 	)
 {
 	ClearUndo();
-	const JSize savedBlockSize = itsStyles->GetBlockSize();
 
-	JRunArray<JFont> tmpStyle(savedBlockSize);
+	JRunArray<JFont> tmpStyle(itsStyles->GetMinLgSize());
 	if (style != nullptr)
 	{
 		tmpStyle = *style;
@@ -222,8 +221,6 @@ JStyledText::SetText
 		itsStyles->RemoveAll();
 		cleaned = true;
 	}
-
-	itsStyles->SetBlockSize(savedBlockSize);
 
 	if (allocated)
 	{
@@ -458,7 +455,7 @@ JStyledText::ReadPrivateFormat
 	Broadcast(WillBeBusy());
 
 	JString text;
-	JRunArray<JFont> style(itsStyles->GetBlockSize());
+	JRunArray<JFont> style(itsStyles->GetMinLgSize());
 	if (ReadPrivateFormat(input, &text, &style))
 	{
 		SetText(text, &style);
@@ -964,7 +961,7 @@ JStyledText::ReplaceAllInRange
 	)
 {
 	JString text;
-	JRunArray<JFont> styles(itsStyles->GetBlockSize());
+	JRunArray<JFont> styles(itsStyles->GetMinLgSize());
 	FontIterator styleIter(&styles);
 
 	if (range.charRange.GetCount() == itsText.GetCharacterCount())	// avoid counting characters
@@ -983,7 +980,7 @@ JStyledText::ReplaceAllInRange
 
 	bool changed = false;
 
-	JRunArray<JFont> newStyles(itsStyles->GetBlockSize());
+	JRunArray<JFont> newStyles(itsStyles->GetMinLgSize());
 
 	JStringIterator textIter(&text);
 	while (textIter.Next(regex))
@@ -1745,7 +1742,7 @@ JStyledText::InsertText
 	const JFont&		font
 	)
 {
-	JRunArray<JFont> style(itsStyles->GetBlockSize());
+	JRunArray<JFont> style(itsStyles->GetMinLgSize());
 	style.AppendItems(font, text.GetCharacterCount());
 
 	return InsertText(index, text, style);
@@ -2658,7 +2655,7 @@ JStyledText::Indent
 		}
 	}
 
-	JRunArray<JFont> style(itsStyles->GetBlockSize());
+	JRunArray<JFont> style(itsStyles->GetMinLgSize());
 
 	JStringIterator textIter(&itsText);
 	textIter.UnsafeMoveTo(JStringIterator::kStartBeforeChar, range.charRange.first, range.byteRange.first);
@@ -3013,7 +3010,7 @@ JStyledText::CleanRightMargin
 	bool changed = false;
 	TextRange origTextRange;
 	JString newText;
-	JRunArray<JFont> newStyles(itsStyles->GetBlockSize());
+	JRunArray<JFont> newStyles(itsStyles->GetMinLgSize());
 
 	TextIndex newCaretIndex;
 	if (selectionRange.IsEmpty())
@@ -3029,7 +3026,7 @@ JStyledText::CleanRightMargin
 
 		TextRange range;
 		JString text;
-		JRunArray<JFont> styles(itsStyles->GetBlockSize());
+		JRunArray<JFont> styles(itsStyles->GetMinLgSize());
 		*caretIndex = selectionRange.GetFirst();
 		TextIndex tmpCaretIndex;
 		bool first = true;
@@ -3164,7 +3161,7 @@ JStyledText::PrivateCleanRightMargin
 	bool requireSpace      = false;
 
 	JString wordBuffer, spaceBuffer;
-	JRunArray<JFont> wordStyles(itsStyles->GetBlockSize());
+	JRunArray<JFont> wordStyles(itsStyles->GetMinLgSize());
 	while (index.charIndex <= origTextRange->charRange.last)
 	{
 		JSize spaceCount;

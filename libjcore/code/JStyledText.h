@@ -415,7 +415,7 @@ public:
 	TextRange	SelectAll() const;
 	TextRange	CharToTextRange(const TextIndex* lineStart, const JCharacterRange& charRange) const;
 
-	void		SetBlockSizes(const JSize textLgSize, const JSize styleBlockSize);
+	void		SetLgBlockSizes(const JSize textLgSize, const JSize styleLgSize);
 
 	static std::weak_ordering
 		CompareCharacterIndices(const TextIndex& i, const TextIndex& j);
@@ -941,19 +941,19 @@ JStyledText::GetBeyondEnd()
 }
 
 /******************************************************************************
- SetBlockSizes
+ SetLgBlockSizes
 
  ******************************************************************************/
 
 inline void
-JStyledText::SetBlockSizes
+JStyledText::SetLgBlockSizes
 	(
 	const JSize textLgSize,
-	const JSize styleBlockSize
+	const JSize styleLgSize
 	)
 {
 	itsText.SetMinLgSize(textLgSize);
-	itsStyles->SetBlockSize(styleBlockSize);
+	itsStyles->SetMinLgSize(styleLgSize);
 }
 
 /******************************************************************************

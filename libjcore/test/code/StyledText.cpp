@@ -51,7 +51,7 @@ StyledText::AdjustStylesBeforeBroadcast
 	JRunArray<JFont>*	styles,
 	TextRange*			recalcRange,
 	TextRange*			redrawRange,
-	const bool		deletion
+	const bool			deletion
 	)
 {
 	if (itsStyler != nullptr)

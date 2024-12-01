@@ -41,7 +41,7 @@ JXSpellCheckerDialog::JXSpellCheckerDialog
 	itsCurrentIndex(range.GetFirst()),
 	itsFoundErrorsFlag(false)
 {
-	itsSuggestionList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, 100);
+	itsSuggestionList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, 5);
 	BuildWindow();
 }
 

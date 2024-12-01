@@ -91,7 +91,7 @@ void
 JVariableList::JVariableListX()
 {
 	itsVarUserList = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll);
-	itsEvalStack   = jnew JArray<bool>(10);
+	itsEvalStack   = jnew JArray<bool>;
 }
 
 /******************************************************************************

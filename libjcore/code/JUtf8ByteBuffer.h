@@ -15,7 +15,7 @@ class JUtf8ByteBuffer : public JArray<JUtf8Byte>
 {
 public:
 
-	JUtf8ByteBuffer(const JSize blockSize);
+	JUtf8ByteBuffer(const JSize minLgSize = 10);
 
 	~JUtf8ByteBuffer() override;
 

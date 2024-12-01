@@ -120,7 +120,7 @@ JStringMatch::operator=
 	}
 	else if (itsSubmatchList == nullptr)
 	{
-		itsSubmatchList = jnew JArray<JUtf8ByteRange>(*(source.itsSubmatchList));
+		itsSubmatchList = jnew JArray<JUtf8ByteRange>(*source.itsSubmatchList);
 	}
 	else
 	{

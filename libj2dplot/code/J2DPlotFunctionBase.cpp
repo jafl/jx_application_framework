@@ -12,8 +12,6 @@
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JSize kDefSampleCount = 100;	// # of points for approximating y range
-
 /*********************************************************************************
  Constructor
 
@@ -33,7 +31,7 @@ J2DPlotFunctionBase::J2DPlotFunctionBase
 	itsXMin = JMin(xMin, xMax);
 	itsXMax = JMax(xMin, xMax);
 
-	itsValues = jnew JArray<Point>(kDefSampleCount);
+	itsValues = jnew JArray<Point>(7);
 	ListenTo(itsPlot);
 }
 
