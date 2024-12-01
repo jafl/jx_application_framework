@@ -45,7 +45,7 @@ LINKER := clang++
 CC       := clang
 CXX      := clang++
 CPPFLAGS  = ${DEPENDFLAGS} ${J_OPTIMIZE_LEVEL} \
-            $(shell pkg-config --cflags icu-i18n libpcre)
+            $(shell pkg-config --cflags icu-i18n icu-uc libpcre)
 CFLAGS    =
 CXXFLAGS  = -std=c++20
 LDFLAGS   = -L/opt/X11/lib -L${BREW_ROOT}/lib
