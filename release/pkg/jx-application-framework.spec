@@ -10,6 +10,8 @@ Requires: gcc-c++, make, rpm-build, imake, libtool, libX11-devel, libXinerama-de
 %description
 JX Application Framework is a UI library for the X Window System.
 
+%define debug_package %{nil}
+
 %prep
 %setup
 
