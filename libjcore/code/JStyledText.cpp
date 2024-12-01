@@ -1873,7 +1873,8 @@ JStyledText::CleanText
 		JString tmpText;
 		tmpText.SetMinLgSize(JLCeil(std::log2((**cleanText).GetByteCount()+256)));
 
-		JRunArray<JFont> tmpStyle((**cleanStyle).GetRunCount()+16);
+		JRunArray<JFont> tmpStyle;
+		tmpStyle.SetMinSize((**cleanStyle).GetRunCount()+16);
 
 		JStringIterator iter(*cleanText);
 		JUtf8Character c;
@@ -3255,7 +3256,7 @@ JStyledText::CRMGetRange
 	)
 	const
 {
-	range->Set(GetParagraphStart(caretIndex), GetParagraphEnd(caretIndex));
+	range->Set(GetParagraphStart(caretIndex), AdjustTextIndex(GetParagraphEnd(caretIndex), +1));
 	if (range->IsEmpty())
 	{
 		return false;
@@ -3267,7 +3268,8 @@ JStyledText::CRMGetRange
 	JUtf8Character c;
 	while (iter.Prev(&c) && c == '\n')
 	{
-		// keep going
+		range->charRange.last--;
+		range->byteRange.last--;
 	}
 
 	// If the line we are on is empty, quit immediately.
@@ -4963,7 +4965,7 @@ JStyledText::DisposeConstIterator
 	)
 	const
 {
-	auto* s = const_cast<JString*>(&(iter->GetString()));
+	auto* s = const_cast<JString*>(&iter->GetString());
 	assert( s != &itsText );
 
 	jdelete iter;

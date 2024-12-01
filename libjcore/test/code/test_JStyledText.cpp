@@ -2183,6 +2183,14 @@ JTEST(CleanRightMargin)
 	JAssertEqual(1, caret.byteIndex);
 	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr  thë\nlæzy dǫg.", text.GetText());
 
+	text.SetText(JString("Thé quìck bröwn føx  jümpèd ǫvęr  thë   læzy dǫg.", JString::kNoCopy));
+	caret   = text.GetBeyondEnd();
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(47, caret.charIndex);
+	JAssertEqual(58, caret.byteIndex);
+	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr  thë\nlæzy dǫg.", text.GetText());
+
 	text.SetText(JString("Thé quìck bröwn føx jümpèd ǫvęr thë læzy dǫg.\n", JString::kNoCopy));
 	caret.Set(47, 58);
 	changed = text.CleanRightMargin(&caret, selection, false);
@@ -2316,6 +2324,14 @@ JTEST(CleanRightMargin)
 	JAssertEqual(14, caret.charIndex);
 	JAssertEqual(17, caret.byteIndex);
 	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr\n\nthë\nlæzy\ndǫg.", text.GetText());
+
+	text.SetText(JString("Thé quìck bröwn føx  jümpèd\nǫvęr  thë   læzy dǫg.", JString::kNoCopy));
+	caret   = text.GetBeyondEnd();
+	changed = text.CleanRightMargin(&caret, selection, false);
+	JAssertTrue(changed);
+	JAssertEqual(47, caret.charIndex);
+	JAssertEqual(58, caret.byteIndex);
+	JAssertStringsEqual("Thé quìck\nbröwn føx\njümpèd\nǫvęr  thë\nlæzy dǫg.", text.GetText());
 
 	// selection
 
