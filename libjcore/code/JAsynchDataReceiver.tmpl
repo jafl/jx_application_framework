@@ -25,7 +25,7 @@ template <ACE_PEER_STREAM_1>
 JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiver()
 	:
 	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>(),
-	itsByteBuffer(JAsynchDataReceiverT::kDefaultBufferSize)
+	itsByteBuffer(JAsynchDataReceiverT::kDefaultLgBufferSize)
 {
 	JAsynchDataReceiverX();
 }
@@ -37,7 +37,7 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiver
 	)
 	:
 	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>(),
-	itsByteBuffer(JAsynchDataReceiverT::kDefaultBufferSize)
+	itsByteBuffer(JAsynchDataReceiverT::kDefaultLgBufferSize)
 {
 	JAsynchDataReceiverX();
 
@@ -51,7 +51,7 @@ template <ACE_PEER_STREAM_1>
 void
 JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiverX()
 {
-	itsRecvBufferSize = JAsynchDataReceiverT::kDefaultBufferSize;
+	itsRecvBufferSize = 1UL << JAsynchDataReceiverT::kDefaultLgBufferSize;
 	itsRecvBuffer     = jnew JUtf8Byte [ itsRecvBufferSize ];
 	itsCancelTaskFlag = nullptr;
 }
