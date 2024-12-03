@@ -17,6 +17,7 @@ jobs:
         os:
           - macos-13
           - macos-14
+          - macos-15
     runs-on: ${{ matrix.os }}
     env:
       LC_ALL: en_US.UTF-8
