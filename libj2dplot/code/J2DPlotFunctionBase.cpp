@@ -109,7 +109,8 @@ J2DPlotFunctionBase::GetYRange
 	const
 {
 	const JSize pointCount = itsPlot->GetSmoothSteps();
-	JArray<Point> list(pointCount);
+	JArray<Point> list;
+	list.SetMinSize(pointCount);
 	EvaluateFunction(xMin, xMax, xLinear, pointCount, &list);
 
 	*yMin = *yMax = 0.0;
