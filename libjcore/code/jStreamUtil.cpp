@@ -789,7 +789,7 @@ JReadAll
 	const JSize bufLength = 1024;
 
 	char readBuf[ bufLength ];
-	JUtf8ByteBuffer byteBuf(10);
+	JUtf8ByteBuffer byteBuf(bufLength);
 	while (true)
 	{
 		size_t byteCount;

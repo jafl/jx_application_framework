@@ -233,7 +233,7 @@ JTextEditor::JTextEditor
 
 	if (type == kFullEditor)
 	{
-		itsText->SetLgBlockSizes(12, 7);	// 12 = 4KB, 7 = 128
+		itsText->SetLgMinSizes(12, 7);	// 12 = 4KB, 7 = 128
 		itsLineStarts->SetMinLgSize(7);
 		itsLineGeom->SetMinLgSize(7);
 	}
@@ -1544,7 +1544,7 @@ JTextEditor::GetCmdStatus
 	)
 	const
 {
-	JArray<bool> flags(6);
+	JArray<bool> flags(kCmdCount);
 	for (JIndex i=1; i<=kCmdCount; i++)
 	{
 		flags.AppendItem(false);

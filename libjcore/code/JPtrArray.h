@@ -22,7 +22,7 @@ class JPtrArray : public JArray<T*>
 {
 public:
 
-	JPtrArray(const JPtrArrayT::CleanUpAction action, const JSize minLgSize = 0);
+	JPtrArray(const JPtrArrayT::CleanUpAction action, const JSize minSize = 0);
 	JPtrArray(const JPtrArray<T>& source, const JPtrArrayT::CleanUpAction action);
 	JPtrArray(JPtrArray<T>&& dyingSource) noexcept;
 
@@ -95,7 +95,7 @@ class JDCCPtrArray : public JPtrArray<T>
 {
 public:
 
-	JDCCPtrArray(const JPtrArrayT::CleanUpAction action, const JSize minLgSize = 0);
+	JDCCPtrArray(const JPtrArrayT::CleanUpAction action, const JSize minSize = 0);
 	JDCCPtrArray(const JPtrArray<T>& source, const JPtrArrayT::CleanUpAction action);
 };
 

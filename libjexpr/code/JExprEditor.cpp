@@ -1429,7 +1429,7 @@ JExprEditor::GetCmdStatus
 	)
 	const
 {
-	JArray<bool> flags(5);
+	JArray<bool> flags(kCmdCount);
 	for (JIndex i=1; i<=kCmdCount; i++)
 	{
 		flags.AppendItem(false);

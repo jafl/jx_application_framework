@@ -45,7 +45,7 @@ class JRunArray : public JList<T>
 
 public:
 
-	JRunArray(const JSize minLgSize = 0);
+	JRunArray(const JSize minSize = 0);
 	JRunArray(const JRunArray<T>& source);
 	JRunArray(const JRunArray<T>& source, const JIndexRange& range);
 

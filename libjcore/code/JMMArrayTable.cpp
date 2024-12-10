@@ -16,6 +16,8 @@
 #include "JMMRecord.h"
 #include "jAssert.h"
 
+	const JSize blockSize = 5000;
+
 /******************************************************************************
  Constructor
 
@@ -34,11 +36,11 @@ JMMArrayTable::JMMArrayTable
 	itsDeletedCount(0),
 	itsSnapshotID(0)
 {
-	itsAllocatedTable = jnew JArray<JMMRecord>(12);
+	itsAllocatedTable = jnew JArray<JMMRecord>(blockSize);
 
 	if (recordDelete)
 	{
-		itsDeletedTable = jnew JArray<JMMRecord>(12);
+		itsDeletedTable = jnew JArray<JMMRecord>(blockSize);
 	}
 }
 

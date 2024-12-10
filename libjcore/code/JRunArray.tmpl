@@ -36,12 +36,12 @@
 template <class T>
 JRunArray<T>::JRunArray
 	(
-	const JSize minLgSize
+	const JSize minSize
 	)
 	:
 	JList<T>()
 {
-	itsRuns = jnew JArray< JRunArrayItem<T> >(minLgSize);
+	itsRuns = jnew JArray< JRunArrayItem<T> >(minSize);
 }
 
 /******************************************************************************
@@ -67,7 +67,8 @@ JRunArray<T>::JRunArray
 	const JIndexRange&	range
 	)
 {
-	itsRuns = jnew JArray< JRunArrayItem<T> >(source.itsRuns->GetMinLgSize());
+	itsRuns = jnew JArray< JRunArrayItem<T> >;
+	itsRuns->SetMinLgSize(source.itsRuns->GetMinLgSize());
 
 	JIndex runIndex = 1, firstIndexInRun = 1;
 	IteratorInsertSlice(1, source, range, &runIndex, &firstIndexInRun);

@@ -18,10 +18,10 @@
 
 JUtf8ByteBuffer::JUtf8ByteBuffer
 	(
-	const JSize minLgSize
+	const JSize minSize
 	)
 	:
-	JArray<JUtf8Byte>(minLgSize)
+	JArray<JUtf8Byte>(minSize)
 {
 }
 

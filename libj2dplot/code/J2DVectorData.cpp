@@ -11,6 +11,8 @@
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jAssert.h>
 
+const JSize kDefSampleCount = 100;
+
 /*********************************************************************************
  Constructor function (static)
 
@@ -69,10 +71,10 @@ J2DVectorData::J2DVectorData()
 {
 	J2DVectorDataX();
 
-	itsXData  = jnew JArray<JFloat>(7);
-	itsYData  = jnew JArray<JFloat>(7);
-	itsVXData = jnew JArray<JFloat>(7);
-	itsVYData = jnew JArray<JFloat>(7);
+	itsXData  = jnew JArray<JFloat>(kDefSampleCount);
+	itsYData  = jnew JArray<JFloat>(kDefSampleCount);
+	itsVXData = jnew JArray<JFloat>(kDefSampleCount);
+	itsVYData = jnew JArray<JFloat>(kDefSampleCount);
 
 	itsIsListeningFlag = false;
 }

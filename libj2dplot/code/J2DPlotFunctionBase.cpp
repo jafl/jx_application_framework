@@ -12,6 +12,8 @@
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jAssert.h>
 
+const JSize kDefSampleCount = 100;	// # of points for approximating y range
+
 /*********************************************************************************
  Constructor
 
@@ -31,7 +33,7 @@ J2DPlotFunctionBase::J2DPlotFunctionBase
 	itsXMin = JMin(xMin, xMax);
 	itsXMax = JMax(xMin, xMax);
 
-	itsValues = jnew JArray<Point>(7);
+	itsValues = jnew JArray<Point>(kDefSampleCount);
 	ListenTo(itsPlot);
 }
 
@@ -109,8 +111,7 @@ J2DPlotFunctionBase::GetYRange
 	const
 {
 	const JSize pointCount = itsPlot->GetSmoothSteps();
-	JArray<Point> list;
-	list.SetMinSize(pointCount);
+	JArray<Point> list(pointCount);
 	EvaluateFunction(xMin, xMax, xLinear, pointCount, &list);
 
 	*yMin = *yMax = 0.0;

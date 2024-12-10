@@ -656,8 +656,7 @@ JXDocumentManager::UpdateDocumentMenu
 	// include partial paths for files with same names
 
 	const JSize count = itsDocList->GetItemCount();
-	JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll);
-	nameList.SetMinSize(count);
+	JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll, count);
 
 	for (const auto& info : *itsDocList)
 	{

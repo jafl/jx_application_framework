@@ -62,7 +62,7 @@ using TextCount = JStyledText::TextCount;
 using TextRange = JStyledText::TextRange;
 
 const JSize kDecimationFactor = 50;
-const JSize kMinLgListSize    = 7;
+const JSize kMinListSize      = 50;
 
 #define DEBUG_TIMING_INFO	0	// boolean
 
@@ -416,7 +416,7 @@ JSTStyler::SetStyle
 JArray<JSTStyler::TokenData>*
 JSTStyler::NewTokenStartList()
 {
-	auto* list = jnew JArray<TokenData>(kMinLgListSize);
+	auto* list = jnew JArray<TokenData>(kMinListSize);
 	list->SetSortOrder(JListT::kSortAscending);
 	list->SetCompareFunction(CompareTokenStarts);
 	return list;

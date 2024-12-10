@@ -32,8 +32,7 @@ JUndoRedoChain::JUndoRedoChain
 {
 	if (useMultipleUndo)
 	{
-		itsUndoList = jnew JPtrArray<JUndo>(JPtrArrayT::kDeleteAll);
-		itsUndoList->SetMinSize(itsMaxUndoCount);
+		itsUndoList = jnew JPtrArray<JUndo>(JPtrArrayT::kDeleteAll, itsMaxUndoCount);
 	}
 }
 

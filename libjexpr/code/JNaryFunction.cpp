@@ -14,7 +14,7 @@
 #include "JNaryFunction.h"
 #include <jx-af/jcore/jAssert.h>
 
-const JSize kLgMaxReasonableArgCount = 3;
+const JSize kMaxReasonableArgCount = 10;
 
 /******************************************************************************
  Constructor
@@ -32,7 +32,7 @@ JNaryFunction::JNaryFunction
 {
 	if (argList == nullptr)
 	{
-		itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kLgMaxReasonableArgCount);
+		itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
 	}
 	else
 	{
@@ -65,7 +65,7 @@ JNaryFunction::JNaryFunction
 	:
 	JFunctionWithArgs(source)
 {
-	itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kLgMaxReasonableArgCount);
+	itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
 
 	const JSize argCount = source.itsArgList->GetItemCount();
 

@@ -44,7 +44,8 @@ JAliasArray<T>::JAliasArray
 {
 	assert( itsData != nullptr );
 
-	itsIndexArray = jnew JArray<JIndex>(data->GetMinLgSize());
+	itsIndexArray = jnew JArray<JIndex>;
+	itsIndexArray->SetMinLgSize(data->GetMinLgSize());
 	itsIndexArray->SetSortOrder(order);
 
 	SetCompareFunction(compareFn);

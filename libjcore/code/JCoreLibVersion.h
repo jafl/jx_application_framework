@@ -44,15 +44,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.2.0";
 //		Fixed bug so original selection is fully cleared after undo/redo.
 //	JArray:
 //		Switched to an exponential reallocation model.
-//		*** Ctor now takes log2(minimum allocation size).
 //	JStyledText:
-//		*** SetBlockSizes() now takes lgSize for both arguments.
-//	JRunArray:
-//		*** Ctor now takes log2(minimum allocation size).
-//	JPtrArray:
-//		*** Ctor now takes log2(minimum allocation size).
-//	JUtf8ByteBuffer:
-//		*** Ctor now takes log2(minimum allocation size).
+//		Renamed SetBlockSizes() to SetLgMinSizes().
 
 // version 4.1.0:
 //

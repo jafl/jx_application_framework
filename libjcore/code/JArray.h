@@ -18,7 +18,7 @@ class JArray : public JList<T>
 {
 public:
 
-	JArray(const JSize minLgSize = 0);
+	JArray(const JSize minSize = 0);
 	JArray(const JArray<T>& source);
 	JArray(JArray<T>&& dyingSource) noexcept;
 

@@ -175,9 +175,6 @@ JUtf8Character::SetIgnoreBadUtf8
 /******************************************************************************
  Assignment operator
 
-	We do not copy block size because we assume the client has set them
-	appropriately.
-
  ******************************************************************************/
 
 inline JUtf8Character&
