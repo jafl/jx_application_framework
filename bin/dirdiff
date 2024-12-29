@@ -17,6 +17,8 @@
 #     Fixed bug so spaces are allowed in paths and file names (John Lindal)
 #   1.0.3 -- 3/4/2015
 #     --ignoreGit option added by John Lindal
+#   1.0.4 -- 12/19/2024
+#     --ignoreNodeModules option added by John Lindal
 #
 #******************************************************************************
 
@@ -100,6 +102,7 @@
 	local $Global::ignoreCVSDefault        = 1;
 	local $Global::ignoreSubversionDefault = 1;
 	local $Global::ignoreGitDefault        = 1;
+	local $Global::ignoreNodeModulesDefault= 1;
 
 # The dispatch table and such; conceptually constant.  They wouldn't have
 # to be global but it is nicer to have them here where they can be changed
@@ -150,6 +153,7 @@
 	local $Global::ignoreCVS        = $Global::ignoreCVSDefault;
 	local $Global::ignoreSubversion = $Global::ignoreSubversionDefault;
 	local $Global::ignoreGit        = $Global::ignoreGitDefault;
+	local $Global::ignoreNodeModules= $Global::ignoreNodeModulesDefault;
 	local $Global::prefix           = $Global::prefixDefault;
 	local $Global::pathA;
 	local $Global::pathB;
@@ -470,7 +474,7 @@ sub HandleDifferentLinks()
 sub HandleDifferentMixed()
 {
 	if (   $Global::mixedComparison eq "linkname"
-	    or $Global::mixedComparison eq "filename")
+		or $Global::mixedComparison eq "filename")
 		{
 		if (!$Global::listOnly)
 			{
@@ -1019,7 +1023,6 @@ sub FilterRegex($$$)
 		{
 		@rawList = grep(!m/$notRegex/, @rawList );
 		}
-
 	return @rawList;
 }
 
@@ -1099,6 +1102,7 @@ sub ParseCommandLine()
 		"IgnoreCVS!"        => \$Global::ignoreCVS,
 		"IgnoreSubversion!" => \$Global::ignoreSubversion,
 		"IgnoreGit!"        => \$Global::ignoreGit,
+		"IgnoreNodeModules!"=> \$Global::ignoreNodeModules,
 		"fullpath!"         => \$fullPath,
 		"glob=s"            => \$glob,
 		"help"              => \$help,
@@ -1234,7 +1238,8 @@ sub ParseCommandLine()
 		exit 0;
 		}
 
-	if ($Global::ignoreCVS || $Global::ignoreSubversion || $Global::ignoreGit)
+	if ($Global::ignoreCVS || $Global::ignoreSubversion || $Global::ignoreGit ||
+		$Global::ignoreNodeModules)
 		{
 		if (length($dirNotRegex) > 0)
 			{
@@ -1250,7 +1255,7 @@ sub ParseCommandLine()
 
 			if ($fullPath)
 				{
-				$dirNotRegex .= '((*/)?CVS(/*)?)';
+				$dirNotRegex .= '((.*/)?CVS(/.*)?)';
 				}
 			else
 				{
@@ -1267,7 +1272,7 @@ sub ParseCommandLine()
 
 			if ($fullPath)
 				{
-				$dirNotRegex .= '((*/)?\.svn(/*)?)';
+				$dirNotRegex .= '((.*/)?\.svn(/.*)?)';
 				}
 			else
 				{
@@ -1284,11 +1289,35 @@ sub ParseCommandLine()
 
 			if ($fullPath)
 				{
-				$dirNotRegex .= '((*/)?\.git(/*)?)';
+				$dirNotRegex .= '((.*/)?\.git(/.*)?)';
 				}
 			else
 				{
 				$dirNotRegex .= '(\.git)';
+				}
+			}
+
+		if ($Global::ignoreNodeModules)
+			{
+			if (length($dirNotRegex) > 0)
+				{
+				$dirNotRegex .= '|';
+				}
+
+			if (length($notRegex) > 0)
+				{
+				$notRegex .= '|';
+				}
+
+			if ($fullPath)
+				{
+				$dirNotRegex .= '((.*/)?node_modules(/.*)?)';
+				$notRegex    .= '((.*/)?(package-lock.json|yarn.lock))';
+				}
+			else
+				{
+				$dirNotRegex .= '(node_modules)';
+				$notRegex    .= '(package-lock\.json|yarn\.lock)';
 				}
 			}
 		}
@@ -1443,6 +1472,7 @@ sub Usage(*$$$$$$$$$$)
 	print $fh "\n                  handled differently.";
 	print $fh "\n";
 	}
+
 	print $fh "\n  --(no)IgnoreCVS   (default: \"";
 	if ($Global::ignoreCVSDefault)
 	{
@@ -1462,6 +1492,7 @@ sub Usage(*$$$$$$$$$$)
 	print $fh "\n                  When active, ignores CVS directories.";
 	print $fh "\n";
 	}
+
 	print $fh "\n  --(no)IgnoreSubversion (default: \"";
 	if ($Global::ignoreSubversionDefault)
 	{
@@ -1481,8 +1512,9 @@ sub Usage(*$$$$$$$$$$)
 	print $fh "\n                  When active, ignores Subversion directories.";
 	print $fh "\n";
 	}
+
 	print $fh "\n  --(no)IgnoreGit   (default: \"";
-	if ($Global::ignoreCVSDefault)
+	if ($Global::ignoreGitDefault)
 	{
 	print "--IgnoreGit\")";
 	} else {
@@ -1500,6 +1532,27 @@ sub Usage(*$$$$$$$$$$)
 	print $fh "\n                  When active, ignores Git directories.";
 	print $fh "\n";
 	}
+
+	print $fh "\n  --(no)IgnoreNodeModules (default: \"";
+	if ($Global::ignoreNodeModulesDefault)
+	{
+	print "--IgnoreNodeModules\")";
+	} else {
+	print "--noIgnoreNodeModules\")";
+	}
+	if ($help)
+	{
+	print $fh "\n                          (current: \"";
+	if ($Global::ignoreNodeModules)
+	{
+	print "--IgnoreNodeModules\")";
+	} else {
+	print "--noIgnoreNodeModules\")";
+	}
+	print $fh "\n                  When active, ignores node_modules directories.";
+	print $fh "\n";
+	}
+
 	if ($help)
 	{
 	print $fh "\nPattern matching";
