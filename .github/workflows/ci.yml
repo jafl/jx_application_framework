@@ -201,6 +201,16 @@ jobs:
           brew install cask
           brew install --cask xquartz
           echo "PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig" >> $GITHUB_ENV
+          echo === brew ===
+          ls $(brew --prefix)
+          echo === lib ===
+          ls $(brew --prefix)/lib
+          echo === include ===
+          ls $(brew --prefix)/include
+          echo === opt ===
+          ls $(brew --prefix)/opt
+          echo === Cellar ===
+          ls $(brew --prefix)/Cellar
 
       - name: Build
         run: make
