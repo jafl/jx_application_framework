@@ -21,7 +21,7 @@ class JXTextButton;
 class JXInputField;
 class JXTextCheckbox;
 class JXStringHistoryMenu;
-class JXFunctionTask;
+class JXIdleTask;
 class JXSearchTextButton;
 
 class JXSearchTextDialog : public JXWindowDirector
@@ -119,7 +119,7 @@ private:
 	JXTEBase*		itsTE;					// can be nullptr; not owned
 	JRegex*			itsRegex;
 	JInterpolate*	itsInterpolator;
-	JXFunctionTask*	itsUpdateTask;
+	JXIdleTask*		itsUpdateTask;
 
 	Atom	itsAtoms[ kAtomCount ];
 

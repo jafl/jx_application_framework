@@ -19,7 +19,7 @@ class JXTEBase;
 class JXStaticText;
 class JXProgressIndicator;
 class JXPGMessageDirector;
-class JXFunctionTask;
+class JXIdleTask;
 
 class JXProgressDisplay : public JProgressDisplay, virtual public JBroadcaster
 {
@@ -64,7 +64,7 @@ private:
 
 	JXPGMessageDirector*	itsMessageDirector;		// nullptr unless messages during process
 
-	JXFunctionTask*						itsContinueTask;
+	JXIdleTask*							itsContinueTask;
 	boost::fibers::condition_variable	itsCondition;
 	boost::fibers::mutex				itsMutex;
 	bool								itsContinueFlag;

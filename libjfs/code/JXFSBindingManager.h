@@ -12,7 +12,7 @@
 #include "JFSBinding.h"		// for CommandType
 #include <jx-af/jcore/JError.h>
 
-class JXFunctionTask;
+class JXIdleTask;
 class JFSBindingList;
 class JXFSEditBindingsDialog;
 class JXFSRunCommandDialog;
@@ -45,7 +45,7 @@ protected:
 private:
 
 	JFSBindingList*	itsBindingList;
-	JXFunctionTask*	itsUpdateBindingListTask;
+	JXIdleTask*		itsUpdateBindingListTask;
 
 	JXFSRunCommandDialog*	itsRunCmdDialog;
 	JXFSRunFileDialog*		itsRunFileDialog;	// nullptr unless processing files

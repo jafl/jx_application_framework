@@ -25,7 +25,7 @@ class JXWindow;
 class JXWidget;
 class JXWindowPainter;
 class JXCursorAnimator;
-class JXFunctionTask;
+class JXIdleTask;
 class JXFontManager;
 class JXSelectionManager;
 class JXDNDManager;
@@ -265,7 +265,7 @@ private:
 	bool				itsCursorVisibleFlag;
 	JCursorIndex		itsCurrCursor;
 	JXCursorAnimator*	itsCursorAnim;
-	JXFunctionTask*		itsCursorAnimTask;
+	JXIdleTask*			itsCursorAnimTask;
 
 	// hint
 

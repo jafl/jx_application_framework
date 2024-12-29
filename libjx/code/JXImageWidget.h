@@ -16,7 +16,7 @@
 #include "jx-af/jcore/JXPM.h"
 
 class JXImage;
-class JXUrgentFunctionTask;
+class JXUrgentTask;
 
 class JXImageWidget : public JXScrollableWidget
 {
@@ -57,7 +57,7 @@ private:
 	JXImage*	itsImage;			// can be nullptr
 	bool		itsOwnsImageFlag;
 
-	JXUrgentFunctionTask*	itsAdjustBoundsTask;
+	JXUrgentTask*	itsAdjustBoundsTask;
 
 private:
 

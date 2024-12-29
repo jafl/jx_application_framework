@@ -14,7 +14,7 @@
 
 class JXScrollbar;
 class JXScrollbarSet;
-class JXUrgentFunctionTask;
+class JXUrgentTask;
 
 class JXScrollableWidget : public JXWidget
 {
@@ -93,7 +93,7 @@ private:
 	bool			itsAdjustingFlag;		// if should ignore scrollbar messages
 	bool			itsShouldRedrawFlag;	// if Redraw() when scrolled
 
-	JXUrgentFunctionTask*	itsAdjustScrollbarTask;
+	JXUrgentTask*	itsAdjustScrollbarTask;
 
 	// If these are positive, they override the defaults.
 

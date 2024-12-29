@@ -15,8 +15,8 @@ class JXImage;
 class JXDocument;
 class JXFileDocument;
 class JXDocumentMenu;
-class JXFunctionTask;
-class JXUrgentFunctionTask;
+class JXIdleTask;
+class JXUrgentTask;
 
 class JXDocumentManager : virtual public JBroadcaster
 {
@@ -123,18 +123,18 @@ private:
 
 private:
 
-	JArray<DocInfo>*		itsDocList;
-	JIndex					itsNewDocCount;
+	JArray<DocInfo>*	itsDocList;
+	JIndex				itsNewDocCount;
 
-	JArray<FileMap>*		itsFileMap;
+	JArray<FileMap>*	itsFileMap;
 
-	const bool				itsWantShortcutFlag;
+	const bool			itsWantShortcutFlag;
 
-	bool					itsPerformSafetySaveFlag;
-	JXFunctionTask*			itsSafetySaveTask;
+	bool				itsPerformSafetySaveFlag;
+	JXIdleTask*			itsSafetySaveTask;
 
-	JXUrgentFunctionTask*	itsUpdateDocMenuTask;	// nullptr unless pending
-	JXImage*				itsDefaultMenuIcon;		// not owned
+	JXUrgentTask*		itsUpdateDocMenuTask;	// nullptr unless pending
+	JXImage*			itsDefaultMenuIcon;		// not owned
 
 private:
 

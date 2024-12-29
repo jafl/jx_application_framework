@@ -27,7 +27,8 @@ JXFunctionTask::JXFunctionTask
 	JXIdleTask(period),
 	itsFunction(f),
 	itsName(jnew JString(name)),
-	itsIsOneShotFlag(oneShot)
+	itsIsOneShotFlag(oneShot),
+	itsDeletedFlag(nullptr)
 {
 }
 
@@ -38,6 +39,11 @@ JXFunctionTask::JXFunctionTask
 
 JXFunctionTask::~JXFunctionTask()
 {
+	if (itsDeletedFlag != nullptr)
+	{
+		*itsDeletedFlag = true;
+	}
+
 	jdelete itsName;
 }
 
@@ -52,9 +58,30 @@ JXFunctionTask::Perform
 	const Time delta
 	)
 {
+	bool deleted   = false;
+	itsDeletedFlag = &deleted;
+
 	itsFunction();
-	if (itsIsOneShotFlag)
+
+	if (!deleted)
 	{
-		jdelete this;
+		itsDeletedFlag = nullptr;
+
+		if (itsIsOneShotFlag)
+		{
+			jdelete this;
+		}
 	}
+}
+
+/******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+JXFunctionTask::ToString()
+	const
+{
+	return JXIdleTask::ToString() + " -- " + *itsName;
 }

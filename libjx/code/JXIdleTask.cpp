@@ -51,6 +51,7 @@ JXIdleTask::JXIdleTask
 	itsPeriod(period),
 	itsElapsedTime(0)
 {
+	assert( JXApplication::IsUIThread() );
 }
 
 /******************************************************************************
@@ -60,6 +61,7 @@ JXIdleTask::JXIdleTask
 
 JXIdleTask::~JXIdleTask()
 {
+	assert( JXApplication::IsUIThread() );
 	Stop();
 }
 
@@ -111,4 +113,16 @@ JXIdleTask::Ready
 		*maxSleepTime = itsPeriod - itsElapsedTime;
 	}
 	return ready;
+}
+
+/******************************************************************************
+ ToString (virtual)
+
+ ******************************************************************************/
+
+JString
+JXIdleTask::ToString()
+	const
+{
+	return JString((JUInt64)(void*)this, JString::kBase16);
 }

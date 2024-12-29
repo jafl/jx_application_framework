@@ -27,7 +27,7 @@ class JXScrollbarSet;
 class JXNewDirButton;
 class JXCurrentPathMenu;
 class JXIdleTask;
-class JXUrgentFunctionTask;
+class JXUrgentTask;
 
 class JXCSFDialogBase : public JXModalDialogDirector
 {
@@ -105,7 +105,7 @@ private:
 	JXTextCheckbox*			itsShowHiddenCB;
 	JXCurrentPathMenu*		itsCurrPathMenu;
 
-	JXUrgentFunctionTask*	itsSelectPrevDirTask;	// nullptr unless queued
+	JXUrgentTask*	itsSelectPrevDirTask;	// nullptr unless queued
 
 	static JString	theState;
 	static JString	thePath;

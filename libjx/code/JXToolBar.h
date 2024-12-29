@@ -18,7 +18,7 @@ class JNamedTreeNode;
 class JXMenu;
 class JXMenuBar;
 class JXTextMenu;
-class JXFunctionTask;
+class JXIdleTask;
 class JXUrgentFunctionTask;
 
 class JXToolBar : public JXWidgetSet, public JPrefObject
@@ -76,7 +76,7 @@ private:
 	bool						itsInNewGroupMode;
 	JPtrArray<JXToolBarButton>*	itsButtons;
 	JPtrArray<JXMenu>*			itsMenus;
-	JXFunctionTask*				itsTimerTask;
+	JXIdleTask*					itsTimerTask;
 	JXMenuBar*					itsMenuBar;
 	JSize						itsCurrentButtonHeight;
 	JXWidgetSet*				itsToolBarSet;

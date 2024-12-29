@@ -22,6 +22,8 @@ public:
 
 	~JXFunctionTask() override;
 
+	JString	ToString() const override;
+
 protected:
 
 	void	Perform(const Time delta) override;
@@ -31,6 +33,8 @@ private:
 	std::function<void()>	itsFunction;
 	JString*				itsName;
 	const bool				itsIsOneShotFlag;
+
+	bool*	itsDeletedFlag;
 };
 
 #endif

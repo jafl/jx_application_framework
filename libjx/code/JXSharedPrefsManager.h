@@ -13,7 +13,7 @@
 #include <jx-af/jcore/jTime.h>
 
 class JPrefsFile;
-class JXFunctionTask;
+class JXIdleTask;
 class JXSharedPrefObject;
 
 class JXSharedPrefsManager : virtual public JBroadcaster
@@ -57,12 +57,12 @@ public:
 
 private:
 
-	JPrefsFile*		itsFile;			// nullptr unless working
-	bool			itsChangedFlag;		// used when re-entrant
-	JXFunctionTask*	itsUpdateTask;
-	JString			itsSignalFileName;	// can be empty
-	time_t			itsSignalModTime;	// last time signal file was modified
-	bool			itsWasNewFlag;		// true => we created the file
+	JPrefsFile*	itsFile;			// nullptr unless working
+	bool		itsChangedFlag;		// used when re-entrant
+	JXIdleTask*	itsUpdateTask;
+	JString		itsSignalFileName;	// can be empty
+	time_t		itsSignalModTime;	// last time signal file was modified
+	bool		itsWasNewFlag;		// true => we created the file
 
 	// this section exists because JCore values cannot update themselves
 

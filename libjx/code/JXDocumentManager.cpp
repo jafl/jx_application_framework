@@ -58,7 +58,6 @@
 #include "JXDisplay.h"
 #include "JXColorManager.h"
 #include "JXChooseFileDialog.h"
-#include "JXFunctionTask.h"
 #include "jXGlobals.h"
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jFileUtil.h>

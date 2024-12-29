@@ -13,6 +13,8 @@
 #include <jx-af/jcore/jTypes.h>
 #include <X11/Xlib.h>
 
+class JString;
+
 class JXIdleTask
 {
 	friend class JXApplication;
@@ -30,6 +32,8 @@ public:
 	void	SetPeriod(const Time period);
 
 	void	ResetTimer();
+
+	virtual JString	ToString() const;
 
 protected:
 

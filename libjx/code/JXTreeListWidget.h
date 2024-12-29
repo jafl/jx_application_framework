@@ -12,7 +12,7 @@
 
 class JTreeNode;
 class JTreeList;
-class JXUrgentFunctionTask;
+class JXUrgentTask;
 
 class JXTreeListWidget : public JXStyleTable
 {
@@ -106,7 +106,7 @@ private:
 	JArray<JSize>*	itsMinColWidths;		// minimum width of each column
 	JIndex			itsElasticColIndex;		// column that can expand to fill aperture width
 
-	JXUrgentFunctionTask*	itsAdjustToTreeTask;	// can be nullptr
+	JXUrgentTask*	itsAdjustToTreeTask;	// can be nullptr
 
 	// used during node move
 

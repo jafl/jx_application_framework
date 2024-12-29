@@ -30,7 +30,7 @@ protected:
 
 private:
 
-	JXFunctionTask*	itsSafetySaveTask;
+	JXIdleTask*		itsSafetySaveTask;
 	const JPrefID	itsCSFPrefID;
 };
 
