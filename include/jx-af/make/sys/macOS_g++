@@ -52,8 +52,8 @@ LDFLAGS   = -L/opt/X11/lib -L${BREW_ROOT}/lib
 
 # libraries to link - must use XQuartz instead of Homebrew X11
 
-J_GCC_LIBS := ${BREW_ROOT}/lib/libboost_fiber-mt.a \
-              ${BREW_ROOT}/lib/libboost_context-mt.a \
+J_GCC_LIBS := ${BREW_ROOT}/lib/libboost_fiber.a \
+              ${BREW_ROOT}/lib/libboost_context.a \
               ${shell pkg-config --libs icu-i18n icu-uc libpcre}
 J_ACE_LIBS := -lACE
 J_X11_LIBS := -lXext -lXft -lfontconfig -lXpm -lX11
