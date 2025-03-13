@@ -33,7 +33,7 @@ jobs:
           mv ../${{ inputs.pkg-name }}_* . || true
 
       - name: Save release packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: release
           path: ${{ inputs.pkg-name }}_*
