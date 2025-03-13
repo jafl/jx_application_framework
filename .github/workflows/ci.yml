@@ -105,7 +105,7 @@ jobs:
           mv ../jx-application-framework_* .
 
       - name: Save release packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: release
           path: jx-application-framework_*
@@ -167,7 +167,7 @@ jobs:
 
       - name: Save release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: release
           path: |
@@ -222,7 +222,7 @@ jobs:
 
       - name: Save release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: release
           path: jx-application-framework_*
