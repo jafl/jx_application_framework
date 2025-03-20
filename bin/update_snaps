@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e;
 
@@ -29,14 +29,14 @@ if ! snapcraft whoami &> /dev/null; then
 	snapcraft login;
 fi
 
-git pull;
+#git pull;
 
 # create symlink targets to keep snapcraft happy
-for f in lib/*.a; do
-	f=${f#lib/};
-	d=${f%.a};
-	touch $d/$f;
-done
+#for f in lib/*.a; do
+#	f=${f#lib/};
+#	d=${f%.a};
+#	touch $d/$f;
+#done
 
 #upload_snaps jx-application-framework;
 
@@ -45,7 +45,7 @@ cd ..;
 if [[ $# > 0 ]]; then
 	pkgs="$*";
 else
-	pkgs="drakon glove jx-ide leibnitz ssh-askpass subversion_client system-g";
+	pkgs="drakon glove jx-ide leibnitz ssh-askpass subversion_client";
 fi
 
 declare -A pkg_map=(
@@ -55,7 +55,6 @@ declare -A pkg_map=(
 	["leibnitz"]="leibnitz"
 	["ssh-askpass"]="nps-ssh-askpass"
 	["subversion_client"]="nps-svn-client"
-	["system-g"]="systemg"
 );
 
 for d in $pkgs; do
