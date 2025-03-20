@@ -38,10 +38,11 @@ jobs:
           pushd jx-application-framework-1ci
           ./install
           popd
-          echo "PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig" >> $GITHUB_ENV
+          export PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig
           ./configure ci
           brew install cask
           brew install --cask xquartz
+          echo "PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig" >> $GITHUB_ENV
 
       - name: Build
         run: ${{ inputs.build-cmd }}
