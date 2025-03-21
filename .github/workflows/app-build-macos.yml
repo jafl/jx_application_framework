@@ -38,6 +38,8 @@ jobs:
           pushd jx-application-framework-1ci
           ./install
           popd
+          echo $LD_LIBRARY_PATH
+          brew info icu4c
           export PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig
           ./configure ci
           brew install cask
