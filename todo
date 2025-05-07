@@ -1,62 +1,3 @@
-
-jcc - crashed deleting task with unallocated name
-	- Do threads delete any tasks?
-	- was it pointing to end of JPtrArray data? JXIdleTask values looked like pointers
-
-multi-pane editing
-
-	TextEditor::WriteSetup + keyHandler +
-	breakCROnly, drawWhitespace, alwaysShowSelection,
-	caretMode, caret, insertionFont, selection,
-	share menus
-
-	CBTextDocument owns JXStyledText
-	use partitions to show multiple views
-		double appropriate window dimension, if screen has space
-	each partition needs small [x] to close
-	small [+] buttons to split either horiz or vert
-
------
-
-medic
-	when kill program, doesn't clear current source line marker
-
-	gdb: doesn't show source line when hit first breakpoint
-
-	asm for function: if blank, fill in after program is stopped
-
-jcc
-	use correct word wrap setting when diff from project window
-
-	json styler: key vs value
-
-	cmd window sometimes loses last chunk of program output
-
-	HTML styler
-		unit test for CDATA - can contain php or jsp
-		tag, attribute value, script, char escapes
-		javascript regex, incl char class - can contain php or jsp
-
-glove
-	undo then redo "transform creates column": puts values back in inverted order
-
-	NonLinearFitDialog: scrollbar sets are wider than window
-
-	remember open documents and restore when start
-
-	fit window:
-		show which plot has focus, and therefore applies to menus
-		show only data curves in "Curves" list, not existing fit curves
-
-	help for PolyFitDialog
-	fit & polyfitdialog:
-		display function as read-only, no menus
-
-	generate column with uniform or gaussian noise
-	test on 1000, 10000 rows: run fit in thread?
-
-	catch NaN during fits: exponential fit to linear data
-
 Linux Window Manager
 	activate shifts window up & left
 	contents of medic Files window not adjusted to window size
@@ -68,13 +9,6 @@ JTextEditor:
 	don't change insertion font while typing when glyphs are rendered with fallback font
 
 -----
-
-jcc
-	raku (perl6)
-	typescript
-
-medic for go: delve back-end
-	https://github.com/go-delve/delve/blob/master/Documentation/api/ClientHowto.md
 
 switch to cairo for rendering
 	anti-aliased lines
@@ -91,13 +25,6 @@ cscope -L#<sym>
 
 -----
 
-jcc
-	vi emulator
-		dd doesn't work on last line of file
-		Ndd doesn't include last line of file even if it should be included
-
-	hangs on html clean indentation script run on entire file: help.html
-
 Fedora 27 window manager
 	JXWindow does not analyze correctly
 
@@ -109,114 +36,6 @@ When g++/clang++ both support stringstream::view
 
 -----
 
-medic - java
-	selected stack frame
-		select source line
-			get code offset <-> line number for method
-			search for frame's code offset
-		show local variables
-			get list of method's variables (slot #'s)
-			get frame's value for each slot #'s
-	start JVM
-		JVMDisplaySourceForMain
-			get Methods for main-class, find "main", get LineTable, get first line number, scroll to that
-	set breakpoint
-		search code index <-> line index for location
-
-	source-jar unzips to /tmp
-		display stderr from zip in cmd line window
-		delete /tmp directories when delete link or open different program
-
-	http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
-	http://java.sun.com/javase/6/docs/technotes/guides/jpda/jdwp-spec.html
-	http://java.sun.com/javase/6/docs/platform/jpda/jdwp/jdwp-protocol.html
-
-	http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/jdb.html
-
-xdebug
-	click stack trace: selection jumps back to last frame
-	temp breakpoint doesn't disappear
-
-	Enable XDSocket::StartTimer() when not debugging
-	Always update stack, even if Stack Trace window is hidden
-	Eliminate double call to get local vars
-		Preserve existing items; don't just delete all before update
-	request source from debugger instead of assuming that file:// exists
-	*set* values
-	support conditional breakpoints, etc.
-
------
-
-jcc
-	D tree
-		must remember all imported packages, to resolve parents after full parse
-		imports are scoped to block
-
-	execute selected text by passing to interpreter running in command window
-		perl/php -- executes only after closing pipe, wrap php in <? ... ?> if not already there
-		python/ruby -- write to pipe after invoking, to allow inspecting result
-
-	Pick a default size and location for text windows when first run
-		based on desktop size (if not auto-dock all)
-
-	search results:  option to show n lines above and below matching line
-
-	Tooltip-like window when open function arg list
-		bold current argument, based on number of commas after opening paren
-	Tooltip for scrolltabs: which function it is in
-	Tooltip while scrolling: which function it is in
-
-	Editor for regex's so compiler support is not hard-coded
-	Cascade option for undocked windows
-	Option to search all files in current project
-	Symbol list: print unique prefix for file names (like in Files window)
-	PHP: balance <? ?>
-	JXChooseMonoFont: allow "Other..."
-
-	menu of supported text encodings in "open text file" dialog, default autodetect
-	sub-menu of supported text encodings on File menu, just like "file formats"
-
-medic
-	accept connection or switch to gdb:  should stop listening on port
-		need simple example to submit to ACE list
-	restart either xdebug or java:  unable to listen on port & crashes on exit
-		also need to fix SetProgram()
-	gdb
-		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
-			check every time symbols are loaded
-
-	for program with threads:
-		set scheduler-locking on/off/step
-		break <location> thread <gdb thread number>
-
-	CMBreakpointTable:
-		pressing return while editing the last row should save the value
-		problem is that setting breakpoint value takes time, so can't restart editing immediately
-
-	gdb test suite
-		start, choose program, set bkpt, run
-		start, run, open file, stop, set bkpt, continue
-		start with program name, set bkpt, run
-		start with core name
-		switch from core dump to running binary
-		switch from running binary to core dump
-		switch from one program to another
-
-systemg
-	store alternate-open prefs for every executable in the directory
-		use these prefs when plain-open is invoked
-		when open prefs file for directory, flush non-existent executables
-
-	trash must remember where each file came from
-		~/.trash/.source stores list of original locations
-		cull non-existent when re-write the file
-		delete when empty trash
-
-	optimize selection of multiple items via cmd line
-		systemg code/*.cpp code/*.h
-		rewrite MDI server to collect files in same directory
-			then pass collection to SyGFindFileTask
-
 memory analyzer
 	jcc -- crash with deleted JMessageProtocol -- only when open project
 	print table:  partial column on page 1
@@ -224,15 +43,6 @@ memory analyzer
 	option to print MDStatsDirector
 	records window:
 		show info about query in window title
-
-drakon
-	filter input, like jcc file list
-
-	re-nice dialog: slider
-		if 0, default 19
-		else, default 0
-
-	SendSignal dialog
 
 Clean up prefs
 	JXPrefsDialog has tree list and card file
@@ -244,7 +54,8 @@ Clean up prefs
 Docking
 	MacOS: window placement inside dock sometimes wrong (iconfied windows)
 	undock: window placement not restored
-	raise window via menu shortcut:  dock moves on Ubuntu, and focus not set to the window
+	raise window via menu shortcut:
+		dock moves on Ubuntu, and focus not set to the window
 
 	When compartment minimized and move tab position, should readjust pane sizes
 	When min page size increases in dock, adjust panes so divider visible
