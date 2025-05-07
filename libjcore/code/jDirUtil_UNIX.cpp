@@ -53,10 +53,10 @@ JSameDirEntry
 	)
 {
 	ACE_stat stbuf1, stbuf2;
-	return ACE_OS::stat(name1.GetBytes(), &stbuf1) == 0 &&
-				ACE_OS::stat(name2.GetBytes(), &stbuf2) == 0 &&
-				stbuf1.st_dev == stbuf2.st_dev &&
-				stbuf1.st_ino == stbuf2.st_ino;
+	return (ACE_OS::stat(name1.GetBytes(), &stbuf1) == 0 &&
+			ACE_OS::stat(name2.GetBytes(), &stbuf2) == 0 &&
+			stbuf1.st_dev == stbuf2.st_dev &&
+			stbuf1.st_ino == stbuf2.st_ino);
 }
 
 /******************************************************************************

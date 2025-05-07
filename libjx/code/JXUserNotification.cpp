@@ -22,6 +22,7 @@
 #include "JXOKToCloseDialog.h"
 #include "JXAcceptLicenseDialog.h"
 #include "JXWindow.h"
+#include "JXUrgentFunctionTask.h"
 #include "jXGlobals.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -88,12 +89,13 @@ JXUserNotification::ReportError
 	}
 	else	// during startup or in thread
 	{
-		JXApplication::StartFiber([message]()
+		auto* task = jnew JXUrgentFunctionTask(JXGetApplication(), [message]()
 		{
 			auto* dlog = jnew JXErrorDialog(message);
 			dlog->DoDialog();
 		},
 		"JXUserNotification::ReportError");
+		task->Go();
 	}
 }
 
