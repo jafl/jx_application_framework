@@ -741,6 +741,10 @@ F
 T
 1 "misc"
 T
+2 "jBuildUtil.cpp"
+F
+"./code/jBuildUtil.cpp"
+T
 2 "JMDIServer.cpp"
 F
 "./code/JMDIServer.cpp"
