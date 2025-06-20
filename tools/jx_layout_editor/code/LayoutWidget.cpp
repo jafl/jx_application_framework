@@ -719,7 +719,7 @@ LayoutWidget::PrepareToAcceptDrag()
 {
 	itsExpectingDragFlag = true;
 
-	const time_t now = time(NULL);
+	const time_t now = time(nullptr);
 	if (now <= itsLastExpectingTime + 1)
 	{
 		itsExpectingClickCount++;
@@ -780,7 +780,7 @@ LayoutWidget::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	const time_t now = time(NULL);
+	const time_t now = time(nullptr);
 	if (now > itsLastExpectingTime + 1)
 	{
 		itsExpectingClickCount = 0;

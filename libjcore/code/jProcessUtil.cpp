@@ -533,6 +533,10 @@ JExecute
 			close(fd[2][0]);
 			close(fd[2][1]);
 		}
+		if (nullFile != nullptr)
+		{
+			fclose(nullFile);
+		}
 
 		if (err == EAGAIN)
 		{
