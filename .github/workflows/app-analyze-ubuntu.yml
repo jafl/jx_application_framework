@@ -31,7 +31,7 @@ jobs:
             ${{ runner.os }}-sonar-cache-
 
       - name: Install build-wrapper
-        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@5.3.1
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v5.3.1
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
@@ -45,7 +45,7 @@ jobs:
         run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
 
       - name: Run sonar-scanner
-        uses: SonarSource/sonarqube-scan-action@5.3.1
+        uses: SonarSource/sonarqube-scan-action@v5.3.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.sonar-token }}
