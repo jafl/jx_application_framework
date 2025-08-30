@@ -53,6 +53,7 @@ jobs:
         run: |
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
           pwd
+          echo ${{ env.BUILD_WRAPPER_OUT_DIR }}
           ls -l ${{ env.BUILD_WRAPPER_OUT_DIR }}
 
       - name: Run sonar-scanner
@@ -62,7 +63,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
+            --define sonar.cfamily.build-wrapper-output=${{ env.BUILD_WRAPPER_OUT_DIR }}
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v3
