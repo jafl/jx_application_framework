@@ -51,7 +51,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.sonar-token }}
         with:
           args: >
-            --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
+            --define sonar.cfamily.build-wrapper-output=${{ env.BUILD_WRAPPER_OUT_DIR }}
 
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v3

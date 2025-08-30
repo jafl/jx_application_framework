@@ -50,11 +50,7 @@ jobs:
         run: ./configure release
 
       - name: Build
-        run: |
-          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
-          pwd
-          echo ${{ env.BUILD_WRAPPER_OUT_DIR }}
-          ls -l ${{ env.BUILD_WRAPPER_OUT_DIR }}
+        run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
 
       - name: Run sonar-scanner
         uses: SonarSource/sonarqube-scan-action@v5.3.1
