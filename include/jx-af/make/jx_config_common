@@ -70,12 +70,12 @@ YFLAGS :=
 
 image-build/%.xpm : image/%.png
 	@mkdir -p $(@D)
-	magick convert $< $@
+	magick $< $@
 	@perl -pi -e 's/static char/static const char/g' $@
 
 image-build/%.xpm : image/%.gif
 	@mkdir -p $(@D)
-	magick convert $< $@
+	magick $< $@
 	@perl -pi -e 's/static char/static const char/g' $@
 
 .PHONY : .new_images
