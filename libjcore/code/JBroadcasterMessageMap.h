@@ -20,6 +20,9 @@ template <class T> class JArray;
 
 class JBroadcasterMessageMap : public JHashTable<JBroadcasterMessageTarget>
 {
+	using Cursor      = JHashCursor<JBroadcasterMessageTarget>;
+	using ConstCursor = JConstHashCursor<JBroadcasterMessageTarget>;
+
 public:
 
 	JBroadcasterMessageMap();
@@ -34,6 +37,10 @@ public:
 
 	void RemoveTuple(const std::type_info& key, const JBroadcaster* obj);
 	void RemoveAll(const std::function<void(JBroadcaster*, const std::type_info&)>& f);
+
+private:
+
+	bool Contains(const std::type_info& key, ConstCursor& cursor) const;
 };
 
 #endif

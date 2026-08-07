@@ -46,6 +46,9 @@ static const char* kCurrentJCoreLibVersionStr = "4.2.0";
 //		Switched to an exponential reallocation model.
 //	JStyledText:
 //		Renamed SetBlockSizes() to SetLgMinSizes().
+//	JHashTable:
+//		*** Removed GetCursor() because it is not thread-safe.  Each thread
+//			must use a separate cursor to read from the table.
 
 // version 4.1.0:
 //

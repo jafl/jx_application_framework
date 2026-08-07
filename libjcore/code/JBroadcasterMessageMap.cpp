@@ -22,7 +22,6 @@
 
 JBroadcasterMessageMap::JBroadcasterMessageMap()
 {
-	JHashTable<JBroadcasterMessageTarget>::DisallowCursors();
 }
 
 /******************************************************************************
@@ -38,9 +37,6 @@ JBroadcasterMessageMap::~JBroadcasterMessageMap()
 /******************************************************************************
  Contains
 
-	*** This code is also used to position the cursor for use by other
-		functions in both this class and derived classes!
-
  *****************************************************************************/
 
 bool
@@ -50,10 +46,23 @@ JBroadcasterMessageMap::Contains
 	)
 	const
 {
-	auto* cursor = JHashTable<JBroadcasterMessageTarget>::GetCursor();
+	ConstCursor cursor(this);
+	return Contains(key, cursor);
+}
+
+// private
+
+bool
+JBroadcasterMessageMap::Contains
+	(
+	const std::type_info& key,
+	ConstCursor&          cursor
+	)
+	const
+{
 	JBroadcasterMessageTarget hashEntry(key);
-	cursor->ResetKey(hashEntry);
-	return cursor->NextKey();
+	cursor.ResetKey(hashEntry);
+	return cursor.NextKey();
 }
 
 /******************************************************************************
@@ -73,9 +82,10 @@ JBroadcasterMessageMap::GetItem
 	)
 	const
 {
-	if (Contains(key))
+	ConstCursor cursor(this);
+	if (Contains(key, cursor))
 	{
-		auto v = JHashTable<JBroadcasterMessageTarget>::GetCursor()->GetValue();
+		auto v = cursor.GetValue();
 		for (const auto t : *v.list)
 		{
 			if (t.obj == obj)
@@ -106,9 +116,10 @@ JBroadcasterMessageMap::GetList
 	)
 	const
 {
-	if (Contains(key))
+	ConstCursor cursor(this);
+	if (Contains(key, cursor))
 	{
-		auto v = JHashTable<JBroadcasterMessageTarget>::GetCursor()->GetValue();
+		auto v = cursor.GetValue();
 		*list  = v.list;
 		return true;
 	}
@@ -139,14 +150,14 @@ JBroadcasterMessageMap::SetItem
 	std::function<void()>*	d
 	)
 {
-	auto* cursor = JHashTable<JBroadcasterMessageTarget>::GetCursor();
+	Cursor cursor(this);
 	JBroadcasterMessageTarget hashEntry(key);
-	cursor->ResetKey(hashEntry);
-	cursor->ForceNextMapInsertKey();
+	cursor.ResetKey(hashEntry);
+	cursor.ForceNextMapInsertKey();
 
-	if (cursor->IsFull())
+	if (cursor.IsFull())
 	{
-		auto* list = cursor->GetValue().list;
+		auto* list = cursor.GetValue().list;
 
 		bool found = false;
 
@@ -175,7 +186,7 @@ JBroadcasterMessageMap::SetItem
 	{
 		hashEntry.list = jnew JArray<JBroadcasterMessageTuple>;
 		hashEntry.list->PrependItem(JBroadcasterMessageTuple(obj, f, d));
-		cursor->Set(cursor->GetCursorHashValue(), hashEntry);
+		cursor.Set(cursor.GetCursorHashValue(), hashEntry);
 	}
 }
 
@@ -191,13 +202,13 @@ JBroadcasterMessageMap::RemoveTuple
 	const JBroadcaster*		obj
 	)
 {
-	if (!Contains(key))
+	Cursor cursor(this);
+	if (!Contains(key, cursor))
 	{
 		return;
 	}
 
-	auto* cursor = JHashTable<JBroadcasterMessageTarget>::GetCursor();
-	auto* list   = cursor->GetValue().list;
+	auto* list = cursor.GetValue().list;
 
 	const JSize count = list->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
@@ -211,7 +222,7 @@ JBroadcasterMessageMap::RemoveTuple
 			if (list->IsEmpty())
 			{
 				jdelete list;
-				cursor->Remove();
+				cursor.Remove();
 			}
 			break;
 		}
@@ -231,12 +242,11 @@ JBroadcasterMessageMap::RemoveAll
 {
 	if (!JHashTable<JBroadcasterMessageTarget>::IsEmpty())
 	{
-		auto* cursor = JHashTable<JBroadcasterMessageTarget>::GetCursor();
-		cursor->Reset();
-		while (cursor->NextFull())
+		Cursor cursor(this);
+		while (cursor.NextFull())
 		{
 			// delete, but don't mark empty to avoid multiple resizing
-			const_cast<JBroadcasterMessageTarget&>(cursor->GetValue()).CleanOut(f);
+			const_cast<JBroadcasterMessageTarget&>(cursor.GetValue()).CleanOut(f);
 		}
 	}
 

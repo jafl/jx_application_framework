@@ -35,6 +35,11 @@ class JStringMap : public JHashTable< JStrValue<V> >
 
 public:
 
+	using Cursor      = JHashCursor< JStrValue<V> >;
+	using ConstCursor = JConstHashCursor< JStrValue<V> >;
+
+public:
+
 	JStringMap(const JSize lgSize = kJDefaultLgMinTableSize);
 	~JStringMap() override;
 
@@ -63,11 +68,14 @@ public:
 
 protected:
 
+	bool Contains(const JString& key, ConstCursor& cursor) const;
+
 	bool         SetItem(const JString& key, const V& value,
 						 const JPtrArrayT::SetAction action,
 						 const JStringMapT::SetType type,
 						 bool* existed);
-	virtual void PrepareForSet(const JPtrArrayT::SetAction action);
+	virtual void PrepareForSet(const JPtrArrayT::SetAction action,
+							   Cursor& cursor);
 
 	bool RemoveItem(const JString& key,
 					const JPtrArrayT::SetAction action);

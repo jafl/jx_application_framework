@@ -44,9 +44,6 @@ JStringMap<V>::~JStringMap()
 /******************************************************************************
  Contains
 
-	*** This code is also used to position the cursor for use by other
-		functions in both this class and derived classes!
-
  *****************************************************************************/
 
 template <class V>
@@ -57,12 +54,26 @@ JStringMap<V>::Contains
 	)
 	const
 {
-	auto* cursor = JHashTable< JStrValue<V> >::GetCursor();
+	JStringMap<V>::ConstCursor cursor(this);
+	return Contains(key, cursor);
+}
+
+// protected
+
+template <class V>
+bool
+JStringMap<V>::Contains
+	(
+	const JString&              key,
+	JStringMap<V>::ConstCursor& cursor
+	)
+	const
+{
 	// We know the hash value does not depend on V, so this is safe
 	JStrValue<V> hashEntry;
 	hashEntry.key = &key;
-	cursor->ResetKey(hashEntry);
-	return cursor->NextKey();
+	cursor.ResetKey(hashEntry);
+	return cursor.NextKey();
 }
 
 /******************************************************************************
@@ -82,9 +93,10 @@ JStringMap<V>::GetItem
 	)
 	const
 {
-	if (Contains(key))
+	JStringMap<V>::ConstCursor cursor(this);
+	if (Contains(key, cursor))
 	{
-		*value = JHashTable< JStrValue<V> >::GetCursor()->GetValue().value;
+		*value = cursor.GetValue().value;
 		return true;
 	}
 	else
@@ -115,13 +127,16 @@ JStringMap<V>::SetItem
 	bool*                       existed
 	)
 {
-	auto* cursor = JHashTable< JStrValue<V> >::GetCursor();
+	JHashTable< JStrValue<V> >::AllowCursors();
+	JStringMap<V>::Cursor cursor(this);
+	JHashTable< JStrValue<V> >::DisallowCursors();
+
 	JStrValue<V> hashEntry(&key, value);
 
-	cursor->ResetKey(hashEntry);
-	cursor->ForceNextMapInsertKey();
+	cursor.ResetKey(hashEntry);
+	cursor.ForceNextMapInsertKey();
 
-	if ( cursor->IsFull() )
+	if ( cursor.IsFull() )
 	{
 		*existed = true;
 		if (type == JStringMapT::kIfNew)
@@ -129,11 +144,11 @@ JStringMap<V>::SetItem
 			return false;
 		}
 
-		PrepareForSet(action);
+		PrepareForSet(action, cursor);
 
 		// Otherwise we'd pass in the client's key!
-		hashEntry.key = cursor->GetValue().key;
-		cursor->Set(hashEntry);
+		hashEntry.key = cursor.GetValue().key;
+		cursor.Set(hashEntry);
 		return true;
 	}
 	else
@@ -145,7 +160,7 @@ JStringMap<V>::SetItem
 		}
 
 		hashEntry.key = jnew JString(key);
-		cursor->Set(cursor->GetCursorHashValue(), hashEntry);
+		cursor.Set(cursor.GetCursorHashValue(), hashEntry);
 
 		return true;
 	}
@@ -162,7 +177,8 @@ template <class V>
 void
 JStringMap<V>::PrepareForSet
 	(
-	const JPtrArrayT::SetAction action
+	const JPtrArrayT::SetAction action,
+	JStringMap<V>::Cursor&      cursor
 	)
 {
 	assert( action == JPtrArrayT::kForget );
@@ -181,14 +197,17 @@ JStringMap<V>::RemoveItem
 	const JPtrArrayT::SetAction action
 	)
 {
-	if (Contains(key))
+	JHashTable< JStrValue<V> >::AllowCursors();
+	JStringMap<V>::Cursor cursor(this);
+	JHashTable< JStrValue<V> >::DisallowCursors();
+
+	if (Contains(key, cursor))
 	{
-		PrepareForSet(action);
+		PrepareForSet(action, cursor);
 
-		auto* cursor = JHashTable< JStrValue<V> >::GetCursor();
-		jdelete const_cast<JString*>(cursor->GetValue().key);
+		jdelete const_cast<JString*>(cursor.GetValue().key);
 
-		cursor->Remove();
+		cursor.Remove();
 		return true;
 	}
 	else
@@ -211,14 +230,16 @@ JStringMap<V>::RemoveAll
 {
 	if (!JHashTable< JStrValue<V> >::IsEmpty())
 	{
-		auto* cursor = JHashTable< JStrValue<V> >::GetCursor();
-		cursor->Reset();
-		while ( cursor->NextFull() )
+		JHashTable< JStrValue<V> >::AllowCursors();
+		JStringMap<V>::Cursor cursor(this);
+		JHashTable< JStrValue<V> >::DisallowCursors();
+
+		while ( cursor.NextFull() )
 		{
-			PrepareForSet(action);
+			PrepareForSet(action, cursor);
 
 			// delete, but don't mark empty to avoid multiple resizing
-			jdelete const_cast<JString*>(cursor->GetValue().key);
+			jdelete const_cast<JString*>(cursor.GetValue().key);
 		}
 	}
 

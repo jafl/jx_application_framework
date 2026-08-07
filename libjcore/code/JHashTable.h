@@ -71,9 +71,6 @@ protected:
 	void AllowCursors();
 	void DisallowCursors();
 
-	JHashCursor<V>*      GetCursor();
-	JConstHashCursor<V>* GetCursor() const;
-
 // Get... values
 	const JHashRecord<V>& GetRecord(const JSize index) const;
 
@@ -291,25 +288,6 @@ inline void
 JHashTable<V>::DisallowCursors()
 {
 	itsAllowCursorFlag = false;
-}
-
-/******************************************************************************
- GetCursor (protected)
-
- *****************************************************************************/
-
-template <class V>
-inline JHashCursor<V>*
-JHashTable<V>::GetCursor()
-{
-	return itsCursor;
-}
-
-template <class V>
-inline JConstHashCursor<V>*
-JHashTable<V>::GetCursor() const
-{
-	return itsCursor;
 }
 
 /******************************************************************************

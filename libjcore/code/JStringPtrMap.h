@@ -85,7 +85,8 @@ public:
 
 protected:
 
-	void PrepareForSet(const JPtrArrayT::SetAction action) override;
+	void PrepareForSet(const JPtrArrayT::SetAction action,
+					   JStringMap<V*>::Cursor& cursor) override;
 
 private:
 

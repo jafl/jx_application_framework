@@ -86,16 +86,17 @@ template <class V>
 void
 JStringPtrMap<V>::PrepareForSet
 	(
-	const JPtrArrayT::SetAction action
+	const JPtrArrayT::SetAction action,
+	JStringMap<V*>::Cursor&     cursor
 	)
 {
 	if (action == JPtrArrayT::kDelete)
 	{
-		jdelete JHashTable< JStrValue<V*> >::GetCursor()->GetValue().value;
+		jdelete cursor.GetValue().value;
 	}
 	else if (action == JPtrArrayT::kDeleteAsArray)
 	{
-		jdelete [] JHashTable< JStrValue<V*> >::GetCursor()->GetValue().value;
+		jdelete [] cursor.GetValue().value;
 	}
 	else
 	{
