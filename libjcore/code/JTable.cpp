@@ -1937,7 +1937,7 @@ bool
 JTable::TableScrollToCell
 	(
 	const JPoint&	cell,
-	const bool	centerInDisplay
+	const bool		centerInDisplay
 	)
 {
 	JRect r = GetCellRect(cell);

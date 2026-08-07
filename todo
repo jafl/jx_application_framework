@@ -1,3 +1,14 @@
+mutex access:
+	JFontManager::theFontList
+	JVIKeyHandler::theCutBuffer
+	JVIKeyHandler::theNamedCutBuffer
+	CommandManager::theExecDocList
+	ManPageDocument::theManCmdList
+	ManPageDocument::theManDocList
+	ProjectDocument::theAddFilesFilter
+
+-----
+
 Linux Window Manager
 	activate shifts window up & left
 	contents of medic Files window not adjusted to window size
