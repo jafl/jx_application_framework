@@ -86,8 +86,9 @@
 
 JThisProcess* JThisProcess::itsSelf = nullptr;
 
-JPtrArray<JProcess> JThisProcess::theQuitList(JPtrArrayT::kForgetAll);
-JPtrArray<JProcess> JThisProcess::theKillList(JPtrArrayT::kForgetAll);
+JPtrArray<JProcess>		JThisProcess::theQuitList(JPtrArrayT::kForgetAll);
+JPtrArray<JProcess>		JThisProcess::theKillList(JPtrArrayT::kForgetAll);
+std::recursive_mutex	JThisProcess::theThisProcessListMutex;
 
 // JBroadcaster message types
 
@@ -417,6 +418,7 @@ JThisProcess::WillQuitAtExit
 	const JProcess* p
 	)
 {
+	std::lock_guard lock(theThisProcessListMutex);
 	return theQuitList.Includes(p);
 }
 
@@ -436,6 +438,7 @@ JThisProcess::QuitAtExit
 	const bool	quit
 	)
 {
+	std::lock_guard lock(theThisProcessListMutex);
 	theKillList.Remove(p);
 
 	if (quit && p != Instance() && !theQuitList.Includes(p))
@@ -461,6 +464,7 @@ JThisProcess::WillKillAtExit
 	const JProcess* p
 	)
 {
+	std::lock_guard lock(theThisProcessListMutex);
 	return theKillList.Includes(p);
 }
 
@@ -480,6 +484,7 @@ JThisProcess::KillAtExit
 	const bool	kill
 	)
 {
+	std::lock_guard lock(theThisProcessListMutex);
 	theQuitList.Remove(p);
 
 	if (kill && p != Instance() && !theKillList.Includes(p))
@@ -558,6 +563,7 @@ JThisProcess::Fork
 
 		ACE_OS::setpgid(0, 0);	// sets our process group id to our process id -- required by JProcess
 
+		// no need for a mutex, because the child process just started
 		theQuitList.RemoveAll();
 		theKillList.RemoveAll();
 	}
@@ -604,6 +610,8 @@ JThisProcess::Abort()
 void
 JThisProcess::CleanUpProcesses()
 {
+	std::lock_guard lock(theThisProcessListMutex);
+
 	for (auto* p : theQuitList)
 	{
 		p->Quit();

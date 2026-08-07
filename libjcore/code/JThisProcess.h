@@ -72,6 +72,7 @@ private:
 
 	static JPtrArray<JProcess>	theQuitList;
 	static JPtrArray<JProcess>	theKillList;
+	static std::recursive_mutex	theThisProcessListMutex;
 
 private:
 

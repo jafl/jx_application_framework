@@ -22,6 +22,8 @@ const JUtf8Byte* JProcess::kFinished = "Finished::JProcess";
 // static data
 
 JPtrArray<JProcess>	JProcess::theProcessList(JPtrArrayT::kForgetAll);
+bool JProcess::theProcessListInitFlag = false;
+std::recursive_mutex JProcess::theProcessListMutex;
 
 /******************************************************************************
  Create (static)
@@ -218,7 +220,12 @@ JProcess::JProcess
 	itsFinishedStatus(0),
 	itsAutoDeleteFlag(false)
 {
-	theProcessList.SetCompareFunction(ComparePID);
+	std::lock_guard lock(theProcessListMutex);
+	if (!theProcessListInitFlag)
+	{
+		theProcessList.SetCompareFunction(ComparePID);
+		theProcessListInitFlag = true;
+	}
 	theProcessList.InsertSorted(this, true);
 
 	JThisProcess::QuitAtExit(this, true);
@@ -244,7 +251,9 @@ JProcess::JProcess
 
 JProcess::~JProcess()
 {
+	std::lock_guard lock(theProcessListMutex);
 	theProcessList.Remove(this);
+
 	JThisProcess::QuitAtExit(this, false);
 	JThisProcess::KillAtExit(this, false);
 }
@@ -354,7 +363,12 @@ JProcess::CheckForFinishedChild
 	const JError err = JWaitForChild(block, &pid, &status);
 	if (err.OK() && pid > 0)
 	{
-		theProcessList.SetCompareFunction(ComparePID);
+		std::lock_guard lock(theProcessListMutex);
+		if (!theProcessListInitFlag)
+		{
+			theProcessList.SetCompareFunction(ComparePID);
+			theProcessListInitFlag = true;
+		}
 
 		JProcess target(pid, 0);
 		JIndex i;

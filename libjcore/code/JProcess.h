@@ -15,6 +15,7 @@
 #include "jProcessUtil.h"
 #include "jSignal.h"
 #include <unistd.h>
+#include <mutex>
 
 class JString;
 
@@ -117,6 +118,8 @@ private:
 	bool		itsAutoDeleteFlag;	// true => delete when process is finished
 
 	static JPtrArray<JProcess>	theProcessList;		// sorted by pid
+	static bool					theProcessListInitFlag;
+	static std::recursive_mutex	theProcessListMutex;
 
 private:
 
