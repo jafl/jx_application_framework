@@ -31,11 +31,11 @@ double x1,d1,x2,d2;
 	x1 = floor(x);	d1 = x-x1;
 	x2 = ceil(x);	d2 = x2-x;
 
-	if (x1 < LONG_MIN) x1 = LONG_MIN;
-	if (x1 > LONG_MAX) x1 = LONG_MAX;
+	if (x1 < (double) LONG_MIN) x1 = (double) LONG_MIN;
+	if (x1 > (double) LONG_MAX) x1 = (double) LONG_MAX;
 
-	if (x2 < LONG_MIN) x2 = LONG_MIN;
-	if (x2 > LONG_MAX) x2 = LONG_MAX;
+	if (x2 < (double) LONG_MIN) x2 = (double) LONG_MIN;
+	if (x2 > (double) LONG_MAX) x2 = (double) LONG_MAX;
 
 	if (d2 <= d1)
 	{

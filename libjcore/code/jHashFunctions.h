@@ -35,7 +35,7 @@ JDualHash
 	JHashValue newHash = JRandWord(hashValue);
 
 	// Convert to a dual hash-value; see notes
-	return ( ( (newHash >> 9) & 0xFF ) | 1L) - 0x80;
+	return JDualHashValue( ( (newHash >> 9) & 0xFF ) | 1L) - 0x80;
 }
 
 #endif
