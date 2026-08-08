@@ -1218,7 +1218,7 @@ JTable::SetRowHeight
 
 	JRunArrayIterator<JCoordinate> iter(itsRowHeights, JListT::kStartBefore, index);
 
-	JCoordinate oldHeight;
+	JCoordinate oldHeight = 0;
 	iter.Next(&oldHeight, JListT::kStay);
 
 	if (rowHeight != oldHeight)
@@ -1525,7 +1525,7 @@ JTable::SetColWidth
 
 	JRunArrayIterator<JCoordinate> iter(itsColWidths, JListT::kStartBefore, index);
 
-	JCoordinate oldWidth;
+	JCoordinate oldWidth = 0;
 	iter.Next(&oldWidth, JListT::kStay);
 
 	if (colWidth != oldWidth)
