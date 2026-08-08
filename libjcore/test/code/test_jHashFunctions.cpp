@@ -229,7 +229,10 @@ std::cout << h << std::endl;
 std::cout << (h >> 9) << std::endl;
 std::cout << ( (h >> 9) & 0xFF ) << std::endl;
 std::cout << ( ( (h >> 9) & 0xFF ) | 1L) << std::endl;
+std::cout << ( ( (h >> 9) & 0xFF ) | 1L) - 0x80 << std::endl;
 std::cout << JDualHashValue( ( (h >> 9) & 0xFF ) | 1L) - 0x80 << std::endl;
+std::cout << 1L - 0x80 << std::endl;
+std::cout << 1L - 128L << std::endl;
 	return JTestManager::Execute();
 }
 
