@@ -1,9 +1,9 @@
 name: print-system-info
-shell: bash
 
 runs:
   steps:
     - name: Print system info
+      shell: bash
       run: |
         uname -a
         make --version
