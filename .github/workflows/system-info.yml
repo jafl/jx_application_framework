@@ -1,0 +1,12 @@
+on:
+  workflow_call:
+
+jobs:
+  system-info:
+    name: System Info
+    steps:
+      - name: Print system info
+        run: |
+          uname -a
+          make --version
+          g++ --version

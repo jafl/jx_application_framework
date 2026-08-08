@@ -26,6 +26,9 @@ jobs:
         with:
           xcode-version: latest-stable
 
+      - name: System info
+        uses: $/.github/workflows/system-info
+
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0

@@ -17,6 +17,9 @@ jobs:
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
     steps:
+      - name: System info
+        uses: $/.github/workflows/system-info
+
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0

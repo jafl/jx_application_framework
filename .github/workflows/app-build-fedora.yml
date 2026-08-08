@@ -18,6 +18,9 @@ jobs:
       - name: Install git, glibc-langpack-en for LC_ALL
         run: dnf install -y git glibc-langpack-en
 
+      - name: System info
+        uses: $/.github/workflows/system-info
+
       - name: Set environment variables - after glibc-langpack-en is installed
         run: |
           echo LC_ALL=en_US.utf8 >> $GITHUB_ENV
