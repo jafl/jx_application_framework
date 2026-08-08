@@ -94,7 +94,7 @@ initial_build_libs_tools:
 	@for dir in libjx libjfs libjexpr libj2dplot; do \
        echo "##[group]$dir"; \
        if ! ( cd $$dir; ${JMAKE}; ); then exit 1; fi; \
-       echo "##[endgroup]";
+       echo "##[endgroup]"; \
      done
 	@for dir in tools/*; do \
        if [[ -d $$dir ]]; then \
@@ -132,7 +132,7 @@ libs:
 
 .PHONY : analyze_coverage
 analyze_coverage: initial_build_makemake
-	@echo "##[group]Build"
+	@echo "##[group]Build"; \
      cd libjcore; \
      makemake; ${JMAKE} Makefiles; \
      make clean; \
@@ -141,7 +141,7 @@ analyze_coverage: initial_build_makemake
          J_DEPEND_FLAGS="${J_DEPEND_FLAGS} -coverage" \
          COMPILE_STRINGS=0; \
      echo "##[endgroup]"
-	@echo "##[group]gcov"
+	@echo "##[group]gcov"; \
      cd libjcore; gcov -lp code/*.o; mv code\#* code; \
      cd test; gcov -lp code/*.o; mv code\#* code \
      echo "##[endgroup]"
