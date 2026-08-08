@@ -100,7 +100,7 @@ image-build/%.xpm : image/%.gif
 #
 
 define run_tests
-    @echo "##[group]Unit Tests"; \
+    @echo "::group::Unit Tests"; \
      echo ==========; \
      echo executing updated tests; \
      export JMM_RECORD_ALLOCATED=yes JMM_INITIALIZE=default \
@@ -113,7 +113,7 @@ define run_tests
          if ./${p}; then touch .timestamps/${p}; else e=1; fi; \
        fi;} \
      echo ==========; \
-     echo "##[endgroup]"; \
+     echo "::endgroup::"; \
      if [[ $$e = 1 ]]; then false; fi
 endef
 
