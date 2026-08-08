@@ -27,7 +27,7 @@ jobs:
           xcode-version: latest-stable
 
       - name: System info
-        uses: $/.github/workflows/system-info
+        uses: $/.github/workflows/system-info.yaml
 
       - uses: actions/checkout@v7
         with:
