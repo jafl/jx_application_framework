@@ -15,7 +15,7 @@ jobs:
       LANG: en_US.UTF-8
     steps:
       - name: System info
-        uses: $/.github/workflows/system-info.yaml
+        uses: $/.github/workflows/system-info.yml
 
       - uses: actions/checkout@v7
         with:
@@ -85,7 +85,7 @@ jobs:
       LANG: en_US.UTF-8
     steps:
       - name: System info
-        uses: $/.github/workflows/system-info.yaml
+        uses: $/.github/workflows/system-info.yml
 
       - uses: actions/checkout@v7
         with:
@@ -127,7 +127,7 @@ jobs:
         run: dnf install -y git zstd glibc-langpack-en
 
       - name: System info
-        uses: $/.github/workflows/system-info.yaml
+        uses: $/.github/workflows/system-info.yml
 
       - uses: actions/checkout@v7
         with:
@@ -202,7 +202,7 @@ jobs:
           xcode-version: latest-stable
 
       - name: System info
-        uses: $/.github/workflows/system-info.yaml
+        uses: $/.github/workflows/system-info.yml
 
       - uses: actions/checkout@v7
         with:
@@ -279,7 +279,7 @@ jobs:
       LANG: en_US.UTF-8
     steps:
       - name: System info
-        uses: $/.github/workflows/system-info.yaml
+        uses: $/.github/workflows/system-info.yml
 
       - uses: actions/checkout@v7
         with:

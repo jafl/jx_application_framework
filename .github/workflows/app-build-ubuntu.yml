@@ -18,7 +18,7 @@ jobs:
       LANG: en_US.UTF-8
     steps:
       - name: System info
-        uses: $/.github/workflows/system-info.yaml
+        uses: $/.github/workflows/system-info.yml
 
       - uses: actions/checkout@v7
         with:

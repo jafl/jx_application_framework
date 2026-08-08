@@ -19,7 +19,7 @@ jobs:
         run: dnf install -y git glibc-langpack-en
 
       - name: System info
-        uses: $/.github/workflows/system-info.yaml
+        uses: $/.github/workflows/system-info.yml
 
       - name: Set environment variables - after glibc-langpack-en is installed
         run: |
