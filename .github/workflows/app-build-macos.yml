@@ -26,9 +26,6 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: System info
-        uses: $/.github/actions/system-info
-
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
@@ -47,6 +44,9 @@ jobs:
           brew install cask
           brew install --cask xquartz
           echo "PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig" >> $GITHUB_ENV
+
+      - name: System info
+        uses: $/.github/actions/system-info
 
       - name: Build
         run: ${{ inputs.build-cmd }}

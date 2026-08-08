@@ -14,9 +14,6 @@ jobs:
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
     steps:
-      - name: System info
-        uses: $/.github/actions/system-info
-
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
@@ -52,6 +49,9 @@ jobs:
       - name: Configure
         run: ./configure release
 
+      - name: System info
+        uses: $/.github/actions/system-info
+
       - name: Build
         run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
 
@@ -84,9 +84,6 @@ jobs:
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
     steps:
-      - name: System info
-        uses: $/.github/actions/system-info
-
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
@@ -103,6 +100,9 @@ jobs:
 
       - name: Configure
         run: ./configure release
+
+      - name: System info
+        uses: $/.github/actions/system-info
 
       - name: Build
         run: make
@@ -125,9 +125,6 @@ jobs:
     steps:
       - name: Install git, zstd for actions/cache, glibc-langpack-en for LC_ALL
         run: dnf install -y git zstd glibc-langpack-en
-
-      - name: System info
-        uses: $/.github/actions/system-info
 
       - uses: actions/checkout@v7
         with:
@@ -154,6 +151,9 @@ jobs:
 
       - name: Configure
         run: ./configure release
+
+      - name: System info
+        uses: $/.github/actions/system-info
 
       - name: Build
         run: make
@@ -201,9 +201,6 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: System info
-        uses: $/.github/actions/system-info
-
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
@@ -214,6 +211,9 @@ jobs:
           brew install cask
           brew install --cask xquartz
           echo "PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig" >> $GITHUB_ENV
+
+      - name: System info
+        uses: $/.github/actions/system-info
 
       - name: Build
         run: make

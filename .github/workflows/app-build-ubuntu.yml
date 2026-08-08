@@ -17,15 +17,15 @@ jobs:
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
     steps:
-      - name: System info
-        uses: $/.github/actions/system-info
-
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Configure
         run: ./configure ci
+
+      - name: System info
+        uses: $/.github/actions/system-info
 
       - name: Build
         run: ${{ inputs.build-cmd }}
