@@ -13,7 +13,7 @@ jobs:
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -23,7 +23,7 @@ jobs:
           echo FORCE_CACHE_UPDATE=${RANDOM}${RANDOM} >> $GITHUB_ENV
 
       - name: Sonar data cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ${{ env.SONAR_CACHE_PATH }}
           key: ${{ runner.os }}-sonar-cache-${{ env.FORCE_CACHE_UPDATE }}
@@ -31,10 +31,10 @@ jobs:
             ${{ runner.os }}-sonar-cache-
 
       - name: Install build-wrapper
-        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v7.0.0
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v8
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: cpp
 
@@ -45,7 +45,7 @@ jobs:
         run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
 
       - name: Run sonar-scanner
-        uses: SonarSource/sonarqube-scan-action@v7.0.0
+        uses: SonarSource/sonarqube-scan-action@v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.sonar-token }}
@@ -54,4 +54,4 @@ jobs:
             --define sonar.cfamily.compile-commands=${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json
 
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4

@@ -14,7 +14,7 @@ jobs:
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -25,7 +25,7 @@ jobs:
           echo FORCE_CACHE_UPDATE=${RANDOM}${RANDOM} >> $GITHUB_ENV
 
       - name: Sonar data cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ${{ env.SONAR_CACHE_PATH }}
           key: ${{ runner.os }}-sonar-cache-${{ env.FORCE_CACHE_UPDATE }}
@@ -33,16 +33,16 @@ jobs:
             ${{ runner.os }}-sonar-cache-
 
       - name: RE/flex cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: misc/reflex
           key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
 
       - name: Install build-wrapper
-        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v7.0.0
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v8
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: cpp
 
@@ -53,7 +53,7 @@ jobs:
         run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
 
       - name: Run sonar-scanner
-        uses: SonarSource/sonarqube-scan-action@v7.0.0
+        uses: SonarSource/sonarqube-scan-action@v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -62,7 +62,7 @@ jobs:
             --define sonar.cfamily.compile-commands=${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json
 
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
 
       - name: Build & save CI packages
         run: |
@@ -81,7 +81,7 @@ jobs:
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -90,7 +90,7 @@ jobs:
           echo REFLEX_VERSION=`cat .reflex-version` >> $GITHUB_ENV
 
       - name: RE/flex cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: misc/reflex
           key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
@@ -107,7 +107,7 @@ jobs:
           mv ../jx-application-framework_* .
 
       - name: Save release packages
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release
           path: jx-application-framework_*
@@ -120,7 +120,7 @@ jobs:
       - name: Install git, zstd for actions/cache, glibc-langpack-en for LC_ALL
         run: dnf install -y git zstd glibc-langpack-en
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -132,13 +132,13 @@ jobs:
           echo REFLEX_VERSION=`cat .reflex-version` >> $GITHUB_ENV
 
       - name: RE/flex cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: misc/reflex
           key: fedora-reflex-${{ env.REFLEX_VERSION }}
 
       - name: ACE cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ACE/ACE_wrappers
           key: fedora-ace-${{ env.ACE_VERSION }}
@@ -169,7 +169,7 @@ jobs:
 
       - name: Save release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release
           path: |
@@ -192,7 +192,7 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -223,7 +223,7 @@ jobs:
 
       - name: Save release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release
           path: jx-application-framework_*
@@ -234,7 +234,7 @@ jobs:
     needs: [ build-ubuntu-release, build-fedora, build-macos ]
     if: ${{ startsWith(github.ref, 'refs/tags/') }}
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: release
 
@@ -252,7 +252,7 @@ jobs:
     needs: [ release ]
     steps:
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@v4
         with:
           token: ${{ secrets.TRIGGER_BUILDS }}
           repository: jafl/homebrew-jx
@@ -266,7 +266,7 @@ jobs:
       LC_ALL: en_US.UTF-8
       LANG: en_US.UTF-8
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -275,7 +275,7 @@ jobs:
           echo REFLEX_VERSION=`cat .reflex-version` >> $GITHUB_ENV
 
       - name: RE/flex cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: misc/reflex
           key: ${{ runner.os }}-reflex-${{ env.REFLEX_VERSION }}
@@ -288,7 +288,7 @@ jobs:
         run: |
           make coverage
 
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: unittests
@@ -312,7 +312,7 @@ jobs:
           - system-g
     steps:
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@v4
         with:
           token: ${{ secrets.TRIGGER_BUILDS }}
           repository: jafl/${{ matrix.repo }}
