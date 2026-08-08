@@ -1,7 +1,7 @@
 name: print-system-info
+shell: bash
 
 runs:
-  shell: bash
   steps:
     - name: Print system info
       run: |
