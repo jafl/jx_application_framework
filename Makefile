@@ -143,7 +143,7 @@ analyze_coverage: initial_build_makemake
      echo "::endgroup::"
 	@echo "::group::gcov"; \
      cd libjcore; gcov -lp code/*.o; mv code\#* code; \
-     cd test; gcov -lp code/*.o; mv code\#* code \
+     cd test; gcov -lp code/*.o; mv code\#* code; \
      echo "::endgroup::"
 
 #
