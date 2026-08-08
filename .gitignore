@@ -28,9 +28,6 @@ obsolete/*/Makefile
 obsolete/*/strings/*_menu_strings
 obsolete/*/ChangeLog.html
 
-!lib/*.a
-!lib/*.so
-
 **/test/test_*
 **/test/.timestamps
 !**/test/test_*.cpp
