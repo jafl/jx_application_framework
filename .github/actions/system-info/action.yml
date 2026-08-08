@@ -1,6 +1,7 @@
 name: print-system-info
 
 runs:
+  using: "composite"
   steps:
     - name: Print system info
       shell: bash
