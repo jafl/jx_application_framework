@@ -23,7 +23,7 @@ jobs:
           echo FORCE_CACHE_UPDATE=${RANDOM}${RANDOM} >> $GITHUB_ENV
 
       - name: Sonar data cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ${{ env.SONAR_CACHE_PATH }}
           key: ${{ runner.os }}-sonar-cache-${{ env.FORCE_CACHE_UPDATE }}
