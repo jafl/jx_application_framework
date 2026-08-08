@@ -86,7 +86,7 @@ initial_build_makefiles:
 
 .PHONY : initial_build_libs_tools
 initial_build_libs_tools:
-	@echo "::group::compile_jstrings"; \
+	@echo "::group::libjcore & compile_jstrings"; \
        pushd libjcore; ${JMAKE} COMPILE_STRINGS=0; popd; \
        pushd tools/compile_jstrings; ${JMAKE} install; popd; \
        pushd libjcore; ${JMAKE} jx.test.skip=true; \
