@@ -223,6 +223,7 @@ const JHashValue* hash8BitResult     = sizeof(long) == 8 ? hash8Bit64Result : ha
 
 int main()
 {
+std::cout << sizeof(JDualHashValue) << std::endl;
 	return JTestManager::Execute();
 }
 
