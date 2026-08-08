@@ -44,6 +44,7 @@ initial_build: initial_build_makemake initial_build_makefiles initial_build_libs
 .PHONY : initial_build_makemake
 initial_build_makemake:
 	@if [[ -d misc/reflex ]]; then \
+       echo "##[group]RE-flex"; \
        if ! command -v reflex; then \
          echo Please authorize sudo access for installing reflex...; \
          ${SUDO} echo sudo access authorized...; \
@@ -55,8 +56,10 @@ initial_build_makemake:
        if ! command -v reflex; then \
          ${SUDO} ./allinstall.sh; \
        fi; \
+       echo "##[endgroup]"; \
      fi
 	@if [[ ! -h ACE/ACE_wrappers ]]; then \
+       echo "##[group]ACE"; \
        cd ACE; \
        if [[ ! -e ACE_wrappers/ace/libACE.a ]]; then \
            ${JMAKE}; \
@@ -64,30 +67,45 @@ initial_build_makemake:
        if [[ ! -f /usr/local/lib/libACE.a ]]; then \
 	       ${JMAKE} install; \
 	   fi; \
+       echo "##[endgroup]"; \
      fi
 	@if [[ ! -x tools/makemake/makemake ]]; then \
+       echo "##[group]makemake"; \
        cd tools/makemake; \
        ${MAKE} -f Makefile.port install; \
+       echo "##[endgroup]"; \
      fi
 
 .PHONY : initial_build_makefiles
 initial_build_makefiles:
 	@if [[ ! -f libjcore/Makefile ]]; then \
+       echo "##[group]Generate Makefiles"; \
        ${JMAKE} -w Makefiles; \
+       echo "##[endgroup]"; \
      fi
 
 .PHONY : initial_build_libs_tools
 initial_build_libs_tools:
-	@cd libjcore; ${JMAKE} COMPILE_STRINGS=0
-	@cd tools/compile_jstrings; ${JMAKE} install
-	@cd libjcore; ${JMAKE} jx.test.skip=true
+	@echo "##[group]compile_jstrings"; \
+       pushd libjcore; ${JMAKE} COMPILE_STRINGS=0; popd; \
+       pushd tools/compile_jstrings; ${JMAKE} install; popd; \
+       pushd libjcore; ${JMAKE} jx.test.skip=true; \
+       echo "##[endgroup]"
 	@for dir in libjx libjfs libjexpr libj2dplot; do \
-       if ! ( cd $$dir; ${JMAKE}; ); then exit 1; fi \
-     done;
+       echo "##[group]$dir"; \
+       if ! ( cd $$dir; ${JMAKE}; ); then exit 1; fi; \
+       echo "##[endgroup]";
+     done
 	@for dir in tools/*; do \
-       if ! ( if [[ -d $$dir ]]; then cd $$dir; ${JMAKE} install; fi ); then exit 1; fi \
-     done;
-	@cd tutorial; ${JMAKE}
+       if [[ -d $$dir ]]; then \
+         echo "##[group]$dir"; \
+         if ! ( cd $$dir; ${JMAKE} install; ); then exit 1; fi; \
+         echo "##[endgroup]"; \
+       fi; \
+     done
+	@echo "##[group]Tutorials"; \
+     cd tutorial; ${JMAKE}; \
+     echo "##[endgroup]"
 
 #
 # build all Makefiles
@@ -114,15 +132,19 @@ libs:
 
 .PHONY : analyze_coverage
 analyze_coverage: initial_build_makemake
-	@cd libjcore; \
+	@echo "##[group]Build"
+     cd libjcore; \
      makemake; ${JMAKE} Makefiles; \
      make clean; \
      ${JMAKE} \
          J_GCC_LIBS="${J_GCC_LIBS} -coverage" \
          J_DEPEND_FLAGS="${J_DEPEND_FLAGS} -coverage" \
-         COMPILE_STRINGS=0
-	@cd libjcore; gcov -lp code/*.o; mv code\#* code; \
-     cd test; gcov -lp code/*.o; mv code\#* code
+         COMPILE_STRINGS=0; \
+     echo "##[endgroup]"
+	@echo "##[group]gcov"
+     cd libjcore; gcov -lp code/*.o; mv code\#* code; \
+     cd test; gcov -lp code/*.o; mv code\#* code \
+     echo "##[endgroup]"
 
 #
 # install libraries, headers, etc.
