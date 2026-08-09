@@ -18,24 +18,12 @@
 	JHashValue JHash7Bit(const JUtf8Byte* const& key);
 	JHashValue JHash8Bit(const JUtf8Byte* const& key);
 
+	JDualHashValue JDualHash(const JHashValue hashValue);
 
 
 /******************************************************************************
  JDualHash
 
  *****************************************************************************/
-
-inline JDualHashValue
-JDualHash
-	(
-	const JHashValue hashValue
-	)
-{
-	// Generate new word-sized value
-	JHashValue newHash = JRandWord(hashValue);
-
-	// Convert to a dual hash-value; see notes
-	return ( ( JDualHashValue(newHash >> 9) & 0xFF ) | 1L) - 0x80;
-}
 
 #endif
