@@ -48,6 +48,8 @@
 	generator may be a poor choice for this application, but hash tables don't
 	need high-quality random numbers!
 
+	This used to be inline, but with g++ 16.x, that somehow fails.
+
  *****************************************************************************/
 
 JDualHashValue
@@ -59,7 +61,7 @@ JDualHash
 	// Generate new word-sized value
 	JHashValue newHash = JRandWord(hashValue);
 
-	// Convert to a dual hash-value; see notes
+	// Convert to a dual hash-value
 	return ( ( (newHash >> 9) & 0xFF ) | 1L) - 0x80;
 }
 
