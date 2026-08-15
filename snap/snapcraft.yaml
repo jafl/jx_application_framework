@@ -2,7 +2,7 @@ name: jx-application-framework
 title: JX Application Framework
 # core22 build hangs on amd64
 # https://forum.snapcraft.io/t/snapcraft-io-build-using-core22-gets-stuck-on-amd64/37363
-base: core20
+base: core26
 version: "4.1.0"
 source-code: https://github.com/jafl/jx_application_framework
 issues: https://github.com/jafl/jx_application_framework/issues
