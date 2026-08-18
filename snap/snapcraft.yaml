@@ -14,7 +14,7 @@ description: |
 grade: stable
 confinement: strict
 
-architectures:
+platforms:
   - build-on: amd64
   - build-on: arm64
   - build-on: ppc64el
@@ -24,7 +24,7 @@ parts:
     plugin: autotools
     source: .
     override-pull: |
-      snapcraftctl pull
+      craftctl pull
       sudo locale-gen en_US.UTF-8
       sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
     build-environment:
