@@ -9,6 +9,7 @@
 #include <condition_variable>
 #include <mutex>
 #include <algorithm>	// std::find_if()
+#include <thread>		// for debug output
 
 class JXBoostPriorityProps : public boost::fibers::fiber_properties
 {
@@ -21,7 +22,8 @@ public:
 		:
 		fiber_properties(ctx),
 		itsPriority(0),
-		itsName(nullptr)
+		itsName(nullptr),
+		itsDebugLevel(1)
 	{
 	}
 
@@ -57,10 +59,21 @@ public:
 		itsName = name;
 	}
 
+	const int GetDebugLevel() const
+	{
+		return itsDebugLevel;
+	}
+
+	void SetDebugLevel(const int level)
+	{
+		itsDebugLevel = level;
+	}
+
 private:
 
 	int			itsPriority;
 	JString*	itsName;
+	int			itsDebugLevel;
 };
 
 class JXBoostPriorityScheduler :
@@ -119,12 +132,12 @@ public:
 		boost::fibers::context* ctx(&itsReadyQ.front());
 		itsReadyQ.pop_front();
 
-		if (debug_fiber > 0)
+		if (debug_fiber >= dynamic_cast<JXBoostPriorityProps*>(ctx->get_properties())->GetDebugLevel())
 		{
 			const JString* name = dynamic_cast<JXBoostPriorityProps*>(ctx->get_properties())->GetName();
 			if (name != nullptr)
 			{
-				std::cout << "activate: " << ctx << " " << *name << std::endl;
+				std::cout << "activate: "<< std::this_thread::get_id() << " "  << ctx << " " << *name << std::endl;
 			}
 		}
 		return ctx;

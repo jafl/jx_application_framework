@@ -37,6 +37,12 @@ public:
 		kUrgentTaskPriority
 	};
 
+	enum FiberDebugLevel
+	{
+		kDefaultFiberDebugLevel = 1,
+		kVerboseFiberDebugLevel = 2
+	};
+
 public:
 
 	JXApplication(int* argc, char* argv[],
@@ -81,7 +87,8 @@ public:
 	bool	FindDisplay(const Display* xDisplay, JXDisplay** display);
 
 	static void	StartFiber(const std::function<void()>& f, const JString& name,
-						   const FiberPriority priority = kIdleTaskPriority);
+						   const FiberPriority priority = kIdleTaskPriority,
+						   const FiberDebugLevel debugLevel = kDefaultFiberDebugLevel);
 	static bool	IsWorkerFiber();
 
 	static bool	IsUIThread();

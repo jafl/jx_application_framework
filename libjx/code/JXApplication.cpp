@@ -128,7 +128,8 @@ JXApplication::JXApplication
 
 	boost::fibers::use_scheduling_algorithm<JXBoostPriorityScheduler>();
 
-	JSetTaskScheduler(std::bind(JXApplication::StartFiber, std::placeholders::_1, "internal", kIdleTaskPriority));
+	JSetTaskScheduler(std::bind(JXApplication::StartFiber,
+		std::placeholders::_1, "internal", kIdleTaskPriority, kVerboseFiberDebugLevel));
 
 	// create display -- requires JXGetApplication() to work
 
@@ -553,7 +554,7 @@ JXApplication::StartTasks
 	const bool hadEvents
 	)
 {
-	StartFiber(JXDisplay::CheckForXErrors, "JXDisplay::CheckForXErrors", kUrgentTaskPriority);
+	StartFiber(JXDisplay::CheckForXErrors, "JXDisplay::CheckForXErrors", kUrgentTaskPriority, kVerboseFiberDebugLevel);
 
 	StartFiber([this]()
 	{
@@ -566,7 +567,7 @@ JXApplication::StartTasks
 		}
 	},
 	"JThisProcess::CheckForSignals",
-	kUrgentTaskPriority);
+	kUrgentTaskPriority, kVerboseFiberDebugLevel);
 
 	if (itsUrgentTaskChannel != nullptr)
 	{
@@ -661,7 +662,7 @@ JXApplication::StartIdleTasks()
 				{
 					task->Perform(deltaTime);
 				},
-				"idle task: " + JString((JUInt64) task, JString::kBase16));
+				"idle task: " + task->ToString());
 			}
 
 			if (maxSleepTime < itsMaxSleepTime)
@@ -679,7 +680,7 @@ JXApplication::StartIdleTasks()
 
 	// let sockets broadcast
 
-	StartFiber(JThisProcess::CheckACEReactor, "JThisProcess::CheckACEReactor");
+	StartFiber(JThisProcess::CheckACEReactor, "JThisProcess::CheckACEReactor", kIdleTaskPriority, kVerboseFiberDebugLevel);
 
 	// let processes broadcast -- not necessary to check each time
 
@@ -691,7 +692,7 @@ JXApplication::StartIdleTasks()
 			JProcess::CheckForFinishedChild(false);
 			itsWaitForChildCounter = 0;
 		},
-		"JProcess::CheckForFinishedChild");
+		"JProcess::CheckForFinishedChild", kIdleTaskPriority, kVerboseFiberDebugLevel);
 	}
 
 	JXMDIServer* mdiServer = nullptr;
@@ -701,7 +702,7 @@ JXApplication::StartIdleTasks()
 		{
 			mdiServer->CheckForConnections();
 		},
-		"mdiServer->CheckForConnections");
+		"mdiServer->CheckForConnections", kIdleTaskPriority, kVerboseFiberDebugLevel);
 	}
 
 	boost::this_fiber::yield();
@@ -753,7 +754,8 @@ JXApplication::StartFiber
 	(
 	const std::function<void()>&	f,
 	const JString&					name,
-	const FiberPriority				priority
+	const FiberPriority				priority,
+	const FiberDebugLevel			debugLevel
 	)
 {
 	assert( theUIThreadFlag );
@@ -762,6 +764,7 @@ JXApplication::StartFiber
 	auto fiber = boost::fibers::fiber(f);
 	fiber.properties<JXBoostPriorityProps>().SetName(jnew JString(name));
 	fiber.properties<JXBoostPriorityProps>().SetPriority(priority);
+	fiber.properties<JXBoostPriorityProps>().SetDebugLevel(debugLevel);
 	fiber.detach();
 }
 

@@ -36,6 +36,7 @@
 
 #include "JXIdleTask.h"
 #include "jXGlobals.h"
+#include <sstream>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -124,5 +125,7 @@ JString
 JXIdleTask::ToString()
 	const
 {
-	return JString((JUInt64)(void*)this, JString::kBase16);
+	std::ostringstream s;
+	s << typeid(*this).name() << " (" << this << ")";
+	return JString(s.str());
 }
