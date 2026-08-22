@@ -231,7 +231,7 @@ JProcess::JProcess
 	JThisProcess::QuitAtExit(this, true);
 }
 
-// private -- used only by CheckForFinishedChild()
+// private -- used only by CheckForFinishedChild() as search target
 //			  to avoid adding temporary object to theProcessList
 
 JProcess::JProcess
@@ -256,20 +256,6 @@ JProcess::~JProcess()
 
 	JThisProcess::QuitAtExit(this, false);
 	JThisProcess::KillAtExit(this, false);
-}
-
-/******************************************************************************
- Ignore
-
-	Do not listen for process termination.
-
- ******************************************************************************/
-
-void
-JProcess::Ignore()
-{
-	std::lock_guard lock(theProcessListMutex);
-	theProcessList.Remove(this);
 }
 
 /******************************************************************************
@@ -408,6 +394,7 @@ JProcess::CheckForFinishedChild
 				list.Append(p);
 				i++;
 			}
+			theProcessListMutex.unlock();
 
 			for (auto* p : list)
 			{

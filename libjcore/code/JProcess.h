@@ -83,7 +83,6 @@ public:
 	pid_t	GetPID() const;
 	JError	GetPGID(pid_t* pgid) const;
 
-	void	Ignore();
 	void	Quit();
 	void	Kill();
 
