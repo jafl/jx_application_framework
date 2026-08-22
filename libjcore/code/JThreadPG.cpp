@@ -42,8 +42,6 @@ JThreadPG::JThreadPG
 /******************************************************************************
  Destructor
 
-	Make sure we restore the original signal handler.
-
  ******************************************************************************/
 
 JThreadPG::~JThreadPG()
